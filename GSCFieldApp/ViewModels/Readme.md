@@ -1,0 +1,1 @@
+This folder holds all the code that manages the views, for example this is where the save/read process occurs when a user saves a form in the application.

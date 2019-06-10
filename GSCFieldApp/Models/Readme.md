@@ -1,0 +1,3 @@
+This folder contains the definition of all tables from the field database. Those are used to make save and read from the database easier. 
+
+Some other files are also used to create different class model used to define some abstract entity with properties used throughout the application code like FieldBooks.cs can keep track of all the informations used inside field book page. Basically it contains the definition of database F_METADATA table and some more data to show on-screen.

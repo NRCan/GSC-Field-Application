@@ -1,0 +1,1387 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DeleteDialog_textBox.Text" xml:space="preserve">
+    <value>Supprimer l'enregistrement sélectionnée?</value>
+  </data>
+  <data name="FieldworkTableObservation.Text" xml:space="preserve">
+    <value>Localisation</value>
+  </data>
+  <data name="FieldworkTableEarthmat.Text" xml:space="preserve">
+    <value>Matériaux du sol</value>
+  </data>
+  <data name="FieldworkTableMinAlt.Text" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
+  </data>
+  <data name="FieldworkTableMineral.Text" xml:space="preserve">
+    <value>Minéraux</value>
+  </data>
+  <data name="FieldworkTablePhoto.Text" xml:space="preserve">
+    <value>Photographies</value>
+  </data>
+  <data name="FieldworkTableSample.Text" xml:space="preserve">
+    <value>Échantillons</value>
+  </data>
+  <data name="FieldworkTableStation.Text" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="Generic_ButtonNo.Content" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="Generic_ButtonYes.Content" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="Generic_MessageErrorTitle" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="FieldworkTableStationFieldDate.Header" xml:space="preserve">
+    <value>Date de l'observation</value>
+  </data>
+  <data name="FieldWorkTableStationFieldElevation.Header" xml:space="preserve">
+    <value>Élévation</value>
+  </data>
+  <data name="FieldworkTableStationFieldLat.Header" xml:space="preserve">
+    <value>Lattitude</value>
+  </data>
+  <data name="FieldworkTableStationFieldLong.Header" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="FieldWorkTableStationFieldNotes.Header" xml:space="preserve">
+    <value>Notes (station actuelle)</value>
+  </data>
+  <data name="Generic_ButtonSave.Content" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="Generic_TextBox_NoData.Text" xml:space="preserve">
+    <value>Aucune donnée</value>
+  </data>
+  <data name="MapPageAboutCommand.Label" xml:space="preserve">
+    <value>À propos</value>
+  </data>
+  <data name="MapPageAccuracy.Text" xml:space="preserve">
+    <value>Précision</value>
+  </data>
+  <data name="MapPageCustomizeCommand.Label" xml:space="preserve">
+    <value>Language Scientifique</value>
+  </data>
+  <data name="MapPageDOP.Text" xml:space="preserve">
+    <value>Dilution de la précision (DOP): </value>
+  </data>
+  <data name="MapPageHDOP.Text" xml:space="preserve">
+    <value>Horizontale DOP: </value>
+  </data>
+  <data name="MapPageHeader.Text" xml:space="preserve">
+    <value>Carte</value>
+  </data>
+  <data name="MapPageLatitude.Text" xml:space="preserve">
+    <value>Lattitude</value>
+  </data>
+  <data name="MapPageLongitude.Text" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="MapPageMeasureCommand.Label" xml:space="preserve">
+    <value>Mesure</value>
+  </data>
+  <data name="MapPagePDOP.Text" xml:space="preserve">
+    <value>Position DOP: </value>
+  </data>
+  <data name="MapPageSampleCommand.Label" xml:space="preserve">
+    <value>Échantillon</value>
+  </data>
+  <data name="MapPageSettingCommand.Label" xml:space="preserve">
+    <value>Thèmes</value>
+  </data>
+  <data name="MapPageSource.Text" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="MapPageStationCommand.Label" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="MapPageVDOP.Text" xml:space="preserve">
+    <value>Verticale DOP: </value>
+  </data>
+  <data name="ReportPageHeader.Text" xml:space="preserve">
+    <value>Rapport de terrain</value>
+  </data>
+  <data name="SettingPageCustomizeText.Text" xml:space="preserve">
+    <value>Personnaliser l'affichage</value>
+  </data>
+  <data name="SettingPageHeader.Content" xml:space="preserve">
+    <value>Configurations</value>
+  </data>
+  <data name="SettingPagePivotAbout.Header" xml:space="preserve">
+    <value>À propos</value>
+  </data>
+  <data name="SettingPagePivotCustomize.Header" xml:space="preserve">
+    <value>Visibilité</value>
+  </data>
+  <data name="SettingPagePivotSetting.Header" xml:space="preserve">
+    <value>Autres</value>
+  </data>
+  <data name="SettingPageToggleBackButton.Header" xml:space="preserve">
+    <value>Utiliser le bouton précédent de la coquille.</value>
+  </data>
+  <data name="SettingPageToggleBackButton.OffContent" xml:space="preserve">
+    <value>Bouton précédent dans l'entête.</value>
+  </data>
+  <data name="SettingPageToggleBackButton.OnContent" xml:space="preserve">
+    <value>Bouton précédent dans la barre d'outil ou de tâches.</value>
+  </data>
+  <data name="SettingPageToggleFossil.OffContent" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
+  <data name="SettingPageToggleFossil.OnContent" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
+  <data name="SettingPageToggleTheme.Header" xml:space="preserve">
+    <value>Couleur de fond</value>
+  </data>
+  <data name="SettingPageToggleTheme.OffContent" xml:space="preserve">
+    <value>Nuit</value>
+  </data>
+  <data name="SettingPageToggleTheme.OnContent" xml:space="preserve">
+    <value>Jour</value>
+  </data>
+  <data name="ShellViewHamburgerMap.Text" xml:space="preserve">
+    <value>Carte</value>
+  </data>
+  <data name="ShellViewHamburgerReport.Text" xml:space="preserve">
+    <value>Notes de terrain</value>
+  </data>
+  <data name="ShellViewHamburgerSettings.Text" xml:space="preserve">
+    <value>Configurations</value>
+  </data>
+  <data name="UserInfoDialogHeader.Text" xml:space="preserve">
+    <value>Carnet de terrain</value>
+  </data>
+  <data name="UserInfoDialogOfficerCode.Header" xml:space="preserve">
+    <value>Code d'officier</value>
+  </data>
+  <data name="UserInfoDialogWType.Header" xml:space="preserve">
+    <value>Type de travail</value>
+  </data>
+  <data name="UserInfoDialogWType.PlaceholderText" xml:space="preserve">
+    <value>Sélectionner le type</value>
+  </data>
+  <data name="ShellViewHamburgerBackup.Text" xml:space="preserve">
+    <value>Sauvegarde</value>
+  </data>
+  <data name="FieldworkTableStationAirNo.Header" xml:space="preserve">
+    <value>Photo Aérienne</value>
+  </data>
+  <data name="FieldworkTableStationOCQual.Header" xml:space="preserve">
+    <value>Qualité Afflr.</value>
+  </data>
+  <data name="FieldworkTableStationOCSize.Header" xml:space="preserve">
+    <value>Taille Afflr.</value>
+  </data>
+  <data name="FieldworkTableStationOCType.Header" xml:space="preserve">
+    <value>Type Observation</value>
+  </data>
+  <data name="FieldworkTableStationPhysEnv.Header" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="FieldworkTableStationSLSNotes.Header" xml:space="preserve">
+    <value>Notes (depuis dernière station)</value>
+  </data>
+  <data name="FieldworkTableStationTravNo.Header" xml:space="preserve">
+    <value>Traverse</value>
+  </data>
+  <data name="FieldworkTableObservationElev.Text" xml:space="preserve">
+    <value>Élévation (m)</value>
+  </data>
+  <data name="FieldworkTableObservationID.Text" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="FieldworkTableObservationLat.Text" xml:space="preserve">
+    <value>Lattitude</value>
+  </data>
+  <data name="FieldworkTableObservationLong.Text" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="ReportPageStationAliasHeader.Text" xml:space="preserve">
+    <value>Alias</value>
+  </data>
+  <data name="ReportPageStationIDHeader.Text" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="ReportPageStationVDHeader.Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="ReportPageStationVTHeader.Text" xml:space="preserve">
+    <value>Heure</value>
+  </data>
+  <data name="ReportPageStationSLSHeader.Text" xml:space="preserve">
+    <value>Dernière Station</value>
+  </data>
+  <data name="ReportPageStationAirPhotoHeader.Text" xml:space="preserve">
+    <value># Photo Aérienne</value>
+  </data>
+  <data name="ReportPageStationTravNoHeader.Text" xml:space="preserve">
+    <value># Traverse</value>
+  </data>
+  <data name="EarthDialogHeader.Text" xml:space="preserve">
+    <value>Matériaux du sol</value>
+  </data>
+  <data name="EarthDialogBedThick.Header" xml:space="preserve">
+    <value>Épaisseur de socle</value>
+  </data>
+  <data name="EarthDialogDefabric.Header" xml:space="preserve">
+    <value>Type de déformation</value>
+  </data>
+  <data name="EarthDialogDetail.Header" xml:space="preserve">
+    <value>Détail lithologique</value>
+  </data>
+  <data name="EarthDialogGroup.Header" xml:space="preserve">
+    <value>Groupe lithologique</value>
+  </data>
+  <data name="EarthDialogGrSize.Header" xml:space="preserve">
+    <value>Granulométrie</value>
+  </data>
+  <data name="EarthDialoghModStruc.Header" xml:space="preserve">
+    <value>Modificateur Structure</value>
+  </data>
+  <data name="EarthDialogModComp.Header" xml:space="preserve">
+    <value>Composition Structurel</value>
+  </data>
+  <data name="EarthDialogModText.Header" xml:space="preserve">
+    <value>Texture Structurel</value>
+  </data>
+  <data name="EarthDialogMU.Header" xml:space="preserve">
+    <value>Unit Cartographique</value>
+  </data>
+  <data name="EarthDialogOccur.Header" xml:space="preserve">
+    <value>Occurent comme</value>
+  </data>
+  <data name="EarthmatGridView_Lithology.Content" xml:space="preserve">
+    <value>Type lithologique</value>
+  </data>
+  <data name="EarthDialogColourF.Header" xml:space="preserve">
+    <value>Couleur Fraîche</value>
+  </data>
+  <data name="EarthDialogColourInd.Header" xml:space="preserve">
+    <value>Indexe</value>
+  </data>
+  <data name="EarthDialogColourW.Header" xml:space="preserve">
+    <value>Couleur Érodée</value>
+  </data>
+  <data name="EarthDialogContactLow.Header" xml:space="preserve">
+    <value>Contact Inférieur</value>
+  </data>
+  <data name="EarthDialogContactNote.Header" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="EarthDialogContactUp.Header" xml:space="preserve">
+    <value>Contact Supérieur</value>
+  </data>
+  <data name="EarthDialogInterp.Header" xml:space="preserve">
+    <value>Interprétation</value>
+  </data>
+  <data name="EarthDialogInterpConf.Header" xml:space="preserve">
+    <value>Confidence </value>
+  </data>
+  <data name="EarthDialogMag.Header" xml:space="preserve">
+    <value>Susceptibilité (10-3 SI)</value>
+  </data>
+  <data name="ReportPageEartCNoteHeader.Text" xml:space="preserve">
+    <value>Note de contact</value>
+  </data>
+  <data name="ReportPageEarthAliasHeader.Text" xml:space="preserve">
+    <value>Alias</value>
+  </data>
+  <data name="ReportPageEarthColourIndHeader.Text" xml:space="preserve">
+    <value>Indexe de couleur</value>
+  </data>
+  <data name="ReportPageEarthIDHeader.Text" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="ReportPageEarthMagHeader.Text" xml:space="preserve">
+    <value>Susceptibilité magnétique (10-3 SI)</value>
+  </data>
+  <data name="ReportPageINoteHeader.Text" xml:space="preserve">
+    <value>Note d'interprétation</value>
+  </data>
+  <data name="SettingPageToggleBedrock.OffContent" xml:space="preserve">
+    <value>Roche en place</value>
+  </data>
+  <data name="SettingPageToggleBedrock.OnContent" xml:space="preserve">
+    <value>Roche en place</value>
+  </data>
+  <data name="SettingPageToggleCommon.OffContent" xml:space="preserve">
+    <value>Communes</value>
+  </data>
+  <data name="SettingPageToggleCommon.OnContent" xml:space="preserve">
+    <value>Communes</value>
+  </data>
+  <data name="SettingPageToggleEMeasure.OffContent" xml:space="preserve">
+    <value>Mesures externes</value>
+  </data>
+  <data name="SettingPageToggleEMeasure.OnContent" xml:space="preserve">
+    <value>Mesures externes</value>
+  </data>
+  <data name="SettingPageToggleEnv.OffContent" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="SettingPageToggleEnv.OnContent" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="SettingPageToggleMA.OffContent" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
+  </data>
+  <data name="SettingPageToggleMA.OnContent" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
+  </data>
+  <data name="SettingPageToggleMin.OffContent" xml:space="preserve">
+    <value>Minéral</value>
+  </data>
+  <data name="SettingPageToggleMin.OnContent" xml:space="preserve">
+    <value>Minéral</value>
+  </data>
+  <data name="SettingPageTogglePflow.OffContent" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
+  <data name="SettingPageTogglePflow.OnContent" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
+  <data name="SettingPageTogglePhoto.OffContent" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="SettingPageTogglePhoto.OnContent" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="SettingPageToggleSample.OffContent" xml:space="preserve">
+    <value>Échantillons</value>
+  </data>
+  <data name="SettingPageToggleSample.OnContent" xml:space="preserve">
+    <value>Échantillons</value>
+  </data>
+  <data name="SettingPageToggleSoil.OffContent" xml:space="preserve">
+    <value>Profile de sol</value>
+  </data>
+  <data name="SettingPageToggleSoil.OnContent" xml:space="preserve">
+    <value>Profile de sol</value>
+  </data>
+  <data name="SettingPageToggleStruc.OffContent" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="SettingPageToggleStruc.OnContent" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="SettingPageToggleSurficial.OffContent" xml:space="preserve">
+    <value>Dépôt Superficiel</value>
+  </data>
+  <data name="SettingPageToggleSurficial.OnContent" xml:space="preserve">
+    <value>Dépôt Superficiel</value>
+  </data>
+  <data name="UserInfoDialogDigCamera.Header" xml:space="preserve">
+    <value>Préfixe de caméra</value>
+  </data>
+  <data name="UserInfoDialogPCode.Header" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="UserInfoDialogPLeader.Header" xml:space="preserve">
+    <value>Chef</value>
+  </data>
+  <data name="UserInfoDialogPName.Header" xml:space="preserve">
+    <value>Titre</value>
+  </data>
+  <data name="UserInfoDialogStartStationNumber.Header" xml:space="preserve">
+    <value># de la première station</value>
+  </data>
+  <data name="SemanticZoomDialogHeader.Text" xml:space="preserve">
+    <value>Valeurs</value>
+  </data>
+  <data name="ReportPageEarthLDetailHeader.Text" xml:space="preserve">
+    <value>Détail</value>
+  </data>
+  <data name="ReportPageEarthLTypeHeader.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="SettingPagePicklistList.Header" xml:space="preserve">
+    <value>Vocabulaires disponibles</value>
+  </data>
+  <data name="SettingPagePivotCustomizePicklist.Header" xml:space="preserve">
+    <value>Vocabulaires</value>
+  </data>
+  <data name="SettingPageVocabEarthmat.Content" xml:space="preserve">
+    <value>Matériaux</value>
+  </data>
+  <data name="SettingPageVocabMA.Content" xml:space="preserve">
+    <value>Min / Alt</value>
+  </data>
+  <data name="SettingPageVocabMineral.Content" xml:space="preserve">
+    <value>Minéraux</value>
+  </data>
+  <data name="SettingPageVocabPhoto.Content" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="SettingPageVocabSample.Content" xml:space="preserve">
+    <value>Échantillons</value>
+  </data>
+  <data name="SettingPageVocabStation.Content" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="SettingPageVocabStructure.Content" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="SampleDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="SampleDialogPurpose.Header" xml:space="preserve">
+    <value>But</value>
+  </data>
+  <data name="SampleDialogType.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ReportPageSampleIDHeader.Text" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="ReportPageSampleNoteHeader.Text" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="ReportPageSamplePurposeHeader.Text" xml:space="preserve">
+    <value>But</value>
+  </data>
+  <data name="ReportPageSampleTypeHeader.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ReportPageSampleNameHeader.Text" xml:space="preserve">
+    <value>Alias</value>
+  </data>
+  <data name="SettingPageButtonResetMessage.Text" xml:space="preserve">
+    <value>Êtes-vous certain de vouloir remettre à zéro l'application?</value>
+  </data>
+  <data name="PicklistEditorPicklists.Header" xml:space="preserve">
+    <value>Sélectionner un vocabulaire</value>
+  </data>
+  <data name="PicklistDialogEmptyList.Text" xml:space="preserve">
+    <value>Aucune vocabulaire disponible</value>
+  </data>
+  <data name="PicklistDialogThemeStation.Text" xml:space="preserve">
+    <value>Thème Station</value>
+  </data>
+  <data name="PicklistEditorUpdateTerm.Header" xml:space="preserve">
+    <value>Ajouter/Mettre à jour un terme</value>
+  </data>
+  <data name="ReportPageStationObsTypeHeader.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ReportPageStationOCQualityHeader.Text" xml:space="preserve">
+    <value>Qualité Affl.</value>
+  </data>
+  <data name="ReportPageStationPhysEnvHeader.Text" xml:space="preserve">
+    <value>Env.</value>
+  </data>
+  <data name="PicklistEditorAddParentTerm.Header" xml:space="preserve">
+    <value>Terme Parent</value>
+  </data>
+  <data name="DocumentCaptionTextbox.Header" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DocumentCategoryCombobox.Header" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="DocumentDirectionTextbox.Header" xml:space="preserve">
+    <value> Direction</value>
+  </data>
+  <data name="DocumentTypeTextbox.Header" xml:space="preserve">
+    <value>Type fichier</value>
+  </data>
+  <data name="DocumentFromNoTextbox.Header" xml:space="preserve">
+    <value>Début (#)</value>
+  </data>
+  <data name="DocumentTypeCombobox.Header" xml:space="preserve">
+    <value>Nom fichier</value>
+  </data>
+  <data name="DocumentNumberTextbox.Header" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="DocumentRelatedItemCombobox.Header" xml:space="preserve">
+    <value>Identifiant associé</value>
+  </data>
+  <data name="DocumentRelatedTableCombobox.Header" xml:space="preserve">
+    <value>Table associée</value>
+  </data>
+  <data name="DocumentToNoTextbox.Header" xml:space="preserve">
+    <value>Fin (#)</value>
+  </data>
+  <data name="DocumentObjectXTextbox.Header" xml:space="preserve">
+    <value>Coordonnée X de l'objet</value>
+  </data>
+  <data name="DocumentObjectYTextbox.Header" xml:space="preserve">
+    <value>Coordonnée Y de l'objet</value>
+  </data>
+  <data name="SettingPageTogglePhotoMode.Header" xml:space="preserve">
+    <value>Propriété du thème photo</value>
+  </data>
+  <data name="SettingPageTogglePhotoMode.OffContent" xml:space="preserve">
+    <value>Avancés (plus d'attributs)</value>
+  </data>
+  <data name="SettingPageTogglePhotoMode.OnContent" xml:space="preserve">
+    <value>Default (photo seulement)</value>
+  </data>
+  <data name="ReportPageDocumentCaptionHeader.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="ReportPageDocumentCategoryHeader.Text" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="ReportPageDocumentFileNameHeader.Text" xml:space="preserve">
+    <value>Nom fichier</value>
+  </data>
+  <data name="ReportPageDocumentRelHeader.Text" xml:space="preserve">
+    <value>Associé à</value>
+  </data>
+  <data name="MapPagePhotoCommand.Label" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="DocumentDialogHeader.Text" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="PicklistDialogHeader.Text" xml:space="preserve">
+    <value>Éditeur de listes</value>
+  </data>
+  <data name="SampleDialogHeader.Text" xml:space="preserve">
+    <value>Échantillon</value>
+  </data>
+  <data name="PicklistDialogThemeDocument.Text" xml:space="preserve">
+    <value>Thème Fichier/Photo</value>
+  </data>
+  <data name="PicklistDialogThemeEartmat.Text" xml:space="preserve">
+    <value>Thème Matériaux</value>
+  </data>
+  <data name="PicklistDialogThemeSample.Text" xml:space="preserve">
+    <value>Thème Échantillon</value>
+  </data>
+  <data name="MapPageDialogTextCancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="MapPageDialogTextGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="MapPageDialogTextGPSStatus" xml:space="preserve">
+    <value>Cliquer sur le bouton GPS pour continuer la prise de donnée ou cliquer sur "Toucher" pour une entrée manuelle.</value>
+  </data>
+  <data name="MapPageDialogTextHorizontalAccuracy" xml:space="preserve">
+    <value>Mauvaise qualité de la précision du signal, continuer?</value>
+  </data>
+  <data name="MapPageDialogTextNo" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="MapPageDialogTextTap" xml:space="preserve">
+    <value>Toucher</value>
+  </data>
+  <data name="MapPageDialogTextYes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="MapPageMapMenu.Label" xml:space="preserve">
+    <value>Couches</value>
+  </data>
+  <data name="ShellViewHamburgerLoad.Text" xml:space="preserve">
+    <value>Ajouter des données</value>
+  </data>
+  <data name="MapPageDisplayInfo.Label" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="LoadDataButtonProcessEndMessage.Text" xml:space="preserve">
+    <value>Les données ont été transférées.</value>
+  </data>
+  <data name="MapPageLayerDialog.Title" xml:space="preserve">
+    <value>Couches</value>
+  </data>
+  <data name="DeleteDialog_MapLayer.Text" xml:space="preserve">
+    <value>Supprimer la donnée?</value>
+  </data>
+  <data name="MapPageDialogTextTapForNewStation" xml:space="preserve">
+    <value>Aimeriez-vous créer une nouvelle station à partir de ce point?</value>
+  </data>
+  <data name="StructDialogHeader.Text" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="FieldworkTableStructure.Text" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="StructureDialogAttitude.Header" xml:space="preserve">
+    <value>Disposition</value>
+  </data>
+  <data name="StructureDialogAzim.Header" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="StructureDialogDip.Header" xml:space="preserve">
+    <value>Pendage/Plongé</value>
+  </data>
+  <data name="StructureDialogFabric.Header" xml:space="preserve">
+    <value>Composition</value>
+  </data>
+  <data name="StructureDialogFlat.Header" xml:space="preserve">
+    <value>Cisaillement</value>
+  </data>
+  <data name="StructureDialogFormat.Header" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="StructureDialogGen.Header" xml:space="preserve">
+    <value>Génération</value>
+  </data>
+  <data name="StructureDialogMethod.Header" xml:space="preserve">
+    <value>Méthode</value>
+  </data>
+  <data name="StructureDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="StructureDialogRelated.Header" xml:space="preserve">
+    <value>Relation</value>
+  </data>
+  <data name="StructureDialogSense.Header" xml:space="preserve">
+    <value>Sense</value>
+  </data>
+  <data name="StructureDialogStrain.Header" xml:space="preserve">
+    <value>Déformation</value>
+  </data>
+  <data name="StructureDialogYoung.Header" xml:space="preserve">
+    <value>Polarité</value>
+  </data>
+  <data name="ReportPageStrucAzimHeader.Text" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="ReportPageStrucDetailHeader.Text" xml:space="preserve">
+    <value>Détail</value>
+  </data>
+  <data name="ReportPageStrucDipHeader.Text" xml:space="preserve">
+    <value>Pendage/Plongé</value>
+  </data>
+  <data name="ReportPageStrucFormatHeader.Text" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="ReportPageStrucTypeHeader.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="PicklistDialogThemeStructure.Text" xml:space="preserve">
+    <value>Thème Structural</value>
+  </data>
+  <data name="FieldworkTableFossil.Text" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
+  <data name="FieldworkTablePflow.Text" xml:space="preserve">
+    <value>Flot paléologique</value>
+  </data>
+  <data name="ReportPagefossilsHeader.Text" xml:space="preserve">
+    <value>Fossiles</value>
+  </data>
+  <data name="ReportPagePflowClassHeader.Text" xml:space="preserve">
+    <value>Classe</value>
+  </data>
+  <data name="ReportPagePflowDirectionHeader.Text" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="PflowDialogHeader.Text" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
+  <data name="PflowDialogAzim.Header" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="PflowDialogBedrockSurface.Header" xml:space="preserve">
+    <value>Roche en place</value>
+  </data>
+  <data name="PflowDialogClass.Header" xml:space="preserve">
+    <value>Classe</value>
+  </data>
+  <data name="PflowDialogConfidence.Header" xml:space="preserve">
+    <value>Confidence</value>
+  </data>
+  <data name="PflowDialogDefined.Header" xml:space="preserve">
+    <value>Qualité</value>
+  </data>
+  <data name="PflowDialogDip.Header" xml:space="preserve">
+    <value>Pendage/Plongé</value>
+  </data>
+  <data name="PflowDialogDir.Header" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="PflowDialogFeature.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="PflowDialogMethod.Header" xml:space="preserve">
+    <value>Méthode</value>
+  </data>
+  <data name="PflowDialogNoIndicator.Header" xml:space="preserve">
+    <value># Indicateur</value>
+  </data>
+  <data name="PflowDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="PflowDialogRelation.Header" xml:space="preserve">
+    <value>Relation</value>
+  </data>
+  <data name="PflowDialogRelativeAge.Header" xml:space="preserve">
+    <value>Âge relatif</value>
+  </data>
+  <data name="PflowDialogMainDirectionHeader.Text" xml:space="preserve">
+    <value>Direction Principale</value>
+  </data>
+  <data name="FossilDialogClass.Header" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
+  <data name="FossilDialogHeader.Text" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
+  <data name="FossilDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="PicklistDialogThemeFossil.Text" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
+  <data name="PicklistDialogThemePflow.Text" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
+  <data name="SettingPageVocabFossil.Content" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
+  <data name="SettingPageVocabPflow.Content" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
+  <data name="SampleDialogAzim.Header" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="SampleDialogDip.Header" xml:space="preserve">
+    <value>Pendage/Plongé</value>
+  </data>
+  <data name="SampleDialogFormat.Header" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="SampleDialogQuality.Header" xml:space="preserve">
+    <value>Qualité</value>
+  </data>
+  <data name="SampleDialogSurface.Header" xml:space="preserve">
+    <value>Surface</value>
+  </data>
+  <data name="EarthmatGridView_Colour.Content" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="EarthmatGridView_Contact.Content" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="EarthmatGridView_Mineralogy.Content" xml:space="preserve">
+    <value>Minéralogie</value>
+  </data>
+  <data name="LocaitonDialogLongitude.Header" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="LocationDialogElevation.Header" xml:space="preserve">
+    <value>Élévation</value>
+  </data>
+  <data name="LocationDialogLatitude.Header" xml:space="preserve">
+    <value>Lattitude</value>
+  </data>
+  <data name="MapPageDialogTextLocationStatus" xml:space="preserve">
+    <value>Aucun droit de localisation.\n\n Aimeriez-vous modifier les droits?</value>
+  </data>
+  <data name="MinderalDialodSizeMax.Header" xml:space="preserve">
+    <value>Taille Max. (mm)</value>
+  </data>
+  <data name="MinderalDialogMode.Header" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="MinderalDialogSizeMin.Header" xml:space="preserve">
+    <value>Taille Min. (mm)</value>
+  </data>
+  <data name="MineralDialogColour.Header" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="MineralDialogForm.Header" xml:space="preserve">
+    <value>Forme</value>
+  </data>
+  <data name="MineralDialogHabit.Header" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="MineralDialogMinerals.Header" xml:space="preserve">
+    <value>Minéral</value>
+  </data>
+  <data name="MineralDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="MineralDialogOccur.Header" xml:space="preserve">
+    <value>Occurance</value>
+  </data>
+  <data name="MineralResidualLabel.Text" xml:space="preserve">
+    <value>Résiduel</value>
+  </data>
+  <data name="ReportPageMineralModeHeader.Text" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="ReportPageMineralNameHeader.Text" xml:space="preserve">
+    <value>Minéral</value>
+  </data>
+  <data name="MineralDialogResidualMiddlefix" xml:space="preserve">
+    <value>% (</value>
+  </data>
+  <data name="MineralDialogResidualPrefix" xml:space="preserve">
+    <value>Pourcentage total: </value>
+  </data>
+  <data name="MineralDialogResidualSuffix" xml:space="preserve">
+    <value>éléments)</value>
+  </data>
+  <data name="PicklistDialogThemeMineral.Text" xml:space="preserve">
+    <value>Thème Minéral</value>
+  </data>
+  <data name="EarthDialogMineral.Header" xml:space="preserve">
+    <value>Minerals</value>
+  </data>
+  <data name="MapPageDialogMissingDataContent" xml:space="preserve">
+    <value>Aucune donnée (.tpk) n'a été détectée, cliquer oui pour en ajouter.</value>
+  </data>
+  <data name="MapPageDialogMissingDataTitle" xml:space="preserve">
+    <value>Données de fond de carte</value>
+  </data>
+  <data name="MapPageDialogNoGPSTitle" xml:space="preserve">
+    <value>Aucun signal GPS actif</value>
+  </data>
+  <data name="MapPageDialogNoLocationTitle" xml:space="preserve">
+    <value>Droit de localisation non permis</value>
+  </data>
+  <data name="MapPageDialogPoorAccuracyTitle" xml:space="preserve">
+    <value>Marge d'erreur sur la position</value>
+  </data>
+  <data name="MapPageDialogTapCoordinateTitle" xml:space="preserve">
+    <value>Coordonnées</value>
+  </data>
+  <data name="MapPageDialogTextClose" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="MapPageDialogTextReport" xml:space="preserve">
+    <value>Rapport de terrain</value>
+  </data>
+  <data name="ReportDetailPageGridHeader.Text" xml:space="preserve">
+    <value>Thèmes d'observation</value>
+  </data>
+  <data name="ReportPageSummaryGridHeader.Text" xml:space="preserve">
+    <value>Traverses journalières</value>
+  </data>
+  <data name="ClosingDialogWarning" xml:space="preserve">
+    <value>Tout changement seront perdu, êtes-vous certain de vouloir fermer la fenêtre?</value>
+  </data>
+  <data name="GenericDialog_ButtonNo" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="GenericDialog_ButtonYes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="GenericWarningTitle" xml:space="preserve">
+    <value>Mise en garde</value>
+  </data>
+  <data name="SettingPagePivotSetting_Colour.Content" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="SettingPagePivotSetting_Tables.Content" xml:space="preserve">
+    <value>Rapport de terrain</value>
+  </data>
+  <data name="EarthmatGridView_Details.Content" xml:space="preserve">
+    <value>Modificateur de lithologie</value>
+  </data>
+  <data name="EarthmatGridView_Interpretation.Content" xml:space="preserve">
+    <value>Interprétation</value>
+  </data>
+  <data name="EarthmatGridView_Mag.Content" xml:space="preserve">
+    <value>Magnétisme</value>
+  </data>
+  <data name="EarthmatGridView_Cartography.Content" xml:space="preserve">
+    <value>Cartographie</value>
+  </data>
+  <data name="MapPageAddWaypoint.Label" xml:space="preserve">
+    <value>Waypoint</value>
+  </data>
+  <data name="StructDialogType.PlaceholderText" xml:space="preserve">
+    <value>Toucher la loupe pour afficher (requis)</value>
+  </data>
+  <data name="StructureGridView_Type.Content" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="AboutContactHeader.Text" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="AboutContactInfo.Text" xml:space="preserve">
+    <value>Kazuharu (Kaz) Shimamura, PMP
+Supervisor, Geoinformatics
+Geological Survey Canada, Natural Resources Canada
+Government of Canada
+9860 West Saanich Road, Sidney,Colombie-Britannique, V8L 4B2
+kaz.shimamura@canada.ca</value>
+  </data>
+  <data name="AboutTeamHeader.Text" xml:space="preserve">
+    <value>Équipe</value>
+  </data>
+  <data name="AboutTeamInfo.Text" xml:space="preserve">
+    <value>Brouillette, Pierre – Chef de projet "Geological Data Flow"
+Cocking, Robert – Conseiller et formation
+Girard, Étienne – Modélisateur de base de donnée
+Huot-Vézina, Gabriel – Principal programmeur
+Shimamura, Kaz – Chef d'activité "Data Collection"
+Williams, Stephen - Programmeur</value>
+  </data>
+  <data name="UserInfo_OtherHeader.Content" xml:space="preserve">
+    <value>Initialisation</value>
+  </data>
+  <data name="UserInfo_ProjectHeader.Content" xml:space="preserve">
+    <value>Projet associé</value>
+  </data>
+  <data name="UserInfo_UserHeader.Content" xml:space="preserve">
+    <value>Géologue</value>
+  </data>
+  <data name="ShellViewHamburgerProjects.Text" xml:space="preserve">
+    <value>Carnet de terrain</value>
+  </data>
+  <data name="ProjectsPageHeader.Content" xml:space="preserve">
+    <value>Carnet de terrain</value>
+  </data>
+  <data name="ProjectListCreateHeader.Text" xml:space="preserve">
+    <value>Date création</value>
+  </data>
+  <data name="ProjectListGeologistHeader.Text" xml:space="preserve">
+    <value>Géologue/Geolcode</value>
+  </data>
+  <data name="ProjectListStationHeader.Text" xml:space="preserve">
+    <value>Station</value>
+  </data>
+  <data name="ProjectListTypeHeader.Text" xml:space="preserve">
+    <value>Type de projet</value>
+  </data>
+  <data name="ProjectAddButtonLabel.Label" xml:space="preserve">
+    <value>Nouveau</value>
+  </data>
+  <data name="ProjectOpenButtonLabel.Label" xml:space="preserve">
+    <value>Ouvrir </value>
+  </data>
+  <data name="ProjectListProjectTitleHeader.Text" xml:space="preserve">
+    <value>Titre de projet</value>
+  </data>
+  <data name="MandatoryFieldWarningContent" xml:space="preserve">
+    <value>Certains champs obligatoires sont manquant.</value>
+  </data>
+  <data name="MandatoryFieldWarningOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="MandatoryFieldWarningTitle" xml:space="preserve">
+    <value>Attention</value>
+  </data>
+  <data name="UserInfoDialogPName.PlaceholderText" xml:space="preserve">
+    <value>Nom du projet</value>
+  </data>
+  <data name="UserDialogNewDataContent" xml:space="preserve">
+    <value>Aimeriez-vous ajouter des données en lecture seule (.tpk, .sqlite) au nouveau carnet de terrain?</value>
+  </data>
+  <data name="UserDialogNewDataTitle" xml:space="preserve">
+    <value>Données </value>
+  </data>
+  <data name="UserDialogNewDataTitleNo" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="UserDialogNewDataTitleYes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="ProjectEditButtonLabel.Label" xml:space="preserve">
+    <value>Éditer</value>
+  </data>
+  <data name="ProjectListHeader.Text" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="LoadDataButtonProcessEndMessageOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="LoadDataButtonProcessEndMessageTitle" xml:space="preserve">
+    <value>Ajouter des données</value>
+  </data>
+  <data name="ProjectDeleteButtonLabel.Label" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="ProjectDeleteDialogContent" xml:space="preserve">
+    <value>Êtes-vous certain de vouloir supprimer le carnet de note sélectionné de l'appareil?</value>
+  </data>
+  <data name="SaveDBDialogContent" xml:space="preserve">
+    <value>Nouvelle copie disponible:</value>
+  </data>
+  <data name="SaveDBDialogTitle" xml:space="preserve">
+    <value>Copie de base de donnée</value>
+  </data>
+  <data name="ProjectDeleteDialogTitle" xml:space="preserve">
+    <value>Supprimer carnet</value>
+  </data>
+  <data name="DeleteDialogGenericTitle" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="SettingPageButtonResetTitle" xml:space="preserve">
+    <value>Formatage</value>
+  </data>
+  <data name="SaveDBDialogContentError" xml:space="preserve">
+    <value>Une erreur s'est produite. Le fichier de sorti est soit vide soit inexistant, veuillez réessayer l'opération si possible.</value>
+  </data>
+  <data name="NoteTableVisibilityText.Text" xml:space="preserve">
+    <value>Thèmes</value>
+  </data>
+  <data name="SettingPageToggleBedrockHeader.Content" xml:space="preserve">
+    <value>Roches en place</value>
+  </data>
+  <data name="SettingPageToggleCommonHeader.Content" xml:space="preserve">
+    <value>Communes</value>
+  </data>
+  <data name="SettingPageToggleSurficialHeader.Content" xml:space="preserve">
+    <value>Dépôts meubles</value>
+  </data>
+  <data name="SettingLoadPicklistProcessEndMessageOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="SettingLoadPicklistProcessEndMessageTitle" xml:space="preserve">
+    <value>Vocabulaires</value>
+  </data>
+  <data name="SettingLoadPicklistProcessEndMessage.Text" xml:space="preserve">
+    <value>Les vocabulaires ont été remplacés.</value>
+  </data>
+  <data name="SettingPagePicklistButton.Label" xml:space="preserve">
+    <value>Ajouter et remplacer le vocabulaire</value>
+  </data>
+  <data name="UserInfoDialogPGeologistFirstName.Header" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="UserInfoDialogPGeologistLastName.Header" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="UserInfoDialogPGeologistMiddleName.Header" xml:space="preserve">
+    <value>Middle Name</value>
+  </data>
+  <data name="UserInfoDialogPLeaderFirstName.Header" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="UserInfoDialogPLeaderLastName.Header" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="UserInfoDialogPLeaderMiddleName.Header" xml:space="preserve">
+    <value>Middle Name</value>
+  </data>
+  <data name="UserInfo_ProjectLeaderHeader.Content" xml:space="preserve">
+    <value>Chef de projet</value>
+  </data>
+  <data name="MinderalAltDialogMode.Header" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="MineralAltDialogMAs.Header" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
+  </data>
+  <data name="MineralAltDialogMinerals.Header" xml:space="preserve">
+    <value>Minéral</value>
+  </data>
+  <data name="MineralAltDialogUnits.Header" xml:space="preserve">
+    <value>Unité</value>
+  </data>
+  <data name="MineralAltDist.Header" xml:space="preserve">
+    <value>Distribution</value>
+  </data>
+  <data name="MineralAltNoteComboBox.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="FieldworkTableMineralAlt.Text" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
+  </data>
+  <data name="ReportPageMineralAltMineralHeader.Text" xml:space="preserve">
+    <value>Minéral</value>
+  </data>
+  <data name="ReportPageMineralAltNameHeader.Text" xml:space="preserve">
+    <value>Alt. Min.</value>
+  </data>
+  <data name="MineralAltDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="PicklistDialogThemeMineralAlt.Text" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
+  </data>
+  <data name="PicklistEditorDefaultBoldIcon.Text" xml:space="preserve">
+    <value>Par défaut</value>
+  </data>
+  <data name="PicklistEditorDefaultIcon.Text" xml:space="preserve">
+    <value>Par défaut</value>
+  </data>
+  <data name="PicklistEditorDeleteIcon.Text" xml:space="preserve">
+    <value>Inverser la sélection</value>
+  </data>
+  <data name="PicklistEditorHiddenIcon.Text" xml:space="preserve">
+    <value>Invisible</value>
+  </data>
+  <data name="PicklistEditorVisibleIcon.Text" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="PicklistTermsTextbox.Text" xml:space="preserve">
+    <value>Termes</value>
+  </data>
+  <data name="LocationDialogEasting.Header" xml:space="preserve">
+    <value>Est (m)</value>
+  </data>
+  <data name="LocationDialogNorthing.Header" xml:space="preserve">
+    <value>Nord (m)</value>
+  </data>
+  <data name="LocationDialogZone.Header" xml:space="preserve">
+    <value>Zone</value>
+  </data>
+  <data name="SettingPageToggleEarth.OffContent" xml:space="preserve">
+    <value>Matériaux du sol</value>
+  </data>
+  <data name="SettingPageToggleEarth.OnContent" xml:space="preserve">
+    <value>Matériaux du sol</value>
+  </data>
+  <data name="DocumentDialogClose.Label" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="DocumentDialogSave.Label" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="DocumentDialogSnapshot.Label" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="ShellBackupPhotoEmptyMessage.Text" xml:space="preserve">
+    <value>Les photos avaient déjà été copiées.</value>
+  </data>
+  <data name="ShellBackupPhotoEmptyTitle" xml:space="preserve">
+    <value>Attention!</value>
+  </data>
+  <data name="GenericDialog_ButtonOK" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="SettingPagePivotBackupFiles.Content" xml:space="preserve">
+    <value>Fichiers</value>
+  </data>
+  <data name="SettingPagePivotBackupPhotos.Content" xml:space="preserve">
+    <value>Sélection des photos</value>
+  </data>
+  <data name="ShellBackupEmptyMessage.Text" xml:space="preserve">
+    <value>Rien n'a été copié</value>
+  </data>
+  <data name="ShellBackupEmptyTitle" xml:space="preserve">
+    <value>Attention!</value>
+  </data>
+  <data name="ShellViewHamburgerRestore.Text" xml:space="preserve">
+    <value>Rétablire</value>
+  </data>
+  <data name="MapPageAddMaps.Label" xml:space="preserve">
+    <value>Ajout couches</value>
+  </data>
+  <data name="ProjectBackupContent" xml:space="preserve">
+    <value>Aimeriez-vous effectuer une sauvegarde du carnet de notes présentement sélectionné?</value>
+  </data>
+  <data name="ProjectBackupTitle" xml:space="preserve">
+    <value>Sauvegarde</value>
+  </data>
+  <data name="FieldBookPageNoBookContent" xml:space="preserve">
+    <value>Aucun carnet de notes n'est présent. Cliquer sur le symbol + pour en ajouter un.</value>
+  </data>
+  <data name="FieldBookPageNoBookTitle" xml:space="preserve">
+    <value>Carnet de notes</value>
+  </data>
+  <data name="WatermarkNoFieldBook.Text" xml:space="preserve">
+    <value>Aucun carnet de notes, veuillez en ajouter un.</value>
+  </data>
+  <data name="WatermarkNoMaps.Text" xml:space="preserve">
+    <value>Aucune cartes disponibles, veuillez en ajouter une.</value>
+  </data>
+  <data name="ProjectFullBackupButtonLabel.Label" xml:space="preserve">
+    <value>Sauvegarde complète</value>
+  </data>
+  <data name="ProjectRestoreButtonLabel.Label" xml:space="preserve">
+    <value>Restaurer / Ajouter</value>
+  </data>
+  <data name="WarningMaxReached" xml:space="preserve">
+    <value>Maximum atteint</value>
+  </data>
+  <data name="WarningInvalidDocNumber" xml:space="preserve">
+    <value>Le numéro de fichier entré existe déjà. </value>
+  </data>
+  <data name="WarningTitleInvalid" xml:space="preserve">
+    <value>Invalide</value>
+  </data>
+  <data name="SemanticZoomGeneric.PrimaryButtonText" xml:space="preserve">
+    <value>Choisir</value>
+  </data>
+  <data name="SemanticZoomGeneric.SecondaryButtonText" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="MapPageDialogSameLocationContent" xml:space="preserve">
+    <value>La localisation actuelle est la même que la précédente, souhaitez-vous continuer? Veuillez-vous assurer que le mode avion est désactivé et que des signaux satellites sont disponibles.</value>
+  </data>
+  <data name="MapPageDialogSameLocationTitle" xml:space="preserve">
+    <value>Localisation identique</value>
+  </data>
+  <data name="EarthmatGridView_GNote.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="FieldBookBackupName" xml:space="preserve">
+    <value>CarnetTerrain</value>
+  </data>
+  <data name="EarthDialogGeneralNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="NoGPSSignalContent.Text" xml:space="preserve">
+    <value>Aucun signaux GPS. Veuillez patienter.</value>
+  </data>
+  <data name="WarningBadVersionContent" xml:space="preserve">
+    <value>La base de données restauré ne possède pas un schéma à jour. L'application pourrait se comporter étrangement ou césser de fonctionner subitement. Veuillez mettre à jour la base de données et l'importer de nouveau.  --La version actuellement utilisée par l'application est 1.42.</value>
+  </data>
+  <data name="WarningBadVersionTitle" xml:space="preserve">
+    <value>Version - Base de données</value>
+  </data>
+  <data name="ProjectUpgradeButtonLabel.Label" xml:space="preserve">
+    <value>Mettre à jour</value>
+  </data>
+  <data name="FieldBookUpgradeContent" xml:space="preserve">
+    <value>Le présent carnet a été mis-à-jour.</value>
+  </data>
+  <data name="FieldBookUpgradeTitle" xml:space="preserve">
+    <value>Mise-à-jour</value>
+  </data>
+  <data name="MapPageDialogLocationAcquiring" xml:space="preserve">
+    <value>Localisation en cours ... veuillez patienter.</value>
+  </data>
+  <data name="MapPageDialogLocationDidNotInit" xml:space="preserve">
+    <value>Initialisation non réussie.</value>
+  </data>
+  <data name="MapPageDialogLocationNAOnOS" xml:space="preserve">
+    <value>Non disponible sur cette version du système d'exploitation</value>
+  </data>
+  <data name="MapPageDialogLocationRestricted" xml:space="preserve">
+    <value>Impossible de prendre une localisation dûe à des restrictions.</value>
+  </data>
+  <data name="MapPageDialogLocationTapMode" xml:space="preserve">
+    <value>Continuer avec le mode manuel?</value>
+  </data>
+  <data name="MapPageDialogLocationTitle" xml:space="preserve">
+    <value>Localisation</value>
+  </data>
+  <data name="MapPageDialogLocationUnknownError" xml:space="preserve">
+    <value>Erreur inatendue, la localisation a été arrêté.</value>
+  </data>
+  <data name="MapPageDialogLocationFlightMode" xml:space="preserve">
+    <value>Le mode avion semble avoir été activé. Mode manuel activé.</value>
+  </data>
+  <data name="MapProgressRingAcquiringGPSLabel.Text" xml:space="preserve">
+    <value>Localisation en cours ... veuillez patienter.</value>
+  </data>
+  <data name="MapPageGPSModes.Label" xml:space="preserve">
+    <value>GPS </value>
+  </data>
+  <data name="EarthDialogType.PlaceholderText" xml:space="preserve">
+    <value>Lithologie sélectionnée</value>
+  </data>
+  <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
+    <value>Type de lithologie ie. basalt</value>
+  </data>
+</root>

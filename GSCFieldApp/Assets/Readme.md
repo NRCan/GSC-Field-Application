@@ -1,0 +1,2 @@
+A folder to contain all images found throughout the application. 
+From splash screen to different size GSC logo and even the team picture used as an easter egg when a double tap occurs on the team members in the about page.

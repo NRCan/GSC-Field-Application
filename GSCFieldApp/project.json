@@ -1,0 +1,22 @@
+﻿{
+  "dependencies": {
+    "Esri.ArcGISRuntime.UWP": "100.4.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "6.1.9",
+    "Microsoft.Xaml.Behaviors.Uwp.Managed": "2.0.0",
+    "Newtonsoft.Json": "10.0.3",
+    "SQLite.Net-PCL": "3.1.1",
+    "System.Data.SQLite": "1.0.109.2",
+    "Template10": "1.1.13-preview-20161207"
+  },
+  "frameworks": {
+    "uap10.0.16299": {}
+  },
+  "runtimes": {
+    "win10-arm": {},
+    "win10-arm-aot": {},
+    "win10-x86": {},
+    "win10-x86-aot": {},
+    "win10-x64": {},
+    "win10-x64-aot": {}
+  }
+}

@@ -1,0 +1,1 @@
+This holds the app start-up scripts (App.xaml) and other app default config and metadata (project.json).

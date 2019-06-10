@@ -1,0 +1,171 @@
+﻿<Page
+    x:Class="GSCFieldApp.Views.MapPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Behaviors="using:Template10.Behaviors"
+    xmlns:Controls="using:Template10.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GSCFieldApp.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:vm="using:GSCFieldApp.ViewModels"
+    xmlns:views="using:GSCFieldApp.Views"
+    xmlns:esriUI="using:Esri.ArcGISRuntime.UI.Controls"
+    xmlns:esriToolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
+    xmlns:conv="using:GSCFieldApp.Converters"
+    xmlns:model="using:GSCFieldApp.Models"
+    mc:Ignorable="d">
+
+
+    <Page.DataContext>
+        <vm:MapPageViewModel x:Name="ViewModel" />
+    </Page.DataContext>
+
+    <Page.Resources>
+        <conv:ScaleConverter x:Name="FormatScale" />
+        <conv:DD2DMSConverter x:Name="DD2DMS" />
+        <conv:HorizontalAccuracyConverter x:Name="FormatAccuracy" />
+        <conv:ElevationConverter x:Name="FormatElevation" />
+        <conv:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter"/>
+
+        <!--Layer data template-->
+        <DataTemplate x:Key="MapsDialogTemplate" x:DataType="model:Files">
+
+            <RelativePanel>
+
+                <ToggleSwitch Margin="5" 
+                        Header="{x:Bind FileName}" x:Name="mapFileName" 
+                        IsOn="{x:Bind FileVisible}" Toggled="mapFileName_Toggled"/>
+                <Slider x:Name="opacitySlider"  Tag="{x:Bind FileName}"
+                        Width="100" Maximum="100" Value="100"
+                        StepFrequency="5"
+                        RelativePanel.RightOf="mapFileName"
+                        RelativePanel.AlignBottomWith="mapFileName"
+                        ValueChanged="OpacitySlider_ValueChanged"
+                        Margin="-75,0,0,0"/>                
+                <SymbolIcon x:Name="MapDeleteIcon" Margin="10,0,0,10" 
+                            RelativePanel.RightOf="opacitySlider" Visibility="{x:Bind FileCanDelete}"
+                            RelativePanel.AlignBottomWith="mapFileName"
+                            Symbol="Delete" Tapped="MapDeleteIcon_Tapped"/>
+            </RelativePanel>
+
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <RelativePanel>
+
+        <Controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True" CommandBarOverflowPresenterStyle="{StaticResource CommandBarOverflowPresenterStyleMapPage}"
+                             RelativePanel.AlignRightWithPanel="True"
+                             RelativePanel.AlignTopWithPanel="True" x:Uid="MapPageHeader">
+            <!--  primary commands  -->
+            <Controls:PageHeader.PrimaryCommands>
+                <AppBarButton x:Name="MapPageStationCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Map" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageStationCommand" />
+                <AppBarButton x:Name="MapPageSampleCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Tag" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageSampleCommand" IsEnabled="{x:Bind ViewModel.MapPageQuickSampleEnable, Mode=TwoWay}"/>
+                <AppBarButton x:Name="MapPagePhotoCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Pictures" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPagePhotoCommand" IsEnabled="{x:Bind ViewModel.MapPageQuickPhotoEnable, Mode=TwoWay}"/>
+                <AppBarButton x:Name="MapPageStrucCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Directions" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageMeasureCommand" IsEnabled="{x:Bind ViewModel.MapPageQuickMeasurementEnable, Mode=TwoWay}"/>
+                <AppBarButton x:Name="AddWaypoint" Label="" x:Uid="MapPageAddWaypoint" Foreground="White" Icon="Flag" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}"/>
+            </Controls:PageHeader.PrimaryCommands>
+
+        </Controls:PageHeader>
+
+        <Controls:PageHeader x:Name="pageFooter" VerticalAlignment="Bottom" RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+            <AppBarButton Foreground="White" Icon="OpenFile" Width="55" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped"/>
+            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu"  Foreground="White" Width="55">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+
+                    <Flyout Closed="{x:Bind ViewModel.LayerFlyout_Closed}" x:Name="mapPageLayerFlyout">
+                        <RelativePanel Width="Auto">
+                            <ListView x:Name="MapLayerListView"
+                                CanReorderItems="True" RelativePanel.AlignRightWithPanel="True"
+                                Width="Auto"
+                                AllowDrop="True"
+                                SelectedItem="{x:Bind ViewModel.SelectedLayer, Mode=TwoWay}"
+                                ItemTemplate="{StaticResource MapsDialogTemplate}"
+                                ItemsSource="{x:Bind ViewModel.FilenameValues, Mode=OneWay}">
+                            </ListView>
+                        </RelativePanel>
+
+                    </Flyout>
+
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo"  Width="55" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
+            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes"  Foreground="White" Width="55" Tapped="GPSMode_TappedAsync">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;"/>
+                </AppBarButton.Icon>
+                <!--<AppBarButton.Flyout>
+                    <Flyout>
+                        <ListView x:Name="gpsmodeflyout" ItemsSource="{x:Bind GPSModeList}" SelectionChanged="GPSModeSelectionChanged" />
+                    </Flyout>
+                </AppBarButton.Flyout>-->
+            </AppBarButton>
+
+        </Controls:PageHeader>
+
+        <TextBlock x:Uid="WatermarkNoMaps" 
+                   Visibility="{x:Bind ViewModel.NoMapsWatermark, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"
+                   Style="{StaticResource WatermarkText}"/>
+        
+        <Grid x:Name="MapBorder" RelativePanel.Below="pageHeader" RelativePanel.Above="pageFooter" RelativePanel.AlignLeftWithPanel="True"
+                             RelativePanel.AlignRightWithPanel="True">
+            <!--<esriUI:MapView x:Name="myMapView" Tapped="{x:Bind ViewModel.myMapView_Tapped}" WrapAroundMode="EnabledWhenSupported"/>-->
+            <esriUI:MapView x:Name="myMapView" Tapped="{x:Bind ViewModel.myMapView_IdentifyFeature}" IsDoubleTapEnabled="True"/>
+
+            <RelativePanel>
+                <Border x:Name="MapCoordinateInfo" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0" >
+
+                    <TextBlock Name="MapCoordinateText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
+
+                    <Run Text="Location: "/>
+                    <Run Text="{x:Bind ViewModel.CurrentLatitude, Converter={StaticResource DD2DMS}, ConverterParameter='Latitude', Mode=OneWay}"/>
+                    <Run Text="{x:Bind ViewModel.CurrentLongitude, Converter={StaticResource DD2DMS}, ConverterParameter='Longitude', Mode=OneWay}"/>
+                    <Run Text="{x:Bind ViewModel.CurrentAltitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
+                    </TextBlock>
+
+                </Border>
+
+                <Border x:Name="MapCoordinateInfo2" RelativePanel.Below="MapCoordinateInfo" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0" >
+
+                    <TextBlock Name="MapCoordinateAccuracyText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
+
+                    <Run Text="Accuracy (XY): "/>
+                    <Run Text="{x:Bind ViewModel.CurrentAccuracy, Converter={StaticResource FormatAccuracy}, Mode=OneWay}"/>
+                    </TextBlock>
+
+                </Border>
+            </RelativePanel>
+
+
+            <Border Name="MapScaleInfo" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,20" >
+                <esriToolkit:ScaleLine MapView="{x:Bind myMapView}"/>
+            </Border>
+
+            <!--<TextBlock TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0">
+                    <Run>Map Scale: 1:</Run>
+                    <Run Text="{Binding ElementName=myMapView, Converter={StaticResource FormatScale}, ConverterParameter='{}{0:0,0}', Path=MapScale}"/>
+            </TextBlock>-->
+
+
+            <!--<RelativePanel HorizontalAlignment="Center" Height="150" Width="250" VerticalAlignment="Bottom" Visibility="{x:Bind ViewModel.GPSSignalReceptionVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}">
+                <Rectangle x:Name="NoGPSSignalRectangle"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Fill="Red" Margin="0,0,0,5" Opacity="0.7"/>
+                <TextBlock x:Uid="NoGPSSignalContent" x:Name="NoGPSSignalContentText" FontWeight="Bold" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                
+            </RelativePanel>-->
+
+
+        </Grid>
+
+
+        <ProgressRing x:Name="MapProgressRing" IsActive="{x:Bind ViewModel.MapRingActive, Mode=TwoWay}" 
+                      Width="130" Height="50" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"
+                      Visibility="{x:Bind ViewModel.MapRingVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" Padding="0" VerticalAlignment="Center"/>
+        <TextBlock x:Name="MapProgressRingAcquiringGPSLabel" x:Uid="MapProgressRingAcquiringGPSLabel" Visibility="{x:Bind ViewModel.MapRingLabelAcquiringGPSVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" Text="Acquiring GPS please wait" RelativePanel.AlignVerticalCenterWith="MapProgressRing" Margin="5,0,0,0" RelativePanel.RightOf="MapProgressRing"/>
+
+    </RelativePanel>
+</Page>
