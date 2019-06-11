@@ -14,7 +14,7 @@ Current application uses a SQLite data format to keep all information gathered b
 
 Visual Studio Pro, 2017
 
-### Contacts
+## Contacts
 Kaz Shimamura: kaz.shimamura@canada.ca
 
 Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
