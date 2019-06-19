@@ -23585,11 +23585,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gab\\Documents\\JUNK4\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj",
+      "projectUniqueName": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj",
       "projectName": "GSCFieldApp",
-      "projectPath": "C:\\Users\\Gab\\Documents\\JUNK4\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj",
+      "projectPath": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj",
       "packagesPath": "C:\\Users\\Gab\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gab\\Documents\\JUNK4\\gsc-field-application\\GSCFieldApp\\obj\\",
+      "outputPath": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [

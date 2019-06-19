@@ -683,8 +683,8 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related station from selected traverse date.
                 Station stations = new Station();
-                //string stationSelectionQuery = "SELECT * FROM " + DatabaseLiterals.TableStation + " WHERE " + DatabaseLiterals.FieldStationVisitDate + " = '" + _reportSummaryDateItems[_reportDateIndex].station.StationVisitDate + "'";
-                string stationSelectionQuery = "SELECT * FROM " + DatabaseLiterals.TableStation + " WHERE " + DatabaseLiterals.FieldStationVisitDate + " = '" + _reportSummaryDateItems[_reportDateIndex].station.StationVisitDate + "' ORDER BY " + DatabaseLiterals.FieldStationAlias;
+                string stationSelectionQuery = "SELECT * FROM " + DatabaseLiterals.TableStation + " WHERE " + DatabaseLiterals.FieldStationVisitDate + " = '" + _reportSummaryDateItems[_reportDateIndex].station.StationVisitDate + "'";
+                //string stationSelectionQuery = "SELECT * FROM " + DatabaseLiterals.TableStation + " WHERE " + DatabaseLiterals.FieldStationVisitDate + " = '" + _reportSummaryDateItems[_reportDateIndex].station.StationVisitDate + "' ORDER BY " + DatabaseLiterals.FieldStationAlias;
                 List<object> stationTableRows = dAccess.ReadTable(stations.GetType(), stationSelectionQuery);
 
 
