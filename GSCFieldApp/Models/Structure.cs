@@ -216,7 +216,7 @@ namespace GSCFieldApp.Models
                             azimuthPlanarMax = azimuthPlanar + 180;
                         }
                     }
-                    else if (relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar) && relatedStructure.StructureAzimuth != string.Empty)
+                    else if (relatedStructure != null && relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar) && relatedStructure.StructureAzimuth != string.Empty)
                     {
                         int.TryParse(relatedStructure.StructureAzimuth, out azimuthPlanar);
 
@@ -230,7 +230,7 @@ namespace GSCFieldApp.Models
                     {
                         int.TryParse(StructureAzimuth, out azimuthLinear);
                     }
-                    else if (relatedStructure != null && relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear) && relatedStructure.StructureAzimuth != string.Empty)
+                    else if (relatedStructure != null && relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear) && relatedStructure.StructureAzimuth != null && relatedStructure.StructureAzimuth != string.Empty)
                     {
                         int.TryParse(relatedStructure.StructureAzimuth, out azimuthLinear);
                     }

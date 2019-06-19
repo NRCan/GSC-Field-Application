@@ -9,7 +9,7 @@ namespace GSCFieldApp.Dictionaries
     public static class DatabaseLiterals
     {
         #region Database version
-        public const string DBVersion = "1.42"; //Will be used to verify loaded projects.
+        public const string DBVersion = "1.43"; //Will be used to verify loaded projects.
         #endregion
 
         #region Database names
