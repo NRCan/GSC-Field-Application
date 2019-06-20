@@ -1376,7 +1376,7 @@ Williams, Stephen - Programmeur</value>
     <value>Localisation en cours ... veuillez patienter.</value>
   </data>
   <data name="MapPageGPSModes.Label" xml:space="preserve">
-    <value>GPS </value>
+    <value>GPS/Toucher </value>
   </data>
   <data name="EarthDialogType.PlaceholderText" xml:space="preserve">
     <value>Lithologie sélectionnée</value>

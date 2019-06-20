@@ -592,7 +592,7 @@
     <value>Layers</value>
   </data>
   <data name="MapPageGPSModes.Label" xml:space="preserve">
-    <value>GPS </value>
+    <value>GPS/Tap</value>
   </data>
   <data name="MapPageDisplayInfo.Label" xml:space="preserve">
     <value>Info</value>

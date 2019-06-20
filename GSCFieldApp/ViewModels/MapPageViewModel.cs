@@ -43,6 +43,7 @@ using Esri.ArcGISRuntime.Location;
 using System.Globalization;
 using System.Windows.Input;
 using Windows.Networking.Connectivity;
+using Symbol = Windows.UI.Xaml.Controls.Symbol;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -100,7 +101,7 @@ namespace GSCFieldApp.ViewModels
         public double _currentAccuracy = 0.0;
         public bool initializingGPS = false;
         public bool _mapRingLabelAcquiringGPSVisibility = false;
-
+        public Symbol _GPSModeSymbol = Symbol.Target;
 
         //Map Graphics
         private SimpleMarkerSymbol posSym = new SimpleMarkerSymbol();
@@ -154,6 +155,8 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
+
+        public Symbol GPSModeSymbol { get { return _GPSModeSymbol; } set { _GPSModeSymbol = value; } }
 
         public bool NoMapsWatermark { get { return _noMapsWatermark; } set { _noMapsWatermark = value; } }
 
@@ -338,6 +341,7 @@ namespace GSCFieldApp.ViewModels
                     ResetLocationGraphic();
                     NoLocationFlightMode();
                     userHasTurnedGPSOff = true;
+                    SetGPSModeIcon(Symbol.TouchPointer);
 
                     break;
 
@@ -346,6 +350,7 @@ namespace GSCFieldApp.ViewModels
                     // The permission to access location data is denied by the user or other policies.
                     ResetLocationGraphic();
                     userHasTurnedGPSOff = true;
+                    SetGPSModeIcon(Symbol.TouchPointer);
 
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
@@ -392,6 +397,7 @@ namespace GSCFieldApp.ViewModels
                     //Clear current graphics
                     ResetLocationGraphic();
                     userHasTurnedGPSOff = true;
+                    SetGPSModeIcon(Symbol.TouchPointer);
 
                     try
                     {
@@ -423,6 +429,7 @@ namespace GSCFieldApp.ViewModels
                     await Task.Delay(500);
                     ResetLocationGraphic();
                     userHasTurnedGPSOff = true;
+                    SetGPSModeIcon(Symbol.TouchPointer);
                     try
                     {
                         await SetGPS();
@@ -947,6 +954,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     currentMapView.Tapped += myMapView_AddByTap;
                     userHasTurnedGPSOff = true;
+                    SetGPSModeIcon(Symbol.TouchPointer);
                 }
             }).AsTask();
         }
@@ -974,6 +982,7 @@ namespace GSCFieldApp.ViewModels
             {
                 currentMapView.Tapped -= myMapView_AddByTap;
                 userHasTurnedGPSOff = false;
+                SetGPSModeIcon();
                 await Task.Delay(1000);
                 GotoQuickDialog(null);
 
@@ -984,6 +993,8 @@ namespace GSCFieldApp.ViewModels
                 ResetLocationGraphic();
                 currentMapView.Tapped += myMapView_AddByTap;
                 userHasTurnedGPSOff = true;
+                SetGPSModeIcon(Symbol.TouchPointer);
+                RaisePropertyChanged("GPSModeSymbol");
             }
 
 
@@ -1015,12 +1026,14 @@ namespace GSCFieldApp.ViewModels
 
                     currentMapView.Tapped -= myMapView_AddByTap;
                     userHasTurnedGPSOff = false;
+                    SetGPSModeIcon();
                     await SetGPS();
                 }
                 else if (cdr == ContentDialogResult.Secondary)
                 {
                     currentMapView.Tapped += myMapView_AddByTap;
                     userHasTurnedGPSOff = true;
+                    SetGPSModeIcon(Symbol.TouchPointer);
                 }
             }).AsTask();
         }
@@ -1552,6 +1565,17 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will set the gps mode icon from tap to gps activated symbols
+        /// </summary>
+        /// <param name="inSymbol"></param>
+        public void SetGPSModeIcon(Symbol inSymbol = Symbol.Target)
+        {
+            _GPSModeSymbol = inSymbol;
+            RaisePropertyChanged("GPSModeSymbol"); 
+
+        }
 
         /// <summary>
         /// Will clear location position graphics and map view info coordinates and accuracy
