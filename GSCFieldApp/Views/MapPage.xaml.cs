@@ -389,11 +389,13 @@ namespace GSCFieldApp.Views
 
                 ViewModel.ResetLocationGraphic();
 
+                ViewModel.StopLocationRing();
+
             }
             else
             {
 
-                
+                ViewModel.StartLocationRing();
 
                 if (ViewModel._geolocator != null)
                 {
@@ -408,6 +410,7 @@ namespace GSCFieldApp.Views
                 ViewModel.userHasTurnedGPSOff = false;
 
                 ViewModel.SetGPSModeIcon();
+                
             }
         }
 

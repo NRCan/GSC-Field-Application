@@ -300,14 +300,8 @@ namespace GSCFieldApp.ViewModels
             switch (args.Status)
             {
                 case PositionStatus.Ready:
-                    initializingGPS = false;
 
-                    _mapRingLabelAcquiringGPSVisibility = false;
-                    _progressRingVisibility = false;
-                    _progressRingActive = false;
-                    RaisePropertyChanged("MapRingLabelAcquiringGPSVisibility");
-                    RaisePropertyChanged("MapRingVisibility");
-                    RaisePropertyChanged("MapRingActive");
+                    StopLocationRing();
 
                     break;
 
@@ -317,18 +311,7 @@ namespace GSCFieldApp.ViewModels
 
                     if (FilenameValues.Count != 0) //This will prevent pop-up with new field book
                     {
-                        if (!_mapRingLabelAcquiringGPSVisibility || !_progressRingVisibility || !_progressRingActive)
-                        {
-                            _mapRingLabelAcquiringGPSVisibility = true;
-                            _progressRingVisibility = true;
-                            _progressRingActive = true;
-                            RaisePropertyChanged("MapRingLabelAcquiringGPSVisibility");
-                            RaisePropertyChanged("MapRingVisibility");
-                            RaisePropertyChanged("MapRingActive");
-                            ResetLocationGraphic();
-                        }
-
-                        initializingGPS = true;
+                        StartLocationRing();
                     }
 
 
@@ -355,8 +338,10 @@ namespace GSCFieldApp.ViewModels
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
                         await NoLocationRoutine();
-
+                        StopLocationRing();
                     }).AsTask();
+
+                    //StopLocationRing();
 
                     break;
 
@@ -387,7 +372,7 @@ namespace GSCFieldApp.ViewModels
                         };
                         notInitLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
                         await Services.ContentDialogMaker.CreateContentDialogAsync(notInitLocationDialog, true);
-
+                        StopLocationRing();
                     }).AsTask();
                     break;
 
@@ -421,7 +406,7 @@ namespace GSCFieldApp.ViewModels
                         };
                         NALocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
                         await Services.ContentDialogMaker.CreateContentDialogAsync(NALocationDialog, true);
-
+                        StopLocationRing();
                     }).AsTask();
                     break;
 
@@ -451,7 +436,7 @@ namespace GSCFieldApp.ViewModels
                         };
                         defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
                         await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
-
+                        StopLocationRing();
                     }).AsTask();
 
                     break;
@@ -1577,9 +1562,7 @@ namespace GSCFieldApp.ViewModels
 
         }
 
-        /// <summary>
-        /// Will clear location position graphics and map view info coordinates and accuracy
-        /// </summary>
+        
         public async void ResetLocationGraphic()
         {
             try
@@ -2361,6 +2344,9 @@ namespace GSCFieldApp.ViewModels
 
         }
 
+        /// <summary>
+        /// Will start the progress ring - This is a generic method
+        /// </summary>
         public void StartProgressRing()
         {
             //Set progress ring
@@ -2370,6 +2356,9 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MapRingVisibility");
         }
 
+        /// <summary>
+        /// Will stop the progress ring - This is a generic method
+        /// </summary>
         public void StopProgressRing()
         {
             //Set progress ring
@@ -2377,6 +2366,39 @@ namespace GSCFieldApp.ViewModels
             _progressRingVisibility = false;
             RaisePropertyChanged("MapRingActive");
             RaisePropertyChanged("MapRingVisibility");
+        }
+
+        /// <summary>
+        /// Will start the progress ring and a acquiring location message
+        /// </summary>
+        public void StartLocationRing()
+        {
+            if (!_mapRingLabelAcquiringGPSVisibility || !_progressRingVisibility || !_progressRingActive)
+            {
+                _mapRingLabelAcquiringGPSVisibility = true;
+                _progressRingVisibility = true;
+                _progressRingActive = true;
+                RaisePropertyChanged("MapRingLabelAcquiringGPSVisibility");
+                RaisePropertyChanged("MapRingVisibility");
+                RaisePropertyChanged("MapRingActive");
+                ResetLocationGraphic();
+            }
+
+            initializingGPS = true;
+        }
+
+        /// <summary>
+        /// Will stop the progress rind and hide the acquiring location message
+        /// </summary>
+        public void StopLocationRing()
+        {
+            initializingGPS = false;
+            _mapRingLabelAcquiringGPSVisibility = false;
+            _progressRingVisibility = false;
+            _progressRingActive = false;
+            RaisePropertyChanged("MapRingLabelAcquiringGPSVisibility");
+            RaisePropertyChanged("MapRingVisibility");
+            RaisePropertyChanged("MapRingActive");
         }
 
         public void SetQuickButtonEnable()
