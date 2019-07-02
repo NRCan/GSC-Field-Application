@@ -414,6 +414,11 @@ namespace GSCFieldApp.Views
             }
         }
 
+        /// <summary>
+        /// Event called when the opacity slider get its value changed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpacitySlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             // SPW 2019
