@@ -27,6 +27,8 @@ using GSCFieldApp.Dictionaries;
 using Windows.Data.Json;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Media;
+using Symbol = Windows.UI.Xaml.Controls.Symbol;
 
 namespace GSCFieldApp.Views
 {
@@ -375,7 +377,9 @@ namespace GSCFieldApp.Views
         {
             if (!ViewModel.userHasTurnedGPSOff)
             {
+
                 ViewModel.userHasTurnedGPSOff = true;
+                ViewModel.SetGPSModeIcon(Symbol.TouchPointer);
 
                 if (ViewModel._geolocator != null)
                 {
@@ -385,9 +389,14 @@ namespace GSCFieldApp.Views
 
                 ViewModel.ResetLocationGraphic();
 
+                ViewModel.StopLocationRing();
+
             }
             else
             {
+
+                ViewModel.StartLocationRing();
+
                 if (ViewModel._geolocator != null)
                 {
                     ViewModel._geolocator.StatusChanged += ViewModel.Geolocal_StatusChangedAsync;
@@ -399,6 +408,9 @@ namespace GSCFieldApp.Views
                 }
                 //await ViewModel.SetGPS();
                 ViewModel.userHasTurnedGPSOff = false;
+
+                ViewModel.SetGPSModeIcon();
+                
             }
         }
 

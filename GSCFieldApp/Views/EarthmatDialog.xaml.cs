@@ -222,7 +222,8 @@ namespace GSCFieldApp.Views
             Vocabularies vocabularyModel = new Vocabularies();
             string vocQuerySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableDictionary;
             string vocQueryWhere = " WHERE CODETHEME = 'LITHDETAIL'";
-            string vocFinalQuery = vocQuerySelect + vocQueryWhere;
+            string vocQueryVisibility = " AND " + Dictionaries.DatabaseLiterals.TableDictionary + "." + Dictionaries.DatabaseLiterals.FieldDictionaryVisible + " = '" + Dictionaries.DatabaseLiterals.boolYes + "'";
+            string vocFinalQuery = vocQuerySelect + vocQueryWhere + vocQueryVisibility;
 
             List<object> vocResults = accessData.ReadTable(vocabularyModel.GetType(), vocFinalQuery);
 

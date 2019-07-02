@@ -1,0 +1,7 @@
+*.vs
+.vs/*
+*.vs/*
+*/obj/x64
+*/obj/x86
+*/obj/ARM
+*/bin

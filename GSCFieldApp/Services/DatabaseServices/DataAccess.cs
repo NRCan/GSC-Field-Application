@@ -430,7 +430,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
-        /// Will take an input database and will updrade output database vocab tables (dictionaries)
+        /// Will take an input database and will upgrade output database vocab tables (dictionaries)
         /// </summary>
         public void DoSwapVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, bool closeConnection = true)
         {

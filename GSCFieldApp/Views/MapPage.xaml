@@ -95,10 +95,13 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo"  Width="55" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
-            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes"  Foreground="White" Width="55" Tapped="GPSMode_TappedAsync">
+            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes"  Foreground="White" Width="55" Tapped="GPSMode_TappedAsync" >
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;"/>
+                    <SymbolIcon Symbol="{x:Bind ViewModel.GPSModeSymbol, Mode=TwoWay}" x:Name="GPSModeIcon"/>
                 </AppBarButton.Icon>
+                <!--<AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#59421;" x:Name="GPSModeIcon"/>
+                </AppBarButton.Icon>-->
                 <!--<AppBarButton.Flyout>
                     <Flyout>
                         <ListView x:Name="gpsmodeflyout" ItemsSource="{x:Bind GPSModeList}" SelectionChanged="GPSModeSelectionChanged" />

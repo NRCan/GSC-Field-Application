@@ -35,6 +35,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             DataAccess dAccess = new DataAccess();
 
             currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoID] = currentUser.MetaID;
+            currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoPName] = currentUser.ProjectName;
             currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType] = currentUser.FieldworkType;
             currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode] = currentUser.UserCode;
             currentLocalSettings.Containers[containerName].Values[Dictionaries.ApplicationLiterals.KeywordFieldProject] = dAccess.ProjectPath;

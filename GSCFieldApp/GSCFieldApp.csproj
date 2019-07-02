@@ -123,6 +123,9 @@
     <Content Include="Assets\Images\theme-light\struc_linear.png" />
     <Content Include="Assets\Images\theme-light\struc_planar.png" />
     <Content Include="Assets\WrongPhotoURI.bmp" />
+    <Content Include="BundleArtifacts\x64.txt" />
+    <Content Include="BundleArtifacts\x86.txt" />
+    <Content Include="GSCFieldApp.csproj.vspscc" />
     <Content Include="ModelResources\GSCFieldwork.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -415,6 +418,7 @@
       <Name>SQLite for Universal Windows Platform %28SQLite.UWP.2015, Version=3.26.0%29</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

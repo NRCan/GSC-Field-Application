@@ -82,9 +82,14 @@ namespace GSCFieldApp.ViewModels
             bool hasPhotos = false; // Will prevent warning message of no backuped photo showing when no photos were taken on the device
             DateTimeOffset youngestPhoto = DateTimeOffset.MinValue; //Default for current 
             DateTimeOffset inMemoryYoungestPhoto = DateTimeOffset.MinValue;
+            string projectName = string.Empty;
             if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest) != null)
             {
                 inMemoryYoungestPhoto = (DateTimeOffset)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest);
+            }
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName) != null)
+            {
+                projectName = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName).ToString();
             }
 
             //calculate new name for output database in the archive
@@ -160,7 +165,7 @@ namespace GSCFieldApp.ViewModels
                 localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest, youngestPhoto);
 
                 //Copy
-                await fs.SaveArchiveCopy(newList);
+                await fs.SaveArchiveCopy(newList, "", "", projectName + "_");
 
                 //Delete renamed copy
                 foreach (StorageFile fsToDelete in newList)

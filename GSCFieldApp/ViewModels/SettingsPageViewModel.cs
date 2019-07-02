@@ -445,6 +445,7 @@ namespace GSCFieldApp.ViewModels
                             int read = fileReader.Read(buffer, 0, buffer.Length);
                             readCount += read;
                             fileWriter.Write(buffer, 0, read);
+ 
                         }
                     }
                 }
@@ -453,7 +454,7 @@ namespace GSCFieldApp.ViewModels
                 SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
 
                 //Swap vocab
-                accessData.DoSwapVocab(f.Path, workingDBConnection);
+                accessData.DoSwapVocab(fileToWrite.Path, workingDBConnection);
 
 
                 //Show end message
