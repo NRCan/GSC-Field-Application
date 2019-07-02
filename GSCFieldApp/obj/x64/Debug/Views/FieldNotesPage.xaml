@@ -1,0 +1,1086 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="GSCFieldApp.Views.ReportPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Behaviors="using:Template10.Behaviors"
+    xmlns:controls="using:Template10.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GSCFieldApp.Views"
+    xmlns:theme="using:GSCFieldApp.Themes"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:GSCFieldApp.ViewModels"
+    xmlns:model="using:GSCFieldApp.Models"
+    mc:Ignorable="d"                                            
+    xmlns:converters="using:GSCFieldApp.Converters">
+
+    <Page.Resources>
+
+        <!--Converters-->
+        <converters:VisibilityFromReverseBoolConverter x:ConnectionId='2' x:Name="VisibilityConverter"/>
+        <converters:VisibilityFromBoolConverter x:ConnectionId='3' x:Name="VisibilityFromBoolConverter"/>
+        <converters:SolidColorBrushConverter x:ConnectionId='4' x:Name="SolidColorBrushConverter"/>
+        <converters:MediaBrushConverter x:ConnectionId='5' x:Name="MediaBrushConverter"/>
+        <converters:TextWithDegreeConverter x:ConnectionId='6' x:Name="TextWithDegreeConverter"/>
+        <converters:TextWithAzimDegreeConverter x:ConnectionId='7' x:Name="TextWithAzimDegreeConverter"/>
+        <converters:TextWithPercentageConverter x:ConnectionId='8' x:Name="PercentageConverter"/>
+        <converters:ElevationConverter x:ConnectionId='9' x:Name="ElevationConverter"/>
+        <converters:BitmapSourceConverter x:ConnectionId='10' x:Name="BitmapSourceConverter"/>
+
+        <DataTemplate x:Key="ReportItemDateTemplate"                              >
+            <Grid x:ConnectionId='66'>
+
+                <RelativePanel Padding="4">
+
+                    <TextBlock x:ConnectionId='67' 
+                        x:Name="StationSummaryDate"
+                                                                 
+                        TextWrapping="NoWrap" 
+                        FontWeight="SemiBold" Padding="8"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignTopWithPanel="True"/>
+
+                </RelativePanel>
+
+            </Grid>
+        </DataTemplate>
+
+        <!-- Location List Template-->
+        <DataTemplate x:Key="ReportLocationTemplate"                              >
+            <RelativePanel x:ConnectionId='61' BorderBrush="{ThemeResource FieldObsColorLightBrush}" BorderThickness="0.5">
+
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="LocationListTemplateGrid">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='65' Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                      />
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="locationLatItem" Width="{Binding Width, ElementName=LocationListTemplateGrid}" TextTrimming="CharacterEllipsis" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                    
+                    <Run x:ConnectionId='63'                                                                                         />
+                    <Run x:ConnectionId='64'                                                                                          />
+
+                    </TextBlock>
+
+                    <TextBlock x:ConnectionId='62' x:Name="locationElevItem" Width="{Binding Width, ElementName=LocationListTemplateGrid}"
+                                                                                                                    HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Station List Template-->
+        <DataTemplate x:Key="ReportStationTemplate"                              >
+            <RelativePanel x:ConnectionId='56' BorderBrush="{ThemeResource FieldStationColorLightBrush}" BorderThickness="0.5" >
+
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="StationListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition MaxHeight="20"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='60' Glyph="&#xE73C;"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                     />
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='57' x:Name="stationAliasItem"                                     
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                               FontWeight="Bold"  Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:ConnectionId='58' x:Name="stationObsTypeItem"                                        Width="{Binding Width, ElementName=StationListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="2" 
+                               Grid.Column="0" Grid.Row="1" FontWeight="SemiBold"/>
+                    <TextBlock x:ConnectionId='59' x:Name="stationOCQualityItem"                                     Width="{Binding Width, ElementName=StationListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Grid.ColumnSpan="2" MaxHeight="20"
+                               Grid.Column="0" Grid.Row="2"/>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Earthmat List Template-->
+        <DataTemplate x:Key="ReportEarthmatTemplate"                              >
+            <RelativePanel x:ConnectionId='51' BorderBrush="{ThemeResource FieldEarthMatColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="EarthmatListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='55' Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                      />
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='52' x:Name="earthAliasItem"                                      
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" FontWeight="Bold"  Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock x:ConnectionId='53' x:Name="earthLithTypeItem"                                            Width="{Binding Width, ElementName=EarthmatListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
+                    <TextBlock x:ConnectionId='54' x:Name="earthLithDetailItem"                                             Width="{Binding Width, ElementName=EarthmatListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+
+                </Grid>
+            </RelativePanel>
+        </DataTemplate>
+
+        <!-- Sample List Template-->
+        <DataTemplate x:Key="ReportSampleTemplate"                              >
+            <RelativePanel x:ConnectionId='46' BorderBrush="{ThemeResource FieldSampleColorLigthBrush}" BorderThickness="0.5" >
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="SampleListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='50' Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                    />
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='47' x:Name="sampleNameItem"                                  
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock x:ConnectionId='48' x:Name="sampleTypeItem"                                   Width="{Binding Width, ElementName=SampleListTemplateGrid}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" />
+                    <TextBlock x:ConnectionId='49' x:Name="samplePurposeItem"                                      Width="{Binding Width, ElementName=SampleListTemplateGrid}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2"/>
+
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Structure List Template-->
+        <DataTemplate x:Key="ReportStructureTemplate"                              >
+            <RelativePanel x:ConnectionId='38' BorderBrush="{ThemeResource FieldStructureColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="StructureListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="6">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='45' Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                       />
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='39' x:Name="structNameItem"                                         HorizontalAlignment="Left"
+                               TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0"
+                               FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock x:ConnectionId='40' x:Name="structTypeItem"                                         HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                               TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2" />
+                    <TextBlock x:ConnectionId='41' x:Name="structDetailItem"                                           HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                               TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" />
+                    <TextBlock x:ConnectionId='42' x:Name="structFormatItem"                                           HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                               TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" />
+                    <TextBlock x:Name="structDipItem"  HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                               TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" >
+                        <Run x:ConnectionId='43'                                                                                                   />
+                        <Run Text="/"/>
+                        <Run x:ConnectionId='44'                                                                                                 />
+                        
+                    </TextBlock>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Document List Template-->
+        <DataTemplate x:Key="ReportDocumentTemplate"                              >
+            <RelativePanel x:ConnectionId='31' BorderBrush="{ThemeResource FieldPhotoColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="DocumentListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="4">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='36' Glyph="&#xE73C;" x:Name="photoValidityIcon"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                      />
+                        <!--Thumbnail availability check-->
+                        <FontIcon x:ConnectionId='37' Glyph="&#xE722;" x:Name="photoThumbnailIcon" Margin="0,0,5,0"
+                                RelativePanel.LeftOf="photoValidityIcon" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                                      />
+                        
+                    </RelativePanel>
+                    
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='32' x:Name="documentNameItem"                                        
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" 
+                               Grid.Row="0" Grid.Column="0" FontWeight="Bold" 
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock x:ConnectionId='33' x:Name="documentFilenameItem"                                   Width="{Binding Width, ElementName=DocumentListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
+                               Grid.Row="1"  Grid.ColumnSpan="2" FontWeight="SemiBold"/>
+                    <TextBlock x:ConnectionId='34' x:Name="documentCategoryItem"                                   Width="{Binding Width, ElementName=DocumentListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis"  Grid.Column="0" 
+                               Grid.Row="2" Grid.ColumnSpan="2" FontWeight="SemiBold" />
+                    <TextBlock x:ConnectionId='35' x:Name="documentCaptionItem"                                       Width="{Binding Width, ElementName=DocumentListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
+                               Grid.Row="3" Grid.ColumnSpan="2" />
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Pflow List Template-->
+        <DataTemplate x:Key="ReportPflowTemplate"                              >
+            <RelativePanel x:ConnectionId='26' BorderBrush="{ThemeResource FieldPflowColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="PflowListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='30' Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                       />
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='27' x:Name="pflowNameItem"                                    
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" 
+                               Grid.Row="0" Grid.Column="0"
+                               FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:ConnectionId='28' x:Name="pflowClassItem"                                      Width="{Binding Width, ElementName=PflowListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis"  Grid.ColumnSpan="2" 
+                               Grid.Column="0" Grid.Row="1" FontWeight="SemiBold"/>
+                    <TextBlock x:ConnectionId='29' x:Name="pflowDirItem"                                      Width="{Binding Width, ElementName=PflowListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis"  Grid.ColumnSpan="2" 
+                               Grid.Column="0" Grid.Row="2"/>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Fossil List Template-->
+        <DataTemplate x:Key="ReportFossilTemplate"                              >
+            <RelativePanel x:ConnectionId='22' BorderBrush="{ThemeResource FieldFossilColorLightBrush}" BorderThickness="0.5" >
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="FossilListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="2">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='25' Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                    />
+                    </RelativePanel>
+                    
+
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='23' x:Name="fossilNameItem"                                     Width="{Binding Width, ElementName=FossilListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="1"
+                               Grid.Row="0" Grid.Column="0"   FontWeight="Bold" 
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:ConnectionId='24' x:Name="fossilsItem"                                   Width="{Binding Width, ElementName=FossilListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="2"
+                               Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" />
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Mineral List Template-->
+        <DataTemplate x:Key="ReportMineralTemplate"                              >
+            <RelativePanel x:ConnectionId='16' BorderBrush="{ThemeResource FieldMineralColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="MineralListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='21' Glyph="&#xE73C;"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                     />
+                    </RelativePanel>
+                    
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='17' x:Name="mineralIDNameItem"                                       
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" 
+                               Grid.Column="0" FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:Name="mineralNameItem"  Width="{Binding Width, ElementName=MineralListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.ColumnSpan="2"
+                               Grid.Row="1" FontWeight="SemiBold" >
+                        <Run x:ConnectionId='19'                                         /> (<Run x:ConnectionId='20'                                    />)<Run/>
+
+                    </TextBlock>
+                    <TextBlock x:ConnectionId='18' x:Name="mineralModelItem"                                                                                    
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="2"
+                               Grid.Column="0" Grid.Row="2" />
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Mineralization alteration List Template-->
+        <DataTemplate x:Key="ReportMineralAltTemplate"                              >
+            <RelativePanel x:ConnectionId='11' BorderBrush="{ThemeResource FieldMineralAlterationColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="MAListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon x:ConnectionId='15' Glyph="&#xE73C;"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                                                                                                               />
+                    </RelativePanel>
+                    
+                    <!--Values-->
+                    <TextBlock x:ConnectionId='12' x:Name="mineralAltIDNameItem" 
+                                                                        
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" 
+                               Grid.Column="0" FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:ConnectionId='13' x:Name="mineralAltNameItem" 
+                                                                      Width="{Binding Width, ElementName=MAListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
+                               Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
+                    <TextBlock x:ConnectionId='14' x:Name="mineralAltmineralItem" 
+                                                                           Width="{Binding Width, ElementName=MAListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" 
+                               Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+    </Page.Resources>
+    <RelativePanel>
+        <!--Page Header-->
+        <controls:PageHeader x:ConnectionId='68' x:Name="pageHeader"  x:Uid="ReportPageHeader"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True" 
+                            RelativePanel.AlignTopWithPanel="True"
+                            Text="" Height="48" VerticalAlignment="Top"/>
+        
+        <RelativePanel x:ConnectionId='69' Padding="5,0,0,0" x:Name="SummaryPanel" RelativePanel.Below="pageHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+            <TextBlock x:ConnectionId='179' x:Name="SummaryHeader" Style="{StaticResource HeaderTextBlock}" Text="" x:Uid="ReportPageSummaryGridHeader"/>
+            <GridView x:ConnectionId='180' 
+                RelativePanel.Below="SummaryHeader"
+                x:Name="ReportListViewDates"
+                IsSwipeEnabled="True"
+                VerticalContentAlignment="Center"
+                IsItemClickEnabled="True"
+                Style="{StaticResource ReportPageGridView}" 
+                                                                             
+                                                                                       
+                                                                                        
+                ItemTemplate="{StaticResource ReportItemDateTemplate}"                     
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ScrollViewer.HorizontalScrollMode="Enabled"
+                ItemContainerStyle="{StaticResource ReportPageGridViewDateItems}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid MaximumRowsOrColumns="1"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+
+
+            </GridView>
+
+        </RelativePanel>
+
+        <Rectangle x:ConnectionId='70' 
+            x:Name="summaryDetailSeperator" 
+            Height="2" Width="Auto"
+            RelativePanel.Below="SummaryPanel"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="{ThemeResource CustomColor}"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <ScrollViewer RelativePanel.Below="summaryDetailSeperator" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+            <RelativePanel x:ConnectionId='71'  Padding="5,0,0,0"
+                        x:Name="SplitViewRelativeContent"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+                <TextBlock x:ConnectionId='72' x:Name="DetailHeader" Style="{StaticResource HeaderTextBlock}" Text="" x:Uid="ReportDetailPageGridHeader"/>
+
+                <!--Field Station-->
+                <Grid x:ConnectionId='73' x:Name="StationPanel" RelativePanel.Below="DetailHeader"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True" Margin="0,10, 0,0" >
+
+
+                    <theme:ExpandPanel x:ConnectionId='171' x:Name="StationExpandPanel"                                                                    >
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='172'                                                                                                          />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel>
+                                <Rectangle x:ConnectionId='173' x:Name="StationBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='175'                                                                                                                                                                            />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <TextBlock x:ConnectionId='174' x:Name="textBlock_FieldStation" x:Uid="FieldworkTableStation" 
+                                            TextTrimming="CharacterEllipsis"                                                                                                          
+                                            VerticalAlignment="Top" Height="40" Width="Auto" FontWeight="Bold"
+                                            Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True"
+                                            Style="{StaticResource SubtitleTextBlockStyle}" IsTextScaleFactorEnabled="False">
+                                </TextBlock>
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel>
+                                <SymbolIcon x:ConnectionId='176' x:Name="StationEditIcon"                                                                                                           Symbol="Edit"                                                             
+                                                    RelativePanel.LeftOf="StationDeleteIcon"
+                                                    Margin="8"                                                    />
+                                <SymbolIcon x:ConnectionId='177' x:Name="StationDeleteIcon"                                                                                                           Symbol="Delete"                                                             
+                                                    RelativePanel.AlignRightWithPanel="True" 
+                                                    Margin="8" 
+                                                                                                      />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='178' x:Name="ReportStationList"  Style="{StaticResource ReportPageGridView}"
+                                                                                   
+                                                                                                      
+                                ItemTemplate="{StaticResource ReportStationTemplate}"
+                                                                                                    
+                                                                                                    
+                                                                                                 
+                                ItemContainerStyle="{StaticResource ReportPageGridViewStationItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Earth Material-->
+                <Grid x:ConnectionId='74' x:Name="EarthmatPanel" RelativePanel.Below="StationPanel"
+                            RelativePanel.AlignLeftWithPanel="True"                                                                     
+                            RelativePanel.AlignRightWithPanel="True">
+                    <theme:ExpandPanel x:ConnectionId='161' x:Name="EarthMatExpandPanel"                                                                      
+                            RelativePanel.Below="StationExpandPanel"                                                                                      
+                            MaxWidth="{Binding ElementName=EarthmatPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="0,10, 0,0" 
+                            MinHeight="30" >
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='162'                                                                                                           />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='163' x:Name="EarthMatRelativePanel">
+                                <Rectangle x:ConnectionId='164'
+                                    x:Name="EarthMaterialBackground"
+                                    Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='166'                                                                                                                                                                              />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:ConnectionId='165' x:Name="textBlock_FieldEarthMat" x:Uid="FieldworkTableEarthmat"
+                                    TextTrimming="CharacterEllipsis"                                                                                                           
+                                    VerticalAlignment="Top" Height="30" 
+                                    Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" FontWeight="Bold"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel>
+                                <SymbolIcon x:ConnectionId='167' x:Name="EarthMatAddIcon"                                                                                                                   Margin="8"  Symbol="Add" RelativePanel.LeftOf="EarthMatEditIcon"                                                                                                                    />
+                                <SymbolIcon x:ConnectionId='168' x:Name="EarthMatEditIcon"                                                                                                            Margin="8" Symbol="Edit"  RelativePanel.LeftOf="Earth_materialDeleteIcon"                                                                                                                  />
+                                <SymbolIcon x:ConnectionId='169' x:Name="Earth_materialDeleteIcon"                                                                                                            Margin="8" Symbol="Delete" RelativePanel.AlignRightWithPanel="True"                                                                                                                 />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+                            <GridView x:ConnectionId='170' x:Name="ReportEarthmatList" Style="{StaticResource ReportPageGridView}"
+                                                                                   
+                                    ItemTemplate="{StaticResource ReportEarthmatTemplate}"
+                                                                                                         
+                                                                                                        
+                                                                                                     
+                                                                                                       
+                                    ItemContainerStyle="{StaticResource ReportPageGridViewEarthmatItems}"/>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+                </Grid>
+
+                <!--Field Sample-->
+                <Grid x:ConnectionId='75' x:Name="SamplePanel" RelativePanel.Below="EarthmatPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"                                                                   >
+
+                    <theme:ExpandPanel x:ConnectionId='151' x:Name="SampleExpandPanel" 
+                                                                                                               
+                                            RelativePanel.Below="EarthMatExpandPanel"
+                                                                                                                               
+                                            MaxWidth="{Binding ElementName=SamplePanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='152'                                                                                                         />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='153' x:Name="SampleRelativePanel" >
+                                <Rectangle x:ConnectionId='154' x:Name="SampleBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='156'                                                                                                                                                                          />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:ConnectionId='155' x:Name="textBlock_FieldSample" x:Uid="FieldworkTableSample"
+                                TextTrimming="CharacterEllipsis"                                                                                                         
+                                Text="" 
+                                VerticalAlignment="Top" Height="30" FontWeight="Bold"
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"                                                                     />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:ConnectionId='157' x:Name="SampleAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="SampleEditIcon" Margin="8"                                                                                                                 />
+                                <SymbolIcon x:ConnectionId='158' x:Name="SampleEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="SampleDeleteIcon" Margin="8"                                                                                                              />
+                                <SymbolIcon x:ConnectionId='159' x:Name="SampleDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                               />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='160' x:Name="ReportSampleList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False"                                                
+                                    ItemTemplate="{StaticResource ReportSampleTemplate}"
+                                                                                                       
+                                                                                                       
+                                                                                                       
+                                                                                                             
+                                      ItemContainerStyle="{StaticResource ReportPageGridViewSampleItems}">
+
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Structure-->
+                <Grid x:ConnectionId='76' x:Name="StructurePanel" RelativePanel.Below="SamplePanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"                                                                      >
+
+                    <theme:ExpandPanel x:ConnectionId='141' x:Name="StructureExpandPanel" 
+                                                                                                                  
+                                            RelativePanel.Below="SampleExpandPanel"
+                                                                                                                                  
+                                            MaxWidth="{Binding ElementName=StructurePanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='142'                                                                                                         />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='143' x:Name="StructureRelativePanel" >
+                                <Rectangle x:ConnectionId='144' x:Name="StructureBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='146'                                                                                                                                                                             />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:ConnectionId='145' x:Name="textBlock_FieldStructure" x:Uid="FieldworkTableStructure"
+                                TextTrimming="CharacterEllipsis"                                                                                                         
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"                                                                        />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:ConnectionId='147' x:Name="StrucAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="StrucEditIcon" Margin="8"                                                                                                                       />
+                                <SymbolIcon x:ConnectionId='148' x:Name="StrucEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="StrucDeleteIcon" Margin="8"                                                                                                                    />
+                                <SymbolIcon x:ConnectionId='149' x:Name="StrucDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                                  />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='150' x:Name="ReportStructureList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False"                                                
+                                    ItemTemplate="{StaticResource ReportStructureTemplate}"
+                                                                                                          
+                                                                                                       
+                                                                                                          
+                                                                                                                
+                                      ItemContainerStyle="{StaticResource ReportPageGridViewStructureItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Fossil-->
+                <Grid x:ConnectionId='77' x:Name="FossilPanel" RelativePanel.Below="StructurePanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"                                                                   >
+
+                    <theme:ExpandPanel x:ConnectionId='131' x:Name="FossilExpandPanel" 
+                                                                                                               
+                                            RelativePanel.Below="StructureExpandPanel"
+                                                                                                                               
+                                            MaxWidth="{Binding ElementName=FossilPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='132'                                                                                                         />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='133' x:Name="FossilRelativePanel" >
+                                <Rectangle x:ConnectionId='134' x:Name="FossilBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='136'                                                                                                                                                                          />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:ConnectionId='135' x:Name="textBlock_FieldFossil" x:Uid="FieldworkTableFossil"
+                                TextTrimming="CharacterEllipsis"                                                                                                         
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"                                                                     />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:ConnectionId='137' x:Name="FossilAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="FossilEditIcon" Margin="8"                                                                                                                 />
+                                <SymbolIcon x:ConnectionId='138' x:Name="FossilEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="FossilDeleteIcon" Margin="8"                                                                                                              />
+                                <SymbolIcon x:ConnectionId='139' x:Name="FossilDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                               />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='140' x:Name="ReportFossilList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False"                                                
+                                    ItemTemplate="{StaticResource ReportFossilTemplate}"
+                                                                                                       
+                                                                                                       
+                                                                                                       
+                                                                                                             
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewFossilItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Paleoflow-->
+                <Grid x:ConnectionId='78' x:Name="PaleoFlowPanel" RelativePanel.Below="FossilPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"                                                                  >
+
+                    <theme:ExpandPanel x:ConnectionId='121' x:Name="PflowExpandPanel" 
+                                                                                                              
+                                            RelativePanel.Below="FossilExpandPanel"
+                                                                                                                              
+                                            MaxWidth="{Binding ElementName=PaleoFlowPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='122'                                                                                                            />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='123' x:Name="PflowRelativePanel" >
+                                <Rectangle x:ConnectionId='124' x:Name="PflowBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='126'                                                                                                                                                                            />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:ConnectionId='125' x:Name="textBlock_FieldPflow" x:Uid="FieldworkTablePflow"
+                                TextTrimming="CharacterEllipsis"                                                                                                            
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"                                                                    />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:ConnectionId='127' x:Name="PflowAddIcon"                                                                                                                    Symbol="Add" RelativePanel.LeftOf="PflowEditIcon" Margin="8"                                                                                                               />
+                                <SymbolIcon x:ConnectionId='128' x:Name="PflowEditIcon"                                                                                                             Symbol="Edit"  RelativePanel.LeftOf="Paleo_flowDeleteIcon" Margin="8"                                                                                                            />
+                                <SymbolIcon x:ConnectionId='129' x:Name="Paleo_flowDeleteIcon"                                                                                                             Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                              />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='130' x:Name="ReportPflowList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False"                                                
+                                    ItemTemplate="{StaticResource ReportPflowTemplate}"
+                                                                                                      
+                                                                                                      
+                                                                                                       
+                                                                                                            
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewPflowItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Mineral-->
+                <Grid x:ConnectionId='79' x:Name="MineralPanel" RelativePanel.Below="PaleoFlowPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"                                                                    >
+
+                    <theme:ExpandPanel x:ConnectionId='111' x:Name="MineralExpandPanel" 
+                                                                                                                
+                                            RelativePanel.Below="PflowExpandPanel"
+                                                                                                                                
+                                            MaxWidth="{Binding ElementName=MineralPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='112'                                                                                                          />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='113' x:Name="MineralRelativePanel" >
+                                <Rectangle x:ConnectionId='114' x:Name="MineralBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='116'                                                                                                                                                                            />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:ConnectionId='115' x:Name="textBlock_FieldMineral" x:Uid="FieldworkTableMineral"
+                                TextTrimming="CharacterEllipsis"                                                                                                          
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"                                                                      />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:ConnectionId='117' x:Name="MineralAddIcon"                                                                                                                  Symbol="Add" RelativePanel.LeftOf="MineralEditIcon" Margin="8"                                                                                                                   />
+                                <SymbolIcon x:ConnectionId='118' x:Name="MineralEditIcon"                                                                                                           Symbol="Edit"  RelativePanel.LeftOf="MineralDeleteIcon" Margin="8"                                                                                                                />
+                                <SymbolIcon x:ConnectionId='119' x:Name="MineralDeleteIcon"                                                                                                           Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                                />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='120' x:Name="ReportMineralList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False"                                                
+                                    ItemTemplate="{StaticResource ReportMineralTemplate}"
+                                                                                                         
+                                                                                                        
+                                                                                                       
+                                                                                                              
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewMineralItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Mineral Alteration-->
+                <Grid x:ConnectionId='80' x:Name="MineralAltPanel" RelativePanel.Below="MineralPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"                                                                       >
+
+                    <theme:ExpandPanel x:ConnectionId='101' x:Name="MineralAltExpandPanel" 
+                                                                                                                   
+                                            RelativePanel.Below="MineralExpandPanel"
+                                                                                                                                   
+                                            MaxWidth="{Binding ElementName=MineralAltPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='102'                                                                                                             />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='103' x:Name="MineralAltRelativePanel" >
+                                <Rectangle x:ConnectionId='104' x:Name="MineralAltBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='106'                                                                                                              
+                                                                                                                             />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:ConnectionId='105' x:Name="textBlock_FieldMineralAlt" x:Uid="FieldworkTableMineralAlt"
+                                TextTrimming="CharacterEllipsis"                                                                                                             
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"                                                                         />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:ConnectionId='107' x:Name="MineralAltAddIcon"                                                                                                                     
+                                            Symbol="Add" RelativePanel.LeftOf="MineralAltEditIcon" Margin="8" 
+                                                                                                                                                                    />
+                                <SymbolIcon x:ConnectionId='108' x:Name="MineralAltEditIcon" 
+                                                                                                                                                         
+                                            Symbol="Edit"  RelativePanel.LeftOf="alterationDeleteIcon" Margin="8" 
+                                                                                                                                                                 />
+                                <SymbolIcon x:ConnectionId='109' x:Name="alterationDeleteIcon" 
+                                                                                                                                                         
+                                            Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" 
+                                                                                                                                                              />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='110' x:Name="ReportMineralAltList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False"                                                
+                                    ItemTemplate="{StaticResource ReportMineralAltTemplate}"
+                                                                                                                         
+                                                                                                           
+                                                                                                       
+                                                                                                                 
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewMineralAltItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Document-->
+                <Grid x:ConnectionId='81' x:Name="DocumentPanel" RelativePanel.Below="MineralAltPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"                                                                  >
+
+                    <theme:ExpandPanel x:ConnectionId='91' x:Name="DocumentExpandPanel" 
+                                                                                                                 
+                                                                                                                                    
+                                            RelativePanel.Below="MineralAltExpandPanel"
+                                           MaxWidth="{Binding ElementName=DocumentPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='92'                                                                                                           />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='93' x:Name="DocumentRelativePanel" >
+                                <Rectangle x:ConnectionId='94' x:Name="DocumentBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='96'                                                                                                                                                                              />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:ConnectionId='95' x:Name="textBlock_FieldDocument"                                                      
+                                TextTrimming="CharacterEllipsis"                                                                                                           
+                                VerticalAlignment="Top" Height="30" FontWeight="Bold"
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"/>
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:ConnectionId='97' x:Name="DocumentAddIcon"                                                                                                                   Symbol="Add" RelativePanel.LeftOf="DocumentEditIcon" Margin="8"                                                                                                                     />
+                                <SymbolIcon x:ConnectionId='98' x:Name="DocumentEditIcon"                                                                                                            Symbol="Edit"  RelativePanel.LeftOf="DocumentDeleteIcon"                                                               Margin="8"                                                    />
+                                <SymbolIcon x:ConnectionId='99' x:Name="DocumentDeleteIcon"                                                                                                            Symbol="Delete" RelativePanel.AlignRightWithPanel="True"                                                               Margin="8"                                                   />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='100' x:Name="ReportDocumentList" Style="{StaticResource ReportPageGridView}"   
+                                    IsSwipeEnabled="False"                                                
+                                    ItemTemplate="{StaticResource ReportDocumentTemplate}"
+                                                                                                         
+                                                                                                         
+                                                                                                       
+                                                                                                               
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewDocumentItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Location-->
+                <Grid x:ConnectionId='82' x:Name="LocationPanel"
+                      RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True"
+                      RelativePanel.Below="DocumentPanel">
+                    <theme:ExpandPanel x:ConnectionId='83' x:Name="ObservationExpandPanel" 
+                                                                                                        
+                                    Margin="0,10,0,0" Padding="0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush x:ConnectionId='84'                                                                                                           />
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:ConnectionId='85' x:Name="ObservationRelativePanel">
+
+                                <Rectangle x:ConnectionId='86'
+                                            x:Name="textBlockBackground_FieldObservation"
+                                            Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:ConnectionId='88'                                                                                                                                                                             />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <TextBlock x:ConnectionId='87' x:Name="textBlock_FieldObservation"  x:Uid="FieldworkTableObservation"
+                                            TextTrimming="CharacterEllipsis"                                                                                                           
+                                            VerticalAlignment="Top" Height="30" Width="Auto" FontWeight="Bold"
+                                            Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True"
+                                            Style="{StaticResource SubtitleTextBlockStyle}" IsTextScaleFactorEnabled="False"/>
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel>
+
+                                <SymbolIcon x:ConnectionId='89' x:Name="ObservationEditIcon"                                                                                                            Symbol="Edit"                                                             
+                                                                                        
+                                    Margin="5" 
+                                        />
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:ConnectionId='90' x:Name="ReportLocationList" Padding="0" Margin="0"
+                                    Visibility="Visible"
+                                    IsSwipeEnabled="False"
+                                    AllowDrop="False"                                                                  
+                                    IsItemClickEnabled="True"                                                
+                                    ItemTemplate="{StaticResource ReportLocationTemplate}" 
+                                                                                                         
+                                                                                                        
+                                                                                                         
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewLocationItems}">
+
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+                </Grid>
+
+            </RelativePanel>
+        </ScrollViewer>
+
+    </RelativePanel>
+</Page>
+

@@ -37,7 +37,7 @@
                         Header="{x:Bind FileName}" x:Name="mapFileName" 
                         IsOn="{x:Bind FileVisible}" Toggled="mapFileName_Toggled"/>
                 <Slider x:Name="opacitySlider"  Tag="{x:Bind FileName}"
-                        Width="100" Maximum="100" Value="100"
+                        Width="100" Maximum="100" Value="{x:Bind FileOpacity}"
                         StepFrequency="5"
                         RelativePanel.RightOf="mapFileName"
                         RelativePanel.AlignBottomWith="mapFileName"

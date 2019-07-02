@@ -1,0 +1,2 @@
+MainPackage=C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\GSCFieldApp_1.0.146.0_x64_Debug.appx
+ResourcePack=C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\GSCFieldApp_1.0.146.0_language-fr.appx

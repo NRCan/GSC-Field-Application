@@ -70,6 +70,7 @@ namespace GSCFieldApp.ViewModels
         private object _selectedLayer;
         public object selectedStationID = string.Empty; //Will be used to show report page on user identified station.
         public object selectedStationDate = string.Empty;  //Will be used to show report page on user identified station.
+        public Dictionary<string, Tuple<string, bool, double>> _layerRenderingConfiguration; //Will be used to show layer in proper order, visibility and opacity based on previous setting on app opening.
 
         //Model and strings
         private DataAccess accessData = new DataAccess();
@@ -149,6 +150,8 @@ namespace GSCFieldApp.ViewModels
             //Fill vocab 
             FillLocationVocab();
 
+            //Get Layer rendering
+            _layerRenderingConfiguration = GetLayerRendering();
 
         }
         #endregion
@@ -1244,9 +1247,6 @@ namespace GSCFieldApp.ViewModels
             //Add tpks
             Task loadingUserLayers = AddAllLayers();
             await loadingUserLayers;
-
-            //Save new layer order
-            SaveMapViewSettings();
         }
 
         private Tuple<string, string, string> queryStation(string id)
@@ -1554,7 +1554,42 @@ namespace GSCFieldApp.ViewModels
         #region METHODS
 
         /// <summary>
-        /// Will clear location position graphics and map view info coordinates and accuracy
+        /// From the internal settings, will output a dictionnary with wanted rendering configuration
+        /// based on last previously saved setting by the user (from user interaction with layer flyout menu)
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, Tuple<string, bool, double>> GetLayerRendering()
+        {
+            Dictionary<string, Tuple<string, bool, double>> currentLayerOrderDico = new Dictionary<string, Tuple<string, bool, double>>();
+
+            if (localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder) != null)
+            {
+                //Verify if string is the same as the saved one, if no re-order all layers.
+                string currentLayerOrder = (string)localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder);
+
+                string[] currentLayerOrderArray = currentLayerOrder.Split('|');
+                
+                foreach (string l in currentLayerOrderArray)
+                {
+                    try
+                    {
+                        string[] layerGeneralInformation = l.Split(";");
+                        string[] layerSpecificInformation = layerGeneralInformation[1].Split(",");
+                        currentLayerOrderDico[layerGeneralInformation[0]] = new Tuple<string, bool, double>(layerSpecificInformation[0], bool.Parse(layerSpecificInformation[1]), double.Parse(layerSpecificInformation[2]));
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                }
+            }
+
+            return currentLayerOrderDico;
+
+        }
+
+        /// <summary>
+        /// Will set the gps mode icon from tap to gps activated symbols
         /// </summary>
         public async void ResetLocationGraphic()
         {
@@ -1752,23 +1787,37 @@ namespace GSCFieldApp.ViewModels
                 localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewRotation, currentMapView.MapRotation);
 
                 //Keep order in settings
-                string filePaths = string.Empty;
+                string settingString = string.Empty;
                 foreach (Layer l in esriMap.AllLayers)
                 {
                     ArcGISTiledLayer tl = l as ArcGISTiledLayer;
                     if (tl!= null)
                     {
-                        filePaths = filePaths + ";" + tl.Source.OriginalString;
+                        if (settingString == string.Empty)
+                        {
+                            settingString = tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString();
+                        }
+                        else
+                        {
+                            settingString = settingString + "|" + tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString() ;
+                        }
                     }
                     
                 }
                 foreach (KeyValuePair<string, Tuple<GraphicsOverlay, GraphicsOverlay>> item in _overlayContainerOther)
                 {
-                    filePaths = filePaths + ";" + item.Key;
+                    if (settingString == string.Empty)
+                    {
+                        settingString = item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
+                    }
+                    else
+                    {
+                        settingString = settingString + "|" + item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
+                    }
                 }
 
                 //CAN'T STORE ANYTHING IN SETTINGS: https://docs.microsoft.com/en-us/windows/uwp/app-settings/store-and-retrieve-app-data
-                localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder, filePaths);
+                localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder, settingString);
 
             }
 
@@ -1801,7 +1850,7 @@ namespace GSCFieldApp.ViewModels
             if (await loadUserLayers)
             {
                 foundAnyFiles = true;
-                SaveMapViewSettings();
+                //SaveMapViewSettings();
             }
 
             //If nothing is found ask user to load data
@@ -1823,7 +1872,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             initMapScale = currentMapView.MapScale;
-
+            SetLayerOrderAsync();
         }
 
         /// <summary>
@@ -1891,29 +1940,61 @@ namespace GSCFieldApp.ViewModels
                         AddDataTypeSQLite(inStorageFile);
                     }
                 }
-                
+
             }
             else if (currentMapView != null)
             {
-                foreach (StorageFile file in fileList)
+                //If nothing was already set check for existing files at least
+                if (_layerRenderingConfiguration.Count == 0)
                 {
-                    if (file.FileType.ToLower() == ".tpk")
+                    foreach (StorageFile sf in fileList)
                     {
-                        if (!mapLayers.Contains(Path.GetFileNameWithoutExtension(file.Name)))
+                        string fileName = Path.GetFileNameWithoutExtension(sf.Path);
+                        if (sf.Path.ToLower().Contains(".tpk"))
                         {
-                            foundLayers = true;
-                            await AddDataTypeTPK(file);
+                            if (!mapLayers.Contains(fileName))
+                            {
+                                foundLayers = true;
+                                await AddDataTypeTPK(sf);
+                            }
                         }
-                    }
-                    if (file.FileType.ToLower() == ".sqlite" && file.DisplayName != DatabaseLiterals.DBName)
-                    {
-                        if (!_overlayContainerOther.ContainsKey(file.Path))
+                        if (sf.Path.ToLower().Contains(".sqlite") && fileName != DatabaseLiterals.DBName)
                         {
-                            AddDataTypeSQLite(file);
-                        }
+                            if (!_overlayContainerOther.ContainsKey(sf.Path))
+                            {
+                                foundLayers = true;
+                                AddDataTypeSQLite(sf);
+                            }
 
+                        }
                     }
                 }
+                else
+                {
+                    foreach (KeyValuePair<string, Tuple<string, bool, double>> lr in _layerRenderingConfiguration)
+                    {
+                        StorageFile inStorageFile = await StorageFile.GetFileFromPathAsync(lr.Key);
+
+                        if (lr.Key.ToLower().Contains(".tpk"))
+                        {
+                            if (!mapLayers.Contains(Path.GetFileNameWithoutExtension(lr.Key)))
+                            {
+                                foundLayers = true;
+                                await AddDataTypeTPK(inStorageFile, lr.Value.Item2, lr.Value.Item3);
+                            }
+                        }
+                        if (lr.Key.ToLower().Contains(".sqlite") && lr.Value.Item1 != DatabaseLiterals.DBName)
+                        {
+                            if (!_overlayContainerOther.ContainsKey(lr.Key))
+                            {
+                                foundLayers = true;
+                                AddDataTypeSQLite(inStorageFile);
+                            }
+
+                        }
+                    }
+                }
+
             }
 
 
@@ -1942,30 +2023,22 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will add a tpk data type to current map content
         /// </summary>
-        public async Task AddDataTypeTPK(StorageFile inTPK)
+        public async Task AddDataTypeTPK(StorageFile inTPK, bool isTPKVisible = true, double tpkOpacity = 1.0)
         {
             //Get path
             var localUri = new Uri("file:\\" + inTPK.Path);
 
             //Build tile layer object and load
             ArcGISTiledLayer _tileLayer = new ArcGISTiledLayer(localUri);
-
+            
             await _tileLayer.LoadAsync();
 
             //When loaded check if it was already set as visible or not
             if (_tileLayer.LoadStatus == Esri.ArcGISRuntime.LoadStatus.Loaded)
             {
-                if (localSettings.GetSettingValue(_tileLayer.Name) != null)
-                {
-                    _tileLayer.IsVisible = (bool)localSettings.GetSettingValue(_tileLayer.Name);
-                }
-                else
-                {
-                    _tileLayer.IsVisible = true;
-                }
-
                 try
                 {
+
                     if (esriMap == null)
                     {
                         esriMap = new Map(_tileLayer.SpatialReference);
@@ -1975,6 +2048,9 @@ namespace GSCFieldApp.ViewModels
                         AddBlanckFeature(_tileLayer.SpatialReference);
                     }
 
+                    
+                    _tileLayer.IsVisible = isTPKVisible;
+                    _tileLayer.Opacity = tpkOpacity;
                     esriMap.Basemap.BaseLayers.Add(_tileLayer);
 
                 }
@@ -1988,7 +2064,8 @@ namespace GSCFieldApp.ViewModels
                 userFile.FileCanDelete = Visibility.Visible;
                 userFile.FileName = inTPK.Name;
                 userFile.FilePath = inTPK.Path;
-                userFile.FileVisible = _tileLayer.IsVisible;
+                userFile.FileVisible = isTPKVisible;
+                userFile.FileOpacity = tpkOpacity * 100;
 
                 bool foundLayer = false;
 
@@ -2029,6 +2106,7 @@ namespace GSCFieldApp.ViewModels
                 overlayerFile.FileName = inSQLite.Name;
                 overlayerFile.FilePath = inSQLite.Path;
                 overlayerFile.FileVisible = true;
+                overlayerFile.FileOpacity = 100;
                 bool fileExistsInMap = false;
                 foreach (Files existingFiles in _filenameValues)
                 {
@@ -2158,65 +2236,81 @@ namespace GSCFieldApp.ViewModels
                 //Change order if it has changed only
                 List<Files> fileCopy = _filenameValues.ToList();
                 fileCopy.Reverse();
+                //SaveMapViewSettings();
 
-                //Validation
-                if (localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder) == null)
-                {
-                    SaveMapViewSettings();
-                }
                 if (localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder) != null && esriMap != null)
                 {
-                    //Rebuild saved setting string
-                    string initFilePaths = string.Empty;
-                    foreach (Files tl in fileCopy)
-                    {
-                        initFilePaths = initFilePaths + ";" + tl.FilePath;
-                    }
 
                     //Verify if string is the same as the saved one, if no re-order all layers.
-                    string currentLayerOrder = (string)localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder);
-                    if (initFilePaths != currentLayerOrder)
+                    _layerRenderingConfiguration = GetLayerRendering();
+
+                    //Keep original layer collection
+                    LayerCollection currentLayerCollection = esriMap.Basemap.BaseLayers;
+
+                    Dictionary<string, Layer> layerDico = new Dictionary<string, Layer>();
+                    foreach (Layer cl in currentLayerCollection)
                     {
-                        //Keep original layer collection
-                        LayerCollection currentLayerCollection = esriMap.Basemap.BaseLayers;
+                        layerDico[cl.Name] = cl;
+                    }
 
-                        Dictionary<string, Layer> layerDico = new Dictionary<string, Layer>();
-                        foreach (Layer cl in currentLayerCollection)
+                    esriMap.Basemap.BaseLayers.Clear();
+
+                    bool firstIteration = true;
+                    ObservableCollection<Files> newFileList = new ObservableCollection<Files>();
+                    foreach (Files orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
+                    {
+                        if (orderedFiles.FilePath.Contains(".tpk"))
                         {
-                            layerDico[cl.Name] = cl;
-                        }
+                            //Build path
+                            Uri localUri = new Uri(orderedFiles.FilePath);
 
-                        esriMap.Basemap.BaseLayers.Clear();
-
-                        bool firstIteration = true;
-                        foreach (Files orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
-                        {
-                            if (orderedFiles.FilePath.Contains(".tpk"))
+                            if (firstIteration)
                             {
-                                //Build path
-                                Uri localUri = new Uri(orderedFiles.FilePath);
-
-                                if (firstIteration)
-                                {
-                                    Layer firstLayer = layerDico.First().Value;
-                                    AddBlanckFeature(firstLayer.SpatialReference);
-                                    firstIteration = false;
-                                }
-
-                                if (layerDico.ContainsKey(orderedFiles.FileName.Split('.')[0]))
-                                {
-                                    esriMap.Basemap.BaseLayers.Add(layerDico[orderedFiles.FileName.Split('.')[0]]);
-                                }
-                                
-                                
-
-
+                                Layer firstLayer = layerDico.First().Value;
+                                AddBlanckFeature(firstLayer.SpatialReference);
+                                firstIteration = false;
                             }
 
+                            if (layerDico.ContainsKey(orderedFiles.FileName.Split('.')[0]))
+                            {
+                                Layer layerToAdd = layerDico[orderedFiles.FileName.Split('.')[0]];
+                                
+                                try
+                                {
+                                    layerToAdd.IsVisible = _layerRenderingConfiguration[layerToAdd.Name].Item2;
+                                    layerToAdd.Opacity = _layerRenderingConfiguration[layerToAdd.Name].Item3;
+
+                                    //Make sure to push the change to the UI in case this is coming from a first app opening
+                                    orderedFiles.FileVisible = layerToAdd.IsVisible;
+                                    orderedFiles.FileOpacity = layerToAdd.Opacity * 100;
+                                    newFileList.Insert(0, orderedFiles); //Save in new list because can't change something being looped
+
+                                        
+                                }
+                                catch (Exception)
+                                {
+                                }
+
+                                
+                                esriMap.Basemap.BaseLayers.Add(layerToAdd);
+                            }
+
+
+
+
                         }
 
-                        SaveMapViewSettings();
                     }
+
+                    //Update UI
+                    if (newFileList.Count != 0 && newFileList.Count == _filenameValues.Count)
+                    {
+                        _filenameValues = newFileList;
+                    }
+                    
+                    RaisePropertyChanged("FilenameValues");
+
+                    SaveMapViewSettings();
                 }
             }
             catch (Exception e)
