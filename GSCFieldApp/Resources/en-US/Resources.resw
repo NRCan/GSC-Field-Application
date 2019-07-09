@@ -1384,4 +1384,28 @@ Williams, Stephen - Developer</value>
   <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
     <value>Entry rock type ie. basalt</value>
   </data>
+  <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
+    <value>Elevation (m)</value>
+  </data>
+  <data name="LocationDialogGridView_Geo.Content" xml:space="preserve">
+    <value>Geographic</value>
+  </data>
+  <data name="LocationDialogGridView_Projected.Content" xml:space="preserve">
+    <value>Projected</value>
+  </data>
+  <data name="LocationDialogDatum.Header" xml:space="preserve">
+    <value>Geodetic System</value>
+  </data>
+  <data name="LocationDialogGridView_Conversion.Content" xml:space="preserve">
+    <value>Coordinate Conversion</value>
+  </data>
+  <data name="LocationDialogGridView_Datum.Content" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="LocationDialogGridView_Extra.Content" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="LocationDialogNotes.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
 </root>

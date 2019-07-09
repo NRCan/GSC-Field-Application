@@ -24,14 +24,23 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationAlias)]
         public string LocationAlias { get; set; }
 
+
+        [Column(DatabaseLiterals.FieldLocationEasting)]
+        public double? LocationEasting { get; set; }
+        [Column(DatabaseLiterals.FieldLocationNorthing)]
+        public double? LocationNorthing { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationLatitude)]
         public double LocationLat { get; set; }
 
         [Column(DatabaseLiterals.FieldLocationLongitude)]
         public double LocationLong { get; set; }
 
-        [Column(DatabaseLiterals.FieldLocationMetaID)]
-        public string MetaID { get; set; }
+        [Column(DatabaseLiterals.FieldLocationDatum)]
+        public string LocationDatum { get; set; }
+
+        [Column(DatabaseLiterals.FieldLocationDatumZone)]
+        public string LocationDatumZone { get; set; }
 
         [Column(DatabaseLiterals.FieldStationElevation)]
         public double LocationElev { get; set; }
@@ -39,8 +48,14 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationElevationMethod)]
         public string LocationElevMethod { get; set; }
 
+        [Column(DatabaseLiterals.FieldLocationElevAccuracy)]
+        public double? LocationElevationAccuracy { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationEntryType)]
         public string LocationEntryType { get; set; }
+
+        [Column(DatabaseLiterals.FieldLocationPDOP)]
+        public double? LocationPDOP { get; set; }
 
         [Column(DatabaseLiterals.FieldLocationErrorMeasure)]
         public double LocationErrorMeasure { get; set; }
@@ -48,11 +63,14 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationErrorMeasureType)]
         public string LocationErrorMeasureType { get; set; }
 
-        [Column(DatabaseLiterals.FieldLocationPDOP)]
-        public double? LocationPDOP { get; set; }
+        [Column(DatabaseLiterals.FieldLocationNotes)]
+        public string LocationNotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldLocationElevAccuracy)]
-        public double? LocationElevationAccuracy { get; set; }
+        [Column(DatabaseLiterals.FieldLocationReportLink)]
+        public string LocationReportLink { get; set; }
+
+        [Column(DatabaseLiterals.FieldLocationMetaID)]
+        public string MetaID { get; set; }
 
         public string LocationTableName
         {
@@ -79,6 +97,30 @@ namespace GSCFieldApp.Models
                 {
                     return false;
                 }
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// A list of all possible fields
+        /// </summary>
+        [Ignore]
+        public List<string> getFieldList
+        {
+            get
+            {
+                List<string> locationFieldList = new List<string>();
+                locationFieldList.Add(DatabaseLiterals.FieldLocationID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        locationFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                return locationFieldList;
             }
             set { }
         }

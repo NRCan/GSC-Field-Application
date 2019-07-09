@@ -59,6 +59,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 locAlias = locAlias + "XY";
             }
+            else
+            {
+                locAlias = CalculateStationAlias(DateTime.Now) + "XY";
+            }
 
             return locAlias;
         }

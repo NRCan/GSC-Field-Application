@@ -284,98 +284,98 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
             _typeNameTable[76] = "System.Collections.Generic.List`1<String>";
             _typeNameTable[77] = "GSCFieldApp.Views.FossilDialog";
             _typeNameTable[78] = "GSCFieldApp.ViewModels.FossilViewModel";
-            _typeNameTable[79] = "GSCFieldApp.Views.LocationDialog";
-            _typeNameTable[80] = "GSCFieldApp.ViewModels.LocationViewModel";
-            _typeNameTable[81] = "GSCFieldApp.ViewModels.MapPageViewModel";
-            _typeNameTable[82] = "Esri.ArcGISRuntime.UI.Controls.MapView";
-            _typeNameTable[83] = "Esri.ArcGISRuntime.UI.Controls.GeoView";
-            _typeNameTable[84] = "Esri.ArcGISRuntime.Mapping.Map";
-            _typeNameTable[85] = "Esri.ArcGISRuntime.Mapping.LayerCollection";
-            _typeNameTable[86] = "Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.Mapping.Layer>";
-            _typeNameTable[87] = "Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.Mapping.Layer>";
-            _typeNameTable[88] = "Esri.ArcGISRuntime.Mapping.Layer";
-            _typeNameTable[89] = "Esri.ArcGISRuntime.LoadStatus";
-            _typeNameTable[90] = "System.Exception";
-            _typeNameTable[91] = "Esri.ArcGISRuntime.Portal.Item";
-            _typeNameTable[92] = "Esri.ArcGISRuntime.Geometry.SpatialReference";
-            _typeNameTable[93] = "Esri.ArcGISRuntime.Geometry.Envelope";
-            _typeNameTable[94] = "Esri.ArcGISRuntime.Geometry.Geometry";
-            _typeNameTable[95] = "System.Collections.Generic.IReadOnlyList`1<Esri.ArcGISRuntime.Mapping.ILayerContent>";
-            _typeNameTable[96] = "System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.Files>";
-            _typeNameTable[97] = "System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.Files>";
-            _typeNameTable[98] = "GSCFieldApp.Models.Files";
-            _typeNameTable[99] = "Windows.Devices.Geolocation.Geoposition";
-            _typeNameTable[100] = "System.Tuple`2<Double, Double>";
-            _typeNameTable[101] = "GSCFieldApp.Converters.ScaleConverter";
-            _typeNameTable[102] = "GSCFieldApp.Converters.DD2DMSConverter";
-            _typeNameTable[103] = "GSCFieldApp.Converters.HorizontalAccuracyConverter";
-            _typeNameTable[104] = "GSCFieldApp.Converters.ElevationConverter";
-            _typeNameTable[105] = "Esri.ArcGISRuntime.Geometry.Polygon";
-            _typeNameTable[106] = "Esri.ArcGISRuntime.Geometry.Multipart";
-            _typeNameTable[107] = "Esri.ArcGISRuntime.UI.WrapAroundMode";
-            _typeNameTable[108] = "Esri.ArcGISRuntime.UI.ViewLabelProperties";
-            _typeNameTable[109] = "Esri.ArcGISRuntime.UI.LocationDisplay";
-            _typeNameTable[110] = "Esri.ArcGISRuntime.UI.BackgroundGrid";
-            _typeNameTable[111] = "Esri.ArcGISRuntime.UI.Grid";
-            _typeNameTable[112] = "Esri.ArcGISRuntime.UI.SketchEditor";
-            _typeNameTable[113] = "Esri.ArcGISRuntime.UI.MapViewInteractionOptions";
-            _typeNameTable[114] = "Esri.ArcGISRuntime.UI.InteractionOptions";
-            _typeNameTable[115] = "Esri.ArcGISRuntime.UI.GraphicsOverlayCollection";
-            _typeNameTable[116] = "Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>";
-            _typeNameTable[117] = "Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>";
-            _typeNameTable[118] = "Esri.ArcGISRuntime.UI.GraphicsOverlay";
-            _typeNameTable[119] = "Esri.ArcGISRuntime.UI.GraphicCollection";
-            _typeNameTable[120] = "Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.Graphic>";
-            _typeNameTable[121] = "Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.Graphic>";
-            _typeNameTable[122] = "Esri.ArcGISRuntime.UI.Graphic";
-            _typeNameTable[123] = "Esri.ArcGISRuntime.Data.GeoElement";
-            _typeNameTable[124] = "Esri.ArcGISRuntime.Symbology.Symbol";
-            _typeNameTable[125] = "Int32";
-            _typeNameTable[126] = "System.Collections.Generic.IDictionary`2<String, Object>";
-            _typeNameTable[127] = "Esri.ArcGISRuntime.UI.GraphicsRenderingMode";
-            _typeNameTable[128] = "System.Drawing.Color";
-            _typeNameTable[129] = "Esri.ArcGISRuntime.Symbology.Renderer";
-            _typeNameTable[130] = "Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition";
-            _typeNameTable[131] = "Esri.ArcGISRuntime.Mapping.LayerSceneProperties";
-            _typeNameTable[132] = "System.Collections.Generic.IEnumerable`1<Esri.ArcGISRuntime.UI.Graphic>";
-            _typeNameTable[133] = "System.Collections.Generic.IList`1<Esri.ArcGISRuntime.Mapping.LabelDefinition>";
-            _typeNameTable[134] = "Esri.ArcGISRuntime.Mapping.LabelDefinition";
-            _typeNameTable[135] = "Esri.ArcGISRuntime.UI.DrawStatus";
-            _typeNameTable[136] = "Esri.ArcGISRuntime.TimeExtent";
-            _typeNameTable[137] = "Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl";
-            _typeNameTable[138] = "Esri.ArcGISRuntime.UI.Controls.OverlayItemsCollection";
-            _typeNameTable[139] = "System.Collections.ObjectModel.ObservableCollection`1<Object>";
-            _typeNameTable[140] = "System.Collections.ObjectModel.Collection`1<Object>";
-            _typeNameTable[141] = "Esri.ArcGISRuntime.UI.SelectionProperties";
-            _typeNameTable[142] = "Esri.ArcGISRuntime.Geometry.MapPoint";
-            _typeNameTable[143] = "Windows.UI.Xaml.FrameworkElement";
-            _typeNameTable[144] = "Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine";
-            _typeNameTable[145] = "GSCFieldApp.Views.MapPage";
-            _typeNameTable[146] = "Windows.UI.Xaml.Controls.Page";
-            _typeNameTable[147] = "GSCFieldApp.Views.MineralizationAlterationDialog";
-            _typeNameTable[148] = "GSCFieldApp.ViewModels.MineralizationAlterationViewModel";
-            _typeNameTable[149] = "GSCFieldApp.Views.MineralDialog";
-            _typeNameTable[150] = "GSCFieldApp.ViewModels.MineralViewModel";
-            _typeNameTable[151] = "GSCFieldApp.Views.PaleoflowDialog";
-            _typeNameTable[152] = "GSCFieldApp.ViewModels.PaleoflowViewModel";
-            _typeNameTable[153] = "GSCFieldApp.Converters.PicklistDescriptionConverter";
-            _typeNameTable[154] = "GSCFieldApp.Converters.PicklistDefaultValueConverter";
-            _typeNameTable[155] = "GSCFieldApp.Views.PicklistDialog";
-            _typeNameTable[156] = "GSCFieldApp.Converters.SolidColorBrushConverter";
-            _typeNameTable[157] = "GSCFieldApp.Converters.MediaBrushConverter";
-            _typeNameTable[158] = "GSCFieldApp.Converters.TextWithDegreeConverter";
-            _typeNameTable[159] = "GSCFieldApp.Converters.TextWithAzimDegreeConverter";
-            _typeNameTable[160] = "GSCFieldApp.Converters.TextWithPercentageConverter";
-            _typeNameTable[161] = "GSCFieldApp.Views.ReportPage";
-            _typeNameTable[162] = "GSCFieldApp.ViewModels.FieldNotesViewModel";
-            _typeNameTable[163] = "GSCFieldApp.Views.SampleDialog";
-            _typeNameTable[164] = "GSCFieldApp.ViewModels.SampleViewModel";
-            _typeNameTable[165] = "GSCFieldApp.ViewModels.FieldBooksPageViewModel";
-            _typeNameTable[166] = "System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.FieldBooks>";
-            _typeNameTable[167] = "System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.FieldBooks>";
-            _typeNameTable[168] = "GSCFieldApp.Models.FieldBooks";
-            _typeNameTable[169] = "GSCFieldApp.Models.Metadata";
-            _typeNameTable[170] = "GSCFieldApp.Converters.ReverseBoolConverter";
+            _typeNameTable[79] = "GSCFieldApp.Converters.ReverseBoolConverter";
+            _typeNameTable[80] = "GSCFieldApp.Views.LocationDialog";
+            _typeNameTable[81] = "GSCFieldApp.ViewModels.LocationViewModel";
+            _typeNameTable[82] = "GSCFieldApp.ViewModels.MapPageViewModel";
+            _typeNameTable[83] = "Esri.ArcGISRuntime.UI.Controls.MapView";
+            _typeNameTable[84] = "Esri.ArcGISRuntime.UI.Controls.GeoView";
+            _typeNameTable[85] = "Esri.ArcGISRuntime.Mapping.Map";
+            _typeNameTable[86] = "Esri.ArcGISRuntime.Mapping.LayerCollection";
+            _typeNameTable[87] = "Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.Mapping.Layer>";
+            _typeNameTable[88] = "Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.Mapping.Layer>";
+            _typeNameTable[89] = "Esri.ArcGISRuntime.Mapping.Layer";
+            _typeNameTable[90] = "Esri.ArcGISRuntime.LoadStatus";
+            _typeNameTable[91] = "System.Exception";
+            _typeNameTable[92] = "Esri.ArcGISRuntime.Portal.Item";
+            _typeNameTable[93] = "Esri.ArcGISRuntime.Geometry.SpatialReference";
+            _typeNameTable[94] = "Esri.ArcGISRuntime.Geometry.Envelope";
+            _typeNameTable[95] = "Esri.ArcGISRuntime.Geometry.Geometry";
+            _typeNameTable[96] = "System.Collections.Generic.IReadOnlyList`1<Esri.ArcGISRuntime.Mapping.ILayerContent>";
+            _typeNameTable[97] = "System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.Files>";
+            _typeNameTable[98] = "System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.Files>";
+            _typeNameTable[99] = "GSCFieldApp.Models.Files";
+            _typeNameTable[100] = "Windows.Devices.Geolocation.Geoposition";
+            _typeNameTable[101] = "System.Tuple`2<Double, Double>";
+            _typeNameTable[102] = "GSCFieldApp.Converters.ScaleConverter";
+            _typeNameTable[103] = "GSCFieldApp.Converters.DD2DMSConverter";
+            _typeNameTable[104] = "GSCFieldApp.Converters.HorizontalAccuracyConverter";
+            _typeNameTable[105] = "GSCFieldApp.Converters.ElevationConverter";
+            _typeNameTable[106] = "Esri.ArcGISRuntime.Geometry.Polygon";
+            _typeNameTable[107] = "Esri.ArcGISRuntime.Geometry.Multipart";
+            _typeNameTable[108] = "Esri.ArcGISRuntime.UI.WrapAroundMode";
+            _typeNameTable[109] = "Esri.ArcGISRuntime.UI.ViewLabelProperties";
+            _typeNameTable[110] = "Esri.ArcGISRuntime.UI.LocationDisplay";
+            _typeNameTable[111] = "Esri.ArcGISRuntime.UI.BackgroundGrid";
+            _typeNameTable[112] = "Esri.ArcGISRuntime.UI.Grid";
+            _typeNameTable[113] = "Esri.ArcGISRuntime.UI.SketchEditor";
+            _typeNameTable[114] = "Esri.ArcGISRuntime.UI.MapViewInteractionOptions";
+            _typeNameTable[115] = "Esri.ArcGISRuntime.UI.InteractionOptions";
+            _typeNameTable[116] = "Esri.ArcGISRuntime.UI.GraphicsOverlayCollection";
+            _typeNameTable[117] = "Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>";
+            _typeNameTable[118] = "Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>";
+            _typeNameTable[119] = "Esri.ArcGISRuntime.UI.GraphicsOverlay";
+            _typeNameTable[120] = "Esri.ArcGISRuntime.UI.GraphicCollection";
+            _typeNameTable[121] = "Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.Graphic>";
+            _typeNameTable[122] = "Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.Graphic>";
+            _typeNameTable[123] = "Esri.ArcGISRuntime.UI.Graphic";
+            _typeNameTable[124] = "Esri.ArcGISRuntime.Data.GeoElement";
+            _typeNameTable[125] = "Esri.ArcGISRuntime.Symbology.Symbol";
+            _typeNameTable[126] = "Int32";
+            _typeNameTable[127] = "System.Collections.Generic.IDictionary`2<String, Object>";
+            _typeNameTable[128] = "Esri.ArcGISRuntime.UI.GraphicsRenderingMode";
+            _typeNameTable[129] = "System.Drawing.Color";
+            _typeNameTable[130] = "Esri.ArcGISRuntime.Symbology.Renderer";
+            _typeNameTable[131] = "Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition";
+            _typeNameTable[132] = "Esri.ArcGISRuntime.Mapping.LayerSceneProperties";
+            _typeNameTable[133] = "System.Collections.Generic.IEnumerable`1<Esri.ArcGISRuntime.UI.Graphic>";
+            _typeNameTable[134] = "System.Collections.Generic.IList`1<Esri.ArcGISRuntime.Mapping.LabelDefinition>";
+            _typeNameTable[135] = "Esri.ArcGISRuntime.Mapping.LabelDefinition";
+            _typeNameTable[136] = "Esri.ArcGISRuntime.UI.DrawStatus";
+            _typeNameTable[137] = "Esri.ArcGISRuntime.TimeExtent";
+            _typeNameTable[138] = "Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl";
+            _typeNameTable[139] = "Esri.ArcGISRuntime.UI.Controls.OverlayItemsCollection";
+            _typeNameTable[140] = "System.Collections.ObjectModel.ObservableCollection`1<Object>";
+            _typeNameTable[141] = "System.Collections.ObjectModel.Collection`1<Object>";
+            _typeNameTable[142] = "Esri.ArcGISRuntime.UI.SelectionProperties";
+            _typeNameTable[143] = "Esri.ArcGISRuntime.Geometry.MapPoint";
+            _typeNameTable[144] = "Windows.UI.Xaml.FrameworkElement";
+            _typeNameTable[145] = "Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine";
+            _typeNameTable[146] = "GSCFieldApp.Views.MapPage";
+            _typeNameTable[147] = "Windows.UI.Xaml.Controls.Page";
+            _typeNameTable[148] = "GSCFieldApp.Views.MineralizationAlterationDialog";
+            _typeNameTable[149] = "GSCFieldApp.ViewModels.MineralizationAlterationViewModel";
+            _typeNameTable[150] = "GSCFieldApp.Views.MineralDialog";
+            _typeNameTable[151] = "GSCFieldApp.ViewModels.MineralViewModel";
+            _typeNameTable[152] = "GSCFieldApp.Views.PaleoflowDialog";
+            _typeNameTable[153] = "GSCFieldApp.ViewModels.PaleoflowViewModel";
+            _typeNameTable[154] = "GSCFieldApp.Converters.PicklistDescriptionConverter";
+            _typeNameTable[155] = "GSCFieldApp.Converters.PicklistDefaultValueConverter";
+            _typeNameTable[156] = "GSCFieldApp.Views.PicklistDialog";
+            _typeNameTable[157] = "GSCFieldApp.Converters.SolidColorBrushConverter";
+            _typeNameTable[158] = "GSCFieldApp.Converters.MediaBrushConverter";
+            _typeNameTable[159] = "GSCFieldApp.Converters.TextWithDegreeConverter";
+            _typeNameTable[160] = "GSCFieldApp.Converters.TextWithAzimDegreeConverter";
+            _typeNameTable[161] = "GSCFieldApp.Converters.TextWithPercentageConverter";
+            _typeNameTable[162] = "GSCFieldApp.Views.ReportPage";
+            _typeNameTable[163] = "GSCFieldApp.ViewModels.FieldNotesViewModel";
+            _typeNameTable[164] = "GSCFieldApp.Views.SampleDialog";
+            _typeNameTable[165] = "GSCFieldApp.ViewModels.SampleViewModel";
+            _typeNameTable[166] = "GSCFieldApp.ViewModels.FieldBooksPageViewModel";
+            _typeNameTable[167] = "System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.FieldBooks>";
+            _typeNameTable[168] = "System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.FieldBooks>";
+            _typeNameTable[169] = "GSCFieldApp.Models.FieldBooks";
+            _typeNameTable[170] = "GSCFieldApp.Models.Metadata";
             _typeNameTable[171] = "GSCFieldApp.Views.FieldBooksPage";
             _typeNameTable[172] = "GSCFieldApp.ViewModels.SettingsPageViewModel";
             _typeNameTable[173] = "GSCFieldApp.ViewModels.SettingsPartViewModel";
@@ -496,98 +496,98 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
             _typeTable[76] = typeof(global::System.Collections.Generic.List<global::System.String>);
             _typeTable[77] = typeof(global::GSCFieldApp.Views.FossilDialog);
             _typeTable[78] = typeof(global::GSCFieldApp.ViewModels.FossilViewModel);
-            _typeTable[79] = typeof(global::GSCFieldApp.Views.LocationDialog);
-            _typeTable[80] = typeof(global::GSCFieldApp.ViewModels.LocationViewModel);
-            _typeTable[81] = typeof(global::GSCFieldApp.ViewModels.MapPageViewModel);
-            _typeTable[82] = typeof(global::Esri.ArcGISRuntime.UI.Controls.MapView);
-            _typeTable[83] = typeof(global::Esri.ArcGISRuntime.UI.Controls.GeoView);
-            _typeTable[84] = typeof(global::Esri.ArcGISRuntime.Mapping.Map);
-            _typeTable[85] = typeof(global::Esri.ArcGISRuntime.Mapping.LayerCollection);
-            _typeTable[86] = typeof(global::Esri.ArcGISRuntime.RuntimeObservableCollection<global::Esri.ArcGISRuntime.Mapping.Layer>);
-            _typeTable[87] = typeof(global::Esri.ArcGISRuntime.RuntimeCollection<global::Esri.ArcGISRuntime.Mapping.Layer>);
-            _typeTable[88] = typeof(global::Esri.ArcGISRuntime.Mapping.Layer);
-            _typeTable[89] = typeof(global::Esri.ArcGISRuntime.LoadStatus);
-            _typeTable[90] = typeof(global::System.Exception);
-            _typeTable[91] = typeof(global::Esri.ArcGISRuntime.Portal.Item);
-            _typeTable[92] = typeof(global::Esri.ArcGISRuntime.Geometry.SpatialReference);
-            _typeTable[93] = typeof(global::Esri.ArcGISRuntime.Geometry.Envelope);
-            _typeTable[94] = typeof(global::Esri.ArcGISRuntime.Geometry.Geometry);
-            _typeTable[95] = typeof(global::System.Collections.Generic.IReadOnlyList<global::Esri.ArcGISRuntime.Mapping.ILayerContent>);
-            _typeTable[96] = typeof(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.Files>);
-            _typeTable[97] = typeof(global::System.Collections.ObjectModel.Collection<global::GSCFieldApp.Models.Files>);
-            _typeTable[98] = typeof(global::GSCFieldApp.Models.Files);
-            _typeTable[99] = typeof(global::Windows.Devices.Geolocation.Geoposition);
-            _typeTable[100] = typeof(global::System.Tuple<global::System.Double, global::System.Double>);
-            _typeTable[101] = typeof(global::GSCFieldApp.Converters.ScaleConverter);
-            _typeTable[102] = typeof(global::GSCFieldApp.Converters.DD2DMSConverter);
-            _typeTable[103] = typeof(global::GSCFieldApp.Converters.HorizontalAccuracyConverter);
-            _typeTable[104] = typeof(global::GSCFieldApp.Converters.ElevationConverter);
-            _typeTable[105] = typeof(global::Esri.ArcGISRuntime.Geometry.Polygon);
-            _typeTable[106] = typeof(global::Esri.ArcGISRuntime.Geometry.Multipart);
-            _typeTable[107] = typeof(global::Esri.ArcGISRuntime.UI.WrapAroundMode);
-            _typeTable[108] = typeof(global::Esri.ArcGISRuntime.UI.ViewLabelProperties);
-            _typeTable[109] = typeof(global::Esri.ArcGISRuntime.UI.LocationDisplay);
-            _typeTable[110] = typeof(global::Esri.ArcGISRuntime.UI.BackgroundGrid);
-            _typeTable[111] = typeof(global::Esri.ArcGISRuntime.UI.Grid);
-            _typeTable[112] = typeof(global::Esri.ArcGISRuntime.UI.SketchEditor);
-            _typeTable[113] = typeof(global::Esri.ArcGISRuntime.UI.MapViewInteractionOptions);
-            _typeTable[114] = typeof(global::Esri.ArcGISRuntime.UI.InteractionOptions);
-            _typeTable[115] = typeof(global::Esri.ArcGISRuntime.UI.GraphicsOverlayCollection);
-            _typeTable[116] = typeof(global::Esri.ArcGISRuntime.RuntimeObservableCollection<global::Esri.ArcGISRuntime.UI.GraphicsOverlay>);
-            _typeTable[117] = typeof(global::Esri.ArcGISRuntime.RuntimeCollection<global::Esri.ArcGISRuntime.UI.GraphicsOverlay>);
-            _typeTable[118] = typeof(global::Esri.ArcGISRuntime.UI.GraphicsOverlay);
-            _typeTable[119] = typeof(global::Esri.ArcGISRuntime.UI.GraphicCollection);
-            _typeTable[120] = typeof(global::Esri.ArcGISRuntime.RuntimeObservableCollection<global::Esri.ArcGISRuntime.UI.Graphic>);
-            _typeTable[121] = typeof(global::Esri.ArcGISRuntime.RuntimeCollection<global::Esri.ArcGISRuntime.UI.Graphic>);
-            _typeTable[122] = typeof(global::Esri.ArcGISRuntime.UI.Graphic);
-            _typeTable[123] = typeof(global::Esri.ArcGISRuntime.Data.GeoElement);
-            _typeTable[124] = typeof(global::Esri.ArcGISRuntime.Symbology.Symbol);
-            _typeTable[125] = typeof(global::System.Int32);
-            _typeTable[126] = typeof(global::System.Collections.Generic.IDictionary<global::System.String, global::System.Object>);
-            _typeTable[127] = typeof(global::Esri.ArcGISRuntime.UI.GraphicsRenderingMode);
-            _typeTable[128] = typeof(global::System.Drawing.Color);
-            _typeTable[129] = typeof(global::Esri.ArcGISRuntime.Symbology.Renderer);
-            _typeTable[130] = typeof(global::Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition);
-            _typeTable[131] = typeof(global::Esri.ArcGISRuntime.Mapping.LayerSceneProperties);
-            _typeTable[132] = typeof(global::System.Collections.Generic.IEnumerable<global::Esri.ArcGISRuntime.UI.Graphic>);
-            _typeTable[133] = typeof(global::System.Collections.Generic.IList<global::Esri.ArcGISRuntime.Mapping.LabelDefinition>);
-            _typeTable[134] = typeof(global::Esri.ArcGISRuntime.Mapping.LabelDefinition);
-            _typeTable[135] = typeof(global::Esri.ArcGISRuntime.UI.DrawStatus);
-            _typeTable[136] = typeof(global::Esri.ArcGISRuntime.TimeExtent);
-            _typeTable[137] = typeof(global::Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl);
-            _typeTable[138] = typeof(global::Esri.ArcGISRuntime.UI.Controls.OverlayItemsCollection);
-            _typeTable[139] = typeof(global::System.Collections.ObjectModel.ObservableCollection<global::System.Object>);
-            _typeTable[140] = typeof(global::System.Collections.ObjectModel.Collection<global::System.Object>);
-            _typeTable[141] = typeof(global::Esri.ArcGISRuntime.UI.SelectionProperties);
-            _typeTable[142] = typeof(global::Esri.ArcGISRuntime.Geometry.MapPoint);
-            _typeTable[143] = typeof(global::Windows.UI.Xaml.FrameworkElement);
-            _typeTable[144] = typeof(global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine);
-            _typeTable[145] = typeof(global::GSCFieldApp.Views.MapPage);
-            _typeTable[146] = typeof(global::Windows.UI.Xaml.Controls.Page);
-            _typeTable[147] = typeof(global::GSCFieldApp.Views.MineralizationAlterationDialog);
-            _typeTable[148] = typeof(global::GSCFieldApp.ViewModels.MineralizationAlterationViewModel);
-            _typeTable[149] = typeof(global::GSCFieldApp.Views.MineralDialog);
-            _typeTable[150] = typeof(global::GSCFieldApp.ViewModels.MineralViewModel);
-            _typeTable[151] = typeof(global::GSCFieldApp.Views.PaleoflowDialog);
-            _typeTable[152] = typeof(global::GSCFieldApp.ViewModels.PaleoflowViewModel);
-            _typeTable[153] = typeof(global::GSCFieldApp.Converters.PicklistDescriptionConverter);
-            _typeTable[154] = typeof(global::GSCFieldApp.Converters.PicklistDefaultValueConverter);
-            _typeTable[155] = typeof(global::GSCFieldApp.Views.PicklistDialog);
-            _typeTable[156] = typeof(global::GSCFieldApp.Converters.SolidColorBrushConverter);
-            _typeTable[157] = typeof(global::GSCFieldApp.Converters.MediaBrushConverter);
-            _typeTable[158] = typeof(global::GSCFieldApp.Converters.TextWithDegreeConverter);
-            _typeTable[159] = typeof(global::GSCFieldApp.Converters.TextWithAzimDegreeConverter);
-            _typeTable[160] = typeof(global::GSCFieldApp.Converters.TextWithPercentageConverter);
-            _typeTable[161] = typeof(global::GSCFieldApp.Views.ReportPage);
-            _typeTable[162] = typeof(global::GSCFieldApp.ViewModels.FieldNotesViewModel);
-            _typeTable[163] = typeof(global::GSCFieldApp.Views.SampleDialog);
-            _typeTable[164] = typeof(global::GSCFieldApp.ViewModels.SampleViewModel);
-            _typeTable[165] = typeof(global::GSCFieldApp.ViewModels.FieldBooksPageViewModel);
-            _typeTable[166] = typeof(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.FieldBooks>);
-            _typeTable[167] = typeof(global::System.Collections.ObjectModel.Collection<global::GSCFieldApp.Models.FieldBooks>);
-            _typeTable[168] = typeof(global::GSCFieldApp.Models.FieldBooks);
-            _typeTable[169] = typeof(global::GSCFieldApp.Models.Metadata);
-            _typeTable[170] = typeof(global::GSCFieldApp.Converters.ReverseBoolConverter);
+            _typeTable[79] = typeof(global::GSCFieldApp.Converters.ReverseBoolConverter);
+            _typeTable[80] = typeof(global::GSCFieldApp.Views.LocationDialog);
+            _typeTable[81] = typeof(global::GSCFieldApp.ViewModels.LocationViewModel);
+            _typeTable[82] = typeof(global::GSCFieldApp.ViewModels.MapPageViewModel);
+            _typeTable[83] = typeof(global::Esri.ArcGISRuntime.UI.Controls.MapView);
+            _typeTable[84] = typeof(global::Esri.ArcGISRuntime.UI.Controls.GeoView);
+            _typeTable[85] = typeof(global::Esri.ArcGISRuntime.Mapping.Map);
+            _typeTable[86] = typeof(global::Esri.ArcGISRuntime.Mapping.LayerCollection);
+            _typeTable[87] = typeof(global::Esri.ArcGISRuntime.RuntimeObservableCollection<global::Esri.ArcGISRuntime.Mapping.Layer>);
+            _typeTable[88] = typeof(global::Esri.ArcGISRuntime.RuntimeCollection<global::Esri.ArcGISRuntime.Mapping.Layer>);
+            _typeTable[89] = typeof(global::Esri.ArcGISRuntime.Mapping.Layer);
+            _typeTable[90] = typeof(global::Esri.ArcGISRuntime.LoadStatus);
+            _typeTable[91] = typeof(global::System.Exception);
+            _typeTable[92] = typeof(global::Esri.ArcGISRuntime.Portal.Item);
+            _typeTable[93] = typeof(global::Esri.ArcGISRuntime.Geometry.SpatialReference);
+            _typeTable[94] = typeof(global::Esri.ArcGISRuntime.Geometry.Envelope);
+            _typeTable[95] = typeof(global::Esri.ArcGISRuntime.Geometry.Geometry);
+            _typeTable[96] = typeof(global::System.Collections.Generic.IReadOnlyList<global::Esri.ArcGISRuntime.Mapping.ILayerContent>);
+            _typeTable[97] = typeof(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.Files>);
+            _typeTable[98] = typeof(global::System.Collections.ObjectModel.Collection<global::GSCFieldApp.Models.Files>);
+            _typeTable[99] = typeof(global::GSCFieldApp.Models.Files);
+            _typeTable[100] = typeof(global::Windows.Devices.Geolocation.Geoposition);
+            _typeTable[101] = typeof(global::System.Tuple<global::System.Double, global::System.Double>);
+            _typeTable[102] = typeof(global::GSCFieldApp.Converters.ScaleConverter);
+            _typeTable[103] = typeof(global::GSCFieldApp.Converters.DD2DMSConverter);
+            _typeTable[104] = typeof(global::GSCFieldApp.Converters.HorizontalAccuracyConverter);
+            _typeTable[105] = typeof(global::GSCFieldApp.Converters.ElevationConverter);
+            _typeTable[106] = typeof(global::Esri.ArcGISRuntime.Geometry.Polygon);
+            _typeTable[107] = typeof(global::Esri.ArcGISRuntime.Geometry.Multipart);
+            _typeTable[108] = typeof(global::Esri.ArcGISRuntime.UI.WrapAroundMode);
+            _typeTable[109] = typeof(global::Esri.ArcGISRuntime.UI.ViewLabelProperties);
+            _typeTable[110] = typeof(global::Esri.ArcGISRuntime.UI.LocationDisplay);
+            _typeTable[111] = typeof(global::Esri.ArcGISRuntime.UI.BackgroundGrid);
+            _typeTable[112] = typeof(global::Esri.ArcGISRuntime.UI.Grid);
+            _typeTable[113] = typeof(global::Esri.ArcGISRuntime.UI.SketchEditor);
+            _typeTable[114] = typeof(global::Esri.ArcGISRuntime.UI.MapViewInteractionOptions);
+            _typeTable[115] = typeof(global::Esri.ArcGISRuntime.UI.InteractionOptions);
+            _typeTable[116] = typeof(global::Esri.ArcGISRuntime.UI.GraphicsOverlayCollection);
+            _typeTable[117] = typeof(global::Esri.ArcGISRuntime.RuntimeObservableCollection<global::Esri.ArcGISRuntime.UI.GraphicsOverlay>);
+            _typeTable[118] = typeof(global::Esri.ArcGISRuntime.RuntimeCollection<global::Esri.ArcGISRuntime.UI.GraphicsOverlay>);
+            _typeTable[119] = typeof(global::Esri.ArcGISRuntime.UI.GraphicsOverlay);
+            _typeTable[120] = typeof(global::Esri.ArcGISRuntime.UI.GraphicCollection);
+            _typeTable[121] = typeof(global::Esri.ArcGISRuntime.RuntimeObservableCollection<global::Esri.ArcGISRuntime.UI.Graphic>);
+            _typeTable[122] = typeof(global::Esri.ArcGISRuntime.RuntimeCollection<global::Esri.ArcGISRuntime.UI.Graphic>);
+            _typeTable[123] = typeof(global::Esri.ArcGISRuntime.UI.Graphic);
+            _typeTable[124] = typeof(global::Esri.ArcGISRuntime.Data.GeoElement);
+            _typeTable[125] = typeof(global::Esri.ArcGISRuntime.Symbology.Symbol);
+            _typeTable[126] = typeof(global::System.Int32);
+            _typeTable[127] = typeof(global::System.Collections.Generic.IDictionary<global::System.String, global::System.Object>);
+            _typeTable[128] = typeof(global::Esri.ArcGISRuntime.UI.GraphicsRenderingMode);
+            _typeTable[129] = typeof(global::System.Drawing.Color);
+            _typeTable[130] = typeof(global::Esri.ArcGISRuntime.Symbology.Renderer);
+            _typeTable[131] = typeof(global::Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition);
+            _typeTable[132] = typeof(global::Esri.ArcGISRuntime.Mapping.LayerSceneProperties);
+            _typeTable[133] = typeof(global::System.Collections.Generic.IEnumerable<global::Esri.ArcGISRuntime.UI.Graphic>);
+            _typeTable[134] = typeof(global::System.Collections.Generic.IList<global::Esri.ArcGISRuntime.Mapping.LabelDefinition>);
+            _typeTable[135] = typeof(global::Esri.ArcGISRuntime.Mapping.LabelDefinition);
+            _typeTable[136] = typeof(global::Esri.ArcGISRuntime.UI.DrawStatus);
+            _typeTable[137] = typeof(global::Esri.ArcGISRuntime.TimeExtent);
+            _typeTable[138] = typeof(global::Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl);
+            _typeTable[139] = typeof(global::Esri.ArcGISRuntime.UI.Controls.OverlayItemsCollection);
+            _typeTable[140] = typeof(global::System.Collections.ObjectModel.ObservableCollection<global::System.Object>);
+            _typeTable[141] = typeof(global::System.Collections.ObjectModel.Collection<global::System.Object>);
+            _typeTable[142] = typeof(global::Esri.ArcGISRuntime.UI.SelectionProperties);
+            _typeTable[143] = typeof(global::Esri.ArcGISRuntime.Geometry.MapPoint);
+            _typeTable[144] = typeof(global::Windows.UI.Xaml.FrameworkElement);
+            _typeTable[145] = typeof(global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine);
+            _typeTable[146] = typeof(global::GSCFieldApp.Views.MapPage);
+            _typeTable[147] = typeof(global::Windows.UI.Xaml.Controls.Page);
+            _typeTable[148] = typeof(global::GSCFieldApp.Views.MineralizationAlterationDialog);
+            _typeTable[149] = typeof(global::GSCFieldApp.ViewModels.MineralizationAlterationViewModel);
+            _typeTable[150] = typeof(global::GSCFieldApp.Views.MineralDialog);
+            _typeTable[151] = typeof(global::GSCFieldApp.ViewModels.MineralViewModel);
+            _typeTable[152] = typeof(global::GSCFieldApp.Views.PaleoflowDialog);
+            _typeTable[153] = typeof(global::GSCFieldApp.ViewModels.PaleoflowViewModel);
+            _typeTable[154] = typeof(global::GSCFieldApp.Converters.PicklistDescriptionConverter);
+            _typeTable[155] = typeof(global::GSCFieldApp.Converters.PicklistDefaultValueConverter);
+            _typeTable[156] = typeof(global::GSCFieldApp.Views.PicklistDialog);
+            _typeTable[157] = typeof(global::GSCFieldApp.Converters.SolidColorBrushConverter);
+            _typeTable[158] = typeof(global::GSCFieldApp.Converters.MediaBrushConverter);
+            _typeTable[159] = typeof(global::GSCFieldApp.Converters.TextWithDegreeConverter);
+            _typeTable[160] = typeof(global::GSCFieldApp.Converters.TextWithAzimDegreeConverter);
+            _typeTable[161] = typeof(global::GSCFieldApp.Converters.TextWithPercentageConverter);
+            _typeTable[162] = typeof(global::GSCFieldApp.Views.ReportPage);
+            _typeTable[163] = typeof(global::GSCFieldApp.ViewModels.FieldNotesViewModel);
+            _typeTable[164] = typeof(global::GSCFieldApp.Views.SampleDialog);
+            _typeTable[165] = typeof(global::GSCFieldApp.ViewModels.SampleViewModel);
+            _typeTable[166] = typeof(global::GSCFieldApp.ViewModels.FieldBooksPageViewModel);
+            _typeTable[167] = typeof(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.FieldBooks>);
+            _typeTable[168] = typeof(global::System.Collections.ObjectModel.Collection<global::GSCFieldApp.Models.FieldBooks>);
+            _typeTable[169] = typeof(global::GSCFieldApp.Models.FieldBooks);
+            _typeTable[170] = typeof(global::GSCFieldApp.Models.Metadata);
             _typeTable[171] = typeof(global::GSCFieldApp.Views.FieldBooksPage);
             _typeTable[172] = typeof(global::GSCFieldApp.ViewModels.SettingsPageViewModel);
             _typeTable[173] = typeof(global::GSCFieldApp.ViewModels.SettingsPartViewModel);
@@ -682,48 +682,48 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
         private object Activate_70_VisibilityFromReverseBoolConverter() { return new global::GSCFieldApp.Converters.VisibilityFromReverseBoolConverter(); }
         private object Activate_73_FieldNotes() { return new global::GSCFieldApp.Models.FieldNotes(); }
         private object Activate_76_List() { return new global::System.Collections.Generic.List<global::System.String>(); }
-        private object Activate_81_MapPageViewModel() { return new global::GSCFieldApp.ViewModels.MapPageViewModel(); }
-        private object Activate_82_MapView() { return new global::Esri.ArcGISRuntime.UI.Controls.MapView(); }
-        private object Activate_84_Map() { return new global::Esri.ArcGISRuntime.Mapping.Map(); }
-        private object Activate_85_LayerCollection() { return new global::Esri.ArcGISRuntime.Mapping.LayerCollection(); }
-        private object Activate_90_Exception() { return new global::System.Exception(); }
-        private object Activate_96_ObservableCollection() { return new global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.Files>(); }
-        private object Activate_97_Collection() { return new global::System.Collections.ObjectModel.Collection<global::GSCFieldApp.Models.Files>(); }
-        private object Activate_98_Files() { return new global::GSCFieldApp.Models.Files(); }
-        private object Activate_101_ScaleConverter() { return new global::GSCFieldApp.Converters.ScaleConverter(); }
-        private object Activate_102_DD2DMSConverter() { return new global::GSCFieldApp.Converters.DD2DMSConverter(); }
-        private object Activate_103_HorizontalAccuracyConverter() { return new global::GSCFieldApp.Converters.HorizontalAccuracyConverter(); }
-        private object Activate_104_ElevationConverter() { return new global::GSCFieldApp.Converters.ElevationConverter(); }
-        private object Activate_108_ViewLabelProperties() { return new global::Esri.ArcGISRuntime.UI.ViewLabelProperties(); }
-        private object Activate_110_BackgroundGrid() { return new global::Esri.ArcGISRuntime.UI.BackgroundGrid(); }
-        private object Activate_112_SketchEditor() { return new global::Esri.ArcGISRuntime.UI.SketchEditor(); }
-        private object Activate_113_MapViewInteractionOptions() { return new global::Esri.ArcGISRuntime.UI.MapViewInteractionOptions(); }
-        private object Activate_115_GraphicsOverlayCollection() { return new global::Esri.ArcGISRuntime.UI.GraphicsOverlayCollection(); }
-        private object Activate_118_GraphicsOverlay() { return new global::Esri.ArcGISRuntime.UI.GraphicsOverlay(); }
-        private object Activate_122_Graphic() { return new global::Esri.ArcGISRuntime.UI.Graphic(); }
-        private object Activate_130_PopupDefinition() { return new global::Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition(); }
-        private object Activate_131_LayerSceneProperties() { return new global::Esri.ArcGISRuntime.Mapping.LayerSceneProperties(); }
-        private object Activate_137_OverlayItemsControl() { return new global::Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl(); }
-        private object Activate_139_ObservableCollection() { return new global::System.Collections.ObjectModel.ObservableCollection<global::System.Object>(); }
-        private object Activate_140_Collection() { return new global::System.Collections.ObjectModel.Collection<global::System.Object>(); }
-        private object Activate_141_SelectionProperties() { return new global::Esri.ArcGISRuntime.UI.SelectionProperties(); }
-        private object Activate_144_ScaleLine() { return new global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine(); }
-        private object Activate_145_MapPage() { return new global::GSCFieldApp.Views.MapPage(); }
-        private object Activate_153_PicklistDescriptionConverter() { return new global::GSCFieldApp.Converters.PicklistDescriptionConverter(); }
-        private object Activate_154_PicklistDefaultValueConverter() { return new global::GSCFieldApp.Converters.PicklistDefaultValueConverter(); }
-        private object Activate_156_SolidColorBrushConverter() { return new global::GSCFieldApp.Converters.SolidColorBrushConverter(); }
-        private object Activate_157_MediaBrushConverter() { return new global::GSCFieldApp.Converters.MediaBrushConverter(); }
-        private object Activate_158_TextWithDegreeConverter() { return new global::GSCFieldApp.Converters.TextWithDegreeConverter(); }
-        private object Activate_159_TextWithAzimDegreeConverter() { return new global::GSCFieldApp.Converters.TextWithAzimDegreeConverter(); }
-        private object Activate_160_TextWithPercentageConverter() { return new global::GSCFieldApp.Converters.TextWithPercentageConverter(); }
-        private object Activate_161_ReportPage() { return new global::GSCFieldApp.Views.ReportPage(); }
-        private object Activate_162_FieldNotesViewModel() { return new global::GSCFieldApp.ViewModels.FieldNotesViewModel(); }
-        private object Activate_165_FieldBooksPageViewModel() { return new global::GSCFieldApp.ViewModels.FieldBooksPageViewModel(); }
-        private object Activate_166_ObservableCollection() { return new global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.FieldBooks>(); }
-        private object Activate_167_Collection() { return new global::System.Collections.ObjectModel.Collection<global::GSCFieldApp.Models.FieldBooks>(); }
-        private object Activate_168_FieldBooks() { return new global::GSCFieldApp.Models.FieldBooks(); }
-        private object Activate_169_Metadata() { return new global::GSCFieldApp.Models.Metadata(); }
-        private object Activate_170_ReverseBoolConverter() { return new global::GSCFieldApp.Converters.ReverseBoolConverter(); }
+        private object Activate_79_ReverseBoolConverter() { return new global::GSCFieldApp.Converters.ReverseBoolConverter(); }
+        private object Activate_82_MapPageViewModel() { return new global::GSCFieldApp.ViewModels.MapPageViewModel(); }
+        private object Activate_83_MapView() { return new global::Esri.ArcGISRuntime.UI.Controls.MapView(); }
+        private object Activate_85_Map() { return new global::Esri.ArcGISRuntime.Mapping.Map(); }
+        private object Activate_86_LayerCollection() { return new global::Esri.ArcGISRuntime.Mapping.LayerCollection(); }
+        private object Activate_91_Exception() { return new global::System.Exception(); }
+        private object Activate_97_ObservableCollection() { return new global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.Files>(); }
+        private object Activate_98_Collection() { return new global::System.Collections.ObjectModel.Collection<global::GSCFieldApp.Models.Files>(); }
+        private object Activate_99_Files() { return new global::GSCFieldApp.Models.Files(); }
+        private object Activate_102_ScaleConverter() { return new global::GSCFieldApp.Converters.ScaleConverter(); }
+        private object Activate_103_DD2DMSConverter() { return new global::GSCFieldApp.Converters.DD2DMSConverter(); }
+        private object Activate_104_HorizontalAccuracyConverter() { return new global::GSCFieldApp.Converters.HorizontalAccuracyConverter(); }
+        private object Activate_105_ElevationConverter() { return new global::GSCFieldApp.Converters.ElevationConverter(); }
+        private object Activate_109_ViewLabelProperties() { return new global::Esri.ArcGISRuntime.UI.ViewLabelProperties(); }
+        private object Activate_111_BackgroundGrid() { return new global::Esri.ArcGISRuntime.UI.BackgroundGrid(); }
+        private object Activate_113_SketchEditor() { return new global::Esri.ArcGISRuntime.UI.SketchEditor(); }
+        private object Activate_114_MapViewInteractionOptions() { return new global::Esri.ArcGISRuntime.UI.MapViewInteractionOptions(); }
+        private object Activate_116_GraphicsOverlayCollection() { return new global::Esri.ArcGISRuntime.UI.GraphicsOverlayCollection(); }
+        private object Activate_119_GraphicsOverlay() { return new global::Esri.ArcGISRuntime.UI.GraphicsOverlay(); }
+        private object Activate_123_Graphic() { return new global::Esri.ArcGISRuntime.UI.Graphic(); }
+        private object Activate_131_PopupDefinition() { return new global::Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition(); }
+        private object Activate_132_LayerSceneProperties() { return new global::Esri.ArcGISRuntime.Mapping.LayerSceneProperties(); }
+        private object Activate_138_OverlayItemsControl() { return new global::Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl(); }
+        private object Activate_140_ObservableCollection() { return new global::System.Collections.ObjectModel.ObservableCollection<global::System.Object>(); }
+        private object Activate_141_Collection() { return new global::System.Collections.ObjectModel.Collection<global::System.Object>(); }
+        private object Activate_142_SelectionProperties() { return new global::Esri.ArcGISRuntime.UI.SelectionProperties(); }
+        private object Activate_145_ScaleLine() { return new global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine(); }
+        private object Activate_146_MapPage() { return new global::GSCFieldApp.Views.MapPage(); }
+        private object Activate_154_PicklistDescriptionConverter() { return new global::GSCFieldApp.Converters.PicklistDescriptionConverter(); }
+        private object Activate_155_PicklistDefaultValueConverter() { return new global::GSCFieldApp.Converters.PicklistDefaultValueConverter(); }
+        private object Activate_157_SolidColorBrushConverter() { return new global::GSCFieldApp.Converters.SolidColorBrushConverter(); }
+        private object Activate_158_MediaBrushConverter() { return new global::GSCFieldApp.Converters.MediaBrushConverter(); }
+        private object Activate_159_TextWithDegreeConverter() { return new global::GSCFieldApp.Converters.TextWithDegreeConverter(); }
+        private object Activate_160_TextWithAzimDegreeConverter() { return new global::GSCFieldApp.Converters.TextWithAzimDegreeConverter(); }
+        private object Activate_161_TextWithPercentageConverter() { return new global::GSCFieldApp.Converters.TextWithPercentageConverter(); }
+        private object Activate_162_ReportPage() { return new global::GSCFieldApp.Views.ReportPage(); }
+        private object Activate_163_FieldNotesViewModel() { return new global::GSCFieldApp.ViewModels.FieldNotesViewModel(); }
+        private object Activate_166_FieldBooksPageViewModel() { return new global::GSCFieldApp.ViewModels.FieldBooksPageViewModel(); }
+        private object Activate_167_ObservableCollection() { return new global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.FieldBooks>(); }
+        private object Activate_168_Collection() { return new global::System.Collections.ObjectModel.Collection<global::GSCFieldApp.Models.FieldBooks>(); }
+        private object Activate_169_FieldBooks() { return new global::GSCFieldApp.Models.FieldBooks(); }
+        private object Activate_170_Metadata() { return new global::GSCFieldApp.Models.Metadata(); }
         private object Activate_171_FieldBooksPage() { return new global::GSCFieldApp.Views.FieldBooksPage(); }
         private object Activate_172_SettingsPageViewModel() { return new global::GSCFieldApp.ViewModels.SettingsPageViewModel(); }
         private object Activate_173_SettingsPartViewModel() { return new global::GSCFieldApp.ViewModels.SettingsPartViewModel(); }
@@ -789,110 +789,110 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
             var newItem = (global::System.String)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_85_LayerCollection(object instance, object item)
+        private void VectorAdd_86_LayerCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.Mapping.Layer>)instance;
             var newItem = (global::Esri.ArcGISRuntime.Mapping.Layer)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_86_RuntimeObservableCollection(object instance, object item)
+        private void VectorAdd_87_RuntimeObservableCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.Mapping.Layer>)instance;
             var newItem = (global::Esri.ArcGISRuntime.Mapping.Layer)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_87_RuntimeCollection(object instance, object item)
+        private void VectorAdd_88_RuntimeCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.Mapping.Layer>)instance;
             var newItem = (global::Esri.ArcGISRuntime.Mapping.Layer)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_96_ObservableCollection(object instance, object item)
+        private void VectorAdd_97_ObservableCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::GSCFieldApp.Models.Files>)instance;
             var newItem = (global::GSCFieldApp.Models.Files)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_97_Collection(object instance, object item)
+        private void VectorAdd_98_Collection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::GSCFieldApp.Models.Files>)instance;
             var newItem = (global::GSCFieldApp.Models.Files)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_115_GraphicsOverlayCollection(object instance, object item)
+        private void VectorAdd_116_GraphicsOverlayCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.UI.GraphicsOverlay>)instance;
             var newItem = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_116_RuntimeObservableCollection(object instance, object item)
+        private void VectorAdd_117_RuntimeObservableCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.UI.GraphicsOverlay>)instance;
             var newItem = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_117_RuntimeCollection(object instance, object item)
+        private void VectorAdd_118_RuntimeCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.UI.GraphicsOverlay>)instance;
             var newItem = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_119_GraphicCollection(object instance, object item)
+        private void VectorAdd_120_GraphicCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.UI.Graphic>)instance;
             var newItem = (global::Esri.ArcGISRuntime.UI.Graphic)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_120_RuntimeObservableCollection(object instance, object item)
+        private void VectorAdd_121_RuntimeObservableCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.UI.Graphic>)instance;
             var newItem = (global::Esri.ArcGISRuntime.UI.Graphic)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_121_RuntimeCollection(object instance, object item)
+        private void VectorAdd_122_RuntimeCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.UI.Graphic>)instance;
             var newItem = (global::Esri.ArcGISRuntime.UI.Graphic)item;
             collection.Add(newItem);
         }
-        private void MapAdd_126_IDictionary(object instance, object key, object item)
+        private void MapAdd_127_IDictionary(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.String, global::System.Object>)instance;
             var newKey = (global::System.String)key;
             var newItem = (global::System.Object)item;
             collection.Add(newKey, newItem);
         }
-        private void VectorAdd_133_IList(object instance, object item)
+        private void VectorAdd_134_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Esri.ArcGISRuntime.Mapping.LabelDefinition>)instance;
             var newItem = (global::Esri.ArcGISRuntime.Mapping.LabelDefinition)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_138_OverlayItemsCollection(object instance, object item)
+        private void VectorAdd_139_OverlayItemsCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::System.Object>)instance;
             var newItem = (global::System.Object)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_139_ObservableCollection(object instance, object item)
+        private void VectorAdd_140_ObservableCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::System.Object>)instance;
             var newItem = (global::System.Object)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_140_Collection(object instance, object item)
+        private void VectorAdd_141_Collection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::System.Object>)instance;
             var newItem = (global::System.Object)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_166_ObservableCollection(object instance, object item)
+        private void VectorAdd_167_ObservableCollection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::GSCFieldApp.Models.FieldBooks>)instance;
             var newItem = (global::GSCFieldApp.Models.FieldBooks)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_167_Collection(object instance, object item)
+        private void VectorAdd_168_Collection(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::GSCFieldApp.Models.FieldBooks>)instance;
             var newItem = (global::GSCFieldApp.Models.FieldBooks)item;
@@ -1468,7 +1468,14 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 79:   //  GSCFieldApp.Views.LocationDialog
+            case 79:   //  GSCFieldApp.Converters.ReverseBoolConverter
+                userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_79_ReverseBoolConverter;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 80:   //  GSCFieldApp.Views.LocationDialog
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
                 userType.AddMemberName("locationVM");
                 userType.AddMemberName("parentViewModel");
@@ -1476,17 +1483,18 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 80:   //  GSCFieldApp.ViewModels.LocationViewModel
+            case 81:   //  GSCFieldApp.ViewModels.LocationViewModel
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.ViewModelBase"));
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 81:   //  GSCFieldApp.ViewModels.MapPageViewModel
+            case 82:   //  GSCFieldApp.ViewModels.MapPageViewModel
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.ViewModelBase"));
-                userType.Activator = Activate_81_MapPageViewModel;
+                userType.Activator = Activate_82_MapPageViewModel;
                 userType.AddMemberName("currentMapView");
+                userType.AddMemberName("GPSModeSymbol");
                 userType.AddMemberName("NoMapsWatermark");
                 userType.AddMemberName("FilenameValues");
                 userType.AddMemberName("SelectedLayer");
@@ -1507,13 +1515,14 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 userType.AddMemberName("vocabEntryTypeGPS");
                 userType.AddMemberName("vocabElevmethodGPS");
                 userType.AddMemberName("vocabErrorMeasureTypeMeter");
+                userType.AddMemberName("vocabEntryTypeManual");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 82:   //  Esri.ArcGISRuntime.UI.Controls.MapView
+            case 83:   //  Esri.ArcGISRuntime.UI.Controls.MapView
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView"));
-                userType.Activator = Activate_82_MapView;
+                userType.Activator = Activate_83_MapView;
                 userType.SetContentPropertyName("Esri.ArcGISRuntime.UI.Controls.MapView.Map");
                 userType.AddMemberName("Map");
                 userType.AddMemberName("MapScale");
@@ -1530,7 +1539,7 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 83:   //  Esri.ArcGISRuntime.UI.Controls.GeoView
+            case 84:   //  Esri.ArcGISRuntime.UI.Controls.GeoView
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Control"));
                 userType.AddMemberName("IsCalloutVisible");
                 userType.AddMemberName("GraphicsOverlays");
@@ -1548,35 +1557,35 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 84:   //  Esri.ArcGISRuntime.Mapping.Map
+            case 85:   //  Esri.ArcGISRuntime.Mapping.Map
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_84_Map;
+                userType.Activator = Activate_85_Map;
                 userType.SetContentPropertyName("Esri.ArcGISRuntime.Mapping.Map.OperationalLayers");
                 userType.CreateFromStringMethod = global::Esri.ArcGISRuntime.CreateFromStringHelpers.CreateMapFromStringUrl;
                 userType.AddMemberName("OperationalLayers");
                 xamlType = userType;
                 break;
 
-            case 85:   //  Esri.ArcGISRuntime.Mapping.LayerCollection
+            case 86:   //  Esri.ArcGISRuntime.Mapping.LayerCollection
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.Mapping.Layer>"));
-                userType.CollectionAdd = VectorAdd_85_LayerCollection;
+                userType.CollectionAdd = VectorAdd_86_LayerCollection;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 86:   //  Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.Mapping.Layer>
+            case 87:   //  Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.Mapping.Layer>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.Mapping.Layer>"));
-                userType.CollectionAdd = VectorAdd_86_RuntimeObservableCollection;
+                userType.CollectionAdd = VectorAdd_87_RuntimeObservableCollection;
                 xamlType = userType;
                 break;
 
-            case 87:   //  Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.Mapping.Layer>
+            case 88:   //  Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.Mapping.Layer>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.CollectionAdd = VectorAdd_87_RuntimeCollection;
+                userType.CollectionAdd = VectorAdd_88_RuntimeCollection;
                 xamlType = userType;
                 break;
 
-            case 88:   //  Esri.ArcGISRuntime.Mapping.Layer
+            case 89:   //  Esri.ArcGISRuntime.Mapping.Layer
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.AddMemberName("LoadStatus");
                 userType.AddMemberName("LoadError");
@@ -1598,7 +1607,7 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 89:   //  Esri.ArcGISRuntime.LoadStatus
+            case 90:   //  Esri.ArcGISRuntime.LoadStatus
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
                 userType.AddEnumValue("Loaded", global::Esri.ArcGISRuntime.LoadStatus.Loaded);
                 userType.AddEnumValue("Loading", global::Esri.ArcGISRuntime.LoadStatus.Loading);
@@ -1607,58 +1616,58 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 90:   //  System.Exception
+            case 91:   //  System.Exception
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 91:   //  Esri.ArcGISRuntime.Portal.Item
+            case 92:   //  Esri.ArcGISRuntime.Portal.Item
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 92:   //  Esri.ArcGISRuntime.Geometry.SpatialReference
+            case 93:   //  Esri.ArcGISRuntime.Geometry.SpatialReference
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 93:   //  Esri.ArcGISRuntime.Geometry.Envelope
+            case 94:   //  Esri.ArcGISRuntime.Geometry.Envelope
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.Geometry.Geometry"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 94:   //  Esri.ArcGISRuntime.Geometry.Geometry
+            case 95:   //  Esri.ArcGISRuntime.Geometry.Geometry
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 xamlType = userType;
                 break;
 
-            case 95:   //  System.Collections.Generic.IReadOnlyList`1<Esri.ArcGISRuntime.Mapping.ILayerContent>
+            case 96:   //  System.Collections.Generic.IReadOnlyList`1<Esri.ArcGISRuntime.Mapping.ILayerContent>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, null);
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 96:   //  System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.Files>
+            case 97:   //  System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.Files>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.Files>"));
-                userType.CollectionAdd = VectorAdd_96_ObservableCollection;
+                userType.CollectionAdd = VectorAdd_97_ObservableCollection;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 97:   //  System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.Files>
+            case 98:   //  System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.Files>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_97_Collection;
-                userType.CollectionAdd = VectorAdd_97_Collection;
+                userType.Activator = Activate_98_Collection;
+                userType.CollectionAdd = VectorAdd_98_Collection;
                 xamlType = userType;
                 break;
 
-            case 98:   //  GSCFieldApp.Models.Files
+            case 99:   //  GSCFieldApp.Models.Files
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_98_Files;
+                userType.Activator = Activate_99_Files;
                 userType.AddMemberName("FileName");
                 userType.AddMemberName("FilePath");
                 userType.AddMemberName("FileVisible");
@@ -1668,127 +1677,127 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 99:   //  Windows.Devices.Geolocation.Geoposition
+            case 100:   //  Windows.Devices.Geolocation.Geoposition
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 100:   //  System.Tuple`2<Double, Double>
+            case 101:   //  System.Tuple`2<Double, Double>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 101:   //  GSCFieldApp.Converters.ScaleConverter
+            case 102:   //  GSCFieldApp.Converters.ScaleConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_101_ScaleConverter;
+                userType.Activator = Activate_102_ScaleConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 102:   //  GSCFieldApp.Converters.DD2DMSConverter
+            case 103:   //  GSCFieldApp.Converters.DD2DMSConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_102_DD2DMSConverter;
+                userType.Activator = Activate_103_DD2DMSConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 103:   //  GSCFieldApp.Converters.HorizontalAccuracyConverter
+            case 104:   //  GSCFieldApp.Converters.HorizontalAccuracyConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_103_HorizontalAccuracyConverter;
+                userType.Activator = Activate_104_HorizontalAccuracyConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 104:   //  GSCFieldApp.Converters.ElevationConverter
+            case 105:   //  GSCFieldApp.Converters.ElevationConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_104_ElevationConverter;
+                userType.Activator = Activate_105_ElevationConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 105:   //  Esri.ArcGISRuntime.Geometry.Polygon
+            case 106:   //  Esri.ArcGISRuntime.Geometry.Polygon
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.Geometry.Multipart"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 106:   //  Esri.ArcGISRuntime.Geometry.Multipart
+            case 107:   //  Esri.ArcGISRuntime.Geometry.Multipart
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.Geometry.Geometry"));
                 xamlType = userType;
                 break;
 
-            case 107:   //  Esri.ArcGISRuntime.UI.WrapAroundMode
+            case 108:   //  Esri.ArcGISRuntime.UI.WrapAroundMode
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
                 userType.AddEnumValue("EnabledWhenSupported", global::Esri.ArcGISRuntime.UI.WrapAroundMode.EnabledWhenSupported);
                 userType.AddEnumValue("Disabled", global::Esri.ArcGISRuntime.UI.WrapAroundMode.Disabled);
                 xamlType = userType;
                 break;
 
-            case 108:   //  Esri.ArcGISRuntime.UI.ViewLabelProperties
+            case 109:   //  Esri.ArcGISRuntime.UI.ViewLabelProperties
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 109:   //  Esri.ArcGISRuntime.UI.LocationDisplay
+            case 110:   //  Esri.ArcGISRuntime.UI.LocationDisplay
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 110:   //  Esri.ArcGISRuntime.UI.BackgroundGrid
+            case 111:   //  Esri.ArcGISRuntime.UI.BackgroundGrid
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 111:   //  Esri.ArcGISRuntime.UI.Grid
+            case 112:   //  Esri.ArcGISRuntime.UI.Grid
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 112:   //  Esri.ArcGISRuntime.UI.SketchEditor
+            case 113:   //  Esri.ArcGISRuntime.UI.SketchEditor
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 113:   //  Esri.ArcGISRuntime.UI.MapViewInteractionOptions
+            case 114:   //  Esri.ArcGISRuntime.UI.MapViewInteractionOptions
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.UI.InteractionOptions"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 114:   //  Esri.ArcGISRuntime.UI.InteractionOptions
+            case 115:   //  Esri.ArcGISRuntime.UI.InteractionOptions
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 xamlType = userType;
                 break;
 
-            case 115:   //  Esri.ArcGISRuntime.UI.GraphicsOverlayCollection
+            case 116:   //  Esri.ArcGISRuntime.UI.GraphicsOverlayCollection
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>"));
-                userType.CollectionAdd = VectorAdd_115_GraphicsOverlayCollection;
+                userType.CollectionAdd = VectorAdd_116_GraphicsOverlayCollection;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 116:   //  Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>
+            case 117:   //  Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>"));
-                userType.CollectionAdd = VectorAdd_116_RuntimeObservableCollection;
+                userType.CollectionAdd = VectorAdd_117_RuntimeObservableCollection;
                 xamlType = userType;
                 break;
 
-            case 117:   //  Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>
+            case 118:   //  Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.GraphicsOverlay>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.CollectionAdd = VectorAdd_117_RuntimeCollection;
+                userType.CollectionAdd = VectorAdd_118_RuntimeCollection;
                 xamlType = userType;
                 break;
 
-            case 118:   //  Esri.ArcGISRuntime.UI.GraphicsOverlay
+            case 119:   //  Esri.ArcGISRuntime.UI.GraphicsOverlay
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_118_GraphicsOverlay;
+                userType.Activator = Activate_119_GraphicsOverlay;
                 userType.SetContentPropertyName("Esri.ArcGISRuntime.UI.GraphicsOverlay.Graphics");
                 userType.AddMemberName("Graphics");
                 userType.AddMemberName("Id");
@@ -1809,28 +1818,28 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 119:   //  Esri.ArcGISRuntime.UI.GraphicCollection
+            case 120:   //  Esri.ArcGISRuntime.UI.GraphicCollection
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.Graphic>"));
-                userType.CollectionAdd = VectorAdd_119_GraphicCollection;
+                userType.CollectionAdd = VectorAdd_120_GraphicCollection;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 120:   //  Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.Graphic>
+            case 121:   //  Esri.ArcGISRuntime.RuntimeObservableCollection`1<Esri.ArcGISRuntime.UI.Graphic>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.Graphic>"));
-                userType.CollectionAdd = VectorAdd_120_RuntimeObservableCollection;
+                userType.CollectionAdd = VectorAdd_121_RuntimeObservableCollection;
                 xamlType = userType;
                 break;
 
-            case 121:   //  Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.Graphic>
+            case 122:   //  Esri.ArcGISRuntime.RuntimeCollection`1<Esri.ArcGISRuntime.UI.Graphic>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.CollectionAdd = VectorAdd_121_RuntimeCollection;
+                userType.CollectionAdd = VectorAdd_122_RuntimeCollection;
                 xamlType = userType;
                 break;
 
-            case 122:   //  Esri.ArcGISRuntime.UI.Graphic
+            case 123:   //  Esri.ArcGISRuntime.UI.Graphic
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.Data.GeoElement"));
-                userType.Activator = Activate_122_Graphic;
+                userType.Activator = Activate_123_Graphic;
                 userType.AddMemberName("GraphicsOverlay");
                 userType.AddMemberName("Geometry");
                 userType.AddMemberName("Symbol");
@@ -1840,156 +1849,156 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 123:   //  Esri.ArcGISRuntime.Data.GeoElement
+            case 124:   //  Esri.ArcGISRuntime.Data.GeoElement
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.AddMemberName("Attributes");
                 xamlType = userType;
                 break;
 
-            case 124:   //  Esri.ArcGISRuntime.Symbology.Symbol
+            case 125:   //  Esri.ArcGISRuntime.Symbology.Symbol
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 xamlType = userType;
                 break;
 
-            case 125:   //  Int32
+            case 126:   //  Int32
                 xamlType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 126:   //  System.Collections.Generic.IDictionary`2<String, Object>
+            case 127:   //  System.Collections.Generic.IDictionary`2<String, Object>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.DictionaryAdd = MapAdd_126_IDictionary;
+                userType.DictionaryAdd = MapAdd_127_IDictionary;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 127:   //  Esri.ArcGISRuntime.UI.GraphicsRenderingMode
+            case 128:   //  Esri.ArcGISRuntime.UI.GraphicsRenderingMode
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
                 userType.AddEnumValue("Dynamic", global::Esri.ArcGISRuntime.UI.GraphicsRenderingMode.Dynamic);
                 userType.AddEnumValue("Static", global::Esri.ArcGISRuntime.UI.GraphicsRenderingMode.Static);
                 xamlType = userType;
                 break;
 
-            case 128:   //  System.Drawing.Color
+            case 129:   //  System.Drawing.Color
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.ValueType"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 129:   //  Esri.ArcGISRuntime.Symbology.Renderer
+            case 130:   //  Esri.ArcGISRuntime.Symbology.Renderer
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 130:   //  Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition
+            case 131:   //  Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 131:   //  Esri.ArcGISRuntime.Mapping.LayerSceneProperties
+            case 132:   //  Esri.ArcGISRuntime.Mapping.LayerSceneProperties
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 132:   //  System.Collections.Generic.IEnumerable`1<Esri.ArcGISRuntime.UI.Graphic>
+            case 133:   //  System.Collections.Generic.IEnumerable`1<Esri.ArcGISRuntime.UI.Graphic>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, null);
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 133:   //  System.Collections.Generic.IList`1<Esri.ArcGISRuntime.Mapping.LabelDefinition>
+            case 134:   //  System.Collections.Generic.IList`1<Esri.ArcGISRuntime.Mapping.LabelDefinition>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.CollectionAdd = VectorAdd_133_IList;
+                userType.CollectionAdd = VectorAdd_134_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 134:   //  Esri.ArcGISRuntime.Mapping.LabelDefinition
+            case 135:   //  Esri.ArcGISRuntime.Mapping.LabelDefinition
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 xamlType = userType;
                 break;
 
-            case 135:   //  Esri.ArcGISRuntime.UI.DrawStatus
+            case 136:   //  Esri.ArcGISRuntime.UI.DrawStatus
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
                 userType.AddEnumValue("InProgress", global::Esri.ArcGISRuntime.UI.DrawStatus.InProgress);
                 userType.AddEnumValue("Completed", global::Esri.ArcGISRuntime.UI.DrawStatus.Completed);
                 xamlType = userType;
                 break;
 
-            case 136:   //  Esri.ArcGISRuntime.TimeExtent
+            case 137:   //  Esri.ArcGISRuntime.TimeExtent
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 137:   //  Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl
+            case 138:   //  Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.DependencyObject"));
-                userType.Activator = Activate_137_OverlayItemsControl;
+                userType.Activator = Activate_138_OverlayItemsControl;
                 userType.SetContentPropertyName("Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl.Items");
                 userType.AddMemberName("Items");
                 xamlType = userType;
                 break;
 
-            case 138:   //  Esri.ArcGISRuntime.UI.Controls.OverlayItemsCollection
+            case 139:   //  Esri.ArcGISRuntime.UI.Controls.OverlayItemsCollection
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Collections.ObjectModel.ObservableCollection`1<Object>"));
-                userType.CollectionAdd = VectorAdd_138_OverlayItemsCollection;
+                userType.CollectionAdd = VectorAdd_139_OverlayItemsCollection;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 139:   //  System.Collections.ObjectModel.ObservableCollection`1<Object>
+            case 140:   //  System.Collections.ObjectModel.ObservableCollection`1<Object>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Collections.ObjectModel.Collection`1<Object>"));
-                userType.Activator = Activate_139_ObservableCollection;
-                userType.CollectionAdd = VectorAdd_139_ObservableCollection;
+                userType.Activator = Activate_140_ObservableCollection;
+                userType.CollectionAdd = VectorAdd_140_ObservableCollection;
                 xamlType = userType;
                 break;
 
-            case 140:   //  System.Collections.ObjectModel.Collection`1<Object>
+            case 141:   //  System.Collections.ObjectModel.Collection`1<Object>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_140_Collection;
-                userType.CollectionAdd = VectorAdd_140_Collection;
+                userType.Activator = Activate_141_Collection;
+                userType.CollectionAdd = VectorAdd_141_Collection;
                 xamlType = userType;
                 break;
 
-            case 141:   //  Esri.ArcGISRuntime.UI.SelectionProperties
+            case 142:   //  Esri.ArcGISRuntime.UI.SelectionProperties
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 142:   //  Esri.ArcGISRuntime.Geometry.MapPoint
+            case 143:   //  Esri.ArcGISRuntime.Geometry.MapPoint
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Esri.ArcGISRuntime.Geometry.Geometry"));
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 143:   //  Windows.UI.Xaml.FrameworkElement
+            case 144:   //  Windows.UI.Xaml.FrameworkElement
                 xamlType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 144:   //  Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine
+            case 145:   //  Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Control"));
-                userType.Activator = Activate_144_ScaleLine;
+                userType.Activator = Activate_145_ScaleLine;
                 userType.AddMemberName("MapView");
                 userType.AddMemberName("MapScale");
                 userType.AddMemberName("TargetWidth");
                 xamlType = userType;
                 break;
 
-            case 145:   //  GSCFieldApp.Views.MapPage
+            case 146:   //  GSCFieldApp.Views.MapPage
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_145_MapPage;
+                userType.Activator = Activate_146_MapPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 146:   //  Windows.UI.Xaml.Controls.Page
+            case 147:   //  Windows.UI.Xaml.Controls.Page
                 xamlType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 147:   //  GSCFieldApp.Views.MineralizationAlterationDialog
+            case 148:   //  GSCFieldApp.Views.MineralizationAlterationDialog
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
                 userType.AddMemberName("MAViewModel");
                 userType.AddMemberName("parentViewModel");
@@ -1997,14 +2006,14 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 148:   //  GSCFieldApp.ViewModels.MineralizationAlterationViewModel
+            case 149:   //  GSCFieldApp.ViewModels.MineralizationAlterationViewModel
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.ViewModelBase"));
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 149:   //  GSCFieldApp.Views.MineralDialog
+            case 150:   //  GSCFieldApp.Views.MineralDialog
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
                 userType.AddMemberName("MineralVM");
                 userType.AddMemberName("parentViewModel");
@@ -2012,14 +2021,14 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 150:   //  GSCFieldApp.ViewModels.MineralViewModel
+            case 151:   //  GSCFieldApp.ViewModels.MineralViewModel
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.ViewModelBase"));
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 151:   //  GSCFieldApp.Views.PaleoflowDialog
+            case 152:   //  GSCFieldApp.Views.PaleoflowDialog
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
                 userType.AddMemberName("pflowModel");
                 userType.AddMemberName("pflowParentViewModel");
@@ -2027,84 +2036,84 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 152:   //  GSCFieldApp.ViewModels.PaleoflowViewModel
+            case 153:   //  GSCFieldApp.ViewModels.PaleoflowViewModel
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.ViewModelBase"));
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 153:   //  GSCFieldApp.Converters.PicklistDescriptionConverter
+            case 154:   //  GSCFieldApp.Converters.PicklistDescriptionConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_153_PicklistDescriptionConverter;
+                userType.Activator = Activate_154_PicklistDescriptionConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 154:   //  GSCFieldApp.Converters.PicklistDefaultValueConverter
+            case 155:   //  GSCFieldApp.Converters.PicklistDefaultValueConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_154_PicklistDefaultValueConverter;
+                userType.Activator = Activate_155_PicklistDefaultValueConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 155:   //  GSCFieldApp.Views.PicklistDialog
+            case 156:   //  GSCFieldApp.Views.PicklistDialog
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 156:   //  GSCFieldApp.Converters.SolidColorBrushConverter
+            case 157:   //  GSCFieldApp.Converters.SolidColorBrushConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_156_SolidColorBrushConverter;
+                userType.Activator = Activate_157_SolidColorBrushConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 157:   //  GSCFieldApp.Converters.MediaBrushConverter
+            case 158:   //  GSCFieldApp.Converters.MediaBrushConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_157_MediaBrushConverter;
+                userType.Activator = Activate_158_MediaBrushConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 158:   //  GSCFieldApp.Converters.TextWithDegreeConverter
+            case 159:   //  GSCFieldApp.Converters.TextWithDegreeConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_158_TextWithDegreeConverter;
+                userType.Activator = Activate_159_TextWithDegreeConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 159:   //  GSCFieldApp.Converters.TextWithAzimDegreeConverter
+            case 160:   //  GSCFieldApp.Converters.TextWithAzimDegreeConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_159_TextWithAzimDegreeConverter;
+                userType.Activator = Activate_160_TextWithAzimDegreeConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 160:   //  GSCFieldApp.Converters.TextWithPercentageConverter
+            case 161:   //  GSCFieldApp.Converters.TextWithPercentageConverter
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_160_TextWithPercentageConverter;
+                userType.Activator = Activate_161_TextWithPercentageConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 161:   //  GSCFieldApp.Views.ReportPage
+            case 162:   //  GSCFieldApp.Views.ReportPage
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_161_ReportPage;
+                userType.Activator = Activate_162_ReportPage;
                 userType.AddMemberName("ViewModel");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 162:   //  GSCFieldApp.ViewModels.FieldNotesViewModel
+            case 163:   //  GSCFieldApp.ViewModels.FieldNotesViewModel
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.ViewModelBase"));
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 163:   //  GSCFieldApp.Views.SampleDialog
+            case 164:   //  GSCFieldApp.Views.SampleDialog
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
                 userType.AddMemberName("ViewModel");
                 userType.AddMemberName("parentViewModel");
@@ -2112,16 +2121,16 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 164:   //  GSCFieldApp.ViewModels.SampleViewModel
+            case 165:   //  GSCFieldApp.ViewModels.SampleViewModel
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.ViewModelBase"));
                 userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 165:   //  GSCFieldApp.ViewModels.FieldBooksPageViewModel
+            case 166:   //  GSCFieldApp.ViewModels.FieldBooksPageViewModel
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.ViewModelBase"));
-                userType.Activator = Activate_165_FieldBooksPageViewModel;
+                userType.Activator = Activate_166_FieldBooksPageViewModel;
                 userType.AddMemberName("ProjectCollection");
                 userType.AddMemberName("ProgressRingActive");
                 userType.AddMemberName("ProgressRingVisibility");
@@ -2131,23 +2140,23 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 166:   //  System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.FieldBooks>
+            case 167:   //  System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.FieldBooks>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.FieldBooks>"));
-                userType.CollectionAdd = VectorAdd_166_ObservableCollection;
+                userType.CollectionAdd = VectorAdd_167_ObservableCollection;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 167:   //  System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.FieldBooks>
+            case 168:   //  System.Collections.ObjectModel.Collection`1<GSCFieldApp.Models.FieldBooks>
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_167_Collection;
-                userType.CollectionAdd = VectorAdd_167_Collection;
+                userType.Activator = Activate_168_Collection;
+                userType.CollectionAdd = VectorAdd_168_Collection;
                 xamlType = userType;
                 break;
 
-            case 168:   //  GSCFieldApp.Models.FieldBooks
+            case 169:   //  GSCFieldApp.Models.FieldBooks
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_168_FieldBooks;
+                userType.Activator = Activate_169_FieldBooks;
                 userType.AddMemberName("GeologistGeolcode");
                 userType.AddMemberName("StationNumber");
                 userType.AddMemberName("StationLastEntered");
@@ -2159,16 +2168,9 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 169:   //  GSCFieldApp.Models.Metadata
+            case 170:   //  GSCFieldApp.Models.Metadata
                 userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Template10.Mvvm.BindableBase"));
                 userType.SetIsReturnTypeStub();
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 170:   //  GSCFieldApp.Converters.ReverseBoolConverter
-                userType = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
-                userType.Activator = Activate_170_ReverseBoolConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
@@ -3797,1604 +3799,1624 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
             var that = (global::Esri.ArcGISRuntime.Mapping.Layer)instance;
             return that.SublayerContents;
         }
-        private object get_130_MapPageViewModel_NoMapsWatermark(object instance)
+        private object get_130_MapPageViewModel_GPSModeSymbol(object instance)
+        {
+            var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
+            return that.GPSModeSymbol;
+        }
+        private void set_130_MapPageViewModel_GPSModeSymbol(object instance, object Value)
+        {
+            var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
+            that.GPSModeSymbol = (global::Windows.UI.Xaml.Controls.Symbol)Value;
+        }
+        private object get_131_MapPageViewModel_NoMapsWatermark(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.NoMapsWatermark;
         }
-        private void set_130_MapPageViewModel_NoMapsWatermark(object instance, object Value)
+        private void set_131_MapPageViewModel_NoMapsWatermark(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.NoMapsWatermark = (global::System.Boolean)Value;
         }
-        private object get_131_MapPageViewModel_FilenameValues(object instance)
+        private object get_132_MapPageViewModel_FilenameValues(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.FilenameValues;
         }
-        private void set_131_MapPageViewModel_FilenameValues(object instance, object Value)
+        private void set_132_MapPageViewModel_FilenameValues(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.FilenameValues = (global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.Files>)Value;
         }
-        private object get_132_Files_FileName(object instance)
+        private object get_133_Files_FileName(object instance)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             return that.FileName;
         }
-        private void set_132_Files_FileName(object instance, object Value)
+        private void set_133_Files_FileName(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             that.FileName = (global::System.String)Value;
         }
-        private object get_133_Files_FilePath(object instance)
+        private object get_134_Files_FilePath(object instance)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             return that.FilePath;
         }
-        private void set_133_Files_FilePath(object instance, object Value)
+        private void set_134_Files_FilePath(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             that.FilePath = (global::System.String)Value;
         }
-        private object get_134_Files_FileVisible(object instance)
+        private object get_135_Files_FileVisible(object instance)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             return that.FileVisible;
         }
-        private void set_134_Files_FileVisible(object instance, object Value)
+        private void set_135_Files_FileVisible(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             that.FileVisible = (global::System.Boolean)Value;
         }
-        private object get_135_Files_FileCanDelete(object instance)
+        private object get_136_Files_FileCanDelete(object instance)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             return that.FileCanDelete;
         }
-        private void set_135_Files_FileCanDelete(object instance, object Value)
+        private void set_136_Files_FileCanDelete(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             that.FileCanDelete = (global::Windows.UI.Xaml.Visibility)Value;
         }
-        private object get_136_Files_FileOpacity(object instance)
+        private object get_137_Files_FileOpacity(object instance)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             return that.FileOpacity;
         }
-        private void set_136_Files_FileOpacity(object instance, object Value)
+        private void set_137_Files_FileOpacity(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.Files)instance;
             that.FileOpacity = (global::System.Double)Value;
         }
-        private object get_137_MapPageViewModel_SelectedLayer(object instance)
+        private object get_138_MapPageViewModel_SelectedLayer(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.SelectedLayer;
         }
-        private void set_137_MapPageViewModel_SelectedLayer(object instance, object Value)
+        private void set_138_MapPageViewModel_SelectedLayer(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.SelectedLayer = (global::System.Object)Value;
         }
-        private object get_138_MapPageViewModel_CurrentMSGeoposition(object instance)
+        private object get_139_MapPageViewModel_CurrentMSGeoposition(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.CurrentMSGeoposition;
         }
-        private void set_138_MapPageViewModel_CurrentMSGeoposition(object instance, object Value)
+        private void set_139_MapPageViewModel_CurrentMSGeoposition(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.CurrentMSGeoposition = (global::Windows.Devices.Geolocation.Geoposition)Value;
         }
-        private object get_139_MapPageViewModel_CurrentLongitude(object instance)
+        private object get_140_MapPageViewModel_CurrentLongitude(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.CurrentLongitude;
         }
-        private void set_139_MapPageViewModel_CurrentLongitude(object instance, object Value)
+        private void set_140_MapPageViewModel_CurrentLongitude(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.CurrentLongitude = (global::System.Double)Value;
         }
-        private object get_140_MapPageViewModel_CurrentLatitude(object instance)
+        private object get_141_MapPageViewModel_CurrentLatitude(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.CurrentLatitude;
         }
-        private void set_140_MapPageViewModel_CurrentLatitude(object instance, object Value)
+        private void set_141_MapPageViewModel_CurrentLatitude(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.CurrentLatitude = (global::System.Double)Value;
         }
-        private object get_141_MapPageViewModel_CurrentAltitude(object instance)
+        private object get_142_MapPageViewModel_CurrentAltitude(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.CurrentAltitude;
         }
-        private void set_141_MapPageViewModel_CurrentAltitude(object instance, object Value)
+        private void set_142_MapPageViewModel_CurrentAltitude(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.CurrentAltitude = (global::System.Double)Value;
         }
-        private object get_142_MapPageViewModel_CurrentAccuracy(object instance)
+        private object get_143_MapPageViewModel_CurrentAccuracy(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.CurrentAccuracy;
         }
-        private void set_142_MapPageViewModel_CurrentAccuracy(object instance, object Value)
+        private void set_143_MapPageViewModel_CurrentAccuracy(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.CurrentAccuracy = (global::System.Double)Value;
         }
-        private object get_143_MapPageViewModel_lastTakenLocation(object instance)
+        private object get_144_MapPageViewModel_lastTakenLocation(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.lastTakenLocation;
         }
-        private void set_143_MapPageViewModel_lastTakenLocation(object instance, object Value)
+        private void set_144_MapPageViewModel_lastTakenLocation(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.lastTakenLocation = (global::System.Tuple<global::System.Double, global::System.Double>)Value;
         }
-        private object get_144_MapPageViewModel_MyMapScale(object instance)
+        private object get_145_MapPageViewModel_MyMapScale(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.MyMapScale;
         }
-        private void set_144_MapPageViewModel_MyMapScale(object instance, object Value)
+        private void set_145_MapPageViewModel_MyMapScale(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.MyMapScale = (global::System.Double)Value;
         }
-        private object get_145_MapPageViewModel_MapRingActive(object instance)
+        private object get_146_MapPageViewModel_MapRingActive(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.MapRingActive;
         }
-        private void set_145_MapPageViewModel_MapRingActive(object instance, object Value)
+        private void set_146_MapPageViewModel_MapRingActive(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.MapRingActive = (global::System.Boolean)Value;
         }
-        private object get_146_MapPageViewModel_MapRingVisibility(object instance)
+        private object get_147_MapPageViewModel_MapRingVisibility(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.MapRingVisibility;
         }
-        private void set_146_MapPageViewModel_MapRingVisibility(object instance, object Value)
+        private void set_147_MapPageViewModel_MapRingVisibility(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.MapRingVisibility = (global::System.Boolean)Value;
         }
-        private object get_147_MapPageViewModel_MapRingLabelAcquiringGPSVisibility(object instance)
+        private object get_148_MapPageViewModel_MapRingLabelAcquiringGPSVisibility(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.MapRingLabelAcquiringGPSVisibility;
         }
-        private void set_147_MapPageViewModel_MapRingLabelAcquiringGPSVisibility(object instance, object Value)
+        private void set_148_MapPageViewModel_MapRingLabelAcquiringGPSVisibility(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.MapRingLabelAcquiringGPSVisibility = (global::System.Boolean)Value;
         }
-        private object get_148_MapPageViewModel_MapPageQuickMeasurementEnable(object instance)
+        private object get_149_MapPageViewModel_MapPageQuickMeasurementEnable(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.MapPageQuickMeasurementEnable;
         }
-        private void set_148_MapPageViewModel_MapPageQuickMeasurementEnable(object instance, object Value)
+        private void set_149_MapPageViewModel_MapPageQuickMeasurementEnable(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.MapPageQuickMeasurementEnable = (global::System.Boolean)Value;
         }
-        private object get_149_MapPageViewModel_MapPageQuickPhotoEnable(object instance)
+        private object get_150_MapPageViewModel_MapPageQuickPhotoEnable(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.MapPageQuickPhotoEnable;
         }
-        private void set_149_MapPageViewModel_MapPageQuickPhotoEnable(object instance, object Value)
+        private void set_150_MapPageViewModel_MapPageQuickPhotoEnable(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.MapPageQuickPhotoEnable = (global::System.Boolean)Value;
         }
-        private object get_150_MapPageViewModel_MapPageQuickSampleEnable(object instance)
+        private object get_151_MapPageViewModel_MapPageQuickSampleEnable(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.MapPageQuickSampleEnable;
         }
-        private void set_150_MapPageViewModel_MapPageQuickSampleEnable(object instance, object Value)
+        private void set_151_MapPageViewModel_MapPageQuickSampleEnable(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.MapPageQuickSampleEnable = (global::System.Boolean)Value;
         }
-        private object get_151_MapPageViewModel_vocabEntryTypeTap(object instance)
+        private object get_152_MapPageViewModel_vocabEntryTypeTap(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.vocabEntryTypeTap;
         }
-        private void set_151_MapPageViewModel_vocabEntryTypeTap(object instance, object Value)
+        private void set_152_MapPageViewModel_vocabEntryTypeTap(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.vocabEntryTypeTap = (global::System.String)Value;
         }
-        private object get_152_MapPageViewModel_vocabEntryTypeGPS(object instance)
+        private object get_153_MapPageViewModel_vocabEntryTypeGPS(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.vocabEntryTypeGPS;
         }
-        private void set_152_MapPageViewModel_vocabEntryTypeGPS(object instance, object Value)
+        private void set_153_MapPageViewModel_vocabEntryTypeGPS(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.vocabEntryTypeGPS = (global::System.String)Value;
         }
-        private object get_153_MapPageViewModel_vocabElevmethodGPS(object instance)
+        private object get_154_MapPageViewModel_vocabElevmethodGPS(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.vocabElevmethodGPS;
         }
-        private void set_153_MapPageViewModel_vocabElevmethodGPS(object instance, object Value)
+        private void set_154_MapPageViewModel_vocabElevmethodGPS(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.vocabElevmethodGPS = (global::System.String)Value;
         }
-        private object get_154_MapPageViewModel_vocabErrorMeasureTypeMeter(object instance)
+        private object get_155_MapPageViewModel_vocabErrorMeasureTypeMeter(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             return that.vocabErrorMeasureTypeMeter;
         }
-        private void set_154_MapPageViewModel_vocabErrorMeasureTypeMeter(object instance, object Value)
+        private void set_155_MapPageViewModel_vocabErrorMeasureTypeMeter(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
             that.vocabErrorMeasureTypeMeter = (global::System.String)Value;
         }
-        private object get_155_MapView_MapScale(object instance)
+        private object get_156_MapPageViewModel_vocabEntryTypeManual(object instance)
+        {
+            var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
+            return that.vocabEntryTypeManual;
+        }
+        private void set_156_MapPageViewModel_vocabEntryTypeManual(object instance, object Value)
+        {
+            var that = (global::GSCFieldApp.ViewModels.MapPageViewModel)instance;
+            that.vocabEntryTypeManual = (global::System.String)Value;
+        }
+        private object get_157_MapView_MapScale(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.MapScale;
         }
-        private object get_156_MapView_MapRotation(object instance)
+        private object get_158_MapView_MapRotation(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.MapRotation;
         }
-        private object get_157_MapView_UnitsPerPixel(object instance)
+        private object get_159_MapView_UnitsPerPixel(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.UnitsPerPixel;
         }
-        private object get_158_MapView_VisibleArea(object instance)
+        private object get_160_MapView_VisibleArea(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.VisibleArea;
         }
-        private object get_159_MapView_WrapAroundMode(object instance)
+        private object get_161_MapView_WrapAroundMode(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.WrapAroundMode;
         }
-        private void set_159_MapView_WrapAroundMode(object instance, object Value)
+        private void set_161_MapView_WrapAroundMode(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             that.WrapAroundMode = (global::Esri.ArcGISRuntime.UI.WrapAroundMode)Value;
         }
-        private object get_160_MapView_Labeling(object instance)
+        private object get_162_MapView_Labeling(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.Labeling;
         }
-        private void set_160_MapView_Labeling(object instance, object Value)
+        private void set_162_MapView_Labeling(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             that.Labeling = (global::Esri.ArcGISRuntime.UI.ViewLabelProperties)Value;
         }
-        private object get_161_MapView_LocationDisplay(object instance)
+        private object get_163_MapView_LocationDisplay(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.LocationDisplay;
         }
-        private object get_162_MapView_BackgroundGrid(object instance)
+        private object get_164_MapView_BackgroundGrid(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.BackgroundGrid;
         }
-        private void set_162_MapView_BackgroundGrid(object instance, object Value)
+        private void set_164_MapView_BackgroundGrid(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             that.BackgroundGrid = (global::Esri.ArcGISRuntime.UI.BackgroundGrid)Value;
         }
-        private object get_163_MapView_Grid(object instance)
+        private object get_165_MapView_Grid(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.Grid;
         }
-        private void set_163_MapView_Grid(object instance, object Value)
+        private void set_165_MapView_Grid(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             that.Grid = (global::Esri.ArcGISRuntime.UI.Grid)Value;
         }
-        private object get_164_MapView_SketchEditor(object instance)
+        private object get_166_MapView_SketchEditor(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.SketchEditor;
         }
-        private void set_164_MapView_SketchEditor(object instance, object Value)
+        private void set_166_MapView_SketchEditor(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             that.SketchEditor = (global::Esri.ArcGISRuntime.UI.SketchEditor)Value;
         }
-        private object get_165_MapView_InteractionOptions(object instance)
+        private object get_167_MapView_InteractionOptions(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             return that.InteractionOptions;
         }
-        private void set_165_MapView_InteractionOptions(object instance, object Value)
+        private void set_167_MapView_InteractionOptions(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.MapView)instance;
             that.InteractionOptions = (global::Esri.ArcGISRuntime.UI.MapViewInteractionOptions)Value;
         }
-        private object get_166_GeoView_IsCalloutVisible(object instance)
+        private object get_168_GeoView_IsCalloutVisible(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.IsCalloutVisible;
         }
-        private object get_167_GeoView_GraphicsOverlays(object instance)
+        private object get_169_GeoView_GraphicsOverlays(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.GraphicsOverlays;
         }
-        private void set_167_GeoView_GraphicsOverlays(object instance, object Value)
+        private void set_169_GeoView_GraphicsOverlays(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             that.GraphicsOverlays = (global::Esri.ArcGISRuntime.UI.GraphicsOverlayCollection)Value;
         }
-        private object get_168_GraphicsOverlay_Graphics(object instance)
+        private object get_170_GraphicsOverlay_Graphics(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.Graphics;
         }
-        private object get_169_Graphic_GraphicsOverlay(object instance)
+        private object get_171_Graphic_GraphicsOverlay(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             return that.GraphicsOverlay;
         }
-        private object get_170_Graphic_Geometry(object instance)
+        private object get_172_Graphic_Geometry(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             return that.Geometry;
         }
-        private void set_170_Graphic_Geometry(object instance, object Value)
+        private void set_172_Graphic_Geometry(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             that.Geometry = (global::Esri.ArcGISRuntime.Geometry.Geometry)Value;
         }
-        private object get_171_Graphic_Symbol(object instance)
+        private object get_173_Graphic_Symbol(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             return that.Symbol;
         }
-        private void set_171_Graphic_Symbol(object instance, object Value)
+        private void set_173_Graphic_Symbol(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             that.Symbol = (global::Esri.ArcGISRuntime.Symbology.Symbol)Value;
         }
-        private object get_172_Graphic_IsVisible(object instance)
+        private object get_174_Graphic_IsVisible(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             return that.IsVisible;
         }
-        private void set_172_Graphic_IsVisible(object instance, object Value)
+        private void set_174_Graphic_IsVisible(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             that.IsVisible = (global::System.Boolean)Value;
         }
-        private object get_173_Graphic_IsSelected(object instance)
+        private object get_175_Graphic_IsSelected(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             return that.IsSelected;
         }
-        private void set_173_Graphic_IsSelected(object instance, object Value)
+        private void set_175_Graphic_IsSelected(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             that.IsSelected = (global::System.Boolean)Value;
         }
-        private object get_174_Graphic_ZIndex(object instance)
+        private object get_176_Graphic_ZIndex(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             return that.ZIndex;
         }
-        private void set_174_Graphic_ZIndex(object instance, object Value)
+        private void set_176_Graphic_ZIndex(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Graphic)instance;
             that.ZIndex = (global::System.Int32)Value;
         }
-        private object get_175_GeoElement_Attributes(object instance)
+        private object get_177_GeoElement_Attributes(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Data.GeoElement)instance;
             return that.Attributes;
         }
-        private object get_176_GraphicsOverlay_Id(object instance)
+        private object get_178_GraphicsOverlay_Id(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.Id;
         }
-        private void set_176_GraphicsOverlay_Id(object instance, object Value)
+        private void set_178_GraphicsOverlay_Id(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.Id = (global::System.String)Value;
         }
-        private object get_177_GraphicsOverlay_Extent(object instance)
+        private object get_179_GraphicsOverlay_Extent(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.Extent;
         }
-        private object get_178_GraphicsOverlay_RenderingMode(object instance)
+        private object get_180_GraphicsOverlay_RenderingMode(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.RenderingMode;
         }
-        private void set_178_GraphicsOverlay_RenderingMode(object instance, object Value)
+        private void set_180_GraphicsOverlay_RenderingMode(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.RenderingMode = (global::Esri.ArcGISRuntime.UI.GraphicsRenderingMode)Value;
         }
 #pragma warning disable 0618  //   Warning on Deprecated usage
-        private object get_179_GraphicsOverlay_SelectionColor(object instance)
+        private object get_181_GraphicsOverlay_SelectionColor(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.SelectionColor;
         }
-        private void set_179_GraphicsOverlay_SelectionColor(object instance, object Value)
+        private void set_181_GraphicsOverlay_SelectionColor(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.SelectionColor = (global::System.Drawing.Color)Value;
         }
 #pragma warning restore 0618
-        private object get_180_GraphicsOverlay_Renderer(object instance)
+        private object get_182_GraphicsOverlay_Renderer(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.Renderer;
         }
-        private void set_180_GraphicsOverlay_Renderer(object instance, object Value)
+        private void set_182_GraphicsOverlay_Renderer(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.Renderer = (global::Esri.ArcGISRuntime.Symbology.Renderer)Value;
         }
-        private object get_181_GraphicsOverlay_IsVisible(object instance)
+        private object get_183_GraphicsOverlay_IsVisible(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.IsVisible;
         }
-        private void set_181_GraphicsOverlay_IsVisible(object instance, object Value)
+        private void set_183_GraphicsOverlay_IsVisible(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.IsVisible = (global::System.Boolean)Value;
         }
-        private object get_182_GraphicsOverlay_Opacity(object instance)
+        private object get_184_GraphicsOverlay_Opacity(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.Opacity;
         }
-        private void set_182_GraphicsOverlay_Opacity(object instance, object Value)
+        private void set_184_GraphicsOverlay_Opacity(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.Opacity = (global::System.Double)Value;
         }
-        private object get_183_GraphicsOverlay_IsPopupEnabled(object instance)
+        private object get_185_GraphicsOverlay_IsPopupEnabled(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.IsPopupEnabled;
         }
-        private void set_183_GraphicsOverlay_IsPopupEnabled(object instance, object Value)
+        private void set_185_GraphicsOverlay_IsPopupEnabled(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.IsPopupEnabled = (global::System.Boolean)Value;
         }
-        private object get_184_GraphicsOverlay_PopupDefinition(object instance)
+        private object get_186_GraphicsOverlay_PopupDefinition(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.PopupDefinition;
         }
-        private void set_184_GraphicsOverlay_PopupDefinition(object instance, object Value)
+        private void set_186_GraphicsOverlay_PopupDefinition(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.PopupDefinition = (global::Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition)Value;
         }
-        private object get_185_GraphicsOverlay_MinScale(object instance)
+        private object get_187_GraphicsOverlay_MinScale(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.MinScale;
         }
-        private void set_185_GraphicsOverlay_MinScale(object instance, object Value)
+        private void set_187_GraphicsOverlay_MinScale(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.MinScale = (global::System.Double)Value;
         }
-        private object get_186_GraphicsOverlay_MaxScale(object instance)
+        private object get_188_GraphicsOverlay_MaxScale(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.MaxScale;
         }
-        private void set_186_GraphicsOverlay_MaxScale(object instance, object Value)
+        private void set_188_GraphicsOverlay_MaxScale(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.MaxScale = (global::System.Double)Value;
         }
-        private object get_187_GraphicsOverlay_SceneProperties(object instance)
+        private object get_189_GraphicsOverlay_SceneProperties(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.SceneProperties;
         }
-        private void set_187_GraphicsOverlay_SceneProperties(object instance, object Value)
+        private void set_189_GraphicsOverlay_SceneProperties(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.SceneProperties = (global::Esri.ArcGISRuntime.Mapping.LayerSceneProperties)Value;
         }
-        private object get_188_GraphicsOverlay_SelectedGraphics(object instance)
+        private object get_190_GraphicsOverlay_SelectedGraphics(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.SelectedGraphics;
         }
-        private object get_189_GraphicsOverlay_LabelDefinitions(object instance)
+        private object get_191_GraphicsOverlay_LabelDefinitions(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.LabelDefinitions;
         }
-        private object get_190_GraphicsOverlay_LabelsEnabled(object instance)
+        private object get_192_GraphicsOverlay_LabelsEnabled(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             return that.LabelsEnabled;
         }
-        private void set_190_GraphicsOverlay_LabelsEnabled(object instance, object Value)
+        private void set_192_GraphicsOverlay_LabelsEnabled(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.GraphicsOverlay)instance;
             that.LabelsEnabled = (global::System.Boolean)Value;
         }
-        private object get_191_GeoView_IsAttributionTextVisible(object instance)
+        private object get_193_GeoView_IsAttributionTextVisible(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.IsAttributionTextVisible;
         }
-        private void set_191_GeoView_IsAttributionTextVisible(object instance, object Value)
+        private void set_193_GeoView_IsAttributionTextVisible(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             that.IsAttributionTextVisible = (global::System.Boolean)Value;
         }
-        private object get_192_GeoView_AttributionText(object instance)
+        private object get_194_GeoView_AttributionText(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.AttributionText;
         }
-        private object get_193_GeoView_SpatialReference(object instance)
+        private object get_195_GeoView_SpatialReference(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.SpatialReference;
         }
-        private object get_194_GeoView_IsWrapAroundEnabled(object instance)
+        private object get_196_GeoView_IsWrapAroundEnabled(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.IsWrapAroundEnabled;
         }
-        private object get_195_GeoView_IsNavigating(object instance)
+        private object get_197_GeoView_IsNavigating(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.IsNavigating;
         }
-        private object get_196_GeoView_DrawStatus(object instance)
+        private object get_198_GeoView_DrawStatus(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.DrawStatus;
         }
-        private object get_197_GeoView_ViewInsets(object instance)
+        private object get_199_GeoView_ViewInsets(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.ViewInsets;
         }
-        private void set_197_GeoView_ViewInsets(object instance, object Value)
+        private void set_199_GeoView_ViewInsets(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             that.ViewInsets = (global::Windows.UI.Xaml.Thickness)Value;
         }
-        private object get_198_GeoView_TimeExtent(object instance)
+        private object get_200_GeoView_TimeExtent(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.TimeExtent;
         }
-        private void set_198_GeoView_TimeExtent(object instance, object Value)
+        private void set_200_GeoView_TimeExtent(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             that.TimeExtent = (global::Esri.ArcGISRuntime.TimeExtent)Value;
         }
-        private object get_199_GeoView_Overlays(object instance)
+        private object get_201_GeoView_Overlays(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.Overlays;
         }
-        private void set_199_GeoView_Overlays(object instance, object Value)
+        private void set_201_GeoView_Overlays(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             that.Overlays = (global::Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl)Value;
         }
-        private object get_200_OverlayItemsControl_Items(object instance)
+        private object get_202_OverlayItemsControl_Items(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl)instance;
             return that.Items;
         }
-        private object get_201_GeoView_SelectionProperties(object instance)
+        private object get_203_GeoView_SelectionProperties(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             return that.SelectionProperties;
         }
-        private void set_201_GeoView_SelectionProperties(object instance, object Value)
+        private void set_203_GeoView_SelectionProperties(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.UI.Controls.GeoView)instance;
             that.SelectionProperties = (global::Esri.ArcGISRuntime.UI.SelectionProperties)Value;
         }
-        private object get_202_GeoView_ViewOverlayAnchor(object instance)
+        private object get_204_GeoView_ViewOverlayAnchor(object instance)
         {
             return global::Esri.ArcGISRuntime.UI.Controls.GeoView.GetViewOverlayAnchor((global::Windows.UI.Xaml.FrameworkElement)instance);
         }
-        private void set_202_GeoView_ViewOverlayAnchor(object instance, object Value)
+        private void set_204_GeoView_ViewOverlayAnchor(object instance, object Value)
         {
             global::Esri.ArcGISRuntime.UI.Controls.GeoView.SetViewOverlayAnchor((global::Windows.UI.Xaml.FrameworkElement)instance, (global::Esri.ArcGISRuntime.Geometry.MapPoint)Value);
         }
-        private object get_203_ScaleLine_MapView(object instance)
+        private object get_205_ScaleLine_MapView(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine)instance;
             return that.MapView;
         }
-        private void set_203_ScaleLine_MapView(object instance, object Value)
+        private void set_205_ScaleLine_MapView(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine)instance;
             that.MapView = (global::Esri.ArcGISRuntime.UI.Controls.MapView)Value;
         }
-        private object get_204_ScaleLine_MapScale(object instance)
+        private object get_206_ScaleLine_MapScale(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine)instance;
             return that.MapScale;
         }
-        private void set_204_ScaleLine_MapScale(object instance, object Value)
+        private void set_206_ScaleLine_MapScale(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine)instance;
             that.MapScale = (global::System.Double)Value;
         }
-        private object get_205_ScaleLine_TargetWidth(object instance)
+        private object get_207_ScaleLine_TargetWidth(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine)instance;
             return that.TargetWidth;
         }
-        private void set_205_ScaleLine_TargetWidth(object instance, object Value)
+        private void set_207_ScaleLine_TargetWidth(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine)instance;
             that.TargetWidth = (global::System.Double)Value;
         }
-        private object get_206_MineralizationAlterationDialog_MAViewModel(object instance)
+        private object get_208_MineralizationAlterationDialog_MAViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.MineralizationAlterationDialog)instance;
             return that.MAViewModel;
         }
-        private void set_206_MineralizationAlterationDialog_MAViewModel(object instance, object Value)
+        private void set_208_MineralizationAlterationDialog_MAViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.MineralizationAlterationDialog)instance;
             that.MAViewModel = (global::GSCFieldApp.ViewModels.MineralizationAlterationViewModel)Value;
         }
-        private object get_207_MineralizationAlterationDialog_parentViewModel(object instance)
+        private object get_209_MineralizationAlterationDialog_parentViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.MineralizationAlterationDialog)instance;
             return that.parentViewModel;
         }
-        private void set_207_MineralizationAlterationDialog_parentViewModel(object instance, object Value)
+        private void set_209_MineralizationAlterationDialog_parentViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.MineralizationAlterationDialog)instance;
             that.parentViewModel = (global::GSCFieldApp.Models.FieldNotes)Value;
         }
-        private object get_208_MineralDialog_MineralVM(object instance)
+        private object get_210_MineralDialog_MineralVM(object instance)
         {
             var that = (global::GSCFieldApp.Views.MineralDialog)instance;
             return that.MineralVM;
         }
-        private void set_208_MineralDialog_MineralVM(object instance, object Value)
+        private void set_210_MineralDialog_MineralVM(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.MineralDialog)instance;
             that.MineralVM = (global::GSCFieldApp.ViewModels.MineralViewModel)Value;
         }
-        private object get_209_MineralDialog_parentViewModel(object instance)
+        private object get_211_MineralDialog_parentViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.MineralDialog)instance;
             return that.parentViewModel;
         }
-        private void set_209_MineralDialog_parentViewModel(object instance, object Value)
+        private void set_211_MineralDialog_parentViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.MineralDialog)instance;
             that.parentViewModel = (global::GSCFieldApp.Models.FieldNotes)Value;
         }
-        private object get_210_PaleoflowDialog_pflowModel(object instance)
+        private object get_212_PaleoflowDialog_pflowModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.PaleoflowDialog)instance;
             return that.pflowModel;
         }
-        private void set_210_PaleoflowDialog_pflowModel(object instance, object Value)
+        private void set_212_PaleoflowDialog_pflowModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.PaleoflowDialog)instance;
             that.pflowModel = (global::GSCFieldApp.ViewModels.PaleoflowViewModel)Value;
         }
-        private object get_211_PaleoflowDialog_pflowParentViewModel(object instance)
+        private object get_213_PaleoflowDialog_pflowParentViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.PaleoflowDialog)instance;
             return that.pflowParentViewModel;
         }
-        private void set_211_PaleoflowDialog_pflowParentViewModel(object instance, object Value)
+        private void set_213_PaleoflowDialog_pflowParentViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.PaleoflowDialog)instance;
             that.pflowParentViewModel = (global::GSCFieldApp.Models.FieldNotes)Value;
         }
-        private object get_212_ReportPage_ViewModel(object instance)
+        private object get_214_ReportPage_ViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.ReportPage)instance;
             return that.ViewModel;
         }
-        private void set_212_ReportPage_ViewModel(object instance, object Value)
+        private void set_214_ReportPage_ViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.ReportPage)instance;
             that.ViewModel = (global::GSCFieldApp.ViewModels.FieldNotesViewModel)Value;
         }
-        private object get_213_SampleDialog_ViewModel(object instance)
+        private object get_215_SampleDialog_ViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.SampleDialog)instance;
             return that.ViewModel;
         }
-        private void set_213_SampleDialog_ViewModel(object instance, object Value)
+        private void set_215_SampleDialog_ViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.SampleDialog)instance;
             that.ViewModel = (global::GSCFieldApp.ViewModels.SampleViewModel)Value;
         }
-        private object get_214_SampleDialog_parentViewModel(object instance)
+        private object get_216_SampleDialog_parentViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.SampleDialog)instance;
             return that.parentViewModel;
         }
-        private void set_214_SampleDialog_parentViewModel(object instance, object Value)
+        private void set_216_SampleDialog_parentViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.SampleDialog)instance;
             that.parentViewModel = (global::GSCFieldApp.Models.FieldNotes)Value;
         }
-        private object get_215_FieldBooksPageViewModel_ProjectCollection(object instance)
+        private object get_217_FieldBooksPageViewModel_ProjectCollection(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             return that.ProjectCollection;
         }
-        private object get_216_FieldBooks_GeologistGeolcode(object instance)
+        private object get_218_FieldBooks_GeologistGeolcode(object instance)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             return that.GeologistGeolcode;
         }
-        private void set_216_FieldBooks_GeologistGeolcode(object instance, object Value)
+        private void set_218_FieldBooks_GeologistGeolcode(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             that.GeologistGeolcode = (global::System.String)Value;
         }
-        private object get_217_FieldBooks_StationNumber(object instance)
+        private object get_219_FieldBooks_StationNumber(object instance)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             return that.StationNumber;
         }
-        private void set_217_FieldBooks_StationNumber(object instance, object Value)
+        private void set_219_FieldBooks_StationNumber(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             that.StationNumber = (global::System.String)Value;
         }
-        private object get_218_FieldBooks_StationLastEntered(object instance)
+        private object get_220_FieldBooks_StationLastEntered(object instance)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             return that.StationLastEntered;
         }
-        private void set_218_FieldBooks_StationLastEntered(object instance, object Value)
+        private void set_220_FieldBooks_StationLastEntered(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             that.StationLastEntered = (global::System.String)Value;
         }
-        private object get_219_FieldBooks_ProjectPath(object instance)
+        private object get_221_FieldBooks_ProjectPath(object instance)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             return that.ProjectPath;
         }
-        private void set_219_FieldBooks_ProjectPath(object instance, object Value)
+        private void set_221_FieldBooks_ProjectPath(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             that.ProjectPath = (global::System.String)Value;
         }
-        private object get_220_FieldBooks_ProjectDBPath(object instance)
+        private object get_222_FieldBooks_ProjectDBPath(object instance)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             return that.ProjectDBPath;
         }
-        private void set_220_FieldBooks_ProjectDBPath(object instance, object Value)
+        private void set_222_FieldBooks_ProjectDBPath(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             that.ProjectDBPath = (global::System.String)Value;
         }
-        private object get_221_FieldBooks_CreateDate(object instance)
+        private object get_223_FieldBooks_CreateDate(object instance)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             return that.CreateDate;
         }
-        private void set_221_FieldBooks_CreateDate(object instance, object Value)
+        private void set_223_FieldBooks_CreateDate(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             that.CreateDate = (global::System.String)Value;
         }
-        private object get_222_FieldBooks_metadataForProject(object instance)
+        private object get_224_FieldBooks_metadataForProject(object instance)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             return that.metadataForProject;
         }
-        private void set_222_FieldBooks_metadataForProject(object instance, object Value)
+        private void set_224_FieldBooks_metadataForProject(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Models.FieldBooks)instance;
             that.metadataForProject = (global::GSCFieldApp.Models.Metadata)Value;
         }
-        private object get_223_FieldBooksPageViewModel_ProgressRingActive(object instance)
+        private object get_225_FieldBooksPageViewModel_ProgressRingActive(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             return that.ProgressRingActive;
         }
-        private void set_223_FieldBooksPageViewModel_ProgressRingActive(object instance, object Value)
+        private void set_225_FieldBooksPageViewModel_ProgressRingActive(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             that.ProgressRingActive = (global::System.Boolean)Value;
         }
-        private object get_224_FieldBooksPageViewModel_ProgressRingVisibility(object instance)
+        private object get_226_FieldBooksPageViewModel_ProgressRingVisibility(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             return that.ProgressRingVisibility;
         }
-        private void set_224_FieldBooksPageViewModel_ProgressRingVisibility(object instance, object Value)
+        private void set_226_FieldBooksPageViewModel_ProgressRingVisibility(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             that.ProgressRingVisibility = (global::System.Boolean)Value;
         }
-        private object get_225_FieldBooksPageViewModel_SelectedProjectIndex(object instance)
+        private object get_227_FieldBooksPageViewModel_SelectedProjectIndex(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             return that.SelectedProjectIndex;
         }
-        private void set_225_FieldBooksPageViewModel_SelectedProjectIndex(object instance, object Value)
+        private void set_227_FieldBooksPageViewModel_SelectedProjectIndex(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             that.SelectedProjectIndex = (global::System.Int32)Value;
         }
-        private object get_226_FieldBooksPageViewModel_NoFieldBookWatermark(object instance)
+        private object get_228_FieldBooksPageViewModel_NoFieldBookWatermark(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             return that.NoFieldBookWatermark;
         }
-        private void set_226_FieldBooksPageViewModel_NoFieldBookWatermark(object instance, object Value)
+        private void set_228_FieldBooksPageViewModel_NoFieldBookWatermark(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)instance;
             that.NoFieldBookWatermark = (global::System.Boolean)Value;
         }
-        private object get_227_FieldBooksPage_ProjectViewModel(object instance)
+        private object get_229_FieldBooksPage_ProjectViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.FieldBooksPage)instance;
             return that.ProjectViewModel;
         }
-        private void set_227_FieldBooksPage_ProjectViewModel(object instance, object Value)
+        private void set_229_FieldBooksPage_ProjectViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.FieldBooksPage)instance;
             that.ProjectViewModel = (global::GSCFieldApp.ViewModels.FieldBooksPageViewModel)Value;
         }
-        private object get_228_SettingsPageViewModel_CommonToggle(object instance)
+        private object get_230_SettingsPageViewModel_CommonToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.CommonToggle;
         }
-        private void set_228_SettingsPageViewModel_CommonToggle(object instance, object Value)
+        private void set_230_SettingsPageViewModel_CommonToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.CommonToggle = (global::System.Boolean)Value;
         }
-        private object get_229_SettingsPageViewModel_BedrockToggle(object instance)
+        private object get_231_SettingsPageViewModel_BedrockToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.BedrockToggle;
         }
-        private void set_229_SettingsPageViewModel_BedrockToggle(object instance, object Value)
+        private void set_231_SettingsPageViewModel_BedrockToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.BedrockToggle = (global::System.Boolean)Value;
         }
-        private object get_230_SettingsPageViewModel_SurficialToggle(object instance)
+        private object get_232_SettingsPageViewModel_SurficialToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.SurficialToggle;
         }
-        private void set_230_SettingsPageViewModel_SurficialToggle(object instance, object Value)
+        private void set_232_SettingsPageViewModel_SurficialToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.SurficialToggle = (global::System.Boolean)Value;
         }
-        private object get_231_SettingsPageViewModel_PhotoToggle(object instance)
+        private object get_233_SettingsPageViewModel_PhotoToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.PhotoToggle;
         }
-        private void set_231_SettingsPageViewModel_PhotoToggle(object instance, object Value)
+        private void set_233_SettingsPageViewModel_PhotoToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.PhotoToggle = (global::System.Boolean)Value;
         }
-        private object get_232_SettingsPageViewModel_EarthToggle(object instance)
+        private object get_234_SettingsPageViewModel_EarthToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.EarthToggle;
         }
-        private void set_232_SettingsPageViewModel_EarthToggle(object instance, object Value)
+        private void set_234_SettingsPageViewModel_EarthToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.EarthToggle = (global::System.Boolean)Value;
         }
-        private object get_233_SettingsPageViewModel_ExternalMeasureToggle(object instance)
+        private object get_235_SettingsPageViewModel_ExternalMeasureToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.ExternalMeasureToggle;
         }
-        private void set_233_SettingsPageViewModel_ExternalMeasureToggle(object instance, object Value)
+        private void set_235_SettingsPageViewModel_ExternalMeasureToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.ExternalMeasureToggle = (global::System.Boolean)Value;
         }
-        private object get_234_SettingsPageViewModel_SampleToggle(object instance)
+        private object get_236_SettingsPageViewModel_SampleToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.SampleToggle;
         }
-        private void set_234_SettingsPageViewModel_SampleToggle(object instance, object Value)
+        private void set_236_SettingsPageViewModel_SampleToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.SampleToggle = (global::System.Boolean)Value;
         }
-        private object get_235_SettingsPageViewModel_MAToggle(object instance)
+        private object get_237_SettingsPageViewModel_MAToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.MAToggle;
         }
-        private void set_235_SettingsPageViewModel_MAToggle(object instance, object Value)
+        private void set_237_SettingsPageViewModel_MAToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.MAToggle = (global::System.Boolean)Value;
         }
-        private object get_236_SettingsPageViewModel_StructureToggle(object instance)
+        private object get_238_SettingsPageViewModel_StructureToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.StructureToggle;
         }
-        private void set_236_SettingsPageViewModel_StructureToggle(object instance, object Value)
+        private void set_238_SettingsPageViewModel_StructureToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.StructureToggle = (global::System.Boolean)Value;
         }
-        private object get_237_SettingsPageViewModel_FossilToggle(object instance)
+        private object get_239_SettingsPageViewModel_FossilToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.FossilToggle;
         }
-        private void set_237_SettingsPageViewModel_FossilToggle(object instance, object Value)
+        private void set_239_SettingsPageViewModel_FossilToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.FossilToggle = (global::System.Boolean)Value;
         }
-        private object get_238_SettingsPageViewModel_MineralToggle(object instance)
+        private object get_240_SettingsPageViewModel_MineralToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.MineralToggle;
         }
-        private void set_238_SettingsPageViewModel_MineralToggle(object instance, object Value)
+        private void set_240_SettingsPageViewModel_MineralToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.MineralToggle = (global::System.Boolean)Value;
         }
-        private object get_239_SettingsPageViewModel_EnvironmentToggle(object instance)
+        private object get_241_SettingsPageViewModel_EnvironmentToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.EnvironmentToggle;
         }
-        private void set_239_SettingsPageViewModel_EnvironmentToggle(object instance, object Value)
+        private void set_241_SettingsPageViewModel_EnvironmentToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.EnvironmentToggle = (global::System.Boolean)Value;
         }
-        private object get_240_SettingsPageViewModel_SoilProfileToggle(object instance)
+        private object get_242_SettingsPageViewModel_SoilProfileToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.SoilProfileToggle;
         }
-        private void set_240_SettingsPageViewModel_SoilProfileToggle(object instance, object Value)
+        private void set_242_SettingsPageViewModel_SoilProfileToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.SoilProfileToggle = (global::System.Boolean)Value;
         }
-        private object get_241_SettingsPageViewModel_PflowToggle(object instance)
+        private object get_243_SettingsPageViewModel_PflowToggle(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.PflowToggle;
         }
-        private void set_241_SettingsPageViewModel_PflowToggle(object instance, object Value)
+        private void set_243_SettingsPageViewModel_PflowToggle(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.PflowToggle = (global::System.Boolean)Value;
         }
-        private object get_242_SettingsPageViewModel_LoadPicklistVisibility(object instance)
+        private object get_244_SettingsPageViewModel_LoadPicklistVisibility(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.LoadPicklistVisibility;
         }
-        private void set_242_SettingsPageViewModel_LoadPicklistVisibility(object instance, object Value)
+        private void set_244_SettingsPageViewModel_LoadPicklistVisibility(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.LoadPicklistVisibility = (global::Windows.UI.Xaml.Visibility)Value;
         }
-        private object get_243_SettingsPageViewModel_SelectedPivotIndex(object instance)
+        private object get_245_SettingsPageViewModel_SelectedPivotIndex(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.SelectedPivotIndex;
         }
-        private void set_243_SettingsPageViewModel_SelectedPivotIndex(object instance, object Value)
+        private void set_245_SettingsPageViewModel_SelectedPivotIndex(object instance, object Value)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             that.SelectedPivotIndex = (global::System.Int32)Value;
         }
-        private object get_244_SettingsPageViewModel_SettingsPartViewModel(object instance)
+        private object get_246_SettingsPageViewModel_SettingsPartViewModel(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.SettingsPartViewModel;
         }
-        private object get_245_SettingsPageViewModel_AboutPartViewModel(object instance)
+        private object get_247_SettingsPageViewModel_AboutPartViewModel(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.AboutPartViewModel;
         }
-        private object get_246_SettingsPageViewModel_PicklistPartViewModel(object instance)
+        private object get_248_SettingsPageViewModel_PicklistPartViewModel(object instance)
         {
             var that = (global::GSCFieldApp.ViewModels.SettingsPageViewModel)instance;
             return that.PicklistPartViewModel;
         }
-        private object get_247_Shell_SViewModel(object instance)
+        private object get_249_Shell_SViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.Shell)instance;
             return that.SViewModel;
         }
-        private void set_247_Shell_SViewModel(object instance, object Value)
+        private void set_249_Shell_SViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.Shell)instance;
             that.SViewModel = (global::GSCFieldApp.ViewModels.ShellViewModel)Value;
         }
-        private object get_248_StationDataPart_ViewModel(object instance)
+        private object get_250_StationDataPart_ViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.StationDataPart)instance;
             return that.ViewModel;
         }
-        private void set_248_StationDataPart_ViewModel(object instance, object Value)
+        private void set_250_StationDataPart_ViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.StationDataPart)instance;
             that.ViewModel = (global::GSCFieldApp.ViewModels.StationViewModel)Value;
         }
-        private object get_249_StationDataPart_mapPosition(object instance)
+        private object get_251_StationDataPart_mapPosition(object instance)
         {
             var that = (global::GSCFieldApp.Views.StationDataPart)instance;
             return that.mapPosition;
         }
-        private void set_249_StationDataPart_mapPosition(object instance, object Value)
+        private void set_251_StationDataPart_mapPosition(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.StationDataPart)instance;
             that.mapPosition = (global::GSCFieldApp.Models.FieldLocation)Value;
         }
-        private object get_250_StructureDialog_strucViewModel(object instance)
+        private object get_252_StructureDialog_strucViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.StructureDialog)instance;
             return that.strucViewModel;
         }
-        private void set_250_StructureDialog_strucViewModel(object instance, object Value)
+        private void set_252_StructureDialog_strucViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.StructureDialog)instance;
             that.strucViewModel = (global::GSCFieldApp.ViewModels.StructureViewModel)Value;
         }
-        private object get_251_StructureDialog_parentViewModel(object instance)
+        private object get_253_StructureDialog_parentViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.StructureDialog)instance;
             return that.parentViewModel;
         }
-        private void set_251_StructureDialog_parentViewModel(object instance, object Value)
+        private void set_253_StructureDialog_parentViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.StructureDialog)instance;
             that.parentViewModel = (global::GSCFieldApp.Models.FieldNotes)Value;
         }
-        private object get_252_FieldBookDialog_ViewModel(object instance)
+        private object get_254_FieldBookDialog_ViewModel(object instance)
         {
             var that = (global::GSCFieldApp.Views.FieldBookDialog)instance;
             return that.ViewModel;
         }
-        private void set_252_FieldBookDialog_ViewModel(object instance, object Value)
+        private void set_254_FieldBookDialog_ViewModel(object instance, object Value)
         {
             var that = (global::GSCFieldApp.Views.FieldBookDialog)instance;
             that.ViewModel = (global::GSCFieldApp.ViewModels.FieldBookDialogViewModel)Value;
         }
-        private object get_253_PictureFillSymbol_Opacity(object instance)
+        private object get_255_PictureFillSymbol_Opacity(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.Opacity;
         }
-        private void set_253_PictureFillSymbol_Opacity(object instance, object Value)
+        private void set_255_PictureFillSymbol_Opacity(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.Opacity = (global::System.Double)Value;
         }
-        private object get_254_PictureFillSymbol_Width(object instance)
+        private object get_256_PictureFillSymbol_Width(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.Width;
         }
-        private void set_254_PictureFillSymbol_Width(object instance, object Value)
+        private void set_256_PictureFillSymbol_Width(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.Width = (global::System.Double)Value;
         }
-        private object get_255_PictureFillSymbol_Height(object instance)
+        private object get_257_PictureFillSymbol_Height(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.Height;
         }
-        private void set_255_PictureFillSymbol_Height(object instance, object Value)
+        private void set_257_PictureFillSymbol_Height(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.Height = (global::System.Double)Value;
         }
-        private object get_256_PictureFillSymbol_Angle(object instance)
+        private object get_258_PictureFillSymbol_Angle(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.Angle;
         }
-        private void set_256_PictureFillSymbol_Angle(object instance, object Value)
+        private void set_258_PictureFillSymbol_Angle(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.Angle = (global::System.Double)Value;
         }
-        private object get_257_PictureFillSymbol_OffsetX(object instance)
+        private object get_259_PictureFillSymbol_OffsetX(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.OffsetX;
         }
-        private void set_257_PictureFillSymbol_OffsetX(object instance, object Value)
+        private void set_259_PictureFillSymbol_OffsetX(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.OffsetX = (global::System.Double)Value;
         }
-        private object get_258_PictureFillSymbol_OffsetY(object instance)
+        private object get_260_PictureFillSymbol_OffsetY(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.OffsetY;
         }
-        private void set_258_PictureFillSymbol_OffsetY(object instance, object Value)
+        private void set_260_PictureFillSymbol_OffsetY(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.OffsetY = (global::System.Double)Value;
         }
-        private object get_259_PictureFillSymbol_ScaleX(object instance)
+        private object get_261_PictureFillSymbol_ScaleX(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.ScaleX;
         }
-        private void set_259_PictureFillSymbol_ScaleX(object instance, object Value)
+        private void set_261_PictureFillSymbol_ScaleX(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.ScaleX = (global::System.Double)Value;
         }
-        private object get_260_PictureFillSymbol_ScaleY(object instance)
+        private object get_262_PictureFillSymbol_ScaleY(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.ScaleY;
         }
-        private void set_260_PictureFillSymbol_ScaleY(object instance, object Value)
+        private void set_262_PictureFillSymbol_ScaleY(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.ScaleY = (global::System.Double)Value;
         }
-        private object get_261_PictureFillSymbol_Uri(object instance)
+        private object get_263_PictureFillSymbol_Uri(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             return that.Uri;
         }
-        private void set_261_PictureFillSymbol_Uri(object instance, object Value)
+        private void set_263_PictureFillSymbol_Uri(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureFillSymbol)instance;
             that.Uri = (global::System.Uri)Value;
         }
-        private object get_262_FillSymbol_Color(object instance)
+        private object get_264_FillSymbol_Color(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.FillSymbol)instance;
             return that.Color;
         }
-        private void set_262_FillSymbol_Color(object instance, object Value)
+        private void set_264_FillSymbol_Color(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.FillSymbol)instance;
             that.Color = (global::System.Drawing.Color)Value;
         }
-        private object get_263_FillSymbol_Outline(object instance)
+        private object get_265_FillSymbol_Outline(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.FillSymbol)instance;
             return that.Outline;
         }
-        private void set_263_FillSymbol_Outline(object instance, object Value)
+        private void set_265_FillSymbol_Outline(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.FillSymbol)instance;
             that.Outline = (global::Esri.ArcGISRuntime.Symbology.LineSymbol)Value;
         }
-        private object get_264_PictureMarkerSymbol_Opacity(object instance)
+        private object get_266_PictureMarkerSymbol_Opacity(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol)instance;
             return that.Opacity;
         }
-        private void set_264_PictureMarkerSymbol_Opacity(object instance, object Value)
+        private void set_266_PictureMarkerSymbol_Opacity(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol)instance;
             that.Opacity = (global::System.Double)Value;
         }
-        private object get_265_PictureMarkerSymbol_Width(object instance)
+        private object get_267_PictureMarkerSymbol_Width(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol)instance;
             return that.Width;
         }
-        private void set_265_PictureMarkerSymbol_Width(object instance, object Value)
+        private void set_267_PictureMarkerSymbol_Width(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol)instance;
             that.Width = (global::System.Double)Value;
         }
-        private object get_266_PictureMarkerSymbol_Height(object instance)
+        private object get_268_PictureMarkerSymbol_Height(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol)instance;
             return that.Height;
         }
-        private void set_266_PictureMarkerSymbol_Height(object instance, object Value)
+        private void set_268_PictureMarkerSymbol_Height(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol)instance;
             that.Height = (global::System.Double)Value;
         }
-        private object get_267_PictureMarkerSymbol_Uri(object instance)
+        private object get_269_PictureMarkerSymbol_Uri(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol)instance;
             return that.Uri;
         }
-        private void set_267_PictureMarkerSymbol_Uri(object instance, object Value)
+        private void set_269_PictureMarkerSymbol_Uri(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol)instance;
             that.Uri = (global::System.Uri)Value;
         }
-        private object get_268_MarkerSymbol_Angle(object instance)
+        private object get_270_MarkerSymbol_Angle(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             return that.Angle;
         }
-        private void set_268_MarkerSymbol_Angle(object instance, object Value)
+        private void set_270_MarkerSymbol_Angle(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             that.Angle = (global::System.Double)Value;
         }
-        private object get_269_MarkerSymbol_AngleAlignment(object instance)
+        private object get_271_MarkerSymbol_AngleAlignment(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             return that.AngleAlignment;
         }
-        private void set_269_MarkerSymbol_AngleAlignment(object instance, object Value)
+        private void set_271_MarkerSymbol_AngleAlignment(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             that.AngleAlignment = (global::Esri.ArcGISRuntime.Symbology.SymbolAngleAlignment)Value;
         }
-        private object get_270_MarkerSymbol_LeaderOffsetX(object instance)
+        private object get_272_MarkerSymbol_LeaderOffsetX(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             return that.LeaderOffsetX;
         }
-        private void set_270_MarkerSymbol_LeaderOffsetX(object instance, object Value)
+        private void set_272_MarkerSymbol_LeaderOffsetX(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             that.LeaderOffsetX = (global::System.Double)Value;
         }
-        private object get_271_MarkerSymbol_LeaderOffsetY(object instance)
+        private object get_273_MarkerSymbol_LeaderOffsetY(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             return that.LeaderOffsetY;
         }
-        private void set_271_MarkerSymbol_LeaderOffsetY(object instance, object Value)
+        private void set_273_MarkerSymbol_LeaderOffsetY(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             that.LeaderOffsetY = (global::System.Double)Value;
         }
-        private object get_272_MarkerSymbol_OffsetX(object instance)
+        private object get_274_MarkerSymbol_OffsetX(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             return that.OffsetX;
         }
-        private void set_272_MarkerSymbol_OffsetX(object instance, object Value)
+        private void set_274_MarkerSymbol_OffsetX(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             that.OffsetX = (global::System.Double)Value;
         }
-        private object get_273_MarkerSymbol_OffsetY(object instance)
+        private object get_275_MarkerSymbol_OffsetY(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             return that.OffsetY;
         }
-        private void set_273_MarkerSymbol_OffsetY(object instance, object Value)
+        private void set_275_MarkerSymbol_OffsetY(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             that.OffsetY = (global::System.Double)Value;
         }
 #pragma warning disable 0618  //   Warning on Deprecated usage
-        private object get_274_MarkerSymbol_RotationType(object instance)
+        private object get_276_MarkerSymbol_RotationType(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             return that.RotationType;
         }
-        private void set_274_MarkerSymbol_RotationType(object instance, object Value)
+        private void set_276_MarkerSymbol_RotationType(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.MarkerSymbol)instance;
             that.RotationType = (global::Esri.ArcGISRuntime.Symbology.RotationType)Value;
         }
 #pragma warning restore 0618
-        private object get_275_SimpleFillSymbol_Style(object instance)
+        private object get_277_SimpleFillSymbol_Style(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleFillSymbol)instance;
             return that.Style;
         }
-        private void set_275_SimpleFillSymbol_Style(object instance, object Value)
+        private void set_277_SimpleFillSymbol_Style(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleFillSymbol)instance;
             that.Style = (global::Esri.ArcGISRuntime.Symbology.SimpleFillSymbolStyle)Value;
         }
-        private object get_276_SimpleLineSymbol_Style(object instance)
+        private object get_278_SimpleLineSymbol_Style(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbol)instance;
             return that.Style;
         }
-        private void set_276_SimpleLineSymbol_Style(object instance, object Value)
+        private void set_278_SimpleLineSymbol_Style(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbol)instance;
             that.Style = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbolStyle)Value;
         }
-        private object get_277_SimpleLineSymbol_MarkerPlacement(object instance)
+        private object get_279_SimpleLineSymbol_MarkerPlacement(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbol)instance;
             return that.MarkerPlacement;
         }
-        private void set_277_SimpleLineSymbol_MarkerPlacement(object instance, object Value)
+        private void set_279_SimpleLineSymbol_MarkerPlacement(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbol)instance;
             that.MarkerPlacement = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbolMarkerPlacement)Value;
         }
-        private object get_278_SimpleLineSymbol_MarkerStyle(object instance)
+        private object get_280_SimpleLineSymbol_MarkerStyle(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbol)instance;
             return that.MarkerStyle;
         }
-        private void set_278_SimpleLineSymbol_MarkerStyle(object instance, object Value)
+        private void set_280_SimpleLineSymbol_MarkerStyle(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbol)instance;
             that.MarkerStyle = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbolMarkerStyle)Value;
         }
-        private object get_279_LineSymbol_Color(object instance)
+        private object get_281_LineSymbol_Color(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.LineSymbol)instance;
             return that.Color;
         }
-        private void set_279_LineSymbol_Color(object instance, object Value)
+        private void set_281_LineSymbol_Color(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.LineSymbol)instance;
             that.Color = (global::System.Drawing.Color)Value;
         }
-        private object get_280_LineSymbol_Width(object instance)
+        private object get_282_LineSymbol_Width(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.LineSymbol)instance;
             return that.Width;
         }
-        private void set_280_LineSymbol_Width(object instance, object Value)
+        private void set_282_LineSymbol_Width(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.LineSymbol)instance;
             that.Width = (global::System.Double)Value;
         }
-        private object get_281_LineSymbol_AntiAlias(object instance)
+        private object get_283_LineSymbol_AntiAlias(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.LineSymbol)instance;
             return that.AntiAlias;
         }
-        private void set_281_LineSymbol_AntiAlias(object instance, object Value)
+        private void set_283_LineSymbol_AntiAlias(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.LineSymbol)instance;
             that.AntiAlias = (global::System.Boolean)Value;
         }
-        private object get_282_SimpleMarkerSymbol_Outline(object instance)
+        private object get_284_SimpleMarkerSymbol_Outline(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol)instance;
             return that.Outline;
         }
-        private void set_282_SimpleMarkerSymbol_Outline(object instance, object Value)
+        private void set_284_SimpleMarkerSymbol_Outline(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol)instance;
             that.Outline = (global::Esri.ArcGISRuntime.Symbology.SimpleLineSymbol)Value;
         }
-        private object get_283_SimpleMarkerSymbol_Color(object instance)
+        private object get_285_SimpleMarkerSymbol_Color(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol)instance;
             return that.Color;
         }
-        private void set_283_SimpleMarkerSymbol_Color(object instance, object Value)
+        private void set_285_SimpleMarkerSymbol_Color(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol)instance;
             that.Color = (global::System.Drawing.Color)Value;
         }
-        private object get_284_SimpleMarkerSymbol_Size(object instance)
+        private object get_286_SimpleMarkerSymbol_Size(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol)instance;
             return that.Size;
         }
-        private void set_284_SimpleMarkerSymbol_Size(object instance, object Value)
+        private void set_286_SimpleMarkerSymbol_Size(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol)instance;
             that.Size = (global::System.Double)Value;
         }
-        private object get_285_SimpleMarkerSymbol_Style(object instance)
+        private object get_287_SimpleMarkerSymbol_Style(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol)instance;
             return that.Style;
         }
-        private void set_285_SimpleMarkerSymbol_Style(object instance, object Value)
+        private void set_287_SimpleMarkerSymbol_Style(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol)instance;
             that.Style = (global::Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbolStyle)Value;
         }
-        private object get_286_TextSymbol_Color(object instance)
+        private object get_288_TextSymbol_Color(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.Color;
         }
-        private void set_286_TextSymbol_Color(object instance, object Value)
+        private void set_288_TextSymbol_Color(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.Color = (global::System.Drawing.Color)Value;
         }
-        private object get_287_TextSymbol_FontDecoration(object instance)
+        private object get_289_TextSymbol_FontDecoration(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.FontDecoration;
         }
-        private void set_287_TextSymbol_FontDecoration(object instance, object Value)
+        private void set_289_TextSymbol_FontDecoration(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.FontDecoration = (global::Esri.ArcGISRuntime.Symbology.FontDecoration)Value;
         }
-        private object get_288_TextSymbol_FontFamily(object instance)
+        private object get_290_TextSymbol_FontFamily(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.FontFamily;
         }
-        private void set_288_TextSymbol_FontFamily(object instance, object Value)
+        private void set_290_TextSymbol_FontFamily(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.FontFamily = (global::System.String)Value;
         }
-        private object get_289_TextSymbol_FontStyle(object instance)
+        private object get_291_TextSymbol_FontStyle(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.FontStyle;
         }
-        private void set_289_TextSymbol_FontStyle(object instance, object Value)
+        private void set_291_TextSymbol_FontStyle(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.FontStyle = (global::Esri.ArcGISRuntime.Symbology.FontStyle)Value;
         }
-        private object get_290_TextSymbol_FontWeight(object instance)
+        private object get_292_TextSymbol_FontWeight(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.FontWeight;
         }
-        private void set_290_TextSymbol_FontWeight(object instance, object Value)
+        private void set_292_TextSymbol_FontWeight(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.FontWeight = (global::Esri.ArcGISRuntime.Symbology.FontWeight)Value;
         }
-        private object get_291_TextSymbol_HorizontalAlignment(object instance)
+        private object get_293_TextSymbol_HorizontalAlignment(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.HorizontalAlignment;
         }
-        private void set_291_TextSymbol_HorizontalAlignment(object instance, object Value)
+        private void set_293_TextSymbol_HorizontalAlignment(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.HorizontalAlignment = (global::Esri.ArcGISRuntime.Symbology.HorizontalAlignment)Value;
         }
-        private object get_292_TextSymbol_Size(object instance)
+        private object get_294_TextSymbol_Size(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.Size;
         }
-        private void set_292_TextSymbol_Size(object instance, object Value)
+        private void set_294_TextSymbol_Size(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.Size = (global::System.Double)Value;
         }
-        private object get_293_TextSymbol_Text(object instance)
+        private object get_295_TextSymbol_Text(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.Text;
         }
-        private void set_293_TextSymbol_Text(object instance, object Value)
+        private void set_295_TextSymbol_Text(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.Text = (global::System.String)Value;
         }
-        private object get_294_TextSymbol_VerticalAlignment(object instance)
+        private object get_296_TextSymbol_VerticalAlignment(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.VerticalAlignment;
         }
-        private void set_294_TextSymbol_VerticalAlignment(object instance, object Value)
+        private void set_296_TextSymbol_VerticalAlignment(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.VerticalAlignment = (global::Esri.ArcGISRuntime.Symbology.VerticalAlignment)Value;
         }
-        private object get_295_TextSymbol_HaloColor(object instance)
+        private object get_297_TextSymbol_HaloColor(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.HaloColor;
         }
-        private void set_295_TextSymbol_HaloColor(object instance, object Value)
+        private void set_297_TextSymbol_HaloColor(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.HaloColor = (global::System.Drawing.Color)Value;
         }
-        private object get_296_TextSymbol_HaloWidth(object instance)
+        private object get_298_TextSymbol_HaloWidth(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.HaloWidth;
         }
-        private void set_296_TextSymbol_HaloWidth(object instance, object Value)
+        private void set_298_TextSymbol_HaloWidth(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.HaloWidth = (global::System.Double)Value;
         }
-        private object get_297_TextSymbol_OutlineColor(object instance)
+        private object get_299_TextSymbol_OutlineColor(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.OutlineColor;
         }
-        private void set_297_TextSymbol_OutlineColor(object instance, object Value)
+        private void set_299_TextSymbol_OutlineColor(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.OutlineColor = (global::System.Drawing.Color)Value;
         }
-        private object get_298_TextSymbol_OutlineWidth(object instance)
+        private object get_300_TextSymbol_OutlineWidth(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.OutlineWidth;
         }
-        private void set_298_TextSymbol_OutlineWidth(object instance, object Value)
+        private void set_300_TextSymbol_OutlineWidth(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.OutlineWidth = (global::System.Double)Value;
         }
-        private object get_299_TextSymbol_BackgroundColor(object instance)
+        private object get_301_TextSymbol_BackgroundColor(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.BackgroundColor;
         }
-        private void set_299_TextSymbol_BackgroundColor(object instance, object Value)
+        private void set_301_TextSymbol_BackgroundColor(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.BackgroundColor = (global::System.Drawing.Color)Value;
         }
-        private object get_300_TextSymbol_KerningEnabled(object instance)
+        private object get_302_TextSymbol_KerningEnabled(object instance)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             return that.KerningEnabled;
         }
-        private void set_300_TextSymbol_KerningEnabled(object instance, object Value)
+        private void set_302_TextSymbol_KerningEnabled(object instance, object Value)
         {
             var that = (global::Esri.ArcGISRuntime.Symbology.TextSymbol)instance;
             that.KerningEnabled = (global::System.Boolean)Value;
@@ -6256,449 +6278,461 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlMember.Getter = get_129_Layer_SublayerContents;
                 xamlMember.SetIsReadOnly();
                 break;
+            case "GSCFieldApp.ViewModels.MapPageViewModel.GPSModeSymbol":
+                userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
+                xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "GPSModeSymbol", "Windows.UI.Xaml.Controls.Symbol");
+                xamlMember.Getter = get_130_MapPageViewModel_GPSModeSymbol;
+                xamlMember.Setter = set_130_MapPageViewModel_GPSModeSymbol;
+                break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.NoMapsWatermark":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "NoMapsWatermark", "Boolean");
-                xamlMember.Getter = get_130_MapPageViewModel_NoMapsWatermark;
-                xamlMember.Setter = set_130_MapPageViewModel_NoMapsWatermark;
+                xamlMember.Getter = get_131_MapPageViewModel_NoMapsWatermark;
+                xamlMember.Setter = set_131_MapPageViewModel_NoMapsWatermark;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.FilenameValues":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FilenameValues", "System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.Files>");
-                xamlMember.Getter = get_131_MapPageViewModel_FilenameValues;
-                xamlMember.Setter = set_131_MapPageViewModel_FilenameValues;
+                xamlMember.Getter = get_132_MapPageViewModel_FilenameValues;
+                xamlMember.Setter = set_132_MapPageViewModel_FilenameValues;
                 break;
             case "GSCFieldApp.Models.Files.FileName":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.Files");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FileName", "String");
-                xamlMember.Getter = get_132_Files_FileName;
-                xamlMember.Setter = set_132_Files_FileName;
+                xamlMember.Getter = get_133_Files_FileName;
+                xamlMember.Setter = set_133_Files_FileName;
                 break;
             case "GSCFieldApp.Models.Files.FilePath":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.Files");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FilePath", "String");
-                xamlMember.Getter = get_133_Files_FilePath;
-                xamlMember.Setter = set_133_Files_FilePath;
+                xamlMember.Getter = get_134_Files_FilePath;
+                xamlMember.Setter = set_134_Files_FilePath;
                 break;
             case "GSCFieldApp.Models.Files.FileVisible":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.Files");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FileVisible", "Boolean");
-                xamlMember.Getter = get_134_Files_FileVisible;
-                xamlMember.Setter = set_134_Files_FileVisible;
+                xamlMember.Getter = get_135_Files_FileVisible;
+                xamlMember.Setter = set_135_Files_FileVisible;
                 break;
             case "GSCFieldApp.Models.Files.FileCanDelete":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.Files");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FileCanDelete", "Windows.UI.Xaml.Visibility");
-                xamlMember.Getter = get_135_Files_FileCanDelete;
-                xamlMember.Setter = set_135_Files_FileCanDelete;
+                xamlMember.Getter = get_136_Files_FileCanDelete;
+                xamlMember.Setter = set_136_Files_FileCanDelete;
                 break;
             case "GSCFieldApp.Models.Files.FileOpacity":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.Files");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FileOpacity", "Double");
-                xamlMember.Getter = get_136_Files_FileOpacity;
-                xamlMember.Setter = set_136_Files_FileOpacity;
+                xamlMember.Getter = get_137_Files_FileOpacity;
+                xamlMember.Setter = set_137_Files_FileOpacity;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.SelectedLayer":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SelectedLayer", "Object");
-                xamlMember.Getter = get_137_MapPageViewModel_SelectedLayer;
-                xamlMember.Setter = set_137_MapPageViewModel_SelectedLayer;
+                xamlMember.Getter = get_138_MapPageViewModel_SelectedLayer;
+                xamlMember.Setter = set_138_MapPageViewModel_SelectedLayer;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.CurrentMSGeoposition":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "CurrentMSGeoposition", "Windows.Devices.Geolocation.Geoposition");
-                xamlMember.Getter = get_138_MapPageViewModel_CurrentMSGeoposition;
-                xamlMember.Setter = set_138_MapPageViewModel_CurrentMSGeoposition;
+                xamlMember.Getter = get_139_MapPageViewModel_CurrentMSGeoposition;
+                xamlMember.Setter = set_139_MapPageViewModel_CurrentMSGeoposition;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.CurrentLongitude":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "CurrentLongitude", "Double");
-                xamlMember.Getter = get_139_MapPageViewModel_CurrentLongitude;
-                xamlMember.Setter = set_139_MapPageViewModel_CurrentLongitude;
+                xamlMember.Getter = get_140_MapPageViewModel_CurrentLongitude;
+                xamlMember.Setter = set_140_MapPageViewModel_CurrentLongitude;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.CurrentLatitude":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "CurrentLatitude", "Double");
-                xamlMember.Getter = get_140_MapPageViewModel_CurrentLatitude;
-                xamlMember.Setter = set_140_MapPageViewModel_CurrentLatitude;
+                xamlMember.Getter = get_141_MapPageViewModel_CurrentLatitude;
+                xamlMember.Setter = set_141_MapPageViewModel_CurrentLatitude;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.CurrentAltitude":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "CurrentAltitude", "Double");
-                xamlMember.Getter = get_141_MapPageViewModel_CurrentAltitude;
-                xamlMember.Setter = set_141_MapPageViewModel_CurrentAltitude;
+                xamlMember.Getter = get_142_MapPageViewModel_CurrentAltitude;
+                xamlMember.Setter = set_142_MapPageViewModel_CurrentAltitude;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.CurrentAccuracy":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "CurrentAccuracy", "Double");
-                xamlMember.Getter = get_142_MapPageViewModel_CurrentAccuracy;
-                xamlMember.Setter = set_142_MapPageViewModel_CurrentAccuracy;
+                xamlMember.Getter = get_143_MapPageViewModel_CurrentAccuracy;
+                xamlMember.Setter = set_143_MapPageViewModel_CurrentAccuracy;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.lastTakenLocation":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "lastTakenLocation", "System.Tuple`2<Double, Double>");
-                xamlMember.Getter = get_143_MapPageViewModel_lastTakenLocation;
-                xamlMember.Setter = set_143_MapPageViewModel_lastTakenLocation;
+                xamlMember.Getter = get_144_MapPageViewModel_lastTakenLocation;
+                xamlMember.Setter = set_144_MapPageViewModel_lastTakenLocation;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.MyMapScale":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MyMapScale", "Double");
-                xamlMember.Getter = get_144_MapPageViewModel_MyMapScale;
-                xamlMember.Setter = set_144_MapPageViewModel_MyMapScale;
+                xamlMember.Getter = get_145_MapPageViewModel_MyMapScale;
+                xamlMember.Setter = set_145_MapPageViewModel_MyMapScale;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.MapRingActive":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapRingActive", "Boolean");
-                xamlMember.Getter = get_145_MapPageViewModel_MapRingActive;
-                xamlMember.Setter = set_145_MapPageViewModel_MapRingActive;
+                xamlMember.Getter = get_146_MapPageViewModel_MapRingActive;
+                xamlMember.Setter = set_146_MapPageViewModel_MapRingActive;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.MapRingVisibility":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapRingVisibility", "Boolean");
-                xamlMember.Getter = get_146_MapPageViewModel_MapRingVisibility;
-                xamlMember.Setter = set_146_MapPageViewModel_MapRingVisibility;
+                xamlMember.Getter = get_147_MapPageViewModel_MapRingVisibility;
+                xamlMember.Setter = set_147_MapPageViewModel_MapRingVisibility;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.MapRingLabelAcquiringGPSVisibility":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapRingLabelAcquiringGPSVisibility", "Boolean");
-                xamlMember.Getter = get_147_MapPageViewModel_MapRingLabelAcquiringGPSVisibility;
-                xamlMember.Setter = set_147_MapPageViewModel_MapRingLabelAcquiringGPSVisibility;
+                xamlMember.Getter = get_148_MapPageViewModel_MapRingLabelAcquiringGPSVisibility;
+                xamlMember.Setter = set_148_MapPageViewModel_MapRingLabelAcquiringGPSVisibility;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.MapPageQuickMeasurementEnable":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapPageQuickMeasurementEnable", "Boolean");
-                xamlMember.Getter = get_148_MapPageViewModel_MapPageQuickMeasurementEnable;
-                xamlMember.Setter = set_148_MapPageViewModel_MapPageQuickMeasurementEnable;
+                xamlMember.Getter = get_149_MapPageViewModel_MapPageQuickMeasurementEnable;
+                xamlMember.Setter = set_149_MapPageViewModel_MapPageQuickMeasurementEnable;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.MapPageQuickPhotoEnable":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapPageQuickPhotoEnable", "Boolean");
-                xamlMember.Getter = get_149_MapPageViewModel_MapPageQuickPhotoEnable;
-                xamlMember.Setter = set_149_MapPageViewModel_MapPageQuickPhotoEnable;
+                xamlMember.Getter = get_150_MapPageViewModel_MapPageQuickPhotoEnable;
+                xamlMember.Setter = set_150_MapPageViewModel_MapPageQuickPhotoEnable;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.MapPageQuickSampleEnable":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapPageQuickSampleEnable", "Boolean");
-                xamlMember.Getter = get_150_MapPageViewModel_MapPageQuickSampleEnable;
-                xamlMember.Setter = set_150_MapPageViewModel_MapPageQuickSampleEnable;
+                xamlMember.Getter = get_151_MapPageViewModel_MapPageQuickSampleEnable;
+                xamlMember.Setter = set_151_MapPageViewModel_MapPageQuickSampleEnable;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.vocabEntryTypeTap":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "vocabEntryTypeTap", "String");
-                xamlMember.Getter = get_151_MapPageViewModel_vocabEntryTypeTap;
-                xamlMember.Setter = set_151_MapPageViewModel_vocabEntryTypeTap;
+                xamlMember.Getter = get_152_MapPageViewModel_vocabEntryTypeTap;
+                xamlMember.Setter = set_152_MapPageViewModel_vocabEntryTypeTap;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.vocabEntryTypeGPS":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "vocabEntryTypeGPS", "String");
-                xamlMember.Getter = get_152_MapPageViewModel_vocabEntryTypeGPS;
-                xamlMember.Setter = set_152_MapPageViewModel_vocabEntryTypeGPS;
+                xamlMember.Getter = get_153_MapPageViewModel_vocabEntryTypeGPS;
+                xamlMember.Setter = set_153_MapPageViewModel_vocabEntryTypeGPS;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.vocabElevmethodGPS":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "vocabElevmethodGPS", "String");
-                xamlMember.Getter = get_153_MapPageViewModel_vocabElevmethodGPS;
-                xamlMember.Setter = set_153_MapPageViewModel_vocabElevmethodGPS;
+                xamlMember.Getter = get_154_MapPageViewModel_vocabElevmethodGPS;
+                xamlMember.Setter = set_154_MapPageViewModel_vocabElevmethodGPS;
                 break;
             case "GSCFieldApp.ViewModels.MapPageViewModel.vocabErrorMeasureTypeMeter":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "vocabErrorMeasureTypeMeter", "String");
-                xamlMember.Getter = get_154_MapPageViewModel_vocabErrorMeasureTypeMeter;
-                xamlMember.Setter = set_154_MapPageViewModel_vocabErrorMeasureTypeMeter;
+                xamlMember.Getter = get_155_MapPageViewModel_vocabErrorMeasureTypeMeter;
+                xamlMember.Setter = set_155_MapPageViewModel_vocabErrorMeasureTypeMeter;
+                break;
+            case "GSCFieldApp.ViewModels.MapPageViewModel.vocabEntryTypeManual":
+                userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.MapPageViewModel");
+                xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "vocabEntryTypeManual", "String");
+                xamlMember.Getter = get_156_MapPageViewModel_vocabEntryTypeManual;
+                xamlMember.Setter = set_156_MapPageViewModel_vocabEntryTypeManual;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.MapScale":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapScale", "Double");
-                xamlMember.Getter = get_155_MapView_MapScale;
+                xamlMember.Getter = get_157_MapView_MapScale;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.MapRotation":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapRotation", "Double");
-                xamlMember.Getter = get_156_MapView_MapRotation;
+                xamlMember.Getter = get_158_MapView_MapRotation;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.UnitsPerPixel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "UnitsPerPixel", "Double");
-                xamlMember.Getter = get_157_MapView_UnitsPerPixel;
+                xamlMember.Getter = get_159_MapView_UnitsPerPixel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.VisibleArea":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "VisibleArea", "Esri.ArcGISRuntime.Geometry.Polygon");
-                xamlMember.Getter = get_158_MapView_VisibleArea;
+                xamlMember.Getter = get_160_MapView_VisibleArea;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.WrapAroundMode":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "WrapAroundMode", "Esri.ArcGISRuntime.UI.WrapAroundMode");
-                xamlMember.Getter = get_159_MapView_WrapAroundMode;
-                xamlMember.Setter = set_159_MapView_WrapAroundMode;
+                xamlMember.Getter = get_161_MapView_WrapAroundMode;
+                xamlMember.Setter = set_161_MapView_WrapAroundMode;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.Labeling":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Labeling", "Esri.ArcGISRuntime.UI.ViewLabelProperties");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_160_MapView_Labeling;
-                xamlMember.Setter = set_160_MapView_Labeling;
+                xamlMember.Getter = get_162_MapView_Labeling;
+                xamlMember.Setter = set_162_MapView_Labeling;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.LocationDisplay":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "LocationDisplay", "Esri.ArcGISRuntime.UI.LocationDisplay");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_161_MapView_LocationDisplay;
+                xamlMember.Getter = get_163_MapView_LocationDisplay;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.BackgroundGrid":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "BackgroundGrid", "Esri.ArcGISRuntime.UI.BackgroundGrid");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_162_MapView_BackgroundGrid;
-                xamlMember.Setter = set_162_MapView_BackgroundGrid;
+                xamlMember.Getter = get_164_MapView_BackgroundGrid;
+                xamlMember.Setter = set_164_MapView_BackgroundGrid;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.Grid":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Grid", "Esri.ArcGISRuntime.UI.Grid");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_163_MapView_Grid;
-                xamlMember.Setter = set_163_MapView_Grid;
+                xamlMember.Getter = get_165_MapView_Grid;
+                xamlMember.Setter = set_165_MapView_Grid;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.SketchEditor":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SketchEditor", "Esri.ArcGISRuntime.UI.SketchEditor");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_164_MapView_SketchEditor;
-                xamlMember.Setter = set_164_MapView_SketchEditor;
+                xamlMember.Getter = get_166_MapView_SketchEditor;
+                xamlMember.Setter = set_166_MapView_SketchEditor;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.MapView.InteractionOptions":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "InteractionOptions", "Esri.ArcGISRuntime.UI.MapViewInteractionOptions");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_165_MapView_InteractionOptions;
-                xamlMember.Setter = set_165_MapView_InteractionOptions;
+                xamlMember.Getter = get_167_MapView_InteractionOptions;
+                xamlMember.Setter = set_167_MapView_InteractionOptions;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.IsCalloutVisible":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "IsCalloutVisible", "Boolean");
-                xamlMember.Getter = get_166_GeoView_IsCalloutVisible;
+                xamlMember.Getter = get_168_GeoView_IsCalloutVisible;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.GraphicsOverlays":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "GraphicsOverlays", "Esri.ArcGISRuntime.UI.GraphicsOverlayCollection");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_167_GeoView_GraphicsOverlays;
-                xamlMember.Setter = set_167_GeoView_GraphicsOverlays;
+                xamlMember.Getter = get_169_GeoView_GraphicsOverlays;
+                xamlMember.Setter = set_169_GeoView_GraphicsOverlays;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.Graphics":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Graphics", "Esri.ArcGISRuntime.UI.GraphicCollection");
-                xamlMember.Getter = get_168_GraphicsOverlay_Graphics;
+                xamlMember.Getter = get_170_GraphicsOverlay_Graphics;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Graphic.GraphicsOverlay":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Graphic");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "GraphicsOverlay", "Esri.ArcGISRuntime.UI.GraphicsOverlay");
-                xamlMember.Getter = get_169_Graphic_GraphicsOverlay;
+                xamlMember.Getter = get_171_Graphic_GraphicsOverlay;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Graphic.Geometry":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Graphic");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Geometry", "Esri.ArcGISRuntime.Geometry.Geometry");
-                xamlMember.Getter = get_170_Graphic_Geometry;
-                xamlMember.Setter = set_170_Graphic_Geometry;
+                xamlMember.Getter = get_172_Graphic_Geometry;
+                xamlMember.Setter = set_172_Graphic_Geometry;
                 break;
             case "Esri.ArcGISRuntime.UI.Graphic.Symbol":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Graphic");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Symbol", "Esri.ArcGISRuntime.Symbology.Symbol");
-                xamlMember.Getter = get_171_Graphic_Symbol;
-                xamlMember.Setter = set_171_Graphic_Symbol;
+                xamlMember.Getter = get_173_Graphic_Symbol;
+                xamlMember.Setter = set_173_Graphic_Symbol;
                 break;
             case "Esri.ArcGISRuntime.UI.Graphic.IsVisible":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Graphic");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "IsVisible", "Boolean");
-                xamlMember.Getter = get_172_Graphic_IsVisible;
-                xamlMember.Setter = set_172_Graphic_IsVisible;
+                xamlMember.Getter = get_174_Graphic_IsVisible;
+                xamlMember.Setter = set_174_Graphic_IsVisible;
                 break;
             case "Esri.ArcGISRuntime.UI.Graphic.IsSelected":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Graphic");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "IsSelected", "Boolean");
-                xamlMember.Getter = get_173_Graphic_IsSelected;
-                xamlMember.Setter = set_173_Graphic_IsSelected;
+                xamlMember.Getter = get_175_Graphic_IsSelected;
+                xamlMember.Setter = set_175_Graphic_IsSelected;
                 break;
             case "Esri.ArcGISRuntime.UI.Graphic.ZIndex":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Graphic");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ZIndex", "Int32");
-                xamlMember.Getter = get_174_Graphic_ZIndex;
-                xamlMember.Setter = set_174_Graphic_ZIndex;
+                xamlMember.Getter = get_176_Graphic_ZIndex;
+                xamlMember.Setter = set_176_Graphic_ZIndex;
                 break;
             case "Esri.ArcGISRuntime.Data.GeoElement.Attributes":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Data.GeoElement");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Attributes", "System.Collections.Generic.IDictionary`2<String, Object>");
-                xamlMember.Getter = get_175_GeoElement_Attributes;
+                xamlMember.Getter = get_177_GeoElement_Attributes;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.Id":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Id", "String");
-                xamlMember.Getter = get_176_GraphicsOverlay_Id;
-                xamlMember.Setter = set_176_GraphicsOverlay_Id;
+                xamlMember.Getter = get_178_GraphicsOverlay_Id;
+                xamlMember.Setter = set_178_GraphicsOverlay_Id;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.Extent":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Extent", "Esri.ArcGISRuntime.Geometry.Envelope");
-                xamlMember.Getter = get_177_GraphicsOverlay_Extent;
+                xamlMember.Getter = get_179_GraphicsOverlay_Extent;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.RenderingMode":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "RenderingMode", "Esri.ArcGISRuntime.UI.GraphicsRenderingMode");
-                xamlMember.Getter = get_178_GraphicsOverlay_RenderingMode;
-                xamlMember.Setter = set_178_GraphicsOverlay_RenderingMode;
+                xamlMember.Getter = get_180_GraphicsOverlay_RenderingMode;
+                xamlMember.Setter = set_180_GraphicsOverlay_RenderingMode;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.SelectionColor":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SelectionColor", "System.Drawing.Color");
-                xamlMember.Getter = get_179_GraphicsOverlay_SelectionColor;
-                xamlMember.Setter = set_179_GraphicsOverlay_SelectionColor;
+                xamlMember.Getter = get_181_GraphicsOverlay_SelectionColor;
+                xamlMember.Setter = set_181_GraphicsOverlay_SelectionColor;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.Renderer":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Renderer", "Esri.ArcGISRuntime.Symbology.Renderer");
-                xamlMember.Getter = get_180_GraphicsOverlay_Renderer;
-                xamlMember.Setter = set_180_GraphicsOverlay_Renderer;
+                xamlMember.Getter = get_182_GraphicsOverlay_Renderer;
+                xamlMember.Setter = set_182_GraphicsOverlay_Renderer;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.IsVisible":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "IsVisible", "Boolean");
-                xamlMember.Getter = get_181_GraphicsOverlay_IsVisible;
-                xamlMember.Setter = set_181_GraphicsOverlay_IsVisible;
+                xamlMember.Getter = get_183_GraphicsOverlay_IsVisible;
+                xamlMember.Setter = set_183_GraphicsOverlay_IsVisible;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.Opacity":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Opacity", "Double");
-                xamlMember.Getter = get_182_GraphicsOverlay_Opacity;
-                xamlMember.Setter = set_182_GraphicsOverlay_Opacity;
+                xamlMember.Getter = get_184_GraphicsOverlay_Opacity;
+                xamlMember.Setter = set_184_GraphicsOverlay_Opacity;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.IsPopupEnabled":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "IsPopupEnabled", "Boolean");
-                xamlMember.Getter = get_183_GraphicsOverlay_IsPopupEnabled;
-                xamlMember.Setter = set_183_GraphicsOverlay_IsPopupEnabled;
+                xamlMember.Getter = get_185_GraphicsOverlay_IsPopupEnabled;
+                xamlMember.Setter = set_185_GraphicsOverlay_IsPopupEnabled;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.PopupDefinition":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "PopupDefinition", "Esri.ArcGISRuntime.Mapping.Popups.PopupDefinition");
-                xamlMember.Getter = get_184_GraphicsOverlay_PopupDefinition;
-                xamlMember.Setter = set_184_GraphicsOverlay_PopupDefinition;
+                xamlMember.Getter = get_186_GraphicsOverlay_PopupDefinition;
+                xamlMember.Setter = set_186_GraphicsOverlay_PopupDefinition;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.MinScale":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MinScale", "Double");
-                xamlMember.Getter = get_185_GraphicsOverlay_MinScale;
-                xamlMember.Setter = set_185_GraphicsOverlay_MinScale;
+                xamlMember.Getter = get_187_GraphicsOverlay_MinScale;
+                xamlMember.Setter = set_187_GraphicsOverlay_MinScale;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.MaxScale":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MaxScale", "Double");
-                xamlMember.Getter = get_186_GraphicsOverlay_MaxScale;
-                xamlMember.Setter = set_186_GraphicsOverlay_MaxScale;
+                xamlMember.Getter = get_188_GraphicsOverlay_MaxScale;
+                xamlMember.Setter = set_188_GraphicsOverlay_MaxScale;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.SceneProperties":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SceneProperties", "Esri.ArcGISRuntime.Mapping.LayerSceneProperties");
-                xamlMember.Getter = get_187_GraphicsOverlay_SceneProperties;
-                xamlMember.Setter = set_187_GraphicsOverlay_SceneProperties;
+                xamlMember.Getter = get_189_GraphicsOverlay_SceneProperties;
+                xamlMember.Setter = set_189_GraphicsOverlay_SceneProperties;
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.SelectedGraphics":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SelectedGraphics", "System.Collections.Generic.IEnumerable`1<Esri.ArcGISRuntime.UI.Graphic>");
-                xamlMember.Getter = get_188_GraphicsOverlay_SelectedGraphics;
+                xamlMember.Getter = get_190_GraphicsOverlay_SelectedGraphics;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.LabelDefinitions":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "LabelDefinitions", "System.Collections.Generic.IList`1<Esri.ArcGISRuntime.Mapping.LabelDefinition>");
-                xamlMember.Getter = get_189_GraphicsOverlay_LabelDefinitions;
+                xamlMember.Getter = get_191_GraphicsOverlay_LabelDefinitions;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.GraphicsOverlay.LabelsEnabled":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.GraphicsOverlay");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "LabelsEnabled", "Boolean");
-                xamlMember.Getter = get_190_GraphicsOverlay_LabelsEnabled;
-                xamlMember.Setter = set_190_GraphicsOverlay_LabelsEnabled;
+                xamlMember.Getter = get_192_GraphicsOverlay_LabelsEnabled;
+                xamlMember.Setter = set_192_GraphicsOverlay_LabelsEnabled;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.IsAttributionTextVisible":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "IsAttributionTextVisible", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_191_GeoView_IsAttributionTextVisible;
-                xamlMember.Setter = set_191_GeoView_IsAttributionTextVisible;
+                xamlMember.Getter = get_193_GeoView_IsAttributionTextVisible;
+                xamlMember.Setter = set_193_GeoView_IsAttributionTextVisible;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.AttributionText":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "AttributionText", "String");
-                xamlMember.Getter = get_192_GeoView_AttributionText;
+                xamlMember.Getter = get_194_GeoView_AttributionText;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.SpatialReference":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SpatialReference", "Esri.ArcGISRuntime.Geometry.SpatialReference");
-                xamlMember.Getter = get_193_GeoView_SpatialReference;
+                xamlMember.Getter = get_195_GeoView_SpatialReference;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.IsWrapAroundEnabled":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "IsWrapAroundEnabled", "Boolean");
-                xamlMember.Getter = get_194_GeoView_IsWrapAroundEnabled;
+                xamlMember.Getter = get_196_GeoView_IsWrapAroundEnabled;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.IsNavigating":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "IsNavigating", "Boolean");
-                xamlMember.Getter = get_195_GeoView_IsNavigating;
+                xamlMember.Getter = get_197_GeoView_IsNavigating;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.DrawStatus":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "DrawStatus", "Esri.ArcGISRuntime.UI.DrawStatus");
-                xamlMember.Getter = get_196_GeoView_DrawStatus;
+                xamlMember.Getter = get_198_GeoView_DrawStatus;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.ViewInsets":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ViewInsets", "Windows.UI.Xaml.Thickness");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_197_GeoView_ViewInsets;
-                xamlMember.Setter = set_197_GeoView_ViewInsets;
+                xamlMember.Getter = get_199_GeoView_ViewInsets;
+                xamlMember.Setter = set_199_GeoView_ViewInsets;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.TimeExtent":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "TimeExtent", "Esri.ArcGISRuntime.TimeExtent");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_198_GeoView_TimeExtent;
-                xamlMember.Setter = set_198_GeoView_TimeExtent;
+                xamlMember.Getter = get_200_GeoView_TimeExtent;
+                xamlMember.Setter = set_200_GeoView_TimeExtent;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.Overlays":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Overlays", "Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_199_GeoView_Overlays;
-                xamlMember.Setter = set_199_GeoView_Overlays;
+                xamlMember.Getter = get_201_GeoView_Overlays;
+                xamlMember.Setter = set_201_GeoView_Overlays;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl.Items":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.OverlayItemsControl");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Items", "Esri.ArcGISRuntime.UI.Controls.OverlayItemsCollection");
-                xamlMember.Getter = get_200_OverlayItemsControl_Items;
+                xamlMember.Getter = get_202_OverlayItemsControl_Items;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.SelectionProperties":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SelectionProperties", "Esri.ArcGISRuntime.UI.SelectionProperties");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_201_GeoView_SelectionProperties;
-                xamlMember.Setter = set_201_GeoView_SelectionProperties;
+                xamlMember.Getter = get_203_GeoView_SelectionProperties;
+                xamlMember.Setter = set_203_GeoView_SelectionProperties;
                 break;
             case "Esri.ArcGISRuntime.UI.Controls.GeoView.ViewOverlayAnchor":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.UI.Controls.GeoView");
@@ -6706,599 +6740,599 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
                 xamlMember.SetTargetTypeName("Windows.UI.Xaml.FrameworkElement");
                 xamlMember.SetIsDependencyProperty();
                 xamlMember.SetIsAttachable();
-                xamlMember.Getter = get_202_GeoView_ViewOverlayAnchor;
-                xamlMember.Setter = set_202_GeoView_ViewOverlayAnchor;
+                xamlMember.Getter = get_204_GeoView_ViewOverlayAnchor;
+                xamlMember.Setter = set_204_GeoView_ViewOverlayAnchor;
                 break;
             case "Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine.MapView":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapView", "Esri.ArcGISRuntime.UI.Controls.MapView");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_203_ScaleLine_MapView;
-                xamlMember.Setter = set_203_ScaleLine_MapView;
+                xamlMember.Getter = get_205_ScaleLine_MapView;
+                xamlMember.Setter = set_205_ScaleLine_MapView;
                 break;
             case "Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine.MapScale":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MapScale", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_204_ScaleLine_MapScale;
-                xamlMember.Setter = set_204_ScaleLine_MapScale;
+                xamlMember.Getter = get_206_ScaleLine_MapScale;
+                xamlMember.Setter = set_206_ScaleLine_MapScale;
                 break;
             case "Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine.TargetWidth":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "TargetWidth", "Double");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_205_ScaleLine_TargetWidth;
-                xamlMember.Setter = set_205_ScaleLine_TargetWidth;
+                xamlMember.Getter = get_207_ScaleLine_TargetWidth;
+                xamlMember.Setter = set_207_ScaleLine_TargetWidth;
                 break;
             case "GSCFieldApp.Views.MineralizationAlterationDialog.MAViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.MineralizationAlterationDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MAViewModel", "GSCFieldApp.ViewModels.MineralizationAlterationViewModel");
-                xamlMember.Getter = get_206_MineralizationAlterationDialog_MAViewModel;
-                xamlMember.Setter = set_206_MineralizationAlterationDialog_MAViewModel;
+                xamlMember.Getter = get_208_MineralizationAlterationDialog_MAViewModel;
+                xamlMember.Setter = set_208_MineralizationAlterationDialog_MAViewModel;
                 break;
             case "GSCFieldApp.Views.MineralizationAlterationDialog.parentViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.MineralizationAlterationDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "parentViewModel", "GSCFieldApp.Models.FieldNotes");
-                xamlMember.Getter = get_207_MineralizationAlterationDialog_parentViewModel;
-                xamlMember.Setter = set_207_MineralizationAlterationDialog_parentViewModel;
+                xamlMember.Getter = get_209_MineralizationAlterationDialog_parentViewModel;
+                xamlMember.Setter = set_209_MineralizationAlterationDialog_parentViewModel;
                 break;
             case "GSCFieldApp.Views.MineralDialog.MineralVM":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.MineralDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MineralVM", "GSCFieldApp.ViewModels.MineralViewModel");
-                xamlMember.Getter = get_208_MineralDialog_MineralVM;
-                xamlMember.Setter = set_208_MineralDialog_MineralVM;
+                xamlMember.Getter = get_210_MineralDialog_MineralVM;
+                xamlMember.Setter = set_210_MineralDialog_MineralVM;
                 break;
             case "GSCFieldApp.Views.MineralDialog.parentViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.MineralDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "parentViewModel", "GSCFieldApp.Models.FieldNotes");
-                xamlMember.Getter = get_209_MineralDialog_parentViewModel;
-                xamlMember.Setter = set_209_MineralDialog_parentViewModel;
+                xamlMember.Getter = get_211_MineralDialog_parentViewModel;
+                xamlMember.Setter = set_211_MineralDialog_parentViewModel;
                 break;
             case "GSCFieldApp.Views.PaleoflowDialog.pflowModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.PaleoflowDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "pflowModel", "GSCFieldApp.ViewModels.PaleoflowViewModel");
-                xamlMember.Getter = get_210_PaleoflowDialog_pflowModel;
-                xamlMember.Setter = set_210_PaleoflowDialog_pflowModel;
+                xamlMember.Getter = get_212_PaleoflowDialog_pflowModel;
+                xamlMember.Setter = set_212_PaleoflowDialog_pflowModel;
                 break;
             case "GSCFieldApp.Views.PaleoflowDialog.pflowParentViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.PaleoflowDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "pflowParentViewModel", "GSCFieldApp.Models.FieldNotes");
-                xamlMember.Getter = get_211_PaleoflowDialog_pflowParentViewModel;
-                xamlMember.Setter = set_211_PaleoflowDialog_pflowParentViewModel;
+                xamlMember.Getter = get_213_PaleoflowDialog_pflowParentViewModel;
+                xamlMember.Setter = set_213_PaleoflowDialog_pflowParentViewModel;
                 break;
             case "GSCFieldApp.Views.ReportPage.ViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.ReportPage");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ViewModel", "GSCFieldApp.ViewModels.FieldNotesViewModel");
-                xamlMember.Getter = get_212_ReportPage_ViewModel;
-                xamlMember.Setter = set_212_ReportPage_ViewModel;
+                xamlMember.Getter = get_214_ReportPage_ViewModel;
+                xamlMember.Setter = set_214_ReportPage_ViewModel;
                 break;
             case "GSCFieldApp.Views.SampleDialog.ViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.SampleDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ViewModel", "GSCFieldApp.ViewModels.SampleViewModel");
-                xamlMember.Getter = get_213_SampleDialog_ViewModel;
-                xamlMember.Setter = set_213_SampleDialog_ViewModel;
+                xamlMember.Getter = get_215_SampleDialog_ViewModel;
+                xamlMember.Setter = set_215_SampleDialog_ViewModel;
                 break;
             case "GSCFieldApp.Views.SampleDialog.parentViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.SampleDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "parentViewModel", "GSCFieldApp.Models.FieldNotes");
-                xamlMember.Getter = get_214_SampleDialog_parentViewModel;
-                xamlMember.Setter = set_214_SampleDialog_parentViewModel;
+                xamlMember.Getter = get_216_SampleDialog_parentViewModel;
+                xamlMember.Setter = set_216_SampleDialog_parentViewModel;
                 break;
             case "GSCFieldApp.ViewModels.FieldBooksPageViewModel.ProjectCollection":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.FieldBooksPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ProjectCollection", "System.Collections.ObjectModel.ObservableCollection`1<GSCFieldApp.Models.FieldBooks>");
-                xamlMember.Getter = get_215_FieldBooksPageViewModel_ProjectCollection;
+                xamlMember.Getter = get_217_FieldBooksPageViewModel_ProjectCollection;
                 xamlMember.SetIsReadOnly();
                 break;
             case "GSCFieldApp.Models.FieldBooks.GeologistGeolcode":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.FieldBooks");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "GeologistGeolcode", "String");
-                xamlMember.Getter = get_216_FieldBooks_GeologistGeolcode;
-                xamlMember.Setter = set_216_FieldBooks_GeologistGeolcode;
+                xamlMember.Getter = get_218_FieldBooks_GeologistGeolcode;
+                xamlMember.Setter = set_218_FieldBooks_GeologistGeolcode;
                 break;
             case "GSCFieldApp.Models.FieldBooks.StationNumber":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.FieldBooks");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "StationNumber", "String");
-                xamlMember.Getter = get_217_FieldBooks_StationNumber;
-                xamlMember.Setter = set_217_FieldBooks_StationNumber;
+                xamlMember.Getter = get_219_FieldBooks_StationNumber;
+                xamlMember.Setter = set_219_FieldBooks_StationNumber;
                 break;
             case "GSCFieldApp.Models.FieldBooks.StationLastEntered":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.FieldBooks");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "StationLastEntered", "String");
-                xamlMember.Getter = get_218_FieldBooks_StationLastEntered;
-                xamlMember.Setter = set_218_FieldBooks_StationLastEntered;
+                xamlMember.Getter = get_220_FieldBooks_StationLastEntered;
+                xamlMember.Setter = set_220_FieldBooks_StationLastEntered;
                 break;
             case "GSCFieldApp.Models.FieldBooks.ProjectPath":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.FieldBooks");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ProjectPath", "String");
-                xamlMember.Getter = get_219_FieldBooks_ProjectPath;
-                xamlMember.Setter = set_219_FieldBooks_ProjectPath;
+                xamlMember.Getter = get_221_FieldBooks_ProjectPath;
+                xamlMember.Setter = set_221_FieldBooks_ProjectPath;
                 break;
             case "GSCFieldApp.Models.FieldBooks.ProjectDBPath":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.FieldBooks");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ProjectDBPath", "String");
-                xamlMember.Getter = get_220_FieldBooks_ProjectDBPath;
-                xamlMember.Setter = set_220_FieldBooks_ProjectDBPath;
+                xamlMember.Getter = get_222_FieldBooks_ProjectDBPath;
+                xamlMember.Setter = set_222_FieldBooks_ProjectDBPath;
                 break;
             case "GSCFieldApp.Models.FieldBooks.CreateDate":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.FieldBooks");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "CreateDate", "String");
-                xamlMember.Getter = get_221_FieldBooks_CreateDate;
-                xamlMember.Setter = set_221_FieldBooks_CreateDate;
+                xamlMember.Getter = get_223_FieldBooks_CreateDate;
+                xamlMember.Setter = set_223_FieldBooks_CreateDate;
                 break;
             case "GSCFieldApp.Models.FieldBooks.metadataForProject":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Models.FieldBooks");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "metadataForProject", "GSCFieldApp.Models.Metadata");
-                xamlMember.Getter = get_222_FieldBooks_metadataForProject;
-                xamlMember.Setter = set_222_FieldBooks_metadataForProject;
+                xamlMember.Getter = get_224_FieldBooks_metadataForProject;
+                xamlMember.Setter = set_224_FieldBooks_metadataForProject;
                 break;
             case "GSCFieldApp.ViewModels.FieldBooksPageViewModel.ProgressRingActive":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.FieldBooksPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ProgressRingActive", "Boolean");
-                xamlMember.Getter = get_223_FieldBooksPageViewModel_ProgressRingActive;
-                xamlMember.Setter = set_223_FieldBooksPageViewModel_ProgressRingActive;
+                xamlMember.Getter = get_225_FieldBooksPageViewModel_ProgressRingActive;
+                xamlMember.Setter = set_225_FieldBooksPageViewModel_ProgressRingActive;
                 break;
             case "GSCFieldApp.ViewModels.FieldBooksPageViewModel.ProgressRingVisibility":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.FieldBooksPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ProgressRingVisibility", "Boolean");
-                xamlMember.Getter = get_224_FieldBooksPageViewModel_ProgressRingVisibility;
-                xamlMember.Setter = set_224_FieldBooksPageViewModel_ProgressRingVisibility;
+                xamlMember.Getter = get_226_FieldBooksPageViewModel_ProgressRingVisibility;
+                xamlMember.Setter = set_226_FieldBooksPageViewModel_ProgressRingVisibility;
                 break;
             case "GSCFieldApp.ViewModels.FieldBooksPageViewModel.SelectedProjectIndex":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.FieldBooksPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SelectedProjectIndex", "Int32");
-                xamlMember.Getter = get_225_FieldBooksPageViewModel_SelectedProjectIndex;
-                xamlMember.Setter = set_225_FieldBooksPageViewModel_SelectedProjectIndex;
+                xamlMember.Getter = get_227_FieldBooksPageViewModel_SelectedProjectIndex;
+                xamlMember.Setter = set_227_FieldBooksPageViewModel_SelectedProjectIndex;
                 break;
             case "GSCFieldApp.ViewModels.FieldBooksPageViewModel.NoFieldBookWatermark":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.FieldBooksPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "NoFieldBookWatermark", "Boolean");
-                xamlMember.Getter = get_226_FieldBooksPageViewModel_NoFieldBookWatermark;
-                xamlMember.Setter = set_226_FieldBooksPageViewModel_NoFieldBookWatermark;
+                xamlMember.Getter = get_228_FieldBooksPageViewModel_NoFieldBookWatermark;
+                xamlMember.Setter = set_228_FieldBooksPageViewModel_NoFieldBookWatermark;
                 break;
             case "GSCFieldApp.Views.FieldBooksPage.ProjectViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.FieldBooksPage");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ProjectViewModel", "GSCFieldApp.ViewModels.FieldBooksPageViewModel");
-                xamlMember.Getter = get_227_FieldBooksPage_ProjectViewModel;
-                xamlMember.Setter = set_227_FieldBooksPage_ProjectViewModel;
+                xamlMember.Getter = get_229_FieldBooksPage_ProjectViewModel;
+                xamlMember.Setter = set_229_FieldBooksPage_ProjectViewModel;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.CommonToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "CommonToggle", "Boolean");
-                xamlMember.Getter = get_228_SettingsPageViewModel_CommonToggle;
-                xamlMember.Setter = set_228_SettingsPageViewModel_CommonToggle;
+                xamlMember.Getter = get_230_SettingsPageViewModel_CommonToggle;
+                xamlMember.Setter = set_230_SettingsPageViewModel_CommonToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.BedrockToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "BedrockToggle", "Boolean");
-                xamlMember.Getter = get_229_SettingsPageViewModel_BedrockToggle;
-                xamlMember.Setter = set_229_SettingsPageViewModel_BedrockToggle;
+                xamlMember.Getter = get_231_SettingsPageViewModel_BedrockToggle;
+                xamlMember.Setter = set_231_SettingsPageViewModel_BedrockToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.SurficialToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SurficialToggle", "Boolean");
-                xamlMember.Getter = get_230_SettingsPageViewModel_SurficialToggle;
-                xamlMember.Setter = set_230_SettingsPageViewModel_SurficialToggle;
+                xamlMember.Getter = get_232_SettingsPageViewModel_SurficialToggle;
+                xamlMember.Setter = set_232_SettingsPageViewModel_SurficialToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.PhotoToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "PhotoToggle", "Boolean");
-                xamlMember.Getter = get_231_SettingsPageViewModel_PhotoToggle;
-                xamlMember.Setter = set_231_SettingsPageViewModel_PhotoToggle;
+                xamlMember.Getter = get_233_SettingsPageViewModel_PhotoToggle;
+                xamlMember.Setter = set_233_SettingsPageViewModel_PhotoToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.EarthToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "EarthToggle", "Boolean");
-                xamlMember.Getter = get_232_SettingsPageViewModel_EarthToggle;
-                xamlMember.Setter = set_232_SettingsPageViewModel_EarthToggle;
+                xamlMember.Getter = get_234_SettingsPageViewModel_EarthToggle;
+                xamlMember.Setter = set_234_SettingsPageViewModel_EarthToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.ExternalMeasureToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ExternalMeasureToggle", "Boolean");
-                xamlMember.Getter = get_233_SettingsPageViewModel_ExternalMeasureToggle;
-                xamlMember.Setter = set_233_SettingsPageViewModel_ExternalMeasureToggle;
+                xamlMember.Getter = get_235_SettingsPageViewModel_ExternalMeasureToggle;
+                xamlMember.Setter = set_235_SettingsPageViewModel_ExternalMeasureToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.SampleToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SampleToggle", "Boolean");
-                xamlMember.Getter = get_234_SettingsPageViewModel_SampleToggle;
-                xamlMember.Setter = set_234_SettingsPageViewModel_SampleToggle;
+                xamlMember.Getter = get_236_SettingsPageViewModel_SampleToggle;
+                xamlMember.Setter = set_236_SettingsPageViewModel_SampleToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.MAToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MAToggle", "Boolean");
-                xamlMember.Getter = get_235_SettingsPageViewModel_MAToggle;
-                xamlMember.Setter = set_235_SettingsPageViewModel_MAToggle;
+                xamlMember.Getter = get_237_SettingsPageViewModel_MAToggle;
+                xamlMember.Setter = set_237_SettingsPageViewModel_MAToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.StructureToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "StructureToggle", "Boolean");
-                xamlMember.Getter = get_236_SettingsPageViewModel_StructureToggle;
-                xamlMember.Setter = set_236_SettingsPageViewModel_StructureToggle;
+                xamlMember.Getter = get_238_SettingsPageViewModel_StructureToggle;
+                xamlMember.Setter = set_238_SettingsPageViewModel_StructureToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.FossilToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FossilToggle", "Boolean");
-                xamlMember.Getter = get_237_SettingsPageViewModel_FossilToggle;
-                xamlMember.Setter = set_237_SettingsPageViewModel_FossilToggle;
+                xamlMember.Getter = get_239_SettingsPageViewModel_FossilToggle;
+                xamlMember.Setter = set_239_SettingsPageViewModel_FossilToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.MineralToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MineralToggle", "Boolean");
-                xamlMember.Getter = get_238_SettingsPageViewModel_MineralToggle;
-                xamlMember.Setter = set_238_SettingsPageViewModel_MineralToggle;
+                xamlMember.Getter = get_240_SettingsPageViewModel_MineralToggle;
+                xamlMember.Setter = set_240_SettingsPageViewModel_MineralToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.EnvironmentToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "EnvironmentToggle", "Boolean");
-                xamlMember.Getter = get_239_SettingsPageViewModel_EnvironmentToggle;
-                xamlMember.Setter = set_239_SettingsPageViewModel_EnvironmentToggle;
+                xamlMember.Getter = get_241_SettingsPageViewModel_EnvironmentToggle;
+                xamlMember.Setter = set_241_SettingsPageViewModel_EnvironmentToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.SoilProfileToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SoilProfileToggle", "Boolean");
-                xamlMember.Getter = get_240_SettingsPageViewModel_SoilProfileToggle;
-                xamlMember.Setter = set_240_SettingsPageViewModel_SoilProfileToggle;
+                xamlMember.Getter = get_242_SettingsPageViewModel_SoilProfileToggle;
+                xamlMember.Setter = set_242_SettingsPageViewModel_SoilProfileToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.PflowToggle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "PflowToggle", "Boolean");
-                xamlMember.Getter = get_241_SettingsPageViewModel_PflowToggle;
-                xamlMember.Setter = set_241_SettingsPageViewModel_PflowToggle;
+                xamlMember.Getter = get_243_SettingsPageViewModel_PflowToggle;
+                xamlMember.Setter = set_243_SettingsPageViewModel_PflowToggle;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.LoadPicklistVisibility":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "LoadPicklistVisibility", "Windows.UI.Xaml.Visibility");
-                xamlMember.Getter = get_242_SettingsPageViewModel_LoadPicklistVisibility;
-                xamlMember.Setter = set_242_SettingsPageViewModel_LoadPicklistVisibility;
+                xamlMember.Getter = get_244_SettingsPageViewModel_LoadPicklistVisibility;
+                xamlMember.Setter = set_244_SettingsPageViewModel_LoadPicklistVisibility;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.SelectedPivotIndex":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SelectedPivotIndex", "Int32");
-                xamlMember.Getter = get_243_SettingsPageViewModel_SelectedPivotIndex;
-                xamlMember.Setter = set_243_SettingsPageViewModel_SelectedPivotIndex;
+                xamlMember.Getter = get_245_SettingsPageViewModel_SelectedPivotIndex;
+                xamlMember.Setter = set_245_SettingsPageViewModel_SelectedPivotIndex;
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.SettingsPartViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SettingsPartViewModel", "GSCFieldApp.ViewModels.SettingsPartViewModel");
-                xamlMember.Getter = get_244_SettingsPageViewModel_SettingsPartViewModel;
+                xamlMember.Getter = get_246_SettingsPageViewModel_SettingsPartViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.AboutPartViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "AboutPartViewModel", "GSCFieldApp.ViewModels.AboutPartViewModel");
-                xamlMember.Getter = get_245_SettingsPageViewModel_AboutPartViewModel;
+                xamlMember.Getter = get_247_SettingsPageViewModel_AboutPartViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "GSCFieldApp.ViewModels.SettingsPageViewModel.PicklistPartViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.ViewModels.SettingsPageViewModel");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "PicklistPartViewModel", "GSCFieldApp.ViewModels.PicklistPartViewModel");
-                xamlMember.Getter = get_246_SettingsPageViewModel_PicklistPartViewModel;
+                xamlMember.Getter = get_248_SettingsPageViewModel_PicklistPartViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
             case "GSCFieldApp.Views.Shell.SViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.Shell");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "SViewModel", "GSCFieldApp.ViewModels.ShellViewModel");
-                xamlMember.Getter = get_247_Shell_SViewModel;
-                xamlMember.Setter = set_247_Shell_SViewModel;
+                xamlMember.Getter = get_249_Shell_SViewModel;
+                xamlMember.Setter = set_249_Shell_SViewModel;
                 break;
             case "GSCFieldApp.Views.StationDataPart.ViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.StationDataPart");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ViewModel", "GSCFieldApp.ViewModels.StationViewModel");
-                xamlMember.Getter = get_248_StationDataPart_ViewModel;
-                xamlMember.Setter = set_248_StationDataPart_ViewModel;
+                xamlMember.Getter = get_250_StationDataPart_ViewModel;
+                xamlMember.Setter = set_250_StationDataPart_ViewModel;
                 break;
             case "GSCFieldApp.Views.StationDataPart.mapPosition":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.StationDataPart");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "mapPosition", "GSCFieldApp.Models.FieldLocation");
-                xamlMember.Getter = get_249_StationDataPart_mapPosition;
-                xamlMember.Setter = set_249_StationDataPart_mapPosition;
+                xamlMember.Getter = get_251_StationDataPart_mapPosition;
+                xamlMember.Setter = set_251_StationDataPart_mapPosition;
                 break;
             case "GSCFieldApp.Views.StructureDialog.strucViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.StructureDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "strucViewModel", "GSCFieldApp.ViewModels.StructureViewModel");
-                xamlMember.Getter = get_250_StructureDialog_strucViewModel;
-                xamlMember.Setter = set_250_StructureDialog_strucViewModel;
+                xamlMember.Getter = get_252_StructureDialog_strucViewModel;
+                xamlMember.Setter = set_252_StructureDialog_strucViewModel;
                 break;
             case "GSCFieldApp.Views.StructureDialog.parentViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.StructureDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "parentViewModel", "GSCFieldApp.Models.FieldNotes");
-                xamlMember.Getter = get_251_StructureDialog_parentViewModel;
-                xamlMember.Setter = set_251_StructureDialog_parentViewModel;
+                xamlMember.Getter = get_253_StructureDialog_parentViewModel;
+                xamlMember.Setter = set_253_StructureDialog_parentViewModel;
                 break;
             case "GSCFieldApp.Views.FieldBookDialog.ViewModel":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("GSCFieldApp.Views.FieldBookDialog");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ViewModel", "GSCFieldApp.ViewModels.FieldBookDialogViewModel");
-                xamlMember.Getter = get_252_FieldBookDialog_ViewModel;
-                xamlMember.Setter = set_252_FieldBookDialog_ViewModel;
+                xamlMember.Getter = get_254_FieldBookDialog_ViewModel;
+                xamlMember.Setter = set_254_FieldBookDialog_ViewModel;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.Opacity":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Opacity", "Double");
-                xamlMember.Getter = get_253_PictureFillSymbol_Opacity;
-                xamlMember.Setter = set_253_PictureFillSymbol_Opacity;
+                xamlMember.Getter = get_255_PictureFillSymbol_Opacity;
+                xamlMember.Setter = set_255_PictureFillSymbol_Opacity;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.Width":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Width", "Double");
-                xamlMember.Getter = get_254_PictureFillSymbol_Width;
-                xamlMember.Setter = set_254_PictureFillSymbol_Width;
+                xamlMember.Getter = get_256_PictureFillSymbol_Width;
+                xamlMember.Setter = set_256_PictureFillSymbol_Width;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.Height":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Height", "Double");
-                xamlMember.Getter = get_255_PictureFillSymbol_Height;
-                xamlMember.Setter = set_255_PictureFillSymbol_Height;
+                xamlMember.Getter = get_257_PictureFillSymbol_Height;
+                xamlMember.Setter = set_257_PictureFillSymbol_Height;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.Angle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Angle", "Double");
-                xamlMember.Getter = get_256_PictureFillSymbol_Angle;
-                xamlMember.Setter = set_256_PictureFillSymbol_Angle;
+                xamlMember.Getter = get_258_PictureFillSymbol_Angle;
+                xamlMember.Setter = set_258_PictureFillSymbol_Angle;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.OffsetX":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "OffsetX", "Double");
-                xamlMember.Getter = get_257_PictureFillSymbol_OffsetX;
-                xamlMember.Setter = set_257_PictureFillSymbol_OffsetX;
+                xamlMember.Getter = get_259_PictureFillSymbol_OffsetX;
+                xamlMember.Setter = set_259_PictureFillSymbol_OffsetX;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.OffsetY":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "OffsetY", "Double");
-                xamlMember.Getter = get_258_PictureFillSymbol_OffsetY;
-                xamlMember.Setter = set_258_PictureFillSymbol_OffsetY;
+                xamlMember.Getter = get_260_PictureFillSymbol_OffsetY;
+                xamlMember.Setter = set_260_PictureFillSymbol_OffsetY;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.ScaleX":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ScaleX", "Double");
-                xamlMember.Getter = get_259_PictureFillSymbol_ScaleX;
-                xamlMember.Setter = set_259_PictureFillSymbol_ScaleX;
+                xamlMember.Getter = get_261_PictureFillSymbol_ScaleX;
+                xamlMember.Setter = set_261_PictureFillSymbol_ScaleX;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.ScaleY":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "ScaleY", "Double");
-                xamlMember.Getter = get_260_PictureFillSymbol_ScaleY;
-                xamlMember.Setter = set_260_PictureFillSymbol_ScaleY;
+                xamlMember.Getter = get_262_PictureFillSymbol_ScaleY;
+                xamlMember.Setter = set_262_PictureFillSymbol_ScaleY;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureFillSymbol.Uri":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Uri", "System.Uri");
-                xamlMember.Getter = get_261_PictureFillSymbol_Uri;
-                xamlMember.Setter = set_261_PictureFillSymbol_Uri;
+                xamlMember.Getter = get_263_PictureFillSymbol_Uri;
+                xamlMember.Setter = set_263_PictureFillSymbol_Uri;
                 break;
             case "Esri.ArcGISRuntime.Symbology.FillSymbol.Color":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.FillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Color", "System.Drawing.Color");
-                xamlMember.Getter = get_262_FillSymbol_Color;
-                xamlMember.Setter = set_262_FillSymbol_Color;
+                xamlMember.Getter = get_264_FillSymbol_Color;
+                xamlMember.Setter = set_264_FillSymbol_Color;
                 break;
             case "Esri.ArcGISRuntime.Symbology.FillSymbol.Outline":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.FillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Outline", "Esri.ArcGISRuntime.Symbology.LineSymbol");
-                xamlMember.Getter = get_263_FillSymbol_Outline;
-                xamlMember.Setter = set_263_FillSymbol_Outline;
+                xamlMember.Getter = get_265_FillSymbol_Outline;
+                xamlMember.Setter = set_265_FillSymbol_Outline;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol.Opacity":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Opacity", "Double");
-                xamlMember.Getter = get_264_PictureMarkerSymbol_Opacity;
-                xamlMember.Setter = set_264_PictureMarkerSymbol_Opacity;
+                xamlMember.Getter = get_266_PictureMarkerSymbol_Opacity;
+                xamlMember.Setter = set_266_PictureMarkerSymbol_Opacity;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol.Width":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Width", "Double");
-                xamlMember.Getter = get_265_PictureMarkerSymbol_Width;
-                xamlMember.Setter = set_265_PictureMarkerSymbol_Width;
+                xamlMember.Getter = get_267_PictureMarkerSymbol_Width;
+                xamlMember.Setter = set_267_PictureMarkerSymbol_Width;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol.Height":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Height", "Double");
-                xamlMember.Getter = get_266_PictureMarkerSymbol_Height;
-                xamlMember.Setter = set_266_PictureMarkerSymbol_Height;
+                xamlMember.Getter = get_268_PictureMarkerSymbol_Height;
+                xamlMember.Setter = set_268_PictureMarkerSymbol_Height;
                 break;
             case "Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol.Uri":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.PictureMarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Uri", "System.Uri");
-                xamlMember.Getter = get_267_PictureMarkerSymbol_Uri;
-                xamlMember.Setter = set_267_PictureMarkerSymbol_Uri;
+                xamlMember.Getter = get_269_PictureMarkerSymbol_Uri;
+                xamlMember.Setter = set_269_PictureMarkerSymbol_Uri;
                 break;
             case "Esri.ArcGISRuntime.Symbology.MarkerSymbol.Angle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.MarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Angle", "Double");
-                xamlMember.Getter = get_268_MarkerSymbol_Angle;
-                xamlMember.Setter = set_268_MarkerSymbol_Angle;
+                xamlMember.Getter = get_270_MarkerSymbol_Angle;
+                xamlMember.Setter = set_270_MarkerSymbol_Angle;
                 break;
             case "Esri.ArcGISRuntime.Symbology.MarkerSymbol.AngleAlignment":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.MarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "AngleAlignment", "Esri.ArcGISRuntime.Symbology.SymbolAngleAlignment");
-                xamlMember.Getter = get_269_MarkerSymbol_AngleAlignment;
-                xamlMember.Setter = set_269_MarkerSymbol_AngleAlignment;
+                xamlMember.Getter = get_271_MarkerSymbol_AngleAlignment;
+                xamlMember.Setter = set_271_MarkerSymbol_AngleAlignment;
                 break;
             case "Esri.ArcGISRuntime.Symbology.MarkerSymbol.LeaderOffsetX":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.MarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "LeaderOffsetX", "Double");
-                xamlMember.Getter = get_270_MarkerSymbol_LeaderOffsetX;
-                xamlMember.Setter = set_270_MarkerSymbol_LeaderOffsetX;
+                xamlMember.Getter = get_272_MarkerSymbol_LeaderOffsetX;
+                xamlMember.Setter = set_272_MarkerSymbol_LeaderOffsetX;
                 break;
             case "Esri.ArcGISRuntime.Symbology.MarkerSymbol.LeaderOffsetY":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.MarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "LeaderOffsetY", "Double");
-                xamlMember.Getter = get_271_MarkerSymbol_LeaderOffsetY;
-                xamlMember.Setter = set_271_MarkerSymbol_LeaderOffsetY;
+                xamlMember.Getter = get_273_MarkerSymbol_LeaderOffsetY;
+                xamlMember.Setter = set_273_MarkerSymbol_LeaderOffsetY;
                 break;
             case "Esri.ArcGISRuntime.Symbology.MarkerSymbol.OffsetX":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.MarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "OffsetX", "Double");
-                xamlMember.Getter = get_272_MarkerSymbol_OffsetX;
-                xamlMember.Setter = set_272_MarkerSymbol_OffsetX;
+                xamlMember.Getter = get_274_MarkerSymbol_OffsetX;
+                xamlMember.Setter = set_274_MarkerSymbol_OffsetX;
                 break;
             case "Esri.ArcGISRuntime.Symbology.MarkerSymbol.OffsetY":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.MarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "OffsetY", "Double");
-                xamlMember.Getter = get_273_MarkerSymbol_OffsetY;
-                xamlMember.Setter = set_273_MarkerSymbol_OffsetY;
+                xamlMember.Getter = get_275_MarkerSymbol_OffsetY;
+                xamlMember.Setter = set_275_MarkerSymbol_OffsetY;
                 break;
             case "Esri.ArcGISRuntime.Symbology.MarkerSymbol.RotationType":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.MarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "RotationType", "Esri.ArcGISRuntime.Symbology.RotationType");
-                xamlMember.Getter = get_274_MarkerSymbol_RotationType;
-                xamlMember.Setter = set_274_MarkerSymbol_RotationType;
+                xamlMember.Getter = get_276_MarkerSymbol_RotationType;
+                xamlMember.Setter = set_276_MarkerSymbol_RotationType;
                 break;
             case "Esri.ArcGISRuntime.Symbology.SimpleFillSymbol.Style":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.SimpleFillSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Style", "Esri.ArcGISRuntime.Symbology.SimpleFillSymbolStyle");
-                xamlMember.Getter = get_275_SimpleFillSymbol_Style;
-                xamlMember.Setter = set_275_SimpleFillSymbol_Style;
+                xamlMember.Getter = get_277_SimpleFillSymbol_Style;
+                xamlMember.Setter = set_277_SimpleFillSymbol_Style;
                 break;
             case "Esri.ArcGISRuntime.Symbology.SimpleLineSymbol.Style":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.SimpleLineSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Style", "Esri.ArcGISRuntime.Symbology.SimpleLineSymbolStyle");
-                xamlMember.Getter = get_276_SimpleLineSymbol_Style;
-                xamlMember.Setter = set_276_SimpleLineSymbol_Style;
+                xamlMember.Getter = get_278_SimpleLineSymbol_Style;
+                xamlMember.Setter = set_278_SimpleLineSymbol_Style;
                 break;
             case "Esri.ArcGISRuntime.Symbology.SimpleLineSymbol.MarkerPlacement":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.SimpleLineSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MarkerPlacement", "Esri.ArcGISRuntime.Symbology.SimpleLineSymbolMarkerPlacement");
-                xamlMember.Getter = get_277_SimpleLineSymbol_MarkerPlacement;
-                xamlMember.Setter = set_277_SimpleLineSymbol_MarkerPlacement;
+                xamlMember.Getter = get_279_SimpleLineSymbol_MarkerPlacement;
+                xamlMember.Setter = set_279_SimpleLineSymbol_MarkerPlacement;
                 break;
             case "Esri.ArcGISRuntime.Symbology.SimpleLineSymbol.MarkerStyle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.SimpleLineSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "MarkerStyle", "Esri.ArcGISRuntime.Symbology.SimpleLineSymbolMarkerStyle");
-                xamlMember.Getter = get_278_SimpleLineSymbol_MarkerStyle;
-                xamlMember.Setter = set_278_SimpleLineSymbol_MarkerStyle;
+                xamlMember.Getter = get_280_SimpleLineSymbol_MarkerStyle;
+                xamlMember.Setter = set_280_SimpleLineSymbol_MarkerStyle;
                 break;
             case "Esri.ArcGISRuntime.Symbology.LineSymbol.Color":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.LineSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Color", "System.Drawing.Color");
-                xamlMember.Getter = get_279_LineSymbol_Color;
-                xamlMember.Setter = set_279_LineSymbol_Color;
+                xamlMember.Getter = get_281_LineSymbol_Color;
+                xamlMember.Setter = set_281_LineSymbol_Color;
                 break;
             case "Esri.ArcGISRuntime.Symbology.LineSymbol.Width":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.LineSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Width", "Double");
-                xamlMember.Getter = get_280_LineSymbol_Width;
-                xamlMember.Setter = set_280_LineSymbol_Width;
+                xamlMember.Getter = get_282_LineSymbol_Width;
+                xamlMember.Setter = set_282_LineSymbol_Width;
                 break;
             case "Esri.ArcGISRuntime.Symbology.LineSymbol.AntiAlias":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.LineSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "AntiAlias", "Boolean");
-                xamlMember.Getter = get_281_LineSymbol_AntiAlias;
-                xamlMember.Setter = set_281_LineSymbol_AntiAlias;
+                xamlMember.Getter = get_283_LineSymbol_AntiAlias;
+                xamlMember.Setter = set_283_LineSymbol_AntiAlias;
                 break;
             case "Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol.Outline":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Outline", "Esri.ArcGISRuntime.Symbology.SimpleLineSymbol");
-                xamlMember.Getter = get_282_SimpleMarkerSymbol_Outline;
-                xamlMember.Setter = set_282_SimpleMarkerSymbol_Outline;
+                xamlMember.Getter = get_284_SimpleMarkerSymbol_Outline;
+                xamlMember.Setter = set_284_SimpleMarkerSymbol_Outline;
                 break;
             case "Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol.Color":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Color", "System.Drawing.Color");
-                xamlMember.Getter = get_283_SimpleMarkerSymbol_Color;
-                xamlMember.Setter = set_283_SimpleMarkerSymbol_Color;
+                xamlMember.Getter = get_285_SimpleMarkerSymbol_Color;
+                xamlMember.Setter = set_285_SimpleMarkerSymbol_Color;
                 break;
             case "Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol.Size":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Size", "Double");
-                xamlMember.Getter = get_284_SimpleMarkerSymbol_Size;
-                xamlMember.Setter = set_284_SimpleMarkerSymbol_Size;
+                xamlMember.Getter = get_286_SimpleMarkerSymbol_Size;
+                xamlMember.Setter = set_286_SimpleMarkerSymbol_Size;
                 break;
             case "Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol.Style":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Style", "Esri.ArcGISRuntime.Symbology.SimpleMarkerSymbolStyle");
-                xamlMember.Getter = get_285_SimpleMarkerSymbol_Style;
-                xamlMember.Setter = set_285_SimpleMarkerSymbol_Style;
+                xamlMember.Getter = get_287_SimpleMarkerSymbol_Style;
+                xamlMember.Setter = set_287_SimpleMarkerSymbol_Style;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.Color":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Color", "System.Drawing.Color");
-                xamlMember.Getter = get_286_TextSymbol_Color;
-                xamlMember.Setter = set_286_TextSymbol_Color;
+                xamlMember.Getter = get_288_TextSymbol_Color;
+                xamlMember.Setter = set_288_TextSymbol_Color;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.FontDecoration":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FontDecoration", "Esri.ArcGISRuntime.Symbology.FontDecoration");
-                xamlMember.Getter = get_287_TextSymbol_FontDecoration;
-                xamlMember.Setter = set_287_TextSymbol_FontDecoration;
+                xamlMember.Getter = get_289_TextSymbol_FontDecoration;
+                xamlMember.Setter = set_289_TextSymbol_FontDecoration;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.FontFamily":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FontFamily", "String");
-                xamlMember.Getter = get_288_TextSymbol_FontFamily;
-                xamlMember.Setter = set_288_TextSymbol_FontFamily;
+                xamlMember.Getter = get_290_TextSymbol_FontFamily;
+                xamlMember.Setter = set_290_TextSymbol_FontFamily;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.FontStyle":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FontStyle", "Esri.ArcGISRuntime.Symbology.FontStyle");
-                xamlMember.Getter = get_289_TextSymbol_FontStyle;
-                xamlMember.Setter = set_289_TextSymbol_FontStyle;
+                xamlMember.Getter = get_291_TextSymbol_FontStyle;
+                xamlMember.Setter = set_291_TextSymbol_FontStyle;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.FontWeight":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "FontWeight", "Esri.ArcGISRuntime.Symbology.FontWeight");
-                xamlMember.Getter = get_290_TextSymbol_FontWeight;
-                xamlMember.Setter = set_290_TextSymbol_FontWeight;
+                xamlMember.Getter = get_292_TextSymbol_FontWeight;
+                xamlMember.Setter = set_292_TextSymbol_FontWeight;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.HorizontalAlignment":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "HorizontalAlignment", "Esri.ArcGISRuntime.Symbology.HorizontalAlignment");
-                xamlMember.Getter = get_291_TextSymbol_HorizontalAlignment;
-                xamlMember.Setter = set_291_TextSymbol_HorizontalAlignment;
+                xamlMember.Getter = get_293_TextSymbol_HorizontalAlignment;
+                xamlMember.Setter = set_293_TextSymbol_HorizontalAlignment;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.Size":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Size", "Double");
-                xamlMember.Getter = get_292_TextSymbol_Size;
-                xamlMember.Setter = set_292_TextSymbol_Size;
+                xamlMember.Getter = get_294_TextSymbol_Size;
+                xamlMember.Setter = set_294_TextSymbol_Size;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.Text":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "Text", "String");
-                xamlMember.Getter = get_293_TextSymbol_Text;
-                xamlMember.Setter = set_293_TextSymbol_Text;
+                xamlMember.Getter = get_295_TextSymbol_Text;
+                xamlMember.Setter = set_295_TextSymbol_Text;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.VerticalAlignment":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "VerticalAlignment", "Esri.ArcGISRuntime.Symbology.VerticalAlignment");
-                xamlMember.Getter = get_294_TextSymbol_VerticalAlignment;
-                xamlMember.Setter = set_294_TextSymbol_VerticalAlignment;
+                xamlMember.Getter = get_296_TextSymbol_VerticalAlignment;
+                xamlMember.Setter = set_296_TextSymbol_VerticalAlignment;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.HaloColor":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "HaloColor", "System.Drawing.Color");
-                xamlMember.Getter = get_295_TextSymbol_HaloColor;
-                xamlMember.Setter = set_295_TextSymbol_HaloColor;
+                xamlMember.Getter = get_297_TextSymbol_HaloColor;
+                xamlMember.Setter = set_297_TextSymbol_HaloColor;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.HaloWidth":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "HaloWidth", "Double");
-                xamlMember.Getter = get_296_TextSymbol_HaloWidth;
-                xamlMember.Setter = set_296_TextSymbol_HaloWidth;
+                xamlMember.Getter = get_298_TextSymbol_HaloWidth;
+                xamlMember.Setter = set_298_TextSymbol_HaloWidth;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.OutlineColor":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "OutlineColor", "System.Drawing.Color");
-                xamlMember.Getter = get_297_TextSymbol_OutlineColor;
-                xamlMember.Setter = set_297_TextSymbol_OutlineColor;
+                xamlMember.Getter = get_299_TextSymbol_OutlineColor;
+                xamlMember.Setter = set_299_TextSymbol_OutlineColor;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.OutlineWidth":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "OutlineWidth", "Double");
-                xamlMember.Getter = get_298_TextSymbol_OutlineWidth;
-                xamlMember.Setter = set_298_TextSymbol_OutlineWidth;
+                xamlMember.Getter = get_300_TextSymbol_OutlineWidth;
+                xamlMember.Setter = set_300_TextSymbol_OutlineWidth;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.BackgroundColor":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "BackgroundColor", "System.Drawing.Color");
-                xamlMember.Getter = get_299_TextSymbol_BackgroundColor;
-                xamlMember.Setter = set_299_TextSymbol_BackgroundColor;
+                xamlMember.Getter = get_301_TextSymbol_BackgroundColor;
+                xamlMember.Setter = set_301_TextSymbol_BackgroundColor;
                 break;
             case "Esri.ArcGISRuntime.Symbology.TextSymbol.KerningEnabled":
                 userType = (global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Esri.ArcGISRuntime.Symbology.TextSymbol");
                 xamlMember = new global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMember(this, "KerningEnabled", "Boolean");
-                xamlMember.Getter = get_300_TextSymbol_KerningEnabled;
-                xamlMember.Setter = set_300_TextSymbol_KerningEnabled;
+                xamlMember.Getter = get_302_TextSymbol_KerningEnabled;
+                xamlMember.Setter = set_302_TextSymbol_KerningEnabled;
                 break;
             }
             return xamlMember;

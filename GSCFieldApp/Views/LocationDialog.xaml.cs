@@ -53,6 +53,11 @@ namespace GSCFieldApp.Views
                 this.locationVM.AutoFillDialog(parentViewModel);
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;
             }
+            else
+            {
+                this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;
+                this.locationVM.SetReadOnlyFields();
+            }
 
             DisplayUTMCoordinates();
 
@@ -85,31 +90,35 @@ namespace GSCFieldApp.Views
                 outWKID = 32700 + zoneNumber;
             }
 
-            MapPoint geoPoint = new MapPoint(Double.Parse(this.LocationLong.Text), Double.Parse(this.LocationLat.Text), SpatialReferences.Wgs84);
-            var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(outWKID);
-            MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
 
-            this.LocationNorthing.Text = ((int)projPoint.Y).ToString();
-            this.LocationEasting.Text = ((int)projPoint.X).ToString();
-            
-            // Applies to NAD83
-            //int outWKID = 26900 + zoneNumber;
+            //XY
+            double x_value = 0.0;
+            double y_value = 0.0;
+            if (this.LocationLong.Text != string.Empty)
+            {
+                x_value = Double.Parse(this.LocationLong.Text);
+            }
+            if (this.LocationLat.Text != string.Empty)
+            {
+                y_value = Double.Parse(this.LocationLat.Text);
+            }
 
-            //MapPoint geoPoint = new MapPoint(Double.Parse(this.LocationLong.Text), Double.Parse(this.LocationLat.Text), SpatialReferences.Wgs84);
-            //var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(outWKID);
-            //MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
+            //Transform
+            if (x_value != 0.0 && y_value != 0.0)
+            {
+                MapPoint geoPoint = new MapPoint(x_value, y_value, SpatialReferences.Wgs84);
+                var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(outWKID);
+                MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
 
-            //// Definitions exist for UTM zones 1-23, 58,59,60 North
-            //if (Enumerable.Range(1, 23).Contains(zoneNumber))
-            //{
-            //    this.LocationNorthing.Text = ((int)projPoint.Y).ToString();
-            //    this.LocationEasting.Text = ((int)projPoint.X).ToString();
-            //}
-            //else
-            //{
-            //    this.LocationNorthing.Text = "na";
-            //    this.LocationEasting.Text = "na";
-            //}
+                this.LocationNorthing.Text = ((int)projPoint.Y).ToString();
+                this.LocationEasting.Text = ((int)projPoint.X).ToString();
+            }
+            else
+            {
+                this.LocationNorthing.Text = x_value.ToString();
+                this.LocationEasting.Text = y_value.ToString();
+            }
+           
         }
 
 
@@ -150,5 +159,15 @@ namespace GSCFieldApp.Views
         }
 
         #endregion
+
+        private void ButtonConvertToUTM_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonConvertToGeographic_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -1119,6 +1119,15 @@
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\Assets\WrongPhotoURI.bmp">
       <PackagePath>Assets\WrongPhotoURI.bmp</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\BundleArtifacts\x64.txt">
+      <PackagePath>BundleArtifacts\x64.txt</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\BundleArtifacts\x86.txt">
+      <PackagePath>BundleArtifacts\x86.txt</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\GSCFieldApp.csproj.vspscc">
+      <PackagePath>GSCFieldApp.csproj.vspscc</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\ModelResources\GSCFieldwork.sqlite">
       <PackagePath>ModelResources\GSCFieldwork.sqlite</PackagePath>
     </AppxPackagedFile>

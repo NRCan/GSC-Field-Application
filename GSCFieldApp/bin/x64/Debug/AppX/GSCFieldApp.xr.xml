@@ -268,10 +268,10 @@
       <RootProperty Name="Margin" />
       <RootProperty Name="Visibility" />
       <RootProperty Name="Width" />
-      <RootProperty Name="DisplayMemberPath" />
-      <RootProperty Name="SelectedValuePath" />
       <RootProperty Name="IsEnabled" />
       <RootProperty Name="MinWidth" />
+      <RootProperty Name="DisplayMemberPath" />
+      <RootProperty Name="SelectedValuePath" />
       <RootProperty Name="PlaceholderText" />
       <RootEvent Name="SelectionChanged" />
     </RootType>
@@ -637,6 +637,7 @@
     </RootType>
     <RootType FullName="GSCFieldApp.Views.EarthmatDialog" />
     <RootType FullName="GSCFieldApp.Views.FossilDialog" />
+    <RootType FullName="GSCFieldApp.Converters.ReverseBoolConverter" />
     <RootType FullName="GSCFieldApp.Views.LocationDialog" />
     <RootType FullName="GSCFieldApp.ViewModels.MapPageViewModel" />
     <RootType FullName="GSCFieldApp.Converters.ScaleConverter" />
@@ -717,7 +718,6 @@
     <RootType FullName="GSCFieldApp.Views.ReportPage" />
     <RootType FullName="GSCFieldApp.Views.SampleDialog" />
     <RootType FullName="GSCFieldApp.ViewModels.FieldBooksPageViewModel" />
-    <RootType FullName="GSCFieldApp.Converters.ReverseBoolConverter" />
     <RootType FullName="Windows.UI.Xaml.Documents.LineBreak" />
     <RootType FullName="Windows.UI.Xaml.AdaptiveTrigger">
       <RootProperty Name="MinWindowWidth" />

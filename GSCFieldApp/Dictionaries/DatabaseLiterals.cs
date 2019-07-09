@@ -9,7 +9,7 @@ namespace GSCFieldApp.Dictionaries
     public static class DatabaseLiterals
     {
         #region Database version
-        public const string DBVersion = "1.43"; //Will be used to verify loaded projects.
+        public const string DBVersion = "1.44"; //Will be used to verify loaded projects.
         #endregion
 
         #region Database names
@@ -31,6 +31,12 @@ namespace GSCFieldApp.Dictionaries
         //public const string FieldLocationSatUsed = "SATSUED"; //Version 1.00
         public const string FieldLocationPDOP = "PDOP";//Version 1.39
         //public const string FieldLocationCoordsource = "COORDSOURCE"; //Version 1.39
+        public const string FieldLocationDatum = "EPSG"; //Version 1.44
+        public const string FieldLocationEasting = "EASTING";//Version 1.0
+        public const string FieldLocationNorthing = "NORTHING";//Version 1.0
+        public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0
+        public const string FieldLocationNotes = "NOTES"; //Version 1.0
+        public const string FieldLocationReportLink = "REPORT_LINK"; //Version 1.0
 
         public const string FieldUserInfoID = "METAID";//Version 1.0
         public const string FieldUserInfoUCode = "GEOLCODE";//Version 1.0
@@ -52,6 +58,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldUserInfoVersion = "VERSION_APP"; //Version 1.0
         public const string FieldUserStartDate = "START_DATE"; //Version 1.0
         public const string FieldUserInfoVersionSchema = "VERSIONSCHEMA"; //Version 1.39
+        public const string FieldUserInfoEPSG = "EPSG"; //Deprecated since 1.44, is not accessible in F_LOCATION
 
         public const string FieldStationID = "STATIONID";//Version 1.0
         public const string FieldStationAlias = "STATIONNAME";//Version 1.0
@@ -276,6 +283,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordDipDipDirectionRule = "dip"; //Used to calculate SYMANG field in structure table.
         public const string KeywordPlanar = "planar"; //Used to calculate SYMANG field in structure table.
         public const string KeywordLinear = "linear";
+        public const string KeywordLocation = "location";
 
         #endregion
 
@@ -284,7 +292,7 @@ namespace GSCFieldApp.Dictionaries
         public const string termIDErrorTypeMeasure_Meter = "2A97235A-D929-4CB8-A69C-33ADFDB06402";
         public const string termIDElevmethod_GPS = "A763BE23-9359-4A7A-99D9-3409D92102DF";
         public const string termIDEntryType_Tap = "a59a2780-26a2-4f76-82ec-530df105d59d";
-
+        public const string termIDEntryType_Unknown = "1f3c586d-0517-45ea-8e83-7a023d775af7";
 
         #endregion
 

@@ -66,6 +66,9 @@
                 <AppBarButton x:Name="MapPageStrucCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Directions" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageMeasureCommand" IsEnabled="{x:Bind ViewModel.MapPageQuickMeasurementEnable, Mode=TwoWay}"/>
                 <AppBarButton x:Name="AddWaypoint" Label="" x:Uid="MapPageAddWaypoint" Foreground="White" Icon="Flag" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}"/>
             </Controls:PageHeader.PrimaryCommands>
+            <Controls:PageHeader.SecondaryCommands>
+                <AppBarButton x:Name="MapPageLocationCommandButton" Label="Manual XY entry" Foreground="White" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageLocationCommand" />
+            </Controls:PageHeader.SecondaryCommands>
 
         </Controls:PageHeader>
 

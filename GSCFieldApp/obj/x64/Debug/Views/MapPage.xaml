@@ -60,12 +60,15 @@
                              RelativePanel.AlignTopWithPanel="True" x:Uid="MapPageHeader">
             <!--  primary commands  -->
             <Controls:PageHeader.PrimaryCommands>
-                <AppBarButton x:ConnectionId='35' x:Name="MapPageStationCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Map"                                                        x:Uid="MapPageStationCommand" />
-                <AppBarButton x:ConnectionId='36' x:Name="MapPageSampleCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Tag"                                                        x:Uid="MapPageSampleCommand"                                                                     />
-                <AppBarButton x:ConnectionId='37' x:Name="MapPagePhotoCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Pictures"                                                        x:Uid="MapPagePhotoCommand"                                                                    />
-                <AppBarButton x:ConnectionId='38' x:Name="MapPageStrucCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Directions"                                                        x:Uid="MapPageMeasureCommand"                                                                          />
-                <AppBarButton x:ConnectionId='39' x:Name="AddWaypoint" Label="" x:Uid="MapPageAddWaypoint" Foreground="White" Icon="Flag"                                                       />
+                <AppBarButton x:ConnectionId='36' x:Name="MapPageStationCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Map"                                                        x:Uid="MapPageStationCommand" />
+                <AppBarButton x:ConnectionId='37' x:Name="MapPageSampleCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Tag"                                                        x:Uid="MapPageSampleCommand"                                                                     />
+                <AppBarButton x:ConnectionId='38' x:Name="MapPagePhotoCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Pictures"                                                        x:Uid="MapPagePhotoCommand"                                                                    />
+                <AppBarButton x:ConnectionId='39' x:Name="MapPageStrucCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Directions"                                                        x:Uid="MapPageMeasureCommand"                                                                          />
+                <AppBarButton x:ConnectionId='40' x:Name="AddWaypoint" Label="" x:Uid="MapPageAddWaypoint" Foreground="White" Icon="Flag"                                                       />
             </Controls:PageHeader.PrimaryCommands>
+            <Controls:PageHeader.SecondaryCommands>
+                <AppBarButton x:ConnectionId='41' x:Name="MapPageLocationCommandButton" Label="Manual XY entry" Foreground="White"                                                        x:Uid="MapPageLocationCommand" />
+            </Controls:PageHeader.SecondaryCommands>
 
         </Controls:PageHeader>
 
@@ -78,9 +81,9 @@
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
 
-                    <Flyout x:ConnectionId='33'                                                x:Name="mapPageLayerFlyout">
+                    <Flyout x:ConnectionId='34'                                                x:Name="mapPageLayerFlyout">
                         <RelativePanel Width="Auto">
-                            <ListView x:ConnectionId='34' x:Name="MapLayerListView"
+                            <ListView x:ConnectionId='35' x:Name="MapLayerListView"
                                 CanReorderItems="True" RelativePanel.AlignRightWithPanel="True"
                                 Width="Auto"
                                 AllowDrop="True"
@@ -95,10 +98,13 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton x:ConnectionId='31' x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo"  Width="55" Foreground="White" Icon="ViewAll"                             />
-            <AppBarButton x:ConnectionId='32' x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes"  Foreground="White" Width="55"                             >
+            <AppBarButton x:ConnectionId='32' x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes"  Foreground="White" Width="55"                              >
                 <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81D;"/>
+                    <SymbolIcon x:ConnectionId='33'                                                        x:Name="GPSModeIcon"/>
                 </AppBarButton.Icon>
+                <!--<AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#59421;" x:Name="GPSModeIcon"/>
+                </AppBarButton.Icon>-->
                 <!--<AppBarButton.Flyout>
                     <Flyout>
                         <ListView x:Name="gpsmodeflyout" ItemsSource="{x:Bind GPSModeList}" SelectionChanged="GPSModeSelectionChanged" />

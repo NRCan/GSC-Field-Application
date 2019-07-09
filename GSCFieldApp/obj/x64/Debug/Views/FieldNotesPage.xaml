@@ -468,8 +468,8 @@
                             Text="" Height="48" VerticalAlignment="Top"/>
         
         <RelativePanel x:ConnectionId='69' Padding="5,0,0,0" x:Name="SummaryPanel" RelativePanel.Below="pageHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
-            <TextBlock x:ConnectionId='179' x:Name="SummaryHeader" Style="{StaticResource HeaderTextBlock}" Text="" x:Uid="ReportPageSummaryGridHeader"/>
-            <GridView x:ConnectionId='180' 
+            <TextBlock x:ConnectionId='181' x:Name="SummaryHeader" Style="{StaticResource HeaderTextBlock}" Text="" x:Uid="ReportPageSummaryGridHeader"/>
+            <GridView x:ConnectionId='182' 
                 RelativePanel.Below="SummaryHeader"
                 x:Name="ReportListViewDates"
                 IsSwipeEnabled="True"
@@ -517,19 +517,19 @@
                             RelativePanel.AlignRightWithPanel="True" Margin="0,10, 0,0" >
 
 
-                    <theme:ExpandPanel x:ConnectionId='171' x:Name="StationExpandPanel"                                                                    >
+                    <theme:ExpandPanel x:ConnectionId='173' x:Name="StationExpandPanel"                                                                    >
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='172'                                                                                                          />
+                            <SolidColorBrush x:ConnectionId='174'                                                                                                          />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
                             <RelativePanel>
-                                <Rectangle x:ConnectionId='173' x:Name="StationBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                <Rectangle x:ConnectionId='175' x:Name="StationBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='175'                                                                                                                                                                            />
+                                        <SolidColorBrush x:ConnectionId='177'                                                                                                                                                                            />
                                     </Rectangle.Fill>
                                 </Rectangle>
 
-                                <TextBlock x:ConnectionId='174' x:Name="textBlock_FieldStation" x:Uid="FieldworkTableStation" 
+                                <TextBlock x:ConnectionId='176' x:Name="textBlock_FieldStation" x:Uid="FieldworkTableStation" 
                                             TextTrimming="CharacterEllipsis"                                                                                                          
                                             VerticalAlignment="Top" Height="40" Width="Auto" FontWeight="Bold"
                                             Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True"
@@ -539,10 +539,10 @@
                         </theme:ExpandPanel.HeaderContent>
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel>
-                                <SymbolIcon x:ConnectionId='176' x:Name="StationEditIcon"                                                                                                           Symbol="Edit"                                                             
+                                <SymbolIcon x:ConnectionId='178' x:Name="StationEditIcon"                                                                                                           Symbol="Edit"                                                             
                                                     RelativePanel.LeftOf="StationDeleteIcon"
                                                     Margin="8"                                                    />
-                                <SymbolIcon x:ConnectionId='177' x:Name="StationDeleteIcon"                                                                                                           Symbol="Delete"                                                             
+                                <SymbolIcon x:ConnectionId='179' x:Name="StationDeleteIcon"                                                                                                           Symbol="Delete"                                                             
                                                     RelativePanel.AlignRightWithPanel="True" 
                                                     Margin="8" 
                                                                                                       />
@@ -550,7 +550,7 @@
                         </theme:ExpandPanel.ToolContent>
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='178' x:Name="ReportStationList"  Style="{StaticResource ReportPageGridView}"
+                            <GridView x:ConnectionId='180' x:Name="ReportStationList"  Style="{StaticResource ReportPageGridView}"
                                                                                    
                                                                                                       
                                 ItemTemplate="{StaticResource ReportStationTemplate}"
@@ -569,24 +569,24 @@
                 <Grid x:ConnectionId='74' x:Name="EarthmatPanel" RelativePanel.Below="StationPanel"
                             RelativePanel.AlignLeftWithPanel="True"                                                                     
                             RelativePanel.AlignRightWithPanel="True">
-                    <theme:ExpandPanel x:ConnectionId='161' x:Name="EarthMatExpandPanel"                                                                      
+                    <theme:ExpandPanel x:ConnectionId='163' x:Name="EarthMatExpandPanel"                                                                      
                             RelativePanel.Below="StationExpandPanel"                                                                                      
                             MaxWidth="{Binding ElementName=EarthmatPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Margin="0,10, 0,0" 
                             MinHeight="30" >
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='162'                                                                                                           />
+                            <SolidColorBrush x:ConnectionId='164'                                                                                                           />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
-                            <RelativePanel x:ConnectionId='163' x:Name="EarthMatRelativePanel">
-                                <Rectangle x:ConnectionId='164'
+                            <RelativePanel x:ConnectionId='165' x:Name="EarthMatRelativePanel">
+                                <Rectangle x:ConnectionId='166'
                                     x:Name="EarthMaterialBackground"
                                     Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='166'                                                                                                                                                                              />
+                                        <SolidColorBrush x:ConnectionId='168'                                                                                                                                                                              />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock x:ConnectionId='165' x:Name="textBlock_FieldEarthMat" x:Uid="FieldworkTableEarthmat"
+                                <TextBlock x:ConnectionId='167' x:Name="textBlock_FieldEarthMat" x:Uid="FieldworkTableEarthmat"
                                     TextTrimming="CharacterEllipsis"                                                                                                           
                                     VerticalAlignment="Top" Height="30" 
                                     Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" FontWeight="Bold"
@@ -597,14 +597,14 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel>
-                                <SymbolIcon x:ConnectionId='167' x:Name="EarthMatAddIcon"                                                                                                                   Margin="8"  Symbol="Add" RelativePanel.LeftOf="EarthMatEditIcon"                                                                                                                    />
-                                <SymbolIcon x:ConnectionId='168' x:Name="EarthMatEditIcon"                                                                                                            Margin="8" Symbol="Edit"  RelativePanel.LeftOf="Earth_materialDeleteIcon"                                                                                                                  />
-                                <SymbolIcon x:ConnectionId='169' x:Name="Earth_materialDeleteIcon"                                                                                                            Margin="8" Symbol="Delete" RelativePanel.AlignRightWithPanel="True"                                                                                                                 />
+                                <SymbolIcon x:ConnectionId='169' x:Name="EarthMatAddIcon"                                                                                                                   Margin="8"  Symbol="Add" RelativePanel.LeftOf="EarthMatEditIcon"                                                                                                                    />
+                                <SymbolIcon x:ConnectionId='170' x:Name="EarthMatEditIcon"                                                                                                            Margin="8" Symbol="Edit"  RelativePanel.LeftOf="Earth_materialDeleteIcon"                                                                                                                  />
+                                <SymbolIcon x:ConnectionId='171' x:Name="Earth_materialDeleteIcon"                                                                                                            Margin="8" Symbol="Delete" RelativePanel.AlignRightWithPanel="True"                                                                                                                 />
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 
                         <theme:ExpandPanel.Content>
-                            <GridView x:ConnectionId='170' x:Name="ReportEarthmatList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:ConnectionId='172' x:Name="ReportEarthmatList" Style="{StaticResource ReportPageGridView}"
                                                                                    
                                     ItemTemplate="{StaticResource ReportEarthmatTemplate}"
                                                                                                          
@@ -622,23 +622,23 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"                                                                   >
 
-                    <theme:ExpandPanel x:ConnectionId='151' x:Name="SampleExpandPanel" 
+                    <theme:ExpandPanel x:ConnectionId='153' x:Name="SampleExpandPanel" 
                                                                                                                
                                             RelativePanel.Below="EarthMatExpandPanel"
                                                                                                                                
                                             MaxWidth="{Binding ElementName=SamplePanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='152'                                                                                                         />
+                            <SolidColorBrush x:ConnectionId='154'                                                                                                         />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
-                            <RelativePanel x:ConnectionId='153' x:Name="SampleRelativePanel" >
-                                <Rectangle x:ConnectionId='154' x:Name="SampleBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                            <RelativePanel x:ConnectionId='155' x:Name="SampleRelativePanel" >
+                                <Rectangle x:ConnectionId='156' x:Name="SampleBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='156'                                                                                                                                                                          />
+                                        <SolidColorBrush x:ConnectionId='158'                                                                                                                                                                          />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock x:ConnectionId='155' x:Name="textBlock_FieldSample" x:Uid="FieldworkTableSample"
+                                <TextBlock x:ConnectionId='157' x:Name="textBlock_FieldSample" x:Uid="FieldworkTableSample"
                                 TextTrimming="CharacterEllipsis"                                                                                                         
                                 Text="" 
                                 VerticalAlignment="Top" Height="30" FontWeight="Bold"
@@ -650,15 +650,15 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel >
-                                <SymbolIcon x:ConnectionId='157' x:Name="SampleAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="SampleEditIcon" Margin="8"                                                                                                                 />
-                                <SymbolIcon x:ConnectionId='158' x:Name="SampleEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="SampleDeleteIcon" Margin="8"                                                                                                              />
-                                <SymbolIcon x:ConnectionId='159' x:Name="SampleDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                               />
+                                <SymbolIcon x:ConnectionId='159' x:Name="SampleAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="SampleEditIcon" Margin="8"                                                                                                                 />
+                                <SymbolIcon x:ConnectionId='160' x:Name="SampleEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="SampleDeleteIcon" Margin="8"                                                                                                              />
+                                <SymbolIcon x:ConnectionId='161' x:Name="SampleDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                               />
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='160' x:Name="ReportSampleList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:ConnectionId='162' x:Name="ReportSampleList" Style="{StaticResource ReportPageGridView}"
                                     IsSwipeEnabled="False"                                                
                                     ItemTemplate="{StaticResource ReportSampleTemplate}"
                                                                                                        
@@ -679,23 +679,23 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"                                                                      >
 
-                    <theme:ExpandPanel x:ConnectionId='141' x:Name="StructureExpandPanel" 
+                    <theme:ExpandPanel x:ConnectionId='143' x:Name="StructureExpandPanel" 
                                                                                                                   
                                             RelativePanel.Below="SampleExpandPanel"
                                                                                                                                   
                                             MaxWidth="{Binding ElementName=StructurePanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='142'                                                                                                         />
+                            <SolidColorBrush x:ConnectionId='144'                                                                                                         />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
-                            <RelativePanel x:ConnectionId='143' x:Name="StructureRelativePanel" >
-                                <Rectangle x:ConnectionId='144' x:Name="StructureBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                            <RelativePanel x:ConnectionId='145' x:Name="StructureRelativePanel" >
+                                <Rectangle x:ConnectionId='146' x:Name="StructureBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='146'                                                                                                                                                                             />
+                                        <SolidColorBrush x:ConnectionId='148'                                                                                                                                                                             />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock x:ConnectionId='145' x:Name="textBlock_FieldStructure" x:Uid="FieldworkTableStructure"
+                                <TextBlock x:ConnectionId='147' x:Name="textBlock_FieldStructure" x:Uid="FieldworkTableStructure"
                                 TextTrimming="CharacterEllipsis"                                                                                                         
                                 Text="" FontWeight="Bold"
                                 VerticalAlignment="Top" Height="30" 
@@ -707,15 +707,15 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel >
-                                <SymbolIcon x:ConnectionId='147' x:Name="StrucAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="StrucEditIcon" Margin="8"                                                                                                                       />
-                                <SymbolIcon x:ConnectionId='148' x:Name="StrucEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="StrucDeleteIcon" Margin="8"                                                                                                                    />
-                                <SymbolIcon x:ConnectionId='149' x:Name="StrucDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                                  />
+                                <SymbolIcon x:ConnectionId='149' x:Name="StrucAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="StrucEditIcon" Margin="8"                                                                                                                       />
+                                <SymbolIcon x:ConnectionId='150' x:Name="StrucEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="StrucDeleteIcon" Margin="8"                                                                                                                    />
+                                <SymbolIcon x:ConnectionId='151' x:Name="StrucDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                                  />
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='150' x:Name="ReportStructureList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:ConnectionId='152' x:Name="ReportStructureList" Style="{StaticResource ReportPageGridView}"
                                     IsSwipeEnabled="False"                                                
                                     ItemTemplate="{StaticResource ReportStructureTemplate}"
                                                                                                           
@@ -735,23 +735,23 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"                                                                   >
 
-                    <theme:ExpandPanel x:ConnectionId='131' x:Name="FossilExpandPanel" 
+                    <theme:ExpandPanel x:ConnectionId='133' x:Name="FossilExpandPanel" 
                                                                                                                
                                             RelativePanel.Below="StructureExpandPanel"
                                                                                                                                
                                             MaxWidth="{Binding ElementName=FossilPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='132'                                                                                                         />
+                            <SolidColorBrush x:ConnectionId='134'                                                                                                         />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
-                            <RelativePanel x:ConnectionId='133' x:Name="FossilRelativePanel" >
-                                <Rectangle x:ConnectionId='134' x:Name="FossilBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                            <RelativePanel x:ConnectionId='135' x:Name="FossilRelativePanel" >
+                                <Rectangle x:ConnectionId='136' x:Name="FossilBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='136'                                                                                                                                                                          />
+                                        <SolidColorBrush x:ConnectionId='138'                                                                                                                                                                          />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock x:ConnectionId='135' x:Name="textBlock_FieldFossil" x:Uid="FieldworkTableFossil"
+                                <TextBlock x:ConnectionId='137' x:Name="textBlock_FieldFossil" x:Uid="FieldworkTableFossil"
                                 TextTrimming="CharacterEllipsis"                                                                                                         
                                 Text="" FontWeight="Bold"
                                 VerticalAlignment="Top" Height="30" 
@@ -763,15 +763,15 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel >
-                                <SymbolIcon x:ConnectionId='137' x:Name="FossilAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="FossilEditIcon" Margin="8"                                                                                                                 />
-                                <SymbolIcon x:ConnectionId='138' x:Name="FossilEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="FossilDeleteIcon" Margin="8"                                                                                                              />
-                                <SymbolIcon x:ConnectionId='139' x:Name="FossilDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                               />
+                                <SymbolIcon x:ConnectionId='139' x:Name="FossilAddIcon"                                                                                                                 Symbol="Add" RelativePanel.LeftOf="FossilEditIcon" Margin="8"                                                                                                                 />
+                                <SymbolIcon x:ConnectionId='140' x:Name="FossilEditIcon"                                                                                                          Symbol="Edit"  RelativePanel.LeftOf="FossilDeleteIcon" Margin="8"                                                                                                              />
+                                <SymbolIcon x:ConnectionId='141' x:Name="FossilDeleteIcon"                                                                                                          Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                               />
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='140' x:Name="ReportFossilList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:ConnectionId='142' x:Name="ReportFossilList" Style="{StaticResource ReportPageGridView}"
                                     IsSwipeEnabled="False"                                                
                                     ItemTemplate="{StaticResource ReportFossilTemplate}"
                                                                                                        
@@ -791,23 +791,23 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"                                                                  >
 
-                    <theme:ExpandPanel x:ConnectionId='121' x:Name="PflowExpandPanel" 
+                    <theme:ExpandPanel x:ConnectionId='123' x:Name="PflowExpandPanel" 
                                                                                                               
                                             RelativePanel.Below="FossilExpandPanel"
                                                                                                                               
                                             MaxWidth="{Binding ElementName=PaleoFlowPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='122'                                                                                                            />
+                            <SolidColorBrush x:ConnectionId='124'                                                                                                            />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
-                            <RelativePanel x:ConnectionId='123' x:Name="PflowRelativePanel" >
-                                <Rectangle x:ConnectionId='124' x:Name="PflowBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                            <RelativePanel x:ConnectionId='125' x:Name="PflowRelativePanel" >
+                                <Rectangle x:ConnectionId='126' x:Name="PflowBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='126'                                                                                                                                                                            />
+                                        <SolidColorBrush x:ConnectionId='128'                                                                                                                                                                            />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock x:ConnectionId='125' x:Name="textBlock_FieldPflow" x:Uid="FieldworkTablePflow"
+                                <TextBlock x:ConnectionId='127' x:Name="textBlock_FieldPflow" x:Uid="FieldworkTablePflow"
                                 TextTrimming="CharacterEllipsis"                                                                                                            
                                 Text="" FontWeight="Bold"
                                 VerticalAlignment="Top" Height="30" 
@@ -819,15 +819,15 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel >
-                                <SymbolIcon x:ConnectionId='127' x:Name="PflowAddIcon"                                                                                                                    Symbol="Add" RelativePanel.LeftOf="PflowEditIcon" Margin="8"                                                                                                               />
-                                <SymbolIcon x:ConnectionId='128' x:Name="PflowEditIcon"                                                                                                             Symbol="Edit"  RelativePanel.LeftOf="Paleo_flowDeleteIcon" Margin="8"                                                                                                            />
-                                <SymbolIcon x:ConnectionId='129' x:Name="Paleo_flowDeleteIcon"                                                                                                             Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                              />
+                                <SymbolIcon x:ConnectionId='129' x:Name="PflowAddIcon"                                                                                                                    Symbol="Add" RelativePanel.LeftOf="PflowEditIcon" Margin="8"                                                                                                               />
+                                <SymbolIcon x:ConnectionId='130' x:Name="PflowEditIcon"                                                                                                             Symbol="Edit"  RelativePanel.LeftOf="Paleo_flowDeleteIcon" Margin="8"                                                                                                            />
+                                <SymbolIcon x:ConnectionId='131' x:Name="Paleo_flowDeleteIcon"                                                                                                             Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                              />
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='130' x:Name="ReportPflowList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:ConnectionId='132' x:Name="ReportPflowList" Style="{StaticResource ReportPageGridView}"
                                     IsSwipeEnabled="False"                                                
                                     ItemTemplate="{StaticResource ReportPflowTemplate}"
                                                                                                       
@@ -847,23 +847,23 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"                                                                    >
 
-                    <theme:ExpandPanel x:ConnectionId='111' x:Name="MineralExpandPanel" 
+                    <theme:ExpandPanel x:ConnectionId='113' x:Name="MineralExpandPanel" 
                                                                                                                 
                                             RelativePanel.Below="PflowExpandPanel"
                                                                                                                                 
                                             MaxWidth="{Binding ElementName=MineralPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='112'                                                                                                          />
+                            <SolidColorBrush x:ConnectionId='114'                                                                                                          />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
-                            <RelativePanel x:ConnectionId='113' x:Name="MineralRelativePanel" >
-                                <Rectangle x:ConnectionId='114' x:Name="MineralBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                            <RelativePanel x:ConnectionId='115' x:Name="MineralRelativePanel" >
+                                <Rectangle x:ConnectionId='116' x:Name="MineralBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='116'                                                                                                                                                                            />
+                                        <SolidColorBrush x:ConnectionId='118'                                                                                                                                                                            />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock x:ConnectionId='115' x:Name="textBlock_FieldMineral" x:Uid="FieldworkTableMineral"
+                                <TextBlock x:ConnectionId='117' x:Name="textBlock_FieldMineral" x:Uid="FieldworkTableMineral"
                                 TextTrimming="CharacterEllipsis"                                                                                                          
                                 Text="" FontWeight="Bold"
                                 VerticalAlignment="Top" Height="30" 
@@ -875,15 +875,15 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel >
-                                <SymbolIcon x:ConnectionId='117' x:Name="MineralAddIcon"                                                                                                                  Symbol="Add" RelativePanel.LeftOf="MineralEditIcon" Margin="8"                                                                                                                   />
-                                <SymbolIcon x:ConnectionId='118' x:Name="MineralEditIcon"                                                                                                           Symbol="Edit"  RelativePanel.LeftOf="MineralDeleteIcon" Margin="8"                                                                                                                />
-                                <SymbolIcon x:ConnectionId='119' x:Name="MineralDeleteIcon"                                                                                                           Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                                />
+                                <SymbolIcon x:ConnectionId='119' x:Name="MineralAddIcon"                                                                                                                  Symbol="Add" RelativePanel.LeftOf="MineralEditIcon" Margin="8"                                                                                                                   />
+                                <SymbolIcon x:ConnectionId='120' x:Name="MineralEditIcon"                                                                                                           Symbol="Edit"  RelativePanel.LeftOf="MineralDeleteIcon" Margin="8"                                                                                                                />
+                                <SymbolIcon x:ConnectionId='121' x:Name="MineralDeleteIcon"                                                                                                           Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8"                                                                                                                />
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='120' x:Name="ReportMineralList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:ConnectionId='122' x:Name="ReportMineralList" Style="{StaticResource ReportPageGridView}"
                                     IsSwipeEnabled="False"                                                
                                     ItemTemplate="{StaticResource ReportMineralTemplate}"
                                                                                                          
@@ -903,24 +903,24 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"                                                                       >
 
-                    <theme:ExpandPanel x:ConnectionId='101' x:Name="MineralAltExpandPanel" 
+                    <theme:ExpandPanel x:ConnectionId='103' x:Name="MineralAltExpandPanel" 
                                                                                                                    
                                             RelativePanel.Below="MineralExpandPanel"
                                                                                                                                    
                                             MaxWidth="{Binding ElementName=MineralAltPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='102'                                                                                                             />
+                            <SolidColorBrush x:ConnectionId='104'                                                                                                             />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
-                            <RelativePanel x:ConnectionId='103' x:Name="MineralAltRelativePanel" >
-                                <Rectangle x:ConnectionId='104' x:Name="MineralAltBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                            <RelativePanel x:ConnectionId='105' x:Name="MineralAltRelativePanel" >
+                                <Rectangle x:ConnectionId='106' x:Name="MineralAltBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='106'                                                                                                              
+                                        <SolidColorBrush x:ConnectionId='108'                                                                                                              
                                                                                                                              />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock x:ConnectionId='105' x:Name="textBlock_FieldMineralAlt" x:Uid="FieldworkTableMineralAlt"
+                                <TextBlock x:ConnectionId='107' x:Name="textBlock_FieldMineralAlt" x:Uid="FieldworkTableMineralAlt"
                                 TextTrimming="CharacterEllipsis"                                                                                                             
                                 Text="" FontWeight="Bold"
                                 VerticalAlignment="Top" Height="30" 
@@ -932,14 +932,14 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel >
-                                <SymbolIcon x:ConnectionId='107' x:Name="MineralAltAddIcon"                                                                                                                     
+                                <SymbolIcon x:ConnectionId='109' x:Name="MineralAltAddIcon"                                                                                                                     
                                             Symbol="Add" RelativePanel.LeftOf="MineralAltEditIcon" Margin="8" 
                                                                                                                                                                     />
-                                <SymbolIcon x:ConnectionId='108' x:Name="MineralAltEditIcon" 
+                                <SymbolIcon x:ConnectionId='110' x:Name="MineralAltEditIcon" 
                                                                                                                                                          
                                             Symbol="Edit"  RelativePanel.LeftOf="alterationDeleteIcon" Margin="8" 
                                                                                                                                                                  />
-                                <SymbolIcon x:ConnectionId='109' x:Name="alterationDeleteIcon" 
+                                <SymbolIcon x:ConnectionId='111' x:Name="alterationDeleteIcon" 
                                                                                                                                                          
                                             Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" 
                                                                                                                                                               />
@@ -948,7 +948,7 @@
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='110' x:Name="ReportMineralAltList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:ConnectionId='112' x:Name="ReportMineralAltList" Style="{StaticResource ReportPageGridView}"
                                     IsSwipeEnabled="False"                                                
                                     ItemTemplate="{StaticResource ReportMineralAltTemplate}"
                                                                                                                          
@@ -968,23 +968,23 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"                                                                  >
 
-                    <theme:ExpandPanel x:ConnectionId='91' x:Name="DocumentExpandPanel" 
+                    <theme:ExpandPanel x:ConnectionId='93' x:Name="DocumentExpandPanel" 
                                                                                                                  
                                                                                                                                     
                                             RelativePanel.Below="MineralAltExpandPanel"
                                            MaxWidth="{Binding ElementName=DocumentPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
-                            <SolidColorBrush x:ConnectionId='92'                                                                                                           />
+                            <SolidColorBrush x:ConnectionId='94'                                                                                                           />
                         </theme:ExpandPanel.HeaderBorderBrush>
                         <theme:ExpandPanel.HeaderContent>
-                            <RelativePanel x:ConnectionId='93' x:Name="DocumentRelativePanel" >
-                                <Rectangle x:ConnectionId='94' x:Name="DocumentBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                            <RelativePanel x:ConnectionId='95' x:Name="DocumentRelativePanel" >
+                                <Rectangle x:ConnectionId='96' x:Name="DocumentBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
                                     <Rectangle.Fill>
-                                        <SolidColorBrush x:ConnectionId='96'                                                                                                                                                                              />
+                                        <SolidColorBrush x:ConnectionId='98'                                                                                                                                                                              />
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <TextBlock x:ConnectionId='95' x:Name="textBlock_FieldDocument"                                                      
+                                <TextBlock x:ConnectionId='97' x:Name="textBlock_FieldDocument"                                                      
                                 TextTrimming="CharacterEllipsis"                                                                                                           
                                 VerticalAlignment="Top" Height="30" FontWeight="Bold"
                                 Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
@@ -995,15 +995,15 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel >
-                                <SymbolIcon x:ConnectionId='97' x:Name="DocumentAddIcon"                                                                                                                   Symbol="Add" RelativePanel.LeftOf="DocumentEditIcon" Margin="8"                                                                                                                     />
-                                <SymbolIcon x:ConnectionId='98' x:Name="DocumentEditIcon"                                                                                                            Symbol="Edit"  RelativePanel.LeftOf="DocumentDeleteIcon"                                                               Margin="8"                                                    />
-                                <SymbolIcon x:ConnectionId='99' x:Name="DocumentDeleteIcon"                                                                                                            Symbol="Delete" RelativePanel.AlignRightWithPanel="True"                                                               Margin="8"                                                   />
+                                <SymbolIcon x:ConnectionId='99' x:Name="DocumentAddIcon"                                                                                                                   Symbol="Add" RelativePanel.LeftOf="DocumentEditIcon" Margin="8"                                                                                                                     />
+                                <SymbolIcon x:ConnectionId='100' x:Name="DocumentEditIcon"                                                                                                            Symbol="Edit"  RelativePanel.LeftOf="DocumentDeleteIcon"                                                               Margin="8"                                                    />
+                                <SymbolIcon x:ConnectionId='101' x:Name="DocumentDeleteIcon"                                                                                                            Symbol="Delete" RelativePanel.AlignRightWithPanel="True"                                                               Margin="8"                                                   />
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='100' x:Name="ReportDocumentList" Style="{StaticResource ReportPageGridView}"   
+                            <GridView x:ConnectionId='102' x:Name="ReportDocumentList" Style="{StaticResource ReportPageGridView}"   
                                     IsSwipeEnabled="False"                                                
                                     ItemTemplate="{StaticResource ReportDocumentTemplate}"
                                                                                                          
@@ -1051,17 +1051,15 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel>
-
-                                <SymbolIcon x:ConnectionId='89' x:Name="ObservationEditIcon"                                                                                                            Symbol="Edit"                                                             
-                                                                                        
-                                    Margin="5" 
-                                        />
+                                <SymbolIcon x:ConnectionId='89' x:Name="ObservationAddIcon"                                                                                                                   Margin="8"  Symbol="Add" RelativePanel.LeftOf="ObservationEditIcon"                                                                                                                    />
+                                <SymbolIcon x:ConnectionId='90' x:Name="ObservationEditIcon"                                                                                                            Symbol="Edit"                                                              RelativePanel.LeftOf="ObservationDeleteIcon"                                                     Margin="5"/>
+                                <SymbolIcon x:ConnectionId='91' x:Name="ObservationDeleteIcon"                                                                                                            Symbol="Delete" RelativePanel.AlignRightWithPanel="True"                                                               Margin="8"                                                   />
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:ConnectionId='90' x:Name="ReportLocationList" Padding="0" Margin="0"
+                            <GridView x:ConnectionId='92' x:Name="ReportLocationList" Padding="0" Margin="0"
                                     Visibility="Visible"
                                     IsSwipeEnabled="False"
                                     AllowDrop="False"                                                                  

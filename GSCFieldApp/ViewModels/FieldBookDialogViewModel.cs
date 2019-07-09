@@ -269,9 +269,6 @@ namespace GSCFieldApp.ViewModels
                 Services.DatabaseServices.DataIDCalculation newIDMethod = new Services.DatabaseServices.DataIDCalculation();
                 Model.MetaID = newIDMethod.CalculateMetadataID();
 
-                Model.ProjectionType = "Geographic";
-                Model.ProjectionDatum = "WGS84"; //FROM SMS dictionary
-
                 //Get current application version
                 Package currentPack = Package.Current;
                 PackageId currentPackID = currentPack.Id;

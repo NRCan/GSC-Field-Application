@@ -39,6 +39,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType] = currentUser.FieldworkType;
             currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode] = currentUser.UserCode;
             currentLocalSettings.Containers[containerName].Values[Dictionaries.ApplicationLiterals.KeywordFieldProject] = dAccess.ProjectPath;
+            currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema] = currentUser.VersionSchema;
         }
 
 
