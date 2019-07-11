@@ -71,7 +71,7 @@ namespace GSCFieldApp.ViewModels
         private object _selectedLayer;
         public object selectedStationID = string.Empty; //Will be used to show report page on user identified station.
         public object selectedStationDate = string.Empty;  //Will be used to show report page on user identified station.
-        public Dictionary<string, Tuple<string, bool, double>> _layerRenderingConfiguration; //Will be used to show layer in proper order, visibility and opacity based on previous setting on app opening.
+
 
         //Model and strings
         private DataAccess accessData = new DataAccess();
@@ -158,6 +158,8 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
+
+        public Dictionary<string, Tuple<string, bool, double>> _layerRenderingConfiguration { get; set; } //Will be used to show layer in proper order, visibility and opacity based on previous setting on app opening.
 
         public Symbol GPSModeSymbol { get { return _GPSModeSymbol; } set { _GPSModeSymbol = value; } }
 
@@ -2248,9 +2250,6 @@ namespace GSCFieldApp.ViewModels
                 if (localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder) != null && esriMap != null)
                 {
 
-                    //Verify if string is the same as the saved one, if no re-order all layers.
-                    _layerRenderingConfiguration = GetLayerRendering();
-
                     //Keep original layer collection
                     LayerCollection currentLayerCollection = esriMap.Basemap.BaseLayers;
 
@@ -2284,14 +2283,12 @@ namespace GSCFieldApp.ViewModels
                                 
                                 try
                                 {
-                                    layerToAdd.IsVisible = _layerRenderingConfiguration[layerToAdd.Name].Item2;
-                                    layerToAdd.Opacity = _layerRenderingConfiguration[layerToAdd.Name].Item3;
+                                    orderedFiles.FileVisible = layerToAdd.IsVisible;
+                                    orderedFiles.FileOpacity = layerToAdd.Opacity * 100; 
 
                                     //Make sure to push the change to the UI in case this is coming from a first app opening
-                                    orderedFiles.FileVisible = layerToAdd.IsVisible;
-                                    orderedFiles.FileOpacity = layerToAdd.Opacity * 100;
                                     newFileList.Insert(0, orderedFiles); //Save in new list because can't change something being looped
-
+                                    
                                         
                                 }
                                 catch (Exception)

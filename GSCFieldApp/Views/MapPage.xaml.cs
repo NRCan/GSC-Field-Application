@@ -430,7 +430,7 @@ namespace GSCFieldApp.Views
                 if (filename != null)
                 {
                     var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(filename.Split('.')[0]));
-                    sublayer.Opacity = senderSlider.Value / 100;
+                    sublayer.Opacity = senderSlider.Value / 100.0;
                 }
 
             }
