@@ -7,7 +7,7 @@
     xmlns:converters="using:GSCFieldApp.Converters">
 
     <!--Converters-->
-    <converters:MandatoryFieldConverter x:ConnectionId='1' x:Name="MandatoryFieldConverter" />
+    <converters:MandatoryFieldConverter x:ConnectionId='2' x:Name="MandatoryFieldConverter" />
 
     <x:Double x:Key="NarrowMinWidth">0</x:Double>
     <x:Double x:Key="NormalMinWidth">521</x:Double>

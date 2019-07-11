@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "UAP,Version=v10.0.16299": {
+    "UAP,Version=v10.0.17763": {
       "Esri.ArcGISRuntime.Toolkit/100.4.0": {
         "type": "package",
         "dependencies": {
@@ -2055,7 +2055,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.16299/win10-arm": {
+    "UAP,Version=v10.0.17763/win10-arm": {
       "Esri.ArcGISRuntime.Toolkit/100.4.0": {
         "type": "package",
         "dependencies": {
@@ -4452,7 +4452,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.16299/win10-arm-aot": {
+    "UAP,Version=v10.0.17763/win10-arm-aot": {
       "Esri.ArcGISRuntime.Toolkit/100.4.0": {
         "type": "package",
         "dependencies": {
@@ -6880,7 +6880,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.16299/win10-x64": {
+    "UAP,Version=v10.0.17763/win10-x64": {
       "Esri.ArcGISRuntime.Toolkit/100.4.0": {
         "type": "package",
         "dependencies": {
@@ -9280,7 +9280,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.16299/win10-x64-aot": {
+    "UAP,Version=v10.0.17763/win10-x64-aot": {
       "Esri.ArcGISRuntime.Toolkit/100.4.0": {
         "type": "package",
         "dependencies": {
@@ -11711,7 +11711,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.16299/win10-x86": {
+    "UAP,Version=v10.0.17763/win10-x86": {
       "Esri.ArcGISRuntime.Toolkit/100.4.0": {
         "type": "package",
         "dependencies": {
@@ -14111,7 +14111,7 @@
         }
       }
     },
-    "UAP,Version=v10.0.16299/win10-x86-aot": {
+    "UAP,Version=v10.0.17763/win10-x86-aot": {
       "Esri.ArcGISRuntime.Toolkit/100.4.0": {
         "type": "package",
         "dependencies": {
@@ -23567,7 +23567,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "UAP,Version=v10.0.16299": [
+    "UAP,Version=v10.0.17763": [
       "Esri.ArcGISRuntime.Toolkit >= 100.4.0",
       "Esri.ArcGISRuntime.UWP >= 100.4.0",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 6.1.9",
@@ -23600,20 +23600,20 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "uap10.0.16299"
+        "uap10.0.17763"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "uap10.0.16299": {
+        "uap10.0.17763": {
           "projectReferences": {}
         }
       }
     },
     "frameworks": {
-      "uap10.0.16299": {
+      "uap10.0.17763": {
         "dependencies": {
           "Esri.ArcGISRuntime.Toolkit": {
             "target": "Package",

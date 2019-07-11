@@ -15,7 +15,7 @@ namespace GSCFieldApp.Views
         global::Windows.UI.Xaml.Markup.IComponentConnector,
         global::Windows.UI.Xaml.Markup.IComponentConnector2
     {
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private static class XamlBindingSetters
         {
@@ -45,9 +45,11 @@ namespace GSCFieldApp.Views
             }
         };
 
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private class FossilDialog_obj1_Bindings :
+            global::Windows.UI.Xaml.Markup.IDataTemplateComponent,
+            global::Windows.UI.Xaml.Markup.IXamlBindScopeDiagnostics,
             global::Windows.UI.Xaml.Markup.IComponentConnector,
             IFossilDialog_Bindings
         {
@@ -60,11 +62,32 @@ namespace GSCFieldApp.Views
             private global::Windows.UI.Xaml.Controls.TextBox obj7;
             private global::Windows.UI.Xaml.Controls.ComboBox obj8;
 
+            // Static fields for each binding's enabled/disabled state
+            private static bool isobj7TextDisabled = false;
+            private static bool isobj8ItemsSourceDisabled = false;
+            private static bool isobj8SelectedValueDisabled = false;
+
             private FossilDialog_obj1_BindingsTracking bindingsTracking;
 
             public FossilDialog_obj1_Bindings()
             {
                 this.bindingsTracking = new FossilDialog_obj1_BindingsTracking(this);
+            }
+
+            public void Disable(int lineNumber, int columnNumber)
+            {
+                if (lineNumber == 48 && columnNumber == 29)
+                {
+                    isobj7TextDisabled = true;
+                }
+                else if (lineNumber == 42 && columnNumber == 33)
+                {
+                    isobj8ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 43 && columnNumber == 33)
+                {
+                    isobj8SelectedValueDisabled = true;
+                }
             }
 
             // IComponentConnector
@@ -75,30 +98,27 @@ namespace GSCFieldApp.Views
                 {
                     case 7: // Views\FossilDialog.xaml line 46
                         this.obj7 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj7).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.fossilModel.FossilNote = this.obj7.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_7(this.obj7);
                         break;
                     case 8: // Views\FossilDialog.xaml line 41
                         this.obj8 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj8).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.fossilModel.SelectedFossilType = (global::System.String)this.obj8.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_8(this.obj8);
                         break;
                     default:
                         break;
                 }
+            }
+
+            // IDataTemplateComponent
+
+            public void ProcessBindings(global::System.Object item, int itemIndex, int phase, out int nextPhase)
+            {
+                throw new global::System.NotImplementedException();
+            }
+
+            public void Recycle()
+            {
+                throw new global::System.NotImplementedException();
             }
 
             // IFossilDialog_Bindings
@@ -179,7 +199,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FossilDialog.xaml line 46
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj7, obj, null);
+                    if (!isobj7TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj7, obj, null);
+                    }
                 }
             }
             private void Update_fossilModel_FossilType(global::System.Collections.Generic.List<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -187,7 +210,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\FossilDialog.xaml line 41
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj8, obj, null);
+                    if (!isobj8ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj8, obj, null);
+                    }
                 }
             }
             private void Update_fossilModel_SelectedFossilType(global::System.String obj, int phase)
@@ -195,11 +221,40 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FossilDialog.xaml line 41
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj8, obj, null);
+                    if (!isobj8SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj8, obj, null);
+                    }
+                }
+            }
+            private void UpdateTwoWay_7_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.fossilModel != null)
+                        {
+                            this.dataRoot.fossilModel.FossilNote = this.obj7.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_8_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.fossilModel != null)
+                        {
+                            this.dataRoot.fossilModel.SelectedFossilType = (global::System.String)this.obj8.SelectedValue;
+                        }
+                    }
                 }
             }
 
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private class FossilDialog_obj1_BindingsTracking
             {
@@ -288,12 +343,34 @@ namespace GSCFieldApp.Views
                         }
                     }
                 }
+                public void RegisterTwoWayListener_7(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_7_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_8(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_8_SelectedValue();
+                        }
+                    });
+                }
             }
         }
         /// <summary>
         /// Connect()
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public void Connect(int connectionId, object target)
         {
@@ -355,7 +432,7 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// GetBindingConnector(int connectionId, object target)
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IComponentConnector GetBindingConnector(int connectionId, object target)
         {
@@ -370,6 +447,7 @@ namespace GSCFieldApp.Views
                     bindings.SetDataRoot(this);
                     this.Bindings = bindings;
                     element1.Loading += bindings.Loading;
+                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetDataTemplateComponent(element1, bindings);
                 }
                 break;
             }

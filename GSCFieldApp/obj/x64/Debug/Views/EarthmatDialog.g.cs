@@ -15,7 +15,7 @@ namespace GSCFieldApp.Views
         global::Windows.UI.Xaml.Markup.IComponentConnector,
         global::Windows.UI.Xaml.Markup.IComponentConnector2
     {
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private static class XamlBindingSetters
         {
@@ -57,11 +57,12 @@ namespace GSCFieldApp.Views
             }
         };
 
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private class EarthmatDialog_obj2_Bindings :
             global::Windows.UI.Xaml.IDataTemplateExtension,
             global::Windows.UI.Xaml.Markup.IDataTemplateComponent,
+            global::Windows.UI.Xaml.Markup.IXamlBindScopeDiagnostics,
             global::Windows.UI.Xaml.Markup.IComponentConnector,
             IEarthmatDialog_Bindings
         {
@@ -76,8 +77,24 @@ namespace GSCFieldApp.Views
             private global::Windows.UI.Xaml.Controls.TextBlock obj3;
             private global::Windows.UI.Xaml.Controls.SymbolIcon obj4;
 
+            // Static fields for each binding's enabled/disabled state
+            private static bool isobj3TextDisabled = false;
+            private static bool isobj4VisibilityDisabled = false;
+
             public EarthmatDialog_obj2_Bindings()
             {
+            }
+
+            public void Disable(int lineNumber, int columnNumber)
+            {
+                if (lineNumber == 33 && columnNumber == 25)
+                {
+                    isobj3TextDisabled = true;
+                }
+                else if (lineNumber == 35 && columnNumber == 225)
+                {
+                    isobj4VisibilityDisabled = true;
+                }
             }
 
             // IComponentConnector
@@ -204,7 +221,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 32
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Text(this.obj3, obj, null);
+                    if (!isobj3TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Text(this.obj3, obj, null);
+                    }
                 }
             }
             private void Update_canRemoveItem(global::Windows.UI.Xaml.Visibility obj, int phase)
@@ -212,14 +232,19 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 35
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj4, obj);
+                    if (!isobj4VisibilityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj4, obj);
+                    }
                 }
             }
         }
 
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private class EarthmatDialog_obj1_Bindings :
+            global::Windows.UI.Xaml.Markup.IDataTemplateComponent,
+            global::Windows.UI.Xaml.Markup.IXamlBindScopeDiagnostics,
             global::Windows.UI.Xaml.Markup.IComponentConnector,
             IEarthmatDialog_Bindings
         {
@@ -257,11 +282,259 @@ namespace GSCFieldApp.Views
             private global::Windows.UI.Xaml.Controls.ListView obj59;
             private global::Windows.UI.Xaml.Controls.TextBox obj62;
 
+            // Fields for each event bindings event handler.
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj37SelectionChanged;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj48SelectionChanged;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj50SelectionChanged;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj52SelectionChanged;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj54SelectionChanged;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj56SelectionChanged;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj58SelectionChanged;
+
+            // Static fields for each binding's enabled/disabled state
+            private static bool isobj27TextDisabled = false;
+            private static bool isobj28ItemsSourceDisabled = false;
+            private static bool isobj28SelectedValueDisabled = false;
+            private static bool isobj29TextDisabled = false;
+            private static bool isobj30TextDisabled = false;
+            private static bool isobj31ItemsSourceDisabled = false;
+            private static bool isobj31SelectedValueDisabled = false;
+            private static bool isobj32ItemsSourceDisabled = false;
+            private static bool isobj32SelectedValueDisabled = false;
+            private static bool isobj33TextDisabled = false;
+            private static bool isobj34ItemsSourceDisabled = false;
+            private static bool isobj34SelectedValueDisabled = false;
+            private static bool isobj35ItemsSourceDisabled = false;
+            private static bool isobj35SelectedValueDisabled = false;
+            private static bool isobj36TextDisabled = false;
+            private static bool isobj37ItemsSourceDisabled = false;
+            private static bool isobj37SelectedValueDisabled = false;
+            private static bool isobj38ItemsSourceDisabled = false;
+            private static bool isobj40ItemsSourceDisabled = false;
+            private static bool isobj40SelectedValueDisabled = false;
+            private static bool isobj41ItemsSourceDisabled = false;
+            private static bool isobj41SelectedValueDisabled = false;
+            private static bool isobj48ItemsSourceDisabled = false;
+            private static bool isobj48SelectedValueDisabled = false;
+            private static bool isobj49ItemsSourceDisabled = false;
+            private static bool isobj50ItemsSourceDisabled = false;
+            private static bool isobj50SelectedValueDisabled = false;
+            private static bool isobj51ItemsSourceDisabled = false;
+            private static bool isobj52ItemsSourceDisabled = false;
+            private static bool isobj52SelectedValueDisabled = false;
+            private static bool isobj53ItemsSourceDisabled = false;
+            private static bool isobj54ItemsSourceDisabled = false;
+            private static bool isobj54SelectedValueDisabled = false;
+            private static bool isobj55ItemsSourceDisabled = false;
+            private static bool isobj56ItemsSourceDisabled = false;
+            private static bool isobj56SelectedValueDisabled = false;
+            private static bool isobj57ItemsSourceDisabled = false;
+            private static bool isobj58ItemsSourceDisabled = false;
+            private static bool isobj58SelectedValueDisabled = false;
+            private static bool isobj59ItemsSourceDisabled = false;
+            private static bool isobj62TextDisabled = false;
+
             private EarthmatDialog_obj1_BindingsTracking bindingsTracking;
 
             public EarthmatDialog_obj1_Bindings()
             {
                 this.bindingsTracking = new EarthmatDialog_obj1_BindingsTracking(this);
+            }
+
+            public void Disable(int lineNumber, int columnNumber)
+            {
+                if (lineNumber == 273 && columnNumber == 37)
+                {
+                    isobj27TextDisabled = true;
+                }
+                else if (lineNumber == 256 && columnNumber == 41)
+                {
+                    isobj28ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 257 && columnNumber == 41)
+                {
+                    isobj28SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 260 && columnNumber == 37)
+                {
+                    isobj29TextDisabled = true;
+                }
+                else if (lineNumber == 243 && columnNumber == 37)
+                {
+                    isobj30TextDisabled = true;
+                }
+                else if (lineNumber == 226 && columnNumber == 33)
+                {
+                    isobj31ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 227 && columnNumber == 33)
+                {
+                    isobj31SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 229 && columnNumber == 33)
+                {
+                    isobj32ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 230 && columnNumber == 33)
+                {
+                    isobj32SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 233 && columnNumber == 33)
+                {
+                    isobj33TextDisabled = true;
+                }
+                else if (lineNumber == 204 && columnNumber == 29)
+                {
+                    isobj34ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 205 && columnNumber == 29)
+                {
+                    isobj34SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 208 && columnNumber == 29)
+                {
+                    isobj35ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 209 && columnNumber == 29)
+                {
+                    isobj35SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 213 && columnNumber == 41)
+                {
+                    isobj36TextDisabled = true;
+                }
+                else if (lineNumber == 186 && columnNumber == 29)
+                {
+                    isobj37ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 187 && columnNumber == 29)
+                {
+                    isobj37SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 188 && columnNumber == 45)
+                {
+                    this.obj37.SelectionChanged -= obj37SelectionChanged;
+                }
+                else if (lineNumber == 191 && columnNumber == 45)
+                {
+                    isobj38ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 170 && columnNumber == 37)
+                {
+                    isobj40ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 171 && columnNumber == 37)
+                {
+                    isobj40SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 173 && columnNumber == 37)
+                {
+                    isobj41ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 174 && columnNumber == 37)
+                {
+                    isobj41SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 150 && columnNumber == 33)
+                {
+                    isobj48ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 151 && columnNumber == 33)
+                {
+                    isobj48SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 152 && columnNumber == 49)
+                {
+                    this.obj48.SelectionChanged -= obj48SelectionChanged;
+                }
+                else if (lineNumber == 156 && columnNumber == 49)
+                {
+                    isobj49ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 139 && columnNumber == 33)
+                {
+                    isobj50ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 140 && columnNumber == 33)
+                {
+                    isobj50SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 141 && columnNumber == 49)
+                {
+                    this.obj50.SelectionChanged -= obj50SelectionChanged;
+                }
+                else if (lineNumber == 145 && columnNumber == 49)
+                {
+                    isobj51ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 128 && columnNumber == 33)
+                {
+                    isobj52ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 129 && columnNumber == 33)
+                {
+                    isobj52SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 130 && columnNumber == 49)
+                {
+                    this.obj52.SelectionChanged -= obj52SelectionChanged;
+                }
+                else if (lineNumber == 134 && columnNumber == 49)
+                {
+                    isobj53ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 117 && columnNumber == 41)
+                {
+                    isobj54ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 118 && columnNumber == 41)
+                {
+                    isobj54SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 119 && columnNumber == 57)
+                {
+                    this.obj54.SelectionChanged -= obj54SelectionChanged;
+                }
+                else if (lineNumber == 122 && columnNumber == 57)
+                {
+                    isobj55ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 106 && columnNumber == 41)
+                {
+                    isobj56ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 107 && columnNumber == 41)
+                {
+                    isobj56SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 108 && columnNumber == 57)
+                {
+                    this.obj56.SelectionChanged -= obj56SelectionChanged;
+                }
+                else if (lineNumber == 111 && columnNumber == 57)
+                {
+                    isobj57ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 97 && columnNumber == 33)
+                {
+                    isobj58ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 98 && columnNumber == 33)
+                {
+                    isobj58SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 99 && columnNumber == 49)
+                {
+                    this.obj58.SelectionChanged -= obj58SelectionChanged;
+                }
+                else if (lineNumber == 102 && columnNumber == 49)
+                {
+                    isobj59ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 82 && columnNumber == 42)
+                {
+                    isobj62TextDisabled = true;
+                }
             }
 
             // IComponentConnector
@@ -272,290 +545,155 @@ namespace GSCFieldApp.Views
                 {
                     case 27: // Views\EarthmatDialog.xaml line 272
                         this.obj27 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj27).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.Notes = this.obj27.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_27(this.obj27);
                         break;
                     case 28: // Views\EarthmatDialog.xaml line 255
                         this.obj28 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj28).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatInterConfidence = (global::System.String)this.obj28.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_28(this.obj28);
                         break;
                     case 29: // Views\EarthmatDialog.xaml line 259
                         this.obj29 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj29).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.InterpretationNote = this.obj29.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_29(this.obj29);
                         break;
                     case 30: // Views\EarthmatDialog.xaml line 242
                         this.obj30 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj30).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MagSusceptibility = this.obj30.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_30(this.obj30);
                         break;
                     case 31: // Views\EarthmatDialog.xaml line 225
                         this.obj31 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj31).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatColourF = (global::System.String)this.obj31.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_31(this.obj31);
                         break;
                     case 32: // Views\EarthmatDialog.xaml line 228
                         this.obj32 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj32).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatColourW = (global::System.String)this.obj32.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_32(this.obj32);
                         break;
                     case 33: // Views\EarthmatDialog.xaml line 232
                         this.obj33 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj33).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ColourIndex = this.obj33.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_33(this.obj33);
                         break;
                     case 34: // Views\EarthmatDialog.xaml line 203
                         this.obj34 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj34).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatCU = (global::System.String)this.obj34.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_34(this.obj34);
                         break;
                     case 35: // Views\EarthmatDialog.xaml line 207
                         this.obj35 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj35).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatCL = (global::System.String)this.obj35.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_35(this.obj35);
                         break;
                     case 36: // Views\EarthmatDialog.xaml line 211
                         this.obj36 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj36).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ContactNote = this.obj36.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_36(this.obj36);
                         break;
                     case 37: // Views\EarthmatDialog.xaml line 185
                         this.obj37 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
+                        this.obj37SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(sender, e);
+                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(p0, p1);
                         };
-                        (this.obj37).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatMineral = (global::System.String)this.obj37.SelectedValue;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += obj37SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_37(this.obj37);
                         break;
                     case 38: // Views\EarthmatDialog.xaml line 189
                         this.obj38 = (global::Windows.UI.Xaml.Controls.ListView)target;
                         break;
                     case 40: // Views\EarthmatDialog.xaml line 169
                         this.obj40 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj40).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatMU = (global::System.String)this.obj40.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_40(this.obj40);
                         break;
                     case 41: // Views\EarthmatDialog.xaml line 172
                         this.obj41 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj41).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatOccurAs = (global::System.String)this.obj41.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_41(this.obj41);
                         break;
                     case 48: // Views\EarthmatDialog.xaml line 149
                         this.obj48 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
+                        this.obj48SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(sender, e);
+                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(p0, p1);
                         };
-                        (this.obj48).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatDefFabric = (global::System.String)this.obj48.SelectedValue;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += obj48SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_48(this.obj48);
                         break;
                     case 49: // Views\EarthmatDialog.xaml line 153
                         this.obj49 = (global::Windows.UI.Xaml.Controls.ListView)target;
                         break;
                     case 50: // Views\EarthmatDialog.xaml line 138
                         this.obj50 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
+                        this.obj50SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(sender, e);
+                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(p0, p1);
                         };
-                        (this.obj50).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatBedthick = (global::System.String)this.obj50.SelectedValue;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += obj50SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_50(this.obj50);
                         break;
                     case 51: // Views\EarthmatDialog.xaml line 142
                         this.obj51 = (global::Windows.UI.Xaml.Controls.ListView)target;
                         break;
                     case 52: // Views\EarthmatDialog.xaml line 127
                         this.obj52 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
+                        this.obj52SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(sender, e);
+                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(p0, p1);
                         };
-                        (this.obj52).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatGrSize = (global::System.String)this.obj52.SelectedValue;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += obj52SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_52(this.obj52);
                         break;
                     case 53: // Views\EarthmatDialog.xaml line 131
                         this.obj53 = (global::Windows.UI.Xaml.Controls.ListView)target;
                         break;
                     case 54: // Views\EarthmatDialog.xaml line 116
                         this.obj54 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
+                        this.obj54SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(sender, e);
+                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(p0, p1);
                         };
-                        (this.obj54).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatModComp = (global::System.String)this.obj54.SelectedValue;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += obj54SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_54(this.obj54);
                         break;
                     case 55: // Views\EarthmatDialog.xaml line 120
                         this.obj55 = (global::Windows.UI.Xaml.Controls.ListView)target;
                         break;
                     case 56: // Views\EarthmatDialog.xaml line 105
                         this.obj56 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
+                        this.obj56SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(sender, e);
+                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(p0, p1);
                         };
-                        (this.obj56).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatModTexture = (global::System.String)this.obj56.SelectedValue;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += obj56SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_56(this.obj56);
                         break;
                     case 57: // Views\EarthmatDialog.xaml line 109
                         this.obj57 = (global::Windows.UI.Xaml.Controls.ListView)target;
                         break;
                     case 58: // Views\EarthmatDialog.xaml line 96
                         this.obj58 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
+                        this.obj58SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(sender, e);
+                            this.dataRoot.ViewModel.ConcatComboBox_SelectionChanged(p0, p1);
                         };
-                        (this.obj58).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedEarthmatModStruc = (global::System.String)this.obj58.SelectedValue;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += obj58SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_58(this.obj58);
                         break;
                     case 59: // Views\EarthmatDialog.xaml line 100
                         this.obj59 = (global::Windows.UI.Xaml.Controls.ListView)target;
                         break;
                     case 62: // Views\EarthmatDialog.xaml line 81
                         this.obj62 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj62).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.GroupTypeDetail = this.obj62.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_62(this.obj62);
                         break;
                     default:
                         break;
                 }
+            }
+
+            // IDataTemplateComponent
+
+            public void ProcessBindings(global::System.Object item, int itemIndex, int phase, out int nextPhase)
+            {
+                throw new global::System.NotImplementedException();
+            }
+
+            public void Recycle()
+            {
+                throw new global::System.NotImplementedException();
             }
 
             // IEarthmatDialog_Bindings
@@ -758,7 +896,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 272
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj27, obj, null);
+                    if (!isobj27TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj27, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatInterConfidence(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -766,7 +907,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 255
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj28, obj, null);
+                    if (!isobj28ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj28, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatInterConfidence(global::System.String obj, int phase)
@@ -774,7 +918,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 255
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj28, obj, null);
+                    if (!isobj28SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj28, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_InterpretationNote(global::System.String obj, int phase)
@@ -782,7 +929,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 259
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj29, obj, null);
+                    if (!isobj29TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj29, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_MagSusceptibility(global::System.String obj, int phase)
@@ -790,7 +940,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 242
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj30, obj, null);
+                    if (!isobj30TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj30, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatColourF(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -798,7 +951,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 225
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj31, obj, null);
+                    if (!isobj31ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj31, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatColourF(global::System.String obj, int phase)
@@ -806,7 +962,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 225
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj31, obj, null);
+                    if (!isobj31SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj31, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatColourW(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -814,7 +973,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 228
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj32, obj, null);
+                    if (!isobj32ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj32, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatColourW(global::System.String obj, int phase)
@@ -822,7 +984,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 228
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj32, obj, null);
+                    if (!isobj32SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj32, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_ColourIndex(global::System.String obj, int phase)
@@ -830,7 +995,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 232
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj33, obj, null);
+                    if (!isobj33TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj33, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatCU(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -838,7 +1006,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 203
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj34, obj, null);
+                    if (!isobj34ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj34, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatCU(global::System.String obj, int phase)
@@ -846,7 +1017,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 203
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj34, obj, null);
+                    if (!isobj34SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj34, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatCL(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -854,7 +1028,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 207
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj35, obj, null);
+                    if (!isobj35ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj35, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatCL(global::System.String obj, int phase)
@@ -862,7 +1039,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 207
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj35, obj, null);
+                    if (!isobj35SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj35, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_ContactNote(global::System.String obj, int phase)
@@ -870,7 +1050,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 211
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj36, obj, null);
+                    if (!isobj36TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj36, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatMineral(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -878,7 +1061,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 185
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj37, obj, null);
+                    if (!isobj37ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj37, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatMineral(global::System.String obj, int phase)
@@ -886,7 +1072,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 185
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj37, obj, null);
+                    if (!isobj37SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj37, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatMineralValues(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -894,7 +1083,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 189
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj38, obj, null);
+                    if (!isobj38ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj38, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatMU(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -902,7 +1094,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 169
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj40, obj, null);
+                    if (!isobj40ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj40, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatMU(global::System.String obj, int phase)
@@ -910,7 +1105,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 169
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj40, obj, null);
+                    if (!isobj40SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj40, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatOccurAs(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -918,7 +1116,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 172
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj41, obj, null);
+                    if (!isobj41ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj41, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatOccurAs(global::System.String obj, int phase)
@@ -926,7 +1127,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 172
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj41, obj, null);
+                    if (!isobj41SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj41, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatDefFabric(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -934,7 +1138,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 149
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj48, obj, null);
+                    if (!isobj48ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj48, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatDefFabric(global::System.String obj, int phase)
@@ -942,7 +1149,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 149
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj48, obj, null);
+                    if (!isobj48SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj48, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatDefFabricValues(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -950,7 +1160,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 153
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj49, obj, null);
+                    if (!isobj49ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj49, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatBedthick(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -958,7 +1171,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 138
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj50, obj, null);
+                    if (!isobj50ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj50, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatBedthick(global::System.String obj, int phase)
@@ -966,7 +1182,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 138
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj50, obj, null);
+                    if (!isobj50SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj50, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatBedthickValues(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -974,7 +1193,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 142
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj51, obj, null);
+                    if (!isobj51ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj51, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatGrSize(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -982,7 +1204,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 127
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj52, obj, null);
+                    if (!isobj52ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj52, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatGrSize(global::System.String obj, int phase)
@@ -990,7 +1215,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 127
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj52, obj, null);
+                    if (!isobj52SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj52, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatGrSizeValues(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -998,7 +1226,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 131
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj53, obj, null);
+                    if (!isobj53ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj53, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatModComp(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -1006,7 +1237,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 116
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj54, obj, null);
+                    if (!isobj54ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj54, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatModComp(global::System.String obj, int phase)
@@ -1014,7 +1248,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 116
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj54, obj, null);
+                    if (!isobj54SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj54, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatModCompValues(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -1022,7 +1259,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 120
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj55, obj, null);
+                    if (!isobj55ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj55, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatModTexture(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -1030,7 +1270,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 105
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj56, obj, null);
+                    if (!isobj56ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj56, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatModTexture(global::System.String obj, int phase)
@@ -1038,7 +1281,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 105
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj56, obj, null);
+                    if (!isobj56SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj56, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatModTextureValues(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -1046,7 +1292,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 109
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj57, obj, null);
+                    if (!isobj57ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj57, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatModStruc(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -1054,7 +1303,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 96
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj58, obj, null);
+                    if (!isobj58ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj58, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedEarthmatModStruc(global::System.String obj, int phase)
@@ -1062,7 +1314,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 96
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj58, obj, null);
+                    if (!isobj58SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj58, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_EarthmatModStrucValues(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -1070,7 +1325,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 100
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj59, obj, null);
+                    if (!isobj59ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj59, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_GroupTypeDetail(global::System.String obj, int phase)
@@ -1078,11 +1336,274 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\EarthmatDialog.xaml line 81
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj62, obj, null);
+                    if (!isobj62TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj62, obj, null);
+                    }
+                }
+            }
+            private void UpdateTwoWay_27_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.Notes = this.obj27.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_28_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatInterConfidence = (global::System.String)this.obj28.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_29_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.InterpretationNote = this.obj29.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_30_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MagSusceptibility = this.obj30.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_31_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatColourF = (global::System.String)this.obj31.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_32_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatColourW = (global::System.String)this.obj32.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_33_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.ColourIndex = this.obj33.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_34_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatCU = (global::System.String)this.obj34.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_35_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatCL = (global::System.String)this.obj35.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_36_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.ContactNote = this.obj36.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_37_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatMineral = (global::System.String)this.obj37.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_40_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatMU = (global::System.String)this.obj40.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_41_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatOccurAs = (global::System.String)this.obj41.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_48_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatDefFabric = (global::System.String)this.obj48.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_50_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatBedthick = (global::System.String)this.obj50.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_52_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatGrSize = (global::System.String)this.obj52.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_54_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatModComp = (global::System.String)this.obj54.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_56_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatModTexture = (global::System.String)this.obj56.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_58_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedEarthmatModStruc = (global::System.String)this.obj58.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_62_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.GroupTypeDetail = this.obj62.Text;
+                        }
+                    }
                 }
             }
 
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private class EarthmatDialog_obj1_BindingsTracking
             {
@@ -1333,12 +1854,232 @@ namespace GSCFieldApp.Views
                         }
                     }
                 }
+                public void RegisterTwoWayListener_27(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_27_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_28(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_28_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_29(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_29_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_30(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_30_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_31(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_31_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_32(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_32_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_33(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_33_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_34(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_34_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_35(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_35_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_36(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_36_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_37(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_37_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_40(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_40_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_41(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_41_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_48(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_48_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_50(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_50_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_52(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_52_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_54(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_54_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_56(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_56_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_58(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_58_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_62(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_62_Text();
+                        }
+                    };
+                }
             }
         }
         /// <summary>
         /// Connect()
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public void Connect(int connectionId, object target)
         {
@@ -1669,7 +2410,7 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// GetBindingConnector(int connectionId, object target)
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IComponentConnector GetBindingConnector(int connectionId, object target)
         {
@@ -1684,6 +2425,7 @@ namespace GSCFieldApp.Views
                     bindings.SetDataRoot(this);
                     this.Bindings = bindings;
                     element1.Loading += bindings.Loading;
+                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetDataTemplateComponent(element1, bindings);
                 }
                 break;
             case 2: // Views\EarthmatDialog.xaml line 31

@@ -53,7 +53,7 @@
 
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
-                <ListView x:ConnectionId='5' x:Name="semanticZoomListView" ItemsSource="{Binding Source={StaticResource Collection}}" IsItemClickEnabled="True"                                                                                                      >
+                <ListView x:ConnectionId='6' x:Name="semanticZoomListView" ItemsSource="{Binding Source={StaticResource Collection}}" IsItemClickEnabled="True"                                                                                                      >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>

@@ -15,7 +15,7 @@ namespace GSCFieldApp.Views
         global::Windows.UI.Xaml.Markup.IComponentConnector,
         global::Windows.UI.Xaml.Markup.IComponentConnector2
     {
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private static class XamlBindingSetters
         {
@@ -93,11 +93,12 @@ namespace GSCFieldApp.Views
             }
         };
 
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private class MapPage_obj8_Bindings :
             global::Windows.UI.Xaml.IDataTemplateExtension,
             global::Windows.UI.Xaml.Markup.IDataTemplateComponent,
+            global::Windows.UI.Xaml.Markup.IXamlBindScopeDiagnostics,
             global::Windows.UI.Xaml.Markup.IComponentConnector,
             IMapPage_Bindings
         {
@@ -113,8 +114,39 @@ namespace GSCFieldApp.Views
             private global::Windows.UI.Xaml.Controls.Slider obj10;
             private global::Windows.UI.Xaml.Controls.SymbolIcon obj11;
 
+            // Static fields for each binding's enabled/disabled state
+            private static bool isobj9HeaderDisabled = false;
+            private static bool isobj9IsOnDisabled = false;
+            private static bool isobj10TagDisabled = false;
+            private static bool isobj10ValueDisabled = false;
+            private static bool isobj11VisibilityDisabled = false;
+
             public MapPage_obj8_Bindings()
             {
+            }
+
+            public void Disable(int lineNumber, int columnNumber)
+            {
+                if (lineNumber == 37 && columnNumber == 25)
+                {
+                    isobj9HeaderDisabled = true;
+                }
+                else if (lineNumber == 38 && columnNumber == 25)
+                {
+                    isobj9IsOnDisabled = true;
+                }
+                else if (lineNumber == 39 && columnNumber == 49)
+                {
+                    isobj10TagDisabled = true;
+                }
+                else if (lineNumber == 40 && columnNumber == 51)
+                {
+                    isobj10ValueDisabled = true;
+                }
+                else if (lineNumber == 47 && columnNumber == 67)
+                {
+                    isobj11VisibilityDisabled = true;
+                }
             }
 
             // IComponentConnector
@@ -246,9 +278,15 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MapPage.xaml line 36
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ToggleSwitch_Header(this.obj9, obj, null);
+                    if (!isobj9HeaderDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ToggleSwitch_Header(this.obj9, obj, null);
+                    }
                     // Views\MapPage.xaml line 39
-                    XamlBindingSetters.Set_Windows_UI_Xaml_FrameworkElement_Tag(this.obj10, obj, null);
+                    if (!isobj10TagDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_FrameworkElement_Tag(this.obj10, obj, null);
+                    }
                 }
             }
             private void Update_FileVisible(global::System.Boolean obj, int phase)
@@ -256,7 +294,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MapPage.xaml line 36
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ToggleSwitch_IsOn(this.obj9, obj);
+                    if (!isobj9IsOnDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ToggleSwitch_IsOn(this.obj9, obj);
+                    }
                 }
             }
             private void Update_FileOpacity(global::System.Double obj, int phase)
@@ -264,7 +305,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MapPage.xaml line 39
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_RangeBase_Value(this.obj10, obj);
+                    if (!isobj10ValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_RangeBase_Value(this.obj10, obj);
+                    }
                 }
             }
             private void Update_FileCanDelete(global::Windows.UI.Xaml.Visibility obj, int phase)
@@ -272,14 +316,19 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MapPage.xaml line 46
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj11, obj);
+                    if (!isobj11VisibilityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj11, obj);
+                    }
                 }
             }
         }
 
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private class MapPage_obj1_Bindings :
+            global::Windows.UI.Xaml.Markup.IDataTemplateComponent,
+            global::Windows.UI.Xaml.Markup.IXamlBindScopeDiagnostics,
             global::Windows.UI.Xaml.Markup.IComponentConnector,
             IMapPage_Bindings
         {
@@ -309,11 +358,129 @@ namespace GSCFieldApp.Views
             private global::Windows.UI.Xaml.Controls.AppBarButton obj39;
             private global::Windows.UI.Xaml.Controls.AppBarButton obj40;
 
+            // Fields for each event bindings event handler.
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj18Tapped;
+            private global::System.EventHandler<global::System.Object> obj34Closed;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj36Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj37Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj38Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj39Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj40Tapped;
+
+            // Static fields for each binding's enabled/disabled state
+            private static bool isobj14VisibilityDisabled = false;
+            private static bool isobj16IsActiveDisabled = false;
+            private static bool isobj16VisibilityDisabled = false;
+            private static bool isobj17VisibilityDisabled = false;
+            private static bool isobj20MapViewDisabled = false;
+            private static bool isobj24TextDisabled = false;
+            private static bool isobj26TextDisabled = false;
+            private static bool isobj27TextDisabled = false;
+            private static bool isobj28TextDisabled = false;
+            private static bool isobj33SymbolDisabled = false;
+            private static bool isobj35SelectedItemDisabled = false;
+            private static bool isobj35ItemsSourceDisabled = false;
+            private static bool isobj37IsEnabledDisabled = false;
+            private static bool isobj38IsEnabledDisabled = false;
+            private static bool isobj39IsEnabledDisabled = false;
+
             private MapPage_obj1_BindingsTracking bindingsTracking;
 
             public MapPage_obj1_Bindings()
             {
                 this.bindingsTracking = new MapPage_obj1_BindingsTracking(this);
+            }
+
+            public void Disable(int lineNumber, int columnNumber)
+            {
+                if (lineNumber == 115 && columnNumber == 20)
+                {
+                    isobj14VisibilityDisabled = true;
+                }
+                else if (lineNumber == 168 && columnNumber == 48)
+                {
+                    isobj16IsActiveDisabled = true;
+                }
+                else if (lineNumber == 170 && columnNumber == 23)
+                {
+                    isobj16VisibilityDisabled = true;
+                }
+                else if (lineNumber == 171 && columnNumber == 103)
+                {
+                    isobj17VisibilityDisabled = true;
+                }
+                else if (lineNumber == 121 && columnNumber == 48)
+                {
+                    this.obj18.Tapped -= obj18Tapped;
+                }
+                else if (lineNumber == 149 && columnNumber == 40)
+                {
+                    isobj20MapViewDisabled = true;
+                }
+                else if (lineNumber == 141 && columnNumber == 26)
+                {
+                    isobj24TextDisabled = true;
+                }
+                else if (lineNumber == 129 && columnNumber == 26)
+                {
+                    isobj26TextDisabled = true;
+                }
+                else if (lineNumber == 130 && columnNumber == 26)
+                {
+                    isobj27TextDisabled = true;
+                }
+                else if (lineNumber == 131 && columnNumber == 26)
+                {
+                    isobj28TextDisabled = true;
+                }
+                else if (lineNumber == 100 && columnNumber == 33)
+                {
+                    isobj33SymbolDisabled = true;
+                }
+                else if (lineNumber == 81 && columnNumber == 29)
+                {
+                    this.obj34.Closed -= obj34Closed;
+                }
+                else if (lineNumber == 87 && columnNumber == 33)
+                {
+                    isobj35SelectedItemDisabled = true;
+                }
+                else if (lineNumber == 89 && columnNumber == 33)
+                {
+                    isobj35ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 63 && columnNumber == 121)
+                {
+                    this.obj36.Tapped -= obj36Tapped;
+                }
+                else if (lineNumber == 64 && columnNumber == 204)
+                {
+                    isobj37IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 64 && columnNumber == 120)
+                {
+                    this.obj37.Tapped -= obj37Tapped;
+                }
+                else if (lineNumber == 65 && columnNumber == 207)
+                {
+                    isobj38IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 65 && columnNumber == 124)
+                {
+                    this.obj38.Tapped -= obj38Tapped;
+                }
+                else if (lineNumber == 66 && columnNumber == 211)
+                {
+                    isobj39IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 66 && columnNumber == 126)
+                {
+                    this.obj39.Tapped -= obj39Tapped;
+                }
+                else if (lineNumber == 67 && columnNumber == 119)
+                {
+                    this.obj40.Tapped -= obj40Tapped;
+                }
             }
 
             // IComponentConnector
@@ -324,55 +491,23 @@ namespace GSCFieldApp.Views
                 {
                     case 14: // Views\MapPage.xaml line 114
                         this.obj14 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        (this.obj14).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.VisibilityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.NoMapsWatermark = (global::System.Boolean)this.LookupConverter("VisibilityFromBoolConverter").ConvertBack(this.obj14.Visibility, typeof(global::System.Boolean), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_14(this.obj14);
                         break;
                     case 16: // Views\MapPage.xaml line 168
                         this.obj16 = (global::Windows.UI.Xaml.Controls.ProgressRing)target;
-                        (this.obj16).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.ProgressRing.IsActiveProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MapRingActive = this.obj16.IsActive;
-                            }
-                        });
-                        (this.obj16).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.VisibilityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MapRingVisibility = (global::System.Boolean)this.LookupConverter("VisibilityFromBoolConverter").ConvertBack(this.obj16.Visibility, typeof(global::System.Boolean), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_16(this.obj16);
                         break;
                     case 17: // Views\MapPage.xaml line 171
                         this.obj17 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        (this.obj17).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.VisibilityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MapRingLabelAcquiringGPSVisibility = (global::System.Boolean)this.LookupConverter("VisibilityFromBoolConverter").ConvertBack(this.obj17.Visibility, typeof(global::System.Boolean), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_17(this.obj17);
                         break;
                     case 18: // Views\MapPage.xaml line 121
                         this.obj18 = (global::Esri.ArcGISRuntime.UI.Controls.MapView)target;
-                        ((global::Esri.ArcGISRuntime.UI.Controls.MapView)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
+                        this.obj18Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.myMapView_IdentifyFeature(sender, e);
+                            this.dataRoot.ViewModel.myMapView_IdentifyFeature(p0, p1);
                         };
+                        ((global::Esri.ArcGISRuntime.UI.Controls.MapView)target).Tapped += obj18Tapped;
                         break;
                     case 20: // Views\MapPage.xaml line 149
                         this.obj20 = (global::Esri.ArcGISRuntime.Toolkit.UI.Controls.ScaleLine)target;
@@ -391,100 +526,78 @@ namespace GSCFieldApp.Views
                         break;
                     case 33: // Views\MapPage.xaml line 100
                         this.obj33 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        (this.obj33).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.SymbolIcon.SymbolProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.GPSModeSymbol = this.obj33.Symbol;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_33(this.obj33);
                         break;
                     case 34: // Views\MapPage.xaml line 81
                         this.obj34 = (global::Windows.UI.Xaml.Controls.Flyout)target;
-                        ((global::Windows.UI.Xaml.Controls.Flyout)target).Closed += (global::System.Object sender, global::System.Object e) =>
+                        this.obj34Closed = (global::System.Object p0, global::System.Object p1) =>
                         {
-                            this.dataRoot.ViewModel.LayerFlyout_Closed(sender, e);
+                            this.dataRoot.ViewModel.LayerFlyout_Closed(p0, p1);
                         };
+                        ((global::Windows.UI.Xaml.Controls.Flyout)target).Closed += obj34Closed;
                         break;
                     case 35: // Views\MapPage.xaml line 83
                         this.obj35 = (global::Windows.UI.Xaml.Controls.ListView)target;
-                        (this.obj35).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedItemProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedLayer = this.obj35.SelectedItem;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_35(this.obj35);
                         break;
                     case 36: // Views\MapPage.xaml line 63
                         this.obj36 = (global::Windows.UI.Xaml.Controls.AppBarButton)target;
-                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
+                        this.obj36Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(sender, e);
+                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(p0, p1);
                         };
+                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += obj36Tapped;
                         break;
                     case 37: // Views\MapPage.xaml line 64
                         this.obj37 = (global::Windows.UI.Xaml.Controls.AppBarButton)target;
-                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
+                        this.obj37Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(sender, e);
+                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(p0, p1);
                         };
-                        (this.obj37).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MapPageQuickSampleEnable = this.obj37.IsEnabled;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += obj37Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_37(this.obj37);
                         break;
                     case 38: // Views\MapPage.xaml line 65
                         this.obj38 = (global::Windows.UI.Xaml.Controls.AppBarButton)target;
-                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
+                        this.obj38Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(sender, e);
+                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(p0, p1);
                         };
-                        (this.obj38).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MapPageQuickPhotoEnable = this.obj38.IsEnabled;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += obj38Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_38(this.obj38);
                         break;
                     case 39: // Views\MapPage.xaml line 66
                         this.obj39 = (global::Windows.UI.Xaml.Controls.AppBarButton)target;
-                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
+                        this.obj39Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(sender, e);
+                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(p0, p1);
                         };
-                        (this.obj39).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MapPageQuickMeasurementEnable = this.obj39.IsEnabled;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += obj39Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_39(this.obj39);
                         break;
                     case 40: // Views\MapPage.xaml line 67
                         this.obj40 = (global::Windows.UI.Xaml.Controls.AppBarButton)target;
-                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
+                        this.obj40Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(sender, e);
+                            this.dataRoot.ViewModel.MapPageQuickButtons_Tapped(p0, p1);
                         };
+                        ((global::Windows.UI.Xaml.Controls.AppBarButton)target).Tapped += obj40Tapped;
                         break;
                     default:
                         break;
                 }
+            }
+
+            // IDataTemplateComponent
+
+            public void ProcessBindings(global::System.Object item, int itemIndex, int phase, out int nextPhase)
+            {
+                throw new global::System.NotImplementedException();
+            }
+
+            public void Recycle()
+            {
+                throw new global::System.NotImplementedException();
             }
 
             // IMapPage_Bindings
@@ -590,7 +703,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 114
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj14, (global::Windows.UI.Xaml.Visibility)this.LookupConverter("VisibilityFromBoolConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Visibility), null, null));
+                    if (!isobj14VisibilityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj14, (global::Windows.UI.Xaml.Visibility)this.LookupConverter("VisibilityFromBoolConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Visibility), null, null));
+                    }
                 }
             }
             private void Update_ViewModel_MapRingActive(global::System.Boolean obj, int phase)
@@ -598,7 +714,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 168
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ProgressRing_IsActive(this.obj16, obj);
+                    if (!isobj16IsActiveDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ProgressRing_IsActive(this.obj16, obj);
+                    }
                 }
             }
             private void Update_ViewModel_MapRingVisibility(global::System.Boolean obj, int phase)
@@ -606,7 +725,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 168
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj16, (global::Windows.UI.Xaml.Visibility)this.LookupConverter("VisibilityFromBoolConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Visibility), null, null));
+                    if (!isobj16VisibilityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj16, (global::Windows.UI.Xaml.Visibility)this.LookupConverter("VisibilityFromBoolConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Visibility), null, null));
+                    }
                 }
             }
             private void Update_ViewModel_MapRingLabelAcquiringGPSVisibility(global::System.Boolean obj, int phase)
@@ -614,7 +736,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 171
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj17, (global::Windows.UI.Xaml.Visibility)this.LookupConverter("VisibilityFromBoolConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Visibility), null, null));
+                    if (!isobj17VisibilityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Visibility(this.obj17, (global::Windows.UI.Xaml.Visibility)this.LookupConverter("VisibilityFromBoolConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Visibility), null, null));
+                    }
                 }
             }
             private void Update_myMapView(global::Esri.ArcGISRuntime.UI.Controls.MapView obj, int phase)
@@ -622,7 +747,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MapPage.xaml line 149
-                    XamlBindingSetters.Set_Esri_ArcGISRuntime_Toolkit_UI_Controls_ScaleLine_MapView(this.obj20, obj, null);
+                    if (!isobj20MapViewDisabled)
+                    {
+                        XamlBindingSetters.Set_Esri_ArcGISRuntime_Toolkit_UI_Controls_ScaleLine_MapView(this.obj20, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_CurrentAccuracy(global::System.Double obj, int phase)
@@ -630,7 +758,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 141
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Documents_Run_Text(this.obj24, (global::System.String)this.LookupConverter("FormatAccuracy").Convert(obj, typeof(global::System.String), null, null), null);
+                    if (!isobj24TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Documents_Run_Text(this.obj24, (global::System.String)this.LookupConverter("FormatAccuracy").Convert(obj, typeof(global::System.String), null, null), null);
+                    }
                 }
             }
             private void Update_ViewModel_CurrentLatitude(global::System.Double obj, int phase)
@@ -638,7 +769,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 129
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Documents_Run_Text(this.obj26, (global::System.String)this.LookupConverter("DD2DMS").Convert(obj, typeof(global::System.String), "Latitude", null), null);
+                    if (!isobj26TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Documents_Run_Text(this.obj26, (global::System.String)this.LookupConverter("DD2DMS").Convert(obj, typeof(global::System.String), "Latitude", null), null);
+                    }
                 }
             }
             private void Update_ViewModel_CurrentLongitude(global::System.Double obj, int phase)
@@ -646,7 +780,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 130
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Documents_Run_Text(this.obj27, (global::System.String)this.LookupConverter("DD2DMS").Convert(obj, typeof(global::System.String), "Longitude", null), null);
+                    if (!isobj27TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Documents_Run_Text(this.obj27, (global::System.String)this.LookupConverter("DD2DMS").Convert(obj, typeof(global::System.String), "Longitude", null), null);
+                    }
                 }
             }
             private void Update_ViewModel_CurrentAltitude(global::System.Double obj, int phase)
@@ -654,7 +791,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 131
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Documents_Run_Text(this.obj28, (global::System.String)this.LookupConverter("FormatElevation").Convert(obj, typeof(global::System.String), null, null), null);
+                    if (!isobj28TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Documents_Run_Text(this.obj28, (global::System.String)this.LookupConverter("FormatElevation").Convert(obj, typeof(global::System.String), null, null), null);
+                    }
                 }
             }
             private void Update_ViewModel_GPSModeSymbol(global::Windows.UI.Xaml.Controls.Symbol obj, int phase)
@@ -662,7 +802,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 100
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_SymbolIcon_Symbol(this.obj33, obj);
+                    if (!isobj33SymbolDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_SymbolIcon_Symbol(this.obj33, obj);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedLayer(global::System.Object obj, int phase)
@@ -670,7 +813,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 83
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedItem(this.obj35, obj, null);
+                    if (!isobj35SelectedItemDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedItem(this.obj35, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_FilenameValues(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Models.Files> obj, int phase)
@@ -679,7 +825,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 83
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj35, obj, null);
+                    if (!isobj35ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj35, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_MapPageQuickSampleEnable(global::System.Boolean obj, int phase)
@@ -687,7 +836,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 64
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj37, obj);
+                    if (!isobj37IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj37, obj);
+                    }
                 }
             }
             private void Update_ViewModel_MapPageQuickPhotoEnable(global::System.Boolean obj, int phase)
@@ -695,7 +847,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 65
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj38, obj);
+                    if (!isobj38IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj38, obj);
+                    }
                 }
             }
             private void Update_ViewModel_MapPageQuickMeasurementEnable(global::System.Boolean obj, int phase)
@@ -703,11 +858,131 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MapPage.xaml line 66
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj39, obj);
+                    if (!isobj39IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj39, obj);
+                    }
+                }
+            }
+            private void UpdateTwoWay_14_Visibility()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.NoMapsWatermark = (global::System.Boolean)this.LookupConverter("VisibilityFromBoolConverter").ConvertBack(this.obj14.Visibility, typeof(global::System.Boolean), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_16_IsActive()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MapRingActive = this.obj16.IsActive;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_16_Visibility()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MapRingVisibility = (global::System.Boolean)this.LookupConverter("VisibilityFromBoolConverter").ConvertBack(this.obj16.Visibility, typeof(global::System.Boolean), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_17_Visibility()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MapRingLabelAcquiringGPSVisibility = (global::System.Boolean)this.LookupConverter("VisibilityFromBoolConverter").ConvertBack(this.obj17.Visibility, typeof(global::System.Boolean), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_33_Symbol()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.GPSModeSymbol = this.obj33.Symbol;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_35_SelectedItem()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedLayer = this.obj35.SelectedItem;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_37_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MapPageQuickSampleEnable = this.obj37.IsEnabled;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_38_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MapPageQuickPhotoEnable = this.obj38.IsEnabled;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_39_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MapPageQuickMeasurementEnable = this.obj39.IsEnabled;
+                        }
+                    }
                 }
             }
 
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private class MapPage_obj1_BindingsTracking
             {
@@ -952,12 +1227,108 @@ namespace GSCFieldApp.Views
                         }
                     }
                 }
+                public void RegisterTwoWayListener_14(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.VisibilityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_14_Visibility();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_16(global::Windows.UI.Xaml.Controls.ProgressRing sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.ProgressRing.IsActiveProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_16_IsActive();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.VisibilityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_16_Visibility();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_17(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.VisibilityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_17_Visibility();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_33(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.SymbolIcon.SymbolProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_33_Symbol();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_35(global::Windows.UI.Xaml.Controls.ListView sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedItemProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_35_SelectedItem();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_37(global::Windows.UI.Xaml.Controls.AppBarButton sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_37_IsEnabled();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_38(global::Windows.UI.Xaml.Controls.AppBarButton sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_38_IsEnabled();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_39(global::Windows.UI.Xaml.Controls.AppBarButton sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_39_IsEnabled();
+                        }
+                    });
+                }
             }
         }
         /// <summary>
         /// Connect()
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public void Connect(int connectionId, object target)
         {
@@ -1138,7 +1509,7 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// GetBindingConnector(int connectionId, object target)
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IComponentConnector GetBindingConnector(int connectionId, object target)
         {
@@ -1154,6 +1525,7 @@ namespace GSCFieldApp.Views
                     bindings.SetConverterLookupRoot(this);
                     this.Bindings = bindings;
                     element1.Loading += bindings.Loading;
+                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetDataTemplateComponent(element1, bindings);
                 }
                 break;
             case 8: // Views\MapPage.xaml line 34
