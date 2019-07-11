@@ -17234,12 +17234,13 @@
       ]
     },
     "Microsoft.Xaml.Behaviors.Uwp.Managed/2.0.0": {
-      "sha512": "FHAMa5uwPgkMfy9u3g5sH8o3C8zZOQoLfKUznn95ejNhmNBz3Yj7Diy9pKWabYgkSiyjKzc+E5T4ZsZkwVAJkQ==",
+      "sha512": "LfzU68PVP33nqsuSlO5xAYuoI/itVKz4VVJSIunrS7iqqxE3sy0Q+VvtoYnFcBAoGnY83ZVn8Mnc9HYqOBiPmg==",
       "type": "package",
       "path": "microsoft.xaml.behaviors.uwp.managed/2.0.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
+        "Microsoft.Xaml.Behaviors.Uwp.Managed.2.0.0.nupkg.sha512",
+        "Microsoft.Xaml.Behaviors.Uwp.Managed.nuspec",
         "lib/uap10.0/Design/Microsoft.Xaml.Interactions.Design.dll",
         "lib/uap10.0/Design/Microsoft.Xaml.Interactivity.Design.dll",
         "lib/uap10.0/Microsoft.Xaml.Interactions.dll",
@@ -17247,9 +17248,7 @@
         "lib/uap10.0/Microsoft.Xaml.Interactions.xml",
         "lib/uap10.0/Microsoft.Xaml.Interactivity.dll",
         "lib/uap10.0/Microsoft.Xaml.Interactivity.pri",
-        "lib/uap10.0/Microsoft.Xaml.Interactivity.xml",
-        "microsoft.xaml.behaviors.uwp.managed.2.0.0.nupkg.sha512",
-        "microsoft.xaml.behaviors.uwp.managed.nuspec"
+        "lib/uap10.0/Microsoft.Xaml.Interactivity.xml"
       ]
     },
     "NETStandard.Library/2.0.3": {
@@ -23579,24 +23578,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gab\\.nuget\\packages\\": {},
+    "C:\\Users\\Maison\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj",
+      "projectUniqueName": "C:\\Users\\Maison\\Source\\Repos\\GSC-Field-Application\\GSCFieldApp\\GSCFieldApp.csproj",
       "projectName": "GSCFieldApp",
-      "projectPath": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj",
-      "packagesPath": "C:\\Users\\Gab\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\obj\\",
+      "projectPath": "C:\\Users\\Maison\\Source\\Repos\\GSC-Field-Application\\GSCFieldApp\\GSCFieldApp.csproj",
+      "packagesPath": "C:\\Users\\Maison\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Maison\\Source\\Repos\\GSC-Field-Application\\GSCFieldApp\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Gab\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Maison\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

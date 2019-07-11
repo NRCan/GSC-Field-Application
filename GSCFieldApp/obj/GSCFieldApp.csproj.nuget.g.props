@@ -3,11 +3,11 @@
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
-    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\project.assets.json</ProjectAssetsFile>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Gab\.nuget\packages\;C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\</NuGetPackageFolders>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Maison\.nuget\packages\;C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">4.9.3</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.1.0</NuGetToolVersion>
   </PropertyGroup>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -26,19 +26,19 @@
     <Import Project="$(NuGetPackageRoot)microsoft.net.native.compiler\2.1.8\build\Microsoft.Net.Native.Compiler.props" Condition="Exists('$(NuGetPackageRoot)microsoft.net.native.compiler\2.1.8\build\Microsoft.Net.Native.Compiler.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Pkgruntime_win10-x86_Microsoft_Net_UWPCoreRuntimeSdk Condition=" '$(Pkgruntime_win10-x86_Microsoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-x86.microsoft.net.uwpcoreruntimesdk\2.1.2</Pkgruntime_win10-x86_Microsoft_Net_UWPCoreRuntimeSdk>
-    <Pkgruntime_win10-x86_Microsoft_Net_Native_SharedLibrary Condition=" '$(Pkgruntime_win10-x86_Microsoft_Net_Native_SharedLibrary)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-x86.microsoft.net.native.sharedlibrary\2.1.8</Pkgruntime_win10-x86_Microsoft_Net_Native_SharedLibrary>
-    <Pkgruntime_win10-x86_Microsoft_Net_Native_Compiler Condition=" '$(Pkgruntime_win10-x86_Microsoft_Net_Native_Compiler)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-x86.microsoft.net.native.compiler\2.1.8</Pkgruntime_win10-x86_Microsoft_Net_Native_Compiler>
-    <Pkgruntime_win10-x64_Microsoft_Net_UWPCoreRuntimeSdk Condition=" '$(Pkgruntime_win10-x64_Microsoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-x64.microsoft.net.uwpcoreruntimesdk\2.1.2</Pkgruntime_win10-x64_Microsoft_Net_UWPCoreRuntimeSdk>
-    <Pkgruntime_win10-x64_Microsoft_Net_Native_SharedLibrary Condition=" '$(Pkgruntime_win10-x64_Microsoft_Net_Native_SharedLibrary)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-x64.microsoft.net.native.sharedlibrary\2.1.8</Pkgruntime_win10-x64_Microsoft_Net_Native_SharedLibrary>
-    <Pkgruntime_win10-x64_Microsoft_Net_Native_Compiler Condition=" '$(Pkgruntime_win10-x64_Microsoft_Net_Native_Compiler)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-x64.microsoft.net.native.compiler\2.1.8</Pkgruntime_win10-x64_Microsoft_Net_Native_Compiler>
-    <Pkgruntime_win10-arm_Microsoft_Net_UWPCoreRuntimeSdk Condition=" '$(Pkgruntime_win10-arm_Microsoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-arm.microsoft.net.uwpcoreruntimesdk\2.1.2</Pkgruntime_win10-arm_Microsoft_Net_UWPCoreRuntimeSdk>
-    <Pkgruntime_win10-arm_Microsoft_Net_Native_SharedLibrary Condition=" '$(Pkgruntime_win10-arm_Microsoft_Net_Native_SharedLibrary)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-arm.microsoft.net.native.sharedlibrary\2.1.8</Pkgruntime_win10-arm_Microsoft_Net_Native_SharedLibrary>
-    <Pkgruntime_win10-arm_Microsoft_Net_Native_Compiler Condition=" '$(Pkgruntime_win10-arm_Microsoft_Net_Native_Compiler)' == '' ">C:\Users\Gab\.nuget\packages\runtime.win10-arm.microsoft.net.native.compiler\2.1.8</Pkgruntime_win10-arm_Microsoft_Net_Native_Compiler>
-    <PkgNewtonsoft_Json Condition=" '$(PkgNewtonsoft_Json)' == '' ">C:\Users\Gab\.nuget\packages\newtonsoft.json\10.0.3</PkgNewtonsoft_Json>
-    <PkgMicrosoft_Net_UWPCoreRuntimeSdk Condition=" '$(PkgMicrosoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Gab\.nuget\packages\microsoft.net.uwpcoreruntimesdk\2.1.2</PkgMicrosoft_Net_UWPCoreRuntimeSdk>
-    <PkgMicrosoft_Net_Native_Compiler Condition=" '$(PkgMicrosoft_Net_Native_Compiler)' == '' ">C:\Users\Gab\.nuget\packages\microsoft.net.native.compiler\2.1.8</PkgMicrosoft_Net_Native_Compiler>
-    <PkgEsri_ArcGISRuntime_UWP Condition=" '$(PkgEsri_ArcGISRuntime_UWP)' == '' ">C:\Users\Gab\.nuget\packages\esri.arcgisruntime.uwp\100.4.0</PkgEsri_ArcGISRuntime_UWP>
-    <PkgEsri_ArcGISRuntime_Toolkit Condition=" '$(PkgEsri_ArcGISRuntime_Toolkit)' == '' ">C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0</PkgEsri_ArcGISRuntime_Toolkit>
+    <Pkgruntime_win10-x86_Microsoft_Net_UWPCoreRuntimeSdk Condition=" '$(Pkgruntime_win10-x86_Microsoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-x86.microsoft.net.uwpcoreruntimesdk\2.1.2</Pkgruntime_win10-x86_Microsoft_Net_UWPCoreRuntimeSdk>
+    <Pkgruntime_win10-x86_Microsoft_Net_Native_SharedLibrary Condition=" '$(Pkgruntime_win10-x86_Microsoft_Net_Native_SharedLibrary)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-x86.microsoft.net.native.sharedlibrary\2.1.8</Pkgruntime_win10-x86_Microsoft_Net_Native_SharedLibrary>
+    <Pkgruntime_win10-x86_Microsoft_Net_Native_Compiler Condition=" '$(Pkgruntime_win10-x86_Microsoft_Net_Native_Compiler)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-x86.microsoft.net.native.compiler\2.1.8</Pkgruntime_win10-x86_Microsoft_Net_Native_Compiler>
+    <Pkgruntime_win10-x64_Microsoft_Net_UWPCoreRuntimeSdk Condition=" '$(Pkgruntime_win10-x64_Microsoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-x64.microsoft.net.uwpcoreruntimesdk\2.1.2</Pkgruntime_win10-x64_Microsoft_Net_UWPCoreRuntimeSdk>
+    <Pkgruntime_win10-x64_Microsoft_Net_Native_SharedLibrary Condition=" '$(Pkgruntime_win10-x64_Microsoft_Net_Native_SharedLibrary)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-x64.microsoft.net.native.sharedlibrary\2.1.8</Pkgruntime_win10-x64_Microsoft_Net_Native_SharedLibrary>
+    <Pkgruntime_win10-x64_Microsoft_Net_Native_Compiler Condition=" '$(Pkgruntime_win10-x64_Microsoft_Net_Native_Compiler)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-x64.microsoft.net.native.compiler\2.1.8</Pkgruntime_win10-x64_Microsoft_Net_Native_Compiler>
+    <Pkgruntime_win10-arm_Microsoft_Net_UWPCoreRuntimeSdk Condition=" '$(Pkgruntime_win10-arm_Microsoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-arm.microsoft.net.uwpcoreruntimesdk\2.1.2</Pkgruntime_win10-arm_Microsoft_Net_UWPCoreRuntimeSdk>
+    <Pkgruntime_win10-arm_Microsoft_Net_Native_SharedLibrary Condition=" '$(Pkgruntime_win10-arm_Microsoft_Net_Native_SharedLibrary)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-arm.microsoft.net.native.sharedlibrary\2.1.8</Pkgruntime_win10-arm_Microsoft_Net_Native_SharedLibrary>
+    <Pkgruntime_win10-arm_Microsoft_Net_Native_Compiler Condition=" '$(Pkgruntime_win10-arm_Microsoft_Net_Native_Compiler)' == '' ">C:\Users\Maison\.nuget\packages\runtime.win10-arm.microsoft.net.native.compiler\2.1.8</Pkgruntime_win10-arm_Microsoft_Net_Native_Compiler>
+    <PkgNewtonsoft_Json Condition=" '$(PkgNewtonsoft_Json)' == '' ">C:\Users\Maison\.nuget\packages\newtonsoft.json\10.0.3</PkgNewtonsoft_Json>
+    <PkgMicrosoft_Net_UWPCoreRuntimeSdk Condition=" '$(PkgMicrosoft_Net_UWPCoreRuntimeSdk)' == '' ">C:\Users\Maison\.nuget\packages\microsoft.net.uwpcoreruntimesdk\2.1.2</PkgMicrosoft_Net_UWPCoreRuntimeSdk>
+    <PkgMicrosoft_Net_Native_Compiler Condition=" '$(PkgMicrosoft_Net_Native_Compiler)' == '' ">C:\Users\Maison\.nuget\packages\microsoft.net.native.compiler\2.1.8</PkgMicrosoft_Net_Native_Compiler>
+    <PkgEsri_ArcGISRuntime_UWP Condition=" '$(PkgEsri_ArcGISRuntime_UWP)' == '' ">C:\Users\Maison\.nuget\packages\esri.arcgisruntime.uwp\100.4.0</PkgEsri_ArcGISRuntime_UWP>
+    <PkgEsri_ArcGISRuntime_Toolkit Condition=" '$(PkgEsri_ArcGISRuntime_Toolkit)' == '' ">C:\Users\Maison\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0</PkgEsri_ArcGISRuntime_Toolkit>
   </PropertyGroup>
 </Project>
