@@ -433,6 +433,8 @@ namespace GSCFieldApp.ViewModels
         /// <param name="metaID"></param>
         public async void OpenFieldBook(string projectPath, string fieldworkType, string userCode, string metaID, string dbPath, bool withNavigateToMap = true)
         {
+            //Clear previous field book settings
+            localSetting.WipeUserMapSettings();
 
             //Update settings with new selected project
             localSetting.SetSettingValue(ApplicationLiterals.KeywordFieldProject, projectPath);

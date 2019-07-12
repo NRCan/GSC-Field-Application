@@ -128,8 +128,8 @@ namespace GSCFieldApp.Views
                         if (myMapView.Map != null)
                         {
                             //Do a clean clear
-                            ViewModel.ClearMapViewSettings();
                             ViewModel.ClearLayers();
+                            ViewModel.ClearMapViewSettings();
 
                             //Refresh
                             SetBackgroundGrid();

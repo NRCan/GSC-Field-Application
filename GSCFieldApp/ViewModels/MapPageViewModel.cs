@@ -1837,6 +1837,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void ClearMapViewSettings()
         {
+            _layerRenderingConfiguration = new Dictionary<string, Tuple<string, bool, double>>();
             localSettings.WipeUserMapSettings();
         }
 
