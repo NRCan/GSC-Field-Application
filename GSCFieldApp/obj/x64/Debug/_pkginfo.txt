@@ -1,1 +1,1 @@
-C:\Users\Gab\Source\Workspaces\AppPackages\GSCFieldApp_1.0.154.0_Debug_Test\GSCFieldApp_1.0.154.0_x64_Debug.msixbundle
+C:\Users\Gab\Source\Workspaces\AppPackages\GSCFieldApp_1.0.155.0_Debug_Test\GSCFieldApp_1.0.155.0_x64_Debug.msixbundle

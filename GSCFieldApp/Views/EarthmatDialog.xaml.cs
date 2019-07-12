@@ -181,7 +181,7 @@ namespace GSCFieldApp.Views
                 //var search_term = EarthLithAutoSuggest.Text.ToLower();
                 //var results = Rocks.Where(i => i.StartsWith(search_term)).ToList();
 
-                var search_term = "; " + EarthLithAutoSuggest.Text.ToLower();
+                var search_term = EarthLithAutoSuggest.Text.ToLower();
                 var results = Rocks.Where(i => i.ToLower().Contains(search_term)).ToList();
 
                 if (results.Count > 0)
