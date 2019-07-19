@@ -44,6 +44,8 @@ using System.Globalization;
 using System.Windows.Input;
 using Windows.Networking.Connectivity;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
+using Newtonsoft.Json;
+using Esri.ArcGISRuntime.Portal;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -67,7 +69,7 @@ namespace GSCFieldApp.ViewModels
         public string filepathname;
         public Visibility canDeleteLayer = Visibility.Visible; //Default
         public ArcGISTiledLayer defaultLayer;
-        private ObservableCollection<Files> _filenameValues = new ObservableCollection<Files>();
+        private ObservableCollection<MapPageLayers> _filenameValues = new ObservableCollection<MapPageLayers>();
         private object _selectedLayer;
         public object selectedStationID = string.Empty; //Will be used to show report page on user identified station.
         public object selectedStationDate = string.Empty;  //Will be used to show report page on user identified station.
@@ -151,21 +153,19 @@ namespace GSCFieldApp.ViewModels
             //Fill vocab 
             FillLocationVocab();
 
-            //Get Layer rendering
-            _layerRenderingConfiguration = GetLayerRendering();
-
         }
         #endregion
 
         #region PROPERTIES
 
-        public Dictionary<string, Tuple<string, bool, double>> _layerRenderingConfiguration { get; set; } //Will be used to show layer in proper order, visibility and opacity based on previous setting on app opening.
+        public Dictionary<string, Dictionary<string, string>> _layerRendering { get; set; }
+        //public Dictionary<string, Tuple<string, bool, double>> _layerRenderingConfiguration { get; set; } //Will be used to show layer in proper order, visibility and opacity based on previous setting on app opening.
 
         public Symbol GPSModeSymbol { get { return _GPSModeSymbol; } set { _GPSModeSymbol = value; } }
 
         public bool NoMapsWatermark { get { return _noMapsWatermark; } set { _noMapsWatermark = value; } }
 
-        public ObservableCollection<Files> FilenameValues { get { return _filenameValues; } set { _filenameValues = value; } }
+        public ObservableCollection<MapPageLayers> FilenameValues { get { return _filenameValues; } set { _filenameValues = value; } }
         public object SelectedLayer
         {
             get { return _selectedLayer; }
@@ -1544,7 +1544,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void LayerFlyout_Closed(object sender, object e)
+        public async void LayerFlyout_ClosedAsync(object sender, object e)
         {
             SetLayerOrderAsync();
         }
@@ -1554,37 +1554,24 @@ namespace GSCFieldApp.ViewModels
         #region METHODS
 
         /// <summary>
-        /// From the internal settings, will output a dictionnary with wanted rendering configuration
-        /// based on last previously saved setting by the user (from user interaction with layer flyout menu)
+        /// Will save the current layer settings into a JSON file inside the local folder
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, Tuple<string, bool, double>> GetLayerRendering()
+        public void SaveLayerRendering()
         {
-            Dictionary<string, Tuple<string, bool, double>> currentLayerOrderDico = new Dictionary<string, Tuple<string, bool, double>>();
-
-            if (localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder) != null)
+            string JSONResult = JsonConvert.SerializeObject(_filenameValues);
+            string JSONPath = Path.Combine(accessData.ProjectPath, "mapPageLayer.json");
+            if (File.Exists(JSONPath))
             {
-                //Verify if string is the same as the saved one, if no re-order all layers.
-                string currentLayerOrder = (string)localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder);
-
-                string[] currentLayerOrderArray = currentLayerOrder.Split('|');
-                
-                foreach (string l in currentLayerOrderArray)
-                {
-                    try
-                    {
-                        string[] layerGeneralInformation = l.Split(";");
-                        string[] layerSpecificInformation = layerGeneralInformation[1].Split(",");
-                        currentLayerOrderDico[layerGeneralInformation[0]] = new Tuple<string, bool, double>(layerSpecificInformation[0], bool.Parse(layerSpecificInformation[1]), double.Parse(layerSpecificInformation[2]));
-                    }
-                    catch (Exception)
-                    {
-                    }
-
-                }
+                File.Delete(JSONPath);
             }
 
-            return currentLayerOrderDico;
+            using (var jayson = new StreamWriter(JSONPath, true))
+            {
+                jayson.WriteLine(JSONResult.ToString());
+                jayson.Close();
+            }
+            
 
         }
 
@@ -1784,60 +1771,61 @@ namespace GSCFieldApp.ViewModels
             esriMap.Basemap.BaseLayers.Add(fCollectionLayer);
         }
 
-        /// <summary>
-        /// keep in memory some config about the map. Scale and Rotation 
-        /// </summary>
-        public void SaveMapViewSettings()
-        {
+        ///// <summary>
+        ///// keep in memory some config about the map. Scale and Rotation 
+        ///// </summary>
+        //public void SaveMapViewSettings()
+        //{
 
-            if (currentMapView != null)
-            {
-                localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewScale, currentMapView.MapScale);
-                localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewRotation, currentMapView.MapRotation);
+        //    if (currentMapView != null)
+        //    {
+        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewScale, currentMapView.MapScale);
+        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewRotation, currentMapView.MapRotation);
 
-                //Keep order in settings
-                string settingString = string.Empty;
-                foreach (Layer l in esriMap.AllLayers)
-                {
-                    ArcGISTiledLayer tl = l as ArcGISTiledLayer;
-                    if (tl!= null)
-                    {
-                        if (settingString == string.Empty)
-                        {
-                            settingString = tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString();
-                        }
-                        else
-                        {
-                            settingString = settingString + "|" + tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString() ;
-                        }
-                    }
+        //        //Keep order in settings
+        //        string settingString = string.Empty;
+        //        foreach (Layer l in esriMap.AllLayers)
+        //        {
+        //            ArcGISTiledLayer tl = l as ArcGISTiledLayer;
+        //            if (tl!= null)
+        //            {
+        //                if (settingString == string.Empty)
+        //                {
+        //                    settingString = tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString();
+        //                }
+        //                else
+        //                {
+        //                    settingString = settingString + "|" + tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString() ;
+        //                }
+        //            }
                     
-                }
-                foreach (KeyValuePair<string, Tuple<GraphicsOverlay, GraphicsOverlay>> item in _overlayContainerOther)
-                {
-                    if (settingString == string.Empty)
-                    {
-                        settingString = item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
-                    }
-                    else
-                    {
-                        settingString = settingString + "|" + item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
-                    }
-                }
+        //        }
+        //        foreach (KeyValuePair<string, Tuple<GraphicsOverlay, GraphicsOverlay>> item in _overlayContainerOther)
+        //        {
+        //            if (settingString == string.Empty)
+        //            {
+        //                settingString = item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
+        //            }
+        //            else
+        //            {
+        //                settingString = settingString + "|" + item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
+        //            }
+        //        }
 
-                //CAN'T STORE ANYTHING IN SETTINGS: https://docs.microsoft.com/en-us/windows/uwp/app-settings/store-and-retrieve-app-data
-                localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder, settingString);
+        //        //CAN'T STORE ANYTHING IN SETTINGS: https://docs.microsoft.com/en-us/windows/uwp/app-settings/store-and-retrieve-app-data
+        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder, settingString);
 
-            }
+        //    }
 
-        }
+        //}
 
         /// <summary>
         /// Will clear saved settings. To be used when creating and switching field books.
         /// </summary>
         public void ClearMapViewSettings()
         {
-            _layerRenderingConfiguration = new Dictionary<string, Tuple<string, bool, double>>();
+            _filenameValues.Clear();
+            RaisePropertyChanged("FilenameValues");
             localSettings.WipeUserMapSettings();
         }
 
@@ -1890,7 +1878,7 @@ namespace GSCFieldApp.ViewModels
         /// local state folder
         /// </summary>
         /// <param name="filePath"></param>
-        public async Task<bool> AddUserLayers(string filePath = "")
+        public async Task<bool> AddUserLayers()
         {
             bool foundLayers = false;
 
@@ -1918,95 +1906,143 @@ namespace GSCFieldApp.ViewModels
 
             #endregion
 
-            #region Get list of TPK files in, for the time being, the localFolder - this is not ideal
+            #region Get list of all files from local folder and filter them by needed extensions
+            StorageFile jsonRenderingFile = null; //Will hold rendering configs
+            Dictionary<string, StorageFile> tpkList = new Dictionary<string, StorageFile>(); //Will hold tpks list
+            Dictionary<string, StorageFile> sqliteList = new Dictionary<string, StorageFile>(); //Will hold sqlite liste
             StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
             IReadOnlyList<StorageFile> _readOnlyfileList = await localFolder.GetFilesAsync();
-            List<StorageFile> fileList = new List<StorageFile>();
+            //List<StorageFile> fileList = new List<StorageFile>();
             foreach (StorageFile sf in _readOnlyfileList)
             {
-                fileList.Add(sf);
+                string fileName = sf.Name;
+                if (fileName.Contains(".json"))
+                {
+                    jsonRenderingFile = sf;
+                }
+                else if (fileName.Contains(".tpk"))
+                {
+                    tpkList[sf.Name] = sf;
+                }
+                else if (fileName.Contains(".sqlite") && !fileName.Contains(DatabaseLiterals.DBName))
+                {
+                    sqliteList[sf.Name] = sf;
+                }
+                else if (fileName.Contains(".mmpk"))
+                {
+                    MobileMapPackage mobileMapPackage;
+                    bool isDirectReadSupported = await MobileMapPackage.IsDirectReadSupportedAsync(sf.Path);
+                    if (isDirectReadSupported)
+                    {
+                        mobileMapPackage = await MobileMapPackage.OpenAsync(sf.Path);
+                    }
+                    else
+                    {
+                        await MobileMapPackage.UnpackAsync(sf.Path, accessData.ProjectPath);
+                        mobileMapPackage = await MobileMapPackage.OpenAsync(accessData.ProjectPath);
+                    }
+
+                    if (mobileMapPackage.Maps.Count > 0)
+                    {
+                        Map mymap = mobileMapPackage.Maps.First();
+                        currentMapView.Map = mymap;
+                        //currentMapView.UpdateLayout();
+
+                        foreach (Layer item in currentMapView.Map.AllLayers)
+                        {
+                            MapPageLayers im = new MapPageLayers();
+                            im.LayerName = item.Name;
+                            MapPageLayerSetting mpls = new MapPageLayerSetting();
+                            mpls.LayerOpacity = item.Opacity * 100;
+                            mpls.LayerVisibility = item.IsVisible;
+                            im.LayerSettings = mpls;
+                            _filenameValues.Add(im);
+                            RaisePropertyChanged("FilenameValues");
+                        }
+                    }
+                }
+
             }
 
             #endregion
 
             //Load given layer or load all
-            if (filePath != string.Empty && currentMapView != null)
+            if (jsonRenderingFile != null)
             {
-                filePath = filePath.Replace("file:\\", "");
-                StorageFile inStorageFile = await StorageFile.GetFileFromPathAsync(filePath);
-                if (filePath.ToLower().Contains(".tpk"))
-                {
-                    if (!mapLayers.Contains(Path.GetFileNameWithoutExtension(inStorageFile.Name)))
-                    {
-                        foundLayers = true;
-                        await AddDataTypeTPK(inStorageFile);
-                    }
-                }
-
-                if (inStorageFile.FileType.ToLower() == ".sqlite" && inStorageFile.DisplayName == filePath.Split('.')[0])
-                {
-                    if (!_overlayContainerOther.ContainsKey(filePath))
-                    {
-                        AddDataTypeSQLite(inStorageFile);
-                    }
-                }
-
-            }
-            else if (currentMapView != null)
-            {
-                //If nothing was already set check for existing files at least
-                if (_layerRenderingConfiguration.Count == 0)
-                {
-                    foreach (StorageFile sf in fileList)
-                    {
-                        string fileName = Path.GetFileNameWithoutExtension(sf.Path);
-                        if (sf.Path.ToLower().Contains(".tpk"))
-                        {
-                            if (!mapLayers.Contains(fileName))
-                            {
-                                foundLayers = true;
-                                await AddDataTypeTPK(sf);
-                            }
-                        }
-                        if (sf.Path.ToLower().Contains(".sqlite") && fileName != DatabaseLiterals.DBName)
-                        {
-                            if (!_overlayContainerOther.ContainsKey(sf.Path))
-                            {
-                                foundLayers = true;
-                                AddDataTypeSQLite(sf);
-                            }
-
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (KeyValuePair<string, Tuple<string, bool, double>> lr in _layerRenderingConfiguration)
-                    {
-                        StorageFile inStorageFile = await StorageFile.GetFileFromPathAsync(lr.Key);
-
-                        if (lr.Key.ToLower().Contains(".tpk"))
-                        {
-                            if (!mapLayers.Contains(Path.GetFileNameWithoutExtension(lr.Key)))
-                            {
-                                foundLayers = true;
-                                await AddDataTypeTPK(inStorageFile, lr.Value.Item2, lr.Value.Item3);
-                            }
-                        }
-                        if (lr.Key.ToLower().Contains(".sqlite") && lr.Value.Item1 != DatabaseLiterals.DBName)
-                        {
-                            if (!_overlayContainerOther.ContainsKey(lr.Key))
-                            {
-                                foundLayers = true;
-                                AddDataTypeSQLite(inStorageFile);
-                            }
-
-                        }
-                    }
-                }
-
+                //Deserialize JSON rendering config file.
+                _filenameValues = JsonConvert.DeserializeObject<ObservableCollection<MapPageLayers>>(await Windows.Storage.FileIO.ReadTextAsync(jsonRenderingFile));
+                RaisePropertyChanged("FilenameValues");
             }
 
+            //Process saved config in json
+            if (_filenameValues != null && _filenameValues.Count > 0)
+            {
+                foreach (MapPageLayers configs in _filenameValues)
+                {
+                    if (configs.LayerName != null && configs.LayerName.Contains(".tpk"))
+                    {
+                        if (tpkList.ContainsKey(configs.LayerName))
+                        {
+                            bool tpkVisibility = true;
+                            bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out tpkVisibility);
+                            double tpkOpacity = 1;
+                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out tpkOpacity);
+                            await AddDataTypeTPK(tpkList[configs.LayerName], tpkVisibility, tpkOpacity / 100);
+                            tpkList.Remove(configs.LayerName);
+                            foundLayers = true;
+                        }
+
+                    }
+                    else if (configs.LayerName != null && configs.LayerName.Contains(".sqlite"))
+                    {
+                        if (sqliteList.ContainsKey(configs.LayerName))
+                        {
+                            bool sqlVisibility = true;
+                            bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out sqlVisibility);
+                            double sqlOpacity = 1;
+                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out sqlOpacity);
+                            AddDataTypeSQLite(sqliteList[configs.LayerName], sqlVisibility, sqlOpacity / 100);
+                            sqliteList.Remove(configs.LayerName);
+                            foundLayers = true;
+                        }
+                    }
+
+                }
+            }
+
+            //Process possible missing layers in json
+            if (tpkList.Count > 0)
+            {
+                foreach (KeyValuePair<string, StorageFile> remainingTpks in tpkList)
+                {
+                    await AddDataTypeTPK(remainingTpks.Value, true, 1);
+                    MapPageLayers mpl = new MapPageLayers();
+                    mpl.LayerName = remainingTpks.Key;
+                    MapPageLayerSetting mpls = new MapPageLayerSetting();
+                    mpls.LayerOpacity = 100;
+                    mpls.LayerVisibility = true;
+                    mpl.LayerSettings = mpls;
+                    _filenameValues.Add(mpl);
+                    RaisePropertyChanged("FilenameValues");
+                    foundLayers = true;
+                }
+            }
+            if (sqliteList.Count > 0)
+            {
+                foreach (KeyValuePair<string, StorageFile> remainingSqlite in sqliteList)
+                {
+                    AddDataTypeSQLite(remainingSqlite.Value, true, 1);
+                    MapPageLayers mpl = new MapPageLayers();
+                    MapPageLayerSetting mpls = new MapPageLayerSetting();
+                    mpls.LayerOpacity = 100;
+                    mpls.LayerVisibility = true;
+                    mpl.LayerSettings = mpls;
+                    _filenameValues.Add(mpl);
+                    RaisePropertyChanged("FilenameValues");
+                    foundLayers = true;
+                }
+            }
+            
 
             //If nothing is found ask user to load data
             if (!foundLayers)
@@ -2063,34 +2099,13 @@ namespace GSCFieldApp.ViewModels
                     _tileLayer.Opacity = tpkOpacity;
                     esriMap.Basemap.BaseLayers.Add(_tileLayer);
 
+
+
                 }
                 catch (Exception)
                 {
 
                 }
-
-                //Add to list of current loaded files if it's not already in it.
-                Files userFile = new Files();
-                userFile.FileCanDelete = Visibility.Visible;
-                userFile.FileName = inTPK.Name;
-                userFile.FilePath = inTPK.Path;
-                userFile.FileVisible = isTPKVisible;
-                userFile.FileOpacity = tpkOpacity * 100;
-
-                bool foundLayer = false;
-
-                foreach (Files item in _filenameValues)
-                {
-                    if (item.FileName == userFile.FileName)
-                    {
-                        foundLayer = true;
-                    }
-                }
-                if (!foundLayer)
-                {
-                    _filenameValues.Insert(0, userFile);
-                }
-                RaisePropertyChanged("FilenameValues");
 
                 currentMapView.Map = esriMap;
                 RaisePropertyChanged("currentMapView");
@@ -2102,7 +2117,7 @@ namespace GSCFieldApp.ViewModels
         /// Will add an sqlite database to current map content
         /// </summary>
         /// <returns></returns>
-        public void AddDataTypeSQLite(StorageFile inSQLite)
+        public void AddDataTypeSQLite(StorageFile inSQLite, bool isVisible = true, double opacity = 1)
         {
             SQLiteConnection currentConnection = accessData.GetConnectionFromPath(inSQLite.Path);
             List<object> otherLocationTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(locationModel.GetType(), string.Empty, currentConnection);
@@ -2110,67 +2125,32 @@ namespace GSCFieldApp.ViewModels
             {
                 #region MANAGER LAYERS
 
-                //Add to list of current loaded files
-                Files overlayerFile = new Files();
-                overlayerFile.FileCanDelete = Visibility.Visible;
-                overlayerFile.FileName = inSQLite.Name;
-                overlayerFile.FilePath = inSQLite.Path;
-                overlayerFile.FileVisible = true;
-                overlayerFile.FileOpacity = 100;
-                bool fileExistsInMap = false;
-                foreach (Files existingFiles in _filenameValues)
+                //Build a list of already loaded stations id on the map
+                Dictionary<string, Graphic> loadedOtherGraphicList = new Dictionary<string, Graphic>();
+                if (_overlayContainerOther.ContainsKey(inSQLite.Name))
                 {
-                    if (existingFiles.FilePath == inSQLite.Path)
+                    foreach (Graphic gro in _overlayContainerOther[inSQLite.Name].Item1.Graphics)
                     {
-                        fileExistsInMap = true;
+                        loadedOtherGraphicList[gro.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString()] = gro;
                     }
                 }
-                if (!fileExistsInMap)
+                else
                 {
-                    //Build a list of already loaded stations id on the map
-                    Dictionary<string, Graphic> loadedOtherGraphicList = new Dictionary<string, Graphic>();
-                    if (_overlayContainerOther.ContainsKey(overlayerFile.FileName))
-                    {
-                        foreach (Graphic gro in _overlayContainerOther[overlayerFile.FileName].Item1.Graphics)
-                        {
-                            loadedOtherGraphicList[gro.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString()] = gro;
-                        }
-                    }
-                    else
-                    {
-                        _overlayContainerOther[overlayerFile.FileName] = new Tuple<GraphicsOverlay, GraphicsOverlay>(new GraphicsOverlay(), new GraphicsOverlay());
-                    }
-
-
-                    // Add graphics overlay to map view
-                    if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[overlayerFile.FileName].Item1))
-                    {
-                        currentMapView.GraphicsOverlays.Add(_overlayContainerOther[overlayerFile.FileName].Item1);
-                    }
-                    if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[overlayerFile.FileName].Item2))
-                    {
-                        currentMapView.GraphicsOverlays.Add(_overlayContainerOther[overlayerFile.FileName].Item2);
-                    }
-
-
-                    LoadFromGivenDB(otherLocationTableRows, currentConnection, loadedOtherGraphicList, false);
-
-                    bool foundLayer = false;
-                    foreach (Files item in _filenameValues)
-                    {
-                        if (item.FileName == overlayerFile.FileName)
-                        {
-                            foundLayer = true;
-                        }
-                    }
-                    if (!foundLayer)
-                    {
-                        _filenameValues.Insert(0, overlayerFile);
-                    }
-                    RaisePropertyChanged("FilenameValues");
-
-
+                    _overlayContainerOther[inSQLite.Name] = new Tuple<GraphicsOverlay, GraphicsOverlay>(new GraphicsOverlay(), new GraphicsOverlay());
                 }
+
+
+                // Add graphics overlay to map view
+                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name].Item1))
+                {
+                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name].Item1);
+                }
+                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name].Item2))
+                {
+                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name].Item2);
+                }
+
+                LoadFromGivenDB(otherLocationTableRows, currentConnection, loadedOtherGraphicList, false);
 
                 #endregion
             }
@@ -2195,20 +2175,15 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 // Find the layer from list of available layers and keep new value
-                Files subFile = _filenameValues.First(x => x.FileName == inSwitch.Header.ToString());
+                MapPageLayers subFile = _filenameValues.First(x => x.LayerName == inSwitch.Header.ToString());
                 if (subFile != null)
                 {
-                    subFile.FileVisible = inSwitch.IsOn;
+                    subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
                 }
                 #endregion
-
-                //keep visibility in settings
-                localSettings.SetSettingValue(subFile.FileName, inSwitch.IsOn);
-
-
             }
 
-            if (inSwitch.Header.ToString().Contains(".sqlite"))
+            if (esriMap != null && inSwitch.Header.ToString().Contains(".sqlite"))
             {
 
                 #region OVERLAYS
@@ -2220,19 +2195,16 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 // Find the layer from list of available layers and keep new value
-                Files subFile = _filenameValues.First(x => x.FileName == inSwitch.Header.ToString());
+                MapPageLayers subFile = _filenameValues.First(x => x.LayerName == inSwitch.Header.ToString());
                 if (subFile != null)
                 {
-                    subFile.FileVisible = inSwitch.IsOn;
+                    subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
                 }
                 #endregion
 
-                //keep visibility in settings
-                localSettings.SetSettingValue(subFile.FileName, inSwitch.IsOn);
-
             }
 
-            SaveMapViewSettings();
+            SaveLayerRendering();
 
         }
 
@@ -2244,11 +2216,10 @@ namespace GSCFieldApp.ViewModels
             try
             {
                 //Change order if it has changed only
-                List<Files> fileCopy = _filenameValues.ToList();
+                List<MapPageLayers> fileCopy = _filenameValues.ToList();
                 fileCopy.Reverse();
-                //SaveMapViewSettings();
 
-                if (localSettings.GetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder) != null && esriMap != null)
+                if (esriMap != null)
                 {
 
                     //Keep original layer collection
@@ -2263,13 +2234,14 @@ namespace GSCFieldApp.ViewModels
                     esriMap.Basemap.BaseLayers.Clear();
 
                     bool firstIteration = true;
-                    ObservableCollection<Files> newFileList = new ObservableCollection<Files>();
-                    foreach (Files orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
+                    ObservableCollection<MapPageLayers> newFileList = new ObservableCollection<MapPageLayers>();
+                    foreach (MapPageLayers orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
                     {
-                        if (orderedFiles.FilePath.Contains(".tpk"))
+                        if (orderedFiles.LayerName.Contains(".tpk"))
                         {
                             //Build path
-                            Uri localUri = new Uri(orderedFiles.FilePath);
+                            string localFilePath = Path.Combine(accessData.ProjectPath, orderedFiles.LayerName);
+                            Uri localUri = new Uri(localFilePath);
 
                             if (firstIteration)
                             {
@@ -2278,14 +2250,14 @@ namespace GSCFieldApp.ViewModels
                                 firstIteration = false;
                             }
 
-                            if (layerDico.ContainsKey(orderedFiles.FileName.Split('.')[0]))
+                            if (layerDico.ContainsKey(orderedFiles.LayerName.Split('.')[0]))
                             {
-                                Layer layerToAdd = layerDico[orderedFiles.FileName.Split('.')[0]];
+                                Layer layerToAdd = layerDico[orderedFiles.LayerName.Split('.')[0]];
                                 
                                 try
                                 {
-                                    orderedFiles.FileVisible = layerToAdd.IsVisible;
-                                    orderedFiles.FileOpacity = layerToAdd.Opacity * 100; 
+                                    orderedFiles.LayerSettings.LayerVisibility = layerToAdd.IsVisible;
+                                    orderedFiles.LayerSettings.LayerOpacity = layerToAdd.Opacity * 100;
 
                                     //Make sure to push the change to the UI in case this is coming from a first app opening
                                     newFileList.Insert(0, orderedFiles); //Save in new list because can't change something being looped
@@ -2315,7 +2287,7 @@ namespace GSCFieldApp.ViewModels
                     
                     RaisePropertyChanged("FilenameValues");
 
-                    SaveMapViewSettings();
+                    SaveLayerRendering();
                 }
             }
             catch (Exception e)
@@ -2400,7 +2372,7 @@ namespace GSCFieldApp.ViewModels
                 filesPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
                 filesPicker.FileTypeFilter.Add(".tpk");
                 filesPicker.FileTypeFilter.Add(".sqlite");
-
+                filesPicker.FileTypeFilter.Add(".mmpk");
                 //Get users selected files
                 IReadOnlyList<StorageFile> files = await filesPicker.PickMultipleFilesAsync();
                 if (files.Count > 0)
@@ -2602,16 +2574,16 @@ namespace GSCFieldApp.ViewModels
             if (esriMap != null && _selectedLayer != null && fromSelection)
             {
                 // Get selected layer
-                Files subFile = (Files)_selectedLayer;
+                MapPageLayers subFile = (MapPageLayers)_selectedLayer;
 
-                if (!subFile.FilePath.Contains("ms-appx"))
+                if (!subFile.LayerName.Contains("ms-appx"))
                 {
 
                     var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
                     ContentDialog deleteLayerDialog = new ContentDialog()
                     {
                         Title = local.GetString("DeleteDialogGenericTitle"),
-                        Content = local.GetString("DeleteDialog_MapLayer/Text") + " (" + subFile.FileName + ").",
+                        Content = local.GetString("DeleteDialog_MapLayer/Text") + " (" + subFile.LayerName + ").",
                         PrimaryButtonText = local.GetString("Generic_ButtonYes/Content"),
                         SecondaryButtonText = local.GetString("Generic_ButtonNo/Content")
                     };
@@ -2623,17 +2595,18 @@ namespace GSCFieldApp.ViewModels
                         if (_selectedLayer != null && _selectedLayer.ToString() != string.Empty)
                         {
                             // Get selected layer
-                            Files selectedFile = (Files)_selectedLayer;
+                            MapPageLayers selectedFile = (MapPageLayers)_selectedLayer;
+                            string localLayerPath = Path.Combine(accessData.ProjectPath, selectedFile.LayerName);
 
                             //For tpks
-                            if (!selectedFile.FileName.Contains("sql"))
+                            if (!selectedFile.LayerName.Contains("sql"))
                             {
                                 Layer foundLayer = null;
 
                                 // Find the layer from the image layer
                                 foreach (Layer l in esriMap.AllLayers)
                                 {
-                                    if (l.Name == selectedFile.FileName.Split('.')[0])
+                                    if (l.Name == selectedFile.LayerName.Split('.')[0])
                                     {
                                         foundLayer = l;
                                         break;
@@ -2644,7 +2617,7 @@ namespace GSCFieldApp.ViewModels
                                 {
                                     //Delete file
                                     Services.FileServices.FileServices deleteLayerFile = new Services.FileServices.FileServices();
-                                    deleteLayerFile.DeleteLocalStateFile(selectedFile.FilePath);
+                                    deleteLayerFile.DeleteLocalStateFile(localLayerPath);
 
                                     //Remove from map
                                     esriMap.Basemap.BaseLayers.Remove(foundLayer);
@@ -2661,7 +2634,7 @@ namespace GSCFieldApp.ViewModels
                             {
                                 //Delete file
                                 Services.FileServices.FileServices deleteLayerFile = new Services.FileServices.FileServices();
-                                deleteLayerFile.DeleteLocalStateFile(selectedFile.FilePath);
+                                deleteLayerFile.DeleteLocalStateFile(localLayerPath);
 
                                 //Reset layer and layer flyout
                                 _filenameValues.Remove(selectedFile);
@@ -2669,12 +2642,12 @@ namespace GSCFieldApp.ViewModels
                                 SetLayerOrderAsync();
 
                                 //Reset overlays
-                                if (_overlayContainerOther.ContainsKey(selectedFile.FileName))
+                                if (_overlayContainerOther.ContainsKey(selectedFile.LayerName))
                                 {
 
-                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.FileName].Item1);
-                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.FileName].Item2);
-                                    _overlayContainerOther.Remove(selectedFile.FileName);
+                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName].Item1);
+                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName].Item2);
+                                    _overlayContainerOther.Remove(selectedFile.LayerName);
 
                                 }
 

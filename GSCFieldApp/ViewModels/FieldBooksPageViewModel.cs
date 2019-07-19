@@ -340,8 +340,6 @@ namespace GSCFieldApp.ViewModels
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoFWorkType, _projectCollection[newIndex].metadataForProject.FieldworkType);
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoUCode, _projectCollection[newIndex].metadataForProject.UserCode);
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoID, _projectCollection[newIndex].metadataForProject.MetaID);
-                localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder, _projectCollection[newIndex].ProjectPath);
-                localSetting.DeleteSetting(ApplicationLiterals.KeywordMapViewLayersOrder);
 
                 ApplicationData.Current.SignalDataChanged();
                 DataAccess.DbPath = _projectCollection[newIndex].ProjectDBPath;

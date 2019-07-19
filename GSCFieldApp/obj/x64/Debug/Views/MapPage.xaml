@@ -29,22 +29,22 @@
         <conv:VisibilityFromBoolConverter x:ConnectionId='7' x:Name="VisibilityFromBoolConverter"/>
 
         <!--Layer data template-->
-        <DataTemplate x:Key="MapsDialogTemplate"                         >
+        <DataTemplate x:Key="MapsDialogTemplate"                                 >
 
             <RelativePanel x:ConnectionId='8'>
 
                 <ToggleSwitch x:ConnectionId='9' Margin="5" 
-                                                   x:Name="mapFileName" 
-                                                                                 />
-                <Slider x:ConnectionId='10' x:Name="opacitySlider"                         
-                        Width="100" Maximum="100"                             
+                                                    x:Name="mapFileName" 
+                                                                                                   />
+                <Slider x:ConnectionId='10' x:Name="opacitySlider"                          
+                        Width="100" Maximum="100"                                            
                         StepFrequency="5"
                         RelativePanel.RightOf="mapFileName"
                         RelativePanel.AlignBottomWith="mapFileName"
                                                                  
                         Margin="-75,0,0,0"/>                
                 <SymbolIcon x:ConnectionId='11' x:Name="MapDeleteIcon" Margin="10,0,0,10" 
-                            RelativePanel.RightOf="opacitySlider"                                    
+                            RelativePanel.RightOf="opacitySlider" 
                             RelativePanel.AlignBottomWith="mapFileName"
                             Symbol="Delete"                              />
             </RelativePanel>
@@ -78,7 +78,7 @@
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
 
-                    <Flyout x:ConnectionId='34'                                                x:Name="mapPageLayerFlyout">
+                    <Flyout x:ConnectionId='34'                                                     x:Name="mapPageLayerFlyout">
                         <RelativePanel Width="Auto">
                             <ListView x:ConnectionId='35' x:Name="MapLayerListView"
                                 CanReorderItems="True" RelativePanel.AlignRightWithPanel="True"

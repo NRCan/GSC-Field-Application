@@ -178,7 +178,6 @@ namespace GSCFieldApp.ViewModels
                 ad.SaveFromSQLTableObject(Model, false);
 
                 //Update settings with new selected project
-                localSetting.DeleteSetting(ApplicationLiterals.KeywordMapViewLayersOrder);
                 ApplicationData.Current.SignalDataChanged();
 
                 //Ask user for new data to load

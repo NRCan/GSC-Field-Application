@@ -51,7 +51,7 @@ namespace GSCFieldApp.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
 
-            base.OnNavigatedTo(e);
+            //base.OnNavigatedTo(e);
 
             //Init once
             if (this.ViewModel == null)

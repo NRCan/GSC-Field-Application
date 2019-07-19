@@ -169,10 +169,11 @@
     <Compile Include="Dictionaries\ScienceLiterals.cs" />
     <Compile Include="Dictionaries\ApplicationLiterals.cs" />
     <Compile Include="Models\DD2DMS.cs" />
-    <Compile Include="Models\Files.cs" />
+    <Compile Include="Models\MapPageLayers.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\Favorite.cs" />
     <Compile Include="Models\Fossil.cs" />
+    <Compile Include="Models\MapPageLayerSetting.cs" />
     <Compile Include="Models\Mineral.cs" />
     <Compile Include="Models\MineralAlteration.cs" />
     <Compile Include="Models\Paleoflow.cs" />
