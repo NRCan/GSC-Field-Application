@@ -427,7 +427,7 @@ namespace GSCFieldApp.Views
                 esriMap = myMapView.Map;
                 Slider senderSlider = sender as Slider;
                 string filename = senderSlider.Tag as string;
-                if (filename != null)
+                if (filename != null && esriMap.AllLayers.Count > 0)
                 {
                     var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(filename.Split('.')[0]));
                     sublayer.Opacity = senderSlider.Value / 100.0;

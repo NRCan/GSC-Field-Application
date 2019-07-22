@@ -1742,33 +1742,37 @@ namespace GSCFieldApp.ViewModels
         /// <param name="inSP"></param>
         public void AddBlanckFeature(SpatialReference inSP)
         {
-            //Define extent by creating a new polygon
-            SpatialReference wgs84 = SpatialReference.Create(4326);
-            PolygonBuilder polyBuilder = new PolygonBuilder(wgs84);
-            polyBuilder.AddPoint(new MapPoint(-143.6561, 41.0437, wgs84));
-            polyBuilder.AddPoint(new MapPoint(-143.6561, 83.4417, wgs84));
-            polyBuilder.AddPoint(new MapPoint(-56.7885, 83.4417, wgs84));
-            polyBuilder.AddPoint(new MapPoint(-56.7885, 41.0437, wgs84));
+            if (inSP != null)
+            {
+                //Define extent by creating a new polygon
+                SpatialReference wgs84 = SpatialReference.Create(4326);
+                PolygonBuilder polyBuilder = new PolygonBuilder(wgs84);
+                polyBuilder.AddPoint(new MapPoint(-143.6561, 41.0437, wgs84));
+                polyBuilder.AddPoint(new MapPoint(-143.6561, 83.4417, wgs84));
+                polyBuilder.AddPoint(new MapPoint(-56.7885, 83.4417, wgs84));
+                polyBuilder.AddPoint(new MapPoint(-56.7885, 41.0437, wgs84));
 
-            //Project
-            Polygon blanckPoly = (Polygon)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(polyBuilder.ToGeometry(), inSP);
+                //Project
+                Polygon blanckPoly = (Polygon)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(polyBuilder.ToGeometry(), inSP);
 
-            // defines the schema for the geometry's attribute
-            List<Field> polygonFields = new List<Field>();
-            polygonFields.Add(Field.CreateString("Area", "Area Name", 50));
+                // defines the schema for the geometry's attribute
+                List<Field> polygonFields = new List<Field>();
+                polygonFields.Add(Field.CreateString("Area", "Area Name", 50));
 
-            FeatureCollectionTable polygonTable = new FeatureCollectionTable(polygonFields, GeometryType.Polygon, inSP);
-            Dictionary<string, object> attributes = new Dictionary<string, object>();
-            attributes[polygonFields[0].Name] = "Blanck area";
-            Feature blanckFeature = polygonTable.CreateFeature(attributes, blanckPoly);
-            polygonTable.AddFeatureAsync(blanckFeature);
+                FeatureCollectionTable polygonTable = new FeatureCollectionTable(polygonFields, GeometryType.Polygon, inSP);
+                Dictionary<string, object> attributes = new Dictionary<string, object>();
+                attributes[polygonFields[0].Name] = "Blanck area";
+                Feature blanckFeature = polygonTable.CreateFeature(attributes, blanckPoly);
+                polygonTable.AddFeatureAsync(blanckFeature);
 
-            FeatureCollection fCollection = new FeatureCollection();
-            fCollection.Tables.Add(polygonTable);
-            FeatureCollectionLayer fCollectionLayer = new FeatureCollectionLayer(fCollection);
-            fCollectionLayer.IsVisible = false;
+                FeatureCollection fCollection = new FeatureCollection();
+                fCollection.Tables.Add(polygonTable);
+                FeatureCollectionLayer fCollectionLayer = new FeatureCollectionLayer(fCollection);
+                fCollectionLayer.IsVisible = false;
 
-            esriMap.Basemap.BaseLayers.Add(fCollectionLayer);
+                esriMap.Basemap.BaseLayers.Add(fCollectionLayer);
+            }
+
         }
 
         ///// <summary>
@@ -2089,9 +2093,15 @@ namespace GSCFieldApp.ViewModels
                     {
                         esriMap = new Map(_tileLayer.SpatialReference);
                     }
-                    if (esriMap.Basemap.BaseLayers.Count == 0)
+                    if (esriMap.Basemap.BaseLayers.Count == 0 && _tileLayer.SpatialReference != null)
                     {
                         AddBlanckFeature(_tileLayer.SpatialReference);
+
+                    }
+                    else
+                    {
+                        SpatialReference sr = new SpatialReference(4326);
+                        AddBlanckFeature(sr);
                     }
 
                     
@@ -2109,6 +2119,7 @@ namespace GSCFieldApp.ViewModels
 
                 currentMapView.Map = esriMap;
                 RaisePropertyChanged("currentMapView");
+
             }
 
         }
@@ -2163,7 +2174,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void SetLayerVisibility(ToggleSwitch inSwitch)
         {
-            if (esriMap != null && inSwitch.Header.ToString().Contains(".tpk"))
+            if (esriMap != null && esriMap.AllLayers.Count > 0 && inSwitch.Header.ToString().Contains(".tpk"))
             {
                 #region TPKs
 
@@ -2183,7 +2194,7 @@ namespace GSCFieldApp.ViewModels
                 #endregion
             }
 
-            if (esriMap != null && inSwitch.Header.ToString().Contains(".sqlite"))
+            if (esriMap != null && esriMap.AllLayers.Count > 0 && inSwitch.Header.ToString().Contains(".sqlite"))
             {
 
                 #region OVERLAYS
@@ -2280,7 +2291,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                     //Update UI
-                    if (newFileList.Count != 0 && newFileList.Count == _filenameValues.Count)
+                    if (newFileList != null && newFileList.Count != 0 && newFileList.Count == _filenameValues.Count)
                     {
                         _filenameValues = newFileList;
                     }
@@ -2295,7 +2306,7 @@ namespace GSCFieldApp.ViewModels
                 ContentDialog tapDialog = new ContentDialog()
                 {
                     Title = "Error",
-                    Content = e.Message,
+                    Content = e.Message + e.StackTrace,
                     PrimaryButtonText = "Yes",
                     SecondaryButtonText = "No"
                 };
