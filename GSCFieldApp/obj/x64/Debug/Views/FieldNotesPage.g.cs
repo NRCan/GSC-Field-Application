@@ -2999,77 +2999,79 @@ namespace GSCFieldApp.Views
 
             // Fields for each event bindings event handler.
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj89Tapped;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj90DoubleTapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj90ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj90SelectionChanged;
-            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj91ExpandedChanged;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj97Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj98Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj90Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj91Tapped;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj92DoubleTapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj92ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj92SelectionChanged;
+            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj93ExpandedChanged;
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj99Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj100ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj100SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj100DoubleTapped;
-            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj101ExpandedChanged;
-            private global::Windows.UI.Xaml.SizeChangedEventHandler obj105SizeChanged;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj107Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj108Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj100Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj101Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj102ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj102SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj102DoubleTapped;
+            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj103ExpandedChanged;
+            private global::Windows.UI.Xaml.SizeChangedEventHandler obj107SizeChanged;
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj109Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj110ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj110SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj110DoubleTapped;
-            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj111ExpandedChanged;
-            private global::Windows.UI.Xaml.SizeChangedEventHandler obj115SizeChanged;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj117Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj118Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj110Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj111Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj112ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj112SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj112DoubleTapped;
+            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj113ExpandedChanged;
+            private global::Windows.UI.Xaml.SizeChangedEventHandler obj117SizeChanged;
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj119Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj120ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj120SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj120DoubleTapped;
-            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj121ExpandedChanged;
-            private global::Windows.UI.Xaml.SizeChangedEventHandler obj125SizeChanged;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj127Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj128Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj120Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj121Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj122ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj122SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj122DoubleTapped;
+            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj123ExpandedChanged;
+            private global::Windows.UI.Xaml.SizeChangedEventHandler obj127SizeChanged;
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj129Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj130ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj130SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj130DoubleTapped;
-            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj131ExpandedChanged;
-            private global::Windows.UI.Xaml.SizeChangedEventHandler obj135SizeChanged;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj137Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj138Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj130Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj131Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj132ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj132SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj132DoubleTapped;
+            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj133ExpandedChanged;
+            private global::Windows.UI.Xaml.SizeChangedEventHandler obj137SizeChanged;
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj139Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj140ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj140SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj140DoubleTapped;
-            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj141ExpandedChanged;
-            private global::Windows.UI.Xaml.SizeChangedEventHandler obj145SizeChanged;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj147Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj148Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj140Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj141Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj142ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj142SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj142DoubleTapped;
+            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj143ExpandedChanged;
+            private global::Windows.UI.Xaml.SizeChangedEventHandler obj147SizeChanged;
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj149Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj150ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj150SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj150DoubleTapped;
-            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj151ExpandedChanged;
-            private global::Windows.UI.Xaml.SizeChangedEventHandler obj155SizeChanged;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj157Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj158Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj150Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj151Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj152ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj152SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj152DoubleTapped;
+            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj153ExpandedChanged;
+            private global::Windows.UI.Xaml.SizeChangedEventHandler obj157SizeChanged;
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj159Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj160ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj160SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj160DoubleTapped;
-            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj161ExpandedChanged;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj167Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj168Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj160Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj161Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj162ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj162SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj162DoubleTapped;
+            private global::GSCFieldApp.Themes.ExpandPanel.IsExpandedChangedHandler obj163ExpandedChanged;
             private global::Windows.UI.Xaml.Input.TappedEventHandler obj169Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj170ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj170SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj170DoubleTapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj176Tapped;
-            private global::Windows.UI.Xaml.Input.TappedEventHandler obj177Tapped;
-            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj178ItemClick;
-            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj178SelectionChanged;
-            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj178DoubleTapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj170Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj171Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj172ItemClick;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj172SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj172DoubleTapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj178Tapped;
+            private global::Windows.UI.Xaml.Input.TappedEventHandler obj179Tapped;
+            private global::Windows.UI.Xaml.Controls.ItemClickEventHandler obj180ItemClick;
             private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj180SelectionChanged;
+            private global::Windows.UI.Xaml.Input.DoubleTappedEventHandler obj180DoubleTapped;
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj182SelectionChanged;
 
             // Static fields for each binding's enabled/disabled state
             private static bool isobj74VisibilityDisabled = false;
@@ -3087,126 +3089,130 @@ namespace GSCFieldApp.Views
             private static bool isobj88OpacityDisabled = false;
             private static bool isobj89ForegroundDisabled = false;
             private static bool isobj89OpacityDisabled = false;
-            private static bool isobj90SelectedIndexDisabled = false;
-            private static bool isobj90ItemsSourceDisabled = false;
-            private static bool isobj91IsExpandedDisabled = false;
-            private static bool isobj92ColorDisabled = false;
-            private static bool isobj95TextDisabled = false;
-            private static bool isobj95ForegroundDisabled = false;
-            private static bool isobj96ColorDisabled = false;
-            private static bool isobj96OpacityDisabled = false;
+            private static bool isobj90ForegroundDisabled = false;
+            private static bool isobj90OpacityDisabled = false;
+            private static bool isobj91ForegroundDisabled = false;
+            private static bool isobj91OpacityDisabled = false;
+            private static bool isobj92SelectedIndexDisabled = false;
+            private static bool isobj92ItemsSourceDisabled = false;
+            private static bool isobj93IsExpandedDisabled = false;
+            private static bool isobj94ColorDisabled = false;
+            private static bool isobj97TextDisabled = false;
             private static bool isobj97ForegroundDisabled = false;
-            private static bool isobj97OpacityDisabled = false;
-            private static bool isobj98ForegroundDisabled = false;
+            private static bool isobj98ColorDisabled = false;
             private static bool isobj98OpacityDisabled = false;
             private static bool isobj99ForegroundDisabled = false;
             private static bool isobj99OpacityDisabled = false;
-            private static bool isobj100SelectedIndexDisabled = false;
-            private static bool isobj100ItemsSourceDisabled = false;
-            private static bool isobj101IsExpandedDisabled = false;
-            private static bool isobj102ColorDisabled = false;
-            private static bool isobj105ForegroundDisabled = false;
-            private static bool isobj106ColorDisabled = false;
-            private static bool isobj106OpacityDisabled = false;
+            private static bool isobj100ForegroundDisabled = false;
+            private static bool isobj100OpacityDisabled = false;
+            private static bool isobj101ForegroundDisabled = false;
+            private static bool isobj101OpacityDisabled = false;
+            private static bool isobj102SelectedIndexDisabled = false;
+            private static bool isobj102ItemsSourceDisabled = false;
+            private static bool isobj103IsExpandedDisabled = false;
+            private static bool isobj104ColorDisabled = false;
             private static bool isobj107ForegroundDisabled = false;
-            private static bool isobj107OpacityDisabled = false;
-            private static bool isobj108ForegroundDisabled = false;
+            private static bool isobj108ColorDisabled = false;
             private static bool isobj108OpacityDisabled = false;
             private static bool isobj109ForegroundDisabled = false;
             private static bool isobj109OpacityDisabled = false;
-            private static bool isobj110SelectedIndexDisabled = false;
-            private static bool isobj110ItemsSourceDisabled = false;
-            private static bool isobj111IsExpandedDisabled = false;
-            private static bool isobj112ColorDisabled = false;
-            private static bool isobj115ForegroundDisabled = false;
-            private static bool isobj116ColorDisabled = false;
-            private static bool isobj116OpacityDisabled = false;
+            private static bool isobj110ForegroundDisabled = false;
+            private static bool isobj110OpacityDisabled = false;
+            private static bool isobj111ForegroundDisabled = false;
+            private static bool isobj111OpacityDisabled = false;
+            private static bool isobj112SelectedIndexDisabled = false;
+            private static bool isobj112ItemsSourceDisabled = false;
+            private static bool isobj113IsExpandedDisabled = false;
+            private static bool isobj114ColorDisabled = false;
             private static bool isobj117ForegroundDisabled = false;
-            private static bool isobj117OpacityDisabled = false;
-            private static bool isobj118ForegroundDisabled = false;
+            private static bool isobj118ColorDisabled = false;
             private static bool isobj118OpacityDisabled = false;
             private static bool isobj119ForegroundDisabled = false;
             private static bool isobj119OpacityDisabled = false;
-            private static bool isobj120SelectedIndexDisabled = false;
-            private static bool isobj120ItemsSourceDisabled = false;
-            private static bool isobj121IsExpandedDisabled = false;
-            private static bool isobj122ColorDisabled = false;
-            private static bool isobj125ForegroundDisabled = false;
-            private static bool isobj126ColorDisabled = false;
-            private static bool isobj126OpacityDisabled = false;
+            private static bool isobj120ForegroundDisabled = false;
+            private static bool isobj120OpacityDisabled = false;
+            private static bool isobj121ForegroundDisabled = false;
+            private static bool isobj121OpacityDisabled = false;
+            private static bool isobj122SelectedIndexDisabled = false;
+            private static bool isobj122ItemsSourceDisabled = false;
+            private static bool isobj123IsExpandedDisabled = false;
+            private static bool isobj124ColorDisabled = false;
             private static bool isobj127ForegroundDisabled = false;
-            private static bool isobj127OpacityDisabled = false;
-            private static bool isobj128ForegroundDisabled = false;
+            private static bool isobj128ColorDisabled = false;
             private static bool isobj128OpacityDisabled = false;
             private static bool isobj129ForegroundDisabled = false;
             private static bool isobj129OpacityDisabled = false;
-            private static bool isobj130ItemsSourceDisabled = false;
-            private static bool isobj130SelectedIndexDisabled = false;
-            private static bool isobj131IsExpandedDisabled = false;
-            private static bool isobj132ColorDisabled = false;
-            private static bool isobj135ForegroundDisabled = false;
-            private static bool isobj136ColorDisabled = false;
-            private static bool isobj136OpacityDisabled = false;
+            private static bool isobj130ForegroundDisabled = false;
+            private static bool isobj130OpacityDisabled = false;
+            private static bool isobj131ForegroundDisabled = false;
+            private static bool isobj131OpacityDisabled = false;
+            private static bool isobj132ItemsSourceDisabled = false;
+            private static bool isobj132SelectedIndexDisabled = false;
+            private static bool isobj133IsExpandedDisabled = false;
+            private static bool isobj134ColorDisabled = false;
             private static bool isobj137ForegroundDisabled = false;
-            private static bool isobj137OpacityDisabled = false;
-            private static bool isobj138ForegroundDisabled = false;
+            private static bool isobj138ColorDisabled = false;
             private static bool isobj138OpacityDisabled = false;
             private static bool isobj139ForegroundDisabled = false;
             private static bool isobj139OpacityDisabled = false;
-            private static bool isobj140SelectedIndexDisabled = false;
-            private static bool isobj140ItemsSourceDisabled = false;
-            private static bool isobj141IsExpandedDisabled = false;
-            private static bool isobj142ColorDisabled = false;
-            private static bool isobj145ForegroundDisabled = false;
-            private static bool isobj146ColorDisabled = false;
-            private static bool isobj146OpacityDisabled = false;
+            private static bool isobj140ForegroundDisabled = false;
+            private static bool isobj140OpacityDisabled = false;
+            private static bool isobj141ForegroundDisabled = false;
+            private static bool isobj141OpacityDisabled = false;
+            private static bool isobj142SelectedIndexDisabled = false;
+            private static bool isobj142ItemsSourceDisabled = false;
+            private static bool isobj143IsExpandedDisabled = false;
+            private static bool isobj144ColorDisabled = false;
             private static bool isobj147ForegroundDisabled = false;
-            private static bool isobj147OpacityDisabled = false;
-            private static bool isobj148ForegroundDisabled = false;
+            private static bool isobj148ColorDisabled = false;
             private static bool isobj148OpacityDisabled = false;
             private static bool isobj149ForegroundDisabled = false;
             private static bool isobj149OpacityDisabled = false;
-            private static bool isobj150ItemsSourceDisabled = false;
-            private static bool isobj150SelectedIndexDisabled = false;
-            private static bool isobj151IsExpandedDisabled = false;
-            private static bool isobj152ColorDisabled = false;
-            private static bool isobj155ForegroundDisabled = false;
-            private static bool isobj156ColorDisabled = false;
-            private static bool isobj156OpacityDisabled = false;
+            private static bool isobj150ForegroundDisabled = false;
+            private static bool isobj150OpacityDisabled = false;
+            private static bool isobj151ForegroundDisabled = false;
+            private static bool isobj151OpacityDisabled = false;
+            private static bool isobj152ItemsSourceDisabled = false;
+            private static bool isobj152SelectedIndexDisabled = false;
+            private static bool isobj153IsExpandedDisabled = false;
+            private static bool isobj154ColorDisabled = false;
             private static bool isobj157ForegroundDisabled = false;
-            private static bool isobj157OpacityDisabled = false;
-            private static bool isobj158ForegroundDisabled = false;
+            private static bool isobj158ColorDisabled = false;
             private static bool isobj158OpacityDisabled = false;
             private static bool isobj159ForegroundDisabled = false;
             private static bool isobj159OpacityDisabled = false;
-            private static bool isobj160ItemsSourceDisabled = false;
-            private static bool isobj160SelectedIndexDisabled = false;
-            private static bool isobj161IsExpandedDisabled = false;
-            private static bool isobj162ColorDisabled = false;
-            private static bool isobj165ForegroundDisabled = false;
-            private static bool isobj166ColorDisabled = false;
-            private static bool isobj166OpacityDisabled = false;
+            private static bool isobj160ForegroundDisabled = false;
+            private static bool isobj160OpacityDisabled = false;
+            private static bool isobj161ForegroundDisabled = false;
+            private static bool isobj161OpacityDisabled = false;
+            private static bool isobj162ItemsSourceDisabled = false;
+            private static bool isobj162SelectedIndexDisabled = false;
+            private static bool isobj163IsExpandedDisabled = false;
+            private static bool isobj164ColorDisabled = false;
             private static bool isobj167ForegroundDisabled = false;
-            private static bool isobj167OpacityDisabled = false;
-            private static bool isobj168ForegroundDisabled = false;
+            private static bool isobj168ColorDisabled = false;
             private static bool isobj168OpacityDisabled = false;
             private static bool isobj169ForegroundDisabled = false;
             private static bool isobj169OpacityDisabled = false;
-            private static bool isobj170ItemsSourceDisabled = false;
-            private static bool isobj170SelectedIndexDisabled = false;
-            private static bool isobj171IsExpandedDisabled = false;
-            private static bool isobj172ColorDisabled = false;
-            private static bool isobj174ForegroundDisabled = false;
-            private static bool isobj175ColorDisabled = false;
-            private static bool isobj175OpacityDisabled = false;
+            private static bool isobj170ForegroundDisabled = false;
+            private static bool isobj170OpacityDisabled = false;
+            private static bool isobj171ForegroundDisabled = false;
+            private static bool isobj171OpacityDisabled = false;
+            private static bool isobj172ItemsSourceDisabled = false;
+            private static bool isobj172SelectedIndexDisabled = false;
+            private static bool isobj173IsExpandedDisabled = false;
+            private static bool isobj174ColorDisabled = false;
             private static bool isobj176ForegroundDisabled = false;
-            private static bool isobj176OpacityDisabled = false;
-            private static bool isobj177ForegroundDisabled = false;
+            private static bool isobj177ColorDisabled = false;
             private static bool isobj177OpacityDisabled = false;
-            private static bool isobj178SelectedIndexDisabled = false;
-            private static bool isobj178ItemsSourceDisabled = false;
-            private static bool isobj180ItemsSourceDisabled = false;
+            private static bool isobj178ForegroundDisabled = false;
+            private static bool isobj178OpacityDisabled = false;
+            private static bool isobj179ForegroundDisabled = false;
+            private static bool isobj179OpacityDisabled = false;
             private static bool isobj180SelectedIndexDisabled = false;
+            private static bool isobj180ItemsSourceDisabled = false;
+            private static bool isobj182ItemsSourceDisabled = false;
+            private static bool isobj182SelectedIndexDisabled = false;
 
             private ReportPage_obj1_BindingsTracking bindingsTracking;
 
@@ -3269,781 +3275,805 @@ namespace GSCFieldApp.Views
                 {
                     isobj88OpacityDisabled = true;
                 }
-                else if (lineNumber == 1055 && columnNumber == 74)
+                else if (lineNumber == 1054 && columnNumber == 73)
                 {
                     isobj89ForegroundDisabled = true;
                 }
-                else if (lineNumber == 1055 && columnNumber == 195)
+                else if (lineNumber == 1054 && columnNumber == 306)
                 {
                     isobj89OpacityDisabled = true;
                 }
-                else if (lineNumber == 1056 && columnNumber == 37)
+                else if (lineNumber == 1054 && columnNumber == 255)
                 {
                     this.obj89.Tapped -= obj89Tapped;
                 }
+                else if (lineNumber == 1055 && columnNumber == 74)
+                {
+                    isobj90ForegroundDisabled = true;
+                }
+                else if (lineNumber == 1055 && columnNumber == 195)
+                {
+                    isobj90OpacityDisabled = true;
+                }
+                else if (lineNumber == 1055 && columnNumber == 301)
+                {
+                    this.obj90.Tapped -= obj90Tapped;
+                }
+                else if (lineNumber == 1056 && columnNumber == 76)
+                {
+                    isobj91ForegroundDisabled = true;
+                }
+                else if (lineNumber == 1056 && columnNumber == 240)
+                {
+                    isobj91OpacityDisabled = true;
+                }
+                else if (lineNumber == 1056 && columnNumber == 313)
+                {
+                    this.obj91.Tapped -= obj91Tapped;
+                }
+                else if (lineNumber == 1068 && columnNumber == 39)
+                {
+                    isobj92SelectedIndexDisabled = true;
+                }
+                else if (lineNumber == 1069 && columnNumber == 37)
+                {
+                    isobj92ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 1065 && columnNumber == 55)
+                {
+                    this.obj92.DoubleTapped -= obj92DoubleTapped;
+                }
+                else if (lineNumber == 1066 && columnNumber == 63)
+                {
+                    this.obj92.ItemClick -= obj92ItemClick;
+                }
                 else if (lineNumber == 1070 && columnNumber == 39)
                 {
-                    isobj90SelectedIndexDisabled = true;
-                }
-                else if (lineNumber == 1071 && columnNumber == 37)
-                {
-                    isobj90ItemsSourceDisabled = true;
-                }
-                else if (lineNumber == 1067 && columnNumber == 55)
-                {
-                    this.obj90.DoubleTapped -= obj90DoubleTapped;
-                }
-                else if (lineNumber == 1068 && columnNumber == 63)
-                {
-                    this.obj90.ItemClick -= obj90ItemClick;
-                }
-                else if (lineNumber == 1072 && columnNumber == 39)
-                {
-                    this.obj90.SelectionChanged -= obj90SelectionChanged;
+                    this.obj92.SelectionChanged -= obj92SelectionChanged;
                 }
                 else if (lineNumber == 972 && columnNumber == 48)
                 {
-                    isobj91IsExpandedDisabled = true;
+                    isobj93IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 973 && columnNumber == 48)
                 {
-                    this.obj91.ExpandedChanged -= obj91ExpandedChanged;
+                    this.obj93.ExpandedChanged -= obj93ExpandedChanged;
                 }
                 else if (lineNumber == 978 && columnNumber == 46)
                 {
-                    isobj92ColorDisabled = true;
+                    isobj94ColorDisabled = true;
                 }
                 else if (lineNumber == 987 && columnNumber == 77)
                 {
-                    isobj95TextDisabled = true;
+                    isobj97TextDisabled = true;
                 }
                 else if (lineNumber == 988 && columnNumber == 66)
                 {
-                    isobj95ForegroundDisabled = true;
+                    isobj97ForegroundDisabled = true;
                 }
                 else if (lineNumber == 984 && columnNumber == 58)
                 {
-                    isobj96ColorDisabled = true;
+                    isobj98ColorDisabled = true;
                 }
                 else if (lineNumber == 984 && columnNumber == 165)
                 {
-                    isobj96OpacityDisabled = true;
+                    isobj98OpacityDisabled = true;
                 }
                 else if (lineNumber == 998 && columnNumber == 70)
                 {
-                    isobj97ForegroundDisabled = true;
+                    isobj99ForegroundDisabled = true;
                 }
                 else if (lineNumber == 998 && columnNumber == 248)
                 {
-                    isobj97OpacityDisabled = true;
+                    isobj99OpacityDisabled = true;
                 }
                 else if (lineNumber == 998 && columnNumber == 313)
                 {
-                    this.obj97.Tapped -= obj97Tapped;
+                    this.obj99.Tapped -= obj99Tapped;
                 }
                 else if (lineNumber == 999 && columnNumber == 71)
                 {
-                    isobj98ForegroundDisabled = true;
+                    isobj100ForegroundDisabled = true;
                 }
                 else if (lineNumber == 999 && columnNumber == 235)
                 {
-                    isobj98OpacityDisabled = true;
+                    isobj100OpacityDisabled = true;
                 }
                 else if (lineNumber == 999 && columnNumber == 308)
                 {
-                    this.obj98.Tapped -= obj98Tapped;
+                    this.obj100.Tapped -= obj100Tapped;
                 }
                 else if (lineNumber == 1000 && columnNumber == 73)
                 {
-                    isobj99ForegroundDisabled = true;
+                    isobj101ForegroundDisabled = true;
                 }
                 else if (lineNumber == 1000 && columnNumber == 237)
                 {
-                    isobj99OpacityDisabled = true;
+                    isobj101OpacityDisabled = true;
                 }
                 else if (lineNumber == 1000 && columnNumber == 310)
                 {
-                    this.obj99.Tapped -= obj99Tapped;
+                    this.obj101.Tapped -= obj101Tapped;
                 }
                 else if (lineNumber == 1009 && columnNumber == 39)
                 {
-                    isobj100SelectedIndexDisabled = true;
+                    isobj102SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 1010 && columnNumber == 37)
                 {
-                    isobj100ItemsSourceDisabled = true;
+                    isobj102ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 1007 && columnNumber == 60)
                 {
-                    this.obj100.ItemClick -= obj100ItemClick;
+                    this.obj102.ItemClick -= obj102ItemClick;
                 }
                 else if (lineNumber == 1011 && columnNumber == 37)
                 {
-                    this.obj100.SelectionChanged -= obj100SelectionChanged;
+                    this.obj102.SelectionChanged -= obj102SelectionChanged;
                 }
                 else if (lineNumber == 1012 && columnNumber == 47)
                 {
-                    this.obj100.DoubleTapped -= obj100DoubleTapped;
+                    this.obj102.DoubleTapped -= obj102DoubleTapped;
                 }
                 else if (lineNumber == 907 && columnNumber == 45)
                 {
-                    isobj101IsExpandedDisabled = true;
+                    isobj103IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 909 && columnNumber == 45)
                 {
-                    this.obj101.ExpandedChanged -= obj101ExpandedChanged;
+                    this.obj103.ExpandedChanged -= obj103ExpandedChanged;
                 }
                 else if (lineNumber == 913 && columnNumber == 46)
                 {
-                    isobj102ColorDisabled = true;
+                    isobj104ColorDisabled = true;
                 }
                 else if (lineNumber == 924 && columnNumber == 66)
                 {
-                    isobj105ForegroundDisabled = true;
+                    isobj107ForegroundDisabled = true;
                 }
                 else if (lineNumber == 928 && columnNumber == 81)
                 {
-                    this.obj105.SizeChanged -= obj105SizeChanged;
+                    this.obj107.SizeChanged -= obj107SizeChanged;
                 }
                 else if (lineNumber == 919 && columnNumber == 58)
                 {
-                    isobj106ColorDisabled = true;
+                    isobj108ColorDisabled = true;
                 }
                 else if (lineNumber == 920 && columnNumber == 58)
                 {
-                    isobj106OpacityDisabled = true;
+                    isobj108OpacityDisabled = true;
                 }
                 else if (lineNumber == 935 && columnNumber == 72)
                 {
-                    isobj107ForegroundDisabled = true;
+                    isobj109ForegroundDisabled = true;
                 }
                 else if (lineNumber == 937 && columnNumber == 45)
                 {
-                    isobj107OpacityDisabled = true;
+                    isobj109OpacityDisabled = true;
                 }
                 else if (lineNumber == 937 && columnNumber == 112)
                 {
-                    this.obj107.Tapped -= obj107Tapped;
+                    this.obj109.Tapped -= obj109Tapped;
                 }
                 else if (lineNumber == 939 && columnNumber == 45)
                 {
-                    isobj108ForegroundDisabled = true;
+                    isobj110ForegroundDisabled = true;
                 }
                 else if (lineNumber == 941 && columnNumber == 45)
                 {
-                    isobj108OpacityDisabled = true;
+                    isobj110OpacityDisabled = true;
                 }
                 else if (lineNumber == 941 && columnNumber == 109)
                 {
-                    this.obj108.Tapped -= obj108Tapped;
+                    this.obj110.Tapped -= obj110Tapped;
                 }
                 else if (lineNumber == 943 && columnNumber == 45)
                 {
-                    isobj109ForegroundDisabled = true;
+                    isobj111ForegroundDisabled = true;
                 }
                 else if (lineNumber == 945 && columnNumber == 45)
                 {
-                    isobj109OpacityDisabled = true;
+                    isobj111OpacityDisabled = true;
                 }
                 else if (lineNumber == 945 && columnNumber == 109)
                 {
-                    this.obj109.Tapped -= obj109Tapped;
+                    this.obj111.Tapped -= obj111Tapped;
                 }
                 else if (lineNumber == 954 && columnNumber == 39)
                 {
-                    isobj110SelectedIndexDisabled = true;
+                    isobj112SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 955 && columnNumber == 37)
                 {
-                    isobj110ItemsSourceDisabled = true;
+                    isobj112ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 952 && columnNumber == 60)
                 {
-                    this.obj110.ItemClick -= obj110ItemClick;
+                    this.obj112.ItemClick -= obj112ItemClick;
                 }
                 else if (lineNumber == 956 && columnNumber == 37)
                 {
-                    this.obj110.SelectionChanged -= obj110SelectionChanged;
+                    this.obj112.SelectionChanged -= obj112SelectionChanged;
                 }
                 else if (lineNumber == 957 && columnNumber == 47)
                 {
-                    this.obj110.DoubleTapped -= obj110DoubleTapped;
+                    this.obj112.DoubleTapped -= obj112DoubleTapped;
                 }
                 else if (lineNumber == 851 && columnNumber == 45)
                 {
-                    isobj111IsExpandedDisabled = true;
+                    isobj113IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 853 && columnNumber == 45)
                 {
-                    this.obj111.ExpandedChanged -= obj111ExpandedChanged;
+                    this.obj113.ExpandedChanged -= obj113ExpandedChanged;
                 }
                 else if (lineNumber == 857 && columnNumber == 46)
                 {
-                    isobj112ColorDisabled = true;
+                    isobj114ColorDisabled = true;
                 }
                 else if (lineNumber == 867 && columnNumber == 66)
                 {
-                    isobj115ForegroundDisabled = true;
+                    isobj117ForegroundDisabled = true;
                 }
                 else if (lineNumber == 871 && columnNumber == 81)
                 {
-                    this.obj115.SizeChanged -= obj115SizeChanged;
+                    this.obj117.SizeChanged -= obj117SizeChanged;
                 }
                 else if (lineNumber == 863 && columnNumber == 58)
                 {
-                    isobj116ColorDisabled = true;
+                    isobj118ColorDisabled = true;
                 }
                 else if (lineNumber == 863 && columnNumber == 164)
                 {
-                    isobj116OpacityDisabled = true;
+                    isobj118OpacityDisabled = true;
                 }
                 else if (lineNumber == 878 && columnNumber == 69)
                 {
-                    isobj117ForegroundDisabled = true;
+                    isobj119ForegroundDisabled = true;
                 }
                 else if (lineNumber == 878 && columnNumber == 245)
                 {
-                    isobj117OpacityDisabled = true;
+                    isobj119OpacityDisabled = true;
                 }
                 else if (lineNumber == 878 && columnNumber == 309)
                 {
-                    this.obj117.Tapped -= obj117Tapped;
+                    this.obj119.Tapped -= obj119Tapped;
                 }
                 else if (lineNumber == 879 && columnNumber == 70)
                 {
-                    isobj118ForegroundDisabled = true;
+                    isobj120ForegroundDisabled = true;
                 }
                 else if (lineNumber == 879 && columnNumber == 243)
                 {
-                    isobj118OpacityDisabled = true;
+                    isobj120OpacityDisabled = true;
                 }
                 else if (lineNumber == 879 && columnNumber == 304)
                 {
-                    this.obj118.Tapped -= obj118Tapped;
+                    this.obj120.Tapped -= obj120Tapped;
                 }
                 else if (lineNumber == 880 && columnNumber == 72)
                 {
-                    isobj119ForegroundDisabled = true;
+                    isobj121ForegroundDisabled = true;
                 }
                 else if (lineNumber == 880 && columnNumber == 246)
                 {
-                    isobj119OpacityDisabled = true;
+                    isobj121OpacityDisabled = true;
                 }
                 else if (lineNumber == 880 && columnNumber == 307)
                 {
-                    this.obj119.Tapped -= obj119Tapped;
+                    this.obj121.Tapped -= obj121Tapped;
                 }
                 else if (lineNumber == 889 && columnNumber == 39)
                 {
-                    isobj120SelectedIndexDisabled = true;
+                    isobj122SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 890 && columnNumber == 37)
                 {
-                    isobj120ItemsSourceDisabled = true;
+                    isobj122ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 887 && columnNumber == 60)
                 {
-                    this.obj120.ItemClick -= obj120ItemClick;
+                    this.obj122.ItemClick -= obj122ItemClick;
                 }
                 else if (lineNumber == 891 && columnNumber == 37)
                 {
-                    this.obj120.SelectionChanged -= obj120SelectionChanged;
+                    this.obj122.SelectionChanged -= obj122SelectionChanged;
                 }
                 else if (lineNumber == 892 && columnNumber == 47)
                 {
-                    this.obj120.DoubleTapped -= obj120DoubleTapped;
+                    this.obj122.DoubleTapped -= obj122DoubleTapped;
                 }
                 else if (lineNumber == 795 && columnNumber == 45)
                 {
-                    isobj121IsExpandedDisabled = true;
+                    isobj123IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 797 && columnNumber == 45)
                 {
-                    this.obj121.ExpandedChanged -= obj121ExpandedChanged;
+                    this.obj123.ExpandedChanged -= obj123ExpandedChanged;
                 }
                 else if (lineNumber == 801 && columnNumber == 46)
                 {
-                    isobj122ColorDisabled = true;
+                    isobj124ColorDisabled = true;
                 }
                 else if (lineNumber == 811 && columnNumber == 66)
                 {
-                    isobj125ForegroundDisabled = true;
+                    isobj127ForegroundDisabled = true;
                 }
                 else if (lineNumber == 815 && columnNumber == 81)
                 {
-                    this.obj125.SizeChanged -= obj125SizeChanged;
+                    this.obj127.SizeChanged -= obj127SizeChanged;
                 }
                 else if (lineNumber == 807 && columnNumber == 58)
                 {
-                    isobj126ColorDisabled = true;
+                    isobj128ColorDisabled = true;
                 }
                 else if (lineNumber == 807 && columnNumber == 166)
                 {
-                    isobj126OpacityDisabled = true;
+                    isobj128OpacityDisabled = true;
                 }
                 else if (lineNumber == 822 && columnNumber == 67)
                 {
-                    isobj127ForegroundDisabled = true;
+                    isobj129ForegroundDisabled = true;
                 }
                 else if (lineNumber == 822 && columnNumber == 243)
                 {
-                    isobj127OpacityDisabled = true;
+                    isobj129OpacityDisabled = true;
                 }
                 else if (lineNumber == 822 && columnNumber == 305)
                 {
-                    this.obj127.Tapped -= obj127Tapped;
+                    this.obj129.Tapped -= obj129Tapped;
                 }
                 else if (lineNumber == 823 && columnNumber == 68)
                 {
-                    isobj128ForegroundDisabled = true;
+                    isobj130ForegroundDisabled = true;
                 }
                 else if (lineNumber == 823 && columnNumber == 246)
                 {
-                    isobj128OpacityDisabled = true;
+                    isobj130OpacityDisabled = true;
                 }
                 else if (lineNumber == 823 && columnNumber == 305)
                 {
-                    this.obj128.Tapped -= obj128Tapped;
+                    this.obj130.Tapped -= obj130Tapped;
                 }
                 else if (lineNumber == 824 && columnNumber == 75)
                 {
-                    isobj129ForegroundDisabled = true;
+                    isobj131ForegroundDisabled = true;
                 }
                 else if (lineNumber == 824 && columnNumber == 251)
                 {
-                    isobj129OpacityDisabled = true;
+                    isobj131OpacityDisabled = true;
                 }
                 else if (lineNumber == 824 && columnNumber == 310)
                 {
-                    this.obj129.Tapped -= obj129Tapped;
+                    this.obj131.Tapped -= obj131Tapped;
                 }
                 else if (lineNumber == 833 && columnNumber == 37)
                 {
-                    isobj130ItemsSourceDisabled = true;
+                    isobj132ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 834 && columnNumber == 39)
                 {
-                    isobj130SelectedIndexDisabled = true;
+                    isobj132SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 831 && columnNumber == 60)
                 {
-                    this.obj130.ItemClick -= obj130ItemClick;
+                    this.obj132.ItemClick -= obj132ItemClick;
                 }
                 else if (lineNumber == 835 && columnNumber == 37)
                 {
-                    this.obj130.SelectionChanged -= obj130SelectionChanged;
+                    this.obj132.SelectionChanged -= obj132SelectionChanged;
                 }
                 else if (lineNumber == 836 && columnNumber == 47)
                 {
-                    this.obj130.DoubleTapped -= obj130DoubleTapped;
+                    this.obj132.DoubleTapped -= obj132DoubleTapped;
                 }
                 else if (lineNumber == 739 && columnNumber == 45)
                 {
-                    isobj131IsExpandedDisabled = true;
+                    isobj133IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 741 && columnNumber == 45)
                 {
-                    this.obj131.ExpandedChanged -= obj131ExpandedChanged;
+                    this.obj133.ExpandedChanged -= obj133ExpandedChanged;
                 }
                 else if (lineNumber == 745 && columnNumber == 46)
                 {
-                    isobj132ColorDisabled = true;
+                    isobj134ColorDisabled = true;
                 }
                 else if (lineNumber == 755 && columnNumber == 66)
                 {
-                    isobj135ForegroundDisabled = true;
+                    isobj137ForegroundDisabled = true;
                 }
                 else if (lineNumber == 759 && columnNumber == 81)
                 {
-                    this.obj135.SizeChanged -= obj135SizeChanged;
+                    this.obj137.SizeChanged -= obj137SizeChanged;
                 }
                 else if (lineNumber == 751 && columnNumber == 58)
                 {
-                    isobj136ColorDisabled = true;
+                    isobj138ColorDisabled = true;
                 }
                 else if (lineNumber == 751 && columnNumber == 163)
                 {
-                    isobj136OpacityDisabled = true;
+                    isobj138OpacityDisabled = true;
                 }
                 else if (lineNumber == 766 && columnNumber == 68)
                 {
-                    isobj137ForegroundDisabled = true;
+                    isobj139ForegroundDisabled = true;
                 }
                 else if (lineNumber == 766 && columnNumber == 242)
                 {
-                    isobj137OpacityDisabled = true;
+                    isobj139OpacityDisabled = true;
                 }
                 else if (lineNumber == 766 && columnNumber == 305)
                 {
-                    this.obj137.Tapped -= obj137Tapped;
+                    this.obj139.Tapped -= obj139Tapped;
                 }
                 else if (lineNumber == 767 && columnNumber == 69)
                 {
-                    isobj138ForegroundDisabled = true;
+                    isobj140ForegroundDisabled = true;
                 }
                 else if (lineNumber == 767 && columnNumber == 240)
                 {
-                    isobj138OpacityDisabled = true;
+                    isobj140OpacityDisabled = true;
                 }
                 else if (lineNumber == 767 && columnNumber == 300)
                 {
-                    this.obj138.Tapped -= obj138Tapped;
+                    this.obj140.Tapped -= obj140Tapped;
                 }
                 else if (lineNumber == 768 && columnNumber == 71)
                 {
-                    isobj139ForegroundDisabled = true;
+                    isobj141ForegroundDisabled = true;
                 }
                 else if (lineNumber == 768 && columnNumber == 244)
                 {
-                    isobj139OpacityDisabled = true;
+                    isobj141OpacityDisabled = true;
                 }
                 else if (lineNumber == 768 && columnNumber == 304)
                 {
-                    this.obj139.Tapped -= obj139Tapped;
+                    this.obj141.Tapped -= obj141Tapped;
                 }
                 else if (lineNumber == 777 && columnNumber == 39)
                 {
-                    isobj140SelectedIndexDisabled = true;
+                    isobj142SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 778 && columnNumber == 37)
                 {
-                    isobj140ItemsSourceDisabled = true;
+                    isobj142ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 775 && columnNumber == 60)
                 {
-                    this.obj140.ItemClick -= obj140ItemClick;
+                    this.obj142.ItemClick -= obj142ItemClick;
                 }
                 else if (lineNumber == 779 && columnNumber == 37)
                 {
-                    this.obj140.SelectionChanged -= obj140SelectionChanged;
+                    this.obj142.SelectionChanged -= obj142SelectionChanged;
                 }
                 else if (lineNumber == 780 && columnNumber == 47)
                 {
-                    this.obj140.DoubleTapped -= obj140DoubleTapped;
+                    this.obj142.DoubleTapped -= obj142DoubleTapped;
                 }
                 else if (lineNumber == 683 && columnNumber == 45)
                 {
-                    isobj141IsExpandedDisabled = true;
+                    isobj143IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 685 && columnNumber == 45)
                 {
-                    this.obj141.ExpandedChanged -= obj141ExpandedChanged;
+                    this.obj143.ExpandedChanged -= obj143ExpandedChanged;
                 }
                 else if (lineNumber == 689 && columnNumber == 46)
                 {
-                    isobj142ColorDisabled = true;
+                    isobj144ColorDisabled = true;
                 }
                 else if (lineNumber == 699 && columnNumber == 66)
                 {
-                    isobj145ForegroundDisabled = true;
+                    isobj147ForegroundDisabled = true;
                 }
                 else if (lineNumber == 703 && columnNumber == 81)
                 {
-                    this.obj145.SizeChanged -= obj145SizeChanged;
+                    this.obj147.SizeChanged -= obj147SizeChanged;
                 }
                 else if (lineNumber == 695 && columnNumber == 58)
                 {
-                    isobj146ColorDisabled = true;
+                    isobj148ColorDisabled = true;
                 }
                 else if (lineNumber == 695 && columnNumber == 163)
                 {
-                    isobj146OpacityDisabled = true;
+                    isobj148OpacityDisabled = true;
                 }
                 else if (lineNumber == 710 && columnNumber == 67)
                 {
-                    isobj147ForegroundDisabled = true;
+                    isobj149ForegroundDisabled = true;
                 }
                 else if (lineNumber == 710 && columnNumber == 240)
                 {
-                    isobj147OpacityDisabled = true;
+                    isobj149OpacityDisabled = true;
                 }
                 else if (lineNumber == 710 && columnNumber == 306)
                 {
-                    this.obj147.Tapped -= obj147Tapped;
+                    this.obj149.Tapped -= obj149Tapped;
                 }
                 else if (lineNumber == 711 && columnNumber == 68)
                 {
-                    isobj148ForegroundDisabled = true;
+                    isobj150ForegroundDisabled = true;
                 }
                 else if (lineNumber == 711 && columnNumber == 238)
                 {
-                    isobj148OpacityDisabled = true;
+                    isobj150OpacityDisabled = true;
                 }
                 else if (lineNumber == 711 && columnNumber == 301)
                 {
-                    this.obj148.Tapped -= obj148Tapped;
+                    this.obj150.Tapped -= obj150Tapped;
                 }
                 else if (lineNumber == 712 && columnNumber == 70)
                 {
-                    isobj149ForegroundDisabled = true;
+                    isobj151ForegroundDisabled = true;
                 }
                 else if (lineNumber == 712 && columnNumber == 243)
                 {
-                    isobj149OpacityDisabled = true;
+                    isobj151OpacityDisabled = true;
                 }
                 else if (lineNumber == 712 && columnNumber == 306)
                 {
-                    this.obj149.Tapped -= obj149Tapped;
+                    this.obj151.Tapped -= obj151Tapped;
                 }
                 else if (lineNumber == 721 && columnNumber == 37)
                 {
-                    isobj150ItemsSourceDisabled = true;
+                    isobj152ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 723 && columnNumber == 39)
                 {
-                    isobj150SelectedIndexDisabled = true;
+                    isobj152SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 719 && columnNumber == 60)
                 {
-                    this.obj150.ItemClick -= obj150ItemClick;
+                    this.obj152.ItemClick -= obj152ItemClick;
                 }
                 else if (lineNumber == 722 && columnNumber == 37)
                 {
-                    this.obj150.SelectionChanged -= obj150SelectionChanged;
+                    this.obj152.SelectionChanged -= obj152SelectionChanged;
                 }
                 else if (lineNumber == 724 && columnNumber == 47)
                 {
-                    this.obj150.DoubleTapped -= obj150DoubleTapped;
+                    this.obj152.DoubleTapped -= obj152DoubleTapped;
                 }
                 else if (lineNumber == 626 && columnNumber == 45)
                 {
-                    isobj151IsExpandedDisabled = true;
+                    isobj153IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 628 && columnNumber == 45)
                 {
-                    this.obj151.ExpandedChanged -= obj151ExpandedChanged;
+                    this.obj153.ExpandedChanged -= obj153ExpandedChanged;
                 }
                 else if (lineNumber == 632 && columnNumber == 46)
                 {
-                    isobj152ColorDisabled = true;
+                    isobj154ColorDisabled = true;
                 }
                 else if (lineNumber == 642 && columnNumber == 66)
                 {
-                    isobj155ForegroundDisabled = true;
+                    isobj157ForegroundDisabled = true;
                 }
                 else if (lineNumber == 646 && columnNumber == 81)
                 {
-                    this.obj155.SizeChanged -= obj155SizeChanged;
+                    this.obj157.SizeChanged -= obj157SizeChanged;
                 }
                 else if (lineNumber == 638 && columnNumber == 58)
                 {
-                    isobj156ColorDisabled = true;
+                    isobj158ColorDisabled = true;
                 }
                 else if (lineNumber == 638 && columnNumber == 163)
                 {
-                    isobj156OpacityDisabled = true;
+                    isobj158OpacityDisabled = true;
                 }
                 else if (lineNumber == 653 && columnNumber == 68)
                 {
-                    isobj157ForegroundDisabled = true;
+                    isobj159ForegroundDisabled = true;
                 }
                 else if (lineNumber == 653 && columnNumber == 242)
                 {
-                    isobj157OpacityDisabled = true;
+                    isobj159OpacityDisabled = true;
                 }
                 else if (lineNumber == 653 && columnNumber == 305)
                 {
-                    this.obj157.Tapped -= obj157Tapped;
+                    this.obj159.Tapped -= obj159Tapped;
                 }
                 else if (lineNumber == 654 && columnNumber == 69)
                 {
-                    isobj158ForegroundDisabled = true;
+                    isobj160ForegroundDisabled = true;
                 }
                 else if (lineNumber == 654 && columnNumber == 240)
                 {
-                    isobj158OpacityDisabled = true;
+                    isobj160OpacityDisabled = true;
                 }
                 else if (lineNumber == 654 && columnNumber == 300)
                 {
-                    this.obj158.Tapped -= obj158Tapped;
+                    this.obj160.Tapped -= obj160Tapped;
                 }
                 else if (lineNumber == 655 && columnNumber == 71)
                 {
-                    isobj159ForegroundDisabled = true;
+                    isobj161ForegroundDisabled = true;
                 }
                 else if (lineNumber == 655 && columnNumber == 244)
                 {
-                    isobj159OpacityDisabled = true;
+                    isobj161OpacityDisabled = true;
                 }
                 else if (lineNumber == 655 && columnNumber == 304)
                 {
-                    this.obj159.Tapped -= obj159Tapped;
+                    this.obj161.Tapped -= obj161Tapped;
                 }
                 else if (lineNumber == 664 && columnNumber == 37)
                 {
-                    isobj160ItemsSourceDisabled = true;
+                    isobj162ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 666 && columnNumber == 39)
                 {
-                    isobj160SelectedIndexDisabled = true;
+                    isobj162SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 662 && columnNumber == 60)
                 {
-                    this.obj160.ItemClick -= obj160ItemClick;
+                    this.obj162.ItemClick -= obj162ItemClick;
                 }
                 else if (lineNumber == 665 && columnNumber == 37)
                 {
-                    this.obj160.SelectionChanged -= obj160SelectionChanged;
+                    this.obj162.SelectionChanged -= obj162SelectionChanged;
                 }
                 else if (lineNumber == 667 && columnNumber == 47)
                 {
-                    this.obj160.DoubleTapped -= obj160DoubleTapped;
+                    this.obj162.DoubleTapped -= obj162DoubleTapped;
                 }
                 else if (lineNumber == 572 && columnNumber == 70)
                 {
-                    isobj161IsExpandedDisabled = true;
+                    isobj163IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 573 && columnNumber == 70)
                 {
-                    this.obj161.ExpandedChanged -= obj161ExpandedChanged;
+                    this.obj163.ExpandedChanged -= obj163ExpandedChanged;
                 }
                 else if (lineNumber == 578 && columnNumber == 46)
                 {
-                    isobj162ColorDisabled = true;
+                    isobj164ColorDisabled = true;
                 }
                 else if (lineNumber == 590 && columnNumber == 70)
                 {
-                    isobj165ForegroundDisabled = true;
+                    isobj167ForegroundDisabled = true;
                 }
                 else if (lineNumber == 586 && columnNumber == 58)
                 {
-                    isobj166ColorDisabled = true;
+                    isobj168ColorDisabled = true;
                 }
                 else if (lineNumber == 586 && columnNumber == 165)
                 {
-                    isobj166OpacityDisabled = true;
+                    isobj168OpacityDisabled = true;
                 }
                 else if (lineNumber == 600 && columnNumber == 70)
                 {
-                    isobj167ForegroundDisabled = true;
+                    isobj169ForegroundDisabled = true;
                 }
                 else if (lineNumber == 600 && columnNumber == 300)
                 {
-                    isobj167OpacityDisabled = true;
+                    isobj169OpacityDisabled = true;
                 }
                 else if (lineNumber == 600 && columnNumber == 249)
                 {
-                    this.obj167.Tapped -= obj167Tapped;
+                    this.obj169.Tapped -= obj169Tapped;
                 }
                 else if (lineNumber == 601 && columnNumber == 71)
                 {
-                    isobj168ForegroundDisabled = true;
+                    isobj170ForegroundDisabled = true;
                 }
                 else if (lineNumber == 601 && columnNumber == 304)
                 {
-                    isobj168OpacityDisabled = true;
+                    isobj170OpacityDisabled = true;
                 }
                 else if (lineNumber == 601 && columnNumber == 252)
                 {
-                    this.obj168.Tapped -= obj168Tapped;
+                    this.obj170.Tapped -= obj170Tapped;
                 }
                 else if (lineNumber == 602 && columnNumber == 79)
                 {
-                    isobj169ForegroundDisabled = true;
+                    isobj171ForegroundDisabled = true;
                 }
                 else if (lineNumber == 602 && columnNumber == 305)
                 {
-                    isobj169OpacityDisabled = true;
+                    isobj171OpacityDisabled = true;
                 }
                 else if (lineNumber == 602 && columnNumber == 254)
                 {
-                    this.obj169.Tapped -= obj169Tapped;
+                    this.obj171.Tapped -= obj171Tapped;
                 }
                 else if (lineNumber == 610 && columnNumber == 37)
                 {
-                    isobj170ItemsSourceDisabled = true;
+                    isobj172ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 613 && columnNumber == 37)
                 {
-                    isobj170SelectedIndexDisabled = true;
+                    isobj172SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 608 && columnNumber == 37)
                 {
-                    this.obj170.ItemClick -= obj170ItemClick;
+                    this.obj172.ItemClick -= obj172ItemClick;
                 }
                 else if (lineNumber == 611 && columnNumber == 37)
                 {
-                    this.obj170.SelectionChanged -= obj170SelectionChanged;
+                    this.obj172.SelectionChanged -= obj172SelectionChanged;
                 }
                 else if (lineNumber == 612 && columnNumber == 37)
                 {
-                    this.obj170.DoubleTapped -= obj170DoubleTapped;
+                    this.obj172.DoubleTapped -= obj172DoubleTapped;
                 }
                 else if (lineNumber == 520 && columnNumber == 68)
                 {
-                    isobj171IsExpandedDisabled = true;
+                    isobj173IsExpandedDisabled = true;
                 }
                 else if (lineNumber == 522 && columnNumber == 46)
                 {
-                    isobj172ColorDisabled = true;
+                    isobj174ColorDisabled = true;
                 }
                 else if (lineNumber == 533 && columnNumber == 78)
                 {
-                    isobj174ForegroundDisabled = true;
+                    isobj176ForegroundDisabled = true;
                 }
                 else if (lineNumber == 528 && columnNumber == 58)
                 {
-                    isobj175ColorDisabled = true;
+                    isobj177ColorDisabled = true;
                 }
                 else if (lineNumber == 528 && columnNumber == 164)
                 {
-                    isobj175OpacityDisabled = true;
+                    isobj177OpacityDisabled = true;
                 }
                 else if (lineNumber == 542 && columnNumber == 70)
                 {
-                    isobj176ForegroundDisabled = true;
+                    isobj178ForegroundDisabled = true;
                 }
                 else if (lineNumber == 542 && columnNumber == 190)
                 {
-                    isobj176OpacityDisabled = true;
+                    isobj178OpacityDisabled = true;
                 }
                 else if (lineNumber == 544 && columnNumber == 64)
                 {
-                    this.obj176.Tapped -= obj176Tapped;
+                    this.obj178.Tapped -= obj178Tapped;
                 }
                 else if (lineNumber == 545 && columnNumber == 72)
                 {
-                    isobj177ForegroundDisabled = true;
+                    isobj179ForegroundDisabled = true;
                 }
                 else if (lineNumber == 545 && columnNumber == 194)
                 {
-                    isobj177OpacityDisabled = true;
+                    isobj179OpacityDisabled = true;
                 }
                 else if (lineNumber == 548 && columnNumber == 53)
                 {
-                    this.obj177.Tapped -= obj177Tapped;
+                    this.obj179.Tapped -= obj179Tapped;
                 }
                 else if (lineNumber == 555 && columnNumber == 33)
                 {
-                    isobj178SelectedIndexDisabled = true;
+                    isobj180SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 557 && columnNumber == 33)
                 {
-                    isobj178ItemsSourceDisabled = true;
+                    isobj180ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 554 && columnNumber == 33)
                 {
-                    this.obj178.ItemClick -= obj178ItemClick;
+                    this.obj180.ItemClick -= obj180ItemClick;
                 }
                 else if (lineNumber == 558 && columnNumber == 33)
                 {
-                    this.obj178.SelectionChanged -= obj178SelectionChanged;
+                    this.obj180.SelectionChanged -= obj180SelectionChanged;
                 }
                 else if (lineNumber == 559 && columnNumber == 33)
                 {
-                    this.obj178.DoubleTapped -= obj178DoubleTapped;
+                    this.obj180.DoubleTapped -= obj180DoubleTapped;
                 }
                 else if (lineNumber == 479 && columnNumber == 17)
                 {
-                    isobj180ItemsSourceDisabled = true;
+                    isobj182ItemsSourceDisabled = true;
                 }
                 else if (lineNumber == 480 && columnNumber == 17)
                 {
-                    isobj180SelectedIndexDisabled = true;
+                    isobj182SelectedIndexDisabled = true;
                 }
                 else if (lineNumber == 481 && columnNumber == 17)
                 {
-                    this.obj180.SelectionChanged -= obj180SelectionChanged;
+                    this.obj182.SelectionChanged -= obj182SelectionChanged;
                 }
             }
 
@@ -4105,1830 +4135,675 @@ namespace GSCFieldApp.Views
                         this.obj89 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
                         this.obj89Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-<<<<<<< HEAD
-                            this.dataRoot.ViewModel.LocationAddIcon_Tapped(sender, e);
-                        };
-                        (this.obj89).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.LocationAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj89.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj89).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.LocationAddIconOpacity = this.obj89.Opacity;
-                            }
-                        });
-                        break;
-                    case 90: // Views\FieldNotesPage.xaml line 1055
-                        this.obj90 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.LocationEditIcon_Tapped(sender, e);
-                        };
-                        (this.obj90).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.LocationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj90.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj90).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationIconOpacity = this.obj90.Opacity;
-                            }
-                        });
-                        break;
-                    case 91: // Views\FieldNotesPage.xaml line 1056
-                        this.obj91 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(sender, e);
-                        };
-                        (this.obj91).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.LocationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj91.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj91).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentIconOpacity = this.obj91.Opacity;
-                            }
-                        });
-                        break;
-                    case 92: // Views\FieldNotesPage.xaml line 1062
-                        this.obj92 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e) =>
-=======
-                            this.dataRoot.ViewModel.LocationEditIcon_Tapped(p0, p1);
+                            this.dataRoot.ViewModel.LocationAddIcon_Tapped(p0, p1);
                         };
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj89Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_89(this.obj89);
                         break;
-                    case 90: // Views\FieldNotesPage.xaml line 1064
-                        this.obj90 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj90DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
->>>>>>> master
+                    case 90: // Views\FieldNotesPage.xaml line 1055
+                        this.obj90 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj90Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.LocationEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj90Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_90(this.obj90);
+                        break;
+                    case 91: // Views\FieldNotesPage.xaml line 1056
+                        this.obj91 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj91Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj91Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_91(this.obj91);
+                        break;
+                    case 92: // Views\FieldNotesPage.xaml line 1062
+                        this.obj92 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj92DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportLocationList_DoubleTapped(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj90DoubleTapped;
-                        this.obj90ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj92DoubleTapped;
+                        this.obj92ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj90ItemClick;
-                        this.obj90SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj92ItemClick;
+                        this.obj92SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj92).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportDocumentIndex = this.obj92.SelectedIndex;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj92SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_92(this.obj92);
                         break;
                     case 93: // Views\FieldNotesPage.xaml line 971
                         this.obj93 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += () =>
+                        this.obj93ExpandedChanged = () =>
                         {
                             this.dataRoot.ViewModel.DocumentExpandPanel_ExpandedChanged();
                         };
-                        (this.obj93).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentHeaderExpand = this.obj93.IsExpanded;
-                            }
-                        });
+                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj93ExpandedChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_93(this.obj93);
                         break;
                     case 94: // Views\FieldNotesPage.xaml line 978
                         this.obj94 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj94).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj94.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_94(this.obj94);
                         break;
                     case 97: // Views\FieldNotesPage.xaml line 987
                         this.obj97 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        (this.obj97).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.TextProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.HeaderDocument = this.obj97.Text;
-                            }
-                        });
-                        (this.obj97).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj97.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_97(this.obj97);
                         break;
                     case 98: // Views\FieldNotesPage.xaml line 984
                         this.obj98 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj98).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj98.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj98).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentIconColorOpacity = this.obj98.Opacity;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_98(this.obj98);
                         break;
                     case 99: // Views\FieldNotesPage.xaml line 998
                         this.obj99 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj90SelectionChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_90(this.obj90);
-                        break;
-                    case 91: // Views\FieldNotesPage.xaml line 971
-                        this.obj91 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.obj91ExpandedChanged = () =>
-                        {
-                            this.dataRoot.ViewModel.DocumentExpandPanel_ExpandedChanged();
-                        };
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj91ExpandedChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_91(this.obj91);
-                        break;
-                    case 92: // Views\FieldNotesPage.xaml line 978
-                        this.obj92 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_92(this.obj92);
-                        break;
-                    case 95: // Views\FieldNotesPage.xaml line 987
-                        this.obj95 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.bindingsTracking.RegisterTwoWayListener_95(this.obj95);
-                        break;
-                    case 96: // Views\FieldNotesPage.xaml line 984
-                        this.obj96 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_96(this.obj96);
-                        break;
-                    case 97: // Views\FieldNotesPage.xaml line 998
-                        this.obj97 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj97Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
+                        this.obj99Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.DocumentAddIcon_Tapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj99).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj99.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj99).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentAddIconOpacity = this.obj99.Opacity;
-                            }
-                        });
-                        break;
-                    case 100: // Views\FieldNotesPage.xaml line 999
-                        this.obj100 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj97Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_97(this.obj97);
-                        break;
-                    case 98: // Views\FieldNotesPage.xaml line 999
-                        this.obj98 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj98Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.DocumentEditIcon_Tapped(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj100).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj100.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj100).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentIconOpacity = this.obj100.Opacity;
-                            }
-                        });
-                        break;
-                    case 101: // Views\FieldNotesPage.xaml line 1000
-                        this.obj101 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj98Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_98(this.obj98);
-                        break;
-                    case 99: // Views\FieldNotesPage.xaml line 1000
-                        this.obj99 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj99Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj101).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj101.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj101).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.DocumentIconOpacity = this.obj101.Opacity;
-                            }
-                        });
-                        break;
-                    case 102: // Views\FieldNotesPage.xaml line 1006
-                        this.obj102 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj99Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_99(this.obj99);
                         break;
-                    case 100: // Views\FieldNotesPage.xaml line 1006
-                        this.obj100 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj100ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
->>>>>>> master
+                    case 100: // Views\FieldNotesPage.xaml line 999
+                        this.obj100 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj100Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DocumentEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj100Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_100(this.obj100);
+                        break;
+                    case 101: // Views\FieldNotesPage.xaml line 1000
+                        this.obj101 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj101Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj101Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_101(this.obj101);
+                        break;
+                    case 102: // Views\FieldNotesPage.xaml line 1006
+                        this.obj102 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj102ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj100ItemClick;
-                        this.obj100SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj102ItemClick;
+                        this.obj102SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj100SelectionChanged;
-                        this.obj100DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj102SelectionChanged;
+                        this.obj102DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDocumentList_DoubleTapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj102).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportDocumentIndex = this.obj102.SelectedIndex;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj102DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_102(this.obj102);
                         break;
                     case 103: // Views\FieldNotesPage.xaml line 906
                         this.obj103 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += () =>
+                        this.obj103ExpandedChanged = () =>
                         {
                             this.dataRoot.ViewModel.MineralAltExpandPanel_ExpandedChanged();
                         };
-                        (this.obj103).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltHeaderExpansion = this.obj103.IsExpanded;
-                            }
-                        });
+                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj103ExpandedChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_103(this.obj103);
                         break;
                     case 104: // Views\FieldNotesPage.xaml line 913
                         this.obj104 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj104).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj104.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_104(this.obj104);
                         break;
                     case 107: // Views\FieldNotesPage.xaml line 923
                         this.obj107 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += (global::System.Object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj100DoubleTapped;
-                        this.bindingsTracking.RegisterTwoWayListener_100(this.obj100);
-                        break;
-                    case 101: // Views\FieldNotesPage.xaml line 906
-                        this.obj101 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.obj101ExpandedChanged = () =>
-                        {
-                            this.dataRoot.ViewModel.MineralAltExpandPanel_ExpandedChanged();
-                        };
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj101ExpandedChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_101(this.obj101);
-                        break;
-                    case 102: // Views\FieldNotesPage.xaml line 913
-                        this.obj102 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_102(this.obj102);
-                        break;
-                    case 105: // Views\FieldNotesPage.xaml line 923
-                        this.obj105 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.obj105SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
->>>>>>> master
+                        this.obj107SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.textBlock_FieldMineralAlt_SizeChanged(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj107).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj107.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj107SizeChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_107(this.obj107);
                         break;
                     case 108: // Views\FieldNotesPage.xaml line 919
                         this.obj108 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj108).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj108.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj108).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltIconColorOpacity = this.obj108.Opacity;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_108(this.obj108);
                         break;
                     case 109: // Views\FieldNotesPage.xaml line 935
                         this.obj109 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj105SizeChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_105(this.obj105);
-                        break;
-                    case 106: // Views\FieldNotesPage.xaml line 919
-                        this.obj106 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_106(this.obj106);
-                        break;
-                    case 107: // Views\FieldNotesPage.xaml line 935
-                        this.obj107 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj107Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
+                        this.obj109Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.MineralAltAddIcon_Tapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj109).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj109.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj109).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltAddIconOpacity = this.obj109.Opacity;
-                            }
-                        });
-                        break;
-                    case 110: // Views\FieldNotesPage.xaml line 938
-                        this.obj110 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj107Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_107(this.obj107);
-                        break;
-                    case 108: // Views\FieldNotesPage.xaml line 938
-                        this.obj108 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj108Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.MineralAltEditIcon_Tapped(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj110).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj110.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj110).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltIconOpacity = this.obj110.Opacity;
-                            }
-                        });
-                        break;
-                    case 111: // Views\FieldNotesPage.xaml line 942
-                        this.obj111 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj108Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_108(this.obj108);
-                        break;
-                    case 109: // Views\FieldNotesPage.xaml line 942
-                        this.obj109 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj109Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj111).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj111.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj111).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAltIconOpacity = this.obj111.Opacity;
-                            }
-                        });
-                        break;
-                    case 112: // Views\FieldNotesPage.xaml line 951
-                        this.obj112 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj109Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_109(this.obj109);
                         break;
-                    case 110: // Views\FieldNotesPage.xaml line 951
-                        this.obj110 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj110ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
->>>>>>> master
+                    case 110: // Views\FieldNotesPage.xaml line 938
+                        this.obj110 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj110Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.MineralAltEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj110Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_110(this.obj110);
+                        break;
+                    case 111: // Views\FieldNotesPage.xaml line 942
+                        this.obj111 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj111Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj111Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_111(this.obj111);
+                        break;
+                    case 112: // Views\FieldNotesPage.xaml line 951
+                        this.obj112 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj112ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj110ItemClick;
-                        this.obj110SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj112ItemClick;
+                        this.obj112SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj110SelectionChanged;
-                        this.obj110DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj112SelectionChanged;
+                        this.obj112DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportMineralAltList_DoubleTapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj112).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportMineralizationAlterationIndex = this.obj112.SelectedIndex;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj112DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_112(this.obj112);
                         break;
                     case 113: // Views\FieldNotesPage.xaml line 850
                         this.obj113 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += () =>
+                        this.obj113ExpandedChanged = () =>
                         {
                             this.dataRoot.ViewModel.MineralExpandPanel_ExpandedChanged();
                         };
-                        (this.obj113).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralHeaderExpansion = this.obj113.IsExpanded;
-                            }
-                        });
+                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj113ExpandedChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_113(this.obj113);
                         break;
                     case 114: // Views\FieldNotesPage.xaml line 857
                         this.obj114 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj114).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj114.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_114(this.obj114);
                         break;
                     case 117: // Views\FieldNotesPage.xaml line 866
                         this.obj117 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += (global::System.Object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj110DoubleTapped;
-                        this.bindingsTracking.RegisterTwoWayListener_110(this.obj110);
-                        break;
-                    case 111: // Views\FieldNotesPage.xaml line 850
-                        this.obj111 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.obj111ExpandedChanged = () =>
-                        {
-                            this.dataRoot.ViewModel.MineralExpandPanel_ExpandedChanged();
-                        };
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj111ExpandedChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_111(this.obj111);
-                        break;
-                    case 112: // Views\FieldNotesPage.xaml line 857
-                        this.obj112 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_112(this.obj112);
-                        break;
-                    case 115: // Views\FieldNotesPage.xaml line 866
-                        this.obj115 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.obj115SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
->>>>>>> master
+                        this.obj117SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.textBlock_FieldMineral_SizeChanged(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj117).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj117.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj117SizeChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_117(this.obj117);
                         break;
                     case 118: // Views\FieldNotesPage.xaml line 863
                         this.obj118 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj118).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj118.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj118).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralIconColorOpacity = this.obj118.Opacity;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_118(this.obj118);
                         break;
                     case 119: // Views\FieldNotesPage.xaml line 878
                         this.obj119 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj115SizeChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_115(this.obj115);
-                        break;
-                    case 116: // Views\FieldNotesPage.xaml line 863
-                        this.obj116 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_116(this.obj116);
-                        break;
-                    case 117: // Views\FieldNotesPage.xaml line 878
-                        this.obj117 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj117Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
+                        this.obj119Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.MineralAddIcon_Tapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj119).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj119.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj119).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralAddIconOpacity = this.obj119.Opacity;
-                            }
-                        });
-                        break;
-                    case 120: // Views\FieldNotesPage.xaml line 879
-                        this.obj120 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj117Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_117(this.obj117);
-                        break;
-                    case 118: // Views\FieldNotesPage.xaml line 879
-                        this.obj118 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj118Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.MineralEditIcon_Tapped(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj120).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj120.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj120).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralIconOpacity = this.obj120.Opacity;
-                            }
-                        });
-                        break;
-                    case 121: // Views\FieldNotesPage.xaml line 880
-                        this.obj121 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj118Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_118(this.obj118);
-                        break;
-                    case 119: // Views\FieldNotesPage.xaml line 880
-                        this.obj119 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj119Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj121).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj121.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj121).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.MineralIconOpacity = this.obj121.Opacity;
-                            }
-                        });
-                        break;
-                    case 122: // Views\FieldNotesPage.xaml line 886
-                        this.obj122 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj119Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_119(this.obj119);
                         break;
-                    case 120: // Views\FieldNotesPage.xaml line 886
-                        this.obj120 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj120ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
->>>>>>> master
+                    case 120: // Views\FieldNotesPage.xaml line 879
+                        this.obj120 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj120Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.MineralEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj120Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_120(this.obj120);
+                        break;
+                    case 121: // Views\FieldNotesPage.xaml line 880
+                        this.obj121 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj121Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj121Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_121(this.obj121);
+                        break;
+                    case 122: // Views\FieldNotesPage.xaml line 886
+                        this.obj122 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj122ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj120ItemClick;
-                        this.obj120SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj122ItemClick;
+                        this.obj122SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj120SelectionChanged;
-                        this.obj120DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj122SelectionChanged;
+                        this.obj122DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportMineralList_DoubleTapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj122).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportMineralsIndex = this.obj122.SelectedIndex;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj122DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_122(this.obj122);
                         break;
                     case 123: // Views\FieldNotesPage.xaml line 794
                         this.obj123 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += () =>
+                        this.obj123ExpandedChanged = () =>
                         {
                             this.dataRoot.ViewModel.PflowExpandPanel_ExpandedChanged();
                         };
-                        (this.obj123).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PflowHeaderExpansion = this.obj123.IsExpanded;
-                            }
-                        });
+                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj123ExpandedChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_123(this.obj123);
                         break;
                     case 124: // Views\FieldNotesPage.xaml line 801
                         this.obj124 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj124).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj124.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_124(this.obj124);
                         break;
                     case 127: // Views\FieldNotesPage.xaml line 810
                         this.obj127 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += (global::System.Object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj120DoubleTapped;
-                        this.bindingsTracking.RegisterTwoWayListener_120(this.obj120);
-                        break;
-                    case 121: // Views\FieldNotesPage.xaml line 794
-                        this.obj121 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.obj121ExpandedChanged = () =>
-                        {
-                            this.dataRoot.ViewModel.PflowExpandPanel_ExpandedChanged();
-                        };
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj121ExpandedChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_121(this.obj121);
-                        break;
-                    case 122: // Views\FieldNotesPage.xaml line 801
-                        this.obj122 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_122(this.obj122);
-                        break;
-                    case 125: // Views\FieldNotesPage.xaml line 810
-                        this.obj125 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.obj125SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
->>>>>>> master
+                        this.obj127SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.textBlock_FieldPflow_SizeChanged(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj127).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj127.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj127SizeChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_127(this.obj127);
                         break;
                     case 128: // Views\FieldNotesPage.xaml line 807
                         this.obj128 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj128).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj128.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj128).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PflowIconColorOpacity = this.obj128.Opacity;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_128(this.obj128);
                         break;
                     case 129: // Views\FieldNotesPage.xaml line 822
                         this.obj129 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj125SizeChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_125(this.obj125);
-                        break;
-                    case 126: // Views\FieldNotesPage.xaml line 807
-                        this.obj126 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_126(this.obj126);
-                        break;
-                    case 127: // Views\FieldNotesPage.xaml line 822
-                        this.obj127 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj127Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
+                        this.obj129Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.PflowAddIcon_Tapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj129).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PaleoflowAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj129.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj129).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PflowAddIconOpacity = this.obj129.Opacity;
-                            }
-                        });
-                        break;
-                    case 130: // Views\FieldNotesPage.xaml line 823
-                        this.obj130 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj127Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_127(this.obj127);
-                        break;
-                    case 128: // Views\FieldNotesPage.xaml line 823
-                        this.obj128 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj128Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.PflowEditIcon_Tapped(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj130).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj130.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj130).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PflowIconOpacity = this.obj130.Opacity;
-                            }
-                        });
-                        break;
-                    case 131: // Views\FieldNotesPage.xaml line 824
-                        this.obj131 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj128Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_128(this.obj128);
-                        break;
-                    case 129: // Views\FieldNotesPage.xaml line 824
-                        this.obj129 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj129Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj131).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj131.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj131).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.PflowIconOpacity = this.obj131.Opacity;
-                            }
-                        });
-                        break;
-                    case 132: // Views\FieldNotesPage.xaml line 830
-                        this.obj132 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj129Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_129(this.obj129);
                         break;
-                    case 130: // Views\FieldNotesPage.xaml line 830
-                        this.obj130 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj130ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
->>>>>>> master
+                    case 130: // Views\FieldNotesPage.xaml line 823
+                        this.obj130 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj130Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.PflowEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj130Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_130(this.obj130);
+                        break;
+                    case 131: // Views\FieldNotesPage.xaml line 824
+                        this.obj131 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj131Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj131Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_131(this.obj131);
+                        break;
+                    case 132: // Views\FieldNotesPage.xaml line 830
+                        this.obj132 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj132ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj130ItemClick;
-                        this.obj130SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj132ItemClick;
+                        this.obj132SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj130SelectionChanged;
-                        this.obj130DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj132SelectionChanged;
+                        this.obj132DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportPflowList_DoubleTapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj132).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportPflowIndex = this.obj132.SelectedIndex;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj132DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_132(this.obj132);
                         break;
                     case 133: // Views\FieldNotesPage.xaml line 738
                         this.obj133 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += () =>
+                        this.obj133ExpandedChanged = () =>
                         {
                             this.dataRoot.ViewModel.FossilExpandPanel_ExpandedChanged();
                         };
-                        (this.obj133).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilHeaderExpansion = this.obj133.IsExpanded;
-                            }
-                        });
+                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj133ExpandedChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_133(this.obj133);
                         break;
                     case 134: // Views\FieldNotesPage.xaml line 745
                         this.obj134 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj134).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj134.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_134(this.obj134);
                         break;
                     case 137: // Views\FieldNotesPage.xaml line 754
                         this.obj137 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += (global::System.Object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj130DoubleTapped;
-                        this.bindingsTracking.RegisterTwoWayListener_130(this.obj130);
-                        break;
-                    case 131: // Views\FieldNotesPage.xaml line 738
-                        this.obj131 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.obj131ExpandedChanged = () =>
-                        {
-                            this.dataRoot.ViewModel.FossilExpandPanel_ExpandedChanged();
-                        };
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj131ExpandedChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_131(this.obj131);
-                        break;
-                    case 132: // Views\FieldNotesPage.xaml line 745
-                        this.obj132 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_132(this.obj132);
-                        break;
-                    case 135: // Views\FieldNotesPage.xaml line 754
-                        this.obj135 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.obj135SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
->>>>>>> master
+                        this.obj137SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.textBlock_FieldFossil_SizeChanged(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj137).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj137.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj137SizeChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_137(this.obj137);
                         break;
                     case 138: // Views\FieldNotesPage.xaml line 751
                         this.obj138 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj138).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj138.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj138).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilIconColorOpacity = this.obj138.Opacity;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_138(this.obj138);
                         break;
                     case 139: // Views\FieldNotesPage.xaml line 766
                         this.obj139 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj135SizeChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_135(this.obj135);
-                        break;
-                    case 136: // Views\FieldNotesPage.xaml line 751
-                        this.obj136 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_136(this.obj136);
-                        break;
-                    case 137: // Views\FieldNotesPage.xaml line 766
-                        this.obj137 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj137Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
+                        this.obj139Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.FossilAddIcon_Tapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj139).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj139.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj139).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilAddIconOpacity = this.obj139.Opacity;
-                            }
-                        });
-                        break;
-                    case 140: // Views\FieldNotesPage.xaml line 767
-                        this.obj140 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj137Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_137(this.obj137);
-                        break;
-                    case 138: // Views\FieldNotesPage.xaml line 767
-                        this.obj138 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj138Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.FossilEditIcon_Tapped(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj140).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj140.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj140).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilIconOpacity = this.obj140.Opacity;
-                            }
-                        });
-                        break;
-                    case 141: // Views\FieldNotesPage.xaml line 768
-                        this.obj141 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj138Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_138(this.obj138);
-                        break;
-                    case 139: // Views\FieldNotesPage.xaml line 768
-                        this.obj139 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj139Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj141).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj141.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj141).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.FossilIconOpacity = this.obj141.Opacity;
-                            }
-                        });
-                        break;
-                    case 142: // Views\FieldNotesPage.xaml line 774
-                        this.obj142 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj139Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_139(this.obj139);
                         break;
-                    case 140: // Views\FieldNotesPage.xaml line 774
-                        this.obj140 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj140ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
->>>>>>> master
+                    case 140: // Views\FieldNotesPage.xaml line 767
+                        this.obj140 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj140Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.FossilEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj140Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_140(this.obj140);
+                        break;
+                    case 141: // Views\FieldNotesPage.xaml line 768
+                        this.obj141 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj141Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj141Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_141(this.obj141);
+                        break;
+                    case 142: // Views\FieldNotesPage.xaml line 774
+                        this.obj142 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj142ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj140ItemClick;
-                        this.obj140SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj142ItemClick;
+                        this.obj142SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj140SelectionChanged;
-                        this.obj140DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj142SelectionChanged;
+                        this.obj142DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportFossilList_DoubleTapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj142).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportFossilIndex = this.obj142.SelectedIndex;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj142DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_142(this.obj142);
                         break;
                     case 143: // Views\FieldNotesPage.xaml line 682
                         this.obj143 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += () =>
+                        this.obj143ExpandedChanged = () =>
                         {
                             this.dataRoot.ViewModel.StructureExpandPanel_ExpandedChanged();
                         };
-                        (this.obj143).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructureHeaderExpansion = this.obj143.IsExpanded;
-                            }
-                        });
+                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj143ExpandedChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_143(this.obj143);
                         break;
                     case 144: // Views\FieldNotesPage.xaml line 689
                         this.obj144 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj144).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj144.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_144(this.obj144);
                         break;
                     case 147: // Views\FieldNotesPage.xaml line 698
                         this.obj147 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += (global::System.Object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj140DoubleTapped;
-                        this.bindingsTracking.RegisterTwoWayListener_140(this.obj140);
-                        break;
-                    case 141: // Views\FieldNotesPage.xaml line 682
-                        this.obj141 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.obj141ExpandedChanged = () =>
-                        {
-                            this.dataRoot.ViewModel.StructureExpandPanel_ExpandedChanged();
-                        };
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj141ExpandedChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_141(this.obj141);
-                        break;
-                    case 142: // Views\FieldNotesPage.xaml line 689
-                        this.obj142 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_142(this.obj142);
-                        break;
-                    case 145: // Views\FieldNotesPage.xaml line 698
-                        this.obj145 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.obj145SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
->>>>>>> master
+                        this.obj147SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.textBlock_FieldStructure_SizeChanged(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj147).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj147.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj147SizeChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_147(this.obj147);
                         break;
                     case 148: // Views\FieldNotesPage.xaml line 695
                         this.obj148 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj148).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj148.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj148).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructureIconColorOpacity = this.obj148.Opacity;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_148(this.obj148);
                         break;
                     case 149: // Views\FieldNotesPage.xaml line 710
                         this.obj149 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj145SizeChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_145(this.obj145);
-                        break;
-                    case 146: // Views\FieldNotesPage.xaml line 695
-                        this.obj146 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_146(this.obj146);
-                        break;
-                    case 147: // Views\FieldNotesPage.xaml line 710
-                        this.obj147 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj147Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
+                        this.obj149Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.StructureAddIcon_Tapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj149).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj149.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj149).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructureAddIconOpacity = this.obj149.Opacity;
-                            }
-                        });
-                        break;
-                    case 150: // Views\FieldNotesPage.xaml line 711
-                        this.obj150 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj147Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_147(this.obj147);
-                        break;
-                    case 148: // Views\FieldNotesPage.xaml line 711
-                        this.obj148 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj148Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.StructureEditIcon_Tapped(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj150).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj150.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj150).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructureIconOpacity = this.obj150.Opacity;
-                            }
-                        });
-                        break;
-                    case 151: // Views\FieldNotesPage.xaml line 712
-                        this.obj151 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj148Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_148(this.obj148);
-                        break;
-                    case 149: // Views\FieldNotesPage.xaml line 712
-                        this.obj149 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj149Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
-                        };
-<<<<<<< HEAD
-                        (this.obj151).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj151.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj151).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StructureIconOpacity = this.obj151.Opacity;
-                            }
-                        });
-                        break;
-                    case 152: // Views\FieldNotesPage.xaml line 718
-                        this.obj152 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj149Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_149(this.obj149);
                         break;
-                    case 150: // Views\FieldNotesPage.xaml line 718
-                        this.obj150 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj150ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
->>>>>>> master
+                    case 150: // Views\FieldNotesPage.xaml line 711
+                        this.obj150 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj150Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.StructureEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj150Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_150(this.obj150);
+                        break;
+                    case 151: // Views\FieldNotesPage.xaml line 712
+                        this.obj151 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj151Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj151Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_151(this.obj151);
+                        break;
+                    case 152: // Views\FieldNotesPage.xaml line 718
+                        this.obj152 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj152ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj150ItemClick;
-                        this.obj150SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj152ItemClick;
+                        this.obj152SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj150SelectionChanged;
-                        this.obj150DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj152SelectionChanged;
+                        this.obj152DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportStructureList_DoubleTapped(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj152).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportStructureIndex = this.obj152.SelectedIndex;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj152DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_152(this.obj152);
                         break;
                     case 153: // Views\FieldNotesPage.xaml line 625
                         this.obj153 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += () =>
+                        this.obj153ExpandedChanged = () =>
                         {
                             this.dataRoot.ViewModel.SampleExpandPanel_ExpandedChanged();
                         };
-                        (this.obj153).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleHeaderExpansion = this.obj153.IsExpanded;
-                            }
-                        });
+                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj153ExpandedChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_153(this.obj153);
                         break;
                     case 154: // Views\FieldNotesPage.xaml line 632
                         this.obj154 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj154).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj154.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_154(this.obj154);
                         break;
                     case 157: // Views\FieldNotesPage.xaml line 641
                         this.obj157 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += (global::System.Object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj150DoubleTapped;
-                        this.bindingsTracking.RegisterTwoWayListener_150(this.obj150);
-                        break;
-                    case 151: // Views\FieldNotesPage.xaml line 625
-                        this.obj151 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.obj151ExpandedChanged = () =>
-                        {
-                            this.dataRoot.ViewModel.SampleExpandPanel_ExpandedChanged();
-                        };
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj151ExpandedChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_151(this.obj151);
-                        break;
-                    case 152: // Views\FieldNotesPage.xaml line 632
-                        this.obj152 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_152(this.obj152);
-                        break;
-                    case 155: // Views\FieldNotesPage.xaml line 641
-                        this.obj155 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.obj155SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
->>>>>>> master
+                        this.obj157SizeChanged = (global::System.Object p0, global::Windows.UI.Xaml.SizeChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.textBlock_FieldSample_SizeChanged(p0, p1);
                         };
-<<<<<<< HEAD
-                        (this.obj157).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj157.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj157SizeChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_157(this.obj157);
                         break;
                     case 158: // Views\FieldNotesPage.xaml line 638
                         this.obj158 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj158).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj158.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj158).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleIconColorOpacity = this.obj158.Opacity;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_158(this.obj158);
                         break;
                     case 159: // Views\FieldNotesPage.xaml line 653
                         this.obj159 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.SampleAddIcon_Tapped(sender, e);
-                        };
-                        (this.obj159).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj159.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj159).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleAddIconOpacity = this.obj159.Opacity;
-                            }
-                        });
-                        break;
-                    case 160: // Views\FieldNotesPage.xaml line 654
-                        this.obj160 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.SampleEditIcon_Tapped(sender, e);
-                        };
-                        (this.obj160).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj160.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj160).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleIconOpacity = this.obj160.Opacity;
-                            }
-                        });
-                        break;
-                    case 161: // Views\FieldNotesPage.xaml line 655
-                        this.obj161 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(sender, e);
-                        };
-                        (this.obj161).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj161.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj161).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SampleIconOpacity = this.obj161.Opacity;
-                            }
-                        });
-                        break;
-                    case 162: // Views\FieldNotesPage.xaml line 661
-                        this.obj162 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
-                        ((global::Windows.UI.Xaml.Controls.TextBlock)target).SizeChanged += obj155SizeChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_155(this.obj155);
-                        break;
-                    case 156: // Views\FieldNotesPage.xaml line 638
-                        this.obj156 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_156(this.obj156);
-                        break;
-                    case 157: // Views\FieldNotesPage.xaml line 653
-                        this.obj157 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj157Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
-                        {
-                            this.dataRoot.ViewModel.SampleAddIcon_Tapped(p0, p1);
-                        };
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj157Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_157(this.obj157);
-                        break;
-                    case 158: // Views\FieldNotesPage.xaml line 654
-                        this.obj158 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj158Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
-                        {
-                            this.dataRoot.ViewModel.SampleEditIcon_Tapped(p0, p1);
-                        };
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj158Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_158(this.obj158);
-                        break;
-                    case 159: // Views\FieldNotesPage.xaml line 655
-                        this.obj159 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
                         this.obj159Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                            this.dataRoot.ViewModel.SampleAddIcon_Tapped(p0, p1);
                         };
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj159Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_159(this.obj159);
                         break;
-                    case 160: // Views\FieldNotesPage.xaml line 661
-                        this.obj160 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj160ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
+                    case 160: // Views\FieldNotesPage.xaml line 654
+                        this.obj160 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj160Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.SampleEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj160Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_160(this.obj160);
+                        break;
+                    case 161: // Views\FieldNotesPage.xaml line 655
+                        this.obj161 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj161Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj161Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_161(this.obj161);
+                        break;
+                    case 162: // Views\FieldNotesPage.xaml line 661
+                        this.obj162 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj162ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj160ItemClick;
-                        this.obj160SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj162ItemClick;
+                        this.obj162SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj160SelectionChanged;
-                        this.obj160DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj162SelectionChanged;
+                        this.obj162DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportSampleList_DoubleTapped(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj160DoubleTapped;
-                        this.bindingsTracking.RegisterTwoWayListener_160(this.obj160);
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj162DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_162(this.obj162);
                         break;
-                    case 161: // Views\FieldNotesPage.xaml line 572
-                        this.obj161 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.obj161ExpandedChanged = () =>
+                    case 163: // Views\FieldNotesPage.xaml line 572
+                        this.obj163 = (global::GSCFieldApp.Themes.ExpandPanel)target;
+                        this.obj163ExpandedChanged = () =>
                         {
                             this.dataRoot.ViewModel.EarthMatExpandPanel_ExpandedChanged();
                         };
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj161ExpandedChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_161(this.obj161);
+                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += obj163ExpandedChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_163(this.obj163);
                         break;
-                    case 162: // Views\FieldNotesPage.xaml line 578
-                        this.obj162 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_162(this.obj162);
+                    case 164: // Views\FieldNotesPage.xaml line 578
+                        this.obj164 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
+                        this.bindingsTracking.RegisterTwoWayListener_164(this.obj164);
                         break;
-                    case 165: // Views\FieldNotesPage.xaml line 589
-                        this.obj165 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.bindingsTracking.RegisterTwoWayListener_165(this.obj165);
-                        break;
-                    case 166: // Views\FieldNotesPage.xaml line 586
-                        this.obj166 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_166(this.obj166);
-                        break;
-                    case 167: // Views\FieldNotesPage.xaml line 600
-                        this.obj167 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj167Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
-                        {
-                            this.dataRoot.ViewModel.EarthMatAddIcon_Tapped(p0, p1);
-                        };
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj167Tapped;
+                    case 167: // Views\FieldNotesPage.xaml line 589
+                        this.obj167 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
                         this.bindingsTracking.RegisterTwoWayListener_167(this.obj167);
                         break;
-                    case 168: // Views\FieldNotesPage.xaml line 601
-                        this.obj168 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj168Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
-                        {
-                            this.dataRoot.ViewModel.EarthMatEditIcon_Tapped(p0, p1);
-                        };
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj168Tapped;
+                    case 168: // Views\FieldNotesPage.xaml line 586
+                        this.obj168 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
                         this.bindingsTracking.RegisterTwoWayListener_168(this.obj168);
                         break;
-                    case 169: // Views\FieldNotesPage.xaml line 602
+                    case 169: // Views\FieldNotesPage.xaml line 600
                         this.obj169 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
                         this.obj169Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                            this.dataRoot.ViewModel.EarthMatAddIcon_Tapped(p0, p1);
                         };
                         ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj169Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_169(this.obj169);
                         break;
-                    case 170: // Views\FieldNotesPage.xaml line 607
-                        this.obj170 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj170ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
+                    case 170: // Views\FieldNotesPage.xaml line 601
+                        this.obj170 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj170Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
-                            this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
+                            this.dataRoot.ViewModel.EarthMatEditIcon_Tapped(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj170ItemClick;
-                        this.obj170SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
-                        {
-                            this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
-                        };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj170SelectionChanged;
-                        this.obj170DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
-                        {
-                            this.dataRoot.ViewModel.ReportEarthmatList_DoubleTapped(p0, p1);
-                        };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj170DoubleTapped;
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj170Tapped;
                         this.bindingsTracking.RegisterTwoWayListener_170(this.obj170);
                         break;
-                    case 171: // Views\FieldNotesPage.xaml line 520
-                        this.obj171 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        this.bindingsTracking.RegisterTwoWayListener_171(this.obj171);
-                        break;
-                    case 172: // Views\FieldNotesPage.xaml line 522
-                        this.obj172 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_172(this.obj172);
-                        break;
-                    case 174: // Views\FieldNotesPage.xaml line 532
-                        this.obj174 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        this.bindingsTracking.RegisterTwoWayListener_174(this.obj174);
-                        break;
-                    case 175: // Views\FieldNotesPage.xaml line 528
-                        this.obj175 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        this.bindingsTracking.RegisterTwoWayListener_175(this.obj175);
-                        break;
-                    case 176: // Views\FieldNotesPage.xaml line 542
-                        this.obj176 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj176Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
-                        {
-                            this.dataRoot.ViewModel.StationEditIcon_Tapped(p0, p1);
-                        };
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj176Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_176(this.obj176);
-                        break;
-                    case 177: // Views\FieldNotesPage.xaml line 545
-                        this.obj177 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        this.obj177Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                    case 171: // Views\FieldNotesPage.xaml line 602
+                        this.obj171 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj171Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj177Tapped;
-                        this.bindingsTracking.RegisterTwoWayListener_177(this.obj177);
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj171Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_171(this.obj171);
                         break;
-                    case 178: // Views\FieldNotesPage.xaml line 553
-                        this.obj178 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj178ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
+                    case 172: // Views\FieldNotesPage.xaml line 607
+                        this.obj172 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj172ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj178ItemClick;
-                        this.obj178SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj172ItemClick;
+                        this.obj172SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj178SelectionChanged;
-                        this.obj178DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj172SelectionChanged;
+                        this.obj172DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.ReportEarthmatList_DoubleTapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj172DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_172(this.obj172);
+                        break;
+                    case 173: // Views\FieldNotesPage.xaml line 520
+                        this.obj173 = (global::GSCFieldApp.Themes.ExpandPanel)target;
+                        this.bindingsTracking.RegisterTwoWayListener_173(this.obj173);
+                        break;
+                    case 174: // Views\FieldNotesPage.xaml line 522
+                        this.obj174 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
+                        this.bindingsTracking.RegisterTwoWayListener_174(this.obj174);
+                        break;
+                    case 176: // Views\FieldNotesPage.xaml line 532
+                        this.obj176 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
+                        this.bindingsTracking.RegisterTwoWayListener_176(this.obj176);
+                        break;
+                    case 177: // Views\FieldNotesPage.xaml line 528
+                        this.obj177 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
+                        this.bindingsTracking.RegisterTwoWayListener_177(this.obj177);
+                        break;
+                    case 178: // Views\FieldNotesPage.xaml line 542
+                        this.obj178 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj178Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.StationEditIcon_Tapped(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj178Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_178(this.obj178);
+                        break;
+                    case 179: // Views\FieldNotesPage.xaml line 545
+                        this.obj179 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
+                        this.obj179Tapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += obj179Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_179(this.obj179);
+                        break;
+                    case 180: // Views\FieldNotesPage.xaml line 553
+                        this.obj180 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj180ItemClick = (global::System.Object p0, global::Windows.UI.Xaml.Controls.ItemClickEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.Report_ItemClick(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += obj180ItemClick;
+                        this.obj180SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                        {
+                            this.dataRoot.ViewModel.ReportDetail_SelectionChanged(p0, p1);
+                        };
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj180SelectionChanged;
+                        this.obj180DoubleTapped = (global::System.Object p0, global::Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportStationList_DoubleTapped(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj178DoubleTapped;
-                        this.bindingsTracking.RegisterTwoWayListener_178(this.obj178);
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).DoubleTapped += obj180DoubleTapped;
+                        this.bindingsTracking.RegisterTwoWayListener_180(this.obj180);
                         break;
-                    case 180: // Views\FieldNotesPage.xaml line 472
-                        this.obj180 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        this.obj180SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
+                    case 182: // Views\FieldNotesPage.xaml line 472
+                        this.obj182 = (global::Windows.UI.Xaml.Controls.GridView)target;
+                        this.obj182SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
                             this.dataRoot.ViewModel.ReportSummaryDate_SelectionChanged(p0, p1);
                         };
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj180SelectionChanged;
-                        this.bindingsTracking.RegisterTwoWayListener_180(this.obj180);
+                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += obj182SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_182(this.obj182);
                         break;
                     default:
                         break;
@@ -6035,7 +4910,10 @@ namespace GSCFieldApp.Views
                         this.Update_ViewModel_LocationHeaderExpansion(obj.LocationHeaderExpansion, phase);
                         this.Update_ViewModel_LocationColor(obj.LocationColor, phase);
                         this.Update_ViewModel_StationIconColorOpacity(obj.StationIconColorOpacity, phase);
+                        this.Update_ViewModel_LocationAddIconColor(obj.LocationAddIconColor, phase);
+                        this.Update_ViewModel_LocationAddIconOpacity(obj.LocationAddIconOpacity, phase);
                         this.Update_ViewModel_StationIconOpacity(obj.StationIconOpacity, phase);
+                        this.Update_ViewModel_DocumentIconOpacity(obj.DocumentIconOpacity, phase);
                         this.Update_ViewModel_ReportDocumentIndex(obj.ReportDocumentIndex, phase);
                         this.Update_ViewModel_ReportDetailedLocation(obj.ReportDetailedLocation, phase);
                         this.Update_ViewModel_DocumentHeaderExpand(obj.DocumentHeaderExpand, phase);
@@ -6044,7 +4922,6 @@ namespace GSCFieldApp.Views
                         this.Update_ViewModel_DocumentIconColorOpacity(obj.DocumentIconColorOpacity, phase);
                         this.Update_ViewModel_DocumentAddIconColor(obj.DocumentAddIconColor, phase);
                         this.Update_ViewModel_DocumentAddIconOpacity(obj.DocumentAddIconOpacity, phase);
-                        this.Update_ViewModel_DocumentIconOpacity(obj.DocumentIconOpacity, phase);
                         this.Update_ViewModel_ReportDetailedDocument(obj.ReportDetailedDocument, phase);
                         this.Update_ViewModel_MineralAltHeaderExpansion(obj.MineralAltHeaderExpansion, phase);
                         this.Update_ViewModel_MineralAltColor(obj.MineralAltColor, phase);
@@ -6230,9 +5107,14 @@ namespace GSCFieldApp.Views
                         XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj88, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 1055
-                    if (!isobj89ForegroundDisabled)
+                    if (!isobj90ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj89, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj90, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                    }
+                    // Views\FieldNotesPage.xaml line 1056
+                    if (!isobj91ForegroundDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj91, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6246,9 +5128,31 @@ namespace GSCFieldApp.Views
                         XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj88, obj);
                     }
                     // Views\FieldNotesPage.xaml line 528
-                    if (!isobj175OpacityDisabled)
+                    if (!isobj177OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj175, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj177, obj);
+                    }
+                }
+            }
+            private void Update_ViewModel_LocationAddIconColor(global::Windows.UI.Xaml.Media.SolidColorBrush obj, int phase)
+            {
+                if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
+                {
+                    // Views\FieldNotesPage.xaml line 1054
+                    if (!isobj89ForegroundDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj89, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                    }
+                }
+            }
+            private void Update_ViewModel_LocationAddIconOpacity(global::System.Double obj, int phase)
+            {
+                if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
+                {
+                    // Views\FieldNotesPage.xaml line 1054
+                    if (!isobj89OpacityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj89, obj);
                     }
                 }
             }
@@ -6257,19 +5161,40 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 1055
-                    if (!isobj89OpacityDisabled)
+                    if (!isobj90OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj89, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj90, obj);
                     }
                     // Views\FieldNotesPage.xaml line 542
-                    if (!isobj176OpacityDisabled)
+                    if (!isobj178OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj176, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj178, obj);
                     }
                     // Views\FieldNotesPage.xaml line 545
-                    if (!isobj177OpacityDisabled)
+                    if (!isobj179OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj177, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj179, obj);
+                    }
+                }
+            }
+            private void Update_ViewModel_DocumentIconOpacity(global::System.Double obj, int phase)
+            {
+                if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
+                {
+                    // Views\FieldNotesPage.xaml line 1056
+                    if (!isobj91OpacityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj91, obj);
+                    }
+                    // Views\FieldNotesPage.xaml line 999
+                    if (!isobj100OpacityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj100, obj);
+                    }
+                    // Views\FieldNotesPage.xaml line 1000
+                    if (!isobj101OpacityDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj101, obj);
                     }
                 }
             }
@@ -6277,15 +5202,15 @@ namespace GSCFieldApp.Views
             {
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
-                    // Views\FieldNotesPage.xaml line 1064
-                    if (!isobj90SelectedIndexDisabled)
+                    // Views\FieldNotesPage.xaml line 1062
+                    if (!isobj92SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj90, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj92, obj);
                     }
                     // Views\FieldNotesPage.xaml line 1006
-                    if (!isobj100SelectedIndexDisabled)
+                    if (!isobj102SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj100, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj102, obj);
                     }
                 }
             }
@@ -6294,10 +5219,10 @@ namespace GSCFieldApp.Views
                 this.bindingsTracking.UpdateChildListeners_ViewModel_ReportDetailedLocation(obj);
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
-                    // Views\FieldNotesPage.xaml line 1064
-                    if (!isobj90ItemsSourceDisabled)
+                    // Views\FieldNotesPage.xaml line 1062
+                    if (!isobj92ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj90, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj92, obj, null);
                     }
                 }
             }
@@ -6306,9 +5231,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 971
-                    if (!isobj91IsExpandedDisabled)
+                    if (!isobj93IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj91, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj93, obj);
                     }
                 }
             }
@@ -6317,29 +5242,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 978
-                    if (!isobj92ColorDisabled)
+                    if (!isobj94ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj92, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj94, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 987
-                    if (!isobj95ForegroundDisabled)
+                    if (!isobj97ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj95, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj97, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 984
-                    if (!isobj96ColorDisabled)
+                    if (!isobj98ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj96, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj98, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 999
-                    if (!isobj98ForegroundDisabled)
+                    if (!isobj100ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj98, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj100, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 1000
-                    if (!isobj99ForegroundDisabled)
+                    if (!isobj101ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj99, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj101, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6348,9 +5273,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 987
-                    if (!isobj95TextDisabled)
+                    if (!isobj97TextDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Text(this.obj95, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Text(this.obj97, obj, null);
                     }
                 }
             }
@@ -6359,9 +5284,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 984
-                    if (!isobj96OpacityDisabled)
+                    if (!isobj98OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj96, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj98, obj);
                     }
                 }
             }
@@ -6370,9 +5295,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 998
-                    if (!isobj97ForegroundDisabled)
+                    if (!isobj99ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj97, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj99, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6381,22 +5306,6 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 998
-                    if (!isobj97OpacityDisabled)
-                    {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj97, obj);
-                    }
-                }
-            }
-            private void Update_ViewModel_DocumentIconOpacity(global::System.Double obj, int phase)
-            {
-                if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
-                {
-                    // Views\FieldNotesPage.xaml line 999
-                    if (!isobj98OpacityDisabled)
-                    {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj98, obj);
-                    }
-                    // Views\FieldNotesPage.xaml line 1000
                     if (!isobj99OpacityDisabled)
                     {
                         XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj99, obj);
@@ -6409,9 +5318,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 1006
-                    if (!isobj100ItemsSourceDisabled)
+                    if (!isobj102ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj100, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj102, obj, null);
                     }
                 }
             }
@@ -6420,9 +5329,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 906
-                    if (!isobj101IsExpandedDisabled)
+                    if (!isobj103IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj101, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj103, obj);
                     }
                 }
             }
@@ -6431,29 +5340,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 913
-                    if (!isobj102ColorDisabled)
+                    if (!isobj104ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj102, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj104, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 923
-                    if (!isobj105ForegroundDisabled)
+                    if (!isobj107ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj105, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj107, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 919
-                    if (!isobj106ColorDisabled)
+                    if (!isobj108ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj106, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj108, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 938
-                    if (!isobj108ForegroundDisabled)
+                    if (!isobj110ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj108, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj110, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 942
-                    if (!isobj109ForegroundDisabled)
+                    if (!isobj111ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj109, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj111, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6462,9 +5371,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 919
-                    if (!isobj106OpacityDisabled)
+                    if (!isobj108OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj106, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj108, obj);
                     }
                 }
             }
@@ -6473,9 +5382,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 935
-                    if (!isobj107ForegroundDisabled)
+                    if (!isobj109ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj107, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj109, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6484,9 +5393,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 935
-                    if (!isobj107OpacityDisabled)
+                    if (!isobj109OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj107, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj109, obj);
                     }
                 }
             }
@@ -6495,14 +5404,14 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 938
-                    if (!isobj108OpacityDisabled)
+                    if (!isobj110OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj108, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj110, obj);
                     }
                     // Views\FieldNotesPage.xaml line 942
-                    if (!isobj109OpacityDisabled)
+                    if (!isobj111OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj109, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj111, obj);
                     }
                 }
             }
@@ -6511,9 +5420,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 951
-                    if (!isobj110SelectedIndexDisabled)
+                    if (!isobj112SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj110, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj112, obj);
                     }
                 }
             }
@@ -6523,9 +5432,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 951
-                    if (!isobj110ItemsSourceDisabled)
+                    if (!isobj112ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj110, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj112, obj, null);
                     }
                 }
             }
@@ -6534,9 +5443,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 850
-                    if (!isobj111IsExpandedDisabled)
+                    if (!isobj113IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj111, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj113, obj);
                     }
                 }
             }
@@ -6545,29 +5454,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 857
-                    if (!isobj112ColorDisabled)
+                    if (!isobj114ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj112, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj114, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 866
-                    if (!isobj115ForegroundDisabled)
+                    if (!isobj117ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj115, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj117, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 863
-                    if (!isobj116ColorDisabled)
+                    if (!isobj118ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj116, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj118, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 879
-                    if (!isobj118ForegroundDisabled)
+                    if (!isobj120ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj118, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj120, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 880
-                    if (!isobj119ForegroundDisabled)
+                    if (!isobj121ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj119, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj121, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6576,9 +5485,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 863
-                    if (!isobj116OpacityDisabled)
+                    if (!isobj118OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj116, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj118, obj);
                     }
                 }
             }
@@ -6587,9 +5496,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 878
-                    if (!isobj117ForegroundDisabled)
+                    if (!isobj119ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj117, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj119, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6598,9 +5507,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 878
-                    if (!isobj117OpacityDisabled)
+                    if (!isobj119OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj117, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj119, obj);
                     }
                 }
             }
@@ -6609,14 +5518,14 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 879
-                    if (!isobj118OpacityDisabled)
+                    if (!isobj120OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj118, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj120, obj);
                     }
                     // Views\FieldNotesPage.xaml line 880
-                    if (!isobj119OpacityDisabled)
+                    if (!isobj121OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj119, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj121, obj);
                     }
                 }
             }
@@ -6625,9 +5534,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 886
-                    if (!isobj120SelectedIndexDisabled)
+                    if (!isobj122SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj120, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj122, obj);
                     }
                 }
             }
@@ -6637,9 +5546,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 886
-                    if (!isobj120ItemsSourceDisabled)
+                    if (!isobj122ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj120, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj122, obj, null);
                     }
                 }
             }
@@ -6648,9 +5557,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 794
-                    if (!isobj121IsExpandedDisabled)
+                    if (!isobj123IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj121, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj123, obj);
                     }
                 }
             }
@@ -6659,29 +5568,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 801
-                    if (!isobj122ColorDisabled)
+                    if (!isobj124ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj122, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj124, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 810
-                    if (!isobj125ForegroundDisabled)
+                    if (!isobj127ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj125, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj127, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 807
-                    if (!isobj126ColorDisabled)
+                    if (!isobj128ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj126, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj128, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 823
-                    if (!isobj128ForegroundDisabled)
+                    if (!isobj130ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj128, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj130, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 824
-                    if (!isobj129ForegroundDisabled)
+                    if (!isobj131ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj129, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj131, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6690,9 +5599,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 807
-                    if (!isobj126OpacityDisabled)
+                    if (!isobj128OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj126, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj128, obj);
                     }
                 }
             }
@@ -6701,9 +5610,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 822
-                    if (!isobj127ForegroundDisabled)
+                    if (!isobj129ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj127, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj129, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6712,9 +5621,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 822
-                    if (!isobj127OpacityDisabled)
+                    if (!isobj129OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj127, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj129, obj);
                     }
                 }
             }
@@ -6723,14 +5632,14 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 823
-                    if (!isobj128OpacityDisabled)
+                    if (!isobj130OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj128, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj130, obj);
                     }
                     // Views\FieldNotesPage.xaml line 824
-                    if (!isobj129OpacityDisabled)
+                    if (!isobj131OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj129, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj131, obj);
                     }
                 }
             }
@@ -6740,9 +5649,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 830
-                    if (!isobj130ItemsSourceDisabled)
+                    if (!isobj132ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj130, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj132, obj, null);
                     }
                 }
             }
@@ -6751,9 +5660,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 830
-                    if (!isobj130SelectedIndexDisabled)
+                    if (!isobj132SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj130, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj132, obj);
                     }
                 }
             }
@@ -6762,9 +5671,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 738
-                    if (!isobj131IsExpandedDisabled)
+                    if (!isobj133IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj131, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj133, obj);
                     }
                 }
             }
@@ -6773,29 +5682,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 745
-                    if (!isobj132ColorDisabled)
+                    if (!isobj134ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj132, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj134, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 754
-                    if (!isobj135ForegroundDisabled)
+                    if (!isobj137ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj135, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj137, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 751
-                    if (!isobj136ColorDisabled)
+                    if (!isobj138ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj136, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj138, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 767
-                    if (!isobj138ForegroundDisabled)
+                    if (!isobj140ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj138, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj140, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 768
-                    if (!isobj139ForegroundDisabled)
+                    if (!isobj141ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj139, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj141, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6804,9 +5713,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 751
-                    if (!isobj136OpacityDisabled)
+                    if (!isobj138OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj136, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj138, obj);
                     }
                 }
             }
@@ -6815,9 +5724,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 766
-                    if (!isobj137ForegroundDisabled)
+                    if (!isobj139ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj137, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj139, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6826,9 +5735,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 766
-                    if (!isobj137OpacityDisabled)
+                    if (!isobj139OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj137, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj139, obj);
                     }
                 }
             }
@@ -6837,14 +5746,14 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 767
-                    if (!isobj138OpacityDisabled)
+                    if (!isobj140OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj138, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj140, obj);
                     }
                     // Views\FieldNotesPage.xaml line 768
-                    if (!isobj139OpacityDisabled)
+                    if (!isobj141OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj139, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj141, obj);
                     }
                 }
             }
@@ -6853,9 +5762,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 774
-                    if (!isobj140SelectedIndexDisabled)
+                    if (!isobj142SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj140, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj142, obj);
                     }
                 }
             }
@@ -6865,9 +5774,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 774
-                    if (!isobj140ItemsSourceDisabled)
+                    if (!isobj142ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj140, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj142, obj, null);
                     }
                 }
             }
@@ -6876,9 +5785,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 682
-                    if (!isobj141IsExpandedDisabled)
+                    if (!isobj143IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj141, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj143, obj);
                     }
                 }
             }
@@ -6887,29 +5796,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 689
-                    if (!isobj142ColorDisabled)
+                    if (!isobj144ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj142, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj144, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 698
-                    if (!isobj145ForegroundDisabled)
+                    if (!isobj147ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj145, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj147, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 695
-                    if (!isobj146ColorDisabled)
+                    if (!isobj148ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj146, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj148, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 711
-                    if (!isobj148ForegroundDisabled)
+                    if (!isobj150ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj148, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj150, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 712
-                    if (!isobj149ForegroundDisabled)
+                    if (!isobj151ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj149, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj151, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6918,9 +5827,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 695
-                    if (!isobj146OpacityDisabled)
+                    if (!isobj148OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj146, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj148, obj);
                     }
                 }
             }
@@ -6929,9 +5838,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 710
-                    if (!isobj147ForegroundDisabled)
+                    if (!isobj149ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj147, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj149, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -6940,9 +5849,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 710
-                    if (!isobj147OpacityDisabled)
+                    if (!isobj149OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj147, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj149, obj);
                     }
                 }
             }
@@ -6951,14 +5860,14 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 711
-                    if (!isobj148OpacityDisabled)
+                    if (!isobj150OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj148, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj150, obj);
                     }
                     // Views\FieldNotesPage.xaml line 712
-                    if (!isobj149OpacityDisabled)
+                    if (!isobj151OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj149, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj151, obj);
                     }
                 }
             }
@@ -6968,9 +5877,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 718
-                    if (!isobj150ItemsSourceDisabled)
+                    if (!isobj152ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj150, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj152, obj, null);
                     }
                 }
             }
@@ -6979,9 +5888,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 718
-                    if (!isobj150SelectedIndexDisabled)
+                    if (!isobj152SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj150, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj152, obj);
                     }
                 }
             }
@@ -6990,9 +5899,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 625
-                    if (!isobj151IsExpandedDisabled)
+                    if (!isobj153IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj151, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj153, obj);
                     }
                 }
             }
@@ -7001,29 +5910,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 632
-                    if (!isobj152ColorDisabled)
+                    if (!isobj154ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj152, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj154, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 641
-                    if (!isobj155ForegroundDisabled)
+                    if (!isobj157ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj155, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj157, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 638
-                    if (!isobj156ColorDisabled)
+                    if (!isobj158ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj156, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj158, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 654
-                    if (!isobj158ForegroundDisabled)
+                    if (!isobj160ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj158, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj160, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 655
-                    if (!isobj159ForegroundDisabled)
+                    if (!isobj161ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj159, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj161, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -7032,9 +5941,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 638
-                    if (!isobj156OpacityDisabled)
+                    if (!isobj158OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj156, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj158, obj);
                     }
                 }
             }
@@ -7043,9 +5952,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 653
-                    if (!isobj157ForegroundDisabled)
+                    if (!isobj159ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj157, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj159, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -7054,9 +5963,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 653
-                    if (!isobj157OpacityDisabled)
+                    if (!isobj159OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj157, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj159, obj);
                     }
                 }
             }
@@ -7065,14 +5974,14 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 654
-                    if (!isobj158OpacityDisabled)
+                    if (!isobj160OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj158, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj160, obj);
                     }
                     // Views\FieldNotesPage.xaml line 655
-                    if (!isobj159OpacityDisabled)
+                    if (!isobj161OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj159, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj161, obj);
                     }
                 }
             }
@@ -7082,9 +5991,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 661
-                    if (!isobj160ItemsSourceDisabled)
+                    if (!isobj162ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj160, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj162, obj, null);
                     }
                 }
             }
@@ -7093,9 +6002,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 661
-                    if (!isobj160SelectedIndexDisabled)
+                    if (!isobj162SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj160, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj162, obj);
                     }
                 }
             }
@@ -7104,9 +6013,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 572
-                    if (!isobj161IsExpandedDisabled)
+                    if (!isobj163IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj161, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj163, obj);
                     }
                 }
             }
@@ -7115,29 +6024,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 578
-                    if (!isobj162ColorDisabled)
+                    if (!isobj164ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj162, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj164, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 589
-                    if (!isobj165ForegroundDisabled)
+                    if (!isobj167ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj165, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj167, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 586
-                    if (!isobj166ColorDisabled)
+                    if (!isobj168ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj166, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj168, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 601
-                    if (!isobj168ForegroundDisabled)
+                    if (!isobj170ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj168, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj170, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 602
-                    if (!isobj169ForegroundDisabled)
+                    if (!isobj171ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj169, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj171, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -7146,9 +6055,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 586
-                    if (!isobj166OpacityDisabled)
+                    if (!isobj168OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj166, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj168, obj);
                     }
                 }
             }
@@ -7157,9 +6066,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 600
-                    if (!isobj167ForegroundDisabled)
+                    if (!isobj169ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj167, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj169, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -7168,9 +6077,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 600
-                    if (!isobj167OpacityDisabled)
+                    if (!isobj169OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj167, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj169, obj);
                     }
                 }
             }
@@ -7179,14 +6088,14 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 601
-                    if (!isobj168OpacityDisabled)
+                    if (!isobj170OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj168, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj170, obj);
                     }
                     // Views\FieldNotesPage.xaml line 602
-                    if (!isobj169OpacityDisabled)
+                    if (!isobj171OpacityDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj169, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj171, obj);
                     }
                 }
             }
@@ -7196,9 +6105,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 607
-                    if (!isobj170ItemsSourceDisabled)
+                    if (!isobj172ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj170, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj172, obj, null);
                     }
                 }
             }
@@ -7207,9 +6116,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 607
-                    if (!isobj170SelectedIndexDisabled)
+                    if (!isobj172SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj170, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj172, obj);
                     }
                 }
             }
@@ -7218,9 +6127,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 520
-                    if (!isobj171IsExpandedDisabled)
+                    if (!isobj173IsExpandedDisabled)
                     {
-                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj171, obj);
+                        XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj173, obj);
                     }
                 }
             }
@@ -7229,29 +6138,29 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 522
-                    if (!isobj172ColorDisabled)
+                    if (!isobj174ColorDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj172, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj174, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
                     }
                     // Views\FieldNotesPage.xaml line 532
-                    if (!isobj174ForegroundDisabled)
-                    {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj174, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    }
-                    // Views\FieldNotesPage.xaml line 528
-                    if (!isobj175ColorDisabled)
-                    {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj175, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    }
-                    // Views\FieldNotesPage.xaml line 542
                     if (!isobj176ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj176, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj176, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                    }
+                    // Views\FieldNotesPage.xaml line 528
+                    if (!isobj177ColorDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj177, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
+                    }
+                    // Views\FieldNotesPage.xaml line 542
+                    if (!isobj178ForegroundDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj178, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                     // Views\FieldNotesPage.xaml line 545
-                    if (!isobj177ForegroundDisabled)
+                    if (!isobj179ForegroundDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj177, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj179, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
                     }
                 }
             }
@@ -7260,9 +6169,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 553
-                    if (!isobj178SelectedIndexDisabled)
+                    if (!isobj180SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj178, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj180, obj);
                     }
                 }
             }
@@ -7272,9 +6181,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 553
-                    if (!isobj178ItemsSourceDisabled)
+                    if (!isobj180ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj178, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj180, obj, null);
                     }
                 }
             }
@@ -7284,9 +6193,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 472
-                    if (!isobj180ItemsSourceDisabled)
+                    if (!isobj182ItemsSourceDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj180, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj182, obj, null);
                     }
                 }
             }
@@ -7295,9 +6204,9 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldNotesPage.xaml line 472
-                    if (!isobj180SelectedIndexDisabled)
+                    if (!isobj182SelectedIndexDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj180, obj);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj182, obj);
                     }
                 }
             }
@@ -7347,7 +6256,6 @@ namespace GSCFieldApp.Views
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
->>>>>>> master
                         {
                             this.dataRoot.ViewModel.FossilPanelVisibility = this.obj77.Visibility;
                         }
@@ -7375,159 +6283,6 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-<<<<<<< HEAD
-                            this.dataRoot.ViewModel.ReportSampleList_DoubleTapped(sender, e);
-                        };
-                        (this.obj162).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportSampleIndex = this.obj162.SelectedIndex;
-                            }
-                        });
-                        break;
-                    case 163: // Views\FieldNotesPage.xaml line 572
-                        this.obj163 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        ((global::GSCFieldApp.Themes.ExpandPanel)target).ExpandedChanged += () =>
-                        {
-                            this.dataRoot.ViewModel.EarthMatExpandPanel_ExpandedChanged();
-                        };
-                        (this.obj163).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatHeaderExpansion = this.obj163.IsExpanded;
-                            }
-                        });
-                        break;
-                    case 164: // Views\FieldNotesPage.xaml line 578
-                        this.obj164 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj164).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj164.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        break;
-                    case 167: // Views\FieldNotesPage.xaml line 589
-                        this.obj167 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        (this.obj167).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj167.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        break;
-                    case 168: // Views\FieldNotesPage.xaml line 586
-                        this.obj168 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj168).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj168.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj168).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatIconColorOpacity = this.obj168.Opacity;
-                            }
-                        });
-                        break;
-                    case 169: // Views\FieldNotesPage.xaml line 600
-                        this.obj169 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.EarthMatAddIcon_Tapped(sender, e);
-                        };
-                        (this.obj169).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj169.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj169).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatAddIconOpacity = this.obj169.Opacity;
-                            }
-                        });
-                        break;
-                    case 170: // Views\FieldNotesPage.xaml line 601
-                        this.obj170 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.EarthMatEditIcon_Tapped(sender, e);
-                        };
-                        (this.obj170).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj170.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj170).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatIconOpacity = this.obj170.Opacity;
-                            }
-                        });
-                        break;
-                    case 171: // Views\FieldNotesPage.xaml line 602
-                        this.obj171 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(sender, e);
-                        };
-                        (this.obj171).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj171.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj171).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.EarthmatIconOpacity = this.obj171.Opacity;
-                            }
-                        });
-                        break;
-                    case 172: // Views\FieldNotesPage.xaml line 607
-                        this.obj172 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
                             this.dataRoot.ViewModel.MineralPanelVisibility = this.obj79.Visibility;
                         }
                     }
@@ -7592,7 +6347,6 @@ namespace GSCFieldApp.Views
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
->>>>>>> master
                         {
                             this.dataRoot.ViewModel.LocationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj87.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
@@ -7620,130 +6374,6 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-<<<<<<< HEAD
-                            this.dataRoot.ViewModel.ReportEarthmatList_DoubleTapped(sender, e);
-                        };
-                        (this.obj172).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportEarhtmatIndex = this.obj172.SelectedIndex;
-                            }
-                        });
-                        break;
-                    case 173: // Views\FieldNotesPage.xaml line 520
-                        this.obj173 = (global::GSCFieldApp.Themes.ExpandPanel)target;
-                        (this.obj173).RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationHeaderExpansion = this.obj173.IsExpanded;
-                            }
-                        });
-                        break;
-                    case 174: // Views\FieldNotesPage.xaml line 522
-                        this.obj174 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj174).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj174.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        break;
-                    case 176: // Views\FieldNotesPage.xaml line 532
-                        this.obj176 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        (this.obj176).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj176.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        break;
-                    case 177: // Views\FieldNotesPage.xaml line 528
-                        this.obj177 = (global::Windows.UI.Xaml.Media.SolidColorBrush)target;
-                        (this.obj177).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj177.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj177).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationIconColorOpacity = this.obj177.Opacity;
-                            }
-                        });
-                        break;
-                    case 178: // Views\FieldNotesPage.xaml line 542
-                        this.obj178 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.StationEditIcon_Tapped(sender, e);
-                        };
-                        (this.obj178).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj178.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj178).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationIconOpacity = this.obj178.Opacity;
-                            }
-                        });
-                        break;
-                    case 179: // Views\FieldNotesPage.xaml line 545
-                        this.obj179 = (global::Windows.UI.Xaml.Controls.SymbolIcon)target;
-                        ((global::Windows.UI.Xaml.Controls.SymbolIcon)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.Input.TappedRoutedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.DeleteIcon_TappedAsync(sender, e);
-                        };
-                        (this.obj179).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj179.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                            }
-                        });
-                        (this.obj179).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StationIconOpacity = this.obj179.Opacity;
-                            }
-                        });
-                        break;
-                    case 180: // Views\FieldNotesPage.xaml line 553
-                        this.obj180 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).ItemClick += (global::System.Object sender, global::Windows.UI.Xaml.Controls.ItemClickEventArgs e) =>
-=======
                             this.dataRoot.ViewModel.StationIconColorOpacity = this.obj88.Opacity;
                         }
                     }
@@ -7757,7 +6387,7 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.LocationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj89.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.LocationAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj89.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -7770,26 +6400,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StationIconOpacity = this.obj89.Opacity;
+                            this.dataRoot.ViewModel.LocationAddIconOpacity = this.obj89.Opacity;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_90_SelectedIndex()
-            {
-                if (this.initialized)
-                {
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
->>>>>>> master
-                        {
-                            this.dataRoot.ViewModel.ReportDocumentIndex = this.obj90.SelectedIndex;
-                        }
-                    }
-                }
-            }
-            private void UpdateTwoWay_91_IsExpanded()
+            private void UpdateTwoWay_90_Foreground()
             {
                 if (this.initialized)
                 {
@@ -7797,12 +6413,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentHeaderExpand = this.obj91.IsExpanded;
+                            this.dataRoot.ViewModel.LocationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj90.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_92_Color()
+            private void UpdateTwoWay_90_Opacity()
             {
                 if (this.initialized)
                 {
@@ -7810,44 +6426,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-<<<<<<< HEAD
-                            this.dataRoot.ViewModel.ReportStationList_DoubleTapped(sender, e);
-                        };
-                        (this.obj180).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportStationListIndex = this.obj180.SelectedIndex;
-                            }
-                        });
-                        break;
-                    case 182: // Views\FieldNotesPage.xaml line 472
-                        this.obj182 = (global::Windows.UI.Xaml.Controls.GridView)target;
-                        ((global::Windows.UI.Xaml.Controls.GridView)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
-                        {
-                            this.dataRoot.ViewModel.ReportSummaryDate_SelectionChanged(sender, e);
-                        };
-                        (this.obj182).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ReportListViewDateIndex = this.obj182.SelectedIndex;
-                            }
-                        });
-                        break;
-                    default:
-                        break;
-=======
-                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj92.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.StationIconOpacity = this.obj90.Opacity;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_95_Text()
+            private void UpdateTwoWay_91_Foreground()
             {
                 if (this.initialized)
                 {
@@ -7855,13 +6439,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.HeaderDocument = this.obj95.Text;
+                            this.dataRoot.ViewModel.LocationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj91.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_95_Foreground()
+            private void UpdateTwoWay_91_Opacity()
             {
                 if (this.initialized)
                 {
@@ -7869,12 +6452,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj95.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.DocumentIconOpacity = this.obj91.Opacity;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_96_Color()
+            private void UpdateTwoWay_92_SelectedIndex()
             {
                 if (this.initialized)
                 {
@@ -7882,12 +6465,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj96.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.ReportDocumentIndex = this.obj92.SelectedIndex;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_96_Opacity()
+            private void UpdateTwoWay_93_IsExpanded()
             {
                 if (this.initialized)
                 {
@@ -7895,7 +6478,33 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentIconColorOpacity = this.obj96.Opacity;
+                            this.dataRoot.ViewModel.DocumentHeaderExpand = this.obj93.IsExpanded;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_94_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj94.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_97_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.HeaderDocument = this.obj97.Text;
                         }
                     }
                 }
@@ -7908,12 +6517,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj97.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj97.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_97_Opacity()
+            private void UpdateTwoWay_98_Color()
             {
                 if (this.initialized)
                 {
@@ -7921,20 +6530,7 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentAddIconOpacity = this.obj97.Opacity;
-                        }
-                    }
-                }
-            }
-            private void UpdateTwoWay_98_Foreground()
-            {
-                if (this.initialized)
-                {
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj98.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj98.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -7947,7 +6543,7 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentIconOpacity = this.obj98.Opacity;
+                            this.dataRoot.ViewModel.DocumentIconColorOpacity = this.obj98.Opacity;
                         }
                     }
                 }
@@ -7960,7 +6556,7 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj99.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.DocumentAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj99.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -7973,113 +6569,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.DocumentIconOpacity = this.obj99.Opacity;
+                            this.dataRoot.ViewModel.DocumentAddIconOpacity = this.obj99.Opacity;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_100_SelectedIndex()
-            {
-                if (this.initialized)
-                {
-                    if (this.dataRoot != null)
-                    {
-<<<<<<< HEAD
-                        this.Update_ViewModel_EarthmatPanelVisibility(obj.EarthmatPanelVisibility, phase);
-                        this.Update_ViewModel_SamplePanelVisibility(obj.SamplePanelVisibility, phase);
-                        this.Update_ViewModel_StructurePanelVisibility(obj.StructurePanelVisibility, phase);
-                        this.Update_ViewModel_FossilPanelVisibility(obj.FossilPanelVisibility, phase);
-                        this.Update_ViewModel_PFlowPanelVisibility(obj.PFlowPanelVisibility, phase);
-                        this.Update_ViewModel_MineralPanelVisibility(obj.MineralPanelVisibility, phase);
-                        this.Update_ViewModel_MineralAltPanelVisibility(obj.MineralAltPanelVisibility, phase);
-                        this.Update_ViewModel_PhotoPanelVisibility(obj.PhotoPanelVisibility, phase);
-                        this.Update_ViewModel_LocationHeaderExpansion(obj.LocationHeaderExpansion, phase);
-                        this.Update_ViewModel_LocationColor(obj.LocationColor, phase);
-                        this.Update_ViewModel_StationIconColorOpacity(obj.StationIconColorOpacity, phase);
-                        this.Update_ViewModel_LocationAddIconColor(obj.LocationAddIconColor, phase);
-                        this.Update_ViewModel_LocationAddIconOpacity(obj.LocationAddIconOpacity, phase);
-                        this.Update_ViewModel_StationIconOpacity(obj.StationIconOpacity, phase);
-                        this.Update_ViewModel_DocumentIconOpacity(obj.DocumentIconOpacity, phase);
-                        this.Update_ViewModel_ReportDocumentIndex(obj.ReportDocumentIndex, phase);
-                        this.Update_ViewModel_ReportDetailedLocation(obj.ReportDetailedLocation, phase);
-                        this.Update_ViewModel_DocumentHeaderExpand(obj.DocumentHeaderExpand, phase);
-                        this.Update_ViewModel_DocumentColor(obj.DocumentColor, phase);
-                        this.Update_ViewModel_HeaderDocument(obj.HeaderDocument, phase);
-                        this.Update_ViewModel_DocumentIconColorOpacity(obj.DocumentIconColorOpacity, phase);
-                        this.Update_ViewModel_DocumentAddIconColor(obj.DocumentAddIconColor, phase);
-                        this.Update_ViewModel_DocumentAddIconOpacity(obj.DocumentAddIconOpacity, phase);
-                        this.Update_ViewModel_ReportDetailedDocument(obj.ReportDetailedDocument, phase);
-                        this.Update_ViewModel_MineralAltHeaderExpansion(obj.MineralAltHeaderExpansion, phase);
-                        this.Update_ViewModel_MineralAltColor(obj.MineralAltColor, phase);
-                        this.Update_ViewModel_MineralAltIconColorOpacity(obj.MineralAltIconColorOpacity, phase);
-                        this.Update_ViewModel_MineralAltAddIconColor(obj.MineralAltAddIconColor, phase);
-                        this.Update_ViewModel_MineralAltAddIconOpacity(obj.MineralAltAddIconOpacity, phase);
-                        this.Update_ViewModel_MineralAltIconOpacity(obj.MineralAltIconOpacity, phase);
-                        this.Update_ViewModel_ReportMineralizationAlterationIndex(obj.ReportMineralizationAlterationIndex, phase);
-                        this.Update_ViewModel_ReportDetailedMineralAlt(obj.ReportDetailedMineralAlt, phase);
-                        this.Update_ViewModel_MineralHeaderExpansion(obj.MineralHeaderExpansion, phase);
-                        this.Update_ViewModel_MineralColor(obj.MineralColor, phase);
-                        this.Update_ViewModel_MineralIconColorOpacity(obj.MineralIconColorOpacity, phase);
-                        this.Update_ViewModel_MineralAddIconColor(obj.MineralAddIconColor, phase);
-                        this.Update_ViewModel_MineralAddIconOpacity(obj.MineralAddIconOpacity, phase);
-                        this.Update_ViewModel_MineralIconOpacity(obj.MineralIconOpacity, phase);
-                        this.Update_ViewModel_ReportMineralsIndex(obj.ReportMineralsIndex, phase);
-                        this.Update_ViewModel_ReportDetailedMineral(obj.ReportDetailedMineral, phase);
-                        this.Update_ViewModel_PflowHeaderExpansion(obj.PflowHeaderExpansion, phase);
-                        this.Update_ViewModel_PaleoflowColor(obj.PaleoflowColor, phase);
-                        this.Update_ViewModel_PflowIconColorOpacity(obj.PflowIconColorOpacity, phase);
-                        this.Update_ViewModel_PaleoflowAddIconColor(obj.PaleoflowAddIconColor, phase);
-                        this.Update_ViewModel_PflowAddIconOpacity(obj.PflowAddIconOpacity, phase);
-                        this.Update_ViewModel_PflowIconOpacity(obj.PflowIconOpacity, phase);
-                        this.Update_ViewModel_ReportDetailedPflow(obj.ReportDetailedPflow, phase);
-                        this.Update_ViewModel_ReportPflowIndex(obj.ReportPflowIndex, phase);
-                        this.Update_ViewModel_FossilHeaderExpansion(obj.FossilHeaderExpansion, phase);
-                        this.Update_ViewModel_FossilColor(obj.FossilColor, phase);
-                        this.Update_ViewModel_FossilIconColorOpacity(obj.FossilIconColorOpacity, phase);
-                        this.Update_ViewModel_FossilAddIconColor(obj.FossilAddIconColor, phase);
-                        this.Update_ViewModel_FossilAddIconOpacity(obj.FossilAddIconOpacity, phase);
-                        this.Update_ViewModel_FossilIconOpacity(obj.FossilIconOpacity, phase);
-                        this.Update_ViewModel_ReportFossilIndex(obj.ReportFossilIndex, phase);
-                        this.Update_ViewModel_ReportDetailedFossil(obj.ReportDetailedFossil, phase);
-                        this.Update_ViewModel_StructureHeaderExpansion(obj.StructureHeaderExpansion, phase);
-                        this.Update_ViewModel_StructColor(obj.StructColor, phase);
-                        this.Update_ViewModel_StructureIconColorOpacity(obj.StructureIconColorOpacity, phase);
-                        this.Update_ViewModel_StructAddIconColor(obj.StructAddIconColor, phase);
-                        this.Update_ViewModel_StructureAddIconOpacity(obj.StructureAddIconOpacity, phase);
-                        this.Update_ViewModel_StructureIconOpacity(obj.StructureIconOpacity, phase);
-                        this.Update_ViewModel_ReportDetailedStructure(obj.ReportDetailedStructure, phase);
-                        this.Update_ViewModel_ReportStructureIndex(obj.ReportStructureIndex, phase);
-                        this.Update_ViewModel_SampleHeaderExpansion(obj.SampleHeaderExpansion, phase);
-                        this.Update_ViewModel_SampleColor(obj.SampleColor, phase);
-                        this.Update_ViewModel_SampleIconColorOpacity(obj.SampleIconColorOpacity, phase);
-                        this.Update_ViewModel_SampleAddIconColor(obj.SampleAddIconColor, phase);
-                        this.Update_ViewModel_SampleAddIconOpacity(obj.SampleAddIconOpacity, phase);
-                        this.Update_ViewModel_SampleIconOpacity(obj.SampleIconOpacity, phase);
-                        this.Update_ViewModel_ReportDetailedSample(obj.ReportDetailedSample, phase);
-                        this.Update_ViewModel_ReportSampleIndex(obj.ReportSampleIndex, phase);
-                        this.Update_ViewModel_EarthmatHeaderExpansion(obj.EarthmatHeaderExpansion, phase);
-                        this.Update_ViewModel_EarthmatColor(obj.EarthmatColor, phase);
-                        this.Update_ViewModel_EarthmatIconColorOpacity(obj.EarthmatIconColorOpacity, phase);
-                        this.Update_ViewModel_EarthmatAddIconColor(obj.EarthmatAddIconColor, phase);
-                        this.Update_ViewModel_EarthmatAddIconOpacity(obj.EarthmatAddIconOpacity, phase);
-                        this.Update_ViewModel_EarthmatIconOpacity(obj.EarthmatIconOpacity, phase);
-                        this.Update_ViewModel_ReportDetailedEarthmat(obj.ReportDetailedEarthmat, phase);
-                        this.Update_ViewModel_ReportEarhtmatIndex(obj.ReportEarhtmatIndex, phase);
-                        this.Update_ViewModel_StationHeaderExpansion(obj.StationHeaderExpansion, phase);
-                        this.Update_ViewModel_StationColor(obj.StationColor, phase);
-                        this.Update_ViewModel_ReportStationListIndex(obj.ReportStationListIndex, phase);
-                        this.Update_ViewModel_ReportDetailedStation(obj.ReportDetailedStation, phase);
-                        this.Update_ViewModel_ReportDateItems(obj.ReportDateItems, phase);
-                        this.Update_ViewModel_ReportListViewDateIndex(obj.ReportListViewDateIndex, phase);
-=======
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.ReportDocumentIndex = this.obj100.SelectedIndex;
-                        }
-                    }
-                }
-            }
-            private void UpdateTwoWay_101_IsExpanded()
+            private void UpdateTwoWay_100_Foreground()
             {
                 if (this.initialized)
                 {
@@ -8087,13 +6582,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltHeaderExpansion = this.obj101.IsExpanded;
+                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj100.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
->>>>>>> master
                     }
                 }
             }
-            private void UpdateTwoWay_102_Color()
+            private void UpdateTwoWay_100_Opacity()
             {
                 if (this.initialized)
                 {
@@ -8101,12 +6595,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj102.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.DocumentIconOpacity = this.obj100.Opacity;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_105_Foreground()
+            private void UpdateTwoWay_101_Foreground()
             {
                 if (this.initialized)
                 {
@@ -8114,12 +6608,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj105.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.DocumentColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj101.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_106_Color()
+            private void UpdateTwoWay_101_Opacity()
             {
                 if (this.initialized)
                 {
@@ -8127,12 +6621,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj106.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.DocumentIconOpacity = this.obj101.Opacity;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_106_Opacity()
+            private void UpdateTwoWay_102_SelectedIndex()
             {
                 if (this.initialized)
                 {
@@ -8140,7 +6634,33 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltIconColorOpacity = this.obj106.Opacity;
+                            this.dataRoot.ViewModel.ReportDocumentIndex = this.obj102.SelectedIndex;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_103_IsExpanded()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MineralAltHeaderExpansion = this.obj103.IsExpanded;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_104_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj104.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -8153,12 +6673,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj107.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj107.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_107_Opacity()
+            private void UpdateTwoWay_108_Color()
             {
                 if (this.initialized)
                 {
@@ -8166,20 +6686,7 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltAddIconOpacity = this.obj107.Opacity;
-                        }
-                    }
-                }
-            }
-            private void UpdateTwoWay_108_Foreground()
-            {
-                if (this.initialized)
-                {
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj108.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj108.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -8192,7 +6699,7 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltIconOpacity = this.obj108.Opacity;
+                            this.dataRoot.ViewModel.MineralAltIconColorOpacity = this.obj108.Opacity;
                         }
                     }
                 }
@@ -8205,7 +6712,7 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj109.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralAltAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj109.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -8214,247 +6721,141 @@ namespace GSCFieldApp.Views
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 1030
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj84, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 1043
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj87, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 1039
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj88, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 1055
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj90, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 1056
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj91, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAltIconOpacity = this.obj109.Opacity;
+                            this.dataRoot.ViewModel.MineralAltAddIconOpacity = this.obj109.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_110_SelectedIndex()
+            private void UpdateTwoWay_110_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 1039
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj88, obj);
-                    // Views\FieldNotesPage.xaml line 528
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj177, obj);
-                }
-            }
-            private void Update_ViewModel_LocationAddIconColor(global::Windows.UI.Xaml.Media.SolidColorBrush obj, int phase)
-            {
-                if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
-                {
-                    // Views\FieldNotesPage.xaml line 1054
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj89, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                }
-            }
-            private void Update_ViewModel_LocationAddIconOpacity(global::System.Double obj, int phase)
-            {
-                if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
-                {
-                    // Views\FieldNotesPage.xaml line 1054
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj89, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.ReportMineralizationAlterationIndex = this.obj110.SelectedIndex;
+                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj110.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_111_IsExpanded()
+            private void UpdateTwoWay_110_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 1055
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj90, obj);
-                    // Views\FieldNotesPage.xaml line 542
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj178, obj);
-                    // Views\FieldNotesPage.xaml line 545
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj179, obj);
-                }
-            }
-            private void Update_ViewModel_DocumentIconOpacity(global::System.Double obj, int phase)
-            {
-                if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
-                {
-                    // Views\FieldNotesPage.xaml line 1056
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj91, obj);
-                    // Views\FieldNotesPage.xaml line 999
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj100, obj);
-                    // Views\FieldNotesPage.xaml line 1000
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj101, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralHeaderExpansion = this.obj111.IsExpanded;
+                            this.dataRoot.ViewModel.MineralAltIconOpacity = this.obj110.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_112_Color()
+            private void UpdateTwoWay_111_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 1062
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj92, obj);
-                    // Views\FieldNotesPage.xaml line 1006
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj102, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj112.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralAltColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj111.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_115_Foreground()
+            private void UpdateTwoWay_111_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 1062
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj92, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj115.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralAltIconOpacity = this.obj111.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_116_Color()
+            private void UpdateTwoWay_112_SelectedIndex()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 971
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj93, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj116.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.ReportMineralizationAlterationIndex = this.obj112.SelectedIndex;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_116_Opacity()
+            private void UpdateTwoWay_113_IsExpanded()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 978
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj94, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 987
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj97, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 984
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj98, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 999
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj100, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 1000
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj101, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralIconColorOpacity = this.obj116.Opacity;
+                            this.dataRoot.ViewModel.MineralHeaderExpansion = this.obj113.IsExpanded;
                         }
                     }
->>>>>>> master
+                }
+            }
+            private void UpdateTwoWay_114_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj114.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                        }
+                    }
                 }
             }
             private void UpdateTwoWay_117_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 987
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Text(this.obj97, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj117.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj117.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_117_Opacity()
+            private void UpdateTwoWay_118_Color()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 984
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj98, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralAddIconOpacity = this.obj117.Opacity;
+                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj118.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
-                }
-            }
-            private void UpdateTwoWay_118_Foreground()
-            {
-                if (this.initialized)
-                {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 998
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj99, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj118.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                        }
-                    }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_118_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 998
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj99, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralIconOpacity = this.obj118.Opacity;
+                            this.dataRoot.ViewModel.MineralIconColorOpacity = this.obj118.Opacity;
                         }
                     }
                 }
@@ -8467,74 +6868,25 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj119.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj119.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_119_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 1006
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj102, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.MineralIconOpacity = this.obj119.Opacity;
-                        }
-                    }
->>>>>>> master
-                }
-            }
-            private void UpdateTwoWay_120_SelectedIndex()
-            {
-                if (this.initialized)
-                {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 906
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj103, obj);
-=======
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.ReportMineralsIndex = this.obj120.SelectedIndex;
-                        }
-                    }
->>>>>>> master
-                }
-            }
-            private void UpdateTwoWay_121_IsExpanded()
-            {
-                if (this.initialized)
-                {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 913
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj104, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 923
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj107, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 919
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj108, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 938
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj110, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 942
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj111, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.PflowHeaderExpansion = this.obj121.IsExpanded;
+                            this.dataRoot.ViewModel.MineralAddIconOpacity = this.obj119.Opacity;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_122_Color()
+            private void UpdateTwoWay_120_Foreground()
             {
                 if (this.initialized)
                 {
@@ -8542,12 +6894,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj122.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj120.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_125_Foreground()
+            private void UpdateTwoWay_120_Opacity()
             {
                 if (this.initialized)
                 {
@@ -8555,12 +6907,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj125.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralIconOpacity = this.obj120.Opacity;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_126_Color()
+            private void UpdateTwoWay_121_Foreground()
             {
                 if (this.initialized)
                 {
@@ -8568,12 +6920,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj126.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.MineralColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj121.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_126_Opacity()
+            private void UpdateTwoWay_121_Opacity()
             {
                 if (this.initialized)
                 {
@@ -8581,7 +6933,46 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PflowIconColorOpacity = this.obj126.Opacity;
+                            this.dataRoot.ViewModel.MineralIconOpacity = this.obj121.Opacity;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_122_SelectedIndex()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.ReportMineralsIndex = this.obj122.SelectedIndex;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_123_IsExpanded()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.PflowHeaderExpansion = this.obj123.IsExpanded;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_124_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj124.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -8594,12 +6985,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PaleoflowAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj127.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj127.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_127_Opacity()
+            private void UpdateTwoWay_128_Color()
             {
                 if (this.initialized)
                 {
@@ -8607,20 +6998,7 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PflowAddIconOpacity = this.obj127.Opacity;
-                        }
-                    }
-                }
-            }
-            private void UpdateTwoWay_128_Foreground()
-            {
-                if (this.initialized)
-                {
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj128.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj128.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -8633,623 +7011,436 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PflowIconOpacity = this.obj128.Opacity;
+                            this.dataRoot.ViewModel.PflowIconColorOpacity = this.obj128.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_129_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 919
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj108, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj129.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.PaleoflowAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj129.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_129_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 935
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj109, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.PflowIconOpacity = this.obj129.Opacity;
+                            this.dataRoot.ViewModel.PflowAddIconOpacity = this.obj129.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_130_SelectedIndex()
+            private void UpdateTwoWay_130_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 935
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj109, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.ReportPflowIndex = this.obj130.SelectedIndex;
+                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj130.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_131_IsExpanded()
+            private void UpdateTwoWay_130_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 938
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj110, obj);
-                    // Views\FieldNotesPage.xaml line 942
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj111, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilHeaderExpansion = this.obj131.IsExpanded;
+                            this.dataRoot.ViewModel.PflowIconOpacity = this.obj130.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_132_Color()
+            private void UpdateTwoWay_131_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 951
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj112, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj132.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.PaleoflowColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj131.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_135_Foreground()
+            private void UpdateTwoWay_131_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 951
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj112, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj135.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.PflowIconOpacity = this.obj131.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_136_Color()
+            private void UpdateTwoWay_132_SelectedIndex()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 850
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj113, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj136.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.ReportPflowIndex = this.obj132.SelectedIndex;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_136_Opacity()
+            private void UpdateTwoWay_133_IsExpanded()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 857
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj114, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 866
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj117, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 863
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj118, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 879
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj120, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 880
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj121, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilIconColorOpacity = this.obj136.Opacity;
+                            this.dataRoot.ViewModel.FossilHeaderExpansion = this.obj133.IsExpanded;
                         }
                     }
->>>>>>> master
+                }
+            }
+            private void UpdateTwoWay_134_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj134.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                        }
+                    }
                 }
             }
             private void UpdateTwoWay_137_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 863
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj118, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj137.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj137.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_137_Opacity()
+            private void UpdateTwoWay_138_Color()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 878
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj119, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilAddIconOpacity = this.obj137.Opacity;
+                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj138.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
-                }
-            }
-            private void UpdateTwoWay_138_Foreground()
-            {
-                if (this.initialized)
-                {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 878
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj119, obj);
-=======
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj138.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                        }
-                    }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_138_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 879
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj120, obj);
-                    // Views\FieldNotesPage.xaml line 880
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj121, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilIconOpacity = this.obj138.Opacity;
+                            this.dataRoot.ViewModel.FossilIconColorOpacity = this.obj138.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_139_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 886
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj122, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj139.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.FossilAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj139.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_139_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 886
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj122, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.FossilIconOpacity = this.obj139.Opacity;
+                            this.dataRoot.ViewModel.FossilAddIconOpacity = this.obj139.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_140_SelectedIndex()
+            private void UpdateTwoWay_140_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 794
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj123, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.ReportFossilIndex = this.obj140.SelectedIndex;
+                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj140.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_141_IsExpanded()
+            private void UpdateTwoWay_140_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 801
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj124, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 810
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj127, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 807
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj128, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 823
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj130, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 824
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj131, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructureHeaderExpansion = this.obj141.IsExpanded;
+                            this.dataRoot.ViewModel.FossilIconOpacity = this.obj140.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_142_Color()
+            private void UpdateTwoWay_141_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 807
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj128, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj142.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.FossilColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj141.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_145_Foreground()
+            private void UpdateTwoWay_141_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 822
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj129, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj145.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.FossilIconOpacity = this.obj141.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_146_Color()
+            private void UpdateTwoWay_142_SelectedIndex()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 822
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj129, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj146.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.ReportFossilIndex = this.obj142.SelectedIndex;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_146_Opacity()
+            private void UpdateTwoWay_143_IsExpanded()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 823
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj130, obj);
-                    // Views\FieldNotesPage.xaml line 824
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj131, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructureIconColorOpacity = this.obj146.Opacity;
+                            this.dataRoot.ViewModel.StructureHeaderExpansion = this.obj143.IsExpanded;
                         }
                     }
->>>>>>> master
+                }
+            }
+            private void UpdateTwoWay_144_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj144.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                        }
+                    }
                 }
             }
             private void UpdateTwoWay_147_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 830
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj132, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj147.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj147.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_147_Opacity()
+            private void UpdateTwoWay_148_Color()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 830
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj132, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructureAddIconOpacity = this.obj147.Opacity;
+                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj148.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
-                }
-            }
-            private void UpdateTwoWay_148_Foreground()
-            {
-                if (this.initialized)
-                {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 738
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj133, obj);
-=======
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj148.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                        }
-                    }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_148_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 745
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj134, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 754
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj137, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 751
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj138, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 767
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj140, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 768
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj141, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructureIconOpacity = this.obj148.Opacity;
+                            this.dataRoot.ViewModel.StructureIconColorOpacity = this.obj148.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_149_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 751
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj138, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj149.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.StructAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj149.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_149_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 766
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj139, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StructureIconOpacity = this.obj149.Opacity;
+                            this.dataRoot.ViewModel.StructureAddIconOpacity = this.obj149.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_150_SelectedIndex()
+            private void UpdateTwoWay_150_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 766
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj139, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.ReportStructureIndex = this.obj150.SelectedIndex;
+                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj150.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_151_IsExpanded()
+            private void UpdateTwoWay_150_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 767
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj140, obj);
-                    // Views\FieldNotesPage.xaml line 768
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj141, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleHeaderExpansion = this.obj151.IsExpanded;
+                            this.dataRoot.ViewModel.StructureIconOpacity = this.obj150.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_152_Color()
+            private void UpdateTwoWay_151_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 774
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj142, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj152.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.StructColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj151.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_155_Foreground()
+            private void UpdateTwoWay_151_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 774
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj142, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj155.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.StructureIconOpacity = this.obj151.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_156_Color()
+            private void UpdateTwoWay_152_SelectedIndex()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 682
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj143, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj156.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.ReportStructureIndex = this.obj152.SelectedIndex;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_156_Opacity()
+            private void UpdateTwoWay_153_IsExpanded()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 689
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj144, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 698
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj147, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 695
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj148, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 711
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj150, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 712
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj151, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleIconColorOpacity = this.obj156.Opacity;
+                            this.dataRoot.ViewModel.SampleHeaderExpansion = this.obj153.IsExpanded;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_154_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj154.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
                 }
@@ -9262,464 +7453,314 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj157.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj157.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_157_Opacity()
+            private void UpdateTwoWay_158_Color()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 695
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj148, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleAddIconOpacity = this.obj157.Opacity;
+                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj158.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
-                }
-            }
-            private void UpdateTwoWay_158_Foreground()
-            {
-                if (this.initialized)
-                {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 710
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj149, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj158.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                        }
-                    }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_158_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 710
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj149, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleIconOpacity = this.obj158.Opacity;
+                            this.dataRoot.ViewModel.SampleIconColorOpacity = this.obj158.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_159_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 711
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj150, obj);
-                    // Views\FieldNotesPage.xaml line 712
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj151, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj159.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.SampleAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj159.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_159_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 718
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj152, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.SampleIconOpacity = this.obj159.Opacity;
+                            this.dataRoot.ViewModel.SampleAddIconOpacity = this.obj159.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_160_SelectedIndex()
+            private void UpdateTwoWay_160_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 718
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj152, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.ReportSampleIndex = this.obj160.SelectedIndex;
+                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj160.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_161_IsExpanded()
+            private void UpdateTwoWay_160_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 625
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj153, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatHeaderExpansion = this.obj161.IsExpanded;
+                            this.dataRoot.ViewModel.SampleIconOpacity = this.obj160.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_162_Color()
+            private void UpdateTwoWay_161_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 632
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj154, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 641
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj157, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 638
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj158, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 654
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj160, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 655
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj161, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj162.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.SampleColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj161.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_165_Foreground()
+            private void UpdateTwoWay_161_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 638
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj158, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj165.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.SampleIconOpacity = this.obj161.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_166_Color()
+            private void UpdateTwoWay_162_SelectedIndex()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 653
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj159, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj166.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.ReportSampleIndex = this.obj162.SelectedIndex;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_166_Opacity()
+            private void UpdateTwoWay_163_IsExpanded()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 653
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj159, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatIconColorOpacity = this.obj166.Opacity;
+                            this.dataRoot.ViewModel.EarthmatHeaderExpansion = this.obj163.IsExpanded;
                         }
                     }
->>>>>>> master
+                }
+            }
+            private void UpdateTwoWay_164_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj164.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                        }
+                    }
                 }
             }
             private void UpdateTwoWay_167_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 654
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj160, obj);
-                    // Views\FieldNotesPage.xaml line 655
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj161, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj167.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj167.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_167_Opacity()
+            private void UpdateTwoWay_168_Color()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 661
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj162, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatAddIconOpacity = this.obj167.Opacity;
+                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj168.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
-                }
-            }
-            private void UpdateTwoWay_168_Foreground()
-            {
-                if (this.initialized)
-                {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 661
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj162, obj);
-=======
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj168.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                        }
-                    }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_168_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 572
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj163, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatIconOpacity = this.obj168.Opacity;
+                            this.dataRoot.ViewModel.EarthmatIconColorOpacity = this.obj168.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_169_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 578
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj164, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 589
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj167, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 586
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj168, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 601
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj170, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 602
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj171, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj169.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.EarthmatAddIconColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj169.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_169_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 586
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_Brush_Opacity(this.obj168, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.EarthmatIconOpacity = this.obj169.Opacity;
+                            this.dataRoot.ViewModel.EarthmatAddIconOpacity = this.obj169.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_170_SelectedIndex()
+            private void UpdateTwoWay_170_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 600
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj169, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.ReportEarhtmatIndex = this.obj170.SelectedIndex;
+                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj170.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_171_IsExpanded()
+            private void UpdateTwoWay_170_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 600
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj169, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StationHeaderExpansion = this.obj171.IsExpanded;
+                            this.dataRoot.ViewModel.EarthmatIconOpacity = this.obj170.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_172_Color()
+            private void UpdateTwoWay_171_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 601
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj170, obj);
-                    // Views\FieldNotesPage.xaml line 602
-                    XamlBindingSetters.Set_Windows_UI_Xaml_UIElement_Opacity(this.obj171, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj172.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.EarthmatColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj171.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_174_Foreground()
+            private void UpdateTwoWay_171_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 607
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj172, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj174.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.EarthmatIconOpacity = this.obj171.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_175_Color()
+            private void UpdateTwoWay_172_SelectedIndex()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 607
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj172, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj175.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                            this.dataRoot.ViewModel.ReportEarhtmatIndex = this.obj172.SelectedIndex;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_175_Opacity()
+            private void UpdateTwoWay_173_IsExpanded()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 520
-                    XamlBindingSetters.Set_GSCFieldApp_Themes_ExpandPanel_IsExpanded(this.obj173, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StationIconColorOpacity = this.obj175.Opacity;
+                            this.dataRoot.ViewModel.StationHeaderExpansion = this.obj173.IsExpanded;
                         }
                     }
->>>>>>> master
+                }
+            }
+            private void UpdateTwoWay_174_Color()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj174.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                        }
+                    }
                 }
             }
             private void UpdateTwoWay_176_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 522
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj174, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 532
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Foreground(this.obj176, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 528
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Media_SolidColorBrush_Color(this.obj177, (global::Windows.UI.Color)this.LookupConverter("SolidColorBrushConverter").Convert(obj, typeof(global::Windows.UI.Color), null, null));
-                    // Views\FieldNotesPage.xaml line 542
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj178, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-                    // Views\FieldNotesPage.xaml line 545
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_IconElement_Foreground(this.obj179, (global::Windows.UI.Xaml.Media.Brush)this.LookupConverter("MediaBrushConverter").Convert(obj, typeof(global::Windows.UI.Xaml.Media.Brush), null, null), null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
@@ -9727,76 +7768,82 @@ namespace GSCFieldApp.Views
                             this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj176.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_176_Opacity()
+            private void UpdateTwoWay_177_Color()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 553
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj180, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StationIconOpacity = this.obj176.Opacity;
+                            this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("SolidColorBrushConverter").ConvertBack(this.obj177.Color, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
                         }
                     }
->>>>>>> master
-                }
-            }
-            private void UpdateTwoWay_177_Foreground()
-            {
-                if (this.initialized)
-                {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 553
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj180, obj, null);
-=======
-                    if (this.dataRoot != null)
-                    {
-                        if (this.dataRoot.ViewModel != null)
-                        {
-                            this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj177.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
-                        }
-                    }
->>>>>>> master
                 }
             }
             private void UpdateTwoWay_177_Opacity()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 472
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj182, obj, null);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.StationIconOpacity = this.obj177.Opacity;
+                            this.dataRoot.ViewModel.StationIconColorOpacity = this.obj177.Opacity;
                         }
                     }
->>>>>>> master
                 }
             }
-            private void UpdateTwoWay_178_SelectedIndex()
+            private void UpdateTwoWay_178_Foreground()
             {
                 if (this.initialized)
                 {
-<<<<<<< HEAD
-                    // Views\FieldNotesPage.xaml line 472
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedIndex(this.obj182, obj);
-=======
                     if (this.dataRoot != null)
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.ReportStationListIndex = this.obj178.SelectedIndex;
+                            this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj178.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_178_Opacity()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.StationIconOpacity = this.obj178.Opacity;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_179_Foreground()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.StationColor = (global::Windows.UI.Xaml.Media.SolidColorBrush)this.LookupConverter("MediaBrushConverter").ConvertBack(this.obj179.Foreground, typeof(global::Windows.UI.Xaml.Media.SolidColorBrush), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_179_Opacity()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.StationIconOpacity = this.obj179.Opacity;
                         }
                     }
                 }
@@ -9809,10 +7856,22 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.ViewModel != null)
                         {
-                            this.dataRoot.ViewModel.ReportListViewDateIndex = this.obj180.SelectedIndex;
+                            this.dataRoot.ViewModel.ReportStationListIndex = this.obj180.SelectedIndex;
                         }
                     }
->>>>>>> master
+                }
+            }
+            private void UpdateTwoWay_182_SelectedIndex()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.ReportListViewDateIndex = this.obj182.SelectedIndex;
+                        }
+                    }
                 }
             }
 
@@ -11348,47 +9407,85 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_90(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_90(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_90_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_90_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_91(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_91_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_91_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_92(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_90_SelectedIndex();
+                            bindingObj.UpdateTwoWay_92_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_91(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_93(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_91_IsExpanded();
+                            bindingObj.UpdateTwoWay_93_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_92(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_94(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_92_Color();
+                            bindingObj.UpdateTwoWay_94_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_95(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_97(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.TextProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_95_Text();
+                            bindingObj.UpdateTwoWay_97_Text();
                         }
                     });
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
@@ -11396,59 +9493,21 @@ namespace GSCFieldApp.Views
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_95_Foreground();
+                            bindingObj.UpdateTwoWay_97_Foreground();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_96(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_98(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_96_Color();
+                            bindingObj.UpdateTwoWay_98_Color();
                         }
                     });
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_96_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_97(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_97_Foreground();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_97_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_98(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_98_Foreground();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11476,72 +9535,80 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_100(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_100(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_100_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_100_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_101(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_101_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_101_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_102(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_100_SelectedIndex();
+                            bindingObj.UpdateTwoWay_102_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_101(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_103(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_101_IsExpanded();
+                            bindingObj.UpdateTwoWay_103_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_102(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_104(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_102_Color();
+                            bindingObj.UpdateTwoWay_104_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_105(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_107(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_105_Foreground();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_106(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_106_Color();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_106_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_107(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11549,26 +9616,18 @@ namespace GSCFieldApp.Views
                             bindingObj.UpdateTwoWay_107_Foreground();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_107_Opacity();
-                        }
-                    });
                 }
-                public void RegisterTwoWayListener_108(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                public void RegisterTwoWayListener_108(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_108_Foreground();
+                            bindingObj.UpdateTwoWay_108_Color();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11596,72 +9655,80 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_110(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_110(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_110_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_110_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_111(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_111_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_111_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_112(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_110_SelectedIndex();
+                            bindingObj.UpdateTwoWay_112_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_111(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_113(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_111_IsExpanded();
+                            bindingObj.UpdateTwoWay_113_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_112(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_114(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_112_Color();
+                            bindingObj.UpdateTwoWay_114_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_115(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_117(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_115_Foreground();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_116(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_116_Color();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_116_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_117(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11669,26 +9736,18 @@ namespace GSCFieldApp.Views
                             bindingObj.UpdateTwoWay_117_Foreground();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_117_Opacity();
-                        }
-                    });
                 }
-                public void RegisterTwoWayListener_118(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                public void RegisterTwoWayListener_118(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_118_Foreground();
+                            bindingObj.UpdateTwoWay_118_Color();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11716,72 +9775,80 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_120(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_120(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_120_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_120_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_121(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_121_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_121_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_122(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_120_SelectedIndex();
+                            bindingObj.UpdateTwoWay_122_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_121(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_123(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_121_IsExpanded();
+                            bindingObj.UpdateTwoWay_123_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_122(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_124(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_122_Color();
+                            bindingObj.UpdateTwoWay_124_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_125(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_127(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_125_Foreground();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_126(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_126_Color();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_126_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_127(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11789,26 +9856,18 @@ namespace GSCFieldApp.Views
                             bindingObj.UpdateTwoWay_127_Foreground();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_127_Opacity();
-                        }
-                    });
                 }
-                public void RegisterTwoWayListener_128(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                public void RegisterTwoWayListener_128(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_128_Foreground();
+                            bindingObj.UpdateTwoWay_128_Color();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11836,72 +9895,80 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_130(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_130(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_130_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_130_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_131(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_131_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_131_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_132(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_130_SelectedIndex();
+                            bindingObj.UpdateTwoWay_132_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_131(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_133(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_131_IsExpanded();
+                            bindingObj.UpdateTwoWay_133_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_132(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_134(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_132_Color();
+                            bindingObj.UpdateTwoWay_134_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_135(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_137(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_135_Foreground();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_136(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_136_Color();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_136_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_137(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11909,26 +9976,18 @@ namespace GSCFieldApp.Views
                             bindingObj.UpdateTwoWay_137_Foreground();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_137_Opacity();
-                        }
-                    });
                 }
-                public void RegisterTwoWayListener_138(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                public void RegisterTwoWayListener_138(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_138_Foreground();
+                            bindingObj.UpdateTwoWay_138_Color();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -11956,72 +10015,80 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_140(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_140(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_140_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_140_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_141(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_141_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_141_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_142(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_140_SelectedIndex();
+                            bindingObj.UpdateTwoWay_142_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_141(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_143(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_141_IsExpanded();
+                            bindingObj.UpdateTwoWay_143_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_142(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_144(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_142_Color();
+                            bindingObj.UpdateTwoWay_144_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_145(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_147(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_145_Foreground();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_146(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_146_Color();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_146_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_147(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -12029,26 +10096,18 @@ namespace GSCFieldApp.Views
                             bindingObj.UpdateTwoWay_147_Foreground();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_147_Opacity();
-                        }
-                    });
                 }
-                public void RegisterTwoWayListener_148(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                public void RegisterTwoWayListener_148(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_148_Foreground();
+                            bindingObj.UpdateTwoWay_148_Color();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -12076,72 +10135,80 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_150(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_150(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_150_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_150_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_151(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_151_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_151_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_152(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_150_SelectedIndex();
+                            bindingObj.UpdateTwoWay_152_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_151(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_153(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_151_IsExpanded();
+                            bindingObj.UpdateTwoWay_153_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_152(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_154(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_152_Color();
+                            bindingObj.UpdateTwoWay_154_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_155(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_157(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_155_Foreground();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_156(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_156_Color();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_156_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_157(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -12149,26 +10216,18 @@ namespace GSCFieldApp.Views
                             bindingObj.UpdateTwoWay_157_Foreground();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_157_Opacity();
-                        }
-                    });
                 }
-                public void RegisterTwoWayListener_158(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                public void RegisterTwoWayListener_158(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_158_Foreground();
+                            bindingObj.UpdateTwoWay_158_Color();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -12196,72 +10255,80 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_160(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_160(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_160_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_160_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_161(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_161_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_161_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_162(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_160_SelectedIndex();
+                            bindingObj.UpdateTwoWay_162_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_161(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_163(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_161_IsExpanded();
+                            bindingObj.UpdateTwoWay_163_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_162(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_164(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_162_Color();
+                            bindingObj.UpdateTwoWay_164_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_165(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_167(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_165_Foreground();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_166(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_166_Color();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_166_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_167(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -12269,26 +10336,18 @@ namespace GSCFieldApp.Views
                             bindingObj.UpdateTwoWay_167_Foreground();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_167_Opacity();
-                        }
-                    });
                 }
-                public void RegisterTwoWayListener_168(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                public void RegisterTwoWayListener_168(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_168_Foreground();
+                            bindingObj.UpdateTwoWay_168_Color();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -12316,72 +10375,80 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_170(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_170(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_170_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_170_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_171(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_171_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_171_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_172(global::Windows.UI.Xaml.Controls.GridView sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_170_SelectedIndex();
+                            bindingObj.UpdateTwoWay_172_SelectedIndex();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_171(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
+                public void RegisterTwoWayListener_173(global::GSCFieldApp.Themes.ExpandPanel sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::GSCFieldApp.Themes.ExpandPanel.IsExpandedProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_171_IsExpanded();
+                            bindingObj.UpdateTwoWay_173_IsExpanded();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_172(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
+                public void RegisterTwoWayListener_174(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_172_Color();
+                            bindingObj.UpdateTwoWay_174_Color();
                         }
                     });
                 }
-                public void RegisterTwoWayListener_174(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                public void RegisterTwoWayListener_176(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
                 {
                     sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.ForegroundProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_174_Foreground();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_175(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_175_Color();
-                        }
-                    });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_175_Opacity();
-                        }
-                    });
-                }
-                public void RegisterTwoWayListener_176(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
-                {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -12389,26 +10456,18 @@ namespace GSCFieldApp.Views
                             bindingObj.UpdateTwoWay_176_Foreground();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
-                    {
-                        var bindingObj = this.TryGetBindingObject();
-                        if (bindingObj != null)
-                        {
-                            bindingObj.UpdateTwoWay_176_Opacity();
-                        }
-                    });
                 }
-                public void RegisterTwoWayListener_177(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                public void RegisterTwoWayListener_177(global::Windows.UI.Xaml.Media.SolidColorBrush sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.SolidColorBrush.ColorProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_177_Foreground();
+                            bindingObj.UpdateTwoWay_177_Color();
                         }
                     });
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Media.Brush.OpacityProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
@@ -12417,14 +10476,41 @@ namespace GSCFieldApp.Views
                         }
                     });
                 }
-                public void RegisterTwoWayListener_178(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                public void RegisterTwoWayListener_178(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
                 {
-                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_178_SelectedIndex();
+                            bindingObj.UpdateTwoWay_178_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_178_Opacity();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_179(global::Windows.UI.Xaml.Controls.SymbolIcon sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.IconElement.ForegroundProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_179_Foreground();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.UIElement.OpacityProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_179_Opacity();
                         }
                     });
                 }
@@ -12436,6 +10522,17 @@ namespace GSCFieldApp.Views
                         if (bindingObj != null)
                         {
                             bindingObj.UpdateTwoWay_180_SelectedIndex();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_182(global::Windows.UI.Xaml.Controls.GridView sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedIndexProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_182_SelectedIndex();
                         }
                     });
                 }

@@ -79,9 +79,24 @@ namespace GSCFieldApp.Views
             private global::Windows.UI.Xaml.Controls.ComboBox obj25;
 
             // Static fields for each binding's enabled/disabled state
-            private static bool isobj11TextDisabled = false;
-            private static bool isobj12TextDisabled = false;
-            private static bool isobj13TextDisabled = false;
+            private static bool isobj16TextDisabled = false;
+            private static bool isobj17TextDisabled = false;
+            private static bool isobj18IsEnabledDisabled = false;
+            private static bool isobj18TextDisabled = false;
+            private static bool isobj18IsReadOnlyDisabled = false;
+            private static bool isobj19IsEnabledDisabled = false;
+            private static bool isobj19TextDisabled = false;
+            private static bool isobj19IsReadOnlyDisabled = false;
+            private static bool isobj20IsReadOnlyDisabled = false;
+            private static bool isobj22IsEnabledDisabled = false;
+            private static bool isobj22TextDisabled = false;
+            private static bool isobj22IsReadOnlyDisabled = false;
+            private static bool isobj23IsEnabledDisabled = false;
+            private static bool isobj23TextDisabled = false;
+            private static bool isobj23IsReadOnlyDisabled = false;
+            private static bool isobj25IsEnabledDisabled = false;
+            private static bool isobj25ItemsSourceDisabled = false;
+            private static bool isobj25SelectedValueDisabled = false;
 
             private LocationDialog_obj1_BindingsTracking bindingsTracking;
 
@@ -92,17 +107,77 @@ namespace GSCFieldApp.Views
 
             public void Disable(int lineNumber, int columnNumber)
             {
-                if (lineNumber == 49 && columnNumber == 33)
+                if (lineNumber == 125 && columnNumber == 37)
                 {
-                    isobj11TextDisabled = true;
+                    isobj16TextDisabled = true;
                 }
-                else if (lineNumber == 53 && columnNumber == 33)
+                else if (lineNumber == 112 && columnNumber == 33)
                 {
-                    isobj12TextDisabled = true;
+                    isobj17TextDisabled = true;
                 }
-                else if (lineNumber == 57 && columnNumber == 33)
+                else if (lineNumber == 87 && columnNumber == 90)
                 {
-                    isobj13TextDisabled = true;
+                    isobj18IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 88 && columnNumber == 33)
+                {
+                    isobj18TextDisabled = true;
+                }
+                else if (lineNumber == 88 && columnNumber == 91)
+                {
+                    isobj18IsReadOnlyDisabled = true;
+                }
+                else if (lineNumber == 91 && columnNumber == 100)
+                {
+                    isobj19IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 92 && columnNumber == 33)
+                {
+                    isobj19TextDisabled = true;
+                }
+                else if (lineNumber == 92 && columnNumber == 90)
+                {
+                    isobj19IsReadOnlyDisabled = true;
+                }
+                else if (lineNumber == 96 && columnNumber == 42)
+                {
+                    isobj20IsReadOnlyDisabled = true;
+                }
+                else if (lineNumber == 67 && columnNumber == 100)
+                {
+                    isobj22IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 69 && columnNumber == 33)
+                {
+                    isobj22TextDisabled = true;
+                }
+                else if (lineNumber == 69 && columnNumber == 91)
+                {
+                    isobj22IsReadOnlyDisabled = true;
+                }
+                else if (lineNumber == 72 && columnNumber == 120)
+                {
+                    isobj23IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 73 && columnNumber == 33)
+                {
+                    isobj23TextDisabled = true;
+                }
+                else if (lineNumber == 73 && columnNumber == 92)
+                {
+                    isobj23IsReadOnlyDisabled = true;
+                }
+                else if (lineNumber == 54 && columnNumber == 49)
+                {
+                    isobj25IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 55 && columnNumber == 54)
+                {
+                    isobj25ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 56 && columnNumber == 40)
+                {
+                    isobj25SelectedValueDisabled = true;
                 }
             }
 
@@ -112,190 +187,37 @@ namespace GSCFieldApp.Views
             {
                 switch(connectionId)
                 {
-<<<<<<< HEAD
                     case 16: // Views\LocationDialog.xaml line 124
                         this.obj16 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj16).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.Notes = this.obj16.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_16(this.obj16);
                         break;
                     case 17: // Views\LocationDialog.xaml line 110
                         this.obj17 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj17).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.LocationElevation = this.obj17.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_17(this.obj17);
                         break;
                     case 18: // Views\LocationDialog.xaml line 86
                         this.obj18 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj18).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj18.IsEnabled, typeof(global::System.Boolean), null, null);
-                            }
-                        });
-                        (this.obj18).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.LocationNorthing = this.obj18.Text;
-                            }
-                        };
-                        (this.obj18).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = this.obj18.IsReadOnly;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_18(this.obj18);
                         break;
                     case 19: // Views\LocationDialog.xaml line 90
                         this.obj19 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj19).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj19.IsEnabled, typeof(global::System.Boolean), null, null);
-                            }
-                        });
-                        (this.obj19).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.LocationEasting = this.obj19.Text;
-                            }
-                        };
-                        (this.obj19).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = this.obj19.IsReadOnly;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_19(this.obj19);
                         break;
                     case 20: // Views\LocationDialog.xaml line 94
                         this.obj20 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj20).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = this.obj20.IsReadOnly;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_20(this.obj20);
                         break;
                     case 22: // Views\LocationDialog.xaml line 67
                         this.obj22 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj22).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj22.IsEnabled, typeof(global::System.Boolean), null, null);
-                            }
-                        });
-                        (this.obj22).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.LocationLatitude = this.obj22.Text;
-                            }
-                        };
-                        (this.obj22).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = this.obj22.IsReadOnly;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_22(this.obj22);
                         break;
                     case 23: // Views\LocationDialog.xaml line 71
                         this.obj23 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj23).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj23.IsEnabled, typeof(global::System.Boolean), null, null);
-                            }
-                        });
-                        (this.obj23).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.LocationLongitude = this.obj23.Text;
-                            }
-                        };
-                        (this.obj23).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = this.obj23.IsReadOnly;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_23(this.obj23);
                         break;
                     case 25: // Views\LocationDialog.xaml line 53
                         this.obj25 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj25).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj25.IsEnabled, typeof(global::System.Boolean), null, null);
-                            }
-                        });
-                        (this.obj25).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.locationVM.SelectedLocationDatums = (global::System.String)this.obj25.SelectedValue;
-                            }
-                        });
-=======
-                    case 11: // Views\LocationDialog.xaml line 47
-                        this.obj11 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        this.bindingsTracking.RegisterTwoWayListener_11(this.obj11);
-                        break;
-                    case 12: // Views\LocationDialog.xaml line 51
-                        this.obj12 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        this.bindingsTracking.RegisterTwoWayListener_12(this.obj12);
-                        break;
-                    case 13: // Views\LocationDialog.xaml line 55
-                        this.obj13 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        this.bindingsTracking.RegisterTwoWayListener_13(this.obj13);
->>>>>>> master
+                        this.bindingsTracking.RegisterTwoWayListener_25(this.obj25);
                         break;
                     default:
                         break;
@@ -414,7 +336,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\LocationDialog.xaml line 124
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj16, obj, null);
+                    if (!isobj16TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj16, obj, null);
+                    }
                 }
             }
             private void Update_locationVM_LocationElevation(global::System.String obj, int phase)
@@ -422,7 +347,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\LocationDialog.xaml line 110
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj17, obj, null);
+                    if (!isobj17TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj17, obj, null);
+                    }
                 }
             }
             private void Update_locationVM_ReadOnlyFields(global::System.Boolean obj, int phase)
@@ -430,25 +358,55 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\LocationDialog.xaml line 86
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj18, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    if (!isobj18IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj18, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    }
                     // Views\LocationDialog.xaml line 86
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj18, obj);
+                    if (!isobj18IsReadOnlyDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj18, obj);
+                    }
                     // Views\LocationDialog.xaml line 90
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj19, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    if (!isobj19IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj19, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    }
                     // Views\LocationDialog.xaml line 90
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj19, obj);
+                    if (!isobj19IsReadOnlyDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj19, obj);
+                    }
                     // Views\LocationDialog.xaml line 94
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj20, obj);
+                    if (!isobj20IsReadOnlyDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj20, obj);
+                    }
                     // Views\LocationDialog.xaml line 67
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj22, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    if (!isobj22IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj22, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    }
                     // Views\LocationDialog.xaml line 67
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj22, obj);
+                    if (!isobj22IsReadOnlyDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj22, obj);
+                    }
                     // Views\LocationDialog.xaml line 71
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj23, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    if (!isobj23IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj23, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    }
                     // Views\LocationDialog.xaml line 71
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj23, obj);
+                    if (!isobj23IsReadOnlyDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_IsReadOnly(this.obj23, obj);
+                    }
                     // Views\LocationDialog.xaml line 53
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj25, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    if (!isobj25IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj25, (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").Convert(obj, typeof(global::System.Boolean), null, null));
+                    }
                 }
             }
             private void Update_locationVM_LocationNorthing(global::System.String obj, int phase)
@@ -456,7 +414,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\LocationDialog.xaml line 86
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj18, obj, null);
+                    if (!isobj18TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj18, obj, null);
+                    }
                 }
             }
             private void Update_locationVM_LocationEasting(global::System.String obj, int phase)
@@ -464,39 +425,32 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\LocationDialog.xaml line 90
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj19, obj, null);
+                    if (!isobj19TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj19, obj, null);
+                    }
                 }
             }
             private void Update_locationVM_LocationLatitude(global::System.String obj, int phase)
             {
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
-<<<<<<< HEAD
                     // Views\LocationDialog.xaml line 67
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj22, obj, null);
-=======
-                    // Views\LocationDialog.xaml line 47
-                    if (!isobj11TextDisabled)
+                    if (!isobj22TextDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj11, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj22, obj, null);
                     }
->>>>>>> master
                 }
             }
             private void Update_locationVM_LocationLongitude(global::System.String obj, int phase)
             {
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
-<<<<<<< HEAD
                     // Views\LocationDialog.xaml line 71
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj23, obj, null);
-=======
-                    // Views\LocationDialog.xaml line 51
-                    if (!isobj12TextDisabled)
+                    if (!isobj23TextDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj12, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj23, obj, null);
                     }
->>>>>>> master
                 }
             }
             private void Update_locationVM_LocationDatums(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -504,25 +458,24 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\LocationDialog.xaml line 53
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj25, obj, null);
+                    if (!isobj25ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj25, obj, null);
+                    }
                 }
             }
             private void Update_locationVM_SelectedLocationDatums(global::System.String obj, int phase)
             {
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
-<<<<<<< HEAD
                     // Views\LocationDialog.xaml line 53
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj25, obj, null);
-=======
-                    // Views\LocationDialog.xaml line 55
-                    if (!isobj13TextDisabled)
+                    if (!isobj25SelectedValueDisabled)
                     {
-                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj13, obj, null);
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj25, obj, null);
                     }
                 }
             }
-            private void UpdateTwoWay_11_Text()
+            private void UpdateTwoWay_16_Text()
             {
                 if (this.initialized)
                 {
@@ -530,12 +483,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.locationVM != null)
                         {
-                            this.dataRoot.locationVM.LocationLatitude = this.obj11.Text;
+                            this.dataRoot.locationVM.Notes = this.obj16.Text;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_12_Text()
+            private void UpdateTwoWay_17_Text()
             {
                 if (this.initialized)
                 {
@@ -543,12 +496,12 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.locationVM != null)
                         {
-                            this.dataRoot.locationVM.LocationLongitude = this.obj12.Text;
+                            this.dataRoot.locationVM.LocationElevation = this.obj17.Text;
                         }
                     }
                 }
             }
-            private void UpdateTwoWay_13_Text()
+            private void UpdateTwoWay_18_IsEnabled()
             {
                 if (this.initialized)
                 {
@@ -556,10 +509,191 @@ namespace GSCFieldApp.Views
                     {
                         if (this.dataRoot.locationVM != null)
                         {
-                            this.dataRoot.locationVM.LocationElevation = this.obj13.Text;
+                            this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj18.IsEnabled, typeof(global::System.Boolean), null, null);
                         }
                     }
->>>>>>> master
+                }
+            }
+            private void UpdateTwoWay_18_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.LocationNorthing = this.obj18.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_18_IsReadOnly()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = this.obj18.IsReadOnly;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_19_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj19.IsEnabled, typeof(global::System.Boolean), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_19_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.LocationEasting = this.obj19.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_19_IsReadOnly()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = this.obj19.IsReadOnly;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_20_IsReadOnly()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = this.obj20.IsReadOnly;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_22_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj22.IsEnabled, typeof(global::System.Boolean), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_22_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.LocationLatitude = this.obj22.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_22_IsReadOnly()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = this.obj22.IsReadOnly;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_23_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj23.IsEnabled, typeof(global::System.Boolean), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_23_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.LocationLongitude = this.obj23.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_23_IsReadOnly()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = this.obj23.IsReadOnly;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_25_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.ReadOnlyFields = (global::System.Boolean)this.LookupConverter("ReverseBoolConverter").ConvertBack(this.obj25.IsEnabled, typeof(global::System.Boolean), null, null);
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_25_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.locationVM != null)
+                        {
+                            this.dataRoot.locationVM.SelectedLocationDatums = (global::System.String)this.obj25.SelectedValue;
+                        }
+                    }
                 }
             }
 
@@ -706,38 +840,165 @@ namespace GSCFieldApp.Views
                         }
                     }
                 }
-                public void RegisterTwoWayListener_11(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                public void RegisterTwoWayListener_16(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
                 {
                     sourceObject.LostFocus += (sender, e) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_11_Text();
+                            bindingObj.UpdateTwoWay_16_Text();
                         }
                     };
                 }
-                public void RegisterTwoWayListener_12(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                public void RegisterTwoWayListener_17(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
                 {
                     sourceObject.LostFocus += (sender, e) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_12_Text();
+                            bindingObj.UpdateTwoWay_17_Text();
                         }
                     };
                 }
-                public void RegisterTwoWayListener_13(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                public void RegisterTwoWayListener_18(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
                 {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_18_IsEnabled();
+                        }
+                    });
                     sourceObject.LostFocus += (sender, e) =>
                     {
                         var bindingObj = this.TryGetBindingObject();
                         if (bindingObj != null)
                         {
-                            bindingObj.UpdateTwoWay_13_Text();
+                            bindingObj.UpdateTwoWay_18_Text();
                         }
                     };
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_18_IsReadOnly();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_19(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_19_IsEnabled();
+                        }
+                    });
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_19_Text();
+                        }
+                    };
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_19_IsReadOnly();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_20(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_20_IsReadOnly();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_22(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_22_IsEnabled();
+                        }
+                    });
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_22_Text();
+                        }
+                    };
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_22_IsReadOnly();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_23(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_23_IsEnabled();
+                        }
+                    });
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_23_Text();
+                        }
+                    };
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBox.IsReadOnlyProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_23_IsReadOnly();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_25(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_25_IsEnabled();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_25_SelectedValue();
+                        }
+                    });
                 }
             }
         }

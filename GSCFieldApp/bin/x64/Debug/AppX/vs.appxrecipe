@@ -18,15 +18,9 @@
     <RemoveNonLayoutFiles>false</RemoveNonLayoutFiles>
     <DeployOptionalPackages>true</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-<<<<<<< HEAD
     <LayoutDir>C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\AppX</LayoutDir>
     <RegisteredManifestChecksum>899A193A1C590931760B5D64B3415275AA6EA0D5D3C2BD47191CEDFDFE85A38B</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>GSCFieldApp_1.0.158.0_x64__c1ewb8mxhbfzr</RegisteredPackageMoniker>
-=======
-    <LayoutDir>C:\Users\Maison\Source\Repos\GSC-Field-Application\GSCFieldApp\bin\x64\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>F8ADD8913AFF63F9FB57BB867650087212DF5D25848D05BE2429A81B8C83C9F1</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>GSCFieldApp_1.0.147.0_x64__c1ewb8mxhbfzr</RegisteredPackageMoniker>
->>>>>>> f91d598e65738ef36f9be0868061776838739fea
     <RegisteredUserModeAppID>GSCFieldApp_c1ewb8mxhbfzr!App</RegisteredUserModeAppID>
     <RegisteredPackageID>GSCFieldApp</RegisteredPackageID>
     <RegisteredPackagePublisher>CN=Gab</RegisteredPackagePublisher>
