@@ -15,7 +15,7 @@ namespace GSCFieldApp.Views
         global::Windows.UI.Xaml.Markup.IComponentConnector,
         global::Windows.UI.Xaml.Markup.IComponentConnector2
     {
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private static class XamlBindingSetters
         {
@@ -53,9 +53,11 @@ namespace GSCFieldApp.Views
             }
         };
 
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private class MineralDialog_obj1_Bindings :
+            global::Windows.UI.Xaml.Markup.IDataTemplateComponent,
+            global::Windows.UI.Xaml.Markup.IXamlBindScopeDiagnostics,
             global::Windows.UI.Xaml.Markup.IComponentConnector,
             IMineralDialog_Bindings
         {
@@ -76,11 +78,104 @@ namespace GSCFieldApp.Views
             private global::Windows.UI.Xaml.Controls.ComboBox obj19;
             private global::Windows.UI.Xaml.Controls.ComboBox obj20;
 
+            // Fields for each event bindings event handler.
+            private global::Windows.UI.Xaml.Controls.SelectionChangedEventHandler obj20SelectionChanged;
+
+            // Static fields for each binding's enabled/disabled state
+            private static bool isobj7TextDisabled = false;
+            private static bool isobj12TextDisabled = false;
+            private static bool isobj13ItemsSourceDisabled = false;
+            private static bool isobj13SelectedValueDisabled = false;
+            private static bool isobj14ItemsSourceDisabled = false;
+            private static bool isobj14SelectedValueDisabled = false;
+            private static bool isobj15ItemsSourceDisabled = false;
+            private static bool isobj15SelectedValueDisabled = false;
+            private static bool isobj16ItemsSourceDisabled = false;
+            private static bool isobj16SelectedValueDisabled = false;
+            private static bool isobj17TextDisabled = false;
+            private static bool isobj18TextDisabled = false;
+            private static bool isobj19ItemsSourceDisabled = false;
+            private static bool isobj19SelectedValueDisabled = false;
+            private static bool isobj20ItemsSourceDisabled = false;
+            private static bool isobj20SelectedValueDisabled = false;
+
             private MineralDialog_obj1_BindingsTracking bindingsTracking;
 
             public MineralDialog_obj1_Bindings()
             {
                 this.bindingsTracking = new MineralDialog_obj1_BindingsTracking(this);
+            }
+
+            public void Disable(int lineNumber, int columnNumber)
+            {
+                if (lineNumber == 53 && columnNumber == 91)
+                {
+                    isobj7TextDisabled = true;
+                }
+                else if (lineNumber == 105 && columnNumber == 29)
+                {
+                    isobj12TextDisabled = true;
+                }
+                else if (lineNumber == 87 && columnNumber == 33)
+                {
+                    isobj13ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 88 && columnNumber == 33)
+                {
+                    isobj13SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 92 && columnNumber == 33)
+                {
+                    isobj14ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 93 && columnNumber == 33)
+                {
+                    isobj14SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 97 && columnNumber == 33)
+                {
+                    isobj15ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 98 && columnNumber == 33)
+                {
+                    isobj15SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 63 && columnNumber == 33)
+                {
+                    isobj16ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 64 && columnNumber == 33)
+                {
+                    isobj16SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 69 && columnNumber == 33)
+                {
+                    isobj17TextDisabled = true;
+                }
+                else if (lineNumber == 74 && columnNumber == 33)
+                {
+                    isobj18TextDisabled = true;
+                }
+                else if (lineNumber == 45 && columnNumber == 33)
+                {
+                    isobj19ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 46 && columnNumber == 33)
+                {
+                    isobj19SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 49 && columnNumber == 39)
+                {
+                    isobj20ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 50 && columnNumber == 39)
+                {
+                    isobj20SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 50 && columnNumber == 111)
+                {
+                    this.obj20.SelectionChanged -= obj20SelectionChanged;
+                }
             }
 
             // IComponentConnector
@@ -91,128 +186,64 @@ namespace GSCFieldApp.Views
                 {
                     case 7: // Views\MineralDialog.xaml line 53
                         this.obj7 = (global::Windows.UI.Xaml.Controls.TextBlock)target;
-                        (this.obj7).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.TextProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.MineralResidualText = this.obj7.Text;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_7(this.obj7);
                         break;
                     case 12: // Views\MineralDialog.xaml line 103
                         this.obj12 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj12).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.MineralNote = this.obj12.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_12(this.obj12);
                         break;
                     case 13: // Views\MineralDialog.xaml line 85
                         this.obj13 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj13).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.SelectedMineralForm = (global::System.String)this.obj13.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_13(this.obj13);
                         break;
                     case 14: // Views\MineralDialog.xaml line 90
                         this.obj14 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj14).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.SelectedMineralHabit = (global::System.String)this.obj14.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_14(this.obj14);
                         break;
                     case 15: // Views\MineralDialog.xaml line 95
                         this.obj15 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj15).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.SelectedMineralOccur = (global::System.String)this.obj15.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_15(this.obj15);
                         break;
                     case 16: // Views\MineralDialog.xaml line 61
                         this.obj16 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj16).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.SelectedMineralColor = (global::System.String)this.obj16.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_16(this.obj16);
                         break;
                     case 17: // Views\MineralDialog.xaml line 66
                         this.obj17 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj17).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.MineralSizeMin = this.obj17.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_17(this.obj17);
                         break;
                     case 18: // Views\MineralDialog.xaml line 71
                         this.obj18 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj18).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.MineralSizeMax = this.obj18.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_18(this.obj18);
                         break;
                     case 19: // Views\MineralDialog.xaml line 43
                         this.obj19 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj19).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.SelectedMineralName = (global::System.String)this.obj19.SelectedValue;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_19(this.obj19);
                         break;
                     case 20: // Views\MineralDialog.xaml line 48
                         this.obj20 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += (global::System.Object sender, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs e) =>
+                        this.obj20SelectionChanged = (global::System.Object p0, global::Windows.UI.Xaml.Controls.SelectionChangedEventArgs p1) =>
                         {
-                            this.dataRoot.MineralVM.MineralModeBox_SelectionChanged(sender, e);
+                            this.dataRoot.MineralVM.MineralModeBox_SelectionChanged(p0, p1);
                         };
-                        (this.obj20).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.MineralVM.SelectedMineralModeText = (global::System.String)this.obj20.SelectedValue;
-                            }
-                        });
+                        ((global::Windows.UI.Xaml.Controls.ComboBox)target).SelectionChanged += obj20SelectionChanged;
+                        this.bindingsTracking.RegisterTwoWayListener_20(this.obj20);
                         break;
                     default:
                         break;
                 }
+            }
+
+            // IDataTemplateComponent
+
+            public void ProcessBindings(global::System.Object item, int itemIndex, int phase, out int nextPhase)
+            {
+                throw new global::System.NotImplementedException();
+            }
+
+            public void Recycle()
+            {
+                throw new global::System.NotImplementedException();
             }
 
             // IMineralDialog_Bindings
@@ -336,7 +367,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 53
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Text(this.obj7, obj, null);
+                    if (!isobj7TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBlock_Text(this.obj7, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralNote(global::System.String obj, int phase)
@@ -344,7 +378,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 103
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj12, obj, null);
+                    if (!isobj12TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj12, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralForm(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -352,7 +389,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MineralDialog.xaml line 85
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj13, obj, null);
+                    if (!isobj13ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj13, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_SelectedMineralForm(global::System.String obj, int phase)
@@ -360,7 +400,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 85
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj13, obj, null);
+                    if (!isobj13SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj13, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralHabit(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -368,7 +411,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MineralDialog.xaml line 90
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj14, obj, null);
+                    if (!isobj14ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj14, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_SelectedMineralHabit(global::System.String obj, int phase)
@@ -376,7 +422,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 90
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj14, obj, null);
+                    if (!isobj14SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj14, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralOccur(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -384,7 +433,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MineralDialog.xaml line 95
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj15, obj, null);
+                    if (!isobj15ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj15, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_SelectedMineralOccur(global::System.String obj, int phase)
@@ -392,7 +444,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 95
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj15, obj, null);
+                    if (!isobj15SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj15, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralColour(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -400,7 +455,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MineralDialog.xaml line 61
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj16, obj, null);
+                    if (!isobj16ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj16, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_SelectedMineralColor(global::System.String obj, int phase)
@@ -408,7 +466,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 61
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj16, obj, null);
+                    if (!isobj16SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj16, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralSizeMin(global::System.String obj, int phase)
@@ -416,7 +477,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 66
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj17, obj, null);
+                    if (!isobj17TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj17, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralSizeMax(global::System.String obj, int phase)
@@ -424,7 +488,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 71
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj18, obj, null);
+                    if (!isobj18TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj18, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralName(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -432,7 +499,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MineralDialog.xaml line 43
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj19, obj, null);
+                    if (!isobj19ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj19, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_SelectedMineralName(global::System.String obj, int phase)
@@ -440,7 +510,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 43
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj19, obj, null);
+                    if (!isobj19SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj19, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_MineralModeText(global::System.Collections.ObjectModel.ObservableCollection<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -448,7 +521,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\MineralDialog.xaml line 48
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj20, obj, null);
+                    if (!isobj20ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj20, obj, null);
+                    }
                 }
             }
             private void Update_MineralVM_SelectedMineralModeText(global::System.String obj, int phase)
@@ -456,11 +532,144 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\MineralDialog.xaml line 48
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj20, obj, null);
+                    if (!isobj20SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj20, obj, null);
+                    }
+                }
+            }
+            private void UpdateTwoWay_7_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.MineralResidualText = this.obj7.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_12_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.MineralNote = this.obj12.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_13_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.SelectedMineralForm = (global::System.String)this.obj13.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_14_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.SelectedMineralHabit = (global::System.String)this.obj14.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_15_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.SelectedMineralOccur = (global::System.String)this.obj15.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_16_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.SelectedMineralColor = (global::System.String)this.obj16.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_17_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.MineralSizeMin = this.obj17.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_18_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.MineralSizeMax = this.obj18.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_19_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.SelectedMineralName = (global::System.String)this.obj19.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_20_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.MineralVM != null)
+                        {
+                            this.dataRoot.MineralVM.SelectedMineralModeText = (global::System.String)this.obj20.SelectedValue;
+                        }
+                    }
                 }
             }
 
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private class MineralDialog_obj1_BindingsTracking
             {
@@ -621,12 +830,122 @@ namespace GSCFieldApp.Views
                         }
                     }
                 }
+                public void RegisterTwoWayListener_7(global::Windows.UI.Xaml.Controls.TextBlock sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.TextBlock.TextProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_7_Text();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_12(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_12_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_13(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_13_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_14(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_14_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_15(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_15_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_16(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_16_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_17(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_17_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_18(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_18_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_19(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_19_SelectedValue();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_20(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_20_SelectedValue();
+                        }
+                    });
+                }
             }
         }
         /// <summary>
         /// Connect()
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public void Connect(int connectionId, object target)
         {
@@ -748,7 +1067,7 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// GetBindingConnector(int connectionId, object target)
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IComponentConnector GetBindingConnector(int connectionId, object target)
         {
@@ -763,6 +1082,7 @@ namespace GSCFieldApp.Views
                     bindings.SetDataRoot(this);
                     this.Bindings = bindings;
                     element1.Loading += bindings.Loading;
+                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetDataTemplateComponent(element1, bindings);
                 }
                 break;
             }

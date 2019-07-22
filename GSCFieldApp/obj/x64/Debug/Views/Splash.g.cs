@@ -18,28 +18,28 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// Connect()
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public void Connect(int connectionId, object target)
         {
             switch(connectionId)
             {
-            case 1: // Views\Splash.xaml line 15
+            case 2: // Views\Splash.xaml line 15
                 {
                     this.rootCanvas = (global::Windows.UI.Xaml.Controls.Canvas)(target);
                 }
                 break;
-            case 2: // Views\Splash.xaml line 31
+            case 3: // Views\Splash.xaml line 31
                 {
                     this.progressRing = (global::Windows.UI.Xaml.Controls.ProgressRing)(target);
                 }
                 break;
-            case 3: // Views\Splash.xaml line 37
+            case 4: // Views\Splash.xaml line 37
                 {
                     this.ProgressTransform = (global::Windows.UI.Xaml.Media.CompositeTransform)(target);
                 }
                 break;
-            case 4: // Views\Splash.xaml line 24
+            case 5: // Views\Splash.xaml line 24
                 {
                     this.splashImage = (global::Windows.UI.Xaml.Controls.Viewbox)(target);
                 }
@@ -53,7 +53,7 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// GetBindingConnector(int connectionId, object target)
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IComponentConnector GetBindingConnector(int connectionId, object target)
         {

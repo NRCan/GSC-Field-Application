@@ -29,22 +29,22 @@
         <conv:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter"/>
 
         <!--Layer data template-->
-        <DataTemplate x:Key="MapsDialogTemplate" x:DataType="model:Files">
+        <DataTemplate x:Key="MapsDialogTemplate" x:DataType="model:MapPageLayers">
 
             <RelativePanel>
 
                 <ToggleSwitch Margin="5" 
-                        Header="{x:Bind FileName}" x:Name="mapFileName" 
-                        IsOn="{x:Bind FileVisible}" Toggled="mapFileName_Toggled"/>
-                <Slider x:Name="opacitySlider"  Tag="{x:Bind FileName}"
-                        Width="100" Maximum="100" Value="{x:Bind FileOpacity}"
+                        Header="{x:Bind LayerName}" x:Name="mapFileName" 
+                        IsOn="{x:Bind LayerSettings.LayerVisibility}" Toggled="mapFileName_Toggled"/>
+                <Slider x:Name="opacitySlider"  Tag="{x:Bind LayerName}"
+                        Width="100" Maximum="100" Value="{x:Bind LayerSettings.LayerOpacity}"
                         StepFrequency="5"
                         RelativePanel.RightOf="mapFileName"
                         RelativePanel.AlignBottomWith="mapFileName"
                         ValueChanged="OpacitySlider_ValueChanged"
                         Margin="-75,0,0,0"/>                
                 <SymbolIcon x:Name="MapDeleteIcon" Margin="10,0,0,10" 
-                            RelativePanel.RightOf="opacitySlider" Visibility="{x:Bind FileCanDelete}"
+                            RelativePanel.RightOf="opacitySlider" 
                             RelativePanel.AlignBottomWith="mapFileName"
                             Symbol="Delete" Tapped="MapDeleteIcon_Tapped"/>
             </RelativePanel>
@@ -81,7 +81,7 @@
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
 
-                    <Flyout Closed="{x:Bind ViewModel.LayerFlyout_Closed}" x:Name="mapPageLayerFlyout">
+                    <Flyout Closed="{x:Bind ViewModel.LayerFlyout_ClosedAsync}" x:Name="mapPageLayerFlyout">
                         <RelativePanel Width="Auto">
                             <ListView x:Name="MapLayerListView"
                                 CanReorderItems="True" RelativePanel.AlignRightWithPanel="True"

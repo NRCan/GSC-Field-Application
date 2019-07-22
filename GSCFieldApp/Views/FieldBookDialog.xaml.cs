@@ -110,7 +110,6 @@ namespace GSCFieldApp.Views
             if (ViewModel.Model.isValid && !isForInit && ViewModel.existingUserDetail == null)
             {
                 //Update settings with new selected project
-                localSetting.DeleteSetting(ApplicationLiterals.KeywordMapViewLayersOrder);
                 ApplicationData.Current.SignalDataChanged();
 
                 //Create a new database

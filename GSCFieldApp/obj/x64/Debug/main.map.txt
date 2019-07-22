@@ -180,6 +180,7 @@
 "C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\PackageLayout\Microsoft.Xaml.Interactions.dll"			"Microsoft.Xaml.Interactions.dll"
 "C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\PackageLayout\Microsoft.Win32.Primitives.dll"			"Microsoft.Win32.Primitives.dll"
 "C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\PackageLayout\Microsoft.VisualBasic.dll"			"Microsoft.VisualBasic.dll"
+"C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\PackageLayout\Microsoft.UI.Xaml.Markup.winmd"			"Microsoft.UI.Xaml.Markup.winmd"
 "C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\PackageLayout\Microsoft.CSharp.dll"			"Microsoft.CSharp.dll"
 "C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\PackageLayout\Help.htm"			"Help.htm"
 "C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\PackageLayout\GSCFieldApp.xr.xml"			"GSCFieldApp.xr.xml"

@@ -5,3 +5,5 @@
 */obj/x86
 */obj/ARM
 */bin
+db.lock
+.xbf

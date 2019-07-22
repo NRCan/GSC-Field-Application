@@ -128,8 +128,8 @@ namespace GSCFieldApp.Views
                         if (myMapView.Map != null)
                         {
                             //Do a clean clear
-                            ViewModel.ClearMapViewSettings();
                             ViewModel.ClearLayers();
+                            ViewModel.ClearMapViewSettings();
 
                             //Refresh
                             SetBackgroundGrid();
@@ -427,10 +427,10 @@ namespace GSCFieldApp.Views
                 esriMap = myMapView.Map;
                 Slider senderSlider = sender as Slider;
                 string filename = senderSlider.Tag as string;
-                if (filename != null)
+                if (filename != null && esriMap.AllLayers.Count > 0)
                 {
                     var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(filename.Split('.')[0]));
-                    sublayer.Opacity = senderSlider.Value / 100;
+                    sublayer.Opacity = senderSlider.Value / 100.0;
                 }
 
             }

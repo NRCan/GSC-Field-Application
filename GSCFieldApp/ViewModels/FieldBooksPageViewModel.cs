@@ -340,8 +340,6 @@ namespace GSCFieldApp.ViewModels
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoFWorkType, _projectCollection[newIndex].metadataForProject.FieldworkType);
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoUCode, _projectCollection[newIndex].metadataForProject.UserCode);
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoID, _projectCollection[newIndex].metadataForProject.MetaID);
-                localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder, _projectCollection[newIndex].ProjectPath);
-                localSetting.DeleteSetting(ApplicationLiterals.KeywordMapViewLayersOrder);
 
                 ApplicationData.Current.SignalDataChanged();
                 DataAccess.DbPath = _projectCollection[newIndex].ProjectDBPath;
@@ -433,6 +431,8 @@ namespace GSCFieldApp.ViewModels
         /// <param name="metaID"></param>
         public async void OpenFieldBook(string projectPath, string fieldworkType, string userCode, string metaID, string dbPath, string dbVersion, bool withNavigateToMap = true)
         {
+            //Clear previous field book settings
+            localSetting.WipeUserMapSettings();
 
             //Update settings with new selected project
             localSetting.SetSettingValue(ApplicationLiterals.KeywordFieldProject, projectPath);

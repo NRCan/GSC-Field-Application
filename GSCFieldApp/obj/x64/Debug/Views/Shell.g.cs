@@ -15,7 +15,7 @@ namespace GSCFieldApp.Views
         global::Windows.UI.Xaml.Markup.IComponentConnector,
         global::Windows.UI.Xaml.Markup.IComponentConnector2
     {
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private static class XamlBindingSetters
         {
@@ -25,9 +25,11 @@ namespace GSCFieldApp.Views
             }
         };
 
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private class Shell_obj1_Bindings :
+            global::Windows.UI.Xaml.Markup.IDataTemplateComponent,
+            global::Windows.UI.Xaml.Markup.IXamlBindScopeDiagnostics,
             global::Windows.UI.Xaml.Markup.IComponentConnector,
             IShell_Bindings
         {
@@ -41,11 +43,39 @@ namespace GSCFieldApp.Views
             private global::Template10.Controls.HamburgerButtonInfo obj6;
             private global::Template10.Controls.HamburgerButtonInfo obj8;
 
+            // Fields for each event bindings event handler.
+            private global::Windows.UI.Xaml.RoutedEventHandler obj8Tapped;
+
+            // Static fields for each binding's enabled/disabled state
+            private static bool isobj5IsEnabledDisabled = false;
+            private static bool isobj6IsEnabledDisabled = false;
+            private static bool isobj8IsEnabledDisabled = false;
+
             private Shell_obj1_BindingsTracking bindingsTracking;
 
             public Shell_obj1_Bindings()
             {
                 this.bindingsTracking = new Shell_obj1_BindingsTracking(this);
+            }
+
+            public void Disable(int lineNumber, int columnNumber)
+            {
+                if (lineNumber == 25 && columnNumber == 92)
+                {
+                    isobj5IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 34 && columnNumber == 122)
+                {
+                    isobj6IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 50 && columnNumber == 150)
+                {
+                    isobj8IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 50 && columnNumber == 91)
+                {
+                    this.obj8.Tapped -= obj8Tapped;
+                }
             }
 
             // IComponentConnector
@@ -56,47 +86,36 @@ namespace GSCFieldApp.Views
                 {
                     case 5: // Views\Shell.xaml line 25
                         this.obj5 = (global::Template10.Controls.HamburgerButtonInfo)target;
-                        (this.obj5).RegisterPropertyChangedCallback(global::Template10.Controls.HamburgerButtonInfo.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.SViewModel.ShellEnableMapCommand = this.obj5.IsEnabled;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_5(this.obj5);
                         break;
                     case 6: // Views\Shell.xaml line 34
                         this.obj6 = (global::Template10.Controls.HamburgerButtonInfo)target;
-                        (this.obj6).RegisterPropertyChangedCallback(global::Template10.Controls.HamburgerButtonInfo.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.SViewModel.ShellEnableNoteCommand = this.obj6.IsEnabled;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_6(this.obj6);
                         break;
                     case 8: // Views\Shell.xaml line 50
                         this.obj8 = (global::Template10.Controls.HamburgerButtonInfo)target;
-                        ((global::Template10.Controls.HamburgerButtonInfo)target).Tapped += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
+                        this.obj8Tapped = (global::System.Object p0, global::Windows.UI.Xaml.RoutedEventArgs p1) =>
                         {
                             this.dataRoot.SViewModel.QuickBackupAsync();
                         };
-                        (this.obj8).RegisterPropertyChangedCallback(global::Template10.Controls.HamburgerButtonInfo.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.SViewModel.ShellEnableBackupCommand = this.obj8.IsEnabled;
-                            }
-                        });
+                        ((global::Template10.Controls.HamburgerButtonInfo)target).Tapped += obj8Tapped;
+                        this.bindingsTracking.RegisterTwoWayListener_8(this.obj8);
                         break;
                     default:
                         break;
                 }
+            }
+
+            // IDataTemplateComponent
+
+            public void ProcessBindings(global::System.Object item, int itemIndex, int phase, out int nextPhase)
+            {
+                throw new global::System.NotImplementedException();
+            }
+
+            public void Recycle()
+            {
+                throw new global::System.NotImplementedException();
             }
 
             // IShell_Bindings
@@ -171,7 +190,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\Shell.xaml line 25
-                    XamlBindingSetters.Set_Template10_Controls_HamburgerButtonInfo_IsEnabled(this.obj5, obj);
+                    if (!isobj5IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Template10_Controls_HamburgerButtonInfo_IsEnabled(this.obj5, obj);
+                    }
                 }
             }
             private void Update_SViewModel_ShellEnableNoteCommand(global::System.Boolean obj, int phase)
@@ -179,7 +201,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\Shell.xaml line 34
-                    XamlBindingSetters.Set_Template10_Controls_HamburgerButtonInfo_IsEnabled(this.obj6, obj);
+                    if (!isobj6IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Template10_Controls_HamburgerButtonInfo_IsEnabled(this.obj6, obj);
+                    }
                 }
             }
             private void Update_SViewModel_ShellEnableBackupCommand(global::System.Boolean obj, int phase)
@@ -187,11 +212,53 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\Shell.xaml line 50
-                    XamlBindingSetters.Set_Template10_Controls_HamburgerButtonInfo_IsEnabled(this.obj8, obj);
+                    if (!isobj8IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Template10_Controls_HamburgerButtonInfo_IsEnabled(this.obj8, obj);
+                    }
+                }
+            }
+            private void UpdateTwoWay_5_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.SViewModel != null)
+                        {
+                            this.dataRoot.SViewModel.ShellEnableMapCommand = this.obj5.IsEnabled;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_6_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.SViewModel != null)
+                        {
+                            this.dataRoot.SViewModel.ShellEnableNoteCommand = this.obj6.IsEnabled;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_8_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.SViewModel != null)
+                        {
+                            this.dataRoot.SViewModel.ShellEnableBackupCommand = this.obj8.IsEnabled;
+                        }
+                    }
                 }
             }
 
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private class Shell_obj1_BindingsTracking
             {
@@ -289,12 +356,45 @@ namespace GSCFieldApp.Views
                         }
                     }
                 }
+                public void RegisterTwoWayListener_5(global::Template10.Controls.HamburgerButtonInfo sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Template10.Controls.HamburgerButtonInfo.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_5_IsEnabled();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_6(global::Template10.Controls.HamburgerButtonInfo sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Template10.Controls.HamburgerButtonInfo.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_6_IsEnabled();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_8(global::Template10.Controls.HamburgerButtonInfo sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Template10.Controls.HamburgerButtonInfo.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_8_IsEnabled();
+                        }
+                    });
+                }
             }
         }
         /// <summary>
         /// Connect()
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public void Connect(int connectionId, object target)
         {
@@ -354,7 +454,7 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// GetBindingConnector(int connectionId, object target)
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IComponentConnector GetBindingConnector(int connectionId, object target)
         {
@@ -369,6 +469,7 @@ namespace GSCFieldApp.Views
                     bindings.SetDataRoot(this);
                     this.Bindings = bindings;
                     element1.Loading += bindings.Loading;
+                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetDataTemplateComponent(element1, bindings);
                 }
                 break;
             }

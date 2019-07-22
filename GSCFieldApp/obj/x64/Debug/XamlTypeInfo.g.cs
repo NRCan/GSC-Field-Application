@@ -12,7 +12,11 @@ namespace GSCFieldApp
 {
     public partial class App : global::Windows.UI.Xaml.Markup.IXamlMetadataProvider
     {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         private global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMetaDataProvider __appProvider;
+
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private global::GSCFieldApp.GSCFieldApp_XamlTypeInfo.XamlMetaDataProvider _AppProvider
         {
             get
@@ -28,6 +32,8 @@ namespace GSCFieldApp
         /// <summary>
         /// GetXamlType(Type)
         /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IXamlType GetXamlType(global::System.Type type)
         {
             return _AppProvider.GetXamlType(type);
@@ -36,6 +42,8 @@ namespace GSCFieldApp
         /// <summary>
         /// GetXamlType(String)
         /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IXamlType GetXamlType(string fullName)
         {
             return _AppProvider.GetXamlType(fullName);
@@ -44,6 +52,8 @@ namespace GSCFieldApp
         /// <summary>
         /// GetXmlnsDefinitions()
         /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.XmlnsDefinition[] GetXmlnsDefinitions()
         {
             return _AppProvider.GetXmlnsDefinitions();
@@ -56,7 +66,7 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
     /// <summary>
     /// Main class for providing metadata for the app or library
     /// </summary>
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     public sealed class XamlMetaDataProvider : global::Windows.UI.Xaml.Markup.IXamlMetadataProvider
     {
@@ -99,7 +109,7 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
         }
     }
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     internal partial class XamlTypeInfoProvider
     {
@@ -631,34 +641,14 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
 
         private int LookupTypeIndexByName(string typeName)
         {
-            if (_typeNameTable == null)
+            get
             {
-                InitTypeTables();
-            }
-            for (int i=0; i<_typeNameTable.Length; i++)
-            {
-                if(0 == string.CompareOrdinal(_typeNameTable[i], typeName))
+                if (_Provider == null)
                 {
-                    return i;
+                    _Provider = new global::Microsoft.UI.Xaml.Markup.ReflectionXamlMetadataProvider();
                 }
+                return _Provider;
             }
-            return -1;
-        }
-
-        private int LookupTypeIndexByType(global::System.Type type)
-        {
-            if (_typeTable == null)
-            {
-                InitTypeTables();
-            }
-            for(int i=0; i<_typeTable.Length; i++)
-            {
-                if(type == _typeTable[i])
-                {
-                    return i;
-                }
-            }
-            return -1;
         }
 
         private object Activate_7_ModalDialog() { return new global::Template10.Controls.ModalDialog(); }
@@ -894,9 +884,7 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
         }
         private void VectorAdd_168_Collection(object instance, object item)
         {
-            var collection = (global::System.Collections.Generic.ICollection<global::GSCFieldApp.Models.FieldBooks>)instance;
-            var newItem = (global::GSCFieldApp.Models.FieldBooks)item;
-            collection.Add(newItem);
+            return Provider.GetXamlType(type);
         }
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(int typeIndex)
@@ -7655,10 +7643,7 @@ namespace GSCFieldApp.GSCFieldApp_XamlTypeInfo
         public Setter Setter { get; set; }
         public void SetValue(object instance, object value)
         {
-            if (Setter != null)
-                Setter(instance, value);
-            else
-                throw new global::System.InvalidOperationException("SetValue");
+            return Provider.GetXamlType(typeName);
         }
     }
 }

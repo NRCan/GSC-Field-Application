@@ -15,7 +15,7 @@ namespace GSCFieldApp.Views
         global::Windows.UI.Xaml.Markup.IComponentConnector,
         global::Windows.UI.Xaml.Markup.IComponentConnector2
     {
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private static class XamlBindingSetters
         {
@@ -49,9 +49,11 @@ namespace GSCFieldApp.Views
             }
         };
 
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private class FieldBookDialog_obj1_Bindings :
+            global::Windows.UI.Xaml.Markup.IDataTemplateComponent,
+            global::Windows.UI.Xaml.Markup.IXamlBindScopeDiagnostics,
             global::Windows.UI.Xaml.Markup.IComponentConnector,
             IFieldBookDialog_Bindings
         {
@@ -72,11 +74,87 @@ namespace GSCFieldApp.Views
             private global::Windows.UI.Xaml.Controls.ComboBox obj19;
             private global::Windows.UI.Xaml.Controls.TextBox obj20;
 
+            // Static fields for each binding's enabled/disabled state
+            private static bool isobj11IsEnabledDisabled = false;
+            private static bool isobj11TextDisabled = false;
+            private static bool isobj12TextDisabled = false;
+            private static bool isobj13TextDisabled = false;
+            private static bool isobj14TextDisabled = false;
+            private static bool isobj15IsEnabledDisabled = false;
+            private static bool isobj15TextDisabled = false;
+            private static bool isobj16TextDisabled = false;
+            private static bool isobj17TextDisabled = false;
+            private static bool isobj18TextDisabled = false;
+            private static bool isobj19ItemsSourceDisabled = false;
+            private static bool isobj19SelectedValueDisabled = false;
+            private static bool isobj19IsEnabledDisabled = false;
+            private static bool isobj20TextDisabled = false;
+
             private FieldBookDialog_obj1_BindingsTracking bindingsTracking;
 
             public FieldBookDialog_obj1_Bindings()
             {
                 this.bindingsTracking = new FieldBookDialog_obj1_BindingsTracking(this);
+            }
+
+            public void Disable(int lineNumber, int columnNumber)
+            {
+                if (lineNumber == 125 && columnNumber == 80)
+                {
+                    isobj11IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 127 && columnNumber == 30)
+                {
+                    isobj11TextDisabled = true;
+                }
+                else if (lineNumber == 99 && columnNumber == 25)
+                {
+                    isobj12TextDisabled = true;
+                }
+                else if (lineNumber == 103 && columnNumber == 25)
+                {
+                    isobj13TextDisabled = true;
+                }
+                else if (lineNumber == 107 && columnNumber == 25)
+                {
+                    isobj14TextDisabled = true;
+                }
+                else if (lineNumber == 110 && columnNumber == 83)
+                {
+                    isobj15IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 112 && columnNumber == 29)
+                {
+                    isobj15TextDisabled = true;
+                }
+                else if (lineNumber == 75 && columnNumber == 26)
+                {
+                    isobj16TextDisabled = true;
+                }
+                else if (lineNumber == 79 && columnNumber == 26)
+                {
+                    isobj17TextDisabled = true;
+                }
+                else if (lineNumber == 83 && columnNumber == 26)
+                {
+                    isobj18TextDisabled = true;
+                }
+                else if (lineNumber == 53 && columnNumber == 27)
+                {
+                    isobj19ItemsSourceDisabled = true;
+                }
+                else if (lineNumber == 54 && columnNumber == 27)
+                {
+                    isobj19SelectedValueDisabled = true;
+                }
+                else if (lineNumber == 54 && columnNumber == 95)
+                {
+                    isobj19IsEnabledDisabled = true;
+                }
+                else if (lineNumber == 60 && columnNumber == 26)
+                {
+                    isobj20TextDisabled = true;
+                }
             }
 
             // IComponentConnector
@@ -87,145 +165,59 @@ namespace GSCFieldApp.Views
                 {
                     case 11: // Views\FieldBookDialog.xaml line 124
                         this.obj11 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj11).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.Enability = this.obj11.IsEnabled;
-                            }
-                        });
-                        (this.obj11).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.StartStationNumber = this.obj11.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_11(this.obj11);
                         break;
                     case 12: // Views\FieldBookDialog.xaml line 97
                         this.obj12 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj12).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.GeologistFN = this.obj12.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_12(this.obj12);
                         break;
                     case 13: // Views\FieldBookDialog.xaml line 101
                         this.obj13 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj13).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.GeologistMN = this.obj13.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_13(this.obj13);
                         break;
                     case 14: // Views\FieldBookDialog.xaml line 105
                         this.obj14 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj14).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.GeologistLN = this.obj14.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_14(this.obj14);
                         break;
                     case 15: // Views\FieldBookDialog.xaml line 109
                         this.obj15 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj15).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.Enability = this.obj15.IsEnabled;
-                            }
-                        });
-                        (this.obj15).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.GeologistCode = this.obj15.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_15(this.obj15);
                         break;
                     case 16: // Views\FieldBookDialog.xaml line 73
                         this.obj16 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj16).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ProjectLeaderFN = this.obj16.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_16(this.obj16);
                         break;
                     case 17: // Views\FieldBookDialog.xaml line 77
                         this.obj17 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj17).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ProjectLeaderMN = this.obj17.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_17(this.obj17);
                         break;
                     case 18: // Views\FieldBookDialog.xaml line 81
                         this.obj18 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj18).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ProjectLeaderLN = this.obj18.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_18(this.obj18);
                         break;
                     case 19: // Views\FieldBookDialog.xaml line 50
                         this.obj19 = (global::Windows.UI.Xaml.Controls.ComboBox)target;
-                        (this.obj19).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.SelectedProjectType = (global::System.String)this.obj19.SelectedValue;
-                            }
-                        });
-                        (this.obj19).RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty,
-                            (global::Windows.UI.Xaml.DependencyObject sender, global::Windows.UI.Xaml.DependencyProperty prop) =>
-                            {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.Enability = this.obj19.IsEnabled;
-                            }
-                        });
+                        this.bindingsTracking.RegisterTwoWayListener_19(this.obj19);
                         break;
                     case 20: // Views\FieldBookDialog.xaml line 57
                         this.obj20 = (global::Windows.UI.Xaml.Controls.TextBox)target;
-                        (this.obj20).LostFocus += (global::System.Object sender, global::Windows.UI.Xaml.RoutedEventArgs e) =>
-                        {
-                            if (this.initialized)
-                            {
-                                // Update Two Way binding
-                                this.dataRoot.ViewModel.ProjectName = this.obj20.Text;
-                            }
-                        };
+                        this.bindingsTracking.RegisterTwoWayListener_20(this.obj20);
                         break;
                     default:
                         break;
                 }
+            }
+
+            // IDataTemplateComponent
+
+            public void ProcessBindings(global::System.Object item, int itemIndex, int phase, out int nextPhase)
+            {
+                throw new global::System.NotImplementedException();
+            }
+
+            public void Recycle()
+            {
+                throw new global::System.NotImplementedException();
             }
 
             // IFieldBookDialog_Bindings
@@ -315,11 +307,20 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 124
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj11, obj);
+                    if (!isobj11IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj11, obj);
+                    }
                     // Views\FieldBookDialog.xaml line 109
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj15, obj);
+                    if (!isobj15IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj15, obj);
+                    }
                     // Views\FieldBookDialog.xaml line 50
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj19, obj);
+                    if (!isobj19IsEnabledDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Control_IsEnabled(this.obj19, obj);
+                    }
                 }
             }
             private void Update_ViewModel_StartStationNumber(global::System.String obj, int phase)
@@ -327,7 +328,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 124
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj11, obj, null);
+                    if (!isobj11TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj11, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_GeologistFN(global::System.String obj, int phase)
@@ -335,7 +339,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 97
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj12, obj, null);
+                    if (!isobj12TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj12, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_GeologistMN(global::System.String obj, int phase)
@@ -343,7 +350,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 101
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj13, obj, null);
+                    if (!isobj13TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj13, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_GeologistLN(global::System.String obj, int phase)
@@ -351,7 +361,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 105
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj14, obj, null);
+                    if (!isobj14TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj14, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_GeologistCode(global::System.String obj, int phase)
@@ -359,7 +372,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 109
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj15, obj, null);
+                    if (!isobj15TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj15, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_ProjectLeaderFN(global::System.String obj, int phase)
@@ -367,7 +383,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 73
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj16, obj, null);
+                    if (!isobj16TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj16, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_ProjectLeaderMN(global::System.String obj, int phase)
@@ -375,7 +394,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 77
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj17, obj, null);
+                    if (!isobj17TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj17, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_ProjectLeaderLN(global::System.String obj, int phase)
@@ -383,7 +405,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 81
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj18, obj, null);
+                    if (!isobj18TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj18, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_ProjectType(global::System.Collections.Generic.List<global::GSCFieldApp.Themes.ComboBoxItem> obj, int phase)
@@ -391,7 +416,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED )) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 50
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj19, obj, null);
+                    if (!isobj19ItemsSourceDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_ItemsControl_ItemsSource(this.obj19, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_SelectedProjectType(global::System.String obj, int phase)
@@ -399,7 +427,10 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 50
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj19, obj, null);
+                    if (!isobj19SelectedValueDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_Primitives_Selector_SelectedValue(this.obj19, obj, null);
+                    }
                 }
             }
             private void Update_ViewModel_ProjectName(global::System.String obj, int phase)
@@ -407,11 +438,183 @@ namespace GSCFieldApp.Views
                 if ((phase & ((1 << 0) | NOT_PHASED | DATA_CHANGED)) != 0)
                 {
                     // Views\FieldBookDialog.xaml line 57
-                    XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj20, obj, null);
+                    if (!isobj20TextDisabled)
+                    {
+                        XamlBindingSetters.Set_Windows_UI_Xaml_Controls_TextBox_Text(this.obj20, obj, null);
+                    }
+                }
+            }
+            private void UpdateTwoWay_11_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.Enability = this.obj11.IsEnabled;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_11_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.StartStationNumber = this.obj11.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_12_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.GeologistFN = this.obj12.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_13_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.GeologistMN = this.obj13.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_14_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.GeologistLN = this.obj14.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_15_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.Enability = this.obj15.IsEnabled;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_15_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.GeologistCode = this.obj15.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_16_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.ProjectLeaderFN = this.obj16.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_17_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.ProjectLeaderMN = this.obj17.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_18_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.ProjectLeaderLN = this.obj18.Text;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_19_SelectedValue()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.SelectedProjectType = (global::System.String)this.obj19.SelectedValue;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_19_IsEnabled()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.Enability = this.obj19.IsEnabled;
+                        }
+                    }
+                }
+            }
+            private void UpdateTwoWay_20_Text()
+            {
+                if (this.initialized)
+                {
+                    if (this.dataRoot != null)
+                    {
+                        if (this.dataRoot.ViewModel != null)
+                        {
+                            this.dataRoot.ViewModel.ProjectName = this.obj20.Text;
+                        }
+                    }
                 }
             }
 
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private class FieldBookDialog_obj1_BindingsTracking
             {
@@ -581,12 +784,146 @@ namespace GSCFieldApp.Views
                         }
                     }
                 }
+                public void RegisterTwoWayListener_11(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_11_IsEnabled();
+                        }
+                    });
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_11_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_12(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_12_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_13(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_13_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_14(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_14_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_15(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_15_IsEnabled();
+                        }
+                    });
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_15_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_16(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_16_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_17(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_17_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_18(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_18_Text();
+                        }
+                    };
+                }
+                public void RegisterTwoWayListener_19(global::Windows.UI.Xaml.Controls.ComboBox sourceObject)
+                {
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Primitives.Selector.SelectedValueProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_19_SelectedValue();
+                        }
+                    });
+                    sourceObject.RegisterPropertyChangedCallback(global::Windows.UI.Xaml.Controls.Control.IsEnabledProperty, (sender, prop) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_19_IsEnabled();
+                        }
+                    });
+                }
+                public void RegisterTwoWayListener_20(global::Windows.UI.Xaml.Controls.TextBox sourceObject)
+                {
+                    sourceObject.LostFocus += (sender, e) =>
+                    {
+                        var bindingObj = this.TryGetBindingObject();
+                        if (bindingObj != null)
+                        {
+                            bindingObj.UpdateTwoWay_20_Text();
+                        }
+                    };
+                }
             }
         }
         /// <summary>
         /// Connect()
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public void Connect(int connectionId, object target)
         {
@@ -709,7 +1046,7 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// GetBindingConnector(int connectionId, object target)
         /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.16.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Windows.UI.Xaml.Build.Tasks"," 10.0.17.0")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::Windows.UI.Xaml.Markup.IComponentConnector GetBindingConnector(int connectionId, object target)
         {
@@ -724,6 +1061,7 @@ namespace GSCFieldApp.Views
                     bindings.SetDataRoot(this);
                     this.Bindings = bindings;
                     element1.Loading += bindings.Loading;
+                    global::Windows.UI.Xaml.Markup.XamlBindingHelper.SetDataTemplateComponent(element1, bindings);
                 }
                 break;
             }

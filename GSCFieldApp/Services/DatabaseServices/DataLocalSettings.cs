@@ -85,10 +85,10 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         public void WipeUserMapSettings()
         {
-            if (currentLocalSettings.Containers[containerName].Values.ContainsKey(ApplicationLiterals.KeywordMapViewLayersOrder))
-            {
-                currentLocalSettings.Containers[containerName].Values.Remove(ApplicationLiterals.KeywordMapViewLayersOrder);
-            }
+            //if (currentLocalSettings.Containers[containerName].Values.ContainsKey(ApplicationLiterals.KeywordMapViewLayersOrder))
+            //{
+            //    currentLocalSettings.Containers[containerName].Values.Remove(ApplicationLiterals.KeywordMapViewLayersOrder);
+            //}
             if (currentLocalSettings.Containers[containerName].Values.ContainsKey(ApplicationLiterals.KeywordMapViewScale))
             {
                 currentLocalSettings.Containers[containerName].Values.Remove(ApplicationLiterals.KeywordMapViewScale);
