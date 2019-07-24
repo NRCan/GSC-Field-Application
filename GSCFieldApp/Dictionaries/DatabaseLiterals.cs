@@ -34,7 +34,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldLocationDatum = "EPSG"; //Version 1.44
         public const string FieldLocationEasting = "EASTING";//Version 1.0
         public const string FieldLocationNorthing = "NORTHING";//Version 1.0
-        public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0
+        //public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0 DEL Version 1.44
         public const string FieldLocationNotes = "NOTES"; //Version 1.0
         public const string FieldLocationReportLink = "REPORT_LINK"; //Version 1.0
 

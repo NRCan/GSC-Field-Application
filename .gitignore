@@ -6,5 +6,5 @@
 */obj/ARM
 */bin
 db.lock
-.xbf
+*.xbf
 .vs/GSCFieldApp/v15/.suo

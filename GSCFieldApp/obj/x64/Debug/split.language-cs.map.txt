@@ -1,6 +1,0 @@
-﻿[ResourceMetadata]
-"ResourceId"			"split.language-cs"
-"ResourceDimensions"		"language-cs"
-
-[Files]
-"C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\split.language-cs.pri"			"resources.pri"

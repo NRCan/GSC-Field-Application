@@ -53,12 +53,12 @@ namespace GSCFieldApp.ViewModels
             get { return _locationLatitude; }
             set
             {
-                int lat;
-                bool result = int.TryParse(value, out lat);
+                double lat;
+                bool result = double.TryParse(value, out lat);
 
                 if (result)
                 {
-                    if (lat >= -90 && lat <= 90)
+                    if (lat >= -90.0 && lat <= 90.0)
                     {
                         _locationLatitude = value;
                     }
@@ -81,12 +81,12 @@ namespace GSCFieldApp.ViewModels
             get { return _locationLongitude; }
             set
             {
-                int longitude;
-                bool result = int.TryParse(value, out longitude);
+                double longitude;
+                bool result = double.TryParse(value, out longitude);
 
                 if (result)
                 {
-                    if (longitude >= -180 && longitude <= 180)
+                    if (longitude >= -180.0 && longitude <= 180.0)
                     {
                         _locationLongitude = value;
                     }

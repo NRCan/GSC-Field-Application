@@ -39,9 +39,6 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationDatum)]
         public string LocationDatum { get; set; }
 
-        [Column(DatabaseLiterals.FieldLocationDatumZone)]
-        public string LocationDatumZone { get; set; }
-
         [Column(DatabaseLiterals.FieldStationElevation)]
         public double LocationElev { get; set; }
 

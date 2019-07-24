@@ -1337,7 +1337,7 @@ Williams, Stephen - Developer</value>
     <value>No GPS Signal. Please wait</value>
   </data>
   <data name="WarningBadVersionContent" xml:space="preserve">
-    <value>Restored database version is outdated. Application might not run properly. Please update and restore back. --Current app uses version 1.42.</value>
+    <value>Restored database version is outdated. Application might not run properly. Please update and restore back. --Current app uses version </value>
   </data>
   <data name="WarningBadVersionTitle" xml:space="preserve">
     <value>Database Version</value>
@@ -1407,5 +1407,11 @@ Williams, Stephen - Developer</value>
   </data>
   <data name="LocationDialogNotes.Header" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="LocationDialogDatumContent" xml:space="preserve">
+    <value>Please select a proper geodetic system</value>
+  </data>
+  <data name="LocationDialogDatumTitle" xml:space="preserve">
+    <value>Geodetic system</value>
   </data>
 </root>

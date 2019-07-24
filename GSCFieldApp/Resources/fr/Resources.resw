@@ -1334,7 +1334,7 @@ Williams, Stephen - Programmeur</value>
     <value>Aucun signaux GPS. Veuillez patienter.</value>
   </data>
   <data name="WarningBadVersionContent" xml:space="preserve">
-    <value>La base de données restauré ne possède pas un schéma à jour. L'application pourrait se comporter étrangement ou césser de fonctionner subitement. Veuillez mettre à jour la base de données et l'importer de nouveau.  --La version actuellement utilisée par l'application est 1.42.</value>
+    <value>La base de données restauré ne possède pas un schéma à jour. L'application pourrait se comporter étrangement ou césser de fonctionner subitement. Veuillez mettre à jour la base de données et l'importer de nouveau.  --La version actuellement utilisée par l'application est </value>
   </data>
   <data name="WarningBadVersionTitle" xml:space="preserve">
     <value>Version - Base de données</value>
@@ -1407,5 +1407,11 @@ Williams, Stephen - Programmeur</value>
   </data>
   <data name="LocationDialogNotes.Header" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="LocationDialogDatumContent" xml:space="preserve">
+    <value>Veuillez sélectionner un système de référence</value>
+  </data>
+  <data name="LocationDialogDatumTitle" xml:space="preserve">
+    <value>Système de référence</value>
   </data>
 </root>
