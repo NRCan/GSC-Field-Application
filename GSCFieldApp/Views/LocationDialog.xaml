@@ -118,7 +118,7 @@
                         </GridView>
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="LocationDialogNoteTextbox" x:Uid="LocationDialogNotes"  HorizontalAlignment="Stretch" RelativePanel.Below="LocationGridView_04"
-                                    Text ="{x:Bind locationVM.Notes, Mode=TwoWay}" Margin="0, -50, 0, 0"/>
+                                    Text ="{x:Bind locationVM.LocationNotes, Mode=TwoWay}" Margin="0, -50, 0, 0"/>
 
                     </RelativePanel>
                 </ScrollViewer>

@@ -70,7 +70,7 @@ namespace GSCFieldApp.Views
         private void StationDataPart_Loading(FrameworkElement sender, object args)
         {
             //Get information to automatically fill the dialog if data already exists (report page vs new station)
-            if (parentStationReport != null)
+            if (parentStationReport != null && parentStationReport.station.StationID != null)
             {
                 if (parentStationReport.station.StationAlias.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
                 {

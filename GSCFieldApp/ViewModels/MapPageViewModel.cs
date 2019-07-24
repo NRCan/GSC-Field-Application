@@ -2618,7 +2618,7 @@ namespace GSCFieldApp.ViewModels
             string queryWhereElevMethodGPS = Dictionaries.DatabaseLiterals.termIDElevmethod_GPS + "'";
             string queryWhereErrorTypeMeter = Dictionaries.DatabaseLiterals.termIDErrorTypeMeasure_Meter + "'";
             string queryWhereEntryTap = Dictionaries.DatabaseLiterals.termIDEntryType_Tap + "'";
-            string queryWhereEntryManual = Dictionaries.DatabaseLiterals.termIDEntryType_Unknown + "'";
+            string queryWhereEntryManual = Dictionaries.DatabaseLiterals.termIDEntryType_Manual + "'";
 
             Vocabularies vocaModel = new Vocabularies();
 

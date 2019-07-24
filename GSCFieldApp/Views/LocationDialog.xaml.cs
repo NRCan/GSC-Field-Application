@@ -20,6 +20,10 @@ using System.Diagnostics;
 using Esri.ArcGISRuntime.Geometry;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Resources;
+using Template10.Controls;
+using GSCFieldApp.Services.DatabaseServices;
+using Windows.UI.Xaml.Media.Animation;
+using Template10.Services.NavigationService;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -38,11 +42,44 @@ namespace GSCFieldApp.Views
 
             this.InitializeComponent();
             locationVM = new LocationViewModel(inDetailViewModel);
+            locationVM.LocationAlias = parentViewModel.location.LocationAlias;
+            locationVM.LocationID = parentViewModel.location.LocationID;
+
+            //Keep in memory that this is a manual entry.
+            if (parentViewModel.location.LocationEntryType.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordManual))
+            {
+                locationVM.entryType = parentViewModel.location.LocationEntryType;
+            }
+            
             this.Loading += LocationDialog_Loading;
             this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocus;
+            this.Unloaded += LocationDialog_Unloaded;
         }
 
+        private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
+        {
+            //Detect manual entry, if it's the case pop station dialog
+            if (locationVM.entryType != null)
+            {
+                //Create a field note report to act like a parent
+                FieldNotes stationParent = new FieldNotes();
+                stationParent.location = locationVM.locationModel;
+                stationParent.GenericAliasName = locationVM.LocationAlias;
+                stationParent.GenericID = locationVM.LocationID;
+                stationParent.GenericID = Dictionaries.DatabaseLiterals.TableLocation;
 
+                //Create a map point
+                var modal = Window.Current.Content as ModalDialog;
+                var view = modal.ModalContent as Views.StationDataPart;
+                modal.ModalContent = view = new Views.StationDataPart(stationParent, false);
+                view.mapPosition = locationVM.locationModel;
+                view.ViewModel.newStationEdit += locationVM.NavigateToReportAsync; //Detect when the add/edit request has finished.
+                modal.IsModal = true;
+
+                DataLocalSettings dLocalSettings = new DataLocalSettings();
+                dLocalSettings.SetSettingValue("forceNoteRefresh", false);
+            }
+        }
 
         /// <summary>
         /// Will fill the dialog with known information
@@ -208,48 +245,43 @@ namespace GSCFieldApp.Views
         private async void DisplayGeoCoordinatesAsync()
         {
             //XY
-            double x_value = 0.0;
-            double y_value = 0.0;
+            int x_value = 0;
+            int y_value = 0;
             if (this.LocationEasting.Text != string.Empty)
             {
-                x_value = Double.Parse(this.LocationEasting.Text);
+                x_value = int.Parse(this.LocationEasting.Text);
             }
             if (this.LocationNorthing.Text != string.Empty)
             {
-                y_value = Double.Parse(this.LocationNorthing.Text);
+                y_value = int.Parse(this.LocationNorthing.Text);
             }
 
             //Transform
             if (x_value != 0.0 && y_value != 0.0)
             {
-                //Bad system
-                bool isSystemValid = false;
 
                 if (this.LocationDatum.SelectedValue != null)
                 {
+                    
                     //Detect a projected system
                     int selectedEPGS = 0;
                     int.TryParse(this.LocationDatum.SelectedValue.ToString(), out selectedEPGS);
                     
                     //Detect Datum difference
+                    SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
                     SpatialReference outSR = SpatialReferences.Wgs84; //Default
                     if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
                     {
                         outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
                     }
 
-                    MapPoint geoPoint = new MapPoint(x_value, y_value, selectedEPGS);
-                    MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSR);
+                    //Get geographic point
+                    MapPoint geoPoint = locationVM.CalculateGeographicCoordinate(x_value, y_value, inSR, outSR);
 
-                    int y = (int)projPoint.Y;
-                    int x = (int)projPoint.X;
+                    double y = geoPoint.Y;
+                    double x = geoPoint.X;
                     this.LocationLat.Text = y.ToString();
                     this.LocationLong.Text = x.ToString();
-
-
-
-                    isSystemValid = true;
-                    
 
                 }
             }

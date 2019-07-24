@@ -819,50 +819,54 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         public async void ProjectUpgrade_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            //Get local storage folder
-            StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
-
-            //Keep current database path before creating the new one
-            string dbpathToUpgrade = DataAccess.DbPath;
-
-            //Create new fieldbook
-            Task createNewDatabase = accessData.CreateDatabaseFromResource();
-            await createNewDatabase;
-            if (createNewDatabase.IsCompleted)
+            if (System.IO.Directory.Exists(accessData.ProjectPath))
             {
-                
-                //Connect to the new working database
-                SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
+                //Get local storage folder
+                StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
-                //Keep user vocab
-                accessData.DoSwapVocab(dbpathToUpgrade, workingDBConnection, false);
+                //Keep current database path before creating the new one
+                string dbpathToUpgrade = DataAccess.DbPath;
 
-                //Upgrade other tables
-                accessData.DoUpgradeSchema(dbpathToUpgrade, workingDBConnection);
-
-            }
-
-            //Show end message
-            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-            ContentDialog upgradedDBDialog = new ContentDialog()
-            {
-                Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
-                Content = loadLocalization.GetString("FieldBookUpgradeContent"),
-                PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
-            };
-
-            ContentDialogResult cdr = await upgradedDBDialog.ShowAsync();
-            if (cdr == ContentDialogResult.Primary)
-            {
-                FillProjectCollectionAsync();
-
-                //Send call to refresh other pages
-                EventHandler<string> newFieldBookRequest = newFieldBookSelected;
-                if (newFieldBookRequest != null)
+                //Create new fieldbook
+                Task createNewDatabase = accessData.CreateDatabaseFromResource();
+                await createNewDatabase;
+                if (createNewDatabase.IsCompleted)
                 {
-                    newFieldBookRequest(this, System.IO.Directory.GetParent(dbpathToUpgrade).FullName);
+
+                    //Connect to the new working database
+                    SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
+
+                    //Keep user vocab
+                    accessData.DoSwapVocab(dbpathToUpgrade, workingDBConnection, false);
+
+                    //Upgrade other tables
+                    accessData.DoUpgradeSchema(dbpathToUpgrade, workingDBConnection);
+
+                }
+
+                //Show end message
+                var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                ContentDialog upgradedDBDialog = new ContentDialog()
+                {
+                    Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
+                    Content = loadLocalization.GetString("FieldBookUpgradeContent"),
+                    PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
+                };
+
+                ContentDialogResult cdr = await upgradedDBDialog.ShowAsync();
+                if (cdr == ContentDialogResult.Primary)
+                {
+                    FillProjectCollectionAsync();
+
+                    //Send call to refresh other pages
+                    EventHandler<string> newFieldBookRequest = newFieldBookSelected;
+                    if (newFieldBookRequest != null)
+                    {
+                        newFieldBookRequest(this, System.IO.Directory.GetParent(dbpathToUpgrade).FullName);
+                    }
                 }
             }
+
 
         }
         #endregion
