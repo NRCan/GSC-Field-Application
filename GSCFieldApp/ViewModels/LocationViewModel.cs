@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 using Template10.Common;
 using Template10.Mvvm;
 using Template10.Services.NavigationService;
+using Windows.ApplicationModel.Resources;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -43,6 +47,7 @@ namespace GSCFieldApp.ViewModels
         DataAccess accessData = new DataAccess();
         DataLocalSettings localSetting = new DataLocalSettings();
         public DataIDCalculation idCalculator = new DataIDCalculation();
+        public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
         //Events and delegate
         public delegate void LocationEditEventHandler(object sender); //A delegate for execution events
@@ -185,16 +190,20 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// On save event
         /// </summary>
-        public void SaveDialogInfo()
+        public async void SaveDialogInfoAsync()
         {
-            int x_value = 0;
-            int y_value = 0;
+            double _long = 0.0;
+            double _lat = 0.0;
+            int _easting = 0;
+            int _northing = 0;
 
-            int.TryParse(LocationEasting, out x_value);
-            int.TryParse(LocationNorthing, out y_value);
+            double.TryParse(LocationLongitude, out _long);
+            double.TryParse(LocationLatitude, out _lat);
+            int.TryParse(LocationEasting, out _easting);
+            int.TryParse(LocationNorthing, out _northing);
 
-            //Make sure that geographic coordinates are filled in.
-            if (x_value== 0 && y_value == 0)
+            //Make sure that everything has been filled
+            if ((_long == 0 || _lat == 0) && (_easting != 0 || _northing != 0))
             {
 
                 //Detect a projected system
@@ -209,7 +218,7 @@ namespace GSCFieldApp.ViewModels
                     outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
                 }
 
-                MapPoint geoSave = CalculateGeographicCoordinate(x_value, y_value, inSR, outSR);
+                MapPoint geoSave = CalculateGeographicCoordinate(_easting, _northing, inSR, outSR);
                 if (geoSave != null)
                 {
                     LocationLongitude = geoSave.X.ToString();
@@ -217,19 +226,30 @@ namespace GSCFieldApp.ViewModels
                     RaisePropertyChanged("LocationLongitude");
                     RaisePropertyChanged("LocationLatitude");
                 }
-
             }
 
             //Get current class information and add to model
             locationModel.LocationID = LocationID; //Prime key
             locationModel.LocationAlias = LocationAlias;
-            locationModel.LocationLat = Double.Parse(LocationLatitude); 
+            locationModel.LocationLat = Double.Parse(LocationLatitude);
             locationModel.LocationLong = Double.Parse(LocationLongitude);
             locationModel.LocationElev = Double.Parse(LocationElevation);
             locationModel.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
             locationModel.LocationNotes = LocationNotes;
-            locationModel.LocationEasting = Double.Parse(LocationEasting);
-            locationModel.LocationNorthing = Double.Parse(LocationNorthing);
+
+            if (LocationEasting != string.Empty)
+            {
+                double saveEasting = 0.0;
+                Double.TryParse(LocationEasting, out saveEasting);
+                locationModel.LocationEasting = saveEasting;
+            }
+            if (LocationNorthing != string.Empty)
+            {
+                double saveNorthing = 0.0;
+                Double.TryParse(LocationNorthing, out saveNorthing);
+                locationModel.LocationNorthing = saveNorthing;
+            }
+
             if (SelectedLocationDatums != null)
             {
                 locationModel.LocationDatum = SelectedLocationDatums;
@@ -250,6 +270,7 @@ namespace GSCFieldApp.ViewModels
                 newLocationEdit(this);
             }
 
+            
         }
 
 

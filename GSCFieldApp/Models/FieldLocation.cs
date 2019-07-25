@@ -99,6 +99,27 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
+        /// Will check if current location has been entered by a tap on screen or a manual entry
+        /// For validation purposes.
+        /// </summary>
+        [Ignore]
+        public bool isTapOrManualEntry
+        {
+            get
+            {
+                if (LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual || LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeTap)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set { }
+        }
+
+        /// <summary>
         /// A list of all possible fields
         /// </summary>
         [Ignore]

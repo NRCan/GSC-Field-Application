@@ -64,9 +64,15 @@
 
                     <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
                         <!--Validity background check-->
-                        <FontIcon Glyph="&#xE73C;" 
+                        <FontIcon Glyph="&#xE73C;" x:Name="locationValidityIcon"
                                 Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
                                 Visibility="{x:Bind location.isValid, Converter={StaticResource VisibilityConverter}}"/>
+
+                        <!--Tap or manual entry data check-->
+                        <FontIcon Glyph="&#xF271;" x:Name="locationManualTapIcon" Margin="0,0,5,0"
+                                RelativePanel.LeftOf="locationValidityIcon" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind location.isTapOrManualEntry, Converter={StaticResource VisibilityFromBoolConverter}}"/>
+                        
                     </RelativePanel>
 
                     <!--Values-->

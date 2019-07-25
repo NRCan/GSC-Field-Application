@@ -260,6 +260,8 @@ namespace GSCFieldApp.Dictionaries
         public const string picklistNACode = "N.A.";
         public const string picklistNADescription = "N.A.";
         public const string documentTableFileSuffix = ".jpg";
+        public const string locationEntryTypeManual = "Manual";
+        public const string locationEntryTypeTap = "Tap";
 
         #endregion
 
@@ -285,6 +287,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordLinear = "linear";
         public const string KeywordLocation = "location";
         public const string KeywordManual = "manual";
+        public const string KeywordEPSGDefault = "4236"; //WGS 84
 
         #endregion
 

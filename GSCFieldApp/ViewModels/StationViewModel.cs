@@ -166,8 +166,15 @@ namespace GSCFieldApp.ViewModels
             //Save the new location only if the modal dialog wasn't pop for edition
             if (existingDataDetail == null) //New Station
             {
-                //Init location
-                QuickLocation(_location);
+                //Init location if it doesn't already exist from a manual entry
+                if (_location.LocationEntryType != Dictionaries.DatabaseLiterals.locationEntryTypeManual)
+                {
+                    QuickLocation(_location);
+                }
+                else
+                {
+                    _locationid = _location.LocationID;
+                }
 
                 //Calculate new values for station too
                 _dateDate = CalculateStationDate(); //Calculate new value
@@ -437,6 +444,7 @@ namespace GSCFieldApp.ViewModels
                 Location.LocationLat = inLocation.LocationLat;
                 Location.LocationLong = inLocation.LocationLong;
                 Location.LocationElev = inLocation.LocationElev;
+                Location.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault;
 
             }
             else

@@ -24,6 +24,7 @@ using Template10.Controls;
 using GSCFieldApp.Services.DatabaseServices;
 using Windows.UI.Xaml.Media.Animation;
 using Template10.Services.NavigationService;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -46,20 +47,18 @@ namespace GSCFieldApp.Views
             locationVM.LocationID = parentViewModel.location.LocationID;
 
             //Keep in memory that this is a manual entry.
-            if (parentViewModel.location.LocationEntryType.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordManual))
-            {
-                locationVM.entryType = parentViewModel.location.LocationEntryType;
-            }
+            
+            locationVM.entryType = parentViewModel.location.LocationEntryType;
+            
             
             this.Loading += LocationDialog_Loading;
-            this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocus;
             this.Unloaded += LocationDialog_Unloaded;
         }
 
         private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
         {
             //Detect manual entry, if it's the case pop station dialog
-            if (locationVM.entryType != null)
+            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false)
             {
                 //Create a field note report to act like a parent
                 FieldNotes stationParent = new FieldNotes();
@@ -77,9 +76,14 @@ namespace GSCFieldApp.Views
                 modal.IsModal = true;
 
                 DataLocalSettings dLocalSettings = new DataLocalSettings();
-                dLocalSettings.SetSettingValue("forceNoteRefresh", false);
+                dLocalSettings.SetSettingValue("forceNoteRefresh", true);
+            }
+            else
+            {
+                locationVM.newLocationEdit += locationVM.NavigateToReportAsync;
             }
         }
+
 
         /// <summary>
         /// Will fill the dialog with known information
@@ -93,14 +97,19 @@ namespace GSCFieldApp.Views
             {
                 this.locationVM.AutoFillDialog(parentViewModel);
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;
+
+                if (parentViewModel.location.LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual)
+                {
+                    this.locationVM.SetReadOnlyFields(true);
+                }
+                
             }
             else
             {
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;
+
                 this.locationVM.SetReadOnlyFields();
             }
-
-            DisplayUTMCoordinatesAsync();
 
         }
 
@@ -132,15 +141,14 @@ namespace GSCFieldApp.Views
         #endregion
 
         #region SAVE
-        private void LocationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void LocationSaveButton_TappedAsync(object sender, TappedRoutedEventArgs e)
         {
-            this.LocationSaveButton.Focus(FocusState.Programmatic);
+            
+            //this.LocationSaveButton.Focus(FocusState.Programmatic);
+            Task<bool> isUIValid = isLocationValidAsync();
+            await isUIValid;
+            e.Handled = true;
 
-        }
-        private void LocationSaveButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-            locationVM.SaveDialogInfo();
-            CloseControl();
         }
 
         #endregion
@@ -159,6 +167,50 @@ namespace GSCFieldApp.Views
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will make sure that either one of the coordinate pairs are filled
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> isLocationValidAsync()
+        {
+            bool isValid = true;
+
+            double _long = 0.0;
+            double _lat = 0.0;
+            int _easting = 0;
+            int _northing = 0;
+
+            double.TryParse(this.LocationLong.Text, out _long);
+            double.TryParse(this.LocationLat.Text, out _lat);
+            int.TryParse(this.LocationEasting.Text, out _easting);
+            int.TryParse(this.LocationNorthing.Text, out _northing);
+
+            //Make sure that everything has been filled
+            if ((_long != 0 && _lat != 0) || (_easting != 0 && _northing != 0))
+            {
+                isValid = true;
+                locationVM.SaveDialogInfoAsync();
+                CloseControl();
+            }
+            else
+            {
+                this.LocationDatum.Focus(FocusState.Programmatic);
+
+                ContentDialog defaultEventLocationDialog = new ContentDialog()
+                {
+                    Title = local.GetString("LocationDialogBadSaveTitle"),
+                    Content = local.GetString("LocationDialogBadSaveContent"),
+                    CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                };
+                defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, false);
+
+                isValid = false;
+            }
+
+            return isValid;
+        }
         /// <summary>
         /// Will convert a given set of geographic coordinates into projected.
         /// Given the user has selected a proper projection
@@ -213,7 +265,7 @@ namespace GSCFieldApp.Views
 
                 }
 
-                if (!isSystemValid)
+                if (!isSystemValid && this.LocationDatum.SelectedIndex != -1)
                 {
                     //Show warning to select something
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>

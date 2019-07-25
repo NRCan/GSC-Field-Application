@@ -3055,7 +3055,7 @@ namespace GSCFieldApp.ViewModels
             emptyFieldLocation.LocationElev = 0.0;
             emptyFieldLocation.LocationLat = 0.0;
             emptyFieldLocation.LocationLong = 0.0;
-            emptyFieldLocation.LocationEntryType = "Unknown";
+            emptyFieldLocation.LocationEntryType = Dictionaries.DatabaseLiterals.locationEntryTypeManual;
             emptyFieldLocation.LocationID = idCalculator.CalculateLocationID(); //Calculate new value
             emptyFieldLocation.LocationAlias = idCalculator.CalculateLocationAlias(string.Empty); //Calculate new value
             emptyFieldLocation.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key

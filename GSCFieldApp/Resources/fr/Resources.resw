@@ -1414,4 +1414,10 @@ Williams, Stephen - Programmeur</value>
   <data name="LocationDialogDatumTitle" xml:space="preserve">
     <value>Système de référence</value>
   </data>
+  <data name="LocationDialogBadSaveContent" xml:space="preserve">
+    <value>Veuillez remplir une des deux pairs de coordonnées: longitude/latitude, x(m)/y(m)</value>
+  </data>
+  <data name="LocationDialogBadSaveTitle" xml:space="preserve">
+    <value>Valeurs manquantes</value>
+  </data>
 </root>

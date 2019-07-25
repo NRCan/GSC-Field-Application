@@ -940,7 +940,7 @@ namespace GSCFieldApp.ViewModels
             modal.IsModal = true;
 
             DataLocalSettings dLocalSettings = new DataLocalSettings();
-            dLocalSettings.SetSettingValue("forceNoteRefresh", false);
+            dLocalSettings.SetSettingValue("forceNoteRefresh", true);
         }
 
         /// <summary>
