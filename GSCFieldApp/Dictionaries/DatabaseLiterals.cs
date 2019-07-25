@@ -287,7 +287,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordLinear = "linear";
         public const string KeywordLocation = "location";
         public const string KeywordManual = "manual";
-        public const string KeywordEPSGDefault = "4236"; //WGS 84
+        public const string KeywordEPSGDefault = "4326"; //WGS 84
 
         #endregion
 

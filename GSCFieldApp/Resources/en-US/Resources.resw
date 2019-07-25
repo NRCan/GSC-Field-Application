@@ -1415,7 +1415,7 @@ Williams, Stephen - Developer</value>
     <value>Geodetic system</value>
   </data>
   <data name="LocationDialogBadSaveContent" xml:space="preserve">
-    <value>Please fill in one of the following pair of coordinates before saving: longitude/latitude, easting/northing.</value>
+    <value>Please fill in one of the following pair of coordinates before saving: longitude/latitude, easting/northing or check for a wrong Geodetic system.</value>
   </data>
   <data name="LocationDialogBadSaveTitle" xml:space="preserve">
     <value>Bad Value</value>

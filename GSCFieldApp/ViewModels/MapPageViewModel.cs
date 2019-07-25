@@ -628,6 +628,7 @@ namespace GSCFieldApp.ViewModels
                 string ptStationLocationID = string.Empty;
                 double ptStationLocationLat;
                 double ptStationLocationLong;
+                string ptStationLocationEPSG = string.Empty;
                 foreach (object scs in stationTableRows)
                 {
                     Models.Station currentStation = scs as Models.Station;
@@ -638,6 +639,7 @@ namespace GSCFieldApp.ViewModels
                     ptStationLocationID = currentLocation.LocationID;
                     ptStationLocationLat = currentLocation.LocationLat;
                     ptStationLocationLong = currentLocation.LocationLong;
+                    ptStationLocationEPSG = currentLocation.LocationDatum;
                 }
 
                 //Find if station was already loaded
@@ -650,7 +652,37 @@ namespace GSCFieldApp.ViewModels
                 //Add new graphic station and it's related label if needed
                 if (!stationGraphicExists && ptStationId != string.Empty)
                 {
-                    var graphic = new Graphic(new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84), pointSym);
+                    //Create Map Point for graphic
+                    MapPoint geoPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
+
+                    //Get if datum transformation is needed
+                    int epsg = 0;
+                    int.TryParse(ptStationLocationEPSG, out epsg);
+
+                    if (epsg != 0 && epsg != 4326)
+                    {
+                        DatumTransformation datumTransfo = null;
+                        SpatialReference outSR = null;
+                        
+                        if ((epsg > 26900 && epsg < 27000))
+                        {
+                            outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                            datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
+                        }
+
+
+                        MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
+
+                        //Validate if transformation is needed.
+                        if (datumTransfo != null)
+                        {
+                            //Replace geopoint
+                            geoPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+                        }
+
+                    }
+
+                    var graphic = new Graphic(geoPoint, pointSym);
                     graphic.Attributes.Add("Id", ptStationId.ToString());
                     graphic.Attributes.Add("Date", ptStationDate.ToString());
                     graphic.Attributes.Add("Time", ptStationTime.ToString());

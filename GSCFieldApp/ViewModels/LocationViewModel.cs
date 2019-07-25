@@ -170,7 +170,7 @@ namespace GSCFieldApp.ViewModels
             _locationElevation = existingDataDetailLocation.location.LocationElev.ToString();
             _locationNotes = existingDataDetailLocation.location.LocationNotes;
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
-            _locationNotes = existingDataDetailLocation.location.LocationNorthing.ToString();
+            _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
             _selectedLocationDatums = existingDataDetailLocation.location.LocationDatum;
 
             //Update UI
@@ -192,23 +192,26 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public async void SaveDialogInfoAsync()
         {
+            //Parse coordinate pairs
             double _long = 0.0;
             double _lat = 0.0;
             int _easting = 0;
             int _northing = 0;
 
-            double.TryParse(LocationLongitude, out _long);
-            double.TryParse(LocationLatitude, out _lat);
-            int.TryParse(LocationEasting, out _easting);
-            int.TryParse(LocationNorthing, out _northing);
+            double.TryParse(_locationLongitude, out _long);
+            double.TryParse(_locationLatitude, out _lat);
+            int.TryParse(_locationEasting, out _easting);
+            int.TryParse(_locationNorthing, out _northing);
+
+            //Detect a projected system
+            int selectedEPGS = 0;
+            int.TryParse(SelectedLocationDatums.ToString(), out selectedEPGS);
 
             //Make sure that everything has been filled
             if ((_long == 0 || _lat == 0) && (_easting != 0 || _northing != 0))
             {
 
-                //Detect a projected system
-                int selectedEPGS = 0;
-                int.TryParse(SelectedLocationDatums.ToString(), out selectedEPGS);
+
 
                 //Detect Datum difference
                 SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
@@ -237,18 +240,9 @@ namespace GSCFieldApp.ViewModels
             locationModel.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
             locationModel.LocationNotes = LocationNotes;
 
-            if (LocationEasting != string.Empty)
-            {
-                double saveEasting = 0.0;
-                Double.TryParse(LocationEasting, out saveEasting);
-                locationModel.LocationEasting = saveEasting;
-            }
-            if (LocationNorthing != string.Empty)
-            {
-                double saveNorthing = 0.0;
-                Double.TryParse(LocationNorthing, out saveNorthing);
-                locationModel.LocationNorthing = saveNorthing;
-            }
+            locationModel.LocationEasting = _easting;
+            locationModel.LocationNorthing = _northing;
+
 
             if (SelectedLocationDatums != null)
             {

@@ -37,6 +37,8 @@ namespace GSCFieldApp.Views
 
         public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
+        bool isBackButtonPressed = false;
+
         public LocationDialog(FieldNotes inDetailViewModel)
         {
             parentViewModel = inDetailViewModel;
@@ -47,18 +49,42 @@ namespace GSCFieldApp.Views
             locationVM.LocationID = parentViewModel.location.LocationID;
 
             //Keep in memory that this is a manual entry.
-            
             locationVM.entryType = parentViewModel.location.LocationEntryType;
-            
-            
+
+            this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocusAsync;
+
             this.Loading += LocationDialog_Loading;
             this.Unloaded += LocationDialog_Unloaded;
+        }
+
+        private async void LocationSaveButton_GotFocusAsync(object sender, RoutedEventArgs e)
+        {
+            
+            Task<bool> isUIValid = isLocationValidAsync();
+            await isUIValid;
+
+            if (isUIValid.Result)
+            {
+                locationVM.SaveDialogInfoAsync();
+                CloseControl();
+            }
+            else
+            {
+                ContentDialog defaultEventLocationDialog = new ContentDialog()
+                {
+                    Title = local.GetString("LocationDialogBadSaveTitle"),
+                    Content = local.GetString("LocationDialogBadSaveContent"),
+                    CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                };
+                defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
+            }
         }
 
         private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
         {
             //Detect manual entry, if it's the case pop station dialog
-            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false)
+            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed )
             {
                 //Create a field note report to act like a parent
                 FieldNotes stationParent = new FieldNotes();
@@ -92,13 +118,15 @@ namespace GSCFieldApp.Views
         /// <param name="args"></param>
         private void LocationDialog_Loading(FrameworkElement sender, object args)
         {
+            isBackButtonPressed = false;
+
             //Fill automatically the earthmat dialog if an edit is asked by the user.
             if (parentViewModel.ParentTableName == Dictionaries.DatabaseLiterals.TableLocation && locationVM.doLocationUpdate)
             {
                 this.locationVM.AutoFillDialog(parentViewModel);
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;
 
-                if (parentViewModel.location.LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual)
+                if (parentViewModel.location.LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual || parentViewModel.location.LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeTap)
                 {
                     this.locationVM.SetReadOnlyFields(true);
                 }
@@ -135,6 +163,7 @@ namespace GSCFieldApp.Views
 
         private void LocationBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            isBackButtonPressed = true;
             CloseControl();
         }
 
@@ -143,12 +172,7 @@ namespace GSCFieldApp.Views
         #region SAVE
         private async void LocationSaveButton_TappedAsync(object sender, TappedRoutedEventArgs e)
         {
-            
-            //this.LocationSaveButton.Focus(FocusState.Programmatic);
-            Task<bool> isUIValid = isLocationValidAsync();
-            await isUIValid;
             e.Handled = true;
-
         }
 
         #endregion
@@ -176,6 +200,7 @@ namespace GSCFieldApp.Views
         {
             bool isValid = true;
 
+            //Parse coordinates
             double _long = 0.0;
             double _lat = 0.0;
             int _easting = 0;
@@ -186,25 +211,21 @@ namespace GSCFieldApp.Views
             int.TryParse(this.LocationEasting.Text, out _easting);
             int.TryParse(this.LocationNorthing.Text, out _northing);
 
+            //Detect a projected system
+            int selectedEPGS = 0;
+            int.TryParse(this.LocationDatum.SelectedValue.ToString(), out selectedEPGS);
+
             //Make sure that everything has been filled
             if ((_long != 0 && _lat != 0) || (_easting != 0 && _northing != 0))
             {
-                isValid = true;
-                locationVM.SaveDialogInfoAsync();
-                CloseControl();
+                if ((_easting != 0 && _northing != 0) && (_long == 0 && _lat == 0) && (selectedEPGS == 4617 || selectedEPGS == 4326))
+                {
+                    isValid = false;
+                }                
             }
             else
             {
                 this.LocationDatum.Focus(FocusState.Programmatic);
-
-                ContentDialog defaultEventLocationDialog = new ContentDialog()
-                {
-                    Title = local.GetString("LocationDialogBadSaveTitle"),
-                    Content = local.GetString("LocationDialogBadSaveContent"),
-                    CloseButtonText = local.GetString("GenericDialog_ButtonOK")
-                };
-                defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, false);
 
                 isValid = false;
             }
@@ -311,6 +332,8 @@ namespace GSCFieldApp.Views
             //Transform
             if (x_value != 0.0 && y_value != 0.0)
             {
+                //Bad system
+                bool isSystemValid = false;
 
                 if (this.LocationDatum.SelectedValue != null)
                 {
@@ -318,23 +341,46 @@ namespace GSCFieldApp.Views
                     //Detect a projected system
                     int selectedEPGS = 0;
                     int.TryParse(this.LocationDatum.SelectedValue.ToString(), out selectedEPGS);
-                    
-                    //Detect Datum difference
-                    SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
-                    SpatialReference outSR = SpatialReferences.Wgs84; //Default
-                    if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
+
+                    if (selectedEPGS > 10000)
                     {
-                        outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                        //Detect Datum difference
+                        SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                        SpatialReference outSR = SpatialReferences.Wgs84; //Default
+                        if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
+                        {
+                            outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                        }
+
+                        //Get geographic point
+                        MapPoint geoPoint = locationVM.CalculateGeographicCoordinate(x_value, y_value, inSR, outSR);
+
+                        double y = geoPoint.Y;
+                        double x = geoPoint.X;
+                        this.LocationLat.Text = y.ToString();
+                        this.LocationLong.Text = x.ToString();
+
+                        isSystemValid = true;
                     }
 
-                    //Get geographic point
-                    MapPoint geoPoint = locationVM.CalculateGeographicCoordinate(x_value, y_value, inSR, outSR);
 
-                    double y = geoPoint.Y;
-                    double x = geoPoint.X;
-                    this.LocationLat.Text = y.ToString();
-                    this.LocationLong.Text = x.ToString();
+                }
 
+                if (!isSystemValid && this.LocationDatum.SelectedIndex != -1)
+                {
+                    //Show warning to select something
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    {
+                        ContentDialog defaultEventLocationDialog = new ContentDialog()
+                        {
+                            Title = local.GetString("LocationDialogDatumTitle"),
+                            Content = local.GetString("LocationDialogDatumContent"),
+                            CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                        };
+                        defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                        await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
+
+                    }).AsTask();
                 }
             }
             else
@@ -345,5 +391,7 @@ namespace GSCFieldApp.Views
 
         }
         #endregion
+
+
     }
 }
