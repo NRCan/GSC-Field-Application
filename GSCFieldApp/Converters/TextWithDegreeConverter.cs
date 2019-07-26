@@ -14,6 +14,7 @@ namespace GSCFieldApp.Converters
             if (value == null || value.ToString() == string.Empty)
                 return value;
 
+            value = Math.Round((double)value, 6);
             return string.Format("{0}°", value);
         }
 

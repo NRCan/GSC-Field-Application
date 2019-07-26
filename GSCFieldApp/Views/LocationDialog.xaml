@@ -83,11 +83,11 @@
                         <GridView Style="{StaticResource NonselectableGridView}" 
                                     x:Name="LocationGridView_02" RelativePanel.Below="MainSeparator_01">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Projected"/>
-                            <TextBox x:Name="LocationNorthing" x:Uid="LocationDialogNorthing" Header=""
+                            <TextBox x:Name="LocationNorthing" x:Uid="LocationDialogNorthing" Header="" InputScope="Number"
                                 HorizontalAlignment="Stretch" Width="Auto" MinWidth="20" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
                                 Text ="{x:Bind locationVM.LocationNorthing, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"/>
 
-                            <TextBox x:Name="LocationEasting" x:Uid="LocationDialogEasting"
+                            <TextBox x:Name="LocationEasting" x:Uid="LocationDialogEasting" InputScope="Number"
                                 HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
                                 Text ="{x:Bind locationVM.LocationEasting, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"/>
 

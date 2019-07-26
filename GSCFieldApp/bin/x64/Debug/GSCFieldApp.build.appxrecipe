@@ -1143,69 +1143,6 @@
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\GSCFieldApp.xr.xml">
       <PackagePath>GSCFieldApp.xr.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\App.xbf">
-      <PackagePath>App.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Styles\Custom.xbf">
-      <PackagePath>Styles\Custom.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\ContentDialogSemanticZoom.xbf">
-      <PackagePath>Views\ContentDialogSemanticZoom.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\DocumentDialog.xbf">
-      <PackagePath>Views\DocumentDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\EarthmatDialog.xbf">
-      <PackagePath>Views\EarthmatDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FossilDialog.xbf">
-      <PackagePath>Views\FossilDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\LocationDialog.xbf">
-      <PackagePath>Views\LocationDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MapPage.xbf">
-      <PackagePath>Views\MapPage.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MineralizationAlterationDialog.xbf">
-      <PackagePath>Views\MineralizationAlterationDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MineralDialog.xbf">
-      <PackagePath>Views\MineralDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\PaleoflowDialog.xbf">
-      <PackagePath>Views\PaleoflowDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\PicklistDialog.xbf">
-      <PackagePath>Views\PicklistDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldNotesPage.xbf">
-      <PackagePath>Views\FieldNotesPage.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\SampleDialog.xbf">
-      <PackagePath>Views\SampleDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldBooksPage.xbf">
-      <PackagePath>Views\FieldBooksPage.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\SettingsPage.xbf">
-      <PackagePath>Views\SettingsPage.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\Shell.xbf">
-      <PackagePath>Views\Shell.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\Splash.xbf">
-      <PackagePath>Views\Splash.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\StationDialog.xbf">
-      <PackagePath>Views\StationDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\StructureDialog.xbf">
-      <PackagePath>Views\StructureDialog.xbf</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldBookDialog.xbf">
-      <PackagePath>Views\FieldBookDialog.xbf</PackagePath>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
     </AppxPackagedFile>

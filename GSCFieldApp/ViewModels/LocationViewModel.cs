@@ -182,7 +182,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("LocationNotes");
             RaisePropertyChanged("LocationEasting");
             RaisePropertyChanged("LocationNorthing");
-            RaisePropertyChanged("LocationDatums"); 
+            RaisePropertyChanged("SelectedLocationDatums"); 
 
             doLocationUpdate = true;
         }
@@ -234,8 +234,8 @@ namespace GSCFieldApp.ViewModels
             //Get current class information and add to model
             locationModel.LocationID = LocationID; //Prime key
             locationModel.LocationAlias = LocationAlias;
-            locationModel.LocationLat = Double.Parse(LocationLatitude);
-            locationModel.LocationLong = Double.Parse(LocationLongitude);
+            locationModel.LocationLat = _lat;
+            locationModel.LocationLong = _long;
             locationModel.LocationElev = Double.Parse(LocationElevation);
             locationModel.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
             locationModel.LocationNotes = LocationNotes;
@@ -345,5 +345,167 @@ namespace GSCFieldApp.ViewModels
             await Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Will convert a given set of geographic coordinates into projected.
+        /// Given the user has selected a proper projection
+        /// </summary>
+        public async void DisplayUTMCoordinatesAsync()
+        {
+            //XY
+            double x_value = 0.0;
+            double y_value = 0.0;
+            if (_locationLongitude != string.Empty)
+            {
+                x_value = Double.Parse(_locationLongitude);
+            }
+            if (_locationLatitude != string.Empty)
+            {
+                y_value = Double.Parse(_locationLatitude);
+            }
+
+            //Transform
+            if (x_value != 0.0 && y_value != 0.0)
+            {
+                //Bad system
+                bool isSystemValid = false;
+
+                if (_selectedLocationDatums != null)
+                {
+                    //Detect a projected system
+                    int selectedEPGS = 0;
+                    int.TryParse(_selectedLocationDatums, out selectedEPGS);
+                    if (selectedEPGS > 10000)
+                    {
+                        //Detect Datum difference
+                        SpatialReference inSR = SpatialReferences.Wgs84; //Default
+                        if (selectedEPGS > 26900 && selectedEPGS < 27000)
+                        {
+                            inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                        }
+
+                        MapPoint geoPoint = new MapPoint(x_value, y_value, inSR);
+                        var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                        MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
+
+                        int y = (int)projPoint.Y;
+                        int x = (int)projPoint.X;
+                        _locationNorthing = y.ToString();
+                        _locationEasting= x.ToString();
+
+
+
+                        isSystemValid = true;
+                    }
+
+                }
+
+                if (!isSystemValid && _selectedLocationDatums != null && _selectedLocationDatums != string.Empty)
+                {
+                    //Show warning to select something
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    {
+                        ContentDialog defaultEventLocationDialog = new ContentDialog()
+                        {
+                            Title = local.GetString("LocationDialogDatumTitle"),
+                            Content = local.GetString("LocationDialogDatumContent"),
+                            CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                        };
+                        defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                        await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
+
+                    }).AsTask();
+                }
+
+            }
+            else
+            {
+                _locationNorthing = x_value.ToString();
+                _locationEasting = y_value.ToString();
+            }
+            RaisePropertyChanged("LocationEasting");
+            RaisePropertyChanged("LocationNorthing");
+        }
+
+        /// <summary>
+        /// Will convert a given set of projected coordinates into geographic ones.
+        /// </summary>
+        public async void DisplayGeoCoordinatesAsync()
+        {
+            //XY
+            int x_value = 0;
+            int y_value = 0;
+            if (_locationEasting != string.Empty)
+            {
+                x_value = int.Parse(_locationEasting);
+            }
+            if (_locationNorthing != string.Empty)
+            {
+                y_value = int.Parse(_locationNorthing);
+            }
+
+            //Transform
+            if (x_value != 0.0 && y_value != 0.0)
+            {
+                //Bad system
+                bool isSystemValid = false;
+
+                if (_selectedLocationDatums != null)
+                {
+
+                    //Detect a projected system
+                    int selectedEPGS = 0;
+                    int.TryParse(_selectedLocationDatums, out selectedEPGS);
+
+                    if (selectedEPGS > 10000)
+                    {
+                        //Detect Datum difference
+                        SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                        SpatialReference outSR = SpatialReferences.Wgs84; //Default
+                        if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
+                        {
+                            outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                        }
+
+                        //Get geographic point
+                        MapPoint geoPoint = CalculateGeographicCoordinate(x_value, y_value, inSR, outSR);
+
+                        double y = geoPoint.Y;
+                        double x = geoPoint.X;
+                        _locationLatitude = y.ToString();
+                        _locationLongitude = x.ToString();
+
+                        isSystemValid = true;
+                    }
+
+
+                }
+
+                if (!isSystemValid && _selectedLocationDatums != null && _selectedLocationDatums != string.Empty)
+                {
+                    //Show warning to select something
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    {
+                        ContentDialog defaultEventLocationDialog = new ContentDialog()
+                        {
+                            Title = local.GetString("LocationDialogDatumTitle"),
+                            Content = local.GetString("LocationDialogDatumContent"),
+                            CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                        };
+                        defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                        await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
+
+                    }).AsTask();
+                }
+            }
+            else
+            {
+                _locationLongitude = x_value.ToString();
+                _locationLatitude = y_value.ToString();
+            }
+
+            RaisePropertyChanged("LocationLatitude");
+            RaisePropertyChanged("LocationLongitude");
+
+        }
     }
 }

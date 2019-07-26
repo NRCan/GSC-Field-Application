@@ -180,12 +180,12 @@ namespace GSCFieldApp.Views
         #region EVENTS
         private async void ButtonConvertToUTM_TappedAsync(object sender, TappedRoutedEventArgs e)
         {
-            DisplayUTMCoordinatesAsync();
+            locationVM.DisplayUTMCoordinatesAsync();
         }
 
         private void ButtonConvertToGeographic_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            DisplayGeoCoordinatesAsync();
+            locationVM.DisplayGeoCoordinatesAsync();
         }
 
         #endregion
@@ -232,164 +232,7 @@ namespace GSCFieldApp.Views
 
             return isValid;
         }
-        /// <summary>
-        /// Will convert a given set of geographic coordinates into projected.
-        /// Given the user has selected a proper projection
-        /// </summary>
-        private async void DisplayUTMCoordinatesAsync()
-        {
-            //XY
-            double x_value = 0.0;
-            double y_value = 0.0;
-            if (this.LocationLong.Text != string.Empty)
-            {
-                x_value = Double.Parse(this.LocationLong.Text);
-            }
-            if (this.LocationLat.Text != string.Empty)
-            {
-                y_value = Double.Parse(this.LocationLat.Text);
-            }
 
-            //Transform
-            if (x_value != 0.0 && y_value != 0.0)
-            {
-                //Bad system
-                bool isSystemValid = false;
-
-                if (this.LocationDatum.SelectedValue != null)
-                {
-                    //Detect a projected system
-                    int selectedEPGS = 0;
-                    int.TryParse(this.LocationDatum.SelectedValue.ToString(), out selectedEPGS);
-                    if (selectedEPGS > 10000)
-                    {
-                        //Detect Datum difference
-                        SpatialReference inSR = SpatialReferences.Wgs84; //Default
-                        if (selectedEPGS > 26900 && selectedEPGS < 27000)
-                        {
-                            inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
-                        }
-
-                        MapPoint geoPoint = new MapPoint(x_value, y_value, inSR);
-                        var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
-                        MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
-
-                        int y = (int)projPoint.Y;
-                        int x = (int)projPoint.X;
-                        this.LocationNorthing.Text = y.ToString();
-                        this.LocationEasting.Text = x.ToString();
-
-
-
-                        isSystemValid = true;
-                    }
-
-                }
-
-                if (!isSystemValid && this.LocationDatum.SelectedIndex != -1)
-                {
-                    //Show warning to select something
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
-                    {
-                        ContentDialog defaultEventLocationDialog = new ContentDialog()
-                        {
-                            Title = local.GetString("LocationDialogDatumTitle"),
-                            Content = local.GetString("LocationDialogDatumContent"),
-                            CloseButtonText = local.GetString("GenericDialog_ButtonOK")
-                        };
-                        defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                        await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
-
-                    }).AsTask();
-                }
-
-            }
-            else
-            {
-                this.LocationNorthing.Text = x_value.ToString();
-                this.LocationEasting.Text = y_value.ToString();
-            }
-
-        }
-
-        /// <summary>
-        /// Will convert a given set of projected coordinates into geographic ones.
-        /// </summary>
-        private async void DisplayGeoCoordinatesAsync()
-        {
-            //XY
-            int x_value = 0;
-            int y_value = 0;
-            if (this.LocationEasting.Text != string.Empty)
-            {
-                x_value = int.Parse(this.LocationEasting.Text);
-            }
-            if (this.LocationNorthing.Text != string.Empty)
-            {
-                y_value = int.Parse(this.LocationNorthing.Text);
-            }
-
-            //Transform
-            if (x_value != 0.0 && y_value != 0.0)
-            {
-                //Bad system
-                bool isSystemValid = false;
-
-                if (this.LocationDatum.SelectedValue != null)
-                {
-                    
-                    //Detect a projected system
-                    int selectedEPGS = 0;
-                    int.TryParse(this.LocationDatum.SelectedValue.ToString(), out selectedEPGS);
-
-                    if (selectedEPGS > 10000)
-                    {
-                        //Detect Datum difference
-                        SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
-                        SpatialReference outSR = SpatialReferences.Wgs84; //Default
-                        if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
-                        {
-                            outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
-                        }
-
-                        //Get geographic point
-                        MapPoint geoPoint = locationVM.CalculateGeographicCoordinate(x_value, y_value, inSR, outSR);
-
-                        double y = geoPoint.Y;
-                        double x = geoPoint.X;
-                        this.LocationLat.Text = y.ToString();
-                        this.LocationLong.Text = x.ToString();
-
-                        isSystemValid = true;
-                    }
-
-
-                }
-
-                if (!isSystemValid && this.LocationDatum.SelectedIndex != -1)
-                {
-                    //Show warning to select something
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
-                    {
-                        ContentDialog defaultEventLocationDialog = new ContentDialog()
-                        {
-                            Title = local.GetString("LocationDialogDatumTitle"),
-                            Content = local.GetString("LocationDialogDatumContent"),
-                            CloseButtonText = local.GetString("GenericDialog_ButtonOK")
-                        };
-                        defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                        await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
-
-                    }).AsTask();
-                }
-            }
-            else
-            {
-                this.LocationLong.Text = x_value.ToString();
-                this.LocationLat.Text = y_value.ToString();
-            }
-
-        }
         #endregion
 
 
