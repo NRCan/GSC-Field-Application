@@ -602,7 +602,7 @@ namespace GSCFieldApp.ViewModels
 
             if (stationDateTableRows != null && stationDateTableRows.Count != 0)
             {
-
+                int addingSequence = 0;
                 foreach (object objs in stationDateTableRows)
                 {
                     //Cast
@@ -612,7 +612,9 @@ namespace GSCFieldApp.ViewModels
                     FieldNotes currentDateItems = new FieldNotes();
                     currentDateItems.station = currentStation;
 
-                    _reportSummaryDateItems.Add(currentDateItems);
+                    _reportSummaryDateItems.Insert(addingSequence, currentDateItems);
+
+                    addingSequence++;
 
                 }
 
