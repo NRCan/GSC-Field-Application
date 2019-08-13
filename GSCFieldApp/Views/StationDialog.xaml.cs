@@ -120,7 +120,7 @@ namespace GSCFieldApp.Views
         public async void CloseControlAsync()
         {
             //variables
-            bool canProceedWithClose = false;
+            bool canProceedWithClose = true;
 
             //Warning user that if this station isn't closed normally the associated location will also be deleted.
             if (ViewModel.Location.isManualEntry)
