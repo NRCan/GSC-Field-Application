@@ -1420,4 +1420,7 @@ Williams, Stephen - Programmeur</value>
   <data name="LocationDialogBadSaveTitle" xml:space="preserve">
     <value>Valeurs manquantes</value>
   </data>
+  <data name="DeleteDialog_ManualEntryStationLocation" xml:space="preserve">
+    <value>Fermer ce dialogue entraînera l'effacement de la localisation associée. Puisque cette localisation est une entrée manuelle, souhaitez-vous tout de même poursuivre?</value>
+  </data>
 </root>

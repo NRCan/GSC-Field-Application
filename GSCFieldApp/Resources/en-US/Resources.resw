@@ -1420,4 +1420,7 @@ Williams, Stephen - Developer</value>
   <data name="LocationDialogBadSaveTitle" xml:space="preserve">
     <value>Bad Value</value>
   </data>
+  <data name="DeleteDialog_ManualEntryStationLocation" xml:space="preserve">
+    <value>Closing current dialog will force a delete on associated location coordinates. Since location is a manual entry, would you still like to go on with the location delete?</value>
+  </data>
 </root>

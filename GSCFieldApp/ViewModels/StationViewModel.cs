@@ -505,5 +505,35 @@ namespace GSCFieldApp.ViewModels
         }
 
         #endregion
+
+        #region DELETE
+        public async Task<bool> DeleteAssociatedLocationIfManualEntryAsync()
+        {
+            //Variables
+            bool proceed = false;
+
+            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+            ContentDialog deleteRecordDialog = new ContentDialog()
+            {
+                Title = loadLocalization.GetString("DeleteDialogGenericTitle"),
+                Content = loadLocalization.GetString("DeleteDialog_ManualEntryStationLocation"),
+                PrimaryButtonText = loadLocalization.GetString("Generic_ButtonYes/Content"),
+                SecondaryButtonText = loadLocalization.GetString("Generic_ButtonNo/Content")
+            };
+            deleteRecordDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+
+            ContentDialogResult drd = await deleteRecordDialog.ShowAsync();
+
+            if (drd == ContentDialogResult.Primary)
+            {
+                //Delete location 
+                accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, _location.LocationID);
+
+                proceed = true;
+            }
+
+            return proceed;
+        }
+        #endregion
     }
 }

@@ -103,7 +103,7 @@ namespace GSCFieldApp.Models
         /// For validation purposes.
         /// </summary>
         [Ignore]
-        public bool isTapOrManualEntry
+        public bool isManualEntry
         {
             get
             {

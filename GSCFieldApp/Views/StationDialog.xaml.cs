@@ -21,6 +21,7 @@ using GSCFieldApp.Models;
 using System.ComponentModel;
 using Esri.ArcGISRuntime.Geometry;
 using System.Reflection;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -59,7 +60,7 @@ namespace GSCFieldApp.Views
         {
 
             ViewModel.SaveDialogInfo();
-            CloseControl();
+            CloseControlAsync();
         }
 
         private void StationDataPart_Loaded(object sender, RoutedEventArgs e)
@@ -116,26 +117,43 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// Will close the modal dialog.
         /// </summary>
-        public void CloseControl()
+        public async void CloseControlAsync()
         {
-            //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
-            WindowWrapper.Current().Dispatcher.Dispatch(() =>
+            //variables
+            bool canProceedWithClose = false;
+
+            //Warning user that if this station isn't closed normally the associated location will also be deleted.
+            if (ViewModel.Location.isManualEntry)
             {
-                var modal = Window.Current.Content as Template10.Controls.ModalDialog;
-                var view = modal.ModalContent as StationDataPart;
-                modal.ModalContent = view;
-                modal.IsModal = false;
-            });
+                Task<bool> canClose = ViewModel.DeleteAssociatedLocationIfManualEntryAsync();
+                await canClose;
+                canProceedWithClose = canClose.Result;
+            }
+
+            if (canProceedWithClose)
+            {
+                //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
+                WindowWrapper.Current().Dispatcher.Dispatch(() =>
+                {
+                    var modal = Window.Current.Content as Template10.Controls.ModalDialog;
+                    var view = modal.ModalContent as StationDataPart;
+                    modal.ModalContent = view;
+                    modal.IsModal = false;
+                });
+            }
+
+
+            
         }
 
         private void stationBackButton_Click(object sender, RoutedEventArgs e)
         {
-            CloseControl();
+            CloseControlAsync();
         }
 
         private void stationBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            CloseControl();
+            CloseControlAsync();
         }
         #endregion
 
