@@ -65,10 +65,10 @@
                                     x:Name="LocationGridView_01">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Geo"/>
                             <TextBox x:Name="LocationLat" x:Uid="LocationDialogLatitude" Header="" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                HorizontalAlignment="Stretch" Width="Auto" MinWidth="20" InputScope="Number"
+                                HorizontalAlignment="Stretch" Width="Auto" MinWidth="20" InputScope="Number" Style="{ThemeResource TextboxMandatoryField}"
                                 Text ="{x:Bind locationVM.LocationLatitude, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"/>
 
-                            <TextBox x:Name="LocationLong" x:Uid="LocaitonDialogLongitude"
+                            <TextBox x:Name="LocationLong" x:Uid="LocaitonDialogLongitude" Style="{ThemeResource TextboxMandatoryField}"
                                 HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20" InputScope="Number" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
                                 Text ="{x:Bind locationVM.LocationLongitude, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"/>
 

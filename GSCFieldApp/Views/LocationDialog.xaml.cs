@@ -78,6 +78,8 @@ namespace GSCFieldApp.Views
                 };
                 defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
                 await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
+
+                this.LocationDatum.Focus(FocusState.Programmatic);
             }
         }
 
@@ -218,14 +220,13 @@ namespace GSCFieldApp.Views
             //Make sure that everything has been filled
             if ((_long != 0 && _lat != 0) || (_easting != 0 && _northing != 0))
             {
-                if ((_easting != 0 && _northing != 0) && (_long == 0 && _lat == 0) && (selectedEPGS == 4617 || selectedEPGS == 4326))
+                if ((_easting != 0 && _northing != 0) && (_long == 0 && _lat == 0) && (selectedEPGS != 4617 || selectedEPGS != 4326))
                 {
                     isValid = false;
                 }                
             }
             else
             {
-                this.LocationDatum.Focus(FocusState.Programmatic);
 
                 isValid = false;
             }
