@@ -119,6 +119,20 @@ namespace GSCFieldApp.Views
         /// </summary>
         public async void CloseControlAsync()
         {
+
+            //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
+            WindowWrapper.Current().Dispatcher.Dispatch(() =>
+            {
+                var modal = Window.Current.Content as Template10.Controls.ModalDialog;
+                var view = modal.ModalContent as StationDataPart;
+                modal.ModalContent = view;
+                modal.IsModal = false;
+            });
+
+        }
+
+        private async void stationBackButton_Click(object sender, RoutedEventArgs e)
+        {
             //variables
             bool canProceedWithClose = true;
 
@@ -132,28 +146,29 @@ namespace GSCFieldApp.Views
 
             if (canProceedWithClose)
             {
-                //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
-                WindowWrapper.Current().Dispatcher.Dispatch(() =>
-                {
-                    var modal = Window.Current.Content as Template10.Controls.ModalDialog;
-                    var view = modal.ModalContent as StationDataPart;
-                    modal.ModalContent = view;
-                    modal.IsModal = false;
-                });
+                CloseControlAsync();
             }
-
 
             
         }
 
-        private void stationBackButton_Click(object sender, RoutedEventArgs e)
+        private async void stationBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            CloseControlAsync();
-        }
+            //variables
+            bool canProceedWithClose = true;
 
-        private void stationBackButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            CloseControlAsync();
+            //Warning user that if this station isn't closed normally the associated location will also be deleted.
+            if (ViewModel.Location.isManualEntry)
+            {
+                Task<bool> canClose = ViewModel.DeleteAssociatedLocationIfManualEntryAsync();
+                await canClose;
+                canProceedWithClose = canClose.Result;
+            }
+
+            if (canProceedWithClose)
+            {
+                CloseControlAsync();
+            }
         }
         #endregion
 
