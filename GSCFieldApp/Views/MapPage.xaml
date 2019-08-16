@@ -75,7 +75,7 @@
         <Controls:PageHeader x:Name="pageFooter" VerticalAlignment="Bottom" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
             <AppBarButton Foreground="White" Icon="OpenFile" Width="55" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
-            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu"  Foreground="White" Width="55" ToolTipService.ToolTip="">
+            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White" Width="55" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
                 </AppBarButton.Icon>
