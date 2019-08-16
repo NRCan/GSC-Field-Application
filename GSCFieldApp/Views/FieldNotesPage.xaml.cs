@@ -99,7 +99,7 @@ namespace GSCFieldApp.Views
             {
                 if ((bool)localSetting.GetSettingValue("forceNoteRefresh"))
                 {
-                    this.ViewModel.FillStationFromList(); //Refill station based on new selected date
+                    this.ViewModel.FillSummaryReportDateItems(); //Refill station based on new selected date
                     localSetting.SetSettingValue("forceNoteRefresh", false);
                 }
             }

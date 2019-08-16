@@ -19,24 +19,24 @@
     <DeployOptionalPackages>true</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>E01386DFDDA8160521869E2569D3C5F390055E1D631BA4698F688509ADFCBFAA</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>GSCFieldApp_1.0.166.0_x64__c1ewb8mxhbfzr</RegisteredPackageMoniker>
+    <RegisteredManifestChecksum>758E98616C082D7B8F65DB0CBD45BD903853482F5212C427C4431DAE2AD67C84</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>GSCFieldApp_1.0.167.0_x64__c1ewb8mxhbfzr</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>GSCFieldApp_c1ewb8mxhbfzr!App</RegisteredUserModeAppID>
     <RegisteredPackageID>GSCFieldApp</RegisteredPackageID>
     <RegisteredPackagePublisher>CN=Gab</RegisteredPackagePublisher>
-    <RegisteredVersion>1.0.166.0</RegisteredVersion>
+    <RegisteredVersion>1.0.167.0</RegisteredVersion>
   </PropertyGroup>
   <ItemGroup>
     <AppXManifest Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2019-08-16T15:14:58.588</Modified>
+      <Modified>2019-08-16T19:40:32.887</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\GSCFieldApp.exe">
       <PackagePath>entrypoint\GSCFieldApp.exe</PackagePath>
-      <Modified>2019-08-16T15:14:47.993</Modified>
+      <Modified>2019-08-16T19:40:22.046</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit.dll">
       <PackagePath>Esri.ArcGISRuntime.Toolkit.dll</PackagePath>
@@ -1497,7 +1497,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\BundleArtifacts\x64.txt">
       <PackagePath>BundleArtifacts\x64.txt</PackagePath>
-      <Modified>2019-08-14T13:52:07.913</Modified>
+      <Modified>2019-08-16T17:15:48.162</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\BundleArtifacts\x86.txt">
       <PackagePath>BundleArtifacts\x86.txt</PackagePath>
@@ -1525,87 +1525,87 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:45.007</Modified>
+      <Modified>2019-08-16T19:40:19.166</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Styles\Custom.xbf">
       <PackagePath>Styles\Custom.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.825</Modified>
+      <Modified>2019-08-16T19:40:18.989</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\ContentDialogSemanticZoom.xbf">
       <PackagePath>Views\ContentDialogSemanticZoom.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:45.008</Modified>
+      <Modified>2019-08-16T19:40:19.167</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\DocumentDialog.xbf">
       <PackagePath>Views\DocumentDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.838</Modified>
+      <Modified>2019-08-16T19:40:19.002</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\EarthmatDialog.xbf">
       <PackagePath>Views\EarthmatDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.852</Modified>
+      <Modified>2019-08-16T19:40:19.016</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FossilDialog.xbf">
       <PackagePath>Views\FossilDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:45.010</Modified>
+      <Modified>2019-08-16T19:40:19.169</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\LocationDialog.xbf">
       <PackagePath>Views\LocationDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.862</Modified>
+      <Modified>2019-08-16T19:40:19.025</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MapPage.xbf">
       <PackagePath>Views\MapPage.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.886</Modified>
+      <Modified>2019-08-16T19:40:19.052</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MineralizationAlterationDialog.xbf">
       <PackagePath>Views\MineralizationAlterationDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.891</Modified>
+      <Modified>2019-08-16T19:40:19.057</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MineralDialog.xbf">
       <PackagePath>Views\MineralDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.895</Modified>
+      <Modified>2019-08-16T19:40:19.062</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\PaleoflowDialog.xbf">
       <PackagePath>Views\PaleoflowDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.901</Modified>
+      <Modified>2019-08-16T19:40:19.067</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\PicklistDialog.xbf">
       <PackagePath>Views\PicklistDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.907</Modified>
+      <Modified>2019-08-16T19:40:19.072</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldNotesPage.xbf">
       <PackagePath>Views\FieldNotesPage.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.952</Modified>
+      <Modified>2019-08-16T19:40:19.117</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\SampleDialog.xbf">
       <PackagePath>Views\SampleDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.957</Modified>
+      <Modified>2019-08-16T19:40:19.123</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldBooksPage.xbf">
       <PackagePath>Views\FieldBooksPage.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.969</Modified>
+      <Modified>2019-08-16T19:40:19.129</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\SettingsPage.xbf">
       <PackagePath>Views\SettingsPage.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.982</Modified>
+      <Modified>2019-08-16T19:40:19.142</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\Shell.xbf">
       <PackagePath>Views\Shell.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:45.017</Modified>
+      <Modified>2019-08-16T19:40:19.176</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\Splash.xbf">
       <PackagePath>Views\Splash.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:45.017</Modified>
+      <Modified>2019-08-16T19:40:19.177</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\StationDialog.xbf">
       <PackagePath>Views\StationDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:44.993</Modified>
+      <Modified>2019-08-16T19:40:19.153</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\StructureDialog.xbf">
       <PackagePath>Views\StructureDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:45.001</Modified>
+      <Modified>2019-08-16T19:40:19.160</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldBookDialog.xbf">
       <PackagePath>Views\FieldBookDialog.xbf</PackagePath>
-      <Modified>2019-08-16T15:14:45.006</Modified>
+      <Modified>2019-08-16T19:40:19.165</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -1725,11 +1725,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2019-08-16T13:32:28.860</Modified>
+      <Modified>2019-08-16T18:17:15.107</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Core\GSCFieldApp.exe">
       <PackagePath>GSCFieldApp.exe</PackagePath>
-      <Modified>2019-08-16T15:14:58.574</Modified>
+      <Modified>2019-08-16T19:40:32.870</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
