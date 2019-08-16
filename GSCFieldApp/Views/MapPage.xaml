@@ -74,8 +74,8 @@
 
         <Controls:PageHeader x:Name="pageFooter" VerticalAlignment="Bottom" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
-            <AppBarButton Foreground="White" Icon="OpenFile" Width="55" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped"/>
-            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu"  Foreground="White" Width="55">
+            <AppBarButton Foreground="White" Icon="OpenFile" Width="55" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
+            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu"  Foreground="White" Width="55" ToolTipService.ToolTip="">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
                 </AppBarButton.Icon>
@@ -97,8 +97,8 @@
 
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo"  Width="55" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
-            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes"  Foreground="White" Width="55" Tapped="GPSMode_TappedAsync" >
+            <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo" ToolTipService.ToolTip="" Width="55" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
+            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes" ToolTipService.ToolTip="" Foreground="White" Width="55" Tapped="GPSMode_TappedAsync" >
                 <AppBarButton.Icon>
                     <SymbolIcon Symbol="{x:Bind ViewModel.GPSModeSymbol, Mode=TwoWay}" x:Name="GPSModeIcon"/>
                 </AppBarButton.Icon>

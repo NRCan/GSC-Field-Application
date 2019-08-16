@@ -1423,4 +1423,28 @@ Williams, Stephen - Programmeur</value>
   <data name="DeleteDialog_ManualEntryStationLocation" xml:space="preserve">
     <value>Fermer ce dialogue entraînera l'effacement de la localisation associée. Puisque cette localisation est une entrée manuelle, souhaitez-vous tout de même poursuivre?</value>
   </data>
+  <data name="ButtonDBBackupStackPanel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Pour une copie de sureté journalière</value>
+  </data>
+  <data name="MapPageAddMaps.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ajouter une couche géographiques (SQLite, TPK)</value>
+  </data>
+  <data name="MapPageDisplayInfo.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Afficher/Éteindre les informations cartographiques</value>
+  </data>
+  <data name="MapPageGPSModes.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Activer/Désactiver la localisation par GPS dans l'application</value>
+  </data>
+  <data name="MapPageMapMenu.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Gérer les couches géographiques</value>
+  </data>
+  <data name="ProjectFullBackupButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Sauvegarde complète des données (BD, couche géographiques, photos) associées au carnet.</value>
+  </data>
+  <data name="ProjectRestoreButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ajouter une précédente sauvegarde d'un carnet.</value>
+  </data>
+  <data name="ProjectUpgradeButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mettre à jour le schéma de base de données du carnet.</value>
+  </data>
 </root>

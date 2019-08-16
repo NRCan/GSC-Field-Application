@@ -1423,4 +1423,28 @@ Williams, Stephen - Developer</value>
   <data name="DeleteDialog_ManualEntryStationLocation" xml:space="preserve">
     <value>Closing current dialog will force a delete on associated location coordinates. Since location is a manual entry, would you still like to go on with the location delete?</value>
   </data>
+  <data name="ButtonDBBackupStackPanel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Use for daily backup</value>
+  </data>
+  <data name="MapPageAddMaps.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add a layer (SQLite, TPK)</value>
+  </data>
+  <data name="MapPageDisplayInfo.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Enable/Disable Map Information</value>
+  </data>
+  <data name="MapPageGPSModes.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Enable/Disable GPS location inside application</value>
+  </data>
+  <data name="MapPageMapMenu.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Manage Map Layers</value>
+  </data>
+  <data name="ProjectFullBackupButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Complete data backup (DB, layers and photos), for selected field book.</value>
+  </data>
+  <data name="ProjectRestoreButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Import a previously backuped field book.</value>
+  </data>
+  <data name="ProjectUpgradeButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Upgrade field book database schema.</value>
+  </data>
 </root>
