@@ -10,7 +10,7 @@ Windows 10 Minimum build 16299.
 
 ## Installation
 
-The application is side-loaded onto any Windows 10 PC that meet sthe build requirement. More information coming later.
+The application is side-loaded onto any Windows 10 PC that meets the build requirement. More information coming later.
 
 ## Data Format
 
