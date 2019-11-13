@@ -1015,12 +1015,12 @@
     <value>Contact</value>
   </data>
   <data name="AboutContactInfo.Text" xml:space="preserve">
-    <value>Kazuharu (Kaz) Shimamura, PMP
-Supervisor, Geoinformatics
-Geological Survey Canada, Natural Resources Canada
-Government of Canada
-9860 West Saanich Road, Sidney,Colombie-Britannique, V8L 4B2
-kaz.shimamura@canada.ca</value>
+    <value>Gabriel Huot-Vézina
+Agent géomatique
+Commission géologique du Canada, Ressources naturelles du Canada
+Gouvernment du Canada
+490 de la Couronne, Québec, Québec, G1K 9A9
+gabriel.huot-vezina@canada.ca</value>
   </data>
   <data name="AboutTeamHeader.Text" xml:space="preserve">
     <value>Équipe</value>

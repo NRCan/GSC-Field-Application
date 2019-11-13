@@ -19,7 +19,7 @@
     <DeployOptionalPackages>true</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>758E98616C082D7B8F65DB0CBD45BD903853482F5212C427C4431DAE2AD67C84</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>6437A42548B10B0C8287CC650AFFDEA4263B5E670E5EB1F2A032340E2D72B914</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>GSCFieldApp_1.0.167.0_x64__c1ewb8mxhbfzr</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>GSCFieldApp_c1ewb8mxhbfzr!App</RegisteredUserModeAppID>
     <RegisteredPackageID>GSCFieldApp</RegisteredPackageID>
@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2019-08-16T19:40:32.887</Modified>
+      <Modified>2019-10-15T17:08:12.105</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\GSCFieldApp.exe">
       <PackagePath>entrypoint\GSCFieldApp.exe</PackagePath>
-      <Modified>2019-08-16T19:40:22.046</Modified>
+      <Modified>2019-10-15T17:07:36.995</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit.dll">
       <PackagePath>Esri.ArcGISRuntime.Toolkit.dll</PackagePath>
@@ -1418,9 +1418,9 @@
       <PackagePath>Microsoft.UI.Xaml.Markup.winmd</PackagePath>
       <Modified>2018-10-23T06:33:40.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UAP\v0.8.0.0\ExtensionSDKs\SQLite.UWP.2015\3.29.0\Redist\Debug\x64\sqlite3.dll">
+    <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UAP\v0.8.0.0\ExtensionSDKs\SQLite.UWP.2015\3.30.1\Redist\Debug\x64\sqlite3.dll">
       <PackagePath>sqlite3.dll</PackagePath>
-      <Modified>2019-07-11T13:38:36.468</Modified>
+      <Modified>2019-10-15T15:18:14.171</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.UniversalCRT.Debug\10.0.17763.0\\redist\Debug\X64\ucrtbased.dll">
       <PackagePath>ucrtbased.dll</PackagePath>
@@ -1525,87 +1525,87 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.166</Modified>
+      <Modified>2019-10-15T17:07:33.711</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Styles\Custom.xbf">
       <PackagePath>Styles\Custom.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:18.989</Modified>
+      <Modified>2019-10-15T17:07:33.328</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\ContentDialogSemanticZoom.xbf">
       <PackagePath>Views\ContentDialogSemanticZoom.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.167</Modified>
+      <Modified>2019-10-15T17:07:33.713</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\DocumentDialog.xbf">
       <PackagePath>Views\DocumentDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.002</Modified>
+      <Modified>2019-10-15T17:07:33.538</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\EarthmatDialog.xbf">
       <PackagePath>Views\EarthmatDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.016</Modified>
+      <Modified>2019-10-15T17:07:33.554</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FossilDialog.xbf">
       <PackagePath>Views\FossilDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.169</Modified>
+      <Modified>2019-10-15T17:07:33.715</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\LocationDialog.xbf">
       <PackagePath>Views\LocationDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.025</Modified>
+      <Modified>2019-10-15T17:07:33.563</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MapPage.xbf">
       <PackagePath>Views\MapPage.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.052</Modified>
+      <Modified>2019-10-15T17:07:33.591</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MineralizationAlterationDialog.xbf">
       <PackagePath>Views\MineralizationAlterationDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.057</Modified>
+      <Modified>2019-10-15T17:07:33.596</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\MineralDialog.xbf">
       <PackagePath>Views\MineralDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.062</Modified>
+      <Modified>2019-10-15T17:07:33.601</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\PaleoflowDialog.xbf">
       <PackagePath>Views\PaleoflowDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.067</Modified>
+      <Modified>2019-10-15T17:07:33.606</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\PicklistDialog.xbf">
       <PackagePath>Views\PicklistDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.072</Modified>
+      <Modified>2019-10-15T17:07:33.614</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldNotesPage.xbf">
       <PackagePath>Views\FieldNotesPage.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.117</Modified>
+      <Modified>2019-10-15T17:07:33.660</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\SampleDialog.xbf">
       <PackagePath>Views\SampleDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.123</Modified>
+      <Modified>2019-10-15T17:07:33.667</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldBooksPage.xbf">
       <PackagePath>Views\FieldBooksPage.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.129</Modified>
+      <Modified>2019-10-15T17:07:33.675</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\SettingsPage.xbf">
       <PackagePath>Views\SettingsPage.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.142</Modified>
+      <Modified>2019-10-15T17:07:33.687</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\Shell.xbf">
       <PackagePath>Views\Shell.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.176</Modified>
+      <Modified>2019-10-15T17:07:33.723</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\Splash.xbf">
       <PackagePath>Views\Splash.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.177</Modified>
+      <Modified>2019-10-15T17:07:33.724</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\StationDialog.xbf">
       <PackagePath>Views\StationDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.153</Modified>
+      <Modified>2019-10-15T17:07:33.697</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\StructureDialog.xbf">
       <PackagePath>Views\StructureDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.160</Modified>
+      <Modified>2019-10-15T17:07:33.706</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Views\FieldBookDialog.xbf">
       <PackagePath>Views\FieldBookDialog.xbf</PackagePath>
-      <Modified>2019-08-16T19:40:19.165</Modified>
+      <Modified>2019-10-15T17:07:33.710</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -1639,46 +1639,6 @@
       <PackagePath>Esri.ArcGISRuntime.Toolkit\Assets\MeasureLengthDark.scale-200.png</PackagePath>
       <Modified>2018-10-15T23:43:08.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\Themes\Generic.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\Themes\Generic.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\Compass\Compass.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\Compass\Compass.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\FeatureDataField\FeatureDataField.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\FeatureDataField\FeatureDataField.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\LayerLegend\LayerLegend.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\LayerLegend\LayerLegend.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\Legend\Legend.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\Legend\Legend.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\MeasureToolbar\MeasureToolbar.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\MeasureToolbar\MeasureToolbar.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\PopupViewer\PopupViewer.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\PopupViewer\PopupViewer.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\ScaleLine\ScaleLine.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\ScaleLine\ScaleLine.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\SymbolDisplay\SymbolDisplay.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\SymbolDisplay\SymbolDisplay.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.toolkit\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime.Toolkit\UI\Controls\TimeSlider\TimeSlider.Theme.xaml">
-      <PackagePath>Esri.ArcGISRuntime.Toolkit\UI\Controls\TimeSlider\TimeSlider.Theme.xaml</PackagePath>
-      <Modified>2018-11-02T01:48:00.000</Modified>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.uwp\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime\Esri.ArcGISRuntime.xr.xml">
       <PackagePath>Esri.ArcGISRuntime\Esri.ArcGISRuntime.xr.xml</PackagePath>
       <Modified>2018-10-15T22:53:26.000</Modified>
@@ -1687,49 +1647,21 @@
       <PackagePath>Esri.ArcGISRuntime\Properties\Esri.ArcGISRuntime.rd.xml</PackagePath>
       <Modified>2018-10-15T22:47:10.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\esri.arcgisruntime.uwp\100.4.0\lib\uap10.0.16299\Esri.ArcGISRuntime\Themes\Generic.xaml">
-      <PackagePath>Esri.ArcGISRuntime\Themes\Generic.xaml</PackagePath>
-      <Modified>2018-10-15T22:53:26.000</Modified>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\template10\1.1.13-preview-20161207\lib\uap10.0\Template10Library\Template10Library.xr.xml">
       <PackagePath>Template10Library\Template10Library.xr.xml</PackagePath>
-      <Modified>2016-12-08T02:53:06.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\template10\1.1.13-preview-20161207\lib\uap10.0\Template10Library\Controls\HamburgerMenu.xaml">
-      <PackagePath>Template10Library\Controls\HamburgerMenu.xaml</PackagePath>
       <Modified>2016-12-08T02:53:06.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\template10\1.1.13-preview-20161207\lib\uap10.0\Template10Library\Properties\Template10Library.rd.xml">
       <PackagePath>Template10Library\Properties\Template10Library.rd.xml</PackagePath>
       <Modified>2016-12-08T02:53:06.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\template10\1.1.13-preview-20161207\lib\uap10.0\Template10Library\Themes\Generic.xaml">
-      <PackagePath>Template10Library\Themes\Generic.xaml</PackagePath>
-      <Modified>2016-12-08T02:53:06.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\template10\1.1.13-preview-20161207\lib\uap10.0\Template10Library\Themes\HamburgerMenu.xaml">
-      <PackagePath>Template10Library\Themes\HamburgerMenu.xaml</PackagePath>
-      <Modified>2016-12-08T02:53:06.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\template10\1.1.13-preview-20161207\lib\uap10.0\Template10Library\Themes\ModalDialog.xaml">
-      <PackagePath>Template10Library\Themes\ModalDialog.xaml</PackagePath>
-      <Modified>2016-12-08T02:53:06.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\template10\1.1.13-preview-20161207\lib\uap10.0\Template10Library\Themes\PageHeader.xaml">
-      <PackagePath>Template10Library\Themes\PageHeader.xaml</PackagePath>
-      <Modified>2016-12-08T02:53:06.000</Modified>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Gab\.nuget\packages\template10\1.1.13-preview-20161207\lib\uap10.0\Template10Library\Themes\Resizer.xaml">
-      <PackagePath>Template10Library\Themes\Resizer.xaml</PackagePath>
-      <Modified>2016-12-08T02:53:06.000</Modified>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2019-08-16T18:17:15.107</Modified>
+      <Modified>2019-10-15T17:07:54.011</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\bin\x64\Debug\Core\GSCFieldApp.exe">
       <PackagePath>GSCFieldApp.exe</PackagePath>
-      <Modified>2019-08-16T19:40:32.870</Modified>
+      <Modified>2019-10-15T17:08:12.057</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
@@ -1762,36 +1694,36 @@
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.27023.1</Version>
+      <Version>14.0.27323.0</Version>
       <Architecture>ARM</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.27023.1, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.27323.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\ARM\Microsoft.VCLibs.ARM.Debug.14.00.appx</AppxLocation>
       <MoreInfo>
       </MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.27023.1</Version>
+      <Version>14.0.27323.0</Version>
       <Architecture>ARM64</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.27023.1, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.27323.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\ARM64\Microsoft.VCLibs.ARM64.Debug.14.00.appx</AppxLocation>
       <MoreInfo>
       </MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.27023.1</Version>
+      <Version>14.0.27323.0</Version>
       <Architecture>x64</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.27023.1, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.27323.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\x64\Microsoft.VCLibs.x64.Debug.14.00.appx</AppxLocation>
       <MoreInfo>
       </MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.27023.1</Version>
+      <Version>14.0.27323.0</Version>
       <Architecture>x86</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.27023.1, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.27323.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\x86\Microsoft.VCLibs.x86.Debug.14.00.appx</AppxLocation>
       <MoreInfo>
       </MoreInfo>

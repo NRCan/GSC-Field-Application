@@ -1018,23 +1018,22 @@
     <value>Contact</value>
   </data>
   <data name="AboutContactInfo.Text" xml:space="preserve">
-    <value>Kazuharu (Kaz) Shimamura, PMP
-Superviseur Géoinformatique
-Commission géologique du Canada, Ressources naturelles Canada
-Gouvernement du Canada
-9860 rue West Saanich, Sidney,Colombie-Britannique, V8L 4B2
-kaz.shimamura@canada.ca</value>
+    <value>Gabriel Huot-Vézina
+Geomatic agent
+Geological Survey of Canada, Natural Resources Canada
+Government of Canada
+490 de la Couronne, Québec, Québec, G1K 9A9
+gabriel.huot-vezina@canada.ca</value>
   </data>
   <data name="AboutTeamHeader.Text" xml:space="preserve">
     <value>Team</value>
   </data>
   <data name="AboutTeamInfo.Text" xml:space="preserve">
-    <value>Brouillette, Pierre – Geological Data Flow Project Leader 
-Cocking, Robert – Training and Advisor
-Girard, Étienne – Data Model Analyst
-Huot-Vézina, Gabriel – Lead Developer
-Shimamura, Kaz – Data Collection Activity Leader 
-Williams, Stephen - Developer</value>
+    <value>Cocking, Robert – Training and Advisor
+Girard, Étienne – Geological Data Flow Project Leader 
+Huot-Vézina, Gabriel – Lead Developer, Data Collection Activity Leader 
+Joseph, Jamel - Developer
+Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="UserInfo_OtherHeader.Content" xml:space="preserve">
     <value>Initialization</value>

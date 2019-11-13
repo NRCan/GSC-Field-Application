@@ -330,7 +330,7 @@ namespace GSCFieldApp.ViewModels
                 case PositionStatus.NoData:
                     //// Location platform could not obtain location data.
                     ResetLocationGraphic();
-                    NoLocationFlightMode();
+                    await NoLocationFlightMode();
                     userHasTurnedGPSOff = true;
                     SetGPSModeIcon(Symbol.TouchPointer);
 
@@ -808,7 +808,7 @@ namespace GSCFieldApp.ViewModels
                         //Case user has also turned location off
                         if (!canAccess.Result)
                         {
-                            NoLocationRoutine();
+                            await NoLocationRoutine();
                         }
                         else
                         {
@@ -1304,6 +1304,8 @@ namespace GSCFieldApp.ViewModels
             }
             catch (Exception ex)
             {
+                //If anything happens to the event while being called
+                string exMessage = ex.Message;
                 ResetLocationGraphic();
             }
         }
@@ -1646,7 +1648,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         public async void LayerFlyout_ClosedAsync(object sender, object e)
         {
-            SetLayerOrderAsync();
+            await SetLayerOrderAsync();
         }
 
         #endregion
@@ -1974,7 +1976,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             initMapScale = currentMapView.MapScale;
-            SetLayerOrderAsync();
+            await SetLayerOrderAsync();
         }
 
         /// <summary>
@@ -2322,7 +2324,12 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will set the maps (layers) order in the map control from user choices.
         /// </summary>
-        public async void SetLayerOrderAsync()
+        public async 
+        /// <summary>
+        /// Will set the maps (layers) order in the map control from user choices.
+        /// </summary>
+        Task
+SetLayerOrderAsync()
         {
             try
             {
@@ -2641,6 +2648,10 @@ namespace GSCFieldApp.ViewModels
             
         }
 
+        /// <summary>
+        /// Will build some vocab list for specific work
+        /// </summary>
+        /// <param name="withManualLocationEntry"></param>
         public void FillLocationVocab(bool withManualLocationEntry = false)
         {
             string querySelect = "SELECT " + Dictionaries.DatabaseLiterals.FieldDictionaryCode + " ";
@@ -2668,14 +2679,27 @@ namespace GSCFieldApp.ViewModels
 
             }
 
-            Vocabularies elevGPS = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereElevMethodGPS)[0] as Vocabularies;
-            vocabElevmethodGPS = elevGPS.Code.ToString();
-            Vocabularies errorType = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereErrorTypeMeter)[0] as Vocabularies;
-            vocabErrorMeasureTypeMeter = errorType.Code.ToString();
-            Vocabularies manualType = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereEntryManual)[0] as Vocabularies;
-            vocabEntryTypeManual = manualType.Code.ToString();
+            List<object> elevObjects = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereElevMethodGPS);
+            if (elevObjects.Count > 0)
+            {
+                Vocabularies elevGPS = elevObjects[0] as Vocabularies;
+                vocabElevmethodGPS = elevGPS.Code.ToString();
+            }
 
-
+            List<object> errorTypeObjects = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereErrorTypeMeter);
+            if (errorTypeObjects.Count > 0)
+            {
+                Vocabularies errorType = errorTypeObjects[0] as Vocabularies;
+                vocabErrorMeasureTypeMeter = errorType.Code.ToString();
+            }
+            
+            List<object> manObjects = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereEntryManual);
+            if (manObjects.Count > 0)
+            {
+                Vocabularies manualType = manObjects[0] as Vocabularies;
+                vocabEntryTypeManual = manualType.Code.ToString();
+            }
+            
     }
 
     #endregion
@@ -2743,7 +2767,7 @@ namespace GSCFieldApp.ViewModels
                                 //Reset layer and layer flyout
                                 _filenameValues.Remove(selectedFile);
                                 _selectedLayer = string.Empty;
-                                SetLayerOrderAsync();
+                                await SetLayerOrderAsync();
                             }
 
                             else
@@ -2755,7 +2779,7 @@ namespace GSCFieldApp.ViewModels
                                 //Reset layer and layer flyout
                                 _filenameValues.Remove(selectedFile);
                                 _selectedLayer = string.Empty;
-                                SetLayerOrderAsync();
+                                await SetLayerOrderAsync();
 
                                 //Reset overlays
                                 if (_overlayContainerOther.ContainsKey(selectedFile.LayerName))

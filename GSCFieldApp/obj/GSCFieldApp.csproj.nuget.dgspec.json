@@ -1,41 +1,41 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Maison\\Source\\Repos\\GSC-Field-Application\\GSCFieldApp\\GSCFieldApp.csproj": {}
+    "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Maison\\Source\\Repos\\GSC-Field-Application\\GSCFieldApp\\GSCFieldApp.csproj": {
+    "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Maison\\Source\\Repos\\GSC-Field-Application\\GSCFieldApp\\GSCFieldApp.csproj",
+        "projectUniqueName": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj",
         "projectName": "GSCFieldApp",
-        "projectPath": "C:\\Users\\Maison\\Source\\Repos\\GSC-Field-Application\\GSCFieldApp\\GSCFieldApp.csproj",
-        "packagesPath": "C:\\Users\\Maison\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Maison\\Source\\Repos\\GSC-Field-Application\\GSCFieldApp\\obj\\",
+        "projectPath": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\GSCFieldApp.csproj",
+        "packagesPath": "C:\\Users\\Gab\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Gab\\Documents\\DEV\\gsc-field-application\\GSCFieldApp\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft SDKs\\UWPNuGetPackages\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Maison\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Gab\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "uap10.0.16299"
+          "uap10.0.17763"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "uap10.0.16299": {
+          "uap10.0.17763": {
             "projectReferences": {}
           }
         }
       },
       "frameworks": {
-        "uap10.0.16299": {
+        "uap10.0.17763": {
           "dependencies": {
             "Esri.ArcGISRuntime.Toolkit": {
               "target": "Package",
@@ -47,11 +47,11 @@
             },
             "Microsoft.NETCore.UniversalWindowsPlatform": {
               "target": "Package",
-              "version": "[6.1.9, )"
+              "version": "[6.2.9, )"
             },
             "Microsoft.Xaml.Behaviors.Uwp.Managed": {
               "target": "Package",
-              "version": "[2.0.0, )"
+              "version": "[2.0.1, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -63,7 +63,7 @@
             },
             "System.Data.SQLite": {
               "target": "Package",
-              "version": "[1.0.109.2, )"
+              "version": "[1.0.112, )"
             },
             "Template10": {
               "target": "Package",
