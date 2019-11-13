@@ -14,6 +14,8 @@ Current application uses a SQLite data format to keep all information gathered b
 Universal Windows Platform (UWP), Visual Studio Pro, 2017
 
 ## Contacts
-Kaz Shimamura: kaz.shimamura@canada.ca
-
 Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
+
+Étienne Girard: etienne.girard@canada.ca
+
+
