@@ -121,7 +121,7 @@
     <value>Supprimer l'enregistrement sélectionnée?</value>
   </data>
   <data name="FieldworkTableObservation.Text" xml:space="preserve">
-    <value>Localisation</value>
+    <value>Positionnement</value>
   </data>
   <data name="FieldworkTableEarthmat.Text" xml:space="preserve">
     <value>Matériaux du sol</value>
@@ -364,7 +364,7 @@
     <value>Texture Structurel</value>
   </data>
   <data name="EarthDialogMU.Header" xml:space="preserve">
-    <value>Unit Cartographique</value>
+    <value>Unité Cartographique</value>
   </data>
   <data name="EarthDialogOccur.Header" xml:space="preserve">
     <value>Occurent comme</value>
@@ -634,7 +634,7 @@
     <value>Avancés (plus d'attributs)</value>
   </data>
   <data name="SettingPageTogglePhotoMode.OnContent" xml:space="preserve">
-    <value>Default (photo seulement)</value>
+    <value>Par défaut (photo seulement)</value>
   </data>
   <data name="ReportPageDocumentCaptionHeader.Text" xml:space="preserve">
     <value>Description</value>
@@ -889,7 +889,7 @@
     <value>Lattitude</value>
   </data>
   <data name="MapPageDialogTextLocationStatus" xml:space="preserve">
-    <value>Aucun droit de localisation.\n\n Aimeriez-vous modifier les droits?</value>
+    <value>Aucun droit de positionnement.\n\n Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="MinderalDialodSizeMax.Header" xml:space="preserve">
     <value>Taille Max. (mm)</value>
@@ -952,7 +952,7 @@
     <value>Aucun signal GPS actif</value>
   </data>
   <data name="MapPageDialogNoLocationTitle" xml:space="preserve">
-    <value>Droit de localisation non permis</value>
+    <value>Droit de positionnement non permis</value>
   </data>
   <data name="MapPageDialogPoorAccuracyTitle" xml:space="preserve">
     <value>Marge d'erreur sur la position</value>
@@ -1003,7 +1003,7 @@
     <value>Cartographie</value>
   </data>
   <data name="MapPageAddWaypoint.Label" xml:space="preserve">
-    <value>Waypoint</value>
+    <value>Point d'intérêt</value>
   </data>
   <data name="StructDialogType.PlaceholderText" xml:space="preserve">
     <value>Toucher la loupe pour afficher (requis)</value>
@@ -1026,12 +1026,11 @@ gabriel.huot-vezina@canada.ca</value>
     <value>Équipe</value>
   </data>
   <data name="AboutTeamInfo.Text" xml:space="preserve">
-    <value>Brouillette, Pierre – Chef de projet "Geological Data Flow"
-Cocking, Robert – Conseiller et formation
-Girard, Étienne – Modélisateur de base de donnée
-Huot-Vézina, Gabriel – Principal programmeur
-Shimamura, Kaz – Chef d'activité "Data Collection"
-Williams, Stephen - Programmeur</value>
+    <value>Cocking, Robert – Conseiller et formation
+Girard, Étienne – Modélisateur de base de donnée,  Chef de projet "Geological Data Flow"
+Huot-Vézina, Gabriel – Principal programmeur, Chef d'activité
+Joseph, Jamel - Programmeur
+Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="UserInfo_OtherHeader.Content" xml:space="preserve">
     <value>Initialisation</value>
@@ -1052,7 +1051,7 @@ Williams, Stephen - Programmeur</value>
     <value>Date création</value>
   </data>
   <data name="ProjectListGeologistHeader.Text" xml:space="preserve">
-    <value>Géologue/Geolcode</value>
+    <value>Géologue/Code de géologue</value>
   </data>
   <data name="ProjectListStationHeader.Text" xml:space="preserve">
     <value>Station</value>
@@ -1154,22 +1153,22 @@ Williams, Stephen - Programmeur</value>
     <value>Ajouter et remplacer le vocabulaire</value>
   </data>
   <data name="UserInfoDialogPGeologistFirstName.Header" xml:space="preserve">
-    <value>First Name</value>
+    <value>Prénom</value>
   </data>
   <data name="UserInfoDialogPGeologistLastName.Header" xml:space="preserve">
-    <value>Last Name</value>
+    <value>Nom de famille</value>
   </data>
   <data name="UserInfoDialogPGeologistMiddleName.Header" xml:space="preserve">
-    <value>Middle Name</value>
+    <value>Deuxième prénom</value>
   </data>
   <data name="UserInfoDialogPLeaderFirstName.Header" xml:space="preserve">
-    <value>First Name</value>
+    <value>Prénom</value>
   </data>
   <data name="UserInfoDialogPLeaderLastName.Header" xml:space="preserve">
-    <value>Last Name</value>
+    <value>Nom de famille</value>
   </data>
   <data name="UserInfoDialogPLeaderMiddleName.Header" xml:space="preserve">
-    <value>Middle Name</value>
+    <value>Deuxième prénom</value>
   </data>
   <data name="UserInfo_ProjectLeaderHeader.Content" xml:space="preserve">
     <value>Chef de projet</value>
@@ -1316,10 +1315,10 @@ Williams, Stephen - Programmeur</value>
     <value>Fermer</value>
   </data>
   <data name="MapPageDialogSameLocationContent" xml:space="preserve">
-    <value>La localisation actuelle est la même que la précédente, souhaitez-vous continuer? Veuillez-vous assurer que le mode avion est désactivé et que des signaux satellites sont disponibles.</value>
+    <value>Le positionnement actuel est la même que la précédente, souhaitez-vous continuer? Veuillez-vous assurer que le mode avion est désactivé et que des signaux satellites sont disponibles.</value>
   </data>
   <data name="MapPageDialogSameLocationTitle" xml:space="preserve">
-    <value>Localisation identique</value>
+    <value>Positionnement identique</value>
   </data>
   <data name="EarthmatGridView_GNote.Content" xml:space="preserve">
     <value>Général</value>
@@ -1349,7 +1348,7 @@ Williams, Stephen - Programmeur</value>
     <value>Mise-à-jour</value>
   </data>
   <data name="MapPageDialogLocationAcquiring" xml:space="preserve">
-    <value>Localisation en cours ... veuillez patienter.</value>
+    <value>Positionnement en cours ... veuillez patienter.</value>
   </data>
   <data name="MapPageDialogLocationDidNotInit" xml:space="preserve">
     <value>Initialisation non réussie.</value>
@@ -1358,22 +1357,22 @@ Williams, Stephen - Programmeur</value>
     <value>Non disponible sur cette version du système d'exploitation</value>
   </data>
   <data name="MapPageDialogLocationRestricted" xml:space="preserve">
-    <value>Impossible de prendre une localisation dûe à des restrictions.</value>
+    <value>Impossible de prendre un positionnement dûe à des restrictions.</value>
   </data>
   <data name="MapPageDialogLocationTapMode" xml:space="preserve">
     <value>Continuer avec le mode manuel?</value>
   </data>
   <data name="MapPageDialogLocationTitle" xml:space="preserve">
-    <value>Localisation</value>
+    <value>Positionnement</value>
   </data>
   <data name="MapPageDialogLocationUnknownError" xml:space="preserve">
-    <value>Erreur inatendue, la localisation a été arrêté.</value>
+    <value>Erreur inatendue, le positionnement a été arrêté.</value>
   </data>
   <data name="MapPageDialogLocationFlightMode" xml:space="preserve">
     <value>Le mode avion semble avoir été activé. Mode manuel activé.</value>
   </data>
   <data name="MapProgressRingAcquiringGPSLabel.Text" xml:space="preserve">
-    <value>Localisation en cours ... veuillez patienter.</value>
+    <value>Positionnement en cours ... veuillez patienter.</value>
   </data>
   <data name="MapPageGPSModes.Label" xml:space="preserve">
     <value>GPS/Toucher </value>
@@ -1421,7 +1420,7 @@ Williams, Stephen - Programmeur</value>
     <value>Valeurs manquantes</value>
   </data>
   <data name="DeleteDialog_ManualEntryStationLocation" xml:space="preserve">
-    <value>Fermer ce dialogue entraînera l'effacement de la localisation associée. Puisque cette localisation est une entrée manuelle, souhaitez-vous tout de même poursuivre?</value>
+    <value>Fermer ce dialogue entraînera l'effacement de la position associée. Puisque cette position est une entrée manuelle, souhaitez-vous tout de même poursuivre?</value>
   </data>
   <data name="ButtonDBBackupStackPanel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Pour une copie de sureté journalière</value>
@@ -1433,7 +1432,7 @@ Williams, Stephen - Programmeur</value>
     <value>Afficher/Éteindre les informations cartographiques</value>
   </data>
   <data name="MapPageGPSModes.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Activer/Désactiver la localisation par GPS dans l'application</value>
+    <value>Activer/Désactiver le positionnement par GPS dans l'application</value>
   </data>
   <data name="MapPageMapMenu.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Gérer les couches géographiques</value>
@@ -1446,5 +1445,11 @@ Williams, Stephen - Programmeur</value>
   </data>
   <data name="ProjectUpgradeButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Mettre à jour le schéma de base de données du carnet.</value>
+  </data>
+  <data name="MapInfoAccuracyLabel.Text" xml:space="preserve">
+    <value>Précision (XY):</value>
+  </data>
+  <data name="MapInfoLocationLabel.Text" xml:space="preserve">
+    <value>Position: </value>
   </data>
 </root>

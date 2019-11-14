@@ -1446,4 +1446,10 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="ProjectUpgradeButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Upgrade field book database schema.</value>
   </data>
+  <data name="MapInfoAccuracyLabel.Text" xml:space="preserve">
+    <value>Accuracy (XY):</value>
+  </data>
+  <data name="MapInfoLocationLabel.Text" xml:space="preserve">
+    <value>Location: </value>
+  </data>
 </root>

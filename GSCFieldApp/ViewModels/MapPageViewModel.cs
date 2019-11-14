@@ -2328,8 +2328,7 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will set the maps (layers) order in the map control from user choices.
         /// </summary>
-        Task
-SetLayerOrderAsync()
+        Task SetLayerOrderAsync()
         {
             try
             {
