@@ -1,1 +1,0 @@
-MainPackage=C:\Users\ghuotvez\Documents\GSCFieldApp\GSCFieldApp\bin\x86\Debug\GSCFieldApp_1.0.51.0_x86_Debug.appx
