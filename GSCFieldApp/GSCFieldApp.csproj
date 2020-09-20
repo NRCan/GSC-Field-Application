@@ -28,7 +28,7 @@
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
-    <PackageCertificateThumbprint>D8581A46CD3D941A1B7206B43EBEFD40D122F9F7</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>C89C75FA507D7B17DC7F8711114D563DC6EEBDFB</PackageCertificateThumbprint>
     <AppxPackageDir>D:\gab\dev\GSCFieldAppPackages\</AppxPackageDir>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
