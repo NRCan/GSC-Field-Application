@@ -12,7 +12,7 @@ The GSC Field Application only records bedrock geology data at this time, but we
 
 ## Requirements
 
-Windows 10 Minimum build 16299. 
+Windows 10 Minimum build 17763, version 1809. 
 
 ## Installation
 
@@ -60,7 +60,7 @@ Cette application permet de récolter les données concernant la géologique du 
 
 ## Pré-requis
 
-Windows 10, version compilée minimale 16299. 
+Windows 10, version compilée minimale 17763, version 1809. 
 
 ## Installation
 
