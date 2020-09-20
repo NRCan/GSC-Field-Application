@@ -1,7 +1,0 @@
-﻿[ResourceMetadata]
-"ResourceId"			"split.language-zh-hant"
-"ResourceDimensions"		"language-zh-hk"
-"ResourceDimensions"		"language-zh-tw"
-
-[Files]
-"C:\Users\Gab\Documents\DEV\gsc-field-application\GSCFieldApp\obj\x64\Debug\split.language-zh-hant.pri"			"resources.pri"

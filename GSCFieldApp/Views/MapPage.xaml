@@ -33,7 +33,7 @@
 
             <RelativePanel>
 
-                <ToggleSwitch Margin="5" 
+                <ToggleSwitch Margin="2" 
                         Header="{x:Bind LayerName}" x:Name="mapFileName" 
                         IsOn="{x:Bind LayerSettings.LayerVisibility}" Toggled="mapFileName_Toggled"/>
                 <Slider x:Name="opacitySlider"  Tag="{x:Bind LayerName}"
@@ -42,7 +42,7 @@
                         RelativePanel.RightOf="mapFileName"
                         RelativePanel.AlignBottomWith="mapFileName"
                         ValueChanged="OpacitySlider_ValueChanged"
-                        Margin="-75,0,0,0"/>                
+                        Margin="-50,0,0,0"/>                
                 <SymbolIcon x:Name="MapDeleteIcon" Margin="10,0,0,10" 
                             RelativePanel.RightOf="opacitySlider" 
                             RelativePanel.AlignBottomWith="mapFileName"
@@ -66,13 +66,16 @@
                 <AppBarButton x:Name="MapPageStrucCommandButton" Label="" MaxWidth="55" Foreground="White" Icon="Directions" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageMeasureCommand" IsEnabled="{x:Bind ViewModel.MapPageQuickMeasurementEnable, Mode=TwoWay}"/>
                 <AppBarButton x:Name="AddWaypoint" Label="" x:Uid="MapPageAddWaypoint" Foreground="White" Icon="Flag" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}"/>
             </Controls:PageHeader.PrimaryCommands>
+            <Controls:PageHeader.SecondaryCommands>
+                <AppBarButton x:Name="MapPageLocationCommandButton" Label="Manual XY entry" Foreground="White" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageLocationCommand" />
+            </Controls:PageHeader.SecondaryCommands>
 
         </Controls:PageHeader>
 
         <Controls:PageHeader x:Name="pageFooter" VerticalAlignment="Bottom" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
-            <AppBarButton Foreground="White" Icon="OpenFile" Width="55" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped"/>
-            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu"  Foreground="White" Width="55">
+            <AppBarButton Foreground="White" Icon="OpenFile" Width="55" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
+            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White" Width="55" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
                 </AppBarButton.Icon>
@@ -94,8 +97,8 @@
 
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo"  Width="55" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
-            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes"  Foreground="White" Width="55" Tapped="GPSMode_TappedAsync" >
+            <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo" ToolTipService.ToolTip="" Width="55" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
+            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes" ToolTipService.ToolTip="" Foreground="White" Width="55" Tapped="GPSMode_TappedAsync" >
                 <AppBarButton.Icon>
                     <SymbolIcon Symbol="{x:Bind ViewModel.GPSModeSymbol, Mode=TwoWay}" x:Name="GPSModeIcon"/>
                 </AppBarButton.Icon>
@@ -125,7 +128,7 @@
 
                     <TextBlock Name="MapCoordinateText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
-                    <Run Text="Location: "/>
+                    <Run Text="Location: " x:Uid="MapInfoLocationLabel"/>
                     <Run Text="{x:Bind ViewModel.CurrentLatitude, Converter={StaticResource DD2DMS}, ConverterParameter='Latitude', Mode=OneWay}"/>
                     <Run Text="{x:Bind ViewModel.CurrentLongitude, Converter={StaticResource DD2DMS}, ConverterParameter='Longitude', Mode=OneWay}"/>
                     <Run Text="{x:Bind ViewModel.CurrentAltitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
@@ -137,7 +140,7 @@
 
                     <TextBlock Name="MapCoordinateAccuracyText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
-                    <Run Text="Accuracy (XY): "/>
+                    <Run Text="Accuracy (XY): " x:Uid="MapInfoAccuracyLabel"/>
                     <Run Text="{x:Bind ViewModel.CurrentAccuracy, Converter={StaticResource FormatAccuracy}, Mode=OneWay}"/>
                     </TextBlock>
 

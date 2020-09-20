@@ -64,9 +64,15 @@
 
                     <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
                         <!--Validity background check-->
-                        <FontIcon Glyph="&#xE73C;" 
+                        <FontIcon Glyph="&#xE73C;" x:Name="locationValidityIcon"
                                 Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
                                 Visibility="{x:Bind location.isValid, Converter={StaticResource VisibilityConverter}}"/>
+
+                        <!--Tap or manual entry data check-->
+                        <FontIcon Glyph="&#xF271;" x:Name="locationManualTapIcon" Margin="0,0,5,0"
+                                RelativePanel.LeftOf="locationValidityIcon" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind location.isManualEntry, Converter={StaticResource VisibilityFromBoolConverter}}"/>
+                        
                     </RelativePanel>
 
                     <!--Values-->
@@ -1051,11 +1057,9 @@
 
                         <theme:ExpandPanel.ToolContent>
                             <RelativePanel>
-
-                                <SymbolIcon x:Name="ObservationEditIcon" Foreground="{x:Bind ViewModel.LocationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit" Opacity="{x:Bind ViewModel.StationIconOpacity, Mode=TwoWay}"
-                                    Tapped="{x:Bind ViewModel.LocationEditIcon_Tapped}" 
-                                    Margin="5" 
-                                        />
+                                <SymbolIcon x:Name="ObservationAddIcon" Foreground="{x:Bind ViewModel.LocationAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Margin="8"  Symbol="Add" RelativePanel.LeftOf="ObservationEditIcon" Tapped="{x:Bind ViewModel.LocationAddIcon_Tapped}" Opacity="{x:Bind ViewModel.LocationAddIconOpacity, Mode=TwoWay}"/>
+                                <SymbolIcon x:Name="ObservationEditIcon" Foreground="{x:Bind ViewModel.LocationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit" Opacity="{x:Bind ViewModel.StationIconOpacity, Mode=TwoWay}" RelativePanel.LeftOf="ObservationDeleteIcon" Tapped="{x:Bind ViewModel.LocationEditIcon_Tapped}" Margin="5"/>
+                                <SymbolIcon x:Name="ObservationDeleteIcon" Foreground="{x:Bind ViewModel.LocationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Opacity="{x:Bind ViewModel.DocumentIconOpacity, Mode=TwoWay}" Margin="8" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
                             </RelativePanel>
                         </theme:ExpandPanel.ToolContent>
 

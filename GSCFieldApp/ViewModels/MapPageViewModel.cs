@@ -83,6 +83,8 @@ namespace GSCFieldApp.ViewModels
         //Other
         public bool addDataDialogPopedUp = false; //Will be used to stop pop-up launching everytime user navigates to map page.
         public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+        DataLocalSettings localSetting = new DataLocalSettings();
+        public DataIDCalculation idCalculator = new DataIDCalculation();
 
         //Quick buttons
         private bool _mapPageQuickSampleEnable = true;
@@ -217,6 +219,7 @@ namespace GSCFieldApp.ViewModels
         public string vocabEntryTypeGPS { get; set; }
         public string vocabElevmethodGPS { get; set; }
         public string vocabErrorMeasureTypeMeter { get; set; }
+        public string vocabEntryTypeManual { get; set; }
 
         #endregion
 
@@ -327,7 +330,7 @@ namespace GSCFieldApp.ViewModels
                 case PositionStatus.NoData:
                     //// Location platform could not obtain location data.
                     ResetLocationGraphic();
-                    NoLocationFlightMode();
+                    await NoLocationFlightMode();
                     userHasTurnedGPSOff = true;
                     SetGPSModeIcon(Symbol.TouchPointer);
 
@@ -625,6 +628,7 @@ namespace GSCFieldApp.ViewModels
                 string ptStationLocationID = string.Empty;
                 double ptStationLocationLat;
                 double ptStationLocationLong;
+                string ptStationLocationEPSG = string.Empty;
                 foreach (object scs in stationTableRows)
                 {
                     Models.Station currentStation = scs as Models.Station;
@@ -635,6 +639,7 @@ namespace GSCFieldApp.ViewModels
                     ptStationLocationID = currentLocation.LocationID;
                     ptStationLocationLat = currentLocation.LocationLat;
                     ptStationLocationLong = currentLocation.LocationLong;
+                    ptStationLocationEPSG = currentLocation.LocationDatum;
                 }
 
                 //Find if station was already loaded
@@ -647,7 +652,37 @@ namespace GSCFieldApp.ViewModels
                 //Add new graphic station and it's related label if needed
                 if (!stationGraphicExists && ptStationId != string.Empty)
                 {
-                    var graphic = new Graphic(new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84), pointSym);
+                    //Create Map Point for graphic
+                    MapPoint geoPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
+
+                    //Get if datum transformation is needed
+                    int epsg = 0;
+                    int.TryParse(ptStationLocationEPSG, out epsg);
+
+                    if (epsg != 0 && epsg != 4326)
+                    {
+                        DatumTransformation datumTransfo = null;
+                        SpatialReference outSR = null;
+                        
+                        if ((epsg > 26900 && epsg < 27000))
+                        {
+                            outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                            datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
+                        }
+
+
+                        MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
+
+                        //Validate if transformation is needed.
+                        if (datumTransfo != null)
+                        {
+                            //Replace geopoint
+                            geoPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+                        }
+
+                    }
+
+                    var graphic = new Graphic(geoPoint, pointSym);
                     graphic.Attributes.Add("Id", ptStationId.ToString());
                     graphic.Attributes.Add("Date", ptStationDate.ToString());
                     graphic.Attributes.Add("Time", ptStationTime.ToString());
@@ -714,101 +749,113 @@ namespace GSCFieldApp.ViewModels
             //var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
             //Find which quick button was clicked
-            if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordStation))
+            if (!senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordLocation))
             {
-                clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordStation;
-            }
-            if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordSample))
-            {
-                clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordSample;
-            }
-            if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordPhoto))
-            {
-                clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordPhoto;
-            }
-            if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordStructure))
-            {
-                clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordStructure;
-            }
-            if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
-            {
-                clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordStationWaypoint;
-            }
-
-            //Validate accessibility
-            Task<bool> canAccess = ValidateGeolocationAccess();
-            await canAccess;
-            // Check that GPS is on, should also be a check that coordinates are being received
-            if (canAccess.Result && !userHasTurnedGPSOff && _currentMSGeoposition != null && _OverlayCurrentPosition!= null && _OverlayCurrentPosition.Graphics.Count > 0 )
-            {
-                try
+                if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordStation))
                 {
-                    _currentMSGeoposition = await _geolocator.GetGeopositionAsync();
+                    clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordStation;
                 }
-                catch (Exception)
+                if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordSample))
                 {
-
+                    clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordSample;
                 }
-               
-                // Check that horizontal accuracy is better then 30 m, arbitrary number
-                if (_currentMSGeoposition.Coordinate.Accuracy <= 20.0 && _currentMSGeoposition.Coordinate.Accuracy > 0.0)
+                if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordPhoto))
                 {
+                    clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordPhoto;
+                }
+                if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordStructure))
+                {
+                    clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordStructure;
+                }
+                if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
+                {
+                    clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordStationWaypoint;
+                }
 
-                    GotoQuickDialog(null);
+                //Validate accessibility
+                Task<bool> canAccess = ValidateGeolocationAccess();
+                await canAccess;
+                // Check that GPS is on, should also be a check that coordinates are being received
+                if (canAccess.Result && !userHasTurnedGPSOff && _currentMSGeoposition != null && _OverlayCurrentPosition != null && _OverlayCurrentPosition.Graphics.Count > 0)
+                {
+                    try
+                    {
+                        _currentMSGeoposition = await _geolocator.GetGeopositionAsync();
+                    }
+                    catch (Exception)
+                    {
 
+                    }
+
+                    // Check that horizontal accuracy is better then 30 m, arbitrary number
+                    if (_currentMSGeoposition.Coordinate.Accuracy <= 20.0 && _currentMSGeoposition.Coordinate.Accuracy > 0.0)
+                    {
+
+                        GotoQuickDialog(null);
+
+                    }
+                    else
+                    {
+
+                        PoorLocationRoutineTap();
+
+                    }
                 }
                 else
                 {
+                    if (!userHasTurnedGPSOff)
+                    {
+                        //Case user has also turned location off
+                        if (!canAccess.Result)
+                        {
+                            await NoLocationRoutine();
+                        }
+                        else
+                        {
+                            if (initializingGPS)
+                            {
+                                //Force call on UI thread, else it could crash the app if async call is made another thread.
+                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                                {
 
-                    PoorLocationRoutineTap();
+
+                                    ContentDialog acquiringLocationDialog = new ContentDialog()
+                                    {
+                                        Title = local.GetString("MapPageDialogLocationTitle"),
+                                        Content = local.GetString("MapPageDialogLocationAcquiring"),
+                                        PrimaryButtonText = local.GetString("GenericDialog_ButtonOK"),
+                                    };
+                                    acquiringLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                                    acquiringLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+
+                                    await Services.ContentDialogMaker.CreateContentDialogAsync(acquiringLocationDialog, true);
+                                    ResetLocationGraphic();
+
+                                }).AsTask();
+                            }
+                            else
+                            {
+                                PoorLocationRoutineTap();
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        NoLocationRoutineTapOnly();
+                    }
 
                 }
             }
             else
             {
-                if (!userHasTurnedGPSOff)
+                if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordLocation))
                 {
-                    //Case user has also turned location off
-                    if (!canAccess.Result)
-                    {
-                        NoLocationRoutine();
-                    }
-                    else
-                    {
-                        if (initializingGPS)
-                        {
-                            //Force call on UI thread, else it could crash the app if async call is made another thread.
-                            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
-                            {
-                                
-
-                                ContentDialog acquiringLocationDialog = new ContentDialog()
-                                {
-                                    Title = local.GetString("MapPageDialogLocationTitle"),
-                                    Content = local.GetString("MapPageDialogLocationAcquiring"),
-                                    PrimaryButtonText = local.GetString("GenericDialog_ButtonOK"),
-                                };
-                                acquiringLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                                acquiringLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-
-                                await Services.ContentDialogMaker.CreateContentDialogAsync(acquiringLocationDialog, true);
-                                ResetLocationGraphic();
-
-                            }).AsTask();
-                        }
-                        else
-                        {
-                            PoorLocationRoutineTap();
-                        }
-                        
-                    }
+                    clickedQuickButton = Dictionaries.DatabaseLiterals.KeywordLocation;
+                    GotoQuickDialog(null);
                 }
-                else
-                {
-                    NoLocationRoutineTapOnly();
-                }
-
             }
+
         }
         #endregion
 
@@ -822,57 +869,74 @@ namespace GSCFieldApp.ViewModels
         {
             ClearSelection();
 
-            if (inLocation == null)
+            if (clickedQuickButton != Dictionaries.DatabaseLiterals.KeywordLocation)
             {
-                inLocation = new FieldLocation();
-                inLocation.LocationElev = _currentMSGeoposition.Coordinate.Point.Position.Altitude;
-                inLocation.LocationLat = _currentMSGeoposition.Coordinate.Point.Position.Latitude;
-                inLocation.LocationLong = _currentMSGeoposition.Coordinate.Point.Position.Longitude;
-                inLocation.LocationErrorMeasure = _currentMSGeoposition.Coordinate.Accuracy;
-                inLocation.LocationElevMethod = vocabElevmethodGPS;
-                inLocation.LocationEntryType = _currentMSGeoposition.Coordinate.PositionSource.ToString();
-                inLocation.LocationErrorMeasureType = vocabErrorMeasureTypeMeter;
-                inLocation.LocationElevationAccuracy = _currentMSGeoposition.Coordinate.AltitudeAccuracy;
-            }
-            if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordStation)
-            {
-                GotoStationDataPart(inLocation);
-            }
-            if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordSample)
-            {
-                GotoSampleDialog(inLocation);
-            }
-            if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordPhoto)
-            {
-                GotoPhotoDialog(inLocation);
-            }
-            if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordStructure)
-            {
-                string projectType = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString();
-                if (projectType != null)
+                if (inLocation == null)
                 {
-                    if (projectType == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                    inLocation = new FieldLocation();
+                    inLocation.LocationElev = _currentMSGeoposition.Coordinate.Point.Position.Altitude;
+                    inLocation.LocationLat = _currentMSGeoposition.Coordinate.Point.Position.Latitude;
+                    inLocation.LocationLong = _currentMSGeoposition.Coordinate.Point.Position.Longitude;
+                    inLocation.LocationErrorMeasure = _currentMSGeoposition.Coordinate.Accuracy;
+                    inLocation.LocationElevMethod = vocabElevmethodGPS;
+                    inLocation.LocationEntryType = _currentMSGeoposition.Coordinate.PositionSource.ToString();
+                    inLocation.LocationErrorMeasureType = vocabErrorMeasureTypeMeter;
+                    inLocation.LocationElevationAccuracy = _currentMSGeoposition.Coordinate.AltitudeAccuracy;
+                }
+                if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordStation)
+                {
+                    GotoStationDataPart(inLocation);
+                }
+                if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordSample)
+                {
+                    GotoSampleDialog(inLocation);
+                }
+                if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordPhoto)
+                {
+                    GotoPhotoDialog(inLocation);
+                }
+                if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordStructure)
+                {
+                    string projectType = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString();
+                    if (projectType != null)
                     {
-                        GotoPflowDialog(inLocation);
+                        if (projectType == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                        {
+                            GotoPflowDialog(inLocation);
+                        }
+                        else
+                        {
+                            GotoStructureDialog(inLocation);
+                        }
+
                     }
                     else
                     {
                         GotoStructureDialog(inLocation);
                     }
-                    
+
                 }
-                else
+                if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordStationWaypoint)
                 {
-                    GotoStructureDialog(inLocation);
+                    AddStationWaypoint(inLocation);
                 }
-                
+
+                lastTakenLocation = new Tuple<double, double>(inLocation.LocationLong, inLocation.LocationLat);
             }
-            if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordStationWaypoint)
+            else
             {
-                AddStationWaypoint(inLocation);
+                FieldLocation manualLocation = new FieldLocation();
+                manualLocation.LocationElev = 0.0;
+                manualLocation.LocationLat = 0.0;
+                manualLocation.LocationLong = 0.0;
+                manualLocation.LocationEntryType = vocabEntryTypeManual;
+                manualLocation.LocationID = idCalculator.CalculateLocationID(); //Calculate new value
+                manualLocation.LocationAlias= idCalculator.CalculateLocationAlias(string.Empty); //Calculate new value
+                manualLocation.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
+
+                GotoLocationDataPart(manualLocation);
             }
 
-            lastTakenLocation = new Tuple<double, double>(inLocation.LocationLong, inLocation.LocationLat);
         }
 
         /// <summary>
@@ -890,6 +954,25 @@ namespace GSCFieldApp.ViewModels
 
             DataLocalSettings dLocalSettings = new DataLocalSettings();
             dLocalSettings.SetSettingValue("forceNoteRefresh", false);
+        }
+
+        /// <summary>
+        /// Will pop the station dialog
+        /// </summary>
+        public void GotoLocationDataPart(FieldLocation locationEmptyEntry)
+        {
+
+            var modal = Window.Current.Content as ModalDialog;
+            var view = modal.ModalContent as Views.LocationDialog;
+            FieldNotes newLocationFieldNotes = new FieldNotes();
+            newLocationFieldNotes.location = locationEmptyEntry;
+            modal.ModalContent = view = new Views.LocationDialog(newLocationFieldNotes);
+            view.locationVM.doLocationUpdate = false;
+            view.locationVM.newLocationEdit += NavigationToStationDialog; //Detect when the add/edit request has finished.
+            modal.IsModal = true;
+
+            DataLocalSettings dLocalSettings = new DataLocalSettings();
+            dLocalSettings.SetSettingValue("forceNoteRefresh", true);
         }
 
         /// <summary>
@@ -1114,15 +1197,32 @@ namespace GSCFieldApp.ViewModels
             dLocalSettings.SetSettingValue("forceNoteRefresh", true);
         }
 
+        /// <summary>
+        /// Mainly used to refresh the map, after some data entry, example waypoint addition.
+        /// </summary>
+        /// <param name="sender"></param>
         private void RefreshMap(object sender)
         {
             DisplayPointAndLabelsAsync(currentMapView);
         }
 
+        /// <summary>
+        /// Mainly used when user needs to navigate to the field note page after a certain steps has been taken
+        /// </summary>
+        /// <param name="sender"></param>
         private void NavigateToReport(object sender)
         {
             //Navigate to the report page.
             NavigationService.Navigate(typeof(Views.ReportPage), new[] { selectedStationID, selectedStationDate });
+        }
+
+        /// <summary>
+        /// Mainly used to show the station dialog when following location manual xy entry.
+        /// </summary>
+        /// <param name="sender"></param>
+        private void NavigationToStationDialog(object sender)
+        {
+            GotoStationDataPart(null);
         }
 
         #endregion
@@ -1204,6 +1304,8 @@ namespace GSCFieldApp.ViewModels
             }
             catch (Exception ex)
             {
+                //If anything happens to the event while being called
+                string exMessage = ex.Message;
                 ResetLocationGraphic();
             }
         }
@@ -1546,7 +1648,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         public async void LayerFlyout_ClosedAsync(object sender, object e)
         {
-            SetLayerOrderAsync();
+            await SetLayerOrderAsync();
         }
 
         #endregion
@@ -1874,7 +1976,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             initMapScale = currentMapView.MapScale;
-            SetLayerOrderAsync();
+            await SetLayerOrderAsync();
         }
 
         /// <summary>
@@ -2222,7 +2324,11 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will set the maps (layers) order in the map control from user choices.
         /// </summary>
-        public async void SetLayerOrderAsync()
+        public async 
+        /// <summary>
+        /// Will set the maps (layers) order in the map control from user choices.
+        /// </summary>
+        Task SetLayerOrderAsync()
         {
             try
             {
@@ -2541,7 +2647,11 @@ namespace GSCFieldApp.ViewModels
             
         }
 
-        public void FillLocationVocab()
+        /// <summary>
+        /// Will build some vocab list for specific work
+        /// </summary>
+        /// <param name="withManualLocationEntry"></param>
+        public void FillLocationVocab(bool withManualLocationEntry = false)
         {
             string querySelect = "SELECT " + Dictionaries.DatabaseLiterals.FieldDictionaryCode + " ";
             string queryFrom = "FROM " + Dictionaries.DatabaseLiterals.TableDictionary + " ";
@@ -2550,6 +2660,7 @@ namespace GSCFieldApp.ViewModels
             string queryWhereElevMethodGPS = Dictionaries.DatabaseLiterals.termIDElevmethod_GPS + "'";
             string queryWhereErrorTypeMeter = Dictionaries.DatabaseLiterals.termIDErrorTypeMeasure_Meter + "'";
             string queryWhereEntryTap = Dictionaries.DatabaseLiterals.termIDEntryType_Tap + "'";
+            string queryWhereEntryManual = Dictionaries.DatabaseLiterals.termIDEntryType_Manual + "'";
 
             Vocabularies vocaModel = new Vocabularies();
 
@@ -2567,20 +2678,37 @@ namespace GSCFieldApp.ViewModels
 
             }
 
-            Vocabularies elevGPS = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereElevMethodGPS)[0] as Vocabularies;
-            vocabElevmethodGPS = elevGPS.Code.ToString();
-            Vocabularies errorType = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereErrorTypeMeter)[0] as Vocabularies;
-            vocabErrorMeasureTypeMeter = errorType.Code.ToString();
-        }
+            List<object> elevObjects = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereElevMethodGPS);
+            if (elevObjects.Count > 0)
+            {
+                Vocabularies elevGPS = elevObjects[0] as Vocabularies;
+                vocabElevmethodGPS = elevGPS.Code.ToString();
+            }
 
-        #endregion
+            List<object> errorTypeObjects = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereErrorTypeMeter);
+            if (errorTypeObjects.Count > 0)
+            {
+                Vocabularies errorType = errorTypeObjects[0] as Vocabularies;
+                vocabErrorMeasureTypeMeter = errorType.Code.ToString();
+            }
+            
+            List<object> manObjects = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereEntryManual);
+            if (manObjects.Count > 0)
+            {
+                Vocabularies manualType = manObjects[0] as Vocabularies;
+                vocabEntryTypeManual = manualType.Code.ToString();
+            }
+            
+    }
 
-        #region DELETE
-        /// <summary>
-        /// Will remove a selected layer from the map but also delete the original file from the local state folder.
-        /// Else, will clear the layers from the map so they can be deleted in batch.
-        /// </summary>
-        public async void DeleteLayersAsync(bool fromSelection)
+    #endregion
+
+    #region DELETE
+    /// <summary>
+    /// Will remove a selected layer from the map but also delete the original file from the local state folder.
+    /// Else, will clear the layers from the map so they can be deleted in batch.
+    /// </summary>
+    public async void DeleteLayersAsync(bool fromSelection)
         {
             if (esriMap != null && _selectedLayer != null && fromSelection)
             {
@@ -2638,7 +2766,7 @@ namespace GSCFieldApp.ViewModels
                                 //Reset layer and layer flyout
                                 _filenameValues.Remove(selectedFile);
                                 _selectedLayer = string.Empty;
-                                SetLayerOrderAsync();
+                                await SetLayerOrderAsync();
                             }
 
                             else
@@ -2650,7 +2778,7 @@ namespace GSCFieldApp.ViewModels
                                 //Reset layer and layer flyout
                                 _filenameValues.Remove(selectedFile);
                                 _selectedLayer = string.Empty;
-                                SetLayerOrderAsync();
+                                await SetLayerOrderAsync();
 
                                 //Reset overlays
                                 if (_overlayContainerOther.ContainsKey(selectedFile.LayerName))

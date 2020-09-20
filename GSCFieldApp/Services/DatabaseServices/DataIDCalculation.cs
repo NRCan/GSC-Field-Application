@@ -42,7 +42,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateLocationID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         /// <summary>
@@ -59,6 +59,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 locAlias = locAlias + "XY";
             }
+            else
+            {
+                locAlias = CalculateStationAlias(DateTime.Now) + "XY";
+            }
 
             return locAlias;
         }
@@ -71,7 +75,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateMetadataID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         /// <summary>
@@ -80,7 +84,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateTermID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
         #endregion
 
@@ -91,7 +95,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateStationID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         /// <summary>
@@ -322,7 +326,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateEarthmatID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         #endregion
@@ -394,7 +398,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateSampleID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         #endregion
@@ -406,7 +410,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateDocumentID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         /// <summary>
@@ -493,7 +497,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateStructureID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         /// <summary>
@@ -563,7 +567,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculatePFlowID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         /// <summary>
@@ -633,7 +637,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateFossilID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         /// <summary>
@@ -761,7 +765,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateMineralID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
 
         #endregion
@@ -835,7 +839,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateMineralAlterationID()
         {
-            return CalculateSmallGUID();
+            return CalculateGUID();
         }
         #endregion
 
@@ -936,14 +940,23 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         }
 
+        ///// <summary>
+        ///// Will calculate a new GUID converted to a base 64 string, hence the small guid.
+        ///// </summary>
+        ///// <returns></returns>
+        //public string CalculateSmallGUID()
+        //{
+        //    return Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("===", "");
+
+        //}
+
         /// <summary>
-        /// Will calculate a new GUID converted to a base 64 string, hence the small guid.
+        /// Will calculate a new GUID
         /// </summary>
         /// <returns></returns>
-        public string CalculateSmallGUID()
+        public string CalculateGUID()
         {
-            return Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("===", "");
-
+            return Guid.NewGuid().ToString();
         }
         #endregion
     }

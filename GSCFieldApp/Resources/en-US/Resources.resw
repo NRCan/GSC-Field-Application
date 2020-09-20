@@ -1018,23 +1018,22 @@
     <value>Contact</value>
   </data>
   <data name="AboutContactInfo.Text" xml:space="preserve">
-    <value>Kazuharu (Kaz) Shimamura, PMP
-Superviseur Géoinformatique
-Commission géologique du Canada, Ressources naturelles Canada
-Gouvernement du Canada
-9860 rue West Saanich, Sidney,Colombie-Britannique, V8L 4B2
-kaz.shimamura@canada.ca</value>
+    <value>Gabriel Huot-Vézina
+Geomatic agent
+Geological Survey of Canada, Natural Resources Canada
+Government of Canada
+490 de la Couronne, Québec, Québec, G1K 9A9
+gabriel.huot-vezina@canada.ca</value>
   </data>
   <data name="AboutTeamHeader.Text" xml:space="preserve">
     <value>Team</value>
   </data>
   <data name="AboutTeamInfo.Text" xml:space="preserve">
-    <value>Brouillette, Pierre – Geological Data Flow Project Leader 
-Cocking, Robert – Training and Advisor
-Girard, Étienne – Data Model Analyst
-Huot-Vézina, Gabriel – Lead Developer
-Shimamura, Kaz – Data Collection Activity Leader 
-Williams, Stephen - Developer</value>
+    <value>Cocking, Robert – Training and Advisor
+Girard, Étienne – Geological Data Flow Project Leader 
+Huot-Vézina, Gabriel – Lead Developer, Data Collection Activity Leader 
+Joseph, Jamel - Developer
+Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="UserInfo_OtherHeader.Content" xml:space="preserve">
     <value>Initialization</value>
@@ -1337,7 +1336,7 @@ Williams, Stephen - Developer</value>
     <value>No GPS Signal. Please wait</value>
   </data>
   <data name="WarningBadVersionContent" xml:space="preserve">
-    <value>Restored database version is outdated. Application might not run properly. Please update and restore back. --Current app uses version 1.42.</value>
+    <value>Restored database version is outdated. Application might not run properly. Please update and restore back. --Current app uses version </value>
   </data>
   <data name="WarningBadVersionTitle" xml:space="preserve">
     <value>Database Version</value>
@@ -1383,5 +1382,74 @@ Williams, Stephen - Developer</value>
   </data>
   <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
     <value>Entry rock type ie. basalt</value>
+  </data>
+  <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
+    <value>Elevation (m)</value>
+  </data>
+  <data name="LocationDialogGridView_Geo.Content" xml:space="preserve">
+    <value>Geographic</value>
+  </data>
+  <data name="LocationDialogGridView_Projected.Content" xml:space="preserve">
+    <value>Projected</value>
+  </data>
+  <data name="LocationDialogDatum.Header" xml:space="preserve">
+    <value>Geodetic System</value>
+  </data>
+  <data name="LocationDialogGridView_Conversion.Content" xml:space="preserve">
+    <value>Coordinate Conversion</value>
+  </data>
+  <data name="LocationDialogGridView_Datum.Content" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="LocationDialogGridView_Extra.Content" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="LocationDialogNotes.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="LocationDialogDatumContent" xml:space="preserve">
+    <value>Please select a proper geodetic system</value>
+  </data>
+  <data name="LocationDialogDatumTitle" xml:space="preserve">
+    <value>Geodetic system</value>
+  </data>
+  <data name="LocationDialogBadSaveContent" xml:space="preserve">
+    <value>Please fill in one of the following pair of coordinates before saving: longitude/latitude, easting/northing, check for a wrong Geodetic system or make sure that geographic coordinates are filled in.</value>
+  </data>
+  <data name="LocationDialogBadSaveTitle" xml:space="preserve">
+    <value>Bad Value</value>
+  </data>
+  <data name="DeleteDialog_ManualEntryStationLocation" xml:space="preserve">
+    <value>Closing current dialog will force a delete on associated location coordinates. Since location is a manual entry, would you still like to go on with the location delete?</value>
+  </data>
+  <data name="ButtonDBBackupStackPanel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Use for daily backup</value>
+  </data>
+  <data name="MapPageAddMaps.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add a layer (SQLite, TPK)</value>
+  </data>
+  <data name="MapPageDisplayInfo.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Enable/Disable Map Information</value>
+  </data>
+  <data name="MapPageGPSModes.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Enable/Disable GPS location inside application</value>
+  </data>
+  <data name="MapPageMapMenu.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Manage Map Layers</value>
+  </data>
+  <data name="ProjectFullBackupButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Complete data backup (DB, layers and photos), for selected field book.</value>
+  </data>
+  <data name="ProjectRestoreButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Import a previously backuped field book.</value>
+  </data>
+  <data name="ProjectUpgradeButtonLabel.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Upgrade field book database schema.</value>
+  </data>
+  <data name="MapInfoAccuracyLabel.Text" xml:space="preserve">
+    <value>Accuracy (XY):</value>
+  </data>
+  <data name="MapInfoLocationLabel.Text" xml:space="preserve">
+    <value>Location: </value>
   </data>
 </root>

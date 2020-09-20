@@ -21,6 +21,7 @@ using GSCFieldApp.Models;
 using System.ComponentModel;
 using Esri.ArcGISRuntime.Geometry;
 using System.Reflection;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -59,7 +60,7 @@ namespace GSCFieldApp.Views
         {
 
             ViewModel.SaveDialogInfo();
-            CloseControl();
+            CloseControlAsync();
         }
 
         private void StationDataPart_Loaded(object sender, RoutedEventArgs e)
@@ -70,7 +71,7 @@ namespace GSCFieldApp.Views
         private void StationDataPart_Loading(FrameworkElement sender, object args)
         {
             //Get information to automatically fill the dialog if data already exists (report page vs new station)
-            if (parentStationReport != null)
+            if (parentStationReport != null && parentStationReport.station.StationID != null)
             {
                 if (parentStationReport.station.StationAlias.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
                 {
@@ -116,8 +117,9 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// Will close the modal dialog.
         /// </summary>
-        public void CloseControl()
+        public async void CloseControlAsync()
         {
+
             //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
             WindowWrapper.Current().Dispatcher.Dispatch(() =>
             {
@@ -126,16 +128,47 @@ namespace GSCFieldApp.Views
                 modal.ModalContent = view;
                 modal.IsModal = false;
             });
+
         }
 
-        private void stationBackButton_Click(object sender, RoutedEventArgs e)
+        private async void stationBackButton_Click(object sender, RoutedEventArgs e)
         {
-            CloseControl();
+            //variables
+            bool canProceedWithClose = true;
+
+            //Warning user that if this station isn't closed normally the associated location will also be deleted.
+            if (ViewModel.Location.isManualEntry)
+            {
+                Task<bool> canClose = ViewModel.DeleteAssociatedLocationIfManualEntryAsync();
+                await canClose;
+                canProceedWithClose = canClose.Result;
+            }
+
+            if (canProceedWithClose)
+            {
+                CloseControlAsync();
+            }
+
+            
         }
 
-        private void stationBackButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void stationBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            CloseControl();
+            //variables
+            bool canProceedWithClose = true;
+
+            //Warning user that if this station isn't closed normally the associated location will also be deleted.
+            if (ViewModel.Location.isManualEntry)
+            {
+                Task<bool> canClose = ViewModel.DeleteAssociatedLocationIfManualEntryAsync();
+                await canClose;
+                canProceedWithClose = canClose.Result;
+            }
+
+            if (canProceedWithClose)
+            {
+                CloseControlAsync();
+            }
         }
         #endregion
 

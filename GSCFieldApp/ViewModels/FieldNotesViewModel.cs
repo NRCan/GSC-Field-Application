@@ -33,6 +33,8 @@ namespace GSCFieldApp.ViewModels
 
         //App
         DataAccess dAccess = new DataAccess();
+        DataLocalSettings localSetting = new DataLocalSettings();
+        public DataIDCalculation idCalculator = new DataIDCalculation();
 
         /// <summary>
         /// A collection of observation class to display on screen in the report page.
@@ -127,6 +129,7 @@ namespace GSCFieldApp.ViewModels
         private double _documentIconOpacity = disableOpacity;
         private double _documentAddIconOpacity = disableOpacity;
         private double _mineralAltIconOpacity = disableOpacity;
+        private double _locationAddIconOpacity = disableOpacity;
         private double _mineralAltAddIconOpacity = disableOpacity;
         private double _sampleAddIconOpacity = disableOpacity;
         private double _locationIconOpacity = disableOpacity;
@@ -172,6 +175,7 @@ namespace GSCFieldApp.ViewModels
         private SolidColorBrush _documentColor = new SolidColorBrush();
         private SolidColorBrush _stationColor = new SolidColorBrush();
         private SolidColorBrush _locationColor = new SolidColorBrush();
+        private SolidColorBrush _locationAddIconColor = new SolidColorBrush();
         private SolidColorBrush _earthmatAddIconColor = new SolidColorBrush();
         private SolidColorBrush _documentAddIconColor = new SolidColorBrush();
         private SolidColorBrush _sampleAddIconColor = new SolidColorBrush();
@@ -185,9 +189,6 @@ namespace GSCFieldApp.ViewModels
         //Map page
         public string userSelectedStationID = string.Empty;
         public string userSelectedStationDate = string.Empty;
-
-        //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
 
         //Events and delegate
         public delegate void summaryFinishLoadedEventHandler(object sender); //A delegate for execution events
@@ -407,6 +408,7 @@ namespace GSCFieldApp.ViewModels
         public double MineralAltAddIconOpacity { get { return _mineralAltAddIconOpacity; } set { _mineralAltAddIconOpacity = value; } }
         public double MineralAltIconColorOpacity { get { return _mineralAltIconColorOpacity; } set { _mineralAltIconColorOpacity = value; } }
 
+        public double LocationAddIconOpacity { get { return _locationAddIconOpacity; } set { _locationAddIconOpacity = value; } }
         public double LocationIconOpacity { get { return _locationIconOpacity; } set { _locationIconOpacity = value; } }
         public double LocationIconColorOpacity { get { return _locationIconColorOpacity; } set { _locationIconColorOpacity = value; } }
 
@@ -445,6 +447,7 @@ namespace GSCFieldApp.ViewModels
         public SolidColorBrush FossilAddIconColor { get { return _fossilAddIconColor; } set { _fossilAddIconColor = value; } }
         public SolidColorBrush StationColor { get { return _stationColor; } set { _stationColor = value; } }
         public SolidColorBrush LocationColor { get { return _locationColor; } set { _locationColor = value; } }
+        public SolidColorBrush LocationAddIconColor { get { return _locationAddIconColor; } set { _locationAddIconColor = value; } }
         public SolidColorBrush MineralAltColor { get { return _mineralAltColor; } set { _mineralAltColor = value; } }
         public SolidColorBrush MineralAltAddIconColor { get { return _mineralAltAddIconColor; } set { _mineralAltAddIconColor = value; } }
 
@@ -599,7 +602,7 @@ namespace GSCFieldApp.ViewModels
 
             if (stationDateTableRows != null && stationDateTableRows.Count != 0)
             {
-
+                int addingSequence = 0;
                 foreach (object objs in stationDateTableRows)
                 {
                     //Cast
@@ -609,7 +612,9 @@ namespace GSCFieldApp.ViewModels
                     FieldNotes currentDateItems = new FieldNotes();
                     currentDateItems.station = currentStation;
 
-                    _reportSummaryDateItems.Add(currentDateItems);
+                    _reportSummaryDateItems.Insert(addingSequence, currentDateItems);
+
+                    addingSequence++;
 
                 }
 
@@ -2466,6 +2471,9 @@ namespace GSCFieldApp.ViewModels
             _mineralAltAddIconOpacity = enableOpacity; //Enable child of station
             _mineralAltAddIconColor.Color = GetTableColor(DatabaseLiterals.TableMineralAlteration);
 
+            _locationAddIconOpacity = enableOpacity; //Enable child of station
+            _locationAddIconColor.Color = GetTableColor(DatabaseLiterals.TableLocation);
+
             _sampleAddIconOpacity = disableOpacity; //Disable child of childs
             _sampleAddIconColor.Color = GetTableColor(string.Empty);
 
@@ -3042,6 +3050,24 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region LOCATION EVENTS
+        public void LocationAddIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            Models.FieldLocation emptyFieldLocation = new FieldLocation();
+
+            emptyFieldLocation.LocationElev = 0.0;
+            emptyFieldLocation.LocationLat = 0.0;
+            emptyFieldLocation.LocationLong = 0.0;
+            emptyFieldLocation.LocationEntryType = Dictionaries.DatabaseLiterals.locationEntryTypeManual;
+            emptyFieldLocation.LocationID = idCalculator.CalculateLocationID(); //Calculate new value
+            emptyFieldLocation.LocationAlias = idCalculator.CalculateLocationAlias(string.Empty); //Calculate new value
+            emptyFieldLocation.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
+
+            FieldNotes emptyFieldNotes = new FieldNotes();
+            emptyFieldNotes.location = emptyFieldLocation;
+
+            PopLocation(emptyFieldNotes, false);
+        }
+
         public void LocationEditIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             EditLocation();

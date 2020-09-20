@@ -18,6 +18,13 @@ using GSCFieldApp.Models;
 using System.Diagnostics;
 
 using Esri.ArcGISRuntime.Geometry;
+using Windows.UI.Core;
+using Windows.ApplicationModel.Resources;
+using Template10.Controls;
+using GSCFieldApp.Services.DatabaseServices;
+using Windows.UI.Xaml.Media.Animation;
+using Template10.Services.NavigationService;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -28,16 +35,82 @@ namespace GSCFieldApp.Views
         public LocationViewModel locationVM { get; set; }
         public FieldNotes parentViewModel { get; set; }
 
+        public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+
+        bool isBackButtonPressed = false;
+
         public LocationDialog(FieldNotes inDetailViewModel)
         {
             parentViewModel = inDetailViewModel;
 
             this.InitializeComponent();
             locationVM = new LocationViewModel(inDetailViewModel);
+            locationVM.LocationAlias = parentViewModel.location.LocationAlias;
+            locationVM.LocationID = parentViewModel.location.LocationID;
+
+            //Keep in memory that this is a manual entry.
+            locationVM.entryType = parentViewModel.location.LocationEntryType;
+
+            this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocusAsync;
+
             this.Loading += LocationDialog_Loading;
-            this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocus;
+            this.Unloaded += LocationDialog_Unloaded;
         }
 
+        private async void LocationSaveButton_GotFocusAsync(object sender, RoutedEventArgs e)
+        {
+            
+            Task<bool> isUIValid = isLocationValidAsync();
+            await isUIValid;
+
+            if (isUIValid.Result)
+            {
+                locationVM.SaveDialogInfoAsync();
+                CloseControl();
+            }
+            else
+            {
+                ContentDialog defaultEventLocationDialog = new ContentDialog()
+                {
+                    Title = local.GetString("LocationDialogBadSaveTitle"),
+                    Content = local.GetString("LocationDialogBadSaveContent"),
+                    CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                };
+                defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
+
+                this.LocationDatum.Focus(FocusState.Programmatic);
+            }
+        }
+
+        private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
+        {
+            //Detect manual entry, if it's the case pop station dialog
+            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed )
+            {
+                //Create a field note report to act like a parent
+                FieldNotes stationParent = new FieldNotes();
+                stationParent.location = locationVM.locationModel;
+                stationParent.GenericAliasName = locationVM.LocationAlias;
+                stationParent.GenericID = locationVM.LocationID;
+                stationParent.GenericID = Dictionaries.DatabaseLiterals.TableLocation;
+
+                //Create a map point
+                var modal = Window.Current.Content as ModalDialog;
+                var view = modal.ModalContent as Views.StationDataPart;
+                modal.ModalContent = view = new Views.StationDataPart(stationParent, false);
+                view.mapPosition = locationVM.locationModel;
+                view.ViewModel.newStationEdit += locationVM.NavigateToReportAsync; //Detect when the add/edit request has finished.
+                modal.IsModal = true;
+
+                DataLocalSettings dLocalSettings = new DataLocalSettings();
+                dLocalSettings.SetSettingValue("forceNoteRefresh", true);
+            }
+            else
+            {
+                locationVM.newLocationEdit += locationVM.NavigateToReportAsync;
+            }
+        }
 
 
         /// <summary>
@@ -47,70 +120,30 @@ namespace GSCFieldApp.Views
         /// <param name="args"></param>
         private void LocationDialog_Loading(FrameworkElement sender, object args)
         {
+            isBackButtonPressed = false;
+
             //Fill automatically the earthmat dialog if an edit is asked by the user.
             if (parentViewModel.ParentTableName == Dictionaries.DatabaseLiterals.TableLocation && locationVM.doLocationUpdate)
             {
                 this.locationVM.AutoFillDialog(parentViewModel);
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;
-            }
 
-            DisplayUTMCoordinates();
-
-        }
-
-        private void DisplayUTMCoordinates()
-        {
-            int zoneNumber = 0;
-            if (Double.TryParse(this.LocationLong.Text, out double longitude))
-            {
-                zoneNumber = ((int)((longitude + 180) / 6) + 1);
-            }
-
-            string zoneQualifier = "";
-            if (Double.TryParse(this.LocationLat.Text, out double latitude))
-            {
-                zoneQualifier = (latitude >= 0 ? "North" : "South");
-            }
-
-            this.LocationZone.Text = zoneNumber.ToString() + " " + zoneQualifier;
-
-            // WGS84 based
-            int outWKID = 0;
-            if (zoneQualifier == "North")
-            {
-                outWKID = 32600 + zoneNumber;
+                if (parentViewModel.location.LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual || parentViewModel.location.LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeTap)
+                {
+                    this.locationVM.SetReadOnlyFields(true);
+                }
+                
             }
             else
             {
-                outWKID = 32700 + zoneNumber;
+                this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;
+
+                this.locationVM.SetReadOnlyFields();
             }
 
-            MapPoint geoPoint = new MapPoint(Double.Parse(this.LocationLong.Text), Double.Parse(this.LocationLat.Text), SpatialReferences.Wgs84);
-            var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(outWKID);
-            MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
-
-            this.LocationNorthing.Text = ((int)projPoint.Y).ToString();
-            this.LocationEasting.Text = ((int)projPoint.X).ToString();
-            
-            // Applies to NAD83
-            //int outWKID = 26900 + zoneNumber;
-
-            //MapPoint geoPoint = new MapPoint(Double.Parse(this.LocationLong.Text), Double.Parse(this.LocationLat.Text), SpatialReferences.Wgs84);
-            //var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(outWKID);
-            //MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
-
-            //// Definitions exist for UTM zones 1-23, 58,59,60 North
-            //if (Enumerable.Range(1, 23).Contains(zoneNumber))
-            //{
-            //    this.LocationNorthing.Text = ((int)projPoint.Y).ToString();
-            //    this.LocationEasting.Text = ((int)projPoint.X).ToString();
-            //}
-            //else
-            //{
-            //    this.LocationNorthing.Text = "na";
-            //    this.LocationEasting.Text = "na";
-            //}
         }
+
+
 
 
         #region CLOSE
@@ -132,23 +165,77 @@ namespace GSCFieldApp.Views
 
         private void LocationBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            isBackButtonPressed = true;
             CloseControl();
         }
 
         #endregion
 
         #region SAVE
-        private void LocationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void LocationSaveButton_TappedAsync(object sender, TappedRoutedEventArgs e)
         {
-            this.LocationSaveButton.Focus(FocusState.Programmatic);
-
-        }
-        private void LocationSaveButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-            locationVM.SaveDialogInfo();
-            CloseControl();
+            e.Handled = true;
         }
 
         #endregion
+
+        #region EVENTS
+        private async void ButtonConvertToUTM_TappedAsync(object sender, TappedRoutedEventArgs e)
+        {
+            locationVM.DisplayUTMCoordinatesAsync();
+        }
+
+        private void ButtonConvertToGeographic_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            locationVM.DisplayGeoCoordinatesAsync();
+        }
+
+        #endregion
+
+        #region METHODS
+
+        /// <summary>
+        /// Will make sure that either one of the coordinate pairs are filled
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> isLocationValidAsync()
+        {
+            bool isValid = true;
+
+            //Parse coordinates
+            double _long = 0.0;
+            double _lat = 0.0;
+            int _easting = 0;
+            int _northing = 0;
+
+            double.TryParse(this.LocationLong.Text, out _long);
+            double.TryParse(this.LocationLat.Text, out _lat);
+            int.TryParse(this.LocationEasting.Text, out _easting);
+            int.TryParse(this.LocationNorthing.Text, out _northing);
+
+            //Detect a projected system
+            int selectedEPGS = 0;
+            int.TryParse(this.LocationDatum.SelectedValue.ToString(), out selectedEPGS);
+
+            //Make sure that everything has been filled
+            if ((_long != 0 && _lat != 0) || (_easting != 0 && _northing != 0))
+            {
+                if ((_easting != 0 && _northing != 0) && (_long == 0 && _lat == 0) && (selectedEPGS != 4617 || selectedEPGS != 4326))
+                {
+                    isValid = false;
+                }                
+            }
+            else
+            {
+
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        #endregion
+
+
     }
 }

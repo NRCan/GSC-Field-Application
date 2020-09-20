@@ -47,8 +47,8 @@
 
 
                 <!--  Backup Database Button  -->
-                <Controls:HamburgerButtonInfo x:Name="ButtonDBBackup" ClearHistory="true" Tapped="{x:Bind SViewModel.QuickBackupAsync, Mode=OneWay}" IsEnabled="{x:Bind SViewModel.ShellEnableBackupCommand, Mode=TwoWay}" ButtonType="Command">
-                    <StackPanel Orientation="Horizontal">
+                <Controls:HamburgerButtonInfo x:Name="ButtonDBBackup"  ClearHistory="true" Tapped="{x:Bind SViewModel.QuickBackupAsync, Mode=OneWay}" IsEnabled="{x:Bind SViewModel.ShellEnableBackupCommand, Mode=TwoWay}" ButtonType="Command">
+                    <StackPanel Orientation="Horizontal" ToolTipService.ToolTip="" x:Uid="ButtonDBBackupStackPanel" >
                         <SymbolIcon x:Name="ButtonBackupDB" Width="48" Height="48" HorizontalAlignment="Right" 
                 		    Symbol="SaveLocal" />
                         <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" x:Uid="ShellViewHamburgerBackup"

@@ -15,23 +15,8 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [PrimaryKey, NotNull, Column(DatabaseLiterals.FieldUserInfoID)]
+        [Column(DatabaseLiterals.FieldUserInfoID), PrimaryKey, NotNull]
         public string MetaID { get; set; }
-
-        /// <summaryL>
-        /// Gets or set the user code or officer code.
-        /// </summaryL>
-        [MaxLength(10), NotNull, Column(DatabaseLiterals.FieldUserInfoUCode)]
-        public string UserCode { get; set; }
-
-        /// <summaryL>
-        /// Gets or set the fieldwork type. e.g. Surficial or Bedrock?
-        /// </summaryL>
-        [MaxLength(30), NotNull, Column(DatabaseLiterals.FieldUserInfoFWorkType)]
-        public string FieldworkType { get; set; }
-
-        [Column(DatabaseLiterals.FieldUserInfoPName)]
-        public string ProjectName { get; set; }
 
         [Column(DatabaseLiterals.FieldUserInfoPCode)]
         public string ProjectCode { get; set; }
@@ -42,22 +27,31 @@ namespace GSCFieldApp.Models
         public string ProjectLeader_MN { get; set; }
         [Column(DatabaseLiterals.FieldUserInfoPLeaderLN)]
         public string ProjectLeader_LN { get; set; }
+        /// <summaryL>
+        /// Gets or set the fieldwork type. e.g. Surficial or Bedrock?
+        /// </summaryL>
+        [Column(DatabaseLiterals.FieldUserInfoFWorkType), MaxLength(30), NotNull]
+        public string FieldworkType { get; set; }
+        [Column(DatabaseLiterals.FieldUserInfoPName)]
+        public string ProjectName { get; set; }
         [Column(DatabaseLiterals.FieldUserInfoFN)]
         public string ProjectUser_FN { get; set; }
         [Column(DatabaseLiterals.FieldUserInfoMN)]
         public string ProjectUser_MN { get; set; }
         [Column(DatabaseLiterals.FieldUserInfoLN)]
         public string ProjectUser_LN { get; set; }
-        [Column(DatabaseLiterals.FieldUserInfoProjectionType)]
-        public string ProjectionType { get; set; }
-        [Column(DatabaseLiterals.FieldUserInfoProjectionDatum)]
-        public string ProjectionDatum { get; set; }
-
+        /// <summaryL>
+        /// Gets or set the user code or officer code.
+        /// </summaryL>
+        [Column(DatabaseLiterals.FieldUserInfoUCode), MaxLength(10), NotNull]
+        public string UserCode { get; set; }
         [Column(DatabaseLiterals.FieldUserInfoStationStartNumber)]
         public string StationStartNumber { get; set; }
-
         [Column(DatabaseLiterals.FieldUserInfoVersion)]
         public string Version { get; set; }
+        [Column(DatabaseLiterals.FieldUserInfoVersionSchema), Default(value: DatabaseLiterals.DBVersion)]
+        public string VersionSchema { get; set; }
+
 
         [Column(DatabaseLiterals.FieldUserIsActive)]
         public int IsActive { get; set; }
@@ -65,8 +59,7 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldUserStartDate)]
         public string StartDate { get; set; }
 
-        [Column(DatabaseLiterals.FieldUserInfoVersionSchema)]
-        public string VersionSchema { get; set; }
+
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -78,8 +71,7 @@ namespace GSCFieldApp.Models
             get
             {
                 if (MetaID != string.Empty && UserCode != string.Empty && FieldworkType != string.Empty && ProjectName != string.Empty && 
-                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && StationStartNumber != string.Empty &&
-                    ProjectionType != string.Empty && ProjectionDatum != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
+                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && StationStartNumber != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
                 {
                     return true;
                 }
@@ -111,6 +103,30 @@ namespace GSCFieldApp.Models
             }
             set { }
 
+        }
+
+        /// <summary>
+        /// A list of all possible fields
+        /// </summary>
+        [Ignore]
+        public List<string> getFieldList
+        {
+            get
+            {
+                List<string> metadataFieldList = new List<string>();
+                //metadataFieldList.Add(DatabaseLiterals.FieldUserInfoID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        metadataFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                return metadataFieldList;
+            }
+            set { }
         }
 
     }

@@ -485,8 +485,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string attachDBName = "dbUpgrade";
 
             //Untouched tables to upgrade
-            List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableDocument, DatabaseLiterals.TableEnvironment,
-            DatabaseLiterals.TableFossil, DatabaseLiterals.TableLocation , DatabaseLiterals.TableMetadata,
+            List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableDocument, DatabaseLiterals.TableEnvironment, DatabaseLiterals.TableFossil,
             DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,
             DatabaseLiterals.TableSample, DatabaseLiterals.TableStation , DatabaseLiterals.TableStructure,
             DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint , DatabaseLiterals.TableFieldCamp};
@@ -497,6 +496,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Build attach db query
             string attachQuery = "ATTACH '" + inDBPath + "' AS " + attachDBName + "; ";
 
+            //Shut down foreign keys constraints, else some loading might throws errors
+            string shutDownForeignConstraints = "PRAGMA foreign_keys = off";
+
             foreach (string t in upgradeUntouchedTables)
             {
                 //Build insert queries
@@ -506,6 +508,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //Get special queries
             queryList.Add(GetUpgradeQueryVersion1_42(attachDBName));
+            queryList.AddRange(GetUpgradeQueryVersion1_44(attachDBName));
 
             //Build detach query
             string detachQuery = "DETACH DATABASE " + attachDBName + "; ";
@@ -520,6 +523,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //Attach
                 outToDBConnection.Execute(attachQuery);
+
+                //Shut down foreign keys constraints
+                outToDBConnection.Execute(shutDownForeignConstraints);
             }
 
             //Update working database
@@ -1263,27 +1269,146 @@ namespace GSCFieldApp.Services.DatabaseServices
             List<string> earthmatFieldList = modelEM.getFieldList;
             string earthmat_querySelect = string.Empty;
 
-            earthmatFieldList.Remove(DatabaseLiterals.FieldEarthMatNotes);
-
             foreach (string earthmatFields in earthmatFieldList)
             {
                 //Get all fields except notes
 
-                if (earthmatFields != earthmatFieldList.Last())
+                if (earthmatFields != earthmatFieldList.First())
                 {
-                    earthmat_querySelect = earthmat_querySelect + earthmatFields + ", ";
+                    if (earthmatFields == DatabaseLiterals.FieldEarthMatNotes)
+                    {
+
+                        earthmat_querySelect = earthmat_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableEarthMat + "%" + DatabaseLiterals.FieldEarthMatNotes + "%') THEN (" + DatabaseLiterals.FieldEarthMatNotes + ") ELSE ('') END as " + DatabaseLiterals.FieldEarthMatNotes;
+                        
+                    }
+                    else
+                    {
+                        earthmat_querySelect = earthmat_querySelect + ", " + earthmatFields ;
+                    }
+                            
                 }
                 else
                 {
-                    earthmat_querySelect = earthmat_querySelect + earthmatFields;
+                    earthmat_querySelect = earthmatFields;
                 }
                 
             }
             earthmat_querySelect = earthmat_querySelect.Replace(", ,", "");
 
-            string insertQueryEarthmat_142 = "INSERT INTO " + DatabaseLiterals.TableEarthMat + " SELECT " + earthmat_querySelect + ", CASE WHEN NOT EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableEarthMat + "%" + DatabaseLiterals.FieldEarthMatNotes + "%') THEN ('') END as " + DatabaseLiterals.FieldEarthMatNotes + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat;
+            string insertQueryEarthmat_142 = "INSERT INTO " + DatabaseLiterals.TableEarthMat;
+            insertQueryEarthmat_142  = insertQueryEarthmat_142 + " SELECT " + earthmat_querySelect  + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat;
 
             return insertQueryEarthmat_142;
+        }
+
+        /// <summary>
+        /// Will output a queyr to update database to version 1.44
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion1_44(string attachedDBName)
+        {
+            ///Schema v 1.44 -- New EPSG field in F_LOCATION, will make Location dialog crash, field is coming from F_METADATA
+            ///INSERT INTO F_LOCATION SELECT *, CASE WHEN EXISTS (SELECT sql from db2.sqlite_master where sql LIKE '%F_LOCATION%EPSG%') THEN ("") ELSE NULL END as EPSG FROM db2.F_LOCATION
+            FieldLocation modelLocation = new FieldLocation();
+            List<string> locationFieldList = modelLocation.getFieldList;
+            string location_querySelect = string.Empty;
+            List<string> insertQuery_144 = new List<string>();
+
+            double dbVersion = 0.0;
+
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema) != null)
+            {
+                string strDBVersion = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema).ToString();
+                Double.TryParse(strDBVersion, out dbVersion);
+            }
+
+            foreach (string locationFields in locationFieldList)
+            {
+                //Get all fields except notes
+
+                if (locationFields != locationFieldList.First())
+                {
+                    if (locationFields == DatabaseLiterals.FieldLocationDatum)
+                    {
+                        if (dbVersion < 1.44)
+                        {
+                            ///Take EPSG from F_METADATA
+                            ///Note that this query takes into account possible database coming from Ganfeld FGDB conversion into SQLite.
+                            ///I took the projection lut picklist from Ganfeld to build this query.
+                            //INSERT INTO F_LOCATION
+                            //SELECT l.LOCATIONID as LOCATIONID, l.LOCATIONNAME as LOCATIONNAME, l.EASTING as EASTING, l.NORTHING as NORTHING, l.LATITUDE as LATITUDE, l.LONGITUDE as LONGITUDE, 
+                            //CASE WHEN EXISTS(SELECT sql from db2.sqlite_master where sql LIKE '%F_METADATA%EPSG%') THEN(
+                            //CASE WHEN(m.EPSG LIKE '%84%') THEN('4326') ELSE(
+                            ///* From Ganfeld Project LUT file */
+                            //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_7N') THEN('26907') ELSE(
+                            //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_8N') THEN('26908') ELSE(
+                            //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_9N') THEN('26909') ELSE(
+                            //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_%') THEN('269' || SUBSTR(m.EPSG, 15, 2)) ELSE(
+                            //CASE WHEN(m.EPSG LIKE 'Albers_Yukon') THEN('3579') ELSE(
+                            //CASE WHEN(m.EPSG LIKE '%North_American_1983') THEN('4617') ELSE(
+                            //CASE WHEN(m.EPSG LIKE 'Albers_BC') THEN('3153') ELSE(m.EPSG)  END) END) END) END) END) END) END) END)
+                            //ELSE('') END as EPSG, l.ELEVATION as ELEVATION, l.ELEVMETHOD as ELEVMETHOD, l.ELEVACCURACY as ELEACCURACY, l.ENTRYTYPE as ENTRYTYPE, l.PDOP as PDOP, l.ERRORMEASURE as ERRORMEASURE, l.ERRORTYPEMEASURE as ERRORTYPEMEASURE, l.NOTES as NOTES, l.REPORT_LINK as REPORT_LINK, l.METAID as METAID
+                            //FROM db2.F_METADATA as m LEFT OUTER JOIN db2.F_LOCATION as l on l.METAID = m.METAID
+                            location_querySelect = location_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableMetadata + "%" + DatabaseLiterals.FieldLocationDatum + "%') THEN (CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE '%84%') THEN('4326') ELSE( /* From Ganfeld Project LUT file */ CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_7N') THEN('26907') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_8N') THEN('26908') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_9N') THEN('26909') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_%') THEN('269' || SUBSTR(m." + DatabaseLiterals.FieldLocationDatum + ", 15, 2)) ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'Albers_Yukon') THEN('3579') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE '%North_American_1983') THEN('4617') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'Albers_BC') THEN('3153') ELSE(m." + DatabaseLiterals.FieldLocationDatum + ")  END) END) END) END) END) END) END) END) ELSE ('') END as " + DatabaseLiterals.FieldLocationDatum;
+                        }
+                        else
+                        {
+                            //Take EPSG from F_LOCATION
+                            location_querySelect = location_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableLocation + "%" + DatabaseLiterals.FieldLocationDatum + "%') THEN (l." + DatabaseLiterals.FieldLocationDatum + ") ELSE ('') END as " + DatabaseLiterals.FieldLocationDatum;
+                        }
+                        
+                    }
+                    else
+                    {
+                        location_querySelect = location_querySelect + ", l." + locationFields + " as " + locationFields;
+                    }
+                    
+                }
+                else
+                {
+                    location_querySelect = " l." + locationFields + " as " + locationFields;
+                }
+
+            }
+            location_querySelect = location_querySelect.Replace(", ,", "");
+
+            string insertQuery_144_Location = "INSERT INTO " + DatabaseLiterals.TableLocation + " SELECT " + location_querySelect;
+            insertQuery_144_Location = insertQuery_144_Location + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMetadata + " as m";
+            insertQuery_144_Location = insertQuery_144_Location + " LEFT OUTER JOIN " + attachedDBName + "." + DatabaseLiterals.TableLocation + " as l ON " + "l." + DatabaseLiterals.FieldLocationMetaID + " = m." + DatabaseLiterals.FieldUserInfoID;
+            insertQuery_144.Add(insertQuery_144_Location);
+
+            Metadata modelMetadata = new Metadata();
+            List<string> metadataFieldList = modelMetadata.getFieldList;
+            string metadata_querySelect = string.Empty;
+            List<string> insertQueryMetadata_144 = new List<string>();
+
+            metadataFieldList.Remove(DatabaseLiterals.FieldUserInfoEPSG);
+
+            foreach (string metadataFields in metadataFieldList)
+            {
+                //Get all fields except notes
+                if (metadataFields != metadataFieldList.First())
+                {
+                     if (metadataFields == DatabaseLiterals.FieldUserInfoVersionSchema)
+                    {
+                        metadata_querySelect = metadata_querySelect + ", '" + DatabaseLiterals.DBVersion + "' as " + metadataFields;
+                    }
+                    else
+                    {
+                        metadata_querySelect = metadata_querySelect + ", " + metadataFields;
+                    }
+                }
+                else
+                {
+                    metadata_querySelect = metadataFields;
+                }
+
+            }
+            metadata_querySelect = metadata_querySelect.Replace(", ,", "");
+
+            insertQuery_144.Add("INSERT INTO " + DatabaseLiterals.TableMetadata + " SELECT " + metadata_querySelect + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMetadata);
+
+            return insertQuery_144;
         }
 
         /// <summary>
