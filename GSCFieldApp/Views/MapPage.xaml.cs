@@ -188,6 +188,9 @@ namespace GSCFieldApp.Views
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
             myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+        
+            
+        
         }
 
         /// <summary>
@@ -384,7 +387,7 @@ namespace GSCFieldApp.Views
                 if (ViewModel._geolocator != null)
                 {
                     ViewModel._geolocator.StatusChanged -= ViewModel.Geolocal_StatusChangedAsync;
-                    ViewModel._geolocator.PositionChanged -= ViewModel.Geolocal_PositionChangedAsync;
+                    ViewModel._geolocator.PositionChanged -= ViewModel.OnPositionChanged;
                 }
 
                 ViewModel.ResetLocationGraphic();
@@ -400,7 +403,8 @@ namespace GSCFieldApp.Views
                 if (ViewModel._geolocator != null)
                 {
                     ViewModel._geolocator.StatusChanged += ViewModel.Geolocal_StatusChangedAsync;
-                    ViewModel._geolocator.PositionChanged += ViewModel.Geolocal_PositionChangedAsync;
+                    ViewModel._geolocator.PositionChanged += ViewModel.OnPositionChanged;
+
                 }
                 else
                 {

@@ -47,6 +47,7 @@ using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Newtonsoft.Json;
 using Esri.ArcGISRuntime.Portal;
 
+
 namespace GSCFieldApp.ViewModels
 {
 
@@ -282,9 +283,22 @@ namespace GSCFieldApp.ViewModels
 
                     currentMapView.Tapped -= myMapView_AddByTap;
                     
-                    _geolocator = new Geolocator() { DesiredAccuracy = PositionAccuracy.Default, MovementThreshold = 0.5, ReportInterval = 750 };
+                    //_geolocator = new Geolocator() { DesiredAccuracy = PositionAccuracy.Default, MovementThreshold = 0.5, ReportInterval = 750 };
+                    //_geolocator.StatusChanged += Geolocal_StatusChangedAsync;
+                    //_geolocator.PositionChanged += Geolocal_PositionChangedAsync;
+
+                    // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
+                    _geolocator = new Geolocator { ReportInterval = 750};
+
+                    // Subscribe to the StatusChanged event to get updates of location status changes.
+                    _geolocator.PositionChanged += OnPositionChanged;
                     _geolocator.StatusChanged += Geolocal_StatusChangedAsync;
-                    _geolocator.PositionChanged += Geolocal_PositionChangedAsync;
+                    
+
+                    //// Carry out the operation.
+                    //Geoposition pos = await geolocator.GetGeopositionAsync();
+
+                    //Geolocal_Update(pos);
 
                     break;
 
@@ -1229,73 +1243,79 @@ namespace GSCFieldApp.ViewModels
 
         #region EVENTS
 
+        async public void OnPositionChanged(Geolocator sender, PositionChangedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                Geolocal_Update(e.Position);
+            });
+        }
+
         /// <summary>
         /// Whenever user location changes update UI with graphics
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        public async void Geolocal_PositionChangedAsync(Geolocator sender, PositionChangedEventArgs args)
+        public async void Geolocal_Update(Geoposition in_position)
         {
             try
             {
                 if (!userHasTurnedGPSOff)
                 {
-                    //Build current location graphic
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+
+                    //Kee and update scale
+                    double myMapScale = currentMapView.MapScale;
+                    if (Double.IsNaN(myMapScale) || myMapScale == initMapScale)
                     {
-                        //Kee and update scale
-                        double myMapScale = currentMapView.MapScale;
-                        if (Double.IsNaN(myMapScale) || myMapScale == initMapScale)
-                        {
-                            myMapScale = ApplicationLiterals.defaultMapScale;
-                            RaisePropertyChanged("MyMapScale");
-                        }
+                        myMapScale = ApplicationLiterals.defaultMapScale;
+                        RaisePropertyChanged("MyMapScale");
+                    }
 
-                        //Keep and update coordinates
-                        _currentMSGeoposition = args.Position;
-                        RaisePropertyChanged("CurrentMSGeoposition");
+                    //Keep and update coordinates
+                    _currentMSGeoposition = in_position;
+                    RaisePropertyChanged("CurrentMSGeoposition");
 
-                        _currentLongitude = args.Position.Coordinate.Point.Position.Longitude;
-                        RaisePropertyChanged("CurrentLongitude");
-                        _currentLatitude = args.Position.Coordinate.Point.Position.Latitude;
-                        RaisePropertyChanged("CurrentLatitude");
-                        _currentAltitude = args.Position.Coordinate.Point.Position.Altitude;
-                        RaisePropertyChanged("CurrentAltitude");
-                        _currentAccuracy = args.Position.Coordinate.Accuracy;
-                        RaisePropertyChanged("CurrentAccuracy");
+                    _currentLongitude = in_position.Coordinate.Point.Position.Longitude;
+                    RaisePropertyChanged("CurrentLongitude");
+                    _currentLatitude = in_position.Coordinate.Point.Position.Latitude;
+                    RaisePropertyChanged("CurrentLatitude");
+                    _currentAltitude = in_position.Coordinate.Point.Position.Altitude;
+                    RaisePropertyChanged("CurrentAltitude");
+                    _currentAccuracy = in_position.Coordinate.Accuracy;
+                    RaisePropertyChanged("CurrentAccuracy");
 
-                        await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, myMapScale), TimeSpan.FromSeconds(1.5));
+                    await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, myMapScale), TimeSpan.FromSeconds(1.5));
 
-                        //Clear current graphics
-                        if (_OverlayCurrentPosition == null)
-                        {
-                            //_OverlayCurrentPosition.Graphics.Clear();
-                            _OverlayCurrentPosition = new GraphicsOverlay();
-                        }
-                        else
-                        {
-                            _OverlayCurrentPosition.Graphics.Clear();
-                        }
+                    //Clear current graphics
+                    if (_OverlayCurrentPosition == null)
+                    {
+                        //_OverlayCurrentPosition.Graphics.Clear();
+                        _OverlayCurrentPosition = new GraphicsOverlay();
+                    }
+                    else
+                    {
+                        _OverlayCurrentPosition.Graphics.Clear();
+                    }
 
-                        if (!currentMapView.GraphicsOverlays.Contains(_OverlayCurrentPosition))
-                        {
-                            currentMapView.GraphicsOverlays.Add(_OverlayCurrentPosition);
-                        }
+                    if (!currentMapView.GraphicsOverlays.Contains(_OverlayCurrentPosition))
+                    {
+                        currentMapView.GraphicsOverlays.Add(_OverlayCurrentPosition);
+                    }
 
-                        //Build current accuracy graphic
-                        System.Drawing.Color accColor = new System.Drawing.Color();
-                        Graphic accGraphic = GetAccuracyGraphic(_currentLongitude, _currentLatitude, args.Position.Coordinate.Accuracy, 36, out accColor);
+                    //Build current accuracy graphic
+                    System.Drawing.Color accColor = new System.Drawing.Color();
+                    Graphic accGraphic = GetAccuracyGraphic(_currentLongitude, _currentLatitude, in_position.Coordinate.Accuracy, 36, out accColor);
 
-                        //Build current position graphic
-                        var posGraphic = new Graphic(new MapPoint(_currentLongitude, _currentLatitude, SpatialReferences.Wgs84), posSym);
-                        posSym.Color = accColor;
-                        posGraphic.Attributes.Add(attributeID, attributeIDPosition);
+                    //Build current position graphic
+                    var posGraphic = new Graphic(new MapPoint(_currentLongitude, _currentLatitude, SpatialReferences.Wgs84), posSym);
+                    posSym.Color = accColor;
+                    posGraphic.Attributes.Add(attributeID, attributeIDPosition);
 
-                        //Update graphic collection and UI
-                        _OverlayCurrentPosition.Graphics.Add(posGraphic);
-                        _OverlayCurrentPosition.Graphics.Add(accGraphic);
-                        currentMapView.UpdateLayout();
-                    });   
+                    //Update graphic collection and UI
+                    _OverlayCurrentPosition.Graphics.Add(posGraphic);
+                    _OverlayCurrentPosition.Graphics.Add(accGraphic);
+                    currentMapView.UpdateLayout();
+                    
                 }
                 else
                 {
@@ -1309,7 +1329,7 @@ namespace GSCFieldApp.ViewModels
                 ResetLocationGraphic();
             }
         }
- 
+
 
         /// <summary>
         /// Event to delete all layers
