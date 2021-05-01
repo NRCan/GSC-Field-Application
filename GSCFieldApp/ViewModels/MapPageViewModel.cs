@@ -782,7 +782,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                     // Check that horizontal accuracy is better then 30 m, arbitrary number
-                    if (_currentMSGeoposition.Coordinate.Accuracy <= 20.0 && _currentMSGeoposition.Coordinate.Accuracy > 0.0)
+                    if (_currentMSGeoposition.Coordinate.Accuracy <= 20.0 && _currentMSGeoposition.Coordinate.Accuracy != 0.0 && _currentMSGeoposition.Coordinate.Point.Position.Longitude != 0 && _currentMSGeoposition.Coordinate.Point.Position.Latitude != 0)
                     {
 
                         GotoQuickDialog(null);
@@ -1031,6 +1031,9 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public async void PoorLocationRoutineTap()
         {
+            //Remove any location ring
+            StopLocationRing();
+
             // Language localization using Resource.resw
             //var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
@@ -1243,21 +1246,33 @@ namespace GSCFieldApp.ViewModels
                 if (!userHasTurnedGPSOff)
                 {
 
-                    //Keep and update coordinates
-                    _currentMSGeoposition = in_position;
-                    RaisePropertyChanged("CurrentMSGeoposition");
-
-                    _currentLongitude = in_position.Coordinate.Point.Position.Longitude;
-                    RaisePropertyChanged("CurrentLongitude");
-                    _currentLatitude = in_position.Coordinate.Point.Position.Latitude;
-                    RaisePropertyChanged("CurrentLatitude");
-                    _currentAltitude = in_position.Coordinate.Point.Position.Altitude;
-                    RaisePropertyChanged("CurrentAltitude");
                     _currentAccuracy = in_position.Coordinate.Accuracy;
                     RaisePropertyChanged("CurrentAccuracy");
                     mapScale = currentMapView.MapScale;
 
-                    bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(1.5));
+                    //Only move if there is a coordinate
+                    if (in_position.Coordinate.Point.Position.Longitude != 0 && in_position.Coordinate.Point.Position.Latitude != 0)
+                    {
+                        //Keep and update coordinates
+                        _currentMSGeoposition = in_position;
+                        RaisePropertyChanged("CurrentMSGeoposition");
+
+                        _currentLongitude = in_position.Coordinate.Point.Position.Longitude;
+                        RaisePropertyChanged("CurrentLongitude");
+                        _currentLatitude = in_position.Coordinate.Point.Position.Latitude;
+                        RaisePropertyChanged("CurrentLatitude");
+                        _currentAltitude = in_position.Coordinate.Point.Position.Altitude;
+                        RaisePropertyChanged("CurrentAltitude");
+
+                        //Reset view on current location
+                        bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(1.5));
+                    }
+                    else
+                    {
+                        //Set non-sense accuracy to get a wide circle
+                        _currentAccuracy = 0;
+                        RaisePropertyChanged("CurrentAccuracy");
+                    }
 
                     //Clear current graphics
                     if (_OverlayCurrentPosition == null)
@@ -1276,7 +1291,7 @@ namespace GSCFieldApp.ViewModels
 
                     //Build current accuracy graphic
                     System.Drawing.Color accColor = new System.Drawing.Color();
-                    Graphic accGraphic = GetAccuracyGraphic(_currentLongitude, _currentLatitude, in_position.Coordinate.Accuracy, 36, out accColor);
+                    Graphic accGraphic = GetAccuracyGraphic(_currentLongitude, _currentLatitude, _currentAccuracy, 36, out accColor);
 
                     //Build current position graphic
                     var posGraphic = new Graphic(new MapPoint(_currentLongitude, _currentLatitude, SpatialReferences.Wgs84), posSym);
@@ -1287,8 +1302,6 @@ namespace GSCFieldApp.ViewModels
                     _OverlayCurrentPosition.Graphics.Add(posGraphic);
                     _OverlayCurrentPosition.Graphics.Add(accGraphic);
                     currentMapView.UpdateLayout();
-
-                    
 
                 }
                 else
@@ -1747,10 +1760,16 @@ namespace GSCFieldApp.ViewModels
                 defaultAlpha = 50;
 
             }
-            else if (radiusInMeter > 40)
+            else if (radiusInMeter > 40 )
             {
                 posColor = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
                 defaultAlpha = 75;
+            }
+            else if (radiusInMeter == 0)
+            {
+                posColor = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
+                defaultAlpha = 75;
+                radiusInMeter = 1000; //Maximum accuracy for invalid position
             }
 
             //Finalize symbols
@@ -1869,54 +1888,6 @@ namespace GSCFieldApp.ViewModels
             }
 
         }
-
-        ///// <summary>
-        ///// keep in memory some config about the map. Scale and Rotation 
-        ///// </summary>
-        //public void SaveMapViewSettings()
-        //{
-
-        //    if (currentMapView != null)
-        //    {
-        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewScale, currentMapView.MapScale);
-        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewRotation, currentMapView.MapRotation);
-
-        //        //Keep order in settings
-        //        string settingString = string.Empty;
-        //        foreach (Layer l in esriMap.AllLayers)
-        //        {
-        //            ArcGISTiledLayer tl = l as ArcGISTiledLayer;
-        //            if (tl!= null)
-        //            {
-        //                if (settingString == string.Empty)
-        //                {
-        //                    settingString = tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString();
-        //                }
-        //                else
-        //                {
-        //                    settingString = settingString + "|" + tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString() ;
-        //                }
-        //            }
-                    
-        //        }
-        //        foreach (KeyValuePair<string, Tuple<GraphicsOverlay, GraphicsOverlay>> item in _overlayContainerOther)
-        //        {
-        //            if (settingString == string.Empty)
-        //            {
-        //                settingString = item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
-        //            }
-        //            else
-        //            {
-        //                settingString = settingString + "|" + item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
-        //            }
-        //        }
-
-        //        //CAN'T STORE ANYTHING IN SETTINGS: https://docs.microsoft.com/en-us/windows/uwp/app-settings/store-and-retrieve-app-data
-        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder, settingString);
-
-        //    }
-
-        //}
 
         /// <summary>
         /// Will clear saved settings. To be used when creating and switching field books.

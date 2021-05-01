@@ -97,6 +97,11 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (!ViewModel.userHasTurnedGPSOff)
+            {
+                ViewModel.StartLocationRing();
+            }
+            
 
             //For any new projects reset all layers.
             //get the parameters (they are inside a json object...)
@@ -366,7 +371,6 @@ namespace GSCFieldApp.Views
         {
             if (!ViewModel.userHasTurnedGPSOff)
             {
-
                 ViewModel.userHasTurnedGPSOff = true;
                 ViewModel.SetGPSModeIcon(Symbol.TouchPointer);
 
