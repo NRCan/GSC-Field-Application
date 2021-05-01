@@ -47,19 +47,6 @@ namespace GSCFieldApp.Views
         bool tapMode = false;
 
         #endregion
-
-        #region PROPERTIES
-
-        public string[] GPSModeList = new string[]
-        {
-            "On",
-            "Re-Center",
-            "Navigation",
-            "Compass",
-            "Off"
-        };
-
-        #endregion
           
         public MapPage() 
         {
@@ -115,6 +102,7 @@ namespace GSCFieldApp.Views
             //get the parameters (they are inside a json object...)
             if (e.Parameter != null && e.Parameter.ToString() != string.Empty)
             {
+
                 JsonObject paramObject = JsonObject.Parse(e.Parameter.ToString());
 
                 //Get the data value out of the json
@@ -122,7 +110,7 @@ namespace GSCFieldApp.Views
                 if (paramObject.TryGetValue("Data", out dataValue))
                 {
                     bool isNewProject = Convert.ToBoolean(dataValue.GetString());
-                    
+
                     if (isNewProject)
                     {
                         if (myMapView.Map != null)
@@ -155,9 +143,7 @@ namespace GSCFieldApp.Views
             {
 
             }
-
-
-
+            
 
         }
 

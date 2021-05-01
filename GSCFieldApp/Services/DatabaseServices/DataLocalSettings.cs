@@ -69,10 +69,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         public void WipeUserMapSettings_deprecated()
         {
-            if (currentLocalSettings.Containers[containerName].Values.ContainsKey("mapScale"))
-            {
-                currentLocalSettings.Containers[containerName].Values.Remove("mapScale");
-            }
+
             if (currentLocalSettings.Containers[containerName].Values.ContainsKey("mapLayers"))
             {
                 currentLocalSettings.Containers[containerName].Values.Remove("mapLayers");
@@ -85,14 +82,6 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         public void WipeUserMapSettings()
         {
-            //if (currentLocalSettings.Containers[containerName].Values.ContainsKey(ApplicationLiterals.KeywordMapViewLayersOrder))
-            //{
-            //    currentLocalSettings.Containers[containerName].Values.Remove(ApplicationLiterals.KeywordMapViewLayersOrder);
-            //}
-            if (currentLocalSettings.Containers[containerName].Values.ContainsKey(ApplicationLiterals.KeywordMapViewScale))
-            {
-                currentLocalSettings.Containers[containerName].Values.Remove(ApplicationLiterals.KeywordMapViewScale);
-            }
             if (currentLocalSettings.Containers[containerName].Values.ContainsKey(ApplicationLiterals.KeywordMapViewRotation))
             {
                 currentLocalSettings.Containers[containerName].Values.Remove(ApplicationLiterals.KeywordMapViewRotation);

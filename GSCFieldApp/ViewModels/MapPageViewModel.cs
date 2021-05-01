@@ -58,11 +58,9 @@ namespace GSCFieldApp.ViewModels
         //Map
         public MapView currentMapView { get; set; }
         public Map esriMap;
-        public double _myMapScale = 0;
         public double viewRotation = 0; //Default
         private bool _noMapsWatermark = false;
-        private double initMapScale = 0;
-
+        private double mapScale = ApplicationLiterals.defaultMapScale;
 
         //Layers
         public ArcGISTiledLayer _basemapLayer;
@@ -128,9 +126,6 @@ namespace GSCFieldApp.ViewModels
         {
             
             //Init
-            _myMapScale = ApplicationLiterals.defaultMapScale;
-            RaisePropertyChanged("MyMapScale");
-
             lastTakenLocation = new Tuple<double, double>(0, 0);
 
             _OverlayStation = new GraphicsOverlay();
@@ -188,11 +183,7 @@ namespace GSCFieldApp.ViewModels
         public double CurrentLatitude { get { return _currentLatitude; } set { _currentLatitude = value; } }
         public double CurrentAltitude { get { return _currentAltitude; } set { _currentAltitude = value; } }
         public double CurrentAccuracy { get { return _currentAccuracy; } set { _currentAccuracy = value; } }
-
         public Tuple<double, double> lastTakenLocation { get; set; }
-
-        public double MyMapScale { get { return _myMapScale; } set { _myMapScale = value; } }
-
         public bool MapRingActive
         {
             get { return _progressRingActive; }
@@ -258,6 +249,7 @@ namespace GSCFieldApp.ViewModels
             // spw2017
             if (_currentMSGeoposition == null)
             {
+                
                 Task setGPSTask = SetGPS();
                 await setGPSTask;
             }
@@ -282,10 +274,6 @@ namespace GSCFieldApp.ViewModels
                 case GeolocationAccessStatus.Allowed:
 
                     currentMapView.Tapped -= myMapView_AddByTap;
-                    
-                    //_geolocator = new Geolocator() { DesiredAccuracy = PositionAccuracy.Default, MovementThreshold = 0.5, ReportInterval = 750 };
-                    //_geolocator.StatusChanged += Geolocal_StatusChangedAsync;
-                    //_geolocator.PositionChanged += Geolocal_PositionChangedAsync;
 
                     // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
                     _geolocator = new Geolocator { ReportInterval = 750};
@@ -293,12 +281,6 @@ namespace GSCFieldApp.ViewModels
                     // Subscribe to the StatusChanged event to get updates of location status changes.
                     _geolocator.PositionChanged += OnPositionChanged;
                     _geolocator.StatusChanged += Geolocal_StatusChangedAsync;
-                    
-
-                    //// Carry out the operation.
-                    //Geoposition pos = await geolocator.GetGeopositionAsync();
-
-                    //Geolocal_Update(pos);
 
                     break;
 
@@ -317,7 +299,7 @@ namespace GSCFieldApp.ViewModels
         
         public async void Geolocal_StatusChangedAsync(Geolocator sender, Windows.Devices.Geolocation.StatusChangedEventArgs args)
         {
-            
+
 
             switch (args.Status)
             {
@@ -335,9 +317,6 @@ namespace GSCFieldApp.ViewModels
                     {
                         StartLocationRing();
                     }
-
-
-
 
                     break;
 
@@ -368,12 +347,13 @@ namespace GSCFieldApp.ViewModels
                     break;
 
                 case PositionStatus.NotInitialized:
+                    StartLocationRing();
                     await Task.Delay(500);
                     // The location platform is not initialized. This indicates that the application
                     //// has not made a request for location data.
 
                     //Clear current graphics
-                    ResetLocationGraphic();
+                    //ResetLocationGraphic();
                     try
                     {
                         await SetGPS();
@@ -488,7 +468,7 @@ namespace GSCFieldApp.ViewModels
                     canAccess = false;
 
                     //Force call on UI thread, else it could crash the app if async call is made another thread.
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
                         ContentDialog tapModeDialog = new ContentDialog()
                         {
@@ -508,7 +488,7 @@ namespace GSCFieldApp.ViewModels
                     canAccess = false;
 
                     //Force call on UI thread, else it could crash the app if async call is made another thread.
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
                         ContentDialog tapModeDialog = new ContentDialog()
                         {
@@ -1263,14 +1243,6 @@ namespace GSCFieldApp.ViewModels
                 if (!userHasTurnedGPSOff)
                 {
 
-                    //Kee and update scale
-                    double myMapScale = currentMapView.MapScale;
-                    if (Double.IsNaN(myMapScale) || myMapScale == initMapScale)
-                    {
-                        myMapScale = ApplicationLiterals.defaultMapScale;
-                        RaisePropertyChanged("MyMapScale");
-                    }
-
                     //Keep and update coordinates
                     _currentMSGeoposition = in_position;
                     RaisePropertyChanged("CurrentMSGeoposition");
@@ -1283,13 +1255,13 @@ namespace GSCFieldApp.ViewModels
                     RaisePropertyChanged("CurrentAltitude");
                     _currentAccuracy = in_position.Coordinate.Accuracy;
                     RaisePropertyChanged("CurrentAccuracy");
+                    mapScale = currentMapView.MapScale;
 
-                    await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, myMapScale), TimeSpan.FromSeconds(1.5));
+                    bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(1.5));
 
                     //Clear current graphics
                     if (_OverlayCurrentPosition == null)
                     {
-                        //_OverlayCurrentPosition.Graphics.Clear();
                         _OverlayCurrentPosition = new GraphicsOverlay();
                     }
                     else
@@ -1315,7 +1287,9 @@ namespace GSCFieldApp.ViewModels
                     _OverlayCurrentPosition.Graphics.Add(posGraphic);
                     _OverlayCurrentPosition.Graphics.Add(accGraphic);
                     currentMapView.UpdateLayout();
+
                     
+
                 }
                 else
                 {
@@ -1329,7 +1303,6 @@ namespace GSCFieldApp.ViewModels
                 ResetLocationGraphic();
             }
         }
-
 
         /// <summary>
         /// Event to delete all layers
@@ -1995,7 +1968,6 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("NoMapsWatermark");
             }
 
-            initMapScale = currentMapView.MapScale;
             await SetLayerOrderAsync();
         }
 
@@ -2582,7 +2554,7 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("MapRingLabelAcquiringGPSVisibility");
                 RaisePropertyChanged("MapRingVisibility");
                 RaisePropertyChanged("MapRingActive");
-                ResetLocationGraphic();
+                //ResetLocationGraphic();
             }
 
             initializingGPS = true;
