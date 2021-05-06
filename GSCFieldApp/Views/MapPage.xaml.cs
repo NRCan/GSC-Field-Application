@@ -416,16 +416,26 @@ namespace GSCFieldApp.Views
         private void OpacitySlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             // SPW 2019
-            if (sender != null && mapsLoaded)
+            if (sender != null && mapsLoaded && myMapView.Map != null)
             {
-                esriMap = myMapView.Map;
-                Slider senderSlider = sender as Slider;
-                string filename = senderSlider.Tag as string;
-                if (filename != null && esriMap.AllLayers.Count > 0)
-                {
-                    var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(filename.Split('.')[0]));
-                    sublayer.Opacity = senderSlider.Value / 100.0;
-                }
+                ////For layers
+                //esriMap = myMapView.Map;
+                //Slider senderSlider = sender as Slider;
+                //string filename = senderSlider.Tag as string;
+                //if (filename != null && esriMap.AllLayers.Count > 0)
+                //{
+                //    foreach (Layer ls in esriMap.AllLayers)
+                //    {
+                //        if (ls.Name.Contains(filename.Split('.')[0]))
+                //        {
+                //            ls.Opacity = senderSlider.Value / 100.0;
+                //            break;
+                //        }
+                //    }
+
+                //}
+
+                ViewModel.SetLayerOpacity(sender as Slider);
 
             }
         }

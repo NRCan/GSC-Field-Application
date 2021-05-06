@@ -1882,6 +1882,7 @@ namespace GSCFieldApp.ViewModels
                 FeatureCollection fCollection = new FeatureCollection();
                 fCollection.Tables.Add(polygonTable);
                 FeatureCollectionLayer fCollectionLayer = new FeatureCollectionLayer(fCollection);
+                fCollectionLayer.Name = "Blanck area";
                 fCollectionLayer.IsVisible = false;
 
                 esriMap.Basemap.BaseLayers.Add(fCollectionLayer);
@@ -2102,6 +2103,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     AddDataTypeSQLite(remainingSqlite.Value, true, 1);
                     MapPageLayers mpl = new MapPageLayers();
+                    mpl.LayerName = remainingSqlite.Key;
                     MapPageLayerSetting mpls = new MapPageLayerSetting();
                     mpls.LayerOpacity = 100;
                     mpls.LayerVisibility = true;
@@ -2212,7 +2214,8 @@ namespace GSCFieldApp.ViewModels
                 }
                 else
                 {
-                    _overlayContainerOther[inSQLite.Name] = new Tuple<GraphicsOverlay, GraphicsOverlay>(new GraphicsOverlay(), new GraphicsOverlay());
+                    Tuple<GraphicsOverlay, GraphicsOverlay> relatedGraphics = new Tuple<GraphicsOverlay, GraphicsOverlay>(new GraphicsOverlay(), new GraphicsOverlay());
+                    _overlayContainerOther[inSQLite.Name] = relatedGraphics;
                 }
 
 
@@ -2239,50 +2242,121 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void SetLayerVisibility(ToggleSwitch inSwitch)
         {
-            if (esriMap != null && esriMap.AllLayers.Count > 0 && inSwitch.Header.ToString().Contains(".tpk"))
+            if (inSwitch.Header != null)
             {
-                #region TPKs
-
-                // Find the layer from the map layers and change visibility
-                var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(inSwitch.Header.ToString().Split('.')[0]));
-                if (sublayer != null)
-                {
-                    sublayer.IsVisible = inSwitch.IsOn;
-                }
-
-                // Find the layer from list of available layers and keep new value
-                MapPageLayers subFile = _filenameValues.First(x => x.LayerName == inSwitch.Header.ToString());
-                if (subFile != null)
-                {
-                    subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
-                }
-                #endregion
+                SetLayerVisibilityOrOpacity(inSwitch, inSwitch.Header.ToString());
             }
-
-            if (esriMap != null && esriMap.AllLayers.Count > 0 && inSwitch.Header.ToString().Contains(".sqlite"))
-            {
-
-                #region OVERLAYS
-                // Find the layer from the map layers and change visibility
-                if (_overlayContainerOther.ContainsKey(inSwitch.Header.ToString()))
-                {
-                    _overlayContainerOther[inSwitch.Header.ToString()].Item1.IsVisible = inSwitch.IsOn;
-                    _overlayContainerOther[inSwitch.Header.ToString()].Item2.IsVisible = inSwitch.IsOn;
-                }
-
-                // Find the layer from list of available layers and keep new value
-                MapPageLayers subFile = _filenameValues.First(x => x.LayerName == inSwitch.Header.ToString());
-                if (subFile != null)
-                {
-                    subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
-                }
-                #endregion
-
-            }
-
-            SaveLayerRendering();
+            
 
         }
+
+        /// <summary>
+        /// Will set the toggle switch visibility inside the layer and keep it in the current list of files
+        /// </summary>
+        public void SetLayerOpacity(Slider inSlider)
+        {
+            if (inSlider.Tag != null)
+            {
+                SetLayerVisibilityOrOpacity(inSlider, inSlider.Tag.ToString());
+            }
+
+
+        }
+
+        /// <summary>
+        /// Will set the toggle switch visibility inside the layer and keep it in the current list of files
+        /// </summary>
+        public void SetLayerVisibilityOrOpacity(object inControl, string layerName)
+        {
+            if (inControl != null)
+            {
+                //Cast to toggle for visibility or slider for opacity, either one will be non-null
+                ToggleSwitch inSwitch = inControl as ToggleSwitch;
+                Slider inSlider = inControl as Slider;
+
+                if (esriMap != null && esriMap.AllLayers.Count > 0 && layerName.Contains(".tpk"))
+                {
+                    #region TPKs
+
+                    // Find the layer from the map layers and change visibility
+                    var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(layerName.Split('.')[0]));
+                    if (sublayer != null)
+                    {
+                        if (inSwitch != null)
+                        {
+                            sublayer.IsVisible = inSwitch.IsOn;
+                        }
+                        else if (inSlider != null)
+                        {
+                            sublayer.Opacity = inSlider.Value / 100.0;
+                        }
+                        
+                    }
+
+                    // Find the layer from list of available layers and keep new value
+                    MapPageLayers subFile = _filenameValues.First(x => x.LayerName == layerName);
+                    if (subFile != null)
+                    {
+                        
+                        if (inSwitch != null)
+                        {
+                            subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
+                        }
+                        else if (inSlider != null)
+                        {
+                            subFile.LayerSettings.LayerOpacity = inSlider.Value / 100.0;
+                        }
+
+                    }
+                    #endregion
+                }
+
+                if (esriMap != null && esriMap.AllLayers.Count > 0 && layerName.Contains(".sqlite"))
+                {
+
+                    #region OVERLAYS
+                    // Find the layer from the map layers and change visibility
+                    if (_overlayContainerOther.ContainsKey(layerName))
+                    {
+                        if (inSwitch != null)
+                        {
+                            _overlayContainerOther[layerName].Item1.IsVisible = inSwitch.IsOn;
+                            _overlayContainerOther[layerName].Item2.IsVisible = inSwitch.IsOn;
+                        }
+                        else if (inSlider != null)
+                        {
+                            _overlayContainerOther[layerName].Item1.Opacity = inSlider.Value / 100.0;
+                            _overlayContainerOther[layerName].Item2.Opacity = inSlider.Value / 100.0;
+                        }
+ 
+                    }
+
+                    // Find the layer from list of available layers and keep new value
+                    MapPageLayers subFile = _filenameValues.First(x => x.LayerName == layerName);
+                    if (subFile != null)
+                    {
+
+                        if (inSwitch != null)
+                        {
+                            subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
+                        }
+                        else if (inSlider != null)
+                        {
+                            subFile.LayerSettings.LayerOpacity = inSlider.Value / 100.0;
+                        }
+
+                    }
+                    #endregion
+
+                }
+
+                SaveLayerRendering();
+
+            }
+
+
+        }
+
 
         /// <summary>
         /// Will set the maps (layers) order in the map control from user choices.
