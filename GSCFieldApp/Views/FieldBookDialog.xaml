@@ -55,7 +55,7 @@
                           PlaceholderText=""/>
 
                         <TextBox x:Name="ProjectNameTextBox" x:Uid="UserInfoDialogPName"
-                         Header="" RelativePanel.RightOf="ProjectTypeComboBox"
+                         Header="" RelativePanel.RightOf="ProjectTypeComboBox" RelativePanel.AlignHorizontalCenterWith="ProjectTypeComboBox"
                                  Style="{ThemeResource TextboxMandatoryField}"
                          Text="{x:Bind ViewModel.ProjectName, Mode=TwoWay}"/>
 
