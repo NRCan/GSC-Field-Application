@@ -1150,7 +1150,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Les vocabulaires ont été remplacés.</value>
   </data>
   <data name="SettingPagePicklistButton.Label" xml:space="preserve">
-    <value>Ajouter et remplacer le vocabulaire</value>
+    <value>Importer le vocabulaire</value>
   </data>
   <data name="UserInfoDialogPGeologistFirstName.Header" xml:space="preserve">
     <value>Prénom</value>

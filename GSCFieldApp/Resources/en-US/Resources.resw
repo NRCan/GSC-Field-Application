@@ -1153,7 +1153,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Picklists values have been replaced.</value>
   </data>
   <data name="SettingPagePicklistButton.Label" xml:space="preserve">
-    <value>Load and replace Picklists</value>
+    <value>Import Picklists</value>
   </data>
   <data name="UserInfoDialogPGeologistFirstName.Header" xml:space="preserve">
     <value>First Name</value>
