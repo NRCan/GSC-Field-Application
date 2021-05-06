@@ -192,7 +192,10 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (StructureClass != null &&StructureClass != string.Empty && StructureRelated != string.Empty && StructureAzimuth != string.Empty)
+                if (StructureClass != null &&StructureClass != string.Empty 
+                    && StructureRelated != string.Empty 
+                    && StructureAzimuth != string.Empty 
+                    && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)
                 {
                     //Init variables
                     int azimuthPlanar = int.MinValue;
@@ -280,7 +283,13 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (StructureClass != null && StructureRelated != null && StructureAzimuth != null && StructureClass != string.Empty && StructureRelated != string.Empty && StructureAzimuth != string.Empty)
+                if (StructureClass != null 
+                    && StructureRelated != null 
+                    && StructureAzimuth != null 
+                    && StructureClass != string.Empty 
+                    && StructureRelated != string.Empty 
+                    && StructureAzimuth != string.Empty
+                    && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)
                 {
                     //Init variables
                     int dipPlanar = int.MinValue;
