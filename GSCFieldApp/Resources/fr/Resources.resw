@@ -1452,4 +1452,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="MapInfoLocationLabel.Text" xml:space="preserve">
     <value>Position: </value>
   </data>
+  <data name="FieldBookUpgradeContentInvalid" xml:space="preserve">
+    <value>Le présent carnet est déjà de la plus récente version.</value>
+  </data>
 </root>
