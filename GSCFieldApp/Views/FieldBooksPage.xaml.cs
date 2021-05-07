@@ -28,6 +28,18 @@ namespace GSCFieldApp.Views
         {
             InitializeComponent();
             //ProjectViewModel = new FieldBooksPageViewModel();
+
+           
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            FieldBooksPageViewModel thisViewModel = this.DataContext as FieldBooksPageViewModel;
+            if (thisViewModel != null)
+            {
+                thisViewModel.SelectActiveProject();
+            }
+            
         }
 
     }

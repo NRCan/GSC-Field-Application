@@ -137,7 +137,7 @@
             RelativePanel.AlignLeftWithPanel="True"
             RelativePanel.AlignRightWithPanel="True" Margin="15" x:Name="ProjectList" Style="{StaticResource ReportPageGridView}"
                     IsSwipeEnabled="False" AllowDrop="False" ItemContainerStyle="{StaticResource ReportPageGridViewBookItems}"
-                    ItemTemplate="{StaticResource ProjectListTemplate}" 
+                    ItemTemplate="{StaticResource ProjectListTemplate}"
                     ItemsSource="{x:Bind ViewModel.ProjectCollection, Mode=OneWay}" 
                     SelectedIndex="{x:Bind ViewModel.SelectedProjectIndex, Mode=TwoWay}">
 

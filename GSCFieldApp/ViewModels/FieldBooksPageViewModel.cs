@@ -84,6 +84,7 @@ namespace GSCFieldApp.ViewModels
         public FieldBooksPageViewModel()
         {
             _projectCollection = new ObservableCollection<FieldBooks>();
+            RaisePropertyChanged("ProjectCollection");
 
             //Fill list view of projects
             FillProjectCollectionAsync();
@@ -97,9 +98,8 @@ namespace GSCFieldApp.ViewModels
         {
             //Send call to refresh other pages
             EventHandler<string> newFieldBookRequest = newFieldBookSelected;
-            if (newFieldBookRequest != null)
+            if (newFieldBookRequest != null && _selectedProjectIndex != -1)
             {
-                
                 newFieldBookRequest(this, _projectCollection[_selectedProjectIndex].ProjectPath);
             }
 
@@ -231,7 +231,7 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will select the currently active project from the project list.
         /// </summary>
-        private void SelectActiveProject()
+        public void SelectActiveProject()
         {
             //Make sure the setting exists, with user info id
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID) != null)
@@ -579,7 +579,7 @@ namespace GSCFieldApp.ViewModels
         {
 
             //Update settings with new selected project
-            if (_projectCollection != null && _selectedProjectIndex != -1)
+            if (_projectCollection != null && _selectedProjectIndex != -1 && _projectCollection.Count > 0)
             {
                 //Get selected project
                 FieldBooks selectedProject = _projectCollection[_selectedProjectIndex];
