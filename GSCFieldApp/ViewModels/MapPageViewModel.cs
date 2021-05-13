@@ -1990,7 +1990,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     jsonRenderingFile = sf;
                 }
-                else if (fileName.Contains(".tpk"))
+                else if (fileName.Contains(".tpk") || fileName.Contains(".mbtiles"))
                 {
                     tpkList[sf.Name] = sf;
                 }
@@ -2049,7 +2049,7 @@ namespace GSCFieldApp.ViewModels
             {
                 foreach (MapPageLayers configs in _filenameValues)
                 {
-                    if (configs.LayerName != null && configs.LayerName.Contains(".tpk"))
+                    if (configs.LayerName != null && (configs.LayerName.Contains(".tpk") || configs.LayerName.Contains(".mbtiles")))
                     {
                         if (tpkList.ContainsKey(configs.LayerName))
                         {
@@ -2527,6 +2527,7 @@ namespace GSCFieldApp.ViewModels
                 filesPicker.FileTypeFilter.Add(".tpk");
                 filesPicker.FileTypeFilter.Add(".sqlite");
                 filesPicker.FileTypeFilter.Add(".mmpk");
+                filesPicker.FileTypeFilter.Add(".mbtiles");
                 //Get users selected files
                 IReadOnlyList<StorageFile> files = await filesPicker.PickMultipleFilesAsync();
                 if (files.Count > 0)
