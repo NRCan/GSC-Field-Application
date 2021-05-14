@@ -67,7 +67,7 @@
                 <AppBarButton x:Name="AddWaypoint" Label="" x:Uid="MapPageAddWaypoint" Foreground="White" Icon="Flag" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}"/>
             </Controls:PageHeader.PrimaryCommands>
             <Controls:PageHeader.SecondaryCommands>
-                <AppBarButton x:Name="MapPageLocationCommandButton" Label="Manual XY entry" Foreground="White" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageLocationCommand" />
+                <AppBarButton x:Name="MapPageLocationCommandButton" Label="" Foreground="White" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageLocationCommand" />
             </Controls:PageHeader.SecondaryCommands>
 
         </Controls:PageHeader>
