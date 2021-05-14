@@ -22,14 +22,6 @@ namespace GSCFieldApp.Models
 
         public static List<SemanticDataGroup> GetGroupedData(bool refresh, string inAssignTable, string inParentFieldName, string inChildFieldName)
         {
-            if (inAssignTable == DatabaseLiterals.TableEarthMat)
-            {
-                _data = _dataLithology;
-            }
-            if (inAssignTable == DatabaseLiterals.TableStructure)
-            {
-                _data = _dataStructures;
-            }
 
             if (_data == null || refresh)
             {
@@ -38,10 +30,20 @@ namespace GSCFieldApp.Models
                 //Update past table
                 lastAssignTable = inAssignTable;
             }
-                
 
-            return _data.GroupBy(d => d.Title, 
+            if (_data != null && inAssignTable == DatabaseLiterals.TableEarthMat)
+            {
+                _data = _dataLithology;
+            }
+            if (_data != null && inAssignTable == DatabaseLiterals.TableStructure)
+            {
+                _data = _dataStructures;
+            }
+
+            List<SemanticDataGroup> groupedData = _data.GroupBy(d => d.Title,
                 (key, items) => new SemanticDataGroup() { Name = key, Items = items.ToList() }).ToList();
+
+            return groupedData;
         }
 
         /// <summary>
@@ -96,7 +98,13 @@ namespace GSCFieldApp.Models
 
                     if (inAssignTable == DatabaseLiterals.TableEarthMat)
                     {
-                        _dataLithology.Add(new SemanticData(dVocab.RelatedTo, dVocab.Description));
+                        //Clean description
+                        string litho_related = dVocab.RelatedTo;
+                        if (litho_related.Contains('-'))
+                        {
+                            litho_related = "\t" + litho_related.Split('-')[1].Trim();
+                        }
+                        _dataLithology.Add(new SemanticData(litho_related, dVocab.Description));
                     }
                     if (inAssignTable == DatabaseLiterals.TableStructure)
                     {
