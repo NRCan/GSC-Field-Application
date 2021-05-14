@@ -125,9 +125,9 @@
             </controls:PageHeader.PrimaryCommands>
 
             <controls:PageHeader.SecondaryCommands>
-                <AppBarButton x:Name="projectFullBackupButton" x:Uid="ProjectFullBackupButtonLabel" ToolTipService.ToolTip="" Foreground="Black" Label="Full Backup" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectBackup_Tapped}" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
-                <AppBarButton x:Name="projectRestoreButton" x:Uid="ProjectRestoreButtonLabel"  ToolTipService.ToolTip="" Foreground="Black" Label="Restore" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectRestore_Tapped}"/>
-                <AppBarButton x:Name="projectUpgradeButton" x:Uid="ProjectUpgradeButtonLabel"  ToolTipService.ToolTip="" Foreground="Black" Label="Upgrade" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectUpgrade_Tapped}"/>
+                <AppBarButton x:Name="projectFullBackupButton" x:Uid="ProjectFullBackupButtonLabel" FontSize="14" ToolTipService.ToolTip="" Foreground="Black" Label="Full Backup" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectBackup_Tapped}" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
+                <AppBarButton x:Name="projectRestoreButton" x:Uid="ProjectRestoreButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="Black" Label="Restore" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectRestore_Tapped}"/>
+                <AppBarButton x:Name="projectUpgradeButton" x:Uid="ProjectUpgradeButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="Black" Label="Upgrade" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectUpgrade_Tapped}"/>
             </controls:PageHeader.SecondaryCommands>
         </controls:PageHeader>
 
