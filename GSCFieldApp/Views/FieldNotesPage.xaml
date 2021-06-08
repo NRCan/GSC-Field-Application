@@ -1,0 +1,1089 @@
+﻿<Page
+    x:Class="GSCFieldApp.Views.ReportPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Behaviors="using:Template10.Behaviors"
+    xmlns:controls="using:Template10.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GSCFieldApp.Views"
+    xmlns:theme="using:GSCFieldApp.Themes"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:GSCFieldApp.ViewModels"
+    xmlns:model="using:GSCFieldApp.Models"
+    mc:Ignorable="d" Loading="Page_Loading" Loaded="Page_Loaded"
+    xmlns:converters="using:GSCFieldApp.Converters">
+
+    <Page.Resources>
+
+        <!--Converters-->
+        <converters:VisibilityFromReverseBoolConverter x:Name="VisibilityConverter"/>
+        <converters:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter"/>
+        <converters:SolidColorBrushConverter x:Name="SolidColorBrushConverter"/>
+        <converters:MediaBrushConverter x:Name="MediaBrushConverter"/>
+        <converters:TextWithDegreeConverter x:Name="TextWithDegreeConverter"/>
+        <converters:TextWithAzimDegreeConverter x:Name="TextWithAzimDegreeConverter"/>
+        <converters:TextWithPercentageConverter x:Name="PercentageConverter"/>
+        <converters:ElevationConverter x:Name="ElevationConverter"/>
+        <converters:BitmapSourceConverter x:Name="BitmapSourceConverter"/>
+
+        <DataTemplate x:Key="ReportItemDateTemplate" x:DataType="model:FieldNotes">
+            <Grid>
+
+                <RelativePanel Padding="4">
+
+                    <TextBlock 
+                        x:Name="StationSummaryDate"
+                        Text="{x:Bind station.StationVisitDate}" 
+                        TextWrapping="NoWrap" 
+                        FontWeight="SemiBold" Padding="8"
+                        Style="{StaticResource SubtitleTextBlockStyle}"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignTopWithPanel="True"/>
+
+                </RelativePanel>
+
+            </Grid>
+        </DataTemplate>
+
+        <!-- Location List Template-->
+        <DataTemplate x:Key="ReportLocationTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldObsColorLightBrush}" BorderThickness="0.5">
+
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="LocationListTemplateGrid">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;" x:Name="locationValidityIcon"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind location.isValid, Converter={StaticResource VisibilityConverter}}"/>
+
+                        <!--Tap or manual entry data check-->
+                        <FontIcon Glyph="&#xF271;" x:Name="locationManualTapIcon" Margin="0,0,5,0"
+                                RelativePanel.LeftOf="locationValidityIcon" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind location.isManualEntry, Converter={StaticResource VisibilityFromBoolConverter}}"/>
+                        
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="locationLatItem" Width="{Binding Width, ElementName=LocationListTemplateGrid}" TextTrimming="CharacterEllipsis" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+                    
+                    <Run Text="{x:Bind location.LocationLat, Converter={StaticResource TextWithDegreeConverter}}"/>
+                    <Run Text="{x:Bind location.LocationLong, Converter={StaticResource TextWithDegreeConverter}}"/>
+
+                    </TextBlock>
+
+                    <TextBlock x:Name="locationElevItem" Width="{Binding Width, ElementName=LocationListTemplateGrid}"
+                               Text="{x:Bind location.LocationElev, Converter={StaticResource ElevationConverter}}" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Station List Template-->
+        <DataTemplate x:Key="ReportStationTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldStationColorLightBrush}" BorderThickness="0.5" >
+
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="StationListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition MaxHeight="20"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind station.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="stationAliasItem" Text="{x:Bind station.StationAlias}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                               FontWeight="Bold"  Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:Name="stationObsTypeItem" Text="{x:Bind station.StationObsType}" Width="{Binding Width, ElementName=StationListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="2" 
+                               Grid.Column="0" Grid.Row="1" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="stationOCQualityItem" Text="{x:Bind station.StationNote}" Width="{Binding Width, ElementName=StationListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Grid.ColumnSpan="2" MaxHeight="20"
+                               Grid.Column="0" Grid.Row="2"/>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Earthmat List Template-->
+        <DataTemplate x:Key="ReportEarthmatTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldEarthMatColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="EarthmatListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind earthmat.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="earthAliasItem" Text="{x:Bind earthmat.EarthMatName}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" FontWeight="Bold"  Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock x:Name="earthLithTypeItem" Text="{x:Bind earthmat.EarthMatLithgroup}" Width="{Binding Width, ElementName=EarthmatListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="earthLithDetailItem" Text="{x:Bind earthmat.EarthMatLithdetail}" Width="{Binding Width, ElementName=EarthmatListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+
+                </Grid>
+            </RelativePanel>
+        </DataTemplate>
+
+        <!-- Sample List Template-->
+        <DataTemplate x:Key="ReportSampleTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldSampleColorLigthBrush}" BorderThickness="0.5" >
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="SampleListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind sample.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="sampleNameItem" Text="{x:Bind sample.SampleName}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock x:Name="sampleTypeItem" Text="{x:Bind sample.SampleType}" Width="{Binding Width, ElementName=SampleListTemplateGrid}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" />
+                    <TextBlock x:Name="samplePurposeItem" Text="{x:Bind sample.SamplePurpose}" Width="{Binding Width, ElementName=SampleListTemplateGrid}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2"/>
+
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Structure List Template-->
+        <DataTemplate x:Key="ReportStructureTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldStructureColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="StructureListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="6">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind structure.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="structNameItem" Text="{x:Bind structure.StructureName}" HorizontalAlignment="Left"
+                               TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0"
+                               FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock x:Name="structTypeItem" Text="{x:Bind structure.StructureType}" HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                               TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2" />
+                    <TextBlock x:Name="structDetailItem" Text="{x:Bind structure.StructureDetail}" HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                               TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" />
+                    <TextBlock x:Name="structFormatItem" Text="{x:Bind structure.StructureFormat}" HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                               TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" />
+                    <TextBlock x:Name="structDipItem"  HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                               TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" >
+                        <Run Text="{x:Bind structure.StructureAzimuth, Converter={StaticResource TextWithAzimDegreeConverter}}"/>
+                        <Run Text="/"/>
+                        <Run Text="{x:Bind structure.StructureDipPlunge, Converter={StaticResource TextWithDegreeConverter}}"/>
+                        
+                    </TextBlock>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Document List Template-->
+        <DataTemplate x:Key="ReportDocumentTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldPhotoColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="DocumentListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="4">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;" x:Name="photoValidityIcon"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind document.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                        <!--Thumbnail availability check-->
+                        <FontIcon Glyph="&#xE722;" x:Name="photoThumbnailIcon" Margin="0,0,5,0"
+                                RelativePanel.LeftOf="photoValidityIcon" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind document.PhotoFileExists, Converter={StaticResource VisibilityFromBoolConverter}}"/>
+                        
+                    </RelativePanel>
+                    
+                    <!--Values-->
+                    <TextBlock x:Name="documentNameItem" Text="{x:Bind document.DocumentName}"  
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" 
+                               Grid.Row="0" Grid.Column="0" FontWeight="Bold" 
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+                    <TextBlock x:Name="documentFilenameItem" Text="{x:Bind document.FileName}" Width="{Binding Width, ElementName=DocumentListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
+                               Grid.Row="1"  Grid.ColumnSpan="2" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="documentCategoryItem" Text="{x:Bind document.Category}" Width="{Binding Width, ElementName=DocumentListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis"  Grid.Column="0" 
+                               Grid.Row="2" Grid.ColumnSpan="2" FontWeight="SemiBold" />
+                    <TextBlock x:Name="documentCaptionItem" Text="{x:Bind document.Description}"  Width="{Binding Width, ElementName=DocumentListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
+                               Grid.Row="3" Grid.ColumnSpan="2" />
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Pflow List Template-->
+        <DataTemplate x:Key="ReportPflowTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldPflowColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="PflowListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind paleoflow.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="pflowNameItem" Text="{x:Bind paleoflow.PFlowName}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" 
+                               Grid.Row="0" Grid.Column="0"
+                               FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:Name="pflowClassItem" Text="{x:Bind paleoflow.PFlowClass}" Width="{Binding Width, ElementName=PflowListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis"  Grid.ColumnSpan="2" 
+                               Grid.Column="0" Grid.Row="1" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="pflowDirItem" Text="{x:Bind paleoflow.PFlowSense}" Width="{Binding Width, ElementName=PflowListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis"  Grid.ColumnSpan="2" 
+                               Grid.Column="0" Grid.Row="2"/>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Fossil List Template-->
+        <DataTemplate x:Key="ReportFossilTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldFossilColorLightBrush}" BorderThickness="0.5" >
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="FossilListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="2">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;" 
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind fossil.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+                    
+
+                    <!--Values-->
+                    <TextBlock x:Name="fossilNameItem" Text="{x:Bind fossil.FossilIDName}" Width="{Binding Width, ElementName=FossilListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="1"
+                               Grid.Row="0" Grid.Column="0"   FontWeight="Bold" 
+                               Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:Name="fossilsItem" Text="{x:Bind fossil.FossilType}" Width="{Binding Width, ElementName=FossilListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="2"
+                               Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" />
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Mineral List Template-->
+        <DataTemplate x:Key="ReportMineralTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldMineralColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="MineralListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind mineral.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+                    
+                    <!--Values-->
+                    <TextBlock x:Name="mineralIDNameItem" Text="{x:Bind mineral.MineralIDName}" 
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" 
+                               Grid.Column="0" FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:Name="mineralNameItem"  Width="{Binding Width, ElementName=MineralListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.ColumnSpan="2"
+                               Grid.Row="1" FontWeight="SemiBold" >
+                        <Run Text="{x:Bind mineral.MineralNameHuman}"/> (<Run Text="{x:Bind mineral.MineralName}"/>)<Run/>
+
+                    </TextBlock>
+                    <TextBlock x:Name="mineralModelItem" Text="{x:Bind mineral.MineralMode, Converter={StaticResource PercentageConverter}}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="2"
+                               Grid.Column="0" Grid.Row="2" />
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Mineralization alteration List Template-->
+        <DataTemplate x:Key="ReportMineralAltTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldMineralAlterationColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="MAListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind mineralAlteration.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+                    
+                    <!--Values-->
+                    <TextBlock x:Name="mineralAltIDNameItem" 
+                               Text="{x:Bind mineralAlteration.MAName}" 
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" 
+                               Grid.Column="0" FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:Name="mineralAltNameItem" 
+                               Text="{x:Bind mineralAlteration.MAMA}" Width="{Binding Width, ElementName=MAListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
+                               Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="mineralAltmineralItem" 
+                               Text="{x:Bind mineralAlteration.MAMineral}" Width="{Binding Width, ElementName=MAListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" 
+                               Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+    </Page.Resources>
+    <RelativePanel>
+        <!--Page Header-->
+        <controls:PageHeader x:Name="pageHeader"  x:Uid="ReportPageHeader"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True" 
+                            RelativePanel.AlignTopWithPanel="True"
+                            Text="" Height="48" VerticalAlignment="Top"/>
+        
+        <RelativePanel Padding="5,0,0,0" x:Name="SummaryPanel" RelativePanel.Below="pageHeader" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+            <TextBlock x:Name="SummaryHeader" Style="{StaticResource HeaderTextBlock}" Text="" x:Uid="ReportPageSummaryGridHeader"/>
+            <GridView 
+                RelativePanel.Below="SummaryHeader"
+                x:Name="ReportListViewDates"
+                IsSwipeEnabled="True"
+                VerticalContentAlignment="Center"
+                IsItemClickEnabled="True"
+                Style="{StaticResource ReportPageGridView}" 
+                ItemsSource="{x:Bind ViewModel.ReportDateItems, Mode=OneWay}"
+                SelectedIndex="{x:Bind ViewModel.ReportListViewDateIndex, Mode=TwoWay}"
+                SelectionChanged="{x:Bind ViewModel.ReportSummaryDate_SelectionChanged}"
+                ItemTemplate="{StaticResource ReportItemDateTemplate}" Loaded="Grid_Loaded"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ScrollViewer.HorizontalScrollMode="Enabled"
+                ItemContainerStyle="{StaticResource ReportPageGridViewDateItems}" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid MaximumRowsOrColumns="1"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+
+
+            </GridView>
+
+        </RelativePanel>
+
+        <Rectangle 
+            x:Name="summaryDetailSeperator" 
+            Height="2" Width="Auto"
+            RelativePanel.Below="SummaryPanel"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="{ThemeResource CustomColor}"/>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <ScrollViewer RelativePanel.Below="summaryDetailSeperator" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+            <RelativePanel  Padding="5,0,0,0"
+                        x:Name="SplitViewRelativeContent"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+                <TextBlock x:Name="DetailHeader" Style="{StaticResource HeaderTextBlock}" Text="" x:Uid="ReportDetailPageGridHeader"/>
+
+                <!--Field Station-->
+                <Grid x:Name="StationPanel" RelativePanel.Below="DetailHeader"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True" Margin="0,10, 0,0" >
+
+
+                    <theme:ExpandPanel x:Name="StationExpandPanel" IsExpanded="{x:Bind ViewModel.StationHeaderExpansion, Mode=TwoWay}">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.StationColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel>
+                                <Rectangle x:Name="StationBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.StationColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.StationIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <TextBlock x:Name="textBlock_FieldStation" x:Uid="FieldworkTableStation" 
+                                            TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.StationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                            VerticalAlignment="Top" Height="40" Width="Auto" FontWeight="Bold"
+                                            Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True"
+                                            Style="{StaticResource SubtitleTextBlockStyle}" IsTextScaleFactorEnabled="False">
+                                </TextBlock>
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel>
+                                <SymbolIcon x:Name="StationEditIcon" Foreground="{x:Bind ViewModel.StationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit" Opacity="{x:Bind ViewModel.StationIconOpacity, Mode=TwoWay}"
+                                                    RelativePanel.LeftOf="StationDeleteIcon"
+                                                    Margin="8" Tapped="{x:Bind ViewModel.StationEditIcon_Tapped}" />
+                                <SymbolIcon x:Name="StationDeleteIcon" Foreground="{x:Bind ViewModel.StationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" Opacity="{x:Bind ViewModel.StationIconOpacity, Mode=TwoWay}"
+                                                    RelativePanel.AlignRightWithPanel="True" 
+                                                    Margin="8" 
+                                                    Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportStationList"  Style="{StaticResource ReportPageGridView}"
+                                ItemClick="{x:Bind ViewModel.Report_ItemClick}"    
+                                SelectedIndex="{x:Bind ViewModel.ReportStationListIndex, Mode=TwoWay}"
+                                ItemTemplate="{StaticResource ReportStationTemplate}"
+                                ItemsSource="{x:Bind ViewModel.ReportDetailedStation, Mode=OneWay}" 
+                                SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}" 
+                                DoubleTapped="{x:Bind ViewModel.ReportStationList_DoubleTapped}" 
+                                ItemContainerStyle="{StaticResource ReportPageGridViewStationItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Earth Material-->
+                <Grid x:Name="EarthmatPanel" RelativePanel.Below="StationPanel"
+                            RelativePanel.AlignLeftWithPanel="True" Visibility="{x:Bind ViewModel.EarthmatPanelVisibility, Mode=TwoWay}"
+                            RelativePanel.AlignRightWithPanel="True">
+                    <theme:ExpandPanel x:Name="EarthMatExpandPanel"  IsExpanded="{x:Bind ViewModel.EarthmatHeaderExpansion, Mode=TwoWay}"
+                            RelativePanel.Below="StationExpandPanel" ExpandedChanged="{x:Bind ViewModel.EarthMatExpandPanel_ExpandedChanged, Mode=OneWay}"
+                            MaxWidth="{Binding ElementName=EarthmatPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="0,10, 0,0" 
+                            MinHeight="30" >
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.EarthmatColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="EarthMatRelativePanel">
+                                <Rectangle
+                                    x:Name="EarthMaterialBackground"
+                                    Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.EarthmatColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.EarthmatIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldEarthMat" x:Uid="FieldworkTableEarthmat"
+                                    TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.EarthmatColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                    VerticalAlignment="Top" Height="30" 
+                                    Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" FontWeight="Bold"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel>
+                                <SymbolIcon x:Name="EarthMatAddIcon" Foreground="{x:Bind ViewModel.EarthmatAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Margin="8"  Symbol="Add" RelativePanel.LeftOf="EarthMatEditIcon" Tapped="{x:Bind ViewModel.EarthMatAddIcon_Tapped}" Opacity="{x:Bind ViewModel.EarthmatAddIconOpacity, Mode=TwoWay}"/>
+                                <SymbolIcon x:Name="EarthMatEditIcon" Foreground="{x:Bind ViewModel.EarthmatColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Margin="8" Symbol="Edit"  RelativePanel.LeftOf="Earth_materialDeleteIcon" Tapped="{x:Bind ViewModel.EarthMatEditIcon_Tapped}" Opacity="{x:Bind ViewModel.EarthmatIconOpacity, Mode=TwoWay}"/>
+                                <SymbolIcon x:Name="Earth_materialDeleteIcon" Foreground="{x:Bind ViewModel.EarthmatColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Margin="8" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}" Opacity="{x:Bind ViewModel.EarthmatIconOpacity, Mode=TwoWay}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+                            <GridView x:Name="ReportEarthmatList" Style="{StaticResource ReportPageGridView}"
+                                    ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportEarthmatTemplate}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedEarthmat, Mode=OneWay}" 
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}" 
+                                    DoubleTapped="{x:Bind ViewModel.ReportEarthmatList_DoubleTapped}"
+                                    SelectedIndex="{x:Bind ViewModel.ReportEarhtmatIndex, Mode=TwoWay}"
+                                    ItemContainerStyle="{StaticResource ReportPageGridViewEarthmatItems}"/>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+                </Grid>
+
+                <!--Field Sample-->
+                <Grid x:Name="SamplePanel" RelativePanel.Below="EarthmatPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.SamplePanelVisibility, Mode=TwoWay}">
+
+                    <theme:ExpandPanel x:Name="SampleExpandPanel" 
+                                            IsExpanded="{x:Bind ViewModel.SampleHeaderExpansion, Mode=TwoWay}" 
+                                            RelativePanel.Below="EarthMatExpandPanel"
+                                            ExpandedChanged="{x:Bind ViewModel.SampleExpandPanel_ExpandedChanged, Mode=OneWay}"
+                                            MaxWidth="{Binding ElementName=SamplePanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.SampleColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="SampleRelativePanel" >
+                                <Rectangle x:Name="SampleBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.SampleColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.SampleIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldSample" x:Uid="FieldworkTableSample"
+                                TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.SampleColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                Text="" 
+                                VerticalAlignment="Top" Height="30" FontWeight="Bold"
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}" SizeChanged="{x:Bind ViewModel.textBlock_FieldSample_SizeChanged}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:Name="SampleAddIcon" Foreground="{x:Bind ViewModel.SampleAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Add" RelativePanel.LeftOf="SampleEditIcon" Margin="8" Opacity="{x:Bind ViewModel.SampleAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.SampleAddIcon_Tapped}" />
+                                <SymbolIcon x:Name="SampleEditIcon" Foreground="{x:Bind ViewModel.SampleColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit"  RelativePanel.LeftOf="SampleDeleteIcon" Margin="8" Opacity="{x:Bind ViewModel.SampleIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.SampleEditIcon_Tapped}"/>
+                                <SymbolIcon x:Name="SampleDeleteIcon" Foreground="{x:Bind ViewModel.SampleColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" Opacity="{x:Bind ViewModel.SampleIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportSampleList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportSampleTemplate}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedSample, Mode=OneWay}" 
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                      SelectedIndex="{x:Bind ViewModel.ReportSampleIndex, Mode=TwoWay}"
+                                              DoubleTapped="{x:Bind ViewModel.ReportSampleList_DoubleTapped}"
+                                      ItemContainerStyle="{StaticResource ReportPageGridViewSampleItems}">
+
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Structure-->
+                <Grid x:Name="StructurePanel" RelativePanel.Below="SamplePanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.StructurePanelVisibility, Mode=TwoWay}">
+
+                    <theme:ExpandPanel x:Name="StructureExpandPanel" 
+                                            IsExpanded="{x:Bind ViewModel.StructureHeaderExpansion, Mode=TwoWay}" 
+                                            RelativePanel.Below="SampleExpandPanel"
+                                            ExpandedChanged="{x:Bind ViewModel.StructureExpandPanel_ExpandedChanged, Mode=OneWay}"
+                                            MaxWidth="{Binding ElementName=StructurePanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.StructColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="StructureRelativePanel" >
+                                <Rectangle x:Name="StructureBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.StructColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.StructureIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldStructure" x:Uid="FieldworkTableStructure"
+                                TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.StructColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}" SizeChanged="{x:Bind ViewModel.textBlock_FieldStructure_SizeChanged}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:Name="StrucAddIcon" Foreground="{x:Bind ViewModel.StructAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Add" RelativePanel.LeftOf="StrucEditIcon" Margin="8" Opacity="{x:Bind ViewModel.StructureAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.StructureAddIcon_Tapped}" />
+                                <SymbolIcon x:Name="StrucEditIcon" Foreground="{x:Bind ViewModel.StructColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit"  RelativePanel.LeftOf="StrucDeleteIcon" Margin="8" Opacity="{x:Bind ViewModel.StructureIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.StructureEditIcon_Tapped}"/>
+                                <SymbolIcon x:Name="StrucDeleteIcon" Foreground="{x:Bind ViewModel.StructColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" Opacity="{x:Bind ViewModel.StructureIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportStructureList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportStructureTemplate}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedStructure, Mode=OneWay}" 
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                      SelectedIndex="{x:Bind ViewModel.ReportStructureIndex, Mode=TwoWay}"
+                                              DoubleTapped="{x:Bind ViewModel.ReportStructureList_DoubleTapped}"
+                                      ItemContainerStyle="{StaticResource ReportPageGridViewStructureItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Fossil-->
+                <Grid x:Name="FossilPanel" RelativePanel.Below="StructurePanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.FossilPanelVisibility, Mode=TwoWay}">
+
+                    <theme:ExpandPanel x:Name="FossilExpandPanel" 
+                                            IsExpanded="{x:Bind ViewModel.FossilHeaderExpansion, Mode=TwoWay}" 
+                                            RelativePanel.Below="StructureExpandPanel"
+                                            ExpandedChanged="{x:Bind ViewModel.FossilExpandPanel_ExpandedChanged, Mode=OneWay}"
+                                            MaxWidth="{Binding ElementName=FossilPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.FossilColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="FossilRelativePanel" >
+                                <Rectangle x:Name="FossilBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.FossilColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.FossilIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldFossil" x:Uid="FieldworkTableFossil"
+                                TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.FossilColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}" SizeChanged="{x:Bind ViewModel.textBlock_FieldFossil_SizeChanged}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:Name="FossilAddIcon" Foreground="{x:Bind ViewModel.FossilAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Add" RelativePanel.LeftOf="FossilEditIcon" Margin="8" Opacity="{x:Bind ViewModel.FossilAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.FossilAddIcon_Tapped}" />
+                                <SymbolIcon x:Name="FossilEditIcon" Foreground="{x:Bind ViewModel.FossilColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit"  RelativePanel.LeftOf="FossilDeleteIcon" Margin="8" Opacity="{x:Bind ViewModel.FossilIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.FossilEditIcon_Tapped}"/>
+                                <SymbolIcon x:Name="FossilDeleteIcon" Foreground="{x:Bind ViewModel.FossilColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" Opacity="{x:Bind ViewModel.FossilIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportFossilList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportFossilTemplate}"
+                                      SelectedIndex="{x:Bind ViewModel.ReportFossilIndex, Mode=TwoWay}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedFossil, Mode=OneWay}" 
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                              DoubleTapped="{x:Bind ViewModel.ReportFossilList_DoubleTapped}"
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewFossilItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Paleoflow-->
+                <Grid x:Name="PaleoFlowPanel" RelativePanel.Below="FossilPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.PFlowPanelVisibility, Mode=TwoWay}">
+
+                    <theme:ExpandPanel x:Name="PflowExpandPanel" 
+                                            IsExpanded="{x:Bind ViewModel.PflowHeaderExpansion, Mode=TwoWay}" 
+                                            RelativePanel.Below="FossilExpandPanel"
+                                            ExpandedChanged="{x:Bind ViewModel.PflowExpandPanel_ExpandedChanged, Mode=OneWay}"
+                                            MaxWidth="{Binding ElementName=PaleoFlowPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.PaleoflowColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="PflowRelativePanel" >
+                                <Rectangle x:Name="PflowBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.PaleoflowColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.PflowIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldPflow" x:Uid="FieldworkTablePflow"
+                                TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.PaleoflowColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}" SizeChanged="{x:Bind ViewModel.textBlock_FieldPflow_SizeChanged}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:Name="PflowAddIcon" Foreground="{x:Bind ViewModel.PaleoflowAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Add" RelativePanel.LeftOf="PflowEditIcon" Margin="8" Opacity="{x:Bind ViewModel.PflowAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.PflowAddIcon_Tapped}" />
+                                <SymbolIcon x:Name="PflowEditIcon" Foreground="{x:Bind ViewModel.PaleoflowColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit"  RelativePanel.LeftOf="Paleo_flowDeleteIcon" Margin="8" Opacity="{x:Bind ViewModel.PflowIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.PflowEditIcon_Tapped}"/>
+                                <SymbolIcon x:Name="Paleo_flowDeleteIcon" Foreground="{x:Bind ViewModel.PaleoflowColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" Opacity="{x:Bind ViewModel.PflowIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportPflowList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportPflowTemplate}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedPflow, Mode=OneWay}" 
+                                      SelectedIndex="{x:Bind ViewModel.ReportPflowIndex, Mode=TwoWay}"
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                              DoubleTapped="{x:Bind ViewModel.ReportPflowList_DoubleTapped}"
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewPflowItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Mineral-->
+                <Grid x:Name="MineralPanel" RelativePanel.Below="PaleoFlowPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.MineralPanelVisibility, Mode=TwoWay}">
+
+                    <theme:ExpandPanel x:Name="MineralExpandPanel" 
+                                            IsExpanded="{x:Bind ViewModel.MineralHeaderExpansion, Mode=TwoWay}" 
+                                            RelativePanel.Below="PflowExpandPanel"
+                                            ExpandedChanged="{x:Bind ViewModel.MineralExpandPanel_ExpandedChanged, Mode=OneWay}"
+                                            MaxWidth="{Binding ElementName=MineralPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.MineralColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="MineralRelativePanel" >
+                                <Rectangle x:Name="MineralBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.MineralColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.MineralIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldMineral" x:Uid="FieldworkTableMineral"
+                                TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.MineralColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}" SizeChanged="{x:Bind ViewModel.textBlock_FieldMineral_SizeChanged}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:Name="MineralAddIcon" Foreground="{x:Bind ViewModel.MineralAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Add" RelativePanel.LeftOf="MineralEditIcon" Margin="8" Opacity="{x:Bind ViewModel.MineralAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.MineralAddIcon_Tapped}" />
+                                <SymbolIcon x:Name="MineralEditIcon" Foreground="{x:Bind ViewModel.MineralColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit"  RelativePanel.LeftOf="MineralDeleteIcon" Margin="8" Opacity="{x:Bind ViewModel.MineralIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.MineralEditIcon_Tapped}"/>
+                                <SymbolIcon x:Name="MineralDeleteIcon" Foreground="{x:Bind ViewModel.MineralColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" Opacity="{x:Bind ViewModel.MineralIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportMineralList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportMineralTemplate}"
+                                      SelectedIndex="{x:Bind ViewModel.ReportMineralsIndex, Mode=TwoWay}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedMineral, Mode=OneWay}" 
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                              DoubleTapped="{x:Bind ViewModel.ReportMineralList_DoubleTapped}"
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewMineralItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Mineral Alteration-->
+                <Grid x:Name="MineralAltPanel" RelativePanel.Below="MineralPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.MineralAltPanelVisibility, Mode=TwoWay}">
+
+                    <theme:ExpandPanel x:Name="MineralAltExpandPanel" 
+                                            IsExpanded="{x:Bind ViewModel.MineralAltHeaderExpansion, Mode=TwoWay}" 
+                                            RelativePanel.Below="MineralExpandPanel"
+                                            ExpandedChanged="{x:Bind ViewModel.MineralAltExpandPanel_ExpandedChanged, Mode=OneWay}"
+                                            MaxWidth="{Binding ElementName=MineralAltPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.MineralAltColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="MineralAltRelativePanel" >
+                                <Rectangle x:Name="MineralAltBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.MineralAltColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" 
+                                                         Opacity="{x:Bind ViewModel.MineralAltIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldMineralAlt" x:Uid="FieldworkTableMineralAlt"
+                                TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.MineralAltColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}" SizeChanged="{x:Bind ViewModel.textBlock_FieldMineralAlt_SizeChanged}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:Name="MineralAltAddIcon" Foreground="{x:Bind ViewModel.MineralAltAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" 
+                                            Symbol="Add" RelativePanel.LeftOf="MineralAltEditIcon" Margin="8" 
+                                            Opacity="{x:Bind ViewModel.MineralAltAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.MineralAltAddIcon_Tapped}" />
+                                <SymbolIcon x:Name="MineralAltEditIcon" 
+                                            Foreground="{x:Bind ViewModel.MineralAltColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" 
+                                            Symbol="Edit"  RelativePanel.LeftOf="alterationDeleteIcon" Margin="8" 
+                                            Opacity="{x:Bind ViewModel.MineralAltIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.MineralAltEditIcon_Tapped}"/>
+                                <SymbolIcon x:Name="alterationDeleteIcon" 
+                                            Foreground="{x:Bind ViewModel.MineralAltColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" 
+                                            Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" 
+                                            Opacity="{x:Bind ViewModel.MineralAltIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportMineralAltList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportMineralAltTemplate}"
+                                      SelectedIndex="{x:Bind ViewModel.ReportMineralizationAlterationIndex, Mode=TwoWay}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedMineralAlt, Mode=OneWay}" 
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                              DoubleTapped="{x:Bind ViewModel.ReportMineralAltList_DoubleTapped}"
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewMineralAltItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Document-->
+                <Grid x:Name="DocumentPanel" RelativePanel.Below="MineralAltPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.PhotoPanelVisibility, Mode=TwoWay}">
+
+                    <theme:ExpandPanel x:Name="DocumentExpandPanel" 
+                                               IsExpanded="{x:Bind ViewModel.DocumentHeaderExpand, Mode=TwoWay}" 
+                                               ExpandedChanged="{x:Bind ViewModel.DocumentExpandPanel_ExpandedChanged, Mode=OneWay}"
+                                            RelativePanel.Below="MineralAltExpandPanel"
+                                           MaxWidth="{Binding ElementName=DocumentPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.DocumentColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="DocumentRelativePanel" >
+                                <Rectangle x:Name="DocumentBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.DocumentColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.DocumentIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldDocument" Text="{x:Bind ViewModel.HeaderDocument, Mode=TwoWay}"
+                                TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.DocumentColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                VerticalAlignment="Top" Height="30" FontWeight="Bold"
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"/>
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:Name="DocumentAddIcon" Foreground="{x:Bind ViewModel.DocumentAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Add" RelativePanel.LeftOf="DocumentEditIcon" Margin="8" Opacity="{x:Bind ViewModel.DocumentAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.DocumentAddIcon_Tapped}" />
+                                <SymbolIcon x:Name="DocumentEditIcon" Foreground="{x:Bind ViewModel.DocumentColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit"  RelativePanel.LeftOf="DocumentDeleteIcon" Opacity="{x:Bind ViewModel.DocumentIconOpacity, Mode=TwoWay}" Margin="8" Tapped="{x:Bind ViewModel.DocumentEditIcon_Tapped}"/>
+                                <SymbolIcon x:Name="DocumentDeleteIcon" Foreground="{x:Bind ViewModel.DocumentColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Opacity="{x:Bind ViewModel.DocumentIconOpacity, Mode=TwoWay}" Margin="8" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportDocumentList" Style="{StaticResource ReportPageGridView}"   
+                                    IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportDocumentTemplate}"
+                                      SelectedIndex="{x:Bind ViewModel.ReportDocumentIndex, Mode=TwoWay}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedDocument, Mode=OneWay}" 
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                              DoubleTapped="{x:Bind ViewModel.ReportDocumentList_DoubleTapped}"
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewDocumentItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
+                <!--Field Location-->
+                <Grid x:Name="LocationPanel"
+                      RelativePanel.AlignLeftWithPanel="True"
+                      RelativePanel.AlignRightWithPanel="True"
+                      RelativePanel.Below="DocumentPanel">
+                    <theme:ExpandPanel x:Name="ObservationExpandPanel" 
+                                    IsExpanded="{x:Bind ViewModel.LocationHeaderExpansion, Mode=TwoWay}"
+                                    Margin="0,10,0,0" Padding="0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.LocationColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="ObservationRelativePanel">
+
+                                <Rectangle
+                                            x:Name="textBlockBackground_FieldObservation"
+                                            Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.LocationColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.StationIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <TextBlock x:Name="textBlock_FieldObservation"  x:Uid="FieldworkTableObservation"
+                                            TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.LocationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                            VerticalAlignment="Top" Height="30" Width="Auto" FontWeight="Bold"
+                                            Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True"
+                                            Style="{StaticResource SubtitleTextBlockStyle}" IsTextScaleFactorEnabled="False"/>
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel>
+                                <SymbolIcon x:Name="ObservationAddIcon" Foreground="{x:Bind ViewModel.LocationAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Margin="8"  Symbol="Add" RelativePanel.LeftOf="ObservationEditIcon" Tapped="{x:Bind ViewModel.LocationAddIcon_Tapped}" Opacity="{x:Bind ViewModel.LocationAddIconOpacity, Mode=TwoWay}"/>
+                                <SymbolIcon x:Name="ObservationEditIcon" Foreground="{x:Bind ViewModel.LocationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit" Opacity="{x:Bind ViewModel.StationIconOpacity, Mode=TwoWay}" RelativePanel.LeftOf="ObservationDeleteIcon" Tapped="{x:Bind ViewModel.LocationEditIcon_Tapped}" Margin="5"/>
+                                <SymbolIcon x:Name="ObservationDeleteIcon" Foreground="{x:Bind ViewModel.LocationColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Opacity="{x:Bind ViewModel.DocumentIconOpacity, Mode=TwoWay}" Margin="8" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportLocationList" Padding="0" Margin="0"
+                                    Visibility="Visible"
+                                    IsSwipeEnabled="False"
+                                    AllowDrop="False" DoubleTapped="{x:Bind ViewModel.ReportLocationList_DoubleTapped}"
+                                    IsItemClickEnabled="True" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportLocationTemplate}" 
+                                      SelectedIndex="{x:Bind ViewModel.ReportDocumentIndex, Mode=TwoWay}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailedLocation, Mode=OneWay}"
+                                      SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewLocationItems}">
+
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+                </Grid>
+
+            </RelativePanel>
+        </ScrollViewer>
+
+    </RelativePanel>
+</Page>

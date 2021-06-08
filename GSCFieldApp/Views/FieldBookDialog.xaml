@@ -1,0 +1,137 @@
+﻿<UserControl
+    x:Class="GSCFieldApp.Views.FieldBookDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="using:Template10.Behaviors"
+    xmlns:local="using:GSCFieldApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:GSCFieldApp.ViewModels"
+    xmlns:Controls="using:Template10.Controls"
+    mc:Ignorable="d">
+
+    <Page>
+        <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+            <!-- header -->
+
+            <Controls:PageHeader x:Name="pageHeader" x:Uid="UserInfoDialogHeader" Text ="" 
+                            RelativePanel.AlignLeftWithPanel="True" 
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignTopWithPanel="True"  
+                            EllipsisVisibility="Collapsed" >
+
+                <Controls:PageHeader.PrimaryCommands>
+                    <AppBarButton x:Name="userInfoCancelButton" Icon="Clear" Foreground="White" Tapped="userInfoCancelButton_TappedAsync" />
+                    <AppBarButton x:Name="userInfoSaveButton" Icon="Save" Foreground="White" Tapped="saveUserInfo_TappedAsync" />
+                </Controls:PageHeader.PrimaryCommands>
+                
+            </Controls:PageHeader>
+
+            <Controls:PageHeader x:Name="pageFooter"
+                             RelativePanel.AlignBottomWithPanel="True" 
+                             EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
+                             RelativePanel.AlignLeftWithPanel="True">
+
+            </Controls:PageHeader>
+
+
+            <!-- data entry -->
+            <ScrollViewer RelativePanel.Below="pageHeader" 
+                      RelativePanel.Above="pageFooter" 
+                      RelativePanel.AlignLeftWithPanel="True" 
+                      RelativePanel.AlignRightWithPanel="True">
+                <RelativePanel Style="{StaticResource ChildPanel}" >
+
+                    <GridView Style="{StaticResource NonselectableGridView}" x:Name="UserInfo_Project">
+                        <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="UserInfo_ProjectHeader"/>
+
+                        <ComboBox x:Name="ProjectTypeComboBox" Width="Auto" x:Uid="UserInfoDialogWType" 
+                                  Style="{ThemeResource ComboboxMandatoryField}"
+                          Header=""
+                          ItemsSource="{x:Bind ViewModel.ProjectType}"
+                          SelectedValue="{x:Bind ViewModel.SelectedProjectType, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                          PlaceholderText=""/>
+
+                        <TextBox x:Name="ProjectNameTextBox" x:Uid="UserInfoDialogPName"
+                         Header="" RelativePanel.RightOf="ProjectTypeComboBox"
+                                 Style="{ThemeResource TextboxMandatoryField}"
+                         Text="{x:Bind ViewModel.ProjectName, Mode=TwoWay}"/>
+
+
+                    </GridView>
+
+                    <Rectangle x:Name="ProjectBorder" 
+                               Style="{StaticResource Horizontal}"
+                           RelativePanel.Below="UserInfo_Project"
+                           Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
+
+                    <GridView Style="{StaticResource NonselectableGridView}" x:Name="UserInfo_ProjectLeader" RelativePanel.Below="ProjectBorder">
+                        <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="UserInfo_ProjectLeaderHeader"/>
+
+                        <TextBox x:Name="ProjectLeaderFirstNameTextBox" x:Uid="UserInfoDialogPLeaderFirstName"
+                         Header="" 
+                         Text="{x:Bind ViewModel.ProjectLeaderFN, Mode=TwoWay}"/>
+
+                        <TextBox x:Name="ProjectLeaderMiddleNameTextBox" x:Uid="UserInfoDialogPLeaderMiddleName"
+                         Header="" 
+                         Text="{x:Bind ViewModel.ProjectLeaderMN, Mode=TwoWay}"/>
+
+                        <TextBox x:Name="ProjectLeaderLastNameTextBox" x:Uid="UserInfoDialogPLeaderLastName"
+                         Header="" 
+                         Text="{x:Bind ViewModel.ProjectLeaderLN, Mode=TwoWay}"/>
+
+                    </GridView>
+
+                    <Rectangle x:Name="ProjectLeaderBorder" 
+                               Style="{StaticResource Horizontal}"
+                           RelativePanel.Below="UserInfo_ProjectLeader"
+                           Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
+
+                    <GridView Style="{StaticResource NonselectableGridView}" x:Name="UserInfo_User" RelativePanel.Below="ProjectLeaderBorder">
+                        <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="UserInfo_UserHeader"/>
+
+
+                            
+                        <TextBox x:Name="ProjectGeologistFirstNameTextBox" x:Uid="UserInfoDialogPGeologistFirstName"
+                        Header="" Style="{ThemeResource TextboxMandatoryField}"
+                        Text="{x:Bind ViewModel.GeologistFN, Mode=TwoWay}"/>
+
+                        <TextBox x:Name="ProjectGeologistMiddleNameTextBox" x:Uid="UserInfoDialogPGeologistMiddleName"
+                        Header="" 
+                        Text="{x:Bind ViewModel.GeologistMN, Mode=TwoWay}"/>
+
+                        <TextBox x:Name="ProjectGeologistLastNameTextBox" x:Uid="UserInfoDialogPGeologistLastName"
+                        Header="" Style="{ThemeResource TextboxMandatoryField}"
+                        Text="{x:Bind ViewModel.GeologistLN, Mode=TwoWay}"/>
+
+                        <TextBox x:Name="UserCodeTextBox" x:Uid="UserInfoDialogOfficerCode" 
+                                    Style="{ThemeResource TextboxMandatoryField}" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                            Header="" 
+                            Text="{x:Bind ViewModel.GeologistCode, Mode=TwoWay}" TextChanging="UserCodeTextBox_TextChanging"/>
+
+                        
+                    </GridView>
+
+                    <Rectangle x:Name="UserBorder" Style="{StaticResource Horizontal}"
+                           RelativePanel.Below="UserInfo_User"
+                           Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
+
+                    <GridView Style="{StaticResource NonselectableGridView}" x:Name="UserInfo_Other" RelativePanel.Below="UserBorder">
+                        <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="UserInfo_OtherHeader"/>
+
+                        <TextBox x:Name="StationStartNumTextBox" x:Uid="UserInfoDialogStartStationNumber" 
+                                 Style="{ThemeResource TextboxMandatoryField}" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                             Header="" InputScope="Number"
+                             Text="{x:Bind ViewModel.StartStationNumber, Mode=TwoWay}"/>
+
+                    </GridView>
+
+                </RelativePanel>
+            </ScrollViewer>
+
+        </RelativePanel>
+    </Page>
+
+</UserControl>

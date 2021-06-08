@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{61F148DB-B4D1-4D45-A2C2-894806180744}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GSCFieldApp</RootNamespace>
+    <AssemblyName>GSCFieldApp</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>
+    </PackageCertificateKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Never</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
+    <PackageCertificateThumbprint>C89C75FA507D7B17DC7F8711114D563DC6EEBDFB</PackageCertificateThumbprint>
+    <AppxPackageDir>D:\gab\dev\GSCFieldAppPackages\</AppxPackageDir>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>false</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <EnableGatekeeperAnalysis>false</EnableGatekeeperAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="Assets\Readme.md" />
+    <None Include="Converters\Readme.md" />
+    <None Include="Dictionaries\Readme.md" />
+    <Content Include="Assets\gsclogo-pantone_yellow.png" />
+    <Content Include="Assets\mosquito.png" />
+    <Content Include="Assets\Team.png" />
+    <Content Include="Assets\Images\theme-dark\struc_linear.png" />
+    <Content Include="Assets\Images\theme-dark\struc_planar.png" />
+    <Content Include="Assets\Images\theme-light\struc_linear.png" />
+    <Content Include="Assets\Images\theme-light\struc_planar.png" />
+    <Content Include="Assets\WrongPhotoURI.bmp" />
+    <Content Include="ModelResources\GSCFieldwork.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="GSCFieldApp_TemporaryKey.pfx" />
+    <None Include="ModelResources\Readme.md" />
+    <None Include="Models\Readme.md" />
+    <None Include="project.json" />
+    <None Include="Properties\Readme.md" />
+    <None Include="Readme.md" />
+    <PRIResource Include="Resources.resw" />
+    <None Include="Resources\Readme.md" />
+    <None Include="Services\Readme.md" />
+    <None Include="Styles\Readme.md" />
+    <None Include="Themes\Readme.md" />
+    <None Include="ViewModels\Readme.md" />
+    <None Include="Views\Readme.md" />
+    <PRIResource Include="Resources\fr\Resources.resw" />
+    <PRIResource Include="Resources\en-US\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BitmapSourceConverter.cs" />
+    <Compile Include="Converters\String2Number.cs" />
+    <Compile Include="Converters\TextWithDegreeConverter.cs" />
+    <Compile Include="Converters\TextWithAzimDegreeConverter.cs" />
+    <Compile Include="Converters\TextWithPercentageConverter.cs" />
+    <Compile Include="Converters\DD2DMSConverter.cs" />
+    <Compile Include="Converters\ElevationConverter.cs" />
+    <Compile Include="Converters\HorizontalAccuracyConverter.cs" />
+    <Compile Include="Converters\MediaBrushConverter.cs" />
+    <Compile Include="Converters\PicklistDefaultValueConverter.cs" />
+    <Compile Include="Converters\MandatoryFieldConverter.cs" />
+    <Compile Include="Converters\ScaleConverter.cs" />
+    <Compile Include="Converters\SecondOrderPicklistConverter.cs" />
+    <Compile Include="Converters\SolidColorBrushConverter.cs" />
+    <Compile Include="Converters\VisibilityFromBoolConverter.cs" />
+    <Compile Include="Converters\ReverseBoolConverter.cs" />
+    <Compile Include="Converters\VisibilityFromReverseBoolConverter.cs" />
+    <Compile Include="Dictionaries\DatabaseLiterals.cs" />
+    <Compile Include="Dictionaries\ScienceLiterals.cs" />
+    <Compile Include="Dictionaries\ApplicationLiterals.cs" />
+    <Compile Include="Models\DD2DMS.cs" />
+    <Compile Include="Models\MapPageLayers.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\Favorite.cs" />
+    <Compile Include="Models\Fossil.cs" />
+    <Compile Include="Models\MapPageLayerSetting.cs" />
+    <Compile Include="Models\Mineral.cs" />
+    <Compile Include="Models\MineralAlteration.cs" />
+    <Compile Include="Models\Paleoflow.cs" />
+    <Compile Include="Models\Popper.cs" />
+    <Compile Include="Models\Structure.cs" />
+    <Compile Include="Models\Vocabularies.cs" />
+    <Compile Include="Models\EarthMaterial.cs" />
+    <Compile Include="Models\FieldLocation.cs" />
+    <Compile Include="Models\Measurement.cs" />
+    <Compile Include="Models\Metadata.cs" />
+    <Compile Include="Models\Sample.cs" />
+    <Compile Include="Models\SemanticZoomDataGenerator.cs" />
+    <Compile Include="Models\SemanticZoomData.cs" />
+    <Compile Include="Models\Station.cs" />
+    <Compile Include="Models\VocabularyManager.cs" />
+    <Compile Include="Services\ContentDialogMaker.cs" />
+    <Compile Include="Services\FileServices\FileServices.cs" />
+    <Compile Include="Themes\EasterEgg.cs" />
+    <Compile Include="Themes\GridViewItemPanel.cs" />
+    <Compile Include="Themes\ComboBoxItem.cs" />
+    <Compile Include="Themes\ExpandPanel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DatabaseServices\DataAccess.cs" />
+    <Compile Include="Services\DatabaseServices\DataIDCalculation.cs" />
+    <Compile Include="Services\DatabaseServices\DataLocalSettings.cs" />
+    <Compile Include="Services\SettingsServices\SettingsService.cs" />
+    <Compile Include="Converters\PicklistDescriptionConverter.cs" />
+    <Compile Include="ViewModels\DocumentViewModel.cs" />
+    <Compile Include="ViewModels\EarthmatViewModel.cs" />
+    <Compile Include="ViewModels\FossilViewModel.cs" />
+    <Compile Include="ViewModels\LocationViewModel.cs" />
+    <Compile Include="ViewModels\MapPageViewModel.cs" />
+    <Compile Include="ViewModels\MineralizationAlterationViewModel.cs" />
+    <Compile Include="ViewModels\MineralViewModel.cs" />
+    <Compile Include="ViewModels\PaleoflowViewModel.cs" />
+    <Compile Include="ViewModels\PicklistViewModel.cs" />
+    <Compile Include="Models\FieldBooks.cs" />
+    <Compile Include="Models\FieldNotes.cs" />
+    <Compile Include="ViewModels\FieldNotesViewModel.cs" />
+    <Compile Include="ViewModels\ContentDialogSemanticZoomViewModel.cs" />
+    <Compile Include="ViewModels\SampleViewModel.cs" />
+    <Compile Include="ViewModels\FieldBooksPageViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\StationViewModel.cs" />
+    <Compile Include="ViewModels\StructureViewModel.cs" />
+    <Compile Include="ViewModels\FieldBookDialogViewModel.cs" />
+    <Compile Include="Views\ContentDialogSemanticZoom.xaml.cs">
+      <DependentUpon>ContentDialogSemanticZoom.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DocumentDialog.xaml.cs">
+      <DependentUpon>DocumentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EarthmatDialog.xaml.cs">
+      <DependentUpon>EarthmatDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FossilDialog.xaml.cs">
+      <DependentUpon>FossilDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LocationDialog.xaml.cs">
+      <DependentUpon>LocationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MapPage.xaml.cs">
+      <DependentUpon>MapPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MineralizationAlterationDialog.xaml.cs">
+      <DependentUpon>MineralizationAlterationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MineralDialog.xaml.cs">
+      <DependentUpon>MineralDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaleoflowDialog.xaml.cs">
+      <DependentUpon>PaleoflowDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PicklistDialog.xaml.cs">
+      <DependentUpon>PicklistDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FieldNotesPage.xaml.cs">
+      <DependentUpon>FieldNotesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SampleDialog.xaml.cs">
+      <DependentUpon>SampleDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FieldBooksPage.xaml.cs">
+      <DependentUpon>FieldBooksPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Splash.xaml.cs">
+      <DependentUpon>Splash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StationDialog.xaml.cs">
+      <DependentUpon>StationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StructureDialog.xaml.cs">
+      <DependentUpon>StructureDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FieldBookDialog.xaml.cs">
+      <DependentUpon>FieldBookDialog.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\IC809393.png" />
+    <Content Include="Help.htm" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Styles\Custom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\ContentDialogSemanticZoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DocumentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EarthmatDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FossilDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LocationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MapPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MineralizationAlterationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MineralDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PaleoflowDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PicklistDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FieldNotesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SampleDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FieldBooksPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Splash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StationDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StructureDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FieldBookDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Esri.ArcGISRuntime.Toolkit">
+      <Version>100.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="Esri.ArcGISRuntime.UWP">
+      <Version>100.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
+      <Version>2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="SQLite.Net-PCL">
+      <Version>3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite">
+      <Version>1.0.112</Version>
+    </PackageReference>
+    <PackageReference Include="Template10">
+      <Version>1.1.13-preview-20161207</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.30.1">
+      <Name>SQLite for Universal Windows Platform %28SQLite.UWP.2015, Version=3.30.1%29</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BundleArtifacts\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
