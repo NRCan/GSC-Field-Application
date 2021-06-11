@@ -18,6 +18,7 @@ namespace GSCFieldApp.ViewModels
         #region INIT DECLARATIONS
         
         public bool doStructureUpdate = false;
+        private string _groupTypeDetail = string.Empty;
         public string level1Sep = Dictionaries.ApplicationLiterals.parentChildLevel1Seperator;
         public string level2Sep = Dictionaries.ApplicationLiterals.parentChildLevel2Seperator;
 
@@ -540,6 +541,19 @@ namespace GSCFieldApp.ViewModels
         /// Will fill the dialog with existing information coming from the database.
         /// </summary>
         /// <param name="incomingData">The model in which the existing information is stored.</param>
+
+        public void InitFill2ndRound(string fullStructText)
+        {
+            _groupTypeDetail = fullStructText;
+            RaisePropertyChanged("GroupTypeDetail");
+
+            FillStructureAttitude();
+            FillStructureYounging();
+            FillStructureGeneration();
+            FillStructureFormat();
+        }
+
+
         public void AutoFillDialog2ndRound(FieldNotes incomingData)
         {
             // Refille second order vocab
