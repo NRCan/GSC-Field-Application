@@ -48,11 +48,9 @@ ______________________
 
 ([English](#Geological-Survey-Canada-Field-Application))
 
-This project is a Geological Survey Canada on-site data collection application for geologists. The application automatically stores locational data for each location created and allows data entry of complex geological information. 
+Ce projet est une application de collecte de données sur le terrain de la Commission géologique du Canada pour les géologues. L'application stocke automatiquement les données de localisation pour chaque emplacement créé et permet la saisie de données d'informations géologiques complexes.
 
-The application mainly presents a GIS map page with access to specialized forms. Map layers and forms data are presented as notebooks that can be transfered between application/handhelds and save with some metadata like current working project name, geologist and activity name.
-
-Target users are geologist that would like an easy to use, validation, standardize and consult field geological information for later office and analysis use. This application is intented for regional geology for data gathering or cartography.
+L'application présente principalement une carte SIG avec accès à des formulaires spécialisés. Les couches de carte et les données de formulaires sont présentées sous forme de cahiers qui peuvent être transférés entre les applications/ordinateurs de poche et enregistrés avec certaines métadonnées telles que le nom du projet de travail actuel, le géologue et le nom de l'activité.
 
 Le public cible est principalement les géologues et intervenants souhaitant récolter des données géolgiques de type régionales de manière standard. De manière à obtenir des jeux de données validate et bien organisées.
 
@@ -68,7 +66,7 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 
 ## Format de donnée
 
-The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
+L'application actuelle utilise un format de données SQLite pour stocker toutes les informations recueillies par les utilisateurs. De plus, une extension spatiale appelée SpatialLite peut y être ajoutée et utilisée dans n'importe quel logiciel SIG comme QGIS, ESRI ArcGIS ou ESRI Desktop Pro.
 
 ### Environnement de développement
 Plateforme Windows universelle (PWU), Visual Studio Pro, 2019
