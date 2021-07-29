@@ -45,7 +45,9 @@
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="StructureGridView_Type">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StructureGridView_Type"/>
-                            <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
+
+                            <RelativePanel>
+                                <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
                             Click="structTypeSearch_Click">
                                 <SymbolIcon x:Name="SearchLitho" Symbol="Zoom" Margin="-17.667,-15,-17.333,-15"/>
                             </Button>
@@ -55,12 +57,12 @@
                                                 TextChanged="StructureAutoSuggest_TextChanged"
                                                 QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
                                                 Width="300"/>
-                            <TextBox x:Name="strucType" Margin="0,-28,50,0" Header="" x:Uid="StructDialogType" 
-                                 RelativePanel.Below="structTypeSearch"
-                                 Width="Auto" Style="{ThemeResource TextboxMandatoryField}"
+                                <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" 
+                                 RelativePanel.Below="StructureAutoSuggest" RelativePanel.RightOf="structTypeSearch"
+                                 Width="Auto" Style="{ThemeResource TextboxMandatoryField}" IsReadOnly="True" FontWeight="Bold"
                                  Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}"
-                                 TextChanging="StrucType_TextChanging"/>
-
+                                 TextChanging="StrucType_TextChanging" />
+                        </RelativePanel>
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_00"

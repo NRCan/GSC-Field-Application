@@ -33,7 +33,7 @@ namespace GSCFieldApp.Views
         public FieldNotes parentViewModel { get; set; }
 
         public bool isAQuickStructure = false;
-
+        //public bool Focus();
         public List<string> Structures { get; private set; }
         private DataAccess accessData = new DataAccess();
 
@@ -54,6 +54,7 @@ namespace GSCFieldApp.Views
 
             this.Loading += StructureDialog_Loading;
             this.structSaveButton.GotFocus += StructSaveButton_GotFocus;
+            //this.strucType.GotFocus += strucType_GotFocus;
 
             SolidColorBrush defaultBorderBrush = this.strucType.BorderBrush as SolidColorBrush;
             defaultBorderColor = defaultBorderBrush.Color;
@@ -65,6 +66,12 @@ namespace GSCFieldApp.Views
             strucViewModel.SaveDialogInfoAsync();
             CloseControl();
         }
+
+        //private void strucType_GotFocus(object sender, RoutedEventArgs e)
+        //{
+            //strucViewModel.SaveDialogInfoAsync();
+            //CloseControl();
+        //}
 
         #region CLOSE
         /// <summary>
@@ -131,7 +138,12 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void structSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.structSaveButton.Focus(FocusState.Programmatic);
+            //if (strucType.CanFocus)
+            //{
+                this.strucType.Focus(FocusState.Programmatic);
+                //this.structSaveButton.Focus(FocusState.Programmatic);
+            //}
+            //
         }
 
         /// <summary>
@@ -370,9 +382,6 @@ namespace GSCFieldApp.Views
             UpdateSymAngAsync();
         }
 
-
-        //FIX CODE BELOW
-
         private void StructureAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -389,7 +398,7 @@ namespace GSCFieldApp.Views
                     StructureAutoSuggest.ItemsSource = new string[] { "No results found" };
             }
 
-            //Reset litho box
+            //Reset structure box
             if (sender.Text == string.Empty)
             {
                 strucType.Text = string.Empty;
@@ -404,6 +413,7 @@ namespace GSCFieldApp.Views
             if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
             {
                 strucType.Text = args.ChosenSuggestion.ToString();
+                strucType.Focus(FocusState.Programmatic);
             }
             else
             {
@@ -419,7 +429,7 @@ namespace GSCFieldApp.Views
         {
             Vocabularies vocabularyModel = new Vocabularies();
             string vocQuerySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableDictionary;
-            string vocQueryWhere = " WHERE CODETHEME = 'DETAIL'";
+            string vocQueryWhere = " WHERE CODETHEME = 'STRUCDETAIL'";
             string vocQueryVisibility = " AND " + Dictionaries.DatabaseLiterals.TableDictionary + "." + Dictionaries.DatabaseLiterals.FieldDictionaryVisible + " = '" + Dictionaries.DatabaseLiterals.boolYes + "'";
             string vocFinalQuery = vocQuerySelect + vocQueryWhere + vocQueryVisibility;
 

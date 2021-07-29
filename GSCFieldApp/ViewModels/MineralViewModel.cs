@@ -15,6 +15,8 @@ namespace GSCFieldApp.ViewModels
     {
         #region INITIALIZATION
 
+        private string _groupTypeDetail = string.Empty;
+
         //UI default values
         private string _mineralAlias = string.Empty;
         private string _mineralID = string.Empty;
@@ -178,6 +180,17 @@ namespace GSCFieldApp.ViewModels
             FillHabit();
             FillOccur();
             FillMode();
+        }
+
+        public void InitFill2ndRound(string fullMineralText)
+        {
+            _groupTypeDetail = fullMineralText;
+            RaisePropertyChanged("GroupTypeDetail");
+
+            //FillStructureAttitude();
+            //FillStructureYounging();
+            //FillStructureGeneration();
+            //FillStructureFormat();
         }
 
         /// <summary>
