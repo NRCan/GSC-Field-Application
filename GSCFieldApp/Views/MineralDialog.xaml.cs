@@ -172,7 +172,7 @@ namespace GSCFieldApp.Views
             foreach (Vocabularies tmp in vocResults)
             {
                 //outResults.Add(tmp.RelatedTo.ToString() + " ; " + tmp.Code.ToString());
-                outResults.Add(tmp.Code.ToString());
+                outResults.Add(tmp.Description.ToString());
             }
 
             return outResults;

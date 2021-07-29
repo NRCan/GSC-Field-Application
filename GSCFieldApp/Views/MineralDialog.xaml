@@ -66,12 +66,12 @@
                                     SuggestionChosen="MineralAutoSuggest_SuggestionChosen"/>
                             <TextBox x:Name="MineralNamesTextbox" x:Uid="MineralNamesTextbox" 
                                      Text ="{x:Bind MineralVM.MineralName, Mode=TwoWay}"/>
-                            
+                            <!--
                             <ComboBox x:Name="MineralNamesComboBox" x:Uid="MineralDialogMinerals" Style="{ThemeResource ComboboxMandatoryField}"
                                 Header="" 
                                 ItemsSource="{x:Bind MineralVM.MineralName}" 
                                 SelectedValue="{x:Bind MineralVM.SelectedMineralName, Mode=TwoWay}" IsEditable="True" IsTextSearchEnabled="False"/>
-
+-->
 
                             <ComboBox x:Name="MineralModeBox" x:Uid="MinderalDialogMode" Style="{ThemeResource ComboboxMandatoryField}"
                                       ItemsSource="{x:Bind MineralVM.MineralModeText}"
