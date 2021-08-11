@@ -71,7 +71,7 @@ namespace GSCFieldApp.Models
             get
             {
                 if (MetaID != string.Empty && UserCode != string.Empty && FieldworkType != string.Empty && ProjectName != string.Empty && 
-                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && StationStartNumber != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
+                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && VersionSchema != string.Empty && StationStartNumber != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
                 {
                     return true;
                 }

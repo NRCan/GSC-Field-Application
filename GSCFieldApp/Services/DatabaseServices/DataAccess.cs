@@ -536,13 +536,50 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 foreach (string q in queryList)
                 {
-                    db.Execute(q);
+                    try
+                    {
+                        db.Execute(q);
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                    
                 }
 
 
                 db.Commit();
                 db.Close();
             }
+        }
+
+        /// <summary>
+        /// Will take select fieldbook db path and will perform some checks to validate if 
+        /// database can be upgraded or not
+        /// </summary>
+        public bool CanUpgrade()
+        {
+            //Variables
+            bool canUpgrade = false;
+            string dbSchemaVersionQuery = "SELECT fm." + DatabaseLiterals.FieldUserInfoVersionSchema + " from " + DatabaseLiterals.TableMetadata + " fm";
+
+            //Perform checks to filter newly created database and/or empty ones
+
+            //Check #1
+            FieldLocation fieldLocationQuery = new FieldLocation();
+            int locationCount = GetTableCount(fieldLocationQuery.GetType());
+            //Check #2
+            Metadata metadataQuery = new Metadata();
+            List<object> mVersions = ReadTable(metadataQuery.GetType(), dbSchemaVersionQuery);
+            double d_mVersions = 0.0;
+            Double.TryParse(mVersions[0].ToString(), out d_mVersions);
+
+            if (locationCount > 0 && mVersions[0].ToString() != DatabaseLiterals.DBVersion && d_mVersions != 0.0 && d_mVersions < 1.44)
+            {
+                canUpgrade = true;
+            }
+
+            return canUpgrade;
         }
 
         #endregion

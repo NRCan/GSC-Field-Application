@@ -47,19 +47,6 @@ namespace GSCFieldApp.Views
         bool tapMode = false;
 
         #endregion
-
-        #region PROPERTIES
-
-        public string[] GPSModeList = new string[]
-        {
-            "On",
-            "Re-Center",
-            "Navigation",
-            "Compass",
-            "Off"
-        };
-
-        #endregion
           
         public MapPage() 
         {
@@ -110,11 +97,17 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (!ViewModel.userHasTurnedGPSOff)
+            {
+                ViewModel.StartLocationRing();
+            }
+            
 
             //For any new projects reset all layers.
             //get the parameters (they are inside a json object...)
             if (e.Parameter != null && e.Parameter.ToString() != string.Empty)
             {
+
                 JsonObject paramObject = JsonObject.Parse(e.Parameter.ToString());
 
                 //Get the data value out of the json
@@ -122,7 +115,7 @@ namespace GSCFieldApp.Views
                 if (paramObject.TryGetValue("Data", out dataValue))
                 {
                     bool isNewProject = Convert.ToBoolean(dataValue.GetString());
-                    
+
                     if (isNewProject)
                     {
                         if (myMapView.Map != null)
@@ -155,9 +148,7 @@ namespace GSCFieldApp.Views
             {
 
             }
-
-
-
+            
 
         }
 
@@ -188,6 +179,9 @@ namespace GSCFieldApp.Views
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
             myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+        
+            
+        
         }
 
         /// <summary>
@@ -377,14 +371,13 @@ namespace GSCFieldApp.Views
         {
             if (!ViewModel.userHasTurnedGPSOff)
             {
-
                 ViewModel.userHasTurnedGPSOff = true;
                 ViewModel.SetGPSModeIcon(Symbol.TouchPointer);
 
                 if (ViewModel._geolocator != null)
                 {
                     ViewModel._geolocator.StatusChanged -= ViewModel.Geolocal_StatusChangedAsync;
-                    ViewModel._geolocator.PositionChanged -= ViewModel.Geolocal_PositionChangedAsync;
+                    ViewModel._geolocator.PositionChanged -= ViewModel.OnPositionChanged;
                 }
 
                 ViewModel.ResetLocationGraphic();
@@ -400,7 +393,8 @@ namespace GSCFieldApp.Views
                 if (ViewModel._geolocator != null)
                 {
                     ViewModel._geolocator.StatusChanged += ViewModel.Geolocal_StatusChangedAsync;
-                    ViewModel._geolocator.PositionChanged += ViewModel.Geolocal_PositionChangedAsync;
+                    ViewModel._geolocator.PositionChanged += ViewModel.OnPositionChanged;
+
                 }
                 else
                 {
@@ -422,16 +416,26 @@ namespace GSCFieldApp.Views
         private void OpacitySlider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             // SPW 2019
-            if (sender != null && mapsLoaded)
+            if (sender != null && mapsLoaded && myMapView.Map != null)
             {
-                esriMap = myMapView.Map;
-                Slider senderSlider = sender as Slider;
-                string filename = senderSlider.Tag as string;
-                if (filename != null && esriMap.AllLayers.Count > 0)
-                {
-                    var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(filename.Split('.')[0]));
-                    sublayer.Opacity = senderSlider.Value / 100.0;
-                }
+                ////For layers
+                //esriMap = myMapView.Map;
+                //Slider senderSlider = sender as Slider;
+                //string filename = senderSlider.Tag as string;
+                //if (filename != null && esriMap.AllLayers.Count > 0)
+                //{
+                //    foreach (Layer ls in esriMap.AllLayers)
+                //    {
+                //        if (ls.Name.Contains(filename.Split('.')[0]))
+                //        {
+                //            ls.Opacity = senderSlider.Value / 100.0;
+                //            break;
+                //        }
+                //    }
+
+                //}
+
+                ViewModel.SetLayerOpacity(sender as Slider);
 
             }
         }
