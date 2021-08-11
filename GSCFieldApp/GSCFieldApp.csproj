@@ -30,13 +30,14 @@
     <PackageCertificateThumbprint>
     </PackageCertificateThumbprint>
     <AppxPackageDir>C:\Users\ghuotvez\Documents\dev\gscFieldApp\</AppxPackageDir>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
-    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
+    <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+    <AppInstallerUpdateFrequency>365</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>Daily</AppInstallerCheckForUpdateFrequency>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <HoursBetweenUpdateChecks>8760</HoursBetweenUpdateChecks>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <AppInstallerUri>https://github.com/NRCan/GSC-Field-Application/releases</AppInstallerUri>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
