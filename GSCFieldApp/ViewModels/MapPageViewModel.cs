@@ -1667,6 +1667,20 @@ namespace GSCFieldApp.ViewModels
         /// <returns></returns>
         public void SaveLayerRendering()
         {
+            //Before saving, clean _filenameValues
+            List<int> indexToRemove = new List<int>();
+            foreach (MapPageLayers mpl in _filenameValues)
+            {
+                if (mpl.LayerName is null || mpl.LayerName == "")
+                {
+                    indexToRemove.Add(_filenameValues.IndexOf(mpl));
+                }
+            }
+            foreach (int ids in indexToRemove)
+            {
+                _filenameValues.RemoveAt(ids);
+            }
+
             string JSONResult = JsonConvert.SerializeObject(_filenameValues);
             string JSONPath = Path.Combine(accessData.ProjectPath, "mapPageLayer.json");
             if (File.Exists(JSONPath))
@@ -2039,9 +2053,15 @@ namespace GSCFieldApp.ViewModels
             //Load given layer or load all
             if (jsonRenderingFile != null)
             {
-                //Deserialize JSON rendering config file.
-                _filenameValues = JsonConvert.DeserializeObject<ObservableCollection<MapPageLayers>>(await Windows.Storage.FileIO.ReadTextAsync(jsonRenderingFile));
-                RaisePropertyChanged("FilenameValues");
+                //Prevent null values pooching deserialization
+                string jsonRenderingFileString = await Windows.Storage.FileIO.ReadTextAsync(jsonRenderingFile);
+                if (!jsonRenderingFileString.Contains("null"))
+                {
+                    //Deserialize JSON rendering config file.
+                    _filenameValues = JsonConvert.DeserializeObject<ObservableCollection<MapPageLayers>>(jsonRenderingFileString);
+                    RaisePropertyChanged("FilenameValues");
+                }
+
             }
 
             //Process saved config in json
