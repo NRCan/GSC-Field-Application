@@ -1455,4 +1455,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="FieldBookUpgradeContentInvalid" xml:space="preserve">
     <value>Current field book is already latest. </value>
   </data>
+  <data name="MapPageLocationCommand.Label" xml:space="preserve">
+    <value>Manual XY</value>
+  </data>
 </root>
