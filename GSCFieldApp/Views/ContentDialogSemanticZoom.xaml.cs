@@ -27,6 +27,7 @@ namespace GSCFieldApp.Views
         public ContentDialogSemanticZoomViewModel ViewModel { get; set; }
         public int _selectedIndex = -1;
 
+        // For Multiple Levels like earth materials and structures
         public ContentDialogSemanticZoom(string tableName, string parentFieldName, string childFieldName)
         {
 
@@ -39,6 +40,7 @@ namespace GSCFieldApp.Views
             this.Loaded += ContentDialogSemanticZoom_Loaded;
         }
 
+        
         private void ContentDialogSemanticZoom_Loaded(object sender, RoutedEventArgs e)
         {
             var collectionGroups = Collection.View.CollectionGroups;

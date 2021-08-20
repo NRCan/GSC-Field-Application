@@ -1458,4 +1458,13 @@ Shimamura, Kaz – Conseiller</value>
   <data name="MapPageLocationCommand.Label" xml:space="preserve">
     <value>Entrée XY</value>
   </data>
+  <data name="MineralAutoSuggest.Header" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="MineralAutoSuggest.PlaceholderText" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
+  <data name="MineralNamesTextbox.Header" xml:space="preserve">
+    <value>Sélection</value>
+  </data>
 </root>

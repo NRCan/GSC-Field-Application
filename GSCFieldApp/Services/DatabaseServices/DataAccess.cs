@@ -24,7 +24,7 @@ namespace GSCFieldApp.Services.DatabaseServices
     {
 
         //ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
-       public static DataLocalSettings localSetting;
+        public static DataLocalSettings localSetting;
 
         public static string _dbPath = string.Empty;
         public static string _dbName = string.Empty;
@@ -74,7 +74,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     _dbPath = value;
                 }
-                
+
             }
 
 
@@ -103,7 +103,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     return _dbConnection;
                 }
-                
+
             }
         }
 
@@ -169,7 +169,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     fieldFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(incrementer.ToString());
 
                     //Keep in setting the latest path
-                     localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject, fieldFolder.Path);
+                    localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject, fieldFolder.Path);
 
                     breaker = true;
                 }
@@ -360,7 +360,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
 
                 }
-                
+
             }
 
             return tableRows;
@@ -415,7 +415,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="tableName">The table name to delete the record from</param>
         /// <param name="tableFieldName">The table field name to select the record with</param>
         /// <param name="recordIDToDelete">The table field value to delete.</param>
-        public void DeleteRecord(string tableName, string tableFieldName,  string recordIDToDelete)
+        public void DeleteRecord(string tableName, string tableFieldName, string recordIDToDelete)
         {
 
             using (SQLiteConnection dbConnect = DbConnection)
@@ -434,7 +434,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         public void DoSwapVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, bool closeConnection = true)
         {
-            
+
             //Build delete vocab table query
             string deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager + ";";
             string deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary + ";";
@@ -492,7 +492,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //List of queries to send as a batch
             List<string> queryList = new List<string>();
-            
+
             //Build attach db query
             string attachQuery = "ATTACH '" + inDBPath + "' AS " + attachDBName + "; ";
 
@@ -531,7 +531,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Update working database
             using (var db = outToDBConnection)
             {
-                
+
                 queryList.Add(detachQuery);
 
                 foreach (string q in queryList)
@@ -542,9 +542,9 @@ namespace GSCFieldApp.Services.DatabaseServices
                     }
                     catch (Exception)
                     {
-                        
+
                     }
-                    
+
                 }
 
 
@@ -628,15 +628,15 @@ namespace GSCFieldApp.Services.DatabaseServices
             int iterator = 0;
 
             //Proper casting to class
-            switch (inMapping.TableName) 
+            switch (inMapping.TableName)
             {
-                
+
 
                 #region Station Case
                 case Dictionaries.DatabaseLiterals.TableStation:
 
                     Station inStation = inClassObject as Station;
-                    
+
                     //Iterate through fields and them to the query
                     foreach (TableMapping.Column col in inMapping.Columns)
                     {
@@ -644,7 +644,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                         var value = col.GetValue(inStation);
 
-                        if (value !=null)
+                        if (value != null)
                         {
                             if (colType == typeof(System.String))
                             {
@@ -1048,7 +1048,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Finish the query with the where clause
                     updateQuery = updateQuery + " WHERE " + inMapping.PK.Name + " = '" + inMapping.FindColumn(inMapping.PK.Name).GetValue(inMineralAlt) + "'";
-                    
+
                     break;
                 #endregion
                 #region Metadata Case
@@ -1092,7 +1092,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 default:
                     break;
             }
-            
+
             return updateQuery;
 
         }
@@ -1142,7 +1142,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string queryAndField = " AND " + TableDictionaryManager + "." + FieldDictionaryManagerAssignField + " = '" + fieldName + "'";
             string queryAndVisible = " AND " + TableDictionary + "." + FieldDictionaryVisible + " = '" + boolYes + "'";
             string queryAndWorkType = string.Empty;
-            string queryAndParent = string.Empty; 
+            string queryAndParent = string.Empty;
             string queryOrdering = " ORDER BY " + TableDictionary + "." + FieldDictionaryOrder + " ASC";
 
             if (fieldworkType != string.Empty)
@@ -1165,7 +1165,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 finalQuery = finalQuery + queryOrdering;
             }
 
-            
+
 
             //Get query result
             Vocabularies voc = new Vocabularies();
@@ -1271,7 +1271,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     newItem.itemName = vocabs.Description;
                 }
-                
+
                 outputVocabs.Add(newItem);
 
                 //Select default if stated in database
@@ -1316,24 +1316,24 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
 
                         earthmat_querySelect = earthmat_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableEarthMat + "%" + DatabaseLiterals.FieldEarthMatNotes + "%') THEN (" + DatabaseLiterals.FieldEarthMatNotes + ") ELSE ('') END as " + DatabaseLiterals.FieldEarthMatNotes;
-                        
+
                     }
                     else
                     {
-                        earthmat_querySelect = earthmat_querySelect + ", " + earthmatFields ;
+                        earthmat_querySelect = earthmat_querySelect + ", " + earthmatFields;
                     }
-                            
+
                 }
                 else
                 {
                     earthmat_querySelect = earthmatFields;
                 }
-                
+
             }
             earthmat_querySelect = earthmat_querySelect.Replace(", ,", "");
 
             string insertQueryEarthmat_142 = "INSERT INTO " + DatabaseLiterals.TableEarthMat;
-            insertQueryEarthmat_142  = insertQueryEarthmat_142 + " SELECT " + earthmat_querySelect  + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat;
+            insertQueryEarthmat_142 = insertQueryEarthmat_142 + " SELECT " + earthmat_querySelect + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat;
 
             return insertQueryEarthmat_142;
         }
@@ -1393,13 +1393,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                             //Take EPSG from F_LOCATION
                             location_querySelect = location_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableLocation + "%" + DatabaseLiterals.FieldLocationDatum + "%') THEN (l." + DatabaseLiterals.FieldLocationDatum + ") ELSE ('') END as " + DatabaseLiterals.FieldLocationDatum;
                         }
-                        
+
                     }
                     else
                     {
                         location_querySelect = location_querySelect + ", l." + locationFields + " as " + locationFields;
                     }
-                    
+
                 }
                 else
                 {
@@ -1426,7 +1426,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Get all fields except notes
                 if (metadataFields != metadataFieldList.First())
                 {
-                     if (metadataFields == DatabaseLiterals.FieldUserInfoVersionSchema)
+                    if (metadataFields == DatabaseLiterals.FieldUserInfoVersionSchema)
                     {
                         metadata_querySelect = metadata_querySelect + ", '" + DatabaseLiterals.DBVersion + "' as " + metadataFields;
                     }

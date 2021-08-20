@@ -47,8 +47,8 @@ namespace GSCFieldApp.Views
         bool tapMode = false;
 
         #endregion
-          
-        public MapPage() 
+
+        public MapPage()
         {
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, true);
 
@@ -57,7 +57,7 @@ namespace GSCFieldApp.Views
             this.Loaded += MapPage_Loaded;
 
             Application.Current.Resuming += Current_Resuming;
-            
+
 
         }
 
@@ -71,7 +71,7 @@ namespace GSCFieldApp.Views
         {
             ViewModel.ResetLocationGraphic();
             await ViewModel.SetGPS();
-            
+
         }
 
         #region EVENTS
@@ -101,7 +101,7 @@ namespace GSCFieldApp.Views
             {
                 ViewModel.StartLocationRing();
             }
-            
+
 
             //For any new projects reset all layers.
             //get the parameters (they are inside a json object...)
@@ -148,7 +148,7 @@ namespace GSCFieldApp.Views
             {
 
             }
-            
+
 
         }
 
@@ -179,9 +179,9 @@ namespace GSCFieldApp.Views
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
             myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-        
-            
-        
+
+
+
         }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace GSCFieldApp.Views
                     myMapView.Grid.SetLineSymbol(levels, (Esri.ArcGISRuntime.Symbology.Symbol)lineSym);
 
                 }
-                
+
 
 
             }
@@ -362,7 +362,7 @@ namespace GSCFieldApp.Views
             {
 
             }
-            
+
 
             ViewModel.StopProgressRing();
         }
@@ -404,7 +404,7 @@ namespace GSCFieldApp.Views
                 ViewModel.userHasTurnedGPSOff = false;
 
                 ViewModel.SetGPSModeIcon();
-                
+
             }
         }
 

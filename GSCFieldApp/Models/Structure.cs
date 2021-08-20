@@ -192,9 +192,9 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (StructureClass != null &&StructureClass != string.Empty 
-                    && StructureRelated != string.Empty 
-                    && StructureAzimuth != string.Empty 
+                if (StructureClass != null && StructureClass != string.Empty
+                    && StructureRelated != string.Empty
+                    && StructureAzimuth != string.Empty
                     && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)
                 {
                     //Init variables
@@ -283,11 +283,11 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (StructureClass != null 
-                    && StructureRelated != null 
-                    && StructureAzimuth != null 
-                    && StructureClass != string.Empty 
-                    && StructureRelated != string.Empty 
+                if (StructureClass != null
+                    && StructureRelated != null
+                    && StructureAzimuth != null
+                    && StructureClass != string.Empty
+                    && StructureRelated != string.Empty
                     && StructureAzimuth != string.Empty
                     && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)
                 {
@@ -301,7 +301,7 @@ namespace GSCFieldApp.Models
                         Services.DatabaseServices.DataAccess da = new Services.DatabaseServices.DataAccess();
                         relatedStructure = da.GetRelatedStructure(StructureRelated);
                     }
-                    
+
 
                     //Fill in variables
                     if (StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
@@ -361,7 +361,7 @@ namespace GSCFieldApp.Models
                     return null;
                 }
             }
-            set {  }
+            set { }
         }
     }
 }

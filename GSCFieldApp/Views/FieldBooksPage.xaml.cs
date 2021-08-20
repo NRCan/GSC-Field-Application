@@ -29,7 +29,7 @@ namespace GSCFieldApp.Views
             InitializeComponent();
             //ProjectViewModel = new FieldBooksPageViewModel();
 
-           
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -39,7 +39,7 @@ namespace GSCFieldApp.Views
             {
                 thisViewModel.SelectActiveProject();
             }
-            
+
         }
 
     }

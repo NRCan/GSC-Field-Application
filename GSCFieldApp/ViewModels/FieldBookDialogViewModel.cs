@@ -54,7 +54,7 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
-        public Metadata Model {get { return model; } set { model = value; } }
+        public Metadata Model { get { return model; } set { model = value; } }
 
         public string Id
         {
@@ -243,7 +243,7 @@ namespace GSCFieldApp.ViewModels
 
             //Refresh UI
             RaisePropertyChanged("ProjectName");
-            RaisePropertyChanged("GeologistCode"); 
+            RaisePropertyChanged("GeologistCode");
             RaisePropertyChanged("Enability");
 
             RaisePropertyChanged("ProjectLeaderFN");

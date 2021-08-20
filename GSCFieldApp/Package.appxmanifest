@@ -40,6 +40,7 @@
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="internetClient" />
     <uap:Capability Name="removableStorage" />
     <!--<uap:Capability Name="documentsLibrary" />
     <uap:Capability Name="picturesLibrary" />-->

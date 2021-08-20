@@ -33,7 +33,8 @@ namespace GSCFieldApp.Views
         public FieldNotes parentViewModel { get; set; }
 
         public bool isAQuickStructure = false;
-
+        //public bool Focus();
+        public List<string> Structures { get; private set; }
         private DataAccess accessData = new DataAccess();
 
         private SolidColorBrush passColour =  new SolidColorBrush(Windows.UI.Colors.LightGreen);
@@ -53,6 +54,7 @@ namespace GSCFieldApp.Views
 
             this.Loading += StructureDialog_Loading;
             this.structSaveButton.GotFocus += StructSaveButton_GotFocus;
+            //this.strucType.GotFocus += strucType_GotFocus;
 
             SolidColorBrush defaultBorderBrush = this.strucType.BorderBrush as SolidColorBrush;
             defaultBorderColor = defaultBorderBrush.Color;
@@ -64,6 +66,12 @@ namespace GSCFieldApp.Views
             strucViewModel.SaveDialogInfoAsync();
             CloseControl();
         }
+
+        //private void strucType_GotFocus(object sender, RoutedEventArgs e)
+        //{
+            //strucViewModel.SaveDialogInfoAsync();
+            //CloseControl();
+        //}
 
         #region CLOSE
         /// <summary>
@@ -86,6 +94,9 @@ namespace GSCFieldApp.Views
         #region EVENTS    
         private void StructureDialog_Loading(FrameworkElement sender, object args)
         {
+
+            this.Structures = CreateSuggestionList();
+
             //Fill automatically the earthmat dialog if an edit is asked by the user.
             if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableStructure && strucViewModel.doStructureUpdate)
             {
@@ -127,7 +138,6 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void structSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.structSaveButton.Focus(FocusState.Programmatic);
         }
 
         /// <summary>
@@ -366,6 +376,66 @@ namespace GSCFieldApp.Views
             UpdateSymAngAsync();
         }
 
+        private void StructureAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //var search_term = EarthLithAutoSuggest.Text.ToLower();
+                //var results = Rocks.Where(i => i.StartsWith(search_term)).ToList();
 
+                var search_term = StructureAutoSuggest.Text.ToLower();
+                var results = Structures.Where(i => i.ToLower().Contains(search_term)).ToList();
+
+                if (results.Count > 0)
+                    StructureAutoSuggest.ItemsSource = results;
+                else
+                    StructureAutoSuggest.ItemsSource = new string[] { "No results found" };
+            }
+
+            //Reset structure box
+            if (sender.Text == string.Empty)
+            {
+                strucType.Text = string.Empty;
+                strucViewModel.InitFill2ndRound(strucType.Text); //Reset picklist
+            }
+
+        }
+
+
+        private void StructureAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
+            {
+                strucType.Text = args.ChosenSuggestion.ToString();
+                strucType.Focus(FocusState.Programmatic);
+            }
+            else
+            {
+                //Reset litho box
+                strucType.Text = string.Empty;
+            }
+
+            //Update list that are bound to lithology selection
+            strucViewModel.InitFill2ndRound(strucType.Text);
+
+        }
+        private List<string> CreateSuggestionList()
+        {
+            Vocabularies vocabularyModel = new Vocabularies();
+            string vocQuerySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableDictionary;
+            string vocQueryWhere = " WHERE CODETHEME = 'STRUCDETAIL'";
+            string vocQueryVisibility = " AND " + Dictionaries.DatabaseLiterals.TableDictionary + "." + Dictionaries.DatabaseLiterals.FieldDictionaryVisible + " = '" + Dictionaries.DatabaseLiterals.boolYes + "'";
+            string vocFinalQuery = vocQuerySelect + vocQueryWhere + vocQueryVisibility;
+
+            List<object> vocResults = accessData.ReadTable(vocabularyModel.GetType(), vocFinalQuery);
+
+            var outResults = new List<string>();
+            foreach (Vocabularies tmp in vocResults)
+            {
+                outResults.Add(tmp.RelatedTo.ToString() + " ; " + tmp.Code.ToString());
+            }
+
+            return outResults;
+        }
     }
 }
