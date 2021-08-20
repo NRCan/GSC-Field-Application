@@ -138,12 +138,6 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void structSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //if (strucType.CanFocus)
-            //{
-                this.strucType.Focus(FocusState.Programmatic);
-                //this.structSaveButton.Focus(FocusState.Programmatic);
-            //}
-            //
         }
 
         /// <summary>

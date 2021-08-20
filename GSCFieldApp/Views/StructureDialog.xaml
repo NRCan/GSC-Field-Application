@@ -47,12 +47,12 @@
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StructureGridView_Type"/>
 
                             <RelativePanel>
-                                <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
+                            <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
                             Click="structTypeSearch_Click">
                                 <SymbolIcon x:Name="SearchLitho" Symbol="Zoom" Margin="-17.667,-15,-17.333,-15"/>
                             </Button>
                             <AutoSuggestBox x:Name="StructureAutoSuggest" x:Uid="StructureAutoSuggest"
-                                                RelativePanel.RightOf="structTypeSearch"
+                                 RelativePanel.RightOf="structTypeSearch"
                                                 RelativePanel.AlignBottomWith="structTypeSearch"
                                                 TextChanged="StructureAutoSuggest_TextChanged"
                                                 QuerySubmitted="StructureAutoSuggest_QuerySubmitted"

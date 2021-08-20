@@ -27,15 +27,14 @@ namespace GSCFieldApp.ViewModels
         private string _mineralSizeMax = string.Empty;
         private string _mineralMode = string.Empty;
         private string _mineralResidualText = string.Empty;
-        
+        private string _mineralName = string.Empty;
+
         private Dictionary<string, int> _mineralResidualModes = new Dictionary<string, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
         private List<string> _minerals = new List<string>(); //Will contain a list of all minerals related to current parent earthmat. To catch duplicates
     
         //UI interaction
         public bool doMineralUpdate = false;
 
-        private ObservableCollection<Themes.ComboBoxItem> _mineralNames = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedMineralNames = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _mineralColor = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedMineralColor = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _mineralForm = new ObservableCollection<Themes.ComboBoxItem>();
@@ -67,7 +66,7 @@ namespace GSCFieldApp.ViewModels
         public string MineralID { get { return _mineralID; } set { _mineralID = value; } }
         public string MineralEarthmatID { get { return _mineralEarthmatID; } set { _mineralEarthmatID = value; } }
         public string MineralResidualText { get { return _mineralResidualText; } set { _mineralResidualText = value; } }
-
+        public string MineralName { get { return _mineralName; } set { _mineralName = value; } }
         public string MineralSizeMin
         {
             get
@@ -137,8 +136,6 @@ namespace GSCFieldApp.ViewModels
         }
 
 
-        public ObservableCollection<Themes.ComboBoxItem> MineralName { get { return _mineralNames; } set { _mineralNames = value; } }
-        public string SelectedMineralName { get { return _selectedMineralNames; } set { _selectedMineralNames = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralColour { get { return _mineralColor; } set { _mineralColor = value; } }
         public string SelectedMineralColor { get { return _selectedMineralColor; } set { _selectedMineralColor = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralForm { get { return _mineralForm; } set { _mineralForm = value; } }
@@ -173,8 +170,6 @@ namespace GSCFieldApp.ViewModels
                 CalculateResidual();
             }
             
-
-            FillMineral();
             FillColour();
             FillForm();
             FillHabit();
@@ -186,11 +181,6 @@ namespace GSCFieldApp.ViewModels
         {
             _groupTypeDetail = fullMineralText;
             RaisePropertyChanged("GroupTypeDetail");
-
-            //FillStructureAttitude();
-            //FillStructureYounging();
-            //FillStructureGeneration();
-            //FillStructureFormat();
         }
 
         /// <summary>
@@ -207,6 +197,7 @@ namespace GSCFieldApp.ViewModels
             _mineralNote = existingDataDetailMineral.mineral.MineralNote;
             _mineralEarthmatID = existingDataDetailMineral.ParentID;
             _mineralAlias = existingDataDetailMineral.mineral.MineralIDName;
+            _mineralName = existingDataDetailMineral.mineral.MineralName;
 
             if (existingDataDetailMineral.mineral.MineralSizeMax != null)
             {
@@ -230,7 +221,6 @@ namespace GSCFieldApp.ViewModels
             _selectedMineralColor = existingDataDetailMineral.mineral.MineralColour;
             _selectedMineralForm = existingDataDetailMineral.mineral.MineralForm;
             _selectedMineralHabit = existingDataDetailMineral.mineral.MineralHabit;
-            _selectedMineralNames = existingDataDetailMineral.mineral.MineralName;
             _selectedMineralOccur = existingDataDetailMineral.mineral.MineralOccur;
 
             //Update UI
@@ -241,12 +231,13 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralMode");
             RaisePropertyChanged("MineralSizeMin");
             RaisePropertyChanged("MineralSizeMax");
+            RaisePropertyChanged("MineralName");
 
             RaisePropertyChanged("SelectedMineralColor");
             RaisePropertyChanged("SelectedMineralForm");
             RaisePropertyChanged("SelectedMineralHabit");
             RaisePropertyChanged("SelectedMineralOccur");
-            RaisePropertyChanged("SelectedMineralName");
+
             RaisePropertyChanged("SelectedMineralModeText");
 
             doMineralUpdate = true;
@@ -264,11 +255,8 @@ namespace GSCFieldApp.ViewModels
             mineralModel.MineralIDName = _mineralAlias;
             mineralModel.MineralSizeMax = _mineralSizeMax;
             mineralModel.MineralSizeMin = _mineralSizeMin;
+            mineralModel.MineralName = _mineralName;
 
-            if (SelectedMineralName != null)
-            {
-                mineralModel.MineralName = SelectedMineralName;
-            }
             if (SelectedMineralColor != null)
             {
                 mineralModel.MineralColour = SelectedMineralColor;
@@ -317,23 +305,6 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedMineralModeText");
         }
 
-        /// <summary>
-        /// Will fill the mineral names type combobox
-        /// </summary>
-        private void FillMineral()
-        {
-            //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldMineral;
-            string tableName = Dictionaries.DatabaseLiterals.TableMineral;
-            foreach (var itemType in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralNames))
-            {
-                _mineralNames.Add(itemType);
-            }
-
-            //Update UI
-            RaisePropertyChanged("MineralName");
-            RaisePropertyChanged("SelectedMineralName");
-        }
 
         /// <summary>
         /// Will fill the mineral colour type combobox

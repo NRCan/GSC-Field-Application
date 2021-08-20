@@ -54,7 +54,7 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
-        public Metadata Model {get { return model; } set { model = value; } }
+        public Metadata Model { get { return model; } set { model = value; } }
 
         public string Id
         {
@@ -243,7 +243,7 @@ namespace GSCFieldApp.ViewModels
 
             //Refresh UI
             RaisePropertyChanged("ProjectName");
-            RaisePropertyChanged("GeologistCode"); 
+            RaisePropertyChanged("GeologistCode");
             RaisePropertyChanged("Enability");
 
             RaisePropertyChanged("ProjectLeaderFN");
@@ -275,6 +275,7 @@ namespace GSCFieldApp.ViewModels
                 Model.Version = String.Format("{0}.{1}.{2}.{3}", currentPackVersion.Major, currentPackVersion.Minor, currentPackVersion.Build, currentPackVersion.Revision);
                 Model.IsActive = 1;
                 Model.StartDate = String.Format("{0:d}", DateTime.Today);
+                Model.VersionSchema = DatabaseLiterals.DBVersion;
 
             }
             else

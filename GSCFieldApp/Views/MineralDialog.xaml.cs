@@ -134,11 +134,6 @@ namespace GSCFieldApp.Views
                 MineralVM.InitFill2ndRound(MineralNamesTextbox.Text); //Reset picklist
             }
         }
-    private void MineralAutoSuggest_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            // Set sender.Text. You can use args.SelectedItem to build your text string.
-        }
-
 
         private void MineralAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
@@ -146,7 +141,7 @@ namespace GSCFieldApp.Views
             if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
             {
                 MineralNamesTextbox.Text = args.ChosenSuggestion.ToString();
-                //MineralNamesTextbox.Focus(FocusState.Programmatic);
+                MineralNamesTextbox.Focus(FocusState.Programmatic); //Force focus, so viewmodel gets filled with value
             }
             else
             {
@@ -177,12 +172,6 @@ namespace GSCFieldApp.Views
 
             return outResults;
         }
-        //private async void mineralTypeSearch_Click(object sender, RoutedEventArgs e)
-        //{
-        //ContentDialogSemanticZoom newDialog = new ContentDialogSemanticZoom(Dictionaries.DatabaseLiterals.TableStructure, Dictionaries.DatabaseLiterals.FieldStructureClass, Dictionaries.DatabaseLiterals.FieldStructureDetail);
-        //newDialog.userHasSelectedAValue += MineralVM.NewDialog_userHasSelectedAValue;
-        //ContentDialogResult results = await newDialog.ShowAsync();
-        //}
 
     }
 }

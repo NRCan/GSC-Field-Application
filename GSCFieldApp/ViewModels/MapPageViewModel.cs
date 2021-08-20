@@ -47,6 +47,7 @@ using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Newtonsoft.Json;
 using Esri.ArcGISRuntime.Portal;
 
+
 namespace GSCFieldApp.ViewModels
 {
 
@@ -57,11 +58,9 @@ namespace GSCFieldApp.ViewModels
         //Map
         public MapView currentMapView { get; set; }
         public Map esriMap;
-        public double _myMapScale = 0;
         public double viewRotation = 0; //Default
         private bool _noMapsWatermark = false;
-        private double initMapScale = 0;
-
+        private double mapScale = ApplicationLiterals.defaultMapScale;
 
         //Layers
         public ArcGISTiledLayer _basemapLayer;
@@ -125,11 +124,8 @@ namespace GSCFieldApp.ViewModels
 
         public MapPageViewModel()
         {
-            
-            //Init
-            _myMapScale = ApplicationLiterals.defaultMapScale;
-            RaisePropertyChanged("MyMapScale");
 
+            //Init
             lastTakenLocation = new Tuple<double, double>(0, 0);
 
             _OverlayStation = new GraphicsOverlay();
@@ -187,11 +183,7 @@ namespace GSCFieldApp.ViewModels
         public double CurrentLatitude { get { return _currentLatitude; } set { _currentLatitude = value; } }
         public double CurrentAltitude { get { return _currentAltitude; } set { _currentAltitude = value; } }
         public double CurrentAccuracy { get { return _currentAccuracy; } set { _currentAccuracy = value; } }
-
         public Tuple<double, double> lastTakenLocation { get; set; }
-
-        public double MyMapScale { get { return _myMapScale; } set { _myMapScale = value; } }
-
         public bool MapRingActive
         {
             get { return _progressRingActive; }
@@ -239,10 +231,10 @@ namespace GSCFieldApp.ViewModels
             {
                 currentMapView = inMapView;
             }
-            
+
 
             //Create new map if ncessary
-            if (esriMap == null )
+            if (esriMap == null)
             {
 
                 #region Add layers
@@ -257,6 +249,7 @@ namespace GSCFieldApp.ViewModels
             // spw2017
             if (_currentMSGeoposition == null)
             {
+
                 Task setGPSTask = SetGPS();
                 await setGPSTask;
             }
@@ -275,16 +268,19 @@ namespace GSCFieldApp.ViewModels
             ResetLocationGraphic();
 
             var accessStatus = await Geolocator.RequestAccessAsync();
-            
+
             switch (accessStatus)
             {
                 case GeolocationAccessStatus.Allowed:
 
                     currentMapView.Tapped -= myMapView_AddByTap;
-                    
-                    _geolocator = new Geolocator() { DesiredAccuracy = PositionAccuracy.Default, MovementThreshold = 0.5, ReportInterval = 750 };
+
+                    // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
+                    _geolocator = new Geolocator { ReportInterval = 750 };
+
+                    // Subscribe to the StatusChanged event to get updates of location status changes.
+                    _geolocator.PositionChanged += OnPositionChanged;
                     _geolocator.StatusChanged += Geolocal_StatusChangedAsync;
-                    _geolocator.PositionChanged += Geolocal_PositionChangedAsync;
 
                     break;
 
@@ -298,12 +294,12 @@ namespace GSCFieldApp.ViewModels
                     break;
             }
 
-            
+
         }
-        
+
         public async void Geolocal_StatusChangedAsync(Geolocator sender, Windows.Devices.Geolocation.StatusChangedEventArgs args)
         {
-            
+
 
             switch (args.Status)
             {
@@ -314,16 +310,13 @@ namespace GSCFieldApp.ViewModels
                     break;
 
                 case PositionStatus.Initializing:
-                    
+
                     //await Task.Delay(500);
 
                     if (FilenameValues.Count != 0) //This will prevent pop-up with new field book
                     {
                         StartLocationRing();
                     }
-
-
-
 
                     break;
 
@@ -354,12 +347,13 @@ namespace GSCFieldApp.ViewModels
                     break;
 
                 case PositionStatus.NotInitialized:
+                    StartLocationRing();
                     await Task.Delay(500);
                     // The location platform is not initialized. This indicates that the application
                     //// has not made a request for location data.
 
                     //Clear current graphics
-                    ResetLocationGraphic();
+                    //ResetLocationGraphic();
                     try
                     {
                         await SetGPS();
@@ -368,7 +362,7 @@ namespace GSCFieldApp.ViewModels
                     {
 
                     }
-                    
+
 
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
@@ -401,7 +395,7 @@ namespace GSCFieldApp.ViewModels
 
                         throw;
                     }
-                    
+
 
 
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
@@ -449,7 +443,7 @@ namespace GSCFieldApp.ViewModels
 
                     break;
             }
- 
+
         }
 
         /// <summary>
@@ -458,9 +452,9 @@ namespace GSCFieldApp.ViewModels
         /// <returns></returns>
         public async Task<bool> ValidateGeolocationAccess()
         {
-            
+
             var accessStatus = await Geolocator.RequestAccessAsync();
-            
+
             bool canAccess = true;
 
             switch (accessStatus)
@@ -474,7 +468,7 @@ namespace GSCFieldApp.ViewModels
                     canAccess = false;
 
                     //Force call on UI thread, else it could crash the app if async call is made another thread.
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
                         ContentDialog tapModeDialog = new ContentDialog()
                         {
@@ -487,14 +481,14 @@ namespace GSCFieldApp.ViewModels
 
 
                     }).AsTask();
-                    
+
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
                     canAccess = false;
 
                     //Force call on UI thread, else it could crash the app if async call is made another thread.
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
                     {
                         ContentDialog tapModeDialog = new ContentDialog()
                         {
@@ -551,8 +545,8 @@ namespace GSCFieldApp.ViewModels
                     LoadFromGivenDB(locationTableRows, defaultConnection, loadedGraphicList, true);
                     defaultConnection.Close();
                 }
-                
-                
+
+
 
                 inMapView.UpdateLayout();
             }
@@ -565,7 +559,7 @@ namespace GSCFieldApp.ViewModels
                     currentMapView.GraphicsOverlays.Remove(_OverlayStation);
                     currentMapView.GraphicsOverlays.Remove(_OverlayStationLabel);
                 }
-                
+
             }
 
             #endregion
@@ -663,7 +657,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         DatumTransformation datumTransfo = null;
                         SpatialReference outSR = null;
-                        
+
                         if ((epsg > 26900 && epsg < 27000))
                         {
                             outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
@@ -700,7 +694,7 @@ namespace GSCFieldApp.ViewModels
 
                     pointOverlay.Graphics.Add(graphic);
 
-                    
+
 
                     #region LABEL SYMBOL
                     var textSym = new TextSymbol();
@@ -788,7 +782,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                     // Check that horizontal accuracy is better then 30 m, arbitrary number
-                    if (_currentMSGeoposition.Coordinate.Accuracy <= 20.0 && _currentMSGeoposition.Coordinate.Accuracy > 0.0)
+                    if (_currentMSGeoposition.Coordinate.Accuracy <= 20.0 && _currentMSGeoposition.Coordinate.Accuracy != 0.0 && _currentMSGeoposition.Coordinate.Point.Position.Longitude != 0 && _currentMSGeoposition.Coordinate.Point.Position.Latitude != 0)
                     {
 
                         GotoQuickDialog(null);
@@ -931,7 +925,7 @@ namespace GSCFieldApp.ViewModels
                 manualLocation.LocationLong = 0.0;
                 manualLocation.LocationEntryType = vocabEntryTypeManual;
                 manualLocation.LocationID = idCalculator.CalculateLocationID(); //Calculate new value
-                manualLocation.LocationAlias= idCalculator.CalculateLocationAlias(string.Empty); //Calculate new value
+                manualLocation.LocationAlias = idCalculator.CalculateLocationAlias(string.Empty); //Calculate new value
                 manualLocation.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
 
                 GotoLocationDataPart(manualLocation);
@@ -992,7 +986,7 @@ namespace GSCFieldApp.ViewModels
             };
 
             noLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-            
+
 
             ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationDialog, true).Result;
 
@@ -1037,6 +1031,9 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public async void PoorLocationRoutineTap()
         {
+            //Remove any location ring
+            StopLocationRing();
+
             // Language localization using Resource.resw
             //var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
@@ -1229,73 +1226,83 @@ namespace GSCFieldApp.ViewModels
 
         #region EVENTS
 
+        async public void OnPositionChanged(Geolocator sender, PositionChangedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                Geolocal_Update(e.Position);
+            });
+        }
+
         /// <summary>
         /// Whenever user location changes update UI with graphics
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        public async void Geolocal_PositionChangedAsync(Geolocator sender, PositionChangedEventArgs args)
+        public async void Geolocal_Update(Geoposition in_position)
         {
             try
             {
                 if (!userHasTurnedGPSOff)
                 {
-                    //Build current location graphic
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
-                    {
-                        //Kee and update scale
-                        double myMapScale = currentMapView.MapScale;
-                        if (Double.IsNaN(myMapScale) || myMapScale == initMapScale)
-                        {
-                            myMapScale = ApplicationLiterals.defaultMapScale;
-                            RaisePropertyChanged("MyMapScale");
-                        }
 
+                    _currentAccuracy = in_position.Coordinate.Accuracy;
+                    RaisePropertyChanged("CurrentAccuracy");
+                    mapScale = currentMapView.MapScale;
+
+                    //Only move if there is a coordinate
+                    if (in_position.Coordinate.Point.Position.Longitude != 0 && in_position.Coordinate.Point.Position.Latitude != 0)
+                    {
                         //Keep and update coordinates
-                        _currentMSGeoposition = args.Position;
+                        _currentMSGeoposition = in_position;
                         RaisePropertyChanged("CurrentMSGeoposition");
 
-                        _currentLongitude = args.Position.Coordinate.Point.Position.Longitude;
+                        _currentLongitude = in_position.Coordinate.Point.Position.Longitude;
                         RaisePropertyChanged("CurrentLongitude");
-                        _currentLatitude = args.Position.Coordinate.Point.Position.Latitude;
+                        _currentLatitude = in_position.Coordinate.Point.Position.Latitude;
                         RaisePropertyChanged("CurrentLatitude");
-                        _currentAltitude = args.Position.Coordinate.Point.Position.Altitude;
+                        _currentAltitude = in_position.Coordinate.Point.Position.Altitude;
                         RaisePropertyChanged("CurrentAltitude");
-                        _currentAccuracy = args.Position.Coordinate.Accuracy;
+
+                        //Reset view on current location
+                        bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(1.5));
+                    }
+                    else
+                    {
+                        //Set non-sense accuracy to get a wide circle
+                        _currentAccuracy = 0;
                         RaisePropertyChanged("CurrentAccuracy");
+                    }
 
-                        await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, myMapScale), TimeSpan.FromSeconds(1.5));
+                    //Clear current graphics
+                    if (_OverlayCurrentPosition == null)
+                    {
+                        _OverlayCurrentPosition = new GraphicsOverlay();
+                    }
+                    else
+                    {
+                        _OverlayCurrentPosition.Graphics.Clear();
+                    }
 
-                        //Clear current graphics
-                        if (_OverlayCurrentPosition == null)
-                        {
-                            //_OverlayCurrentPosition.Graphics.Clear();
-                            _OverlayCurrentPosition = new GraphicsOverlay();
-                        }
-                        else
-                        {
-                            _OverlayCurrentPosition.Graphics.Clear();
-                        }
+                    if (!currentMapView.GraphicsOverlays.Contains(_OverlayCurrentPosition))
+                    {
+                        currentMapView.GraphicsOverlays.Add(_OverlayCurrentPosition);
+                    }
 
-                        if (!currentMapView.GraphicsOverlays.Contains(_OverlayCurrentPosition))
-                        {
-                            currentMapView.GraphicsOverlays.Add(_OverlayCurrentPosition);
-                        }
+                    //Build current accuracy graphic
+                    System.Drawing.Color accColor = new System.Drawing.Color();
+                    Graphic accGraphic = GetAccuracyGraphic(_currentLongitude, _currentLatitude, _currentAccuracy, 36, out accColor);
 
-                        //Build current accuracy graphic
-                        System.Drawing.Color accColor = new System.Drawing.Color();
-                        Graphic accGraphic = GetAccuracyGraphic(_currentLongitude, _currentLatitude, args.Position.Coordinate.Accuracy, 36, out accColor);
+                    //Build current position graphic
+                    var posGraphic = new Graphic(new MapPoint(_currentLongitude, _currentLatitude, SpatialReferences.Wgs84), posSym);
+                    posSym.Color = accColor;
+                    posGraphic.Attributes.Add(attributeID, attributeIDPosition);
 
-                        //Build current position graphic
-                        var posGraphic = new Graphic(new MapPoint(_currentLongitude, _currentLatitude, SpatialReferences.Wgs84), posSym);
-                        posSym.Color = accColor;
-                        posGraphic.Attributes.Add(attributeID, attributeIDPosition);
+                    //Update graphic collection and UI
+                    _OverlayCurrentPosition.Graphics.Add(posGraphic);
+                    _OverlayCurrentPosition.Graphics.Add(accGraphic);
+                    currentMapView.UpdateLayout();
 
-                        //Update graphic collection and UI
-                        _OverlayCurrentPosition.Graphics.Add(posGraphic);
-                        _OverlayCurrentPosition.Graphics.Add(accGraphic);
-                        currentMapView.UpdateLayout();
-                    });   
                 }
                 else
                 {
@@ -1309,7 +1316,6 @@ namespace GSCFieldApp.ViewModels
                 ResetLocationGraphic();
             }
         }
- 
 
         /// <summary>
         /// Event to delete all layers
@@ -1334,7 +1340,7 @@ namespace GSCFieldApp.ViewModels
             {
 
             }
-            
+
 
         }
 
@@ -1345,7 +1351,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         private async void ShellViewModel_newDataLoaded(object sender, EventArgs e)
         {
- 
+
             //Add tpks
             Task loadingUserLayers = AddAllLayers();
             await loadingUserLayers;
@@ -1661,6 +1667,20 @@ namespace GSCFieldApp.ViewModels
         /// <returns></returns>
         public void SaveLayerRendering()
         {
+            //Before saving, clean _filenameValues
+            List<int> indexToRemove = new List<int>();
+            foreach (MapPageLayers mpl in _filenameValues)
+            {
+                if (mpl.LayerName is null || mpl.LayerName == "")
+                {
+                    indexToRemove.Add(_filenameValues.IndexOf(mpl));
+                }
+            }
+            foreach (int ids in indexToRemove)
+            {
+                _filenameValues.RemoveAt(ids);
+            }
+
             string JSONResult = JsonConvert.SerializeObject(_filenameValues);
             string JSONPath = Path.Combine(accessData.ProjectPath, "mapPageLayer.json");
             if (File.Exists(JSONPath))
@@ -1673,7 +1693,7 @@ namespace GSCFieldApp.ViewModels
                 jayson.WriteLine(JSONResult.ToString());
                 jayson.Close();
             }
-            
+
 
         }
 
@@ -1684,11 +1704,11 @@ namespace GSCFieldApp.ViewModels
         public void SetGPSModeIcon(Symbol inSymbol = Symbol.Target)
         {
             _GPSModeSymbol = inSymbol;
-            RaisePropertyChanged("GPSModeSymbol"); 
+            RaisePropertyChanged("GPSModeSymbol");
 
         }
 
-        
+
         public async void ResetLocationGraphic()
         {
             try
@@ -1728,7 +1748,7 @@ namespace GSCFieldApp.ViewModels
         public void CreatePositionGraphic()
         {
             //SimpleMarkerSymbol posSym = new SimpleMarkerSymbol();
-            posSym.Color = System.Drawing.Color.FromArgb(0,122,194);
+            posSym.Color = System.Drawing.Color.FromArgb(0, 122, 194);
             posSym.Size = 23.0;
             SimpleLineSymbol posLineSym = new SimpleLineSymbol();
             posLineSym.Color = System.Drawing.Color.White;
@@ -1758,6 +1778,12 @@ namespace GSCFieldApp.ViewModels
             {
                 posColor = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
                 defaultAlpha = 75;
+            }
+            else if (radiusInMeter == 0)
+            {
+                posColor = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
+                defaultAlpha = 75;
+                radiusInMeter = 1000; //Maximum accuracy for invalid position
             }
 
             //Finalize symbols
@@ -1870,60 +1896,13 @@ namespace GSCFieldApp.ViewModels
                 FeatureCollection fCollection = new FeatureCollection();
                 fCollection.Tables.Add(polygonTable);
                 FeatureCollectionLayer fCollectionLayer = new FeatureCollectionLayer(fCollection);
+                fCollectionLayer.Name = "Blanck area";
                 fCollectionLayer.IsVisible = false;
 
                 esriMap.Basemap.BaseLayers.Add(fCollectionLayer);
             }
 
         }
-
-        ///// <summary>
-        ///// keep in memory some config about the map. Scale and Rotation 
-        ///// </summary>
-        //public void SaveMapViewSettings()
-        //{
-
-        //    if (currentMapView != null)
-        //    {
-        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewScale, currentMapView.MapScale);
-        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewRotation, currentMapView.MapRotation);
-
-        //        //Keep order in settings
-        //        string settingString = string.Empty;
-        //        foreach (Layer l in esriMap.AllLayers)
-        //        {
-        //            ArcGISTiledLayer tl = l as ArcGISTiledLayer;
-        //            if (tl!= null)
-        //            {
-        //                if (settingString == string.Empty)
-        //                {
-        //                    settingString = tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString();
-        //                }
-        //                else
-        //                {
-        //                    settingString = settingString + "|" + tl.Source + ";" + l.Name + "," + tl.IsVisible.ToString() + "," + tl.Opacity.ToString() ;
-        //                }
-        //            }
-                    
-        //        }
-        //        foreach (KeyValuePair<string, Tuple<GraphicsOverlay, GraphicsOverlay>> item in _overlayContainerOther)
-        //        {
-        //            if (settingString == string.Empty)
-        //            {
-        //                settingString = item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
-        //            }
-        //            else
-        //            {
-        //                settingString = settingString + "|" + item.Key + ";" + item.Key + "," + item.Value.Item1.IsVisible.ToString() + "," + item.Value.Item1.Opacity.ToString();
-        //            }
-        //        }
-
-        //        //CAN'T STORE ANYTHING IN SETTINGS: https://docs.microsoft.com/en-us/windows/uwp/app-settings/store-and-retrieve-app-data
-        //        localSettings.SetSettingValue(ApplicationLiterals.KeywordMapViewLayersOrder, settingString);
-
-        //    }
-
-        //}
 
         /// <summary>
         /// Will clear saved settings. To be used when creating and switching field books.
@@ -1967,7 +1946,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     await LoadingData();
                 }
-                
+
             }
             else
             {
@@ -1975,7 +1954,6 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("NoMapsWatermark");
             }
 
-            initMapScale = currentMapView.MapScale;
             await SetLayerOrderAsync();
         }
 
@@ -2075,9 +2053,15 @@ namespace GSCFieldApp.ViewModels
             //Load given layer or load all
             if (jsonRenderingFile != null)
             {
-                //Deserialize JSON rendering config file.
-                _filenameValues = JsonConvert.DeserializeObject<ObservableCollection<MapPageLayers>>(await Windows.Storage.FileIO.ReadTextAsync(jsonRenderingFile));
-                RaisePropertyChanged("FilenameValues");
+                //Prevent null values pooching deserialization
+                string jsonRenderingFileString = await Windows.Storage.FileIO.ReadTextAsync(jsonRenderingFile);
+                if (!jsonRenderingFileString.Contains("null"))
+                {
+                    //Deserialize JSON rendering config file.
+                    _filenameValues = JsonConvert.DeserializeObject<ObservableCollection<MapPageLayers>>(jsonRenderingFileString);
+                    RaisePropertyChanged("FilenameValues");
+                }
+
             }
 
             //Process saved config in json
@@ -2139,6 +2123,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     AddDataTypeSQLite(remainingSqlite.Value, true, 1);
                     MapPageLayers mpl = new MapPageLayers();
+                    mpl.LayerName = remainingSqlite.Key;
                     MapPageLayerSetting mpls = new MapPageLayerSetting();
                     mpls.LayerOpacity = 100;
                     mpls.LayerVisibility = true;
@@ -2148,7 +2133,7 @@ namespace GSCFieldApp.ViewModels
                     foundLayers = true;
                 }
             }
-            
+
 
             //If nothing is found ask user to load data
             if (!foundLayers)
@@ -2171,7 +2156,7 @@ namespace GSCFieldApp.ViewModels
             return foundLayers;
 
         }
-        
+
         /// <summary>
         /// Will add a tpk data type to current map content
         /// </summary>
@@ -2182,7 +2167,7 @@ namespace GSCFieldApp.ViewModels
 
             //Build tile layer object and load
             ArcGISTiledLayer _tileLayer = new ArcGISTiledLayer(localUri);
-            
+
             await _tileLayer.LoadAsync();
 
             //When loaded check if it was already set as visible or not
@@ -2206,7 +2191,7 @@ namespace GSCFieldApp.ViewModels
                         AddBlanckFeature(sr);
                     }
 
-                    
+
                     _tileLayer.IsVisible = isTPKVisible;
                     _tileLayer.Opacity = tpkOpacity;
                     esriMap.Basemap.BaseLayers.Add(_tileLayer);
@@ -2249,7 +2234,8 @@ namespace GSCFieldApp.ViewModels
                 }
                 else
                 {
-                    _overlayContainerOther[inSQLite.Name] = new Tuple<GraphicsOverlay, GraphicsOverlay>(new GraphicsOverlay(), new GraphicsOverlay());
+                    Tuple<GraphicsOverlay, GraphicsOverlay> relatedGraphics = new Tuple<GraphicsOverlay, GraphicsOverlay>(new GraphicsOverlay(), new GraphicsOverlay());
+                    _overlayContainerOther[inSQLite.Name] = relatedGraphics;
                 }
 
 
@@ -2276,55 +2262,126 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void SetLayerVisibility(ToggleSwitch inSwitch)
         {
-            if (esriMap != null && esriMap.AllLayers.Count > 0 && inSwitch.Header.ToString().Contains(".tpk"))
+            if (inSwitch.Header != null)
             {
-                #region TPKs
-
-                // Find the layer from the map layers and change visibility
-                var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(inSwitch.Header.ToString().Split('.')[0]));
-                if (sublayer != null)
-                {
-                    sublayer.IsVisible = inSwitch.IsOn;
-                }
-
-                // Find the layer from list of available layers and keep new value
-                MapPageLayers subFile = _filenameValues.First(x => x.LayerName == inSwitch.Header.ToString());
-                if (subFile != null)
-                {
-                    subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
-                }
-                #endregion
+                SetLayerVisibilityOrOpacity(inSwitch, inSwitch.Header.ToString());
             }
 
-            if (esriMap != null && esriMap.AllLayers.Count > 0 && inSwitch.Header.ToString().Contains(".sqlite"))
-            {
-
-                #region OVERLAYS
-                // Find the layer from the map layers and change visibility
-                if (_overlayContainerOther.ContainsKey(inSwitch.Header.ToString()))
-                {
-                    _overlayContainerOther[inSwitch.Header.ToString()].Item1.IsVisible = inSwitch.IsOn;
-                    _overlayContainerOther[inSwitch.Header.ToString()].Item2.IsVisible = inSwitch.IsOn;
-                }
-
-                // Find the layer from list of available layers and keep new value
-                MapPageLayers subFile = _filenameValues.First(x => x.LayerName == inSwitch.Header.ToString());
-                if (subFile != null)
-                {
-                    subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
-                }
-                #endregion
-
-            }
-
-            SaveLayerRendering();
 
         }
 
         /// <summary>
+        /// Will set the toggle switch visibility inside the layer and keep it in the current list of files
+        /// </summary>
+        public void SetLayerOpacity(Slider inSlider)
+        {
+            if (inSlider.Tag != null)
+            {
+                SetLayerVisibilityOrOpacity(inSlider, inSlider.Tag.ToString());
+            }
+
+
+        }
+
+        /// <summary>
+        /// Will set the toggle switch visibility inside the layer and keep it in the current list of files
+        /// </summary>
+        public void SetLayerVisibilityOrOpacity(object inControl, string layerName)
+        {
+            if (inControl != null)
+            {
+                //Cast to toggle for visibility or slider for opacity, either one will be non-null
+                ToggleSwitch inSwitch = inControl as ToggleSwitch;
+                Slider inSlider = inControl as Slider;
+
+                if (esriMap != null && esriMap.AllLayers.Count > 0 && layerName.Contains(".tpk"))
+                {
+                    #region TPKs
+
+                    // Find the layer from the map layers and change visibility
+                    var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(layerName.Split('.')[0]));
+                    if (sublayer != null)
+                    {
+                        if (inSwitch != null)
+                        {
+                            sublayer.IsVisible = inSwitch.IsOn;
+                        }
+                        else if (inSlider != null)
+                        {
+                            sublayer.Opacity = inSlider.Value / 100.0;
+                        }
+
+                    }
+
+                    // Find the layer from list of available layers and keep new value
+                    MapPageLayers subFile = _filenameValues.First(x => x.LayerName == layerName);
+                    if (subFile != null)
+                    {
+
+                        if (inSwitch != null)
+                        {
+                            subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
+                        }
+                        else if (inSlider != null)
+                        {
+                            subFile.LayerSettings.LayerOpacity = inSlider.Value / 100.0;
+                        }
+
+                    }
+                    #endregion
+                }
+
+                if (esriMap != null && esriMap.AllLayers.Count > 0 && layerName.Contains(".sqlite"))
+                {
+
+                    #region OVERLAYS
+                    // Find the layer from the map layers and change visibility
+                    if (_overlayContainerOther.ContainsKey(layerName))
+                    {
+                        if (inSwitch != null)
+                        {
+                            _overlayContainerOther[layerName].Item1.IsVisible = inSwitch.IsOn;
+                            _overlayContainerOther[layerName].Item2.IsVisible = inSwitch.IsOn;
+                        }
+                        else if (inSlider != null)
+                        {
+                            _overlayContainerOther[layerName].Item1.Opacity = inSlider.Value / 100.0;
+                            _overlayContainerOther[layerName].Item2.Opacity = inSlider.Value / 100.0;
+                        }
+
+                    }
+
+                    // Find the layer from list of available layers and keep new value
+                    MapPageLayers subFile = _filenameValues.First(x => x.LayerName == layerName);
+                    if (subFile != null)
+                    {
+
+                        if (inSwitch != null)
+                        {
+                            subFile.LayerSettings.LayerVisibility = inSwitch.IsOn;
+                        }
+                        else if (inSlider != null)
+                        {
+                            subFile.LayerSettings.LayerOpacity = inSlider.Value / 100.0;
+                        }
+
+                    }
+                    #endregion
+
+                }
+
+                SaveLayerRendering();
+
+            }
+
+
+        }
+
+
+        /// <summary>
         /// Will set the maps (layers) order in the map control from user choices.
         /// </summary>
-        public async 
+        public async
         /// <summary>
         /// Will set the maps (layers) order in the map control from user choices.
         /// </summary>
@@ -2370,7 +2427,7 @@ namespace GSCFieldApp.ViewModels
                             if (layerDico.ContainsKey(orderedFiles.LayerName.Split('.')[0]))
                             {
                                 Layer layerToAdd = layerDico[orderedFiles.LayerName.Split('.')[0]];
-                                
+
                                 try
                                 {
                                     orderedFiles.LayerSettings.LayerVisibility = layerToAdd.IsVisible;
@@ -2378,14 +2435,14 @@ namespace GSCFieldApp.ViewModels
 
                                     //Make sure to push the change to the UI in case this is coming from a first app opening
                                     newFileList.Insert(0, orderedFiles); //Save in new list because can't change something being looped
-                                    
-                                        
+
+
                                 }
                                 catch (Exception)
                                 {
                                 }
 
-                                
+
                                 esriMap.Basemap.BaseLayers.Add(layerToAdd);
                             }
 
@@ -2401,7 +2458,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         _filenameValues = newFileList;
                     }
-                    
+
                     RaisePropertyChanged("FilenameValues");
 
                     SaveLayerRendering();
@@ -2432,13 +2489,13 @@ namespace GSCFieldApp.ViewModels
             if (currentMapView != null && currentMapView.Map != null && currentMapView.Map.Basemap != null)
             {
                 esriMap.Basemap.BaseLayers.Clear();
-                
+
 
                 //Clear map overlay
                 _overlayContainerOther.Clear();
                 currentMapView.GraphicsOverlays.Remove(_OverlayStation);
                 currentMapView.GraphicsOverlays.Remove(_OverlayStationLabel);
-                
+
             }
             currentMapView.UpdateLayout();
 
@@ -2562,7 +2619,7 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("MapRingLabelAcquiringGPSVisibility");
                 RaisePropertyChanged("MapRingVisibility");
                 RaisePropertyChanged("MapRingActive");
-                ResetLocationGraphic();
+                //ResetLocationGraphic();
             }
 
             initializingGPS = true;
@@ -2594,7 +2651,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     _mapPageQuickSampleEnable = false;
                 }
-                
+
             }
 
             if (localSettings.GetSettingValue(DatabaseLiterals.TableDocument) != null)
@@ -2607,7 +2664,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     _mapPageQuickPhotoEnable = false;
                 }
-                
+
             }
 
 
@@ -2625,7 +2682,7 @@ namespace GSCFieldApp.ViewModels
                         else
                         {
                             _mapPageQuickMeasurementEnable = false;
-                        } 
+                        }
                     }
 
                 }
@@ -2644,7 +2701,7 @@ namespace GSCFieldApp.ViewModels
                     }
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -2691,24 +2748,24 @@ namespace GSCFieldApp.ViewModels
                 Vocabularies errorType = errorTypeObjects[0] as Vocabularies;
                 vocabErrorMeasureTypeMeter = errorType.Code.ToString();
             }
-            
+
             List<object> manObjects = accessData.ReadTable(vocaModel.GetType(), querySelect + queryFrom + queryWhere + queryWhereEntryManual);
             if (manObjects.Count > 0)
             {
                 Vocabularies manualType = manObjects[0] as Vocabularies;
                 vocabEntryTypeManual = manualType.Code.ToString();
             }
-            
-    }
 
-    #endregion
+        }
 
-    #region DELETE
-    /// <summary>
-    /// Will remove a selected layer from the map but also delete the original file from the local state folder.
-    /// Else, will clear the layers from the map so they can be deleted in batch.
-    /// </summary>
-    public async void DeleteLayersAsync(bool fromSelection)
+        #endregion
+
+        #region DELETE
+        /// <summary>
+        /// Will remove a selected layer from the map but also delete the original file from the local state folder.
+        /// Else, will clear the layers from the map so they can be deleted in batch.
+        /// </summary>
+        public async void DeleteLayersAsync(bool fromSelection)
         {
             if (esriMap != null && _selectedLayer != null && fromSelection)
             {
@@ -2800,12 +2857,12 @@ namespace GSCFieldApp.ViewModels
             else if (!fromSelection)
             {
                 esriMap.Basemap.BaseLayers.Clear();
-                
+
             }
         }
 
         #endregion
-        
+
     }
 
 }

@@ -1153,7 +1153,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Picklists values have been replaced.</value>
   </data>
   <data name="SettingPagePicklistButton.Label" xml:space="preserve">
-    <value>Load and replace Picklists</value>
+    <value>Import Picklists</value>
   </data>
   <data name="UserInfoDialogPGeologistFirstName.Header" xml:space="preserve">
     <value>First Name</value>
@@ -1451,5 +1451,20 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="MapInfoLocationLabel.Text" xml:space="preserve">
     <value>Location: </value>
+  </data>
+  <data name="FieldBookUpgradeContentInvalid" xml:space="preserve">
+    <value>Current field book is already latest. </value>
+  </data>
+  <data name="MapPageLocationCommand.Label" xml:space="preserve">
+    <value>Manual XY</value>
+  </data>
+  <data name="MineralAutoSuggest.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="MineralAutoSuggest.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="MineralNamesTextbox.Header" xml:space="preserve">
+    <value>Selected name</value>
   </data>
 </root>

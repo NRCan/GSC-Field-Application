@@ -16,7 +16,7 @@ using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class PicklistViewModel: ViewModelBase
+    public class PicklistViewModel : ViewModelBase
     {
         #region INIT
 
@@ -48,7 +48,7 @@ namespace GSCFieldApp.ViewModels
         {
             picklistTheme = inPicklistTheme;
             _picklistValues = new ObservableCollection<Vocabularies>();
-            if (picklistTheme!=string.Empty)
+            if (picklistTheme != string.Empty)
             {
                 FillPicklistCombobox();
             }
@@ -71,7 +71,7 @@ namespace GSCFieldApp.ViewModels
         //Textbox
         public string AddModifyTerm { get { return _addModifyTerm; } set { _addModifyTerm = value; } }
         public object AddModifyObject { get { return _addModifyObject as object; } set { _addModifyObject = value as Vocabularies; } }
-        public bool PicklistEditEnableDisable { get { return _picklistEditEnableDisable; } set { _picklistEditEnableDisable = value; } } 
+        public bool PicklistEditEnableDisable { get { return _picklistEditEnableDisable; } set { _picklistEditEnableDisable = value; } }
         //UI
         public Visibility ParentVisibility { get { return _parentVisibility; } set { _parentVisibility = value; } }
 
@@ -104,7 +104,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Add theme list to dialog or a default NA value if nothing is available yet
-            if (vocThemeID.Count()>0)
+            if (vocThemeID.Count() > 0)
             {
                 foreach (VocabularyManager themeID in vocThemeID)
                 {
@@ -112,9 +112,9 @@ namespace GSCFieldApp.ViewModels
                     picklistTheme.itemName = themeID.ThemeNameDesc;
                     picklistTheme.itemValue = themeID.ThemeName;
                     _picklists.Add(picklistTheme);
-                    
+
                 }
-                
+
             }
             else
             {
@@ -189,20 +189,28 @@ namespace GSCFieldApp.ViewModels
         public void FillParentCombobox(string selectedChildID)
         {
             //Build query to retrieve unique parents
+            //select * from M_DICTIONARY m WHERE m.CODETHEME in 
             string querySelect_1 = "select * from " + Dictionaries.DatabaseLiterals.TableDictionary + " m ";
             string queryWhere_1 = " WHERE m." + Dictionaries.DatabaseLiterals.FieldDictionaryCodedTheme + " in ";
 
+            //(select m.CODETHEME from M_DICTIONARY m join M_DICTIONARY_MANAGER mdm on m.CODETHEME = mdm.CODETHEME WHERE m.CODE in 
             string querySelect_2 = "(select m." + Dictionaries.DatabaseLiterals.FieldDictionaryCodedTheme + " from " + Dictionaries.DatabaseLiterals.TableDictionary + " m ";
+            string querySelect_2_join = "join " + Dictionaries.DatabaseLiterals.TableDictionaryManager + " mdm on m." + Dictionaries.DatabaseLiterals.FieldDictionaryCodedTheme + " = mdm." + Dictionaries.DatabaseLiterals.FieldDictionaryCodedTheme + " ";
             string queryWhere_2 = " WHERE m." + Dictionaries.DatabaseLiterals.FieldDictionaryCode + " in ";
 
-            string querySelect_3 = "(select m." + Dictionaries.DatabaseLiterals.FieldDictionaryRelatedTo + " from " + Dictionaries.DatabaseLiterals.TableDictionary + " m ";
+            //(select distinct(m.RELATEDTO) from M_DICTIONARY m WHERE m.CODETHEME = 'MODTEXTURE' ORDER BY m.RELATEDTO ) and mdm.ASSIGNTABLE in 
+            string querySelect_3 = "(select distinct(m." + Dictionaries.DatabaseLiterals.FieldDictionaryRelatedTo + ") from " + Dictionaries.DatabaseLiterals.TableDictionary + " m ";
             string queryWhere_3 = " WHERE m." + Dictionaries.DatabaseLiterals.FieldDictionaryCodedTheme + " = '" + selectedChildID + "'";
-            string queryOrderBy_3 = " ORDER BY m." + Dictionaries.DatabaseLiterals.FieldDictionaryRelatedTo + " DESC LIMIT 1))";
-            
-            string queryWhere_1_2 = " AND m." + Dictionaries.DatabaseLiterals.FieldDictionaryVisible + " = '" + Dictionaries.DatabaseLiterals.boolYes + "'";
+            string queryOrderBy_3 = " ORDER BY m." + Dictionaries.DatabaseLiterals.FieldDictionaryRelatedTo + " ) and mdm." + Dictionaries.DatabaseLiterals.FieldDictionaryManagerAssignTable + " in ";
 
+            //(select mdm2.ASSIGNTABLE from M_DICTIONARY_MANAGER mdm2 where mdm2.CODETHEME = 'MODTEXTURE'))  AND m.VISIBLE = 'Y' ORDER BY m.DESCRIPTIONEN ASC
+            string queryWhere_1_2 = "(select mdm2." + Dictionaries.DatabaseLiterals.FieldDictionaryManagerAssignTable +
+                " from " + Dictionaries.DatabaseLiterals.TableDictionaryManager + " mdm2 where mdm2." + Dictionaries.DatabaseLiterals.FieldDictionaryCodedTheme +
+                " = '" + selectedChildID + "'))";
+            string queryWhere_1_3 = " AND m." + Dictionaries.DatabaseLiterals.FieldDictionaryVisible + " = '" + Dictionaries.DatabaseLiterals.boolYes + "'";
             string queryOrderby_1 = " ORDER BY m." + Dictionaries.DatabaseLiterals.FieldDictionaryDescription + " ASC";
-            string queryFinal = querySelect_1 + queryWhere_1 + querySelect_2 + queryWhere_2 + querySelect_3 + queryWhere_3 + queryOrderBy_3 + queryWhere_1_2 + queryOrderby_1;
+
+            string queryFinal = querySelect_1 + queryWhere_1 + querySelect_2 + querySelect_2_join + queryWhere_2 + querySelect_3 + queryWhere_3 + queryOrderBy_3 + queryWhere_1_2 + queryWhere_1_3 + queryOrderby_1;
 
             //Get a unique list of all parents
             List<object> parentRaw = accessData.ReadTable(voc.GetType(), queryFinal);
@@ -292,7 +300,7 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Detect parent
-                if ((_selectedParent != null ||_selectedParent != string.Empty) && finalValues.Description == _addModifyTerm)
+                if ((_selectedParent != null || _selectedParent != string.Empty) && finalValues.Description == _addModifyTerm)
                 {
                     finalValues.RelatedTo = _selectedParent;
                 }
@@ -464,7 +472,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         //_picklistValues.Add(_addModifyObject);
                         //RaisePropertyChanged("PicklistValues");
-                        
+
                         _addModifyObject.CodedTheme = _selectedPicklist;
                     }
                     else
@@ -511,7 +519,7 @@ namespace GSCFieldApp.ViewModels
                 for (int i = 0; i < _picklistValues.Count; i++)
                 {
                     //For existing vocab in list
-                    if (_picklistValues[i].Code == currentVocab.Code )
+                    if (_picklistValues[i].Code == currentVocab.Code)
                     {
                         _picklistValues[i] = currentVocab;
                         vocabInList = true;
@@ -577,7 +585,7 @@ namespace GSCFieldApp.ViewModels
 
                 }
 
-               
+
             }
         }
 

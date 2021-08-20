@@ -40,43 +40,19 @@
                 <ScrollViewer Style="{StaticResource VerticalScroll}">
                     <RelativePanel Style="{StaticResource ChildPanel}" x:Name="mineralScrollRelativePanel">
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralGridView_01">
-
-                            <!--
                             <RelativePanel>
-                                <Button x:Name="mineralTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
-                            Click="mineralTypeSearch_Click">
-                                    <SymbolIcon x:Name="SearchMineral" Symbol="Zoom" Margin="-17.667,-15,-17.333,-15"/>
-                                </Button>
-                                <AutoSuggestBox x:Name="MineralAutoSuggest" x:Uid="MineralAutoSuggest"
-                                                RelativePanel.RightOf="mineralTypeSearch"
-                                                RelativePanel.AlignBottomWith="mineralTypeSearch"
-                                                TextChanged="MineralAutoSuggest_TextChanged"
-                                                QuerySubmitted="MineralAutoSuggest_QuerySubmitted"
-                                                Width="300"/>
-                                <TextBox x:Name="mineralType" Header="" x:Uid="MineralDialogType" 
-                                 RelativePanel.Below="MineralAutoSuggest" RelativePanel.RightOf="mineralTypeSearch"
-                                 Width="Auto" Style="{ThemeResource TextboxMandatoryField}" IsReadOnly="True" FontWeight="Bold"
-                                 Text ="{x:Bind mineralViewModel.MineralClassTypeDetail, Mode=TwoWay}"
-                                 TextChanging="MineralType_TextChanging" />
-                            </RelativePanel>
-                            -->
-                            <AutoSuggestBox x:Name="MineralAutoSuggest" x:Uid="MineralAutoSuggest" PlaceholderText="Search" QueryIcon="Find" Width="200"
+                                <AutoSuggestBox x:Name="MineralAutoSuggest" x:Uid="MineralAutoSuggest" QueryIcon="Find" Width="300"
                                     TextChanged="MineralAutoSuggest_TextChanged"
-                                    QuerySubmitted="MineralAutoSuggest_QuerySubmitted"
-                                    SuggestionChosen="MineralAutoSuggest_SuggestionChosen"/>
-                            <TextBox x:Name="MineralNamesTextbox" x:Uid="MineralNamesTextbox" 
-                                     Text ="{x:Bind MineralVM.MineralName, Mode=TwoWay}"/>
-                            <!--
-                            <ComboBox x:Name="MineralNamesComboBox" x:Uid="MineralDialogMinerals" Style="{ThemeResource ComboboxMandatoryField}"
-                                Header="" 
-                                ItemsSource="{x:Bind MineralVM.MineralName}" 
-                                SelectedValue="{x:Bind MineralVM.SelectedMineralName, Mode=TwoWay}" IsEditable="True" IsTextSearchEnabled="False"/>
--->
+                                    QuerySubmitted="MineralAutoSuggest_QuerySubmitted" Margin="0,0,0,10"/>
+                                <TextBox x:Name="MineralNamesTextbox" x:Uid="MineralNamesTextbox" RelativePanel.Below="MineralAutoSuggest" Style="{ThemeResource TextboxMandatoryField}"
+                                     Text="{x:Bind MineralVM.MineralName, Mode=TwoWay}"/>
 
-                            <ComboBox x:Name="MineralModeBox" x:Uid="MinderalDialogMode" Style="{ThemeResource ComboboxMandatoryField}"
+                                <ComboBox x:Name="MineralModeBox" x:Uid="MinderalDialogMode" Style="{ThemeResource ComboboxMandatoryField}" RelativePanel.RightOf="MineralNamesTextbox" RelativePanel.AlignBottomWithPanel="True"
                                       ItemsSource="{x:Bind MineralVM.MineralModeText}"
                                       SelectedValue="{x:Bind MineralVM.SelectedMineralModeText, Mode=TwoWay}" SelectionChanged="{x:Bind MineralVM.MineralModeBox_SelectionChanged}"/>
-                            
+
+                            </RelativePanel>
+
                         </GridView>
 
                         <TextBlock x:Name="ModeDynamicLabel" x:Uid="MineralResidualLabel" Text="{x:Bind MineralVM.MineralResidualText, Mode=TwoWay}" RelativePanel.Below="MineralGridView_01"/>

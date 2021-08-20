@@ -69,10 +69,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         public void WipeUserMapSettings_deprecated()
         {
-            if (currentLocalSettings.Containers[containerName].Values.ContainsKey("mapScale"))
-            {
-                currentLocalSettings.Containers[containerName].Values.Remove("mapScale");
-            }
+
             if (currentLocalSettings.Containers[containerName].Values.ContainsKey("mapLayers"))
             {
                 currentLocalSettings.Containers[containerName].Values.Remove("mapLayers");

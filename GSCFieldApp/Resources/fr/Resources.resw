@@ -1150,7 +1150,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Les vocabulaires ont été remplacés.</value>
   </data>
   <data name="SettingPagePicklistButton.Label" xml:space="preserve">
-    <value>Ajouter et remplacer le vocabulaire</value>
+    <value>Importer le vocabulaire</value>
   </data>
   <data name="UserInfoDialogPGeologistFirstName.Header" xml:space="preserve">
     <value>Prénom</value>
@@ -1451,5 +1451,20 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="MapInfoLocationLabel.Text" xml:space="preserve">
     <value>Position: </value>
+  </data>
+  <data name="FieldBookUpgradeContentInvalid" xml:space="preserve">
+    <value>Le présent carnet est déjà de la plus récente version.</value>
+  </data>
+  <data name="MapPageLocationCommand.Label" xml:space="preserve">
+    <value>Entrée XY</value>
+  </data>
+  <data name="MineralAutoSuggest.Header" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="MineralAutoSuggest.PlaceholderText" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
+  <data name="MineralNamesTextbox.Header" xml:space="preserve">
+    <value>Sélection</value>
   </data>
 </root>
