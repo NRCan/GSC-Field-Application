@@ -283,7 +283,7 @@ namespace GSCFieldApp.Views
                 sAngle = 0;
             }
 
-            if (StructureRelatedCombobox.SelectedValue != null)
+            if (StructureRelatedCombobox.SelectedValue != null && StructureRelatedCombobox.SelectedValue.ToString() != String.Empty)
             {
                 //string strucID = StructureRelatedCombobox.SelectedValue.ToString();
                 //Structure result = accessData.GetRelatedStructure(strucID);
@@ -431,8 +431,6 @@ namespace GSCFieldApp.Views
             }
 
             //Refresh related list.
-            strucViewModel.FillStructureRelated(senderBox.Text);
-
             strucViewModel.NewSearch_userHasSelectedAValue(senderBox.Text);
 
         }

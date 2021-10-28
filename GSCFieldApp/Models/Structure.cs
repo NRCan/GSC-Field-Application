@@ -193,6 +193,7 @@ namespace GSCFieldApp.Models
             get
             {
                 if (StructureClass != null && StructureClass != string.Empty
+                    && StructureRelated != null
                     && StructureRelated != string.Empty
                     && StructureAzimuth != string.Empty
                     && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)

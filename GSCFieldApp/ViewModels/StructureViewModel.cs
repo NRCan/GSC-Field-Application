@@ -196,6 +196,15 @@ namespace GSCFieldApp.ViewModels
                 _structRel.Clear();
                 RaisePropertyChanged("StructRelated");
             }
+            else
+            {
+                //Else keep whatever has been passed by Field Note as an existing value
+                if (existingDataDetailStructure.structure.StructureClass != null && existingDataDetailStructure.structure.StructureClass != string.Empty)
+                {
+                    lithoClass = existingDataDetailStructure.structure.StructureClass;
+                }
+                
+            }
 
 
             string querySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableStructure;
@@ -212,13 +221,17 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Extra where clause to select only counterpart and not same structure types
-            if (existingDataDetailStructure.structure.StructureClass != null && existingDataDetailStructure.structure.StructureClass != string.Empty && existingDataDetailStructure.structure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
+            if (lithoClass.Contains(DatabaseLiterals.KeywordPlanar))
             {
                 queryWhere = queryWhere + " AND " + DatabaseLiterals.FieldStructureClass + " LIKE '%" + DatabaseLiterals.KeywordLinear + "%'";
             }
-            else
+            else if (lithoClass.Contains(DatabaseLiterals.KeywordLinear))
             {
                 queryWhere = queryWhere + " AND " + DatabaseLiterals.FieldStructureClass + " LIKE '%" + DatabaseLiterals.KeywordPlanar + "%'";
+            }
+            else
+            { 
+                //Do nothing which should select everything.
             }
 
             string finalQuery = querySelect + queryWhere;
@@ -731,6 +744,8 @@ namespace GSCFieldApp.ViewModels
             FillStructureYounging();
             FillStructureGeneration();
             FillStructureFormat();
+            FillStructureRelated(_strucclasstypedetail);
+
         }
 
         #endregion
