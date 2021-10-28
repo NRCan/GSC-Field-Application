@@ -60,8 +60,7 @@
                                 <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" 
                                  RelativePanel.Below="StructureAutoSuggest" RelativePanel.RightOf="structTypeSearch"
                                  Width="Auto" Style="{ThemeResource TextboxMandatoryField}" IsReadOnly="True" FontWeight="Bold"
-                                 Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}"
-                                 TextChanging="StrucType_TextChanging" />
+                                 Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}" TextChanged="strucType_TextChanged" />
                         </RelativePanel>
                         </GridView>
 

@@ -176,7 +176,7 @@ namespace GSCFieldApp.ViewModels
             existingDataDetailStructure = inReport;
 
             // First order vocabs
-            //FillStructureFormat();
+            FillStructureFormat();
             FillStructureMethod();
             FillStructureStrain();
             FillStructureFlattening();
@@ -246,6 +246,7 @@ namespace GSCFieldApp.ViewModels
                 structItem.itemName = Dictionaries.DatabaseLiterals.picklistNADescription;
                 structItem.itemValue = Dictionaries.DatabaseLiterals.picklistNACode;
                 _structRel.Add(structItem);
+
             }
             else
             {
@@ -709,17 +710,27 @@ namespace GSCFieldApp.ViewModels
             Models.SemanticData inSD = inListView.SelectedValue as Models.SemanticData;
             if (inSD!=null)
             {
-                _strucclasstypedetail = inSD.Title + level2Sep + inSD.Subtitle;
-                RaisePropertyChanged("StructClassTypeDetail");
-
-                // Second order vocab, need to be at least initialized.
-                FillStructureAttitude();
-                FillStructureYounging();
-                FillStructureGeneration();
-                FillStructureFormat();
+                string userStrucClassTypeDetail = inSD.Title + level2Sep + inSD.Subtitle;
+                NewSearch_userHasSelectedAValue(userStrucClassTypeDetail);
 
             }
 
+        }
+
+        /// <summary>
+        /// Will be triggered whenever the struc box has been filled with something. It will update the whole structure class
+        /// </summary>
+        /// <param name="userStructClassTypeDetail"></param>
+        public void NewSearch_userHasSelectedAValue(string userStructClassTypeDetail)
+        {
+            _strucclasstypedetail = userStructClassTypeDetail;
+            RaisePropertyChanged("StructClassTypeDetail");
+
+            // Second order vocab, need to be at least initialized.
+            FillStructureAttitude();
+            FillStructureYounging();
+            FillStructureGeneration();
+            FillStructureFormat();
         }
 
         #endregion

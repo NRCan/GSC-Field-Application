@@ -154,28 +154,6 @@ namespace GSCFieldApp.Views
 
         #endregion
 
-        /// <summary>
-        /// Display appropriate generic planar or linear symbol
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        private void StrucType_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
-        {
-            if (sender.Text.StartsWith(Dictionaries.DatabaseLiterals.KeywordPlanar)) 
-            {
-                PlanarIcon.Visibility = Visibility.Visible;
-                LinearIcon.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                PlanarIcon.Visibility = Visibility.Collapsed;
-                LinearIcon.Visibility = Visibility.Visible;
-            }
-
-            //Refresh related list.
-            strucViewModel.FillStructureRelated(sender.Text);
-        }
-
         private void StructureRelatedCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = sender as ComboBox;
@@ -186,7 +164,7 @@ namespace GSCFieldApp.Views
 
                 if (result != null)
                 {
-                    if (!strucType.Text.Contains(result.StructureClass.ToString()))
+                    if (!strucType.Text.Contains(result.StructureClass.ToString()) && result.StructureSymAng != string.Empty)
                     {
                         //int primaryAzimuth = System.Convert.ToInt32(StructureAzimuthNumBox.Text.ToString());
                         int relatedAngle = System.Convert.ToInt32(result.StructureSymAng);
@@ -436,6 +414,27 @@ namespace GSCFieldApp.Views
             }
 
             return outResults;
+        }
+
+        private void strucType_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox senderBox = sender as TextBox;
+            if (senderBox.Text.StartsWith(Dictionaries.DatabaseLiterals.KeywordPlanar))
+            {
+                PlanarIcon.Visibility = Visibility.Visible;
+                LinearIcon.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                PlanarIcon.Visibility = Visibility.Collapsed;
+                LinearIcon.Visibility = Visibility.Visible;
+            }
+
+            //Refresh related list.
+            strucViewModel.FillStructureRelated(senderBox.Text);
+
+            strucViewModel.NewSearch_userHasSelectedAValue(senderBox.Text);
+
         }
     }
 }
