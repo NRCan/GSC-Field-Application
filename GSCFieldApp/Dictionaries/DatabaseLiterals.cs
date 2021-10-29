@@ -54,12 +54,12 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldUserInfoMN = "MIDDLENAME";
         public const string FieldUserInfoLN = "LASTNAME";
         public const string FieldUserInfoProjectionType = "PRJCT_TYPE"; //Version 1.0
-        public const string FieldUserInfoProjectionDatum = "EPSG"; //Version 1.0
+        //public const string FieldUserInfoProjectionDatum = "EPSG"; //Version 1.0
         public const string FieldUserInfoStationStartNumber = "STNSTARTNO"; //Version 1.0
         public const string FieldUserInfoVersion = "VERSION_APP"; //Version 1.0
         public const string FieldUserStartDate = "START_DATE"; //Version 1.0
         public const string FieldUserInfoVersionSchema = "VERSIONSCHEMA"; //Version 1.39
-        public const string FieldUserInfoEPSG = "EPSG"; //Deprecated since 1.44, is not accessible in F_LOCATION
+        public const string FieldUserInfoEPSG = "EPSG"; //Deprecated since 1.44, is now accessible in F_LOCATION
 
         public const string FieldStationID = "STATIONID";//Version 1.0
         public const string FieldStationAlias = "STATIONIDNAME";//Version 1.5
