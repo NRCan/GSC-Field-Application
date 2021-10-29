@@ -9,7 +9,7 @@ namespace GSCFieldApp.Dictionaries
     public static class DatabaseLiterals
     {
         #region Database version
-        public const string DBVersion = "1.44"; //Will be used to verify loaded projects.
+        public const double DBVersion = 1.5; //Will be used to verify loaded projects.
         #endregion
 
         #region Database names
@@ -18,7 +18,8 @@ namespace GSCFieldApp.Dictionaries
 
         #region Database field names
         public const string FieldLocationID = "LOCATIONID";//Version 1.0
-        public const string FieldLocationAlias = "LOCATIONNAME";//Version 1.0
+        public const string FieldLocationAlias = "LOCATIONIDNAME";//Version 1.5
+        public const string FieldLocationAliasDeprecated = "LOCATIONNAME";//Version < 1.5
         public const string FieldLocationLongitude = "LONGITUDE";//Version 1.0
         public const string FieldLocationLatitude = "LATITUDE";//Version 1.0
         public const string FieldLocationElevation = "ELEVATION"; //Version 1.0
@@ -61,7 +62,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldUserInfoEPSG = "EPSG"; //Deprecated since 1.44, is not accessible in F_LOCATION
 
         public const string FieldStationID = "STATIONID";//Version 1.0
-        public const string FieldStationAlias = "STATIONNAME";//Version 1.0
+        public const string FieldStationAlias = "STATIONIDNAME";//Version 1.5
+        public const string FieldStationAliasDeprecated = "STATIONNAME";//Version < 1.5
         public const string FieldStationObsID = "LOCATIONID";//Version 1.0
         public const string FieldStationLongitude = "LONGITUDE";//Version 1.0
         public const string FieldStationLatitude = "LATITUDE";//Version 1.0
@@ -78,7 +80,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldStationOCSize = "OCSIZE";
 
         public const string FieldEarthMatID = "EARTHMATID";//Version 1.0
-        public const string FieldEarthMatName = "EARTHMATNAME";//Version 1.0
+        public const string FieldEarthMatName = "EARTHMATIDNAME";//Version 1.5
+        public const string FieldEarthMatNameDeprecated = "EARTHMATNAME";//Version < 1.5
         public const string FieldEarthMatStatID = "STATIONID";//Version 1.0
         public const string FieldEarthMatLithgroup = "LITHGROUP";//Version 1.0
         public const string FieldEarthMatLithtype = "LITHTYPE";//Version 1.0
@@ -103,7 +106,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatNotes = "NOTES"; //Version 1.43
 
         public const string FieldSampleID = "SAMPLEID"; //Version 1.0
-        public const string FieldSampleName = "SAMPLENAME"; //Version 1.0
+        public const string FieldSampleName = "SAMPLEIDNAME"; //Version 1.5
+        public const string FieldSampleNameDeprecated = "SAMPLENAME";//Version < 1.5
         public const string FieldSampleNotes = "NOTES"; //Version 1.0
         public const string FieldSampleType = "SAMPLETYPE"; //Version 1.0
         public const string FieldSamplePurpose = "PURPOSE"; //Version 1.0
@@ -138,7 +142,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldFavoriteID = "ITEMID_ISFAVORITE";//Version 1.0
 
         public const string FieldDocumentID = "DOCUMENTID";//Version 1.0
-        public const string FieldDocumentName = "DOCUMENTNAME";//Version 1.0
+        public const string FieldDocumentName = "DOCUMENTIDNAME";//Version 1.5
+        public const string FieldDocumentNameDeprecated = "DOCUMENTNAME";//Version < 1.5
         public const string FieldDocumentCategory = "CATEGORY";//Version 1.0
         public const string FieldDocumentFileNo = "FILENUMBER";//Version 1.0
         public const string FieldDocumentFileName = "FILENAME";//Version 1.0
@@ -150,7 +155,8 @@ namespace GSCFieldApp.Dictionaries
 
 
         public const string FieldStructureID = "STRUCID";//Version 1.0
-        public const string FieldStructureName = "STRUCNAME";//Version 1.0
+        public const string FieldStructureName = "STRUCIDNAME";//Version 1.5
+        public const string FieldStructureNameDeprecated = "STRUCNAME";//Version < 1.5
         public const string FieldStructureClass = "STRUCCLASS"; //Version 1.0
         public const string FieldStructureType = "STRUCTYPE"; //Version 1.0
         public const string FieldStructureDetail = "DETAIL"; //Verison 1.0
