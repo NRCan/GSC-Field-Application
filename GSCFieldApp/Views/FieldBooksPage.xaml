@@ -171,7 +171,6 @@
                       Visibility="{x:Bind ViewModel.ProgressRingVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" 
                       Padding="0" RelativePanel.AlignHorizontalCenterWithPanel="True" 
                       RelativePanel.AlignVerticalCenterWithPanel="True"/>
-        <AppBarButton Icon="Accept" Label="AppBarButton"/>
 
     </RelativePanel>
 
