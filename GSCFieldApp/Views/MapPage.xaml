@@ -74,8 +74,8 @@
 
         <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right"
                              RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40">
-            <AppBarButton Foreground="White" Icon="OpenFile" Width="100" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
-            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White" Width="80" Height="50" IsCompact ="True" VerticalAlignment="Top" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
+            <AppBarButton Foreground="White" Icon="OpenFile" MaxWidth="100" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
+            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White" MaxWidth="100" Height="50" IsCompact ="True" VerticalAlignment="Top" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
                 </AppBarButton.Icon>
@@ -97,8 +97,8 @@
 
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo" ToolTipService.ToolTip="" Width="65" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
-            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes" ToolTipService.ToolTip="" Foreground="White" Width="80" Height="65" IsCompact ="True" VerticalAlignment="Top" Tapped="GPSMode_TappedAsync" >
+            <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
+            <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes" ToolTipService.ToolTip="" Foreground="White" MaxWidth="120" Height="65" IsCompact ="True" VerticalAlignment="Top" Tapped="GPSMode_TappedAsync" >
                 <AppBarButton.Icon>
                     <SymbolIcon Symbol="{x:Bind ViewModel.GPSModeSymbol, Mode=TwoWay}" x:Name="GPSModeIcon"/>
                 </AppBarButton.Icon>
