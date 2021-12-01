@@ -138,9 +138,9 @@
          
             <controls:PageHeader.PrimaryCommands>
 
-                <AppBarButton x:Name="projectFullBackupButton" Icon="Add" MaxWidth="125" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectFullBackupButtonLabel" FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Full Backup" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectBackup_Tapped}" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
-                <AppBarButton x:Name="projectRestoreButton" Icon="Add" MaxWidth="125" Height="50" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectRestoreButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Restore" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectRestore_Tapped}"/>
-                <AppBarButton x:Name="projectUpgradeButton" Icon="Add" MaxWidth="125" Height="60" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectUpgradeButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Upgrade" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectUpgrade_Tapped}"/>
+                <AppBarButton x:Name="projectFullBackupButton" Icon="Download" MaxWidth="125" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectFullBackupButtonLabel" FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Full Backup" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectBackup_Tapped}" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
+                <AppBarButton x:Name="projectRestoreButton" Icon="Upload" MaxWidth="125" Height="50" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectRestoreButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Restore" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectRestore_Tapped}"/>
+                <AppBarButton x:Name="projectUpgradeButton" Icon="Refresh" MaxWidth="125" Height="60" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectUpgradeButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Upgrade" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectUpgrade_Tapped}"/>
             </controls:PageHeader.PrimaryCommands>
 
 
