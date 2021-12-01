@@ -172,7 +172,6 @@
                       Width="130" Height="50" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"
                       Visibility="{x:Bind ViewModel.MapRingVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" Padding="0" VerticalAlignment="Center"/>
         <TextBlock x:Name="MapProgressRingAcquiringGPSLabel" x:Uid="MapProgressRingAcquiringGPSLabel" Visibility="{x:Bind ViewModel.MapRingLabelAcquiringGPSVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" Text="Acquiring GPS please wait" RelativePanel.AlignVerticalCenterWith="MapProgressRing" Margin="5,0,0,0" RelativePanel.RightOf="MapProgressRing"/>
-        <AppBarButton Icon="Accept" Label="AppBarButton"/>
 
     </RelativePanel>
 </Page>
