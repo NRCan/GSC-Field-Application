@@ -46,6 +46,28 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleSurface)]
         public string SampleSurface { get; set; }
 
+        [Column(DatabaseLiterals.FieldSampleHorizon)]
+        public string SampleHorizon { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleDepthMin)]
+        public string SampleDepthMin { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleDepthMax)]
+        public string SampleDeptMax { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleDuplicate)]
+        public string SampleDuplicate { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleDuplicateName)]
+        public string SampleDuplicateName { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleState)]
+        public string SampleState { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleMethod)]
+        public string SampleMethod { get; set; }
+
+
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
 

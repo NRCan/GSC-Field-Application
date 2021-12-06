@@ -117,6 +117,13 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleSurface = "SURFACE";
         public const string FieldSampleFormat = "FORMAT";
         public const string FieldSampleQuality = "QUALITY";
+        public const string FieldSampleHorizon = "HORIZON"; //Version 1.5
+        public const string FieldSampleDepthMin = "DEPTHMIN"; //Version 1.5
+        public const string FieldSampleDepthMax = "DEPTHMAX"; //Version 1.5
+        public const string FieldSampleDuplicate = "DUPLICATE";//Version 1.5
+        public const string FieldSampleDuplicateName = "DUPLICATENAME";//Version 1.5
+        public const string FieldSampleState = "STATE";//Version 1.5
+        public const string FieldSampleMethod = "METHOD";//Version 1.5
 
         public const string FieldDictionaryCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryCode = "CODE";//Version 1.0
