@@ -14,6 +14,7 @@ namespace GSCFieldApp.Dictionaries
 
         #region Database names
         public const string DBName = "GSCFieldwork";
+        public const string DBNameSuffixUpgrade = "GSCFieldwork_BeforeUpgrade";
         #endregion
 
         #region Database field names

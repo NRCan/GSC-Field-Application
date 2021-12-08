@@ -144,7 +144,18 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public async Task CreateDatabaseFromResource()
         {
-            await WriteResourceToFile(_dbName, "ModelResources/" + _dbName);
+            await PrepNewFieldBookDatabase(_dbName, "ModelResources/" + _dbName);
+
+        }
+
+        /// <summary>
+        /// Will create the fieldworkd sqlite database from an embedded resource
+        /// </summary>
+        /// <returns></returns>
+        public async Task CreateDatabaseFromResourceTo(string toFolderPath)
+        {
+            StorageFolder folderPath = await StorageFolder.GetFolderFromPathAsync(toFolderPath);
+            await WriteResourceToFile(folderPath, "ModelResources/" + _dbName, _dbName);
 
         }
 
@@ -154,12 +165,49 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="outFileNameWithExt">The outut file name, ex: "GSCFieldwork.sqlite"</param>
         /// <param name="inApplicationPathToFile">The folder inside the project containing the file to copy and the file itself, ex: ModelResources/GSCFieldWork.sqlite</param>
-        public async Task WriteResourceToFile(string outFileNameWithExt, string inApplicationPathToFile)
+        public async Task WriteResourceToFile(StorageFolder inFolder, string inApplicationPathToFile, string newFileNameWithExt)
+        {
+
+            // Create or overwrite file target file in local app data folder
+            StorageFile fileToWrite = await inFolder.CreateFileAsync(newFileNameWithExt, CreationCollisionOption.GenerateUniqueName);
+
+            // Open file in application package
+            StorageFile fileToRead = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + inApplicationPathToFile, UriKind.Absolute));
+
+            byte[] buffer = new byte[1024];
+            using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
+            {
+                using (BinaryReader fileReader = new BinaryReader(await fileToRead.OpenStreamForReadAsync()))
+                {
+                    long readCount = 0;
+                    while (readCount < fileReader.BaseStream.Length)
+                    {
+                        int read = fileReader.Read(buffer, 0, buffer.Length);
+                        readCount += read;
+                        fileWriter.Write(buffer, 0, read);
+                    }
+                }
+            }
+
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToWrite);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToRead);
+
+        }
+
+        /// <summary>
+        /// Will write an embedded resource to a file with a binary writer. In case it exists, it will replace it.
+        /// Will save the resource to the local folder.
+        /// </summary>
+        /// <param name="outFileNameWithExt">The outut file name, ex: "GSCFieldwork.sqlite"</param>
+        /// <param name="inApplicationPathToFile">The folder inside the project containing the file to copy and the file itself, ex: ModelResources/GSCFieldWork.sqlite</param>
+        public async Task PrepNewFieldBookDatabase(string outFileNameWithExt, string inApplicationPathToFile)
         {
             //Create field project hierarchy folder in local state
             int incrementer = 1; //Will be used to name project folders (pretty basic)
             string fieldProjectPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, incrementer.ToString()); //Wanted path for project data
-            StorageFolder fieldFolder = ApplicationData.Current.LocalFolder; //Current folder object to local state
+            StorageFolder fieldFolder = await StorageFolder.GetFolderFromPathAsync(fieldProjectPath);//Current folder object to local state
+ 
             bool breaker = false; //Will be used to break while clause whenever a folder has been created.
             while (!breaker)
             {
@@ -181,37 +229,17 @@ namespace GSCFieldApp.Services.DatabaseServices
                 fieldProjectPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, incrementer.ToString());
             }
 
+
             // Create or overwrite file target file in local app data folder
-            StorageFile fileToWrite = await fieldFolder.CreateFileAsync(outFileNameWithExt, CreationCollisionOption.ReplaceExisting);
-
-            // Open file in application package
-            StorageFile fileToRead = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + inApplicationPathToFile, UriKind.Absolute));
-
-            byte[] buffer = new byte[1024];
-            using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
-            {
-                using (BinaryReader fileReader = new BinaryReader(await fileToRead.OpenStreamForReadAsync()))
-                {
-                    long readCount = 0;
-                    while (readCount < fileReader.BaseStream.Length)
-                    {
-                        int read = fileReader.Read(buffer, 0, buffer.Length);
-                        readCount += read;
-                        fileWriter.Write(buffer, 0, read);
-                    }
-                }
-            }
+            await WriteResourceToFile(fieldFolder, inApplicationPathToFile, outFileNameWithExt);
 
             _dbPath = Path.Combine(fieldFolder.Path, outFileNameWithExt);
-
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToWrite);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToRead);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fieldFolder);
 
             //Keep in setting the latest path
             localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject, fieldProjectPath);
             ApplicationData.Current.SignalDataChanged();
 
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(fieldFolder);
 
         }
 

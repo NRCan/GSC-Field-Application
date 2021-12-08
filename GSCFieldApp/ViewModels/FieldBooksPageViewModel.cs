@@ -825,28 +825,39 @@ namespace GSCFieldApp.ViewModels
                 //New field books or empty ones shouldn't be upgraded
                 if (accessData.CanUpgrade())
                 {
+                    DataAccess dAccess = new DataAccess();
+                    FileServices fService = new FileServices();
                     //Get local storage folder
                     StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
                     //Keep current database path before creating the new one
-                    string dbpathToUpgrade = DataAccess.DbPath;
+                    string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
+                    string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, DataAccess._dbName); //in root of local state folder for now
 
                     //Create new fieldbook
-                    Task createNewDatabase = accessData.CreateDatabaseFromResource();
+                    Task createNewDatabase = accessData.CreateDatabaseFromResourceTo(dbFolderToUpgrade);
                     await createNewDatabase;
                     if (createNewDatabase.IsCompleted)
                     {
-
                         //Connect to the new working database
-                        SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
+                        SQLiteConnection upgradeDBConnection = accessData.GetConnectionFromPath(dbpathToUpgrade);
 
                         //Keep user vocab
-                        accessData.DoSwapVocab(dbpathToUpgrade, workingDBConnection, false);
+                        accessData.DoSwapVocab(DataAccess.DbPath, upgradeDBConnection, false);
 
                         //Upgrade other tables
-                        accessData.DoUpgradeSchema(dbpathToUpgrade, workingDBConnection);
+                        accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection);
 
                     }
+
+                    //Rename current fieldbook
+                    string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade) + Dictionaries.DatabaseLiterals.DBTypeSqlite;
+                    string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName);
+                    string copyPathBeforeMove = DataAccess.DbPath;
+                    File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
+
+                    //Copy upgraded version
+                    File.Move(dbpathToUpgrade, copyPathBeforeMove);
 
                     //Show end message
                     var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
@@ -866,7 +877,7 @@ namespace GSCFieldApp.ViewModels
                         EventHandler<string> newFieldBookRequest = newFieldBookSelected;
                         if (newFieldBookRequest != null)
                         {
-                            newFieldBookRequest(this, System.IO.Directory.GetParent(dbpathToUpgrade).FullName);
+                            newFieldBookRequest(this, System.IO.Directory.GetParent(DataAccess.DbPath).FullName);
                         }
                     }
                 }
