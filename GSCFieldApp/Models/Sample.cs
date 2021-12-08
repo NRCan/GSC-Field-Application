@@ -53,7 +53,7 @@ namespace GSCFieldApp.Models
         public string SampleDepthMin { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMax)]
-        public string SampleDeptMax { get; set; }
+        public string SampleDepthMax { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDuplicate)]
         public string SampleDuplicate { get; set; }
@@ -63,9 +63,6 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldSampleState)]
         public string SampleState { get; set; }
-
-        [Column(DatabaseLiterals.FieldSampleMethod)]
-        public string SampleMethod { get; set; }
 
 
         //Hierarchy

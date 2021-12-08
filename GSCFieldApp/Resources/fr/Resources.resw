@@ -1467,4 +1467,34 @@ Shimamura, Kaz – Conseiller</value>
   <data name="MineralNamesTextbox.Header" xml:space="preserve">
     <value>Sélection</value>
   </data>
+  <data name="SampleDialogState.Header" xml:space="preserve">
+    <value>État</value>
+  </data>
+  <data name="SampleDialogDepthMax.Header" xml:space="preserve">
+    <value>Profondeur Max. (cm)</value>
+  </data>
+  <data name="SampleDialogDepthMin.Header" xml:space="preserve">
+    <value>Profondeur Min. (cm)</value>
+  </data>
+  <data name="SampleDialogDuplicateName.Header" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="SampleDialogHorizon.Header" xml:space="preserve">
+    <value>Horizon</value>
+  </data>
+  <data name="SampleDialogIsDuplicate.Content" xml:space="preserve">
+    <value>Est-ce un duplicat?</value>
+  </data>
+  <data name="SampleGridView_General.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="SampleGridView_Main.Content" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SampleGridView_Orient.Content" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="SampleGridView_State.Content" xml:space="preserve">
+    <value>État</value>
+  </data>
 </root>

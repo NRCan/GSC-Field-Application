@@ -123,8 +123,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleDuplicate = "DUPLICATE";//Version 1.5
         public const string FieldSampleDuplicateName = "DUPLICATENAME";//Version 1.5
         public const string FieldSampleState = "STATE";//Version 1.5
-        public const string FieldSampleMethod = "METHOD";//Version 1.5
-
+        
         public const string FieldDictionaryCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryCode = "CODE";//Version 1.0
         public const string FieldDictionaryDescription = "DESCRIPTIONEN";//Version 1.0

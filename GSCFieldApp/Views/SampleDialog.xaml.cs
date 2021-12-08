@@ -121,6 +121,5 @@ namespace GSCFieldApp.Views
             }
         }
 
-
     }
 }
