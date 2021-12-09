@@ -499,7 +499,7 @@
     <value>Chef</value>
   </data>
   <data name="UserInfoDialogPName.Header" xml:space="preserve">
-    <value>Titre</value>
+    <value>Projet</value>
   </data>
   <data name="UserInfoDialogStartStationNumber.Header" xml:space="preserve">
     <value># de la première station</value>
@@ -1033,10 +1033,10 @@ Joseph, Jamel - Programmeur
 Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="UserInfo_OtherHeader.Content" xml:space="preserve">
-    <value>Initialisation</value>
+    <value>Autre</value>
   </data>
   <data name="UserInfo_ProjectHeader.Content" xml:space="preserve">
-    <value>Projet associé</value>
+    <value>Description</value>
   </data>
   <data name="UserInfo_UserHeader.Content" xml:space="preserve">
     <value>Géologue</value>
@@ -1496,5 +1496,14 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="SampleGridView_State.Content" xml:space="preserve">
     <value>État</value>
+  </data>
+  <data name="FieldworkNotes.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="UserInfoDialogAName.Header" xml:space="preserve">
+    <value>Activité</value>
+  </data>
+  <data name="UserInfoDialogAName.PlaceholderText" xml:space="preserve">
+    <value>Nom</value>
   </data>
 </root>

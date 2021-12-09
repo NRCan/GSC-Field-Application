@@ -46,7 +46,7 @@
                     <TextBlock x:Name="projectGeologist" Text="{x:Bind metadataForProject.Geologist}" 
                                HorizontalAlignment="Left" TextTrimming="WordEllipsis" Margin="25,0,0,0"
                                Grid.Column="0" Grid.Row="1"/>
-                    <TextBlock x:Name="projectTitle" Text="{x:Bind metadataForProject.ProjectName}" 
+                    <TextBlock x:Name="projectTitle" Text="{x:Bind metadataForProject.MetadataActivity}" 
                                HorizontalAlignment="Left" TextTrimming="WordEllipsis" Margin="25,0,0,0"
                                Grid.Column="0" Grid.Row="2"/>
                     <TextBlock x:Name="projectType" Text="{x:Bind metadataForProject.FieldworkType}" 

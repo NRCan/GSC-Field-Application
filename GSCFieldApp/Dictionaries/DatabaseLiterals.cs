@@ -61,6 +61,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldUserStartDate = "START_DATE"; //Version 1.0
         public const string FieldUserInfoVersionSchema = "VERSIONSCHEMA"; //Version 1.39
         public const string FieldUserInfoEPSG = "EPSG"; //Deprecated since 1.44, is now accessible in F_LOCATION
+        public const string FieldUserInfoNotes = "NOTES"; //Version 1.5
+        public const string FieldUserInfoActivityName = "ACTIVITY_NAME"; //version 1.5
+
 
         public const string FieldStationID = "STATIONID";//Version 1.0
         public const string FieldStationAlias = "STATIONIDNAME";//Version 1.5

@@ -59,7 +59,11 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldUserStartDate)]
         public string StartDate { get; set; }
 
+        [Column(DatabaseLiterals.FieldUserInfoNotes)]
+        public string MetadataNotes { get; set; }
 
+        [Column(DatabaseLiterals.FieldUserInfoActivityName)]
+        public string MetadataActivity { get; set; }
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -70,7 +74,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (MetaID != string.Empty && UserCode != string.Empty && FieldworkType != string.Empty && ProjectName != string.Empty && 
+                if (MetaID != string.Empty && UserCode != string.Empty && FieldworkType != string.Empty && MetadataActivity != string.Empty && 
                     ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && VersionSchema != string.Empty && StationStartNumber != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
                 {
                     return true;
