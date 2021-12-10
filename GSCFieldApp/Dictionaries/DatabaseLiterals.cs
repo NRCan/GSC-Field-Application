@@ -38,7 +38,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldLocationNorthing = "NORTHING";//Version 1.0
         //public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0 DEL Version 1.44
         public const string FieldLocationNotes = "NOTES"; //Version 1.0
-        public const string FieldLocationReportLink = "REPORT_LINK"; //Version 1.0
+        public const string FieldLocationReportLink = "REPORT_LINK"; //Version 1.0 Deprecated
 
         public const string FieldUserInfoID = "METAID";//Version 1.0
         public const string FieldUserInfoUCode = "GEOLCODE";//Version 1.0
@@ -64,14 +64,13 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldUserInfoNotes = "NOTES"; //Version 1.5
         public const string FieldUserInfoActivityName = "ACTIVITY_NAME"; //version 1.5
 
-
         public const string FieldStationID = "STATIONID";//Version 1.0
         public const string FieldStationAlias = "STATIONIDNAME";//Version 1.5
         public const string FieldStationAliasDeprecated = "STATIONNAME";//Version < 1.5
         public const string FieldStationObsID = "LOCATIONID";//Version 1.0
-        public const string FieldStationLongitude = "LONGITUDE";//Version 1.0
-        public const string FieldStationLatitude = "LATITUDE";//Version 1.0
-        public const string FieldStationElevation = "ELEVATION"; //Version 1.0
+        public const string FieldStationLongitude = "LONGITUDE";//Version 1.0 Deprecated
+        public const string FieldStationLatitude = "LATITUDE";//Version 1.0 Deprecated
+        public const string FieldStationElevation = "ELEVATION"; //Version 1.0 Deprecated
         public const string FieldStationVisitDate = "VISITDATE"; //Version 1.0
         public const string FieldStationVisitTime = "VISITTIME"; //Version 1.0
         public const string FieldStationNote = "NOTES"; //Version 1.0
@@ -82,6 +81,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldStationObsType = "OBSTYPE"; //Version 1.0
         public const string FieldStationOCQuality = "OCQUALITY";
         public const string FieldStationOCSize = "OCSIZE";
+        public const string FieldStationReportLink = "REPORT_LINK";
+        public const string FieldStationLegend = "LEGENDVAL";
+        public const string FieldStationInterpretation = "LNDINTERP";
 
         public const string FieldEarthMatID = "EARTHMATID";//Version 1.0
         public const string FieldEarthMatName = "EARTHMATIDNAME";//Version 1.5
@@ -127,7 +129,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleDuplicate = "DUPLICATE";//Version 1.5
         public const string FieldSampleDuplicateName = "DUPLICATENAME";//Version 1.5
         public const string FieldSampleState = "STATE";//Version 1.5
-        
+        public const string FieldCurationID = "CURATIONID";
+        public const string FieldSampleManagementID = "SMID";
+
         public const string FieldDictionaryCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryCode = "CODE";//Version 1.0
         public const string FieldDictionaryDescription = "DESCRIPTIONEN";//Version 1.0
@@ -162,7 +166,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDocumentRelatedID = "RELATIONID";//Version 1.0
         public const string FieldDocumentRelatedtable = "RELATIONTABLE"; //Version 1.0
         public const string FieldDocumentType = "DOCUMENTTYPE";//Version 1.0
-
+        public const string FieldDocumentHyperlink = "HYPERLINK";
+        public const string FieldDocumentObjLocX = "OBJECTLOCX";
+        public const string FIeldDocumentObjLocY = "OBJECTLOCY";
 
         public const string FieldStructureID = "STRUCID";//Version 1.0
         public const string FieldStructureName = "STRUCIDNAME";//Version 1.5
@@ -247,14 +253,14 @@ namespace GSCFieldApp.Dictionaries
         public const string TableMineral = "F_MINERAL"; //Version 1.0
         public const string TableDocument = "F_DOCUMENT"; //Version 1.0
         public const string TableStructure = "F_STRUCTURE";
-        public const string TableExternalMeasure = "F_EXT_MEASURE"; //Version 1.0
+        public const string TableExternalMeasure = "F_EXT_MEASURE"; //Version 1.0 Deprecated
         public const string TableFossil = "F_FOSSIL"; //Version 1.0
-        public const string TableEnvironment = "F_ENVIRONMENT"; //Version 1.0
-        public const string TableSoilProfile = "F_SOILRPO"; //Version 1.0
+        public const string TableEnvironment = "F_ENVIRONMENT"; //Version 1.0 
+        public const string TableSoilProfile = "F_SOILRPO"; //Version 1.0 Deprecated
         public const string TablePFlow = "F_PALEO_FLOW"; //Version 1.0
         public const string TableDictionary = "M_DICTIONARY"; //Version 1.0
         public const string TableDictionaryManager = "M_DICTIONARY_MANAGER"; //Version 1.0
-        public const string TableFavorites = "F_FAVORITE";
+        public const string TableFavorites = "F_FAVORITE"; //Deprecated
         public const string TableTraversePoint = "FS_TRAVERSE_POINT";
         public const string TableTraverseLine = "FS_TRAVERSE_LINE";
         public const string TableFieldCamp = "FS_FIELDCAMP";

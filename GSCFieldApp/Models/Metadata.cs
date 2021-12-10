@@ -59,11 +59,12 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldUserStartDate)]
         public string StartDate { get; set; }
 
+        [Column(DatabaseLiterals.FieldUserInfoActivityName)]
+        public string MetadataActivity { get; set; }
+
         [Column(DatabaseLiterals.FieldUserInfoNotes)]
         public string MetadataNotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldUserInfoActivityName)]
-        public string MetadataActivity { get; set; }
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.

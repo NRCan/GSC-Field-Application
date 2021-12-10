@@ -846,7 +846,7 @@ namespace GSCFieldApp.ViewModels
                         accessData.DoSwapVocab(DataAccess.DbPath, upgradeDBConnection, false);
 
                         //Upgrade other tables
-                        accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection);
+                        await accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection);
 
                     }
 

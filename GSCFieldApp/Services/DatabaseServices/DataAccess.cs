@@ -15,6 +15,7 @@ using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using System.Reflection;
 using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Dictionaries;
+using Windows.UI.Xaml;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 
@@ -507,19 +508,22 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <summary>
         /// Will take an input database path and will upgrade it to current version
         /// </summary>
-        public void DoUpgradeSchema(string inDBPath, SQLiteConnection outToDBConnection, bool closeConnection = true)
+        public async Task DoUpgradeSchema(string inDBPath, SQLiteConnection outToDBConnection, bool closeConnection = true)
         {
             //Variables
             string attachDBName = "dbUpgrade";
 
             //Untouched tables to upgrade
-            List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableDocument, DatabaseLiterals.TableEnvironment, DatabaseLiterals.TableFossil,
-            DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,
-            DatabaseLiterals.TableSample, DatabaseLiterals.TableStation , DatabaseLiterals.TableStructure,
-            DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint , DatabaseLiterals.TableFieldCamp};
+            List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata, 
+                DatabaseLiterals.TableEarthMat, DatabaseLiterals.TableSample, DatabaseLiterals.TableStation,
+                DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure,
+                DatabaseLiterals.TableEnvironment, DatabaseLiterals.TableFossil,
+                DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,  
+                DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint , DatabaseLiterals.TableFieldCamp};
 
-            //List of queries to send as a batch
-            List<string> queryList = new List<string>();
+
+        //List of queries to send as a batch
+        List<string> queryList = new List<string>();
 
             //Build attach db query
             string attachQuery = "ATTACH '" + inDBPath + "' AS " + attachDBName + "; ";
@@ -527,17 +531,46 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Shut down foreign keys constraints, else some loading might throws errors
             string shutDownForeignConstraints = "PRAGMA foreign_keys = off";
 
+            //Get current version of schema
+            double dbVersion = 0.0;
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema) != null)
+            {
+                string strDBVersion = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema).ToString();
+                Double.TryParse(strDBVersion, out dbVersion);
+            }
+
+            //Get special queries
+            //NOTE: tables field inserts must be in same order and same number as db table
+            if (dbVersion < 1.42)
+            {
+                queryList.Add(GetUpgradeQueryVersion1_42(attachDBName));
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
+            }
+            if (dbVersion >= 1.42 && dbVersion < 1.44)
+            {
+                queryList.AddRange(GetUpgradeQueryVersion1_44(attachDBName));
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
+            }
+            if (dbVersion < 1.5 && dbVersion >= 1.44)
+            { 
+                queryList.AddRange(GetUpgradeQueryVersion1_5(attachDBName));
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableSample);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableStation);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableStructure);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableDocument);
+            }
+
+            //Insert remaining tables
             foreach (string t in upgradeUntouchedTables)
             {
                 //Build insert queries
                 string insertQuery = "INSERT INTO " + t + " SELECT * FROM dbUpgrade." + t + ";";
                 queryList.Add(insertQuery);
             }
-
-            //Get special queries
-            queryList.Add(GetUpgradeQueryVersion1_42(attachDBName));
-            queryList.AddRange(GetUpgradeQueryVersion1_44(attachDBName));
-            queryList.AddRange(GetUpgradeQueryVersion1_5(attachDBName));
 
             //Build detach query
             string detachQuery = "DETACH DATABASE " + attachDBName + "; ";
@@ -558,6 +591,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             //Update working database
+            List<Exception> exceptionList = new List<Exception>();
             using (var db = outToDBConnection)
             {
 
@@ -569,16 +603,35 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         db.Execute(q);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        exceptionList.Add(e);
 
                     }
 
                 }
 
-
                 db.Commit();
                 db.Close();
+
+            }
+
+            foreach (Exception es in exceptionList)
+            {
+                ContentDialog deleteBookDialog = new ContentDialog()
+                {
+                    Title = "DB Error",
+                    Content = es.Message + "; " + es.StackTrace,
+                    PrimaryButtonText = "Bugger"
+                };
+                deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                ContentDialogResult cdr = await deleteBookDialog.ShowAsync();
+
+                if (cdr == ContentDialogResult.Primary)
+                {
+                    
+                }
+
             }
         }
 
@@ -1345,7 +1398,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     if (earthmatFields == DatabaseLiterals.FieldEarthMatNotes)
                     {
 
-                        earthmat_querySelect = earthmat_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableEarthMat + "%" + DatabaseLiterals.FieldEarthMatNotes + "%') THEN (" + DatabaseLiterals.FieldEarthMatNotes + ") ELSE ('') END as " + DatabaseLiterals.FieldEarthMatNotes;
+                        earthmat_querySelect = earthmat_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableEarthMat + "%" + DatabaseLiterals.FieldEarthMatNotes + "%') THEN (" + attachedDBName + "." + DatabaseLiterals.TableEarthMat +"."+DatabaseLiterals.FieldEarthMatNotes + ") ELSE ('') END as " + DatabaseLiterals.FieldEarthMatNotes;
 
                     }
                     else
@@ -1491,14 +1544,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             //SELECT CASE WHEN EXISTS(SELECT sql from db2.sqlite_master where sql LIKE '%F_LOCATION%LOCATIONNAME%') THEN(l.LOCATIONNAME) ELSE NULL END as LOCATIONIDNAME from db2.F_LOCATION as l
             List<string> insertQuery_15 = new List<string>();
 
-            double dbVersion = 0.0;
-
-            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema) != null)
-            {
-                string strDBVersion = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema).ToString();
-                Double.TryParse(strDBVersion, out dbVersion);
-            }
-
             #region F_LOCATION
 
             FieldLocation modelLocation = new FieldLocation();
@@ -1511,11 +1556,11 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (locationFields != locationFieldList.First())
                 {
-                    if (dbVersion < 1.5 && dbVersion >= 1.44 && locationFields == DatabaseLiterals.FieldLocationAlias)
+                    if (locationFields == DatabaseLiterals.FieldLocationAlias)
                     {
 
-                        location_querySelect = location_querySelect + 
-                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableLocation + "%" + DatabaseLiterals.FieldLocationAliasDeprecated + 
+                        location_querySelect = location_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableLocation + "%" + DatabaseLiterals.FieldLocationAliasDeprecated +
                             "%') THEN (l." + DatabaseLiterals.FieldLocationAliasDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldLocationAlias;
                     }
                     else
@@ -1550,7 +1595,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (structureFields != structureFieldList.First())
                 {
-                    if (dbVersion < 1.5 && dbVersion >= 1.44 && structureFields == DatabaseLiterals.FieldStructureName)
+                    if (structureFields == DatabaseLiterals.FieldStructureName)
                     {
 
                         structure_querySelect = structure_querySelect +
@@ -1589,7 +1634,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (earthmatFields != earthmatFieldList.First())
                 {
-                    if (dbVersion < 1.5 && dbVersion >= 1.44 && earthmatFields == DatabaseLiterals.FieldEarthMatName)
+                    if (earthmatFields == DatabaseLiterals.FieldEarthMatName)
                     {
 
                         earthmat_querySelect = earthmat_querySelect +
@@ -1618,40 +1663,70 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #region F_SAMPLE
 
-            //Sample modelSample = new Sample();
-            //List<string> sampleFieldList = modelSample.getFieldList;
-            //string sample_querySelect = string.Empty;
+            Sample modelSample = new Sample();
+            List<string> sampleFieldList = modelSample.getFieldList;
+            string sample_querySelect = string.Empty;
 
-            //foreach (string sampleFields in sampleFieldList)
-            //{
-            //    //Get all fields except alias
+            foreach (string sampleFields in sampleFieldList)
+            {
+                //Get all fields except alias
 
-            //    if (sampleFields != sampleFieldList.First())
-            //    {
-            //        if (dbVersion < 1.5 && dbVersion >= 1.44 && sampleFields == DatabaseLiterals.FieldSampleName)
-            //        {
+                if (sampleFields != sampleFieldList.First())
+                {
+                    if (sampleFields == DatabaseLiterals.FieldSampleName)
+                    {
 
-            //            sample_querySelect = sample_querySelect +
-            //                ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableSample + "%" + DatabaseLiterals.FieldSampleNameDeprecated +
-            //                "%') THEN (sm." + DatabaseLiterals.FieldSampleNameDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldSampleName;
-            //        }
-            //        else
-            //        {
-            //            sample_querySelect = sample_querySelect + ", sm." + sampleFields + " as " + sampleFields;
-            //        }
+                        sample_querySelect = sample_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableSample + "%" + DatabaseLiterals.FieldSampleNameDeprecated +
+                            "%') THEN (sm." + DatabaseLiterals.FieldSampleNameDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldSampleName;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleHorizon)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleHorizon;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleDepthMax)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleDepthMax;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleDepthMin)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleDepthMin;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleDuplicate)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleDuplicate;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleDuplicateName)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleDuplicateName;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleState)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleState;
+                    }
+                    else
+                    {
+                        sample_querySelect = sample_querySelect + ", sm." + sampleFields + " as " + sampleFields;
+                    }
 
-            //    }
-            //    else
-            //    {
-            //        sample_querySelect = " sm." + sampleFields + " as " + sampleFields;
-            //    }
+                }
+                else
+                {
+                    sample_querySelect = " sm." + sampleFields + " as " + sampleFields;
+                }
 
-            //}
-            //sample_querySelect = sample_querySelect.Replace(", ,", "");
+            }
+            sample_querySelect = sample_querySelect.Replace(", ,", "");
 
-            //string insertQuery_15_sample = "INSERT INTO " + DatabaseLiterals.TableSample + " SELECT " + sample_querySelect;
-            //insertQuery_15_sample = insertQuery_15_sample + " FROM " + attachedDBName + "." + DatabaseLiterals.TableSample + " as sm";
-            //insertQuery_15.Add(insertQuery_15_sample);
+            string insertQuery_15_sample = "INSERT INTO " + DatabaseLiterals.TableSample + " SELECT " + sample_querySelect;
+            insertQuery_15_sample = insertQuery_15_sample + " FROM " + attachedDBName + "." + DatabaseLiterals.TableSample + " as sm";
+            insertQuery_15.Add(insertQuery_15_sample);
 
             #endregion
 
@@ -1667,7 +1742,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (stationFields != stationFieldList.First())
                 {
-                    if (dbVersion < 1.5 && dbVersion >= 1.44 && stationFields == DatabaseLiterals.FieldStationAlias)
+                    if (stationFields == DatabaseLiterals.FieldStationAlias)
                     {
 
                         station_querySelect = station_querySelect +
@@ -1696,39 +1771,39 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #region F_DOCUMENT
 
-            //Document modelDocument= new Document();
-            //List<string> documentFieldList = modelDocument.getFieldList;
-            //string document_querySelect = string.Empty;
+            Document modelDocument = new Document();
+            List<string> documentFieldList = modelDocument.getFieldList;
+            string document_querySelect = string.Empty;
 
-            //foreach (string docFields in documentFieldList)
-            //{
+            foreach (string docFields in documentFieldList)
+            {
 
-            //    if (docFields != documentFieldList.First())
-            //    {
-            //        if (dbVersion < 1.5 && dbVersion >= 1.44 && docFields == DatabaseLiterals.FieldDocumentName)
-            //        {
+                if (docFields != documentFieldList.First())
+                {
+                    if (docFields == DatabaseLiterals.FieldDocumentName)
+                    {
 
-            //            document_querySelect = document_querySelect +
-            //                ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDocument + "%" + DatabaseLiterals.FieldDocumentNameDeprecated +
-            //                "%') THEN (d." + DatabaseLiterals.FieldDocumentNameDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldDocumentName;
-            //        }
-            //        else
-            //        {
-            //            document_querySelect = document_querySelect + ", d." + docFields + " as " + docFields;
-            //        }
+                        document_querySelect = document_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDocument + "%" + DatabaseLiterals.FieldDocumentNameDeprecated +
+                            "%') THEN (d." + DatabaseLiterals.FieldDocumentNameDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldDocumentName;
+                    }
+                    else
+                    {
+                        document_querySelect = document_querySelect + ", d." + docFields + " as " + docFields;
+                    }
 
-            //    }
-            //    else
-            //    {
-            //        document_querySelect = " d." + docFields + " as " + docFields;
-            //    }
+                }
+                else
+                {
+                    document_querySelect = " d." + docFields + " as " + docFields;
+                }
 
-            //}
-            //document_querySelect = document_querySelect.Replace(", ,", "");
+            }
+            document_querySelect = document_querySelect.Replace(", ,", "");
 
-            //string insertQuery_15_doc = "INSERT INTO " + DatabaseLiterals.TableDocument + " SELECT " + document_querySelect;
-            //insertQuery_15_doc = insertQuery_15_doc + " FROM " + attachedDBName + "." + DatabaseLiterals.TableDocument + " as d";
-            //insertQuery_15.Add(insertQuery_15_doc);
+            string insertQuery_15_doc = "INSERT INTO " + DatabaseLiterals.TableDocument + " SELECT " + document_querySelect;
+            insertQuery_15_doc = insertQuery_15_doc + " FROM " + attachedDBName + "." + DatabaseLiterals.TableDocument + " as d";
+            insertQuery_15.Add(insertQuery_15_doc);
 
             #endregion
 
@@ -1749,19 +1824,18 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Get all fields except alias
                 if (metFields != metadataFieldList.First())
                 {
-                    if (dbVersion < 1.5 && dbVersion >= 1.44 && metFields == DatabaseLiterals.FieldUserInfoActivityName)
+                    if (metFields == DatabaseLiterals.FieldUserInfoActivityName)
                     {
                         //Duplicate project name in activity name
                         metadata_querySelect = metadata_querySelect +
-                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableMetadata + "%" + DatabaseLiterals.FieldUserInfoActivityName +
-                            "%') THEN (" + DatabaseLiterals.FieldUserInfoActivityName + ") ELSE (m." + DatabaseLiterals.FieldUserInfoPName + ") END as " + DatabaseLiterals.FieldUserInfoActivityName;
+                            ", iif(NOT EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableMetadata + "%" + DatabaseLiterals.FieldUserInfoActivityName +
+                            "%'),m." + DatabaseLiterals.FieldUserInfoPName + ",NULL) as " + DatabaseLiterals.FieldUserInfoActivityName;
 
                     }
-                    else if (dbVersion < 1.5 && dbVersion >= 1.44 && metFields == DatabaseLiterals.FieldUserInfoNotes)
+                    else if (metFields == DatabaseLiterals.FieldUserInfoNotes)
                     {
                         metadata_querySelect = metadata_querySelect +
-                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableMetadata + "%" + DatabaseLiterals.FieldUserInfoNotes +
-                            "%') THEN (" + DatabaseLiterals.FieldUserInfoNotes + ") ELSE NULL END as " + DatabaseLiterals.FieldUserInfoNotes;
+                            ", NULL as " + DatabaseLiterals.FieldUserInfoNotes;
                     }
                     else 
                     {

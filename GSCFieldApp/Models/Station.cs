@@ -18,8 +18,11 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStationAlias)]
         public string StationAlias { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationObsID)]
-        public string LocationID { get; set; }
+        [Column(DatabaseLiterals.FieldStationTraverseNumber)]
+        public int StationTravNo { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationOCQuality)]
+        public string StationOCQuality { get; set; }
 
         [Column(DatabaseLiterals.FieldStationVisitDate)]
         public string StationVisitDate { get; set; }
@@ -27,29 +30,35 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStationVisitTime)]
         public string StationVisitTime { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationNote)]
-        public string StationNote { get; set; }
-
-        [Column(DatabaseLiterals.FieldStationSLSNote)]
-        public string StationSLSNotes { get; set; }
-
-        [Column(DatabaseLiterals.FieldStationTraverseNumber)]
-        public int StationTravNo { get; set; }
-
-        [Column(DatabaseLiterals.FieldStationAirPhotoNumber)]
-        public string StationAirNo { get; set; }
-
         [Column(DatabaseLiterals.FieldStationObsType)]
         public string StationObsType { get; set; }
-
-        [Column(DatabaseLiterals.FieldStationOCQuality)]
-        public string StationOCQuality { get; set; }
 
         [Column(DatabaseLiterals.FieldStationOCSize)]
         public string StationOCSize { get; set; }
 
         [Column(DatabaseLiterals.FieldStationPhysEnv)]
         public string StationPhysEnv { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationLegend)]
+        public string StationLegend { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationInterpretation)]
+        public string StationInterpretation { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationNote)]
+        public string StationNote { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationSLSNote)]
+        public string StationSLSNotes { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationAirPhotoNumber)]
+        public string StationAirNo { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationReportLink)]
+        public string StateionReportLink { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationObsID)]
+        public string LocationID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableLocation;

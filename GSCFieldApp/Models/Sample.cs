@@ -25,11 +25,8 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSamplePurpose)]
         public string SamplePurpose { get; set; }
 
-        [Column(DatabaseLiterals.FieldSampleNotes)]
-        public string SampleNotes { get; set; }
-
-        [Column(DatabaseLiterals.FieldSampleEarthmatID)]
-        public string SampleEarthmatID { get; set; }
+        [Column(DatabaseLiterals.FieldSampleFormat)]
+        public string SampleFormat { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleAzim)]
         public string SampleAzim { get; set; }
@@ -37,14 +34,23 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleDipPlunge)]
         public string SampleDiplunge { get; set; }
 
-        [Column(DatabaseLiterals.FieldSampleFormat)]
-        public string SampleFormat { get; set; }
+        [Column(DatabaseLiterals.FieldSampleSurface)]
+        public string SampleSurface { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleNotes)]
+        public string SampleNotes { get; set; }
+
+        [Column(DatabaseLiterals.FieldCurationID)]
+        public string SampleCuration { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleManagementID)]
+        public string SampleSMID { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleEarthmatID)]
+        public string SampleEarthmatID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleQuality)]
         public string SampleQuality { get; set; }
-
-        [Column(DatabaseLiterals.FieldSampleSurface)]
-        public string SampleSurface { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleHorizon)]
         public string SampleHorizon { get; set; }

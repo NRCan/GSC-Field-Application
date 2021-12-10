@@ -26,26 +26,39 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDocumentName)]
         public string DocumentName { get; set; }
 
+        [Column(DatabaseLiterals.FieldDocumentType)]
+        public string DocumentType { get; set; }
+
         [Column(DatabaseLiterals.FieldDocumentCategory)]
         public string Category { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentFileName)]
+        public string FileName { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentFileNo)]
+        public string FileNumber { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentDirection)]
+        public string Direction { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentDescription)]
         public string Description { get; set; }
 
-        [Column(DatabaseLiterals.FieldDocumentFileName)]
-        public string FileName { get; set; }
-        [Column(DatabaseLiterals.FieldDocumentFileNo)]
-        public string FileNumber { get; set; }
-        [Column(DatabaseLiterals.FieldDocumentType)]
-        public string DocumentType { get; set; }
+        [Column(DatabaseLiterals.FieldDocumentHyperlink)]
+        public string Hyperlink { get; set; }
 
-        [Column(DatabaseLiterals.FieldDocumentRelatedID)]
-        public string RelatedID { get; set; }
         [Column(DatabaseLiterals.FieldDocumentRelatedtable)]
         public string RelatedTable { get; set; }
 
-        [Column(DatabaseLiterals.FieldDocumentDirection)]
-        public string Direction { get; set; }
+        [Column(DatabaseLiterals.FieldDocumentRelatedID)]
+        public string RelatedID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentObjLocX)]
+        public string ObjectX { get; set; }
+
+        [Column(DatabaseLiterals.FIeldDocumentObjLocY)]
+        public string ObjectY { get; set; }
+
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
