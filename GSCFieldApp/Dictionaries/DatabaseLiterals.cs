@@ -132,10 +132,11 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldCurationID = "CURATIONID";
         public const string FieldSampleManagementID = "SMID";
 
+        public const string FieldDictionaryTermID = "TERMID";//Version 1.0
         public const string FieldDictionaryCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryCode = "CODE";//Version 1.0
         public const string FieldDictionaryDescription = "DESCRIPTIONEN";//Version 1.0
-        public const string FieldDictionaryTermID = "TERMID";//Version 1.0
+        public const string FieldDictionaryDescriptionFR = "DESCRIPTIONFR";
         public const string FieldDictionaryOrder = "ITEMORDER";//Version 1.0
         public const string FieldDictionaryVisible = "VISIBLE";//Version 1.0
         public const string FieldDictionaryCreator = "CREATOR";//Version 1.0
@@ -145,15 +146,22 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDictionaryRelatedTo = "RELATEDTO";//Version 1.0
         public const string FieldDictionaryDefault = "DEFAULTVALUE";//Version 1.0
         public const string FieldDictionaryEditable = "EDITABLE"; //Version 1.0
+        public const string FieldDictionaryVersion = "VERSION"; //Version 1.5
+        public const string FieldDictionaryRemarks = "USERREMARKS";
+        public const string FieldDictionarySymbol = "SYMBOL";
 
+        
+        public const string FieldDictionaryManagerLinkID = "LINKID";//Version 1.0
         public const string FieldDictionaryManagerCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryManagerAssignTable = "ASSIGNTABLE";//Version 1.0
         public const string FieldDictionaryManagerAssignField = "ASSIGNTOFIELD";//Version 1.0
         public const string FieldDictionaryManagerCodedThemeDescription = "THEMEDESC";//Version 1.0
+        public const string FieldDictionaryManagerOutputFile = "OUTPUTFILE";//Version 1.0
         public const string FieldDictionaryManagerEditable = "CAN_EDIT";//Version 1.0
         public const string FieldDictionaryManagerSpecificTo = "SPECIFICTO";//Version 1.0
+        public const string FieldDictionaryManagerVersion = "VERSION"; //Version 1.5
 
-        public const string FieldFavoriteID = "ITEMID_ISFAVORITE";//Version 1.0
+        public const string FieldFavoriteID = "ITEMID_ISFAVORITE";//Version 1.0 deprecated
 
         public const string FieldDocumentID = "DOCUMENTID";//Version 1.0
         public const string FieldDocumentName = "DOCUMENTIDNAME";//Version 1.5

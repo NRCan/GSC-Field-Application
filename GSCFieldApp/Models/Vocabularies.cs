@@ -37,20 +37,26 @@ namespace GSCFieldApp.Models
         [PrimaryKey, Column(DatabaseLiterals.FieldDictionaryTermID)]
         public string TermID { get; set; }
 
-        [Column(DatabaseLiterals.FieldDictionaryDescription)]
-        public string Description { get; set; }
+        [Column(DatabaseLiterals.FieldDictionaryCodedTheme)]
+        public string CodedTheme { get; set; }
+
+        [Column(DatabaseLiterals.FieldDictionaryRelatedTo)]
+        public string RelatedTo { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryCode)]
         public string Code { get; set; }
 
-        [Column(DatabaseLiterals.FieldDictionaryCodedTheme)]
-        public string CodedTheme { get; set; }
+        [Column(DatabaseLiterals.FieldDictionaryDescription)]
+        public string Description { get; set; }
+
+        [Column(DatabaseLiterals.FieldDictionaryDescriptionFR)]
+        public string DescriptionFR { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryOrder)]
         public double Order { get; set; }
 
-        [Column(DatabaseLiterals.FieldDictionaryVisible)]
-        public string Visibility { get; set; }
+        [Column(DatabaseLiterals.FieldDictionaryDefault)]
+        public string DefaultValue { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryCreator)]
         public string Creator { get; set; }
@@ -64,14 +70,20 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDictionaryEditorDate)]
         public string EditorDate { get; set; }
 
-        [Column(DatabaseLiterals.FieldDictionaryRelatedTo)]
-        public string RelatedTo { get; set; }
+        [Column(DatabaseLiterals.FieldDictionaryRemarks)]
+        public string Remarks { get; set; }
 
-        [Column(DatabaseLiterals.FieldDictionaryDefault)]
-        public string DefaultValue { get; set; }
+        [Column(DatabaseLiterals.FieldDictionarySymbol)]
+        public string Symbol { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryEditable)]
         public string Editable { get; set; }
+
+        [Column(DatabaseLiterals.FieldDictionaryVisible)]
+        public string Visibility { get; set; }
+
+        [Column(DatabaseLiterals.FieldDictionaryVersion)]
+        public string Version { get; set; }
 
         /// <summary>
         /// CompareTo method to filter vocabularies by order number
@@ -81,6 +93,30 @@ namespace GSCFieldApp.Models
         public int CompareTo(Vocabularies x)
         {
             return Order.CompareTo(x.Order);
+        }
+
+        /// <summary>
+        /// A list of all possible fields
+        /// </summary>
+        [Ignore]
+        public List<string> getFieldList
+        {
+            get
+            {
+                List<string> vocabFieldList = new List<string>();
+                vocabFieldList.Add(DatabaseLiterals.FieldDictionaryTermID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        vocabFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                return vocabFieldList;
+            }
+            set { }
         }
     }
 }

@@ -459,7 +459,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
-        /// Will take an input database and will upgrade output database vocab tables (dictionaries)
+        /// Will take an input database and will upgrade output database vocab tables (dictionaries) with latest coming from an input version
         /// </summary>
         public void DoSwapVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, bool closeConnection = true)
         {
@@ -506,6 +506,174 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// Will take an input database and will upgrade output database vocab tables (dictionaries) with latest coming from an input version
+        /// </summary>
+        public void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, bool closeConnection = true)
+        {
+            //Will hold all queries needed to be committed
+            List<string> queryList = new List<string>() {};
+
+            //Get current version of schema
+            double dbVersion = 0.0;
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema) != null)
+            {
+                string strDBVersion = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema).ToString();
+                Double.TryParse(strDBVersion, out dbVersion);
+            }
+
+            //Build attach db query
+            string attachDBName = "db2";
+            string attachQuery = "ATTACH '" + vocabFromDBPath + "' AS " + attachDBName + ";";
+            queryList.Add(attachQuery);
+
+            ////Set off foreign keys
+            //string shutDownForeignConstraints = "PRAGMA foreign_keys = off;";
+            //queryList.Add(shutDownForeignConstraints);
+
+            ///Wipe new database of everything else but latest version of vocab
+            //delete from M_DICTIONARY where M_DICTIONARY.VERSION != 1.5;
+            //delete from M_DICTIONARY_MANAGER where M_DICTIONARY_MANAGER.VERSION != 1.5;
+            string deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager +
+                " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
+            string deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary +
+                " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
+            queryList.Add(deleteQuery2);
+            queryList.Add(deleteQuery);
+
+            //Build insert queries
+            #region M_DICTIONARY
+
+            Vocabularies modelVocab = new Vocabularies();
+            List<string> vocabFieldList = modelVocab.getFieldList;
+            string vocab_querySelect = string.Empty;
+
+            foreach (string vocabFields in vocabFieldList)
+            {
+                //Get all fields except alias
+
+                if (vocabFields != vocabFieldList.First())
+                {
+                    if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion > 1.5)
+                    {
+
+                        vocab_querySelect = vocab_querySelect +
+                            ", iif(NOT EXISTS (SELECT sql from " + attachDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDictionary + "%" + DatabaseLiterals.FieldDictionaryVersion +
+                            "%'),v." + DatabaseLiterals.FieldDictionaryVersion + ",NULL) as " + DatabaseLiterals.FieldDictionaryVersion;
+                    }
+                    else if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion <= 1.5)
+                    {
+                        vocab_querySelect = vocab_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldDictionaryVersion;
+                    }
+                    else
+                    {
+                        vocab_querySelect = vocab_querySelect + ", v." + vocabFields + " as " + vocabFields;
+                    }
+
+                }
+                else
+                {
+                    vocab_querySelect = " v." + vocabFields + " as " + vocabFields;
+                }
+
+            }
+            vocab_querySelect = vocab_querySelect.Replace(", ,", "");
+
+            string insertQuery_vocab= "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
+            insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
+            if (dbVersion > 1.5)
+            {
+                insertQuery_vocab = insertQuery_vocab + " WHERE v." + TableDictionary + "." + FieldDictionaryVersion + " is null or v." + TableDictionary + "." + FieldDictionaryVersion + " < " + DBVersion.ToString() + ";";
+            } 
+                
+            queryList.Add(insertQuery_vocab);
+
+            #endregion
+
+            #region M_DICTIONARY_MANAGER
+
+            VocabularyManager modelVocabManager = new VocabularyManager();
+            List<string> vocabMFieldList = modelVocabManager.getFieldList;
+            string vocabm_querySelect = string.Empty;
+
+            foreach (string vocabMFields in vocabMFieldList)
+            {
+                //Get all fields except alias
+
+                if (vocabMFields != vocabMFieldList.First())
+                {
+                    if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion > 1.5)
+                    {
+
+                        vocabm_querySelect = vocabm_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDictionaryManager + "%" + DatabaseLiterals.FieldDictionaryManagerVersion +
+                            "%') THEN (vm." + DatabaseLiterals.FieldDictionaryManagerVersion + ") ELSE NULL END as " + DatabaseLiterals.FieldDictionaryManagerVersion;
+                    }
+                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion <= 1.5) 
+                    {
+                        vocabm_querySelect = vocabm_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldDictionaryManagerVersion;
+                    }
+                    else
+                    {
+                        vocabm_querySelect = vocabm_querySelect + ", vm." + vocabMFields + " as " + vocabMFields;
+                    }
+
+                }
+                else
+                {
+                    vocabm_querySelect = " vm." + vocabMFields + " as " + vocabMFields;
+                }
+
+            }
+            vocabm_querySelect = vocabm_querySelect.Replace(", ,", "");
+
+            string insertQuery_vocabM = "INSERT INTO " + DatabaseLiterals.TableDictionaryManager + " SELECT " + vocabm_querySelect;
+            insertQuery_vocabM = insertQuery_vocabM + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionaryManager + " as vm";
+            if (dbVersion > 1.5)
+            {
+                insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or vm." + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
+            }
+            
+            queryList.Add(insertQuery_vocabM);
+
+            #endregion
+
+            //Build detach query
+            string detachQuery = "DETACH DATABASE " + attachDBName + ";";
+            queryList.Add(detachQuery);
+
+            //Build vacuum query
+            string vacuumQuery = "VACUUM";
+            queryList.Add(vacuumQuery);
+
+            //Commit queries
+            if (closeConnection)
+            {
+                //Update working database
+                using (var db = vocabToDBConnection)
+                {
+
+                    foreach (string q in queryList)
+                    {
+                        db.Execute(q);
+                    }
+                    db.Commit();
+                    db.Close();
+                }
+            }
+            else 
+            {
+                foreach (string q in queryList)
+                {
+                    vocabToDBConnection.Execute(q);
+                }
+            }
+
+        }
+
+
+        /// <summary>
         /// Will take an input database path and will upgrade it to current version
         /// </summary>
         public async Task DoUpgradeSchema(string inDBPath, SQLiteConnection outToDBConnection, bool closeConnection = true)
@@ -522,8 +690,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint , DatabaseLiterals.TableFieldCamp};
 
 
-        //List of queries to send as a batch
-        List<string> queryList = new List<string>();
+            //List of queries to send as a batch
+            List<string> queryList = new List<string>();
 
             //Build attach db query
             string attachQuery = "ATTACH '" + inDBPath + "' AS " + attachDBName + "; ";

@@ -843,7 +843,7 @@ namespace GSCFieldApp.ViewModels
                         SQLiteConnection upgradeDBConnection = accessData.GetConnectionFromPath(dbpathToUpgrade);
 
                         //Keep user vocab
-                        accessData.DoSwapVocab(DataAccess.DbPath, upgradeDBConnection, false);
+                        accessData.GetLatestVocab(DataAccess.DbPath, upgradeDBConnection, false);
 
                         //Upgrade other tables
                         await accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection);
