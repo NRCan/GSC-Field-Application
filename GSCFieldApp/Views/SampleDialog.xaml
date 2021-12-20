@@ -61,7 +61,7 @@
                             <RelativePanel Style="{StaticResource ChildPanel}" x:Name="SampleGenericRelativePanel">
                                 <ComboBox x:Name="SampleTypeComboBox" x:Uid="SampleDialogType" Style="{ThemeResource ComboboxMandatoryField}"
                                 Header="" 
-                                ItemsSource="{x:Bind ViewModel.SampleType}" 
+                                ItemsSource="{x:Bind ViewModel.SampleType}" SelectionChanged="{x:Bind ViewModel.SampleTypeComboBox_SelectionChanged}"
                                 SelectedValue="{x:Bind ViewModel.SelectedSampleType, Mode=TwoWay}"
                                 RelativePanel.AlignLeftWithPanel="True"/>
 
@@ -87,8 +87,6 @@
 
                             </RelativePanel>
 
-
-                            
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01"
@@ -98,7 +96,7 @@
                         <RelativePanel x:Name="SampleGridview_01" RelativePanel.Below="MainSeparator_01" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                             
                             <GridView Style="{StaticResource NonselectableGridView}" x:Name="SampleGridView_02" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
-                                      Visibility="{x:Bind ViewModel.BedrockVisibility}" RelativePanel.AlignTopWithPanel="True">
+                                      Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}" RelativePanel.AlignTopWithPanel="True">
                                 <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="SampleGridView_Orient"/>
                                 
                                 <ComboBox x:Name="SampleFormatComboBox" x:Uid="SampleDialogFormat"
@@ -118,7 +116,7 @@
                             </GridView>
 
                             <GridView Style="{StaticResource NonselectableGridView}" x:Name="SampleGridView_03"  
-                                      Visibility="{x:Bind ViewModel.SurficialVisibility}" RelativePanel.AlignTopWithPanel="True">
+                                      Visibility="{x:Bind ViewModel.SurficialVisibility, Mode=TwoWay}" RelativePanel.Below="SampleGridView_02">
                                 <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="SampleGridView_State"/>
 
                                 <ComboBox x:Name="SampleQualityComboBox" x:Uid="SampleDialogQuality"
@@ -149,7 +147,6 @@
 
                         </RelativePanel>
                         
-
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_03"
                            RelativePanel.Below="SampleGridview_01"
                            Fill="{ThemeResource FieldSampleColorBrush}" />

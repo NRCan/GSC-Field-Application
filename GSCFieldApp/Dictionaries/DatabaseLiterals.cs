@@ -292,6 +292,8 @@ namespace GSCFieldApp.Dictionaries
         public const string documentTableFileSuffix = ".jpg";
         public const string locationEntryTypeManual = "Manual";
         public const string locationEntryTypeTap = "Tap";
+        public const string sampleTypeOriented = "oriented";
+        public const string samplePurposePaleomag = "paleomagnetism";
 
         #endregion
 
@@ -327,6 +329,8 @@ namespace GSCFieldApp.Dictionaries
         public const string termIDElevmethod_GPS = "A763BE23-9359-4A7A-99D9-3409D92102DF";
         public const string termIDEntryType_Tap = "a59a2780-26a2-4f76-82ec-530df105d59d";
         public const string termIDEntryType_Manual = "7b60543f-a147-4625-968a-72ef81beb567";
+        public const string termIDPaleoMagnetismSurficial = "A19B762E-C39D-4D20-80D7-81525F729A5E"; //sample purpose being paleomagnetism
+        public const string termIDOriented = "6c4c5c6a-913f-4374-88de-90c4544be041"; //sample type being oriented
 
         #endregion
 

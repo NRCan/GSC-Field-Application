@@ -30,6 +30,8 @@ namespace GSCFieldApp.ViewModels
         private string _sampleDepthMax = string.Empty; //Default
         private string _sampleDuplicateName = string.Empty; //Default
 
+        private bool hasPaleoMagPurpose = false;
+
         private Visibility _surficialVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
         private bool _isSampleDuplicate = false; //Wheter checkbox is checked (true) or uncheck (false)
@@ -530,16 +532,6 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
-        /// Will refresh the concatenated part of the purpose whenever a value is selected.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void SamplePurposeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            AddAPurpose(SelectedSamplePurpose);
-        }
-
-        /// <summary>
         /// Force a cascade delete if user get's out of sample dialog while in quick sample mode.
         /// </summary>
         /// <param name="inParentModel"></param>
@@ -565,6 +557,11 @@ namespace GSCFieldApp.ViewModels
 
             Themes.ComboBoxItem oldPurp = inPurpose as Themes.ComboBoxItem;
             _purposeValues.Remove(oldPurp);
+
+            if (oldPurp.itemName == DatabaseLiterals.samplePurposePaleomag)
+            {
+                ValidateForPaleomagnetism(true);
+            }
 
             RaisePropertyChanged("PurposeValues");
         }
@@ -594,6 +591,12 @@ namespace GSCFieldApp.ViewModels
                     {
                         foundValue = true;
                     }
+
+                    if (purposeToAdd == DatabaseLiterals.samplePurposePaleomag)
+                    {
+                        hasPaleoMagPurpose = true;
+                    }
+
                 }
                 if (!foundValue)
                 {
@@ -603,6 +606,7 @@ namespace GSCFieldApp.ViewModels
             }
             #endregion
             RaisePropertyChanged("PurposeValues");
+
         }
 
         /// <summary>
@@ -643,6 +647,51 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
+        /// If user has selected sample type of oriented, with paleomagnetism purpose, within a surficial field book. Then enable oriented fields from bedrock
+        /// </summary>
+        public void ValidateForPaleomagnetism(bool forceDeactivate = false)
+        {
+            #region validate paleomagnetism
+
+            //Validate for oriented samplem type and paleomagnetism. This should trigger view on Oriented set of inputs
+            if (_surficialVisibility == Visibility.Visible && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag && SelectedSampleType == DatabaseLiterals.sampleTypeOriented)
+            {
+                _bedrockVisibility = Visibility.Visible;
+                RaisePropertyChanged("BedrockVisibility");
+            }
+            else if (_surficialVisibility == Visibility.Visible && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag || SelectedSampleType != DatabaseLiterals.sampleTypeOriented))
+            {
+                _bedrockVisibility = Visibility.Collapsed;
+                RaisePropertyChanged("BedrockVisibility");
+            }
+
+            //If needed, force deactivation of the whole header.
+            if (forceDeactivate)
+            {
+                _bedrockVisibility = Visibility.Collapsed;
+                RaisePropertyChanged("BedrockVisibility");
+            }
+
+            #endregion
+        }
+
+        #region EVENTS
+
+        public void SampleTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ValidateForPaleomagnetism();
+        }
+
+        public void SamplePurposeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AddAPurpose(SelectedSamplePurpose);
+
+            //Special case for paleomagnetism for oriented sample types
+            ValidateForPaleomagnetism();
+
+        }
+
+        /// <summary>
         /// Checkbox to enable/disable the duplicate name
         /// </summary>
         /// <param name="sender"></param>
@@ -679,7 +728,10 @@ namespace GSCFieldApp.ViewModels
 
             RaisePropertyChanged("SampleDuplicateName");
             RaisePropertyChanged("IsSampleDuplicateEnabled");
-            
+
         }
+        #endregion
+
+
     }
 }
