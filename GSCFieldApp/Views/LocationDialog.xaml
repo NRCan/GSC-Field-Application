@@ -31,8 +31,8 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="LocationBackButton" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="LocationBackButton_Tapped" />
-                    <AppBarButton x:Name="LocationSaveButton" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="LocationSaveButton_TappedAsync"  />
+                    <AppBarButton x:Name="LocationBackButton" Label="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="LocationBackButton_Tapped" />
+                    <AppBarButton x:Name="LocationSaveButton" Label="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="LocationSaveButton_TappedAsync"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
