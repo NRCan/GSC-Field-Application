@@ -13,9 +13,9 @@
     <Page.DataContext>
         <vm:SettingsPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
-    
-   
-    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
