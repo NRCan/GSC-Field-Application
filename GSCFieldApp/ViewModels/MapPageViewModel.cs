@@ -103,6 +103,7 @@ namespace GSCFieldApp.ViewModels
         public double _currentLatitude = 0.0;
         public double _currentAltitude = 0.0;
         public double _currentAccuracy = 0.0;
+        public string _currentProjection = string.Empty; //Added by jamel to get projection info
         public bool initializingGPS = false;
         public bool _mapRingLabelAcquiringGPSVisibility = false;
         public Symbol _GPSModeSymbol = Symbol.Target;
@@ -183,6 +184,7 @@ namespace GSCFieldApp.ViewModels
         public double CurrentLatitude { get { return _currentLatitude; } set { _currentLatitude = value; } }
         public double CurrentAltitude { get { return _currentAltitude; } set { _currentAltitude = value; } }
         public double CurrentAccuracy { get { return _currentAccuracy; } set { _currentAccuracy = value; } }
+        public string CurrentProjection { get; set; } //Added by Jamel
         public Tuple<double, double> lastTakenLocation { get; set; }
         public bool MapRingActive
         {

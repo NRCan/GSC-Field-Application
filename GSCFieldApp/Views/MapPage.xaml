@@ -73,7 +73,7 @@
         </Controls:PageHeader>
 
         <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right"
-                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40">
+                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="False" Height="40">
             <AppBarButton Foreground="White" Icon="OpenFile" MaxWidth="120" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
             <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White" MaxWidth="100" Height="50" IsCompact ="True" VerticalAlignment="Top" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
                 <AppBarButton.Icon>
@@ -141,6 +141,16 @@
 
                     <Run Text="Accuracy (XY): " x:Uid="MapInfoAccuracyLabel"/>
                     <Run Text="{x:Bind ViewModel.CurrentAccuracy, Converter={StaticResource FormatAccuracy}, Mode=OneWay}"/>
+                    </TextBlock>
+
+                </Border>
+
+                <Border x:Name="MapCoordinateInfo3" RelativePanel.Below="MapCoordinateInfo2" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0" >
+
+                    <TextBlock Name="MapCoordinateMapProjectionText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
+
+                    <Run Text="Projection: " x:Uid="MapInfoMapProjectionLabel"/>
+                    <Run Text="{x:Bind ViewModel.CurrentProjection, Converter={StaticResource FormatAccuracy}, Mode=OneWay}"/>
                     </TextBlock>
 
                 </Border>
