@@ -439,5 +439,13 @@ namespace GSCFieldApp.Views
 
             }
         }
+        //Created By Jamel to allow user to zoom to the extent of the TPK file
+        private void MapZoomExtentIcon_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+            ViewModel.ZoomToLayer();
+            
+            
+        }
     }
 }

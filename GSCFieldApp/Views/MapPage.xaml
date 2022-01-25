@@ -47,6 +47,10 @@
                             RelativePanel.RightOf="opacitySlider" 
                             RelativePanel.AlignBottomWith="mapFileName"
                             Symbol="Delete" Tapped="MapDeleteIcon_Tapped"/>
+                <SymbolIcon x:Name="MapZoomExtentIcon" Margin="10,0,0,10" 
+                            RelativePanel.RightOf="MapDeleteIcon" 
+                            RelativePanel.AlignBottomWith="mapFileName"
+                            Symbol="Zoom" Tapped="MapZoomExtentIcon_Tapped"/>
             </RelativePanel>
 
         </DataTemplate>
@@ -73,7 +77,7 @@
         </Controls:PageHeader>
 
         <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right"
-                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="False" Height="40">
+                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsOpen="True" Height="40">
             <AppBarButton Foreground="White" Icon="OpenFile" MaxWidth="120" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
             <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White" MaxWidth="100" Height="50" IsCompact ="True" VerticalAlignment="Top" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
                 <AppBarButton.Icon>
@@ -150,7 +154,7 @@
                     <TextBlock Name="MapCoordinateMapProjectionText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
                     <Run Text="Projection: " x:Uid="MapInfoMapProjectionLabel"/>
-                    <Run Text="{x:Bind ViewModel.CurrentProjection, Converter={StaticResource FormatAccuracy}, Mode=OneWay}"/>
+                    <Run Text="{x:Bind ViewModel.CurrentProjection, Mode=OneWay}"/>
                     </TextBlock>
 
                 </Border>

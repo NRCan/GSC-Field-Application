@@ -46,6 +46,7 @@ using Windows.Networking.Connectivity;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Newtonsoft.Json;
 using Esri.ArcGISRuntime.Portal;
+using System.Text.RegularExpressions;
 
 
 namespace GSCFieldApp.ViewModels
@@ -184,7 +185,7 @@ namespace GSCFieldApp.ViewModels
         public double CurrentLatitude { get { return _currentLatitude; } set { _currentLatitude = value; } }
         public double CurrentAltitude { get { return _currentAltitude; } set { _currentAltitude = value; } }
         public double CurrentAccuracy { get { return _currentAccuracy; } set { _currentAccuracy = value; } }
-        public string CurrentProjection { get; set; } //Added by Jamel
+        public string CurrentProjection { get { return _currentProjection; } set { _currentProjection = value; } } //Added by Jamel
         public Tuple<double, double> lastTakenLocation { get; set; }
         public bool MapRingActive
         {
@@ -1249,6 +1250,7 @@ namespace GSCFieldApp.ViewModels
                 {
 
                     _currentAccuracy = in_position.Coordinate.Accuracy;
+                   // _currentProjection = in_position.Coordinate.
                     RaisePropertyChanged("CurrentAccuracy");
                     mapScale = currentMapView.MapScale;
 
@@ -1709,7 +1711,6 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("GPSModeSymbol");
 
         }
-
 
         public async void ResetLocationGraphic()
         {
@@ -2181,18 +2182,34 @@ namespace GSCFieldApp.ViewModels
                     if (esriMap == null)
                     {
                         esriMap = new Map(_tileLayer.SpatialReference);
+                        //_currentProjection = _tileLayer.SpatialReference.BaseGeographic.ToString();
+  
                     }
                     if (esriMap.Basemap.BaseLayers.Count == 0 && _tileLayer.SpatialReference != null)
                     {
                         AddBlanckFeature(_tileLayer.SpatialReference);
-
+                        
                     }
                     else
                     {
                         SpatialReference sr = new SpatialReference(4326);
                         AddBlanckFeature(sr);
+                       // _currentProjection = "WGS 84";
+                        
                     }
 
+                    //Shows Peojection in map view
+                    var txtProjection = _tileLayer.SpatialReference.WkText;
+                    var txtDatum = txtProjection.IndexOf("DATUM") + 9;
+                    var txtSpheroid = txtProjection.IndexOf("SPHEROID") - 2;
+                    _currentProjection = txtProjection.Substring(txtDatum, txtSpheroid - txtDatum);
+
+
+                    //Also Shows Projection in map view
+                    //var bits = txtProjection.Split('"');
+                    //var i = Array.FindIndex(bits, b => b.Contains("DATUM"));
+                    //var r = bits[i + 1];
+                    //_currentProjection = r;
 
                     _tileLayer.IsVisible = isTPKVisible;
                     _tileLayer.Opacity = tpkOpacity;
@@ -2864,7 +2881,20 @@ namespace GSCFieldApp.ViewModels
         }
 
         #endregion
+        #region ZOOM
+        public void ZoomToLayer()
+        {
 
+            // Get selected layer
+            MapPageLayers subFile = (MapPageLayers)_selectedLayer;
+
+            //var extentGeo = subFile.geometry.webMercatorToGeographic(map.extent);
+            //map.setExtent(extentGeo);
+            //esriMap.
+
+        }
+
+        #endregion
     }
 
 }
