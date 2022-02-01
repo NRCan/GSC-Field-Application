@@ -509,6 +509,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Get special queries
             queryList.Add(GetUpgradeQueryVersion1_42(attachDBName));
             queryList.AddRange(GetUpgradeQueryVersion1_44(attachDBName));
+            queryList.AddRange(GetUpgradeQueryVersion1_5(attachDBName));
 
             //Build detach query
             string detachQuery = "DETACH DATABASE " + attachDBName + "; ";
@@ -572,9 +573,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             Metadata metadataQuery = new Metadata();
             List<object> mVersions = ReadTable(metadataQuery.GetType(), dbSchemaVersionQuery);
             double d_mVersions = 0.0;
-            Double.TryParse(mVersions[0].ToString(), out d_mVersions);
+            metadataQuery = mVersions[0] as Metadata;
+            Double.TryParse(metadataQuery.VersionSchema.ToString(), out d_mVersions);
 
-            if (locationCount > 0 && mVersions[0].ToString() != DatabaseLiterals.DBVersion && d_mVersions != 0.0 && d_mVersions < 1.44)
+            if (locationCount > 0 && mVersions[0].ToString() != DatabaseLiterals.DBVersion.ToString() && d_mVersions != 0.0 && d_mVersions < DatabaseLiterals.DBVersion)
             {
                 canUpgrade = true;
             }
@@ -1446,6 +1448,269 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_144.Add("INSERT INTO " + DatabaseLiterals.TableMetadata + " SELECT " + metadata_querySelect + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMetadata);
 
             return insertQuery_144;
+        }
+
+        /// <summary>
+        /// Will output a query to update database to version 1.5
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion1_5(string attachedDBName)
+        {
+            ///Schema v 1.5: 
+            ///https://github.com/NRCan/GSC-Field-Application/issues/105 New alias field names for some key tables
+            ///insert into F_LOCATION 
+            //SELECT CASE WHEN EXISTS(SELECT sql from db2.sqlite_master where sql LIKE '%F_LOCATION%LOCATIONNAME%') THEN(l.LOCATIONNAME) ELSE NULL END as LOCATIONIDNAME from db2.F_LOCATION as l
+            List<string> insertQuery_15 = new List<string>();
+
+            double dbVersion = 0.0;
+
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema) != null)
+            {
+                string strDBVersion = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema).ToString();
+                Double.TryParse(strDBVersion, out dbVersion);
+            }
+
+            #region F_LOCATION
+
+            FieldLocation modelLocation = new FieldLocation();
+            List<string> locationFieldList = modelLocation.getFieldList;
+            string location_querySelect = string.Empty;
+
+            foreach (string locationFields in locationFieldList)
+            {
+                //Get all fields except alias
+
+                if (locationFields != locationFieldList.First())
+                {
+                    if (dbVersion < 1.5 && dbVersion >= 1.44 && locationFields == DatabaseLiterals.FieldLocationAlias)
+                    {
+
+                        location_querySelect = location_querySelect + 
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableLocation + "%" + DatabaseLiterals.FieldLocationAliasDeprecated + 
+                            "%') THEN (l." + DatabaseLiterals.FieldLocationAliasDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldLocationAlias;
+                    }
+                    else
+                    {
+                        location_querySelect = location_querySelect + ", l." + locationFields + " as " + locationFields;
+                    }
+
+                }
+                else
+                {
+                    location_querySelect = " l." + locationFields + " as " + locationFields;
+                }
+
+            }
+            location_querySelect = location_querySelect.Replace(", ,", "");
+
+            string insertQuery_15_Location = "INSERT INTO " + DatabaseLiterals.TableLocation + " SELECT " + location_querySelect;
+            insertQuery_15_Location = insertQuery_15_Location + " FROM " + attachedDBName + "." + DatabaseLiterals.TableLocation + " as l";
+            insertQuery_15.Add(insertQuery_15_Location);
+
+            #endregion
+
+            #region F_STRUCTURE
+
+            Structure modelStructure = new Structure();
+            List<string> structureFieldList = modelStructure.getFieldList;
+            string structure_querySelect = string.Empty;
+
+            foreach (string structureFields in structureFieldList)
+            {
+                //Get all fields except alias
+
+                if (structureFields != structureFieldList.First())
+                {
+                    if (dbVersion < 1.5 && dbVersion >= 1.44 && structureFields == DatabaseLiterals.FieldStructureName)
+                    {
+
+                        structure_querySelect = structure_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableStructure + "%" + DatabaseLiterals.FieldStructureNameDeprecated +
+                            "%') THEN (s." + DatabaseLiterals.FieldStructureNameDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldStructureName;
+                    }
+                    else
+                    {
+                        structure_querySelect = structure_querySelect + ", s." + structureFields + " as " + structureFields;
+                    }
+
+                }
+                else
+                {
+                    structure_querySelect = " s." + structureFields + " as " + structureFields;
+                }
+
+            }
+            structure_querySelect = structure_querySelect.Replace(", ,", "");
+
+            string insertQuery_15_structure = "INSERT INTO " + DatabaseLiterals.TableStructure + " SELECT " + structure_querySelect;
+            insertQuery_15_structure = insertQuery_15_structure + " FROM " + attachedDBName + "." + DatabaseLiterals.TableStructure + " as s";
+            insertQuery_15.Add(insertQuery_15_structure);
+
+            #endregion
+
+            #region F_EARTHMAT
+
+            EarthMaterial modelEarthmat = new EarthMaterial();
+            List<string> earthmatFieldList = modelEarthmat.getFieldList;
+            string earthmat_querySelect = string.Empty;
+
+            foreach (string earthmatFields in earthmatFieldList)
+            {
+                //Get all fields except alias
+
+                if (earthmatFields != earthmatFieldList.First())
+                {
+                    if (dbVersion < 1.5 && dbVersion >= 1.44 && earthmatFields == DatabaseLiterals.FieldEarthMatName)
+                    {
+
+                        earthmat_querySelect = earthmat_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableEarthMat + "%" + DatabaseLiterals.FieldEarthMatNameDeprecated +
+                            "%') THEN (e." + DatabaseLiterals.FieldEarthMatNameDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldEarthMatName;
+                    }
+                    else
+                    {
+                        earthmat_querySelect = earthmat_querySelect + ", e." + earthmatFields + " as " + earthmatFields;
+                    }
+
+                }
+                else
+                {
+                    earthmat_querySelect = " e." + earthmatFields + " as " + earthmatFields;
+                }
+
+            }
+            earthmat_querySelect = earthmat_querySelect.Replace(", ,", "");
+
+            string insertQuery_15_earthmat = "INSERT INTO " + DatabaseLiterals.TableEarthMat + " SELECT " + earthmat_querySelect;
+            insertQuery_15_earthmat = insertQuery_15_earthmat + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat + " as e";
+            insertQuery_15.Add(insertQuery_15_earthmat);
+
+            #endregion
+
+            #region F_SAMPLE
+
+            Sample modelSample = new Sample();
+            List<string> sampleFieldList = modelSample.getFieldList;
+            string sample_querySelect = string.Empty;
+
+            foreach (string sampleFields in sampleFieldList)
+            {
+                //Get all fields except alias
+
+                if (sampleFields != sampleFieldList.First())
+                {
+                    if (dbVersion < 1.5 && dbVersion >= 1.44 && sampleFields == DatabaseLiterals.FieldSampleName)
+                    {
+
+                        sample_querySelect = sample_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableSample + "%" + DatabaseLiterals.FieldSampleNameDeprecated +
+                            "%') THEN (sm." + DatabaseLiterals.FieldSampleNameDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldSampleName;
+                    }
+                    else
+                    {
+                        sample_querySelect = sample_querySelect + ", sm." + sampleFields + " as " + sampleFields;
+                    }
+
+                }
+                else
+                {
+                    sample_querySelect = " sm." + sampleFields + " as " + sampleFields;
+                }
+
+            }
+            sample_querySelect = sample_querySelect.Replace(", ,", "");
+
+            string insertQuery_15_sample = "INSERT INTO " + DatabaseLiterals.TableSample + " SELECT " + sample_querySelect;
+            insertQuery_15_sample = insertQuery_15_sample + " FROM " + attachedDBName + "." + DatabaseLiterals.TableSample + " as sm";
+            insertQuery_15.Add(insertQuery_15_sample);
+
+            #endregion
+
+            #region F_STATION
+
+            Station modelStation = new Station();
+            List<string> stationFieldList = modelStation.getFieldList;
+            string station_querySelect = string.Empty;
+
+            foreach (string stationFields in stationFieldList)
+            {
+                //Get all fields except alias
+
+                if (stationFields != stationFieldList.First())
+                {
+                    if (dbVersion < 1.5 && dbVersion >= 1.44 && stationFields == DatabaseLiterals.FieldStationAlias)
+                    {
+
+                        station_querySelect = station_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableStation + "%" + DatabaseLiterals.FieldStationAliasDeprecated +
+                            "%') THEN (st." + DatabaseLiterals.FieldStationAliasDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldStationAlias;
+                    }
+                    else
+                    {
+                        station_querySelect = station_querySelect + ", st." + stationFields + " as " + stationFields;
+                    }
+
+                }
+                else
+                {
+                    station_querySelect = " st." + stationFields + " as " + stationFields;
+                }
+
+            }
+            station_querySelect = station_querySelect.Replace(", ,", "");
+
+            string insertQuery_15_station = "INSERT INTO " + DatabaseLiterals.TableStation + " SELECT " + station_querySelect;
+            insertQuery_15_station = insertQuery_15_station + " FROM " + attachedDBName + "." + DatabaseLiterals.TableStation + " as st";
+            insertQuery_15.Add(insertQuery_15_station);
+
+            #endregion
+
+            #region F_DOCUMENT
+
+            Document modelDocument= new Document();
+            List<string> documentFieldList = modelDocument.getFieldList;
+            string document_querySelect = string.Empty;
+
+            foreach (string docFields in documentFieldList)
+            {
+                //Get all fields except alias
+
+                if (docFields != documentFieldList.First())
+                {
+                    if (dbVersion < 1.5 && dbVersion >= 1.44 && docFields == DatabaseLiterals.FieldDocumentName)
+                    {
+
+                        document_querySelect = document_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDocument + "%" + DatabaseLiterals.FieldDocumentNameDeprecated +
+                            "%') THEN (d." + DatabaseLiterals.FieldDocumentNameDeprecated + ") ELSE NULL END as " + DatabaseLiterals.FieldDocumentName;
+                    }
+                    else
+                    {
+                        document_querySelect = document_querySelect + ", d." + docFields + " as " + docFields;
+                    }
+
+                }
+                else
+                {
+                    document_querySelect = " st." + docFields + " as " + docFields;
+                }
+
+            }
+            document_querySelect = document_querySelect.Replace(", ,", "");
+
+            string insertQuery_15_doc = "INSERT INTO " + DatabaseLiterals.TableDocument + " SELECT " + document_querySelect;
+            insertQuery_15_doc = insertQuery_15_doc + " FROM " + attachedDBName + "." + DatabaseLiterals.TableDocument + " as d";
+            insertQuery_15.Add(insertQuery_15_doc);
+
+            #endregion
+
+            #region F_ENVIRON
+
+            //There should be the same IDNAME to NAME swap here, but this table isn't yet implemented
+
+            #endregion
+
+            return insertQuery_15;
         }
 
         /// <summary>

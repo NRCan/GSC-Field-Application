@@ -762,7 +762,7 @@ namespace GSCFieldApp.ViewModels
                     Metadata metItem = metadataTable.First() as Metadata;
 
                     //Display a warning for version validation
-                    if (metItem.VersionSchema != DatabaseLiterals.DBVersion)
+                    if (metItem.VersionSchema != DatabaseLiterals.DBVersion.ToString())
                     {
                         // Language localization using Resource.resw
                         var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
@@ -770,7 +770,7 @@ namespace GSCFieldApp.ViewModels
                         ContentDialog outDatedVersionDialog = new ContentDialog()
                         {
                             Title = local.GetString("WarningBadVersionTitle"),
-                            Content = local.GetString("WarningBadVersionContent") + " " + DatabaseLiterals.DBVersion,
+                            Content = local.GetString("WarningBadVersionContent") + " " + DatabaseLiterals.DBVersion.ToString(),
                             PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
                         };
 
