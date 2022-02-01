@@ -2882,16 +2882,54 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
         #region ZOOM
-        public void ZoomToLayer()
+        public void ZoomToLayer(bool fromSelection)
         {
 
-            // Get selected layer
-            MapPageLayers subFile = (MapPageLayers)_selectedLayer;
+            if (esriMap != null && _selectedLayer != null && fromSelection)
+            {
+                // Get selected layer
+                MapPageLayers subFile = (MapPageLayers)_selectedLayer;
+                string localLayerPath = Path.Combine(accessData.ProjectPath, subFile.LayerName);
 
-            //var extentGeo = subFile.geometry.webMercatorToGeographic(map.extent);
-            //map.setExtent(extentGeo);
-            //esriMap.
+                //For tpks
+                if (!subFile.LayerName.Contains("sql"))
+                {
+                    Layer foundLayer = null;
 
+                    // Find the layer from the image layer
+                    foreach (Layer l in esriMap.AllLayers)
+                    {
+                        if (l.Name == subFile.LayerName.Split('.')[0])
+                        {
+                            foundLayer = l;
+                            break;
+                        }
+                    }
+
+                    if (foundLayer != null)
+                    {
+
+                        //Zoom Extent
+                        esriMap.Basemap.Item.Extent = foundLayer.FullExtent;
+                        //esriMap.SetViewpoint(new Viewpoint(foundLayer.FullExtent));
+                    }
+
+                    //Reset layer and layer flyout
+                    _selectedLayer = string.Empty;
+                    
+                }
+
+                else
+                {
+                    esriMap.Basemap.Item.Extent = foundLayer.FullExtent;
+                    //Reset layer and layer flyout
+                    _selectedLayer = string.Empty;
+                }
+
+                //var extentGeo = subFile.geometry.webMercatorToGeographic(map.extent);
+                //map.setExtent(extentGeo);
+                
+            }
         }
 
         #endregion

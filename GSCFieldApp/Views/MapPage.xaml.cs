@@ -443,7 +443,7 @@ namespace GSCFieldApp.Views
         private void MapZoomExtentIcon_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
-            ViewModel.ZoomToLayer();
+            ViewModel.ZoomToLayer(true);
             
             
         }
