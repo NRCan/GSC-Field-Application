@@ -14,6 +14,7 @@
     xmlns:esriToolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:conv="using:GSCFieldApp.Converters"
     xmlns:model="using:GSCFieldApp.Models"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
 
 
@@ -60,9 +61,11 @@
     <RelativePanel>
 
         <Controls:PageHeader x:Name="pageHeader" Frame="{x:Bind Frame}"
-                             RelativePanel.AlignLeftWithPanel="True" EllipsisVisibility="Collapsed"
-                             RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" x:Uid="MapPageHeader" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right">
+                             RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"  RelativePanel.AlignTopWithPanel="True" 
+                             x:Uid="MapPageHeader" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" EllipsisVisibility="Collapsed">
+            <!--<Interactivity:Interaction.Behaviors>
+                <Behaviors:EllipsisBehavior Visibility="Collapsed" />
+            </Interactivity:Interaction.Behaviors>-->
             <!--  primary commands  -->
             <Controls:PageHeader.PrimaryCommands>
 
@@ -76,8 +79,8 @@
 
         </Controls:PageHeader>
 
-        <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right"
-                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsOpen="True" Height="40">
+        <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" 
+                             EllipsisVisibility="Collapsed" IsOpen="True" Height="40">
             <AppBarButton Foreground="White" Icon="OpenFile" MaxWidth="120" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
             <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White" MaxWidth="100" Height="50" IsCompact ="True" VerticalAlignment="Top" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
                 <AppBarButton.Icon>

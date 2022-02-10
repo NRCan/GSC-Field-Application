@@ -173,13 +173,14 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void MapInfoButtonClicked(object sender, RoutedEventArgs e)
         {
+            //Hide or show coordinates, accuracy, and projection info when clicked
             MapCoordinateInfo.Visibility = (MapCoordinateInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapScaleInfo.Visibility = (MapScaleInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             //myMapView.Grid.IsVisible = (myMapView.Grid.IsVisible == true ? false : true);
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
             myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-
+            MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
 
 
         }
@@ -444,7 +445,8 @@ namespace GSCFieldApp.Views
         {
 
             ViewModel.ZoomToLayer(true);
-            
+            //myMapView.SetViewpoint
+                       
             
         }
     }

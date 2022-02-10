@@ -23,13 +23,13 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Never</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundle>Auto</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
     <PackageCertificateThumbprint>
     </PackageCertificateThumbprint>
-    <AppxPackageDir>C:\Users\ghuotvez\Documents\dev\gscFieldApp\</AppxPackageDir>
+    <AppxPackageDir>C:\work data\datacollections\PublishedVersions\</AppxPackageDir>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>365</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>Daily</AppInstallerCheckForUpdateFrequency>

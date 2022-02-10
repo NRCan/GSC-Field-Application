@@ -2884,51 +2884,63 @@ namespace GSCFieldApp.ViewModels
         #region ZOOM
         public void ZoomToLayer(bool fromSelection)
         {
-
             if (esriMap != null && _selectedLayer != null && fromSelection)
-            {
-                // Get selected layer
-                MapPageLayers subFile = (MapPageLayers)_selectedLayer;
-                string localLayerPath = Path.Combine(accessData.ProjectPath, subFile.LayerName);
-
-                //For tpks
-                if (!subFile.LayerName.Contains("sql"))
                 {
+                // Get selected layer
+                if (_selectedLayer.ToString() == "")
+                { 
+                    //Added to make sure the app does not crash if the user clicks the same zoom button twice
+                }
+                else 
+                {
+
+                    MapPageLayers subFile = (MapPageLayers)_selectedLayer;
+                    string localLayerPath = Path.Combine(accessData.ProjectPath, subFile.LayerName);
+                
                     Layer foundLayer = null;
 
-                    // Find the layer from the image layer
-                    foreach (Layer l in esriMap.AllLayers)
+                    //For tpks
+                    if (!subFile.LayerName.Contains("sql"))
                     {
-                        if (l.Name == subFile.LayerName.Split('.')[0])
+                        //Layer foundLayer = null;
+
+                        // Find the layer from the image layer
+                        foreach (Layer l in esriMap.AllLayers)
                         {
-                            foundLayer = l;
-                            break;
+                            if (l.Name == subFile.LayerName.Split('.')[0])
+                            {
+                                foundLayer = l;
+                                break;
+                            }
                         }
+
+                        if (foundLayer != null)
+                        {
+
+                            //Zoom Extent
+                            //esriMap.Basemap.Item.Extent = foundLayer.FullExtent;
+                            //esriMap.SetViewpoint(new Viewpoint(foundLayer.FullExtent));
+                            currentMapView.SetViewpoint(new Viewpoint(foundLayer.FullExtent));
+                        }
+
+                        //Reset layer and layer flyout
+                        _selectedLayer = string.Empty;
+
                     }
 
-                    if (foundLayer != null)
+                    else
                     {
+                        //esriMap.Basemap.Item.Extent = foundLayer.FullExtent;
+                        currentMapView.SetViewpoint(new Viewpoint(foundLayer.FullExtent));
+                        //Reset layer and layer flyout
+                        _selectedLayer = string.Empty;
 
-                        //Zoom Extent
-                        esriMap.Basemap.Item.Extent = foundLayer.FullExtent;
-                        //esriMap.SetViewpoint(new Viewpoint(foundLayer.FullExtent));
                     }
 
-                    //Reset layer and layer flyout
-                    _selectedLayer = string.Empty;
-                    
-                }
+                    //var extentGeo = subFile.geometry.webMercatorToGeographic(map.extent);
+                    //map.setExtent(extentGeo);
 
-                else
-                {
-                    esriMap.Basemap.Item.Extent = foundLayer.FullExtent;
-                    //Reset layer and layer flyout
-                    _selectedLayer = string.Empty;
                 }
-
-                //var extentGeo = subFile.geometry.webMercatorToGeographic(map.extent);
-                //map.setExtent(extentGeo);
-                
             }
         }
 
