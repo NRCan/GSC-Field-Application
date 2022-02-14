@@ -647,7 +647,7 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Add new graphic station and it's related label if needed
-                if (!stationGraphicExists && ptStationId != string.Empty)
+                if (!stationGraphicExists && ptStationId != null && ptStationId != string.Empty)
                 {
                     //Create Map Point for graphic
                     MapPoint geoPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);

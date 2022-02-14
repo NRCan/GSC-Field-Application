@@ -63,15 +63,6 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStructureDip)]
         public string StructureDipPlunge { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureNotes)]
-        public string StructureNotes { get; set; }
-
-        [Column(DatabaseLiterals.FieldStructureParentID)]
-        public string StructureParentID { get; set; }
-
-
-        private string _structureSymAng = string.Empty;
-
         [Column(DatabaseLiterals.FieldStructureSymAng)]
         public string StructureSymAng
         {
@@ -114,6 +105,14 @@ namespace GSCFieldApp.Models
                 _structureSymAng = value;
             }
         }
+
+        [Column(DatabaseLiterals.FieldStructureNotes)]
+        public string StructureNotes { get; set; }
+
+        [Column(DatabaseLiterals.FieldStructureParentID)]
+        public string StructureParentID { get; set; }
+
+        private string _structureSymAng = string.Empty;
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;

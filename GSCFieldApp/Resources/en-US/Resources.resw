@@ -499,7 +499,7 @@
     <value>Leader</value>
   </data>
   <data name="UserInfoDialogPName.Header" xml:space="preserve">
-    <value>Title</value>
+    <value>Project</value>
   </data>
   <data name="UserInfoDialogStartStationNumber.Header" xml:space="preserve">
     <value>Station Start Number</value>
@@ -1036,10 +1036,10 @@ Joseph, Jamel - Developer
 Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="UserInfo_OtherHeader.Content" xml:space="preserve">
-    <value>Initialization</value>
+    <value>More</value>
   </data>
   <data name="UserInfo_ProjectHeader.Content" xml:space="preserve">
-    <value>Project</value>
+    <value>Description</value>
   </data>
   <data name="UserInfo_UserHeader.Content" xml:space="preserve">
     <value>Geologist</value>
@@ -1081,7 +1081,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Warning</value>
   </data>
   <data name="UserInfoDialogPName.PlaceholderText" xml:space="preserve">
-    <value>Project Name</value>
+    <value>Name</value>
   </data>
   <data name="UserDialogNewDataContent" xml:space="preserve">
     <value>Would you like to add read-only data (.tpk, .sqlite) to the new field note book?</value>
@@ -1466,5 +1466,44 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="MineralNamesTextbox.Header" xml:space="preserve">
     <value>Selected name</value>
+  </data>
+  <data name="SampleDialogState.Header" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="SampleDialogDepthMax.Header" xml:space="preserve">
+    <value>Depth Max. (cm)</value>
+  </data>
+  <data name="SampleDialogDepthMin.Header" xml:space="preserve">
+    <value>Depth Min. (cm)</value>
+  </data>
+  <data name="SampleDialogDuplicateName.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SampleDialogHorizon.Header" xml:space="preserve">
+    <value>Horizon</value>
+  </data>
+  <data name="SampleDialogIsDuplicate.Content" xml:space="preserve">
+    <value>Is Duplicate?</value>
+  </data>
+  <data name="SampleGridView_General.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SampleGridView_Main.Content" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SampleGridView_Orient.Content" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="SampleGridView_State.Content" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="FieldworkNotes.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="UserInfoDialogAName.Header" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="UserInfoDialogAName.PlaceholderText" xml:space="preserve">
+    <value>Name</value>
   </data>
 </root>

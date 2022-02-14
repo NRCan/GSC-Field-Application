@@ -1287,11 +1287,28 @@
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Margin="0,0,0,2"  Text="{Binding Converter={StaticResource MandatoryFieldConverter}}" TextWrapping="WrapWholeWords" FontWeight="Bold" IsTextSelectionEnabled="False"></TextBlock>
+                    <TextBlock Margin="0,0,0,4"  Text="{Binding Converter={StaticResource MandatoryFieldConverter}}" TextWrapping="WrapWholeWords" FontWeight="Bold" IsTextSelectionEnabled="False"></TextBlock>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="ComboBox">
+        <Setter Property="Margin" Value="0,0,10,0"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="TabIndex" Value="0" />
+        <Setter Property="DisplayMemberPath" Value="itemName"/>
+        <Setter Property="SelectedValuePath" Value="itemValue"/>
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Margin="0,0,0,4"  Text="{Binding}" TextWrapping="WrapWholeWords" IsTextSelectionEnabled="False"></TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style TargetType="ListView" x:Key="ConcatenatedListView">
         <Setter Property="MinHeight" Value="50"/>

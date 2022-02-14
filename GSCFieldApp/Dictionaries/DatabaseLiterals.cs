@@ -14,6 +14,7 @@ namespace GSCFieldApp.Dictionaries
 
         #region Database names
         public const string DBName = "GSCFieldwork";
+        public const string DBNameSuffixUpgrade = "GSCFieldwork_BeforeUpgrade";
         #endregion
 
         #region Database field names
@@ -37,7 +38,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldLocationNorthing = "NORTHING";//Version 1.0
         //public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0 DEL Version 1.44
         public const string FieldLocationNotes = "NOTES"; //Version 1.0
-        public const string FieldLocationReportLink = "REPORT_LINK"; //Version 1.0
+        public const string FieldLocationReportLink = "REPORT_LINK"; //Version 1.0 Deprecated
 
         public const string FieldUserInfoID = "METAID";//Version 1.0
         public const string FieldUserInfoUCode = "GEOLCODE";//Version 1.0
@@ -60,14 +61,16 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldUserStartDate = "START_DATE"; //Version 1.0
         public const string FieldUserInfoVersionSchema = "VERSIONSCHEMA"; //Version 1.39
         public const string FieldUserInfoEPSG = "EPSG"; //Deprecated since 1.44, is now accessible in F_LOCATION
+        public const string FieldUserInfoNotes = "NOTES"; //Version 1.5
+        public const string FieldUserInfoActivityName = "ACTIVITY_NAME"; //version 1.5
 
         public const string FieldStationID = "STATIONID";//Version 1.0
         public const string FieldStationAlias = "STATIONIDNAME";//Version 1.5
         public const string FieldStationAliasDeprecated = "STATIONNAME";//Version < 1.5
         public const string FieldStationObsID = "LOCATIONID";//Version 1.0
-        public const string FieldStationLongitude = "LONGITUDE";//Version 1.0
-        public const string FieldStationLatitude = "LATITUDE";//Version 1.0
-        public const string FieldStationElevation = "ELEVATION"; //Version 1.0
+        public const string FieldStationLongitude = "LONGITUDE";//Version 1.0 Deprecated
+        public const string FieldStationLatitude = "LATITUDE";//Version 1.0 Deprecated
+        public const string FieldStationElevation = "ELEVATION"; //Version 1.0 Deprecated
         public const string FieldStationVisitDate = "VISITDATE"; //Version 1.0
         public const string FieldStationVisitTime = "VISITTIME"; //Version 1.0
         public const string FieldStationNote = "NOTES"; //Version 1.0
@@ -78,6 +81,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldStationObsType = "OBSTYPE"; //Version 1.0
         public const string FieldStationOCQuality = "OCQUALITY";
         public const string FieldStationOCSize = "OCSIZE";
+        public const string FieldStationReportLink = "REPORT_LINK";
+        public const string FieldStationLegend = "LEGENDVAL";
+        public const string FieldStationInterpretation = "LNDINTERP";
 
         public const string FieldEarthMatID = "EARTHMATID";//Version 1.0
         public const string FieldEarthMatName = "EARTHMATIDNAME";//Version 1.5
@@ -117,11 +123,20 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleSurface = "SURFACE";
         public const string FieldSampleFormat = "FORMAT";
         public const string FieldSampleQuality = "QUALITY";
+        public const string FieldSampleHorizon = "HORIZON"; //Version 1.5
+        public const string FieldSampleDepthMin = "DEPTHMIN"; //Version 1.5
+        public const string FieldSampleDepthMax = "DEPTHMAX"; //Version 1.5
+        public const string FieldSampleDuplicate = "DUPLICATE";//Version 1.5
+        public const string FieldSampleDuplicateName = "DUPLICATENAME";//Version 1.5
+        public const string FieldSampleState = "STATE";//Version 1.5
+        public const string FieldCurationID = "CURATIONID";
+        public const string FieldSampleManagementID = "SMID";
 
+        public const string FieldDictionaryTermID = "TERMID";//Version 1.0
         public const string FieldDictionaryCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryCode = "CODE";//Version 1.0
         public const string FieldDictionaryDescription = "DESCRIPTIONEN";//Version 1.0
-        public const string FieldDictionaryTermID = "TERMID";//Version 1.0
+        public const string FieldDictionaryDescriptionFR = "DESCRIPTIONFR";
         public const string FieldDictionaryOrder = "ITEMORDER";//Version 1.0
         public const string FieldDictionaryVisible = "VISIBLE";//Version 1.0
         public const string FieldDictionaryCreator = "CREATOR";//Version 1.0
@@ -131,15 +146,22 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDictionaryRelatedTo = "RELATEDTO";//Version 1.0
         public const string FieldDictionaryDefault = "DEFAULTVALUE";//Version 1.0
         public const string FieldDictionaryEditable = "EDITABLE"; //Version 1.0
+        public const string FieldDictionaryVersion = "VERSION"; //Version 1.5
+        public const string FieldDictionaryRemarks = "USERREMARKS";
+        public const string FieldDictionarySymbol = "SYMBOL";
 
+        
+        public const string FieldDictionaryManagerLinkID = "LINKID";//Version 1.0
         public const string FieldDictionaryManagerCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryManagerAssignTable = "ASSIGNTABLE";//Version 1.0
         public const string FieldDictionaryManagerAssignField = "ASSIGNTOFIELD";//Version 1.0
         public const string FieldDictionaryManagerCodedThemeDescription = "THEMEDESC";//Version 1.0
+        public const string FieldDictionaryManagerOutputFile = "OUTPUTFILE";//Version 1.0
         public const string FieldDictionaryManagerEditable = "CAN_EDIT";//Version 1.0
         public const string FieldDictionaryManagerSpecificTo = "SPECIFICTO";//Version 1.0
+        public const string FieldDictionaryManagerVersion = "VERSION"; //Version 1.5
 
-        public const string FieldFavoriteID = "ITEMID_ISFAVORITE";//Version 1.0
+        public const string FieldFavoriteID = "ITEMID_ISFAVORITE";//Version 1.0 deprecated
 
         public const string FieldDocumentID = "DOCUMENTID";//Version 1.0
         public const string FieldDocumentName = "DOCUMENTIDNAME";//Version 1.5
@@ -152,7 +174,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDocumentRelatedID = "RELATIONID";//Version 1.0
         public const string FieldDocumentRelatedtable = "RELATIONTABLE"; //Version 1.0
         public const string FieldDocumentType = "DOCUMENTTYPE";//Version 1.0
-
+        public const string FieldDocumentHyperlink = "HYPERLINK";
+        public const string FieldDocumentObjLocX = "OBJECTLOCX";
+        public const string FIeldDocumentObjLocY = "OBJECTLOCY";
 
         public const string FieldStructureID = "STRUCID";//Version 1.0
         public const string FieldStructureName = "STRUCIDNAME";//Version 1.5
@@ -237,14 +261,14 @@ namespace GSCFieldApp.Dictionaries
         public const string TableMineral = "F_MINERAL"; //Version 1.0
         public const string TableDocument = "F_DOCUMENT"; //Version 1.0
         public const string TableStructure = "F_STRUCTURE";
-        public const string TableExternalMeasure = "F_EXT_MEASURE"; //Version 1.0
+        public const string TableExternalMeasure = "F_EXT_MEASURE"; //Version 1.0 Deprecated
         public const string TableFossil = "F_FOSSIL"; //Version 1.0
-        public const string TableEnvironment = "F_ENVIRONMENT"; //Version 1.0
-        public const string TableSoilProfile = "F_SOILRPO"; //Version 1.0
+        public const string TableEnvironment = "F_ENVIRONMENT"; //Version 1.0 
+        public const string TableSoilProfile = "F_SOILRPO"; //Version 1.0 Deprecated
         public const string TablePFlow = "F_PALEO_FLOW"; //Version 1.0
         public const string TableDictionary = "M_DICTIONARY"; //Version 1.0
         public const string TableDictionaryManager = "M_DICTIONARY_MANAGER"; //Version 1.0
-        public const string TableFavorites = "F_FAVORITE";
+        public const string TableFavorites = "F_FAVORITE"; //Deprecated
         public const string TableTraversePoint = "FS_TRAVERSE_POINT";
         public const string TableTraverseLine = "FS_TRAVERSE_LINE";
         public const string TableFieldCamp = "FS_FIELDCAMP";
@@ -268,6 +292,8 @@ namespace GSCFieldApp.Dictionaries
         public const string documentTableFileSuffix = ".jpg";
         public const string locationEntryTypeManual = "Manual";
         public const string locationEntryTypeTap = "Tap";
+        public const string sampleTypeOriented = "oriented";
+        public const string samplePurposePaleomag = "paleomagnetism";
 
         #endregion
 
@@ -303,6 +329,8 @@ namespace GSCFieldApp.Dictionaries
         public const string termIDElevmethod_GPS = "A763BE23-9359-4A7A-99D9-3409D92102DF";
         public const string termIDEntryType_Tap = "a59a2780-26a2-4f76-82ec-530df105d59d";
         public const string termIDEntryType_Manual = "7b60543f-a147-4625-968a-72ef81beb567";
+        public const string termIDPaleoMagnetismSurficial = "A19B762E-C39D-4D20-80D7-81525F729A5E"; //sample purpose being paleomagnetism
+        public const string termIDOriented = "6c4c5c6a-913f-4374-88de-90c4544be041"; //sample type being oriented
 
         #endregion
 

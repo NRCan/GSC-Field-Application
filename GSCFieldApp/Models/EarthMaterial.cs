@@ -51,6 +51,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatDefabric)]
         public string EarthMatDefabric { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatBedthick)]
+        public string EarthMatBedthick { get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatColourF)]
         public string EarthMatColourF { get; set; }
 
@@ -77,9 +80,6 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldEarthMatInterpConf)]
         public string EarthMatInterpConf { get; set; }
-
-        [Column(DatabaseLiterals.FieldEarthMatBedthick)]
-        public string EarthMatBedthick { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatNotes)]
         public string EarthMatNotes{ get; set; }
