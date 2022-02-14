@@ -206,7 +206,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             //Create field project hierarchy folder in local state
             int incrementer = 1; //Will be used to name project folders (pretty basic)
-            string fieldProjectPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, incrementer.ToString()); //Wanted path for project data
+            string fieldProjectPath = Path.Combine(ApplicationData.Current.LocalFolder.Path); //Wanted path for project data
             StorageFolder fieldFolder = await StorageFolder.GetFolderFromPathAsync(fieldProjectPath);//Current folder object to local state
  
             bool breaker = false; //Will be used to break while clause whenever a folder has been created.
