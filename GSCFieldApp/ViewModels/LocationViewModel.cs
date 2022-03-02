@@ -174,7 +174,6 @@ namespace GSCFieldApp.ViewModels
             _locationNotes = existingDataDetailLocation.location.LocationNotes;
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
             _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
-            _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();  //FIX THIS
             _selectedLocationDatums = existingDataDetailLocation.location.LocationDatum;
 
             //Update UI
@@ -202,11 +201,13 @@ namespace GSCFieldApp.ViewModels
             double _lat = 0.0;
             int _easting = 0;
             int _northing = 0;
+            double _accu = 0;
 
             double.TryParse(_locationLongitude, out _long);
             double.TryParse(_locationLatitude, out _lat);
             int.TryParse(_locationEasting, out _easting);
             int.TryParse(_locationNorthing, out _northing);
+            double.TryParse(_locationAccuracy, out _accu);
 
             //Detect a projected system
             int selectedEPGS = 0;
@@ -244,6 +245,7 @@ namespace GSCFieldApp.ViewModels
             locationModel.LocationElev = Double.Parse(LocationElevation);
             locationModel.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
             locationModel.LocationNotes = LocationNotes;
+            locationModel.LocationErrorMeasure = _accu;
 
             locationModel.LocationEasting = _easting;
             locationModel.LocationNorthing = _northing;

@@ -349,8 +349,6 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private async void MapPageAddMap_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.StartProgressRing();
-
             //Refresh
             UpdateLayout();
 
@@ -363,9 +361,6 @@ namespace GSCFieldApp.Views
             {
 
             }
-
-
-            ViewModel.StopProgressRing();
         }
 
         public async void GPSMode_TappedAsync(object sender, TappedRoutedEventArgs e)
