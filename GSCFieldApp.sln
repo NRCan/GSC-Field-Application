@@ -16,9 +16,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|ARM.ActiveCfg = Release|ARM
-		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x64.ActiveCfg = Release|x64
-		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x64.Build.0 = Release|x64
-		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x64.Deploy.0 = Release|x64
+		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x64.ActiveCfg = Debug|x64
+		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x64.Build.0 = Debug|x64
+		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x64.Deploy.0 = Debug|x64
 		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x86.ActiveCfg = Release|x64
 		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x86.Build.0 = Release|x64
 		{61F148DB-B4D1-4D45-A2C2-894806180744}.Debug|x86.Deploy.0 = Release|x64
