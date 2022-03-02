@@ -1506,4 +1506,10 @@ Shimamura, Kaz – Conseiller</value>
   <data name="UserInfoDialogAName.PlaceholderText" xml:space="preserve">
     <value>Nom</value>
   </data>
+  <data name="LocationDialogGridView_Accuracy.Content" xml:space="preserve">
+    <value>Précision</value>
+  </data>
+  <data name="LocationDialogAccuracy.Header" xml:space="preserve">
+    <value>Précision</value>
+  </data>
 </root>

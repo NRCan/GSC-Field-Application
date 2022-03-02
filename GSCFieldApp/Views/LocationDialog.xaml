@@ -73,7 +73,7 @@
                                 Text ="{x:Bind locationVM.LocationLongitude, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"/>
 
                             <Button x:Name="ButtonConvertToUTM" Content="To UTM" Margin="0,28,0,0" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                            Tapped="ButtonConvertToUTM_TappedAsync"/> 
+                            Tapped="ButtonConvertToUTM_TappedAsync"/>
 
                         </GridView>
 
@@ -112,13 +112,27 @@
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_03" RelativePanel.Below="LocationGridView_03"
                             Fill="{ThemeResource FieldObsColorBrush}" />
 
-                        <GridView Style="{StaticResource NonselectableGridView}" RelativePanel.Below="MainSeparator_03" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                        <GridView Style="{StaticResource NonselectableGridView}" RelativePanel.Below="MainSeparator_03"
                                     x:Name="LocationGridView_04">
-                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Extra"/>
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Accuracy"/>
+
+                            <TextBox x:Name="LocationAcuracy" x:Uid="LocationDialogAccuracy"
+                                HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20"
+                                Text ="{x:Bind locationVM.LocationAccuracy, Mode=TwoWay}" InputScope="Number"/>
+
                         </GridView>
 
-                        <TextBox Style="{ThemeResource Notes}" x:Name="LocationDialogNoteTextbox" x:Uid="LocationDialogNotes"  HorizontalAlignment="Stretch" RelativePanel.Below="LocationGridView_04"
-                                    Text ="{x:Bind locationVM.LocationNotes, Mode=TwoWay}" Margin="0, -50, 0, 0"/>
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_04" RelativePanel.Below="LocationGridView_04"
+                            Fill="{ThemeResource FieldObsColorBrush}" />
+
+                        <GridView Style="{StaticResource NonselectableGridView}" RelativePanel.Below="MainSeparator_04" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                    x:Name="LocationGridView_05">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Extra"/>
+                        
+
+                        <TextBox Style="{ThemeResource Notes}" x:Name="LocationDialogNoteTextbox" x:Uid="LocationDialogNotes" RelativePanel.Below="LocationGridView_04"
+                                    Text ="{x:Bind locationVM.LocationNotes, Mode=TwoWay}" RenderTransformOrigin="0.497,1.303"/>
+                        </GridView>
 
                     </RelativePanel>
                 </ScrollViewer>

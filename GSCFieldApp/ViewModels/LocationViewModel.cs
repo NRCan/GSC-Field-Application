@@ -29,6 +29,7 @@ namespace GSCFieldApp.ViewModels
         private string _locationLatitude = "0";
         private string _locationLongitude = "0"; //Default
         private string _locationElevation = "0";//Default
+        private string _locationAccuracy = "0";//Default
         private bool _readonlyFields = true;//Default
         private string _locationNorthing = "0";
         private string _locationEasting = "0";
@@ -120,6 +121,7 @@ namespace GSCFieldApp.ViewModels
         public string LocationNorthing { get { return _locationNorthing; } set { _locationNorthing = value; } }
         public string LocationEasting { get { return _locationEasting; } set { _locationEasting = value; } }
 
+        public string LocationAccuracy { get { return _locationAccuracy; } set { _locationAccuracy = value; } }
         public bool ReadOnlyFields { get { return _readonlyFields; } set { _readonlyFields = value; } }
 
         public string LocationNotes { get { return _locationNotes; } set { _locationNotes = value; } }
@@ -168,9 +170,11 @@ namespace GSCFieldApp.ViewModels
             _locationLatitude = existingDataDetailLocation.location.LocationLat.ToString();
             _locationLongitude = existingDataDetailLocation.location.LocationLong.ToString();
             _locationElevation = existingDataDetailLocation.location.LocationElev.ToString();
+            _locationAccuracy = existingDataDetailLocation.location.LocationErrorMeasure.ToString();
             _locationNotes = existingDataDetailLocation.location.LocationNotes;
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
             _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
+            _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();  //FIX THIS
             _selectedLocationDatums = existingDataDetailLocation.location.LocationDatum;
 
             //Update UI
@@ -179,6 +183,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("LocationLongitude");
             RaisePropertyChanged("LocationLatitude");
             RaisePropertyChanged("LocationElevation");
+            RaisePropertyChanged("LocationAccuracy");
             RaisePropertyChanged("LocationNotes");
             RaisePropertyChanged("LocationEasting");
             RaisePropertyChanged("LocationNorthing");
