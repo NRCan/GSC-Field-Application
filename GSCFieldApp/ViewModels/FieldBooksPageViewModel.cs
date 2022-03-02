@@ -198,16 +198,6 @@ namespace GSCFieldApp.ViewModels
             ResourceLoader loadLocal = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
             if (_projectCollection.Count == 0)
             {
-                //Show end message
-                ContentDialog noFieldBookDialog = new ContentDialog()
-                {
-                    Title = loadLocal.GetString("FieldBookPageNoBookTitle"),
-                    Content = loadLocal.GetString("FieldBookPageNoBookContent"),
-                    PrimaryButtonText = loadLocal.GetString("GenericDialog_ButtonOK")
-
-                };
-
-                await noFieldBookDialog.ShowAsync();
 
                 _noFieldBookWatermark = true;
                 RaisePropertyChanged("NoFieldBookWatermark");
