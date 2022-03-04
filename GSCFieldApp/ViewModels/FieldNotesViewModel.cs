@@ -2559,7 +2559,7 @@ namespace GSCFieldApp.ViewModels
                     _documentAddIconOpacity = enableOpacity;
                     hasStationLocation = true;
 
-                    if (_reportDetailedStation[_reportStationIndex].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
+                    if (_reportDetailedStation[_reportStationIndex].GenericAliasName != null && _reportDetailedStation[_reportStationIndex].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
                     {
                         isWaypoint = true;
                     }
