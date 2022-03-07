@@ -1250,7 +1250,6 @@ namespace GSCFieldApp.ViewModels
                 {
 
                     _currentAccuracy = in_position.Coordinate.Accuracy;
-                   // _currentProjection = in_position.Coordinate.
                     RaisePropertyChanged("CurrentAccuracy");
                     mapScale = currentMapView.MapScale;
 
@@ -2182,45 +2181,21 @@ namespace GSCFieldApp.ViewModels
                     if (esriMap == null)
                     {
                         esriMap = new Map(_tileLayer.SpatialReference);
-                        //_currentProjection = _tileLayer.SpatialReference.BaseGeographic.ToString();
-  
                     }
-                    if (esriMap.Basemap.BaseLayers.Count == 0 && _tileLayer.SpatialReference != null)
-                    {
-                        AddBlanckFeature(_tileLayer.SpatialReference);
-                        
-                    }
-                    else
-                    {
-                        SpatialReference sr = new SpatialReference(4326);
-                        AddBlanckFeature(sr);
-                       // _currentProjection = "WGS 84";
-                        
-                    }
+
+                    _tileLayer.IsVisible = isTPKVisible;
+                    _tileLayer.Opacity = tpkOpacity;
+                    esriMap.Basemap.BaseLayers.Add(_tileLayer);
 
                     //Shows Peojection in map view
                     var txtProjection = _tileLayer.SpatialReference.WkText;
                     var txtDatum = txtProjection.IndexOf("DATUM") + 9;
                     var txtSpheroid = txtProjection.IndexOf("SPHEROID") - 2;
                     _currentProjection = txtProjection.Substring(txtDatum, txtSpheroid - txtDatum);
-
-
-                    //Also Shows Projection in map view
-                    //var bits = txtProjection.Split('"');
-                    //var i = Array.FindIndex(bits, b => b.Contains("DATUM"));
-                    //var r = bits[i + 1];
-                    //_currentProjection = r;
-
-                    _tileLayer.IsVisible = isTPKVisible;
-                    _tileLayer.Opacity = tpkOpacity;
-                    esriMap.Basemap.BaseLayers.Add(_tileLayer);
-
-
-
+                    RaisePropertyChanged("CurrentProjection");
                 }
                 catch (Exception)
                 {
-
                 }
 
                 currentMapView.Map = esriMap;
@@ -2885,18 +2860,18 @@ namespace GSCFieldApp.ViewModels
         public void ZoomToLayer(bool fromSelection)
         {
             if (esriMap != null && _selectedLayer != null && fromSelection)
-                {
+            {
                 // Get selected layer
                 if (_selectedLayer.ToString() == "")
-                { 
+                {
                     //Added to make sure the app does not crash if the user clicks the same zoom button twice
                 }
-                else 
+                else
                 {
 
                     MapPageLayers subFile = (MapPageLayers)_selectedLayer;
                     string localLayerPath = Path.Combine(accessData.ProjectPath, subFile.LayerName);
-                
+
                     Layer foundLayer = null;
 
                     //For tpks
