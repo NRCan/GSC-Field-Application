@@ -1510,6 +1510,6 @@ Shimamura, Kaz – Conseiller</value>
     <value>Précision</value>
   </data>
   <data name="LocationDialogAccuracy.Header" xml:space="preserve">
-    <value>Précision</value>
+    <value>Précision (m)</value>
   </data>
 </root>
