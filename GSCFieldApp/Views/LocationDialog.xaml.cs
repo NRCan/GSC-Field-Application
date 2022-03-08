@@ -228,7 +228,11 @@ namespace GSCFieldApp.Views
             else
             {
 
-                isValid = false;
+                //Only show for manual entries.
+                if (!this.locationVM.ReadOnlyFields)
+                {
+                    isValid = false;
+                }
             }
 
             return isValid;
