@@ -18,6 +18,9 @@ Windows 10 Minimum build 17763, version 1809.
 
 The application is side-loaded onto any Windows 10 PC that meets the build requirement. A developer configuration is needed on W10 in order to side-load this application.
 
+## Latest Version
+
+Please download the latest version (1.2) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/1.2)
 ## Data Format
 
 The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
