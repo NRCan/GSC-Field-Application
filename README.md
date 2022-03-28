@@ -22,13 +22,13 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 Please download the latest version (1.2) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/1.2).
 
-## Data Format
-
-The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
-
 ## Wiki
 
 The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpful documentation and videos for your use including a video highlighting the [top ten features](https://www.youtube.com/watch?v=Q-L2iQuTulk&list=PLmWZ-zVvFerjDBzcOUsH5pIRZBOS6wCLF&index=6) in the GSC Field App.
+
+## Data Format
+
+The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
 
 ### Development environment
 
@@ -39,7 +39,6 @@ Universal Windows Platform (UWP), Visual studio 2019-2022
 Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
 
 Étienne Girard: etienne.girard@canada.ca
-
 
 ### How to Contribute
 
@@ -77,13 +76,15 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 ## La dernière version
 Veuillez télécharger la dernière version (1.2) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/1.2).
 
-## Format de donnée
-
-The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
-
 ## Wiki
 
 Le [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) contient une documentation et des vidéos utiles, notamment une vidéo présentant les [dix principales fonctionnalités](https://www.youtube.com/watch?v=Q-L2iQuTulk&list=PLmWZ-zVvFerjDBzcOUsH5pIRZBOS6wCLF&index=6) de l'application de terrain du CGS.
+
+## Format de donnée
+
+L'application actuelle utilise un format de données SQLite pour stocker toutes les informations recueillies par les utilisateurs. En outre, une extension spatiale appelée SpatialLite peut y être ajoutée et utilisée dans n'importe quel logiciel SIG comme QGIS, ESRI ArcGIS ou ESRI Desktop Pro.
+
+The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
 
 ### Environnement de développement
 Plateforme Windows universelle (PWU), Visual studio 2019-2022
