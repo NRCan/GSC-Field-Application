@@ -20,14 +20,19 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 ## Latest Version
 
-Please download the latest version (1.2) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/1.2)
+Please download the latest version (1.2) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/1.2).
+
 ## Data Format
 
 The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
 
+## Wiki
+
+The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpful documentation and videos for your use including a video highlighting the [top ten features](https://www.youtube.com/watch?v=Q-L2iQuTulk&list=PLmWZ-zVvFerjDBzcOUsH5pIRZBOS6wCLF&index=6) in the GSC Field App.
+
 ### Development environment
 
-Universal Windows Platform (UWP), Visual Studio Pro, 2019
+Universal Windows Platform (UWP), Visual studio 2019-2022
 
 ## Contacts
 
@@ -69,12 +74,19 @@ Windows 10, version compilée minimale 17763, version 1809.
 
 L'application doit être installé manuellement sur toute plateforme Windows 10 qui atteint le pré-requis minimal. Une configuration en mode développeur est aussi nécessaire pour l'installation manuelle.
 
+## La dernière version
+Veuillez télécharger la dernière version (1.2) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/1.2).
+
 ## Format de donnée
 
 The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
 
+## Wiki
+
+Le [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) contient une documentation et des vidéos utiles, notamment une vidéo présentant les [dix principales fonctionnalités](https://www.youtube.com/watch?v=Q-L2iQuTulk&list=PLmWZ-zVvFerjDBzcOUsH5pIRZBOS6wCLF&index=6) de l'application de terrain du CGS.
+
 ### Environnement de développement
-Plateforme Windows universelle (PWU), Visual Studio Pro, 2019
+Plateforme Windows universelle (PWU), Visual studio 2019-2022
 
 ### Contacts
 
