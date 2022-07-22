@@ -63,15 +63,6 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStructureDip)]
         public string StructureDipPlunge { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureNotes)]
-        public string StructureNotes { get; set; }
-
-        [Column(DatabaseLiterals.FieldStructureParentID)]
-        public string StructureParentID { get; set; }
-
-
-        private string _structureSymAng = string.Empty;
-
         [Column(DatabaseLiterals.FieldStructureSymAng)]
         public string StructureSymAng
         {
@@ -114,6 +105,14 @@ namespace GSCFieldApp.Models
                 _structureSymAng = value;
             }
         }
+
+        [Column(DatabaseLiterals.FieldStructureNotes)]
+        public string StructureNotes { get; set; }
+
+        [Column(DatabaseLiterals.FieldStructureParentID)]
+        public string StructureParentID { get; set; }
+
+        private string _structureSymAng = string.Empty;
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
@@ -192,9 +191,10 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (StructureClass != null &&StructureClass != string.Empty 
-                    && StructureRelated != string.Empty 
-                    && StructureAzimuth != string.Empty 
+                if (StructureClass != null && StructureClass != string.Empty
+                    && StructureRelated != null
+                    && StructureRelated != string.Empty
+                    && StructureAzimuth != string.Empty
                     && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)
                 {
                     //Init variables
@@ -283,11 +283,11 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (StructureClass != null 
-                    && StructureRelated != null 
-                    && StructureAzimuth != null 
-                    && StructureClass != string.Empty 
-                    && StructureRelated != string.Empty 
+                if (StructureClass != null
+                    && StructureRelated != null
+                    && StructureAzimuth != null
+                    && StructureClass != string.Empty
+                    && StructureRelated != string.Empty
                     && StructureAzimuth != string.Empty
                     && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)
                 {
@@ -301,7 +301,7 @@ namespace GSCFieldApp.Models
                         Services.DatabaseServices.DataAccess da = new Services.DatabaseServices.DataAccess();
                         relatedStructure = da.GetRelatedStructure(StructureRelated);
                     }
-                    
+
 
                     //Fill in variables
                     if (StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
@@ -361,7 +361,31 @@ namespace GSCFieldApp.Models
                     return null;
                 }
             }
-            set {  }
+            set { }
+        }
+
+        /// <summary>
+        /// A list of all possible fields
+        /// </summary>
+        [Ignore]
+        public List<string> getFieldList
+        {
+            get
+            {
+                List<string> structureFieldList = new List<string>();
+                structureFieldList.Add(DatabaseLiterals.FieldStructureID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        structureFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                return structureFieldList;
+            }
+            set { }
         }
     }
 }

@@ -29,6 +29,7 @@ namespace GSCFieldApp.ViewModels
         private string _locationLatitude = "0";
         private string _locationLongitude = "0"; //Default
         private string _locationElevation = "0";//Default
+        private string _locationAccuracy = "0";//Default
         private bool _readonlyFields = true;//Default
         private string _locationNorthing = "0";
         private string _locationEasting = "0";
@@ -120,6 +121,7 @@ namespace GSCFieldApp.ViewModels
         public string LocationNorthing { get { return _locationNorthing; } set { _locationNorthing = value; } }
         public string LocationEasting { get { return _locationEasting; } set { _locationEasting = value; } }
 
+        public string LocationAccuracy { get { return _locationAccuracy; } set { _locationAccuracy = value; } }
         public bool ReadOnlyFields { get { return _readonlyFields; } set { _readonlyFields = value; } }
 
         public string LocationNotes { get { return _locationNotes; } set { _locationNotes = value; } }
@@ -168,6 +170,7 @@ namespace GSCFieldApp.ViewModels
             _locationLatitude = existingDataDetailLocation.location.LocationLat.ToString();
             _locationLongitude = existingDataDetailLocation.location.LocationLong.ToString();
             _locationElevation = existingDataDetailLocation.location.LocationElev.ToString();
+            _locationAccuracy = existingDataDetailLocation.location.LocationErrorMeasure.ToString();
             _locationNotes = existingDataDetailLocation.location.LocationNotes;
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
             _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
@@ -179,6 +182,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("LocationLongitude");
             RaisePropertyChanged("LocationLatitude");
             RaisePropertyChanged("LocationElevation");
+            RaisePropertyChanged("LocationAccuracy");
             RaisePropertyChanged("LocationNotes");
             RaisePropertyChanged("LocationEasting");
             RaisePropertyChanged("LocationNorthing");
@@ -197,11 +201,13 @@ namespace GSCFieldApp.ViewModels
             double _lat = 0.0;
             int _easting = 0;
             int _northing = 0;
+            double _accu = 0;
 
             double.TryParse(_locationLongitude, out _long);
             double.TryParse(_locationLatitude, out _lat);
             int.TryParse(_locationEasting, out _easting);
             int.TryParse(_locationNorthing, out _northing);
+            double.TryParse(_locationAccuracy, out _accu);
 
             //Detect a projected system
             int selectedEPGS = 0;
@@ -239,6 +245,7 @@ namespace GSCFieldApp.ViewModels
             locationModel.LocationElev = Double.Parse(LocationElevation);
             locationModel.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
             locationModel.LocationNotes = LocationNotes;
+            locationModel.LocationErrorMeasure = _accu;
 
             locationModel.LocationEasting = _easting;
             locationModel.LocationNorthing = _northing;

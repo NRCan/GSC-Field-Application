@@ -43,6 +43,8 @@ namespace GSCFieldApp.ViewModels
         private string _geologistLN = string.Empty;
         private bool _enability = true;
         private string _geologistCode = string.Empty;
+        private string _activityName = string.Empty;
+        private string _notes = string.Empty;
 
         //Local settings
         DataLocalSettings localSetting = new DataLocalSettings();
@@ -54,7 +56,7 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
-        public Metadata Model {get { return model; } set { model = value; } }
+        public Metadata Model { get { return model; } set { model = value; } }
 
         public string Id
         {
@@ -123,6 +125,8 @@ namespace GSCFieldApp.ViewModels
 
         public string GeologistCode { get { return _geologistCode; } set { _geologistCode = value; } }
 
+        public string ActivityName { get { return _activityName; } set { _activityName = value; } }
+        public string Notes { get { return _notes; } set { _notes = value; } }
         public List<Themes.ComboBoxItem> ProjectType { get { return _projectType; } set { _projectType = value; } }
         public string SelectedProjectType { get { return _selectedProjectType; } set { _selectedProjectType = value; } }
         public bool Enability { get { return _enability; } set { _enability = value; } }
@@ -241,9 +245,12 @@ namespace GSCFieldApp.ViewModels
             _geologistMN = existingUserDetail.metadataForProject.ProjectUser_MN;
             _geologistLN = existingUserDetail.metadataForProject.ProjectUser_LN;
 
+            _notes = existingUserDetail.metadataForProject.MetadataNotes;
+            _activityName = existingUserDetail.metadataForProject.MetadataActivity;
+
             //Refresh UI
             RaisePropertyChanged("ProjectName");
-            RaisePropertyChanged("GeologistCode"); 
+            RaisePropertyChanged("GeologistCode");
             RaisePropertyChanged("Enability");
 
             RaisePropertyChanged("ProjectLeaderFN");
@@ -252,7 +259,8 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("GeologistFN");
             RaisePropertyChanged("GeologistMN");
             RaisePropertyChanged("GeologistLN");
-
+            RaisePropertyChanged("Notes");
+            RaisePropertyChanged("ActivityName");
 
         }
 
@@ -275,7 +283,7 @@ namespace GSCFieldApp.ViewModels
                 Model.Version = String.Format("{0}.{1}.{2}.{3}", currentPackVersion.Major, currentPackVersion.Minor, currentPackVersion.Build, currentPackVersion.Revision);
                 Model.IsActive = 1;
                 Model.StartDate = String.Format("{0:d}", DateTime.Today);
-                Model.VersionSchema = DatabaseLiterals.DBVersion;
+                Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
 
             }
             else
@@ -293,6 +301,8 @@ namespace GSCFieldApp.ViewModels
             Model.ProjectUser_FN = GeologistFN;
             Model.ProjectUser_MN = GeologistMN;
             Model.ProjectUser_LN = GeologistLN;
+            Model.MetadataNotes = Notes;
+            Model.MetadataActivity = ActivityName;
 
             Model.StationStartNumber = StartStationNumber;
 

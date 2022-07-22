@@ -18,20 +18,27 @@ Windows 10 Minimum build 17763, version 1809.
 
 The application is side-loaded onto any Windows 10 PC that meets the build requirement. A developer configuration is needed on W10 in order to side-load this application.
 
+## Latest Version
+
+Please download the latest version (1.2) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/1.2).
+
+## Wiki
+
+The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpful documentation and videos for your use including a video highlighting the [top ten features](https://www.youtube.com/watch?v=Q-L2iQuTulk&list=PLmWZ-zVvFerjDBzcOUsH5pIRZBOS6wCLF&index=6) in the GSC Field App.
+
 ## Data Format
 
 The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
 
 ### Development environment
 
-Universal Windows Platform (UWP), Visual Studio Pro, 2019
+Universal Windows Platform (UWP), Visual studio 2019-2022
 
 ## Contacts
 
 Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
 
 Étienne Girard: etienne.girard@canada.ca
-
 
 ### How to Contribute
 
@@ -48,13 +55,12 @@ ______________________
 
 ([English](#Geological-Survey-Canada-Field-Application))
 
-Ce projet est une application de collecte de données sur le terrain de la Commission géologique du Canada pour les géologues. L'application stocke automatiquement les données de localisation pour chaque emplacement créé et permet la saisie de données d'informations géologiques complexes.
+Projet initié par la Commission géologique du Canada, cette application permet de récolter et décrire les données in-situ concernant la géologie du socle rocheux et sommairement des dépôts de surface. À l'aide de GPS embarqué, il est possible de conserver et visualiser la localisation des informations se rapportant à la géologie. 
 
-L'application présente principalement une carte SIG avec accès à des formulaires spécialisés. Les couches de carte et les données de formulaires sont présentées sous forme de cahiers qui peuvent être transférés entre les applications/ordinateurs de poche et enregistrés avec certaines métadonnées telles que le nom du projet de travail actuel, le géologue et le nom de l'activité.
+Le format de style Carnet de Terrain permet de transférer les données SIG, des métadonnées tel que le nom de projet, le géologue ainsi que le nom de l'activité d'un appareil à un autre. Que ce soit une tablette, un ordinateur portatif ou autre. L'application est plutôt orienté vers la cartographie régionale de la géologie.
 
 Le public cible est principalement les géologues et intervenants souhaitant récolter des données géolgiques de type régionales de manière standard. De manière à obtenir des jeux de données validate et bien organisées.
 
-Cette application permet de récolter les données concernant la géologique du socle rocheux et sommairement des dépôts de surface. Pour cette dernière de nouveau formulaire seront disponible dans un proche avenir.
 
 ## Pré-requis
 
@@ -64,12 +70,21 @@ Windows 10, version compilée minimale 17763, version 1809.
 
 L'application doit être installé manuellement sur toute plateforme Windows 10 qui atteint le pré-requis minimal. Une configuration en mode développeur est aussi nécessaire pour l'installation manuelle.
 
+## La dernière version
+
+Veuillez télécharger la dernière version (1.2) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/1.2).
+
+## Wiki
+
+Le [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) contient une documentation et des vidéos utiles, notamment une vidéo présentant les [dix principales fonctionnalités](https://www.youtube.com/watch?v=Q-L2iQuTulk&list=PLmWZ-zVvFerjDBzcOUsH5pIRZBOS6wCLF&index=6) de l'application de terrain du CGS.
+
 ## Format de donnée
 
-L'application actuelle utilise un format de données SQLite pour stocker toutes les informations recueillies par les utilisateurs. De plus, une extension spatiale appelée SpatialLite peut y être ajoutée et utilisée dans n'importe quel logiciel SIG comme QGIS, ESRI ArcGIS ou ESRI Desktop Pro.
+L'application actuelle utilise un format de données SQLite pour stocker toutes les informations recueillies par les utilisateurs. En outre, une extension spatiale appelée SpatialLite peut y être ajoutée et utilisée dans n'importe quel logiciel SIG comme QGIS, ESRI ArcGIS ou ESRI Desktop Pro.
 
 ### Environnement de développement
-Plateforme Windows universelle (PWU), Visual Studio Pro, 2019
+
+Plateforme Windows universelle (PWU), Visual studio 2019-2022
 
 ### Contacts
 
@@ -86,4 +101,3 @@ Voir [CONTRIBUTING.md](CONTRIBUTING.md)
 Sauf indication contraire, le code source de ce projet est protégé par le droit d'auteur de la Couronne du gouvernement du Canada et distribué sous la [licence MIT](LICENSE.txt).
 
 Le mot-symbole « Canada » et les éléments graphiques connexes liés à cette distribution sont protégés en vertu des lois portant sur les marques de commerce et le droit d'auteur. Aucune autorisation n'est accordée pour leur utilisation à l'extérieur des paramètres du programme de coordination de l'image de marque du gouvernement du Canada. Pour obtenir davantage de renseignements à ce sujet, veuillez consulter les [Exigences pour l'image de marque](https://www.canada.ca/fr/secretariat-conseil-tresor/sujets/communications-gouvernementales/exigences-image-marque.html).
-

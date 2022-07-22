@@ -184,11 +184,11 @@ namespace GSCFieldApp.ViewModels
                             GC.WaitForPendingFinalizers();
 
                             System.Runtime.InteropServices.Marshal.ReleaseComObject(sfi);
-                            
+
                             break; //Forget about other files
                         }
                     }
-                }  
+                }
             }
 
             //Refresh UI
@@ -198,16 +198,6 @@ namespace GSCFieldApp.ViewModels
             ResourceLoader loadLocal = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
             if (_projectCollection.Count == 0)
             {
-                //Show end message
-                ContentDialog noFieldBookDialog = new ContentDialog()
-                {
-                    Title = loadLocal.GetString("FieldBookPageNoBookTitle"),
-                    Content = loadLocal.GetString("FieldBookPageNoBookContent"),
-                    PrimaryButtonText = loadLocal.GetString("GenericDialog_ButtonOK")
-
-                };
-
-                await noFieldBookDialog.ShowAsync();
 
                 _noFieldBookWatermark = true;
                 RaisePropertyChanged("NoFieldBookWatermark");
@@ -287,7 +277,7 @@ namespace GSCFieldApp.ViewModels
             };
             backupDialog.Closed += BackupDialog_Closed;
             await backupDialog.ShowAsync();
-            
+
 
         }
 
@@ -361,7 +351,7 @@ namespace GSCFieldApp.ViewModels
                 }
             }
 
-            
+
 
 
             //If user is trying to delete the only loaded field book
@@ -494,7 +484,7 @@ namespace GSCFieldApp.ViewModels
                     if (files.Name.ToLower().Contains(".sqlite") && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
                     {
 
-                        databaseToRename = files; 
+                        databaseToRename = files;
                     }
                     else if (!files.Name.Contains("zip"))
                     {
@@ -504,7 +494,7 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Copy and rename database
-                if (databaseToRename!=null)
+                if (databaseToRename != null)
                 {
                     StorageFile newFile = await databaseToRename.CopyAsync(fieldBook, newName);
                     FilesToBackup.Add(newFile);
@@ -541,7 +531,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         public async void projectOpenButton_TappedAsync(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            string pPath =  _projectCollection[_selectedProjectIndex].ProjectPath;
+            string pPath = _projectCollection[_selectedProjectIndex].ProjectPath;
             string wType = _projectCollection[_selectedProjectIndex].metadataForProject.FieldworkType;
             string uCode = _projectCollection[_selectedProjectIndex].metadataForProject.UserCode;
             string mID = _projectCollection[_selectedProjectIndex].metadataForProject.MetaID;
@@ -590,7 +580,7 @@ namespace GSCFieldApp.ViewModels
                 //Get metadata 
                 List<object> inMeta = accessData.ReadTableFromDBConnection(metadataModel.GetType(), null, selectedProjectConnection);
 
-                if (inMeta!=null && inMeta.Count > 0)
+                if (inMeta != null && inMeta.Count > 0)
                 {
                     //Show UserInfoPart window as a modal dialog
                     WindowWrapper.Current().Dispatcher.Dispatch(() =>
@@ -632,10 +622,10 @@ namespace GSCFieldApp.ViewModels
                 };
                 deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
                 ContentDialogResult cdr = await deleteBookDialog.ShowAsync();
-                
+
                 if (cdr == ContentDialogResult.Primary)
                 {
-                        ValidateDeleteProject(this);
+                    ValidateDeleteProject(this);
                 }
 
             }
@@ -680,7 +670,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("ProgressRingVisibility");
 
             //Get zip archive from user
-            FileOpenPicker openPicker= new FileOpenPicker();
+            FileOpenPicker openPicker = new FileOpenPicker();
             openPicker.ViewMode = PickerViewMode.List;
             openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
             openPicker.FileTypeFilter.Add(".sqlite");
@@ -710,7 +700,7 @@ namespace GSCFieldApp.ViewModels
                     fieldProjectPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, incrementer.ToString());
                 }
 
-                
+
                 //Copy to local state
                 FileServices fileService = new FileServices();
                 StorageFolder newFieldBookFolder = await StorageFolder.GetFolderFromPathAsync(fieldProjectPath);
@@ -726,7 +716,7 @@ namespace GSCFieldApp.ViewModels
                 //Connect to the new database
                 IReadOnlyList<StorageFile> storageFiles = await newFieldBookFolder.GetFilesAsync();
                 StorageFile wantedDB = null;
-                
+
                 foreach (StorageFile sf in storageFiles)
                 {
                     if (sf.Name.Contains(".sqlite"))
@@ -753,7 +743,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         await wantedDB.RenameAsync(Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite);
                     }
-                    
+
                     SQLiteConnection loadedDBConnection = accessData.GetConnectionFromPath(wantedDB.Path);
 
                     //Fill in current setting and change field book.
@@ -762,7 +752,7 @@ namespace GSCFieldApp.ViewModels
                     Metadata metItem = metadataTable.First() as Metadata;
 
                     //Display a warning for version validation
-                    if (metItem.VersionSchema != DatabaseLiterals.DBVersion)
+                    if (metItem.VersionSchema != DatabaseLiterals.DBVersion.ToString())
                     {
                         // Language localization using Resource.resw
                         var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
@@ -770,7 +760,7 @@ namespace GSCFieldApp.ViewModels
                         ContentDialog outDatedVersionDialog = new ContentDialog()
                         {
                             Title = local.GetString("WarningBadVersionTitle"),
-                            Content = local.GetString("WarningBadVersionContent") + " " + DatabaseLiterals.DBVersion,
+                            Content = local.GetString("WarningBadVersionContent") + " " + DatabaseLiterals.DBVersion.ToString(),
                             PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
                         };
 
@@ -825,28 +815,39 @@ namespace GSCFieldApp.ViewModels
                 //New field books or empty ones shouldn't be upgraded
                 if (accessData.CanUpgrade())
                 {
+                    DataAccess dAccess = new DataAccess();
+                    FileServices fService = new FileServices();
                     //Get local storage folder
                     StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
                     //Keep current database path before creating the new one
-                    string dbpathToUpgrade = DataAccess.DbPath;
+                    string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
+                    string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, DataAccess._dbName); //in root of local state folder for now
 
                     //Create new fieldbook
-                    Task createNewDatabase = accessData.CreateDatabaseFromResource();
+                    Task createNewDatabase = accessData.CreateDatabaseFromResourceTo(dbFolderToUpgrade);
                     await createNewDatabase;
                     if (createNewDatabase.IsCompleted)
                     {
-
                         //Connect to the new working database
-                        SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
+                        SQLiteConnection upgradeDBConnection = accessData.GetConnectionFromPath(dbpathToUpgrade);
 
                         //Keep user vocab
-                        accessData.DoSwapVocab(dbpathToUpgrade, workingDBConnection, false);
+                        accessData.GetLatestVocab(DataAccess.DbPath, upgradeDBConnection, false);
 
                         //Upgrade other tables
-                        accessData.DoUpgradeSchema(dbpathToUpgrade, workingDBConnection);
+                        await accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection);
 
                     }
+
+                    //Rename current fieldbook
+                    string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade) + Dictionaries.DatabaseLiterals.DBTypeSqlite;
+                    string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName);
+                    string copyPathBeforeMove = DataAccess.DbPath;
+                    File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
+
+                    //Copy upgraded version
+                    File.Move(dbpathToUpgrade, copyPathBeforeMove);
 
                     //Show end message
                     var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
@@ -866,7 +867,7 @@ namespace GSCFieldApp.ViewModels
                         EventHandler<string> newFieldBookRequest = newFieldBookSelected;
                         if (newFieldBookRequest != null)
                         {
-                            newFieldBookRequest(this, System.IO.Directory.GetParent(dbpathToUpgrade).FullName);
+                            newFieldBookRequest(this, System.IO.Directory.GetParent(DataAccess.DbPath).FullName);
                         }
                     }
                 }

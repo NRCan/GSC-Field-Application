@@ -18,6 +18,7 @@ namespace GSCFieldApp.ViewModels
         #region INIT DECLARATIONS
         
         public bool doStructureUpdate = false;
+        private string _groupTypeDetail = string.Empty;
         public string level1Sep = Dictionaries.ApplicationLiterals.parentChildLevel1Seperator;
         public string level2Sep = Dictionaries.ApplicationLiterals.parentChildLevel2Seperator;
 
@@ -175,7 +176,7 @@ namespace GSCFieldApp.ViewModels
             existingDataDetailStructure = inReport;
 
             // First order vocabs
-            //FillStructureFormat();
+            FillStructureFormat();
             FillStructureMethod();
             FillStructureStrain();
             FillStructureFlattening();
@@ -195,6 +196,15 @@ namespace GSCFieldApp.ViewModels
                 _structRel.Clear();
                 RaisePropertyChanged("StructRelated");
             }
+            else
+            {
+                //Else keep whatever has been passed by Field Note as an existing value
+                if (existingDataDetailStructure.structure.StructureClass != null && existingDataDetailStructure.structure.StructureClass != string.Empty)
+                {
+                    lithoClass = existingDataDetailStructure.structure.StructureClass;
+                }
+                
+            }
 
 
             string querySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableStructure;
@@ -211,13 +221,17 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Extra where clause to select only counterpart and not same structure types
-            if (existingDataDetailStructure.structure.StructureClass != null && existingDataDetailStructure.structure.StructureClass != string.Empty && existingDataDetailStructure.structure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
+            if (lithoClass.Contains(DatabaseLiterals.KeywordPlanar))
             {
                 queryWhere = queryWhere + " AND " + DatabaseLiterals.FieldStructureClass + " LIKE '%" + DatabaseLiterals.KeywordLinear + "%'";
             }
-            else
+            else if (lithoClass.Contains(DatabaseLiterals.KeywordLinear))
             {
                 queryWhere = queryWhere + " AND " + DatabaseLiterals.FieldStructureClass + " LIKE '%" + DatabaseLiterals.KeywordPlanar + "%'";
+            }
+            else
+            { 
+                //Do nothing which should select everything.
             }
 
             string finalQuery = querySelect + queryWhere;
@@ -245,6 +259,7 @@ namespace GSCFieldApp.ViewModels
                 structItem.itemName = Dictionaries.DatabaseLiterals.picklistNADescription;
                 structItem.itemValue = Dictionaries.DatabaseLiterals.picklistNACode;
                 _structRel.Add(structItem);
+
             }
             else
             {
@@ -540,6 +555,19 @@ namespace GSCFieldApp.ViewModels
         /// Will fill the dialog with existing information coming from the database.
         /// </summary>
         /// <param name="incomingData">The model in which the existing information is stored.</param>
+
+        public void InitFill2ndRound(string fullStructText)
+        {
+            _groupTypeDetail = fullStructText;
+            RaisePropertyChanged("GroupTypeDetail");
+
+            FillStructureAttitude();
+            FillStructureYounging();
+            FillStructureGeneration();
+            FillStructureFormat();
+        }
+
+
         public void AutoFillDialog2ndRound(FieldNotes incomingData)
         {
             // Refille second order vocab
@@ -695,16 +723,28 @@ namespace GSCFieldApp.ViewModels
             Models.SemanticData inSD = inListView.SelectedValue as Models.SemanticData;
             if (inSD!=null)
             {
-                _strucclasstypedetail = inSD.Title + level2Sep + inSD.Subtitle;
-                RaisePropertyChanged("StructClassTypeDetail");
-
-                // Second order vocab, need to be at least initialized.
-                FillStructureAttitude();
-                FillStructureYounging();
-                FillStructureGeneration();
-                FillStructureFormat();
+                string userStrucClassTypeDetail = inSD.Title + level2Sep + inSD.Subtitle;
+                NewSearch_userHasSelectedAValue(userStrucClassTypeDetail);
 
             }
+
+        }
+
+        /// <summary>
+        /// Will be triggered whenever the struc box has been filled with something. It will update the whole structure class
+        /// </summary>
+        /// <param name="userStructClassTypeDetail"></param>
+        public void NewSearch_userHasSelectedAValue(string userStructClassTypeDetail)
+        {
+            _strucclasstypedetail = userStructClassTypeDetail;
+            RaisePropertyChanged("StructClassTypeDetail");
+
+            // Second order vocab, need to be at least initialized.
+            FillStructureAttitude();
+            FillStructureYounging();
+            FillStructureGeneration();
+            FillStructureFormat();
+            FillStructureRelated(_strucclasstypedetail);
 
         }
 

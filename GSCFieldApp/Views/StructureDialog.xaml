@@ -25,11 +25,11 @@
                             RelativePanel.AlignLeftWithPanel="True" 
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Visible" 
+                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right"
                                  Background="{ThemeResource FieldStructureColorBrush}">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="structBackButton" Icon="Clear" Foreground="White" Tapped="structBackButton_Tapped" />
-                    <AppBarButton x:Name="structSaveButton" Icon="Save" Foreground="White" Tapped="structSaveButton_Tapped" />
+                    <AppBarButton x:Name="structBackButton" Label="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="structBackButton_Tapped" />
+                    <AppBarButton x:Name="structSaveButton" Label="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="structSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
@@ -45,17 +45,23 @@
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="StructureGridView_Type">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StructureGridView_Type"/>
+
+                            <RelativePanel>
                             <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
                             Click="structTypeSearch_Click">
                                 <SymbolIcon x:Name="SearchLitho" Symbol="Zoom" Margin="-17.667,-15,-17.333,-15"/>
                             </Button>
-
-                            <TextBox x:Name="strucType" Margin="0,-28,50,0" Header="" x:Uid="StructDialogType" 
+                            <AutoSuggestBox x:Name="StructureAutoSuggest" x:Uid="StructureAutoSuggest"
                                  RelativePanel.RightOf="structTypeSearch"
-                                 Width="Auto" Style="{ThemeResource TextboxMandatoryField}"
-                                 Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}"
-                                 TextChanging="StrucType_TextChanging"/>
-
+                                                RelativePanel.AlignBottomWith="structTypeSearch"
+                                                TextChanged="StructureAutoSuggest_TextChanged"
+                                                QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
+                                                Width="300"/>
+                                <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" 
+                                 RelativePanel.Below="StructureAutoSuggest" RelativePanel.RightOf="structTypeSearch"
+                                 Width="Auto" Style="{ThemeResource TextboxMandatoryField}" IsReadOnly="True" FontWeight="Bold"
+                                 Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}" TextChanged="strucType_TextChanged" />
+                        </RelativePanel>
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_00"

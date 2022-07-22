@@ -143,7 +143,7 @@ namespace GSCFieldApp.ViewModels
                 List<StorageFile> newList = new List<StorageFile>();
                 foreach (StorageFile sf in FilesToBackup)
                 {
-                    if (sf.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
+                    if (sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite)
                     {
                         StorageFile newFile = await sf.CopyAsync(fieldBook, newName);
                         newList.Add(newFile);

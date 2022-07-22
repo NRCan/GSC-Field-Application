@@ -63,9 +63,6 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationNotes)]
         public string LocationNotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldLocationReportLink)]
-        public string LocationReportLink { get; set; }
-
         [Column(DatabaseLiterals.FieldLocationMetaID)]
         public string MetaID { get; set; }
 

@@ -47,8 +47,8 @@ namespace GSCFieldApp.Views
         bool tapMode = false;
 
         #endregion
-          
-        public MapPage() 
+
+        public MapPage()
         {
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, true);
 
@@ -57,7 +57,7 @@ namespace GSCFieldApp.Views
             this.Loaded += MapPage_Loaded;
 
             Application.Current.Resuming += Current_Resuming;
-            
+
 
         }
 
@@ -71,7 +71,7 @@ namespace GSCFieldApp.Views
         {
             ViewModel.ResetLocationGraphic();
             await ViewModel.SetGPS();
-            
+
         }
 
         #region EVENTS
@@ -101,7 +101,7 @@ namespace GSCFieldApp.Views
             {
                 ViewModel.StartLocationRing();
             }
-            
+
 
             //For any new projects reset all layers.
             //get the parameters (they are inside a json object...)
@@ -148,7 +148,7 @@ namespace GSCFieldApp.Views
             {
 
             }
-            
+
 
         }
 
@@ -173,15 +173,16 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void MapInfoButtonClicked(object sender, RoutedEventArgs e)
         {
+            //Hide or show coordinates, accuracy, and projection info when clicked
             MapCoordinateInfo.Visibility = (MapCoordinateInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapScaleInfo.Visibility = (MapScaleInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             //myMapView.Grid.IsVisible = (myMapView.Grid.IsVisible == true ? false : true);
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
             myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-        
-            
-        
+            MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+
+
         }
 
         /// <summary>
@@ -291,7 +292,7 @@ namespace GSCFieldApp.Views
                     myMapView.Grid.SetLineSymbol(levels, (Esri.ArcGISRuntime.Symbology.Symbol)lineSym);
 
                 }
-                
+
 
 
             }
@@ -348,8 +349,6 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private async void MapPageAddMap_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.StartProgressRing();
-
             //Refresh
             UpdateLayout();
 
@@ -362,9 +361,6 @@ namespace GSCFieldApp.Views
             {
 
             }
-            
-
-            ViewModel.StopProgressRing();
         }
 
         public async void GPSMode_TappedAsync(object sender, TappedRoutedEventArgs e)
@@ -404,7 +400,7 @@ namespace GSCFieldApp.Views
                 ViewModel.userHasTurnedGPSOff = false;
 
                 ViewModel.SetGPSModeIcon();
-                
+
             }
         }
 
@@ -438,6 +434,15 @@ namespace GSCFieldApp.Views
                 ViewModel.SetLayerOpacity(sender as Slider);
 
             }
+        }
+        //Created By Jamel to allow user to zoom to the extent of the TPK file
+        private void MapZoomExtentIcon_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+            ViewModel.ZoomToLayer(true);
+            //myMapView.SetViewpoint
+                       
+            
         }
     }
 }

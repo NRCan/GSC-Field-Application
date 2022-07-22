@@ -12,10 +12,18 @@ namespace GSCFieldApp.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value == null || value.ToString() == string.Empty)
+            {
                 return value;
+            }
+                
+            else 
+            {
+                double inDegree = double.Parse(value.ToString());
+                inDegree = Math.Round(inDegree, 8);
+                return string.Format("{0}°", inDegree.ToString());
+            }
 
-            value = Math.Round(double.Parse(value.ToString()), 6);
-            return string.Format("{0}°", value);
+            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

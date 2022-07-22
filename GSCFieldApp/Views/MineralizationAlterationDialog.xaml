@@ -37,10 +37,10 @@
                             RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldMineralAlterationColorBrush}"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Visible" >
+                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="mineralAltBackButton" Icon="Clear" Foreground="White" Tapped="mineralAltBackButton_Tapped"  />
-                    <AppBarButton x:Name="mineralAltSaveButton" Icon="Save" Foreground="White" Tapped="mineralAltSaveButton_Tapped"  />
+                    <AppBarButton x:Name="mineralAltBackButton" Label="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="mineralAltBackButton_Tapped"  />
+                    <AppBarButton x:Name="mineralAltSaveButton" Label="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="mineralAltSaveButton_Tapped"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>

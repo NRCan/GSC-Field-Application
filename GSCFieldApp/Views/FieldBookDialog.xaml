@@ -20,11 +20,11 @@
                             RelativePanel.AlignLeftWithPanel="True" 
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Collapsed" >
+                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
 
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="userInfoCancelButton" Icon="Clear" Foreground="White" Tapped="userInfoCancelButton_TappedAsync" />
-                    <AppBarButton x:Name="userInfoSaveButton" Icon="Save" Foreground="White" Tapped="saveUserInfo_TappedAsync" />
+                    <AppBarButton x:Name="userInfoCancelButton" Label="Close" Icon="Clear" MaxWidth="100" Height="57" IsCompact ="True" Foreground="White" Tapped="userInfoCancelButton_TappedAsync" />
+                    <AppBarButton x:Name="userInfoSaveButton" Label="Save" Icon="Save" MaxWidth="100" Height="57" IsCompact ="True" Foreground="White" Tapped="saveUserInfo_TappedAsync" />
                 </Controls:PageHeader.PrimaryCommands>
                 
             </Controls:PageHeader>
@@ -54,11 +54,13 @@
                           SelectedValue="{x:Bind ViewModel.SelectedProjectType, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
                           PlaceholderText=""/>
 
-                        <TextBox x:Name="ProjectNameTextBox" x:Uid="UserInfoDialogPName"
-                         Header="" RelativePanel.RightOf="ProjectTypeComboBox" RelativePanel.AlignHorizontalCenterWith="ProjectTypeComboBox"
-                                 Style="{ThemeResource TextboxMandatoryField}"
-                         Text="{x:Bind ViewModel.ProjectName, Mode=TwoWay}"/>
+                        <TextBox x:Name="ActivityNameTextBox" x:Uid="UserInfoDialogAName" RelativePanel.RightOf="ProjectTypeComboBox" RelativePanel.AlignHorizontalCenterWith="ProjectTypeComboBox"
+                         Header="" Style="{ThemeResource TextboxMandatoryField}"
+                         Text="{x:Bind ViewModel.ActivityName, Mode=TwoWay}"/>
 
+                        <TextBox x:Name="ProjectNameTextBox" x:Uid="UserInfoDialogPName"
+                         Header="" RelativePanel.RightOf="ActivityNameTextBox" RelativePanel.AlignHorizontalCenterWith="ProjectTypeComboBox"
+                         Text="{x:Bind ViewModel.ProjectName, Mode=TwoWay}"/>
 
                     </GridView>
 
@@ -118,15 +120,18 @@
                            RelativePanel.Below="UserInfo_User"
                            Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
 
-                    <GridView Style="{StaticResource NonselectableGridView}" x:Name="UserInfo_Other" RelativePanel.Below="UserBorder">
+                    <GridView Style="{StaticResource NonselectableGridView}" x:Name="UserInfo_Other" RelativePanel.Below="UserBorder" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                         <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="UserInfo_OtherHeader"/>
 
                         <TextBox x:Name="StationStartNumTextBox" x:Uid="UserInfoDialogStartStationNumber" 
                                  Style="{ThemeResource TextboxMandatoryField}" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
                              Header="" InputScope="Number"
                              Text="{x:Bind ViewModel.StartStationNumber, Mode=TwoWay}"/>
-
                     </GridView>
+
+                    <TextBox Style="{ThemeResource Notes}" x:Name="NoteTextBox" x:Uid="FieldworkNotes"
+                            RelativePanel.Below="UserInfo_Other"
+                            Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}"/>
 
                 </RelativePanel>
             </ScrollViewer>

@@ -23,10 +23,10 @@
                             RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldMineralColorBrush}"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Visible" >
+                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="mineralBackButton" Icon="Clear" Foreground="White" Tapped="mineralBackButton_Tapped"  />
-                    <AppBarButton x:Name="mineralSaveButton" Icon="Save" Foreground="White" Tapped="mineralSaveButton_Tapped"  />
+                    <AppBarButton x:Name="mineralBackButton" Label="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="mineralBackButton_Tapped"  />
+                    <AppBarButton x:Name="mineralSaveButton" Label="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="mineralSaveButton_Tapped"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
@@ -40,14 +40,19 @@
                 <ScrollViewer Style="{StaticResource VerticalScroll}">
                     <RelativePanel Style="{StaticResource ChildPanel}" x:Name="mineralScrollRelativePanel">
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralGridView_01">
-                            <ComboBox x:Name="MineralNamesComboBox" x:Uid="MineralDialogMinerals" Style="{ThemeResource ComboboxMandatoryField}"
-                                Header="" 
-                                ItemsSource="{x:Bind MineralVM.MineralName}" 
-                                SelectedValue="{x:Bind MineralVM.SelectedMineralName, Mode=TwoWay}"/>
+                            <RelativePanel>
+                                <AutoSuggestBox x:Name="MineralAutoSuggest" x:Uid="MineralAutoSuggest" QueryIcon="Find" Width="300"
+                                    TextChanged="MineralAutoSuggest_TextChanged"
+                                    QuerySubmitted="MineralAutoSuggest_QuerySubmitted" Margin="0,0,0,10"/>
+                                <TextBox x:Name="MineralNamesTextbox" x:Uid="MineralNamesTextbox" RelativePanel.Below="MineralAutoSuggest" Style="{ThemeResource TextboxMandatoryField}"
+                                     Text="{x:Bind MineralVM.MineralName, Mode=TwoWay}"/>
 
-                            <ComboBox x:Name="MineralModeBox" x:Uid="MinderalDialogMode" Style="{ThemeResource ComboboxMandatoryField}"
+                                <ComboBox x:Name="MineralModeBox" x:Uid="MinderalDialogMode" Style="{ThemeResource ComboboxMandatoryField}" RelativePanel.RightOf="MineralNamesTextbox" RelativePanel.AlignBottomWithPanel="True"
                                       ItemsSource="{x:Bind MineralVM.MineralModeText}"
                                       SelectedValue="{x:Bind MineralVM.SelectedMineralModeText, Mode=TwoWay}" SelectionChanged="{x:Bind MineralVM.MineralModeBox_SelectionChanged}"/>
+
+                            </RelativePanel>
+
                         </GridView>
 
                         <TextBlock x:Name="ModeDynamicLabel" x:Uid="MineralResidualLabel" Text="{x:Bind MineralVM.MineralResidualText, Mode=TwoWay}" RelativePanel.Below="MineralGridView_01"/>

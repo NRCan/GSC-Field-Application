@@ -13,9 +13,9 @@
     <Page.DataContext>
         <vm:SettingsPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
-    
-   
-    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveVisualStateGroup">
@@ -48,13 +48,13 @@
 
         <!--  header  -->
         <controls:PageHeader x:Name="pageHeader" Content="" x:Uid="SettingPageHeader"
-                             Frame="{x:Bind Frame}" EllipsisVisibility="Visible"
+                             Frame="{x:Bind Frame}" EllipsisVisibility="Collapsed"
                              RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" >
+                             RelativePanel.AlignTopWithPanel="True" Height="40" IsOpen="True" IsSticky="True" DefaultLabelPosition="Right">
             <controls:PageHeader.PrimaryCommands>
-                <AppBarButton x:Name="settingLoadPicklistButton" x:Uid="SettingPagePicklistButton" MaxWidth="80"
-                              Icon="Download" Foreground="White" Tapped="{x:Bind ViewModel.settingLoadPicklistButton_TappedAsync}" Visibility="{x:Bind ViewModel.LoadPicklistVisibility, Mode=TwoWay}"/>
+                <AppBarButton x:Name="settingLoadPicklistButton" x:Uid="SettingPagePicklistButton" MaxWidth="140" VerticalAlignment="Top"
+                              Icon="Download" Foreground="White" Height="60" IsCompact ="True" Tapped="{x:Bind ViewModel.settingLoadPicklistButton_TappedAsync}" Visibility="{x:Bind ViewModel.LoadPicklistVisibility, Mode=TwoWay}" />
             </controls:PageHeader.PrimaryCommands>
             <controls:PageHeader.SecondaryCommands/>
         </controls:PageHeader>

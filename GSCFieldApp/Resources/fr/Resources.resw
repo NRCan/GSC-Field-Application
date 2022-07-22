@@ -499,7 +499,7 @@
     <value>Chef</value>
   </data>
   <data name="UserInfoDialogPName.Header" xml:space="preserve">
-    <value>Titre</value>
+    <value>Projet</value>
   </data>
   <data name="UserInfoDialogStartStationNumber.Header" xml:space="preserve">
     <value># de la première station</value>
@@ -1033,10 +1033,10 @@ Joseph, Jamel - Programmeur
 Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="UserInfo_OtherHeader.Content" xml:space="preserve">
-    <value>Initialisation</value>
+    <value>Autre</value>
   </data>
   <data name="UserInfo_ProjectHeader.Content" xml:space="preserve">
-    <value>Projet associé</value>
+    <value>Description</value>
   </data>
   <data name="UserInfo_UserHeader.Content" xml:space="preserve">
     <value>Géologue</value>
@@ -1457,5 +1457,59 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="MapPageLocationCommand.Label" xml:space="preserve">
     <value>Entrée XY</value>
+  </data>
+  <data name="MineralAutoSuggest.Header" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="MineralAutoSuggest.PlaceholderText" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
+  <data name="MineralNamesTextbox.Header" xml:space="preserve">
+    <value>Sélection</value>
+  </data>
+  <data name="SampleDialogState.Header" xml:space="preserve">
+    <value>État</value>
+  </data>
+  <data name="SampleDialogDepthMax.Header" xml:space="preserve">
+    <value>Profondeur Max. (cm)</value>
+  </data>
+  <data name="SampleDialogDepthMin.Header" xml:space="preserve">
+    <value>Profondeur Min. (cm)</value>
+  </data>
+  <data name="SampleDialogDuplicateName.Header" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="SampleDialogHorizon.Header" xml:space="preserve">
+    <value>Horizon</value>
+  </data>
+  <data name="SampleDialogIsDuplicate.Content" xml:space="preserve">
+    <value>Est-ce un duplicat?</value>
+  </data>
+  <data name="SampleGridView_General.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="SampleGridView_Main.Content" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SampleGridView_Orient.Content" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="SampleGridView_State.Content" xml:space="preserve">
+    <value>État</value>
+  </data>
+  <data name="FieldworkNotes.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="UserInfoDialogAName.Header" xml:space="preserve">
+    <value>Activité</value>
+  </data>
+  <data name="UserInfoDialogAName.PlaceholderText" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="LocationDialogGridView_Accuracy.Content" xml:space="preserve">
+    <value>Précision</value>
+  </data>
+  <data name="LocationDialogAccuracy.Header" xml:space="preserve">
+    <value>Précision (m)</value>
   </data>
 </root>

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="GSCFieldApp" Publisher="CN=ghuotvez" Version="1.2.0.0" />
+  <Identity Name="GSCFieldApp" Publisher="CN=4BD3CC5C-7CF5-4E7B-BBD4-A5F65BC9B27D" Version="2.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="9b781dd2-bba3-4612-9973-3876fc739b3f" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>GSC Field App</DisplayName>
-    <PublisherDisplayName>Geological Survey of Canada, Natural Resources Canada</PublisherDisplayName>
+    <DisplayName>GSC Field Application</DisplayName>
+    <PublisherDisplayName>Natural Resources Canada</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="GSCFieldApp.App">
-      <uap:VisualElements DisplayName="GSC Field App" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Geological Survey of Canada on field application." BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="GSC Field Application" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Geological Survey of Canada on field application." BackgroundColor="transparent">
         <uap:DefaultTile ShortName="GSC Logo">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#710B2C" />
@@ -40,10 +40,8 @@
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="internetClient" />
     <uap:Capability Name="removableStorage" />
-    <!--<uap:Capability Name="documentsLibrary" />
-    <uap:Capability Name="picturesLibrary" />-->
-    <!--Add for date stamp backup for field work database. - Gab-->
     <DeviceCapability Name="location" />
     <DeviceCapability Name="serialcommunication"/>
   </Capabilities>

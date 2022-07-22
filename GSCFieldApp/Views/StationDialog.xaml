@@ -23,10 +23,10 @@
                             RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldStationColorBrush}"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Visible" >
+                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="stationBackButton" Icon="Clear" Foreground="White" Tapped="stationBackButton_Tapped"/>
-                    <AppBarButton x:Name="stationSaveButton" Icon="Save" Foreground="White" Tapped="stationSaveButton_Tapped"/>
+                    <AppBarButton x:Name="stationBackButton" Label="Close" Icon="Clear" MaxWidth="100" Height="57" IsCompact ="True" Foreground="White" Tapped="stationBackButton_Tapped"/>
+                    <AppBarButton x:Name="stationSaveButton" Label="Save" Icon="Save" MaxWidth="100" Height="57" IsCompact ="True" Foreground="White" Tapped="stationSaveButton_Tapped"/>
                 </Controls:PageHeader.PrimaryCommands>
 
                 <Controls:PageHeader.SecondaryCommands>

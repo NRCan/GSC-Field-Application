@@ -73,7 +73,7 @@ namespace GSCFieldApp.Models
             set { }
         }
 
-        [Ignore] //To keep full description of the mineral, not only the code.
+        [Ignore] //DEPRECATED: To keep full description of the mineral, not only the code.
         public string MineralNameHuman
         {
             get

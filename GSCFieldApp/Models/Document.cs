@@ -26,26 +26,39 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDocumentName)]
         public string DocumentName { get; set; }
 
+        [Column(DatabaseLiterals.FieldDocumentType)]
+        public string DocumentType { get; set; }
+
         [Column(DatabaseLiterals.FieldDocumentCategory)]
         public string Category { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentFileName)]
+        public string FileName { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentFileNo)]
+        public string FileNumber { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentDirection)]
+        public string Direction { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentDescription)]
         public string Description { get; set; }
 
-        [Column(DatabaseLiterals.FieldDocumentFileName)]
-        public string FileName { get; set; }
-        [Column(DatabaseLiterals.FieldDocumentFileNo)]
-        public string FileNumber { get; set; }
-        [Column(DatabaseLiterals.FieldDocumentType)]
-        public string DocumentType { get; set; }
+        [Column(DatabaseLiterals.FieldDocumentHyperlink)]
+        public string Hyperlink { get; set; }
 
-        [Column(DatabaseLiterals.FieldDocumentRelatedID)]
-        public string RelatedID { get; set; }
         [Column(DatabaseLiterals.FieldDocumentRelatedtable)]
         public string RelatedTable { get; set; }
 
-        [Column(DatabaseLiterals.FieldDocumentDirection)]
-        public string Direction { get; set; }
+        [Column(DatabaseLiterals.FieldDocumentRelatedID)]
+        public string RelatedID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentObjLocX)]
+        public string ObjectX { get; set; }
+
+        [Column(DatabaseLiterals.FIeldDocumentObjLocY)]
+        public string ObjectY { get; set; }
+
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -108,6 +121,31 @@ namespace GSCFieldApp.Models
                     return false;
                 }
 
+            }
+            set { }
+        }
+
+
+        /// <summary>
+        /// A list of all possible fields
+        /// </summary>
+        [Ignore]
+        public List<string> getFieldList
+        {
+            get
+            {
+                List<string> documentFieldList = new List<string>();
+                documentFieldList.Add(DatabaseLiterals.FieldDocumentID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        documentFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                return documentFieldList;
             }
             set { }
         }

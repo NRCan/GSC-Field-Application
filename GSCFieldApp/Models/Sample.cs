@@ -25,11 +25,8 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSamplePurpose)]
         public string SamplePurpose { get; set; }
 
-        [Column(DatabaseLiterals.FieldSampleNotes)]
-        public string SampleNotes { get; set; }
-
-        [Column(DatabaseLiterals.FieldSampleEarthmatID)]
-        public string SampleEarthmatID { get; set; }
+        [Column(DatabaseLiterals.FieldSampleFormat)]
+        public string SampleFormat { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleAzim)]
         public string SampleAzim { get; set; }
@@ -37,14 +34,42 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleDipPlunge)]
         public string SampleDiplunge { get; set; }
 
-        [Column(DatabaseLiterals.FieldSampleFormat)]
-        public string SampleFormat { get; set; }
+        [Column(DatabaseLiterals.FieldSampleSurface)]
+        public string SampleSurface { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleNotes)]
+        public string SampleNotes { get; set; }
+
+        [Column(DatabaseLiterals.FieldCurationID)]
+        public string SampleCuration { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleManagementID)]
+        public string SampleSMID { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleEarthmatID)]
+        public string SampleEarthmatID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleQuality)]
         public string SampleQuality { get; set; }
 
-        [Column(DatabaseLiterals.FieldSampleSurface)]
-        public string SampleSurface { get; set; }
+        [Column(DatabaseLiterals.FieldSampleHorizon)]
+        public string SampleHorizon { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleDepthMin)]
+        public string SampleDepthMin { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleDepthMax)]
+        public string SampleDepthMax { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleDuplicate)]
+        public string SampleDuplicate { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleDuplicateName)]
+        public string SampleDuplicateName { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleState)]
+        public string SampleState { get; set; }
+
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
@@ -67,6 +92,30 @@ namespace GSCFieldApp.Models
                 {
                     return false;
                 }
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// A list of all possible fields
+        /// </summary>
+        [Ignore]
+        public List<string> getFieldList
+        {
+            get
+            {
+                List<string> sampleFieldList = new List<string>();
+                sampleFieldList.Add(DatabaseLiterals.FieldSampleID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        sampleFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                return sampleFieldList;
             }
             set { }
         }

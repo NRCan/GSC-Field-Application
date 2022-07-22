@@ -46,7 +46,7 @@
                     <TextBlock x:Name="projectGeologist" Text="{x:Bind metadataForProject.Geologist}" 
                                HorizontalAlignment="Left" TextTrimming="WordEllipsis" Margin="25,0,0,0"
                                Grid.Column="0" Grid.Row="1"/>
-                    <TextBlock x:Name="projectTitle" Text="{x:Bind metadataForProject.ProjectName}" 
+                    <TextBlock x:Name="projectTitle" Text="{x:Bind metadataForProject.MetadataActivity}" 
                                HorizontalAlignment="Left" TextTrimming="WordEllipsis" Margin="25,0,0,0"
                                Grid.Column="0" Grid.Row="2"/>
                     <TextBlock x:Name="projectType" Text="{x:Bind metadataForProject.FieldworkType}" 
@@ -113,24 +113,42 @@
         <!--  header  -->
         <controls:PageHeader x:Name="projectPageHeader" Content="" x:Uid="ProjectsPageHeader"
                              Frame="{x:Bind Frame}"
-                             RelativePanel.AlignLeftWithPanel="True" EllipsisVisibility="Visible"
+                             RelativePanel.AlignLeftWithPanel="True" EllipsisVisibility="Collapsed"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True">
+                             RelativePanel.AlignTopWithPanel="True" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right">
 
             <controls:PageHeader.PrimaryCommands>
-                <AppBarButton x:Name="projectAddButton" Icon="Add" Foreground="White" Tapped="{x:Bind ViewModel.projectAddButton_Tapped}" x:Uid="ProjectAddButtonLabel"/>
-                <AppBarButton x:Name="projectOpenButton" Icon="Accept" Foreground="White" Tapped="{x:Bind ViewModel.projectOpenButton_TappedAsync}" x:Uid="ProjectOpenButtonLabel" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
-                <AppBarButton x:Name="projectEditButton" Icon="Edit" Foreground="White" Tapped="{x:Bind ViewModel.ProjectEditButton_Tapped}" x:Uid="ProjectEditButtonLabel" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
-                <AppBarButton x:Name="projectDeleteButton" Icon="Delete" Foreground="White" Tapped="{x:Bind ViewModel.ProjectDeleteButton_TappedAsync}" x:Uid="ProjectDeleteButtonLabel" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
+                <AppBarButton x:Name="projectAddButton" Icon="Add" Label="" MaxWidth="100" Height="56" IsCompact ="False" VerticalAlignment="Bottom" Foreground="White" Tapped="{x:Bind ViewModel.projectAddButton_Tapped}" x:Uid="ProjectAddButtonLabel"/>
+                <AppBarButton x:Name="projectOpenButton" Icon="Accept" Label="" MaxWidth="100" Height="56" IsCompact ="True" VerticalAlignment="Bottom" Foreground="White" Tapped="{x:Bind ViewModel.projectOpenButton_TappedAsync}" x:Uid="ProjectOpenButtonLabel" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
+                <AppBarButton x:Name="projectEditButton" Icon="Edit" Label="" MaxWidth="100" Height="56" IsCompact ="True" VerticalAlignment="Bottom" Foreground="White" Tapped="{x:Bind ViewModel.ProjectEditButton_Tapped}" x:Uid="ProjectEditButtonLabel" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
+                <AppBarButton x:Name="projectDeleteButton" Icon="Delete" Label="" MaxWidth="100" Height="56" IsCompact ="True" VerticalAlignment="Bottom" Foreground="White" Tapped="{x:Bind ViewModel.ProjectDeleteButton_TappedAsync}" x:Uid="ProjectDeleteButtonLabel" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
+                
             </controls:PageHeader.PrimaryCommands>
-
+            <!--  comment out, will move from secondary to primary  
             <controls:PageHeader.SecondaryCommands>
                 <AppBarButton x:Name="projectFullBackupButton" x:Uid="ProjectFullBackupButtonLabel" FontSize="14" ToolTipService.ToolTip="" Foreground="Black" Label="Full Backup" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectBackup_Tapped}" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
                 <AppBarButton x:Name="projectRestoreButton" x:Uid="ProjectRestoreButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="Black" Label="Restore" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectRestore_Tapped}"/>
                 <AppBarButton x:Name="projectUpgradeButton" x:Uid="ProjectUpgradeButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="Black" Label="Upgrade" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectUpgrade_Tapped}"/>
             </controls:PageHeader.SecondaryCommands>
+            -->
         </controls:PageHeader>
 
+        <controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right"
+                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40">
+         
+            <controls:PageHeader.PrimaryCommands>
+
+                <AppBarButton x:Name="projectFullBackupButton" Icon="Download" MaxWidth="125" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectFullBackupButtonLabel" FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Full Backup" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectBackup_Tapped}" IsEnabled="{x:Bind ViewModel.NoFieldBookWatermark, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"/>
+                <AppBarButton x:Name="projectRestoreButton" Icon="Upload" MaxWidth="125" Height="50" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectRestoreButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Restore" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectRestore_Tapped}"/>
+                <AppBarButton x:Name="projectUpgradeButton" Icon="Refresh" MaxWidth="125" Height="60" IsCompact ="True" VerticalAlignment="Top" x:Uid="ProjectUpgradeButtonLabel"  FontSize="14" ToolTipService.ToolTip="" Foreground="White" Label="Upgrade" HorizontalContentAlignment="Right" Tapped="{x:Bind ViewModel.ProjectUpgrade_Tapped}"/>
+            </controls:PageHeader.PrimaryCommands>
+
+
+            
+
+        </controls:PageHeader>
+        
+        
         <!--  content  -->
         <GridView 
             RelativePanel.Below="projectPageHeader"     
