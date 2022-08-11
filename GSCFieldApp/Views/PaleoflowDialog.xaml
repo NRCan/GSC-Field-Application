@@ -20,6 +20,7 @@
                             RelativePanel.AlignLeftWithPanel="True" 
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
+                            DefaultLabelPosition="Right"
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" 
                                  Background="{ThemeResource FieldPflowColorBrush}">
                 <Controls:PageHeader.PrimaryCommands>
