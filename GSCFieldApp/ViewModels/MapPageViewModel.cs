@@ -325,10 +325,20 @@ namespace GSCFieldApp.ViewModels
 
                 case PositionStatus.NoData:
                     //// Location platform could not obtain location data.
+                    StartLocationRing();
                     ResetLocationGraphic();
+                    await Task.Delay(30000); //Let enough time to pass so GPS actually gets a proper fix
                     await NoLocationFlightMode();
-                    userHasTurnedGPSOff = true;
-                    SetGPSModeIcon(Symbol.TouchPointer);
+
+                    try
+                    {
+                        await SetGPS();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+
 
                     break;
 
@@ -1022,9 +1032,7 @@ namespace GSCFieldApp.ViewModels
                 ContentDialogResult flightModeResult = await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationFlightModeDialog, true).Result;
                 if (flightModeResult == ContentDialogResult.Primary)
                 {
-                    currentMapView.Tapped += myMapView_AddByTap;
-                    userHasTurnedGPSOff = true;
-                    SetGPSModeIcon(Symbol.TouchPointer);
+
                 }
             }).AsTask();
         }

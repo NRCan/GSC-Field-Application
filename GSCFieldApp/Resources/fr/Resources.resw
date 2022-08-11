@@ -1369,7 +1369,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Erreur inatendue, le positionnement a été arrêté.</value>
   </data>
   <data name="MapPageDialogLocationFlightMode" xml:space="preserve">
-    <value>Le mode avion semble avoir été activé. Mode manuel activé.</value>
+    <value>En attente d'une position GPS, il se pourrait que le mode avion soit activé. Dans le cas contraire, veuillez patienter.</value>
   </data>
   <data name="MapProgressRingAcquiringGPSLabel.Text" xml:space="preserve">
     <value>Positionnement en cours ... veuillez patienter.</value>

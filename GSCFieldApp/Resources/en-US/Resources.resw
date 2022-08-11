@@ -1351,7 +1351,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Upgrade</value>
   </data>
   <data name="MapPageDialogLocationAcquiring" xml:space="preserve">
-    <value>Acquiring current location...wait a bit...</value>
+    <value>Acquiring current location, please wait.</value>
   </data>
   <data name="MapPageDialogLocationDidNotInit" xml:space="preserve">
     <value>Did not initialized</value>
@@ -1372,7 +1372,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Unknown error, location has be shut down.</value>
   </data>
   <data name="MapPageDialogLocationFlightMode" xml:space="preserve">
-    <value>Flight mode seems to be activated. TAP mode activated.</value>
+    <value>Waiting for a GPS fix, maybe flight mode is on, otherwise please wait.</value>
   </data>
   <data name="MapProgressRingAcquiringGPSLabel.Text" xml:space="preserve">
     <value>Acquiring current location...wait a bit...</value>
