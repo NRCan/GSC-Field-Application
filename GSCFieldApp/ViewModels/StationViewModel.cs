@@ -55,6 +55,8 @@ namespace GSCFieldApp.ViewModels
 
         public DataIDCalculation idCalculator = new DataIDCalculation();
 
+        private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
+
         //Events and delegate
         public delegate void stationEditEventHandler(object sender); //A delegate for execution events
         public event stationEditEventHandler newStationEdit; //This event is triggered when a save has been done on station table.
@@ -83,11 +85,15 @@ namespace GSCFieldApp.ViewModels
                 FillAirPhotoNo_TraverseNo();
             }
 
+            SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
+
         }
 
         #endregion
 
         #region PROPERTIES
+        public Visibility BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
+
         public string Latitude { get { return _latitude.ToString(); } set { _latitude = Convert.ToDouble(value); } }
         public string Longitude { get { return _longitude.ToString(); } set { _longitude = Convert.ToDouble(value); } }
         public string Elevation { get { return _elevation.ToString(); } set { _elevation = Convert.ToDouble(value); } }
@@ -418,6 +424,30 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("Enability");
         }
 
+        /// <summary>
+        /// Will set visibility based on a bedrock or surficial field book
+        /// </summary>
+        private void SetFieldVisibility()
+        {
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
+            {
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                {
+                    _bedrockVisibility = Visibility.Visible;
+                }
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                {
+                    _bedrockVisibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                //Fallback
+                _bedrockVisibility = Visibility.Visible;
+            }
+
+            RaisePropertyChanged("BedrockVisibility");
+        }
 
         #endregion
 

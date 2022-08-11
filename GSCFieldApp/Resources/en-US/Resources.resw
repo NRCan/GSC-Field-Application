@@ -292,7 +292,7 @@
     <value>Outcrop Size</value>
   </data>
   <data name="FieldworkTableStationOCType.Header" xml:space="preserve">
-    <value>Observation Type</value>
+    <value>Observation</value>
   </data>
   <data name="FieldworkTableStationPhysEnv.Header" xml:space="preserve">
     <value>Phys. Environment</value>
@@ -1511,5 +1511,14 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="LocationDialogGridView_Accuracy.Content" xml:space="preserve">
     <value>Accuracy</value>
+  </data>
+  <data name="StationGridView_Other.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="StationGridView_Outcrop.Content" xml:space="preserve">
+    <value>Outcrop</value>
+  </data>
+  <data name="StationGridView_Type.Content" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>

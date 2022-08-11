@@ -292,7 +292,7 @@
     <value>Taille Afflr.</value>
   </data>
   <data name="FieldworkTableStationOCType.Header" xml:space="preserve">
-    <value>Type Observation</value>
+    <value>Observation</value>
   </data>
   <data name="FieldworkTableStationPhysEnv.Header" xml:space="preserve">
     <value>Environnement</value>
@@ -1511,5 +1511,14 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="LocationDialogAccuracy.Header" xml:space="preserve">
     <value>Précision (m)</value>
+  </data>
+  <data name="StationGridView_Other.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="StationGridView_Outcrop.Content" xml:space="preserve">
+    <value>Affleurement</value>
+  </data>
+  <data name="StationGridView_Type.Content" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>
