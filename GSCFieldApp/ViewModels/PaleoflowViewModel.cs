@@ -218,14 +218,14 @@ namespace GSCFieldApp.ViewModels
 
 
             //Init.
+            _pflowFeature.Clear();
             string fieldName = Dictionaries.DatabaseLiterals.FieldPFlowFeature;
             string tableName = Dictionaries.DatabaseLiterals.TablePFlow;
 
             #region Pflow feature
             List<Vocabularies> pflowF = new List<Vocabularies>();
 
-
-            if (_selectedPflowClass != string.Empty && _selectedPflowFeature != null)
+            if (_selectedPflowClass != string.Empty && _selectedPflowClass != null && _selectedPflowClass != " " && _selectedPflowClass != "")
             {
                 pflowF = accessData.GetPicklistValuesFromParent(tableName, fieldName, _selectedPflowClass, false).ToList();
             }
@@ -233,7 +233,7 @@ namespace GSCFieldApp.ViewModels
             {
                 pflowF = accessData.GetPicklistValuesFromParent(tableName, fieldName, "x", false).ToList(); //Make the query crash and return N.A. if nothing is available in lithotype
             }
-
+  
             //Fill in cbox
             if (_selectedPflowFeature == null)
             {

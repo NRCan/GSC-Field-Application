@@ -313,7 +313,7 @@ namespace GSCFieldApp.ViewModels
         private void FillStructureGeneration()
         {
             //Init.
-            //_structGen.Clear();
+            _structGen.Clear();
 
             string fieldName = Dictionaries.DatabaseLiterals.FieldStructureGeneration;
             string tableName = Dictionaries.DatabaseLiterals.TableStructure;
