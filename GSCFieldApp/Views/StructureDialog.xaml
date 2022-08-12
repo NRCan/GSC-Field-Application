@@ -53,7 +53,7 @@
                             </Button>
                             <AutoSuggestBox x:Name="StructureAutoSuggest" x:Uid="StructureAutoSuggest"
                                  RelativePanel.RightOf="structTypeSearch"
-                                                RelativePanel.AlignBottomWith="structTypeSearch"
+                                                
                                                 TextChanged="StructureAutoSuggest_TextChanged"
                                                 QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
                                                 Width="300"/>
