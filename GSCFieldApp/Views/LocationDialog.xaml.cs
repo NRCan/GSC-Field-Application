@@ -25,6 +25,7 @@ using GSCFieldApp.Services.DatabaseServices;
 using Windows.UI.Xaml.Media.Animation;
 using Template10.Services.NavigationService;
 using System.Threading.Tasks;
+using Windows.UI;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -38,6 +39,9 @@ namespace GSCFieldApp.Views
         public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
         bool isBackButtonPressed = false;
+
+        private SolidColorBrush passBrush = new SolidColorBrush(Windows.UI.Colors.LightGreen);
+        private SolidColorBrush failBrush = new SolidColorBrush(Windows.UI.Colors.Red);
 
         public LocationDialog(FieldNotes inDetailViewModel)
         {
@@ -141,9 +145,10 @@ namespace GSCFieldApp.Views
                 this.locationVM.SetReadOnlyFields();
             }
 
-        }
+            //Get default accent color from textbox border, for validating easting northings
+            SolidColorBrush defaultBorderBrush = this.LocationLat.BorderBrush as SolidColorBrush;
 
-
+    }
 
 
         #region CLOSE
@@ -188,6 +193,26 @@ namespace GSCFieldApp.Views
         private void ButtonConvertToGeographic_Tapped(object sender, TappedRoutedEventArgs e)
         {
             locationVM.DisplayGeoCoordinatesAsync();
+        }
+
+        /// <summary>
+        /// Will perform a validation on digits number
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LocationEasting_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            isEastingValid();
+        }
+
+        /// <summary>
+        /// Will perform a validation on digits number
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LocationNorthing_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            isNorthingValid();
         }
 
         #endregion
@@ -237,6 +262,65 @@ namespace GSCFieldApp.Views
 
             return isValid;
         }
+
+        /// <summary>
+        /// Will make sure the entered easting coordinate has the right amount of digits
+        /// </summary>
+        public void isEastingValid()
+        {
+            double east;
+            bool result = double.TryParse(this.LocationEasting.Text, out east);
+
+            if (result)
+            {
+                // Source: https://www.maptools.com/tutorials/utm/details
+                if (east < 834000 && east > 160000)
+                {
+                    this.LocationEasting.Text = east.ToString();
+                    this.LocationEasting.BorderBrush = passBrush;
+                }
+                else
+                {
+                    this.LocationEasting.BorderBrush = failBrush;
+
+                }
+
+            }
+            else
+            {
+                this.LocationEasting.BorderBrush = failBrush;
+
+            }
+        }
+
+        /// <summary>
+        /// Will make sure the entered easting coordinate has the right amount of digits
+        /// </summary>
+        public void isNorthingValid()
+        {
+            double north;
+            bool result = double.TryParse(this.LocationNorthing.Text, out north);
+
+            if (result)
+            {
+                // Source: https://www.maptools.com/tutorials/utm/details
+                if (north < 10000000 && north > 0)
+                {
+                    this.LocationNorthing.Text = north.ToString();
+                    this.LocationNorthing.BorderBrush = passBrush;
+                }
+                else
+                {
+                    this.LocationNorthing.BorderBrush = failBrush;
+                }
+
+            }
+            else
+            {
+                this.LocationNorthing.BorderBrush = failBrush;
+            }
+        }
+
 
         #endregion
 
