@@ -819,22 +819,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void EmptyStationChilds()
         {
-
-            //Clear date from headers
-            _reportDetailedLocation.Clear();
-            _reportDetailedDocument.Clear();
-            _reportDetailedEarthmat.Clear();
-
-            RaisePropertyChanged("ReportDetailedLocation");
-            RaisePropertyChanged("ReportDetailedDocument");
-            RaisePropertyChanged("ReportDetailedEarthmat");
-
-            //Reset opacity of header
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDocument);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
-
-
+            FillSummaryReportDateItems();
         }
 
         /// <summary>
