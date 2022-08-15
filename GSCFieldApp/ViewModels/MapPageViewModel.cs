@@ -2912,7 +2912,12 @@ namespace GSCFieldApp.ViewModels
                         if (_overlayContainerOther.ContainsKey(subFile.LayerName))
                         {
                             //Zoom extent of points within overlay 
-                            currentMapView.SetViewpoint(new Viewpoint(_overlayContainerOther[subFile.LayerName].Item1.Extent));
+                            Envelope sqliteExtent = _overlayContainerOther[subFile.LayerName].Item1.Extent;
+
+                            if (sqliteExtent != null)
+                            {
+                                currentMapView.SetViewpoint(new Viewpoint(sqliteExtent));
+                            }
                         }
 
                     }
