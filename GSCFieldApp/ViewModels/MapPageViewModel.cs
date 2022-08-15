@@ -2010,7 +2010,7 @@ namespace GSCFieldApp.ViewModels
             foreach (StorageFile sf in _readOnlyfileList)
             {
                 string fileName = sf.Name;
-                if (fileName.Contains(".json"))
+                if (fileName.Contains(".json") && !fileName.Contains(".bak"))
                 {
                     jsonRenderingFile = sf;
                 }
@@ -2085,9 +2085,9 @@ namespace GSCFieldApp.ViewModels
                         {
                             bool tpkVisibility = true;
                             bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out tpkVisibility);
-                            double tpkOpacity = 1;
-                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out tpkOpacity);
-                            await AddDataTypeTPK(tpkList[configs.LayerName], tpkVisibility, tpkOpacity / 100);
+                            double tpkSliderSettingOpacity = 100.0;
+                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out tpkSliderSettingOpacity);
+                            await AddDataTypeTPK(tpkList[configs.LayerName], tpkVisibility, tpkSliderSettingOpacity / 100.0);
                             tpkList.Remove(configs.LayerName);
                             foundLayers = true;
                         }
@@ -2099,9 +2099,9 @@ namespace GSCFieldApp.ViewModels
                         {
                             bool sqlVisibility = true;
                             bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out sqlVisibility);
-                            double sqlOpacity = 1;
-                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out sqlOpacity);
-                            AddDataTypeSQLite(sqliteList[configs.LayerName], sqlVisibility, sqlOpacity / 100);
+                            double sqlSliderSettingOpacity = 100.0;
+                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out sqlSliderSettingOpacity);
+                            AddDataTypeSQLite(sqliteList[configs.LayerName], sqlVisibility, sqlSliderSettingOpacity / 100.0);
                             sqliteList.Remove(configs.LayerName);
                             foundLayers = true;
                         }
@@ -2110,6 +2110,11 @@ namespace GSCFieldApp.ViewModels
                 }
             }
 
+            //Init collection of mapPagerLayers if deserialized has failed and thrown a null in there.
+            if (_filenameValues == null)
+            {
+                _filenameValues = new ObservableCollection<MapPageLayers>();
+            }
             //Process possible missing layers in json
             if (tpkList.Count > 0)
             {
@@ -2217,7 +2222,7 @@ namespace GSCFieldApp.ViewModels
         /// Will add an sqlite database to current map content
         /// </summary>
         /// <returns></returns>
-        public void AddDataTypeSQLite(StorageFile inSQLite, bool isVisible = true, double opacity = 1)
+        public void AddDataTypeSQLite(StorageFile inSQLite, bool isVisible = true, double sqlOpacity = 1)
         {
             SQLiteConnection currentConnection = accessData.GetConnectionFromPath(inSQLite.Path);
             List<object> otherLocationTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(locationModel.GetType(), string.Empty, currentConnection);
@@ -2244,10 +2249,12 @@ namespace GSCFieldApp.ViewModels
                 // Add graphics overlay to map view
                 if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name].Item1))
                 {
+                    _overlayContainerOther[inSQLite.Name].Item1.Opacity = sqlOpacity;
                     currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name].Item1);
                 }
                 if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name].Item2))
                 {
+                    _overlayContainerOther[inSQLite.Name].Item2.Opacity = sqlOpacity;
                     currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name].Item2);
                 }
 
@@ -2310,6 +2317,7 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (inSlider != null)
                         {
+                            //Convert slider bar values to real opacity ([0,1])
                             sublayer.Opacity = inSlider.Value / 100.0;
                         }
 
@@ -2326,7 +2334,7 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (inSlider != null)
                         {
-                            subFile.LayerSettings.LayerOpacity = inSlider.Value / 100.0;
+                            subFile.LayerSettings.LayerOpacity = inSlider.Value;
                         }
 
                     }
@@ -2347,6 +2355,7 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (inSlider != null)
                         {
+                            //Convert slider bar values to real opacity ([0,1])
                             _overlayContainerOther[layerName].Item1.Opacity = inSlider.Value / 100.0;
                             _overlayContainerOther[layerName].Item2.Opacity = inSlider.Value / 100.0;
                         }
@@ -2364,7 +2373,7 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (inSlider != null)
                         {
-                            subFile.LayerSettings.LayerOpacity = inSlider.Value / 100.0;
+                            subFile.LayerSettings.LayerOpacity = inSlider.Value;
                         }
 
                     }
