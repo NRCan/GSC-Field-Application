@@ -272,7 +272,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Querying with Linq
             List<object> earthmatTableRaw = dAccess.ReadTable(earthmatModel.GetType(), null);
             IEnumerable<EarthMaterial> earthmatTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
-            IEnumerable<string> eartmatParentStations = from e in earthmatTable where e.EarthMatStatID == parentID orderby e.EarthMatName descending select e.EarthMatName;
+            IEnumerable<string> eartmatParentStations = from e in earthmatTable where e.EarthMatStatID == parentID select e.EarthMatName;
 
             int startingNumber = 1;
             string finaleEarthmatString = parentAlias;
@@ -280,8 +280,17 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Detect last earthmat letter equivalent number and add 1 to it.
             if (eartmatParentStations.Count() > 0)
             {
-                string lastAlias = eartmatParentStations.ToList()[0].ToString();
+                string lastAlias = eartmatParentStations.ToList()[eartmatParentStations.Count() - 1].ToString(); 
                 string lastCharacter = lastAlias.ToList()[lastAlias.Length - 1].ToString();
+
+                //Find if last two are characters
+                string secondLastCharacter = lastAlias.ToList()[lastAlias.Length - 2].ToString();
+                int secondLastInteger = -1;
+                if (!int.TryParse(secondLastCharacter, out secondLastInteger))
+                {
+                    //Should be something like AB, AC, etc.
+                    lastCharacter = secondLastCharacter + lastCharacter;
+                }
                 int lastCharacterNumber = CalculateNumberFromAlpha(lastCharacter);
 
                 //Find a non existing name
