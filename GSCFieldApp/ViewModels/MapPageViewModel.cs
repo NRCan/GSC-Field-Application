@@ -2901,27 +2901,22 @@ namespace GSCFieldApp.ViewModels
                         {
 
                             //Zoom Extent
-                            //esriMap.Basemap.Item.Extent = foundLayer.FullExtent;
-                            //esriMap.SetViewpoint(new Viewpoint(foundLayer.FullExtent));
                             currentMapView.SetViewpoint(new Viewpoint(foundLayer.FullExtent));
                         }
 
-                        //Reset layer and layer flyout
-                        _selectedLayer = string.Empty;
 
                     }
 
                     else
                     {
-                        //esriMap.Basemap.Item.Extent = foundLayer.FullExtent;
-                        currentMapView.SetViewpoint(new Viewpoint(foundLayer.FullExtent));
-                        //Reset layer and layer flyout
-                        _selectedLayer = string.Empty;
+                        if (_overlayContainerOther.ContainsKey(subFile.LayerName))
+                        {
+                            //Zoom extent of points within overlay 
+                            currentMapView.SetViewpoint(new Viewpoint(_overlayContainerOther[subFile.LayerName].Item1.Extent));
+                        }
 
                     }
 
-                    //var extentGeo = subFile.geometry.webMercatorToGeographic(map.extent);
-                    //map.setExtent(extentGeo);
 
                 }
             }
