@@ -2127,7 +2127,7 @@ namespace GSCFieldApp.ViewModels
                     mpls.LayerOpacity = 100;
                     mpls.LayerVisibility = true;
                     mpl.LayerSettings = mpls;
-                    _filenameValues.Add(mpl);
+                    _filenameValues.Insert(0,mpl);
                     RaisePropertyChanged("FilenameValues");
                     foundLayers = true;
                 }
@@ -2143,7 +2143,7 @@ namespace GSCFieldApp.ViewModels
                     mpls.LayerOpacity = 100;
                     mpls.LayerVisibility = true;
                     mpl.LayerSettings = mpls;
-                    _filenameValues.Add(mpl);
+                    _filenameValues.Insert(0, mpl);
                     RaisePropertyChanged("FilenameValues");
                     foundLayers = true;
                 }
@@ -2422,11 +2422,11 @@ namespace GSCFieldApp.ViewModels
                     ObservableCollection<MapPageLayers> newFileList = new ObservableCollection<MapPageLayers>();
                     foreach (MapPageLayers orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
                     {
-                        if (orderedFiles.LayerName.Contains(".tpk"))
+                        if (orderedFiles.LayerName.Contains(".tpk") || (orderedFiles.LayerName.Contains(".sqlite") && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)))
                         {
                             //Build path
                             string localFilePath = Path.Combine(accessData.ProjectPath, orderedFiles.LayerName);
-                            Uri localUri = new Uri(localFilePath);
+                            Uri localUri = new Uri(localFilePath); 
 
                             if (firstIteration)
                             {
@@ -2453,8 +2453,11 @@ namespace GSCFieldApp.ViewModels
                                 {
                                 }
 
-
-                                esriMap.Basemap.BaseLayers.Add(layerToAdd);
+                                if (orderedFiles.LayerName.Contains(".tpk"))
+                                {
+                                    esriMap.Basemap.BaseLayers.Add(layerToAdd);
+                                }
+                                
                             }
 
 
