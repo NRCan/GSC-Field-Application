@@ -1398,7 +1398,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (fieldworkType != string.Empty)
             {
-                queryAndWorkType = " AND (" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + " = '" + fieldworkType + "' OR " + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + " = '')";
+                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '" + fieldworkType + "' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '')";
             }
 
             if (extraFieldValue != string.Empty && extraFieldValue != null && extraFieldValue != "")
