@@ -365,23 +365,37 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
-        /// A list of all possible fields
+        /// A list of all possible fields from current class but also from previous schemas (for db upgrade)
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get
             {
-                List<string> structureFieldList = new List<string>();
-                structureFieldList.Add(DatabaseLiterals.FieldStructureID);
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> structureFieldList = new Dictionary<double, List<string>>();
+                List<string> structureFieldListDefault = new List<string>();
+
+                structureFieldListDefault.Add(DatabaseLiterals.FieldStructureID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        structureFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        structureFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
+
+                structureFieldList[DatabaseLiterals.DBVersion] = structureFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> structureFieldList144 = new List<string>();
+                structureFieldList144.AddRange(structureFieldListDefault);
+                int removeIndex = structureFieldList144.IndexOf(DatabaseLiterals.FieldStructureName);
+                structureFieldList144.Remove(DatabaseLiterals.FieldStructureName);
+                structureFieldList144.Insert(removeIndex,DatabaseLiterals.FieldStructureNameDeprecated);
+                structureFieldList[DatabaseLiterals.DBVersion144] = structureFieldList144;
 
                 return structureFieldList;
             }

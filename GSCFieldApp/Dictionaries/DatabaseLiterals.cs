@@ -10,11 +10,16 @@ namespace GSCFieldApp.Dictionaries
     {
         #region Database version
         public const double DBVersion = 1.5; //Will be used to verify loaded projects.
+        public const double DBVersion150 = 1.5; //Will be used to verify and upgrade loaded projects
+        public const double DBVersion144 = 1.44; //Will be used to verify and upgrade loaded projects
+        public const double DBVersion143 = 1.43; //Will be used to verify and upgrade loaded projects
+        public const double DBVersion142 = 1.42; //Will be used to verify and upgrade loaded projects
+        public const double DBVersion139 = 1.39; //Will be used to verify and upgrade loaded projects
         #endregion
 
         #region Database names
         public const string DBName = "GSCFieldwork";
-        public const string DBNameSuffixUpgrade = "GSCFieldwork_BeforeUpgrade";
+        public const string DBNameSuffixUpgrade = "GSCFieldwork_version_"; //Version number will be added to the right
         #endregion
 
         #region Database field names
@@ -36,9 +41,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldLocationDatum = "EPSG"; //Version 1.44
         public const string FieldLocationEasting = "EASTING";//Version 1.0
         public const string FieldLocationNorthing = "NORTHING";//Version 1.0
-        //public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0 DEL Version 1.44
+        public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0 DEL Version 1.44
         public const string FieldLocationNotes = "NOTES"; //Version 1.0
-        public const string FieldLocationReportLink = "REPORT_LINK"; //Version 1.0 Deprecated
+        public const string FieldLocationReportLink = "REPORT_LINK"; //Version < 1.5
 
         public const string FieldUserInfoID = "METAID";//Version 1.0
         public const string FieldUserInfoUCode = "GEOLCODE";//Version 1.0

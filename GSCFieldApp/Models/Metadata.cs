@@ -111,23 +111,48 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
-        /// A list of all possible fields
+        /// A list of all possible fields from current class but also from previous schemas (for db upgrade)
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get
             {
-                List<string> metadataFieldList = new List<string>();
-                //metadataFieldList.Add(DatabaseLiterals.FieldUserInfoID);
+
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> metadataFieldList = new Dictionary<double, List<string>>();
+                List<string> metadataFieldListDefault = new List<string>();
+
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        metadataFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        metadataFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
+
+                metadataFieldList[DatabaseLiterals.DBVersion] = metadataFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> metadataFieldList144 = new List<string>();
+                metadataFieldList144.AddRange(metadataFieldListDefault);
+                metadataFieldList144.Remove(DatabaseLiterals.FieldUserInfoActivityName);
+                metadataFieldList144.Remove(DatabaseLiterals.FieldUserInfoNotes);
+                metadataFieldList[DatabaseLiterals.DBVersion144] = metadataFieldList144;
+
+                //Revert schema 1.4.4 
+                List<string> metadataFieldList143 = new List<string>();
+                metadataFieldList143.AddRange(metadataFieldList144);
+                metadataFieldList143.Remove(DatabaseLiterals.FieldUserInfoEPSG);
+                metadataFieldList[DatabaseLiterals.DBVersion143] = metadataFieldList143;
+
+                //Revert schema 1.4.3 changes
+                List<string> metadataFieldList142 = new List<string>();
+                metadataFieldList142.AddRange(metadataFieldList143);
+                metadataFieldList[DatabaseLiterals.DBVersion142] = metadataFieldList142;
+
 
                 return metadataFieldList;
             }

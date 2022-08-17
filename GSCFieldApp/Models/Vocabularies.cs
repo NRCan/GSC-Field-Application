@@ -99,20 +99,33 @@ namespace GSCFieldApp.Models
         /// A list of all possible fields
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get
             {
-                List<string> vocabFieldList = new List<string>();
-                vocabFieldList.Add(DatabaseLiterals.FieldDictionaryTermID);
+
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> vocabFieldList = new Dictionary<double, List<string>>();
+                List<string> vocabFieldListDefault = new List<string>();
+
+                vocabFieldListDefault.Add(DatabaseLiterals.FieldDictionaryTermID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        vocabFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        vocabFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
+
+                vocabFieldList[DatabaseLiterals.DBVersion] = vocabFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> vocabFieldList144 = new List<string>();
+                vocabFieldList144.AddRange(vocabFieldListDefault);
+                vocabFieldList144.Remove(DatabaseLiterals.FieldDictionaryVersion);
+                vocabFieldList[DatabaseLiterals.DBVersion144] = vocabFieldList144;
 
                 return vocabFieldList;
             }

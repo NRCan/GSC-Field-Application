@@ -817,37 +817,63 @@ namespace GSCFieldApp.ViewModels
                 {
                     DataAccess dAccess = new DataAccess();
                     FileServices fService = new FileServices();
+
                     //Get local storage folder
                     StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
-                    //Keep current database path before creating the new one
-                    string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
-                    string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, DataAccess._dbName); //in root of local state folder for now
+                    //Check current database version and upgrade until up-to-date
+                    double processedDBVersion = dAccess.GetDBVersion();
 
-                    //Create new fieldbook
-                    Task createNewDatabase = accessData.CreateDatabaseFromResourceTo(dbFolderToUpgrade);
-                    await createNewDatabase;
-                    if (createNewDatabase.IsCompleted)
+                    while (processedDBVersion < DatabaseLiterals.DBVersion)
                     {
-                        //Connect to the new working database
-                        SQLiteConnection upgradeDBConnection = accessData.GetConnectionFromPath(dbpathToUpgrade);
+                        //Keep current database path before creating the new one
+                        string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
+                        
+                        //Create new fieldbook 
+                        string versionFileName = DatabaseLiterals.DBName;
+                        if (processedDBVersion == 1.42)
+                        {
+                            //Skip straight to 1.44, since 1.43 only targeted picklist values
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion143.ToString().Replace(".", "");
+                        }
+                        else if (processedDBVersion == 1.43)
+                        {
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion144.ToString().Replace(".", "");
+                        }
+                        else if (processedDBVersion == 1.44)
+                        { 
+                            //Current defaulting to 1.5
+                        }
+                        versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
+                        string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
 
-                        //Keep user vocab
-                        accessData.GetLatestVocab(DataAccess.DbPath, upgradeDBConnection, false);
+                        Task createNewDatabase = accessData.CreateDatabaseFromResourceTo(dbFolderToUpgrade, versionFileName);
+                        await createNewDatabase;
+                        if (createNewDatabase.IsCompleted)
+                        {
+                            //Connect to the new working database
+                            SQLiteConnection upgradeDBConnection = accessData.GetConnectionFromPath(dbpathToUpgrade);
 
-                        //Upgrade other tables
-                        await accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection);
+                            //Keep user vocab
+                            accessData.GetLatestVocab(DataAccess.DbPath, upgradeDBConnection, processedDBVersion, false);
 
+                            //Upgrade other tables
+                            await accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection, processedDBVersion);
+
+                        }
+
+                        //Rename current fieldbook
+                        string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString()) + Dictionaries.DatabaseLiterals.DBTypeSqlite;
+                        string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName);
+                        string copyPathBeforeMove = DataAccess.DbPath;
+                        File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
+
+                        //Copy upgraded version
+                        File.Move(dbpathToUpgrade, copyPathBeforeMove);
+
+                        //Last check on db version to keep iterating
+                        processedDBVersion = dAccess.GetDBVersion();
                     }
-
-                    //Rename current fieldbook
-                    string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade) + Dictionaries.DatabaseLiterals.DBTypeSqlite;
-                    string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName);
-                    string copyPathBeforeMove = DataAccess.DbPath;
-                    File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
-
-                    //Copy upgraded version
-                    File.Move(dbpathToUpgrade, copyPathBeforeMove);
 
                     //Show end message
                     var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();

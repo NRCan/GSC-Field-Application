@@ -153,22 +153,47 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
-        /// A list of all possible fields
+        /// A list of all possible fields from current class but also from previous schemas (for db upgrade)
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get {
-                List<string> earthmatFieldList = new List<string>();
-                earthmatFieldList.Add(DatabaseLiterals.FieldEarthMatID);
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> earthmatFieldList = new Dictionary<double, List<string>>();
+                List<string> earthmatFieldListDefault = new List<string>();
+
+                earthmatFieldListDefault.Add(DatabaseLiterals.FieldEarthMatID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        earthmatFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        earthmatFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
                     
                 }
+
+                earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> earthmatFieldList144 = new List<string>();
+                earthmatFieldList144.AddRange(earthmatFieldListDefault);
+                int removeIndex = earthmatFieldList144.IndexOf(DatabaseLiterals.FieldEarthMatName);
+                earthmatFieldList144.Remove(DatabaseLiterals.FieldEarthMatName);
+                earthmatFieldList144.Insert(removeIndex, DatabaseLiterals.FieldEarthMatNameDeprecated);
+                earthmatFieldList[DatabaseLiterals.DBVersion144] = earthmatFieldList144;
+
+                //Revert schema 1.4.3 changes
+                List<string> eartmatFieldList143 = new List<string>();
+                eartmatFieldList143.AddRange(earthmatFieldList144);
+                earthmatFieldList[DatabaseLiterals.DBVersion142] = eartmatFieldList143;
+
+                //Revert schema 1.4.2 changes
+                List<string> eartmatFieldList142 = new List<string>();
+                eartmatFieldList142.AddRange(eartmatFieldList143);
+                eartmatFieldList142.Remove(DatabaseLiterals.FieldEarthMatNotes);
+                earthmatFieldList[DatabaseLiterals.DBVersion139] = eartmatFieldList142;
 
                 return earthmatFieldList;
             }

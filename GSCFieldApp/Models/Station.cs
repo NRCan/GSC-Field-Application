@@ -88,20 +88,35 @@ namespace GSCFieldApp.Models
         /// A list of all possible fields
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get
             {
-                List<string> stationFieldList = new List<string>();
-                stationFieldList.Add(DatabaseLiterals.FieldStationID);
+
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> stationFieldList = new Dictionary<double, List<string>>();
+                List<string> stationFieldListDefault = new List<string>();
+
+                stationFieldListDefault.Add(DatabaseLiterals.FieldStationID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        stationFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        stationFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
+
+                stationFieldList[DatabaseLiterals.DBVersion] = stationFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> stationFieldList144 = new List<string>();
+                stationFieldList144.AddRange(stationFieldListDefault);
+                int removeIndex = stationFieldList144.IndexOf(DatabaseLiterals.FieldStationAlias);
+                stationFieldList144.Remove(DatabaseLiterals.FieldStationAlias);
+                stationFieldList144.Insert(removeIndex,DatabaseLiterals.FieldStationAliasDeprecated);
+                stationFieldList[DatabaseLiterals.DBVersion144] = stationFieldList144;
 
                 return stationFieldList;
             }

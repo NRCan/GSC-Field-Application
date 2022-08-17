@@ -130,20 +130,35 @@ namespace GSCFieldApp.Models
         /// A list of all possible fields
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get
             {
-                List<string> documentFieldList = new List<string>();
-                documentFieldList.Add(DatabaseLiterals.FieldDocumentID);
+
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> documentFieldList = new Dictionary<double, List<string>>();
+                List<string> documentFieldListDefault = new List<string>();
+
+                documentFieldListDefault.Add(DatabaseLiterals.FieldDocumentID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        documentFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        documentFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
+
+                documentFieldList[DatabaseLiterals.DBVersion] = documentFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> documentFieldList144 = new List<string>();
+                documentFieldList144.AddRange(documentFieldListDefault);
+                int removeIndex = documentFieldList144.IndexOf(DatabaseLiterals.FieldDocumentName);
+                documentFieldList144.Remove(DatabaseLiterals.FieldDocumentName);
+                documentFieldList144.Insert(removeIndex,DatabaseLiterals.FieldDocumentNameDeprecated);
+                documentFieldList[DatabaseLiterals.DBVersion144] = documentFieldList144;
 
                 return documentFieldList;
             }

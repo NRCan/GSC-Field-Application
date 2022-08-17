@@ -153,10 +153,12 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will create the fieldworkd sqlite database from an embedded resource
         /// </summary>
         /// <returns></returns>
-        public async Task CreateDatabaseFromResourceTo(string toFolderPath)
+        public async Task CreateDatabaseFromResourceTo(string toFolderPath, string dbName )
         {
+
             StorageFolder folderPath = await StorageFolder.GetFolderFromPathAsync(toFolderPath);
-            await WriteResourceToFile(folderPath, "ModelResources/" + _dbName, _dbName);
+
+            await WriteResourceToFile(folderPath, "ModelResources/" + dbName, dbName);
 
         }
 
@@ -508,18 +510,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <summary>
         /// Will take an input database and will upgrade output database vocab tables (dictionaries) with latest coming from an input version
         /// </summary>
-        public void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, bool closeConnection = true)
+        public void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, double dbVersion, bool closeConnection = true)
         {
             //Will hold all queries needed to be committed
             List<string> queryList = new List<string>() {};
 
-            //Get current version of schema
-            double dbVersion = 0.0;
-            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema) != null)
-            {
-                string strDBVersion = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema).ToString();
-                Double.TryParse(strDBVersion, out dbVersion);
-            }
 
             //Build attach db query
             string attachDBName = "db2";
@@ -537,6 +532,14 @@ namespace GSCFieldApp.Services.DatabaseServices
                 " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
             string deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary +
                 " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
+
+            if (dbVersion <= 1.44)
+            {
+                //Version fields within dictionary didn't exist prior to version 1.5
+                deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager + ";";
+                deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary + ";";
+            }
+
             queryList.Add(deleteQuery2);
             queryList.Add(deleteQuery);
 
@@ -544,7 +547,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region M_DICTIONARY
 
             Vocabularies modelVocab = new Vocabularies();
-            List<string> vocabFieldList = modelVocab.getFieldList;
+            List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
             string vocab_querySelect = string.Empty;
 
             foreach (string vocabFields in vocabFieldList)
@@ -553,19 +556,23 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (vocabFields != vocabFieldList.First())
                 {
-                    if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion > 1.5)
+                    if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion >= 1.5)
                     {
 
                         vocab_querySelect = vocab_querySelect +
                             ", iif(NOT EXISTS (SELECT sql from " + attachDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDictionary + "%" + DatabaseLiterals.FieldDictionaryVersion +
                             "%'),v." + DatabaseLiterals.FieldDictionaryVersion + ",NULL) as " + DatabaseLiterals.FieldDictionaryVersion;
                     }
-                    else if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion <= 1.5)
+                    else if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion == 1.44)
                     {
                         vocab_querySelect = vocab_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldDictionaryVersion;
                     }
-                    else
+                    else if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion < 1.5)
+                    {
+                        //Do nothing, field didn't exist
+                    }
+                    else 
                     {
                         vocab_querySelect = vocab_querySelect + ", v." + vocabFields + " as " + vocabFields;
                     }
@@ -593,7 +600,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region M_DICTIONARY_MANAGER
 
             VocabularyManager modelVocabManager = new VocabularyManager();
-            List<string> vocabMFieldList = modelVocabManager.getFieldList;
+            List<string> vocabMFieldList = modelVocabManager.getFieldList[DBVersion];
             string vocabm_querySelect = string.Empty;
 
             foreach (string vocabMFields in vocabMFieldList)
@@ -609,10 +616,14 @@ namespace GSCFieldApp.Services.DatabaseServices
                             ", CASE WHEN EXISTS (SELECT sql from " + attachDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDictionaryManager + "%" + DatabaseLiterals.FieldDictionaryManagerVersion +
                             "%') THEN (vm." + DatabaseLiterals.FieldDictionaryManagerVersion + ") ELSE NULL END as " + DatabaseLiterals.FieldDictionaryManagerVersion;
                     }
-                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion <= 1.5) 
+                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion == 1.5 || vocabMFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion == 1.44) 
                     {
                         vocabm_querySelect = vocabm_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldDictionaryManagerVersion;
+                    }
+                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion < 1.5)
+                    {
+                        //Do nothing, field didn't exist
                     }
                     else
                     {
@@ -630,7 +641,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             string insertQuery_vocabM = "INSERT INTO " + DatabaseLiterals.TableDictionaryManager + " SELECT " + vocabm_querySelect;
             insertQuery_vocabM = insertQuery_vocabM + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionaryManager + " as vm";
-            if (dbVersion > 1.5)
+            if (dbVersion >= 1.5)
             {
                 insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or vm." + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
             }
@@ -676,10 +687,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <summary>
         /// Will take an input database path and will upgrade it to current version
         /// </summary>
-        public async Task DoUpgradeSchema(string inDBPath, SQLiteConnection outToDBConnection, bool closeConnection = true)
+        public async Task DoUpgradeSchema(string inDBPath, SQLiteConnection outToDBConnection, double inDBVersion, bool closeConnection = true)
         {
             //Variables
             string attachDBName = "dbUpgrade";
+            double newVersionNumber = DatabaseLiterals.DBVersion;
 
             //Untouched tables to upgrade
             List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata, 
@@ -699,28 +711,24 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Shut down foreign keys constraints, else some loading might throws errors
             string shutDownForeignConstraints = "PRAGMA foreign_keys = off";
 
-            //Get current version of schema
-            double dbVersion = 0.0;
-            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema) != null)
-            {
-                string strDBVersion = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema).ToString();
-                Double.TryParse(strDBVersion, out dbVersion);
-            }
-
             //Get special queries
             //NOTE: tables field inserts must be in same order and same number as db table
-            if (dbVersion < 1.42)
+            if (inDBVersion <= 1.42)
             {
                 queryList.Add(GetUpgradeQueryVersion1_42(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
+
+                newVersionNumber = DatabaseLiterals.DBVersion143;
             }
-            if (dbVersion >= 1.42 && dbVersion < 1.44)
+            if (inDBVersion == 1.43)
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_44(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
+
+                newVersionNumber = DatabaseLiterals.DBVersion144;
             }
-            if (dbVersion < 1.5 && dbVersion >= 1.44)
+            if (inDBVersion < 1.5 && inDBVersion >= 1.44)
             { 
                 queryList.AddRange(GetUpgradeQueryVersion1_5(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
@@ -740,11 +748,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                 queryList.Add(insertQuery);
             }
 
+            //Coin upgraded db version in metadata
+            string coinNewVersion = "UPDATE " + DatabaseLiterals.TableMetadata + " SET " + DatabaseLiterals.FieldUserInfoVersionSchema + " = " + newVersionNumber.ToString() + ";";
+            queryList.Add(coinNewVersion);
+
             //Build detach query
             string detachQuery = "DETACH DATABASE " + attachDBName + "; ";
 
             //Build vacuum query
-            string vacuumQuery = "VACUUM";
+            string vacuumQuery = "VACUUM;";
 
             using (SQLiteConnection dbConnect = DbConnection)
             {
@@ -811,26 +823,40 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             //Variables
             bool canUpgrade = false;
-            string dbSchemaVersionQuery = "SELECT fm." + DatabaseLiterals.FieldUserInfoVersionSchema + " from " + DatabaseLiterals.TableMetadata + " fm";
 
-            //Perform checks to filter newly created database and/or empty ones
-
-            //Check #1
+            //Check #1 Needs more then one location for it to be upgradable
             FieldLocation fieldLocationQuery = new FieldLocation();
             int locationCount = GetTableCount(fieldLocationQuery.GetType());
-            //Check #2
-            Metadata metadataQuery = new Metadata();
-            List<object> mVersions = ReadTable(metadataQuery.GetType(), dbSchemaVersionQuery);
-            double d_mVersions = 0.0;
-            metadataQuery = mVersions[0] as Metadata;
-            Double.TryParse(metadataQuery.VersionSchema.ToString(), out d_mVersions);
 
-            if (locationCount > 0 && mVersions[0].ToString() != DatabaseLiterals.DBVersion.ToString() && d_mVersions != 0.0 && d_mVersions < DatabaseLiterals.DBVersion)
+            //Check #2 DB version must be older then current
+            double d_mVersions = GetDBVersion();
+
+            if (locationCount > 0 && d_mVersions != DatabaseLiterals.DBVersion && d_mVersions != 0.0 && d_mVersions < DatabaseLiterals.DBVersion)
             {
                 canUpgrade = true;
             }
 
             return canUpgrade;
+        }
+
+        /// <summary>
+        /// Will get a read from F_METADATA.VERSIONSCHEMA and will return value in double
+        /// </summary>
+        /// <returns></returns>
+        public double GetDBVersion()
+        {
+            //Build query to get version
+            string dbSchemaVersionQuery = "SELECT fm." + DatabaseLiterals.FieldUserInfoVersionSchema + " from " + DatabaseLiterals.TableMetadata + " fm";
+
+            //Parse result
+            Metadata metadataQueryResult = new Metadata();
+            List<object> mVersions = ReadTable(metadataQueryResult.GetType(), dbSchemaVersionQuery);
+            double d_mVersions = 0.0;
+            metadataQueryResult = mVersions[0] as Metadata;
+
+            Double.TryParse(metadataQueryResult.VersionSchema.ToString(), out d_mVersions);
+
+            return d_mVersions;
         }
 
         #endregion
@@ -1554,7 +1580,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             ///Schema v 1.42 -- New note field in earthmat, will make earthmat dialog crash 
             ///INSERT INTO F_EARTH_MATERIAL SELECT *, CASE WHEN EXISTS (SELECT sql from db2.sqlite_master where sql LIKE '%F_EARTH_MATERIAL%NOTES%') THEN ("") ELSE NULL END as NOTES FROM db2.F_EARTH_MATERIAL
             EarthMaterial modelEM = new EarthMaterial();
-            List<string> earthmatFieldList = modelEM.getFieldList;
+            List<string> earthmatFieldList = modelEM.getFieldList[1.42];
             string earthmat_querySelect = string.Empty;
 
             foreach (string earthmatFields in earthmatFieldList)
@@ -1565,14 +1591,14 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     if (earthmatFields == DatabaseLiterals.FieldEarthMatNotes)
                     {
-
-                        earthmat_querySelect = earthmat_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableEarthMat + "%" + DatabaseLiterals.FieldEarthMatNotes + "%') THEN (" + attachedDBName + "." + DatabaseLiterals.TableEarthMat +"."+DatabaseLiterals.FieldEarthMatNotes + ") ELSE ('') END as " + DatabaseLiterals.FieldEarthMatNotes;
-
+                        //Set notes to empty
+                        earthmat_querySelect = earthmat_querySelect + ", '' as " + earthmatFields;
                     }
-                    else
+                    else 
                     {
                         earthmat_querySelect = earthmat_querySelect + ", " + earthmatFields;
                     }
+                    
 
                 }
                 else
@@ -1597,18 +1623,12 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             ///Schema v 1.44 -- New EPSG field in F_LOCATION, will make Location dialog crash, field is coming from F_METADATA
             ///INSERT INTO F_LOCATION SELECT *, CASE WHEN EXISTS (SELECT sql from db2.sqlite_master where sql LIKE '%F_LOCATION%EPSG%') THEN ("") ELSE NULL END as EPSG FROM db2.F_LOCATION
+            #region F_LOCATION
             FieldLocation modelLocation = new FieldLocation();
-            List<string> locationFieldList = modelLocation.getFieldList;
+            List<string> locationFieldList = modelLocation.getFieldList[DBVersion144];
+
             string location_querySelect = string.Empty;
             List<string> insertQuery_144 = new List<string>();
-
-            double dbVersion = 0.0;
-
-            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema) != null)
-            {
-                string strDBVersion = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoVersionSchema).ToString();
-                Double.TryParse(strDBVersion, out dbVersion);
-            }
 
             foreach (string locationFields in locationFieldList)
             {
@@ -1618,44 +1638,37 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     if (locationFields == DatabaseLiterals.FieldLocationDatum)
                     {
-                        if (dbVersion < 1.44)
-                        {
-                            ///Take EPSG from F_METADATA
-                            ///Note that this query takes into account possible database coming from Ganfeld FGDB conversion into SQLite.
-                            ///I took the projection lut picklist from Ganfeld to build this query.
-                            //INSERT INTO F_LOCATION
-                            //SELECT l.LOCATIONID as LOCATIONID, l.LOCATIONNAME as LOCATIONNAME, l.EASTING as EASTING, l.NORTHING as NORTHING, l.LATITUDE as LATITUDE, l.LONGITUDE as LONGITUDE, 
-                            //CASE WHEN EXISTS(SELECT sql from db2.sqlite_master where sql LIKE '%F_METADATA%EPSG%') THEN(
-                            //CASE WHEN(m.EPSG LIKE '%84%') THEN('4326') ELSE(
-                            ///* From Ganfeld Project LUT file */
-                            //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_7N') THEN('26907') ELSE(
-                            //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_8N') THEN('26908') ELSE(
-                            //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_9N') THEN('26909') ELSE(
-                            //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_%') THEN('269' || SUBSTR(m.EPSG, 15, 2)) ELSE(
-                            //CASE WHEN(m.EPSG LIKE 'Albers_Yukon') THEN('3579') ELSE(
-                            //CASE WHEN(m.EPSG LIKE '%North_American_1983') THEN('4617') ELSE(
-                            //CASE WHEN(m.EPSG LIKE 'Albers_BC') THEN('3153') ELSE(m.EPSG)  END) END) END) END) END) END) END) END)
-                            //ELSE('') END as EPSG, l.ELEVATION as ELEVATION, l.ELEVMETHOD as ELEVMETHOD, l.ELEVACCURACY as ELEACCURACY, l.ENTRYTYPE as ENTRYTYPE, l.PDOP as PDOP, l.ERRORMEASURE as ERRORMEASURE, l.ERRORTYPEMEASURE as ERRORTYPEMEASURE, l.NOTES as NOTES, l.REPORT_LINK as REPORT_LINK, l.METAID as METAID
-                            //FROM db2.F_METADATA as m LEFT OUTER JOIN db2.F_LOCATION as l on l.METAID = m.METAID
-                            location_querySelect = location_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableMetadata + "%" + DatabaseLiterals.FieldLocationDatum + "%') THEN (CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE '%84%') THEN('4326') ELSE( /* From Ganfeld Project LUT file */ CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_7N') THEN('26907') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_8N') THEN('26908') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_9N') THEN('26909') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_%') THEN('269' || SUBSTR(m." + DatabaseLiterals.FieldLocationDatum + ", 15, 2)) ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'Albers_Yukon') THEN('3579') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE '%North_American_1983') THEN('4617') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'Albers_BC') THEN('3153') ELSE(m." + DatabaseLiterals.FieldLocationDatum + ")  END) END) END) END) END) END) END) END) ELSE ('') END as " + DatabaseLiterals.FieldLocationDatum;
-                        }
-                        else
-                        {
-                            //Take EPSG from F_LOCATION
-                            location_querySelect = location_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableLocation + "%" + DatabaseLiterals.FieldLocationDatum + "%') THEN (l." + DatabaseLiterals.FieldLocationDatum + ") ELSE ('') END as " + DatabaseLiterals.FieldLocationDatum;
-                        }
 
+                        ///Take EPSG from F_METADATA
+                        ///Note that this query takes into account possible database coming from Ganfeld FGDB conversion into SQLite.
+                        ///I took the projection lut picklist from Ganfeld to build this query.
+                        //INSERT INTO F_LOCATION
+                        //SELECT l.LOCATIONID as LOCATIONID, l.LOCATIONNAME as LOCATIONNAME, l.EASTING as EASTING, l.NORTHING as NORTHING, l.LATITUDE as LATITUDE, l.LONGITUDE as LONGITUDE, 
+                        //CASE WHEN EXISTS(SELECT sql from db2.sqlite_master where sql LIKE '%F_METADATA%EPSG%') THEN(
+                        //CASE WHEN(m.EPSG LIKE '%84%') THEN('4326') ELSE(
+                        ///* From Ganfeld Project LUT file */
+                        //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_7N') THEN('26907') ELSE(
+                        //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_8N') THEN('26908') ELSE(
+                        //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_9N') THEN('26909') ELSE(
+                        //CASE WHEN(m.EPSG LIKE 'NAD_1983_Zone_%') THEN('269' || SUBSTR(m.EPSG, 15, 2)) ELSE(
+                        //CASE WHEN(m.EPSG LIKE 'Albers_Yukon') THEN('3579') ELSE(
+                        //CASE WHEN(m.EPSG LIKE '%North_American_1983') THEN('4617') ELSE(
+                        //CASE WHEN(m.EPSG LIKE 'Albers_BC') THEN('3153') ELSE(m.EPSG)  END) END) END) END) END) END) END) END)
+                        //ELSE('') END as EPSG, l.ELEVATION as ELEVATION, l.ELEVMETHOD as ELEVMETHOD, l.ELEVACCURACY as ELEACCURACY, l.ENTRYTYPE as ENTRYTYPE, l.PDOP as PDOP, l.ERRORMEASURE as ERRORMEASURE, l.ERRORTYPEMEASURE as ERRORTYPEMEASURE, l.NOTES as NOTES, l.REPORT_LINK as REPORT_LINK, l.METAID as METAID
+                        //FROM db2.F_METADATA as m LEFT OUTER JOIN db2.F_LOCATION as l on l.METAID = m.METAID
+                        location_querySelect = location_querySelect + ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableMetadata + "%" + DatabaseLiterals.FieldLocationDatum + "%') THEN (CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE '%84%') THEN('4326') ELSE( /* From Ganfeld Project LUT file */ CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_7N') THEN('26907') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_8N') THEN('26908') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_9N') THEN('26909') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'NAD_1983_Zone_%') THEN('269' || SUBSTR(m." + DatabaseLiterals.FieldLocationDatum + ", 15, 2)) ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'Albers_Yukon') THEN('3579') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE '%North_American_1983') THEN('4617') ELSE( CASE WHEN(m." + DatabaseLiterals.FieldLocationDatum + " LIKE 'Albers_BC') THEN('3153') ELSE(m." + DatabaseLiterals.FieldLocationDatum + ")  END) END) END) END) END) END) END) END) ELSE ('') END as " + DatabaseLiterals.FieldLocationDatum;
                     }
+
                     else
                     {
                         location_querySelect = location_querySelect + ", l." + locationFields + " as " + locationFields;
                     }
-
                 }
-                else
+                else 
                 {
-                    location_querySelect = " l." + locationFields + " as " + locationFields;
+                    location_querySelect = "l." + locationFields + " as " + locationFields;
                 }
+
 
             }
             location_querySelect = location_querySelect.Replace(", ,", "");
@@ -1664,27 +1677,28 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_144_Location = insertQuery_144_Location + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMetadata + " as m";
             insertQuery_144_Location = insertQuery_144_Location + " LEFT OUTER JOIN " + attachedDBName + "." + DatabaseLiterals.TableLocation + " as l ON " + "l." + DatabaseLiterals.FieldLocationMetaID + " = m." + DatabaseLiterals.FieldUserInfoID;
             insertQuery_144.Add(insertQuery_144_Location);
+            #endregion
 
+            #region F_METADATA
             Metadata modelMetadata = new Metadata();
-            List<string> metadataFieldList = modelMetadata.getFieldList;
+            List<string> metadataFieldList = modelMetadata.getFieldList[DBVersion144];
             string metadata_querySelect = string.Empty;
             List<string> insertQueryMetadata_144 = new List<string>();
 
+            //Get rid of deleted fields
             metadataFieldList.Remove(DatabaseLiterals.FieldUserInfoEPSG);
+            metadataFieldList.Remove(DatabaseLiterals.FieldUserInfoActivityName);
 
             foreach (string metadataFields in metadataFieldList)
             {
                 //Get all fields except notes
                 if (metadataFields != metadataFieldList.First())
                 {
-                    if (metadataFields == DatabaseLiterals.FieldUserInfoVersionSchema)
-                    {
-                        metadata_querySelect = metadata_querySelect + ", '" + DatabaseLiterals.DBVersion + "' as " + metadataFields;
-                    }
-                    else
-                    {
-                        metadata_querySelect = metadata_querySelect + ", " + metadataFields;
-                    }
+                    metadata_querySelect = metadata_querySelect + ", " + metadataFields;
+                }
+                else if (metadataFields == metadataFieldList.Last())
+                {
+                    metadata_querySelect = metadata_querySelect + ", " + metadataFields;
                 }
                 else
                 {
@@ -1695,6 +1709,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             metadata_querySelect = metadata_querySelect.Replace(", ,", "");
 
             insertQuery_144.Add("INSERT INTO " + DatabaseLiterals.TableMetadata + " SELECT " + metadata_querySelect + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMetadata);
+            #endregion
 
             return insertQuery_144;
         }
@@ -1715,7 +1730,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_LOCATION
 
             FieldLocation modelLocation = new FieldLocation();
-            List<string> locationFieldList = modelLocation.getFieldList;
+            List<string> locationFieldList = modelLocation.getFieldList[DBVersion150];
             string location_querySelect = string.Empty;
 
             foreach (string locationFields in locationFieldList)
@@ -1754,7 +1769,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_STRUCTURE
 
             Structure modelStructure = new Structure();
-            List<string> structureFieldList = modelStructure.getFieldList;
+            List<string> structureFieldList = modelStructure.getFieldList[DBVersion150];
             string structure_querySelect = string.Empty;
 
             foreach (string structureFields in structureFieldList)
@@ -1793,7 +1808,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_EARTHMAT
 
             EarthMaterial modelEarthmat = new EarthMaterial();
-            List<string> earthmatFieldList = modelEarthmat.getFieldList;
+            List<string> earthmatFieldList = modelEarthmat.getFieldList[DBVersion150];
             string earthmat_querySelect = string.Empty;
 
             foreach (string earthmatFields in earthmatFieldList)
@@ -1832,7 +1847,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_SAMPLE
 
             Sample modelSample = new Sample();
-            List<string> sampleFieldList = modelSample.getFieldList;
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion150];
             string sample_querySelect = string.Empty;
 
             foreach (string sampleFields in sampleFieldList)
@@ -1901,7 +1916,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_STATION
 
             Station modelStation = new Station();
-            List<string> stationFieldList = modelStation.getFieldList;
+            List<string> stationFieldList = modelStation.getFieldList[DBVersion150];
             string station_querySelect = string.Empty;
 
             foreach (string stationFields in stationFieldList)
@@ -1940,7 +1955,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_DOCUMENT
 
             Document modelDocument = new Document();
-            List<string> documentFieldList = modelDocument.getFieldList;
+            List<string> documentFieldList = modelDocument.getFieldList[DBVersion150];
             string document_querySelect = string.Empty;
 
             foreach (string docFields in documentFieldList)
@@ -1984,7 +1999,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_METADATA
 
             Metadata modelMetadata = new Metadata();
-            List<string> metadataFieldList = modelMetadata.getFieldList;
+            List<string> metadataFieldList = modelMetadata.getFieldList[DBVersion150];
             string metadata_querySelect = string.Empty;
 
             foreach (string metFields in metadataFieldList)
@@ -2022,6 +2037,11 @@ namespace GSCFieldApp.Services.DatabaseServices
             string insertQuery_15_met = "INSERT INTO " + DatabaseLiterals.TableMetadata + " SELECT " + metadata_querySelect;
             insertQuery_15_met = insertQuery_15_met + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMetadata + " as m";
             insertQuery_15.Add(insertQuery_15_met);
+
+            #endregion
+
+            #region M_DICTIONARY/M_DICTIONARY_MANAGER
+
 
             #endregion
 

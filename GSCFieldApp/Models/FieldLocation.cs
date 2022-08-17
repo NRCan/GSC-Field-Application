@@ -24,7 +24,6 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationAlias)]
         public string LocationAlias { get; set; }
 
-
         [Column(DatabaseLiterals.FieldLocationEasting)]
         public double? LocationEasting { get; set; }
         [Column(DatabaseLiterals.FieldLocationNorthing)]
@@ -117,28 +116,56 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
-        /// A list of all possible fields
+        /// A list of all possible fields from current class but also from previous schemas (for db upgrade)
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get
             {
-                List<string> locationFieldList = new List<string>();
-                locationFieldList.Add(DatabaseLiterals.FieldLocationID);
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> locationFieldList = new Dictionary<double, List<string>>();
+                List<string> locationFieldListDefault = new List<string>();
+
+                locationFieldListDefault.Add(DatabaseLiterals.FieldLocationID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        locationFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        locationFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
+
+                locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> locationFieldList144 = new List<string>();
+                locationFieldList144.AddRange(locationFieldListDefault);
+                int removeIndex = locationFieldList144.IndexOf(DatabaseLiterals.FieldLocationAlias);
+                locationFieldList144.Remove(DatabaseLiterals.FieldLocationAlias);
+                locationFieldList144.Insert(removeIndex, DatabaseLiterals.FieldLocationAliasDeprecated);
+                locationFieldList144.Insert(locationFieldList144.Count() - 2, DatabaseLiterals.FieldLocationReportLink);
+                
+                locationFieldList[DatabaseLiterals.DBVersion144] = locationFieldList144;
+
+                //Revert schema 1.4.4 
+                List<string> locationFieldList143 = new List<string>();
+                locationFieldList143.AddRange(locationFieldList144);
+                int removeIndex2 = locationFieldList143.IndexOf(DatabaseLiterals.FieldLocationDatum);
+                locationFieldList143.Remove(DatabaseLiterals.FieldLocationDatum);
+                locationFieldList143.Insert(removeIndex2,DatabaseLiterals.FieldLocationDatumZone);
+                locationFieldList[DatabaseLiterals.DBVersion143] = locationFieldList143;
+
+                //Revert schema 1.4.3 changes
+                List<string> locationFieldList142 = new List<string>();
+                locationFieldList142.AddRange(locationFieldList143);
+                locationFieldList[DatabaseLiterals.DBVersion142] = locationFieldList142;
 
                 return locationFieldList;
             }
             set { }
         }
-
     }
 }

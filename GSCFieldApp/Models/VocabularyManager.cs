@@ -43,20 +43,33 @@ namespace GSCFieldApp.Models
         /// A list of all possible fields
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get
             {
-                List<string> vocabManagerFieldList = new List<string>();
-                vocabManagerFieldList.Add(DatabaseLiterals.FieldDictionaryManagerLinkID);
+
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> vocabManagerFieldList = new Dictionary<double, List<string>>();
+                List<string> vocabManagerFieldListDefault = new List<string>();
+
+                vocabManagerFieldListDefault.Add(DatabaseLiterals.FieldDictionaryManagerLinkID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        vocabManagerFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        vocabManagerFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
+
+                vocabManagerFieldList[DatabaseLiterals.DBVersion] = vocabManagerFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> vocabFieldList144 = new List<string>();
+                vocabFieldList144.AddRange(vocabManagerFieldListDefault);
+                vocabFieldList144.Remove(DatabaseLiterals.FieldDictionaryManagerVersion);
+                vocabManagerFieldList[DatabaseLiterals.DBVersion144] = vocabFieldList144;
 
                 return vocabManagerFieldList;
             }

@@ -100,20 +100,40 @@ namespace GSCFieldApp.Models
         /// A list of all possible fields
         /// </summary>
         [Ignore]
-        public List<string> getFieldList
+        public Dictionary<double, List<string>> getFieldList
         {
             get
             {
-                List<string> sampleFieldList = new List<string>();
-                sampleFieldList.Add(DatabaseLiterals.FieldSampleID);
+                Dictionary<double, List<string>> sampleFieldList = new Dictionary<double, List<string>>();
+                List<string> sampleFieldListDefault = new List<string>();
+
+                sampleFieldListDefault.Add(DatabaseLiterals.FieldSampleID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        sampleFieldList.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        sampleFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
+
+                sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
+
+                //Revert schema 1.5 changes. 
+                List<string> sampleFieldList144 = new List<string>();
+                sampleFieldList144.AddRange(sampleFieldListDefault);
+                int removeIndex = sampleFieldList144.IndexOf(DatabaseLiterals.FieldSampleName);
+                sampleFieldList144.Remove(DatabaseLiterals.FieldSampleName);
+                sampleFieldList144.Insert(removeIndex,DatabaseLiterals.FieldSampleNameDeprecated);
+                sampleFieldList144.Remove(DatabaseLiterals.FieldSampleHorizon);
+                sampleFieldList144.Remove(DatabaseLiterals.FieldSampleDepthMin);
+                sampleFieldList144.Remove(DatabaseLiterals.FieldSampleDepthMax);
+                sampleFieldList144.Remove(DatabaseLiterals.FieldSampleDuplicate);
+                sampleFieldList144.Remove(DatabaseLiterals.FieldSampleDuplicateName);
+                sampleFieldList144.Remove(DatabaseLiterals.FieldSampleState);
+
+                sampleFieldList144.Remove(DatabaseLiterals.FieldSampleName);
+                sampleFieldList[DatabaseLiterals.DBVersion144] = sampleFieldList144;
 
                 return sampleFieldList;
             }
