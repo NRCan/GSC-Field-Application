@@ -216,7 +216,7 @@
                             <ToggleSwitch x:Name="UsePhotoModeDialogToggleSwitch" Header="" x:Uid="SettingPageTogglePhotoMode"
                                     IsOn="{Binding UsePhotoModeDialogButton, Mode=TwoWay}"
                                     OffContent="" OnContent=""
-                                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"/>
+                                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Margin="0,0,0,20"/>
 
                             <ToggleSwitch x:Name="UseDailyTraverseIncrementToggleSwitch" Header="" x:Uid="SettingPageToggleTraverse"
                                     IsOn="{Binding UseStationTraverseIncrementButton, Mode=TwoWay}"

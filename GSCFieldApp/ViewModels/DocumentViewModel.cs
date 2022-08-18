@@ -996,6 +996,7 @@ namespace GSCFieldApp.ViewModels
 
             //Capture a photo
             CameraCaptureUI captureUI = new CameraCaptureUI();
+            captureUI.PhotoSettings.AllowCropping = false;
             captureUI.PhotoSettings.Format = CameraCaptureUIPhotoFormat.Jpeg;
             StorageFile photo = await captureUI.CaptureFileAsync(CameraCaptureUIMode.Photo);
 
