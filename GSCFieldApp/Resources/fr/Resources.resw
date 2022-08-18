@@ -940,7 +940,7 @@
     <value>Thème Minéral</value>
   </data>
   <data name="EarthDialogMineral.Header" xml:space="preserve">
-    <value>Minerals</value>
+    <value>Minéraux concis</value>
   </data>
   <data name="MapPageDialogMissingDataContent" xml:space="preserve">
     <value>Aucune donnée (.tpk) n'a été détectée, cliquer oui pour en ajouter.</value>
@@ -1520,5 +1520,8 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="StationGridView_Type.Content" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="EarthDialogMineralWarning.Text" xml:space="preserve">
+    <value>Tous minéraux ajoutés ici seront disponible sous le formulaire Minéraux, comme enregistrement pour des fins d'améliorations. </value>
   </data>
 </root>

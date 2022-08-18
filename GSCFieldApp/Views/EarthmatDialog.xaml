@@ -182,7 +182,9 @@
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Mineralogy"/>
 
                             <RelativePanel>
-                                <ComboBox x:Name="EarthMineralCombobox" x:Uid="EarthDialogMineral"
+                                <TextBlock x:Name="EarthMineralWarning" x:Uid="EarthDialogMineralWarning" FontStyle="Italic" Margin="0,0,0,10" TextWrapping="Wrap"/>
+
+                                <ComboBox x:Name="EarthMineralCombobox" x:Uid="EarthDialogMineral" RelativePanel.Below="EarthMineralWarning"
                             ItemsSource="{x:Bind ViewModel.EarthmatMineral}"
                             SelectedValue="{x:Bind ViewModel.SelectedEarthmatMineral, Mode=TwoWay}"
                                             SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}"/>

@@ -943,7 +943,7 @@
     <value>Mineral Theme</value>
   </data>
   <data name="EarthDialogMineral.Header" xml:space="preserve">
-    <value>Minerals</value>
+    <value>Quick Minerals</value>
   </data>
   <data name="MapPageDialogMissingDataContent" xml:space="preserve">
     <value>No data (.tpk) were found, click yes to add any.</value>
@@ -1520,5 +1520,8 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="StationGridView_Type.Content" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="EarthDialogMineralWarning.Text" xml:space="preserve">
+    <value>Any values added here can be completed within Mineral form as their own record.</value>
   </data>
 </root>
