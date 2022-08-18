@@ -373,13 +373,13 @@
     <value>Type lithologique</value>
   </data>
   <data name="EarthDialogColourF.Header" xml:space="preserve">
-    <value>Couleur Fraîche</value>
+    <value>Surface fraîche</value>
   </data>
   <data name="EarthDialogColourInd.Header" xml:space="preserve">
     <value>Indexe</value>
   </data>
   <data name="EarthDialogColourW.Header" xml:space="preserve">
-    <value>Couleur Érodée</value>
+    <value>Surface altérée</value>
   </data>
   <data name="EarthDialogContactLow.Header" xml:space="preserve">
     <value>Contact Inférieur</value>
