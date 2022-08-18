@@ -1524,4 +1524,10 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthDialogMineralWarning.Text" xml:space="preserve">
     <value>Tous minéraux ajoutés ici seront disponible sous le formulaire Minéraux, comme enregistrement pour des fins d'améliorations. </value>
   </data>
+  <data name="StructureDialogAzimError.Text" xml:space="preserve">
+    <value>La valeur entrée pour l'azimuth n'est pas valide.</value>
+  </data>
+  <data name="StructureDialogDipError.Text" xml:space="preserve">
+    <value>La valeur entrée pour le pendage n'est pas valide.</value>
+  </data>
 </root>

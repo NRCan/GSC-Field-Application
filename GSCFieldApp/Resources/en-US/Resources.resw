@@ -1524,4 +1524,10 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthDialogMineralWarning.Text" xml:space="preserve">
     <value>Any values added here can be completed within Mineral form as their own record.</value>
   </data>
+  <data name="StructureDialogAzimError.Text" xml:space="preserve">
+    <value>Entered azimuth value isn't valid.</value>
+  </data>
+  <data name="StructureDialogDipError.Text" xml:space="preserve">
+    <value>Entered dip value isn't valid.</value>
+  </data>
 </root>

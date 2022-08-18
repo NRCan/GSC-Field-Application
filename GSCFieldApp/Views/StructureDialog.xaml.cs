@@ -37,8 +37,8 @@ namespace GSCFieldApp.Views
         public List<string> Structures { get; private set; }
         private DataAccess accessData = new DataAccess();
 
-        private SolidColorBrush passColour =  new SolidColorBrush(Windows.UI.Colors.LightGreen);
         private SolidColorBrush failColour = new SolidColorBrush(Windows.UI.Colors.Red);
+        private Brush defaultColourBrush;
         private Color defaultBorderColor;
 
         public int testing;
@@ -54,11 +54,9 @@ namespace GSCFieldApp.Views
 
             this.Loading += StructureDialog_Loading;
             this.structSaveButton.GotFocus += StructSaveButton_GotFocus;
-            //this.strucType.GotFocus += strucType_GotFocus;
 
-            SolidColorBrush defaultBorderBrush = this.strucType.BorderBrush as SolidColorBrush;
-            defaultBorderColor = defaultBorderBrush.Color;
-            //testing = 75;
+            defaultColourBrush = this.strucType.BorderBrush;
+
         }
 
         private void StructSaveButton_GotFocus(object sender, RoutedEventArgs e)
@@ -67,11 +65,6 @@ namespace GSCFieldApp.Views
             CloseControl();
         }
 
-        //private void strucType_GotFocus(object sender, RoutedEventArgs e)
-        //{
-            //strucViewModel.SaveDialogInfoAsync();
-            //CloseControl();
-        //}
 
         #region CLOSE
         /// <summary>
@@ -233,11 +226,13 @@ namespace GSCFieldApp.Views
 
             if (isDipValid == null || isDipValid == true)
             {
-                StructureDipNumBox.BorderBrush = passColour;
+                StructureDipNumBox.BorderBrush = defaultColourBrush;
+                this.StructureDipError.Visibility = Visibility.Collapsed;
             }
             else
             {
                 StructureDipNumBox.BorderBrush = failColour;
+                this.StructureDipError.Visibility = Visibility.Visible;
             }
         }
 
@@ -253,11 +248,13 @@ namespace GSCFieldApp.Views
 
             if (isAzimValid == null || isAzimValid == true)
             {
-                StructureAzimuthNumBox.BorderBrush = passColour;
+                StructureAzimuthNumBox.BorderBrush = defaultColourBrush;
+                this.StructureAzimError.Visibility = Visibility.Collapsed;
             }
             else
             {
                 StructureAzimuthNumBox.BorderBrush = failColour;
+                this.StructureAzimError.Visibility = Visibility.Visible;
             }
 
         }
@@ -283,7 +280,7 @@ namespace GSCFieldApp.Views
                 sAngle = 0;
             }
 
-            if (StructureRelatedCombobox.SelectedValue != null && StructureRelatedCombobox.SelectedValue.ToString() != String.Empty)
+            if (StructureRelatedCombobox.SelectedValue != null && StructureRelatedCombobox.SelectedValue.ToString() != String.Empty && strucViewModel.structureModel.relatedStructure != null)
             {
                 //string strucID = StructureRelatedCombobox.SelectedValue.ToString();
                 //Structure result = accessData.GetRelatedStructure(strucID);

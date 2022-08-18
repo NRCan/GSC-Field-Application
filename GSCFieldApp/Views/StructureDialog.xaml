@@ -84,46 +84,50 @@
                                 SelectedValue="{x:Bind strucViewModel.SelectedStructRelated, Mode=TwoWay}"
                                       SelectionChanged="StructureRelatedCombobox_SelectionChanged"/>
 
-                            <RelativePanel>
+                            
 
-                            <Border x:Name="PlanarBorder"  BorderThickness="3">
-                                    <Image x:Name="PlanarIcon" Style="{ThemeResource ShowPlanar}"
-                                    Width="75" Height="75"
-                                    RenderTransformOrigin="0.5,0.5"
-                                    RelativePanel.AlignLeftWithPanel="True"
-                                    Visibility="Collapsed">
-                                    <Image.RenderTransform>
-                                            <!--<RotateTransform  Angle="{x:Bind strucViewModel.StructAzim, Converter={StaticResource String2Number}, Mode=TwoWay}"/>-->
-                                            <RotateTransform x:Name="PlanarIconRotate" Angle="{Binding ElementName=StructureAzimuthNumBox, Path=Text, Converter={StaticResource String2Number}, Mode=OneWay}"/>
-                                        </Image.RenderTransform> 
-                                </Image>
-                            </Border>
+                            <RelativePanel x:Name="StructureDialogPlaneLineRel">
 
-                                <!--x:Name="pa"-->
+                                <Border x:Name="PlanarBorder"  BorderThickness="3">
+                                        <Image x:Name="PlanarIcon" Style="{ThemeResource ShowPlanar}"
+                                        Width="75" Height="75"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        RelativePanel.AlignLeftWithPanel="True"
+                                        Visibility="Collapsed">
+                                        <Image.RenderTransform>
+                                                <!--<RotateTransform  Angle="{x:Bind strucViewModel.StructAzim, Converter={StaticResource String2Number}, Mode=TwoWay}"/>-->
+                                                <RotateTransform x:Name="PlanarIconRotate" Angle="{Binding ElementName=StructureAzimuthNumBox, Path=Text, Converter={StaticResource String2Number}, Mode=OneWay}"/>
+                                            </Image.RenderTransform> 
+                                    </Image>
+                                </Border>
 
-                            <Border x:Name="LinearBorder" BorderThickness="3">
-                                    <Image x:Name="LinearIcon" Style="{ThemeResource ShowLinear}"
-                                    Width="75" Height="75"
-                                    RenderTransformOrigin="0.5,0.5"
-                                    RelativePanel.AlignLeftWithPanel="True"
-                                    Visibility="Collapsed">
-                                    <Image.RenderTransform>
-                                            <!--<RotateTransform Angle="{Binding Text, ElementName=StructureAzimuthNumBox, Mode=TwoWay}"/>-->
-                                            <RotateTransform Angle="{Binding ElementName=StructureAzimuthNumBox, Path=Text, Converter={StaticResource String2Number}, Mode=TwoWay}"/>
-                                    </Image.RenderTransform>
-                                </Image>
-                            </Border>
+                                    <!--x:Name="pa"-->
 
-                            <TextBlock x:Name="RelateInfo" RelativePanel.RightOf="LinearBorder" RelativePanel.AlignVerticalCenterWith="LinearBorder"/>
+                                <Border x:Name="LinearBorder" BorderThickness="3">
+                                        <Image x:Name="LinearIcon" Style="{ThemeResource ShowLinear}"
+                                        Width="75" Height="75"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        RelativePanel.AlignLeftWithPanel="True"
+                                        Visibility="Collapsed">
+                                        <Image.RenderTransform>
+                                                <!--<RotateTransform Angle="{Binding Text, ElementName=StructureAzimuthNumBox, Mode=TwoWay}"/>-->
+                                                <RotateTransform Angle="{Binding ElementName=StructureAzimuthNumBox, Path=Text, Converter={StaticResource String2Number}, Mode=TwoWay}"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Border>
+
+                                <TextBlock x:Name="RelateInfo" RelativePanel.RightOf="LinearBorder" RelativePanel.AlignVerticalCenterWith="LinearBorder"/>
 
                             </RelativePanel>
 
-
                         </GridView>
+
+                        <TextBlock x:Name="StructureAzimError" x:Uid="StructureDialogAzimError" Style="{StaticResource WarningErrorText}" Margin="0,-25,0,5" RelativePanel.Below="StructureGridView_01"/>
+                        <TextBlock x:Name="StructureDipError" x:Uid="StructureDialogDipError" Style="{StaticResource WarningErrorText}" RelativePanel.Below="StructureAzimError"/>
 
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01"
-                            RelativePanel.Below="StructureGridView_01"
+                            RelativePanel.Below="StructureDipError"
                             Fill="{ThemeResource FieldStructureColorBrush}" />
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="StructureGridView_02" RelativePanel.Below="MainSeparator_01">

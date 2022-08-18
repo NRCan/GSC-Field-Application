@@ -652,6 +652,14 @@
         </Setter>
     </Style>
 
+    <Style TargetType="TextBlock" x:Key="WarningErrorText">
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="FontStyle" Value="Italic"/>
+        <Setter Property="Foreground" Value="{ThemeResource ErrorColor}"/>
+        <Setter Property="Visibility" Value="Collapsed"/>
+    </Style>
+
     <Style TargetType="TextBlock" x:Key="WatermarkText">
         <Setter Property="RelativePanel.AlignRightWithPanel" Value="True"/>
         <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True"/>

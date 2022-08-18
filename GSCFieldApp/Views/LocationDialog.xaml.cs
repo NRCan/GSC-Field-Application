@@ -40,8 +40,8 @@ namespace GSCFieldApp.Views
 
         bool isBackButtonPressed = false;
 
-        private SolidColorBrush passBrush = new SolidColorBrush(Windows.UI.Colors.LightGreen);
         private SolidColorBrush failBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+        private Brush defaultBrush;
 
         public LocationDialog(FieldNotes inDetailViewModel)
         {
@@ -59,6 +59,8 @@ namespace GSCFieldApp.Views
 
             this.Loading += LocationDialog_Loading;
             this.Unloaded += LocationDialog_Unloaded;
+
+            defaultBrush = this.LocationAcuracy.BorderBrush;
         }
 
         private async void LocationSaveButton_GotFocusAsync(object sender, RoutedEventArgs e)
@@ -277,7 +279,7 @@ namespace GSCFieldApp.Views
                 if (east < 834000 && east > 160000)
                 {
                     this.LocationEasting.Text = east.ToString();
-                    this.LocationEasting.BorderBrush = passBrush;
+                    this.LocationEasting.BorderBrush = defaultBrush;
                 }
                 else
                 {
@@ -307,7 +309,7 @@ namespace GSCFieldApp.Views
                 if (north < 10000000 && north > 0)
                 {
                     this.LocationNorthing.Text = north.ToString();
-                    this.LocationNorthing.BorderBrush = passBrush;
+                    this.LocationNorthing.BorderBrush = defaultBrush;
                 }
                 else
                 {
