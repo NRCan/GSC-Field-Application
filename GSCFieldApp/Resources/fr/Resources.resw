@@ -280,7 +280,7 @@
     <value>Sélectionner le type</value>
   </data>
   <data name="ShellViewHamburgerBackup.Text" xml:space="preserve">
-    <value>Sauvegarde</value>
+    <value>Sauvegarde rapide</value>
   </data>
   <data name="FieldworkTableStationAirNo.Header" xml:space="preserve">
     <value>Photo Aérienne</value>

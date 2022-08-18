@@ -280,7 +280,7 @@
     <value>Select work type</value>
   </data>
   <data name="ShellViewHamburgerBackup.Text" xml:space="preserve">
-    <value>Backup</value>
+    <value>Quick Backup</value>
   </data>
   <data name="FieldworkTableStationAirNo.Header" xml:space="preserve">
     <value>Air Photo #</value>
@@ -1297,7 +1297,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Please add a map.</value>
   </data>
   <data name="ProjectFullBackupButtonLabel.Label" xml:space="preserve">
-    <value>Full Backup</value>
+    <value>Complete Backup</value>
   </data>
   <data name="ProjectRestoreButtonLabel.Label" xml:space="preserve">
     <value>Restore / Add</value>
