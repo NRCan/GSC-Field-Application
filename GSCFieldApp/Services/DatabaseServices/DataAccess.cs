@@ -533,7 +533,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary +
                 " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
 
-            if (dbVersion <= 1.44)
+            if (dbVersion < 1.44)
             {
                 //Version fields within dictionary didn't exist prior to version 1.5
                 deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager + ";";
