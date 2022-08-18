@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.Storage;
 using Windows.UI.Core;
 using Esri.ArcGISRuntime.Mapping;
+using Esri.ArcGISRuntime.Toolkit.UI.Controls;
 using Esri.ArcGISRuntime.UI.Controls;
 using Esri.ArcGISRuntime.UI;
 using Esri.ArcGISRuntime.Geometry;
