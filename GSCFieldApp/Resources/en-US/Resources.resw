@@ -1539,4 +1539,10 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="StructureDialogDipError.Text" xml:space="preserve">
     <value>Entered dip value isn't valid.</value>
   </data>
+  <data name="EarthMineralAutoSuggestBox.Header" xml:space="preserve">
+    <value>Quick Mineral</value>
+  </data>
+  <data name="EarthMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

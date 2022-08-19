@@ -1539,4 +1539,10 @@ Shimamura, Kaz – Conseiller</value>
   <data name="StructureDialogDipError.Text" xml:space="preserve">
     <value>La valeur entrée pour le pendage n'est pas valide.</value>
   </data>
+  <data name="EarthMineralAutoSuggestBox.Header" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="EarthMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
 </root>

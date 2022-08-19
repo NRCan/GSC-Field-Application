@@ -122,7 +122,7 @@ namespace GSCFieldApp.Views
                 var results = Minerals.Where(i => i.ToLower().Contains(search_term)).ToList();
 
                 if (results.Count > 0)
-                    MineralAutoSuggest.ItemsSource = results;
+                    MineralAutoSuggest.ItemsSource = results.ToList().OrderBy(x => x.GetType().GetProperty(this.MineralAutoSuggest.DisplayMemberPath).GetValue(x)).ToList();
                 else
                     MineralAutoSuggest.ItemsSource = new string[] { "No results found" };
             }

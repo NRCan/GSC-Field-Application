@@ -18,6 +18,7 @@ using Template10.Common;
 using Template10.Controls;
 using Template10.Services.NavigationService;
 using GSCFieldApp.Services.DatabaseServices;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,6 +31,7 @@ namespace GSCFieldApp.Views
     {
         public EarthmatViewModel ViewModel { get; set; }
         public FieldNotes parentViewMode { get; set; }
+        
 
         public List<string> Rocks { get; private set; }
         private DataAccess accessData = new DataAccess();
@@ -236,5 +238,28 @@ namespace GSCFieldApp.Views
             return outResults;
         }
 
+        /// <summary>
+        /// Filter based on the user's input for minerals
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">Any event arguments</param>
+        private void EarthMineralAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing,
+            // otherwise assume the value got filled in by TextMemberPath
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                var search_term = EarthMineralAutoSuggest.Text.ToLower();
+                var results = ViewModel.EarthmatMineral.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
+
+                if (results.Count > 0)
+                    EarthMineralAutoSuggest.ItemsSource = results;
+                else
+                    EarthMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
+            }
+
+        }
     }
 }

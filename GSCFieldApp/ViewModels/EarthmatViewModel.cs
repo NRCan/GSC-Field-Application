@@ -93,7 +93,6 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _earthmatInterConfidence = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatInterConfidence = string.Empty;
 
-
         //Events and delegate
         public delegate void stationEditEventHandler(object sender); //A delegate for execution events
         public event stationEditEventHandler newEarthmatEdit; //This event is triggered when a save has been done on station table.
@@ -541,7 +540,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("EarthmatMineral");
-            RaisePropertyChanged("SelectedEarthmatMineral");
+            //RaisePropertyChanged("SelectedEarthmatMineral");
         }
 
         private void FillMU()
@@ -1062,117 +1061,142 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
+        /// Catch submission event to track user input and add it to listview with all terms.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void EarthMineralAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            AutoSuggestBox senderBox = sender as AutoSuggestBox;
+            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found")
+            {
+                Themes.ComboBoxItem selectedMineral = args.ChosenSuggestion as Themes.ComboBoxItem;
+                AddAConcatenatedValue(selectedMineral.itemValue, senderBox.Name);
+            }
+
+        }
+
+        /// <summary>
         /// Will add to the list of purposes a selected purpose by the user.
         /// </summary>
         /// <param name="fieldName"> Optional, database table field name to know which collection to update</param>
         /// <param name="parentComboboxName">Optional, parent combobox name in which a selected value will be appended to the list</param>
         public void AddAConcatenatedValue(string valueToAdd, string parentComboboxName = null, string fieldName = null, bool canRemove = true)
         {
-            //Create new cbox item
-            Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
-            newValue.itemValue = valueToAdd;
+            if (valueToAdd != null && valueToAdd != String.Empty)
+            {
+                //Create new cbox item
+                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
+                newValue.itemValue = valueToAdd;
 
-            //Set visibility
-            if (canRemove)
-            {
-                newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Visible;
-            }
-            else
-            {
-                newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Collapsed;
-            }
-            
-
-            #region Find parent collection
-            ObservableCollection<Themes.ComboBoxItem> parentCollection = new ObservableCollection<Themes.ComboBoxItem>();
-            ObservableCollection<Themes.ComboBoxItem> parentConcatCollection = new ObservableCollection<Themes.ComboBoxItem>();
-            string parentProperty = string.Empty;
-
-            string NameToValidate = string.Empty;
-            if (parentComboboxName != null)
-            {
-                NameToValidate = parentComboboxName;
-            }
-            if (fieldName != null)
-            {
-                NameToValidate = fieldName;
-            }
-
-            if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModStruc.ToLower()))
-            {
-                parentCollection = EarthmatModStruc;
-                parentConcatCollection = _earthmatModStrucValues;
-                parentProperty = "EarthmatModStruc";
-
-            }
-            if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTexture.ToLower()))
-            {
-                parentCollection = EarthmatModTexture;
-                parentConcatCollection = _earthmatModTextureValues;
-                parentProperty = "EarthmatModTexture";
-            }
-            if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModComp.ToLower()))
-            {
-                parentCollection = EarthmatModComp;
-                parentConcatCollection = _earthmatModCompValues;
-                parentProperty = "EarthmatModComp";
-            }
-            if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatGrSize.ToLower()))
-            {
-                parentCollection = EarthmatGrSize;
-                parentConcatCollection = _earthmatGrSizeValues;
-                parentProperty = "EarthmatGrSize";
-            }
-            if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatDefabric.ToLower()))
-            {
-                parentCollection = EarthmatDefFabric;
-                parentConcatCollection = _earthmatDefFabricValues;
-                parentProperty = "EarthmatDefFabric";
-            }
-            if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatBedthick.ToLower()))
-            {
-                parentCollection = EarthmatBedthick;
-                parentConcatCollection = _earthmatBedthickValues;
-                parentProperty = "EarthmatBedthick";
-            }
-            if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldMineral.ToLower()))
-            {
-                parentCollection = EarthmatMineral;
-                parentConcatCollection = EarthmatMineralValues; 
-                parentProperty = "EarthmatMineral";
-            }
-            #endregion
-
-            //Find itemName from itemValue in parent collection
-            foreach (Themes.ComboBoxItem cb in parentCollection)
-            {
-                if (cb.itemValue == valueToAdd)
+                //Set visibility
+                if (canRemove)
                 {
-                    newValue.itemName = cb.itemName;
-                    break;
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Visible;
                 }
-            }
-
-            //Update collection
-            if (newValue.itemName != null && newValue.itemName != string.Empty && newValue.itemName != Dictionaries.DatabaseLiterals.picklistNADescription)
-            {
-                bool foundValue = false;
-                foreach (Themes.ComboBoxItem existingItems in parentConcatCollection)
+                else
                 {
-                    if (valueToAdd == existingItems.itemName)
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Collapsed;
+                }
+
+
+                #region Find parent collection
+                ObservableCollection<Themes.ComboBoxItem> parentCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                ObservableCollection<Themes.ComboBoxItem> parentConcatCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                List<Themes.ComboBoxItem> parentList = new List<Themes.ComboBoxItem>();
+
+                string parentProperty = string.Empty;
+
+                string NameToValidate = string.Empty;
+                if (parentComboboxName != null)
+                {
+                    NameToValidate = parentComboboxName;
+                }
+                if (fieldName != null)
+                {
+                    NameToValidate = fieldName;
+                }
+
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModStruc.ToLower()))
+                {
+                    parentCollection = EarthmatModStruc;
+                    parentConcatCollection = _earthmatModStrucValues;
+                    parentProperty = "EarthmatModStruc";
+
+                }
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTexture.ToLower()))
+                {
+                    parentCollection = EarthmatModTexture;
+                    parentConcatCollection = _earthmatModTextureValues;
+                    parentProperty = "EarthmatModTexture";
+                }
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModComp.ToLower()))
+                {
+                    parentCollection = EarthmatModComp;
+                    parentConcatCollection = _earthmatModCompValues;
+                    parentProperty = "EarthmatModComp";
+                }
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatGrSize.ToLower()))
+                {
+                    parentCollection = EarthmatGrSize;
+                    parentConcatCollection = _earthmatGrSizeValues;
+                    parentProperty = "EarthmatGrSize";
+                }
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatDefabric.ToLower()))
+                {
+                    parentCollection = EarthmatDefFabric;
+                    parentConcatCollection = _earthmatDefFabricValues;
+                    parentProperty = "EarthmatDefFabric";
+                }
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatBedthick.ToLower()))
+                {
+                    parentCollection = EarthmatBedthick;
+                    parentConcatCollection = _earthmatBedthickValues;
+                    parentProperty = "EarthmatBedthick";
+                }
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldMineral.ToLower()))
+                {
+                    parentCollection = EarthmatMineral;
+                    parentConcatCollection = _earthmatMineralValues;
+                    parentProperty = "EarthmatMineral";
+
+                }
+                #endregion
+
+
+                //Find itemName from itemValue in parent collection
+                if (parentCollection != null)
+                {
+                    foreach (Themes.ComboBoxItem cb in parentCollection)
                     {
-                        foundValue = true;
+                        if (cb.itemValue == valueToAdd || cb.itemName == valueToAdd)
+                        {
+                            newValue.itemName = cb.itemName;
+                            newValue.itemValue = cb.itemValue;
+                            break;
+                        }
                     }
                 }
-                if (!foundValue)
-                {
-                    parentConcatCollection.Add(newValue);
-                    RaisePropertyChanged(parentProperty);
-                }
-                
-            }
 
-            
+                //Update collection
+                if (newValue.itemName != null && newValue.itemName != string.Empty && newValue.itemName != Dictionaries.DatabaseLiterals.picklistNADescription)
+                {
+                    bool foundValue = false;
+                    foreach (Themes.ComboBoxItem existingItems in parentConcatCollection)
+                    {
+                        if (valueToAdd == existingItems.itemName)
+                        {
+                            foundValue = true;
+                        }
+                    }
+                    if (!foundValue)
+                    {
+                        parentConcatCollection.Add(newValue);
+                        RaisePropertyChanged(parentProperty);
+                    }
+
+                }
+            }
         }
 
         /// <summary>
@@ -1248,5 +1272,10 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
 
+        #region EVENTS
+
+
+
+        #endregion
     }
 }
