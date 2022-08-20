@@ -27,6 +27,10 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordDocumentHeaderTrue = "File";
         public const string KeywordDocumentHeaderFalse = "Photo";
 
+        //Will be used to keep track of user station travers incrementation option
+        public const string KeywordStationTraverseNo = "StationTraverseIncrement";
+
+
         //Will be used to keep track of user map view parameters
         public const string KeywordMapViewScale = "mapViewScale";
         public const string KeywordMapViewRotation = "mapViewRotation";

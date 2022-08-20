@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Data;
 
 using Esri.ArcGISRuntime.Geometry;
 using System.Collections.ObjectModel;
+using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -300,6 +301,26 @@ namespace GSCFieldApp.ViewModels
                 foreach (Station sts in stationFiltered)
                 {
                     _stationTravNo = sts.StationTravNo.ToString();
+
+                    //Make check on date if newer, increment traverse no. if wanted by user
+                    if ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo))
+                    {
+                        string currentDate = DateTime.Now.ToShortDateString();
+                        DateTime lastStationDate = DateTime.Parse(sts.StationVisitDate);
+                        DateTime currentDateDT = DateTime.Parse(currentDate);
+                        if (lastStationDate!= null && currentDateDT != null)
+                        {
+                            int dateComparisonResult = DateTime.Compare(lastStationDate, currentDateDT);
+                            if (lastStationDate != null && dateComparisonResult < 0)
+                            {
+                                _stationTravNo = (sts.StationTravNo + 1).ToString();
+                            }
+                        }
+
+                    }
+
+
+
                     _airno = sts.StationAirNo;
                 }
 

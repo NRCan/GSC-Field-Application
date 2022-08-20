@@ -1524,6 +1524,15 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthDialogMineralWarning.Text" xml:space="preserve">
     <value>Any values added here can be completed within Mineral form as their own record.</value>
   </data>
+  <data name="SettingPageToggleTraverse.Header" xml:space="preserve">
+    <value>Station Daily Traverse</value>
+  </data>
+  <data name="SettingPageToggleTraverse.OffContent" xml:space="preserve">
+    <value>Not incremented</value>
+  </data>
+  <data name="SettingPageToggleTraverse.OnContent" xml:space="preserve">
+    <value>Auto incremented (on daily basis)</value>
+  </data>
   <data name="StructureDialogAzimError.Text" xml:space="preserve">
     <value>Entered azimuth value isn't valid.</value>
   </data>

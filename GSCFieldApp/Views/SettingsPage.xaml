@@ -211,10 +211,21 @@
                         <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" 
                                             FontWeight="Normal" x:Uid="SettingPagePivotSetting_Tables"/>
 
-                        <ToggleSwitch x:Name="UsePhotoModeDialogToggleSwitch" Header="" x:Uid="SettingPageTogglePhotoMode"
+                        <RelativePanel>
+
+                            <ToggleSwitch x:Name="UsePhotoModeDialogToggleSwitch" Header="" x:Uid="SettingPageTogglePhotoMode"
                                     IsOn="{Binding UsePhotoModeDialogButton, Mode=TwoWay}"
                                     OffContent="" OnContent=""
-                                    RelativePanel.AlignLeftWithPanel="True" />
+                                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"/>
+
+                            <ToggleSwitch x:Name="UseDailyTraverseIncrementToggleSwitch" Header="" x:Uid="SettingPageToggleTraverse"
+                                    IsOn="{Binding UseStationTraverseIncrementButton, Mode=TwoWay}"
+                                    OffContent="" OnContent=""
+                                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="UsePhotoModeDialogToggleSwitch" />
+
+                        </RelativePanel>
+
+
                     </GridView>
 
                 </RelativePanel>

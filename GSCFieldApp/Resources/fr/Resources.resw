@@ -1524,6 +1524,15 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthDialogMineralWarning.Text" xml:space="preserve">
     <value>Tous minéraux ajoutés ici seront disponible sous le formulaire Minéraux, comme enregistrement pour des fins d'améliorations. </value>
   </data>
+  <data name="SettingPageToggleTraverse.Header" xml:space="preserve">
+    <value>Station Traverse journalière </value>
+  </data>
+  <data name="SettingPageToggleTraverse.OffContent" xml:space="preserve">
+    <value>Non incrémenté</value>
+  </data>
+  <data name="SettingPageToggleTraverse.OnContent" xml:space="preserve">
+    <value>Auto incrémenté (par jour)</value>
+  </data>
   <data name="StructureDialogAzimError.Text" xml:space="preserve">
     <value>La valeur entrée pour l'azimuth n'est pas valide.</value>
   </data>

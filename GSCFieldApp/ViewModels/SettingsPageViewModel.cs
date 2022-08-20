@@ -568,6 +568,26 @@ namespace GSCFieldApp.ViewModels
             }
         }
 
+        public bool UseStationTraverseIncrementButton
+        {
+            get
+            {
+                if (currentSettings.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return (bool)currentSettings.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordStationTraverseNo);
+                }
+
+            }
+            set
+            {
+                currentSettings.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordStationTraverseNo, value);
+            }
+        }
+
         /// <summary>
         /// Will enable some picklist terms in document type picklist based on user choice
         /// </summary>
