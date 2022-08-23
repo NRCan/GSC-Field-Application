@@ -223,6 +223,11 @@
                                     OffContent="" OnContent=""
                                     RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="UsePhotoModeDialogToggleSwitch" />
 
+                            <ToggleSwitch x:Name="UseStructureSymbolsToggleSwitch" Header="" x:Uid="SettingPageToggleSymbolStructure"
+                                    IsOn="{Binding UseStructureSymbols, Mode=TwoWay}"
+                                    OffContent="" OnContent=""
+                                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="UseDailyTraverseIncrementToggleSwitch" />
+
                         </RelativePanel>
 
 

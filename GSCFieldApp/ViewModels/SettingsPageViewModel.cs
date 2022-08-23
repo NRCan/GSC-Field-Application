@@ -506,6 +506,9 @@ namespace GSCFieldApp.ViewModels
 
     public class SettingsPartViewModel : ViewModelBase
     {
+        //Events
+        public static event EventHandler settingUseStructureSymbols; //This event is triggered when structure symbols can be used or not on map page.
+
 
         //Local setting
         DataLocalSettings currentSettings = new DataLocalSettings();
@@ -585,6 +588,35 @@ namespace GSCFieldApp.ViewModels
             set
             {
                 currentSettings.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordStationTraverseNo, value);
+            }
+        }
+
+        public bool UseStructureSymbols
+        {
+            get
+            {
+                if (currentSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return (bool)currentSettings.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkStructureSymbols);
+                }
+
+            }
+            set
+            {
+                currentSettings.SetSettingValue(Dictionaries.ApplicationLiterals.KeyworkStructureSymbols, value);
+
+
+                //Trigger event for map page
+                EventHandler settingStructSymbolRequest = settingUseStructureSymbols;
+                if (settingStructSymbolRequest != null)
+                {
+                    settingStructSymbolRequest(this, null);
+                }
+                
             }
         }
 

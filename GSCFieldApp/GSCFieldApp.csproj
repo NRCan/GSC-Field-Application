@@ -121,7 +121,6 @@
     <None Include="Dictionaries\Readme.md" />
     <Content Include="Assets\gsclogo-pantone_yellow.png" />
     <Content Include="Assets\mosquito.png" />
-    <Content Include="Assets\Team.png" />
     <Content Include="Assets\Images\theme-dark\struc_linear.png" />
     <Content Include="Assets\Images\theme-dark\struc_planar.png" />
     <Content Include="Assets\Images\theme-light\struc_linear.png" />

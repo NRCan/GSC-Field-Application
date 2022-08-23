@@ -115,7 +115,8 @@ namespace GSCFieldApp.ViewModels
         public GraphicsOverlay _OverlayStation;
         public GraphicsOverlay _OverlayStationLabel;
         public GraphicsOverlay _OverlayCurrentPosition;
-        public Dictionary<string, Tuple<GraphicsOverlay, GraphicsOverlay>> _overlayContainerOther; //Will act as a "layer" container but for graphics, just like esriMap.Basemap.BaseLayers object
+        public GraphicsOverlay _OverlayStructure;
+        public Dictionary<string, List<GraphicsOverlay>> _overlayContainerOther; //Will act as a "layer" container but for graphics, just like esriMap.Basemap.BaseLayers object
 
         //Delegates and events
         public static event EventHandler newDataLoaded; //This event is triggered when a new data has been loaded
@@ -133,7 +134,8 @@ namespace GSCFieldApp.ViewModels
 
             _OverlayStation = new GraphicsOverlay();
             _OverlayStationLabel = new GraphicsOverlay();
-            _overlayContainerOther = new Dictionary<string, Tuple<GraphicsOverlay, GraphicsOverlay>>();
+            _overlayContainerOther = new Dictionary<string, List<GraphicsOverlay>>();
+            _OverlayStructure = new GraphicsOverlay();
             //_OverlayCurrentPosition = new GraphicsOverlay();
 
             CreatePositionGraphic();
@@ -148,6 +150,9 @@ namespace GSCFieldApp.ViewModels
             FieldBooksPageViewModel.newFieldBookSelected -= FieldBooksPageViewModel_newFieldBookSelectedAsync;
             FieldBooksPageViewModel.newFieldBookSelected += FieldBooksPageViewModel_newFieldBookSelectedAsync;
 
+            //Detect other setting events
+            SettingsPartViewModel.settingUseStructureSymbols += SettingsPartViewModel_settingUseStructureSymbols;
+
             //Set some configs
             SetQuickButtonEnable();
 
@@ -155,6 +160,7 @@ namespace GSCFieldApp.ViewModels
             FillLocationVocab();
 
         }
+
         #endregion
 
         #region PROPERTIES
@@ -527,7 +533,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="inMapView"></param>
         /// <param name="inLocationTableRows"></param>
-        public void DisplayPointAndLabelsAsync(MapView inMapView)
+        public void DisplayPointAndLabelsAsync(MapView inMapView, bool forceRefresh = false)
         {
 
             #region Load from Default Database 
@@ -541,10 +547,15 @@ namespace GSCFieldApp.ViewModels
             {
                 //Build a list of already loaded stations id on the map
                 Dictionary<string, Graphic> loadedGraphicList = new Dictionary<string, Graphic>();
-                foreach (Graphic gr in _OverlayStation.Graphics)
+                if (forceRefresh)
                 {
-                    loadedGraphicList[gr.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString()] = gr;
+                    foreach (Graphic gr in _OverlayStation.Graphics)
+                    {
+                        loadedGraphicList[gr.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString()] = gr;
+                    }
+
                 }
+
 
                 //Reset main db station overlay
                 inMapView.GraphicsOverlays.Remove(_OverlayStation);
@@ -595,6 +606,7 @@ namespace GSCFieldApp.ViewModels
             //Choose proper overlay
             GraphicsOverlay pointOverlay = new GraphicsOverlay();
             GraphicsOverlay pointLabelOverlay = new GraphicsOverlay();
+            GraphicsOverlay structureOverlay = new GraphicsOverlay();
 
             //Set some rendering defaults
             Renderer graphRenderer = new SimpleRenderer();
@@ -605,14 +617,16 @@ namespace GSCFieldApp.ViewModels
             {
                 pointOverlay = _OverlayStation;
                 pointLabelOverlay = _OverlayStationLabel;
+                structureOverlay = _OverlayStructure;
             }
             else
             {
                 string dbFileName = Path.GetFileName(dbConnection.DatabasePath);
                 if (_overlayContainerOther.ContainsKey(dbFileName))
                 {
-                    pointOverlay = _overlayContainerOther[dbFileName].Item1;
-                    pointLabelOverlay = _overlayContainerOther[dbFileName].Item2;
+                    pointOverlay = _overlayContainerOther[dbFileName][0];
+                    pointLabelOverlay = _overlayContainerOther[dbFileName][1];
+                    structureOverlay = _overlayContainerOther[dbFileName][2];
                 }
 
             }
@@ -742,122 +756,130 @@ namespace GSCFieldApp.ViewModels
                     #endregion
 
                     #region STRUCTURES
-
-                    //Get related structures, if any
-                    List<object> strucTableRows = new List<object>();
-                    Structure structs = new Structure();
-                    string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
-                        " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
-                        " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
-                        " WHERE st." + DatabaseLiterals.FieldStationAlias + " = '" + ptStationId + "';";
-                    strucTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(structs.GetType(), structSelectionQuery, dbConnection);
-
-                    //Variables
-                    if (!structureGraphicExists && strucTableRows.Count() > 0)
+                    if ((bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols))
                     {
-                        //Structure pairs tracking
-                        //Key = record ID, Value = priority number for placement
-                        Dictionary<string, int> strucPairs = new Dictionary<string, int>();
+                        //Get related structures, if any
+                        List<object> strucTableRows = new List<object>();
+                        Structure structs = new Structure();
+                        string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
+                            " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
+                            " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
+                            " WHERE st." + DatabaseLiterals.FieldStationAlias + " = '" + ptStationId + "';";
+                        strucTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(structs.GetType(), structSelectionQuery, dbConnection);
 
-                        foreach (Structure sts in strucTableRows)
+                        //Variables
+                        if (!structureGraphicExists && strucTableRows.Count() > 0)
                         {
-                            //Manage pair tracking for pool placement 
-                            if (!strucPairs.ContainsKey(sts.StructureID))
+                            //Structure pairs tracking
+                            //Key = record ID, Value = priority number for placement
+                            Dictionary<string, int> strucPairs = new Dictionary<string, int>();
+
+                            foreach (Structure sts in strucTableRows)
                             {
-                                if (sts.StructureRelated != null && sts.StructureRelated != String.Empty)
+                                //Manage pair tracking for pool placement 
+                                if (!strucPairs.ContainsKey(sts.StructureID))
                                 {
-                                    //Get related struc placement priority
-                                    strucPairs[sts.StructureID] = strucPairs[sts.StructureRelated];
-                                }
-                                else 
-                                {
-                                    //Assign new priority and remove it from the pool
-                                    strucPairs[sts.StructureID] = placementPool[0];
-                                    placementPool.RemoveAt(0);
-                                }
-                                
-                            }
+                                    if (sts.StructureRelated != null && sts.StructureRelated != String.Empty)
+                                    {
+                                        //Get related struc placement priority
+                                        strucPairs[sts.StructureID] = strucPairs[sts.StructureRelated];
+                                    }
+                                    else
+                                    {
+                                        //Assign new priority and remove it from the pool
+                                        strucPairs[sts.StructureID] = placementPool[0];
+                                        placementPool.RemoveAt(0);
+                                    }
 
-                            //Create Map Point for graphic
-                            MapPoint geoStructPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
-
-                            //Get if datum transformation is needed
-                            if (epsg != 0 && epsg != 4326)
-                            {
-                                DatumTransformation datumTransfo = null;
-                                SpatialReference outSR = null;
-
-                                if ((epsg > 26900 && epsg < 27000))
-                                {
-                                    outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
-                                    datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
                                 }
 
+                                //Create Map Point for graphic
+                                MapPoint geoStructPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
 
-                                MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
-
-                                //Validate if transformation is needed.
-                                if (datumTransfo != null)
+                                //Get if datum transformation is needed
+                                if (epsg != 0 && epsg != 4326)
                                 {
-                                    //Replace geopoint
-                                    geoStructPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+                                    DatumTransformation datumTransfo = null;
+                                    SpatialReference outSR = null;
+
+                                    if ((epsg > 26900 && epsg < 27000))
+                                    {
+                                        outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                                        datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
+                                    }
+
+
+                                    MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
+
+                                    //Validate if transformation is needed.
+                                    if (datumTransfo != null)
+                                    {
+                                        //Replace geopoint
+                                        geoStructPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+                                    }
+
                                 }
 
+                                //Set proper symbol
+                                PictureMarkerSymbol strucSym = StrucPlaneSym;
+                                if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
+                                {
+                                    strucSym = StrucLinearSym;
+
+
+                                    //Set offset
+                                    strucSym.OffsetX = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item1;
+                                    strucSym.OffsetY = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item2;
+                                }
+                                else
+                                {
+
+                                    //Set offset
+                                    strucSym.OffsetX = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item1;
+                                    strucSym.OffsetY = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item2;
+                                }
+
+
+                                //Set azim
+                                double azimAngle = 0.0;
+                                double.TryParse(sts.StructureSymAng, out azimAngle);
+                                if (azimAngle != 0.0)
+                                {
+                                    strucSym.Angle = azimAngle;
+                                }
+                                strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
+
+                                //TODO make up for a different way to measure azim (not right hand rule)
+                                var Sgraphic = new Graphic(geoStructPoint, strucSym);
+                                Sgraphic.Attributes.Add("Id", sts.StructureID.ToString());
+                                Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
+                                Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
+                                Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
+                                Sgraphic.Attributes.Add("Dip", sts.StructureDipPlunge.ToString());
+                                Sgraphic.Attributes.Add("Default", isDefaultDB);
+                                Sgraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
+                                structureOverlay.Graphics.Add(Sgraphic);
+
+                                //Set station symbol to transparent so we clearly see the structures instead
+                                //StationGraphic.IsVisible = false;
+
                             }
 
-                            //Set proper symbol
-                            PictureMarkerSymbol strucSym = StrucPlaneSym;
-                            if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
-                            {
-                                strucSym = StrucLinearSym;
-
-
-                                //Set offset
-                                strucSym.OffsetX = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item1;
-                                strucSym.OffsetY = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item2;
-                            }
-                            else 
-                            {
-
-                                //Set offset
-                                strucSym.OffsetX = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item1;
-                                strucSym.OffsetY = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item2;
-                            }
-
-
-                            //Set azim
-                            double azimAngle = 0.0;
-                            double.TryParse(sts.StructureSymAng, out azimAngle);
-                            if (azimAngle != 0.0)
-                            {
-                                strucSym.Angle = azimAngle;                         
-                            }
-                            strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
-
-  
-                            
-
-                            //TODO make up for a different way to measure azim (not right hand rule)
-
-
-                            var Sgraphic = new Graphic(geoStructPoint, strucSym);
-                            Sgraphic.Attributes.Add("Id", sts.StructureID.ToString());
-                            Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
-                            Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
-                            Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
-                            Sgraphic.Attributes.Add("Dip", sts.StructureDipPlunge.ToString());
-                            Sgraphic.Attributes.Add("Default", isDefaultDB);
-                            Sgraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
-                            pointOverlay.Graphics.Add(Sgraphic);
-
-                            //Set station symbol to transparent so we clearly see the structures instead
-                            StationGraphic.IsVisible = false;
 
                         }
+                        else 
+                        {
 
-                        #endregion
+                        }
+                    }
+                    else
+                    {
+                        //Set station symbol to transparent so we clearly see the structures instead
+                        StationGraphic.IsVisible = true;
+                        structureOverlay.Graphics.Clear();
                     }
 
+                    #endregion
                 }
 
                 #endregion
@@ -1332,20 +1354,25 @@ namespace GSCFieldApp.ViewModels
             var view = modal.ModalContent as Views.StationDataPart;
             modal.ModalContent = view = new Views.StationDataPart(null, true);
             view.mapPosition = stationWaypointMapPoint;
-            view.ViewModel.newStationEdit += RefreshMap; //Detect when the add/edit request has finished.
+            view.ViewModel.newStationEdit += ViewModel_newStationEdit;
             modal.IsModal = true;
 
             DataLocalSettings dLocalSettings = new DataLocalSettings();
             dLocalSettings.SetSettingValue("forceNoteRefresh", true);
         }
 
+        private void ViewModel_newStationEdit(object sender)
+        {
+            RefreshMap(); //Detect when the add/edit request has finished.
+        }
+
         /// <summary>
         /// Mainly used to refresh the map, after some data entry, example waypoint addition.
         /// </summary>
         /// <param name="sender"></param>
-        private void RefreshMap(object sender)
+        private void RefreshMap(bool forceRefresh = false)
         {
-            DisplayPointAndLabelsAsync(currentMapView);
+            DisplayPointAndLabelsAsync(currentMapView, forceRefresh);
         }
 
         /// <summary>
@@ -1470,6 +1497,18 @@ namespace GSCFieldApp.ViewModels
         private void SettingsPageViewModel_deleteAllLayers(object sender, EventArgs e)
         {
             DeleteLayersAsync(false);
+        }
+
+        /// <summary>
+        /// Events to toggle map page structure symbols
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void SettingsPartViewModel_settingUseStructureSymbols(object sender, EventArgs e)
+        {
+            //Force refresh of all graphics
+            RefreshMap(true);
         }
 
         private async void FieldBooksPageViewModel_newFieldBookSelectedAsync(object sender, string e)
@@ -1600,12 +1639,15 @@ namespace GSCFieldApp.ViewModels
             //make sure something is selected else try with other overlay
             if (overlays[0].Graphics.Count == 0)
             {
-                foreach (KeyValuePair<string, Tuple<GraphicsOverlay, GraphicsOverlay>> go in _overlayContainerOther)
+                foreach (KeyValuePair<string, List<GraphicsOverlay>> go in _overlayContainerOther)
                 {
-                    resultGraphics = await currentMapView.IdentifyGraphicsOverlayAsync(go.Value.Item1, screenPoint, 25, false);
-                    overlays.Add(resultGraphics);
-                    go.Value.Item1.ClearSelection();
-                    go.Value.Item2.ClearSelection();
+                    foreach (GraphicsOverlay gogo in go.Value)
+                    {
+                        resultGraphics = await currentMapView.IdentifyGraphicsOverlayAsync(gogo, screenPoint, 25, false);
+                        overlays.Add(resultGraphics);
+                        gogo.ClearSelection();
+                    }
+
                 }
 
             }
@@ -2368,30 +2410,34 @@ namespace GSCFieldApp.ViewModels
                 Dictionary<string, Graphic> loadedOtherGraphicList = new Dictionary<string, Graphic>();
                 if (_overlayContainerOther.ContainsKey(inSQLite.Name))
                 {
-                    foreach (Graphic gro in _overlayContainerOther[inSQLite.Name].Item1.Graphics)
+                    foreach (Graphic gro in _overlayContainerOther[inSQLite.Name][0].Graphics)
                     {
                         loadedOtherGraphicList[gro.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString()] = gro;
                     }
                 }
                 else
                 {
-                    Tuple<GraphicsOverlay, GraphicsOverlay> relatedGraphics = new Tuple<GraphicsOverlay, GraphicsOverlay>(new GraphicsOverlay(), new GraphicsOverlay());
+                    List<GraphicsOverlay> relatedGraphics = new List<GraphicsOverlay>();
                     _overlayContainerOther[inSQLite.Name] = relatedGraphics;
                 }
 
 
                 // Add graphics overlay to map view
-                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name].Item1))
+                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name][0]))
                 {
-                    _overlayContainerOther[inSQLite.Name].Item1.Opacity = sqlOpacity;
-                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name].Item1);
+                    _overlayContainerOther[inSQLite.Name][0].Opacity = sqlOpacity;
+                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name][0]);
                 }
-                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name].Item2))
+                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name][1]))
                 {
-                    _overlayContainerOther[inSQLite.Name].Item2.Opacity = sqlOpacity;
-                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name].Item2);
+                    _overlayContainerOther[inSQLite.Name][1].Opacity = sqlOpacity;
+                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name][1]);
                 }
-
+                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name][2]))
+                {
+                    _overlayContainerOther[inSQLite.Name][2].Opacity = sqlOpacity;
+                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name][2]);
+                }
                 LoadFromGivenDB(otherLocationTableRows, currentConnection, loadedOtherGraphicList, false);
 
                 #endregion
@@ -2484,14 +2530,14 @@ namespace GSCFieldApp.ViewModels
                     {
                         if (inSwitch != null)
                         {
-                            _overlayContainerOther[layerName].Item1.IsVisible = inSwitch.IsOn;
-                            _overlayContainerOther[layerName].Item2.IsVisible = inSwitch.IsOn;
+                            _overlayContainerOther[layerName][0].IsVisible = inSwitch.IsOn;
+                            _overlayContainerOther[layerName][1].IsVisible = inSwitch.IsOn;
                         }
                         else if (inSlider != null)
                         {
                             //Convert slider bar values to real opacity ([0,1])
-                            _overlayContainerOther[layerName].Item1.Opacity = inSlider.Value / 100.0;
-                            _overlayContainerOther[layerName].Item2.Opacity = inSlider.Value / 100.0;
+                            _overlayContainerOther[layerName][0].Opacity = inSlider.Value / 100.0;
+                            _overlayContainerOther[layerName][1].Opacity = inSlider.Value / 100.0;
                         }
 
                     }
@@ -2989,8 +3035,9 @@ namespace GSCFieldApp.ViewModels
                                 if (_overlayContainerOther.ContainsKey(selectedFile.LayerName))
                                 {
 
-                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName].Item1);
-                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName].Item2);
+                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName][0]);
+                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName][1]);
+                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName][2]);
                                     _overlayContainerOther.Remove(selectedFile.LayerName);
 
                                 }
@@ -3059,7 +3106,7 @@ namespace GSCFieldApp.ViewModels
                         if (_overlayContainerOther.ContainsKey(subFile.LayerName))
                         {
                             //Zoom extent of points within overlay 
-                            Envelope sqliteExtent = _overlayContainerOther[subFile.LayerName].Item1.Extent;
+                            Envelope sqliteExtent = _overlayContainerOther[subFile.LayerName][0].Extent;
 
                             if (sqliteExtent != null)
                             {

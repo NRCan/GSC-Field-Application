@@ -1545,4 +1545,13 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>Recherche</value>
   </data>
+  <data name="SettingPageToggleSymbolStructure.Header" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="SettingPageToggleSymbolStructure.OffContent" xml:space="preserve">
+    <value>Ne pas utiliser symbole</value>
+  </data>
+  <data name="SettingPageToggleSymbolStructure.OnContent" xml:space="preserve">
+    <value>Utiliser symbole</value>
+  </data>
 </root>
