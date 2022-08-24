@@ -560,8 +560,10 @@ namespace GSCFieldApp.ViewModels
                 //Reset main db station overlay
                 inMapView.GraphicsOverlays.Remove(_OverlayStation);
                 inMapView.GraphicsOverlays.Remove(_OverlayStationLabel);
+                inMapView.GraphicsOverlays.Remove(_OverlayStructure);
                 inMapView.GraphicsOverlays.Add(_OverlayStation);
                 inMapView.GraphicsOverlays.Add(_OverlayStationLabel);
+                inMapView.GraphicsOverlays.Add(_OverlayStructure);
 
                 // Load
                 SQLiteConnection defaultConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
@@ -2423,21 +2425,15 @@ namespace GSCFieldApp.ViewModels
 
 
                 // Add graphics overlay to map view
-                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name][0]))
+                for (int i = 0; i < _overlayContainerOther[inSQLite.Name].Count; i++)
                 {
-                    _overlayContainerOther[inSQLite.Name][0].Opacity = sqlOpacity;
-                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name][0]);
+                    if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name][i]))
+                    {
+                        _overlayContainerOther[inSQLite.Name][i].Opacity = sqlOpacity;
+                        currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name][i]);
+                    }
                 }
-                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name][1]))
-                {
-                    _overlayContainerOther[inSQLite.Name][1].Opacity = sqlOpacity;
-                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name][1]);
-                }
-                if (!currentMapView.GraphicsOverlays.Contains(_overlayContainerOther[inSQLite.Name][2]))
-                {
-                    _overlayContainerOther[inSQLite.Name][2].Opacity = sqlOpacity;
-                    currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name][2]);
-                }
+                    
                 LoadFromGivenDB(otherLocationTableRows, currentConnection, loadedOtherGraphicList, false);
 
                 #endregion
@@ -2689,7 +2685,7 @@ namespace GSCFieldApp.ViewModels
                 _overlayContainerOther.Clear();
                 currentMapView.GraphicsOverlays.Remove(_OverlayStation);
                 currentMapView.GraphicsOverlays.Remove(_OverlayStationLabel);
-
+                currentMapView.GraphicsOverlays.Remove(_OverlayStructure);
             }
             currentMapView.UpdateLayout();
 
@@ -3037,7 +3033,6 @@ namespace GSCFieldApp.ViewModels
 
                                     currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName][0]);
                                     currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName][1]);
-                                    currentMapView.GraphicsOverlays.Remove(_overlayContainerOther[selectedFile.LayerName][2]);
                                     _overlayContainerOther.Remove(selectedFile.LayerName);
 
                                 }
