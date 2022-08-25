@@ -72,5 +72,10 @@ namespace GSCFieldApp.Dictionaries
         #region Local defaults constants
         public const double defaultMapScale = 10000;
         #endregion
+
+        #region Assets
+        public const double structureSymbolsImageHeight = 101; //Will be use for symbol placement 
+        public const double structureSymbolsImageWidth = 101; //Will be use for symbol placement
+        #endregion
     }
 }

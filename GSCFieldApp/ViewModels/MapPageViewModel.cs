@@ -48,6 +48,8 @@ using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Newtonsoft.Json;
 using Esri.ArcGISRuntime.Portal;
 using System.Text.RegularExpressions;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Graphics.Imaging;
 
 
 namespace GSCFieldApp.ViewModels
@@ -602,8 +604,12 @@ namespace GSCFieldApp.ViewModels
         public void LoadFromGivenDB(List<object> inLocationTableRows, SQLiteConnection dbConnection, Dictionary<string, Graphic> graphicList, bool isDefaultDB)
         {
             PictureMarkerSymbol pointSym = new PictureMarkerSymbol(new Uri("ms-appx:///Assets/IC809393.png"));
-            PictureMarkerSymbol StrucPlaneSym = new PictureMarkerSymbol(new Uri("ms-appx:///Assets/Images/theme-light/struc_planar.png"));
-            PictureMarkerSymbol StrucLinearSym = new PictureMarkerSymbol(new Uri("ms-appx:///Assets/Images/theme-light/struc_linear.png"));
+
+            Uri planarPath = new Uri("ms-appx:///Assets/Images/theme-light/struc_planar.png");
+            Uri linearPath = new Uri("ms-appx:///Assets/Images/theme-light/struc_linear.png");
+
+            PictureMarkerSymbol StrucPlaneSym = new PictureMarkerSymbol(planarPath);
+            PictureMarkerSymbol StrucLinearSym = new PictureMarkerSymbol(linearPath);
 
             //Choose proper overlay
             GraphicsOverlay pointOverlay = new GraphicsOverlay();
@@ -691,7 +697,7 @@ namespace GSCFieldApp.ViewModels
                     #region MAIN POINT
                     //Create Map Point for graphic
                     MapPoint geoPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
-
+                    
                     //Get if datum transformation is needed
                     int epsg = 0;
                     int.TryParse(ptStationLocationEPSG, out epsg);
@@ -795,8 +801,28 @@ namespace GSCFieldApp.ViewModels
 
                                 }
 
+
+                                //Set proper symbol
+                                PictureMarkerSymbol strucSym = StrucPlaneSym.Clone() as PictureMarkerSymbol;
+                                if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
+                                {
+                                    strucSym = StrucLinearSym.Clone() as PictureMarkerSymbol;
+                                }
+
+                                //Set azim
+                                double azimAngle = 0.0;
+                                double.TryParse(sts.StructureSymAng, out azimAngle);
+                                if (azimAngle != 0.0)
+                                {
+                                    strucSym.Angle = azimAngle;
+                                }
+                                strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
+
+                                //Set offset
+                                Tuple<double, double> symOffset = placements.GetPositionOffsetFromPlacementPriority(strucPairs[sts.StructureID], ptLongitude, ptLatitude, 100.0);
+
                                 //Create Map Point for graphic
-                                MapPoint geoStructPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
+                                MapPoint geoStructPoint = new MapPoint(symOffset.Item1, symOffset.Item2, SpatialReferences.Wgs84);
 
                                 //Get if datum transformation is needed
                                 if (epsg != 0 && epsg != 4326)
@@ -810,7 +836,6 @@ namespace GSCFieldApp.ViewModels
                                         datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
                                     }
 
-
                                     MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
 
                                     //Validate if transformation is needed.
@@ -821,35 +846,6 @@ namespace GSCFieldApp.ViewModels
                                     }
 
                                 }
-
-                                //Set proper symbol
-                                PictureMarkerSymbol strucSym = StrucPlaneSym;
-                                if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
-                                {
-                                    strucSym = StrucLinearSym;
-
-
-                                    //Set offset
-                                    strucSym.OffsetX = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item1;
-                                    strucSym.OffsetY = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item2;
-                                }
-                                else
-                                {
-
-                                    //Set offset
-                                    strucSym.OffsetX = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item1;
-                                    strucSym.OffsetY = placements.GetOffsetFromPlacementPriority(strucPairs[sts.StructureID]).Item2;
-                                }
-
-
-                                //Set azim
-                                double azimAngle = 0.0;
-                                double.TryParse(sts.StructureSymAng, out azimAngle);
-                                if (azimAngle != 0.0)
-                                {
-                                    strucSym.Angle = azimAngle;
-                                }
-                                strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
 
                                 //TODO make up for a different way to measure azim (not right hand rule)
                                 var Sgraphic = new Graphic(geoStructPoint, strucSym);
@@ -1625,7 +1621,7 @@ namespace GSCFieldApp.ViewModels
         public async void myMapView_IdentifyFeature(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             //Get mouse position
-            Point screenPoint = e.GetPosition(currentMapView);
+            Windows.Foundation.Point screenPoint = e.GetPosition(currentMapView);
 
             //Reset selections
             _OverlayStation.ClearSelection();
@@ -1788,7 +1784,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         public async void myMapView_AddByTap(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            Point screenPoint = e.GetPosition(currentMapView);
+            Windows.Foundation.Point screenPoint = e.GetPosition(currentMapView);
 
             if (!currentMapView.LocationDisplay.IsEnabled)
             {
