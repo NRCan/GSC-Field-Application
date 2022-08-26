@@ -1554,4 +1554,10 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="SettingPageToggleSymbolStructure.OnContent" xml:space="preserve">
     <value>Symbolize</value>
   </data>
+  <data name="MapPageIdentifyStationDialogTitle" xml:space="preserve">
+    <value>Location summary</value>
+  </data>
+  <data name="MapPageIdentifyStructureDialogTitle" xml:space="preserve">
+    <value>Structure summary</value>
+  </data>
 </root>

@@ -51,7 +51,6 @@ using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 
-
 namespace GSCFieldApp.ViewModels
 {
 
@@ -729,6 +728,7 @@ namespace GSCFieldApp.ViewModels
                     StationGraphic.Attributes.Add("Id", ptStationId.ToString());
                     StationGraphic.Attributes.Add("Date", ptStationDate.ToString());
                     StationGraphic.Attributes.Add("Time", ptStationTime.ToString());
+                    StationGraphic.Attributes.Add("tableType", DatabaseLiterals.TableStation);
                     StationGraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
                     if (ptStationType != null)
                     {
@@ -852,12 +852,14 @@ namespace GSCFieldApp.ViewModels
 
                                 //TODO make up for a different way to measure azim (not right hand rule)
                                 var Sgraphic = new Graphic(geoStructPoint, strucSym);
-                                Sgraphic.Attributes.Add("Id", sts.StructureID.ToString());
+                                Sgraphic.Attributes.Add("Id", sts.StructureName.ToString());
                                 Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
                                 Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
+                                Sgraphic.Attributes.Add("StructureClass", sts.getClassTypeDetail);
                                 Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
                                 Sgraphic.Attributes.Add("Dip", sts.StructureDipPlunge.ToString());
                                 Sgraphic.Attributes.Add("Default", isDefaultDB);
+                                Sgraphic.Attributes.Add("tableType", DatabaseLiterals.TableStructure);
                                 Sgraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
                                 structureOverlay.Graphics.Add(Sgraphic);
 
@@ -1168,7 +1170,6 @@ namespace GSCFieldApp.ViewModels
 
         }
 
-
         /// <summary>
         /// When no location is available probably due to flight mode. Display this message.
         /// </summary>
@@ -1362,11 +1363,6 @@ namespace GSCFieldApp.ViewModels
             dLocalSettings.SetSettingValue("forceNoteRefresh", true);
         }
 
-        private void ViewModel_newStationEdit(object sender)
-        {
-            RefreshMap(); //Detect when the add/edit request has finished.
-        }
-
         /// <summary>
         /// Mainly used to refresh the map, after some data entry, example waypoint addition.
         /// </summary>
@@ -1398,6 +1394,11 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region EVENTS
+
+        private void ViewModel_newStationEdit(object sender)
+        {
+            RefreshMap(); //Detect when the add/edit request has finished.
+        }
 
         async public void OnPositionChanged(Geolocator sender, PositionChangedEventArgs e)
         {
@@ -1542,6 +1543,305 @@ namespace GSCFieldApp.ViewModels
             await loadingUserLayers;
         }
 
+        /// <summary>
+        /// Display information in a popup window when user clicks on feature location
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void myMapView_IdentifyFeature(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            //Get mouse position
+            Windows.Foundation.Point screenPoint = e.GetPosition(currentMapView);
+
+            //Reset selections
+            _OverlayStation.ClearSelection();
+            _OverlayStationLabel.ClearSelection(); //Clear label selection, useless
+            _OverlayStructure.ClearSelection();
+            selectedStationDate = string.Empty;
+            selectedStationID = string.Empty;
+
+            // identify graphics overlay using the point tapped
+            List<IdentifyGraphicsOverlayResult> overlays = new List<IdentifyGraphicsOverlayResult>(); //Container that will hold multiple graphic overlay identify query results (there might be multiple point on top of each others)
+            IdentifyGraphicsOverlayResult resultGraphics = await currentMapView.IdentifyGraphicsOverlayAsync(_OverlayStation, screenPoint, 25, false);
+            overlays.Add(resultGraphics);
+
+            //make sure something is selected else try with other overlay
+            if (overlays[0].Graphics.Count == 0)
+            {
+                //Try with structure
+                IdentifyGraphicsOverlayResult resultStructGraphics = await currentMapView.IdentifyGraphicsOverlayAsync(_OverlayStructure, screenPoint, 25, false);
+                overlays.Add(resultStructGraphics);
+
+                //If still nothing try with another one
+                if (overlays[0].Graphics.Count == 0)
+                {
+                    foreach (KeyValuePair<string, List<GraphicsOverlay>> go in _overlayContainerOther)
+                    {
+                        foreach (GraphicsOverlay gogo in go.Value)
+                        {
+                            resultGraphics = await currentMapView.IdentifyGraphicsOverlayAsync(gogo, screenPoint, 25, false);
+                            overlays.Add(resultGraphics);
+                            gogo.ClearSelection();
+                        }
+
+                    }
+                }
+
+
+            }
+
+            // show attribute information for the first graphic identified (if any)
+            foreach (IdentifyGraphicsOverlayResult io in overlays)
+            {
+                //Sample sampleModel = new Sample();
+
+                if (io != null && io.Graphics.Count > 0)
+                {
+                    var idGraphic = io.Graphics.FirstOrDefault();
+                    idGraphic.IsSelected = true;
+
+                    if (idGraphic.Attributes.Keys.Count > 0)
+                    {
+                        //ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+
+                        string graphicId = idGraphic.Attributes["Id"].ToString();
+
+                        //Show dialog with possibility to navigate to report if it is from default/working database
+                        if (Convert.ToBoolean(idGraphic.Attributes["Default"].ToString()))
+                        {
+
+                            //Detect station or structure identify
+                            if (idGraphic.Attributes["tableType"].ToString() == DatabaseLiterals.TableStation)
+                            {
+                                ShowIdentifyStationDialog(idGraphic.Attributes["Id"].ToString(), idGraphic.Attributes["Date"].ToString(), sender);
+                            }
+
+                            if (idGraphic.Attributes["tableType"].ToString() == DatabaseLiterals.TableStructure)
+                            {
+                                ShowIdentifyStructureDialog(idGraphic.Attributes["Id"].ToString(), idGraphic.Attributes["Date"].ToString(), idGraphic.Attributes["Azim"].ToString(),
+                                    idGraphic.Attributes["Dip"].ToString(), idGraphic.Attributes["StructureClass"].ToString(), idGraphic.Attributes["ParentID"].ToString(), sender);
+                            }
+ 
+                        }
+                        else
+                        {
+                            ContentDialog tapStationDialog = new ContentDialog()
+                            {
+                                Title = String.Format("Station {0}", idGraphic.Attributes["Id"].ToString()),
+                                Content = String.Format("Date {0} \nTime {1} \nType {2}", idGraphic.Attributes["Date"].ToString(), idGraphic.Attributes["Time"].ToString(), idGraphic.Attributes["Type"].ToString()),
+                                PrimaryButtonText = local.GetString("MapPageDialogTextClose")
+                            };
+
+                            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(tapStationDialog, true).Result;
+
+                        }
+
+                    }
+                }
+
+            }
+
+
+        }
+
+        /// <summary>
+        /// Pop-up dialog to show identify attributes on structure symbols points
+        /// </summary>
+        /// <param name="graphicID"></param>
+        /// <param name="graphicDate"></param>
+        /// <param name="sender"></param>
+        public async void ShowIdentifyStructureDialog(string graphicID, string graphicDate, 
+            string azim, string dipPlunge, string stationId, string graphicClass, object sender)
+        {
+            ContentDialog tapStationDialog = new ContentDialog()
+            {
+                Title = local.GetString("MapPageIdentifyStructureDialogTitle"),
+                Content = String.Format("{0}  {1} " +
+                "\n" + local.GetString("PflowDialogClass/Header") + "({2})" + 
+                "\n" + local.GetString("StructureDialogAzim/Header") + "({3})" +
+                "\n" + local.GetString("StructureDialogDip/Header") + "({4})", 
+                graphicID,
+                graphicDate,
+                graphicClass,
+                azim,
+                dipPlunge
+                ),
+                PrimaryButtonText = local.GetString("MapPageDialogTextReport"),
+                SecondaryButtonText = local.GetString("MapPageDialogTextClose")
+            };
+
+            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(tapStationDialog, true).Result;
+            if (cdr == ContentDialogResult.Primary)
+            {
+                selectedStationID = stationId;
+                selectedStationDate = graphicDate;
+                NavigateToReport(sender);
+            }
+        }
+
+        /// <summary>
+        /// Pop-up dialog to show identify attributes on station points
+        /// </summary>
+        /// <param name="graphicID"></param>
+        /// <param name="graphicDate"></param>
+        /// <param name="sender"></param>
+        public async void ShowIdentifyStationDialog(string graphicID, string graphicDate, object sender)
+        {
+            // Get select station information
+            var tupleStation = queryStation(graphicID);
+            string stationId = tupleStation.Item1;
+            string stationDate = tupleStation.Item2;
+            string stationTime = tupleStation.Item3;
+
+            // Get select earthmat information
+            var tupleEarthmat = queryEarthmat(stationId);
+            string earthmatDetail = tupleEarthmat.Item1;
+            int earthmatCount = tupleEarthmat.Item2;
+            List<string> earthmatidList = tupleEarthmat.Item3;
+
+            // Get select ma information
+            MineralAlteration modelMineralAlteration = new MineralAlteration();
+            int maCount = CountChild(stationId, Dictionaries.DatabaseLiterals.FieldMineralAlterationRelID, Dictionaries.DatabaseLiterals.TableMineralAlteration, modelMineralAlteration);
+
+            // Get select document information
+            Document modelDocument = new Document();
+            int documentCount = CountChild(stationId, Dictionaries.DatabaseLiterals.FieldDocumentRelatedID, Dictionaries.DatabaseLiterals.TableDocument, modelDocument);
+
+            // getting the count for the children sample, mineral, fossil, structure 
+            int sampleTotalCount = 0;
+            foreach (string earthmatId in earthmatidList)
+            {
+                Sample modelSample = new Sample();
+                int sampleCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableSample, modelSample);
+                sampleTotalCount += sampleCount;
+            }
+
+            int structureTotalCount = 0;
+            foreach (string earthmatId in earthmatidList)
+            {
+                Structure modelStructure = new Structure();
+                int structureCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableStructure, modelStructure);
+                structureTotalCount += structureCount;
+            }
+
+            int mineralTotalCount = 0;
+            foreach (string earthmatId in earthmatidList)
+            {
+                Mineral modelMineral = new Mineral();
+                int mineralCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableMineral, modelMineral);
+                mineralTotalCount += mineralCount;
+            }
+
+            int fossilTotalCount = 0;
+            foreach (string earthmatId in earthmatidList)
+            {
+                Fossil modelFossil = new Fossil();
+                int fossilCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableFossil, modelFossil);
+                fossilTotalCount += fossilCount;
+            }
+
+            ContentDialog tapStationDialog = new ContentDialog()
+            {
+                Title = local.GetString("MapPageIdentifyStationDialogTitle"),
+                Content = String.Format("{10}  {0}  {1}" +
+                "\n" + local.GetString("EarthDialogHeader/Text") + "({2}) {3}" +
+                "\n" + local.GetString("ReportPageMineralAltNameHeader/Text") + "({4})" +
+                "\n" + local.GetString("MapPagePhotoCommand/Label") + "({5})" +
+                "\n" + local.GetString("FieldworkTableSample/Text") + "({6})" +
+                "\n" + local.GetString("FieldworkTableStructure/Text") + "({7})" +
+                "\n" + local.GetString("FieldworkTableMineral/Text") + "({8})" +
+                "\n" + local.GetString("FieldworkTableFossil/Text") + "({9})",
+                stationDate,
+                stationTime,
+                earthmatCount.ToString(),
+                earthmatDetail,
+                maCount.ToString(),
+                documentCount.ToString(),
+                sampleTotalCount.ToString(),
+                structureTotalCount.ToString(),
+                mineralTotalCount.ToString(),
+                fossilTotalCount.ToString(),
+                graphicID),
+                PrimaryButtonText = local.GetString("MapPageDialogTextReport"),
+                SecondaryButtonText = local.GetString("MapPageDialogTextClose")
+            };
+
+            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(tapStationDialog, true).Result;
+            if (cdr == ContentDialogResult.Primary)
+            {
+                selectedStationID = graphicID;
+                selectedStationDate = graphicDate;
+                NavigateToReport(sender);
+            }
+        }
+
+        /// <summary>
+        /// Allows user to enter location by tapping on the map
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void myMapView_AddByTap(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            Windows.Foundation.Point screenPoint = e.GetPosition(currentMapView);
+
+            if (!currentMapView.LocationDisplay.IsEnabled)
+            {
+                MapPoint mapPoint = currentMapView.ScreenToLocation(screenPoint);
+
+                //Convert projected to geographic if needed
+                if (mapPoint.SpatialReference.IsProjected)
+                {
+                    SpatialReference geographicSpatialReference = new SpatialReference(4326);
+                    mapPoint = (MapPoint)GeometryEngine.Project(mapPoint, geographicSpatialReference);
+                }
+
+                DD2DMS dmsLongitude = DD2DMS.FromDouble(mapPoint.X);
+                DD2DMS dmsLatitude = DD2DMS.FromDouble(mapPoint.Y);
+
+                //ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                ContentDialog tapDialog = new ContentDialog()
+                {
+                    Title = local.GetString("MapPageDialogTapCoordinateTitle"),
+                    Content = string.Format("{0} {1}  ({2})\n{3} {4}  ({5}) \n\n {6}", "Longitude:", dmsLongitude.ToString("WE"), mapPoint.X.ToString(), "Latitude:", dmsLatitude.ToString("NS"), mapPoint.Y.ToString(), local.GetString("MapPageDialogTextTapForNewStation")),
+                    PrimaryButtonText = local.GetString("MapPageDialogTextYes"),
+                    SecondaryButtonText = local.GetString("MapPageDialogTextNo"),
+                };
+
+                ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(tapDialog, true).Result;
+
+                if (cdr == ContentDialogResult.Primary)
+                {
+                    FieldLocation tapLocation = new FieldLocation();
+                    tapLocation.LocationElev = mapPoint.Z;
+                    tapLocation.LocationLat = mapPoint.Y;
+                    tapLocation.LocationLong = mapPoint.X;
+                    tapLocation.LocationErrorMeasure = 9999;
+                    tapLocation.LocationElevMethod = Dictionaries.DatabaseLiterals.DefaultNoData;
+                    tapLocation.LocationEntryType = vocabEntryTypeTap;
+                    tapLocation.LocationErrorMeasureType = Dictionaries.DatabaseLiterals.DefaultNoData;
+
+                    GotoQuickDialog(tapLocation);
+                }
+
+            }
+            // spw2017
+            currentMapView.Tapped -= myMapView_AddByTap;
+
+        }
+
+        /// <summary>
+        /// Will finalize the flyout closing by saving order of layers
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public async void LayerFlyout_ClosedAsync(object sender, object e)
+        {
+            await SetLayerOrderAsync();
+        }
+
+        #endregion
+
+        #region METHODS
         private Tuple<string, string, string> queryStation(string id)
         {
             Station stationModel = new Station();
@@ -1616,238 +1916,6 @@ namespace GSCFieldApp.ViewModels
             return count;
         }
 
-        /// <summary>
-        /// Display information in a popup window when user clicks on feature location
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void myMapView_IdentifyFeature(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            //Get mouse position
-            Windows.Foundation.Point screenPoint = e.GetPosition(currentMapView);
-
-            //Reset selections
-            _OverlayStation.ClearSelection();
-            _OverlayStationLabel.ClearSelection(); //Clear label selection, useless
-            selectedStationDate = string.Empty;
-            selectedStationID = string.Empty;
-
-            // identify graphics overlay using the point tapped
-            List<IdentifyGraphicsOverlayResult> overlays = new List<IdentifyGraphicsOverlayResult>(); //Container that will hold multiple graphic overlay identify query results (there might be multiple point on top of each others)
-            IdentifyGraphicsOverlayResult resultGraphics = await currentMapView.IdentifyGraphicsOverlayAsync(_OverlayStation, screenPoint, 25, false);
-            overlays.Add(resultGraphics);
-
-            //make sure something is selected else try with other overlay
-            if (overlays[0].Graphics.Count == 0)
-            {
-                foreach (KeyValuePair<string, List<GraphicsOverlay>> go in _overlayContainerOther)
-                {
-                    foreach (GraphicsOverlay gogo in go.Value)
-                    {
-                        resultGraphics = await currentMapView.IdentifyGraphicsOverlayAsync(gogo, screenPoint, 25, false);
-                        overlays.Add(resultGraphics);
-                        gogo.ClearSelection();
-                    }
-
-                }
-
-            }
-
-            // show attribute information for the first graphic identified (if any)
-            foreach (IdentifyGraphicsOverlayResult io in overlays)
-            {
-                //Sample sampleModel = new Sample();
-
-                if (io != null && io.Graphics.Count > 0)
-                {
-                    var idGraphic = io.Graphics.FirstOrDefault();
-                    idGraphic.IsSelected = true;
-
-                    if (idGraphic.Attributes.Keys.Count > 0)
-                    {
-                        //ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-
-                        string graphicId = idGraphic.Attributes["Id"].ToString();
-
-                        //Show dialog with possibility to navigate to report if it is from default/working database
-                        if (Convert.ToBoolean(idGraphic.Attributes["Default"].ToString()))
-                        {
-                            // Get select station information
-                            var tupleStation = queryStation(graphicId);
-                            string stationId = tupleStation.Item1;
-                            string stationDate = tupleStation.Item2;
-                            string stationTime = tupleStation.Item3;
-
-                            // Get select earthmat information
-                            var tupleEarthmat = queryEarthmat(stationId);
-                            string earthmatDetail = tupleEarthmat.Item1;
-                            int earthmatCount = tupleEarthmat.Item2;
-                            List<string> earthmatidList = tupleEarthmat.Item3;
-
-                            // Get select ma information
-                            MineralAlteration modelMineralAlteration = new MineralAlteration();
-                            int maCount = CountChild(stationId, Dictionaries.DatabaseLiterals.FieldMineralAlterationRelID, Dictionaries.DatabaseLiterals.TableMineralAlteration, modelMineralAlteration);
-
-                            // Get select document information
-                            Document modelDocument = new Document();
-                            int documentCount = CountChild(stationId, Dictionaries.DatabaseLiterals.FieldDocumentRelatedID, Dictionaries.DatabaseLiterals.TableDocument, modelDocument);
-
-                            // getting the count for the children sample, mineral, fossil, structure 
-                            int sampleTotalCount = 0;
-                            foreach (string earthmatId in earthmatidList)
-                            {
-                                Sample modelSample = new Sample();
-                                int sampleCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableSample, modelSample);
-                                sampleTotalCount += sampleCount;
-                            }
-
-                            int structureTotalCount = 0;
-                            foreach (string earthmatId in earthmatidList)
-                            {
-                                Structure modelStructure = new Structure();
-                                int structureCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableStructure, modelStructure);
-                                structureTotalCount += structureCount;
-                            }
-
-                            int mineralTotalCount = 0;
-                            foreach (string earthmatId in earthmatidList)
-                            {
-                                Mineral modelMineral = new Mineral();
-                                int mineralCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableMineral, modelMineral);
-                                mineralTotalCount += mineralCount;
-                            }
-
-                            int fossilTotalCount = 0;
-                            foreach (string earthmatId in earthmatidList)
-                            {
-                                Fossil modelFossil = new Fossil();
-                                int fossilCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableFossil, modelFossil);
-                                fossilTotalCount += fossilCount;
-                            }
-
-                            ContentDialog tapStationDialog = new ContentDialog()
-                            {
-                                Title = String.Format("Location Summary"),
-                                Content = String.Format("{10}  {0}  {1}" +
-                                "\nEarth material ({2}) {3}" +
-                                "\nMineralization - Alteration ({4})" +
-                                "\nDocuments ({5})" +
-                                "\nSamples ({6})" +
-                                "\nStructures ({7})" +
-                                "\nMinerals ({8})" +
-                                "\nFossils ({9})",
-                                stationDate,
-                                stationTime,
-                                earthmatCount.ToString(),
-                                earthmatDetail,
-                                maCount.ToString(),
-                                documentCount.ToString(),
-                                sampleTotalCount.ToString(),
-                                structureTotalCount.ToString(),
-                                mineralTotalCount.ToString(),
-                                fossilTotalCount.ToString(),
-                                idGraphic.Attributes["Id"].ToString()),
-                                PrimaryButtonText = local.GetString("MapPageDialogTextReport"),
-                                SecondaryButtonText = local.GetString("MapPageDialogTextClose")
-                            };
-
-                            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(tapStationDialog, true).Result;
-                            if (cdr == ContentDialogResult.Primary)
-                            {
-                                selectedStationID = idGraphic.Attributes["Id"].ToString();
-                                selectedStationDate = idGraphic.Attributes["Date"].ToString();
-                                NavigateToReport(sender);
-                            }
-                        }
-                        else
-                        {
-                            ContentDialog tapStationDialog = new ContentDialog()
-                            {
-                                Title = String.Format("Station {0}", idGraphic.Attributes["Id"].ToString()),
-                                Content = String.Format("Date {0} \nTime {1} \nType {2}", idGraphic.Attributes["Date"].ToString(), idGraphic.Attributes["Time"].ToString(), idGraphic.Attributes["Type"].ToString()),
-                                PrimaryButtonText = local.GetString("MapPageDialogTextClose")
-                            };
-
-                            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(tapStationDialog, true).Result;
-
-                        }
-
-                    }
-                }
-
-            }
-
-
-        }
-
-        /// <summary>
-        /// Allows user to enter location by tapping on the map
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void myMapView_AddByTap(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            Windows.Foundation.Point screenPoint = e.GetPosition(currentMapView);
-
-            if (!currentMapView.LocationDisplay.IsEnabled)
-            {
-                MapPoint mapPoint = currentMapView.ScreenToLocation(screenPoint);
-
-                //Convert projected to geographic if needed
-                if (mapPoint.SpatialReference.IsProjected)
-                {
-                    SpatialReference geographicSpatialReference = new SpatialReference(4326);
-                    mapPoint = (MapPoint)GeometryEngine.Project(mapPoint, geographicSpatialReference);
-                }
-
-                DD2DMS dmsLongitude = DD2DMS.FromDouble(mapPoint.X);
-                DD2DMS dmsLatitude = DD2DMS.FromDouble(mapPoint.Y);
-
-                //ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                ContentDialog tapDialog = new ContentDialog()
-                {
-                    Title = local.GetString("MapPageDialogTapCoordinateTitle"),
-                    Content = string.Format("{0} {1}  ({2})\n{3} {4}  ({5}) \n\n {6}", "Longitude:", dmsLongitude.ToString("WE"), mapPoint.X.ToString(), "Latitude:", dmsLatitude.ToString("NS"), mapPoint.Y.ToString(), local.GetString("MapPageDialogTextTapForNewStation")),
-                    PrimaryButtonText = local.GetString("MapPageDialogTextYes"),
-                    SecondaryButtonText = local.GetString("MapPageDialogTextNo"),
-                };
-
-                ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(tapDialog, true).Result;
-
-                if (cdr == ContentDialogResult.Primary)
-                {
-                    FieldLocation tapLocation = new FieldLocation();
-                    tapLocation.LocationElev = mapPoint.Z;
-                    tapLocation.LocationLat = mapPoint.Y;
-                    tapLocation.LocationLong = mapPoint.X;
-                    tapLocation.LocationErrorMeasure = 9999;
-                    tapLocation.LocationElevMethod = Dictionaries.DatabaseLiterals.DefaultNoData;
-                    tapLocation.LocationEntryType = vocabEntryTypeTap;
-                    tapLocation.LocationErrorMeasureType = Dictionaries.DatabaseLiterals.DefaultNoData;
-
-                    GotoQuickDialog(tapLocation);
-                }
-
-            }
-            // spw2017
-            currentMapView.Tapped -= myMapView_AddByTap;
-
-        }
-
-
-        /// <summary>
-        /// Will finalize the flyout closing by saving order of layers
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public async void LayerFlyout_ClosedAsync(object sender, object e)
-        {
-            await SetLayerOrderAsync();
-        }
-
-        #endregion
-
-        #region METHODS
 
         /// <summary>
         /// Will save the current layer settings into a JSON file inside the local folder
@@ -2100,7 +2168,6 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("FilenameValues");
             localSettings.WipeUserMapSettings();
         }
-
 
         /// <summary>
         /// Will load all layers, embedded and user loaded one to the map view
@@ -2563,15 +2630,10 @@ namespace GSCFieldApp.ViewModels
 
         }
 
-
         /// <summary>
         /// Will set the maps (layers) order in the map control from user choices.
         /// </summary>
-        public async
-        /// <summary>
-        /// Will set the maps (layers) order in the map control from user choices.
-        /// </summary>
-        Task SetLayerOrderAsync()
+        public async Task SetLayerOrderAsync()
         {
             try
             {
