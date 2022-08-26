@@ -764,7 +764,10 @@ namespace GSCFieldApp.ViewModels
                     #endregion
 
                     #region STRUCTURES
-                    if ((bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols))
+
+                    ///For structure symboles (planar and linear) make sure they are wanted by user but that it's within a bedrock field notebook also
+
+                    if ((bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
                     {
                         //Get related structures, if any
                         List<object> strucTableRows = new List<object>();
@@ -781,7 +784,7 @@ namespace GSCFieldApp.ViewModels
                             //Structure pairs tracking
                             //Key = record ID, Value = priority number for placement
                             Dictionary<string, int> strucPairs = new Dictionary<string, int>();
-
+                            int iteration = 1;
                             foreach (Structure sts in strucTableRows)
                             {
                                 //Manage pair tracking for pool placement 
@@ -795,8 +798,8 @@ namespace GSCFieldApp.ViewModels
                                     else
                                     {
                                         //Assign new priority and remove it from the pool
-                                        strucPairs[sts.StructureID] = placementPool[0];
-                                        placementPool.RemoveAt(0);
+                                        strucPairs[sts.StructureID] = iteration;
+                                        iteration = iteration + 1;
                                     }
 
                                 }

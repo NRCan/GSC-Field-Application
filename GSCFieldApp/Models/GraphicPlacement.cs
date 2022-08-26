@@ -15,6 +15,11 @@ namespace GSCFieldApp.Models
         public enum Placements { northEast, southWest, southEast, northWest, south, east, west, north }
 
         /// <summary>
+        /// List of azim placement based on main direction and with priorities (west, south, east then north)
+        /// </summary>
+        public List<int> defaultAzimuthPlacement = new List<int>() { 180, 270, 0, 90 };
+
+        /// <summary>
         /// Placement offsets as tuples(offset x, offset y)
         /// </summary>
         public struct PlacementsStruct
@@ -63,7 +68,8 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
-        /// Will return a given Placement offset based on prioritis of placement
+        /// Will return a given placement offset based on priority of placement.
+        /// WARNING: this does weird thing with the symbols. Using a new location seems to fix this.
         /// </summary>
         /// <param name="priority">Number from 1 to 8</param>
         /// <param name="imageHeight">If symbol anchor is center and picture marker, imageHeight will help with proper placement</param>
@@ -124,59 +130,24 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
-        /// Will return a new location from a given priority for symbol placement
+        /// Will return a new location position from a given priority for symbol placement
         /// </summary>
         /// <param name="priority">Number from 1 to 8</param>
         /// <param name="imageHeight">If symbol anchor is center and picture marker, imageHeight will help with proper placement</param>
         /// <param name="imageWidth">If symbol anchor is center and picture marker, imageWidht will help with proper placement.</param>
         /// <returns></returns>
-        public Tuple<double, double> GetPositionOffsetFromPlacementPriority(int priority, double centerX, double centerY, double distanceAway)
+        public Tuple<double, double> GetPositionOffsetFromPlacementPriority(int order, double centerX, double centerY, double distanceAway)
         {
             //Create a projected point
             MapPoint centerPoint = new MapPoint(centerX, centerY, 0.0, SpatialReferences.Wgs84);
             MapPoint projectedPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(centerPoint, SpatialReferences.WebMercator);
 
-            //Get proper rotation
-            int orientationDegree = 45; //default to first priority orientation
-            if (priority == 1)
-            {
-                orientationDegree = 45;
-            }
-            else if(priority == 2)
-            {
-                orientationDegree = 225;
-            }
-            else if (priority == 3)
-            {
-                orientationDegree = 315;
-            }
-            else if (priority == 4)
-            {
-                orientationDegree = 135;
-            }
-            else if (priority == 5)
-            {
-                orientationDegree = 270;
-            }
-            else if (priority == 6)
-            {
-                orientationDegree = 0;
-            }
-            else if (priority == 7)
-            {
-                orientationDegree = 180;
-            }
-            else if (priority == 8)
-            {
-                orientationDegree = 90;
-            }
-            else
-            {
-                orientationDegree = 45;
-            }
+            //Get main direction in azimuth
+            int azimOrientationPlace = CalculateOrientationFromOrientation(order);
 
-            double returnX = projectedPoint.X + (distanceAway * Math.Cos(orientationDegree * Math.PI / 180));
-            double returnY = projectedPoint.Y + (distanceAway * Math.Sin(orientationDegree * Math.PI / 180));
+            //Calculate new location from distance and a new orientation
+            double returnX = projectedPoint.X + (distanceAway * Math.Cos(azimOrientationPlace * Math.PI / 180));
+            double returnY = projectedPoint.Y + (distanceAway * Math.Sin(azimOrientationPlace * Math.PI / 180));
 
             //Reproject back to geographic
             centerPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(new MapPoint(returnX, returnY, 0.0, SpatialReferences.WebMercator), SpatialReferences.Wgs84);
@@ -184,7 +155,78 @@ namespace GSCFieldApp.Models
             return new Tuple<double, double>(centerPoint.X, centerPoint.Y);
         }
 
+        /// <summary>
+        /// Will calculate the proper azimuth placement, from a default ste of 4 places. Will shift the result each time there is a modulo of 4 items
+        /// Orientation = Sum[Divide[45,n-1],{n,1,}] + mainOrientation
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public int CalculateOrientationFromOrientation(int order)
+        {
+            //Basically, we have 4 default placement (west, south, east and north)
+            //For each needed placement above 4, the direction will be shifted from 45 degrees if less then 9 iteration.
+            //If more it will be shifted from 45 + 45/2, and so on. The main 4 direction will then always be rotating and giving new location
 
+            //Get main orientation azimuth
+            int mainAzim = GetOrientationPlacement(order); //One of those { 180, 270, 0, 90 }
+
+            //Calculate the n value ( n = 1 for the first 4 orders,n = 2 for 5 to 8, n = 3 for 9 to 12, etc.
+            int n = 1;
+            if (order > 4)
+            {
+                n = (int)Math.Ceiling(order / 4.0);
+            }
+
+            //Get a list of calculated shift
+            //First block of 4 won't see any changes, second block will be added an extra 45, third block will be added an extra 45/2
+            for (int i = 2; i <= n; i++)
+            {
+                //For pair n values higher then 2, substract instead of adding
+                if (i > 2 && i % 2 == 0)
+                {
+                    mainAzim = mainAzim + (45 / (i - 1));
+                }
+                else if (i > 2 && i % 2 != 0)
+                {
+                    mainAzim = mainAzim - (45 / (i - 1));
+                }
+                else
+                {
+                    mainAzim = mainAzim + (45 / (i - 1));
+                }
+
+
+            }
+
+            if (n > 2 && n % 2 == 0)
+            {
+                mainAzim = mainAzim + (45 / (n - 1));
+            }
+
+            //Calculate new value
+            return mainAzim;
+        }
+
+        /// <summary>
+        /// Will return the proper placement azimuth based on an order.
+        /// This will be given from a modulo of 4, since there is 4 main direction for placement
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public int GetOrientationPlacement(int order)
+        {
+            int modulo4 = order % 4;
+
+            if (modulo4 > 0)
+            {
+                return defaultAzimuthPlacement[modulo4 - 1];
+            }
+            else
+            {
+                return defaultAzimuthPlacement[3];
+            }
+        
+        }
         /// <summary>
         /// From a given placement enumeration value, will return it's associated priority
         /// </summary>
