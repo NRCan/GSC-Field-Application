@@ -17,7 +17,7 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// List of azim placement based on main direction and with priorities (west, south, east then north)
         /// </summary>
-        public List<int> defaultAzimuthPlacement = new List<int>() { 180, 270, 0, 90 };
+        public List<int> defaultAzimuthPlacement = new List<int>() { 90, 180, 270, 0 };
 
         /// <summary>
         /// Placement offsets as tuples(offset x, offset y)
@@ -156,55 +156,39 @@ namespace GSCFieldApp.Models
         }
 
         /// <summary>
-        /// Will calculate the proper azimuth placement, from a default ste of 4 places. Will shift the result each time there is a modulo of 4 items
-        /// Orientation = Sum[Divide[45,n-1],{n,1,}] + mainOrientation
+        /// Will calculate the proper azimuth placement, from a default set of 4 places. Will shift the result each time there is a modulo of 4 items
+        /// Orientation = Sum[Divide[delta,n],{n,1,}]
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
         public int CalculateOrientationFromOrientation(int order)
         {
             //Basically, we have 4 default placement (west, south, east and north)
-            //For each needed placement above 4, the direction will be shifted from 45 degrees if less then 9 iteration.
-            //If more it will be shifted from 45 + 45/2, and so on. The main 4 direction will then always be rotating and giving new location
+            //For each needed placement above 4, the direction will be shifted from 90 degrees / module of 4 (90/2, 90/3, etc.)
+            //The main 4 direction will then always be rotating and giving new location
 
             //Get main orientation azimuth
-            int mainAzim = GetOrientationPlacement(order); //One of those { 180, 270, 0, 90 }
+            int azim = GetOrientationPlacement(order); //One of those { 180, 270, 0, 90 }
+            int delta = 90; //Starting degree shift
+            List<int> azimList = defaultAzimuthPlacement.ToList<int>();
 
-            //Calculate the n value ( n = 1 for the first 4 orders,n = 2 for 5 to 8, n = 3 for 9 to 12, etc.
+            //Calculate the n value ( n = 1 for the first 4 symbols,n = 2 for 5 to 8, n = 3 for 9 to 12, etc.
             int n = 1;
             if (order > 4)
             {
                 n = (int)Math.Ceiling(order / 4.0);
             }
 
-            //Get a list of calculated shift
-            //First block of 4 won't see any changes, second block will be added an extra 45, third block will be added an extra 45/2
-            for (int i = 2; i <= n; i++)
+            //Shift the symbol
+            for (int i = 1; i <= n; i++)
             {
-                //For pair n values higher then 2, substract instead of adding
-                if (i > 2 && i % 2 == 0)
-                {
-                    mainAzim = mainAzim + (45 / (i - 1));
-                }
-                else if (i > 2 && i % 2 != 0)
-                {
-                    mainAzim = mainAzim - (45 / (i - 1));
-                }
-                else
-                {
-                    mainAzim = mainAzim + (45 / (i - 1));
-                }
+                //New azim shift
+                azim = azim + (delta / i);
 
-
-            }
-
-            if (n > 2 && n % 2 == 0)
-            {
-                mainAzim = mainAzim + (45 / (n - 1));
             }
 
             //Calculate new value
-            return mainAzim;
+            return azim;
         }
 
         /// <summary>

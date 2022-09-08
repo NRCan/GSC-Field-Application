@@ -574,8 +574,6 @@ namespace GSCFieldApp.ViewModels
                     defaultConnection.Close();
                 }
 
-
-
                 inMapView.UpdateLayout();
             }
             else
