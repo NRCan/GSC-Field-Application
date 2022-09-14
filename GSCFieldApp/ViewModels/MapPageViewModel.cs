@@ -154,6 +154,9 @@ namespace GSCFieldApp.ViewModels
             //Detect other setting events
             SettingsPartViewModel.settingUseStructureSymbols += SettingsPartViewModel_settingUseStructureSymbols;
 
+            //Detect location edits
+            LocationViewModel.LocationUpdateEventHandler += LocationViewModel_LocationUpdateEventHandler;
+
             //Set some configs
             SetQuickButtonEnable();
 
@@ -544,7 +547,7 @@ namespace GSCFieldApp.ViewModels
             List<object> locationTableRows = accessData.ReadTable(locationModel.GetType(), string.Empty);
             int currentLocationCount = locationTableRows.Count();
             // If at least one location exists display it on the map
-            if (currentLocationCount >= 1)
+            if (currentLocationCount >= 1 && !forceRefresh)
             {
                 //Build a list of already loaded stations id on the map
                 Dictionary<string, Graphic> loadedGraphicList = new Dictionary<string, Graphic>();
@@ -581,9 +584,17 @@ namespace GSCFieldApp.ViewModels
                 //Refresh graphics since the last location seems to have been deleted by the user
                 if (currentMapView != null && currentMapView.GraphicsOverlays != null && currentMapView.GraphicsOverlays.Count > 0)
                 {
+                    _OverlayStation.Graphics.Clear();
+                    _OverlayStationLabel.Graphics.Clear();
+                    _OverlayStructure.Graphics.Clear();
 
                     currentMapView.GraphicsOverlays.Remove(_OverlayStation);
                     currentMapView.GraphicsOverlays.Remove(_OverlayStationLabel);
+                    currentMapView.GraphicsOverlays.Remove(_OverlayStructure);
+
+                    RaisePropertyChanged("_OverlayStation");
+                    RaisePropertyChanged("_OverlayStationLabel");
+                    RaisePropertyChanged("_OverlayStructure");
                 }
 
             }
@@ -1392,6 +1403,17 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region EVENTS
+
+        /// <summary>
+        /// Event triggered when user has edited locaation coordinate. Needs a force refresh on points.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LocationViewModel_LocationUpdateEventHandler(object sender, EventArgs e)
+        {
+            //Force a redraw of all locations
+            RefreshMap(true);
+        }
 
         private void ViewModel_newStationEdit(object sender)
         {

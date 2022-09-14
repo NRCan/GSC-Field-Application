@@ -53,6 +53,7 @@ namespace GSCFieldApp.ViewModels
         //Events and delegate
         public delegate void LocationEditEventHandler(object sender); //A delegate for execution events
         public event LocationEditEventHandler newLocationEdit; //This event is triggered when a save has been done on station table. 
+        public static event EventHandler LocationUpdateEventHandler; //This even is triggered when user has change coordinate so map page needs a refresh.
 
         #endregion
 
@@ -271,7 +272,13 @@ namespace GSCFieldApp.ViewModels
                 newLocationEdit(this);
             }
 
-            
+            //Trigger event for map page
+            EventHandler updateRequest = LocationUpdateEventHandler;
+            if (updateRequest != null && doLocationUpdate)
+            {
+                updateRequest(this, null);
+            }
+
         }
 
 
