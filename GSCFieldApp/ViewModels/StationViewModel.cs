@@ -41,6 +41,7 @@ namespace GSCFieldApp.ViewModels
         private string _notes = string.Empty; //Default
         private string _stationOCSize = string.Empty;
         private string _stationTravNo = string.Empty;
+        private string _stationRelatedTo = string.Empty; //sqlite v 1.6
         private bool _enability = true; //Default
 
         private ObservableCollection<Themes.ComboBoxItem> _stationTypes = new ObservableCollection<Themes.ComboBoxItem>();
@@ -107,6 +108,7 @@ namespace GSCFieldApp.ViewModels
         public string StationID { get { return _stationid; } set { _stationid = value; } }
         public string LocationID { get { return _locationid; } set { _locationid = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
+        public string RelatedTo { get { return _stationRelatedTo; } set { _stationRelatedTo = value; } }
         public string AirPhoto { get { return _airno; } set { _airno = value; } }
         public string TraverseNo
         {
@@ -216,6 +218,7 @@ namespace GSCFieldApp.ViewModels
             StationModel.StationVisitTime = DTime;
             StationModel.StationNote = Notes;
             StationModel.StationAirNo = AirPhoto;
+            StationModel.StationRelatedTo = RelatedTo;
             StationModel.StationSLSNotes = SlSNotes;
             StationModel.StationOCSize = StationOCSize;
 
@@ -263,6 +266,7 @@ namespace GSCFieldApp.ViewModels
             _notes = existingDataDetail.station.StationNote;
             _airno = existingDataDetail.station.StationAirNo;
             _slsnotes = existingDataDetail.station.StationSLSNotes;
+            _stationRelatedTo = existingDataDetail.station.StationRelatedTo;
             _stationOCSize = existingDataDetail.station.StationOCSize;
             _stationTravNo = existingDataDetail.station.StationTravNo.ToString();
             _selectedStationTypes = existingDataDetail.station.StationObsType;
@@ -278,6 +282,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedStationQuality");
             RaisePropertyChanged("SelectedStationPhysEnv");
             RaisePropertyChanged("TraverseNo");
+            RaisePropertyChanged("RelatedTo"); 
 
         }
 

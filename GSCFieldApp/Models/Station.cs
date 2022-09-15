@@ -51,6 +51,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStationSLSNote)]
         public string StationSLSNotes { get; set; }
 
+        [Column(DatabaseLiterals.FieldStationRelatedTo)]
+        public string StationRelatedTo { get; set; }
+
         [Column(DatabaseLiterals.FieldStationAirPhotoNumber)]
         public string StationAirNo { get; set; }
 
