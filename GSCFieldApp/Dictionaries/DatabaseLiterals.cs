@@ -30,7 +30,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldLocationLongitude = "LONGITUDE";//Version 1.0
         public const string FieldLocationLatitude = "LATITUDE";//Version 1.0
         public const string FieldLocationElevation = "ELEVATION"; //Version 1.0
-        public const string FieldLocationMetaID = "METAID";//Version 1.0
+        public const string FieldLocationMetaID = "METAID";//
         public const string FieldLocationElevationMethod = "ELEVMETHOD";//Version 1.0
         public const string FieldLocationEntryType = "ENTRYTYPE";//Version 1.0
         public const string FieldLocationErrorMeasure = "ERRORMEASURE";//Version 1.0
@@ -90,6 +90,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldStationReportLink = "REPORT_LINK";
         public const string FieldStationLegend = "LEGENDVAL";
         public const string FieldStationInterpretation = "LNDINTERP";
+        public const string FieldStationRelatedTo = "RELATEDTO"; //Version 1.60
 
         public const string FieldEarthMatID = "EARTHMATID";//Version 1.0
         public const string FieldEarthMatName = "EARTHMATIDNAME";//Version 1.5
