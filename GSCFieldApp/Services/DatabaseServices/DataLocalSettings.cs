@@ -173,6 +173,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableFossil] = true;
                 currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableEarthMat] = true;
                 currentLocalSettings.Containers[containerName].Values[Dictionaries.ApplicationLiterals.KeyworkStructureSymbols] = false;
+                currentLocalSettings.Containers[containerName].Values[Dictionaries.ApplicationLiterals.KeywordStationTraverseNo] = true;
 
                 //For bedrock projects only
                 object fieldWorkType = currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType];
