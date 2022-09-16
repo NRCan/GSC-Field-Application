@@ -178,5 +178,28 @@ namespace GSCFieldApp.Views
 
 
         }
+
+        private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //Find the clicked symbol icon list view parent
+            SymbolIcon senderIcon = sender as SymbolIcon;
+            DependencyObject iconParent = VisualTreeHelper.GetParent(senderIcon);
+            while (!(iconParent is ListView))
+            {
+                iconParent = VisualTreeHelper.GetParent(iconParent);
+
+            }
+
+            //Find value associated with clicked symbol icon and remove from list view.
+            ListView parentListView = iconParent as ListView;
+            IList<object> selectedValues = parentListView.SelectedItems;
+            if (selectedValues.Count > 0)
+            {
+                foreach (object values in selectedValues)
+                {
+                    DocViewModel.RemoveSelectedValue(values, parentListView.Name);
+                }
+            }
+        }
     }
 }
