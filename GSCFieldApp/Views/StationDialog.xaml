@@ -114,6 +114,11 @@
                             Header="" InputScope="Number"
                             RelativePanel.RightOf="StationAirPhoto"
                             Text ="{x:Bind ViewModel.TraverseNo, Mode=TwoWay}"/>
+
+                                <TextBox x:Name="StationRelatedTo" x:Uid="FieldworkTableStationRelatedTo"
+                                    Header="" RelativePanel.RightOf="StationTraverseNo"
+                                    Text ="{x:Bind ViewModel.RelatedTo, Mode=TwoWay}"/>
+                                
                             </GridView>
 
                         </RelativePanel>

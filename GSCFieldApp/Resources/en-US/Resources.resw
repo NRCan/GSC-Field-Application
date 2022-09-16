@@ -1560,4 +1560,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MapPageIdentifyStructureDialogTitle" xml:space="preserve">
     <value>Structure summary</value>
   </data>
+  <data name="FieldworkTableStationRelatedTo.Header" xml:space="preserve">
+    <value>Related To (e.g. another station id)</value>
+  </data>
 </root>

@@ -1560,4 +1560,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="MapPageIdentifyStructureDialogTitle" xml:space="preserve">
     <value>Sommaire de la structure</value>
   </data>
+  <data name="FieldworkTableStationRelatedTo.Header" xml:space="preserve">
+    <value>En lien avec (ex: un autre station)</value>
+  </data>
 </root>
