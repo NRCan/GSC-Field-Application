@@ -740,6 +740,12 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableDocument);
             }
 
+            if (inDBVersion > 1.5)
+            {
+                queryList.AddRange(GetUpgradeQueryVersion1_6(attachDBName));
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableStation);
+            }
+
             //Insert remaining tables
             foreach (string t in upgradeUntouchedTables)
             {
@@ -2046,6 +2052,58 @@ namespace GSCFieldApp.Services.DatabaseServices
             #endregion
 
             return insertQuery_15;
+        }
+
+        /// <summary>
+        /// Will output a query to update database to version 1.6
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion1_6(string attachedDBName)
+        {
+            ///Schema v 1.6: 
+            ///https://github.com/NRCan/GSC-Field-Application/milestone/6
+            List<string> insertQuery_16 = new List<string>();
+
+            #region F_STATION
+
+            Station modelStation = new Station();
+            List<string> stationFieldList = modelStation.getFieldList[DBVersion160];
+            string station_querySelect = string.Empty;
+
+            foreach (string stationFields in stationFieldList)
+            {
+                //Get all fields except alias
+
+                if (stationFields != stationFieldList.First())
+                {
+                    if (stationFields == DatabaseLiterals.FieldStationRelatedTo)
+                    {
+
+                        station_querySelect = station_querySelect +
+                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableStation + "%" + DatabaseLiterals.FieldStationRelatedTo +
+                            "%') THEN (st." + DatabaseLiterals.FieldStationRelatedTo + ") ELSE NULL END as " + DatabaseLiterals.FieldStationRelatedTo;
+                    }
+                    else
+                    {
+                        station_querySelect = station_querySelect + ", st." + stationFields + " as " + stationFields;
+                    }
+
+                }
+                else
+                {
+                    station_querySelect = " st." + stationFields + " as " + stationFields;
+                }
+
+            }
+            station_querySelect = station_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_station = "INSERT INTO " + DatabaseLiterals.TableStation + " SELECT " + station_querySelect;
+            insertQuery_16_station = insertQuery_16_station + " FROM " + attachedDBName + "." + DatabaseLiterals.TableStation + " as st";
+            insertQuery_16.Add(insertQuery_16_station);
+
+            #endregion
+
+            return insertQuery_16;
         }
 
         /// <summary>

@@ -113,6 +113,13 @@ namespace GSCFieldApp.Models
 
                 stationFieldList[DatabaseLiterals.DBVersion] = stationFieldListDefault;
 
+                //Revert schema 1.6 changes. 
+                List<string> stationFieldList150 = new List<string>();
+                stationFieldList150.AddRange(stationFieldListDefault);
+                stationFieldList150.Remove(DatabaseLiterals.FieldStationRelatedTo);
+
+                stationFieldList[DatabaseLiterals.DBVersion150] = stationFieldList150;
+
                 //Revert schema 1.5 changes. 
                 List<string> stationFieldList144 = new List<string>();
                 stationFieldList144.AddRange(stationFieldListDefault);
