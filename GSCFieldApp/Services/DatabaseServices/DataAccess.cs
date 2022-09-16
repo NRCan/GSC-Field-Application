@@ -643,7 +643,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_vocabM = insertQuery_vocabM + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionaryManager + " as vm";
             if (dbVersion >= 1.5)
             {
-                insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or vm." + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
+                insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + FieldDictionaryManagerVersion + " is null or vm." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
             }
             
             queryList.Add(insertQuery_vocabM);
@@ -740,7 +740,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableDocument);
             }
 
-            if (inDBVersion > 1.5)
+            if (inDBVersion == 1.5)
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_6(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableStation);
@@ -2080,8 +2080,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
 
                         station_querySelect = station_querySelect +
-                            ", CASE WHEN EXISTS (SELECT sql from " + attachedDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableStation + "%" + DatabaseLiterals.FieldStationRelatedTo +
-                            "%') THEN (st." + DatabaseLiterals.FieldStationRelatedTo + ") ELSE NULL END as " + DatabaseLiterals.FieldStationRelatedTo;
+                            ", NULL as " + DatabaseLiterals.FieldStationRelatedTo;
                     }
                     else
                     {

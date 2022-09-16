@@ -3127,8 +3127,14 @@ namespace GSCFieldApp.ViewModels
             }
             else if (!fromSelection)
             {
-                esriMap.Basemap.BaseLayers.Clear();
+                try
+                {
+                    esriMap.Basemap.BaseLayers.Clear();
+                }
+                catch (Exception)
+                {
 
+                }
             }
         }
 

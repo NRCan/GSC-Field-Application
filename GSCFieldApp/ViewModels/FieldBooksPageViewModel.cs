@@ -841,8 +841,12 @@ namespace GSCFieldApp.ViewModels
                             versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion144.ToString().Replace(".", "");
                         }
                         else if (processedDBVersion == 1.44)
-                        { 
-                            //Current defaulting to 1.5
+                        {
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion150.ToString().Replace(".", "");
+                        }
+                        else if (processedDBVersion == 1.5)
+                        {
+                            //Current defaulting to 1.6
                         }
                         versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
