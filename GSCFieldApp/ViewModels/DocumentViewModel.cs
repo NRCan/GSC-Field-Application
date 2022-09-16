@@ -964,7 +964,7 @@ namespace GSCFieldApp.ViewModels
             Themes.ConcatenatedCombobox ccBox = new Themes.ConcatenatedCombobox();
             foreach (string d in ccBox.UnpipeString(existingDataDetailDocument.document.Category))
             {
-                AddAConcatenatedValue(d);
+                AddAConcatenatedValue(d, "Category");
             }
 
             //Update UI
