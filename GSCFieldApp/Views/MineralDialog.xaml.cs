@@ -118,11 +118,11 @@ namespace GSCFieldApp.Views
             {
                 //Set the ItemsSource to be your filtered dataset
                 //sender.ItemsSource = dataset;
-                var search_term = MineralAutoSuggest.Text.ToLower();
-                var results = Minerals.Where(i => i.ToLower().Contains(search_term)).ToList();
+                string search_term = MineralAutoSuggest.Text.ToLower();
+                List<string> results = Minerals.Where(i => i.ToLower().Contains(search_term)).ToList();
 
-                if (results.Count > 0)
-                    MineralAutoSuggest.ItemsSource = results.ToList().OrderBy(x => x.GetType().GetProperty(this.MineralAutoSuggest.DisplayMemberPath).GetValue(x)).ToList();
+                if (results != null && results.Count > 0)
+                    MineralAutoSuggest.ItemsSource = results;
                 else
                     MineralAutoSuggest.ItemsSource = new string[] { "No results found" };
             }
