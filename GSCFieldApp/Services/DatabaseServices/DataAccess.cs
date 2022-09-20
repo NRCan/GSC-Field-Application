@@ -744,6 +744,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_6(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableStation);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
             }
 
             //Insert remaining tables
@@ -2099,6 +2100,43 @@ namespace GSCFieldApp.Services.DatabaseServices
             string insertQuery_16_station = "INSERT INTO " + DatabaseLiterals.TableStation + " SELECT " + station_querySelect;
             insertQuery_16_station = insertQuery_16_station + " FROM " + attachedDBName + "." + DatabaseLiterals.TableStation + " as st";
             insertQuery_16.Add(insertQuery_16_station);
+
+            #endregion
+
+            #region F_EARTH_MATERIAL
+            EarthMaterial modelEarth = new EarthMaterial();
+            List<string> earthFieldList = modelEarth.getFieldList[DBVersion160];
+            string earth_querySelect = string.Empty;
+
+            foreach (string earthFields in earthFieldList)
+            {
+                //Get all fields except alias
+
+                if (earthFields != earthFieldList.First())
+                {
+                    if (earthFields == DatabaseLiterals.FieldEarthMatPercent)
+                    {
+
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatPercent;
+                    }
+                    else
+                    {
+                        earth_querySelect = earth_querySelect + ", et." + earthFields + " as " + earthFields;
+                    }
+
+                }
+                else
+                {
+                    earth_querySelect = " et." + earthFields + " as " + earthFields;
+                }
+
+            }
+            earth_querySelect = earth_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_earth = "INSERT INTO " + DatabaseLiterals.TableEarthMat + " SELECT " + earth_querySelect;
+            insertQuery_16_earth = insertQuery_16_earth + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat + " as et";
+            insertQuery_16.Add(insertQuery_16_earth);
 
             #endregion
 
