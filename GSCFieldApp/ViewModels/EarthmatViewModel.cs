@@ -44,6 +44,8 @@ namespace GSCFieldApp.ViewModels
         public string level2Sep = Dictionaries.ApplicationLiterals.parentChildLevel2Seperator;
         public DataIDCalculation idCalculator = new DataIDCalculation();
         DataAccess accessData = new DataAccess();
+        private string _earthResidualText = string.Empty;
+        private Dictionary<string, int> _earthResidualPercent = new Dictionary<string, int>(); //Will contain earth material Id and it's percent, for residual percent calculation
 
         public FieldNotes existingDataDetail;
        
@@ -205,7 +207,7 @@ namespace GSCFieldApp.ViewModels
 
             }
         }
-
+        public string EarthResidualText { get { return _earthResidualText; } set { _earthResidualText = value; } }
         public string ContactNote { get { return _contactNote; } set { _contactNote = value; } }
         public string InterpretationNote { get { return _interpretation; } set { _interpretation = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
@@ -288,6 +290,11 @@ namespace GSCFieldApp.ViewModels
             FillModTexture();
             FillGrSize();
             FillOccur();
+
+            if (existingDataDetail.GenericID != null)
+            {
+                CalculateResidual();
+            }
         }
 
         /// <summary>
@@ -1313,8 +1320,102 @@ namespace GSCFieldApp.ViewModels
 
         #region EVENTS
 
+        public void EarthPercent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox senderBox = sender as TextBox;
+            if (senderBox!= null && senderBox.Text != string.Empty)
+            {
+                CalculateResidual(senderBox.Text);
+            }
+        }
 
 
         #endregion
+
+        #region CALCULATE
+        public void CalculateResidual(string newMode = "")
+        {
+            // Language localization using Resource.resw
+            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+            string Prefix = loadLocalization.GetString("EarthResidualLabelPrefix");
+            string MiddleFix = loadLocalization.GetString("EarthResidualLabelMiddlefix");
+            string Suffix = loadLocalization.GetString("EarthResidualLabelSuffix");
+
+            List<object> earthmatTableRaw = accessData.ReadTable(earthmodel.GetType(), null);
+            IEnumerable<EarthMaterial> earthTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
+
+            //Get a list of related mineral from selected earthmat
+            string parentID = existingDataDetail.ParentID;
+
+            //Find proper parent id (request could come from a mineral or an earthmat selection)
+            if (existingDataDetail.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
+            {
+                parentID = existingDataDetail.ParentID;
+            }
+            IEnumerable<EarthMaterial> earthParentStation = from e in earthTable where e.EarthMatStatID == parentID select e;
+
+            if (_earthResidualPercent.Count == 0 && (earthParentStation.Count() != 0 || earthParentStation != null))
+            {
+                foreach (EarthMaterial ets in earthParentStation)
+                {
+                   // _minerals.Add(ets.EarthMatID);
+
+                    int currentPercentage = ets.EarthMatPercent;
+                    bool currentPercentParsed = true;
+                    if (ets.EarthMatID == existingDataDetail.GenericID)
+                    {
+                        if (newMode != string.Empty)
+                        {
+                            currentPercentParsed = int.TryParse(newMode, out currentPercentage);
+                        }
+
+                        if (currentPercentParsed)
+                        {
+                            _earthResidualPercent[ets.EarthMatID] = currentPercentage;
+                        }
+
+                    }
+                    else
+                    {
+                        if (currentPercentParsed)
+                        {
+                            _earthResidualPercent[ets.EarthMatID] = currentPercentage;
+                        }
+
+                    }
+                    
+
+
+                }
+
+                if (_earthResidualPercent.Count() == 0)
+                {
+                    int currentPercentage = 0;
+                    bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                    _earthResidualPercent[existingDataDetail.GenericID] = currentPercentage;
+                }
+
+            }
+            else
+            {
+                int currentPercentage = 0;
+                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                _earthResidualPercent[existingDataDetail.GenericID] = currentPercentage;
+            }
+
+
+            //Calculate total percentage
+            int _earthResidual = 0;
+            foreach (KeyValuePair<string, int> modes in _earthResidualPercent)
+            {
+                _earthResidual = _earthResidual + modes.Value;
+            }
+            _earthResidualText = Prefix + _earthResidual.ToString() + MiddleFix + _earthResidualPercent.Count().ToString() + Suffix;
+            RaisePropertyChanged("EarthResidualText");
+
+        }
+        #endregion
     }
+
+
 }

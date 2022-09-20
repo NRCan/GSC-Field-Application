@@ -1566,4 +1566,16 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthDialogPercent.Header" xml:space="preserve">
     <value>Percent</value>
   </data>
+  <data name="EarthResidualLabel.Text" xml:space="preserve">
+    <value>Residual</value>
+  </data>
+  <data name="EarthResidualLabelMiddlefix" xml:space="preserve">
+    <value>% (</value>
+  </data>
+  <data name="EarthResidualLabelPrefix" xml:space="preserve">
+    <value>Total Mode: </value>
+  </data>
+  <data name="EarthResidualLabelSuffix" xml:space="preserve">
+    <value>elements)</value>
+  </data>
 </root>
