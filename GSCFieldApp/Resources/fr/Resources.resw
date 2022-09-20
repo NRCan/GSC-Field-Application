@@ -1563,4 +1563,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="FieldworkTableStationRelatedTo.Header" xml:space="preserve">
     <value>En lien avec (ex: un autre station)</value>
   </data>
+  <data name="EarthDialogPercent.Header" xml:space="preserve">
+    <value>Pourcentage</value>
+  </data>
 </root>

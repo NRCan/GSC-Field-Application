@@ -117,6 +117,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatInterpConf = "INTERPCONF";//Version 1.0
         public const string FieldEarthMatBedthick = "BEDTHICK"; //Version 1.0 Concatenated field
         public const string FieldEarthMatNotes = "NOTES"; //Version 1.43
+        public const string FieldEarthMatPercent = "PERCENT"; //Version 1.60
 
         public const string FieldSampleID = "SAMPLEID"; //Version 1.0
         public const string FieldSampleName = "SAMPLEIDNAME"; //Version 1.5

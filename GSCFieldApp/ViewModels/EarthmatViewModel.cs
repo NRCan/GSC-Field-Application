@@ -30,6 +30,7 @@ namespace GSCFieldApp.ViewModels
         private string _earthmatid = string.Empty; //Default
         private string _stationid = string.Empty; //Detault
         private string _colourindex = "0";//Detault
+        private string _percent = "0"; //Default
         private string _contactNote = string.Empty;//Detault
         private string _interpretation = string.Empty;//Detault
         private string _mag = "0";//Detault
@@ -170,6 +171,41 @@ namespace GSCFieldApp.ViewModels
                 
             }
         }
+
+        public string Percent
+        {
+            get
+            {
+                return _percent;
+            }
+            set
+            {
+                int index;
+                bool result = int.TryParse(value, out index);
+
+                if (result)
+                {
+                    if (index >= 0 && index <= 100)
+                    {
+                        _percent = value;
+                    }
+                    else
+                    {
+                        _percent = value = "0";
+                        RaisePropertyChanged("Percent");
+                    }
+
+                }
+                else
+                {
+                    _percent = value = "0";
+                    RaisePropertyChanged("Percent");
+                }
+
+
+            }
+        }
+
         public string ContactNote { get { return _contactNote; } set { _contactNote = value; } }
         public string InterpretationNote { get { return _interpretation; } set { _interpretation = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
@@ -276,6 +312,7 @@ namespace GSCFieldApp.ViewModels
             _lithoDetail = existingDataDetail.earthmat.EarthMatLithdetail;
             _lithoGroup = existingDataDetail.earthmat.EarthMatLithgroup;
             _notes = existingDataDetail.earthmat.EarthMatNotes;
+            _percent = existingDataDetail.earthmat.EarthMatPercent.ToString();
 
             //Update list view
             UnPipeValues(existingDataDetail.earthmat.EarthMatDefabric, Dictionaries.DatabaseLiterals.FieldEarthMatDefabric);
@@ -299,6 +336,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MagSusceptibility");
             RaisePropertyChanged("LithoType");
             RaisePropertyChanged("GroupTypeDetail");
+            RaisePropertyChanged("Percent");
 
             if (_selectedEarthmatColourF!=null)
             {
@@ -401,6 +439,7 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatContact = _contactNote;
             earthmodel.EarthMatInterp = _interpretation;
             earthmodel.EarthMatNotes = _notes;
+            earthmodel.EarthMatPercent = int.Parse(_percent);
             if (SelectedEarthmatModStruc != null)
             {
                 earthmodel.EarthMatModStruc = PipePurposes(_earthmatModStrucValues); //process list of values so they are concatenated.

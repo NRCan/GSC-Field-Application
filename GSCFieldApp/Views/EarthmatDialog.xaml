@@ -270,9 +270,13 @@
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_GeneralNote" RelativePanel.Below="MainSeparator_07" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_GNote"/>
+                            
+                            <TextBox x:Name="EarthPercent" x:Uid="EarthDialogPercent" MinWidth="35" HorizontalAlignment="Stretch"
+                                Text="{x:Bind ViewModel.Percent, Mode=TwoWay}" InputScope="Number"/>
+                            
                         </GridView>
 
-                        <RelativePanel Margin="0,-60,0,0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="EarthmatGridView_GeneralNote">
+                        <RelativePanel  RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="EarthmatGridView_GeneralNote">
                             <TextBox Style="{StaticResource Notes}" x:Name="EarthNoteTextbox" x:Uid="EarthDialogGeneralNote"
                                     Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}"/>
                         </RelativePanel>

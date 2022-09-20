@@ -1563,4 +1563,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="FieldworkTableStationRelatedTo.Header" xml:space="preserve">
     <value>Related To (e.g. another station id)</value>
   </data>
+  <data name="EarthDialogPercent.Header" xml:space="preserve">
+    <value>Percent</value>
+  </data>
 </root>

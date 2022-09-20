@@ -36,6 +36,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatOccurs)]
         public string EarthMatOccurs { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatPercent)]
+        public int EarthMatPercent { get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatModStruc)]
         public string EarthMatModStruc { get; set; }
 
@@ -176,9 +179,15 @@ namespace GSCFieldApp.Models
 
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
 
+                //Revert schema 1.6 changes. 
+                List<string> earthmatFieldList15 = new List<string>();
+                earthmatFieldList15.AddRange(earthmatFieldListDefault);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatPercent);
+                earthmatFieldList[DatabaseLiterals.DBVersion150] = earthmatFieldList15;
+
                 //Revert schema 1.5 changes. 
                 List<string> earthmatFieldList144 = new List<string>();
-                earthmatFieldList144.AddRange(earthmatFieldListDefault);
+                earthmatFieldList144.AddRange(earthmatFieldList15);
                 int removeIndex = earthmatFieldList144.IndexOf(DatabaseLiterals.FieldEarthMatName);
                 earthmatFieldList144.Remove(DatabaseLiterals.FieldEarthMatName);
                 earthmatFieldList144.Insert(removeIndex, DatabaseLiterals.FieldEarthMatNameDeprecated);
