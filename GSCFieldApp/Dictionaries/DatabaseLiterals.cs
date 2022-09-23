@@ -235,8 +235,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldMineralID = "MINERALID";//Version 1.0
         public const string FieldMineralIDName = "MINERALIDNAME";//Version 1.0
         public const string FieldMineral = "MINERAL";//Version 1.0
-        public const string FieldMineralForm = "FORM";//Version 1.0
-        public const string FieldMineralHabit = "HABIT";//Version 1.0
+        public const string FieldMineralFormDeprecated = "FORM";//Version 1.0 deprecated
+        public const string FieldMineralHabitDeprecated = "HABIT";//Version 1.0 deprecated
         public const string FieldMineralOccurence = "OCCURRENCE";//Version 1.0
         public const string FieldMineralColour = "COLOUR";//Version 1.0
         public const string FieldMineralSizeMin = "SIZEMINMM";//Version 1.0
@@ -244,6 +244,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldMineralMode = "M_MODE";//Version 1.0
         public const string FieldMineralNote = "NOTES";//Version 1.0
         public const string FieldMineralParentID = "EARTHMATID";//Version 1.0
+        public const string FieldMineralFormHabit = "FORM_HABIT"; //Version 1.6
+
 
         public const string FieldMineralAlterationID = "MAID";//Version 1.0
         public const string FieldMineralAlterationName = "MAIDNAME";//Version 1.0

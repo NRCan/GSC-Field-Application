@@ -904,7 +904,7 @@
     <value>Couleur</value>
   </data>
   <data name="MineralDialogForm.Header" xml:space="preserve">
-    <value>Forme</value>
+    <value>Forme / Structure</value>
   </data>
   <data name="MineralDialogHabit.Header" xml:space="preserve">
     <value>Structure</value>

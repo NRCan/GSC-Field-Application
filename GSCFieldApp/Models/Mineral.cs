@@ -21,11 +21,8 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldMineral)]
         public string MineralName { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralForm)]
-        public string MineralForm { get; set; }
-
-        [Column(DatabaseLiterals.FieldMineralHabit)]
-        public string MineralHabit { get; set; }
+        [Column(DatabaseLiterals.FieldMineralFormHabit)]
+        public string MineralFormHabit { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralOccurence)]
         public string MineralOccur { get; set; }

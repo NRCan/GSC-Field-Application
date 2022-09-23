@@ -291,7 +291,7 @@ namespace GSCFieldApp.ViewModels
             FillGrSize();
             FillOccur();
 
-            if (existingDataDetail.GenericID != null)
+            if (existingDataDetail != null && existingDataDetail.GenericID != null)
             {
                 CalculateResidual();
             }

@@ -37,10 +37,9 @@ namespace GSCFieldApp.ViewModels
 
         private ObservableCollection<Themes.ComboBoxItem> _mineralColor = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedMineralColor = string.Empty;
-        private ObservableCollection<Themes.ComboBoxItem> _mineralForm = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedMineralForm = string.Empty;
-        private ObservableCollection<Themes.ComboBoxItem> _mineralHabit = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedMineralHabit = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _mineralFormHabit = new ObservableCollection<Themes.ComboBoxItem>();
+        private ObservableCollection<Themes.ComboBoxItem> _mineralFormHabitValues = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedMineralFormHabit = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _mineralOccur = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedMineralOccur = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _mineralModeText = new ObservableCollection<Themes.ComboBoxItem>();
@@ -138,10 +137,9 @@ namespace GSCFieldApp.ViewModels
 
         public ObservableCollection<Themes.ComboBoxItem> MineralColour { get { return _mineralColor; } set { _mineralColor = value; } }
         public string SelectedMineralColor { get { return _selectedMineralColor; } set { _selectedMineralColor = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> MineralForm { get { return _mineralForm; } set { _mineralForm = value; } }
-        public string SelectedMineralForm { get { return _selectedMineralForm; } set { _selectedMineralForm = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> MineralHabit{ get { return _mineralHabit; } set { _mineralHabit = value; } }
-        public string SelectedMineralHabit{ get { return _selectedMineralHabit; } set { _selectedMineralHabit = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> MineralFormHabit { get { return _mineralFormHabit; } set { _mineralFormHabit = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> MineralFormHabitValues { get { return _mineralFormHabitValues; } set { _mineralFormHabitValues = value; } }
+        public string SelectedMineralFormHabit { get { return _selectedMineralFormHabit; } set { _selectedMineralFormHabit = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralOccur{ get { return _mineralOccur; } set { _mineralOccur = value; } }
         public string SelectedMineralOccur { get { return _selectedMineralOccur; } set { _selectedMineralOccur = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralModeText { get { return _mineralModeText; } set { _mineralModeText = value; } }
@@ -172,7 +170,6 @@ namespace GSCFieldApp.ViewModels
             
             FillColour();
             FillForm();
-            FillHabit();
             FillOccur();
             FillMode();
         }
@@ -219,9 +216,15 @@ namespace GSCFieldApp.ViewModels
 
             _selectedMineralModeText = existingDataDetailMineral.mineral.MineralMode;
             _selectedMineralColor = existingDataDetailMineral.mineral.MineralColour;
-            _selectedMineralForm = existingDataDetailMineral.mineral.MineralForm;
-            _selectedMineralHabit = existingDataDetailMineral.mineral.MineralHabit;
+            _selectedMineralFormHabit = existingDataDetailMineral.mineral.MineralFormHabit;
             _selectedMineralOccur = existingDataDetailMineral.mineral.MineralOccur;
+
+            //Concatenated box
+            Themes.ConcatenatedCombobox ccBox = new Themes.ConcatenatedCombobox();
+            foreach (string d in ccBox.UnpipeString(existingDataDetailMineral.mineral.MineralFormHabit))
+            {
+                AddAConcatenatedValue(d, "MineralFormHabit");
+            }
 
             //Update UI
             RaisePropertyChanged("MineralID");
@@ -234,8 +237,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralName");
 
             RaisePropertyChanged("SelectedMineralColor");
-            RaisePropertyChanged("SelectedMineralForm");
-            RaisePropertyChanged("SelectedMineralHabit");
+            RaisePropertyChanged("SelectedMineralFormHabit");
             RaisePropertyChanged("SelectedMineralOccur");
 
             RaisePropertyChanged("SelectedMineralModeText");
@@ -248,6 +250,9 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void SaveDialogInfo()
         {
+            //Get combobox contact
+            Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
+
             //Get current class information and add to model
             mineralModel.MineralID = _mineralID; //Prime key
             mineralModel.MineralNote = _mineralNote;
@@ -261,13 +266,9 @@ namespace GSCFieldApp.ViewModels
             {
                 mineralModel.MineralColour = SelectedMineralColor;
             }
-            if (SelectedMineralForm != null)
+            if (SelectedMineralFormHabit != null)
             {
-                mineralModel.MineralForm = SelectedMineralForm;
-            }
-            if (SelectedMineralHabit != null)
-            {
-                mineralModel.MineralHabit = SelectedMineralHabit;
+                mineralModel.MineralFormHabit = SelectedMineralFormHabit;
             }
             if (SelectedMineralOccur != null)
             {
@@ -276,6 +277,11 @@ namespace GSCFieldApp.ViewModels
             if (SelectedMineralModeText != null)
             {
                 mineralModel.MineralMode = SelectedMineralModeText;
+            }
+
+            if (SelectedMineralFormHabit != null)
+            {
+                mineralModel.MineralFormHabit = concat.PipeValues(_mineralFormHabitValues); //process list of values so they are concatenated.
             }
 
             //Save model class
@@ -330,34 +336,16 @@ namespace GSCFieldApp.ViewModels
         private void FillForm()
         {
             //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldMineralForm;
+            string fieldName = Dictionaries.DatabaseLiterals.FieldMineralFormHabit;
             string tableName = Dictionaries.DatabaseLiterals.TableMineral;
-            foreach (var itemType in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralForm))
+            foreach (var itemType in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralFormHabit))
             {
-                _mineralForm.Add(itemType);
+                _mineralFormHabit.Add(itemType);
             }
 
             //Update UI
-            RaisePropertyChanged("MineralForm");
-            RaisePropertyChanged("SelectedMineralForm"); 
-        }
-
-        /// <summary>
-        /// Will fill the mineral habit type combobox
-        /// </summary>
-        private void FillHabit()
-        {
-            //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldMineralHabit;
-            string tableName = Dictionaries.DatabaseLiterals.TableMineral;
-            foreach (var itemType in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralHabit))
-            {
-                _mineralHabit.Add(itemType);
-            }
-
-            //Update UI
-            RaisePropertyChanged("MineralHabit");
-            RaisePropertyChanged("SelectedMineralHabit"); 
+            RaisePropertyChanged("MineralFormHabit");
+            RaisePropertyChanged("SelectedMineralFormHabit"); 
         }
 
         /// <summary>
@@ -494,6 +482,7 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
 
+        #region EVENTS
         public void MineralModeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox senderBox = sender as ComboBox;
@@ -504,5 +493,130 @@ namespace GSCFieldApp.ViewModels
             }
             
         }
+
+        /// <summary>
+        /// Will refresh the concatenated part of the purpose whenever a value is selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ConcatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox senderBox = sender as ComboBox;
+            if (senderBox.SelectedValue != null)
+            {
+                AddAConcatenatedValue(senderBox.SelectedValue.ToString(), senderBox.Name);
+            }
+
+        }
+
+        #endregion
+
+        #region METHODS
+
+        /// <summary>
+        /// Will add to the list of purposes a selected purpose by the user.
+        /// </summary>
+        /// <param name="fieldName"> Optional, database table field name to know which collection to update</param>
+        /// <param name="parentComboboxName">Optional, parent combobox name in which a selected value will be appended to the list</param>
+        public void AddAConcatenatedValue(string valueToAdd, string parentComboboxName = null, string fieldName = null, bool canRemove = true)
+        {
+            if (valueToAdd != null && valueToAdd != String.Empty)
+            {
+                //Create new cbox item
+                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
+                newValue.itemValue = valueToAdd;
+
+                //Set visibility
+                if (canRemove)
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Visible;
+                }
+                else
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Collapsed;
+                }
+
+
+                #region Find parent collection
+                ObservableCollection<Themes.ComboBoxItem> parentCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                ObservableCollection<Themes.ComboBoxItem> parentConcatCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                List<Themes.ComboBoxItem> parentList = new List<Themes.ComboBoxItem>();
+
+                string parentProperty = string.Empty;
+
+                string NameToValidate = string.Empty;
+                if (parentComboboxName != null)
+                {
+                    NameToValidate = parentComboboxName;
+                }
+                if (fieldName != null)
+                {
+                    NameToValidate = fieldName;
+                }
+
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldMineralFormDeprecated.ToLower()))
+                {
+                    parentCollection = MineralFormHabit;
+                    parentConcatCollection = _mineralFormHabitValues;
+                    parentProperty = "MineralFormHabit";
+
+                }
+
+                #endregion
+
+
+                //Find itemName from itemValue in parent collection
+                if (parentCollection != null)
+                {
+                    foreach (Themes.ComboBoxItem cb in parentCollection)
+                    {
+                        if (cb.itemValue == valueToAdd || cb.itemName == valueToAdd)
+                        {
+                            newValue.itemName = cb.itemName;
+                            newValue.itemValue = cb.itemValue;
+                            break;
+                        }
+                    }
+                }
+
+                //Update collection
+                if (newValue.itemName != null && newValue.itemName != string.Empty && newValue.itemName != Dictionaries.DatabaseLiterals.picklistNADescription)
+                {
+                    bool foundValue = false;
+                    foreach (Themes.ComboBoxItem existingItems in parentConcatCollection)
+                    {
+                        if (valueToAdd == existingItems.itemName)
+                        {
+                            foundValue = true;
+                        }
+                    }
+                    if (!foundValue)
+                    {
+                        parentConcatCollection.Add(newValue);
+                        RaisePropertyChanged(parentProperty);
+                    }
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// Will remove a category
+        /// </summary>
+        /// <param name="inPurpose"></param>
+        public void RemoveSelectedValue(object inPurpose, string parentListViewName)
+        {
+
+            Themes.ComboBoxItem oldValue = inPurpose as Themes.ComboBoxItem;
+
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldDocumentCategory.ToLower()))
+            {
+                _mineralFormHabitValues.Remove(oldValue);
+                RaisePropertyChanged("MineralFormHabitValues");
+            }
+
+        }
+
+        #endregion
     }
 }
