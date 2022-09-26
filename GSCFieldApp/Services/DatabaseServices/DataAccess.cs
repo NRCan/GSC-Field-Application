@@ -2121,6 +2121,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                         earth_querySelect = earth_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldEarthMatPercent;
                     }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatModComp)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", et." + DatabaseLiterals.FieldEarthMatModCompDeprecated + " as " + DatabaseLiterals.FieldEarthMatModComp;
+                    }
                     else
                     {
                         earth_querySelect = earth_querySelect + ", et." + earthFields + " as " + earthFields;

@@ -115,11 +115,11 @@
                             </RelativePanel>
                             
                             <RelativePanel x:Name="detailRelPanel_Comp">
-                                <ComboBox x:Name="EarthModCompComboBox" x:Uid="EarthDialogModComp" 
+                                <ComboBox x:Name="EarthLithQualifierComboBox" x:Uid="EarthDialogModComp" 
                                         ItemsSource="{x:Bind ViewModel.EarthmatModComp}"
                                         SelectedValue="{x:Bind ViewModel.SelectedEarthmatModComp, Mode=TwoWay}"
                                                         SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}"/>
-                                <ListView x:Name="EarthModCompConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="EarthModCompComboBox"
+                                <ListView x:Name="EarthLithQualifierConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="EarthLithQualifierComboBox"
                                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
                                                         ItemsSource="{x:Bind ViewModel.EarthmatModCompValues}"/>
 

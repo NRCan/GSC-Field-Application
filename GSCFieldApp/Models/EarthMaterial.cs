@@ -30,6 +30,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatLithdetail)]
         public string EarthMatLithdetail { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatModComp)]
+        public string EarthMatModComp { get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatMapunit)]
         public string EarthMatMapunit { get; set; }
 
@@ -44,9 +47,6 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldEarthMatModTexture)]
         public string EarthMatModTextur { get; set; }
-
-        [Column(DatabaseLiterals.FieldEarthMatModComp)]
-        public string EarthMatModComp { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatGrSize)]
         public string EarthMatGrSize { get; set; }
@@ -183,6 +183,11 @@ namespace GSCFieldApp.Models
                 List<string> earthmatFieldList15 = new List<string>();
                 earthmatFieldList15.AddRange(earthmatFieldListDefault);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatPercent);
+
+                int removeIndexModComp = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatModComp);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModComp);
+                earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModCompDeprecated);
+
                 earthmatFieldList[DatabaseLiterals.DBVersion150] = earthmatFieldList15;
 
                 //Revert schema 1.5 changes. 

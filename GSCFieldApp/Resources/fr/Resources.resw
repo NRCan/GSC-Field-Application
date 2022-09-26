@@ -358,7 +358,7 @@
     <value>Modificateur Structure</value>
   </data>
   <data name="EarthDialogModComp.Header" xml:space="preserve">
-    <value>Composition Structurel</value>
+    <value>Qualificatif structurel</value>
   </data>
   <data name="EarthDialogModText.Header" xml:space="preserve">
     <value>Texture Structurel</value>
