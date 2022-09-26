@@ -588,9 +588,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             string insertQuery_vocab= "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
             insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
-            if (dbVersion > 1.5)
+            if (dbVersion >= 1.5)
             {
-                insertQuery_vocab = insertQuery_vocab + " WHERE v." + TableDictionary + "." + FieldDictionaryVersion + " is null or v." + TableDictionary + "." + FieldDictionaryVersion + " < " + DBVersion.ToString() + ";";
+                insertQuery_vocab = insertQuery_vocab + " WHERE v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() +  "; ";
             } 
                 
             queryList.Add(insertQuery_vocab);
@@ -745,6 +745,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 queryList.AddRange(GetUpgradeQueryVersion1_6(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableStation);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineral);
             }
 
             //Insert remaining tables
@@ -2139,6 +2140,43 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_16.Add(insertQuery_16_earth);
 
             #endregion
+
+            #region F_MINERAL
+            Mineral modelMineral = new Mineral();
+            List<string> mineralFieldList = modelMineral.getFieldList[DBVersion160];
+            string mineral_querySelect = string.Empty;
+
+            foreach (string minFields in mineralFieldList)
+            {
+                //Get all fields except alias
+
+                if (minFields != mineralFieldList.First())
+                {
+                    if (minFields == DatabaseLiterals.FieldMineralFormHabit)
+                    {
+
+                        mineral_querySelect = mineral_querySelect +
+                            ", m." + DatabaseLiterals.FieldMineralFormDeprecated + " || '" + KeywordConcatCharacter + "' || m." + DatabaseLiterals.FieldMineralHabitDeprecated + " as " + DatabaseLiterals.FieldMineralFormHabit;
+                    }
+                    else
+                    {
+                        mineral_querySelect = mineral_querySelect + ", m." + minFields + " as " + minFields;
+                    }
+
+                }
+                else
+                {
+                    mineral_querySelect = " m." + minFields + " as " + minFields;
+                }
+
+            }
+            mineral_querySelect = mineral_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_mineral = "INSERT INTO " + DatabaseLiterals.TableMineral + " SELECT " + mineral_querySelect;
+            insertQuery_16_mineral = insertQuery_16_mineral + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMineral + " as m";
+            insertQuery_16.Add(insertQuery_16_mineral);
+            #endregion
+
 
             return insertQuery_16;
         }
