@@ -609,7 +609,7 @@ namespace GSCFieldApp.ViewModels
 
             Themes.ComboBoxItem oldValue = inPurpose as Themes.ComboBoxItem;
 
-            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldDocumentCategory.ToLower()))
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldMineralFormDeprecated.ToLower()))
             {
                 _mineralFormHabitValues.Remove(oldValue);
                 RaisePropertyChanged("MineralFormHabitValues");
