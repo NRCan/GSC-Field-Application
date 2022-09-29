@@ -251,8 +251,10 @@
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Mag"/>
 
                             <TextBox x:Name="EarthMagCombobox" x:Uid="EarthDialogMag"
-                                    Text="{x:Bind ViewModel.MagSusceptibility, Mode=TwoWay}"
-                                      />
+                                    Text="{x:Bind ViewModel.MagSusceptibility, Mode=TwoWay}"/>
+                            <ComboBox x:Name="EarthMagQualifierCombobox" x:Uid="EarthDialogMagQualifier"
+                                    ItemsSource="{x:Bind ViewModel.MagQualifier, Mode=TwoWay}"
+                                      SelectedValue="{x:Bind ViewModel.SelectedMagQualifier, Mode=TwoWay}"/>
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_06" RelativePanel.Below="EarthmatGridView_Mag"
@@ -265,8 +267,7 @@
                         <RelativePanel Margin="0,-60,0,0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="EarthmatGridView_Interp" x:Name="EarthmatInterRelativePanel">
                             <ComboBox x:Name="EarthInterpConfComboBox" x:Uid="EarthDialogInterpConf"
                                         ItemsSource="{x:Bind ViewModel.EarthmatInterConfidence}" 
-                                        SelectedValue="{x:Bind ViewModel.SelectedEarthmatInterConfidence, Mode=TwoWay}"
-                                        />
+                                        SelectedValue="{x:Bind ViewModel.SelectedEarthmatInterConfidence, Mode=TwoWay}"/>
                             <TextBox Style="{StaticResource Notes}" x:Name="EarthInterpComboBox" x:Uid="EarthDialogInterp"
                                     Text ="{x:Bind ViewModel.InterpretationNote, Mode=TwoWay}"
                                      RelativePanel.Below="EarthInterpConfComboBox"/>

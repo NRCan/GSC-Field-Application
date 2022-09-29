@@ -69,6 +69,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatMagSuscept)]
         public double EarthMatMagSuscept { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatMagQualifier)]
+        public string EarthMatMagQualifier { get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatContact)]
         public string EarthMatContact { get; set; }
 
@@ -183,6 +186,7 @@ namespace GSCFieldApp.Models
                 List<string> earthmatFieldList15 = new List<string>();
                 earthmatFieldList15.AddRange(earthmatFieldListDefault);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatPercent);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMagQualifier);
 
                 int removeIndexModComp = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatModComp);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModComp);

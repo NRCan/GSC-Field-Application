@@ -261,21 +261,5 @@ namespace GSCFieldApp.Views
             }
 
         }
-
-        private void EarthColourFTextbox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void EarthColourWTextbox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-           
-            //TextBox senderBox = sender as TextBox; 
-            //if (senderBox.Text != null && senderBox.Text == string.Empty)
-            //{
-            //    ViewModel.EarthColourW = new Colour();
-            //}
-            
-        }
     }
 }

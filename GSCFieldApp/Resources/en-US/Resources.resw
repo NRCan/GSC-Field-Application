@@ -1587,4 +1587,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthDialogColourQualifier.Header" xml:space="preserve">
     <value>Qualifier</value>
   </data>
+  <data name="EarthDialogMagQualifier.Header" xml:space="preserve">
+    <value>Qualifier</value>
+  </data>
 </root>

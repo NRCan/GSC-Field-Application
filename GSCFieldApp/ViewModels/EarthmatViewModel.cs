@@ -103,6 +103,9 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _earthmatInterConfidence = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatInterConfidence = string.Empty;
 
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatMagQualifier = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatMagQualifier = string.Empty;
+
         //Events and delegate
         public delegate void stationEditEventHandler(object sender); //A delegate for execution events
         public event stationEditEventHandler newEarthmatEdit; //This event is triggered when a save has been done on station table.
@@ -269,6 +272,8 @@ namespace GSCFieldApp.ViewModels
         public string SelectedEarthmatCL { get { if (_selectedEarthmatCL == null) { return string.Empty; } else { return _selectedEarthmatCL; } } set { _selectedEarthmatCL = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatInterConfidence { get { return _earthmatInterConfidence; } set { _earthmatInterConfidence = value; } }
         public string SelectedEarthmatInterConfidence { get { if (_selectedEarthmatInterConfidence == null) { return string.Empty; } else { return _selectedEarthmatInterConfidence; } } set { _selectedEarthmatInterConfidence = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> MagQualifier { get { return _earthmatMagQualifier; } set { _earthmatMagQualifier = value; } }
+        public string SelectedMagQualifier { get { if (_selectedEarthmatMagQualifier == null) { return string.Empty; } else { return _selectedEarthmatMagQualifier; } } set { _selectedEarthmatMagQualifier = value; } }
 
 
         #endregion
@@ -299,6 +304,8 @@ namespace GSCFieldApp.ViewModels
             FillColourG();
             FillColourI();
             FillColourQ();
+
+            FillMagQualifier();
 
             //Fill second order comboboxes (dependant on selected litho type)
             //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
@@ -337,7 +344,7 @@ namespace GSCFieldApp.ViewModels
             _lithoGroup = existingDataDetail.earthmat.EarthMatLithgroup;
             _notes = existingDataDetail.earthmat.EarthMatNotes;
             _percent = existingDataDetail.earthmat.EarthMatPercent.ToString();
-
+            
 
 
             _earthColourW = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourW);
@@ -352,7 +359,7 @@ namespace GSCFieldApp.ViewModels
             _selectedEarthmatInterConfidence = existingDataDetail.earthmat.EarthMatInterpConf;
             _selectedEarthmatCU = existingDataDetail.earthmat.EarthMatContactUp;
             _selectedEarthmatCL = existingDataDetail.earthmat.EarthMatContactLow;
-
+            _selectedEarthmatMagQualifier = existingDataDetail.earthmat.EarthMatMagQualifier;
 
             //Update UI
             RaisePropertyChanged("EarthmatID");
@@ -384,7 +391,10 @@ namespace GSCFieldApp.ViewModels
             {
                 RaisePropertyChanged("SelectedEarthmatInterConfidence");
             }
-
+            if (_selectedEarthmatMagQualifier != null)
+            {
+                RaisePropertyChanged("SelectedMagQualifier");
+            }
             //Special case for minerals
             List<object> mineralTableRaw = accessData.ReadTable(mineralModel.GetType(), null);
             IEnumerable<Mineral> mineralTable = mineralTableRaw.Cast<Mineral>(); //Cast to proper list type
@@ -536,7 +546,10 @@ namespace GSCFieldApp.ViewModels
                 }
                 
             }
-
+            if (SelectedMagQualifier != null)
+            {
+                earthmodel.EarthMatMagQualifier = SelectedMagQualifier;
+            }
             //Save model class
             accessData.SaveFromSQLTableObject(earthmodel, doEarthUpdate);
 
@@ -1023,7 +1036,6 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedEarthmatCL");
 
         }
-
         public void FillInterConfidence()
         {
             //Init.
@@ -1039,6 +1051,26 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("EarthmatInterConfidence");
             RaisePropertyChanged("SelectedEarthmatInterConfidence"); 
         }
+
+        /// <summary>
+        /// will fill in the mag qualifier combobox
+        /// </summary>
+        public void FillMagQualifier()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatMagQualifier;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemIC in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatMagQualifier))
+            {
+                _earthmatMagQualifier.Add(itemIC);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("MagQualifier");
+            RaisePropertyChanged("SelectedMagQualifier");
+        }
+
         #endregion
 
         #region QUICKIE

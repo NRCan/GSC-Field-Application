@@ -1587,4 +1587,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthDialogColourQualifier.Header" xml:space="preserve">
     <value>Qualificatif</value>
   </data>
+  <data name="EarthDialogMagQualifier.Header" xml:space="preserve">
+    <value>Qualificatif</value>
+  </data>
 </root>
