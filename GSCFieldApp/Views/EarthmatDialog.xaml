@@ -226,12 +226,19 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Colour" RelativePanel.Below="MainSeparator_04">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Colour"/>
 
-                            <ComboBox x:Name="EarthColourFCombobox" x:Uid="EarthDialogColourF"
-                                ItemsSource="{x:Bind ViewModel.EarthmatColourF}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourF, Mode=TwoWay}"/>
-                            <ComboBox x:Name="EarthColourWComboBox" x:Uid="EarthDialogColourW"
-                                ItemsSource="{x:Bind ViewModel.EarthmatColourW}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourW, Mode=TwoWay}"/>
+                            <ComboBox x:Name="EarthColour_GenericComboBox" x:Uid="EarthDialogColourGeneric" 
+                                ItemsSource="{x:Bind ViewModel.EarthmatColourGeneric}" 
+                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourGeneric, Mode=TwoWay}" SelectionChanged="{x:Bind ViewModel.EarthColourComboBox_SelectionChanged}"/>
+                            <ComboBox x:Name="EarthColour_intensityComboBox" x:Uid="EarthDialogColourntensity"
+                                ItemsSource="{x:Bind ViewModel.EarthmatColourIntensity}" 
+                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourIntensity, Mode=TwoWay}" SelectionChanged="{x:Bind ViewModel.EarthColourComboBox_SelectionChanged}"/>
+                            <ComboBox x:Name="EarthColour_QualifierComboBox" x:Uid="EarthDialogColourQualifier"
+                                ItemsSource="{x:Bind ViewModel.EarthmatColourQualifier}" 
+                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourQualifier, Mode=TwoWay}" SelectionChanged="{x:Bind ViewModel.EarthColourComboBox_SelectionChanged}"/>
+
+                            <TextBox x:Name="EarthColourFTextbox" x:Uid="EarthDialogColourF" Text="{x:Bind ViewModel.EarthColourF, Mode=OneWay}"/>
+
+                            <TextBox x:Name="EarthColourWTextbox" x:Uid="EarthDialogColourW"  Text="{x:Bind ViewModel.EarthColourW, Mode=OneWay}"/>
 
                             <TextBox x:Name="EarthColourIndexComboBox" x:Uid="EarthDialogColourInd" MinWidth="35" HorizontalAlignment="Stretch"
                                 Text="{x:Bind ViewModel.ColourIndex, Mode=TwoWay}" InputScope="Number"/>

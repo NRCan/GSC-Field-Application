@@ -45,6 +45,9 @@ namespace GSCFieldApp.ViewModels
         public DataIDCalculation idCalculator = new DataIDCalculation();
         DataAccess accessData = new DataAccess();
         private string _earthResidualText = string.Empty;
+        private Models.Colour _earthColourW = new Models.Colour();
+        private Models.Colour _earthColourF = new Models.Colour();
+
         private Dictionary<string, int> _earthResidualPercent = new Dictionary<string, int>(); //Will contain earth material Id and it's percent, for residual percent calculation
 
         public FieldNotes existingDataDetail;
@@ -89,10 +92,14 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _earthmatBedthick = new ObservableCollection<Themes.ComboBoxItem>();
         private ObservableCollection<Themes.ComboBoxItem> _earthmatBedthickValues = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatBedthick = string.Empty;
-        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourF = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedEarthmatColourF = string.Empty;
-        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourW = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedEarthmatColourW = string.Empty;
+
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourG = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatColourG = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourI = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatColourI = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourQ = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatColourQ = string.Empty;
+
         private ObservableCollection<Themes.ComboBoxItem> _earthmatInterConfidence = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatInterConfidence = string.Empty;
 
@@ -173,7 +180,8 @@ namespace GSCFieldApp.ViewModels
                 
             }
         }
-
+        public Models.Colour EarthColourF { get { return _earthColourF;  } set { _earthColourF = value; } }
+        public Models.Colour EarthColourW { get { return _earthColourW; } set { _earthColourW = value; } }
         public string Percent
         {
             get
@@ -237,8 +245,17 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> EarthmatBedthick { get { return _earthmatBedthick; } set { _earthmatBedthick = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatBedthickValues { get { return _earthmatBedthickValues; } set { _earthmatBedthickValues = value; } }
         public string SelectedEarthmatBedthick { get { if (_selectedEarthmatBedthick == null) { return string.Empty; } else { return _selectedEarthmatBedthick; } } set { _selectedEarthmatBedthick = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourF { get { return _earthmatColourF; } set { _earthmatColourF = value; } }
-        public string SelectedEarthmatColourF { get { if (_selectedEarthmatColourF == null) { return string.Empty; } else { return _selectedEarthmatColourF; } } set { _selectedEarthmatColourF = value; } }
+
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourGeneric { get { return _earthmatColourG; } set { _earthmatColourG = value; } }
+        public string SelectedEarthmatColourGeneric { get { if (_selectedEarthmatColourG == null) { return string.Empty; } else { return _selectedEarthmatColourG; } } set { _selectedEarthmatColourG = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourIntensity { get { return _earthmatColourI; } set { _earthmatColourI = value; } }
+        public string SelectedEarthmatColourIntensity { get { if (_selectedEarthmatColourI == null) { return string.Empty; } else { return _selectedEarthmatColourI; } } set { _selectedEarthmatColourI = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourQualifier { get { return _earthmatColourQ; } set { _earthmatColourQ = value; } }
+        public string SelectedEarthmatColourQualifier { get { if (_selectedEarthmatColourQ == null) { return string.Empty; } else { return _selectedEarthmatColourQ; } } set { _selectedEarthmatColourQ = value; } }
+
 
         public ObservableCollection<Themes.ComboBoxItem> EarthmatMineral { get { return _earthmatMineral; } set { _earthmatMineral = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatMineralValues { get { return _earthmatMineralValues; } set { _earthmatMineralValues = value; } }
@@ -250,8 +267,6 @@ namespace GSCFieldApp.ViewModels
         public string SelectedEarthmatCU { get { if (_selectedEarthmatCU == null) { return string.Empty; } else { return _selectedEarthmatCU; } } set { _selectedEarthmatCU = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatCL { get { return _earthmatCL; } set { _earthmatCL = value; } }
         public string SelectedEarthmatCL { get { if (_selectedEarthmatCL == null) { return string.Empty; } else { return _selectedEarthmatCL; } } set { _selectedEarthmatCL = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourW { get { return _earthmatColourW; } set { _earthmatColourW = value; } }
-        public string SelectedEarthmatColourW { get { if (_selectedEarthmatColourW == null) { return string.Empty; } else { return _selectedEarthmatColourW; } } set { _selectedEarthmatColourW = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatInterConfidence { get { return _earthmatInterConfidence; } set { _earthmatInterConfidence = value; } }
         public string SelectedEarthmatInterConfidence { get { if (_selectedEarthmatInterConfidence == null) { return string.Empty; } else { return _selectedEarthmatInterConfidence; } } set { _selectedEarthmatInterConfidence = value; } }
 
@@ -275,13 +290,15 @@ namespace GSCFieldApp.ViewModels
             //Fill some first order comboboxes
             FillDefFabric();
             FillBedthick();
-            FillColourF();
             FillMU();
             FillContactU();
             FillContactL();
-            FillColourW();
             FillInterConfidence();
             FillMineral();
+
+            FillColourG();
+            FillColourI();
+            FillColourQ();
 
             //Fill second order comboboxes (dependant on selected litho type)
             //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
@@ -321,14 +338,18 @@ namespace GSCFieldApp.ViewModels
             _notes = existingDataDetail.earthmat.EarthMatNotes;
             _percent = existingDataDetail.earthmat.EarthMatPercent.ToString();
 
+
+
+            _earthColourW = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourW);
+            _earthColourF = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourF);
+
             //Update list view
             UnPipeValues(existingDataDetail.earthmat.EarthMatDefabric, Dictionaries.DatabaseLiterals.FieldEarthMatDefabric);
             UnPipeValues(existingDataDetail.earthmat.EarthMatBedthick, Dictionaries.DatabaseLiterals.FieldEarthMatBedthick);
 
-            _selectedEarthmatColourF = existingDataDetail.earthmat.EarthMatColourF;
+           
             _selectedEarthmatMU = existingDataDetail.earthmat.EarthMatMapunit;
             _selectedEarthmatInterConfidence = existingDataDetail.earthmat.EarthMatInterpConf;
-            _selectedEarthmatColourW = existingDataDetail.earthmat.EarthMatColourW;
             _selectedEarthmatCU = existingDataDetail.earthmat.EarthMatContactUp;
             _selectedEarthmatCL = existingDataDetail.earthmat.EarthMatContactLow;
 
@@ -344,11 +365,9 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("LithoType");
             RaisePropertyChanged("GroupTypeDetail");
             RaisePropertyChanged("Percent");
+            RaisePropertyChanged("EarthColourF");
+            RaisePropertyChanged("EarthColourW");
 
-            if (_selectedEarthmatColourF!=null)
-            {
-                RaisePropertyChanged("SelectedEarthmatColourF");
-            }
             if (_selectedEarthmatMU!=null)
             {
                 RaisePropertyChanged("SelectedEarthmatMU");
@@ -360,10 +379,6 @@ namespace GSCFieldApp.ViewModels
             if (_selectedEarthmatCU != null)
             {
                 RaisePropertyChanged("SelectedEarthmatCU");
-            }
-            if (_selectedEarthmatColourW != null)
-            {
-                RaisePropertyChanged("SelectedEarthmatColourW");
             }
             if (_selectedEarthmatInterConfidence != null)
             {
@@ -447,6 +462,8 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatInterp = _interpretation;
             earthmodel.EarthMatNotes = _notes;
             earthmodel.EarthMatPercent = int.Parse(_percent);
+            earthmodel.EarthMatColourF = _earthColourF.ToString();
+            earthmodel.EarthMatColourW = _earthColourW.ToString();
             if (SelectedEarthmatModStruc != null)
             {
                 earthmodel.EarthMatModStruc = PipePurposes(_earthmatModStrucValues); //process list of values so they are concatenated.
@@ -475,17 +492,9 @@ namespace GSCFieldApp.ViewModels
             {
                 earthmodel.EarthMatBedthick = PipePurposes(_earthmatBedthickValues); //process list of values so they are concatenated.
             }
-            if (SelectedEarthmatColourF != null)
-            {
-                earthmodel.EarthMatColourF = SelectedEarthmatColourF;
-            }
             if (SelectedEarthmatMU != null)
             {
                 earthmodel.EarthMatMapunit = SelectedEarthmatMU;
-            }
-            if (SelectedEarthmatColourW != null)
-            {
-                earthmodel.EarthMatColourW = SelectedEarthmatColourW;
             }
             if (SelectedEarthmatCL != null)
             {
@@ -914,43 +923,66 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will fill the material colour combobox
         /// </summary>
-        public void FillColourF()
+        public void FillColourG()
         {
 
             //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatColourF;
+            string fieldName = Dictionaries.DatabaseLiterals.KeywordColourGeneric;
             string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
-            foreach (var itemCF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourF))
+            foreach (var itemCF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourG))
             {
-                _earthmatColourF.Add(itemCF);
+                _earthmatColourG.Add(itemCF);
             }
-            
+
 
             //Update UI
-            RaisePropertyChanged("EarthmatColourF");
-            RaisePropertyChanged("SelectedEarthmatColourF");
+            RaisePropertyChanged("EarthmatColourGeneric");
+            RaisePropertyChanged("SelectedEarthmatColourGeneric");
 
         }
+
         /// <summary>
         /// Will fill the material colour combobox
         /// </summary>
-        public void FillColourW()
+        public void FillColourI()
         {
 
             //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatColourW;
+            string fieldName = Dictionaries.DatabaseLiterals.KeywordColourIntensity;
             string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
-            foreach (var itemCW in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourW))
+            foreach (var itemCF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourI))
             {
-                _earthmatColourW.Add(itemCW);
+                _earthmatColourI.Add(itemCF);
             }
 
 
             //Update UI
-            RaisePropertyChanged("EarthmatColourW");
-            RaisePropertyChanged("SelectedEarthmatColourW");
+            RaisePropertyChanged("EarthmatColourIntensity");
+            RaisePropertyChanged("SelectedEarthmatColourIntensity");
 
         }
+
+        // <summary>
+        /// Will fill the material colour combobox
+        /// </summary>
+        public void FillColourQ()
+        {
+
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.KeywordColourQualifier;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemCF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourQ))
+            {
+                _earthmatColourQ.Add(itemCF);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("EarthmatColourQualifier");
+            RaisePropertyChanged("SelectedEarthmatColourQualifier");
+
+        }
+
         /// <summary>
         /// Will fill the material contact combobox
         /// </summary>
@@ -1329,7 +1361,35 @@ namespace GSCFieldApp.ViewModels
             }
         }
 
+        public void EarthColourComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //Cast and add to colour text box
+            ComboBox senderBox = sender as ComboBox;
+            string boxName = senderBox.Name;
+            Themes.ComboBoxItem senderSelectedItem = senderBox.SelectedItem as Themes.ComboBoxItem;
 
+            if (senderSelectedItem != null)
+            {
+                if (boxName.ToUpper().Contains(Dictionaries.DatabaseLiterals.KeywordColourGeneric))
+                {
+                    _earthColourF.generic = senderSelectedItem.itemValue;
+                    _earthColourW.generic = senderSelectedItem.itemValue;
+                }
+                if (boxName.ToUpper().Contains(Dictionaries.DatabaseLiterals.KeywordColourIntensity))
+                {
+                    _earthColourF.intensity = senderSelectedItem.itemValue;
+                    _earthColourW.intensity = senderSelectedItem.itemValue;
+                }
+                if (boxName.ToUpper().Contains(Dictionaries.DatabaseLiterals.KeywordColourQualifier))
+                {
+                    _earthColourF.qualifier = senderSelectedItem.itemValue;
+                    _earthColourW.qualifier = senderSelectedItem.itemValue;
+                }
+                RaisePropertyChanged("EarthColourF");
+                RaisePropertyChanged("EarthColourW");
+            }
+
+        }
         #endregion
 
         #region CALCULATE

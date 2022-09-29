@@ -1578,4 +1578,13 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthResidualLabelSuffix" xml:space="preserve">
     <value>éléments)</value>
   </data>
+  <data name="EarthDialogColourGeneric.Header" xml:space="preserve">
+    <value>De base</value>
+  </data>
+  <data name="EarthDialogColourntensity.Header" xml:space="preserve">
+    <value>Intensité</value>
+  </data>
+  <data name="EarthDialogColourQualifier.Header" xml:space="preserve">
+    <value>Qualificatif</value>
+  </data>
 </root>
