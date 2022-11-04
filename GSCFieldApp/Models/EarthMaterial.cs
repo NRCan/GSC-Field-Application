@@ -33,6 +33,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatModComp)]
         public string EarthMatModComp { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatMetaIntensity)]
+        public string EarthMatMetaIntensity{ get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatMapunit)]
         public string EarthMatMapunit { get; set; }
 

@@ -165,7 +165,19 @@
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01b" RelativePanel.Below="EarthmatGridView_Details"
                            Fill="{ThemeResource FieldEarthMatColorBrush}" />
 
-                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Carto" RelativePanel.Below="MainSeparator_01b">
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Metamorphic" RelativePanel.Below="MainSeparator_01b">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_MetaIntensity"/>
+                            <RelativePanel x:Name="metaRelPanel">
+                                <ComboBox x:Name="EarthMICombobox" Width="Auto" x:Uid="EarthDialogMI" Header=""
+                                    ItemsSource="{x:Bind ViewModel.EarthmatMI}" 
+                                    SelectedValue="{x:Bind ViewModel.SelectedEarthmatMI, Mode=TwoWay}"/>
+                            </RelativePanel>
+                        </GridView>
+
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01c" RelativePanel.Below="EarthmatGridView_Metamorphic"
+                           Fill="{ThemeResource FieldEarthMatColorBrush}" />
+
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Carto" RelativePanel.Below="MainSeparator_01c">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Cartography"/>
                             <RelativePanel x:Name="detailRelPanel_MU_Occur">
                                 <ComboBox x:Name="EarthMUCombobox" Width="Auto" x:Uid="EarthDialogMU" Header=""

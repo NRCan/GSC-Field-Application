@@ -1593,4 +1593,10 @@ Shimamura, Kaz – Conseiller</value>
   <data name="AboutDatabaseVersion.Text" xml:space="preserve">
     <value>Version base de données</value>
   </data>
+  <data name="EarthDialogMI.Header" xml:space="preserve">
+    <value>Intensité</value>
+  </data>
+  <data name="EarthmatGridView_MetaIntensity.Content" xml:space="preserve">
+    <value>Faciès métamorphique</value>
+  </data>
 </root>
