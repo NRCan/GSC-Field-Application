@@ -272,10 +272,17 @@
                         <Run Text="{Binding Version}" />
                     </TextBlock>
 
+                    <TextBlock x:Name="VersionDBTextBlock" 
+                               RelativePanel.AlignLeftWithPanel="True"
+                               RelativePanel.Below="VersionTextBlock">
+                        <Run x:Uid="AboutDatabaseVersion">Version</Run>
+                        <Run Text="{Binding VersionDB}" />
+                    </TextBlock>
+
                     <!--Contact Info-->
                     <TextBlock x:Name="ContactTextBlock" Margin="0,12,0,12" x:Uid="AboutContactHeader"
                                FontSize="22" RelativePanel.AlignLeftWithPanel="True"
-                               RelativePanel.Below="VersionTextBlock"
+                               RelativePanel.Below="VersionDBTextBlock"
                                Text="" />
 
                     <TextBlock x:Name="ContactInfoTextBlock" x:Uid="AboutContactInfo"

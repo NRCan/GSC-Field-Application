@@ -1590,4 +1590,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthDialogMagQualifier.Header" xml:space="preserve">
     <value>Qualificatif</value>
   </data>
+  <data name="AboutDatabaseVersion.Text" xml:space="preserve">
+    <value>Version base de données</value>
+  </data>
 </root>

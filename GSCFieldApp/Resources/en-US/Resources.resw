@@ -1590,4 +1590,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthDialogMagQualifier.Header" xml:space="preserve">
     <value>Qualifier</value>
   </data>
+  <data name="AboutDatabaseVersion.Text" xml:space="preserve">
+    <value>Database Version</value>
+  </data>
 </root>
