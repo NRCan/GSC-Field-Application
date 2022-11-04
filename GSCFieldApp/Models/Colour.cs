@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,26 @@ namespace GSCFieldApp.Models
         //Overrides
         public override string ToString()
         {
-            return this.generic + " " + this.intensity + " " + this.qualifier;
+
+            string colourString = string.Empty;
+
+            //Make sure to not add extra concat characters if properties are empty
+            if (this.generic != null && this.generic != string.Empty)
+            {
+                colourString = this.generic;
+
+                if (this.intensity != null && this.intensity != string.Empty)
+                {
+                    colourString = colourString + DatabaseLiterals.KeywordConcatCharacter + this.intensity;
+
+                    if (this.qualifier != null && this.qualifier != string.Empty)
+                    {
+                        colourString = colourString + DatabaseLiterals.KeywordConcatCharacter + this.qualifier;
+                    }
+                }
+            }
+
+            return colourString;
         }
 
         public Colour()
@@ -35,23 +55,27 @@ namespace GSCFieldApp.Models
             //Vars
             Colour outputColour = new Colour();
 
-            List<string> splittedColour = inColourString.Split(" ").ToList();
-
-            if (splittedColour != null && splittedColour.Count > 0)
+            if (inColourString!= null )
             {
-                if (splittedColour.Count >= 1)
-                {
-                    outputColour.generic = splittedColour[0];      
-                }
 
-                if (splittedColour.Count >= 2)
-                {
-                    outputColour.intensity = splittedColour[1];
-                }
+                List<string> splittedColour = inColourString.Split(DatabaseLiterals.KeywordConcatCharacter).ToList();
 
-                if (splittedColour.Count >= 3)
+                if (splittedColour != null && splittedColour.Count > 0)
                 {
-                    outputColour.qualifier = splittedColour[2];
+                    if (splittedColour.Count >= 1)
+                    {
+                        outputColour.generic = splittedColour[0];
+                    }
+
+                    if (splittedColour.Count >= 2)
+                    {
+                        outputColour.intensity = splittedColour[1];
+                    }
+
+                    if (splittedColour.Count >= 3)
+                    {
+                        outputColour.qualifier = splittedColour[2];
+                    }
                 }
             }
 

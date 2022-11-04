@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Data;
 using Esri.ArcGISRuntime.Geometry;
 using System.Collections.ObjectModel;
 using GSCFieldApp.Dictionaries;
+using Windows.ApplicationModel.Contacts;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -48,6 +49,7 @@ namespace GSCFieldApp.ViewModels
         private string _selectedStationTypes = string.Empty;
 
         private ObservableCollection<Themes.ComboBoxItem> _stationQuality = new ObservableCollection<Themes.ComboBoxItem>();
+        private ObservableCollection<Themes.ComboBoxItem> _stationQualityValues = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStationQuality = string.Empty;
 
         private ObservableCollection<Themes.ComboBoxItem> _stationPhysEnv = new ObservableCollection<Themes.ComboBoxItem>();
@@ -152,7 +154,7 @@ namespace GSCFieldApp.ViewModels
 
         public ObservableCollection<Themes.ComboBoxItem> StationQuality { get { return _stationQuality; } set { _stationQuality = value; } }
         public string SelectedStationQuality{ get { return _selectedStationQuality; } set {  _selectedStationQuality = value; } }
-
+        public ObservableCollection<Themes.ComboBoxItem> StationQualityValues { get { return _stationQualityValues; } set { _stationQualityValues = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StationPhysEnv { get { return _stationPhysEnv; } set { _stationPhysEnv = value; } }
         public string SelectedStationPhysEnv { get { return _selectedStationPhysEnv; } set { _selectedStationPhysEnv = value; } }
 
@@ -171,6 +173,7 @@ namespace GSCFieldApp.ViewModels
         public void SaveDialogInfo()
         {
             bool doStationUpdate = false;
+            Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
 
             //Save the new location only if the modal dialog wasn't pop for edition
             if (existingDataDetail == null) //New Station
@@ -231,9 +234,9 @@ namespace GSCFieldApp.ViewModels
             {
                 StationModel.StationObsType = SelectedStationTypes;
             }
-            if (SelectedStationQuality != null)
+            if (_stationQualityValues != null)
             {
-                StationModel.StationOCQuality = SelectedStationQuality;
+                StationModel.StationOCQuality = concat.PipeValues(_stationQualityValues); //process list of values so they are concatenated.
             }
             if (SelectedStationPhysEnv != null)
             {
@@ -270,7 +273,7 @@ namespace GSCFieldApp.ViewModels
             _stationOCSize = existingDataDetail.station.StationOCSize;
             _stationTravNo = existingDataDetail.station.StationTravNo.ToString();
             _selectedStationTypes = existingDataDetail.station.StationObsType;
-            _selectedStationQuality = existingDataDetail.station.StationOCQuality;
+            //_selectedStationQuality = existingDataDetail.station.StationOCQuality;
             _selectedStationPhysEnv = existingDataDetail.station.StationPhysEnv;
             
             RaisePropertyChanged("Notes");
@@ -279,10 +282,17 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SlSNotes");
             RaisePropertyChanged("StationOCSize");
             RaisePropertyChanged("SelectedStationTypes");
-            RaisePropertyChanged("SelectedStationQuality");
+            //RaisePropertyChanged("SelectedStationQuality");
             RaisePropertyChanged("SelectedStationPhysEnv");
             RaisePropertyChanged("TraverseNo");
-            RaisePropertyChanged("RelatedTo"); 
+            RaisePropertyChanged("RelatedTo");
+
+            //Concatenated box
+            Themes.ConcatenatedCombobox ccBox = new Themes.ConcatenatedCombobox();
+            foreach (string s in ccBox.UnpipeString(existingDataDetail.station.StationOCQuality))
+            {
+                AddAConcatenatedValue(s, DatabaseLiterals.FieldStationOCQuality);
+            }
 
         }
 
@@ -590,6 +600,130 @@ namespace GSCFieldApp.ViewModels
 
             return proceed;
         }
+        #endregion
+
+        #region CONCATENATED VALUES
+
+        /// <summary>
+        /// Will refresh the concatenated part of the purpose whenever a value is selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ConcatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox senderBox = sender as ComboBox;
+            if (senderBox.SelectedValue != null)
+            {
+                AddAConcatenatedValue(senderBox.SelectedValue.ToString(), senderBox.Name);
+            }
+
+        }
+
+        /// <summary>
+        /// Will remove a category
+        /// </summary>
+        /// <param name="inPurpose"></param>
+        public void RemoveSelectedValue(object inPurpose, string parentListViewName)
+        {
+
+            Themes.ComboBoxItem oldValue = inPurpose as Themes.ComboBoxItem;
+
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldStationOCQuality.ToLower()))
+            {
+                _stationQualityValues.Remove(oldValue);
+                RaisePropertyChanged("StationQualityValues");
+            }
+
+        }
+
+        /// <summary>
+        /// Will add to the list of purposes a selected purpose by the user.
+        /// </summary>
+        /// <param name="fieldName"> Optional, database table field name to know which collection to update</param>
+        /// <param name="parentComboboxName">Optional, parent combobox name in which a selected value will be appended to the list</param>
+        public void AddAConcatenatedValue(string valueToAdd, string parentComboboxName = null, string fieldName = null, bool canRemove = true)
+        {
+            if (valueToAdd != null && valueToAdd != String.Empty)
+            {
+                //Create new cbox item
+                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
+                newValue.itemValue = valueToAdd;
+
+                //Set visibility
+                if (canRemove)
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Visible;
+                }
+                else
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Collapsed;
+                }
+
+
+                #region Find parent collection
+                ObservableCollection<Themes.ComboBoxItem> parentCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                ObservableCollection<Themes.ComboBoxItem> parentConcatCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                List<Themes.ComboBoxItem> parentList = new List<Themes.ComboBoxItem>();
+
+                string parentProperty = string.Empty;
+
+                string NameToValidate = string.Empty;
+                if (parentComboboxName != null)
+                {
+                    NameToValidate = parentComboboxName;
+                }
+                if (fieldName != null)
+                {
+                    NameToValidate = fieldName;
+                }
+
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldStationOCQuality.ToLower()))
+                {
+                    parentCollection = StationQuality;
+                    parentConcatCollection = _stationQualityValues;
+                    parentProperty = "StationQuality";
+
+                }
+
+                #endregion
+
+
+                //Find itemName from itemValue in parent collection
+                if (parentCollection != null)
+                {
+                    foreach (Themes.ComboBoxItem cb in parentCollection)
+                    {
+                        if (cb.itemValue == valueToAdd || cb.itemName == valueToAdd)
+                        {
+                            newValue.itemName = cb.itemName;
+                            newValue.itemValue = cb.itemValue;
+                            break;
+                        }
+                    }
+                }
+
+                //Update collection
+                if (newValue.itemName != null && newValue.itemName != string.Empty && newValue.itemName != Dictionaries.DatabaseLiterals.picklistNADescription)
+                {
+                    bool foundValue = false;
+                    foreach (Themes.ComboBoxItem existingItems in parentConcatCollection)
+                    {
+                        if (valueToAdd == existingItems.itemName)
+                        {
+                            foundValue = true;
+                        }
+                    }
+                    if (!foundValue)
+                    {
+                        parentConcatCollection.Add(newValue);
+                        RaisePropertyChanged(parentProperty);
+                    }
+
+                }
+            }
+        }
+
+
         #endregion
     }
 }
