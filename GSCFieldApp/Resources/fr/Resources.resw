@@ -808,10 +808,10 @@
     <value>Qualité</value>
   </data>
   <data name="PflowDialogDip.Header" xml:space="preserve">
-    <value>Pendage/Plongé</value>
+    <value>Pendage</value>
   </data>
   <data name="PflowDialogDir.Header" xml:space="preserve">
-    <value>Direction</value>
+    <value>Sense</value>
   </data>
   <data name="PflowDialogFeature.Header" xml:space="preserve">
     <value>Type</value>
