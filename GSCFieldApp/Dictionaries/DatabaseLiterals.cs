@@ -45,6 +45,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0 DEL Version 1.44
         public const string FieldLocationNotes = "NOTES"; //Version 1.0
         public const string FieldLocationReportLink = "REPORT_LINK"; //Version < 1.5
+        public const string FieldLocationNTS = "NTS"; //Version 1.6
 
         public const string FieldUserInfoID = "METAID";//Version 1.0
         public const string FieldUserInfoUCode = "GEOLCODE";//Version 1.0

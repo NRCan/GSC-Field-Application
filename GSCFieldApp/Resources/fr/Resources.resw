@@ -1383,9 +1383,6 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
     <value>Type de lithologie ie. basalt</value>
   </data>
-  <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
-    <value>Élévation (m)</value>
-  </data>
   <data name="LocationDialogGridView_Geo.Content" xml:space="preserve">
     <value>Géographiques</value>
   </data>
@@ -1506,9 +1503,6 @@ Shimamura, Kaz – Conseiller</value>
   <data name="UserInfoDialogAName.PlaceholderText" xml:space="preserve">
     <value>Nom</value>
   </data>
-  <data name="LocationDialogGridView_Accuracy.Content" xml:space="preserve">
-    <value>Précision</value>
-  </data>
   <data name="LocationDialogAccuracy.Header" xml:space="preserve">
     <value>Précision (m)</value>
   </data>
@@ -1598,5 +1592,11 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="EarthmatGridView_MetaIntensity.Content" xml:space="preserve">
     <value>Faciès métamorphique</value>
+  </data>
+  <data name="LocationDialogGridView_General.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="LocationDialogNTS.Header" xml:space="preserve">
+    <value>Système national de référence cartographique (SNRC)</value>
   </data>
 </root>

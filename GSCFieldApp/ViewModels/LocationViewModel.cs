@@ -30,6 +30,7 @@ namespace GSCFieldApp.ViewModels
         private string _locationLongitude = "0"; //Default
         private string _locationElevation = "0";//Default
         private string _locationAccuracy = "0";//Default
+        private string _locationNTS = string.Empty;
         private bool _readonlyFields = true;//Default
         private string _locationNorthing = "0";
         private string _locationEasting = "0";
@@ -123,6 +124,7 @@ namespace GSCFieldApp.ViewModels
         public string LocationEasting { get { return _locationEasting; } set { _locationEasting = value; } }
 
         public string LocationAccuracy { get { return _locationAccuracy; } set { _locationAccuracy = value; } }
+        public string LocationNTS { get { return _locationNTS; } set { _locationNTS = value; } }
         public bool ReadOnlyFields { get { return _readonlyFields; } set { _readonlyFields = value; } }
 
         public string LocationNotes { get { return _locationNotes; } set { _locationNotes = value; } }
@@ -175,6 +177,7 @@ namespace GSCFieldApp.ViewModels
             _locationNotes = existingDataDetailLocation.location.LocationNotes;
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
             _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
+            _locationNTS = existingDataDetailLocation.location.locationNTS;
             _selectedLocationDatums = existingDataDetailLocation.location.LocationDatum;
 
             //Update UI
@@ -187,6 +190,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("LocationNotes");
             RaisePropertyChanged("LocationEasting");
             RaisePropertyChanged("LocationNorthing");
+            RaisePropertyChanged("LocationNTS");
             RaisePropertyChanged("SelectedLocationDatums"); 
 
             doLocationUpdate = true;
@@ -247,7 +251,7 @@ namespace GSCFieldApp.ViewModels
             locationModel.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
             locationModel.LocationNotes = LocationNotes;
             locationModel.LocationErrorMeasure = _accu;
-
+            locationModel.locationNTS = _locationNTS;
             locationModel.LocationEasting = _easting;
             locationModel.LocationNorthing = _northing;
 

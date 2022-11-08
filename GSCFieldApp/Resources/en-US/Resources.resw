@@ -885,9 +885,6 @@
   <data name="LocaitonDialogLongitude.Header" xml:space="preserve">
     <value>Longitude</value>
   </data>
-  <data name="LocationDialogElevation.Header" xml:space="preserve">
-    <value>Elevation</value>
-  </data>
   <data name="LocationDialogLatitude.Header" xml:space="preserve">
     <value>Latitude</value>
   </data>
@@ -1383,9 +1380,6 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
     <value>Entry rock type ie. basalt</value>
   </data>
-  <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
-    <value>Elevation (m)</value>
-  </data>
   <data name="LocationDialogGridView_Geo.Content" xml:space="preserve">
     <value>Geographic</value>
   </data>
@@ -1506,12 +1500,6 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="UserInfoDialogAName.PlaceholderText" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="LocationDialogAccuracy.Header" xml:space="preserve">
-    <value>Accuracy (m)</value>
-  </data>
-  <data name="LocationDialogGridView_Accuracy.Content" xml:space="preserve">
-    <value>Accuracy</value>
-  </data>
   <data name="StationGridView_Other.Content" xml:space="preserve">
     <value>General</value>
   </data>
@@ -1598,5 +1586,17 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="EarthmatGridView_MetaIntensity.Content" xml:space="preserve">
     <value>Metamorphic Facies</value>
+  </data>
+  <data name="LocationDialogAccuracy.Header" xml:space="preserve">
+    <value>Accuracy (m)</value>
+  </data>
+  <data name="LocationDialogElevation.Header" xml:space="preserve">
+    <value>Elevation</value>
+  </data>
+  <data name="LocationDialogGridView_General.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="LocationDialogNTS.Header" xml:space="preserve">
+    <value>National Topographic Sheet (NTS)</value>
   </data>
 </root>

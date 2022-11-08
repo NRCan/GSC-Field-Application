@@ -59,6 +59,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationErrorMeasureType)]
         public string LocationErrorMeasureType { get; set; }
 
+        [Column(DatabaseLiterals.FieldLocationNTS)]
+        public string locationNTS { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationNotes)]
         public string LocationNotes { get; set; }
 
@@ -140,9 +143,14 @@ namespace GSCFieldApp.Models
 
                 locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
 
+                //Revert schema 1.6 changes. 
+                List<string> earthmatFieldList15 = new List<string>();
+                earthmatFieldList15.AddRange(locationFieldListDefault);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldLocationNTS);
+
                 //Revert schema 1.5 changes. 
                 List<string> locationFieldList144 = new List<string>();
-                locationFieldList144.AddRange(locationFieldListDefault);
+                locationFieldList144.AddRange(earthmatFieldList15);
                 int removeIndex = locationFieldList144.IndexOf(DatabaseLiterals.FieldLocationAlias);
                 locationFieldList144.Remove(DatabaseLiterals.FieldLocationAlias);
                 locationFieldList144.Insert(removeIndex, DatabaseLiterals.FieldLocationAliasDeprecated);
