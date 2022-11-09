@@ -22,15 +22,15 @@
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right"
                             Background="{ThemeResource FieldFossilColorBrush}">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="fossilBackButton" Label ="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="fossilBackButton_Tapped" />
-                    <AppBarButton x:Name="fossilSaveButton" Label ="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="fossilSaveButton_Tapped" />
+                    <AppBarButton x:Name="fossilBackButton" Label ="Close" Icon="Clear" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="fossilBackButton_Tapped" />
+                    <AppBarButton x:Name="fossilSaveButton" Label ="Save" Icon="Save" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="fossilSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
             <Controls:PageHeader x:Name="pageFooter" Background="{ThemeResource FieldFossilColorBrush}"
                              RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
-                             RelativePanel.AlignLeftWithPanel="True">
+                             RelativePanel.AlignLeftWithPanel="True" Height="20">
             </Controls:PageHeader>
 
             <RelativePanel Style="{StaticResource ParentPanel}" x:Name="fossilRelativePanel">

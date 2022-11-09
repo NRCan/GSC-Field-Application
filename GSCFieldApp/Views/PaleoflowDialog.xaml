@@ -24,15 +24,15 @@
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" 
                                  Background="{ThemeResource FieldPflowColorBrush}">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="pflowBackButton" Label="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="pflowBackButton_Tapped" />
-                    <AppBarButton x:Name="pflowSaveButton" Label="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="pflowSaveButton_Tapped" />
+                    <AppBarButton x:Name="pflowBackButton" Label="Close" Icon="Clear" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="pflowBackButton_Tapped" />
+                    <AppBarButton x:Name="pflowSaveButton" Label="Save" Icon="Save" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="pflowSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
             <Controls:PageHeader x:Name="pageFooter" Background="{ThemeResource FieldPflowColorBrush}"
                              RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
-                             RelativePanel.AlignLeftWithPanel="True">
+                             RelativePanel.AlignLeftWithPanel="True" Height="20">
             </Controls:PageHeader>
 
             <RelativePanel Style="{StaticResource ParentPanel}" x:Name="pflowRelativePanel">

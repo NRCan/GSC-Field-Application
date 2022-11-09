@@ -49,15 +49,15 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="earthmatBackButton" Label="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="earthmatBackButton_Tapped" />
-                    <AppBarButton x:Name="earthmatSaveButton" Label="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="earthmatSaveButton_Tapped" />
+                    <AppBarButton x:Name="earthmatBackButton" Label="Close" Icon="Clear" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="earthmatBackButton_Tapped" />
+                    <AppBarButton x:Name="earthmatSaveButton" Label="Save" Icon="Save" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="earthmatSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
             <Controls:PageHeader x:Name="pageFooter" Background="{ThemeResource FieldEarthMatColorBrush}"
                              RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
-                             RelativePanel.AlignLeftWithPanel="True">
+                             RelativePanel.AlignLeftWithPanel="True" Height="20">
             </Controls:PageHeader>
 
             <RelativePanel Style="{StaticResource ParentPanel}" x:Name="earthRelativePanel" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">

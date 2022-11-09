@@ -25,15 +25,15 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="mineralBackButton" Label="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="mineralBackButton_Tapped"  />
-                    <AppBarButton x:Name="mineralSaveButton" Label="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="mineralSaveButton_Tapped"  />
+                    <AppBarButton x:Name="mineralBackButton" Label="Close" Icon="Clear" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="mineralBackButton_Tapped"  />
+                    <AppBarButton x:Name="mineralSaveButton" Label="Save" Icon="Save" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="mineralSaveButton_Tapped"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
             <Controls:PageHeader x:Name="pageFooter" Background="{ThemeResource FieldMineralColorBrush}"
                              RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
-                             RelativePanel.AlignLeftWithPanel="True">
+                             RelativePanel.AlignLeftWithPanel="True" Height="20">
             </Controls:PageHeader>
 
             <RelativePanel Style="{StaticResource ParentPanel}" x:Name="mineralRelativePanel">

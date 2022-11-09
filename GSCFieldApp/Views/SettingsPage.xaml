@@ -53,8 +53,8 @@
                              RelativePanel.AlignRightWithPanel="True"
                              RelativePanel.AlignTopWithPanel="True" Height="40" IsOpen="True" IsSticky="True" DefaultLabelPosition="Right">
             <controls:PageHeader.PrimaryCommands>
-                <AppBarButton x:Name="settingLoadPicklistButton" x:Uid="SettingPagePicklistButton" MaxWidth="140" VerticalAlignment="Top"
-                              Icon="Download" Foreground="White" Height="60" IsCompact ="True" Tapped="{x:Bind ViewModel.settingLoadPicklistButton_TappedAsync}" Visibility="{x:Bind ViewModel.LoadPicklistVisibility, Mode=TwoWay}" />
+                <AppBarButton x:Name="settingLoadPicklistButton" x:Uid="SettingPagePicklistButton" Width="100" VerticalAlignment="Top" Label="Download"
+                              Icon="Download" Foreground="White" Height="57" IsCompact ="True" Tapped="{x:Bind ViewModel.settingLoadPicklistButton_TappedAsync}" Visibility="{x:Bind ViewModel.LoadPicklistVisibility, Mode=TwoWay}" />
             </controls:PageHeader.PrimaryCommands>
             <controls:PageHeader.SecondaryCommands/>
         </controls:PageHeader>
