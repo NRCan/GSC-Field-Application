@@ -1599,4 +1599,13 @@ Shimamura, Kaz – Conseiller</value>
   <data name="LocationDialogNTS.Header" xml:space="preserve">
     <value>Système national de référence cartographique (SNRC)</value>
   </data>
+  <data name="MineralAltFacies.Header" xml:space="preserve">
+    <value>Faciès d'altération</value>
+  </data>
+  <data name="MineralAltPhase.Header" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="MineralAltTexture.Header" xml:space="preserve">
+    <value>Texture</value>
+  </data>
 </root>

@@ -40,6 +40,12 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _mineralAltUnit = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedMineralAltUnit = string.Empty;
 
+        private ObservableCollection<Themes.ComboBoxItem> _mineralAltPhase = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedMineralAltPhase = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _mineralAltTexture = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedMineralAltTexture = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _mineralAltFacies = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedMineralAltFacies = string.Empty;
 
         //Model init
         private MineralAlteration mineralAltModel = new MineralAlteration();
@@ -103,6 +109,16 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> MineralAltDist { get { return _mineralAltDist; } set { _mineralAltDist = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralAltDistValues { get { return _mineralAltDistValues; } set { _mineralAltDistValues = value; } }
         public string SelectedMineralAltDist { get { return _selectedMineralAltDist; } set { _selectedMineralAltDist = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> MineralAltPhase { get { return _mineralAltPhase; } set { _mineralAltPhase = value; } }
+        public string SelectedMineralAltPhase { get { return _selectedMineralAltPhase; } set { _selectedMineralAltPhase = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> MineralAltTexture { get { return _mineralAltTexture; } set { _mineralAltTexture = value; } }
+        public string SelectedMineralAltTexture { get { return _selectedMineralAltTexture; } set { _selectedMineralAltTexture = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> MineralAltFacies { get { return _mineralAltFacies; } set { _mineralAltFacies = value; } }
+        public string SelectedMineralAltFacies { get { return _selectedMineralAltFacies; } set { _selectedMineralAltFacies = value; } }
+
         public ObservableCollection<Themes.ComboBoxItem> MineralAltUnit { get { return _mineralAltUnit; } set { _mineralAltUnit = value; } }
         public string SelectedMineralAltUnit { get { return _selectedMineralAltUnit; } set { _selectedMineralAltUnit = value; } }
 
@@ -124,6 +140,9 @@ namespace GSCFieldApp.ViewModels
             //First order lists
             FillMineralAlterations();
             FillUnit();
+            FillMinAltPhase();
+            FillMinAltTexture();
+            FillMinAltFacies();
 
             //Fill second order comboboxes (dependant on selected litho type)
             //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
@@ -157,6 +176,9 @@ namespace GSCFieldApp.ViewModels
 
             _selectedMineralAltMA = existingDataDetailMineralAlt.mineralAlteration.MAMA;
             _selectedMineralAltUnit = existingDataDetailMineralAlt.mineralAlteration.MAUnit;
+            _selectedMineralAltPhase = existingDataDetailMineralAlt.mineralAlteration.MAPhase;
+            _selectedMineralAltTexture = existingDataDetailMineralAlt.mineralAlteration.MATexture;
+            _selectedMineralAltFacies = existingDataDetailMineralAlt.mineralAlteration.MAFacies;
 
 
 
@@ -168,6 +190,9 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralAltMode");
             RaisePropertyChanged("SelectedMineralAltMA");
             RaisePropertyChanged("SelectedMineralAltUnit");
+            RaisePropertyChanged("SelectedMineralAltPhase");
+            RaisePropertyChanged("SelectedMineralAltTexture");
+            RaisePropertyChanged("SelectedMineralAltFacies");
 
             AutoFillDialog2ndRound(incomingData);
 
@@ -232,6 +257,18 @@ namespace GSCFieldApp.ViewModels
             if (SelectedMineralAltMineral != null)
             {
                 mineralAltModel.MAMineral = SelectedMineralAltMineral;
+            }
+            if (SelectedMineralAltPhase != null)
+            {
+                mineralAltModel.MAPhase = SelectedMineralAltPhase;
+            }
+            if (SelectedMineralAltTexture != null)
+            {
+                mineralAltModel.MATexture = SelectedMineralAltTexture;
+            }
+            if (SelectedMineralAltFacies != null)
+            {
+                mineralAltModel.MAFacies = SelectedMineralAltFacies;
             }
 
             //process list of values so they are concatenated.
@@ -334,6 +371,61 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region FILL
+
+        /// <summary>
+        /// Will fill the mineral alterations names combobox
+        /// </summary>
+        private void FillMinAltPhase()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldMineralAlterationPhase;
+            string tableName = Dictionaries.DatabaseLiterals.TableMineralAlteration;
+            foreach (var itemType in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralAltPhase))
+            {
+                _mineralAltPhase.Add(itemType);
+            }
+
+            //Update UI
+            RaisePropertyChanged("MineralAltPhase");
+            RaisePropertyChanged("SelectedMineralAltPhase"); 
+        }
+
+        /// <summary>
+        /// Will fill the mineral alterations names combobox
+        /// </summary>
+        private void FillMinAltTexture()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldMineralAlterationTexture;
+            string tableName = Dictionaries.DatabaseLiterals.TableMineralAlteration;
+            foreach (var itemType in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralAltTexture))
+            {
+                _mineralAltTexture.Add(itemType);
+            }
+
+            //Update UI
+            RaisePropertyChanged("MineralAltTexture");
+            RaisePropertyChanged("SelectedMineralAltTexture");
+        }
+
+
+        /// <summary>
+        /// Will fill the mineral alterations names combobox
+        /// </summary>
+        private void FillMinAltFacies()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldMineralAlterationFacies;
+            string tableName = Dictionaries.DatabaseLiterals.TableMineralAlteration;
+            foreach (var itemType in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralAltFacies))
+            {
+                _mineralAltFacies.Add(itemType);
+            }
+
+            //Update UI
+            RaisePropertyChanged("MineralAltFacies");
+            RaisePropertyChanged("SelectedMineralAltFacies");
+        }
 
         /// <summary>
         /// Will fill the mineral alterations names combobox

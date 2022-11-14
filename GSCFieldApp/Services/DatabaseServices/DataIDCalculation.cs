@@ -436,7 +436,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             IEnumerable<string> docParent = from d in docTable where d.RelatedID == parentID orderby d.DocumentName descending select d.DocumentName;
 
             string newAlias = string.Empty;
-            string finaleDocumentString = parentAlias + "P";
+            string finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix;
 
             //Detect last sample number and add 1 to it.
             if (docParent.Count() > 0)
@@ -461,7 +461,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         newAlias = newNumber.ToString();
                     }
 
-                    finaleDocumentString = parentAlias + "P" + newAlias;
+                    finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
 
                     //Find existing
                     IEnumerable<Document> existingDocument = from s in docTable where s.RelatedID == parentID && s.DocumentName == finaleDocumentString select s;
@@ -491,7 +491,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     newAlias = startingDocNumber.ToString();
                 }
 
-                finaleDocumentString = parentAlias + "P" + newAlias;
+                finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
             }
 
             return finaleDocumentString;
@@ -719,11 +719,11 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Querying with Linq
             List<object> MineralTableRaw = dAccess.ReadTable(mineralModel.GetType(), null);
             IEnumerable<Mineral> mineralTable = MineralTableRaw.Cast<Mineral>(); //Cast to proper list type
-            IEnumerable<string> mineralParentEarth = from e in mineralTable where e.MineralParentID == parentID orderby e.MineralIDName descending select e.MineralIDName;
+            IEnumerable<string> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID orderby e.MineralIDName descending select e.MineralIDName;
 
             int newID = 1; //Incrementing step
             string newAlias = string.Empty;
-            string finaleMineralString = parentAlias;
+            string finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix;
 
             //Detect last sample number and add 1 to it.
             if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) !=null)
@@ -747,10 +747,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                         newAlias = newID.ToString();
                     }
 
-                    finaleMineralString = parentAlias + newAlias;
+                    finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + newAlias;
 
                     //Find existing
-                    IEnumerable<Mineral> existingSamples = from s in mineralTable where s.MineralParentID == parentID && s.MineralIDName == finaleMineralString select s;
+                    IEnumerable<Mineral> existingSamples = from s in mineralTable where s.MineralEMID == parentID || s.MineralMAID == parentID && s.MineralIDName == finaleMineralString select s;
                     if (existingSamples.Count() == 0 || existingSamples == null)
                     {
                         breaker = false;
@@ -790,7 +790,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public string CalculateMineralAlterationAlias(string parentID, string parentAlias)
         {
             //Variables
-            string prefix = "X";
+            string prefix = DatabaseLiterals.TableMineralAlterationPrefix;
 
             //Querying with Linq
             List<object> maTableRaw = dAccess.ReadTable(minAlterationModel.GetType(), null);
@@ -867,7 +867,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             int getRemainder; //In case it's needed, will be calculate from modulo
             int getQuotient; //In case needed, will be used for overload
 
-            List<string> alphaList = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            List<string> alphaList = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", DatabaseLiterals.TableMineralAliasPrefix, "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
             //Retrieve a new numerical id
             int numID = startingNumber;

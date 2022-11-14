@@ -1599,4 +1599,13 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="LocationDialogNTS.Header" xml:space="preserve">
     <value>National Topographic Sheet (NTS)</value>
   </data>
+  <data name="MineralAltFacies.Header" xml:space="preserve">
+    <value>Alteration facies</value>
+  </data>
+  <data name="MineralAltPhase.Header" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="MineralAltTexture.Header" xml:space="preserve">
+    <value>Texture</value>
+  </data>
 </root>

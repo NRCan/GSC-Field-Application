@@ -140,6 +140,7 @@
     <Content Include="ModelResources\GSCFieldwork_V142.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="ModelResources\GSCFieldwork_v150.sqlite" />
     <None Include="ModelResources\Readme.md" />
     <None Include="Models\Readme.md" />
     <None Include="project.json" />

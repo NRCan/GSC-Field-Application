@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Bluetooth.Advertisement;
 
 namespace GSCFieldApp.Dictionaries
 {
@@ -247,9 +248,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldMineralSizeMax = "SIZEMAXMM";//Version 1.0
         public const string FieldMineralMode = "M_MODE";//Version 1.0
         public const string FieldMineralNote = "NOTES";//Version 1.0
-        public const string FieldMineralParentID = "EARTHMATID";//Version 1.0
+        public const string FieldMineralEMID = "EARTHMATID";//Version 1.0
         public const string FieldMineralFormHabit = "FORM_HABIT"; //Version 1.6
-
+        public const string FieldMineralMAID = "MAID"; //Version 1.6
 
         public const string FieldMineralAlterationID = "MAID";//Version 1.0
         public const string FieldMineralAlterationName = "MAIDNAME";//Version 1.0
@@ -261,6 +262,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldMineralAlterationNotes = "NOTES";//Version 1.0
         public const string FieldMineralAlterationRelTable = "RELATIONTABLE";//Version 1.0
         public const string FieldMineralAlterationRelID = "RELATIONID";//Version 1.0
+        public const string FieldMineralAlterationPhase = "PHASE"; //Version 1.6
+        public const string FieldMineralAlterationTexture = "TEXTURE"; //Version 1.6
+        public const string FieldMineralAlterationFacies = "ALTERATION_FACIES"; //Version 1.6
 
 
         #endregion
@@ -347,6 +351,13 @@ namespace GSCFieldApp.Dictionaries
         public const string termIDEntryType_Manual = "7b60543f-a147-4625-968a-72ef81beb567";
         public const string termIDPaleoMagnetismSurficial = "A19B762E-C39D-4D20-80D7-81525F729A5E"; //sample purpose being paleomagnetism
         public const string termIDOriented = "6c4c5c6a-913f-4374-88de-90c4544be041"; //sample type being oriented
+
+        #endregion
+
+        #region Database Alias name prefixes
+        public const string TableMineralAliasPrefix = "M";
+        public const string TableDocumentAliasPrefix = "P";
+        public const string TableMineralAlterationPrefix = "X";
 
         #endregion
 

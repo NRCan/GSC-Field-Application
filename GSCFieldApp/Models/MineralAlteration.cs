@@ -31,6 +31,15 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldMineralAlterationDistrubute)]
         public string MADistribute { get; set; }
 
+        [Column(DatabaseLiterals.FieldMineralAlterationPhase)]
+        public string MAPhase { get; set; }
+
+        [Column(DatabaseLiterals.FieldMineralAlterationTexture)]
+        public string MATexture { get; set; }
+
+        [Column(DatabaseLiterals.FieldMineralAlterationFacies)]
+        public string MAFacies { get; set; }
+
         [Column(DatabaseLiterals.FieldMineralAlterationNotes)]
         public string MANotes { get; set; }
 
@@ -61,6 +70,45 @@ namespace GSCFieldApp.Models
                 {
                     return false;
                 }
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// A list of all possible fields
+        /// </summary>
+        [Ignore]
+        public Dictionary<double, List<string>> getFieldList
+        {
+            get
+            {
+
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> maFieldList = new Dictionary<double, List<string>>();
+                List<string> maFieldListDefault = new List<string>();
+
+                maFieldListDefault.Add(DatabaseLiterals.FieldMineralAlterationID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        maFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                maFieldList[DatabaseLiterals.DBVersion] = maFieldListDefault;
+
+                //Revert schema 1.6 changes. 
+                List<string> maFieldList150 = new List<string>();
+                maFieldList150.AddRange(maFieldListDefault);
+                maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationPhase);
+                maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationTexture);
+                maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationFacies);
+                maFieldList[DatabaseLiterals.DBVersion150] = maFieldList150;
+
+                return maFieldList;
             }
             set { }
         }

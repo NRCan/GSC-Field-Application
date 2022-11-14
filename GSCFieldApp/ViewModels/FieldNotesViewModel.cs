@@ -1897,10 +1897,36 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralParentID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
+                IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
                 if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
                 {
                     FillMineralFromParent(mineralParentEarth, _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID);
+
+                    //Manage header opacity
+                    mineralRecordCount = mineralParentEarth.Count();
+
+                }
+
+                #endregion
+
+                //Manager header color opacity (transparent if no items)
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineral);
+
+                RaisePropertyChanged("ReportDetailedMineral");
+
+            }
+
+            if (_reportMineralizationAlterationIndex != -1 && _reportStationIndex != -1)
+            {
+                #region Conditional to have a selected mineralization alteration
+                foundParentOrSibling = true;
+
+                //Get a list of related samples from selected earthmat
+                //Querying with Linq
+                IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].GenericID select e;
+                if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
+                {
+                    FillMineralFromParent(mineralParentEarth, _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID);
 
                     //Manage header opacity
                     mineralRecordCount = mineralParentEarth.Count();
@@ -1923,15 +1949,24 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Mineral> mineralParent = from e in mineralTable where e.MineralParentID == _reportDetailedMinerals[_reportMineralIndex].ParentID select e;
+                IEnumerable<Mineral> mineralParent = from e in mineralTable where e.MineralEMID == _reportDetailedMinerals[_reportMineralIndex].ParentID || e.MineralMAID == _reportDetailedMinerals[_reportMineralIndex].ParentID select e;
 
                 if (mineralParent.Count() != 0 || mineralParent != null)
                 {
-                    FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].earthmat.EarthMatID);
+                    Mineral mp = mineralParent.First();
+                    if (mp.MineralEMID != null)
+                    {
+                        FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].earthmat.EarthMatID);
+                    }
+                    else if (mp.MineralMAID != null)
+                    {
+                        FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].mineralAlteration.MAID);
+                    }
+                    
                 }
 
                 //Manage header opacity
-                pflowRecordCount = mineralParent.Count();
+                mineralRecordCount = mineralParent.Count();
 
                 #endregion
 
@@ -1954,14 +1989,18 @@ namespace GSCFieldApp.ViewModels
                 List<object> earthTableRaw = dAccess.ReadTable(earthModel.GetType(), null);
                 IEnumerable<EarthMaterial> earthTable = earthTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
 
-                //Get a list of all samples from selected station
-                //Get a list of earthmat ids from selected stationID
+                List<object> maTableRaw = dAccess.ReadTable(mineralAltModel.GetType(), null);
+                IEnumerable<MineralAlteration> maTable = maTableRaw.Cast<MineralAlteration>(); //Cast to proper list type
+
+                //Get a list of minerals from parent
                 IEnumerable<string> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == _reportDetailedStation[_reportStationIndex].GenericID select e.EarthMatID;
+                IEnumerable<string> mineralizationAlterationFromStation = from ma in maTable join stat in stationTable on ma.MAParentID equals stat.StationID where stat.StationID == _reportDetailedStation[_reportStationIndex].GenericID select ma.MAID;
 
                 //Get resulting sample class from previous list of earthmat ids
-                IEnumerable<Mineral> minParent = from smp in mineralTable join e2 in earthTable on smp.MineralParentID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
+                IEnumerable<Mineral> minParent = from smp in mineralTable join e2 in earthTable on smp.MineralEMID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
+                IEnumerable<Mineral> minParentMA = from min in mineralTable join ma in maTable on min.MineralMAID equals ma.MAID where earthFromStation.Contains(ma.MAID) select min;
 
-                if (minParent.Count() != 0 || minParent != null)
+                if (minParent.Count() != 0 || minParent != null || minParentMA.Count() != 0 || minParentMA!= null)
                 {
                     FillMineralFromParent(minParent, string.Empty);
                 }
@@ -2000,16 +2039,22 @@ namespace GSCFieldApp.ViewModels
                 currentDetailReport.GenericFieldID = DatabaseLiterals.FieldMineralID;
                 currentDetailReport.GenericAliasName = m.MineralIDName;
 
-                if (parentID == string.Empty)
+                if (parentID == string.Empty && m.MineralEMID != null)
                 {
-                    currentDetailReport.ParentID = m.MineralParentID; //TO keep the link with earthmat table
+                    currentDetailReport.ParentID = m.MineralEMID; //TO keep the link with earthmat table
+                    currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                }
+                else if (parentID == string.Empty && m.MineralMAID != null)
+                {
+                    currentDetailReport.ParentID = m.MineralMAID; //TO keep the link with earthmat table
+                    currentDetailReport.ParentTableName = DatabaseLiterals.TableMineralAlteration; //To keep the link with location table.
                 }
                 else
                 {
                     currentDetailReport.ParentID = parentID; //TO keep the link with earthmat table
                 }
                 
-                currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                
                 currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
 
                 _reportDetailedMinerals.Add(currentDetailReport);

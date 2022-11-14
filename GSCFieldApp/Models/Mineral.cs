@@ -42,11 +42,12 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldMineralNote)]
         public string MineralNote { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralParentID)]
-        public string MineralParentID { get; set; }
+        [Column(DatabaseLiterals.FieldMineralEMID)]
+        public string MineralEMID { get; set; }
 
-        //Hierarchy
-        public string ParentName = DatabaseLiterals.TableEarthMat;
+        [Column(DatabaseLiterals.FieldMineralMAID)]
+        public string MineralMAID { get; set; }
+
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -141,6 +142,9 @@ namespace GSCFieldApp.Models
                 mineralFieldList150.Remove(DatabaseLiterals.FieldMineralFormHabit);
                 mineralFieldList150.Insert(removeIndex, DatabaseLiterals.FieldMineralHabitDeprecated);
                 mineralFieldList150.Insert(removeIndex, DatabaseLiterals.FieldMineralFormDeprecated);
+
+                mineralFieldList150.Remove(DatabaseLiterals.FieldMineralMAID);
+
                 mineralFieldList[DatabaseLiterals.DBVersion150] = mineralFieldList150;
 
                 return mineralFieldList;

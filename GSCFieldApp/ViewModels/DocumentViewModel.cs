@@ -884,7 +884,7 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableMineral)
                     {
                         string filterMineralSelectJoin = "Select * from " + DatabaseLiterals.TableMineral + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
+                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralEMID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
                         List<object> relatedMineral = dataAcess.ReadTable(mineralModel.GetType(), filterMineralSelectJoin + filterMineralWhere);
                         IEnumerable<Mineral> minerals = relatedMineral.Cast<Mineral>();
                         foreach (Mineral ms in minerals)
