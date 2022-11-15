@@ -1599,6 +1599,9 @@ Shimamura, Kaz – Conseiller</value>
   <data name="LocationDialogNTS.Header" xml:space="preserve">
     <value>Système national de référence cartographique (SNRC)</value>
   </data>
+  <data name="MAGridView_Mineralogy.Content" xml:space="preserve">
+    <value>Minéralogie</value>
+  </data>
   <data name="MineralAltFacies.Header" xml:space="preserve">
     <value>Faciès d'altération</value>
   </data>
@@ -1607,5 +1610,11 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="MineralAltTexture.Header" xml:space="preserve">
     <value>Texture</value>
+  </data>
+  <data name="MAGridViewDescription.Content" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MAGridViewGeneral.Content" xml:space="preserve">
+    <value>Général</value>
   </data>
 </root>

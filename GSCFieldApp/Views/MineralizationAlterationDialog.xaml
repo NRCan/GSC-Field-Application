@@ -54,71 +54,73 @@
                 <ScrollViewer Style="{StaticResource ParentScroll}" >
                     <RelativePanel Style="{StaticResource ChildPanel}" x:Name="mineralAltScrollRelativePanel">
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralAltGridViewRequired">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="MAGridViewDescription"/>
                             <ComboBox x:Name="MineralAlterationsNamesComboBox" x:Uid="MineralAltDialogMAs" Style="{ThemeResource ComboboxMandatoryField}"
-                                Header="" 
-                                ItemsSource="{x:Bind MAViewModel.MineralAltMA}" 
-                                SelectedValue="{x:Bind MAViewModel.SelectedMineralAltMA, Mode=TwoWay}" 
-                                      SelectionChanged="{x:Bind MAViewModel.MineralAlterationsNamesComboBox_SelectionChanged}"/>
-
-                            <ComboBox x:Name="MineralAlterationsMineralsComboBox" x:Uid="MineralAltDialogMinerals" Style="{ThemeResource ComboboxMandatoryField}"
-                                Header="" 
-                                ItemsSource="{x:Bind MAViewModel.MineralAltMinerals}" 
-                                SelectedValue="{x:Bind MAViewModel.SelectedMineralAltMineral, Mode=TwoWay}"/>
+                                        Header="" 
+                                        ItemsSource="{x:Bind MAViewModel.MineralAltMA}" 
+                                        SelectedValue="{x:Bind MAViewModel.SelectedMineralAltMA, Mode=TwoWay}" 
+                                              SelectionChanged="{x:Bind MAViewModel.MineralAlterationsNamesComboBox_SelectionChanged}"/>
 
                             <ComboBox x:Name="MineralAlterationsUnitComboBox" x:Uid="MineralAltDialogUnits" Style="{ThemeResource ComboboxMandatoryField}"
-                                    Header="" 
-                                    ItemsSource="{x:Bind MAViewModel.MineralAltUnit}" 
-                                    SelectedValue="{x:Bind MAViewModel.SelectedMineralAltUnit, Mode=TwoWay}"/>
+                                                Header="" 
+                                                ItemsSource="{x:Bind MAViewModel.MineralAltUnit}" 
+                                                SelectedValue="{x:Bind MAViewModel.SelectedMineralAltUnit, Mode=TwoWay}"/>
+                        </GridView>
 
-                            <TextBox x:Name="MineralAltModeNumBox" x:Uid="MinderalAltDialogMode" 
-                                    HorizontalAlignment="Stretch" MinWidth="20" Width="Auto" 
-                                    InputScope="Number" 
-                                    Text ="{x:Bind MAViewModel.MineralAltMode, Mode=TwoWay}" TextChanged="{x:Bind MAViewModel.MineralAltModeNumBox_TextChanged}" />
+                    <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_00"
+                           RelativePanel.Below="MineralAltGridViewRequired"
+                           Fill="{ThemeResource FieldMineralAlterationColorBrush}" />
 
+                    <GridView Style="{StaticResource NonselectableGridView}" x:Name="MAGridView_Mineral" RelativePanel.Below="MainSeparator_00">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="MAGridView_Mineralogy"/>
+
+                            <RelativePanel>
+                                <TextBlock x:Name="MAMineralWarning" x:Uid="EarthDialogMineralWarning" FontStyle="Italic" Margin="0,0,0,10" TextWrapping="Wrap"/>
+
+                                <AutoSuggestBox x:Name="MAAutoSuggest" x:Uid="MAMineralAutoSuggestBox" QueryIcon="Find" Width="300" RelativePanel.Below="MAMineralWarning"
+                                            TextChanged="MAMineralAutoSuggest_TextChanged" TextMemberPath="itemName" DisplayMemberPath="itemName" 
+                                            QuerySubmitted="{x:Bind MAViewModel.MAMineralAutoSuggest_QuerySubmitted}" Margin="0,0,0,10"/>
+
+                                <ListView x:Name="MAMineralConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MAAutoSuggest"
+                                                    ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
+                                                    ItemsSource="{x:Bind MAViewModel.MineralAltMinerals}"/>
+                            </RelativePanel>
 
                         </GridView>
 
-
-                    <TextBlock x:Name="ModeMADynamicLabel" Margin="0,10" x:Uid="MineralAltResidualLabel" Text="{x:Bind MAViewModel.MineralAltResidualText, Mode=TwoWay}" RelativePanel.Below="MineralAltGridViewRequired"/>
-
-
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01"
-                           RelativePanel.Below="ModeMADynamicLabel"
+                           RelativePanel.Below="MAGridView_Mineral"
                            Fill="{ThemeResource FieldMineralAlterationColorBrush}" />
 
-                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralAltGridViewOthers" RelativePanel.Below="MainSeparator_01">
-
-                            <RelativePanel x:Name="MineralAltRelPanel_Dist">
-                                <ComboBox x:Name="MineralAltDistComboBox" x:Uid="MineralAltDist" 
+                    <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralAltGridViewOthers" RelativePanel.Below="MainSeparator_01">
+                        <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="MAGridViewGeneral"/>
+                        <RelativePanel x:Name="MineralAltRelPanel_Dist">
+                            <ComboBox x:Name="MineralAltDistComboBox" x:Uid="MineralAltDist" 
                                             ItemsSource="{x:Bind MAViewModel.MineralAltDist}"
                                             SelectedValue="{x:Bind MAViewModel.SelectedMineralAltDist, Mode=TwoWay}"
                                                             SelectionChanged="{x:Bind MAViewModel.MineralAlterationDistComboBox_SelectionChanged}"/>
-                                <ListView x:Name="MineralAltDistConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MineralAltDistComboBox"
+                            <ListView x:Name="MineralAltDistConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MineralAltDistComboBox"
                                                             ItemTemplate="{StaticResource ConcatenatedValueTemplate}" 
                                                             ItemsSource="{x:Bind MAViewModel.MineralAltDistValues}"/>
 
-                            </RelativePanel>
+                        </RelativePanel>
 
-                            <ComboBox x:Name="MineralAltPhaseComboBox" x:Uid="MineralAltPhase" 
+                        <ComboBox x:Name="MineralAltPhaseComboBox" x:Uid="MineralAltPhase" 
                                                 ItemsSource="{x:Bind MAViewModel.MineralAltDist}"
                                                 SelectedValue="{x:Bind MAViewModel.SelectedMineralAltPhase, Mode=TwoWay}"/>
 
-                            <ComboBox x:Name="MineralAltTextureComboBox" x:Uid="MineralAltTexture" 
+                        <ComboBox x:Name="MineralAltTextureComboBox" x:Uid="MineralAltTexture" 
                                                 ItemsSource="{x:Bind MAViewModel.MineralAltDist}"
                                                 SelectedValue="{x:Bind MAViewModel.SelectedMineralAltTexture, Mode=TwoWay}"/>
 
-                            <ComboBox x:Name="MineralAltFaciesComboBox" x:Uid="MineralAltFacies" 
+                        <ComboBox x:Name="MineralAltFaciesComboBox" x:Uid="MineralAltFacies" 
                                                 ItemsSource="{x:Bind MAViewModel.MineralAltDist}"
                                                 SelectedValue="{x:Bind MAViewModel.SelectedMineralAltFacies, Mode=TwoWay}"/>
 
-                        </GridView>
+                    </GridView>
 
-                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_02"
-                           RelativePanel.Below="MineralAltGridViewOthers"
-                           Fill="{ThemeResource FieldMineralAlterationColorBrush}" />
-                        
-                        <TextBox Style="{ThemeResource Notes}" x:Name="MineralAltNoteComboBox" x:Uid="MineralAltDialogNote"
-                            RelativePanel.Below="MainSeparator_02"
+                    <TextBox Style="{ThemeResource Notes}" x:Name="MineralAltNoteComboBox" x:Uid="MineralAltDialogNote"
+                            RelativePanel.Below="MineralAltGridViewOthers"
                             Text="{x:Bind MAViewModel.MineralAltNote, Mode=TwoWay}"/>
 
                     </RelativePanel>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="NaturalResourcesCanada.GeologicalSurveyCanadaField" Publisher="CN=4BD3CC5C-7CF5-4E7B-BBD4-A5F65BC9B27D" Version="2.2.2.0" />
+  <Identity Name="NaturalResourcesCanada.GeologicalSurveyCanadaField" Publisher="CN=Geological Survey of Canada, O=Natural Resources Canada, C=CA" Version="2.2.2.0" />
   <mp:PhoneIdentity PhoneProductId="e3018a2e-ee27-4c0b-a9fa-2935de85ef24" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Geological Survey Canada Field Application</DisplayName>

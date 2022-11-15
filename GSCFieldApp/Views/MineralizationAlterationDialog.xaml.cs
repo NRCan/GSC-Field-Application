@@ -2,6 +2,7 @@
 using GSCFieldApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -114,6 +115,28 @@ namespace GSCFieldApp.Views
             }
         }
 
+        /// <summary>
+        /// Filter based on the user's input for minerals
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">Any event arguments</param>
+        private void MAMineralAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing,
+            // otherwise assume the value got filled in by TextMemberPath
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                var search_term = MAAutoSuggest.Text.ToLower();
+                var results = MAViewModel.MineralAltMinerals.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
 
+                if (results.Count > 0)
+                    MAAutoSuggest.ItemsSource = results;
+                else
+                    MAAutoSuggest.ItemsSource = new string[] { "No results found" };
+            }
+
+        }
     }
 }

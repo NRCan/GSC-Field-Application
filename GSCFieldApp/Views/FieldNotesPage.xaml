@@ -451,10 +451,6 @@
                                Text="{x:Bind mineralAlteration.MAMA}" Width="{Binding Width, ElementName=MAListTemplateGrid}"
                                HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
                                Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
-                    <TextBlock x:Name="mineralAltmineralItem" 
-                               Text="{x:Bind mineralAlteration.MAMineral}" Width="{Binding Width, ElementName=MAListTemplateGrid}"
-                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" 
-                               Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
 
                 </Grid>
 

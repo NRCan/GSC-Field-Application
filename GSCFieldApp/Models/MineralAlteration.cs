@@ -22,11 +22,6 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldMineralAlterationUnit)]
         public string MAUnit { get; set; }
-        [Column(DatabaseLiterals.FieldMineralAlterationMineral)]
-        public string MAMineral { get; set; }
-
-        [Column(DatabaseLiterals.FieldMineralAlterationMode)]
-        public string MAMode { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralAlterationDistrubute)]
         public string MADistribute { get; set; }
@@ -61,8 +56,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((MAMA != string.Empty && MAMA != null && MAMA != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (MAMineral != string.Empty && MAMineral != null && MAMineral != Dictionaries.DatabaseLiterals.picklistNACode))
+                if ((MAMA != string.Empty && MAMA != null && MAMA != Dictionaries.DatabaseLiterals.picklistNACode))
                 {
                     return true;
                 }
@@ -103,6 +97,10 @@ namespace GSCFieldApp.Models
                 //Revert schema 1.6 changes. 
                 List<string> maFieldList150 = new List<string>();
                 maFieldList150.AddRange(maFieldListDefault);
+
+                int unitIndex = maFieldList150.IndexOf(DatabaseLiterals.FieldMineralAlterationUnit);
+                maFieldList150.Insert(unitIndex + 1, DatabaseLiterals.FieldMineralAlterationMineralDeprecated);
+                maFieldList150.Insert(unitIndex + 2, DatabaseLiterals.FieldMineralAlterationModeDeprecated);
                 maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationPhase);
                 maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationTexture);
                 maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationFacies);

@@ -22,9 +22,6 @@ namespace GSCFieldApp.ViewModels
         private string _mineralAltParentID = string.Empty;
 
         private string _mineralAltNote = string.Empty;
-        private string _mineralAltMode = string.Empty;
-        private string _mineralAltResidualText = string.Empty;
-        private Dictionary<string, int> _mineralAltResidualModes = new Dictionary<string, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
         private List<string> _mineralAlterations = new List<string>(); //Will contain a list of all mineral alterations related to current parent station. To catch duplicates
 
         //UI interaction
@@ -33,6 +30,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _mineralAltMA = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedMineralAltMA = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _mineralAltMinerals = new ObservableCollection<Themes.ComboBoxItem>();
+        private ObservableCollection<Themes.ComboBoxItem> _mineralAltMineralsValues = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedMineralAltMineral = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _mineralAltDist = new ObservableCollection<Themes.ComboBoxItem>();
         private ObservableCollection<Themes.ComboBoxItem> _mineralAltDistValues = new ObservableCollection<Themes.ComboBoxItem>();
@@ -66,45 +64,11 @@ namespace GSCFieldApp.ViewModels
         public string MineralAltNote { get { return _mineralAltNote; } set { _mineralAltNote = value; } }
         public string MineralAltID { get { return _mineralAltID; } set { _mineralAltID = value; } }
         public string MineralAltParentID { get { return _mineralAltParentID; } set { _mineralAltParentID = value; } }
-        public string MineralAltResidualText { get { return _mineralAltResidualText; } set { _mineralAltResidualText = value; } }
-
-        public string MineralAltMode
-        {
-            get
-            {
-                return _mineralAltMode;
-            }
-            set
-            {
-                int index;
-                bool result = int.TryParse(value, out index);
-
-                if (result)
-                {
-                    if (index >= 0 && index <= 100)
-                    {
-                        _mineralAltMode = value;
-                    }
-                    else
-                    {
-                        _mineralAltMode = value = "0";
-                        RaisePropertyChanged("MineralAltMode");
-                    }
-
-                }
-                else
-                {
-                    _mineralAltMode = value = "0";
-                    RaisePropertyChanged("MineralAltMode");
-                }
-
-
-            }
-        }
 
         public ObservableCollection<Themes.ComboBoxItem> MineralAltMA { get { return _mineralAltMA; } set { _mineralAltMA = value; } }
         public string SelectedMineralAltMA { get { return _selectedMineralAltMA; } set { _selectedMineralAltMA = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralAltMinerals { get { return _mineralAltMinerals; } set { _mineralAltMinerals = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> MineralAltMineralsValues { get { return _mineralAltMineralsValues; } set { _mineralAltMineralsValues = value; } }
         public string SelectedMineralAltMineral { get { return _selectedMineralAltMineral; } set { _selectedMineralAltMineral = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralAltDist { get { return _mineralAltDist; } set { _mineralAltDist = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralAltDistValues { get { return _mineralAltDistValues; } set { _mineralAltDistValues = value; } }
@@ -132,22 +96,17 @@ namespace GSCFieldApp.ViewModels
 
             existingDataDetailMineralAlt = inReportModel;
 
-            if (existingDataDetailMineralAlt.GenericID != null)
-            {
-                CalculateResidual();
-            }
-
             //First order lists
             FillMineralAlterations();
             FillUnit();
             FillMinAltPhase();
             FillMinAltTexture();
             FillMinAltFacies();
+            FillMinerals();
 
             //Fill second order comboboxes (dependant on selected litho type)
             //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
             FillDistribution();
-            FillMinerals();
 
         }
 
@@ -165,14 +124,6 @@ namespace GSCFieldApp.ViewModels
             _mineralAltNote = existingDataDetailMineralAlt.mineralAlteration.MANotes;
             _mineralAltParentID = existingDataDetailMineralAlt.ParentID;
             _mineralAltAlias = existingDataDetailMineralAlt.mineralAlteration.MAName;
-            if (existingDataDetailMineralAlt.mineralAlteration.MAMode != null)
-            {
-                _mineralAltMode = existingDataDetailMineralAlt.mineralAlteration.MAMode.ToString();
-            }
-            else
-            {
-                _mineralAltMode = 0.ToString();
-            }
 
             _selectedMineralAltMA = existingDataDetailMineralAlt.mineralAlteration.MAMA;
             _selectedMineralAltUnit = existingDataDetailMineralAlt.mineralAlteration.MAUnit;
@@ -187,7 +138,6 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralAltAlias");
             RaisePropertyChanged("MineralAltNote");
             RaisePropertyChanged("MineralAltParentID");
-            RaisePropertyChanged("MineralAltMode");
             RaisePropertyChanged("SelectedMineralAltMA");
             RaisePropertyChanged("SelectedMineralAltUnit");
             RaisePropertyChanged("SelectedMineralAltPhase");
@@ -209,14 +159,9 @@ namespace GSCFieldApp.ViewModels
         {
             //Refill some comboboxes
             FillDistribution();
-            FillMinerals();
-
 
             //Keep
             existingDataDetailMineralAlt = incomingData;
-
-            //Set
-            _selectedMineralAltMineral = existingDataDetailMineralAlt.mineralAlteration.MAMineral;
 
             //Clean
             _mineralAltDistValues.Clear();
@@ -229,7 +174,6 @@ namespace GSCFieldApp.ViewModels
             }
 
             RaisePropertyChanged("SelectedMineralAltDist");
-            RaisePropertyChanged("SelectedMineralAltMineral");
             RaisePropertyChanged("MineralAltDistValues");
         }
 
@@ -241,7 +185,6 @@ namespace GSCFieldApp.ViewModels
             //Get current class information and add to model
             mineralAltModel.MAID = _mineralAltID; //Prime key
             mineralAltModel.MAName = _mineralAltAlias;
-            mineralAltModel.MAMode = _mineralAltMode;
             mineralAltModel.MANotes = _mineralAltNote;
             mineralAltModel.MAParentTable = Dictionaries.DatabaseLiterals.TableStation;
             mineralAltModel.MAParentID = _mineralAltParentID;
@@ -253,10 +196,6 @@ namespace GSCFieldApp.ViewModels
             if (SelectedMineralAltUnit != null)
             {
                 mineralAltModel.MAUnit = SelectedMineralAltUnit;
-            }
-            if (SelectedMineralAltMineral != null)
-            {
-                mineralAltModel.MAMineral = SelectedMineralAltMineral;
             }
             if (SelectedMineralAltPhase != null)
             {
@@ -284,91 +223,6 @@ namespace GSCFieldApp.ViewModels
                 newMineralAltEdit(this);
             }
         }
-
-        #region CALCULATE
-        public void CalculateResidual(string newMode = "")
-        {
-            // Language localization using Resource.resw
-            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-            string Prefix = loadLocalization.GetString("MineralDialogResidualPrefix");
-            string MiddleFix = loadLocalization.GetString("MineralDialogResidualMiddlefix");
-            string Suffix = loadLocalization.GetString("MineralDialogResidualSuffix");
-
-            List<object> mineralAltTableRaw = accessData.ReadTable(mineralAltModel.GetType(), null);
-            IEnumerable<MineralAlteration> mineralAltTable = mineralAltTableRaw.Cast<MineralAlteration>(); //Cast to proper list type
-
-            //Get a list of related mineralization alteration from selected station
-            string parentID = existingDataDetailMineralAlt.GenericID;
-
-            //Find proper parent id (request could come from a min. alt.)
-            if (existingDataDetailMineralAlt.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
-            {
-                parentID = existingDataDetailMineralAlt.ParentID;
-            }
-
-            //Find proper parent id (request could come from a mineral or an earthmat selection)
-            IEnumerable<MineralAlteration> mineralAltParentEarth = from ma in mineralAltTable where ma.MAParentID == parentID select ma;
-
-            if (_mineralAltResidualModes.Count == 0 && (mineralAltParentEarth.Count() != 0 || mineralAltParentEarth != null))
-            {
-                foreach (MineralAlteration mns in mineralAltParentEarth)
-                {
-                    _mineralAlterations.Add(mns.MAName);
-
-                    int currentPercentage = 0;
-                    bool currentModeParsed = int.TryParse(mns.MAMode, out currentPercentage);
-
-                    if (mns.MAID == existingDataDetailMineralAlt.GenericID)
-                    {
-                        if (newMode != string.Empty)
-                        {
-                            currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                        }
-
-                        if (currentModeParsed)
-                        {
-                            _mineralAltResidualModes[mns.MAID] = currentPercentage;
-                        }
-
-                    }
-                    else
-                    {
-                        if (currentModeParsed)
-                        {
-                            _mineralAltResidualModes[mns.MAID] = currentPercentage;
-                        }
-
-                    }
-
-                }
-
-                if (_mineralAltResidualModes.Count() == 0)
-                {
-                    int currentPercentage = 0;
-                    bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                    _mineralAltResidualModes[existingDataDetailMineralAlt.GenericID] = currentPercentage;
-                }
-
-            }
-            else
-            {
-                int currentPercentage = 0;
-                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                _mineralAltResidualModes[existingDataDetailMineralAlt.GenericID] = currentPercentage;
-            }
-
-
-            //Calculate total percentage
-            int _mineralResidualMode = 0;
-            foreach (KeyValuePair<string, int> modes in _mineralAltResidualModes)
-            {
-                _mineralResidualMode = _mineralResidualMode + modes.Value;
-            }
-            _mineralAltResidualText = Prefix + _mineralResidualMode.ToString() + MiddleFix + _mineralAltResidualModes.Count().ToString() + Suffix;
-            RaisePropertyChanged("MineralAltResidualText");
-
-        }
-        #endregion
 
         #region FILL
 
@@ -455,28 +309,18 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralAltMinerals");
 
             //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldMineralAlterationMineral;
-            string tableName = Dictionaries.DatabaseLiterals.TableMineralAlteration;
-
-
-            //Get min.alt. value
-            List<Vocabularies> mineralsFromMA = new List<Vocabularies>();
-
-            if (_selectedMineralAltMA != string.Empty && _selectedMineralAltMA != Dictionaries.DatabaseLiterals.DefaultNoData)
-            {
-                mineralsFromMA = accessData.GetPicklistValuesFromParent(tableName, fieldName, _selectedMineralAltMA, false).ToList();
-            }
-
+            string fieldName = Dictionaries.DatabaseLiterals.FieldMineral;
+            string tableName = Dictionaries.DatabaseLiterals.TableMineral;
 
             //Fill in cbox
-            foreach (var itemMinerals in accessData.GetComboboxListFromVocab(mineralsFromMA, out _selectedMineralAltMineral))
+            foreach (var itemMinerals in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralAltMineral))
             {
                 _mineralAltMinerals.Add(itemMinerals);
             }
 
             //Update UI
             RaisePropertyChanged("MineralAltMinerals");
-            RaisePropertyChanged("SelectedMineralAltMineral");
+            //RaisePropertyChanged("SelectedMineralAltMineral");
 
 
         }
@@ -598,21 +442,112 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralAltDistValues");
         }
 
+        /// <summary>
+        /// Catch submission event to track user input and add it to listview with all terms.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void MAMineralAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            AutoSuggestBox senderBox = sender as AutoSuggestBox;
+            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found")
+            {
+                Themes.ComboBoxItem selectedMineral = args.ChosenSuggestion as Themes.ComboBoxItem;
+                AddAConcatenatedValue(selectedMineral.itemValue, senderBox.Name);
+            }
+
+        }
+
+        /// <summary>
+        /// Will add to the list of purposes a selected purpose by the user.
+        /// </summary>
+        /// <param name="fieldName"> Optional, database table field name to know which collection to update</param>
+        /// <param name="parentComboboxName">Optional, parent combobox name in which a selected value will be appended to the list</param>
+        public void AddAConcatenatedValue(string valueToAdd, string parentComboboxName = null, string fieldName = null, bool canRemove = true)
+        {
+            if (valueToAdd != null && valueToAdd != String.Empty)
+            {
+                //Create new cbox item
+                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
+                newValue.itemValue = valueToAdd;
+
+                //Set visibility
+                if (canRemove)
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Visible;
+                }
+                else
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Collapsed;
+                }
+
+
+                #region Find parent collection
+                ObservableCollection<Themes.ComboBoxItem> parentCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                ObservableCollection<Themes.ComboBoxItem> parentConcatCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                List<Themes.ComboBoxItem> parentList = new List<Themes.ComboBoxItem>();
+
+                string parentProperty = string.Empty;
+
+                string NameToValidate = string.Empty;
+                if (parentComboboxName != null)
+                {
+                    NameToValidate = parentComboboxName;
+                }
+                if (fieldName != null)
+                {
+                    NameToValidate = fieldName;
+                }
+
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldMineral.ToLower()))
+                {
+                    parentCollection = MineralAltMinerals;
+                    parentConcatCollection = _mineralAltMineralsValues;
+                    parentProperty = "MineralAltMinerals";
+
+                }
+                #endregion
+
+
+                //Find itemName from itemValue in parent collection
+                if (parentCollection != null)
+                {
+                    foreach (Themes.ComboBoxItem cb in parentCollection)
+                    {
+                        if (cb.itemValue == valueToAdd || cb.itemName == valueToAdd)
+                        {
+                            newValue.itemName = cb.itemName;
+                            newValue.itemValue = cb.itemValue;
+                            break;
+                        }
+                    }
+                }
+
+                //Update collection
+                if (newValue.itemName != null && newValue.itemName != string.Empty && newValue.itemName != Dictionaries.DatabaseLiterals.picklistNADescription)
+                {
+                    bool foundValue = false;
+                    foreach (Themes.ComboBoxItem existingItems in parentConcatCollection)
+                    {
+                        if (valueToAdd == existingItems.itemName)
+                        {
+                            foundValue = true;
+                        }
+                    }
+                    if (!foundValue)
+                    {
+                        parentConcatCollection.Add(newValue);
+                        RaisePropertyChanged(parentProperty);
+                    }
+
+                }
+            }
+        }
+
+
         #endregion
 
         #region EVENTS
-
-        /// <summary>
-        /// Will initiate a new calculate on the mode dynamic text in the UI that will show on many % is left
-        /// from user entered mode value.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void MineralAltModeNumBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox senderBox = sender as TextBox;
-            CalculateResidual(senderBox.Text);
-        }
 
         /// <summary>
         /// Whenever a selection occurs in mineralization alteration list, filter child lists.
@@ -622,7 +557,6 @@ namespace GSCFieldApp.ViewModels
         public void MineralAlterationsNamesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FillDistribution();
-            FillMinerals();
         }
 
         #endregion

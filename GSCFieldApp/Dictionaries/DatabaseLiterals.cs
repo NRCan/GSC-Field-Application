@@ -256,14 +256,14 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldMineralAlterationName = "MAIDNAME";//Version 1.0
         public const string FieldMineralAlteration = "MA";//Version 1.0
         public const string FieldMineralAlterationUnit = "UNIT";//Version 1.0
-        public const string FieldMineralAlterationMineral = "MINERAL";//Version 1.0
-        public const string FieldMineralAlterationMode = "M_MODE";//Version 1.0
+        public const string FieldMineralAlterationMineralDeprecated = "MINERAL";//Version 1.0 deprecated
+        public const string FieldMineralAlterationModeDeprecated = "M_MODE";//Version 1.0 deprecated
         public const string FieldMineralAlterationDistrubute = "DISTRIBUTE";//Version 1.0
         public const string FieldMineralAlterationNotes = "NOTES";//Version 1.0
         public const string FieldMineralAlterationRelTable = "RELATIONTABLE";//Version 1.0
         public const string FieldMineralAlterationRelID = "RELATIONID";//Version 1.0
         public const string FieldMineralAlterationPhase = "PHASE"; //Version 1.6
-        public const string FieldMineralAlterationTexture = "TEXTURE"; //Version 1.6
+        public const string FieldMineralAlterationTexture = "TEXTSTRUC"; //Version 1.6
         public const string FieldMineralAlterationFacies = "ALTERATION_FACIES"; //Version 1.6
 
 
