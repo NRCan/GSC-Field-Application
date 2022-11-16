@@ -49,6 +49,7 @@ namespace GSCFieldApp.ViewModels
         private MineralAlteration mineralAltModel = new MineralAlteration();
         public DataIDCalculation mineralAltIDCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailMineralAlt;
+        private Mineral mineralModel = new Mineral();
         DataAccess accessData = new DataAccess();
 
         //Events and delegate
@@ -141,6 +142,19 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedMineralAltTexture");
             RaisePropertyChanged("SelectedMineralAltFacies");
 
+            //Special case for minerals
+            List<object> mineralTableRaw = accessData.ReadTable(mineralModel.GetType(), null);
+            IEnumerable<Mineral> mineralTable = mineralTableRaw.Cast<Mineral>(); //Cast to proper list type
+            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == _mineralAltID select e;
+            if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
+            {
+                foreach (Mineral mns in mineralParentEarth)
+                {
+                    AddAConcatenatedValue(mns.MineralName, null, Dictionaries.DatabaseLiterals.FieldMineral, false);
+                }
+
+            }
+
             //Update list view
             ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
             foreach (string d in ccBox.UnpipeString(existingDataDetailMineralAlt.mineralAlteration.MADistribute))
@@ -154,33 +168,6 @@ namespace GSCFieldApp.ViewModels
             doMineralAltUpdate = true;
 
         }
-
-        ///// <summary>
-        ///// Will fill the dialog with existing information coming from the database, based user selected mineralization / alteration. This 
-        ///// round of filling is dependant on a value.
-        ///// </summary>
-        ///// <param name="incomingData">The model in which the existing information is stored.</param>
-        //public void AutoFillDialog2ndRound(FieldNotes incomingData)
-        //{
-        //    //Refill some comboboxes
-        //    FillDistribution();
-
-        //    //Keep
-        //    existingDataDetailMineralAlt = incomingData;
-
-        //    //Clean
-        //    _mineralAltDistValues.Clear();
-
-        //    //Update list view
-        //    ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
-        //    foreach (string d in ccBox.UnpipeString(existingDataDetailMineralAlt.mineralAlteration.MADistribute))
-        //    {
-        //        AddADistribution(d);
-        //    }
-
-        //    RaisePropertyChanged("SelectedMineralAltDist");
-        //    RaisePropertyChanged("MineralAltDistValues");
-        //}
 
         /// <summary>
         /// On save event

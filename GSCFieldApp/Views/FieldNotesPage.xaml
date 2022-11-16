@@ -948,7 +948,7 @@
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:Name="ReportMineralAltList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:Name="ReportMineralAlterationList" Style="{StaticResource ReportPageGridView}"
                                     IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
                                     ItemTemplate="{StaticResource ReportMineralAltTemplate}"
                                       SelectedIndex="{x:Bind ViewModel.ReportMineralizationAlterationIndex, Mode=TwoWay}"

@@ -591,13 +591,6 @@ namespace GSCFieldApp.ViewModels
                 visitDateQuery = visitDateSelectFrom + visitDateWhere + visitDateOrderBy;
             }
 
-            ////Validate if summary needs to be reset because there is a new project
-            //List<object> stationDateTableRowsAll = dAccess.ReadTable(statDate.GetType(), visitDateQueryAll);
-            //if (stationDateTableRowsAll != null && stationDateTableRowsAll.Count == 0 && _reportSummaryDateItems.Count > 0)
-            //{
-            //    EmptyAll();
-            //}
-
             List<object> stationDateTableRows = dAccess.ReadTable(statDate.GetType(), visitDateQuery);
 
             if (stationDateTableRows != null && stationDateTableRows.Count != 0)
@@ -847,6 +840,22 @@ namespace GSCFieldApp.ViewModels
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TablePFlow);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineral);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableFossil);
+
+        }
+
+        /// <summary>
+        /// Will reset all headers to default for earthmat table childs.
+        /// </summary>
+        public void EmptyMineralizationAlterationChilds()
+        {
+
+            //Clear date from headers
+            _reportDetailedMinerals.Clear();
+
+            RaisePropertyChanged("ReportDetailedMineral");
+
+            //Reset opacity of header
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineral);
 
         }
 
@@ -2228,6 +2237,10 @@ namespace GSCFieldApp.ViewModels
                     {
                         EmptyStationChilds();
                     }
+                    else if (collectionNameToRefresh == "ReportDetailedMineralAlt")
+                    {
+                        EmptyMineralizationAlterationChilds();
+                    }
                     
 
                 }
@@ -2577,6 +2590,10 @@ namespace GSCFieldApp.ViewModels
             {
                 _mineralAltIconOpacity = enableOpacity;
                 _mineralAltAddIconOpacity = enableOpacity;
+
+                _mineralAddIconOpacity = enableOpacity;
+                _mineralAddIconColor.Color = GetTableColor(DatabaseLiterals.TableMineral);
+
                 hasMineralAlt = true;
             }
             if (_reportStationIndex != -1)
@@ -2658,8 +2675,7 @@ namespace GSCFieldApp.ViewModels
                 _fossilAddIconOpacity = disableOpacity;//Missing parent
                 _fossilAddIconColor.Color = _fossilColor.Color; // Header color (could be activated or not)
 
-                _mineralAddIconOpacity = disableOpacity;//Missing parent
-                _mineralAddIconColor.Color = _mineralColor.Color; // Header color (could be activated or not)
+
 
             }
             if (!hasDocument)
@@ -2681,6 +2697,11 @@ namespace GSCFieldApp.ViewModels
             {
                 _earthmatAddIconOpacity = disableOpacity;
                 _mineralAltAddIconOpacity = disableOpacity;
+            }
+            if (!hasEarthmat && !hasMineralAlt)
+            {
+                _mineralAddIconOpacity = disableOpacity;//Missing parent
+                _mineralAddIconColor.Color = _mineralColor.Color; // Header color (could be activated or not)
             }
 
             #endregion
@@ -3443,6 +3464,11 @@ namespace GSCFieldApp.ViewModels
                 PopMineral(_reportDetailedEarthmat[_reportEarthmatIndex], false);
             }
 
+            if (_reportMineralizationAlterationIndex != -1)
+            {
+                PopMineral(_reportDetailedMineralAlt[_reportMineralizationAlterationIndex], false);
+            }
+
         }
 
         public void MineralEditIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -3732,10 +3758,11 @@ namespace GSCFieldApp.ViewModels
                 if (selectedReport.GenericTableName == DatabaseLiterals.TableStation)
                 {
                     FillEarthmatFromStation();
-                    EmptyEarthmatChilds();
+                    EmptyEarthmatChilds();      
                     FillLocation();
                     FillDocument();
                     FillMineralAltFromStation();
+                    EmptyMineralizationAlterationChilds();
                 }
 
                 if (selectedReport.GenericTableName == DatabaseLiterals.TableEarthMat)
@@ -3747,9 +3774,26 @@ namespace GSCFieldApp.ViewModels
                     FillFossil();
                 }
 
+                if (selectedReport.GenericTableName == DatabaseLiterals.TableMineralAlteration)
+                {
+                    FillMineral();
+                }
+
                 
 
 
+            }
+            else
+            {
+                //Else empty children on each unselect
+                if (currentSender.Name.ToLower().Contains(DatabaseLiterals.KeywordEarthmat))
+                {
+                    EmptyEarthmatChilds();
+                }
+                if (currentSender.Name.ToLower().Contains(DatabaseLiterals.KeywordMA))
+                {
+                    EmptyMineralizationAlterationChilds();
+                }
             }
 
             SetHeaderIconOpacity();
