@@ -106,15 +106,15 @@
                         </RelativePanel>
 
                         <ComboBox x:Name="MineralAltPhaseComboBox" x:Uid="MineralAltPhase" 
-                                                ItemsSource="{x:Bind MAViewModel.MineralAltDist}"
+                                                ItemsSource="{x:Bind MAViewModel.MineralAltPhase}"
                                                 SelectedValue="{x:Bind MAViewModel.SelectedMineralAltPhase, Mode=TwoWay}"/>
 
                         <ComboBox x:Name="MineralAltTextureComboBox" x:Uid="MineralAltTexture" 
-                                                ItemsSource="{x:Bind MAViewModel.MineralAltDist}"
+                                                ItemsSource="{x:Bind MAViewModel.MineralAltTexture}"
                                                 SelectedValue="{x:Bind MAViewModel.SelectedMineralAltTexture, Mode=TwoWay}"/>
 
                         <ComboBox x:Name="MineralAltFaciesComboBox" x:Uid="MineralAltFacies" 
-                                                ItemsSource="{x:Bind MAViewModel.MineralAltDist}"
+                                                ItemsSource="{x:Bind MAViewModel.MineralAltFacies}"
                                                 SelectedValue="{x:Bind MAViewModel.SelectedMineralAltFacies, Mode=TwoWay}"/>
 
                     </GridView>

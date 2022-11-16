@@ -103,9 +103,6 @@ namespace GSCFieldApp.ViewModels
             FillMinAltTexture();
             FillMinAltFacies();
             FillMinerals();
-
-            //Fill second order comboboxes (dependant on selected litho type)
-            //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
             FillDistribution();
 
         }
@@ -144,28 +141,6 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedMineralAltTexture");
             RaisePropertyChanged("SelectedMineralAltFacies");
 
-            AutoFillDialog2ndRound(incomingData);
-
-            doMineralAltUpdate = true;
-
-        }
-
-        /// <summary>
-        /// Will fill the dialog with existing information coming from the database, based user selected mineralization / alteration. This 
-        /// round of filling is dependant on a value.
-        /// </summary>
-        /// <param name="incomingData">The model in which the existing information is stored.</param>
-        public void AutoFillDialog2ndRound(FieldNotes incomingData)
-        {
-            //Refill some comboboxes
-            FillDistribution();
-
-            //Keep
-            existingDataDetailMineralAlt = incomingData;
-
-            //Clean
-            _mineralAltDistValues.Clear();
-
             //Update list view
             ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
             foreach (string d in ccBox.UnpipeString(existingDataDetailMineralAlt.mineralAlteration.MADistribute))
@@ -175,7 +150,37 @@ namespace GSCFieldApp.ViewModels
 
             RaisePropertyChanged("SelectedMineralAltDist");
             RaisePropertyChanged("MineralAltDistValues");
+
+            doMineralAltUpdate = true;
+
         }
+
+        ///// <summary>
+        ///// Will fill the dialog with existing information coming from the database, based user selected mineralization / alteration. This 
+        ///// round of filling is dependant on a value.
+        ///// </summary>
+        ///// <param name="incomingData">The model in which the existing information is stored.</param>
+        //public void AutoFillDialog2ndRound(FieldNotes incomingData)
+        //{
+        //    //Refill some comboboxes
+        //    FillDistribution();
+
+        //    //Keep
+        //    existingDataDetailMineralAlt = incomingData;
+
+        //    //Clean
+        //    _mineralAltDistValues.Clear();
+
+        //    //Update list view
+        //    ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
+        //    foreach (string d in ccBox.UnpipeString(existingDataDetailMineralAlt.mineralAlteration.MADistribute))
+        //    {
+        //        AddADistribution(d);
+        //    }
+
+        //    RaisePropertyChanged("SelectedMineralAltDist");
+        //    RaisePropertyChanged("MineralAltDistValues");
+        //}
 
         /// <summary>
         /// On save event
@@ -353,27 +358,12 @@ namespace GSCFieldApp.ViewModels
         private void FillDistribution()
         {
 
-            //Reset
-            _mineralAltDist.Clear();
-            _mineralAltDistValues.Clear();
-            RaisePropertyChanged("MineralAltDist");
-            RaisePropertyChanged("MineralAltDistValues");
-
             //Init.
             string fieldName = Dictionaries.DatabaseLiterals.FieldMineralAlterationDistrubute;
             string tableName = Dictionaries.DatabaseLiterals.TableMineralAlteration;
 
-            //Get min.alt. value
-            List<Vocabularies> distFromMA = new List<Vocabularies>();
-
-            if (_selectedMineralAltMA != string.Empty && _selectedMineralAltMA != Dictionaries.DatabaseLiterals.DefaultNoData)
-            {
-                distFromMA = accessData.GetPicklistValuesFromParent(tableName, fieldName, _selectedMineralAltMA, false).ToList();
-            }
-
-
             //Fill in cbox
-            foreach (var itemDist in accessData.GetComboboxListFromVocab(distFromMA, out _selectedMineralAltDist))
+            foreach (var itemDist in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedMineralAltDist))
             {
                 _mineralAltDist.Add(itemDist);
             }
