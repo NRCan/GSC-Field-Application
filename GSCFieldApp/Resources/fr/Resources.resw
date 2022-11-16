@@ -600,9 +600,6 @@
   <data name="DocumentDirectionTextbox.Header" xml:space="preserve">
     <value> Direction</value>
   </data>
-  <data name="DocumentTypeTextbox.Header" xml:space="preserve">
-    <value>Type fichier</value>
-  </data>
   <data name="DocumentFromNoTextbox.Header" xml:space="preserve">
     <value>Début (#)</value>
   </data>

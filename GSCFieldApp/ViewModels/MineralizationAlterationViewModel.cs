@@ -212,7 +212,29 @@ namespace GSCFieldApp.ViewModels
 
             //process list of values so they are concatenated.
             ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
-            mineralAltModel.MADistribute = ccBox.PipeValues(_mineralAltDistValues); 
+            mineralAltModel.MADistribute = ccBox.PipeValues(_mineralAltDistValues);
+
+            //Special case for minerals
+            if (MineralAltMineralsValues.Count != 0)
+            {
+                FieldNotes maModelToSave = new FieldNotes();
+                maModelToSave.mineralAlteration = mineralAltModel;
+                MineralViewModel minVM = new MineralViewModel(maModelToSave);
+                List<string> listOfMinerals = new List<string>();
+
+                foreach (Themes.ComboBoxItem mins in MineralAltMineralsValues)
+                {
+                    //Save only if the mineral was a new added one, prevent duplicates
+                    if (mins.canRemoveItem == Windows.UI.Xaml.Visibility.Visible)
+                    {
+                        listOfMinerals.Add(mins.itemValue);
+                    }
+
+                }
+
+                minVM.QuickMineralRecordOnly(existingDataDetailMineralAlt, listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
+
+            }
 
             //Save model class
             accessData.SaveFromSQLTableObject(mineralAltModel, doMineralAltUpdate);
@@ -394,19 +416,6 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
-        /// Will remove a distribution from distribution list
-        /// </summary>
-        /// <param name="inDist"></param>
-        public void RemoveSelectedDistribution(object inDist)
-        {
-
-            Themes.ComboBoxItem oldDist = inDist as Themes.ComboBoxItem;
-            _mineralAltDistValues.Remove(oldDist);
-
-            RaisePropertyChanged("MineralAltDistValues");
-        }
-
-        /// <summary>
         /// Will add to the list of purposes a selected purpose by the user.
         /// </summary>
         public void AddADistribution(string distToAdd)
@@ -503,7 +512,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     parentCollection = MineralAltMinerals;
                     parentConcatCollection = _mineralAltMineralsValues;
-                    parentProperty = "MineralAltMinerals";
+                    parentProperty = "MineralAltMineralsValues";
 
                 }
                 #endregion
@@ -544,6 +553,27 @@ namespace GSCFieldApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Will remove a purpose from purpose list
+        /// </summary>
+        /// <param name="inPurpose"></param>
+        public void RemoveSelectedValue(object inPurpose, string parentListViewName)
+        {
+
+            Themes.ComboBoxItem oldValue = inPurpose as Themes.ComboBoxItem;
+
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldMineralAlterationDistrubute.ToLower()))
+            {
+                _mineralAltDistValues.Remove(oldValue);
+                RaisePropertyChanged("MineralAltDistValues");
+            }
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldMineral.ToLower()))
+            {
+                _mineralAltMineralsValues.Remove(oldValue);
+                RaisePropertyChanged("MineralAltMineralsValues");
+            }
+
+        }
 
         #endregion
 

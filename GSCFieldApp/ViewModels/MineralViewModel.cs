@@ -497,28 +497,38 @@ namespace GSCFieldApp.ViewModels
         /// <param name="parentModel">Earhtmat parent model</param>
         /// <param name="inMineralName">The new mineral name to add inside table</param>
         /// <returns>A detail report class</returns>
-        public void QuickMineralRecordOnly(FieldNotes parentModel, string inMineralName, string parentName)
+        public void QuickMineralRecordOnly(FieldNotes parentModel, List<string> inMineralNames, string parentName)
         {
-            if (!_minerals.Contains(inMineralName))
+            if (inMineralNames.Count() > 0)
             {
-                //Get current class information and add to model
-                if (parentName == DatabaseLiterals.TableEarthMat)
+                List<object> mineralObjects = new List<object>();
+
+                foreach (string inMinName in inMineralNames)
                 {
-                    mineralModel.MineralEMID = _mineralParentID; //Foreigh key
+                    Mineral newMineral = new Mineral();
+                    //Get current class information and add to model
+                    if (parentName == DatabaseLiterals.TableEarthMat)
+                    {
+                        newMineral.MineralEMID = _mineralParentID; //Foreigh key
+                    }
+                    else if (parentName == DatabaseLiterals.TableMineralAlteration)
+                    {
+                        newMineral.MineralMAID = _mineralParentID; //Foreigh key
+                    }
+
+                    newMineral.MineralIDName = mineralIDCalculator.CalculateMineralAlias(_mineralParentID, _mineralParentAlias, inMineralNames.IndexOf(inMinName));
+                    newMineral.MineralID = mineralIDCalculator.CalculateMineralID(); //Prime key
+                    newMineral.MineralName = inMinName;
+                    newMineral.MineralSizeMax = 0.ToString();
+                    newMineral.MineralSizeMin = 0.ToString();
+
+                    mineralObjects.Add(newMineral);
                 }
-                else if (parentName == DatabaseLiterals.TableMineral)
-                {
-                    mineralModel.MineralMAID = _mineralParentID; //Foreigh key
-                }
-               
-                mineralModel.MineralIDName = _mineralAlias;
-                mineralModel.MineralID = _mineralID; //Prime key
-                mineralModel.MineralName = inMineralName;
-                mineralModel.MineralSizeMax = 0.ToString();
-                mineralModel.MineralSizeMin = 0.ToString();
+
+
 
                 //Save model class
-                accessData.SaveFromSQLTableObject(mineralModel, false);
+                accessData.BatchSaveSQLTables(mineralObjects);
             }
         }
 

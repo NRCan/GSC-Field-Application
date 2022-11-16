@@ -713,15 +713,16 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
+        /// <param name="idAddIncrement">A value to add to ID for increment start, used for bacth calculate</param>
         /// <returns></returns>
-        public string CalculateMineralAlias(string parentID, string parentAlias)
+        public string CalculateMineralAlias(string parentID, string parentAlias, int idAddIncrement = 1)
         {
             //Querying with Linq
             List<object> MineralTableRaw = dAccess.ReadTable(mineralModel.GetType(), null);
             IEnumerable<Mineral> mineralTable = MineralTableRaw.Cast<Mineral>(); //Cast to proper list type
             IEnumerable<string> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID orderby e.MineralIDName descending select e.MineralIDName;
 
-            int newID = 1; //Incrementing step
+            int newID = 1 + idAddIncrement; //Incrementing step
             string newAlias = string.Empty;
             string finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix;
 
@@ -762,7 +763,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             else
             {
-                finaleMineralString = parentAlias + "0" + newID;
+                finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + "0" + newID;
             }
 
             return finaleMineralString;
@@ -948,16 +949,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             return equivalentNumber;
 
         }
-
-        ///// <summary>
-        ///// Will calculate a new GUID converted to a base 64 string, hence the small guid.
-        ///// </summary>
-        ///// <returns></returns>
-        //public string CalculateSmallGUID()
-        //{
-        //    return Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("===", "");
-
-        //}
 
         /// <summary>
         /// Will calculate a new GUID

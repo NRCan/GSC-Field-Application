@@ -575,17 +575,20 @@ namespace GSCFieldApp.ViewModels
             {
                 FieldNotes earthModelToSave = new FieldNotes();
                 earthModelToSave.earthmat = earthmodel;
-
+                MineralViewModel minVM = new MineralViewModel(earthModelToSave);
+                List<string> listOfMinerals = new List<string>();
                 foreach (Themes.ComboBoxItem mins in EarthmatMineralValues)
                 {
                     //Save only if the mineral was a new added one, prevent duplicates
                     if (mins.canRemoveItem == Windows.UI.Xaml.Visibility.Visible)
                     {
-                        MineralViewModel minVM = new MineralViewModel(earthModelToSave);
-                        minVM.QuickMineralRecordOnly(existingDataDetail, mins.itemValue, Dictionaries.DatabaseLiterals.TableEarthMat);
+                        listOfMinerals.Add(mins.itemValue);
+                        
                     }
 
                 }
+
+                minVM.QuickMineralRecordOnly(existingDataDetail, listOfMinerals, Dictionaries.DatabaseLiterals.TableEarthMat);
 
             }
 

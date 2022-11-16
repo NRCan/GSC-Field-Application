@@ -105,12 +105,23 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            IList<object> selectedValues = this.MineralAltDistConcat.SelectedItems;
+            //Find the clicked symbol icon list view parent
+            SymbolIcon senderIcon = sender as SymbolIcon;
+            DependencyObject iconParent = VisualTreeHelper.GetParent(senderIcon);
+            while (!(iconParent is ListView))
+            {
+                iconParent = VisualTreeHelper.GetParent(iconParent);
+
+            }
+
+            //Find value associated with clicked symbol icon and remove from list view.
+            ListView parentListView = iconParent as ListView;
+            IList<object> selectedValues = parentListView.SelectedItems;
             if (selectedValues.Count > 0)
             {
                 foreach (object values in selectedValues)
                 {
-                    MAViewModel.RemoveSelectedDistribution(values);
+                    MAViewModel.RemoveSelectedValue(values, parentListView.Name);
                 }
             }
         }
@@ -128,13 +139,13 @@ namespace GSCFieldApp.Views
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 //Set the ItemsSource to be your filtered dataset
-                var search_term = MAAutoSuggest.Text.ToLower();
+                var search_term = MAMineralAutoSuggest.Text.ToLower();
                 var results = MAViewModel.MineralAltMinerals.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
 
                 if (results.Count > 0)
-                    MAAutoSuggest.ItemsSource = results;
+                    MAMineralAutoSuggest.ItemsSource = results;
                 else
-                    MAAutoSuggest.ItemsSource = new string[] { "No results found" };
+                    MAMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
             }
 
         }

@@ -77,13 +77,13 @@
                             <RelativePanel>
                                 <TextBlock x:Name="MAMineralWarning" x:Uid="EarthDialogMineralWarning" FontStyle="Italic" Margin="0,0,0,10" TextWrapping="Wrap"/>
 
-                                <AutoSuggestBox x:Name="MAAutoSuggest" x:Uid="MAMineralAutoSuggestBox" QueryIcon="Find" Width="300" RelativePanel.Below="MAMineralWarning"
+                                <AutoSuggestBox x:Name="MAMineralAutoSuggest" x:Uid="MAMineralAutoSuggestBox" QueryIcon="Find" Width="300" RelativePanel.Below="MAMineralWarning"
                                             TextChanged="MAMineralAutoSuggest_TextChanged" TextMemberPath="itemName" DisplayMemberPath="itemName" 
                                             QuerySubmitted="{x:Bind MAViewModel.MAMineralAutoSuggest_QuerySubmitted}" Margin="0,0,0,10"/>
 
-                                <ListView x:Name="MAMineralConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MAAutoSuggest"
+                            <ListView x:Name="MAMineralConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MAMineralAutoSuggest"
                                                     ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
-                                                    ItemsSource="{x:Bind MAViewModel.MineralAltMinerals}"/>
+                                                    ItemsSource="{x:Bind MAViewModel.MineralAltMineralsValues}"/>
                             </RelativePanel>
 
                         </GridView>
@@ -99,7 +99,7 @@
                                             ItemsSource="{x:Bind MAViewModel.MineralAltDist}"
                                             SelectedValue="{x:Bind MAViewModel.SelectedMineralAltDist, Mode=TwoWay}"
                                                             SelectionChanged="{x:Bind MAViewModel.MineralAlterationDistComboBox_SelectionChanged}"/>
-                            <ListView x:Name="MineralAltDistConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MineralAltDistComboBox"
+                            <ListView x:Name="MineralAltDistributeConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MineralAltDistComboBox"
                                                             ItemTemplate="{StaticResource ConcatenatedValueTemplate}" 
                                                             ItemsSource="{x:Bind MAViewModel.MineralAltDistValues}"/>
 
