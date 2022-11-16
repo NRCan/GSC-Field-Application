@@ -130,7 +130,6 @@
     <Content Include="ModelResources\GSCFieldwork.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="GSCFieldApp_TemporaryKey.pfx" />
     <Content Include="ModelResources\GSCFieldwork_v143.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
