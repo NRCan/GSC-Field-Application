@@ -723,7 +723,7 @@ namespace GSCFieldApp.ViewModels
 
                         if ((epsg > 26900 && epsg < 27000))
                         {
-                            outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                            outSR = SpatialReference.Create(4326);
                             datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
                         }
 
@@ -850,7 +850,7 @@ namespace GSCFieldApp.ViewModels
 
                                     if ((epsg > 26900 && epsg < 27000))
                                     {
-                                        outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                                        outSR = SpatialReference.Create(4617);
                                         datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
                                     }
 
@@ -1820,7 +1820,7 @@ namespace GSCFieldApp.ViewModels
                 //Convert projected to geographic if needed
                 if (mapPoint.SpatialReference.IsProjected)
                 {
-                    SpatialReference geographicSpatialReference = new SpatialReference(4326);
+                    SpatialReference geographicSpatialReference = SpatialReference.Create(4326);
                     mapPoint = (MapPoint)GeometryEngine.Project(mapPoint, geographicSpatialReference);
                 }
 
@@ -2297,36 +2297,37 @@ namespace GSCFieldApp.ViewModels
                 }
                 else if (fileName.Contains(".mmpk"))
                 {
-                    MobileMapPackage mobileMapPackage;
-                    bool isDirectReadSupported = await MobileMapPackage.IsDirectReadSupportedAsync(sf.Path);
-                    if (isDirectReadSupported)
-                    {
-                        mobileMapPackage = await MobileMapPackage.OpenAsync(sf.Path);
-                    }
-                    else
-                    {
-                        await MobileMapPackage.UnpackAsync(sf.Path, accessData.ProjectPath);
-                        mobileMapPackage = await MobileMapPackage.OpenAsync(accessData.ProjectPath);
-                    }
+                    ///Deprecated MobileMapPackage.IsDirectReadSupportedAsync by ESRI, commented out for now
+                    //MobileMapPackage mobileMapPackage;
+                    //bool isDirectReadSupported = await MobileMapPackage.IsDirectReadSupportedAsync(sf.Path);
+                    //if (isDirectReadSupported)
+                    //{
+                    //    mobileMapPackage = await MobileMapPackage.OpenAsync(sf.Path);
+                    //}
+                    //else
+                    //{
+                    //    await MobileMapPackage.UnpackAsync(sf.Path, accessData.ProjectPath);
+                    //    mobileMapPackage = await MobileMapPackage.OpenAsync(accessData.ProjectPath);
+                    //}
 
-                    if (mobileMapPackage.Maps.Count > 0)
-                    {
-                        Map mymap = mobileMapPackage.Maps.First();
-                        currentMapView.Map = mymap;
-                        //currentMapView.UpdateLayout();
+                    //if (mobileMapPackage.Maps.Count > 0)
+                    //{
+                    //    Map mymap = mobileMapPackage.Maps.First();
+                    //    currentMapView.Map = mymap;
+                    //    //currentMapView.UpdateLayout();
 
-                        foreach (Layer item in currentMapView.Map.AllLayers)
-                        {
-                            MapPageLayers im = new MapPageLayers();
-                            im.LayerName = item.Name;
-                            MapPageLayerSetting mpls = new MapPageLayerSetting();
-                            mpls.LayerOpacity = item.Opacity * 100;
-                            mpls.LayerVisibility = item.IsVisible;
-                            im.LayerSettings = mpls;
-                            _filenameValues.Add(im);
-                            RaisePropertyChanged("FilenameValues");
-                        }
-                    }
+                    //    foreach (Layer item in currentMapView.Map.AllLayers)
+                    //    {
+                    //        MapPageLayers im = new MapPageLayers();
+                    //        im.LayerName = item.Name;
+                    //        MapPageLayerSetting mpls = new MapPageLayerSetting();
+                    //        mpls.LayerOpacity = item.Opacity * 100;
+                    //        mpls.LayerVisibility = item.IsVisible;
+                    //        im.LayerSettings = mpls;
+                    //        _filenameValues.Add(im);
+                    //        RaisePropertyChanged("FilenameValues");
+                    //    }
+                    //}
                 }
 
             }

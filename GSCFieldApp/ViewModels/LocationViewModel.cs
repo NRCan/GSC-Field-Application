@@ -221,11 +221,11 @@ namespace GSCFieldApp.ViewModels
 
 
                 //Detect Datum difference
-                SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                SpatialReference inSR = SpatialReference.Create(selectedEPGS);
                 SpatialReference outSR = SpatialReferences.Wgs84; //Default
                 if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
                 {
-                    outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                    outSR = SpatialReference.Create(4617);
                 }
 
                 MapPoint geoSave = CalculateGeographicCoordinate(_easting, _northing, inSR, outSR);
@@ -321,7 +321,7 @@ namespace GSCFieldApp.ViewModels
                     DatumTransformation datumTransfo = null;
                     if ((outSR.Wkid > 26900 && outSR.Wkid < 27000))
                     {
-                        outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                        outSR = SpatialReference.Create(4617);
                     }
                     else
                     {
@@ -394,11 +394,11 @@ namespace GSCFieldApp.ViewModels
                         SpatialReference inSR = SpatialReferences.Wgs84; //Default
                         if (selectedEPGS > 26900 && selectedEPGS < 27000)
                         {
-                            inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                            inSR = SpatialReference.Create(4617); 
                         }
 
                         MapPoint geoPoint = new MapPoint(x_value, y_value, inSR);
-                        var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                        var outSpatialRef = SpatialReference.Create(selectedEPGS);
                         MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
 
                         int y = (int)projPoint.Y;
@@ -473,11 +473,11 @@ namespace GSCFieldApp.ViewModels
                     if (selectedEPGS > 10000)
                     {
                         //Detect Datum difference
-                        SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                        SpatialReference inSR = SpatialReference.Create(selectedEPGS);
                         SpatialReference outSR = SpatialReferences.Wgs84; //Default
                         if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
                         {
-                            outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                            outSR = SpatialReference.Create(4617);
                         }
 
                         //Get geographic point

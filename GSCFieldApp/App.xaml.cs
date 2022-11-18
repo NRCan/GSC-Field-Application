@@ -72,12 +72,6 @@ namespace GSCFieldApp
             await Task.CompletedTask;
         }
 
-
-
-        public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
-        {
-        }
-
         /// <summary>
         /// Licence app to use ESRI ArcGIS Runtime SDK in Lite mode
         /// The following lines need not be here, they just need to appear prior to any use of SDK functionality.
