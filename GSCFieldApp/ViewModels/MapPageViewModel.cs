@@ -366,7 +366,7 @@ namespace GSCFieldApp.ViewModels
                     userHasTurnedGPSOff = true;
                     SetGPSModeIcon(Symbol.TouchPointer);
 
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         await NoLocationRoutine();
                         StopLocationRing();
@@ -394,7 +394,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
 
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog notInitLocationDialog = new ContentDialog()
                         {
@@ -428,7 +428,7 @@ namespace GSCFieldApp.ViewModels
 
 
 
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog NALocationDialog = new ContentDialog()
                         {
@@ -458,7 +458,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
 
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog defaultEventLocationDialog = new ContentDialog()
                         {
@@ -498,7 +498,7 @@ namespace GSCFieldApp.ViewModels
                     canAccess = false;
 
                     //Force call on UI thread, else it could crash the app if async call is made another thread.
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog tapModeDialog = new ContentDialog()
                         {
@@ -518,7 +518,7 @@ namespace GSCFieldApp.ViewModels
                     canAccess = false;
 
                     //Force call on UI thread, else it could crash the app if async call is made another thread.
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog tapModeDialog = new ContentDialog()
                         {
@@ -996,7 +996,7 @@ namespace GSCFieldApp.ViewModels
                             if (initializingGPS)
                             {
                                 //Force call on UI thread, else it could crash the app if async call is made another thread.
-                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                                 {
 
 
@@ -1192,7 +1192,7 @@ namespace GSCFieldApp.ViewModels
         {
             // Language localization using Resource.resw
             //var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 ContentDialog noLocationFlightModeDialog = new ContentDialog()
                 {
@@ -1261,7 +1261,7 @@ namespace GSCFieldApp.ViewModels
         {
             // Language localization using Resource.resw
             //var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
 
                 ContentDialog noPoorHorizontalAccuracyDialog = new ContentDialog()
@@ -1428,7 +1428,7 @@ namespace GSCFieldApp.ViewModels
 
         async public void OnPositionChanged(Geolocator sender, PositionChangedEventArgs e)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 Geolocal_Update(e.Position);
             });
@@ -1997,7 +1997,7 @@ namespace GSCFieldApp.ViewModels
         {
             try
             {
-                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     //Clear map overlay
                     if (_OverlayCurrentPosition != null)

@@ -416,7 +416,7 @@ namespace GSCFieldApp.ViewModels
                 if (!isSystemValid && _selectedLocationDatums != null && _selectedLocationDatums != string.Empty)
                 {
                     //Show warning to select something
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog defaultEventLocationDialog = new ContentDialog()
                         {
@@ -497,7 +497,7 @@ namespace GSCFieldApp.ViewModels
                 if (!isSystemValid && _selectedLocationDatums != null && _selectedLocationDatums != string.Empty)
                 {
                     //Show warning to select something
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog defaultEventLocationDialog = new ContentDialog()
                         {
