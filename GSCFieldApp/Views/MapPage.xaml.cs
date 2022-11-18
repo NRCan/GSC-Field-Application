@@ -56,7 +56,7 @@ namespace GSCFieldApp.Views
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
             this.Loaded += MapPage_Loaded;
 
-            Application.Current.Resuming += Current_Resuming;
+            //Application.Current.Resuming += Current_Resuming;
 
 
         }
@@ -97,7 +97,7 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!ViewModel.userHasTurnedGPSOff)
+            if (!ViewModel.userHasTurnedGPSOff && ViewModel._currentMSGeoposition == null)
             {
                 ViewModel.StartLocationRing();
             }
@@ -116,7 +116,7 @@ namespace GSCFieldApp.Views
                 {
                     bool isNewProject = Convert.ToBoolean(dataValue.GetString());
 
-                    if (isNewProject)
+                    if (isNewProject && ViewModel._OverlayStation == null)
                     {
                         if (myMapView.Map != null)
                         {

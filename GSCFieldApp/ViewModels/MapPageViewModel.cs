@@ -336,19 +336,25 @@ namespace GSCFieldApp.ViewModels
 
                 case PositionStatus.NoData:
                     //// Location platform could not obtain location data.
-                    StartLocationRing();
-                    ResetLocationGraphic();
-                    await Task.Delay(30000); //Let enough time to pass so GPS actually gets a proper fix
-                    await NoLocationFlightMode();
 
-                    try
+                    if (!_progressRingActive)
                     {
-                        await SetGPS();
+                        StartLocationRing();
+                        ResetLocationGraphic();
                     }
-                    catch (Exception)
-                    {
+                    
+                    
+                    //await Task.Delay(3000); //Let enough time to pass so GPS actually gets a proper fix
+                    //await NoLocationFlightMode();
 
-                    }
+                    //try
+                    //{
+                    //    await SetGPS();
+                    //}
+                    //catch (Exception)
+                    //{
+
+                    //}
 
 
                     break;
@@ -1439,7 +1445,10 @@ namespace GSCFieldApp.ViewModels
             {
                 if (!userHasTurnedGPSOff)
                 {
-
+                    if (_progressRingActive)
+                    {
+                        StopLocationRing();
+                    }
                     _currentAccuracy = in_position.Coordinate.Accuracy;
                     RaisePropertyChanged("CurrentAccuracy");
                     mapScale = currentMapView.MapScale;
