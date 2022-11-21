@@ -63,24 +63,9 @@
                              EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
                              RelativePanel.AlignLeftWithPanel="True" Height="20">
             </Controls:PageHeader>
-
-            <RelativePanel x:Name="picklistRelativePanel" 
-                           RelativePanel.AlignLeftWithPanel="True" 
-                           RelativePanel.AlignRightWithPanel="True" 
-                           RelativePanel.Below="pageHeader" 
-                           RelativePanel.Above="pageFooter">
-
-                <ScrollViewer VerticalScrollMode="Auto" 
-                          RelativePanel.AlignTopWithPanel="True"
-                          RelativePanel.AlignBottomWithPanel="True"
-                          RelativePanel.AlignRightWithPanel="True"
-                          RelativePanel.AlignLeftWithPanel="True"
-                          VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-
-                    <RelativePanel x:Name="picklistScrollRelativePanel"
-                    RelativePanel.AlignLeftWithPanel="True" 
-                    RelativePanel.AlignRightWithPanel="True" 
-                    Padding="10,5,10,0">
+            <RelativePanel Style="{StaticResource ParentPanel}" >
+                <ScrollViewer Style="{StaticResource VerticalScroll}">
+                    <RelativePanel Style="{StaticResource ChildPanel}" >
 
                         <ComboBox x:Name="picklistSelector" Margin="15" x:Uid="PicklistEditorPicklists"
                           ItemsSource="{x:Bind picklistVM.Picklists}" 
