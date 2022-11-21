@@ -1452,7 +1452,16 @@ namespace GSCFieldApp.ViewModels
                     }
                     _currentAccuracy = in_position.Coordinate.Accuracy;
                     RaisePropertyChanged("CurrentAccuracy");
-                    mapScale = currentMapView.MapScale;
+
+                    if (!Double.IsNaN(currentMapView.MapScale))
+                    {
+                        mapScale = currentMapView.MapScale;
+                    }
+                    else
+                    {
+                        mapScale = ApplicationLiterals.defaultMapScale;
+                    }
+                    
 
                     //Only move if there is a coordinate
                     if (in_position.Coordinate.Point.Position.Longitude != 0 && in_position.Coordinate.Point.Position.Latitude != 0)
@@ -1469,7 +1478,7 @@ namespace GSCFieldApp.ViewModels
                         RaisePropertyChanged("CurrentAltitude");
 
                         //Reset view on current location
-                        bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(1.5));
+                        bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(0.75));
                     }
                     else
                     {

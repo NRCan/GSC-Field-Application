@@ -114,28 +114,28 @@ namespace GSCFieldApp.Views
             if (e.Parameter != null && e.Parameter.ToString() != string.Empty)
             {
 
-                JsonObject paramObject = JsonObject.Parse(e.Parameter.ToString());
+                //JsonObject paramObject = JsonObject.Parse(e.Parameter.ToString());
 
-                //Get the data value out of the json
-                IJsonValue dataValue;
-                if (paramObject.TryGetValue("Data", out dataValue))
-                {
-                    bool isNewProject = Convert.ToBoolean(dataValue.GetString());
+                ////Get the data value out of the json
+                //IJsonValue dataValue;
+                //if (paramObject.TryGetValue("Data", out dataValue))
+                //{
+                //    bool isNewProject = Convert.ToBoolean(dataValue.GetString());
 
-                    if (isNewProject && ViewModel._OverlayStation == null)
-                    {
-                        if (myMapView.Map != null)
-                        {
-                            //Do a clean clear
-                            ViewModel.ClearLayers();
-                            ViewModel.ClearMapViewSettings();
+                //    if (isNewProject && ViewModel._OverlayStation == null)
+                //    {
+                //        if (myMapView.Map != null)
+                //        {
+                //            //Do a clean clear
+                //            ViewModel.ClearLayers();
+                //            ViewModel.ClearMapViewSettings();
 
-                            //Refresh
-                            SetBackgroundGrid();
-                            ViewModel.DisplayPointAndLabelsAsync(myMapView);
-                        }
-                    }
-                }
+                //            //Refresh
+                //            SetBackgroundGrid();
+                //            ViewModel.DisplayPointAndLabelsAsync(myMapView);
+                //        }
+                //    }
+                //}
             }
             else
             {
@@ -186,6 +186,7 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            ViewModel.currentMapView.CancelSetViewpointOperations();
             base.OnNavigatingFrom(e);
         }
 
