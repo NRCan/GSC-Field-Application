@@ -134,7 +134,7 @@
         </controls:PageHeader>
 
         <controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right"
-                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40">
+                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" EllipsisVisibility="Collapsed" IsSticky="False" Height="40">
          
             <controls:PageHeader.PrimaryCommands>
 
