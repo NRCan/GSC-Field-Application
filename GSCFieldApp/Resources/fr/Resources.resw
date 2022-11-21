@@ -600,14 +600,11 @@
   <data name="DocumentDirectionTextbox.Header" xml:space="preserve">
     <value> Direction</value>
   </data>
-  <data name="DocumentTypeTextbox.Header" xml:space="preserve">
-    <value>Type fichier</value>
-  </data>
   <data name="DocumentFromNoTextbox.Header" xml:space="preserve">
     <value>Début (#)</value>
   </data>
   <data name="DocumentTypeCombobox.Header" xml:space="preserve">
-    <value>Nom fichier</value>
+    <value>Type fichier</value>
   </data>
   <data name="DocumentNumberTextbox.Header" xml:space="preserve">
     <value>#</value>

@@ -279,7 +279,7 @@ namespace GSCFieldApp.ViewModels
         public async Task SetGPS()
         {
             //// Location platform is attempting to acquire a fix.
-            ResetLocationGraphic();
+            //ResetLocationGraphic();
 
             var accessStatus = await Geolocator.RequestAccessAsync();
 
@@ -293,6 +293,7 @@ namespace GSCFieldApp.ViewModels
                     _geolocator = new Geolocator { ReportInterval = 750 };
 
                     // Subscribe to the StatusChanged event to get updates of location status changes.
+                    _geolocator.PositionChanged -= OnPositionChanged;
                     _geolocator.PositionChanged += OnPositionChanged;
                     _geolocator.StatusChanged += Geolocal_StatusChangedAsync;
 

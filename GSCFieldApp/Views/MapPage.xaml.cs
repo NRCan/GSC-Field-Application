@@ -29,6 +29,7 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
+using Windows.ApplicationModel.Resources;
 
 namespace GSCFieldApp.Views
 {
@@ -44,7 +45,7 @@ namespace GSCFieldApp.Views
         private string resourceNameGridColor = "MapViewGridColor";
 
         //Options
-        bool tapMode = false;
+        //bool tapMode = false;
 
         #endregion
 
@@ -54,10 +55,11 @@ namespace GSCFieldApp.Views
 
             this.InitializeComponent();
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
-            this.Loaded += MapPage_Loaded;
+
+            //this.Loaded -= MapPage_Loaded;
+            //this.Loaded += MapPage_Loaded;
 
             //Application.Current.Resuming += Current_Resuming;
-
 
         }
 
@@ -86,8 +88,12 @@ namespace GSCFieldApp.Views
         private void MapPage_Loaded(object sender, RoutedEventArgs e)
         {
             DisplayLatLongGrid();
+
             mapsLoaded = true;
             UpdateGrid();
+
+            //myMapView.UpdateLayout();
+
         }
 
         /// <summary>
@@ -144,12 +150,33 @@ namespace GSCFieldApp.Views
                 Task navigateToLocationTask = ViewModel.SetMapView(myMapView);
                 await navigateToLocationTask;
             }
-            catch (Exception)
+            catch (Exception er)
             {
+                ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    ContentDialog defaultEventLocationDialog = new ContentDialog()
+                    {
+                        Title = local.GetString("MapPageDialogLocationTitle"),
+                        Content = local.GetString("MapPageDialogLocationUnknownError"),
+                        CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                    };
+                    defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                    await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
+                    //StopLocationRing();
+                }).AsTask();
+
 
             }
 
+            DisplayLatLongGrid();
+            mapsLoaded = true;
+            UpdateGrid();
 
+            //Refresh
+            //SetBackgroundGrid();
+            //ViewModel.DisplayPointAndLabelsAsync(myMapView);
         }
 
         /// <summary>
@@ -256,7 +283,7 @@ namespace GSCFieldApp.Views
                 myMapView.Grid = gridLatLongDefault;
             }
 
-            myMapView.UpdateLayout();
+            //myMapView.UpdateLayout();
 
         }
 
@@ -331,7 +358,7 @@ namespace GSCFieldApp.Views
                     }
                 }
                 myMapView.BackgroundGrid.GridLineWidth = 0;
-                myMapView.UpdateLayout();
+                //myMapView.UpdateLayout();
             }
 
         }

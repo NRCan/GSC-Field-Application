@@ -81,7 +81,7 @@ namespace GSCFieldApp.ViewModels
 
         //UI interaction
         private string deleteRequestFromTable = string.Empty;
-        private bool needRefresh = false;
+        //private bool needRefresh = false;
 
         //UI
         private bool _locationHeaderExpansion = true;
