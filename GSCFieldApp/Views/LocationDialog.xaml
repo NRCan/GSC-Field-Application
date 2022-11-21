@@ -73,7 +73,7 @@
                                 Text ="{x:Bind locationVM.LocationLongitude, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"/>
 
                             <Button x:Name="ButtonConvertToUTM" Content="To UTM" Margin="0,28,0,0" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                            Tapped="ButtonConvertToUTM_TappedAsync"/>
+                            Tapped="ButtonConvertToUTM_Tapped"/>
 
                         </GridView>
 

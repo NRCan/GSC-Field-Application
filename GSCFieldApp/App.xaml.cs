@@ -46,6 +46,11 @@ namespace GSCFieldApp
 
         }
 
+        public override Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
+        {
+            return Task.CompletedTask;
+        }
+
         /// <summary>
         /// Will init a modal dialog to use for user info view page if needed.
         /// </summary>
