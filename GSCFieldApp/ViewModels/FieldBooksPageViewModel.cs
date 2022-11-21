@@ -357,7 +357,7 @@ namespace GSCFieldApp.ViewModels
             //If user is trying to delete the only loaded field book
             if (_projectCollection.Count == 1)
             {
-                AddNewProject();
+                await AddNewProject();
             }
 
             //Refresh page
@@ -529,7 +529,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void projectOpenButton_TappedAsync(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        public void projectOpenButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             string pPath = _projectCollection[_selectedProjectIndex].ProjectPath;
             string wType = _projectCollection[_selectedProjectIndex].metadataForProject.FieldworkType;

@@ -319,7 +319,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async Task<bool> SaveDialogInfoAsync()
+        public Task<bool> SaveDialogInfoAsync()
         {
 
             //await SetModel();
@@ -336,7 +336,7 @@ namespace GSCFieldApp.ViewModels
 
             }
 
-            return Model.isValid;
+            return Task.FromResult(Model.isValid);
         }
 
         #endregion

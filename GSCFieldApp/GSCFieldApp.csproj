@@ -38,6 +38,7 @@
     <HoursBetweenUpdateChecks>8760</HoursBetweenUpdateChecks>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppInstallerUri>https://github.com/NRCan/GSC-Field-Application/releases</AppInstallerUri>
+    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -129,7 +130,6 @@
     <Content Include="ModelResources\GSCFieldwork.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="GSCFieldApp_TemporaryKey.pfx" />
     <Content Include="ModelResources\GSCFieldwork_v143.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -298,6 +298,7 @@
   <ItemGroup>
     <Content Include="Assets\IC809393.png" />
     <Content Include="Help.htm" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

@@ -288,7 +288,7 @@ namespace GSCFieldApp.Services.FileServices
         /// <param name="files">A list of storage files to add inside zip archive</param>
         /// <param name="currentUserCode"></param>
         /// <returns>archive path</returns>
-        public async Task<string> AddFilesToZip(List<StorageFile> files, string fieldbookpath = "", string currentUserCode = "")
+        public Task<string> AddFilesToZip(List<StorageFile> files, string fieldbookpath = "", string currentUserCode = "")
         {
             //Make a copy of the photo inside the field book folder only if it doesn't already exists
             if (fieldbookpath == string.Empty)
@@ -311,7 +311,7 @@ namespace GSCFieldApp.Services.FileServices
                 }
             }
 
-            return zipFile;
+            return Task.FromResult(zipFile);
         }
 
         /// <summary>

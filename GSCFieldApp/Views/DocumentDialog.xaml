@@ -31,7 +31,7 @@
                             RelativePanel.AlignRightWithPanel="True"
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="documentPhotoButton" Icon="Camera" Label="Camera" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="documentPhotoButton_TappedAsync" x:Uid="DocumentDialogSnapshot"/>
+                    <AppBarButton x:Name="documentPhotoButton" Icon="Camera" Label="Camera" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="documentPhotoButton_Tapped" x:Uid="DocumentDialogSnapshot"/>
                     <AppBarSeparator Foreground="White"/>
                     <AppBarButton x:Name="documentBackButton" Icon="Clear" Label ="Close" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="documentBackButton_Tapped" x:Uid="DocumentDialogClose" />
                     <AppBarButton x:Name="documentSaveButton" Icon="Save" Label ="Save" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="documentSaveButton_Tapped" x:Uid="DocumentDialogSave"/>

@@ -13,7 +13,7 @@ namespace GSCFieldApp.Services
         public static async void CreateContentDialog(ContentDialog Dialog, bool awaitPreviousDialog) { await CreateDialog(Dialog, awaitPreviousDialog); }
         public static async Task<IAsyncOperation<ContentDialogResult>> CreateContentDialogAsync(ContentDialog Dialog, bool awaitPreviousDialog) { return await CreateDialog(Dialog, awaitPreviousDialog); }
 
-        static async Task<IAsyncOperation<ContentDialogResult>> CreateDialog(ContentDialog Dialog, bool awaitPreviousDialog)
+        static Task<IAsyncOperation<ContentDialogResult>> CreateDialog(ContentDialog Dialog, bool awaitPreviousDialog)
         {
             if (ActiveDialog != null)
             {
@@ -45,7 +45,7 @@ namespace GSCFieldApp.Services
             ActiveDialog = Dialog;
             ActiveDialog.Closing += ActiveDialog_Closing;
             Info = ActiveDialog.ShowAsync();
-            return Info;
+            return Task.FromResult(Info);
 
 
         }

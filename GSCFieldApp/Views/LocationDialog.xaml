@@ -32,7 +32,7 @@
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
                     <AppBarButton x:Name="LocationBackButton" Label="Close" Icon="Clear" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="LocationBackButton_Tapped" />
-                    <AppBarButton x:Name="LocationSaveButton" Label="Save" Icon="Save" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="LocationSaveButton_TappedAsync"  />
+                    <AppBarButton x:Name="LocationSaveButton" Label="Save" Icon="Save" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="LocationSaveButton_Tapped"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>

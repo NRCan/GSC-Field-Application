@@ -60,7 +60,7 @@ namespace GSCFieldApp.Views
         {
 
             ViewModel.SaveDialogInfo();
-            CloseControlAsync();
+            CloseControl();
         }
 
         private void StationDataPart_Loaded(object sender, RoutedEventArgs e)
@@ -117,7 +117,7 @@ namespace GSCFieldApp.Views
         /// <summary>
         /// Will close the modal dialog.
         /// </summary>
-        public async void CloseControlAsync()
+        public void CloseControl()
         {
 
             //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
@@ -146,7 +146,7 @@ namespace GSCFieldApp.Views
 
             if (canProceedWithClose)
             {
-                CloseControlAsync();
+                CloseControl();
             }
 
             
@@ -167,7 +167,7 @@ namespace GSCFieldApp.Views
 
             if (canProceedWithClose)
             {
-                CloseControlAsync();
+                CloseControl();
             }
         }
         #endregion

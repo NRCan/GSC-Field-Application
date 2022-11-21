@@ -71,7 +71,7 @@ namespace GSCFieldApp.Views
 
             if (isUIValid.Result)
             {
-                locationVM.SaveDialogInfoAsync();
+                locationVM.SaveDialogInfo();
                 CloseControl();
             }
             else
@@ -179,7 +179,7 @@ namespace GSCFieldApp.Views
         #endregion
 
         #region SAVE
-        private async void LocationSaveButton_TappedAsync(object sender, TappedRoutedEventArgs e)
+        private void LocationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
         }
@@ -187,7 +187,7 @@ namespace GSCFieldApp.Views
         #endregion
 
         #region EVENTS
-        private async void ButtonConvertToUTM_TappedAsync(object sender, TappedRoutedEventArgs e)
+        private void ButtonConvertToUTM_Tapped(object sender, TappedRoutedEventArgs e)
         {
             locationVM.DisplayUTMCoordinatesAsync();
         }
@@ -225,7 +225,7 @@ namespace GSCFieldApp.Views
         /// Will make sure that either one of the coordinate pairs are filled
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> isLocationValidAsync()
+        public Task<bool> isLocationValidAsync()
         {
             bool isValid = true;
 
@@ -262,7 +262,7 @@ namespace GSCFieldApp.Views
                 }
             }
 
-            return isValid;
+            return Task.FromResult(isValid);
         }
 
         /// <summary>

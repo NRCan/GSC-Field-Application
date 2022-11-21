@@ -93,12 +93,12 @@ namespace GSCFieldApp.Themes
         /// <summary>
         /// Will flip on x assix the user control
         /// </summary>
-        public async void pilf(UserControl inParentPage)
+        public void pilf(UserControl inParentPage)
         {
 
             //Build transform
             CompositeTransform transform = inParentPage.RenderTransform as CompositeTransform;
-            if (transform==null)
+            if (transform == null)
             {
                 transform = new CompositeTransform();
             }
@@ -110,7 +110,7 @@ namespace GSCFieldApp.Themes
             {
                 transform.ScaleX = 1;
             }
-            
+
             inParentPage.RenderTransform = transform;
 
             //Refresh

@@ -261,7 +261,7 @@ namespace GSCFieldApp.Views
 
         public void StructureAzimuthNumBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateSymAngAsync();
+            UpdateSymAng();
             
         }
 
@@ -302,7 +302,7 @@ namespace GSCFieldApp.Views
             }
         }
 
-        public async void UpdateSymAngAsync()
+        public void UpdateSymAng()
         {
             if (StructureFormatCombobox.SelectedIndex != -1)
             {
@@ -343,12 +343,12 @@ namespace GSCFieldApp.Views
                 PassFailAzimuthTrend();
             }
 
-           
+
         }
 
         private void StructureFormatCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UpdateSymAngAsync();
+            UpdateSymAng();
         }
 
         private void StructureAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

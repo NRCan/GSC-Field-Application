@@ -195,7 +195,7 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// On save event
         /// </summary>
-        public async void SaveDialogInfoAsync()
+        public void SaveDialogInfo()
         {
             //Parse coordinate pairs
             double _long = 0.0;

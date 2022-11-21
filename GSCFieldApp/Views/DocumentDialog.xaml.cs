@@ -138,7 +138,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void documentPhotoButton_TappedAsync(object sender, TappedRoutedEventArgs e)
+        private void documentPhotoButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             DocViewModel.TakeSnapshotAsync();
         }
