@@ -290,7 +290,7 @@ namespace GSCFieldApp.ViewModels
                     currentMapView.Tapped -= myMapView_AddByTap;
 
                     // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
-                    _geolocator = new Geolocator { ReportInterval = 750 };
+                    _geolocator = new Geolocator { ReportInterval = 1000 };
 
                     // Subscribe to the StatusChanged event to get updates of location status changes.
                     _geolocator.PositionChanged -= OnPositionChanged;
