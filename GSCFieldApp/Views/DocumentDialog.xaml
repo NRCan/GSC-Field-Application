@@ -19,6 +19,7 @@
         <converters:BitmapSourceConverter x:Name="BitmapSourceConverter"/>
         <converters:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter"/>
         <converters:VisibilityFromReverseBoolConverter x:Name="VisibilityFromReverseBoolConverter"/>
+        <converters:String2Number x:Name="StringToDouble"/>
     </UserControl.Resources>
     
     <Page>
@@ -71,7 +72,7 @@
                                     RelativePanel.AlignBottomWith="DocumentDirectionTextbox"
                                     RelativePanel.RightOf="DocumentDirectionTextbox" RenderTransformOrigin="0.5,0.5">
                             <SymbolIcon.RenderTransform>
-                                <CompositeTransform Rotation="{Binding Text, ElementName=DocumentDirectionTextbox}"/>
+                                <CompositeTransform Rotation="{Binding Text, ElementName=DocumentDirectionTextbox, Converter={StaticResource StringToDouble}}"/>
                             </SymbolIcon.RenderTransform>
                         </SymbolIcon>
                         
