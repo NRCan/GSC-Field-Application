@@ -371,7 +371,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
 
                 //Get the proper table object to read from it
-                TableMapping tableMap = inConnection.GetMapping(tableType);
+                TableMapping tableMap = dbCon.GetMapping(tableType);
 
                 //Check for table existance
                 try
@@ -380,17 +380,19 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Get table info
                     if (query == string.Empty || query == null)
                     {
-                        tableRows = inConnection.Query(tableMap, "Select * from " + tableMap.TableName); //Added this because I'm not sure how the method will handle empty or null values in the query
+                        tableRows = dbCon.Query(tableMap, "Select * from " + tableMap.TableName); //Added this because I'm not sure how the method will handle empty or null values in the query
                     }
                     else
                     {
-                        tableRows = inConnection.Query(tableMap, query);
+                        tableRows = dbCon.Query(tableMap, query);
                     }
                 }
                 catch (Exception)
                 {
 
                 }
+
+                dbCon.Close();
 
             }
 

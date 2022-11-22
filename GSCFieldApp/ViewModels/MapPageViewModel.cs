@@ -290,11 +290,12 @@ namespace GSCFieldApp.ViewModels
                     currentMapView.Tapped -= myMapView_AddByTap;
 
                     // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
-                    _geolocator = new Geolocator { ReportInterval = 1000 };
+                    _geolocator = new Geolocator { ReportInterval = 750 };
 
                     // Subscribe to the StatusChanged event to get updates of location status changes.
                     _geolocator.PositionChanged -= OnPositionChanged;
                     _geolocator.PositionChanged += OnPositionChanged;
+                    _geolocator.StatusChanged -= Geolocal_StatusChangedAsync;
                     _geolocator.StatusChanged += Geolocal_StatusChangedAsync;
 
                     break;
@@ -1007,7 +1008,6 @@ namespace GSCFieldApp.ViewModels
                                         Content = local.GetString("MapPageDialogLocationAcquiring"),
                                         PrimaryButtonText = local.GetString("GenericDialog_ButtonOK"),
                                     };
-                                    acquiringLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
                                     acquiringLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
 
                                     await Services.ContentDialogMaker.CreateContentDialogAsync(acquiringLocationDialog, true);

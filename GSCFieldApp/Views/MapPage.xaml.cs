@@ -30,6 +30,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Windows.ApplicationModel.Resources;
+using Microsoft.Extensions.Logging;
 
 namespace GSCFieldApp.Views
 {
@@ -51,15 +52,15 @@ namespace GSCFieldApp.Views
 
         public MapPage()
         {
+
+
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, true);
 
             this.InitializeComponent();
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
 
-            //this.Loaded -= MapPage_Loaded;
-            //this.Loaded += MapPage_Loaded;
-
-            //Application.Current.Resuming += Current_Resuming;
+            this.Loaded -= MapPage_Loaded;
+            this.Loaded += MapPage_Loaded;
 
         }
 
@@ -87,98 +88,45 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void MapPage_Loaded(object sender, RoutedEventArgs e)
         {
-            DisplayLatLongGrid();
 
-            mapsLoaded = true;
-            UpdateGrid();
-
-            //myMapView.UpdateLayout();
-
-        }
-
-        /// <summary>
-        /// Triggered when user goes to map page
-        /// Then set view to current location
-        /// </summary>
-        /// <param name="e"></param>
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            if (!ViewModel.userHasTurnedGPSOff && ViewModel._currentMSGeoposition == null)
-            {
-                ViewModel.StartLocationRing();
-            }
-
-
-            //For any new projects reset all layers.
-            //get the parameters (they are inside a json object...)
-            if (e.Parameter != null && e.Parameter.ToString() != string.Empty)
-            {
-
-                //JsonObject paramObject = JsonObject.Parse(e.Parameter.ToString());
-
-                ////Get the data value out of the json
-                //IJsonValue dataValue;
-                //if (paramObject.TryGetValue("Data", out dataValue))
-                //{
-                //    bool isNewProject = Convert.ToBoolean(dataValue.GetString());
-
-                //    if (isNewProject && ViewModel._OverlayStation == null)
-                //    {
-                //        if (myMapView.Map != null)
-                //        {
-                //            //Do a clean clear
-                //            ViewModel.ClearLayers();
-                //            ViewModel.ClearMapViewSettings();
-
-                //            //Refresh
-                //            SetBackgroundGrid();
-                //            ViewModel.DisplayPointAndLabelsAsync(myMapView);
-                //        }
-                //    }
-                //}
-            }
-            else
-            {
-                //Refresh
-                SetBackgroundGrid();
-                ViewModel.DisplayPointAndLabelsAsync(myMapView);
-            }
 
             //Set navigation that will add back new layers
             try
             {
+                if (!ViewModel.userHasTurnedGPSOff && ViewModel._currentMSGeoposition == null)
+                {
+                    ViewModel.StartLocationRing();
+                }
+
+                //Refresh
+                SetBackgroundGrid();
+                ViewModel.DisplayPointAndLabelsAsync(myMapView);
+
                 Task navigateToLocationTask = ViewModel.SetMapView(myMapView);
-                await navigateToLocationTask;
+
+                DisplayLatLongGrid();
+                mapsLoaded = true;
+                UpdateGrid();
             }
             catch (Exception er)
             {
                 ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
-                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                {
-                    ContentDialog defaultEventLocationDialog = new ContentDialog()
-                    {
-                        Title = local.GetString("MapPageDialogLocationTitle"),
-                        Content = local.GetString("MapPageDialogLocationUnknownError"),
-                        CloseButtonText = local.GetString("GenericDialog_ButtonOK")
-                    };
-                    defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                    await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
-                    //StopLocationRing();
-                }).AsTask();
 
+                ContentDialog defaultEventLocationDialog = new ContentDialog()
+                {
+                    Title = local.GetString("MapPageDialogLocationTitle"),
+                    Content = er.Message + "; " + er.StackTrace,
+                    CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                };
+                defaultEventLocationDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                Services.ContentDialogMaker.CreateContentDialog(defaultEventLocationDialog, true);
 
             }
 
-            DisplayLatLongGrid();
-            mapsLoaded = true;
-            UpdateGrid();
-
-            //Refresh
-            //SetBackgroundGrid();
-            //ViewModel.DisplayPointAndLabelsAsync(myMapView);
         }
 
+ 
         /// <summary>
         /// Triggered when user is going out of the map page
         /// Then keep some values in internal settings
@@ -199,7 +147,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MapInfoButtonClicked(object sender, RoutedEventArgs e)
+        private async void MapInfoButtonClicked(object sender, RoutedEventArgs e)
         {
             //Hide or show coordinates, accuracy, and projection info when clicked
             MapCoordinateInfo.Visibility = (MapCoordinateInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
@@ -209,6 +157,12 @@ namespace GSCFieldApp.Views
             myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+
+            //Try and enforce whole map view redraw see #176
+            ViewModel.esriMap = null;
+            ViewModel.currentMapView = null;
+            mapsLoaded = false;
+            await ViewModel.SetMapView(myMapView);
 
         }
 
@@ -290,7 +244,7 @@ namespace GSCFieldApp.Views
 
         private void UpdateGrid()
         {
-            if (myMapView.Grid != null && myMapView.Grid.LevelCount > 0)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              if (myMapView.Grid != null && myMapView.Grid.LevelCount > 0)
             {
                 //Get proper color
                 Windows.UI.Color defaultColor = new Windows.UI.Color();

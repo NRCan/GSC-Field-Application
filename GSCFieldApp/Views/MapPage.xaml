@@ -128,7 +128,7 @@
         <Grid x:Name="MapBorder" RelativePanel.Below="pageHeader" RelativePanel.Above="pageFooter" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True">
             <!--<esriUI:MapView x:Name="myMapView" Tapped="{x:Bind ViewModel.myMapView_Tapped}" WrapAroundMode="EnabledWhenSupported"/>-->
-            <esriUI:MapView x:Name="myMapView" Tapped="{x:Bind ViewModel.myMapView_IdentifyFeature}" IsDoubleTapEnabled="True"/>
+            <esriUI:MapView x:Name="myMapView" Tapped="{x:Bind ViewModel.myMapView_IdentifyFeature}" IsDoubleTapEnabled="True" WrapAroundMode="EnabledWhenSupported"/>
 
             <RelativePanel>
                 <Border x:Name="MapCoordinateInfo" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0" >
@@ -168,23 +168,8 @@
             <Border Name="MapScaleInfo" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,0" Height="70" >
                 <esriToolkit:ScaleLine MapView="{x:Bind myMapView}" HorizontalAlignment="Center" Height="28" Margin="0,20,0,0" VerticalAlignment="Top"/>
             </Border>
-            <!--<esriUI:MapView x:Name="myMapView" Tapped="{x:Bind Path=ViewModel.myMapView_IdentifyFeature}" IsDoubleTapEnabled="True"/>-->
-
-            <!--<TextBlock TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0">
-                    <Run>Map Scale: 1:</Run>
-                    <Run Text="{Binding ElementName=myMapView, Converter={StaticResource FormatScale}, ConverterParameter='{}{0:0,0}', Path=MapScale}"/>
-            </TextBlock>-->
-
-
-            <!--<RelativePanel HorizontalAlignment="Center" Height="150" Width="250" VerticalAlignment="Bottom" Visibility="{x:Bind ViewModel.GPSSignalReceptionVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}">
-                <Rectangle x:Name="NoGPSSignalRectangle"  RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" Fill="Red" Margin="0,0,0,5" Opacity="0.7"/>
-                <TextBlock x:Uid="NoGPSSignalContent" x:Name="NoGPSSignalContentText" FontWeight="Bold" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                
-            </RelativePanel>-->
-
 
         </Grid>
-
 
         <ProgressRing x:Name="MapProgressRing" IsActive="{x:Bind ViewModel.MapRingActive, Mode=TwoWay}" 
                       Width="130" Height="50" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"
