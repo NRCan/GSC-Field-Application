@@ -134,7 +134,11 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            ViewModel.currentMapView.CancelSetViewpointOperations();
+            if (ViewModel.currentMapView != null)
+            {
+                ViewModel.currentMapView.CancelSetViewpointOperations();
+            }
+            
             base.OnNavigatingFrom(e);
         }
 
