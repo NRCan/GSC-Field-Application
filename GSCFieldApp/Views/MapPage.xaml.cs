@@ -99,14 +99,14 @@ namespace GSCFieldApp.Views
                 }
 
                 //Refresh
-                SetBackgroundGrid();
+                //SetBackgroundGrid();
                 ViewModel.DisplayPointAndLabelsAsync(myMapView);
 
                 Task navigateToLocationTask = ViewModel.SetMapView(myMapView);
 
-                DisplayLatLongGrid();
+                //DisplayLatLongGrid();
                 mapsLoaded = true;
-                UpdateGrid();
+                //UpdateGrid();
             }
             catch (Exception er)
             {
