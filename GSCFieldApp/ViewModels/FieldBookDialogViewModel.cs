@@ -13,8 +13,7 @@ using Template10.Common;
 using GSCFieldApp.Dictionaries;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml.Controls;
-using SQLite.Net;
-using SQLite.Net.Platform.WinRT;
+using SQLite;
 using Windows.UI.Xaml.Input;
 using Windows.ApplicationModel;
 
@@ -191,7 +190,7 @@ namespace GSCFieldApp.ViewModels
             else
             {
                 //Build connection file
-                SQLiteConnection selectedProjectConnection = new SQLiteConnection(new SQLitePlatformWinRT(), existingUserDetail.ProjectDBPath);
+                SQLiteConnection selectedProjectConnection = new SQLiteConnection(existingUserDetail.ProjectDBPath);
 
                 //Update existing
                 ad.SaveSQLTableObjectFromDB(Model, doUserUpdate, selectedProjectConnection);

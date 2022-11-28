@@ -36,7 +36,6 @@ using Windows.ApplicationModel.Resources;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
-using SQLite.Net;
 using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime;
 using System.Threading;
@@ -50,6 +49,7 @@ using Esri.ArcGISRuntime.Portal;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
+using SQLite;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -550,24 +550,24 @@ namespace GSCFieldApp.ViewModels
 
             #region Load from Default Database 
 
-            // Get a count of the number of locations in the database
-            FieldLocation locationModel = new FieldLocation();
-            List<object> locationTableRows = accessData.ReadTable(locationModel.GetType(), string.Empty);
-            int currentLocationCount = locationTableRows.Count();
-            // If at least one location exists display it on the map
-            if (currentLocationCount >= 1 && !forceRefresh)
+            //Build a list of already loaded stations id on the map
+            Dictionary<string, Graphic> loadedGraphicList = new Dictionary<string, Graphic>();
+            if (forceRefresh)
             {
-                //Build a list of already loaded stations id on the map
-                Dictionary<string, Graphic> loadedGraphicList = new Dictionary<string, Graphic>();
-                if (forceRefresh)
+                foreach (Graphic gr in _OverlayStation.Graphics)
                 {
-                    foreach (Graphic gr in _OverlayStation.Graphics)
-                    {
-                        loadedGraphicList[gr.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString()] = gr;
-                    }
-
+                    loadedGraphicList[gr.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString()] = gr;
                 }
 
+            }
+
+            // Get a count of the number of locations in the database
+            //FieldLocation locationModel = new FieldLocation();
+            //List<object> locationTableRows = accessData.ReadTable(locationModel.GetType(), string.Empty);
+            //int currentLocationCount = locationTableRows.Count();
+            // If at least one location exists display it on the map
+            if (!forceRefresh)
+            {
 
                 //Reset main db station overlay
                 inMapView.GraphicsOverlays.Remove(_OverlayStation);
@@ -578,14 +578,14 @@ namespace GSCFieldApp.ViewModels
                 inMapView.GraphicsOverlays.Add(_OverlayStructure);
 
                 // Load
-                SQLiteConnection defaultConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
-                using (defaultConnection)
-                {
-                    LoadFromGivenDB(locationTableRows, defaultConnection, loadedGraphicList, true);
-                    defaultConnection.Close();
-                }
-
-                inMapView.UpdateLayout();
+                //SQLiteConnection defaultConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
+                //using (defaultConnection)
+                //{
+                //    LoadFromGivenDB(locationTableRows, defaultConnection, loadedGraphicList, true);
+                //    defaultConnection.Close();
+                //}
+                LoadFromGivenDBTest(loadedGraphicList, true);
+                //inMapView.UpdateLayout();
             }
             else
             {
@@ -713,7 +713,7 @@ namespace GSCFieldApp.ViewModels
                     #region MAIN POINT
                     //Create Map Point for graphic
                     MapPoint geoPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
-                    
+
                     //Get if datum transformation is needed
                     int epsg = 0;
                     int.TryParse(ptStationLocationEPSG, out epsg);
@@ -887,7 +887,299 @@ namespace GSCFieldApp.ViewModels
 
 
                         }
-                        else 
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        //Set station symbol to transparent so we clearly see the structures instead
+                        StationGraphic.IsVisible = true;
+                        structureOverlay.Graphics.Clear();
+                    }
+
+                    #endregion
+                }
+
+                #endregion
+            }
+            #endregion
+
+            #region REMOVE
+            //For remaining loc in loadedGraphicList
+            foreach (KeyValuePair<string, Graphic> grr in graphicList)
+            {
+                int indexOfGraphic = pointOverlay.Graphics.IndexOf(grr.Value);
+                pointOverlay.Graphics.RemoveAt(indexOfGraphic);
+                pointLabelOverlay.Graphics.RemoveAt(indexOfGraphic);
+            }
+
+            #endregion
+
+        }
+
+
+        /// <summary>
+        /// From a given database connection , will add point and labels of stations on the map page
+        /// Information will be loaded if the schema is the same between all databases and the version with which
+        /// this application version has been coded.
+        /// </summary>
+        /// <param name="inLocationTableRows"></param>
+        public void LoadFromGivenDBTest(Dictionary<string, Graphic> graphicList, bool isDefaultDB)
+        {
+            PictureMarkerSymbol pointSym = new PictureMarkerSymbol(new Uri("ms-appx:///Assets/IC809393.png"));
+
+            Uri planarPath = new Uri("ms-appx:///Assets/Images/theme-light/struc_planar.png");
+            Uri linearPath = new Uri("ms-appx:///Assets/Images/theme-light/struc_linear.png");
+
+            PictureMarkerSymbol StrucPlaneSym = new PictureMarkerSymbol(planarPath);
+            PictureMarkerSymbol StrucLinearSym = new PictureMarkerSymbol(linearPath);
+
+            //Choose proper overlay
+            GraphicsOverlay pointOverlay = new GraphicsOverlay();
+            GraphicsOverlay pointLabelOverlay = new GraphicsOverlay();
+            GraphicsOverlay structureOverlay = new GraphicsOverlay();
+
+            //Set some rendering defaults
+            Renderer graphRenderer = new SimpleRenderer();
+            graphRenderer.RotationType = RotationType.Geographic;
+            pointOverlay.Renderer = graphRenderer;
+
+            if (isDefaultDB)
+            {
+                pointOverlay = _OverlayStation;
+                pointLabelOverlay = _OverlayStationLabel;
+                structureOverlay = _OverlayStructure;
+            }
+
+            #region ADD
+
+
+
+            string selectMetadata = "SELECT * FROM " + DatabaseLiterals.TableMetadata + " fm ";
+            string joinLocation = "JOIN " + DatabaseLiterals.TableLocation + " fl on fm." + DatabaseLiterals.FieldUserInfoID + " = fl." + DatabaseLiterals.FieldLocationMetaID + " ";
+            string joinStation = "JOIN " + DatabaseLiterals.TableStation + " fs on fl." + DatabaseLiterals.FieldLocationID + " = fs." + DatabaseLiterals.FieldStationObsID + " ";
+            string whereMetadata = string.Empty;
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString() != null)
+            {
+                whereMetadata = " WHERE fm." + DatabaseLiterals.FieldUserInfoID + " = '" + localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString() + "'";
+            }
+            MapPageStation mps = new MapPageStation();
+            List<object> mpsRows = new List<object>();
+            mpsRows = accessData.ReadTable(mps.GetType(), selectMetadata + joinLocation + joinStation + whereMetadata);
+
+            // Get latitude, longitude and station id and add to graphics overlay
+            foreach (object m in mpsRows)
+            {
+                //Variables
+                bool stationGraphicExists = false;
+                bool structureGraphicExists = false;
+
+                #region POINT SYMBOL
+                // should only be one station returned, this approach doesn't allow for multiple stations
+                MapPageStation currentStationLocation = m as MapPageStation;
+                var ptStationId = currentStationLocation.StationAlias;
+                var ptStationDate = currentStationLocation.StationVisitDate;
+                var ptStationTime = currentStationLocation.StationVisitTime;
+                var ptStationType = currentStationLocation.StationObsType;
+                var ptStationLocationID = currentStationLocation.LocationID;
+                var ptStationLocationLat = currentStationLocation.LocationLat;
+                var ptStationLocationLong = currentStationLocation.LocationLong;
+                var ptStationLocationEPSG = currentStationLocation.LocationDatum;
+
+
+                //Find if station was already loaded
+                if (graphicList.ContainsKey(currentStationLocation.LocationID))
+                {
+                    stationGraphicExists = true;
+                    graphicList.Remove(currentStationLocation.LocationID);
+                }
+
+                //Add new graphic station and it's related label if needed
+                if (!stationGraphicExists && ptStationId != null && ptStationId != string.Empty)
+                {
+                    //Tracking available offset placement 
+                    List<int> placementPool = Enumerable.Range(1, 8).ToList();
+
+                    #region MAIN POINT
+                    //Create Map Point for graphic
+                    MapPoint geoPoint = new MapPoint(ptStationLocationLong, ptStationLocationLat, SpatialReferences.Wgs84);
+
+                    //Get if datum transformation is needed
+                    int epsg = 0;
+                    int.TryParse(ptStationLocationEPSG, out epsg);
+
+                    if (epsg != 0 && epsg != 4326)
+                    {
+                        DatumTransformation datumTransfo = null;
+                        SpatialReference outSR = null;
+
+                        if ((epsg > 26900 && epsg < 27000))
+                        {
+                            outSR = SpatialReference.Create(4326);
+                            datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
+                        }
+
+
+                        MapPoint proPoint = new MapPoint(ptStationLocationLong, ptStationLocationLat, outSR);
+
+                        //Validate if transformation is needed.
+                        if (datumTransfo != null)
+                        {
+                            //Replace geopoint
+                            geoPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+                        }
+
+                    }
+
+                    var StationGraphic = new Graphic(geoPoint, pointSym);
+                    StationGraphic.Attributes.Add("Id", ptStationId.ToString());
+                    StationGraphic.Attributes.Add("Date", ptStationDate.ToString());
+                    StationGraphic.Attributes.Add("Time", ptStationTime.ToString());
+                    StationGraphic.Attributes.Add("tableType", DatabaseLiterals.TableStation);
+                    StationGraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
+                    if (ptStationType != null)
+                    {
+                        StationGraphic.Attributes.Add("Type", ptStationType.ToString());
+                    }
+                    else
+                    {
+                        StationGraphic.Attributes.Add("Type", string.Empty);
+                    }
+
+                    StationGraphic.Attributes.Add("Default", isDefaultDB);
+
+                    pointOverlay.Graphics.Add(StationGraphic);
+
+                    #endregion
+
+                    #region LABEL SYMBOL
+                    GraphicPlacement placements = new GraphicPlacement();
+                    var textSym = new TextSymbol();
+                    textSym.FontFamily = "Arial";
+                    textSym.FontWeight = FontWeight.Bold;
+                    textSym.Color = System.Drawing.Color.Black;
+                    textSym.HaloColor = System.Drawing.Color.WhiteSmoke;
+                    textSym.HaloWidth = 2;
+                    textSym.Size = 16;
+                    textSym.HorizontalAlignment = Esri.ArcGISRuntime.Symbology.HorizontalAlignment.Left;
+                    textSym.VerticalAlignment = Esri.ArcGISRuntime.Symbology.VerticalAlignment.Baseline;
+                    textSym.OffsetX = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item1;
+                    textSym.OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2;
+                    placementPool.RemoveAt(0); //Remove taken placement from pool
+                    textSym.Text = ptStationId.ToString();
+                    pointLabelOverlay.Graphics.Add(new Graphic(new MapPoint(ptStationLocationLong, ptStationLocationLat, SpatialReferences.Wgs84), textSym));
+                    #endregion
+
+                    #region STRUCTURES
+
+                    ///For structure symboles (planar and linear) make sure they are wanted by user but that it's within a bedrock field notebook also
+
+                    if ((bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
+                    {
+                        //Get related structures, if any
+                        List<object> strucTableRows = new List<object>();
+                        Structure structs = new Structure();
+                        string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
+                            " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
+                            " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
+                            " WHERE st." + DatabaseLiterals.FieldStationAlias + " = '" + ptStationId + "';";
+                        strucTableRows = accessData.ReadTable(structs.GetType(), structSelectionQuery);
+
+                        //Variables
+                        if (!structureGraphicExists && strucTableRows.Count() > 0)
+                        {
+                            //Structure pairs tracking
+                            //Key = record ID, Value = priority number for placement
+                            Dictionary<string, int> strucPairs = new Dictionary<string, int>();
+                            int iteration = 1;
+                            foreach (Structure sts in strucTableRows)
+                            {
+                                //Manage pair tracking for pool placement 
+                                if (!strucPairs.ContainsKey(sts.StructureID))
+                                {
+                                    if (sts.StructureRelated != null && sts.StructureRelated != String.Empty)
+                                    {
+                                        //Get related struc placement priority
+                                        strucPairs[sts.StructureID] = strucPairs[sts.StructureRelated];
+                                    }
+                                    else
+                                    {
+                                        //Assign new priority and remove it from the pool
+                                        strucPairs[sts.StructureID] = iteration;
+                                        iteration = iteration + 1;
+                                    }
+
+                                }
+
+
+                                //Set proper symbol
+                                PictureMarkerSymbol strucSym = StrucPlaneSym.Clone() as PictureMarkerSymbol;
+                                if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
+                                {
+                                    strucSym = StrucLinearSym.Clone() as PictureMarkerSymbol;
+                                }
+
+                                //Set azim
+                                double azimAngle = 0.0;
+                                double.TryParse(sts.StructureSymAng, out azimAngle);
+                                if (azimAngle != 0.0)
+                                {
+                                    strucSym.Angle = azimAngle;
+                                }
+                                strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
+
+                                //Set offset
+                                Tuple<double, double> symOffset = placements.GetPositionOffsetFromPlacementPriority(strucPairs[sts.StructureID], ptStationLocationLong, ptStationLocationLat, 100.0);
+
+                                //Create Map Point for graphic
+                                MapPoint geoStructPoint = new MapPoint(symOffset.Item1, symOffset.Item2, SpatialReferences.Wgs84);
+
+                                //Get if datum transformation is needed
+                                if (epsg != 0 && epsg != 4326)
+                                {
+                                    DatumTransformation datumTransfo = null;
+                                    SpatialReference outSR = null;
+
+                                    if ((epsg > 26900 && epsg < 27000))
+                                    {
+                                        outSR = SpatialReference.Create(4617);
+                                        datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
+                                    }
+
+                                    MapPoint proPoint = new MapPoint(ptStationLocationLong, ptStationLocationLat, outSR);
+
+                                    //Validate if transformation is needed.
+                                    if (datumTransfo != null)
+                                    {
+                                        //Replace geopoint
+                                        geoStructPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+                                    }
+
+                                }
+
+                                //TODO make up for a different way to measure azim (not right hand rule)
+                                var Sgraphic = new Graphic(geoStructPoint, strucSym);
+                                Sgraphic.Attributes.Add("Id", sts.StructureName.ToString());
+                                Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
+                                Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
+                                Sgraphic.Attributes.Add("StructureClass", sts.getClassTypeDetail);
+                                Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
+                                Sgraphic.Attributes.Add("Dip", sts.StructureDipPlunge.ToString());
+                                Sgraphic.Attributes.Add("Default", isDefaultDB);
+                                Sgraphic.Attributes.Add("tableType", DatabaseLiterals.TableStructure);
+                                Sgraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
+                                structureOverlay.Graphics.Add(Sgraphic);
+
+                                //Set station symbol to transparent so we clearly see the structures instead
+                                //StationGraphic.IsVisible = false;
+
+                            }
+
+
+                        }
+                        else
                         {
 
                         }

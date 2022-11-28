@@ -1,6 +1,6 @@
 ﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services.DatabaseServices;
-using SQLite.Net.Attributes;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;

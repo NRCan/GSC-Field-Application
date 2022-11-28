@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Dictionaries;
-using SQLite.Net.Attributes;
+using SQLite;
 
 namespace GSCFieldApp.Models
 {

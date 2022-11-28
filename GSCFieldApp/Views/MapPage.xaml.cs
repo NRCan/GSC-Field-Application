@@ -22,7 +22,6 @@ using Windows.UI.Xaml.Input;
 using System.Threading.Tasks;
 using Esri.ArcGISRuntime.Symbology;
 using Esri.ArcGISRuntime.Location;
-
 using GSCFieldApp.Dictionaries;
 using Windows.Data.Json;
 using Windows.UI;
@@ -30,7 +29,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Windows.ApplicationModel.Resources;
-using Microsoft.Extensions.Logging;
 
 namespace GSCFieldApp.Views
 {
@@ -156,17 +154,20 @@ namespace GSCFieldApp.Views
             //Hide or show coordinates, accuracy, and projection info when clicked
             MapCoordinateInfo.Visibility = (MapCoordinateInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapScaleInfo.Visibility = (MapScaleInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-            //myMapView.Grid.IsVisible = (myMapView.Grid.IsVisible == true ? false : true);
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
-            myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
+            if (myMapView.Grid != null)
+            {
+                myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
+            }
+            
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
 
             //Try and enforce whole map view redraw see #176
-            ViewModel.esriMap = null;
-            ViewModel.currentMapView = null;
-            mapsLoaded = false;
-            await ViewModel.SetMapView(myMapView);
+            //ViewModel.esriMap = null;
+            //ViewModel.currentMapView = null;
+            //mapsLoaded = false;
+            //await ViewModel.SetMapView(myMapView);
 
         }
 

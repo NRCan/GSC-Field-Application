@@ -68,7 +68,6 @@ namespace GSCFieldApp.ViewModels
         private Station stationModel = new Station();
         private EarthMaterial earthModel = new EarthMaterial();
         private Sample sampleModel = new Sample();
-        private Favorite favModel = new Favorite();
         private Document documentModel = new Document();
         private Structure structureModel = new Structure();
         private Paleoflow pflowModel = new Paleoflow();

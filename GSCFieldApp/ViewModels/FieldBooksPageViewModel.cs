@@ -14,11 +14,10 @@ using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Dictionaries;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage.Search;
-using SQLite.Net;
+using SQLite;
 using Template10.Services.NavigationService;
 using Template10.Controls;
 using System.IO;
-using SQLite.Net.Platform.WinRT;
 using GSCFieldApp.Services.FileServices;
 using Windows.Storage.Pickers;
 using Windows.Foundation;
@@ -575,7 +574,7 @@ namespace GSCFieldApp.ViewModels
                 FieldBooks selectedProject = _projectCollection[_selectedProjectIndex];
 
                 //Build connection file
-                SQLiteConnection selectedProjectConnection = new SQLiteConnection(new SQLitePlatformWinRT(), selectedProject.ProjectDBPath);
+                SQLiteConnection selectedProjectConnection = new SQLiteConnection(selectedProject.ProjectDBPath);
 
                 //Get metadata 
                 List<object> inMeta = accessData.ReadTableFromDBConnection(metadataModel.GetType(), null, selectedProjectConnection);

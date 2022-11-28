@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Composition;
-using SQLite.Net.Attributes;
+using SQLite;
 using Template10.Controls;
 using Template10.Mvvm;
 using GSCFieldApp.Models;

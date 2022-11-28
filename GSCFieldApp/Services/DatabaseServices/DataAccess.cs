@@ -1,12 +1,9 @@
-﻿using SQLite.Net;
-using SQLite.Net.Platform.WinRT;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
-using SQLite.Net.Attributes;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI.Popups;
@@ -16,6 +13,7 @@ using System.Reflection;
 using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Dictionaries;
 using Windows.UI.Xaml;
+using SQLite;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 
@@ -98,7 +96,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 if (_dbConnection == null)
                 {
-                    return new SQLiteConnection(new SQLitePlatformWinRT(), DbPath);
+                    return new SQLiteConnection(DbPath);
                 }
                 else
                 {
@@ -110,7 +108,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         public SQLiteConnection GetConnectionFromPath(string inPath)
         {
-            return new SQLiteConnection(new SQLitePlatformWinRT(), inPath);
+            return new SQLiteConnection(inPath);
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Dictionaries;
 using Windows.ApplicationModel.Resources;
 using GSCFieldApp.Services.FileServices;
-using SQLite.Net;
+using SQLite;
 using System.IO;
 
 namespace GSCFieldApp.ViewModels
