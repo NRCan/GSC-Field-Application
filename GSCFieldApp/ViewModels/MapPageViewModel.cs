@@ -561,10 +561,6 @@ namespace GSCFieldApp.ViewModels
 
             }
 
-            // Get a count of the number of locations in the database
-            //FieldLocation locationModel = new FieldLocation();
-            //List<object> locationTableRows = accessData.ReadTable(locationModel.GetType(), string.Empty);
-            //int currentLocationCount = locationTableRows.Count();
             // If at least one location exists display it on the map
             if (!forceRefresh)
             {
@@ -578,12 +574,6 @@ namespace GSCFieldApp.ViewModels
                 inMapView.GraphicsOverlays.Add(_OverlayStructure);
 
                 // Load
-                //SQLiteConnection defaultConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
-                //using (defaultConnection)
-                //{
-                //    LoadFromGivenDB(locationTableRows, defaultConnection, loadedGraphicList, true);
-                //    defaultConnection.Close();
-                //}
                 LoadFromGivenDBTest(loadedGraphicList, true);
                 //inMapView.UpdateLayout();
             }

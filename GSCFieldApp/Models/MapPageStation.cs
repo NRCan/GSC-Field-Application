@@ -8,6 +8,10 @@ using SQLite;
 
 namespace GSCFieldApp.Models
 {
+    /// <summary>
+    /// Special class that maps some station fields and some location fields.
+    /// Was created to speed up graph build for map page.
+    /// </summary>
     [Table(DatabaseLiterals.TableStation)]
     public class MapPageStation
     {
