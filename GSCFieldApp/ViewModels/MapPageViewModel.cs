@@ -50,6 +50,9 @@ using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 using SQLite;
+using Newtonsoft.Json.Serialization;
+using System.Reflection;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -127,6 +130,9 @@ namespace GSCFieldApp.ViewModels
         public string attributeIDPosition = "Position";
         public string attributeIDAccuracy = "PositionAccuracy";
 
+        //Testing
+        private bool initMap = false;
+
         public MapPageViewModel()
         {
 
@@ -161,8 +167,21 @@ namespace GSCFieldApp.ViewModels
             SetQuickButtonEnable();
 
             //Fill vocab 
-            FillLocationVocab();
+            FillLocationVocab();          
 
+        }
+
+        private void EsriMap_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (!initMap)
+            {
+                initMap = true;
+            }
+            else
+            {
+                SaveMapViewObjectToJSON(e.PropertyName);
+            }
+            
         }
 
         #endregion
@@ -562,7 +581,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             // If at least one location exists display it on the map
-            if (!forceRefresh)
+            if (!forceRefresh && inMapView != null)
             {
 
                 //Reset main db station overlay
@@ -2275,6 +2294,30 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
+        /// Will save current map view object into a serialized json
+        /// </summary>
+        public void SaveMapViewObjectToJSON(object inObject)
+        {
+            var resolver = new IgnorePropertiesResolver(new[] { "AllLayers" });
+
+
+            //string JSONResult = JsonConvert.SerializeObject(esriMap.ToJson());
+            string JSONResult = esriMap.ToJson();
+            string JSONPath = Path.Combine(accessData.ProjectPath, "currentMapView_" + String.Format("{0:yyyyMMdd_HH'h'mm}", DateTime.Now) + ".json");
+            if (File.Exists(JSONPath))
+            {
+                File.Delete(JSONPath);
+            }
+
+            using (var jayson = new StreamWriter(JSONPath, true))
+            {
+                jayson.WriteLine(JSONResult.ToString());
+                jayson.Close();
+            }
+        }
+
+
+        /// <summary>
         /// Will set the gps mode icon from tap to gps activated symbols
         /// </summary>
         /// <param name="inSymbol"></param>
@@ -2760,6 +2803,7 @@ namespace GSCFieldApp.ViewModels
                     if (esriMap == null)
                     {
                         esriMap = new Map(_tileLayer.SpatialReference);
+                        esriMap.PropertyChanged += EsriMap_PropertyChanged;
                     }
 
                     _tileLayer.IsVisible = isTPKVisible;
@@ -3069,8 +3113,10 @@ namespace GSCFieldApp.ViewModels
                 currentMapView.GraphicsOverlays.Remove(_OverlayStation);
                 currentMapView.GraphicsOverlays.Remove(_OverlayStationLabel);
                 currentMapView.GraphicsOverlays.Remove(_OverlayStructure);
+
+                currentMapView.UpdateLayout();
             }
-            currentMapView.UpdateLayout();
+            
 
         }
 

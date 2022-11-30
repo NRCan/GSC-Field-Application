@@ -29,6 +29,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Windows.ApplicationModel.Resources;
+using Newtonsoft.Json;
 
 namespace GSCFieldApp.Views
 {
@@ -149,7 +150,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void MapInfoButtonClicked(object sender, RoutedEventArgs e)
+        private void MapInfoButtonClicked(object sender, RoutedEventArgs e)
         {
             //Hide or show coordinates, accuracy, and projection info when clicked
             MapCoordinateInfo.Visibility = (MapCoordinateInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
@@ -159,7 +160,7 @@ namespace GSCFieldApp.Views
             {
                 myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
             }
-            
+
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
 

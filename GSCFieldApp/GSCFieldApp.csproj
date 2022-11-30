@@ -200,6 +200,7 @@
     <Compile Include="Models\SemanticZoomData.cs" />
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\VocabularyManager.cs" />
+    <Compile Include="Services\IgnorePropertiesResolver.cs" />
     <Compile Include="Services\ContentDialogMaker.cs" />
     <Compile Include="Services\FileServices\FileServices.cs" />
     <Compile Include="Themes\EasterEgg.cs" />

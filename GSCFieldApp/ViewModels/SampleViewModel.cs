@@ -30,8 +30,6 @@ namespace GSCFieldApp.ViewModels
         private string _sampleDepthMax = string.Empty; //Default
         private string _sampleDuplicateName = string.Empty; //Default
 
-        private bool hasPaleoMagPurpose = false;
-
         private Visibility _surficialVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
         private bool _isSampleDuplicate = false; //Wheter checkbox is checked (true) or uncheck (false)
@@ -590,11 +588,6 @@ namespace GSCFieldApp.ViewModels
                     if (purposeToAdd == existingItems.itemName)
                     {
                         foundValue = true;
-                    }
-
-                    if (purposeToAdd == DatabaseLiterals.samplePurposePaleomag)
-                    {
-                        hasPaleoMagPurpose = true;
                     }
 
                 }
