@@ -103,8 +103,9 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatLithdetail = "LITHDETAIL";//Version 1.0
         public const string FieldEarthMatMapunit = "MAPUNIT";//Version 1.0
         public const string FieldEarthMatOccurs = "OCCURAS";//Version 1.0
-        public const string FieldEarthMatModStruc = "MODSTRUC";//Version 1.0 Concatenated field
-        public const string FieldEarthMatModTexture = "MODTEXTURE";//Version 1.0 Concatenated field
+        public const string FieldEarthMatModStrucDeprecated = "MODSTRUC";//Version 1.0 Concatenated field
+        public const string FieldEarthMatModTextureDeprecated = "MODTEXTURE";//Version 1.0 Concatenated field
+        public const string FieldEarthMatModTextStruc = "TEXTSTRUC";//Version 1.6 Merger between MODESTRUC and MODTEXTURE Concatenated field
         public const string FieldEarthMatModCompDeprecated = "MODCOMP";//Version 1.0 Concatenated field Deprecated
         public const string FieldEarthMatModComp = "LITHQUALIFIER";//Version 1.6 Concatenated field
         public const string FieldEarthMatGrSize = "GRCRYSIZE";//Version 1.0 Concatenated field

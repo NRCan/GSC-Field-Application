@@ -48,11 +48,8 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatPercent)]
         public int EarthMatPercent { get; set; }
 
-        [Column(DatabaseLiterals.FieldEarthMatModStruc)]
-        public string EarthMatModStruc { get; set; }
-
-        [Column(DatabaseLiterals.FieldEarthMatModTexture)]
-        public string EarthMatModTextur { get; set; }
+        [Column(DatabaseLiterals.FieldEarthMatModTextStruc)]
+        public string EarthMatModTextStruc { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatGrSize)]
         public string EarthMatGrSize { get; set; }
@@ -199,6 +196,12 @@ namespace GSCFieldApp.Models
                 int removeIndexModComp = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatModComp);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModComp);
                 earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModCompDeprecated);
+
+                int removeIndexModStruc = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatModTextStruc);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModTextStruc);
+                earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModStrucDeprecated);
+                earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModTextureDeprecated);
+
 
                 earthmatFieldList[DatabaseLiterals.DBVersion150] = earthmatFieldList15;
 

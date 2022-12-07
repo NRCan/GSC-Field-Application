@@ -234,9 +234,6 @@ namespace GSCFieldApp.ViewModels
 
         public string GroupTypeDetail { get { return _groupTypeDetail; } set { _groupTypeDetail = value; } }
 
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatModStruc { get { return _earthmatModStruc; } set { _earthmatModStruc = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatModStrucValues { get { return _earthmatModStrucValues; } set { _earthmatModStrucValues = value; } }
-        public string SelectedEarthmatModStruc{get{if (_selectedEarthmatModStruc == null){return string.Empty;}else{return _selectedEarthmatModStruc;}} set { _selectedEarthmatModStruc = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatModTexture { get { return _earthmatModTexture; } set { _earthmatModTexture = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatModTextureValues { get { return _earthmatModTextureValues; } set { _earthmatModTextureValues = value; } }
         public string SelectedEarthmatModTexture { get { if (_selectedEarthmatModTexture == null) { return string.Empty; } else { return _selectedEarthmatModTexture; } } set { _selectedEarthmatModTexture = value; } }
@@ -324,8 +321,7 @@ namespace GSCFieldApp.ViewModels
             //Fill second order comboboxes (dependant on selected litho type)
             //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
             FillModComp();
-            FillModStruc();
-            FillModTexture();
+            FillModTextureStructure();
             FillGrSize();
             FillOccur();
 
@@ -446,8 +442,7 @@ namespace GSCFieldApp.ViewModels
         public void AutoFillDialog2ndRound(FieldNotes incomingData)
         {
             //Refill some comboboxes
-            FillModStruc();
-            FillModTexture();
+            FillModTextureStructure();
             FillModComp();
             FillGrSize();
             FillOccur();
@@ -456,14 +451,12 @@ namespace GSCFieldApp.ViewModels
             existingDataDetail = incomingData;
 
             //Set
-            _selectedEarthmatModStruc = existingDataDetail.earthmat.EarthMatModStruc;
-            _selectedEarthmatModTexture = existingDataDetail.earthmat.EarthMatModTextur;
+            _selectedEarthmatModTexture = existingDataDetail.earthmat.EarthMatModTextStruc;
             _selectedEarthmatModComp = existingDataDetail.earthmat.EarthMatModComp;
             _selectedEarthmatGrSize = existingDataDetail.earthmat.EarthMatGrSize;
 
             //Update list view
-            UnPipeValues(existingDataDetail.earthmat.EarthMatModStruc, Dictionaries.DatabaseLiterals.FieldEarthMatModStruc);
-            UnPipeValues(existingDataDetail.earthmat.EarthMatModTextur, Dictionaries.DatabaseLiterals.FieldEarthMatModTexture);
+            UnPipeValues(existingDataDetail.earthmat.EarthMatModTextStruc, Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc);
             UnPipeValues(existingDataDetail.earthmat.EarthMatModComp, Dictionaries.DatabaseLiterals.FieldEarthMatModComp);
             UnPipeValues(existingDataDetail.earthmat.EarthMatGrSize, Dictionaries.DatabaseLiterals.FieldEarthMatGrSize);
 
@@ -498,13 +491,10 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatPercent = int.Parse(_percent);
             earthmodel.EarthMatColourF = _earthColourF.ToString();
             earthmodel.EarthMatColourW = _earthColourW.ToString();
-            if (SelectedEarthmatModStruc != null)
-            {
-                earthmodel.EarthMatModStruc = PipePurposes(_earthmatModStrucValues); //process list of values so they are concatenated.
-            }
+
             if (SelectedEarthmatModTexture != null)
             {
-                earthmodel.EarthMatModTextur = PipePurposes(_earthmatModTextureValues); //process list of values so they are concatenated.
+                earthmodel.EarthMatModTextStruc = PipePurposes(_earthmatModTextureValues); //process list of values so they are concatenated.
             }
             if (SelectedEarthmatModComp != null)
             {
@@ -624,8 +614,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("GroupTypeDetail");
 
             FillModComp();
-            FillModStruc();
-            FillModTexture();
+            FillModTextureStructure();
             FillGrSize();
             FillOccur();
         }
@@ -661,64 +650,11 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("EarthmatMU");
             RaisePropertyChanged("SelectedEarthmatMU");
         }
-        /// <summary>
-        /// Will fill the structural model combobox
-        /// </summary>
-        public void FillModStruc()
-        {
-            _earthmatModStruc.Clear();
-            RaisePropertyChanged("EarthmatModStruc");
-            _earthmatModStrucValues.Clear();
-            RaisePropertyChanged("EarthmatModStrucValues"); 
-
-            //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatModStruc;
-            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
-
-            #region Earthmat structural modal
-
-            //Get lithgroup value
-            string eStruc = string.Empty;
-            if (_groupTypeDetail.Contains(level1Sep))
-            {
-                eStruc = Regex.Split(_groupTypeDetail, level1Sep)[0];
-            }
-            else if (_groupTypeDetail.Contains(level2Sep))
-            {
-                eStruc = Regex.Split(_groupTypeDetail, level2Sep)[0];
-            }
-
-            List<Vocabularies> mStruc = new List<Vocabularies>(); 
-
-            if (eStruc != string.Empty && eStruc != " " && eStruc != "")
-            {
-                mStruc = accessData.GetPicklistValuesFromParent(tableName, fieldName, eStruc, false).ToList();
-            }
-            else
-            {
-                mStruc = accessData.GetPicklistValuesFromParent(tableName, fieldName, "X", false).ToList();
-            }
-
-            //Fill in cbox
-            foreach (var item in accessData.GetComboboxListFromVocab(mStruc, out _selectedEarthmatModStruc))
-            {
-                _earthmatModStruc.Add(item);
-            }
-            
-
-            //Update UI
-            RaisePropertyChanged("EarthmatModStruc");
-            RaisePropertyChanged("SelectedEarthmatModStruc");
-
-            #endregion
-
-
-        }
 
         /// <summary>
         /// Will fill the textural model combobox
         /// </summary>
-        public void FillModTexture()
+        public void FillModTextureStructure()
         {
             _earthmatModTexture.Clear();
             RaisePropertyChanged("EarthmatModTexture");
@@ -726,7 +662,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("EarthmatModTextureValues"); 
 
             //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatModTexture;
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc;
             string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
 
             #region Earthmat structural modal
@@ -1190,12 +1126,7 @@ namespace GSCFieldApp.ViewModels
 
             Themes.ComboBoxItem oldValue = inPurpose as Themes.ComboBoxItem;
 
-            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModStruc.ToLower()))
-            {
-                _earthmatModStrucValues.Remove(oldValue);
-                RaisePropertyChanged("EarthmatModStrucValues");
-            }
-            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTexture.ToLower()))
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc.ToLower()))
             {
                 _earthmatModTextureValues.Remove(oldValue);
                 RaisePropertyChanged("EarthmatModTextureValues");
@@ -1300,14 +1231,7 @@ namespace GSCFieldApp.ViewModels
                     NameToValidate = fieldName;
                 }
 
-                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModStruc.ToLower()))
-                {
-                    parentCollection = EarthmatModStruc;
-                    parentConcatCollection = _earthmatModStrucValues;
-                    parentProperty = "EarthmatModStruc";
-
-                }
-                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTexture.ToLower()))
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc.ToLower()))
                 {
                     parentCollection = EarthmatModTexture;
                     parentConcatCollection = _earthmatModTextureValues;
@@ -1416,11 +1340,7 @@ namespace GSCFieldApp.ViewModels
 
             //Clean values first
             ObservableCollection<Themes.ComboBoxItem> collectionToClean = null;
-            if (databaseTableField.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModStruc.ToLower()))
-            {
-                collectionToClean = _earthmatModStrucValues;
-            }
-            if (databaseTableField.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTexture.ToLower()))
+            if (databaseTableField.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc.ToLower()))
             {
                 collectionToClean = _earthmatModTextureValues;
             }

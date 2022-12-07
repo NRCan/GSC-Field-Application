@@ -354,14 +354,11 @@
   <data name="EarthDialogGrSize.Header" xml:space="preserve">
     <value>Grain/Crystal Size</value>
   </data>
-  <data name="EarthDialoghModStruc.Header" xml:space="preserve">
-    <value>Structural</value>
-  </data>
   <data name="EarthDialogModComp.Header" xml:space="preserve">
     <value>Qualifier</value>
   </data>
   <data name="EarthDialogModText.Header" xml:space="preserve">
-    <value>Textural</value>
+    <value>Texture/Structure</value>
   </data>
   <data name="EarthDialogMU.Header" xml:space="preserve">
     <value>Map Unit</value>

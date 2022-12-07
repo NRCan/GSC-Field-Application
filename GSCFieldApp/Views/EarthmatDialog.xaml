@@ -94,21 +94,12 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Details" RelativePanel.Below="MainSeparator_01">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Details"/>
 
-                            <RelativePanel x:Name="detailRelPanel_Struc">
-                                <ComboBox x:Name="EarthModStrucComboBox" x:Uid="EarthDialoghModStruc"
-                                ItemsSource="{x:Bind ViewModel.EarthmatModStruc}"
-                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatModStruc, Mode=TwoWay}"
-                                                SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}"/>
-                                <ListView x:Name="EarthModStrucConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="EarthModStrucComboBox"
-                                                ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
-                                                ItemsSource="{x:Bind ViewModel.EarthmatModStrucValues}"/>
-                            </RelativePanel>
                             <RelativePanel x:Name="detailRelPanel_Text">
-                                <ComboBox x:Name="EarthModTextureCombobox" Width="Auto" x:Uid="EarthDialogModText" 
+                                <ComboBox x:Name="EarthModTextStrucCombobox" Width="Auto" x:Uid="EarthDialogModText" 
                                         ItemsSource="{x:Bind ViewModel.EarthmatModTexture}"
                                         SelectedValue="{x:Bind ViewModel.SelectedEarthmatModTexture, Mode=TwoWay}"
                                                         SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}"/>
-                                <ListView x:Name="EarthModTextureConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="EarthModTextureCombobox"
+                                <ListView x:Name="EarthModTextStrucConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="EarthModTextStrucCombobox"
                                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
                                                         ItemsSource="{x:Bind ViewModel.EarthmatModTextureValues}"/>
 

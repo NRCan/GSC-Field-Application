@@ -354,14 +354,11 @@
   <data name="EarthDialogGrSize.Header" xml:space="preserve">
     <value>Granulométrie</value>
   </data>
-  <data name="EarthDialoghModStruc.Header" xml:space="preserve">
-    <value>Modificateur Structure</value>
-  </data>
   <data name="EarthDialogModComp.Header" xml:space="preserve">
     <value>Qualificatif structurel</value>
   </data>
   <data name="EarthDialogModText.Header" xml:space="preserve">
-    <value>Texture Structurel</value>
+    <value>Texture/Structure</value>
   </data>
   <data name="EarthDialogMU.Header" xml:space="preserve">
     <value>Unité Cartographique</value>
