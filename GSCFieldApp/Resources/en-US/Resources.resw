@@ -1617,4 +1617,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MAGridViewGeneral.Content" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="EarthDialogMF.Header" xml:space="preserve">
+    <value>Facies</value>
+  </data>
 </root>

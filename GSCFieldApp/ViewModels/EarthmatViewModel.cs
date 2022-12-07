@@ -75,6 +75,9 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _earthmatMI = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatMI = string.Empty;
 
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatMF = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatMF = string.Empty;
+
         private ObservableCollection<Themes.ComboBoxItem> _earthmatMU= new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatMU= string.Empty;
 
@@ -267,6 +270,9 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> EarthmatMineralValues { get { return _earthmatMineralValues; } set { _earthmatMineralValues = value; } }
         public string SelectedEarthmatMineral { get { if (_selectedEarthmatMineral == null) { return string.Empty; } else { return _selectedEarthmatMineral; } } set { _selectedEarthmatMineral = value; } }
 
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatMF { get { return _earthmatMF; } set { _earthmatMF = value; } }
+        public string SelectedEarthmatMF { get { if (_selectedEarthmatMF == null) { return string.Empty; } else { return _selectedEarthmatMF; } } set { _selectedEarthmatMF = value; } }
+
         public ObservableCollection<Themes.ComboBoxItem> EarthmatMI { get { return _earthmatMI; } set { _earthmatMI = value; } }
         public string SelectedEarthmatMI { get { if (_selectedEarthmatMI == null) { return string.Empty; } else { return _selectedEarthmatMI; } } set { _selectedEarthmatMI = value; } }
 
@@ -313,6 +319,7 @@ namespace GSCFieldApp.ViewModels
 
             FillMagQualifier();
             FillMetaIntensity();
+            FillMetaFacies();
 
             //Fill second order comboboxes (dependant on selected litho type)
             //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
@@ -368,6 +375,7 @@ namespace GSCFieldApp.ViewModels
             _selectedEarthmatCL = existingDataDetail.earthmat.EarthMatContactLow;
             _selectedEarthmatMagQualifier = existingDataDetail.earthmat.EarthMatMagQualifier;
             _selectedEarthmatMI = existingDataDetail.earthmat.EarthMatMetaIntensity;
+            _selectedEarthmatMF = existingDataDetail.earthmat.EarthMatMetaIFacies;
 
             //Update UI
             RaisePropertyChanged("EarthmatID");
@@ -407,7 +415,10 @@ namespace GSCFieldApp.ViewModels
             {
                 RaisePropertyChanged("SelectedEarthmatMI");
             }
-
+            if (_selectedEarthmatMF != null)
+            {
+                RaisePropertyChanged("SelectedEarthmatMF");
+            }
             //Special case for minerals
             List<object> mineralTableRaw = accessData.ReadTable(mineralModel.GetType(), null);
             IEnumerable<Mineral> mineralTable = mineralTableRaw.Cast<Mineral>(); //Cast to proper list type
@@ -534,6 +545,10 @@ namespace GSCFieldApp.ViewModels
             if (SelectedEarthmatMI != null)
             {
                 earthmodel.EarthMatMetaIntensity = SelectedEarthmatMI;
+            }
+            if (SelectedEarthmatMF != null)
+            {
+                earthmodel.EarthMatMetaIFacies = SelectedEarthmatMF;
             }
             if (_groupTypeDetail != string.Empty)
             {
@@ -1092,7 +1107,7 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
-        /// will fill in the mag qualifier combobox
+        /// will fill in metamorphic facies intensity combobox
         /// </summary>
         public void FillMetaIntensity()
         {
@@ -1108,6 +1123,25 @@ namespace GSCFieldApp.ViewModels
             //Update UI
             RaisePropertyChanged("EarthmatMI");
             RaisePropertyChanged("SelectedEarthmatMI"); 
+        }
+
+        /// <summary>
+        /// Will fill in metamorphic facies combobox
+        /// </summary>
+        public void FillMetaFacies()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatMetaFacies;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemIF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatMF))
+            {
+                _earthmatMF.Add(itemIF);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("EarthmatMF");
+            RaisePropertyChanged("SelectedEarthmatMF");
         }
 
         #endregion

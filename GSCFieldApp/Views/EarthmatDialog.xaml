@@ -168,8 +168,11 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Metamorphic" RelativePanel.Below="MainSeparator_01b">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_MetaIntensity"/>
                             <RelativePanel x:Name="metaRelPanel">
+                                <ComboBox x:Name="EarthMFCombobox" Width="Auto" x:Uid="EarthDialogMF" Header=""
+                                    ItemsSource="{x:Bind ViewModel.EarthmatMF}" 
+                                    SelectedValue="{x:Bind ViewModel.SelectedEarthmatMF, Mode=TwoWay}"/>
                                 <ComboBox x:Name="EarthMICombobox" Width="Auto" x:Uid="EarthDialogMI" Header=""
-                                    ItemsSource="{x:Bind ViewModel.EarthmatMI}" 
+                                    ItemsSource="{x:Bind ViewModel.EarthmatMI}" RelativePanel.RightOf="EarthMFCombobox"
                                     SelectedValue="{x:Bind ViewModel.SelectedEarthmatMI, Mode=TwoWay}"/>
                             </RelativePanel>
                         </GridView>

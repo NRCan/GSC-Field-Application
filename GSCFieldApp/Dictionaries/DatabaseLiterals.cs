@@ -123,6 +123,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatPercent = "EM_PERCENT"; //Version 1.60
         public const string FieldEarthMatMagQualifier = "MAGQUALIFIER"; //Version 1.60
         public const string FieldEarthMatMetaIntensity = "METAINTENSITY"; // Version 1.60
+        public const string FieldEarthMatMetaFacies = "METAFACIES"; // Version 1.60
 
         public const string FieldSampleID = "SAMPLEID"; //Version 1.0
         public const string FieldSampleName = "SAMPLEIDNAME"; //Version 1.5

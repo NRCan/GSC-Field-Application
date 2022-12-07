@@ -33,6 +33,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatModComp)]
         public string EarthMatModComp { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatMetaFacies)]
+        public string EarthMatMetaIFacies{ get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatMetaIntensity)]
         public string EarthMatMetaIntensity{ get; set; }
 
@@ -191,6 +194,7 @@ namespace GSCFieldApp.Models
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatPercent);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMagQualifier);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaIntensity);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaFacies);
 
                 int removeIndexModComp = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatModComp);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModComp);
