@@ -232,22 +232,50 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Colour" RelativePanel.Below="MainSeparator_04">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Colour"/>
 
-                            <ComboBox x:Name="EarthColour_GenericComboBox" x:Uid="EarthDialogColourGeneric" 
-                                ItemsSource="{x:Bind ViewModel.EarthmatColourGeneric}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourGeneric, Mode=TwoWay}" SelectionChanged="{x:Bind ViewModel.EarthColourComboBox_SelectionChanged}"/>
-                            <ComboBox x:Name="EarthColour_intensityComboBox" x:Uid="EarthDialogColourntensity"
-                                ItemsSource="{x:Bind ViewModel.EarthmatColourIntensity}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourIntensity, Mode=TwoWay}" SelectionChanged="{x:Bind ViewModel.EarthColourComboBox_SelectionChanged}"/>
-                            <ComboBox x:Name="EarthColour_QualifierComboBox" x:Uid="EarthDialogColourQualifier"
-                                ItemsSource="{x:Bind ViewModel.EarthmatColourQualifier}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourQualifier, Mode=TwoWay}" SelectionChanged="{x:Bind ViewModel.EarthColourComboBox_SelectionChanged}"/>
+                            <RelativePanel>
+                                <RelativePanel x:Name="ColourSelectionsPanel">
+                                    <Border BorderBrush="{ThemeResource FieldEarthMatColorBrush}" BorderThickness="1" Padding="15,15,15,15" Margin="0,0,0,15">
+                                        <RelativePanel>
+                                            <ComboBox x:Name="EarthColour_GenericComboBox" x:Uid="EarthDialogColourGeneric" 
+                                        ItemsSource="{x:Bind ViewModel.EarthmatColourGeneric}" 
+                                        SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourGeneric, Mode=TwoWay}" />
+                                            <ComboBox x:Name="EarthColour_intensityComboBox" x:Uid="EarthDialogColourntensity"
+                                        ItemsSource="{x:Bind ViewModel.EarthmatColourIntensity}" RelativePanel.Below="EarthColour_GenericComboBox"
+                                        SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourIntensity, Mode=TwoWay}" />
+                                            <ComboBox x:Name="EarthColour_QualifierComboBox" x:Uid="EarthDialogColourQualifier"
+                                        ItemsSource="{x:Bind ViewModel.EarthmatColourQualifier}" RelativePanel.Below="EarthColour_intensityComboBox"
+                                        SelectedValue="{x:Bind ViewModel.SelectedEarthmatColourQualifier, Mode=TwoWay}"/>
+                                        </RelativePanel>
+                                    </Border>
+                                </RelativePanel>
 
-                            <TextBox x:Name="EarthColourFTextbox" x:Uid="EarthDialogColourF" Text="{x:Bind ViewModel.EarthColourF, Mode=OneWay}"/>
+                                <RelativePanel x:Name="ColourSelectionButtons" Padding="15,17,15,15" RelativePanel.RightOf="ColourSelectionsPanel">
+                                    <Button x:Name="ColourSetFresh"  Content="Set" Margin="10,25,0,0" Tapped="{x:Bind ViewModel.ColourSetFresh_Tapped}" />
 
-                            <TextBox x:Name="EarthColourWTextbox" x:Uid="EarthDialogColourW"  Text="{x:Bind ViewModel.EarthColourW, Mode=OneWay}"/>
+                                    <Button x:Name="ColourSetWeathered"  Content="Set" RelativePanel.Below="ColourSetFresh" Margin="10,25,0,0"
+                                            Tapped="{x:Bind ViewModel.ColourSetWeathered_Tapped}"/>
+                                </RelativePanel>
 
-                            <TextBox x:Name="EarthColourIndexComboBox" x:Uid="EarthDialogColourInd" MinWidth="35" HorizontalAlignment="Stretch"
+                                <RelativePanel x:Name="ColourSelectedPanel"  Padding="15,15,15,15" RelativePanel.RightOf="ColourSelectionButtons">
+    
+                                    
+                                    <TextBox x:Name="EarthColourFTextbox" x:Uid="EarthDialogColourF" 
+                                             Text="{x:Bind ViewModel.EarthColourF, Mode=OneWay}"/>
+
+                                    <TextBox x:Name="EarthColourWTextbox" x:Uid="EarthDialogColourW" 
+                                             
+                                             RelativePanel.Below="EarthColourFTextbox"  
+                                            Text="{x:Bind ViewModel.EarthColourW, Mode=OneWay}"/>
+                                </RelativePanel>
+
+
+                                <TextBox x:Name="EarthColourIndexComboBox" x:Uid="EarthDialogColourInd" 
+                                         RelativePanel.Below="ColourSelectionsPanel"
+                                         MinWidth="35" HorizontalAlignment="Stretch"
                                 Text="{x:Bind ViewModel.ColourIndex, Mode=TwoWay}" InputScope="Number"/>
+                                
+                            </RelativePanel>
+
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_05" RelativePanel.Below="EarthmatGridView_Colour"

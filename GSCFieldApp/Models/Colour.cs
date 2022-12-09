@@ -22,20 +22,35 @@ namespace GSCFieldApp.Models
         {
 
             string colourString = string.Empty;
+            List<string> colours = new List<string>();
+
 
             //Make sure to not add extra concat characters if properties are empty
             if (this.generic != null && this.generic != string.Empty)
             {
-                colourString = this.generic;
+                colours.Add(this.generic);
+            }
 
-                if (this.intensity != null && this.intensity != string.Empty)
+
+            if (this.intensity != null && this.intensity != string.Empty)
+            {
+                colours.Add(this.intensity);
+            }
+
+            if (this.qualifier != null && this.qualifier != string.Empty)
+            {
+                colours.Add(this.qualifier);
+            }
+
+            foreach (string c in colours)
+            { 
+                if (colours.IndexOf(c) == 0)
                 {
-                    colourString = colourString + DatabaseLiterals.KeywordConcatCharacter + this.intensity;
-
-                    if (this.qualifier != null && this.qualifier != string.Empty)
-                    {
-                        colourString = colourString + DatabaseLiterals.KeywordConcatCharacter + this.qualifier;
-                    }
+                    colourString = c;
+                }
+                else
+                {
+                    colourString = colourString + DatabaseLiterals.KeywordConcatCharacter + c;
                 }
             }
 

@@ -442,6 +442,7 @@
         <Setter Property="RelativePanel.AlignRightWithPanel" Value="True"/>
     </Style>
 
+
     <Style TargetType="RelativePanel" x:Key="ParentPanel">
         <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True"/>
         <Setter Property="RelativePanel.AlignRightWithPanel" Value="True"/>

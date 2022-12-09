@@ -18,6 +18,7 @@ using Esri.ArcGISRuntime.Geometry;
 using System.Threading;
 using Windows.UI.Popups;
 using System.Collections.Specialized;
+using Windows.UI.Xaml.Input;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -1386,35 +1387,36 @@ namespace GSCFieldApp.ViewModels
             }
         }
 
-        public void EarthColourComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /// <summary>
+        /// Will set fresh color textbox with proper entries from 3 colour boxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ColourSetFresh_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //Cast and add to colour text box
-            ComboBox senderBox = sender as ComboBox;
-            string boxName = senderBox.Name;
-            Themes.ComboBoxItem senderSelectedItem = senderBox.SelectedItem as Themes.ComboBoxItem;
+            _earthColourF.generic = _selectedEarthmatColourG;
+            _earthColourF.intensity = _selectedEarthmatColourI;
+            _earthColourF.qualifier = _selectedEarthmatColourQ;
 
-            if (senderSelectedItem != null)
-            {
-                if (boxName.ToUpper().Contains(Dictionaries.DatabaseLiterals.KeywordColourGeneric))
-                {
-                    _earthColourF.generic = senderSelectedItem.itemValue;
-                    _earthColourW.generic = senderSelectedItem.itemValue;
-                }
-                if (boxName.ToUpper().Contains(Dictionaries.DatabaseLiterals.KeywordColourIntensity))
-                {
-                    _earthColourF.intensity = senderSelectedItem.itemValue;
-                    _earthColourW.intensity = senderSelectedItem.itemValue;
-                }
-                if (boxName.ToUpper().Contains(Dictionaries.DatabaseLiterals.KeywordColourQualifier))
-                {
-                    _earthColourF.qualifier = senderSelectedItem.itemValue;
-                    _earthColourW.qualifier = senderSelectedItem.itemValue;
-                }
-                RaisePropertyChanged("EarthColourF");
-                RaisePropertyChanged("EarthColourW");
-            }
-
+            RaisePropertyChanged("EarthColourF");
         }
+
+        /// <summary>
+        /// Will set weathered color textbox with proper entries from 3 colour boxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ColourSetWeathered_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            _earthColourW.generic = _selectedEarthmatColourG;
+            _earthColourW.intensity = _selectedEarthmatColourI;
+            _earthColourW.qualifier = _selectedEarthmatColourQ;
+
+            RaisePropertyChanged("EarthColourW");
+            
+        }
+
+
         #endregion
 
         #region CALCULATE
