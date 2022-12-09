@@ -1897,12 +1897,12 @@ namespace GSCFieldApp.ViewModels
             IEnumerable<Mineral> mineralTable = mineralTableRaw.Cast<Mineral>(); //Cast to proper list type
 
             //For other cases
-            bool foundParentOrSibling = false;
+            //bool foundParentOrSibling = false;
 
             if (_reportEarthmatIndex != -1 && _reportStationIndex != -1)
             {
                 #region Conditional to have a selected earthmat
-                foundParentOrSibling = true;
+                //foundParentOrSibling = true;
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
@@ -1928,7 +1928,7 @@ namespace GSCFieldApp.ViewModels
             if (_reportMineralizationAlterationIndex != -1 && _reportStationIndex != -1)
             {
                 #region Conditional to have a selected mineralization alteration
-                foundParentOrSibling = true;
+                //foundParentOrSibling = true;
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
@@ -1951,43 +1951,43 @@ namespace GSCFieldApp.ViewModels
 
             }
             //If the selection is already a mineral, coming form an edit
-            if (_reportMineralIndex != -1)
-            {
-                #region Conditional to have a selected mineral
-                foundParentOrSibling = true;
+            //if (_reportMineralIndex != -1)
+            //{
+            //    #region Conditional to have a selected mineral
+            //    //foundParentOrSibling = true;
 
-                //Get a list of related samples from selected earthmat
-                //Querying with Linq
-                IEnumerable<Mineral> mineralParent = from e in mineralTable where e.MineralEMID == _reportDetailedMinerals[_reportMineralIndex].ParentID || e.MineralMAID == _reportDetailedMinerals[_reportMineralIndex].ParentID select e;
+            //    //Get a list of related samples from selected earthmat
+            //    //Querying with Linq
+            //    IEnumerable<Mineral> mineralParent = from e in mineralTable where e.MineralEMID == _reportDetailedMinerals[_reportMineralIndex].ParentID || e.MineralMAID == _reportDetailedMinerals[_reportMineralIndex].ParentID select e;
 
-                if (mineralParent.Count() != 0 || mineralParent != null)
-                {
-                    Mineral mp = mineralParent.First();
-                    if (mp.MineralEMID != null)
-                    {
-                        FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].earthmat.EarthMatID);
-                    }
-                    else if (mp.MineralMAID != null)
-                    {
-                        FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].mineralAlteration.MAID);
-                    }
-                    
-                }
+            //    if (mineralParent.Count() != 0 || mineralParent != null)
+            //    {
+            //        Mineral mp = mineralParent.First();
+            //        if (mp.MineralEMID != null)
+            //        {
+            //            FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].earthmat.EarthMatID);
+            //        }
+            //        else if (mp.MineralMAID != null)
+            //        {
+            //            FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].mineralAlteration.MAID);
+            //        }
 
-                //Manage header opacity
-                mineralRecordCount = mineralParent.Count();
+            //    }
 
-                #endregion
+            //    //Manage header opacity
+            //    mineralRecordCount = mineralParent.Count();
 
-                //Manager header color opacity (transparent if no items)
-                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineral);
+            //    #endregion
 
-                RaisePropertyChanged("ReportDetailedMineral");
+            //    //Manager header color opacity (transparent if no items)
+            //    SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineral);
 
-            }
-            
+            //    RaisePropertyChanged("ReportDetailedMineral");
 
-            if (!foundParentOrSibling && _reportStationIndex != -1)
+            //}
+
+
+            if (_reportStationIndex != -1 && _reportMineralizationAlterationIndex == -1 && _reportEarthmatIndex == -1)
             {
 
                 #region For other situations
@@ -2007,11 +2007,12 @@ namespace GSCFieldApp.ViewModels
 
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Mineral> minParent = from smp in mineralTable join e2 in earthTable on smp.MineralEMID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
-                IEnumerable<Mineral> minParentMA = from min in mineralTable join ma in maTable on min.MineralMAID equals ma.MAID where earthFromStation.Contains(ma.MAID) select min;
+                IEnumerable<Mineral> minParentMA = from min in mineralTable join ma in maTable on min.MineralMAID equals ma.MAID where mineralizationAlterationFromStation.Contains(ma.MAID) select min;
 
                 if (minParent.Count() != 0 || minParent != null || minParentMA.Count() != 0 || minParentMA!= null)
                 {
-                    FillMineralFromParent(minParent, string.Empty);
+                    minParent = minParent.Concat<Mineral>(minParentMA);
+                    FillMineralFromParent(minParent, _reportDetailedStation[_reportStationIndex].GenericID);
                 }
 
                 //Manage header opacity
@@ -2024,8 +2025,7 @@ namespace GSCFieldApp.ViewModels
 
                 RaisePropertyChanged("ReportDetailedMineral");
 
-
-            }
+                }
 
             SetHeaderIconOpacity();
         }
@@ -2241,7 +2241,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         EmptyMineralizationAlterationChilds();
                     }
-                    
+
 
                 }
             }
@@ -3763,6 +3763,8 @@ namespace GSCFieldApp.ViewModels
                     FillDocument();
                     FillMineralAltFromStation();
                     EmptyMineralizationAlterationChilds();
+                    FillMineral();
+                    
                 }
 
                 if (selectedReport.GenericTableName == DatabaseLiterals.TableEarthMat)
