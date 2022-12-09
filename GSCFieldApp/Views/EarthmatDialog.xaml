@@ -209,17 +209,23 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Contact" RelativePanel.Below="MainSeparator_03">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Contact"/>
 
-                            <RelativePanel>
-                                <ComboBox x:Name="EarthContactUpCombobox" Width="Auto" x:Uid="EarthDialogContactUp" Header="" 
-                            ItemsSource="{x:Bind ViewModel.EarthmatCU}" 
-                            SelectedValue="{x:Bind ViewModel.SelectedEarthmatCU, Mode=TwoWay}"/>
+                            <RelativePanel x:Name="EarthContactSelection">
+                                <Border BorderBrush="{ThemeResource FieldEarthMatColorBrush}" BorderThickness="1" Padding="15,15,15,15" Margin="0,0,0,15">
+                                    <RelativePanel>
+                                        <ComboBox x:Name="EarthContactCombobox" Width="Auto" x:Uid="EarthDialogContactUp" Header="" 
+                                            ItemsSource="{x:Bind ViewModel.EarthmatContactTypes}" 
+                                            SelectedValue="{x:Bind ViewModel.SelectedEarthmatContactTypes, Mode=TwoWay}"/>
 
-                                <ComboBox x:Name="EarthContactLowComboBox" Width="Auto" x:Uid="EarthDialogContactLow" Header=""
-                            ItemsSource="{x:Bind ViewModel.EarthmatCL}" RelativePanel.RightOf="EarthContactUpCombobox"
-                            SelectedValue="{x:Bind ViewModel.SelectedEarthmatCL, Mode=TwoWay}"/>
+                                        <ComboBox x:Name="EarthRelationComboBox" Width="Auto" x:Uid="EarthDialogContactLow" Header=""
+                                            RelativePanel.Below="EarthContactCombobox"
+                                            ItemsSource="{x:Bind ViewModel.EarthmatRelated}" 
+                                            SelectedValue="{x:Bind ViewModel.SelectedEarthmatRelated, Mode=TwoWay}"/>
+                                    </RelativePanel>
+                                </Border>
+
 
                                 <TextBox Style="{ThemeResource Notes}" x:Name="EarthContactNoteComboBox" x:Uid="EarthDialogContactNote"
-                                        RelativePanel.Below="EarthContactUpCombobox"
+                                        RelativePanel.RightOf="EarthContactSelection"
                                         Text ="{x:Bind ViewModel.ContactNote, Mode=TwoWay}"/>
                             </RelativePanel>
 

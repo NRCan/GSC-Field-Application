@@ -330,6 +330,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordFossil = "fossil";
         public const string KeywordPflow = "flow";
         public const string KeywordConcatCharacter = " | ";
+        public const string KeywordConcatCharacter2nd = " - "; //Used when first contact is already being used
         public const string KeywordLithgrouptype = "LITHGROUPTYPE"; //Used to detect lithgrouptype picklist selection in the picklist editor, to launch a semantic zoom data update.
         public const string KeywordLithDetail = "LITHDETAIL"; //Used to detect lithdetail picklist selection in the picklist editor, to launch a semantic zoom data update.
         public const string KeywordStrucClassType = "STRUCCLASSTYPE"; //Used to detect strucclasstype picklist selection in the picklist editor, to launch a semantic zoom data update.
