@@ -314,6 +314,7 @@ namespace GSCFieldApp.Dictionaries
         public const string locationEntryTypeTap = "Tap";
         public const string sampleTypeOriented = "oriented";
         public const string samplePurposePaleomag = "paleomagnetism";
+        public const string structurePlanarAttitudeTrend = "trend";
 
         #endregion
 

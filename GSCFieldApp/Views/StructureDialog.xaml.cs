@@ -19,6 +19,8 @@ using System.Diagnostics;
 using GSCFieldApp.Services.DatabaseServices;
 using Windows.Storage;
 using Windows.UI;
+using System.ComponentModel.DataAnnotations.Schema;
+using GSCFieldApp.Dictionaries;
 
 //using SQLite.Net;
 //using SQLite.Net.Platform.WinRT;
@@ -429,6 +431,26 @@ namespace GSCFieldApp.Views
 
             //Refresh related list.
             strucViewModel.NewSearch_userHasSelectedAValue(senderBox.Text);
+
+        }
+
+        /// <summary>
+        /// Event trigger when user selects a new attitude
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StructureAttitudeCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //Will nullify dip value if user selects a trend as attitude.
+            ComboBox senderBox = sender as ComboBox;
+            Themes.ComboBoxItem senderItem = senderBox.SelectedItem as Themes.ComboBoxItem;
+            string senderValue = senderItem.itemValue;
+
+            if (senderValue == DatabaseLiterals.structurePlanarAttitudeTrend)
+            {
+                //Nullify dip
+                strucViewModel.StructDip = string.Empty;
+            }
 
         }
     }

@@ -147,7 +147,7 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="StructureGridView_03" RelativePanel.Below="MainSeparator_02">
 
                             <ComboBox x:Name="StructureAttitudeCombobox" x:Uid="StructureDialogAttitude"  
-                                ItemsSource="{x:Bind strucViewModel.StructAttitude}" 
+                                ItemsSource="{x:Bind strucViewModel.StructAttitude}" SelectionChanged="StructureAttitudeCombobox_SelectionChanged"  
                                 SelectedValue="{x:Bind strucViewModel.SelectedStructAttitude, Mode=TwoWay}"/>
                             <ComboBox x:Name="StructureyoungCombobox" x:Uid="StructureDialogYoung"  
                                 ItemsSource="{x:Bind strucViewModel.StructYoung}" 

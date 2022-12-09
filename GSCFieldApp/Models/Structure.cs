@@ -138,7 +138,15 @@ namespace GSCFieldApp.Models
                 }
                 else
                 {
-                    return false;
+                    if (StructureDipPlunge == string.Empty && StructureAttitude == DatabaseLiterals.structurePlanarAttitudeTrend)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    
                 }
             }
             set { }
