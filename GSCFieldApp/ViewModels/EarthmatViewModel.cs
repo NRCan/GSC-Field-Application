@@ -1269,7 +1269,7 @@ namespace GSCFieldApp.ViewModels
                     parentProperty = "EarthmatMineral";
 
                 }
-                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatContact.ToLower()))
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatContactDeprecated.ToLower()))
                 {
                     parentCollection = EarthmatContactNoteTypes;
                     parentConcatCollection = _earthmatContactNoteTypes;
