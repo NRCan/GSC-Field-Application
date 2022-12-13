@@ -378,14 +378,14 @@
   <data name="EarthDialogColourW.Header" xml:space="preserve">
     <value>Weathered</value>
   </data>
-  <data name="EarthDialogContactLow.Header" xml:space="preserve">
-    <value>Lower</value>
+  <data name="EarthDialogContactRelated.Header" xml:space="preserve">
+    <value>Related to</value>
   </data>
-  <data name="EarthDialogContactNote.Header" xml:space="preserve">
-    <value>Note</value>
+  <data name="EarthDialogContactNote.Text" xml:space="preserve">
+    <value>Description</value>
   </data>
-  <data name="EarthDialogContactUp.Header" xml:space="preserve">
-    <value>Upper</value>
+  <data name="EarthDialogContactType.Header" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="EarthDialogInterp.Header" xml:space="preserve">
     <value>Interpretation</value>
@@ -1616,5 +1616,8 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="EarthDialogMF.Header" xml:space="preserve">
     <value>Facies</value>
+  </data>
+  <data name="SetButtons.Content" xml:space="preserve">
+    <value>Set</value>
   </data>
 </root>

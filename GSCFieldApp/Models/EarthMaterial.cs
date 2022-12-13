@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Template10.Mvvm;
 using SQLite.Net.Attributes;
 using GSCFieldApp.Dictionaries;
+using Newtonsoft.Json.Linq;
 
 namespace GSCFieldApp.Models
 {
@@ -202,6 +203,9 @@ namespace GSCFieldApp.Models
                 earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModStrucDeprecated);
                 earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModTextureDeprecated);
 
+                int removeIndexContactc = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatContact);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatContact);
+                earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatContactDeprecated);
 
                 earthmatFieldList[DatabaseLiterals.DBVersion150] = earthmatFieldList15;
 
@@ -227,6 +231,32 @@ namespace GSCFieldApp.Models
                 return earthmatFieldList;
             }
             set { }
+        }
+
+        /// <summary>
+        /// Will extract the letter defining the ID of current earthmat, A-B-C, etc.
+        /// </summary>
+        /// <returns></returns>
+        [Ignore]
+        public string GetIDLetter
+        {
+            get
+            {
+                //Get index of last digits
+                string getLast3 = this.EarthMatName.Substring(this.EarthMatName.Length - 3);
+                string strOnlyID = string.Empty;
+                foreach (char c in getLast3)
+                {
+                    if (char.IsLetter(c))
+                    {
+                        strOnlyID = strOnlyID + c;
+                    }
+                }
+                return strOnlyID; 
+            }
+            
+            set{ }
+            
         }
     }
 }

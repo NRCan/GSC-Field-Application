@@ -114,7 +114,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatColourW = "COLOURW";//Version 1.0
         public const string FieldEarthMatColourInd = "COLOURIND";//Version 1.0
         public const string FieldEarthMatMagSuscept = "MAGSUSCEPT";//Version 1.0
-        public const string FieldEarthMatContact = "CONTACT";//Version 1.0
+        public const string FieldEarthMatContactDeprecated = "CONTACT";//Version 1.0
+        public const string FieldEarthMatContact = "RELATED_CONTACT_NOTE"; //Version 1.6
         public const string FieldEarthMatContactUp = "CONTACTUP";//Version 1.0
         public const string FieldEarthMatContactLow = "CONTACTLOW";//Version 1.0
         public const string FieldEarthMatInterp = "INTERP";//Version 1.0

@@ -208,26 +208,40 @@
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Contact" RelativePanel.Below="MainSeparator_03">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Contact"/>
-
-                            <RelativePanel x:Name="EarthContactSelection">
-                                <Border BorderBrush="{ThemeResource FieldEarthMatColorBrush}" BorderThickness="1" Padding="15,15,15,15" Margin="0,0,0,15">
-                                    <RelativePanel>
-                                        <ComboBox x:Name="EarthContactCombobox" Width="Auto" x:Uid="EarthDialogContactUp" Header="" 
+                            <RelativePanel>
+                                <RelativePanel x:Name="EarthContactSelectionPanel" RelativePanel.AlignLeftWithPanel="True">
+                                    <Border x:Name="EarthContactSelection" Height="165"  BorderBrush="{ThemeResource FieldEarthMatColorBrush}" BorderThickness="1" Padding="15,15,15,15" Margin="0,0,0,15">
+                                        <RelativePanel>
+                                            <ComboBox x:Name="EarthContactCombobox" Width="Auto" x:Uid="EarthDialogContactType" Header="" 
                                             ItemsSource="{x:Bind ViewModel.EarthmatContactTypes}" 
                                             SelectedValue="{x:Bind ViewModel.SelectedEarthmatContactTypes, Mode=TwoWay}"/>
 
-                                        <ComboBox x:Name="EarthRelationComboBox" Width="Auto" x:Uid="EarthDialogContactLow" Header=""
+                                            <ComboBox x:Name="EarthRelationComboBox" Width="Auto" x:Uid="EarthDialogContactRelated" Header=""
                                             RelativePanel.Below="EarthContactCombobox"
                                             ItemsSource="{x:Bind ViewModel.EarthmatRelated}" 
                                             SelectedValue="{x:Bind ViewModel.SelectedEarthmatRelated, Mode=TwoWay}"/>
-                                    </RelativePanel>
-                                </Border>
+                                        </RelativePanel>
+                                    </Border>
 
+                                </RelativePanel>
 
-                                <TextBox Style="{ThemeResource Notes}" x:Name="EarthContactNoteComboBox" x:Uid="EarthDialogContactNote"
-                                        RelativePanel.RightOf="EarthContactSelection"
-                                        Text ="{x:Bind ViewModel.ContactNote, Mode=TwoWay}"/>
+                                <RelativePanel x:Name="EarthContactButtonPanel" Padding="15,17,15,15" RelativePanel.RightOf="EarthContactSelectionPanel">
+                                    <Button x:Name="EarthContactSelectionButton" x:Uid="SetButtons" Content="Set" Margin="10,25,0,0" Tapped="{x:Bind ViewModel.EarthContactSelectionButton_Tapped}"/>
+
+                                </RelativePanel>
+
+                                <RelativePanel x:Name="EarthContactNotePanel" RelativePanel.RightOf="EarthContactButtonPanel">
+                                    <TextBlock x:Name="EarthContactNoteHeader" x:Uid="EarthDialogContactNote" Margin="0,0,0,-5"/>
+                                    <ListView x:Name="EarthContactNoteComboBox"  Height="136"
+                                              RelativePanel.Below="EarthContactNoteHeader"
+                                              Style="{StaticResource ConcatenatedListView}"
+                                                ItemTemplate="{StaticResource ConcatenatedValueTemplate}" 
+                                                ItemsSource="{x:Bind ViewModel.EarthmatContactNoteTypes}"/>
+                                </RelativePanel>
+
+                                
                             </RelativePanel>
+
 
 
                         </GridView>
@@ -256,9 +270,9 @@
                                 </RelativePanel>
 
                                 <RelativePanel x:Name="ColourSelectionButtons" Padding="15,17,15,15" RelativePanel.RightOf="ColourSelectionsPanel">
-                                    <Button x:Name="ColourSetFresh"  Content="Set" Margin="10,25,0,0" Tapped="{x:Bind ViewModel.ColourSetFresh_Tapped}" />
+                                    <Button x:Name="ColourSetFresh" x:Uid="SetButtons" Content="Set" Margin="10,25,0,0" Tapped="{x:Bind ViewModel.ColourSetFresh_Tapped}" />
 
-                                    <Button x:Name="ColourSetWeathered"  Content="Set" RelativePanel.Below="ColourSetFresh" Margin="10,25,0,0"
+                                    <Button x:Name="ColourSetWeathered" x:Uid="SetButtons" Content="Set" RelativePanel.Below="ColourSetFresh" Margin="10,25,0,0"
                                             Tapped="{x:Bind ViewModel.ColourSetWeathered_Tapped}"/>
                                 </RelativePanel>
 
