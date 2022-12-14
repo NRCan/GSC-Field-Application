@@ -31,7 +31,7 @@
                     </StackPanel>
                 </Controls:HamburgerButtonInfo>
                 <!--  reportpage button  -->
-                <Controls:HamburgerButtonInfo x:Name="ButtonReportPage" ClearHistory="False" PageType="views:ReportPage" IsEnabled="{x:Bind SViewModel.ShellEnableNoteCommand, Mode=TwoWay}">
+                <Controls:HamburgerButtonInfo x:Name="ButtonReportPage" ClearHistory="False" PageType="views:FieldNotesPage" IsEnabled="{x:Bind SViewModel.ShellEnableNoteCommand, Mode=TwoWay}">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon x:Name="ButtonReportPageIcon" Width="48" Height="48"
                 		    Symbol="Page2" />

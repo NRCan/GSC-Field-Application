@@ -1676,7 +1676,7 @@ namespace GSCFieldApp.ViewModels
         private void NavigateToReport(object sender)
         {
             //Navigate to the report page.
-            NavigationService.Navigate(typeof(Views.ReportPage), new[] { selectedStationID, selectedStationDate });
+            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate });
         }
 
         /// <summary>

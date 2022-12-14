@@ -352,7 +352,7 @@ namespace GSCFieldApp.ViewModels
         {
             //Navigate to map page
             INavigationService navService = BootStrapper.Current.NavigationService;
-            navService.Navigate(typeof(Views.ReportPage));
+            navService.Navigate(typeof(Views.FieldNotesPage));
             await Task.CompletedTask;
         }
 

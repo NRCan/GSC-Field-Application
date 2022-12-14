@@ -8,7 +8,7 @@ using GSCFieldApp.Services.DatabaseServices;
 
 namespace GSCFieldApp.Views
 {
-    public sealed partial class ReportPage : Page
+    public sealed partial class FieldNotesPage : Page
     {
         public bool navFromMapPage = false; //A value to keep track of user's movement between map page and any possible action with the station in it
 
@@ -20,7 +20,7 @@ namespace GSCFieldApp.Views
         //Local settings
         DataLocalSettings localSetting = new DataLocalSettings();
 
-        public ReportPage()
+        public FieldNotesPage()
         {
 
             InitializeComponent();
