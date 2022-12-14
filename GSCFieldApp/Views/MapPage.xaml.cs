@@ -35,10 +35,10 @@ namespace GSCFieldApp.Views
         {
 
 
-            localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, true);
+            //localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, true);
 
             this.InitializeComponent();
-            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
+            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
 
             this.Loaded -= MapPage_Loaded;
             this.Loaded += MapPage_Loaded;
@@ -53,8 +53,8 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private async void Current_Resuming(object sender, object e)
         {
-            ViewModel.ResetLocationGraphic();
-            await ViewModel.SetGPS();
+            MapPageViewModel.ResetLocationGraphic();
+            await MapPageViewModel.SetGPS();
 
         }
 
@@ -72,45 +72,33 @@ namespace GSCFieldApp.Views
 
 
             //Set navigation that will add back new layers
-            try
+
+            if (!MapPageViewModel.userHasTurnedGPSOff && MapPageViewModel._currentMSGeoposition == null)
             {
-                if (!ViewModel.userHasTurnedGPSOff && ViewModel._currentMSGeoposition == null)
-                {
-                    ViewModel.StartLocationRing();
-                }
+                MapPageViewModel.StartLocationRing();
 
-                //Refresh
-                //SetBackgroundGrid();
-                ViewModel.DisplayPointAndLabelsAsync(myMapView);
+                Task navigateToLocationTask = MapPageViewModel.SetMapView(myMapView);
 
-                Task navigateToLocationTask = ViewModel.SetMapView(myMapView);
-
-                //DisplayLatLongGrid();
                 mapsLoaded = true;
-                //UpdateGrid();
             }
-            catch (Exception er)
-            {
-                ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+
+            //Refresh
+            //SetBackgroundGrid();
+            MapPageViewModel.DisplayPointAndLabelsAsync(myMapView);
 
 
-                ContentDialog defaultEventLocationDialog = new ContentDialog()
-                {
-                    Title = local.GetString("MapPageDialogLocationTitle"),
-                    Content = er.Message + "; " + er.StackTrace,
-                    CloseButtonText = local.GetString("GenericDialog_ButtonOK")
-                };
-                defaultEventLocationDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                Services.ContentDialogMaker.CreateContentDialog(defaultEventLocationDialog, true);
 
-            }
+            //DisplayLatLongGrid();
+
+            //UpdateGrid();
+
 
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-        }
+        //protected override void OnNavigatedTo(NavigationEventArgs e)
+        //{
+        //    base.OnNavigatedTo(e);
+        //}
 
         /// <summary>
         /// Triggered when user is going out of the map page
@@ -119,9 +107,9 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            if (ViewModel.currentMapView != null)
+            if (MapPageViewModel.currentMapView != null)
             {
-                ViewModel.currentMapView.CancelSetViewpointOperations();
+                MapPageViewModel.currentMapView.CancelSetViewpointOperations();
             }
             
             base.OnNavigatingFrom(e);
@@ -151,10 +139,10 @@ namespace GSCFieldApp.Views
             MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
 
             //Try and enforce whole map view redraw see #176
-            //ViewModel.esriMap = null;
-            //ViewModel.currentMapView = null;
+            //MapPageViewModel.esriMap = null;
+            //MapPageViewModel.currentMapView = null;
             //mapsLoaded = false;
-            //await ViewModel.SetMapView(myMapView);
+            //await MapPageViewModel.SetMapView(myMapView);
 
         }
 
@@ -169,7 +157,7 @@ namespace GSCFieldApp.Views
             {
                 this.mapPageLayerFlyout.Hide();
 
-                ViewModel.DeleteLayersAsync(true);
+                MapPageViewModel.DeleteLayersAsync(true);
             }
         }
 
@@ -185,7 +173,7 @@ namespace GSCFieldApp.Views
             if (sender != null)
             {
                 ToggleSwitch senderToggle = sender as ToggleSwitch;
-                ViewModel.SetLayerVisibility(senderToggle);
+                MapPageViewModel.SetLayerVisibility(senderToggle);
             }
 
         }
@@ -330,7 +318,7 @@ namespace GSCFieldApp.Views
             //Load
             try
             {
-                await ViewModel.LoadingData();
+                await MapPageViewModel.LoadingData();
             }
             catch (Exception)
             {
@@ -340,41 +328,41 @@ namespace GSCFieldApp.Views
 
         public async void GPSMode_TappedAsync(object sender, TappedRoutedEventArgs e)
         {
-            if (!ViewModel.userHasTurnedGPSOff)
+            if (!MapPageViewModel.userHasTurnedGPSOff)
             {
-                ViewModel.userHasTurnedGPSOff = true;
-                ViewModel.SetGPSModeIcon(Symbol.TouchPointer);
+                MapPageViewModel.userHasTurnedGPSOff = true;
+                MapPageViewModel.SetGPSModeIcon(Symbol.TouchPointer);
 
-                if (ViewModel._geolocator != null)
+                if (MapPageViewModel._geolocator != null)
                 {
-                    ViewModel._geolocator.StatusChanged -= ViewModel.Geolocal_StatusChangedAsync;
-                    ViewModel._geolocator.PositionChanged -= ViewModel.OnPositionChanged;
+                    MapPageViewModel._geolocator.StatusChanged -= MapPageViewModel.Geolocal_StatusChangedAsync;
+                    MapPageViewModel._geolocator.PositionChanged -= MapPageViewModel.OnPositionChanged;
                 }
 
-                ViewModel.ResetLocationGraphic();
+                MapPageViewModel.ResetLocationGraphic();
 
-                ViewModel.StopLocationRing();
+                MapPageViewModel.StopLocationRing();
 
             }
             else
             {
 
-                ViewModel.StartLocationRing();
+                MapPageViewModel.StartLocationRing();
 
-                if (ViewModel._geolocator != null)
+                if (MapPageViewModel._geolocator != null)
                 {
-                    ViewModel._geolocator.StatusChanged += ViewModel.Geolocal_StatusChangedAsync;
-                    ViewModel._geolocator.PositionChanged += ViewModel.OnPositionChanged;
+                    MapPageViewModel._geolocator.StatusChanged += MapPageViewModel.Geolocal_StatusChangedAsync;
+                    MapPageViewModel._geolocator.PositionChanged += MapPageViewModel.OnPositionChanged;
 
                 }
                 else
                 {
-                    await ViewModel.SetGPS();
+                    await MapPageViewModel.SetGPS();
                 }
-                //await ViewModel.SetGPS();
-                ViewModel.userHasTurnedGPSOff = false;
+                //await MapPageViewModel.SetGPS();
+                MapPageViewModel.userHasTurnedGPSOff = false;
 
-                ViewModel.SetGPSModeIcon();
+                MapPageViewModel.SetGPSModeIcon();
 
             }
         }
@@ -406,7 +394,7 @@ namespace GSCFieldApp.Views
 
                 //}
 
-                ViewModel.SetLayerOpacity(sender as Slider);
+                MapPageViewModel.SetLayerOpacity(sender as Slider);
 
             }
         }
@@ -414,10 +402,12 @@ namespace GSCFieldApp.Views
         private void MapZoomExtentIcon_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
-            ViewModel.ZoomToLayer(true);
+            MapPageViewModel.ZoomToLayer(true);
             //myMapView.SetViewpoint
                        
             
         }
+
+
     }
 }

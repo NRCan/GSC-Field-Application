@@ -1769,14 +1769,14 @@ namespace GSCFieldApp.ViewModels
                         RaisePropertyChanged("CurrentAltitude");
 
                         //Reset view on current location
-                        bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(0.75));
+                        //bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(0.75));
                     }
-                    else
-                    {
-                        //Set non-sense accuracy to get a wide circle
-                        _currentAccuracy = 0;
-                        RaisePropertyChanged("CurrentAccuracy");
-                    }
+                    //else
+                    //{
+                    //    //Set non-sense accuracy to get a wide circle
+                    //    _currentAccuracy = 0;
+                    //    RaisePropertyChanged("CurrentAccuracy");
+                    //}
 
                     //Clear current graphics
                     if (_OverlayCurrentPosition == null)
@@ -1805,7 +1805,7 @@ namespace GSCFieldApp.ViewModels
                     //Update graphic collection and UI
                     _OverlayCurrentPosition.Graphics.Add(posGraphic);
                     _OverlayCurrentPosition.Graphics.Add(accGraphic);
-                    currentMapView.UpdateLayout();
+                    //currentMapView.UpdateLayout();
 
                 }
                 else
@@ -1841,6 +1841,11 @@ namespace GSCFieldApp.ViewModels
         {
             //Force refresh of all graphics
             RefreshMap(true);
+        }
+
+        public void MapRecenter_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(0.75));
         }
 
         private async void FieldBooksPageViewModel_newFieldBookSelectedAsync(object sender, string e)

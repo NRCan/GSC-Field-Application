@@ -1560,4 +1560,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MapPageIdentifyStructureDialogTitle" xml:space="preserve">
     <value>Structure summary</value>
   </data>
+  <data name="MapPageCenter.Label" xml:space="preserve">
+    <value>Center</value>
+  </data>
 </root>

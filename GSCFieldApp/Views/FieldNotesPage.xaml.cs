@@ -24,13 +24,13 @@ namespace GSCFieldApp.Views
         {
 
             InitializeComponent();
-            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required; //Keep cache mode on, so values for view models are kept when navigating.
+            //NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required; //Keep cache mode on, so values for view models are kept when navigating.
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-        }
+        //protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        //{
+        //    base.OnNavigatingFrom(e);
+        //}
 
         /// <summary>
         /// Will retrieve user parameter if any are given with the page
@@ -39,7 +39,7 @@ namespace GSCFieldApp.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
 
-            //base.OnNavigatedTo(e);
+            base.OnNavigatedTo(e);
 
             //Init once
             if (this.ViewModel == null)

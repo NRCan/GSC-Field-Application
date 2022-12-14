@@ -14,7 +14,7 @@
 
 
     <Page.DataContext>
-        <vm:MapPageViewModel x:Name="ViewModel" />
+        <vm:MapPageViewModel x:Name="MapPageViewModel" />
     </Page.DataContext>
 
     <Page.Resources>
@@ -64,12 +64,12 @@
             <!--  primary commands  -->
             <Controls:PageHeader.PrimaryCommands>
 
-                <AppBarButton x:Name="MapPageStationCommandButton" Label="Station" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Map" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageStationCommand" VerticalAlignment="Bottom" />
-                <AppBarButton x:Name="MapPageSampleCommandButton" Label="Sample" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Tag" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageSampleCommand" IsEnabled="{x:Bind ViewModel.MapPageQuickSampleEnable, Mode=TwoWay}" VerticalAlignment="Bottom" />
-                <AppBarButton x:Name="MapPagePhotoCommandButton" Label="Photo" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Pictures" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPagePhotoCommand" IsEnabled="{x:Bind ViewModel.MapPageQuickPhotoEnable, Mode=TwoWay}" VerticalAlignment="Bottom" />
-                <AppBarButton x:Name="MapPageStrucCommandButton" Label="Structure" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Directions" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageMeasureCommand" IsEnabled="{x:Bind ViewModel.MapPageQuickMeasurementEnable, Mode=TwoWay}" VerticalAlignment="Bottom" />
-                <AppBarButton x:Name="AddWaypoint" Label="Waypoint" x:Uid="MapPageAddWaypoint" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Flag" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" VerticalAlignment="Bottom" />
-                <AppBarButton x:Name="MapPageLocationCommandButton" Label="Location" Width="100" Height="57" HorizontalContentAlignment="Right" FontSize="14" Icon="Map" Foreground="White" Tapped="{x:Bind ViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageLocationCommand" VerticalAlignment="Bottom" />
+                <AppBarButton x:Name="MapPageStationCommandButton" Label="Station" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Map" Tapped="{x:Bind MapPageViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageStationCommand" VerticalAlignment="Bottom" />
+                <AppBarButton x:Name="MapPageSampleCommandButton" Label="Sample" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Tag" Tapped="{x:Bind MapPageViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageSampleCommand" IsEnabled="{x:Bind MapPageViewModel.MapPageQuickSampleEnable, Mode=TwoWay}" VerticalAlignment="Bottom" />
+                <AppBarButton x:Name="MapPagePhotoCommandButton" Label="Photo" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Pictures" Tapped="{x:Bind MapPageViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPagePhotoCommand" IsEnabled="{x:Bind MapPageViewModel.MapPageQuickPhotoEnable, Mode=TwoWay}" VerticalAlignment="Bottom" />
+                <AppBarButton x:Name="MapPageStrucCommandButton" Label="Structure" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Directions" Tapped="{x:Bind MapPageViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageMeasureCommand" IsEnabled="{x:Bind MapPageViewModel.MapPageQuickMeasurementEnable, Mode=TwoWay}" VerticalAlignment="Bottom" />
+                <AppBarButton x:Name="AddWaypoint" Label="Waypoint" x:Uid="MapPageAddWaypoint" Width="100" Height="57" IsCompact ="True" Foreground="White" Icon="Flag" Tapped="{x:Bind MapPageViewModel.MapPageQuickButtons_Tapped}" VerticalAlignment="Bottom" />
+                <AppBarButton x:Name="MapPageLocationCommandButton" Label="Location" Width="100" Height="57" HorizontalContentAlignment="Right" FontSize="14" Icon="Map" Foreground="White" Tapped="{x:Bind MapPageViewModel.MapPageQuickButtons_Tapped}" x:Uid="MapPageLocationCommand" VerticalAlignment="Bottom" />
             </Controls:PageHeader.PrimaryCommands>
 
         </Controls:PageHeader>
@@ -83,15 +83,15 @@
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
 
-                    <Flyout Closed="{x:Bind ViewModel.LayerFlyout_ClosedAsync}" x:Name="mapPageLayerFlyout">
+                    <Flyout Closed="{x:Bind MapPageViewModel.LayerFlyout_ClosedAsync}" x:Name="mapPageLayerFlyout">
                         <RelativePanel Width="Auto">
                             <ListView x:Name="MapLayerListView"
                                 CanReorderItems="True" RelativePanel.AlignRightWithPanel="True"
                                 Width="Auto"
                                 AllowDrop="True"
-                                SelectedItem="{x:Bind ViewModel.SelectedLayer, Mode=TwoWay}"
+                                SelectedItem="{x:Bind MapPageViewModel.SelectedLayer, Mode=TwoWay}"
                                 ItemTemplate="{StaticResource MapsDialogTemplate}"
-                                ItemsSource="{x:Bind ViewModel.FilenameValues, Mode=OneWay}">
+                                ItemsSource="{x:Bind MapPageViewModel.FilenameValues, Mode=OneWay}">
                             </ListView>
                         </RelativePanel>
 
@@ -102,7 +102,7 @@
             <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
             <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes" ToolTipService.ToolTip="" Foreground="White" MaxWidth="120" Height="65" IsCompact ="True" VerticalAlignment="Top" Tapped="GPSMode_TappedAsync" >
                 <AppBarButton.Icon>
-                    <SymbolIcon Symbol="{x:Bind ViewModel.GPSModeSymbol, Mode=TwoWay}" x:Name="GPSModeIcon"/>
+                    <SymbolIcon Symbol="{x:Bind MapPageViewModel.GPSModeSymbol, Mode=TwoWay}" x:Name="GPSModeIcon"/>
                 </AppBarButton.Icon>
                 <!--<AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#59421;" x:Name="GPSModeIcon"/>
@@ -113,17 +113,21 @@
                     </Flyout>
                 </AppBarButton.Flyout>-->
             </AppBarButton>
+            <AppBarButton x:Name="MapRecenter" x:Uid="MapPageCenter" Label="" ToolTipService.ToolTip="" Icon="MapPin" Foreground="White" MaxWidth="120" Height="65" IsCompact ="True" VerticalAlignment="Top" Tapped="{x:Bind MapPageViewModel.MapRecenter_Tapped}">
+
+
+            </AppBarButton>
 
         </Controls:PageHeader>
 
         <TextBlock x:Uid="WatermarkNoMaps" 
-                   Visibility="{x:Bind ViewModel.NoMapsWatermark, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"
+                   Visibility="{x:Bind MapPageViewModel.NoMapsWatermark, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"
                    Style="{StaticResource WatermarkText}"/>
 
         <Grid x:Name="MapBorder" RelativePanel.Below="pageHeader" RelativePanel.Above="pageFooter" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True">
-            <!--<esriUI:MapView x:Name="myMapView" Tapped="{x:Bind ViewModel.myMapView_Tapped}" WrapAroundMode="EnabledWhenSupported"/>-->
-            <esriUI:MapView x:Name="myMapView" Tapped="{x:Bind ViewModel.myMapView_IdentifyFeature}" IsDoubleTapEnabled="True" WrapAroundMode="EnabledWhenSupported"/>
+            <!--<esriUI:MapView x:Name="myMapView" Tapped="{x:Bind MapPageViewModel.myMapView_Tapped}" WrapAroundMode="EnabledWhenSupported"/>-->
+            <esriUI:MapView x:Name="myMapView" Tapped="{x:Bind MapPageViewModel.myMapView_IdentifyFeature}" IsDoubleTapEnabled="True" WrapAroundMode="EnabledWhenSupported"/>
 
             <RelativePanel>
                 <Border x:Name="MapCoordinateInfo" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0" >
@@ -131,9 +135,9 @@
                     <TextBlock Name="MapCoordinateText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
                     <Run Text="Location: " x:Uid="MapInfoLocationLabel"/>
-                    <Run Text="{x:Bind ViewModel.CurrentLatitude, Converter={StaticResource DD2DMS}, ConverterParameter='Latitude', Mode=OneWay}"/>
-                    <Run Text="{x:Bind ViewModel.CurrentLongitude, Converter={StaticResource DD2DMS}, ConverterParameter='Longitude', Mode=OneWay}"/>
-                    <Run Text="{x:Bind ViewModel.CurrentAltitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentLatitude, Converter={StaticResource DD2DMS}, ConverterParameter='Latitude', Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentLongitude, Converter={StaticResource DD2DMS}, ConverterParameter='Longitude', Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentAltitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
                     </TextBlock>
 
                 </Border>
@@ -143,7 +147,7 @@
                     <TextBlock Name="MapCoordinateAccuracyText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
                     <Run Text="Accuracy (XY): " x:Uid="MapInfoAccuracyLabel"/>
-                    <Run Text="{x:Bind ViewModel.CurrentAccuracy, Converter={StaticResource FormatAccuracy}, Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentAccuracy, Converter={StaticResource FormatAccuracy}, Mode=OneWay}"/>
                     </TextBlock>
 
                 </Border>
@@ -153,7 +157,7 @@
                     <TextBlock Name="MapCoordinateMapProjectionText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
                     <Run Text="Projection: " x:Uid="MapInfoMapProjectionLabel"/>
-                    <Run Text="{x:Bind ViewModel.CurrentProjection, Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentProjection, Mode=OneWay}"/>
                     </TextBlock>
 
                 </Border>
@@ -166,10 +170,10 @@
 
         </Grid>
 
-        <ProgressRing x:Name="MapProgressRing" IsActive="{x:Bind ViewModel.MapRingActive, Mode=TwoWay}" 
+        <ProgressRing x:Name="MapProgressRing" IsActive="{x:Bind MapPageViewModel.MapRingActive, Mode=TwoWay}" 
                       Width="130" Height="50" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"
-                      Visibility="{x:Bind ViewModel.MapRingVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" Padding="0" VerticalAlignment="Center"/>
-        <TextBlock x:Name="MapProgressRingAcquiringGPSLabel" x:Uid="MapProgressRingAcquiringGPSLabel" Visibility="{x:Bind ViewModel.MapRingLabelAcquiringGPSVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" Text="Acquiring GPS please wait" RelativePanel.AlignVerticalCenterWith="MapProgressRing" Margin="5,0,0,0" RelativePanel.RightOf="MapProgressRing"/>
+                      Visibility="{x:Bind MapPageViewModel.MapRingVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" Padding="0" VerticalAlignment="Center"/>
+        <TextBlock x:Name="MapProgressRingAcquiringGPSLabel" x:Uid="MapProgressRingAcquiringGPSLabel" Visibility="{x:Bind MapPageViewModel.MapRingLabelAcquiringGPSVisibility, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}" Text="Acquiring GPS please wait" RelativePanel.AlignVerticalCenterWith="MapProgressRing" Margin="5,0,0,0" RelativePanel.RightOf="MapProgressRing"/>
 
     </RelativePanel>
 </Page>
