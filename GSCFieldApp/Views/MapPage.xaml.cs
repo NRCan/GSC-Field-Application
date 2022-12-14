@@ -125,7 +125,11 @@ namespace GSCFieldApp.Views
 
         }
 
- 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+        }
+
         /// <summary>
         /// Triggered when user is going out of the map page
         /// Then keep some values in internal settings

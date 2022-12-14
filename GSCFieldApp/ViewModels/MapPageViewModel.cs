@@ -1608,6 +1608,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.SampleDialog;
             modal.ModalContent = view = new Views.SampleDialog(quickEarthmat, true);
+            view.ViewModel.newSampleEdit -= NavigateToReport;
             view.ViewModel.newSampleEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
 
@@ -1622,6 +1623,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.StructureDialog;
             modal.ModalContent = view = new Views.StructureDialog(quickEarthmat, true);
+            view.strucViewModel.newStructureEdit -= NavigateToReport;
             view.strucViewModel.newStructureEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
 
@@ -1640,6 +1642,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.PaleoflowDialog;
             modal.ModalContent = view = new Views.PaleoflowDialog(quickEarthmat);
+            view.pflowModel.newPflowEdit -= NavigateToReport;
             view.pflowModel.newPflowEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
 
@@ -1659,6 +1662,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.DocumentDialog;
             modal.ModalContent = view = new Views.DocumentDialog(quickStation, quickStation, true);
+            view.DocViewModel.newDocumentEdit -= NavigateToReport;
             view.DocViewModel.newDocumentEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
         }
@@ -1673,6 +1677,7 @@ namespace GSCFieldApp.ViewModels
             var view = modal.ModalContent as Views.StationDataPart;
             modal.ModalContent = view = new Views.StationDataPart(null, true);
             view.mapPosition = stationWaypointMapPoint;
+            view.ViewModel.newStationEdit -= ViewModel_newStationEdit;
             view.ViewModel.newStationEdit += ViewModel_newStationEdit;
             modal.IsModal = true;
 
@@ -2487,41 +2492,41 @@ namespace GSCFieldApp.ViewModels
         /// A project will be force to match input spatial reference to work properly.
         /// </summary>
         /// <param name="inSP"></param>
-        public void AddBlanckFeature(SpatialReference inSP)
-        {
-            if (inSP != null)
-            {
-                //Define extent by creating a new polygon
-                SpatialReference wgs84 = SpatialReference.Create(4326);
-                PolygonBuilder polyBuilder = new PolygonBuilder(wgs84);
-                polyBuilder.AddPoint(new MapPoint(-143.6561, 41.0437, wgs84));
-                polyBuilder.AddPoint(new MapPoint(-143.6561, 83.4417, wgs84));
-                polyBuilder.AddPoint(new MapPoint(-56.7885, 83.4417, wgs84));
-                polyBuilder.AddPoint(new MapPoint(-56.7885, 41.0437, wgs84));
+        //public void AddBlanckFeature(SpatialReference inSP)
+        //{
+        //    if (inSP != null)
+        //    {
+        //        //Define extent by creating a new polygon
+        //        SpatialReference wgs84 = SpatialReference.Create(4326);
+        //        PolygonBuilder polyBuilder = new PolygonBuilder(wgs84);
+        //        polyBuilder.AddPoint(new MapPoint(-143.6561, 41.0437, wgs84));
+        //        polyBuilder.AddPoint(new MapPoint(-143.6561, 83.4417, wgs84));
+        //        polyBuilder.AddPoint(new MapPoint(-56.7885, 83.4417, wgs84));
+        //        polyBuilder.AddPoint(new MapPoint(-56.7885, 41.0437, wgs84));
 
-                //Project
-                Polygon blanckPoly = (Polygon)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(polyBuilder.ToGeometry(), inSP);
+        //        //Project
+        //        Polygon blanckPoly = (Polygon)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(polyBuilder.ToGeometry(), inSP);
 
-                // defines the schema for the geometry's attribute
-                List<Field> polygonFields = new List<Field>();
-                polygonFields.Add(Field.CreateString("Area", "Area Name", 50));
+        //        // defines the schema for the geometry's attribute
+        //        List<Field> polygonFields = new List<Field>();
+        //        polygonFields.Add(Field.CreateString("Area", "Area Name", 50));
 
-                FeatureCollectionTable polygonTable = new FeatureCollectionTable(polygonFields, GeometryType.Polygon, inSP);
-                Dictionary<string, object> attributes = new Dictionary<string, object>();
-                attributes[polygonFields[0].Name] = "Blanck area";
-                Feature blanckFeature = polygonTable.CreateFeature(attributes, blanckPoly);
-                polygonTable.AddFeatureAsync(blanckFeature);
+        //        FeatureCollectionTable polygonTable = new FeatureCollectionTable(polygonFields, GeometryType.Polygon, inSP);
+        //        Dictionary<string, object> attributes = new Dictionary<string, object>();
+        //        attributes[polygonFields[0].Name] = "Blanck area";
+        //        Feature blanckFeature = polygonTable.CreateFeature(attributes, blanckPoly);
+        //        polygonTable.AddFeatureAsync(blanckFeature);
 
-                FeatureCollection fCollection = new FeatureCollection();
-                fCollection.Tables.Add(polygonTable);
-                FeatureCollectionLayer fCollectionLayer = new FeatureCollectionLayer(fCollection);
-                fCollectionLayer.Name = "Blanck area";
-                fCollectionLayer.IsVisible = false;
+        //        FeatureCollection fCollection = new FeatureCollection();
+        //        fCollection.Tables.Add(polygonTable);
+        //        FeatureCollectionLayer fCollectionLayer = new FeatureCollectionLayer(fCollection);
+        //        fCollectionLayer.Name = "Blanck area";
+        //        fCollectionLayer.IsVisible = false;
 
-                esriMap.Basemap.BaseLayers.Add(fCollectionLayer);
-            }
+        //        esriMap.Basemap.BaseLayers.Add(fCollectionLayer);
+        //    }
 
-        }
+        //}
 
         /// <summary>
         /// Will clear saved settings. To be used when creating and switching field books.
@@ -3031,12 +3036,12 @@ namespace GSCFieldApp.ViewModels
                             string localFilePath = Path.Combine(accessData.ProjectPath, orderedFiles.LayerName);
                             Uri localUri = new Uri(localFilePath); 
 
-                            if (firstIteration)
-                            {
-                                Layer firstLayer = layerDico.First().Value;
-                                AddBlanckFeature(firstLayer.SpatialReference);
-                                firstIteration = false;
-                            }
+                            //if (firstIteration)
+                            //{
+                            //    Layer firstLayer = layerDico.First().Value;
+                            //    AddBlanckFeature(firstLayer.SpatialReference);
+                            //    firstIteration = false;
+                            //}
 
                             if (layerDico.ContainsKey(orderedFiles.LayerName.Split('.')[0]))
                             {
