@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 using GSCFieldApp.Models;
-using Windows.Foundation.Collections;
 using GSCFieldApp.Dictionaries;
-using System.IO;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {

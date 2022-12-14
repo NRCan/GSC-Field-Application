@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template10.Mvvm;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
@@ -13,8 +11,6 @@ using GSCFieldApp.Dictionaries;
 using Windows.UI.Xaml.Controls;
 using System.Globalization;
 using System.Collections.ObjectModel;
-using Esri.ArcGISRuntime.Geometry;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.Media.Capture;
 
 namespace GSCFieldApp.ViewModels

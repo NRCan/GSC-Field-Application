@@ -1,35 +1,17 @@
 ﻿using System;
-using GSCFieldApp.ViewModels;
-using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Controls.Maps;
-using Windows.Devices.Geolocation;
-using Windows.Storage.Streams;
-using Template10.Mvvm;
 using GSCFieldApp.Services.DatabaseServices;
 using Esri.ArcGISRuntime.Mapping;
-using System.Linq;
 using Esri.ArcGISRuntime.UI;
-using Esri.ArcGISRuntime.Geometry;
-using System.Diagnostics;
-using Windows.Storage;
-using System.Collections.Generic;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Input;
 using System.Threading.Tasks;
 using Esri.ArcGISRuntime.Symbology;
-using Esri.ArcGISRuntime.Location;
 using GSCFieldApp.Dictionaries;
-using Windows.Data.Json;
 using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Media;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Windows.ApplicationModel.Resources;
-using Newtonsoft.Json;
 
 namespace GSCFieldApp.Views
 {

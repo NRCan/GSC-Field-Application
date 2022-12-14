@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using GSCFieldApp.Models;
-using GSCFieldApp.Themes;
 using GSCFieldApp.Services.DatabaseServices;
 using Windows.Storage;
 using Template10.Services.NavigationService;
 using Template10.Common;
 using GSCFieldApp.Dictionaries;
-using Windows.ApplicationModel.Resources;
-using Windows.UI.Xaml.Controls;
 using SQLite;
-using Windows.UI.Xaml.Input;
 using Windows.ApplicationModel;
 
 namespace GSCFieldApp.ViewModels

@@ -1,15 +1,10 @@
-using System;
-using System.ComponentModel;
-using System.Linq;
 using Template10.Common;
 using Template10.Controls;
 using Template10.Services.NavigationService;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GSCFieldApp.ViewModels;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
 
 
 namespace GSCFieldApp.Views

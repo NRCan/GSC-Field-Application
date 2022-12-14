@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel;
-using Windows.Devices.Geolocation;
-using Windows.Storage;
 using Template10.Mvvm;
-using Template10.Controls;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Themes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-
-using Esri.ArcGISRuntime.Geometry;
 using System.Collections.ObjectModel;
 using GSCFieldApp.Dictionaries;
 

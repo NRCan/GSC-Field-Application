@@ -1,15 +1,11 @@
 ﻿using GSCFieldApp.Services.DatabaseServices;
-using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.IO.Compression;

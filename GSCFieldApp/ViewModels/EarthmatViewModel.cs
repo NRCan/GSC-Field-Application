@@ -1,23 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using Windows.Storage;
 using Template10.Mvvm;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using Template10.Services.NavigationService;
-using Template10.Common;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Controls;
-using Windows.Devices.Geolocation;
-
-using Esri.ArcGISRuntime.Geometry;
-using System.Threading;
-using Windows.UI.Popups;
-using System.Collections.Specialized;
 
 namespace GSCFieldApp.ViewModels
 {

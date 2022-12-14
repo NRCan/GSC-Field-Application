@@ -2,10 +2,7 @@
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Template10.Common;
 using Template10.Mvvm;

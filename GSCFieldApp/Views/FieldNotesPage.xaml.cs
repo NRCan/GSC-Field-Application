@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Composition;
-using SQLite;
-using Template10.Controls;
-using Template10.Mvvm;
-using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
 using GSCFieldApp.ViewModels;
 using GSCFieldApp.Services.DatabaseServices;
 

@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Template10.Mvvm;
-using Template10.Services.SettingsService;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using GSCFieldApp.Models;
@@ -13,14 +12,12 @@ using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Dictionaries;
 using Windows.ApplicationModel.Resources;
-using Windows.Storage.Search;
 using SQLite;
 using Template10.Services.NavigationService;
 using Template10.Controls;
 using System.IO;
 using GSCFieldApp.Services.FileServices;
 using Windows.Storage.Pickers;
-using Windows.Foundation;
 
 namespace GSCFieldApp.ViewModels
 {
