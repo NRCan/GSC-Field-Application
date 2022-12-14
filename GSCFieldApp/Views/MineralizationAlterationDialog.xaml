@@ -2,15 +2,9 @@
     x:Class="GSCFieldApp.Views.MineralizationAlterationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Behaviors="using:Template10.Behaviors"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:GSCFieldApp.Views"
-    xmlns:theme="using:GSCFieldApp"
     xmlns:themes="using:GSCFieldApp.Themes"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:GSCFieldApp.ViewModels"
     xmlns:Controls="using:Template10.Controls"
     mc:Ignorable="d">
 

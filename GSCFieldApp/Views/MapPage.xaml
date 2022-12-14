@@ -1,20 +1,15 @@
 ﻿<Page
     x:Class="GSCFieldApp.Views.MapPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:Behaviors="using:Template10.Behaviors"
     xmlns:Controls="using:Template10.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GSCFieldApp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     xmlns:vm="using:GSCFieldApp.ViewModels"
-    xmlns:views="using:GSCFieldApp.Views"
     xmlns:esriUI="using:Esri.ArcGISRuntime.UI.Controls"
     xmlns:esriToolkit="using:Esri.ArcGISRuntime.Toolkit.UI.Controls"
     xmlns:conv="using:GSCFieldApp.Converters"
     xmlns:model="using:GSCFieldApp.Models"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
 
 
