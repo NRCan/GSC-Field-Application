@@ -24,7 +24,7 @@ namespace GSCFieldApp.Views
         
 
         public List<string> Rocks { get; private set; }
-        private DataAccess accessData = new DataAccess();
+        private readonly DataAccess accessData = new DataAccess();
         public string level1Sep = Dictionaries.ApplicationLiterals.parentChildLevel1Seperator;
         public string level2Sep = Dictionaries.ApplicationLiterals.parentChildLevel2Seperator;
 

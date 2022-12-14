@@ -21,8 +21,8 @@ namespace GSCFieldApp.ViewModels
         private string _mineralAltNote = string.Empty;
         private string _mineralAltMode = string.Empty;
         private string _mineralAltResidualText = string.Empty;
-        private Dictionary<string, int> _mineralAltResidualModes = new Dictionary<string, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
-        private List<string> _mineralAlterations = new List<string>(); //Will contain a list of all mineral alterations related to current parent station. To catch duplicates
+        private readonly Dictionary<string, int> _mineralAltResidualModes = new Dictionary<string, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
+        private readonly List<string> _mineralAlterations = new List<string>(); //Will contain a list of all mineral alterations related to current parent station. To catch duplicates
 
         //UI interaction
         public bool doMineralAltUpdate = false;
@@ -42,7 +42,7 @@ namespace GSCFieldApp.ViewModels
         private MineralAlteration mineralAltModel = new MineralAlteration();
         public DataIDCalculation mineralAltIDCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailMineralAlt;
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Events and delegate
         public delegate void mineralAltEditEventHandler(object sender); //A delegate for execution events
@@ -67,8 +67,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -275,8 +274,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     _mineralAlterations.Add(mns.MAName);
 
-                    int currentPercentage = 0;
-                    bool currentModeParsed = int.TryParse(mns.MAMode, out currentPercentage);
+                    bool currentModeParsed = int.TryParse(mns.MAMode, out int currentPercentage);
 
                     if (mns.MAID == existingDataDetailMineralAlt.GenericID)
                     {
@@ -304,16 +302,14 @@ namespace GSCFieldApp.ViewModels
 
                 if (_mineralAltResidualModes.Count() == 0)
                 {
-                    int currentPercentage = 0;
-                    bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                    bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
                     _mineralAltResidualModes[existingDataDetailMineralAlt.GenericID] = currentPercentage;
                 }
 
             }
             else
             {
-                int currentPercentage = 0;
-                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
                 _mineralAltResidualModes[existingDataDetailMineralAlt.GenericID] = currentPercentage;
             }
 
@@ -473,8 +469,10 @@ namespace GSCFieldApp.ViewModels
         public void AddADistribution(string distToAdd)
         {
 
-            Themes.ComboBoxItem newDist = new Themes.ComboBoxItem();
-            newDist.itemValue = distToAdd;
+            Themes.ComboBoxItem newDist = new Themes.ComboBoxItem
+            {
+                itemValue = distToAdd
+            };
             foreach (Themes.ComboBoxItem cb in MineralAltDist)
             {
                 if (cb.itemValue == distToAdd)

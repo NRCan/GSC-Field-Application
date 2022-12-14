@@ -27,10 +27,10 @@ namespace GSCFieldApp.Views
         public bool isAQuickStructure = false;
         //public bool Focus();
         public List<string> Structures { get; private set; }
-        private DataAccess accessData = new DataAccess();
+        private readonly DataAccess accessData = new DataAccess();
 
-        private SolidColorBrush failColour = new SolidColorBrush(Windows.UI.Colors.Red);
-        private Brush defaultColourBrush;
+        private readonly SolidColorBrush failColour = new SolidColorBrush(Windows.UI.Colors.Red);
+        private readonly Brush defaultColourBrush;
         private Color defaultBorderColor;
 
         public int testing;
@@ -161,8 +161,10 @@ namespace GSCFieldApp.Views
 
                         RelateInfo.Text = result.StructureSymAng + "°/" + result.StructureDipPlunge.ToString() + "°";
 
-                        RotateTransform m_transform = new RotateTransform();
-                        m_transform.Angle = relatedAngle;
+                        RotateTransform m_transform = new RotateTransform
+                        {
+                            Angle = relatedAngle
+                        };
 
 
                         if (result.StructureClass == Dictionaries.DatabaseLiterals.KeywordLinear)
@@ -260,10 +262,9 @@ namespace GSCFieldApp.Views
         private void StructureDipNumBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox s = sender as TextBox;
-            int sAngle;
 
             // Catch if no value in the control, such as when a user is making changes
-            if (!string.IsNullOrEmpty(s.Text) && int.TryParse(s.Text, out sAngle))
+            if (!string.IsNullOrEmpty(s.Text) && int.TryParse(s.Text, out int sAngle))
             {
                 sAngle = System.Convert.ToInt32(s.Text);
             }
@@ -278,8 +279,7 @@ namespace GSCFieldApp.Views
                 //Structure result = accessData.GetRelatedStructure(strucID);
 
                 int primaryDip = System.Convert.ToInt32(sAngle);
-                int relatedDip;
-                int.TryParse(strucViewModel.structureModel.relatedStructure.StructureDipPlunge, out relatedDip);
+                int.TryParse(strucViewModel.structureModel.relatedStructure.StructureDipPlunge, out int relatedDip);
 
                 if (strucViewModel.structureModel.StructureClass == Dictionaries.DatabaseLiterals.KeywordLinear)
                 {
@@ -299,10 +299,9 @@ namespace GSCFieldApp.Views
             if (StructureFormatCombobox.SelectedIndex != -1)
             {
                 string s = StructureAzimuthNumBox.Text;
-                int sAngle;
 
                 // Catch if no value in the control, such as when a user is making changes
-                if (!string.IsNullOrEmpty(s) && int.TryParse(s, out sAngle))
+                if (!string.IsNullOrEmpty(s) && int.TryParse(s, out int sAngle))
                 {
                     sAngle = System.Convert.ToInt32(s);
                 }

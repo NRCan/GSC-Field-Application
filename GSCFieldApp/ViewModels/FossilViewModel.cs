@@ -21,10 +21,10 @@ namespace GSCFieldApp.ViewModels
         public string _fossilName = string.Empty;
 
         //Model init
-        private Fossil fossilModel = new Fossil();
+        private readonly Fossil fossilModel = new Fossil();
         public DataIDCalculation fossilCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailFossil;
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Events and delegate
         public delegate void pflowEditEventHandler(object sender); //A delegate for execution events

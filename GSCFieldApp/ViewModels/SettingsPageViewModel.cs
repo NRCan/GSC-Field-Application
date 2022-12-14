@@ -40,14 +40,14 @@ namespace GSCFieldApp.ViewModels
         public bool _pflowToggle = false;
 
         //Local setting
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         //Events
         public static event EventHandler settingDeleteAllLayers; //This event is triggered when a factory reset is requested. Will need to wipe layers.
 
         //Other
         public bool isInit = false; //Will be used to toggle of some default toggles in the common groups.
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
         public Visibility _loadPicklistVisibility = Visibility.Collapsed;
         public int _selectedPivotIndex = 0;
 
@@ -417,8 +417,10 @@ namespace GSCFieldApp.ViewModels
             StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
             //Create a file picker for sqlite 
-            var filesPicker = new Windows.Storage.Pickers.FileOpenPicker();
-            filesPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            var filesPicker = new Windows.Storage.Pickers.FileOpenPicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
             filesPicker.FileTypeFilter.Add(".sqlite");
 
             //Get users selected files
@@ -506,9 +508,9 @@ namespace GSCFieldApp.ViewModels
 
 
         //Local setting
-        DataLocalSettings currentSettings = new DataLocalSettings();
-        DataAccess accessData = new DataAccess();
-        Services.SettingsServices.SettingsService _settings;
+        readonly DataLocalSettings currentSettings = new DataLocalSettings();
+        readonly DataAccess accessData = new DataAccess();
+        readonly Services.SettingsServices.SettingsService _settings;
 
         public SettingsPartViewModel()
         {

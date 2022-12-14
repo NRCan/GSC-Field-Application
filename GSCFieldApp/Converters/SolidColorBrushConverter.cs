@@ -11,15 +11,17 @@ namespace GSCFieldApp.Converters
     /// </summary>
     public class SolidColorBrushConverter: IValueConverter
     {
-        SolidColorBrush defaultBrush = new SolidColorBrush();
+        readonly SolidColorBrush defaultBrush = new SolidColorBrush();
 
         public SolidColorBrushConverter()
         {
-            
-            Color defaultColor = new Color();
-            defaultColor.R = 0;
-            defaultColor.G = 0;
-            defaultColor.B = 0;
+
+            Color defaultColor = new Color
+            {
+                R = 0,
+                G = 0,
+                B = 0
+            };
             defaultBrush.Color = defaultColor;
         }
 

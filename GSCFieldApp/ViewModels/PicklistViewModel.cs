@@ -18,9 +18,9 @@ namespace GSCFieldApp.ViewModels
     {
         #region INIT
 
-        Vocabularies voc = new Vocabularies();
-        DataAccess accessData = new DataAccess();
-        DataLocalSettings localSettings = new DataLocalSettings();
+        readonly Vocabularies voc = new Vocabularies();
+        readonly DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSettings = new DataLocalSettings();
 
         //Combobox
         private ObservableCollection<Themes.ComboBoxItem> _picklists = new ObservableCollection<Themes.ComboBoxItem>();
@@ -31,8 +31,8 @@ namespace GSCFieldApp.ViewModels
         //List box
         private ObservableCollection<Vocabularies> _picklistValues = new ObservableCollection<Vocabularies>();
         private int _selectedPicklistValuesIndex = -1;
-        private List<string> _picklistValueCodes = new List<string>(); //Will be used to detect new added code without iterating inside the obs collection
-        private List<string> _picklistValueCodesNew = new List<string>(); //Will be used to track added term by the user.
+        private readonly List<string> _picklistValueCodes = new List<string>(); //Will be used to detect new added code without iterating inside the obs collection
+        private readonly List<string> _picklistValueCodesNew = new List<string>(); //Will be used to track added term by the user.
 
         //Textbox
         private string _addModifyTerm = string.Empty;
@@ -106,9 +106,11 @@ namespace GSCFieldApp.ViewModels
             {
                 foreach (VocabularyManager themeID in vocThemeID)
                 {
-                    Themes.ComboBoxItem picklistTheme = new Themes.ComboBoxItem();
-                    picklistTheme.itemName = themeID.ThemeNameDesc;
-                    picklistTheme.itemValue = themeID.ThemeName;
+                    Themes.ComboBoxItem picklistTheme = new Themes.ComboBoxItem
+                    {
+                        itemName = themeID.ThemeNameDesc,
+                        itemValue = themeID.ThemeName
+                    };
                     _picklists.Add(picklistTheme);
 
                 }
@@ -119,9 +121,11 @@ namespace GSCFieldApp.ViewModels
                 ResourceLoader appResources = ResourceLoader.GetForCurrentView();
                 string emptyTheme = appResources.GetString("PicklistDialogEmptyList/Text");
 
-                Themes.ComboBoxItem emptyPicklist = new Themes.ComboBoxItem();
-                emptyPicklist.itemName = emptyTheme;
-                emptyPicklist.itemValue = string.Empty;
+                Themes.ComboBoxItem emptyPicklist = new Themes.ComboBoxItem
+                {
+                    itemName = emptyTheme,
+                    itemValue = string.Empty
+                };
                 _picklists.Add(emptyPicklist);
             }
 
@@ -218,9 +222,11 @@ namespace GSCFieldApp.ViewModels
             _parentPicklist.Clear();
             foreach (Vocabularies parents in parentTable)
             {
-                Themes.ComboBoxItem picklistParents = new Themes.ComboBoxItem();
-                picklistParents.itemName = parents.Description;
-                picklistParents.itemValue = parents.Code;
+                Themes.ComboBoxItem picklistParents = new Themes.ComboBoxItem
+                {
+                    itemName = parents.Description,
+                    itemValue = parents.Code
+                };
                 _parentPicklist.Add(picklistParents);
             }
 

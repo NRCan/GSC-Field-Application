@@ -8,21 +8,20 @@ namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataIDCalculation
     {
-        DataLocalSettings localSetting = new DataLocalSettings();
-
-        FieldLocation locationModel = new FieldLocation();
-        Station stationModel = new Station();
-        EarthMaterial earthmatModel = new EarthMaterial();
-        Sample sampleModel = new Sample();
-        Vocabularies vocabModel = new Vocabularies();
-        Document docModel = new Document();
-        Structure structModel = new Structure();
-        Paleoflow pflowModel = new Paleoflow();
-        Fossil fossilModel = new Fossil();
-        Mineral mineralModel = new Mineral();
-        Metadata metadataModel = new Metadata();
-        MineralAlteration minAlterationModel = new MineralAlteration();
-        DataAccess dAccess = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+        readonly FieldLocation locationModel = new FieldLocation();
+        readonly Station stationModel = new Station();
+        readonly EarthMaterial earthmatModel = new EarthMaterial();
+        readonly Sample sampleModel = new Sample();
+        readonly Vocabularies vocabModel = new Vocabularies();
+        readonly Document docModel = new Document();
+        readonly Structure structModel = new Structure();
+        readonly Paleoflow pflowModel = new Paleoflow();
+        readonly Fossil fossilModel = new Fossil();
+        readonly Mineral mineralModel = new Mineral();
+        readonly Metadata metadataModel = new Metadata();
+        readonly MineralAlteration minAlterationModel = new MineralAlteration();
+        readonly DataAccess dAccess = new DataAccess();
 
         public DataIDCalculation()
         {

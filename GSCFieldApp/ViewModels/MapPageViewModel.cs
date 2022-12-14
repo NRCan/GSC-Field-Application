@@ -56,14 +56,14 @@ namespace GSCFieldApp.ViewModels
 
 
         //Model and strings
-        private DataAccess accessData = new DataAccess();
-        private DataLocalSettings localSettings = new DataLocalSettings();
+        private readonly DataAccess accessData = new DataAccess();
+        private readonly DataLocalSettings localSettings = new DataLocalSettings();
         public FieldLocation locationModel = new FieldLocation();
 
         //Other
         public bool addDataDialogPopedUp = false; //Will be used to stop pop-up launching everytime user navigates to map page.
         public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
         public DataIDCalculation idCalculator = new DataIDCalculation();
 
         //Quick buttons
@@ -90,7 +90,7 @@ namespace GSCFieldApp.ViewModels
         public Symbol _GPSModeSymbol = Symbol.Target;
 
         //Map Graphics
-        private SimpleMarkerSymbol posSym = new SimpleMarkerSymbol();
+        private readonly SimpleMarkerSymbol posSym = new SimpleMarkerSymbol();
         public GraphicsOverlay _OverlayStation;
         public GraphicsOverlay _OverlayStationLabel;
         public GraphicsOverlay _OverlayCurrentPosition;
@@ -617,8 +617,10 @@ namespace GSCFieldApp.ViewModels
             GraphicsOverlay structureOverlay = new GraphicsOverlay();
 
             //Set some rendering defaults
-            Renderer graphRenderer = new SimpleRenderer();
-            graphRenderer.RotationType = RotationType.Geographic;
+            Renderer graphRenderer = new SimpleRenderer
+            {
+                RotationType = RotationType.Geographic
+            };
             pointOverlay.Renderer = graphRenderer;
 
             if (isDefaultDB)
@@ -699,8 +701,7 @@ namespace GSCFieldApp.ViewModels
                     MapPoint geoPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
 
                     //Get if datum transformation is needed
-                    int epsg = 0;
-                    int.TryParse(ptStationLocationEPSG, out epsg);
+                    int.TryParse(ptStationLocationEPSG, out int epsg);
 
                     if (epsg != 0 && epsg != 4326)
                     {
@@ -748,17 +749,19 @@ namespace GSCFieldApp.ViewModels
 
                     #region LABEL SYMBOL
                     GraphicPlacement placements = new GraphicPlacement();
-                    var textSym = new TextSymbol();
-                    textSym.FontFamily = "Arial";
-                    textSym.FontWeight = FontWeight.Bold;
-                    textSym.Color = System.Drawing.Color.Black;
-                    textSym.HaloColor = System.Drawing.Color.WhiteSmoke;
-                    textSym.HaloWidth = 2;
-                    textSym.Size = 16;
-                    textSym.HorizontalAlignment = Esri.ArcGISRuntime.Symbology.HorizontalAlignment.Left;
-                    textSym.VerticalAlignment = Esri.ArcGISRuntime.Symbology.VerticalAlignment.Baseline;
-                    textSym.OffsetX = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item1;
-                    textSym.OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2;
+                    var textSym = new TextSymbol
+                    {
+                        FontFamily = "Arial",
+                        FontWeight = FontWeight.Bold,
+                        Color = System.Drawing.Color.Black,
+                        HaloColor = System.Drawing.Color.WhiteSmoke,
+                        HaloWidth = 2,
+                        Size = 16,
+                        HorizontalAlignment = Esri.ArcGISRuntime.Symbology.HorizontalAlignment.Left,
+                        VerticalAlignment = Esri.ArcGISRuntime.Symbology.VerticalAlignment.Baseline,
+                        OffsetX = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item1,
+                        OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2
+                    };
                     placementPool.RemoveAt(0); //Remove taken placement from pool
                     textSym.Text = ptStationId.ToString();
                     pointLabelOverlay.Graphics.Add(new Graphic(new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84), textSym));
@@ -814,8 +817,7 @@ namespace GSCFieldApp.ViewModels
                                 }
 
                                 //Set azim
-                                double azimAngle = 0.0;
-                                double.TryParse(sts.StructureSymAng, out azimAngle);
+                                double.TryParse(sts.StructureSymAng, out double azimAngle);
                                 if (azimAngle != 0.0)
                                 {
                                     strucSym.Angle = azimAngle;
@@ -926,8 +928,10 @@ namespace GSCFieldApp.ViewModels
             GraphicsOverlay structureOverlay = new GraphicsOverlay();
 
             //Set some rendering defaults
-            Renderer graphRenderer = new SimpleRenderer();
-            graphRenderer.RotationType = RotationType.Geographic;
+            Renderer graphRenderer = new SimpleRenderer
+            {
+                RotationType = RotationType.Geographic
+            };
             pointOverlay.Renderer = graphRenderer;
 
             if (isDefaultDB)
@@ -991,8 +995,7 @@ namespace GSCFieldApp.ViewModels
                     MapPoint geoPoint = new MapPoint(ptStationLocationLong, ptStationLocationLat, SpatialReferences.Wgs84);
 
                     //Get if datum transformation is needed
-                    int epsg = 0;
-                    int.TryParse(ptStationLocationEPSG, out epsg);
+                    int.TryParse(ptStationLocationEPSG, out int epsg);
 
                     if (epsg != 0 && epsg != 4326)
                     {
@@ -1040,17 +1043,19 @@ namespace GSCFieldApp.ViewModels
 
                     #region LABEL SYMBOL
                     GraphicPlacement placements = new GraphicPlacement();
-                    var textSym = new TextSymbol();
-                    textSym.FontFamily = "Arial";
-                    textSym.FontWeight = FontWeight.Bold;
-                    textSym.Color = System.Drawing.Color.Black;
-                    textSym.HaloColor = System.Drawing.Color.WhiteSmoke;
-                    textSym.HaloWidth = 2;
-                    textSym.Size = 16;
-                    textSym.HorizontalAlignment = Esri.ArcGISRuntime.Symbology.HorizontalAlignment.Left;
-                    textSym.VerticalAlignment = Esri.ArcGISRuntime.Symbology.VerticalAlignment.Baseline;
-                    textSym.OffsetX = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item1;
-                    textSym.OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2;
+                    var textSym = new TextSymbol
+                    {
+                        FontFamily = "Arial",
+                        FontWeight = FontWeight.Bold,
+                        Color = System.Drawing.Color.Black,
+                        HaloColor = System.Drawing.Color.WhiteSmoke,
+                        HaloWidth = 2,
+                        Size = 16,
+                        HorizontalAlignment = Esri.ArcGISRuntime.Symbology.HorizontalAlignment.Left,
+                        VerticalAlignment = Esri.ArcGISRuntime.Symbology.VerticalAlignment.Baseline,
+                        OffsetX = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item1,
+                        OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2
+                    };
                     placementPool.RemoveAt(0); //Remove taken placement from pool
                     textSym.Text = ptStationId.ToString();
                     pointLabelOverlay.Graphics.Add(new Graphic(new MapPoint(ptStationLocationLong, ptStationLocationLat, SpatialReferences.Wgs84), textSym));
@@ -1106,8 +1111,7 @@ namespace GSCFieldApp.ViewModels
                                 }
 
                                 //Set azim
-                                double azimAngle = 0.0;
-                                double.TryParse(sts.StructureSymAng, out azimAngle);
+                                double.TryParse(sts.StructureSymAng, out double azimAngle);
                                 if (azimAngle != 0.0)
                                 {
                                     strucSym.Angle = azimAngle;
@@ -1331,15 +1335,17 @@ namespace GSCFieldApp.ViewModels
             {
                 if (inLocation == null)
                 {
-                    inLocation = new FieldLocation();
-                    inLocation.LocationElev = _currentMSGeoposition.Coordinate.Point.Position.Altitude;
-                    inLocation.LocationLat = _currentMSGeoposition.Coordinate.Point.Position.Latitude;
-                    inLocation.LocationLong = _currentMSGeoposition.Coordinate.Point.Position.Longitude;
-                    inLocation.LocationErrorMeasure = _currentMSGeoposition.Coordinate.Accuracy;
-                    inLocation.LocationElevMethod = vocabElevmethodGPS;
-                    inLocation.LocationEntryType = _currentMSGeoposition.Coordinate.PositionSource.ToString();
-                    inLocation.LocationErrorMeasureType = vocabErrorMeasureTypeMeter;
-                    inLocation.LocationElevationAccuracy = _currentMSGeoposition.Coordinate.AltitudeAccuracy;
+                    inLocation = new FieldLocation
+                    {
+                        LocationElev = _currentMSGeoposition.Coordinate.Point.Position.Altitude,
+                        LocationLat = _currentMSGeoposition.Coordinate.Point.Position.Latitude,
+                        LocationLong = _currentMSGeoposition.Coordinate.Point.Position.Longitude,
+                        LocationErrorMeasure = _currentMSGeoposition.Coordinate.Accuracy,
+                        LocationElevMethod = vocabElevmethodGPS,
+                        LocationEntryType = _currentMSGeoposition.Coordinate.PositionSource.ToString(),
+                        LocationErrorMeasureType = vocabErrorMeasureTypeMeter,
+                        LocationElevationAccuracy = _currentMSGeoposition.Coordinate.AltitudeAccuracy
+                    };
                 }
                 if (clickedQuickButton == Dictionaries.DatabaseLiterals.KeywordStation)
                 {
@@ -1383,14 +1389,16 @@ namespace GSCFieldApp.ViewModels
             }
             else
             {
-                FieldLocation manualLocation = new FieldLocation();
-                manualLocation.LocationElev = 0.0;
-                manualLocation.LocationLat = 0.0;
-                manualLocation.LocationLong = 0.0;
-                manualLocation.LocationEntryType = vocabEntryTypeManual;
-                manualLocation.LocationID = idCalculator.CalculateLocationID(); //Calculate new value
-                manualLocation.LocationAlias = idCalculator.CalculateLocationAlias(string.Empty); //Calculate new value
-                manualLocation.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
+                FieldLocation manualLocation = new FieldLocation
+                {
+                    LocationElev = 0.0,
+                    LocationLat = 0.0,
+                    LocationLong = 0.0,
+                    LocationEntryType = vocabEntryTypeManual,
+                    LocationID = idCalculator.CalculateLocationID(), //Calculate new value
+                    LocationAlias = idCalculator.CalculateLocationAlias(string.Empty), //Calculate new value
+                    MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString() //Foreign key
+                };
 
                 GotoLocationDataPart(manualLocation);
             }
@@ -1422,8 +1430,10 @@ namespace GSCFieldApp.ViewModels
 
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.LocationDialog;
-            FieldNotes newLocationFieldNotes = new FieldNotes();
-            newLocationFieldNotes.location = locationEmptyEntry;
+            FieldNotes newLocationFieldNotes = new FieldNotes
+            {
+                location = locationEmptyEntry
+            };
             modal.ModalContent = view = new Views.LocationDialog(newLocationFieldNotes);
             view.locationVM.doLocationUpdate = false;
             view.locationVM.newLocationEdit += NavigationToStationDialog; //Detect when the add/edit request has finished.
@@ -2131,14 +2141,16 @@ namespace GSCFieldApp.ViewModels
 
                 if (cdr == ContentDialogResult.Primary)
                 {
-                    FieldLocation tapLocation = new FieldLocation();
-                    tapLocation.LocationElev = mapPoint.Z;
-                    tapLocation.LocationLat = mapPoint.Y;
-                    tapLocation.LocationLong = mapPoint.X;
-                    tapLocation.LocationErrorMeasure = 9999;
-                    tapLocation.LocationElevMethod = Dictionaries.DatabaseLiterals.DefaultNoData;
-                    tapLocation.LocationEntryType = vocabEntryTypeTap;
-                    tapLocation.LocationErrorMeasureType = Dictionaries.DatabaseLiterals.DefaultNoData;
+                    FieldLocation tapLocation = new FieldLocation
+                    {
+                        LocationElev = mapPoint.Z,
+                        LocationLat = mapPoint.Y,
+                        LocationLong = mapPoint.X,
+                        LocationErrorMeasure = 9999,
+                        LocationElevMethod = Dictionaries.DatabaseLiterals.DefaultNoData,
+                        LocationEntryType = vocabEntryTypeTap,
+                        LocationErrorMeasureType = Dictionaries.DatabaseLiterals.DefaultNoData
+                    };
 
                     GotoQuickDialog(tapLocation);
                 }
@@ -2349,9 +2361,11 @@ namespace GSCFieldApp.ViewModels
             //SimpleMarkerSymbol posSym = new SimpleMarkerSymbol();
             posSym.Color = System.Drawing.Color.FromArgb(0, 122, 194);
             posSym.Size = 23.0;
-            SimpleLineSymbol posLineSym = new SimpleLineSymbol();
-            posLineSym.Color = System.Drawing.Color.White;
-            posLineSym.Width = 2;
+            SimpleLineSymbol posLineSym = new SimpleLineSymbol
+            {
+                Color = System.Drawing.Color.White,
+                Width = 2
+            };
             posSym.Outline = posLineSym;
         }
 
@@ -2393,9 +2407,11 @@ namespace GSCFieldApp.ViewModels
             accSym.Outline = accLineSym;
 
             //Set graphic
-            Graphic accGraphic = new Graphic();
-            accGraphic.Geometry = GetAccuracyPolygon(centerX, centerY, radiusInMeter, numberOfVertices);
-            accGraphic.Symbol = accSym;
+            Graphic accGraphic = new Graphic
+            {
+                Geometry = GetAccuracyPolygon(centerX, centerY, radiusInMeter, numberOfVertices),
+                Symbol = accSym
+            };
             accGraphic.Attributes.Add(attributeID, attributeIDAccuracy);
 
             return accGraphic;
@@ -2672,10 +2688,8 @@ namespace GSCFieldApp.ViewModels
                     {
                         if (tpkList.ContainsKey(configs.LayerName))
                         {
-                            bool tpkVisibility = true;
-                            bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out tpkVisibility);
-                            double tpkSliderSettingOpacity = 100.0;
-                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out tpkSliderSettingOpacity);
+                            bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out bool tpkVisibility);
+                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out double tpkSliderSettingOpacity);
                             await AddDataTypeTPK(tpkList[configs.LayerName], tpkVisibility, tpkSliderSettingOpacity / 100.0);
                             tpkList.Remove(configs.LayerName);
                             foundLayers = true;
@@ -2686,10 +2700,8 @@ namespace GSCFieldApp.ViewModels
                     {
                         if (sqliteList.ContainsKey(configs.LayerName))
                         {
-                            bool sqlVisibility = true;
-                            bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out sqlVisibility);
-                            double sqlSliderSettingOpacity = 100.0;
-                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out sqlSliderSettingOpacity);
+                            bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out bool sqlVisibility);
+                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out double sqlSliderSettingOpacity);
                             AddDataTypeSQLite(sqliteList[configs.LayerName], sqlVisibility, sqlSliderSettingOpacity / 100.0);
                             sqliteList.Remove(configs.LayerName);
                             foundLayers = true;
@@ -2710,11 +2722,15 @@ namespace GSCFieldApp.ViewModels
                 foreach (KeyValuePair<string, StorageFile> remainingTpks in tpkList)
                 {
                     await AddDataTypeTPK(remainingTpks.Value, true, 1);
-                    MapPageLayers mpl = new MapPageLayers();
-                    mpl.LayerName = remainingTpks.Key;
-                    MapPageLayerSetting mpls = new MapPageLayerSetting();
-                    mpls.LayerOpacity = 100;
-                    mpls.LayerVisibility = true;
+                    MapPageLayers mpl = new MapPageLayers
+                    {
+                        LayerName = remainingTpks.Key
+                    };
+                    MapPageLayerSetting mpls = new MapPageLayerSetting
+                    {
+                        LayerOpacity = 100,
+                        LayerVisibility = true
+                    };
                     mpl.LayerSettings = mpls;
                     _filenameValues.Insert(0,mpl);
                     RaisePropertyChanged("FilenameValues");
@@ -2726,11 +2742,15 @@ namespace GSCFieldApp.ViewModels
                 foreach (KeyValuePair<string, StorageFile> remainingSqlite in sqliteList)
                 {
                     AddDataTypeSQLite(remainingSqlite.Value, true, 1);
-                    MapPageLayers mpl = new MapPageLayers();
-                    mpl.LayerName = remainingSqlite.Key;
-                    MapPageLayerSetting mpls = new MapPageLayerSetting();
-                    mpls.LayerOpacity = 100;
-                    mpls.LayerVisibility = true;
+                    MapPageLayers mpl = new MapPageLayers
+                    {
+                        LayerName = remainingSqlite.Key
+                    };
+                    MapPageLayerSetting mpls = new MapPageLayerSetting
+                    {
+                        LayerOpacity = 100,
+                        LayerVisibility = true
+                    };
                     mpl.LayerSettings = mpls;
                     _filenameValues.Insert(0, mpl);
                     RaisePropertyChanged("FilenameValues");
@@ -3141,8 +3161,10 @@ namespace GSCFieldApp.ViewModels
                 StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
                 //Create a file picker for sqlite and tpk datas
-                var filesPicker = new Windows.Storage.Pickers.FileOpenPicker();
-                filesPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+                var filesPicker = new Windows.Storage.Pickers.FileOpenPicker
+                {
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                };
                 filesPicker.FileTypeFilter.Add(".tpk");
                 filesPicker.FileTypeFilter.Add(".sqlite");
                 filesPicker.FileTypeFilter.Add(".mmpk");

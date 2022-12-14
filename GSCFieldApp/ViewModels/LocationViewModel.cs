@@ -42,8 +42,8 @@ namespace GSCFieldApp.ViewModels
         //Model init
         public FieldLocation locationModel = new FieldLocation();
         public FieldNotes existingDataDetailLocation;
-        DataAccess accessData = new DataAccess();
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
         public DataIDCalculation idCalculator = new DataIDCalculation();
         public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
@@ -62,8 +62,7 @@ namespace GSCFieldApp.ViewModels
             get { return _locationLatitude; }
             set
             {
-                double lat;
-                bool result = double.TryParse(value, out lat);
+                bool result = double.TryParse(value, out double lat);
 
                 if (result)
                 {
@@ -90,8 +89,7 @@ namespace GSCFieldApp.ViewModels
             get { return _locationLongitude; }
             set
             {
-                double longitude;
-                bool result = double.TryParse(value, out longitude);
+                bool result = double.TryParse(value, out double longitude);
 
                 if (result)
                 {
@@ -195,21 +193,15 @@ namespace GSCFieldApp.ViewModels
         public void SaveDialogInfo()
         {
             //Parse coordinate pairs
-            double _long = 0.0;
-            double _lat = 0.0;
-            int _easting = 0;
-            int _northing = 0;
-            double _accu = 0;
 
-            double.TryParse(_locationLongitude, out _long);
-            double.TryParse(_locationLatitude, out _lat);
-            int.TryParse(_locationEasting, out _easting);
-            int.TryParse(_locationNorthing, out _northing);
-            double.TryParse(_locationAccuracy, out _accu);
+            double.TryParse(_locationLongitude, out double _long);
+            double.TryParse(_locationLatitude, out double _lat);
+            int.TryParse(_locationEasting, out int _easting);
+            int.TryParse(_locationNorthing, out int _northing);
+            double.TryParse(_locationAccuracy, out double _accu);
 
             //Detect a projected system
-            int selectedEPGS = 0;
-            int.TryParse(SelectedLocationDatums.ToString(), out selectedEPGS);
+            int.TryParse(SelectedLocationDatums.ToString(), out int selectedEPGS);
 
             //Make sure that everything has been filled
             if ((_long == 0 || _lat == 0) && (_easting != 0 || _northing != 0))
@@ -383,8 +375,7 @@ namespace GSCFieldApp.ViewModels
                 if (_selectedLocationDatums != null)
                 {
                     //Detect a projected system
-                    int selectedEPGS = 0;
-                    int.TryParse(_selectedLocationDatums, out selectedEPGS);
+                    int.TryParse(_selectedLocationDatums, out int selectedEPGS);
                     if (selectedEPGS > 10000)
                     {
                         //Detect Datum difference
@@ -464,8 +455,7 @@ namespace GSCFieldApp.ViewModels
                 {
 
                     //Detect a projected system
-                    int selectedEPGS = 0;
-                    int.TryParse(_selectedLocationDatums, out selectedEPGS);
+                    int.TryParse(_selectedLocationDatums, out int selectedEPGS);
 
                     if (selectedEPGS > 10000)
                     {

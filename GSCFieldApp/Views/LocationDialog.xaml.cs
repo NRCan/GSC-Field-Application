@@ -24,20 +24,22 @@ namespace GSCFieldApp.Views
 
         bool isBackButtonPressed = false;
 
-        private SolidColorBrush failBrush = new SolidColorBrush(Windows.UI.Colors.Red);
-        private Brush defaultBrush;
+        private readonly SolidColorBrush failBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+        private readonly Brush defaultBrush;
 
         public LocationDialog(FieldNotes inDetailViewModel)
         {
             parentViewModel = inDetailViewModel;
 
             this.InitializeComponent();
-            locationVM = new LocationViewModel(inDetailViewModel);
-            locationVM.LocationAlias = parentViewModel.location.LocationAlias;
-            locationVM.LocationID = parentViewModel.location.LocationID;
+            locationVM = new LocationViewModel(inDetailViewModel)
+            {
+                LocationAlias = parentViewModel.location.LocationAlias,
+                LocationID = parentViewModel.location.LocationID,
 
-            //Keep in memory that this is a manual entry.
-            locationVM.entryType = parentViewModel.location.LocationEntryType;
+                //Keep in memory that this is a manual entry.
+                entryType = parentViewModel.location.LocationEntryType
+            };
 
             this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocusAsync;
 
@@ -79,10 +81,12 @@ namespace GSCFieldApp.Views
             if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed )
             {
                 //Create a field note report to act like a parent
-                FieldNotes stationParent = new FieldNotes();
-                stationParent.location = locationVM.locationModel;
-                stationParent.GenericAliasName = locationVM.LocationAlias;
-                stationParent.GenericID = locationVM.LocationID;
+                FieldNotes stationParent = new FieldNotes
+                {
+                    location = locationVM.locationModel,
+                    GenericAliasName = locationVM.LocationAlias,
+                    GenericID = locationVM.LocationID
+                };
                 stationParent.GenericID = Dictionaries.DatabaseLiterals.TableLocation;
 
                 //Create a map point
@@ -214,19 +218,14 @@ namespace GSCFieldApp.Views
             bool isValid = true;
 
             //Parse coordinates
-            double _long = 0.0;
-            double _lat = 0.0;
-            int _easting = 0;
-            int _northing = 0;
 
-            double.TryParse(this.LocationLong.Text, out _long);
-            double.TryParse(this.LocationLat.Text, out _lat);
-            int.TryParse(this.LocationEasting.Text, out _easting);
-            int.TryParse(this.LocationNorthing.Text, out _northing);
+            double.TryParse(this.LocationLong.Text, out double _long);
+            double.TryParse(this.LocationLat.Text, out double _lat);
+            int.TryParse(this.LocationEasting.Text, out int _easting);
+            int.TryParse(this.LocationNorthing.Text, out int _northing);
 
             //Detect a projected system
-            int selectedEPGS = 0;
-            int.TryParse(this.LocationDatum.SelectedValue.ToString(), out selectedEPGS);
+            int.TryParse(this.LocationDatum.SelectedValue.ToString(), out int selectedEPGS);
 
             //Make sure that everything has been filled
             if ((_long != 0 && _lat != 0) || (_easting != 0 && _northing != 0))
@@ -254,8 +253,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         public void isEastingValid()
         {
-            double east;
-            bool result = double.TryParse(this.LocationEasting.Text, out east);
+            bool result = double.TryParse(this.LocationEasting.Text, out double east);
 
             if (result)
             {
@@ -284,8 +282,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         public void isNorthingValid()
         {
-            double north;
-            bool result = double.TryParse(this.LocationNorthing.Text, out north);
+            bool result = double.TryParse(this.LocationNorthing.Text, out double north);
 
             if (result)
             {

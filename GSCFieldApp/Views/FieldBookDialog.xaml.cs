@@ -25,7 +25,7 @@ namespace GSCFieldApp.Views
         public static event EventHandler newFieldBookSaved; //This event is triggered when a new field book has been saved on system
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         public FieldBookDialog(FieldBooks inProject, bool init = false)
         {

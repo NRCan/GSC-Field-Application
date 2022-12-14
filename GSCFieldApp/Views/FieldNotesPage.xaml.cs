@@ -18,7 +18,7 @@ namespace GSCFieldApp.Views
         public FieldNotesViewModel ViewModel { get; set; }
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         public FieldNotesPage()
         {
@@ -53,13 +53,11 @@ namespace GSCFieldApp.Views
                 JsonObject paramObject = JsonObject.Parse(e.Parameter.ToString());
 
                 //Get the data value out of the json
-                IJsonValue dataValue;
-                if (paramObject.TryGetValue("Data", out dataValue))
+                if (paramObject.TryGetValue("Data", out IJsonValue dataValue))
                 {
                     string dataValueString = dataValue.GetString();
                     JsonObject dataValuesObject = JsonObject.Parse(dataValueString);
-                    IJsonValue stationValues;
-                    if (dataValuesObject.TryGetValue("$values", out stationValues))
+                    if (dataValuesObject.TryGetValue("$values", out IJsonValue stationValues))
                     {
                         JsonArray stationInfoArray = stationValues.GetArray();
                         ViewModel.userSelectedStationDate = stationInfoArray.GetStringAt(1);

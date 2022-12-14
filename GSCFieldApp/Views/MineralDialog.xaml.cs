@@ -19,7 +19,7 @@ namespace GSCFieldApp.Views
         public FieldNotes parentViewModel { get; set; }
 
         public List<string> Minerals { get; private set; }
-        private DataAccess accessData = new DataAccess();
+        private readonly DataAccess accessData = new DataAccess();
 
         public MineralDialog(FieldNotes inDetailViewModel)
         {

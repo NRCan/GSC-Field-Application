@@ -55,7 +55,7 @@ namespace GSCFieldApp.ViewModels
         public Structure structureModel = new Structure();
         public DataIDCalculation structureCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailStructure;
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Events and delegate
         public delegate void structureEditEventHandler(object sender); //A delegate for execution events
@@ -101,8 +101,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -135,8 +134,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -241,9 +239,11 @@ namespace GSCFieldApp.ViewModels
                 {
                     if (st.StructureID != _structID && st.StructureID != _structParentID)
                     {
-                        Themes.ComboBoxItem structItem = new Themes.ComboBoxItem();
-                        structItem.itemName = st.StructureName;
-                        structItem.itemValue = st.StructureID;
+                        Themes.ComboBoxItem structItem = new Themes.ComboBoxItem
+                        {
+                            itemName = st.StructureName,
+                            itemValue = st.StructureID
+                        };
                         _structRel.Add(structItem);
                     }
                 }
@@ -252,18 +252,22 @@ namespace GSCFieldApp.ViewModels
             //Add a dumb value if nothing is found
             if (_structRel.Count == 0)
             {
-                Themes.ComboBoxItem structItem = new Themes.ComboBoxItem();
-                structItem.itemName = Dictionaries.DatabaseLiterals.picklistNADescription;
-                structItem.itemValue = Dictionaries.DatabaseLiterals.picklistNACode;
+                Themes.ComboBoxItem structItem = new Themes.ComboBoxItem
+                {
+                    itemName = Dictionaries.DatabaseLiterals.picklistNADescription,
+                    itemValue = Dictionaries.DatabaseLiterals.picklistNACode
+                };
                 _structRel.Add(structItem);
 
             }
             else
             {
                 //Add default emtpy so user can unselect
-                Themes.ComboBoxItem structItem = new Themes.ComboBoxItem();
-                structItem.itemName = string.Empty;
-                structItem.itemValue = string.Empty;
+                Themes.ComboBoxItem structItem = new Themes.ComboBoxItem
+                {
+                    itemName = string.Empty,
+                    itemValue = string.Empty
+                };
                 _structRel.Insert(0, structItem);
 
                 //Reselect user value

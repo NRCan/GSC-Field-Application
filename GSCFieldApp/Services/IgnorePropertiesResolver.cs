@@ -8,7 +8,7 @@ namespace GSCFieldApp.Services
     //helper to ignore some properties from serialization
     public class IgnorePropertiesResolver : DefaultContractResolver
     {
-        private HashSet<string> _propsToIgnore;
+        private readonly HashSet<string> _propsToIgnore;
 
         public IgnorePropertiesResolver(IEnumerable<string> propNamesToIgnore)
         {

@@ -21,10 +21,12 @@ namespace GSCFieldApp.Views
         {
 
             this.InitializeComponent();
-            ViewModel = new ContentDialogSemanticZoomViewModel();
-            ViewModel.inAssignTable = tableName;
-            ViewModel.inParentFieldName = parentFieldName;
-            ViewModel.inChildFieldName = childFieldName;
+            ViewModel = new ContentDialogSemanticZoomViewModel
+            {
+                inAssignTable = tableName,
+                inParentFieldName = parentFieldName,
+                inChildFieldName = childFieldName
+            };
             ViewModel.MakeGroup();
             this.Loaded += ContentDialogSemanticZoom_Loaded;
         }

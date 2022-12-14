@@ -8,7 +8,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataLocalSettings
     {
-        ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
+        readonly ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
         public const string containerName = Dictionaries.ApplicationLiterals.LocalSettingMainContainer;
         
         public DataLocalSettings()

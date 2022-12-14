@@ -72,8 +72,7 @@ namespace GSCFieldApp.Models
                     StructureFormat.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordDipDipDirectionRule) &&
                     StructureClass.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordPlanar))
                 {
-                    int intAzim;
-                    bool isInt = int.TryParse(StructureAzimuth, out intAzim);
+                    bool isInt = int.TryParse(StructureAzimuth, out int intAzim);
 
                     if (isInt)
                     {

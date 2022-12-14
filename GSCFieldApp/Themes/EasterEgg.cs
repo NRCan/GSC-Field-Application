@@ -36,20 +36,24 @@ namespace GSCFieldApp.Themes
                     X = ((int)(random.Next(0, Convert.ToInt16(inParentPanel.ActualWidth))));
                     Y = ((int)(random.Next(0, Convert.ToInt16(inParentPanel.ActualHeight))));
 
-                    CompositeTransform transform = new CompositeTransform();
-                    transform.TranslateX = X;
-                    transform.TranslateY = Y;
-                    transform.Rotation = random.Next(0, 360);
+                    CompositeTransform transform = new CompositeTransform
+                    {
+                        TranslateX = X,
+                        TranslateY = Y,
+                        Rotation = random.Next(0, 360)
+                    };
 
                     BitmapImage mosquitoSourceImage = new BitmapImage(new Uri("ms-appx:///Assets/mosquito.png"));
 
-                    Image newMosquito = new Image();
-                    newMosquito.RenderTransform = transform;
-                    newMosquito.Source = mosquitoSourceImage;
-                    newMosquito.Height = 60;
-                    newMosquito.Width = 60;
-                    newMosquito.Name = "mosquito" + mosquitoCount.ToString();
-                    newMosquito.Visibility = Visibility.Visible;
+                    Image newMosquito = new Image
+                    {
+                        RenderTransform = transform,
+                        Source = mosquitoSourceImage,
+                        Height = 60,
+                        Width = 60,
+                        Name = "mosquito" + mosquitoCount.ToString(),
+                        Visibility = Visibility.Visible
+                    };
                     inParentPanel.Children.Add(newMosquito);
                     inParentPanel.UpdateLayout();
 
@@ -71,8 +75,10 @@ namespace GSCFieldApp.Themes
             while (rotation < 361)
             {
                 //Build transform
-                CompositeTransform transform = new CompositeTransform();
-                transform.Rotation = rotation;
+                CompositeTransform transform = new CompositeTransform
+                {
+                    Rotation = rotation
+                };
                 inParentPage.RenderTransform = transform;
 
                 //Refresh

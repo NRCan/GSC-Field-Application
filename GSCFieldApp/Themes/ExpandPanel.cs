@@ -20,7 +20,7 @@ namespace GSCFieldApp.Themes
         }
 
 
-        private bool _useTransitions = true;
+        private readonly bool _useTransitions = true;
         public static VisualState _collapsedState;
         public static Windows.UI.Xaml.Controls.Primitives.ToggleButton toggleExpander;
         public static Windows.UI.Xaml.Controls.RelativePanel relMainPanel;

@@ -23,24 +23,24 @@ namespace GSCFieldApp.ViewModels
         #region DECLARE
 
         //App
-        DataAccess dAccess = new DataAccess();
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataAccess dAccess = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
         public DataIDCalculation idCalculator = new DataIDCalculation();
 
         /// <summary>
         /// A collection of observation class to display on screen in the report page.
         /// </summary>
-        private ObservableCollection<FieldNotes> _reportSummaryDateItems = new ObservableCollection<FieldNotes>();
+        private readonly ObservableCollection<FieldNotes> _reportSummaryDateItems = new ObservableCollection<FieldNotes>();
         public ObservableCollection<FieldNotes> _reportDetailedStation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailedEarthmat = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailSample = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailedDocument = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailedStructure = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailedPflow = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailedFossil = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailedLocation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailedMinerals = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailedMineralAlt = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailedEarthmat = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailSample = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailedDocument = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailedStructure = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailedPflow = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailedFossil = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailedLocation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailedMinerals = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailedMineralAlt = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
 
         public FieldNotes selectedSummaryDateItem = new FieldNotes();
         public int _reportDateIndex = -1;
@@ -56,16 +56,16 @@ namespace GSCFieldApp.ViewModels
         public int _reportMineralizationAlterationIndex = -1;
 
         //Some model inits
-        private Station stationModel = new Station();
-        private EarthMaterial earthModel = new EarthMaterial();
-        private Sample sampleModel = new Sample();
-        private Document documentModel = new Document();
-        private Structure structureModel = new Structure();
-        private Paleoflow pflowModel = new Paleoflow();
-        private Fossil fossilModel = new Fossil();
-        private FieldLocation locationModel = new FieldLocation();
-        private Mineral mineralModel = new Mineral();
-        private MineralAlteration mineralAltModel = new MineralAlteration();
+        private readonly Station stationModel = new Station();
+        private readonly EarthMaterial earthModel = new EarthMaterial();
+        private readonly Sample sampleModel = new Sample();
+        private readonly Document documentModel = new Document();
+        private readonly Structure structureModel = new Structure();
+        private readonly Paleoflow pflowModel = new Paleoflow();
+        private readonly Fossil fossilModel = new Fossil();
+        private readonly FieldLocation locationModel = new FieldLocation();
+        private readonly Mineral mineralModel = new Mineral();
+        private readonly MineralAlteration mineralAltModel = new MineralAlteration();
 
         //public Dictionary<string, FieldNotes> collectionOfSelectedItems = new Dictionary<string, FieldNotes>(); // Will be used for interaction with icons and dialog pop-up
 
@@ -144,17 +144,17 @@ namespace GSCFieldApp.ViewModels
         private double _mineralAltIconColorOpacity = enableOpacity;
 
         //UI headers enable/disable colors
-        private string resourceNameDisableColor = "DisableColor";
-        private string resourcenameFieldEarthmatColor = "FieldEarthMaterialColor";
-        private string resourcenameFieldSampleColor = "FieldSampleColor";
-        private string resourcenameFieldDocumentColor = "FieldPhotoColor";
-        private string resourcenameFieldStructColor = "FieldStrucColor";
-        private string resourcenameFieldMineralColor = "FieldMineralColor";
-        private string resourcenameFieldPflowColor = "FieldPflowColor";
-        private string resourcenameFieldFossilColor = "FieldFossilColor";
-        private string resourcenameFieldStationColor = "FieldStationColor";
-        private string resourcenameFieldLocationColor = "FieldObservationColor";
-        private string resourcenameFieldMineralAltColor = "FieldMineralAlterationColor";
+        private readonly string resourceNameDisableColor = "DisableColor";
+        private readonly string resourcenameFieldEarthmatColor = "FieldEarthMaterialColor";
+        private readonly string resourcenameFieldSampleColor = "FieldSampleColor";
+        private readonly string resourcenameFieldDocumentColor = "FieldPhotoColor";
+        private readonly string resourcenameFieldStructColor = "FieldStrucColor";
+        private readonly string resourcenameFieldMineralColor = "FieldMineralColor";
+        private readonly string resourcenameFieldPflowColor = "FieldPflowColor";
+        private readonly string resourcenameFieldFossilColor = "FieldFossilColor";
+        private readonly string resourcenameFieldStationColor = "FieldStationColor";
+        private readonly string resourcenameFieldLocationColor = "FieldObservationColor";
+        private readonly string resourcenameFieldMineralAltColor = "FieldMineralAlterationColor";
 
         private SolidColorBrush _earthmatColor = new SolidColorBrush();
         private SolidColorBrush _sampleColor = new SolidColorBrush();
@@ -599,8 +599,10 @@ namespace GSCFieldApp.ViewModels
                     Station currentStation = objs as Station;
 
                     //Read from the database the wanted informations and fill observation attributes
-                    FieldNotes currentDateItems = new FieldNotes();
-                    currentDateItems.station = currentStation;
+                    FieldNotes currentDateItems = new FieldNotes
+                    {
+                        station = currentStation
+                    };
 
                     _reportSummaryDateItems.Insert(addingSequence, currentDateItems);
 
@@ -693,18 +695,20 @@ namespace GSCFieldApp.ViewModels
                         Station currentStation = sts as Station;
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.station = currentStation;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            station = currentStation,
 
-                        currentDetailReport.GenericID = currentStation.StationID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableStation;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldStationID;
-                        currentDetailReport.GenericAliasName = currentStation.StationAlias;
+                            GenericID = currentStation.StationID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableStation,
+                            GenericFieldID = DatabaseLiterals.FieldStationID,
+                            GenericAliasName = currentStation.StationAlias,
 
-                        currentDetailReport.ParentID = currentStation.LocationID; //TO keep the link with location table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableLocation; //To keep the link with location table.
+                            ParentID = currentStation.LocationID, //TO keep the link with location table
+                            ParentTableName = DatabaseLiterals.TableLocation, //To keep the link with location table.
 
-                        currentDetailReport.MainID = currentStation.LocationID;
+                            MainID = currentStation.LocationID
+                        };
 
                         //Fill with location
                         FieldLocation locs = new FieldLocation();
@@ -877,20 +881,22 @@ namespace GSCFieldApp.ViewModels
                         EarthMaterial currentEarth = earths as EarthMaterial;
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.station = currentReport.station;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            station = currentReport.station,
 
-                        currentDetailReport.earthmat = currentEarth;
+                            earthmat = currentEarth,
 
-                        currentDetailReport.GenericID = currentEarth.EarthMatID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableEarthMat;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldEarthMatID;
-                        currentDetailReport.GenericAliasName = currentEarth.EarthMatName;
+                            GenericID = currentEarth.EarthMatID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableEarthMat,
+                            GenericFieldID = DatabaseLiterals.FieldEarthMatID,
+                            GenericAliasName = currentEarth.EarthMatName,
 
-                        currentDetailReport.ParentID = currentEarth.EarthMatStatID; //TO keep the link with location table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableStation; //To keep the link with location table.
+                            ParentID = currentEarth.EarthMatStatID, //TO keep the link with location table
+                            ParentTableName = DatabaseLiterals.TableStation, //To keep the link with location table.
 
-                        currentDetailReport.MainID = currentReport.ParentID;
+                            MainID = currentReport.ParentID
+                        };
 
                         _reportDetailedEarthmat.Add(currentDetailReport);
 
@@ -957,20 +963,22 @@ namespace GSCFieldApp.ViewModels
                         MineralAlteration currentMinealAlt = mas as MineralAlteration;
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.station = currentReport.station;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            station = currentReport.station,
 
-                        currentDetailReport.mineralAlteration = currentMinealAlt;
+                            mineralAlteration = currentMinealAlt,
 
-                        currentDetailReport.GenericID = currentMinealAlt.MAID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableMineralAlteration;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldMineralAlterationID;
-                        currentDetailReport.GenericAliasName = currentMinealAlt.MAName;
+                            GenericID = currentMinealAlt.MAID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableMineralAlteration,
+                            GenericFieldID = DatabaseLiterals.FieldMineralAlterationID,
+                            GenericAliasName = currentMinealAlt.MAName,
 
-                        currentDetailReport.ParentID = currentMinealAlt.MAParentID; //TO keep the link with location table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableStation; //To keep the link with location table.
+                            ParentID = currentMinealAlt.MAParentID, //TO keep the link with location table
+                            ParentTableName = DatabaseLiterals.TableStation, //To keep the link with location table.
 
-                        currentDetailReport.MainID = currentReport.ParentID;
+                            MainID = currentReport.ParentID
+                        };
 
                         _reportDetailedMineralAlt.Add(currentDetailReport);
 
@@ -1029,15 +1037,17 @@ namespace GSCFieldApp.ViewModels
                         FieldLocation currentLocation = locs as FieldLocation;
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.location = currentLocation;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            location = currentLocation,
 
-                        currentDetailReport.GenericID = currentLocation.LocationID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableLocation;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldLocationID;
-                        currentDetailReport.GenericAliasName = currentLocation.LocationAlias;
+                            GenericID = currentLocation.LocationID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableLocation,
+                            GenericFieldID = DatabaseLiterals.FieldLocationID,
+                            GenericAliasName = currentLocation.LocationAlias,
 
-                        currentDetailReport.MainID = currentLocation.LocationID.ToString();
+                            MainID = currentLocation.LocationID.ToString()
+                        };
 
                         _reportDetailedLocation.Add(currentDetailReport);
 
@@ -1145,20 +1155,22 @@ namespace GSCFieldApp.ViewModels
                         Document currentDocuments = docs as Document;
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.station = _reportDetailedStation[_reportStationIndex].station;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            station = _reportDetailedStation[_reportStationIndex].station,
 
-                        currentDetailReport.document = currentDocuments;
+                            document = currentDocuments,
 
-                        currentDetailReport.GenericID = currentDocuments.DocumentID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableDocument;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldDocumentID;
-                        currentDetailReport.GenericAliasName = currentDocuments.DocumentName;
+                            GenericID = currentDocuments.DocumentID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableDocument,
+                            GenericFieldID = DatabaseLiterals.FieldDocumentID,
+                            GenericAliasName = currentDocuments.DocumentName,
 
-                        currentDetailReport.ParentID = currentDocuments.RelatedID; //TO keep the link with location table
-                        currentDetailReport.ParentTableName = currentDocuments.RelatedTable; //To keep the link with location table.
+                            ParentID = currentDocuments.RelatedID, //TO keep the link with location table
+                            ParentTableName = currentDocuments.RelatedTable, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[_reportStationIndex].station.LocationID;
+                            MainID = _reportDetailedStation[_reportStationIndex].station.LocationID
+                        };
 
                         _reportDetailedDocument.Add(currentDetailReport);
 
@@ -1220,18 +1232,20 @@ namespace GSCFieldApp.ViewModels
                     {
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.sample = spl;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            sample = spl,
 
-                        currentDetailReport.GenericID = spl.SampleID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableSample;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldSampleID;
-                        currentDetailReport.GenericAliasName = spl.SampleName;
+                            GenericID = spl.SampleID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableSample,
+                            GenericFieldID = DatabaseLiterals.FieldSampleID,
+                            GenericAliasName = spl.SampleName,
 
-                        currentDetailReport.ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[_reportStationIndex].station.LocationID;
+                            MainID = _reportDetailedStation[_reportStationIndex].station.LocationID
+                        };
 
                         ReportDetailedSample.Add(currentDetailReport);
 
@@ -1269,18 +1283,20 @@ namespace GSCFieldApp.ViewModels
                     foreach (Sample spl in sampleParent)
                     {
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.sample = spl;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            sample = spl,
 
-                        currentDetailReport.GenericID = spl.SampleID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableSample;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldSampleID;
-                        currentDetailReport.GenericAliasName = spl.SampleName;
+                            GenericID = spl.SampleID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableSample,
+                            GenericFieldID = DatabaseLiterals.FieldSampleID,
+                            GenericAliasName = spl.SampleName,
 
-                        currentDetailReport.ParentID = _reportDetailSample[_reportSampleIndex].earthmat.EarthMatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = _reportDetailSample[_reportSampleIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         ReportDetailedSample.Add(currentDetailReport);
 
@@ -1324,18 +1340,20 @@ namespace GSCFieldApp.ViewModels
                     foreach (Sample spl in sampleParent_)
                     {
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.sample = spl;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            sample = spl,
 
-                        currentDetailReport.GenericID = spl.SampleID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableSample;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldSampleID;
-                        currentDetailReport.GenericAliasName = spl.SampleName;
+                            GenericID = spl.SampleID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableSample,
+                            GenericFieldID = DatabaseLiterals.FieldSampleID,
+                            GenericAliasName = spl.SampleName,
 
-                        currentDetailReport.ParentID = spl.SampleEarthmatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = spl.SampleEarthmatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailSample.Add(currentDetailReport);
 
@@ -1394,18 +1412,20 @@ namespace GSCFieldApp.ViewModels
                     {
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.structure = spl;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            structure = spl,
 
-                        currentDetailReport.GenericID = spl.StructureID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableStructure;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldStructureID;
-                        currentDetailReport.GenericAliasName = spl.StructureName;
+                            GenericID = spl.StructureID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableStructure,
+                            GenericFieldID = DatabaseLiterals.FieldStructureID,
+                            GenericAliasName = spl.StructureName,
 
-                        currentDetailReport.ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailedStructure.Add(currentDetailReport);
 
@@ -1442,18 +1462,20 @@ namespace GSCFieldApp.ViewModels
                     foreach (Structure spl in strucParent)
                     {
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.structure = spl;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            structure = spl,
 
-                        currentDetailReport.GenericID = spl.StructureID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableStructure;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldStructureID;
-                        currentDetailReport.GenericAliasName = spl.StructureName;
+                            GenericID = spl.StructureID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableStructure,
+                            GenericFieldID = DatabaseLiterals.FieldStructureID,
+                            GenericAliasName = spl.StructureName,
 
-                        currentDetailReport.ParentID = _reportDetailedStructure[_reportStructureIndex].earthmat.EarthMatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = _reportDetailedStructure[_reportStructureIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailedStructure.Add(currentDetailReport);
 
@@ -1498,18 +1520,20 @@ namespace GSCFieldApp.ViewModels
                     foreach (Structure spl in stParent)
                     {
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.structure = spl;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            structure = spl,
 
-                        currentDetailReport.GenericID = spl.StructureID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableStructure;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldStructureID;
-                        currentDetailReport.GenericAliasName = spl.StructureName;
+                            GenericID = spl.StructureID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableStructure,
+                            GenericFieldID = DatabaseLiterals.FieldStructureID,
+                            GenericAliasName = spl.StructureName,
 
-                        currentDetailReport.ParentID = spl.StructureParentID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = spl.StructureParentID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailedStructure.Add(currentDetailReport);
 
@@ -1563,18 +1587,20 @@ namespace GSCFieldApp.ViewModels
                     {
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.fossil = fss;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            fossil = fss,
 
-                        currentDetailReport.GenericID = fss.FossilID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableFossil;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldFossilID;
-                        currentDetailReport.GenericAliasName = fss.FossilIDName;
+                            GenericID = fss.FossilID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableFossil,
+                            GenericFieldID = DatabaseLiterals.FieldFossilID,
+                            GenericAliasName = fss.FossilIDName,
 
-                        currentDetailReport.ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailedFossil.Add(currentDetailReport);
 
@@ -1611,18 +1637,20 @@ namespace GSCFieldApp.ViewModels
                     foreach (Fossil fss in fossilParent)
                     {
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.fossil = fss;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            fossil = fss,
 
-                        currentDetailReport.GenericID = fss.FossilID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableFossil;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldFossilID;
-                        currentDetailReport.GenericAliasName = fss.FossilIDName;
+                            GenericID = fss.FossilID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableFossil,
+                            GenericFieldID = DatabaseLiterals.FieldFossilID,
+                            GenericAliasName = fss.FossilIDName,
 
-                        currentDetailReport.ParentID = _reportDetailedFossil[_reportFossilIndex].earthmat.EarthMatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = _reportDetailedFossil[_reportFossilIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailedFossil.Add(currentDetailReport);
 
@@ -1666,18 +1694,20 @@ namespace GSCFieldApp.ViewModels
                     foreach (Fossil fss in stParent)
                     {
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.fossil = fss;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            fossil = fss,
 
-                        currentDetailReport.GenericID = fss.FossilID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TableFossil;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldFossilID;
-                        currentDetailReport.GenericAliasName = fss.FossilIDName;
+                            GenericID = fss.FossilID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableFossil,
+                            GenericFieldID = DatabaseLiterals.FieldFossilID,
+                            GenericAliasName = fss.FossilIDName,
 
-                        currentDetailReport.ParentID = fss.FossilParentID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = fss.FossilParentID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailedFossil.Add(currentDetailReport);
 
@@ -1730,18 +1760,20 @@ namespace GSCFieldApp.ViewModels
                     {
 
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.paleoflow = pf;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            paleoflow = pf,
 
-                        currentDetailReport.GenericID = pf.PFlowID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TablePFlow;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldPFlowID;
-                        currentDetailReport.GenericAliasName = pf.PFlowName;
+                            GenericID = pf.PFlowID.ToString(),
+                            GenericTableName = DatabaseLiterals.TablePFlow,
+                            GenericFieldID = DatabaseLiterals.FieldPFlowID,
+                            GenericAliasName = pf.PFlowName,
 
-                        currentDetailReport.ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
+                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
                         _reportDetailedPflow.Add(currentDetailReport);
 
                         //Refresh summary
@@ -1776,17 +1808,19 @@ namespace GSCFieldApp.ViewModels
                     foreach (Paleoflow pf in pflowParent)
                     {
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.paleoflow = pf;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            paleoflow = pf,
 
-                        currentDetailReport.GenericID = pf.PFlowID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TablePFlow;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldPFlowID;
-                        currentDetailReport.GenericAliasName = pf.PFlowName;
+                            GenericID = pf.PFlowID.ToString(),
+                            GenericTableName = DatabaseLiterals.TablePFlow,
+                            GenericFieldID = DatabaseLiterals.FieldPFlowID,
+                            GenericAliasName = pf.PFlowName,
 
-                        currentDetailReport.ParentID = _reportDetailedPflow[_reportPflowIndex].earthmat.EarthMatID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            ParentID = _reportDetailedPflow[_reportPflowIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailedPflow.Add(currentDetailReport);
 
@@ -1831,17 +1865,19 @@ namespace GSCFieldApp.ViewModels
                     foreach (Paleoflow pf in pfParent)
                     {
                         //Fill the report item detail
-                        FieldNotes currentDetailReport = new FieldNotes();
-                        currentDetailReport.paleoflow = pf;
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            paleoflow = pf,
 
-                        currentDetailReport.GenericID = pf.PFlowID.ToString();
-                        currentDetailReport.GenericTableName = DatabaseLiterals.TablePFlow;
-                        currentDetailReport.GenericFieldID = DatabaseLiterals.FieldPFlowID;
-                        currentDetailReport.GenericAliasName = pf.PFlowName;
+                            GenericID = pf.PFlowID.ToString(),
+                            GenericTableName = DatabaseLiterals.TablePFlow,
+                            GenericFieldID = DatabaseLiterals.FieldPFlowID,
+                            GenericAliasName = pf.PFlowName,
 
-                        currentDetailReport.ParentID = pf.PFlowParentID; //TO keep the link with earthmat table
-                        currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
-                        currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                            ParentID = pf.PFlowParentID, //TO keep the link with earthmat table
+                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                        };
 
                         _reportDetailedPflow.Add(currentDetailReport);
 
@@ -1982,13 +2018,15 @@ namespace GSCFieldApp.ViewModels
             foreach (Mineral m in parentCollection)
             {
                 //Fill the report item detail
-                FieldNotes currentDetailReport = new FieldNotes();
-                currentDetailReport.mineral = m;
+                FieldNotes currentDetailReport = new FieldNotes
+                {
+                    mineral = m,
 
-                currentDetailReport.GenericID = m.MineralID.ToString();
-                currentDetailReport.GenericTableName = DatabaseLiterals.TableMineral;
-                currentDetailReport.GenericFieldID = DatabaseLiterals.FieldMineralID;
-                currentDetailReport.GenericAliasName = m.MineralIDName;
+                    GenericID = m.MineralID.ToString(),
+                    GenericTableName = DatabaseLiterals.TableMineral,
+                    GenericFieldID = DatabaseLiterals.FieldMineralID,
+                    GenericAliasName = m.MineralIDName
+                };
 
                 if (parentID == string.Empty)
                 {
@@ -3027,18 +3065,21 @@ namespace GSCFieldApp.ViewModels
         #region LOCATION EVENTS
         public void LocationAddIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            Models.FieldLocation emptyFieldLocation = new FieldLocation();
+            Models.FieldLocation emptyFieldLocation = new FieldLocation
+            {
+                LocationElev = 0.0,
+                LocationLat = 0.0,
+                LocationLong = 0.0,
+                LocationEntryType = Dictionaries.DatabaseLiterals.locationEntryTypeManual,
+                LocationID = idCalculator.CalculateLocationID(), //Calculate new value
+                LocationAlias = idCalculator.CalculateLocationAlias(string.Empty), //Calculate new value
+                MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString() //Foreign key
+            };
 
-            emptyFieldLocation.LocationElev = 0.0;
-            emptyFieldLocation.LocationLat = 0.0;
-            emptyFieldLocation.LocationLong = 0.0;
-            emptyFieldLocation.LocationEntryType = Dictionaries.DatabaseLiterals.locationEntryTypeManual;
-            emptyFieldLocation.LocationID = idCalculator.CalculateLocationID(); //Calculate new value
-            emptyFieldLocation.LocationAlias = idCalculator.CalculateLocationAlias(string.Empty); //Calculate new value
-            emptyFieldLocation.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
-
-            FieldNotes emptyFieldNotes = new FieldNotes();
-            emptyFieldNotes.location = emptyFieldLocation;
+            FieldNotes emptyFieldNotes = new FieldNotes
+            {
+                location = emptyFieldLocation
+            };
 
             PopLocation(emptyFieldNotes, false);
         }

@@ -12,11 +12,10 @@ namespace GSCFieldApp.Views
         //Local setting
         //ApplicationDataContainer currentSettings = ApplicationData.Current.LocalSettings;
 
-        List<ToggleSwitch> commonSwitches = new List<ToggleSwitch>();
-        List<ToggleSwitch> bedrockSwitches = new List<ToggleSwitch>();
-        List<ToggleSwitch> surficialSwitches = new List<ToggleSwitch>();
-
-        Template10.Services.SerializationService.ISerializationService _SerializationService;
+        readonly List<ToggleSwitch> commonSwitches = new List<ToggleSwitch>();
+        readonly List<ToggleSwitch> bedrockSwitches = new List<ToggleSwitch>();
+        readonly List<ToggleSwitch> surficialSwitches = new List<ToggleSwitch>();
+        readonly Template10.Services.SerializationService.ISerializationService _SerializationService;
 
         public SettingsPage()
         {

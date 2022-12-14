@@ -7,14 +7,13 @@ namespace GSCFieldApp.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            short numValue;
-            if (value != null && value.ToString() != string.Empty && Int16.TryParse(value.ToString(), out numValue))
+            if (value != null && value.ToString() != string.Empty && Int16.TryParse(value.ToString(), out short numValue))
                 return string.Format("{0}%", value);
             else
             {
                 return value;
             }
-            
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

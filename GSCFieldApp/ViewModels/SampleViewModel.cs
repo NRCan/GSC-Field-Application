@@ -34,7 +34,7 @@ namespace GSCFieldApp.ViewModels
         private bool _isSampleDuplicateEnabled = false; //Wheter duplicate name box is enabled or disabled
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         //UI interaction
         public bool doSampleUpdate = false;
@@ -66,7 +66,7 @@ namespace GSCFieldApp.ViewModels
         private Sample sampleModel = new Sample();
         public DataIDCalculation sampleIDCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailSample;
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Events and delegate
         public delegate void sampleEditEventHandler(object sender); //A delegate for execution events
@@ -118,8 +118,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -152,8 +151,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -186,8 +184,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                float index;
-                bool result = float.TryParse(value, out index);
+                bool result = float.TryParse(value, out float index);
 
                 if (result)
                 {
@@ -220,8 +217,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                float index;
-                bool result = float.TryParse(value, out index);
+                bool result = float.TryParse(value, out float index);
 
                 if (result)
                 {
@@ -568,8 +564,10 @@ namespace GSCFieldApp.ViewModels
         public void AddAPurpose(string purposeToAdd)
         {
             #region NEW METHOD
-            Themes.ComboBoxItem newPurp = new Themes.ComboBoxItem();
-            newPurp.itemValue = purposeToAdd;
+            Themes.ComboBoxItem newPurp = new Themes.ComboBoxItem
+            {
+                itemValue = purposeToAdd
+            };
             foreach (Themes.ComboBoxItem cb in SamplePurpose)
             {
                 if (cb.itemValue == purposeToAdd)

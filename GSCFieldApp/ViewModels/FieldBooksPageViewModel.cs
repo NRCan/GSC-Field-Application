@@ -32,19 +32,19 @@ namespace GSCFieldApp.ViewModels
         private bool _noFieldBookWatermark = false;
 
         //Data
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Models
-        Station stationModel = new Station();
-        Metadata metadataModel = new Metadata();
+        readonly Station stationModel = new Station();
+        readonly Metadata metadataModel = new Metadata();
 
         //Progress ring
         private bool _progressRingActive = false;
         private bool _progressRingVisibility = false;
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
-        ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+        readonly ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
 
         //Events
         public static event EventHandler deleteAllLayers; //This event is triggered when a factory reset is requested. Will need to wipe layers.
@@ -666,9 +666,11 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("ProgressRingVisibility");
 
             //Get zip archive from user
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.ViewMode = PickerViewMode.List;
-            openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+            FileOpenPicker openPicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.List,
+                SuggestedStartLocation = PickerLocationId.Desktop
+            };
             openPicker.FileTypeFilter.Add(".sqlite");
             openPicker.FileTypeFilter.Add(".zip");
 

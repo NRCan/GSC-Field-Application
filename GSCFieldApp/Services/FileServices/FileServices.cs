@@ -16,8 +16,8 @@ namespace GSCFieldApp.Services.FileServices
     public class FileServices
     {
         //Settings
-        DataLocalSettings localSetting = new DataLocalSettings();
-        DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataAccess accessData = new DataAccess();
 
         /// <summary>
         /// Will delete a given file from the local state folder of the current app
@@ -107,8 +107,10 @@ namespace GSCFieldApp.Services.FileServices
             string outputSaveFilePath = string.Empty;
 
             //Create a file save picker for sqlite
-            var fileSavePicker = new Windows.Storage.Pickers.FileSavePicker();
-            fileSavePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            var fileSavePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
             fileSavePicker.FileTypeChoices.Add("sqlite", new List<string>() { ".sqlite" });
             fileSavePicker.DefaultFileExtension = ".sqlite";
             fileSavePicker.SuggestedFileName = CalculateDBCopyName(currentUserCode); //Should be something like Geolcode_YYYYMMDD_GSCFieldwork.sqlite
@@ -214,8 +216,10 @@ namespace GSCFieldApp.Services.FileServices
             string outputZipPhotoFilePath = string.Empty;
 
             //Create a file save picker for sqlite
-            var fSavePicker = new Windows.Storage.Pickers.FileSavePicker();
-            fSavePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            var fSavePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
             fSavePicker.FileTypeChoices.Add("zip", new List<string>() { ".zip" });
             fSavePicker.DefaultFileExtension = ".zip";
             fSavePicker.SuggestedFileName = prefix + arhiveToRead.Name.Split('.')[0];

@@ -14,7 +14,7 @@ namespace GSCFieldApp.ViewModels
     {
         #region INITIALIZATION
         private EarthMaterial earthmodel = new EarthMaterial();
-        private Mineral mineralModel = new Mineral();
+        private readonly Mineral mineralModel = new Mineral();
         private string _alias = string.Empty; //Default
         private string _earthmatid = string.Empty; //Default
         private string _stationid = string.Empty; //Detault
@@ -31,7 +31,7 @@ namespace GSCFieldApp.ViewModels
         public string level1Sep = Dictionaries.ApplicationLiterals.parentChildLevel1Seperator;
         public string level2Sep = Dictionaries.ApplicationLiterals.parentChildLevel2Seperator;
         public DataIDCalculation idCalculator = new DataIDCalculation();
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         public FieldNotes existingDataDetail;
        
@@ -102,8 +102,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                double mag;
-                bool result = double.TryParse(value, out mag);
+                bool result = double.TryParse(value, out double mag);
 
                 if (result)
                 {
@@ -134,8 +133,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -477,8 +475,10 @@ namespace GSCFieldApp.ViewModels
             //Special case for minerals
             if (EarthmatMineralValues.Count != 0)
             {
-                FieldNotes earthModelToSave = new FieldNotes();
-                earthModelToSave.earthmat = earthmodel;
+                FieldNotes earthModelToSave = new FieldNotes
+                {
+                    earthmat = earthmodel
+                };
 
                 foreach (Themes.ComboBoxItem mins in EarthmatMineralValues)
                 {
@@ -974,11 +974,13 @@ namespace GSCFieldApp.ViewModels
             //Save model class
             accessData.SaveFromSQLTableObject(earthmodel, false);
 
-            FieldNotes outputEarthmatReport = new FieldNotes();
-            outputEarthmatReport.earthmat = earthmodel;
-            outputEarthmatReport.ParentID = quickStationReport.station.StationID;
-            outputEarthmatReport.ParentTableName = Dictionaries.DatabaseLiterals.TableStation;
-            outputEarthmatReport.GenericID = earthmodel.EarthMatID.ToString();
+            FieldNotes outputEarthmatReport = new FieldNotes
+            {
+                earthmat = earthmodel,
+                ParentID = quickStationReport.station.StationID,
+                ParentTableName = Dictionaries.DatabaseLiterals.TableStation,
+                GenericID = earthmodel.EarthMatID.ToString()
+            };
 
             return outputEarthmatReport;
         }
@@ -1075,8 +1077,10 @@ namespace GSCFieldApp.ViewModels
             if (valueToAdd != null && valueToAdd != String.Empty)
             {
                 //Create new cbox item
-                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
-                newValue.itemValue = valueToAdd;
+                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem
+                {
+                    itemValue = valueToAdd
+                };
 
                 //Set visibility
                 if (canRemove)

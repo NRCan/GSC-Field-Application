@@ -20,9 +20,9 @@ namespace GSCFieldApp.ViewModels
         //Delegates and events
 
         //Settings
-        DataAccess accessData = new DataAccess();
-        DataLocalSettings localSetting = new DataLocalSettings();
-        ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
+        readonly DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+        readonly ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
 
         //Properties
         public bool ShellEnableMapCommand { get { return _shellEnableMapCommand; } set { _shellEnableMapCommand = value; } }

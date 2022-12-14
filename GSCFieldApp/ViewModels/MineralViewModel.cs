@@ -22,12 +22,12 @@ namespace GSCFieldApp.ViewModels
         private string _mineralNote = string.Empty;
         private string _mineralSizeMin = string.Empty;
         private string _mineralSizeMax = string.Empty;
-        private string _mineralMode = string.Empty;
+        private readonly string _mineralMode = string.Empty;
         private string _mineralResidualText = string.Empty;
         private string _mineralName = string.Empty;
 
-        private Dictionary<string, int> _mineralResidualModes = new Dictionary<string, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
-        private List<string> _minerals = new List<string>(); //Will contain a list of all minerals related to current parent earthmat. To catch duplicates
+        private readonly Dictionary<string, int> _mineralResidualModes = new Dictionary<string, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
+        private readonly List<string> _minerals = new List<string>(); //Will contain a list of all minerals related to current parent earthmat. To catch duplicates
     
         //UI interaction
         public bool doMineralUpdate = false;
@@ -47,7 +47,7 @@ namespace GSCFieldApp.ViewModels
         private Mineral mineralModel = new Mineral();
         public DataIDCalculation mineralIDCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailMineral;
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Events and delegate
         public delegate void mineralEditEventHandler(object sender); //A delegate for execution events
@@ -72,8 +72,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -106,8 +105,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -405,8 +403,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     _minerals.Add(mns.MineralName);
 
-                    int currentPercentage = 0;
-                    bool currentModeParsed = int.TryParse(mns.MineralMode, out currentPercentage);
+                    bool currentModeParsed = int.TryParse(mns.MineralMode, out int currentPercentage);
 
                     if (currentModeParsed)
                     {
@@ -438,16 +435,14 @@ namespace GSCFieldApp.ViewModels
 
                 if (_mineralResidualModes.Count() == 0)
                 {
-                    int currentPercentage = 0;
-                    bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                    bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
                     _mineralResidualModes[existingDataDetailMineral.GenericID] = currentPercentage;
                 }
 
             }
             else
             {
-                int currentPercentage = 0;
-                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
                 _mineralResidualModes[existingDataDetailMineral.GenericID] = currentPercentage;
             }
 

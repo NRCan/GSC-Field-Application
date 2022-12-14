@@ -45,10 +45,10 @@ namespace GSCFieldApp.ViewModels
         public string _pflowName = string.Empty;
 
         //Model init
-        private Paleoflow pflowModel = new Paleoflow();
+        private readonly Paleoflow pflowModel = new Paleoflow();
         public DataIDCalculation pflowCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailPflow;
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Events and delegate
         public delegate void pflowEditEventHandler(object sender); //A delegate for execution events
@@ -92,8 +92,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -125,8 +124,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {

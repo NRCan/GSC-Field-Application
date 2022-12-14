@@ -21,10 +21,10 @@ namespace GSCFieldApp.Views
         #region INIT
         public Map esriMap;
         public bool mapsLoaded = false;
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         //UI headers enable/disable colors
-        private string resourceNameGridColor = "MapViewGridColor";
+        private readonly string resourceNameGridColor = "MapViewGridColor";
 
         //Options
         //bool tapMode = false;
@@ -249,10 +249,12 @@ namespace GSCFieldApp.Views
                 }
 
                 //Create line symbol for grid
-                SimpleLineSymbol lineSym = new SimpleLineSymbol();
-                lineSym.Color = convertedDefaultColor;
-                lineSym.Style = SimpleLineSymbolStyle.Solid;
-                lineSym.Width = 1;
+                SimpleLineSymbol lineSym = new SimpleLineSymbol
+                {
+                    Color = convertedDefaultColor,
+                    Style = SimpleLineSymbolStyle.Solid,
+                    Width = 1
+                };
 
                 //Update for each level of grid
                 for (int levels = 0; levels < myMapView.Grid.LevelCount; levels++)

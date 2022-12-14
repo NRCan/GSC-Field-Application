@@ -40,7 +40,7 @@ namespace GSCFieldApp.ViewModels
         private string _notes = string.Empty;
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         //Events and delegate
         public delegate void projectEditEventHandler(object sender); //A delegate for execution events
@@ -80,8 +80,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {

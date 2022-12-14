@@ -21,7 +21,7 @@ namespace GSCFieldApp.Views
         public bool isQuickPhoto = false;
 
         //Local settings
-        DataLocalSettings lSetting = new DataLocalSettings();
+        readonly DataLocalSettings lSetting = new DataLocalSettings();
 
         public DocumentDialog(FieldNotes inDetailViewModel, FieldNotes stationSummaryID, bool quickPhoto)
         {

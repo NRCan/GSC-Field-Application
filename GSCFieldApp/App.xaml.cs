@@ -16,7 +16,7 @@ namespace GSCFieldApp
     [Bindable]
     sealed partial class App : Template10.Common.BootStrapper
     {
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         public App()
         {
