@@ -86,6 +86,7 @@
         public const string FieldStationLegend = "LEGENDVAL";
         public const string FieldStationInterpretation = "LNDINTERP";
         public const string FieldStationRelatedTo = "RELATEDTO"; //Version 1.60
+        public const string FieldStationObsSource = "OBSSOURCE"; //Version 1.60
 
         public const string FieldEarthMatID = "EARTHMATID";//Version 1.0
         public const string FieldEarthMatName = "EARTHMATIDNAME";//Version 1.5

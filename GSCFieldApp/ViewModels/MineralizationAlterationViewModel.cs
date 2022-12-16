@@ -6,6 +6,7 @@ using System.Linq;
 using Template10.Mvvm;
 using GSCFieldApp.Themes;
 using Windows.UI.Xaml.Controls;
+using System;
 
 namespace GSCFieldApp.ViewModels
 {

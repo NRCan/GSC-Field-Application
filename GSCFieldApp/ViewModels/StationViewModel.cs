@@ -39,6 +39,9 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _stationTypes = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStationTypes = string.Empty;
 
+        private ObservableCollection<Themes.ComboBoxItem> _observationSource = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedObservationSource = string.Empty;
+
         private ObservableCollection<Themes.ComboBoxItem> _stationQuality = new ObservableCollection<Themes.ComboBoxItem>();
         private ObservableCollection<Themes.ComboBoxItem> _stationQualityValues = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStationQuality = string.Empty;
@@ -66,6 +69,7 @@ namespace GSCFieldApp.ViewModels
 
             //Fill controls
             FillStationType();
+            
 
             //Treat station for themes.
             if (isWayPoint)
@@ -78,6 +82,7 @@ namespace GSCFieldApp.ViewModels
                 FillStationQuality();
                 FillStationPhysEnv();
                 FillAirPhotoNo_TraverseNo();
+                FillObsSource();
             }
 
             SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
@@ -141,6 +146,9 @@ namespace GSCFieldApp.ViewModels
 
         public ObservableCollection<Themes.ComboBoxItem> StationTypes {get { return _stationTypes; } set { _stationTypes = value; } }
         public string SelectedStationTypes{ get { return _selectedStationTypes; } set { _selectedStationTypes = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> ObservationSource { get { return _observationSource; } set { _observationSource = value; } }
+        public string SelectedObservationSources { get { return _selectedObservationSource; } set { _selectedObservationSource = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> StationQuality { get { return _stationQuality; } set { _stationQuality = value; } }
         public string SelectedStationQuality{ get { return _selectedStationQuality; } set {  _selectedStationQuality = value; } }
@@ -232,6 +240,11 @@ namespace GSCFieldApp.ViewModels
             {
                 StationModel.StationPhysEnv = SelectedStationPhysEnv;
             }
+            if (SelectedObservationSources != null)
+            {
+                StationModel.StationObsSource = SelectedObservationSources;
+            }
+
 
             accessData.SaveFromSQLTableObject(StationModel, doStationUpdate);
 
@@ -265,7 +278,8 @@ namespace GSCFieldApp.ViewModels
             _selectedStationTypes = existingDataDetail.station.StationObsType;
             //_selectedStationQuality = existingDataDetail.station.StationOCQuality;
             _selectedStationPhysEnv = existingDataDetail.station.StationPhysEnv;
-            
+            _selectedObservationSource = existingDataDetail.station.StationObsSource;
+
             RaisePropertyChanged("Notes");
             RaisePropertyChanged("Alias");
             RaisePropertyChanged("AirPhoto");
@@ -276,6 +290,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedStationPhysEnv");
             RaisePropertyChanged("TraverseNo");
             RaisePropertyChanged("RelatedTo");
+            RaisePropertyChanged("SelectedObservationSources");
 
             //Concatenated box
             Themes.ConcatenatedCombobox ccBox = new Themes.ConcatenatedCombobox();
@@ -375,7 +390,25 @@ namespace GSCFieldApp.ViewModels
 
         }
 
+        /// <summary>
+        /// Will fill the station outcrop quality combobox
+        /// </summary>
+        private void FillObsSource()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldStationObsSource;
+            string tableName = Dictionaries.DatabaseLiterals.TableStation;
+            foreach (var itemSQ in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedObservationSource))
+            {
+                _observationSource.Add(itemSQ);
+            }
 
+
+            //Update UI
+            RaisePropertyChanged("ObservationSource");
+            RaisePropertyChanged("SelectedObservationSources");
+
+        }
 
         /// <summary>
         /// Will fill the station outcrop type combobox

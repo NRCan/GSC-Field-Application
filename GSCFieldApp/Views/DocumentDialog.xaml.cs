@@ -8,6 +8,8 @@ using GSCFieldApp.Models;
 using Template10.Common;
 using Windows.UI.Xaml.Media.Imaging;
 using GSCFieldApp.Services.DatabaseServices;
+using Windows.UI.Xaml.Media;
+using System.Collections.Generic;
 
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236

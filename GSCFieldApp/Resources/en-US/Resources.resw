@@ -1590,9 +1590,6 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthmatGridView_MetaIntensity.Content" xml:space="preserve">
     <value>Metamorphic Facies</value>
   </data>
-  <data name="LocationDialogAccuracy.Header" xml:space="preserve">
-    <value>Accuracy (m)</value>
-  </data>
   <data name="LocationDialogElevation.Header" xml:space="preserve">
     <value>Elevation</value>
   </data>
@@ -1625,5 +1622,8 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="SetButtons.Content" xml:space="preserve">
     <value>Set</value>
+  </data>
+  <data name="FieldworkTableStationObsSource.Header" xml:space="preserve">
+    <value>Source</value>
   </data>
 </root>

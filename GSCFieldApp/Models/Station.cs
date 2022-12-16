@@ -31,6 +31,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStationObsType)]
         public string StationObsType { get; set; }
 
+        [Column(DatabaseLiterals.FieldStationObsSource)]
+        public string StationObsSource { get; set; }
+
         [Column(DatabaseLiterals.FieldStationOCSize)]
         public string StationOCSize { get; set; }
 
@@ -115,6 +118,7 @@ namespace GSCFieldApp.Models
                 List<string> stationFieldList150 = new List<string>();
                 stationFieldList150.AddRange(stationFieldListDefault);
                 stationFieldList150.Remove(DatabaseLiterals.FieldStationRelatedTo);
+                stationFieldList150.Remove(DatabaseLiterals.FieldStationObsSource);
 
                 stationFieldList[DatabaseLiterals.DBVersion150] = stationFieldList150;
 

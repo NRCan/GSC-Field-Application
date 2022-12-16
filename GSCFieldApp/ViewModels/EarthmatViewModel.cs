@@ -7,6 +7,8 @@ using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Controls;
+using GSCFieldApp.Dictionaries;
+using Windows.UI.Xaml.Input;
 
 namespace GSCFieldApp.ViewModels
 {
