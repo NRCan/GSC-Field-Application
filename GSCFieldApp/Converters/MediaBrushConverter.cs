@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
@@ -20,10 +16,12 @@ namespace GSCFieldApp.Converters
         public MediaBrushConverter()
         {
 
-            Color defaultColor = new Color();
-            defaultColor.R = 0;
-            defaultColor.G = 0;
-            defaultColor.B = 0;
+            Color defaultColor = new Color
+            {
+                R = 0,
+                G = 0,
+                B = 0
+            };
             defaultBrush = new SolidColorBrush(defaultColor);
         }
 

@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using GSCFieldApp.Models;
-using GSCFieldApp.Themes;
 using GSCFieldApp.Services.DatabaseServices;
 using Windows.Storage;
 using Template10.Services.NavigationService;
 using Template10.Common;
 using GSCFieldApp.Dictionaries;
-using Windows.ApplicationModel.Resources;
-using Windows.UI.Xaml.Controls;
-using SQLite.Net;
-using SQLite.Net.Platform.WinRT;
-using Windows.UI.Xaml.Input;
+using SQLite;
 using Windows.ApplicationModel;
 
 namespace GSCFieldApp.ViewModels
@@ -47,7 +40,7 @@ namespace GSCFieldApp.ViewModels
         private string _notes = string.Empty;
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         //Events and delegate
         public delegate void projectEditEventHandler(object sender); //A delegate for execution events
@@ -87,8 +80,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -191,7 +183,7 @@ namespace GSCFieldApp.ViewModels
             else
             {
                 //Build connection file
-                SQLiteConnection selectedProjectConnection = new SQLiteConnection(new SQLitePlatformWinRT(), existingUserDetail.ProjectDBPath);
+                SQLiteConnection selectedProjectConnection = new SQLiteConnection(existingUserDetail.ProjectDBPath);
 
                 //Update existing
                 ad.SaveSQLTableObjectFromDB(Model, doUserUpdate, selectedProjectConnection);
@@ -319,7 +311,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async Task<bool> SaveDialogInfoAsync()
+        public Task<bool> SaveDialogInfoAsync()
         {
 
             //await SetModel();
@@ -336,7 +328,7 @@ namespace GSCFieldApp.ViewModels
 
             }
 
-            return Model.isValid;
+            return Task.FromResult(Model.isValid);
         }
 
         #endregion

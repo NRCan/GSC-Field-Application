@@ -1,10 +1,6 @@
 ﻿using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template10.Mvvm;
 
 namespace GSCFieldApp.ViewModels
@@ -25,10 +21,10 @@ namespace GSCFieldApp.ViewModels
         public string _fossilName = string.Empty;
 
         //Model init
-        private Fossil fossilModel = new Fossil();
+        private readonly Fossil fossilModel = new Fossil();
         public DataIDCalculation fossilCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailFossil;
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Events and delegate
         public delegate void pflowEditEventHandler(object sender); //A delegate for execution events

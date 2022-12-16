@@ -1,26 +1,14 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Composition;
-using SQLite.Net.Attributes;
-using Template10.Controls;
-using Template10.Mvvm;
-using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
 using GSCFieldApp.ViewModels;
 using GSCFieldApp.Services.DatabaseServices;
 
 namespace GSCFieldApp.Views
 {
-    public sealed partial class ReportPage : Page
+    public sealed partial class FieldNotesPage : Page
     {
         public bool navFromMapPage = false; //A value to keep track of user's movement between map page and any possible action with the station in it
 
@@ -30,19 +18,19 @@ namespace GSCFieldApp.Views
         public FieldNotesViewModel ViewModel { get; set; }
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
-        public ReportPage()
+        public FieldNotesPage()
         {
 
             InitializeComponent();
-            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required; //Keep cache mode on, so values for view models are kept when navigating.
+            //NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required; //Keep cache mode on, so values for view models are kept when navigating.
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-        }
+        //protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        //{
+        //    base.OnNavigatingFrom(e);
+        //}
 
         /// <summary>
         /// Will retrieve user parameter if any are given with the page
@@ -51,7 +39,7 @@ namespace GSCFieldApp.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
 
-            //base.OnNavigatedTo(e);
+            base.OnNavigatedTo(e);
 
             //Init once
             if (this.ViewModel == null)
@@ -65,13 +53,11 @@ namespace GSCFieldApp.Views
                 JsonObject paramObject = JsonObject.Parse(e.Parameter.ToString());
 
                 //Get the data value out of the json
-                IJsonValue dataValue;
-                if (paramObject.TryGetValue("Data", out dataValue))
+                if (paramObject.TryGetValue("Data", out IJsonValue dataValue))
                 {
                     string dataValueString = dataValue.GetString();
                     JsonObject dataValuesObject = JsonObject.Parse(dataValueString);
-                    IJsonValue stationValues;
-                    if (dataValuesObject.TryGetValue("$values", out stationValues))
+                    if (dataValuesObject.TryGetValue("$values", out IJsonValue stationValues))
                     {
                         JsonArray stationInfoArray = stationValues.GetArray();
                         ViewModel.userSelectedStationDate = stationInfoArray.GetStringAt(1);

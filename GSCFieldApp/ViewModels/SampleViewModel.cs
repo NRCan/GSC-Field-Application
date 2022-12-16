@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template10.Mvvm;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
@@ -30,15 +28,13 @@ namespace GSCFieldApp.ViewModels
         private string _sampleDepthMax = string.Empty; //Default
         private string _sampleDuplicateName = string.Empty; //Default
 
-        private bool hasPaleoMagPurpose = false;
-
         private Visibility _surficialVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
         private bool _isSampleDuplicate = false; //Wheter checkbox is checked (true) or uncheck (false)
         private bool _isSampleDuplicateEnabled = false; //Wheter duplicate name box is enabled or disabled
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         //UI interaction
         public bool doSampleUpdate = false;
@@ -70,7 +66,7 @@ namespace GSCFieldApp.ViewModels
         private Sample sampleModel = new Sample();
         public DataIDCalculation sampleIDCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailSample;
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Events and delegate
         public delegate void sampleEditEventHandler(object sender); //A delegate for execution events
@@ -122,8 +118,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -156,8 +151,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -190,8 +184,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                float index;
-                bool result = float.TryParse(value, out index);
+                bool result = float.TryParse(value, out float index);
 
                 if (result)
                 {
@@ -224,8 +217,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                float index;
-                bool result = float.TryParse(value, out index);
+                bool result = float.TryParse(value, out float index);
 
                 if (result)
                 {
@@ -572,8 +564,10 @@ namespace GSCFieldApp.ViewModels
         public void AddAPurpose(string purposeToAdd)
         {
             #region NEW METHOD
-            Themes.ComboBoxItem newPurp = new Themes.ComboBoxItem();
-            newPurp.itemValue = purposeToAdd;
+            Themes.ComboBoxItem newPurp = new Themes.ComboBoxItem
+            {
+                itemValue = purposeToAdd
+            };
             foreach (Themes.ComboBoxItem cb in SamplePurpose)
             {
                 if (cb.itemValue == purposeToAdd)
@@ -590,11 +584,6 @@ namespace GSCFieldApp.ViewModels
                     if (purposeToAdd == existingItems.itemName)
                     {
                         foundValue = true;
-                    }
-
-                    if (purposeToAdd == DatabaseLiterals.samplePurposePaleomag)
-                    {
-                        hasPaleoMagPurpose = true;
                     }
 
                 }

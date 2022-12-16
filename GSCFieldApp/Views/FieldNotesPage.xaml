@@ -1,14 +1,11 @@
 ﻿<Page
-    x:Class="GSCFieldApp.Views.ReportPage"
+    x:Class="GSCFieldApp.Views.FieldNotesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:Behaviors="using:Template10.Behaviors"
     xmlns:controls="using:Template10.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GSCFieldApp.Views"
     xmlns:theme="using:GSCFieldApp.Themes"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:GSCFieldApp.ViewModels"
     xmlns:model="using:GSCFieldApp.Models"
     mc:Ignorable="d" Loading="Page_Loading" Loaded="Page_Loaded"
     xmlns:converters="using:GSCFieldApp.Converters">
@@ -571,7 +568,7 @@
                             RelativePanel.AlignRightWithPanel="True">
                     <theme:ExpandPanel x:Name="EarthMatExpandPanel"  IsExpanded="{x:Bind ViewModel.EarthmatHeaderExpansion, Mode=TwoWay}"
                             RelativePanel.Below="StationExpandPanel" ExpandedChanged="{x:Bind ViewModel.EarthMatExpandPanel_ExpandedChanged, Mode=OneWay}"
-                            MaxWidth="{Binding ElementName=EarthmatPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
                             Margin="0,10, 0,0" 
                             MinHeight="30" >
                         <theme:ExpandPanel.HeaderBorderBrush>
@@ -626,7 +623,7 @@
                                             IsExpanded="{x:Bind ViewModel.SampleHeaderExpansion, Mode=TwoWay}" 
                                             RelativePanel.Below="EarthMatExpandPanel"
                                             ExpandedChanged="{x:Bind ViewModel.SampleExpandPanel_ExpandedChanged, Mode=OneWay}"
-                                            MaxWidth="{Binding ElementName=SamplePanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
                             <SolidColorBrush Color="{x:Bind ViewModel.SampleColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
@@ -683,7 +680,7 @@
                                             IsExpanded="{x:Bind ViewModel.StructureHeaderExpansion, Mode=TwoWay}" 
                                             RelativePanel.Below="SampleExpandPanel"
                                             ExpandedChanged="{x:Bind ViewModel.StructureExpandPanel_ExpandedChanged, Mode=OneWay}"
-                                            MaxWidth="{Binding ElementName=StructurePanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
                             <SolidColorBrush Color="{x:Bind ViewModel.StructColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
@@ -739,7 +736,7 @@
                                             IsExpanded="{x:Bind ViewModel.FossilHeaderExpansion, Mode=TwoWay}" 
                                             RelativePanel.Below="StructureExpandPanel"
                                             ExpandedChanged="{x:Bind ViewModel.FossilExpandPanel_ExpandedChanged, Mode=OneWay}"
-                                            MaxWidth="{Binding ElementName=FossilPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
                             <SolidColorBrush Color="{x:Bind ViewModel.FossilColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
@@ -795,7 +792,7 @@
                                             IsExpanded="{x:Bind ViewModel.PflowHeaderExpansion, Mode=TwoWay}" 
                                             RelativePanel.Below="FossilExpandPanel"
                                             ExpandedChanged="{x:Bind ViewModel.PflowExpandPanel_ExpandedChanged, Mode=OneWay}"
-                                            MaxWidth="{Binding ElementName=PaleoFlowPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
                             <SolidColorBrush Color="{x:Bind ViewModel.PaleoflowColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
@@ -851,7 +848,7 @@
                                             IsExpanded="{x:Bind ViewModel.MineralHeaderExpansion, Mode=TwoWay}" 
                                             RelativePanel.Below="PflowExpandPanel"
                                             ExpandedChanged="{x:Bind ViewModel.MineralExpandPanel_ExpandedChanged, Mode=OneWay}"
-                                            MaxWidth="{Binding ElementName=MineralPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
                             <SolidColorBrush Color="{x:Bind ViewModel.MineralColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
@@ -907,7 +904,7 @@
                                             IsExpanded="{x:Bind ViewModel.MineralAltHeaderExpansion, Mode=TwoWay}" 
                                             RelativePanel.Below="MineralExpandPanel"
                                             ExpandedChanged="{x:Bind ViewModel.MineralAltExpandPanel_ExpandedChanged, Mode=OneWay}"
-                                            MaxWidth="{Binding ElementName=MineralAltPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
                             <SolidColorBrush Color="{x:Bind ViewModel.MineralAltColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
@@ -972,7 +969,7 @@
                                                IsExpanded="{x:Bind ViewModel.DocumentHeaderExpand, Mode=TwoWay}" 
                                                ExpandedChanged="{x:Bind ViewModel.DocumentExpandPanel_ExpandedChanged, Mode=OneWay}"
                                             RelativePanel.Below="MineralAltExpandPanel"
-                                           MaxWidth="{Binding ElementName=DocumentPanel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
                                             MinHeight="30" Margin="0,10,0,0">
                         <theme:ExpandPanel.HeaderBorderBrush>
                             <SolidColorBrush Color="{x:Bind ViewModel.DocumentColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>

@@ -1,21 +1,15 @@
-﻿using SQLite.Net;
-using SQLite.Net.Platform.WinRT;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Data;
-using SQLite.Net.Attributes;
-using Windows.ApplicationModel;
 using Windows.Storage;
-using Windows.UI.Popups;
 using GSCFieldApp.Models;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
-using System.Reflection;
 using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Dictionaries;
 using Windows.UI.Xaml;
+using SQLite;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 
@@ -98,7 +92,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 if (_dbConnection == null)
                 {
-                    return new SQLiteConnection(new SQLitePlatformWinRT(), DbPath);
+                    return new SQLiteConnection(DbPath);
                 }
                 else
                 {
@@ -110,7 +104,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         public SQLiteConnection GetConnectionFromPath(string inPath)
         {
-            return new SQLiteConnection(new SQLitePlatformWinRT(), inPath);
+            return new SQLiteConnection(inPath);
         }
 
         /// <summary>
@@ -371,7 +365,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
 
                 //Get the proper table object to read from it
-                TableMapping tableMap = inConnection.GetMapping(tableType);
+                TableMapping tableMap = dbCon.GetMapping(tableType);
 
                 //Check for table existance
                 try
@@ -380,17 +374,19 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Get table info
                     if (query == string.Empty || query == null)
                     {
-                        tableRows = inConnection.Query(tableMap, "Select * from " + tableMap.TableName); //Added this because I'm not sure how the method will handle empty or null values in the query
+                        tableRows = dbCon.Query(tableMap, "Select * from " + tableMap.TableName); //Added this because I'm not sure how the method will handle empty or null values in the query
                     }
                     else
                     {
-                        tableRows = inConnection.Query(tableMap, query);
+                        tableRows = dbCon.Query(tableMap, query);
                     }
                 }
                 catch (Exception)
                 {
 
                 }
+
+                dbCon.Close();
 
             }
 
@@ -859,10 +855,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Parse result
             Metadata metadataQueryResult = new Metadata();
             List<object> mVersions = ReadTable(metadataQueryResult.GetType(), dbSchemaVersionQuery);
-            double d_mVersions = 0.0;
             metadataQueryResult = mVersions[0] as Metadata;
 
-            Double.TryParse(metadataQueryResult.VersionSchema.ToString(), out d_mVersions);
+            Double.TryParse(metadataQueryResult.VersionSchema.ToString(), out double d_mVersions);
 
             return d_mVersions;
         }
@@ -1404,14 +1399,18 @@ namespace GSCFieldApp.Services.DatabaseServices
         public IEnumerable<Vocabularies> GetPicklistValuesFromParent(string tableName, string fieldName, string extraFieldValue, bool allValues)
         {
             //Build Not applicable vocab in case nothing is returned.
-            Vocabularies vocNA = new Vocabularies();
-            vocNA.Code = Dictionaries.DatabaseLiterals.picklistNACode;
-            vocNA.Description = Dictionaries.DatabaseLiterals.picklistNACode;
+            Vocabularies vocNA = new Vocabularies
+            {
+                Code = Dictionaries.DatabaseLiterals.picklistNACode,
+                Description = Dictionaries.DatabaseLiterals.picklistNACode
+            };
             IEnumerable<Vocabularies> vocabNA = new Vocabularies[] { vocNA };
 
-            Vocabularies vocEmpty = new Vocabularies();
-            vocEmpty.Code = string.Empty;
-            vocEmpty.Description = string.Empty;
+            Vocabularies vocEmpty = new Vocabularies
+            {
+                Code = string.Empty,
+                Description = string.Empty
+            };
             IEnumerable<Vocabularies> vocabEmpty = new Vocabularies[] { vocEmpty };
             //Get the current project type
             string fieldworkType = string.Empty;

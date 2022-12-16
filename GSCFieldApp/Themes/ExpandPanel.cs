@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -26,7 +20,7 @@ namespace GSCFieldApp.Themes
         }
 
 
-        private bool _useTransitions = true;
+        private readonly bool _useTransitions = true;
         public static VisualState _collapsedState;
         public static Windows.UI.Xaml.Controls.Primitives.ToggleButton toggleExpander;
         public static Windows.UI.Xaml.Controls.RelativePanel relMainPanel;

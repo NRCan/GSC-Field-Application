@@ -1,18 +1,8 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.IO;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using GSCFieldApp.ViewModels;
 using Windows.UI.Xaml;
 using Template10.Controls;
-using Template10.Common;
-using GSCFieldApp.Services.DatabaseServices;
-using Windows.ApplicationModel.Resources;
-using Windows.Storage;
-using Windows.Foundation;
-
-using System;
 
 
 namespace GSCFieldApp.Views
@@ -22,11 +12,10 @@ namespace GSCFieldApp.Views
         //Local setting
         //ApplicationDataContainer currentSettings = ApplicationData.Current.LocalSettings;
 
-        List<ToggleSwitch> commonSwitches = new List<ToggleSwitch>();
-        List<ToggleSwitch> bedrockSwitches = new List<ToggleSwitch>();
-        List<ToggleSwitch> surficialSwitches = new List<ToggleSwitch>();
-
-        Template10.Services.SerializationService.ISerializationService _SerializationService;
+        readonly List<ToggleSwitch> commonSwitches = new List<ToggleSwitch>();
+        readonly List<ToggleSwitch> bedrockSwitches = new List<ToggleSwitch>();
+        readonly List<ToggleSwitch> surficialSwitches = new List<ToggleSwitch>();
+        readonly Template10.Services.SerializationService.ISerializationService _SerializationService;
 
         public SettingsPage()
         {

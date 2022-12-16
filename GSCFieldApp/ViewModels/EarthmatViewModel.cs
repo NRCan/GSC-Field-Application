@@ -1,25 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using Windows.Storage;
 using Template10.Mvvm;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using Template10.Services.NavigationService;
-using Template10.Common;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Controls;
-using Windows.Devices.Geolocation;
-
-using Esri.ArcGISRuntime.Geometry;
-using System.Threading;
-using Windows.UI.Popups;
-using System.Collections.Specialized;
-using Windows.UI.Xaml.Input;
-using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -27,7 +14,7 @@ namespace GSCFieldApp.ViewModels
     {
         #region INITIALIZATION
         private EarthMaterial earthmodel = new EarthMaterial();
-        private Mineral mineralModel = new Mineral();
+        private readonly Mineral mineralModel = new Mineral();
         private string _alias = string.Empty; //Default
         private string _earthmatid = string.Empty; //Default
         private string _stationid = string.Empty; //Detault
@@ -136,8 +123,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                double mag;
-                bool result = double.TryParse(value, out mag);
+                bool result = double.TryParse(value, out double mag);
 
                 if (result)
                 {
@@ -168,8 +154,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -1201,8 +1186,10 @@ namespace GSCFieldApp.ViewModels
             if (valueToAdd != null && valueToAdd != String.Empty)
             {
                 //Create new cbox item
-                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
-                newValue.itemValue = valueToAdd;
+                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem
+                {
+                    itemValue = valueToAdd
+                };
 
                 //Set visibility
                 if (canRemove)

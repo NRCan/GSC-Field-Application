@@ -1,24 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using GSCFieldApp.ViewModels;
 using GSCFieldApp.Models;
 using Template10.Common;
-using Windows.Media.Capture;
-using Windows.Storage;
-using Windows.Storage.Streams;
-using Windows.Graphics.Imaging;
 using Windows.UI.Xaml.Media.Imaging;
 using GSCFieldApp.Services.DatabaseServices;
 
@@ -34,7 +21,7 @@ namespace GSCFieldApp.Views
         public bool isQuickPhoto = false;
 
         //Local settings
-        DataLocalSettings lSetting = new DataLocalSettings();
+        readonly DataLocalSettings lSetting = new DataLocalSettings();
 
         public DocumentDialog(FieldNotes inDetailViewModel, FieldNotes stationSummaryID, bool quickPhoto)
         {
@@ -138,7 +125,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void documentPhotoButton_TappedAsync(object sender, TappedRoutedEventArgs e)
+        private void documentPhotoButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             DocViewModel.TakeSnapshotAsync();
         }

@@ -1,31 +1,15 @@
 ﻿using GSCFieldApp.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Template10.Common;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using GSCFieldApp.Models;
-using System.Diagnostics;
-
-using Esri.ArcGISRuntime.Geometry;
-using Windows.UI.Core;
 using Windows.ApplicationModel.Resources;
 using Template10.Controls;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Xaml.Media.Animation;
-using Template10.Services.NavigationService;
 using System.Threading.Tasks;
-using Windows.UI;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -40,20 +24,22 @@ namespace GSCFieldApp.Views
 
         bool isBackButtonPressed = false;
 
-        private SolidColorBrush failBrush = new SolidColorBrush(Windows.UI.Colors.Red);
-        private Brush defaultBrush;
+        private readonly SolidColorBrush failBrush = new SolidColorBrush(Windows.UI.Colors.Red);
+        private readonly Brush defaultBrush;
 
         public LocationDialog(FieldNotes inDetailViewModel)
         {
             parentViewModel = inDetailViewModel;
 
             this.InitializeComponent();
-            locationVM = new LocationViewModel(inDetailViewModel);
-            locationVM.LocationAlias = parentViewModel.location.LocationAlias;
-            locationVM.LocationID = parentViewModel.location.LocationID;
+            locationVM = new LocationViewModel(inDetailViewModel)
+            {
+                LocationAlias = parentViewModel.location.LocationAlias,
+                LocationID = parentViewModel.location.LocationID,
 
-            //Keep in memory that this is a manual entry.
-            locationVM.entryType = parentViewModel.location.LocationEntryType;
+                //Keep in memory that this is a manual entry.
+                entryType = parentViewModel.location.LocationEntryType
+            };
 
             this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocusAsync;
 
@@ -71,7 +57,7 @@ namespace GSCFieldApp.Views
 
             if (isUIValid.Result)
             {
-                locationVM.SaveDialogInfoAsync();
+                locationVM.SaveDialogInfo();
                 CloseControl();
             }
             else
@@ -95,10 +81,12 @@ namespace GSCFieldApp.Views
             if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed )
             {
                 //Create a field note report to act like a parent
-                FieldNotes stationParent = new FieldNotes();
-                stationParent.location = locationVM.locationModel;
-                stationParent.GenericAliasName = locationVM.LocationAlias;
-                stationParent.GenericID = locationVM.LocationID;
+                FieldNotes stationParent = new FieldNotes
+                {
+                    location = locationVM.locationModel,
+                    GenericAliasName = locationVM.LocationAlias,
+                    GenericID = locationVM.LocationID
+                };
                 stationParent.GenericID = Dictionaries.DatabaseLiterals.TableLocation;
 
                 //Create a map point
@@ -179,7 +167,7 @@ namespace GSCFieldApp.Views
         #endregion
 
         #region SAVE
-        private async void LocationSaveButton_TappedAsync(object sender, TappedRoutedEventArgs e)
+        private void LocationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
         }
@@ -187,7 +175,7 @@ namespace GSCFieldApp.Views
         #endregion
 
         #region EVENTS
-        private async void ButtonConvertToUTM_TappedAsync(object sender, TappedRoutedEventArgs e)
+        private void ButtonConvertToUTM_Tapped(object sender, TappedRoutedEventArgs e)
         {
             locationVM.DisplayUTMCoordinatesAsync();
         }
@@ -225,24 +213,19 @@ namespace GSCFieldApp.Views
         /// Will make sure that either one of the coordinate pairs are filled
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> isLocationValidAsync()
+        public Task<bool> isLocationValidAsync()
         {
             bool isValid = true;
 
             //Parse coordinates
-            double _long = 0.0;
-            double _lat = 0.0;
-            int _easting = 0;
-            int _northing = 0;
 
-            double.TryParse(this.LocationLong.Text, out _long);
-            double.TryParse(this.LocationLat.Text, out _lat);
-            int.TryParse(this.LocationEasting.Text, out _easting);
-            int.TryParse(this.LocationNorthing.Text, out _northing);
+            double.TryParse(this.LocationLong.Text, out double _long);
+            double.TryParse(this.LocationLat.Text, out double _lat);
+            int.TryParse(this.LocationEasting.Text, out int _easting);
+            int.TryParse(this.LocationNorthing.Text, out int _northing);
 
             //Detect a projected system
-            int selectedEPGS = 0;
-            int.TryParse(this.LocationDatum.SelectedValue.ToString(), out selectedEPGS);
+            int.TryParse(this.LocationDatum.SelectedValue.ToString(), out int selectedEPGS);
 
             //Make sure that everything has been filled
             if ((_long != 0 && _lat != 0) || (_easting != 0 && _northing != 0))
@@ -262,7 +245,7 @@ namespace GSCFieldApp.Views
                 }
             }
 
-            return isValid;
+            return Task.FromResult(isValid);
         }
 
         /// <summary>
@@ -270,8 +253,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         public void isEastingValid()
         {
-            double east;
-            bool result = double.TryParse(this.LocationEasting.Text, out east);
+            bool result = double.TryParse(this.LocationEasting.Text, out double east);
 
             if (result)
             {
@@ -300,8 +282,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         public void isNorthingValid()
         {
-            double north;
-            bool result = double.TryParse(this.LocationNorthing.Text, out north);
+            bool result = double.TryParse(this.LocationNorthing.Text, out double north);
 
             if (result)
             {

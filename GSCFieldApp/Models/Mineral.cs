@@ -1,11 +1,8 @@
 ﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services.DatabaseServices;
-using SQLite.Net.Attributes;
-using System;
+using SQLite;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GSCFieldApp.Models
 {

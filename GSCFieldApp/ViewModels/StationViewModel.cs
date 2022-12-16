@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel;
-using Windows.Devices.Geolocation;
-using Windows.Storage;
 using Template10.Mvvm;
-using Template10.Controls;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Themes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-
-using Esri.ArcGISRuntime.Geometry;
 using System.Collections.ObjectModel;
 using GSCFieldApp.Dictionaries;
 using Windows.ApplicationModel.Contacts;
@@ -65,8 +56,8 @@ namespace GSCFieldApp.ViewModels
         public delegate void stationEditEventHandler(object sender); //A delegate for execution events
         public event stationEditEventHandler newStationEdit; //This event is triggered when a save has been done on station table.
 
-        DataLocalSettings localSetting = new DataLocalSettings();
-        DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataAccess accessData = new DataAccess();
 
         public StationViewModel(bool isWayPoint)
         {
@@ -121,8 +112,7 @@ namespace GSCFieldApp.ViewModels
             set
             {
 
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -560,12 +550,14 @@ namespace GSCFieldApp.ViewModels
 
             accessData.SaveFromSQLTableObject(StationModel, false);
 
-            FieldNotes outputStationReport = new FieldNotes();
-            outputStationReport.ParentID = quickLocID;
-            outputStationReport.GenericID = _stationid;
-            outputStationReport.GenericAliasName = _alias;
-            outputStationReport.GenericTableName = Dictionaries.DatabaseLiterals.TableStation;
-            outputStationReport.station = StationModel;
+            FieldNotes outputStationReport = new FieldNotes
+            {
+                ParentID = quickLocID,
+                GenericID = _stationid,
+                GenericAliasName = _alias,
+                GenericTableName = Dictionaries.DatabaseLiterals.TableStation,
+                station = StationModel
+            };
 
             return outputStationReport;
         }

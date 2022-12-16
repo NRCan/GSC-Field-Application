@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using GSCFieldApp.ViewModels;
 
 // The Content Dialog item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -32,10 +21,12 @@ namespace GSCFieldApp.Views
         {
 
             this.InitializeComponent();
-            ViewModel = new ContentDialogSemanticZoomViewModel();
-            ViewModel.inAssignTable = tableName;
-            ViewModel.inParentFieldName = parentFieldName;
-            ViewModel.inChildFieldName = childFieldName;
+            ViewModel = new ContentDialogSemanticZoomViewModel
+            {
+                inAssignTable = tableName,
+                inParentFieldName = parentFieldName,
+                inChildFieldName = childFieldName
+            };
             ViewModel.MakeGroup();
             this.Loaded += ContentDialogSemanticZoom_Loaded;
         }

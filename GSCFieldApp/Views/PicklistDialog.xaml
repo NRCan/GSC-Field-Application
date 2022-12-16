@@ -2,14 +2,8 @@
     x:Class="GSCFieldApp.Views.PicklistDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GSCFieldApp.Views"
-    xmlns:Behaviors="using:Template10.Behaviors"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:theme="using:GSCFieldApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:GSCFieldApp.ViewModels"
     xmlns:model="using:GSCFieldApp.Models"
     xmlns:Controls="using:Template10.Controls"
     xmlns:converters="using:GSCFieldApp.Converters"
@@ -47,8 +41,8 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right"  >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="picklistBackButton" Label="Close" Icon="Clear" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="picklistBackButton_TappedAsync" />
-                    <AppBarButton x:Name="picklistSaveButton" Label="Save" Icon="Save" Foreground="White" MaxWidth="100" Height="57" IsCompact ="True" Tapped="PicklistSaveButton_TappedAsync" />
+                    <AppBarButton x:Name="picklistBackButton" Label="Close" Icon="Clear" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="picklistBackButton_TappedAsync" />
+                    <AppBarButton x:Name="picklistSaveButton" Label="Save" Icon="Save" Foreground="White" Width="100" Height="57" IsCompact ="True" Tapped="PicklistSaveButton_TappedAsync" />
                 </Controls:PageHeader.PrimaryCommands>
 
                 <!--  secondary commands  -->
@@ -61,26 +55,11 @@
             <Controls:PageHeader x:Name="pageFooter"
                              RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
-                             RelativePanel.AlignLeftWithPanel="True">
+                             RelativePanel.AlignLeftWithPanel="True" Height="20">
             </Controls:PageHeader>
-
-            <RelativePanel x:Name="picklistRelativePanel" 
-                           RelativePanel.AlignLeftWithPanel="True" 
-                           RelativePanel.AlignRightWithPanel="True" 
-                           RelativePanel.Below="pageHeader" 
-                           RelativePanel.Above="pageFooter">
-
-                <ScrollViewer VerticalScrollMode="Auto" 
-                          RelativePanel.AlignTopWithPanel="True"
-                          RelativePanel.AlignBottomWithPanel="True"
-                          RelativePanel.AlignRightWithPanel="True"
-                          RelativePanel.AlignLeftWithPanel="True"
-                          VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-
-                    <RelativePanel x:Name="picklistScrollRelativePanel"
-                    RelativePanel.AlignLeftWithPanel="True" 
-                    RelativePanel.AlignRightWithPanel="True" 
-                    Padding="10,5,10,0">
+            <RelativePanel Style="{StaticResource ParentPanel}" >
+                <ScrollViewer Style="{StaticResource VerticalScroll}">
+                    <RelativePanel Style="{StaticResource ChildPanel}" >
 
                         <ComboBox x:Name="picklistSelector" Margin="15" x:Uid="PicklistEditorPicklists"
                           ItemsSource="{x:Bind picklistVM.Picklists}" 

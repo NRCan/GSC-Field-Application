@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template10.Mvvm;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
@@ -13,8 +11,6 @@ using GSCFieldApp.Dictionaries;
 using Windows.UI.Xaml.Controls;
 using System.Globalization;
 using System.Collections.ObjectModel;
-using Esri.ArcGISRuntime.Geometry;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.Media.Capture;
 
 namespace GSCFieldApp.ViewModels
@@ -24,17 +20,17 @@ namespace GSCFieldApp.ViewModels
         #region INITIALIZATION
 
         //UI
-        private Document documentModel = new Document();
-        private Station stationModel = new Station();
-        private EarthMaterial eartModel = new EarthMaterial();
-        private Sample smModel = new Sample();
-        private FieldLocation locationModel = new FieldLocation();
-        private Paleoflow pflowModel = new Paleoflow();
-        private Fossil fossilModel = new Fossil();
-        private Structure structureModel = new Structure();
-        private Mineral mineralModel = new Mineral();
-        private MineralAlteration maModel = new MineralAlteration();
-        private DataAccess dataAcess = new DataAccess();
+        private readonly Document documentModel = new Document();
+        private readonly Station stationModel = new Station();
+        private readonly EarthMaterial eartModel = new EarthMaterial();
+        private readonly Sample smModel = new Sample();
+        private readonly FieldLocation locationModel = new FieldLocation();
+        private readonly Paleoflow pflowModel = new Paleoflow();
+        private readonly Fossil fossilModel = new Fossil();
+        private readonly Structure structureModel = new Structure();
+        private readonly Mineral mineralModel = new Mineral();
+        private readonly MineralAlteration maModel = new MineralAlteration();
+        private readonly DataAccess dataAcess = new DataAccess();
         private string _description = string.Empty; //Default
         private string _documentID = string.Empty;  //Default
         private string _documentName = string.Empty; //Default
@@ -54,10 +50,10 @@ namespace GSCFieldApp.ViewModels
         private Visibility _documentModeVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _documentUpdateVisibility = Visibility.Visible; //Visibility for fields that can't be edited when the form is poped as an edit of an existing record.
         private bool _fileNameReadOnly = true;
-        private string _documentPhoto = string.Empty;
+        private readonly string _documentPhoto = string.Empty;
         public string _documentPhotoPath = null;
         private bool _documentPhotoExists = false;
-        private List<string> _fileNumbers = new List<string>(); //All current file numbers in database
+        private readonly List<string> _fileNumbers = new List<string>(); //All current file numbers in database
         private bool _fileNumberExists = false; //Will be used to track if number already exists, prevent save on dialog.
 
         //DB
@@ -67,10 +63,10 @@ namespace GSCFieldApp.ViewModels
         public FieldNotes selectedStationSummaryDocument;
         public Document lastDocument;
         public DataIDCalculation idCalculatorDoc = new DataIDCalculation();
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         //Events and delegate
         public delegate void documentEditEventHandler(object sender); //A delegate for execution events
@@ -96,8 +92,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value, out int index);
 
                 if (result)
                 {
@@ -130,8 +125,7 @@ namespace GSCFieldApp.ViewModels
             set
             {
 
-                int indexFrom;
-                bool result = int.TryParse(value, out indexFrom);
+                bool result = int.TryParse(value, out int indexFrom);
 
                 if (result)
                 {
@@ -166,8 +160,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                     //Make sure it's lower then File Number To value
-                    int indexTo;
-                    bool resultTo = int.TryParse(_fileToNumber, out indexTo);
+                    bool resultTo = int.TryParse(_fileToNumber, out int indexTo);
                     if (resultTo)
                     {
                         if (indexFrom <= indexTo)
@@ -201,10 +194,8 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                int indexTo;
-                int indexFrom;
-                bool result = int.TryParse(value, out indexTo);
-                bool fromResult = int.TryParse(_fileNumber, out indexFrom);
+                bool result = int.TryParse(value, out int indexTo);
+                bool fromResult = int.TryParse(_fileNumber, out int indexFrom);
 
                 if (result && fromResult)
                 {
@@ -441,11 +432,9 @@ namespace GSCFieldApp.ViewModels
                 #region FILE NUMBER
                 if (_fileToNumber != string.Empty)
                 {
-                    int fromNumber;
-                    bool fromResult = int.TryParse(_fileNumber, out fromNumber);
+                    bool fromResult = int.TryParse(_fileNumber, out int fromNumber);
 
-                    int toNumber;
-                    bool toResult = int.TryParse(_fileToNumber, out toNumber);
+                    bool toResult = int.TryParse(_fileToNumber, out int toNumber);
 
                     if (fromResult && toResult)
                     {
@@ -455,18 +444,20 @@ namespace GSCFieldApp.ViewModels
                         int currentIteration = 1;
                         while (iteratedFileNumber <= totalIteration)
                         {
-                            Document newDoc = new Document();
-                            newDoc.DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID();
-                            newDoc.FileNumber = _fileNumber = iteratedFileNumber.ToString();
-                            newDoc.FileName = _fileName = CalculateFileName();
-                            newDoc.DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration);
+                            Document newDoc = new Document
+                            {
+                                DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
+                                FileNumber = _fileNumber = iteratedFileNumber.ToString(),
+                                FileName = _fileName = CalculateFileName(),
+                                DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
 
-                            newDoc.Category = documentModel.Category;
-                            newDoc.Description = documentModel.Description;
-                            newDoc.Direction = documentModel.Direction;
-                            newDoc.DocumentType = documentModel.DocumentType;
-                            newDoc.RelatedID = documentModel.RelatedID;
-                            newDoc.RelatedTable = documentModel.RelatedTable;
+                                Category = documentModel.Category,
+                                Description = documentModel.Description,
+                                Direction = documentModel.Direction,
+                                DocumentType = documentModel.DocumentType,
+                                RelatedID = documentModel.RelatedID,
+                                RelatedTable = documentModel.RelatedTable
+                            };
 
                             docList.Add(newDoc);
                             iteratedFileNumber++;
@@ -547,8 +538,7 @@ namespace GSCFieldApp.ViewModels
                 //TODO find station visite date in some sort of way....
             }
             Station relatedStation = dataAcess.ReadTable(stationModel.GetType(), dateQuerySelect + dateQueryFrom + dateQueryWhere)[0] as Station;
-            DateTime outStationVisiteDate;
-            bool parsed = DateTime.TryParseExact(relatedStation.StationVisitDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out outStationVisiteDate);
+            bool parsed = DateTime.TryParseExact(relatedStation.StationVisitDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime outStationVisiteDate);
             string strMonth = "Error";
             string strDay = "Error";
 
@@ -781,9 +771,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<Station> statTables = relatedStations.Cast<Station>();
                         foreach (Station sts in statTables)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = sts.StationID;
-                            newItem.itemName = sts.StationAlias;
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = sts.StationID,
+                                itemName = sts.StationAlias
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
@@ -796,9 +788,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
                         foreach (EarthMaterial ea in earths)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = ea.EarthMatID;
-                            newItem.itemName = ea.EarthMatName;
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = ea.EarthMatID,
+                                itemName = ea.EarthMatName
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
@@ -811,9 +805,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<FieldLocation> locs = relatedLocations.Cast<FieldLocation>();
                         foreach (FieldLocation lc in locs)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = lc.LocationID;
-                            newItem.itemName = lc.LocationID; //Alias isn't filled.
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = lc.LocationID,
+                                itemName = lc.LocationID //Alias isn't filled.
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
@@ -827,9 +823,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<Sample> sms = relatedSamples.Cast<Sample>();
                         foreach (Sample sm in sms)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = sm.SampleID;
-                            newItem.itemName = sm.SampleName;
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = sm.SampleID,
+                                itemName = sm.SampleName
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
@@ -843,9 +841,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<Paleoflow> pfs = relatedPflow.Cast<Paleoflow>();
                         foreach (Paleoflow pf in pfs)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = pf.PFlowID;
-                            newItem.itemName = pf.PFlowName;
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = pf.PFlowID,
+                                itemName = pf.PFlowName
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
@@ -858,9 +858,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<Fossil> fss = relatedFossil.Cast<Fossil>();
                         foreach (Fossil fs in fss)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = fs.FossilID;
-                            newItem.itemName = fs.FossilIDName;
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = fs.FossilID,
+                                itemName = fs.FossilIDName
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
@@ -873,9 +875,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<Structure> sts = relatedFossil.Cast<Structure>();
                         foreach (Structure st in sts)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = st.StructureID;
-                            newItem.itemName = st.StructureName;
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = st.StructureID,
+                                itemName = st.StructureName
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
@@ -889,9 +893,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<Mineral> minerals = relatedMineral.Cast<Mineral>();
                         foreach (Mineral ms in minerals)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = ms.MineralID;
-                            newItem.itemName = ms.MineralIDName;
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = ms.MineralID,
+                                itemName = ms.MineralIDName
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
@@ -904,9 +910,11 @@ namespace GSCFieldApp.ViewModels
                         IEnumerable<MineralAlteration> mineralizationAlterations = relatedMA.Cast<MineralAlteration>();
                         foreach (MineralAlteration ma in mineralizationAlterations)
                         {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                            newItem.itemValue = ma.MAID;
-                            newItem.itemName = ma.MAName;
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = ma.MAID,
+                                itemName = ma.MAName
+                            };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");

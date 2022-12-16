@@ -1,11 +1,8 @@
 ﻿using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template10.Mvvm;
 using GSCFieldApp.Themes;
 using Windows.UI.Xaml.Controls;
@@ -398,8 +395,10 @@ namespace GSCFieldApp.ViewModels
         public void AddADistribution(string distToAdd)
         {
 
-            Themes.ComboBoxItem newDist = new Themes.ComboBoxItem();
-            newDist.itemValue = distToAdd;
+            Themes.ComboBoxItem newDist = new Themes.ComboBoxItem
+            {
+                itemValue = distToAdd
+            };
             foreach (Themes.ComboBoxItem cb in MineralAltDist)
             {
                 if (cb.itemValue == distToAdd)

@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite.Net.Attributes;
+using SQLite;
 using GSCFieldApp.Dictionaries;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Storage;
-using Windows.Graphics.Imaging;
-using Windows.Storage.Streams;
 using System.IO;
-using Windows.UI.Xaml;
 
 namespace GSCFieldApp.Models
 {

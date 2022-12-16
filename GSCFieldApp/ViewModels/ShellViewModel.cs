@@ -1,22 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using Windows.Storage;
 using Template10.Mvvm;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Popups;
-using Windows.ApplicationModel.Resources;
-using Windows.UI.Core;
-using System.ComponentModel;
-using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Services.FileServices;
-using Windows.Foundation;
-using System.IO.Compression;
-using Windows.Storage.Search;
 using Windows.UI.Xaml;
 using GSCFieldApp.Dictionaries;
 
@@ -32,9 +20,9 @@ namespace GSCFieldApp.ViewModels
         //Delegates and events
 
         //Settings
-        DataAccess accessData = new DataAccess();
-        DataLocalSettings localSetting = new DataLocalSettings();
-        ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
+        readonly DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+        readonly ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
 
         //Properties
         public bool ShellEnableMapCommand { get { return _shellEnableMapCommand; } set { _shellEnableMapCommand = value; } }

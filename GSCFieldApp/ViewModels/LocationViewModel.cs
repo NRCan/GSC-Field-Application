@@ -2,10 +2,7 @@
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Template10.Common;
 using Template10.Mvvm;
@@ -46,8 +43,8 @@ namespace GSCFieldApp.ViewModels
         //Model init
         public FieldLocation locationModel = new FieldLocation();
         public FieldNotes existingDataDetailLocation;
-        DataAccess accessData = new DataAccess();
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
         public DataIDCalculation idCalculator = new DataIDCalculation();
         public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
@@ -66,8 +63,7 @@ namespace GSCFieldApp.ViewModels
             get { return _locationLatitude; }
             set
             {
-                double lat;
-                bool result = double.TryParse(value, out lat);
+                bool result = double.TryParse(value, out double lat);
 
                 if (result)
                 {
@@ -94,8 +90,7 @@ namespace GSCFieldApp.ViewModels
             get { return _locationLongitude; }
             set
             {
-                double longitude;
-                bool result = double.TryParse(value, out longitude);
+                bool result = double.TryParse(value, out double longitude);
 
                 if (result)
                 {
@@ -199,24 +194,18 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// On save event
         /// </summary>
-        public async void SaveDialogInfoAsync()
+        public void SaveDialogInfo()
         {
             //Parse coordinate pairs
-            double _long = 0.0;
-            double _lat = 0.0;
-            int _easting = 0;
-            int _northing = 0;
-            double _accu = 0;
 
-            double.TryParse(_locationLongitude, out _long);
-            double.TryParse(_locationLatitude, out _lat);
-            int.TryParse(_locationEasting, out _easting);
-            int.TryParse(_locationNorthing, out _northing);
-            double.TryParse(_locationAccuracy, out _accu);
+            double.TryParse(_locationLongitude, out double _long);
+            double.TryParse(_locationLatitude, out double _lat);
+            int.TryParse(_locationEasting, out int _easting);
+            int.TryParse(_locationNorthing, out int _northing);
+            double.TryParse(_locationAccuracy, out double _accu);
 
             //Detect a projected system
-            int selectedEPGS = 0;
-            int.TryParse(SelectedLocationDatums.ToString(), out selectedEPGS);
+            int.TryParse(SelectedLocationDatums.ToString(), out int selectedEPGS);
 
             //Make sure that everything has been filled
             if ((_long == 0 || _lat == 0) && (_easting != 0 || _northing != 0))
@@ -225,11 +214,11 @@ namespace GSCFieldApp.ViewModels
 
 
                 //Detect Datum difference
-                SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                SpatialReference inSR = SpatialReference.Create(selectedEPGS);
                 SpatialReference outSR = SpatialReferences.Wgs84; //Default
                 if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
                 {
-                    outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                    outSR = SpatialReference.Create(4617);
                 }
 
                 MapPoint geoSave = CalculateGeographicCoordinate(_easting, _northing, inSR, outSR);
@@ -325,7 +314,7 @@ namespace GSCFieldApp.ViewModels
                     DatumTransformation datumTransfo = null;
                     if ((outSR.Wkid > 26900 && outSR.Wkid < 27000))
                     {
-                        outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                        outSR = SpatialReference.Create(4617);
                     }
                     else
                     {
@@ -359,7 +348,7 @@ namespace GSCFieldApp.ViewModels
         {
             //Navigate to map page
             INavigationService navService = BootStrapper.Current.NavigationService;
-            navService.Navigate(typeof(Views.ReportPage));
+            navService.Navigate(typeof(Views.FieldNotesPage));
             await Task.CompletedTask;
         }
 
@@ -390,19 +379,18 @@ namespace GSCFieldApp.ViewModels
                 if (_selectedLocationDatums != null)
                 {
                     //Detect a projected system
-                    int selectedEPGS = 0;
-                    int.TryParse(_selectedLocationDatums, out selectedEPGS);
+                    int.TryParse(_selectedLocationDatums, out int selectedEPGS);
                     if (selectedEPGS > 10000)
                     {
                         //Detect Datum difference
                         SpatialReference inSR = SpatialReferences.Wgs84; //Default
                         if (selectedEPGS > 26900 && selectedEPGS < 27000)
                         {
-                            inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                            inSR = SpatialReference.Create(4617); 
                         }
 
                         MapPoint geoPoint = new MapPoint(x_value, y_value, inSR);
-                        var outSpatialRef = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                        var outSpatialRef = SpatialReference.Create(selectedEPGS);
                         MapPoint projPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(geoPoint, outSpatialRef);
 
                         int y = (int)projPoint.Y;
@@ -420,7 +408,7 @@ namespace GSCFieldApp.ViewModels
                 if (!isSystemValid && _selectedLocationDatums != null && _selectedLocationDatums != string.Empty)
                 {
                     //Show warning to select something
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog defaultEventLocationDialog = new ContentDialog()
                         {
@@ -471,17 +459,16 @@ namespace GSCFieldApp.ViewModels
                 {
 
                     //Detect a projected system
-                    int selectedEPGS = 0;
-                    int.TryParse(_selectedLocationDatums, out selectedEPGS);
+                    int.TryParse(_selectedLocationDatums, out int selectedEPGS);
 
                     if (selectedEPGS > 10000)
                     {
                         //Detect Datum difference
-                        SpatialReference inSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(selectedEPGS);
+                        SpatialReference inSR = SpatialReference.Create(selectedEPGS);
                         SpatialReference outSR = SpatialReferences.Wgs84; //Default
                         if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
                         {
-                            outSR = new Esri.ArcGISRuntime.Geometry.SpatialReference(4617);
+                            outSR = SpatialReference.Create(4617);
                         }
 
                         //Get geographic point
@@ -501,7 +488,7 @@ namespace GSCFieldApp.ViewModels
                 if (!isSystemValid && _selectedLocationDatums != null && _selectedLocationDatums != string.Empty)
                 {
                     //Show warning to select something
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High, async () =>
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         ContentDialog defaultEventLocationDialog = new ContentDialog()
                         {

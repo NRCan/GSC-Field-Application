@@ -601,7 +601,7 @@
     <value>Début (#)</value>
   </data>
   <data name="DocumentTypeCombobox.Header" xml:space="preserve">
-    <value>Nom fichier</value>
+    <value>Type fichier</value>
   </data>
   <data name="DocumentNumberTextbox.Header" xml:space="preserve">
     <value>#</value>
@@ -1376,6 +1376,9 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
     <value>Type de lithologie ie. basalt</value>
+  </data>
+  <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
+    <value>Élévation (m)</value>
   </data>
   <data name="LocationDialogGridView_Geo.Content" xml:space="preserve">
     <value>Géographiques</value>

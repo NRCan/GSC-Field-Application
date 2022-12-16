@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GSCFieldApp.Models
+﻿namespace GSCFieldApp.Models
 {
 
     /// <summary>
@@ -24,8 +18,6 @@ namespace GSCFieldApp.Models
         public Models.EarthMaterial earthmat { get; set; }
 
         public Models.Sample sample { get; set; }
-
-        public Models.Favorite favorite { get; set; }
 
         public Models.Document document { get; set; }
 
@@ -75,7 +67,6 @@ namespace GSCFieldApp.Models
             metadata = new Models.Metadata(); 
             earthmat = new Models.EarthMaterial(); 
             sample = new Models.Sample(); 
-            favorite = new Models.Favorite(); 
             document = new Models.Document(); 
             structure = new Models.Structure();
             paleoflow = new Models.Paleoflow();

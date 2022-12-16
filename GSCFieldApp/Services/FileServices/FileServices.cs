@@ -1,15 +1,11 @@
 ﻿using GSCFieldApp.Services.DatabaseServices;
-using Microsoft.Win32.SafeHandles;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.IO.Compression;
@@ -20,8 +16,8 @@ namespace GSCFieldApp.Services.FileServices
     public class FileServices
     {
         //Settings
-        DataLocalSettings localSetting = new DataLocalSettings();
-        DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataAccess accessData = new DataAccess();
 
         /// <summary>
         /// Will delete a given file from the local state folder of the current app
@@ -111,8 +107,10 @@ namespace GSCFieldApp.Services.FileServices
             string outputSaveFilePath = string.Empty;
 
             //Create a file save picker for sqlite
-            var fileSavePicker = new Windows.Storage.Pickers.FileSavePicker();
-            fileSavePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            var fileSavePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
             fileSavePicker.FileTypeChoices.Add("sqlite", new List<string>() { ".sqlite" });
             fileSavePicker.DefaultFileExtension = ".sqlite";
             fileSavePicker.SuggestedFileName = CalculateDBCopyName(currentUserCode); //Should be something like Geolcode_YYYYMMDD_GSCFieldwork.sqlite
@@ -218,8 +216,10 @@ namespace GSCFieldApp.Services.FileServices
             string outputZipPhotoFilePath = string.Empty;
 
             //Create a file save picker for sqlite
-            var fSavePicker = new Windows.Storage.Pickers.FileSavePicker();
-            fSavePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            var fSavePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+            };
             fSavePicker.FileTypeChoices.Add("zip", new List<string>() { ".zip" });
             fSavePicker.DefaultFileExtension = ".zip";
             fSavePicker.SuggestedFileName = prefix + arhiveToRead.Name.Split('.')[0];
@@ -288,7 +288,7 @@ namespace GSCFieldApp.Services.FileServices
         /// <param name="files">A list of storage files to add inside zip archive</param>
         /// <param name="currentUserCode"></param>
         /// <returns>archive path</returns>
-        public async Task<string> AddFilesToZip(List<StorageFile> files, string fieldbookpath = "", string currentUserCode = "")
+        public Task<string> AddFilesToZip(List<StorageFile> files, string fieldbookpath = "", string currentUserCode = "")
         {
             //Make a copy of the photo inside the field book folder only if it doesn't already exists
             if (fieldbookpath == string.Empty)
@@ -311,7 +311,7 @@ namespace GSCFieldApp.Services.FileServices
                 }
             }
 
-            return zipFile;
+            return Task.FromResult(zipFile);
         }
 
         /// <summary>

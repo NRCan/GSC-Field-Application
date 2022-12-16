@@ -1,10 +1,8 @@
 ﻿using GSCFieldApp.Dictionaries;
-using SQLite.Net.Attributes;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GSCFieldApp.Models
 {
@@ -74,8 +72,7 @@ namespace GSCFieldApp.Models
                     StructureFormat.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordDipDipDirectionRule) &&
                     StructureClass.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordPlanar))
                 {
-                    int intAzim;
-                    bool isInt = int.TryParse(StructureAzimuth, out intAzim);
+                    bool isInt = int.TryParse(StructureAzimuth, out int intAzim);
 
                     if (isInt)
                     {

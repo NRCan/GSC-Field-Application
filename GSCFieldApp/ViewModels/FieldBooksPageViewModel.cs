@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Template10.Mvvm;
-using Template10.Services.SettingsService;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using GSCFieldApp.Models;
@@ -13,15 +12,12 @@ using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Dictionaries;
 using Windows.ApplicationModel.Resources;
-using Windows.Storage.Search;
-using SQLite.Net;
+using SQLite;
 using Template10.Services.NavigationService;
 using Template10.Controls;
 using System.IO;
-using SQLite.Net.Platform.WinRT;
 using GSCFieldApp.Services.FileServices;
 using Windows.Storage.Pickers;
-using Windows.Foundation;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -36,19 +32,19 @@ namespace GSCFieldApp.ViewModels
         private bool _noFieldBookWatermark = false;
 
         //Data
-        DataAccess accessData = new DataAccess();
+        readonly DataAccess accessData = new DataAccess();
 
         //Models
-        Station stationModel = new Station();
-        Metadata metadataModel = new Metadata();
+        readonly Station stationModel = new Station();
+        readonly Metadata metadataModel = new Metadata();
 
         //Progress ring
         private bool _progressRingActive = false;
         private bool _progressRingVisibility = false;
 
         //Local settings
-        DataLocalSettings localSetting = new DataLocalSettings();
-        ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+        readonly ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
 
         //Events
         public static event EventHandler deleteAllLayers; //This event is triggered when a factory reset is requested. Will need to wipe layers.
@@ -357,7 +353,7 @@ namespace GSCFieldApp.ViewModels
             //If user is trying to delete the only loaded field book
             if (_projectCollection.Count == 1)
             {
-                AddNewProject();
+                await AddNewProject();
             }
 
             //Refresh page
@@ -529,7 +525,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public async void projectOpenButton_TappedAsync(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        public void projectOpenButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             string pPath = _projectCollection[_selectedProjectIndex].ProjectPath;
             string wType = _projectCollection[_selectedProjectIndex].metadataForProject.FieldworkType;
@@ -575,7 +571,7 @@ namespace GSCFieldApp.ViewModels
                 FieldBooks selectedProject = _projectCollection[_selectedProjectIndex];
 
                 //Build connection file
-                SQLiteConnection selectedProjectConnection = new SQLiteConnection(new SQLitePlatformWinRT(), selectedProject.ProjectDBPath);
+                SQLiteConnection selectedProjectConnection = new SQLiteConnection(selectedProject.ProjectDBPath);
 
                 //Get metadata 
                 List<object> inMeta = accessData.ReadTableFromDBConnection(metadataModel.GetType(), null, selectedProjectConnection);
@@ -670,9 +666,11 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("ProgressRingVisibility");
 
             //Get zip archive from user
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.ViewMode = PickerViewMode.List;
-            openPicker.SuggestedStartLocation = PickerLocationId.Desktop;
+            FileOpenPicker openPicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.List,
+                SuggestedStartLocation = PickerLocationId.Desktop
+            };
             openPicker.FileTypeFilter.Add(".sqlite");
             openPicker.FileTypeFilter.Add(".zip");
 

@@ -1497,6 +1497,12 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="UserInfoDialogAName.PlaceholderText" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="LocationDialogAccuracy.Header" xml:space="preserve">
+    <value>Accuracy (m)</value>
+  </data>
+  <data name="LocationDialogGridView_Accuracy.Content" xml:space="preserve">
+    <value>Accuracy</value>
+  </data>
   <data name="StationGridView_Other.Content" xml:space="preserve">
     <value>General</value>
   </data>

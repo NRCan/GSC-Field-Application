@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Template10.Mvvm;
-using SQLite.Net.Attributes;
+using SQLite;
 using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Models

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template10.Mvvm;
-using SQLite.Net.Attributes;
+using SQLite;
 using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Models
@@ -49,7 +47,7 @@ namespace GSCFieldApp.Models
         public string StationStartNumber { get; set; }
         [Column(DatabaseLiterals.FieldUserInfoVersion)]
         public string Version { get; set; }
-        [Column(DatabaseLiterals.FieldUserInfoVersionSchema), Default(value: DatabaseLiterals.DBVersion)]
+        [Column(DatabaseLiterals.FieldUserInfoVersionSchema)]
         public string VersionSchema { get; set; }
 
 
@@ -118,7 +116,6 @@ namespace GSCFieldApp.Models
         {
             get
             {
-
                 //Create a new list of all current columns in current class. This will act as the most recent
                 //version of the class
                 Dictionary<double, List<string>> metadataFieldList = new Dictionary<double, List<string>>();

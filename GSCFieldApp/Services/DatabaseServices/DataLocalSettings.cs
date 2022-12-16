@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 using GSCFieldApp.Models;
-using Windows.Foundation.Collections;
 using GSCFieldApp.Dictionaries;
-using System.IO;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataLocalSettings
     {
-        ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
+        readonly ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
         public const string containerName = Dictionaries.ApplicationLiterals.LocalSettingMainContainer;
         
         public DataLocalSettings()

@@ -4,14 +4,7 @@ using GSCFieldApp.Services.SettingsServices;
 using GSCFieldApp.Services.DatabaseServices;
 using Windows.ApplicationModel.Activation;
 using Template10.Controls;
-using Template10.Common;
-using System;
-using System.Linq;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Controls;
-using SQLite;
-using System.IO;
-using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.Foundation;
 
@@ -23,7 +16,7 @@ namespace GSCFieldApp
     [Bindable]
     sealed partial class App : Template10.Common.BootStrapper
     {
-        DataLocalSettings localSetting = new DataLocalSettings();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         public App()
         {
@@ -44,6 +37,11 @@ namespace GSCFieldApp
             
             SetESRILicence();
 
+        }
+
+        public override Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
+        {
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -70,12 +68,6 @@ namespace GSCFieldApp
                 };
             }
             await Task.CompletedTask;
-        }
-
-
-
-        public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
-        {
         }
 
         /// <summary>

@@ -1,13 +1,9 @@
 <Page x:Class="GSCFieldApp.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Behaviors="using:Template10.Behaviors"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:controls="using:Template10.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:GSCFieldApp.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Template10.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:GSCFieldApp.ViewModels" mc:Ignorable="d">
 
     <Page.DataContext>
@@ -51,10 +47,10 @@
                              Frame="{x:Bind Frame}" EllipsisVisibility="Collapsed"
                              RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
-                             RelativePanel.AlignTopWithPanel="True" Height="40" IsOpen="True" IsSticky="True" DefaultLabelPosition="Right">
+                             RelativePanel.AlignTopWithPanel="True" Height="40" IsOpen="True" IsSticky="False" DefaultLabelPosition="Right">
             <controls:PageHeader.PrimaryCommands>
-                <AppBarButton x:Name="settingLoadPicklistButton" x:Uid="SettingPagePicklistButton" MaxWidth="140" VerticalAlignment="Top"
-                              Icon="Download" Foreground="White" Height="60" IsCompact ="True" Tapped="{x:Bind ViewModel.settingLoadPicklistButton_TappedAsync}" Visibility="{x:Bind ViewModel.LoadPicklistVisibility, Mode=TwoWay}" />
+                <AppBarButton x:Name="settingLoadPicklistButton" x:Uid="SettingPagePicklistButton" Width="100" VerticalAlignment="Top" Label="Download"
+                              Icon="Download" Foreground="White" Height="57" IsCompact ="True" Tapped="{x:Bind ViewModel.settingLoadPicklistButton_TappedAsync}" Visibility="{x:Bind ViewModel.LoadPicklistVisibility, Mode=TwoWay}" />
             </controls:PageHeader.PrimaryCommands>
             <controls:PageHeader.SecondaryCommands/>
         </controls:PageHeader>

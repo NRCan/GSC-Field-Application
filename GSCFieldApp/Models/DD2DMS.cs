@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GSCFieldApp.Models
 {
@@ -27,10 +23,12 @@ namespace GSCFieldApp.Models
             while (angleInDegrees > 180.0)
                 angleInDegrees -= 360.0;
 
-            var result = new DD2DMS();
+            var result = new DD2DMS
+            {
 
-            //switch the value to positive
-            result.IsNegative = angleInDegrees < 0;
+                //switch the value to positive
+                IsNegative = angleInDegrees < 0
+            };
             angleInDegrees = Math.Abs(angleInDegrees);
 
             //gets the degree
