@@ -1,4 +1,6 @@
-﻿namespace GSCFieldApp.Dictionaries
+﻿using Windows.Devices.Bluetooth.Advertisement;
+
+namespace GSCFieldApp.Dictionaries
 {
     public static class DatabaseLiterals
     {
@@ -263,6 +265,24 @@
         public const string FieldMineralAlterationTexture = "TEXTSTRUC"; //Version 1.6
         public const string FieldMineralAlterationFacies = "ALTERATION_FACIES"; //Version 1.6
 
+        public const string FieldEnvID = "ENVIRONID"; //Version 1.6
+        public const string FieldEnvName = "ENVIRONIDNAME"; //Version 1.6
+        public const string FieldEnvRelief = "RELIEF"; //Version 1.6
+        public const string FieldEnvSlope = "SLOPE"; //Version 1.6
+        public const string FieldEnvAzim = "AZIMUTH"; //Version 1.6
+        public const string FieldEnvDrainage = "DRAINAGE"; //Version 1.6
+        public const string FieldEnvPermIndicator = "PERMAFROST_INDICATOR"; //Version 1.6
+        public const string FieldEnvGroundPattern = "GROUND_PATTERN"; //Version 1.6
+        public const string FieldEnvActiveLayerDepth = "ACTIVE_LAYER_DEPTH"; //Version 1.6
+        public const string FieldEnvGroundIce = "GROUND_ICE"; //Version 1.6
+        public const string FieldEnvGroundCover = "GROUND_COVER"; //Version 1.6
+        public const string FieldEnvBoudler = "BOULDER_FIELD"; //Version 1.6
+        public const string FieldEnvExposure = "EXPOSURE"; //Version 1.6
+        public const string FieldEnvNotes = "NOTES";//Version 1.6
+        public const string FieldEnvStationID = "STATIONID"; //Version 1.6
+        public const string FieldEnvMineralization = "MINIMPORT"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
+        public const string FieldEnvMineralizationNote = "MINNOTE"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
+        public const string FieldEnvGossan = "GOSSPRES"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
 
         #endregion
 
