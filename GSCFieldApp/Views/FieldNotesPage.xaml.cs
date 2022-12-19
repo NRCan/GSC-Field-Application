@@ -24,7 +24,7 @@ namespace GSCFieldApp.Views
         {
 
             InitializeComponent();
-            //NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required; //Keep cache mode on, so values for view models are kept when navigating.
+            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required; //Keep cache mode on, so values for view models are kept when navigating.
         }
 
         //protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

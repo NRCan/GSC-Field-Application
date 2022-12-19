@@ -15,6 +15,7 @@
         public const string KeywordExpandFossil = "expandFossil";
         public const string KeywordExpandMineral = "expandMineral";
         public const string KeywordExpandMineralAlt = "expandMineralAlteration";
+        public const string KeywordExpandEnv = "expandEnvironment";
 
         //Will be used to keep track of user photo or document model for document dialog
         public const string KeywordDocumentMode = "documentMode";

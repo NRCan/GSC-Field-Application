@@ -972,23 +972,26 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void FillRelatedEarthmat()
         {
-
-            //Init.
-            string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + existingDataDetail.station.StationID + "'";
-            List<object> relatedEarths = accessData.ReadTable(earthmodel.GetType(), filterEarthmats);
-            IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
-            
-            foreach (EarthMaterial ea in earths)
+            if (existingDataDetail != null &&  existingDataDetail.station !=null)
             {
-                Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                newItem.itemValue = ea.EarthMatName;
-                newItem.itemName = ea.EarthMatName;
-                _earthmatRelated.Add(newItem);
+                //Init.
+                string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + existingDataDetail.station.StationID + "'";
+                List<object> relatedEarths = accessData.ReadTable(earthmodel.GetType(), filterEarthmats);
+                IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
+
+                foreach (EarthMaterial ea in earths)
+                {
+                    Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
+                    newItem.itemValue = ea.EarthMatName;
+                    newItem.itemName = ea.EarthMatName;
+                    _earthmatRelated.Add(newItem);
+                }
+
+
+                //Update UI
+                RaisePropertyChanged("EarthmatRelated");
             }
 
-
-            //Update UI
-            RaisePropertyChanged("EarthmatRelated");
 
         }
         public void FillInterConfidence()

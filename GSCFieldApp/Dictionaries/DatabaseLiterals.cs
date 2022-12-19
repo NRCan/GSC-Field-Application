@@ -276,7 +276,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEnvActiveLayerDepth = "ACTIVE_LAYER_DEPTH"; //Version 1.6
         public const string FieldEnvGroundIce = "GROUND_ICE"; //Version 1.6
         public const string FieldEnvGroundCover = "GROUND_COVER"; //Version 1.6
-        public const string FieldEnvBoudler = "BOULDER_FIELD"; //Version 1.6
+        public const string FieldEnvBoulder = "BOULDER_FIELD"; //Version 1.6
         public const string FieldEnvExposure = "EXPOSURE"; //Version 1.6
         public const string FieldEnvNotes = "NOTES";//Version 1.6
         public const string FieldEnvStationID = "STATIONID"; //Version 1.6
@@ -377,6 +377,7 @@ namespace GSCFieldApp.Dictionaries
         public const string TableMineralAliasPrefix = "M";
         public const string TableDocumentAliasPrefix = "P";
         public const string TableMineralAlterationPrefix = "X";
+        public const string TableEnvironmentPrefix = "E";
 
         #endregion
 

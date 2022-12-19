@@ -30,6 +30,8 @@
 
         public Models.MineralAlteration mineralAlteration { get; set; }
 
+        public Models.Environment environment { get; set; }
+
         //Define here are the properties that can be used for edit and delete operation
         public string GenericID { get; set; }
         public string GenericTableName { get; set; }
@@ -42,10 +44,6 @@
         public string ParentTableName { get; set; }
 
         public string MainID { get; set; } //Basically the original location ID for all records
-
-
-        //Define here are the favorite property
-        public bool isFavorite = false;
 
         public bool _isValid = true;
 
@@ -73,6 +71,7 @@
             fossil = new Models.Fossil();
             mineral = new Models.Mineral();
             mineralAlteration = new Models.MineralAlteration();
+            environment = new Models.Environment();
         }
 
         public bool Validate()

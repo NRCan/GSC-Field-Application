@@ -212,6 +212,10 @@ namespace GSCFieldApp.ViewModels
             {
                 _earthToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat);
             }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null)
+            {
+                _environmentToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment);
+            }
             //else
             //{
             //    _fossilToggle = false;
@@ -225,6 +229,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralToggle");
             RaisePropertyChanged("PflowToggle");
             RaisePropertyChanged("MAToggle");
+            RaisePropertyChanged("EnvironmentToggle");
             #endregion
 
         }

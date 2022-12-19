@@ -13,6 +13,7 @@ using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using Template10.Controls;
 using Windows.UI;
+using Environment = GSCFieldApp.Models.Environment;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -41,6 +42,7 @@ namespace GSCFieldApp.ViewModels
         private readonly ObservableCollection<FieldNotes> _reportDetailedLocation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
         private readonly ObservableCollection<FieldNotes> _reportDetailedMinerals = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
         private readonly ObservableCollection<FieldNotes> _reportDetailedMineralAlt = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private readonly ObservableCollection<FieldNotes> _reportDetailEnvironment = new ObservableCollection<FieldNotes>(); //WIll be used for right panel
 
         public FieldNotes selectedSummaryDateItem = new FieldNotes();
         public int _reportDateIndex = -1;
@@ -54,6 +56,7 @@ namespace GSCFieldApp.ViewModels
         public int _reportLocationIndex = -1;
         public int _reportMineralIndex = -1;
         public int _reportMineralizationAlterationIndex = -1;
+        public int _reportEnvironmentIndex = -1;
 
         //Some model inits
         private readonly Station stationModel = new Station();
@@ -66,12 +69,10 @@ namespace GSCFieldApp.ViewModels
         private readonly FieldLocation locationModel = new FieldLocation();
         private readonly Mineral mineralModel = new Mineral();
         private readonly MineralAlteration mineralAltModel = new MineralAlteration();
-
-        //public Dictionary<string, FieldNotes> collectionOfSelectedItems = new Dictionary<string, FieldNotes>(); // Will be used for interaction with icons and dialog pop-up
+        private readonly Environment environmentModel = new Environment();  
 
         //UI interaction
         private string deleteRequestFromTable = string.Empty;
-        //private bool needRefresh = false;
 
         //UI
         private bool _locationHeaderExpansion = true;
@@ -84,15 +85,18 @@ namespace GSCFieldApp.ViewModels
         private bool _fossilHeaderExpansion = true;
         private bool _mineralHeaderExpansion = true;
         private bool _mineralAltHeaderExpansion = true;
+        private bool _environmentHeaderExpansion = true;
 
         private Visibility _samplePanelVisibility = Visibility.Visible;
         private Visibility _earthmatPanelVisibility = Visibility.Visible;
         private Visibility _mineralPanelVisibility = Visibility.Visible;
         private Visibility _mineralAltPanelVisibility = Visibility.Visible;
+        private Visibility _environmentPanelVisibility = Visibility.Visible;
         private Visibility _documentPanelVisibility = Visibility.Visible;
         private Visibility _structurePanelVisibility = Visibility.Visible;
         private Visibility _pflowPanelVisibility = Visibility.Visible;
         private Visibility _fossilPanelVisibility = Visibility.Visible;
+
 
         private const double disableOpacity = 0.25;
         private const double enableOpacity = 1;
@@ -106,6 +110,8 @@ namespace GSCFieldApp.ViewModels
         private int fossilRecordCount = 0;
         private int mineralRecordCount = 0;
         private int mineralAltRecordCount = 0;
+        private int environmentRecordCound = 0;
+
 
         //UI Text
         private string _headerDocumenText = ApplicationLiterals.KeywordDocumentHeaderFalse;
@@ -130,6 +136,8 @@ namespace GSCFieldApp.ViewModels
         private double _pflowAddIconOpacity = disableOpacity;
         private double _fossilIconOpacity = disableOpacity;
         private double _fossilAddIconOpacity = disableOpacity;
+        private double _environmentIconOpacity = disableOpacity;
+        private double _environmentAddIconOpacity = disableOpacity;
 
         //UI headers vertical colored bar
         private double _earthmatIconColorOpacity = enableOpacity;
@@ -142,6 +150,7 @@ namespace GSCFieldApp.ViewModels
         private double _mineralIconColorOpacity = enableOpacity;
         private double _locationIconColorOpacity = enableOpacity;
         private double _mineralAltIconColorOpacity = enableOpacity;
+        private double _environmentIconColorOpacity = enableOpacity;
 
         //UI headers enable/disable colors
         private readonly string resourceNameDisableColor = "DisableColor";
@@ -155,6 +164,7 @@ namespace GSCFieldApp.ViewModels
         private readonly string resourcenameFieldStationColor = "FieldStationColor";
         private readonly string resourcenameFieldLocationColor = "FieldObservationColor";
         private readonly string resourcenameFieldMineralAltColor = "FieldMineralAlterationColor";
+        private readonly string resourcenameFieldEnvironmentColor = "FieldEnvironmentColor";
 
         private SolidColorBrush _earthmatColor = new SolidColorBrush();
         private SolidColorBrush _sampleColor = new SolidColorBrush();
@@ -165,6 +175,8 @@ namespace GSCFieldApp.ViewModels
         private SolidColorBrush _documentColor = new SolidColorBrush();
         private SolidColorBrush _stationColor = new SolidColorBrush();
         private SolidColorBrush _locationColor = new SolidColorBrush();
+        private SolidColorBrush _envColor = new SolidColorBrush();
+
         private SolidColorBrush _locationAddIconColor = new SolidColorBrush();
         private SolidColorBrush _earthmatAddIconColor = new SolidColorBrush();
         private SolidColorBrush _documentAddIconColor = new SolidColorBrush();
@@ -175,6 +187,8 @@ namespace GSCFieldApp.ViewModels
         private SolidColorBrush _fossilAddIconColor = new SolidColorBrush();
         private SolidColorBrush _mineralAltColor = new SolidColorBrush();
         private SolidColorBrush _mineralAltAddIconColor = new SolidColorBrush();
+        private SolidColorBrush _environmentIconColor = new SolidColorBrush();
+        private SolidColorBrush _environmentAddIconColor = new SolidColorBrush();
 
         //Map page
         public string userSelectedStationID = string.Empty;
@@ -204,6 +218,7 @@ namespace GSCFieldApp.ViewModels
         public bool FossilHeaderExpansion { get { return _fossilHeaderExpansion; } set { _fossilHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandFossil, value); } }
         public bool MineralHeaderExpansion { get { return _mineralHeaderExpansion; } set { _mineralHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineral, value); } }
         public bool MineralAltHeaderExpansion { get { return _mineralAltHeaderExpansion; } set { _mineralAltHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt, value); } }
+        public bool EnvironmentHeaderExpander { get { return _earthmatHeaderExpansion; } set { _earthmatHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt, value); } }
 
         #endregion
 
@@ -301,6 +316,14 @@ namespace GSCFieldApp.ViewModels
         {
             get { return _reportDetailedMineralAlt; }
         }
+
+        /// <summary>
+        /// A property that will hold all the selected report item details for mineral table.
+        /// </summary>
+        public ObservableCollection<FieldNotes> ReportDetailEnvironment
+        {
+            get { return _reportDetailEnvironment; }
+        }
         #endregion
 
         #region Indexes
@@ -363,6 +386,11 @@ namespace GSCFieldApp.ViewModels
             get { return _reportStructureIndex; }
             set { _reportStructureIndex = value; }
         } //Same thing as ReportListViewIndex, but for station list view refresh
+        public int ReportEnvironmentIndex
+        {
+            get { return _reportEnvironmentIndex; }
+            set { _reportEnvironmentIndex = value; }
+        } //Same thing as ReportListViewIndex, but for station list view refresh
 
 
         #endregion
@@ -372,6 +400,7 @@ namespace GSCFieldApp.ViewModels
         public Visibility EarthmatPanelVisibility { get { return _earthmatPanelVisibility; } set { _earthmatPanelVisibility = value; } }
         public Visibility MineralPanelVisibility { get { return _mineralPanelVisibility; } set { _mineralPanelVisibility = value; } }
         public Visibility MineralAltPanelVisibility { get { return _mineralAltPanelVisibility; } set { _mineralAltPanelVisibility = value; } }
+        public Visibility EnvironmentPanelVisibility { get { return _environmentPanelVisibility; } set { _environmentPanelVisibility = value; } }
         public Visibility PhotoPanelVisibility { get { return _documentPanelVisibility; } set { _documentPanelVisibility = value; } }
         public Visibility StructurePanelVisibility { get { return _structurePanelVisibility; } set { _structurePanelVisibility = value; } }
         public Visibility PFlowPanelVisibility { get { return _pflowPanelVisibility; } set { _pflowPanelVisibility = value; } }
@@ -418,6 +447,11 @@ namespace GSCFieldApp.ViewModels
         public double FossilAddIconOpacity { get { return _fossilAddIconOpacity; } set { _fossilAddIconOpacity = value; } }
         public double FossilIconColorOpacity { get { return _fossilIconColorOpacity; } set { _fossilIconColorOpacity = value; } }
 
+        public double EnvironmentIconOpacity { get { return _environmentIconOpacity; } set { _environmentIconOpacity = value; } }
+        public double EnvironmentAddIconOpacity { get { return _environmentAddIconOpacity; } set { _environmentAddIconOpacity = value; } }
+        public double EnvironmentIconColorOpacity { get { return _environmentIconColorOpacity; } set { _environmentIconColorOpacity = value; } }
+
+
         #endregion
 
         #region Header colors
@@ -440,6 +474,8 @@ namespace GSCFieldApp.ViewModels
         public SolidColorBrush LocationAddIconColor { get { return _locationAddIconColor; } set { _locationAddIconColor = value; } }
         public SolidColorBrush MineralAltColor { get { return _mineralAltColor; } set { _mineralAltColor = value; } }
         public SolidColorBrush MineralAltAddIconColor { get { return _mineralAltAddIconColor; } set { _mineralAltAddIconColor = value; } }
+        public SolidColorBrush EnvironmentColor { get { return _environmentIconColor; } set { _environmentIconColor = value; } }
+        public SolidColorBrush EnvironmentAddIconColor { get { return _environmentAddIconColor; } set { _environmentAddIconColor = value; } }
 
         #endregion
 
@@ -492,6 +528,7 @@ namespace GSCFieldApp.ViewModels
             _reportDetailedMinerals = new ObservableCollection<FieldNotes>();
             _reportDetailedLocation = new ObservableCollection<FieldNotes>();
             _reportDetailedMineralAlt = new ObservableCollection<FieldNotes>();
+            _reportDetailEnvironment = new ObservableCollection<FieldNotes>();
 
             //ReportListViewIndex = -1;
             //ReportStationListIndex = -1;
@@ -506,6 +543,8 @@ namespace GSCFieldApp.ViewModels
             _reportLocationIndex = -1;
             _reportMineralIndex = -1;
             _reportMineralizationAlterationIndex = -1;
+            _reportEnvironmentIndex = -1;
+
 
             SetHeaderColorOpacity(DatabaseLiterals.TableStation);
             SetHeaderColorOpacity(DatabaseLiterals.TableEarthMat);
@@ -517,6 +556,7 @@ namespace GSCFieldApp.ViewModels
             SetHeaderColorOpacity(DatabaseLiterals.TableLocation);
             SetHeaderColorOpacity(DatabaseLiterals.TableDocument);
             SetHeaderColorOpacity(DatabaseLiterals.TableStructure);
+            SetHeaderColorOpacity(DatabaseLiterals.TableEnvironment);
 
             //Detect new field book selection
             FieldBooksPageViewModel.newFieldBookSelected += FieldBooksPageViewModel_newFieldBookSelected;
@@ -1011,6 +1051,80 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("ReportDetailedMineralAlt");
 
         }
+
+        /// <summary>
+        /// Will fill the report detail item property with the current selected station item for environment
+        /// </summary>
+        public void FillEnvironmentFromStation()
+        {
+            _reportDetailEnvironment.Clear();
+
+            #region Conditional to user having selected a station
+
+            if (_reportStationIndex != -1)
+            {
+
+                //Keep selection
+                FieldNotes currentReport = _reportDetailedStation[_reportStationIndex];
+
+                //Get parent id
+                string statID = currentReport.GenericID;
+
+                //Get a list of related environment from selected station
+                //Querying with Linq
+                List<object> envTableRaw = dAccess.ReadTable(environmentModel.GetType(), null);
+                IEnumerable<Environment> envTable = envTableRaw.Cast<Environment>(); //Cast to proper list type
+                IEnumerable<Environment> envParentStations = from env in envTable where env.EnvStationID == statID select env;
+
+                if (envParentStations.Count() != 0 || envParentStations != null)
+                {
+
+
+                    foreach (Environment envs in envParentStations)
+                    {
+                        //Cast
+                        Environment currentEnv = envs as Environment;
+
+                        //Fill the report item detail
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            station = currentReport.station,
+
+                            environment = currentEnv,
+
+                            GenericID = currentEnv.EnvID.ToString(),
+                            GenericTableName = DatabaseLiterals.TableEnvironment,
+                            GenericFieldID = DatabaseLiterals.FieldEnvID,
+                            GenericAliasName = currentEnv.EnvName,
+
+                            ParentID = currentEnv.EnvStationID, //TO keep the link with location table
+                            ParentTableName = DatabaseLiterals.TableStation, //To keep the link with location table.
+
+                            MainID = currentReport.ParentID
+                        };
+
+                        _reportDetailEnvironment.Add(currentDetailReport);
+
+                        //Refresh summary
+                        ValidateCheck(currentEnv.isValid, currentEnv.EnvID, currentDetailReport.MainID);
+
+                    }
+
+
+
+                }
+
+                //Manager header color opacity (transparent if no items)
+                environmentRecordCound = envParentStations.Count();
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEnvironment);
+
+            }
+
+            #endregion
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEnvironment);
+            RaisePropertyChanged("ReportDetailEnvironment");
+        }
+
 
         /// <summary>
         /// Will fill the report detail item property with the current selected station item 
@@ -2197,6 +2311,16 @@ namespace GSCFieldApp.ViewModels
                 indexToPop = _reportMineralizationAlterationIndex;
                 collectionNameToRefresh = "ReportDetailedMineralAlt";
             }
+            if (DatabaseLiterals.TableEnvironment.ToLower().Contains(senderName) && _reportEnvironmentIndex != -1)
+            {
+                noteToDelete = _reportDetailEnvironment[_reportEnvironmentIndex];
+                deleteRequestFromTable = DatabaseLiterals.TableEnvironment;
+
+                //Keep info
+                collectionToUpdate = _reportDetailEnvironment;
+                indexToPop = _reportEnvironmentIndex;
+                collectionNameToRefresh = "ReportDetailEnvironment";
+            }
             if (DatabaseLiterals.TableStation.ToLower().Contains(senderName) && _reportStationIndex != -1)
             {
                 noteToDelete = _reportDetailedStation[_reportStationIndex];
@@ -2415,6 +2539,17 @@ namespace GSCFieldApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Will fill the fossil report if it is expanded
+        /// </summary>
+        public void EnvironmentExpandPanel_ExpandedChanged()
+        {
+            if (_environmentHeaderExpansion && pageLoading)
+            {
+                FillEnvironmentFromStation();
+            }
+        }
+
         #endregion
 
         #region VISIBILITY MANAGEMENT
@@ -2528,6 +2663,7 @@ namespace GSCFieldApp.ViewModels
             bool hasMineral = false;
             bool hasMineralAlt = false;
             bool hasStationLocation = false;
+            bool hasEnvironment = false;
             bool isWaypoint = false;
 
             //Default
@@ -2559,6 +2695,9 @@ namespace GSCFieldApp.ViewModels
 
             _mineralAddIconOpacity = disableOpacity; //Disable child of childs 
             _mineralAddIconColor.Color = GetTableColor(string.Empty);
+
+            _environmentAddIconOpacity = disableOpacity; //Disable child of childs 
+            _environmentAddIconColor.Color = GetTableColor(string.Empty);
 
             //Enable add icon for children 
             if (_reportEarthmatIndex != -1)
@@ -2632,6 +2771,7 @@ namespace GSCFieldApp.ViewModels
                     _earthmatAddIconOpacity = enableOpacity;
                     _mineralAltAddIconOpacity = enableOpacity;
                     _documentAddIconOpacity = enableOpacity;
+                    _environmentAddIconOpacity = enableOpacity;
                     hasStationLocation = true;
 
                     if (_reportDetailedStation[_reportStationIndex].GenericAliasName != null && _reportDetailedStation[_reportStationIndex].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
@@ -2654,6 +2794,8 @@ namespace GSCFieldApp.ViewModels
                 _earthmatAddIconOpacity = enableOpacity;
                 _mineralAltAddIconOpacity = enableOpacity;
                 _documentAddIconOpacity = enableOpacity;
+                _environmentAddIconOpacity = enableOpacity;
+
                 hasStationLocation = true;
 
                 if (_reportDetailedStation[0].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
@@ -2716,10 +2858,15 @@ namespace GSCFieldApp.ViewModels
                 _earthmatAddIconOpacity = disableOpacity;
                 _mineralAltAddIconOpacity = disableOpacity;
                 _documentAddIconOpacity = disableOpacity;
+                _environmentIconOpacity = disableOpacity;
             }
             if (!hasMineralAlt)
             {
                 _mineralAltIconOpacity = disableOpacity;
+            }
+            if (!hasEnvironment)
+            {
+                _environmentIconOpacity = disableOpacity;
             }
             if (isWaypoint)
             {
@@ -2769,6 +2916,10 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralAltAddIconOpacity");
             RaisePropertyChanged("MineralAltIconOpacity");
             RaisePropertyChanged("MineralAltAddIconColor");
+
+            RaisePropertyChanged("EnvironmentAddIconOpacity");
+            RaisePropertyChanged("EnvironmentIconOpacity");
+            RaisePropertyChanged("EnvironmentAddIconColor");
 
             #endregion
         }
@@ -3574,6 +3725,51 @@ namespace GSCFieldApp.ViewModels
                 PopMineralAlt(_reportDetailedMineralAlt[_reportMineralizationAlterationIndex], true);
             }
         }
+        #endregion
+
+        #region ENVIRONMENT EVENTS
+        public void textBlock_FieldEnvironment_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //Cast
+            TextBlock currentTextBlock = sender as TextBlock;
+            currentTextBlock.Text = currentTextBlock.Text + " ";
+        }
+
+        public void EnvironmentAddIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (!_reportDetailedStation[_reportStationIndex].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
+            {
+                PopEnvironment(_reportDetailedStation[_reportStationIndex], false);
+            }
+
+
+        }
+
+        public void EnvironmentEditIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            EditEnvironment();
+        }
+
+        /// <summary>
+        /// Will pop and fill paleoflow dialog with existing values
+        /// </summary>
+        public void EditEnvironment()
+        {
+            if (_reportEnvironmentIndex != -1)
+            {
+                PopEnvironment(_reportDetailEnvironment[_reportEnvironmentIndex], true);
+            }
+        }
+
+        public void ReportEnvironment_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        {
+            EditEnvironment();
+        }
+
+        private void EnvironmentViewModel_newMineralEdit(object sender)
+        {
+            FillEnvironmentFromStation();
+        }
 
         #endregion
 
@@ -3718,6 +3914,22 @@ namespace GSCFieldApp.ViewModels
             modelMineralAlt.IsModal = true;
         }
 
+        /// <summary>
+        /// From a given report item, will open an environment dialog
+        /// </summary>
+        /// <param name="envReport"></param>
+        /// <param name="doEnvironmentUpdate"></param>
+        private void PopEnvironment(FieldNotes envReport, bool doEnvironmentUpdate)
+        {
+            var modelEnvironment = Window.Current.Content as ModalDialog;
+            var viewMEnvironment = modelEnvironment.ModalContent as Views.EnvironmentDialog;
+            viewMEnvironment = new Views.EnvironmentDialog(envReport);
+            viewMEnvironment.EnvViewModel.doEnvironmentUpdate = doEnvironmentUpdate;
+            viewMEnvironment.EnvViewModel.newEnvironmentEdit += EnvironmentViewModel_newMineralEdit;
+            modelEnvironment.ModalContent = viewMEnvironment;
+            modelEnvironment.IsModal = true;
+        }
+
         #endregion
 
         #region OTHER EVENTS
@@ -3795,6 +4007,7 @@ namespace GSCFieldApp.ViewModels
                     FillMineralAltFromStation();
                     EmptyMineralizationAlterationChilds();
                     FillMineral();
+                    FillEnvironmentFromStation();
                     
                 }
 

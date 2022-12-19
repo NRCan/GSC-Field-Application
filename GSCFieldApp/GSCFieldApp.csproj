@@ -237,6 +237,7 @@
     <Compile Include="ViewModels\FieldBooksPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\EnvironmentViewModel.cs" />
     <Compile Include="ViewModels\StationViewModel.cs" />
     <Compile Include="ViewModels\StructureViewModel.cs" />
     <Compile Include="ViewModels\FieldBookDialogViewModel.cs" />
@@ -287,6 +288,9 @@
     </Compile>
     <Compile Include="Views\Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnvironmentDialog.xaml.cs">
+      <DependentUpon>EnvironmentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StationDialog.xaml.cs">
       <DependentUpon>StationDialog.xaml</DependentUpon>
@@ -391,6 +395,10 @@
     <Page Include="Views\Splash.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnvironmentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\StationDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

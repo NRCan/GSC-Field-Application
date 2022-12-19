@@ -1,0 +1,161 @@
+﻿<UserControl
+    x:Class="GSCFieldApp.Views.EnvironmentDialog"
+    x:Name="environmentUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Controls="using:Template10.Controls" xmlns:themes="using:GSCFieldApp.Themes"
+    mc:Ignorable="d" RenderTransformOrigin="0.5,0.5">
+
+    <!-- data entry -->
+    <Page>
+
+        <Page.Resources>
+
+            <!-- Concatenated Value Template -->
+            <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
+
+                <RelativePanel>
+                    <TextBlock Margin="5,0,0,0"
+                        Text="{x:Bind itemName}" x:Name="itemNameText"
+                        TextWrapping="NoWrap" />
+                    <SymbolIcon x:Name="ConcatValueCheck" Margin="10,0,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.RightOf="itemNameText" Symbol="Delete" Foreground="#FF0000" Tapped="ConcatValueCheck_Tapped" Visibility="{x:Bind canRemoveItem}"/>
+                </RelativePanel>
+
+            </DataTemplate>
+
+
+        </Page.Resources>
+
+        <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+            <Controls:PageHeader x:Name="pageHeader" x:Uid="FieldworkTableEnvironment" Text ="" BackButtonVisibility="Collapsed"
+                            RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldEnvironmentColorBrush}"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignTopWithPanel="True"  
+                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right">
+                <Controls:PageHeader.PrimaryCommands>
+                    <AppBarButton x:Name="envBackButton" Label="Close" Icon="Clear" Height="57" IsCompact ="True" Foreground="White" Tapped="envBackButton_Tapped" Width="100"/>
+                    <AppBarButton x:Name="envSaveButton" Label="Save" Icon="Save" Height="57" IsCompact ="True" Foreground="White" Tapped="envSaveButton_Tapped" Width="100"/>
+                </Controls:PageHeader.PrimaryCommands>
+
+            </Controls:PageHeader>
+
+            <Controls:PageHeader x:Name="pageFooter" Background="{ThemeResource FieldEnvironmentColorBrush}"
+                             RelativePanel.AlignBottomWithPanel="True" 
+                             EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
+                             RelativePanel.AlignLeftWithPanel="True" Height="20">
+
+
+            </Controls:PageHeader>
+
+            <!--<RelativePanel Style="{StaticResource ParentPanel}" x:Name="obsRelativePanel">
+                <ScrollViewer Style="{StaticResource VerticalScroll}">
+                    <RelativePanel Style="{StaticResource ChildPanel}" x:Name="obsScrollRelativePanel">
+
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="StationGridView" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                  RelativePanel.AlignTopWithPanel="True">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StationGridView_Type"/>
+
+                                <ComboBox x:Name="StationObsTypeCombox" x:Uid="FieldworkTableStationOCType" Style="{ThemeResource ComboboxMandatoryField}"
+                          Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                          ItemsSource="{x:Bind ViewModel.StationTypes}" 
+                          SelectedValue="{x:Bind ViewModel.SelectedStationTypes, Mode=TwoWay}"
+                          RelativePanel.AlignLeftWithPanel="True" 
+                            MinWidth="175"/>
+
+                            <ComboBox x:Name="StationObsSourceCombox" x:Uid="FieldworkTableStationObsSource"
+                          Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                          ItemsSource="{x:Bind ViewModel.ObservationSource}" 
+                          SelectedValue="{x:Bind ViewModel.SelectedObservationSources, Mode=TwoWay}"
+                          RelativePanel.AlignLeftWithPanel="True" 
+                            MinWidth="175"/>
+
+                        </GridView>
+
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01"
+                           RelativePanel.Below="StationGridView" Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}"
+                           Fill="{ThemeResource FieldStationColorBrush}" />
+
+                        <RelativePanel x:Name="StationRelpanel_01" RelativePanel.Below="MainSeparator_01" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+
+                            <GridView Style="{StaticResource NonselectableGridView}" x:Name="StationGridView_02" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                      Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}" RelativePanel.AlignTopWithPanel="True">
+                                <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StationGridView_Outcrop"/>
+
+                                <RelativePanel x:Name="StationQualityPanel"  >
+                                    <ComboBox x:Name="StationOCQualityComboBox" x:Uid="FieldworkTableStationOCQual"
+                                        ItemsSource="{x:Bind ViewModel.StationQuality}" 
+                                        SelectedValue="{x:Bind ViewModel.SelectedStationQuality, Mode=TwoWay}"
+                                        SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}"/>
+
+                                    <ListView x:Name="StationOCQualityConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="StationOCQualityComboBox"
+                                                ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
+                                                ItemsSource="{x:Bind ViewModel.StationQualityValues}"/>
+
+                                </RelativePanel>
+
+
+                                <TextBox x:Name="StationSizeTextBox" x:Uid="FieldworkTableStationOCSize"
+                                    Text ="{x:Bind ViewModel.StationOCSize, Mode=TwoWay}"
+                                    Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                                    InputScope="Text"
+                                    IsSpellCheckEnabled="True"
+                                    IsTextPredictionEnabled="True"
+                                    RelativePanel.Below="StationOCQualityConcat"/>
+
+
+                            </GridView>
+
+                            <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_02"
+                           RelativePanel.Below="StationGridView_02" 
+                           Fill="{ThemeResource FieldStationColorBrush}" />
+
+                            <GridView Style="{StaticResource NonselectableGridView}" x:Name="StationGridView_03" HorizontalContentAlignment="Stretch" 
+                                      RelativePanel.Below="MainSeparator_02">
+
+                                <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StationGridView_Other"/>
+
+                                <ComboBox x:Name="StationPhysEnvCombobox" x:Uid="FieldworkTableStationPhysEnv"
+                          Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}" 
+                          ItemsSource="{x:Bind ViewModel.StationPhysEnv}"
+                          SelectedValue="{x:Bind ViewModel.SelectedStationPhysEnv, Mode=TwoWay}"
+                          RelativePanel.RightOf="StationQualityComboBox" />
+
+                                <TextBox x:Name="StationAirPhoto" x:Uid="FieldworkTableStationAirNo"
+                            Header="" InputScope="Text" 
+                            RelativePanel.RightOf="StationSizeTextBox"
+                            Text ="{x:Bind ViewModel.AirPhoto, Mode=TwoWay}"/>
+
+                                <TextBox x:Name="StationTraverseNo" x:Uid="FieldworkTableStationTravNo"
+                            Header="" InputScope="Number"
+                            RelativePanel.RightOf="StationAirPhoto"
+                            Text ="{x:Bind ViewModel.TraverseNo, Mode=TwoWay}"/>
+
+                                <TextBox x:Name="StationRelatedTo" x:Uid="FieldworkTableStationRelatedTo"
+                                    Header="" RelativePanel.RightOf="StationTraverseNo"
+                                    Text ="{x:Bind ViewModel.RelatedTo, Mode=TwoWay}"/>
+                                
+                            </GridView>
+
+                        </RelativePanel>
+                        <TextBox Style="{ThemeResource Notes}" x:Name="NoteTextBox" x:Uid="FieldworkTableStationFieldNotes"
+                            RelativePanel.Below="StationRelpanel_01"
+                            Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}" TextChanged="NoteTextBox_TextChanged"/>
+
+                        <TextBox Style="{ThemeResource Notes}" x:Name="SLSNoteTextbox" x:Uid="FieldworkTableStationSLSNotes"
+                             RelativePanel.Below="NoteTextBox"  IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                             Text ="{x:Bind ViewModel.SlSNotes, Mode=TwoWay}"/>
+                        --><!--<Image x:Name="mosquito" Height="60" Width="60" Source="ms-appx:///Assets/mosquito.png"
+                               Visibility="Collapsed" />--><!--
+
+                    </RelativePanel>
+                </ScrollViewer>
+            </RelativePanel>-->
+        </RelativePanel>
+    </Page>
+
+
+</UserControl>

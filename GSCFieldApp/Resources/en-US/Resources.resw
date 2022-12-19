@@ -1626,4 +1626,13 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="FieldworkTableStationObsSource.Header" xml:space="preserve">
     <value>Source</value>
   </data>
+  <data name="FieldworkTableEnvironment.Text" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="SettingPageToggleEnvironment.OffContent" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="SettingPageToggleEnvironment.OnContent" xml:space="preserve">
+    <value>Environment</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
+using Environment = GSCFieldApp.Models.Environment;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -21,6 +22,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         readonly Mineral mineralModel = new Mineral();
         readonly Metadata metadataModel = new Metadata();
         readonly MineralAlteration minAlterationModel = new MineralAlteration();
+        readonly Environment envModel = new Environment();
         readonly DataAccess dAccess = new DataAccess();
 
         public DataIDCalculation()
@@ -843,6 +845,79 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <returns></returns>
         public string CalculateMineralAlterationID()
+        {
+            return CalculateGUID();
+        }
+        #endregion
+
+        #region ENVIRONMENT
+        /// <summary>
+        /// Will calculate an mineral alteration alias from a given parent id and parent alias.
+        /// Should look like YYGeolcodeStationNumberXMANumber --> 17GHV001X01, first environment of first station of geo
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public string CalculateEnvironmentAlias(string parentID, string parentAlias)
+        {
+            //Variables
+            string prefix = DatabaseLiterals.TableEnvironmentPrefix;
+
+            //Querying with Linq
+            List<object> envTableRaw = dAccess.ReadTable(envModel.GetType(), null);
+            IEnumerable<Environment> envTable = envTableRaw.Cast<Environment>(); //Cast to proper list type
+            IEnumerable<string> envParentStations = from env in envTable where env.EnvStationID == parentID orderby env.EnvName descending select env.EnvName;
+
+            int startingNumber = 1;
+            string startingNumberStr = string.Empty;
+            string finaleENVString = parentAlias;
+
+            //Calculate
+            if (envParentStations.Count() > 0)
+            {
+                string lastAlias = envParentStations.ToList()[0].ToString();
+
+                //Find a non existing name
+                bool breaker = true;
+                while (breaker)
+                {
+                    //Padd current ID with 0 if needed
+                    if (startingNumber < 10)
+                    {
+                        startingNumberStr = "0" + startingNumber.ToString();
+                    }
+                    else
+                    {
+                        startingNumberStr = startingNumber.ToString();
+                    }
+
+                    finaleENVString = parentAlias + prefix + startingNumberStr;
+
+                    //Find existing
+                    IEnumerable<Environment> existingENV = from env2 in envTable where env2.EnvStationID == parentID && env2.EnvName == finaleENVString select env2;
+
+                    if (existingENV.Count() == 0 || existingENV == null)
+                    {
+                        breaker = false;
+                    }
+
+                    startingNumber++;
+
+                }
+            }
+            else
+            {
+                finaleENVString = parentAlias + prefix + "0" + startingNumber.ToString();
+            }
+
+            return finaleENVString;
+        }
+
+        /// <summary>
+        /// Will calculate a generic ID from sample table based on the highest current stored id.
+        /// </summary>
+        /// <returns></returns>
+        public string CalculateEnvironmentID()
         {
             return CalculateGUID();
         }
