@@ -174,6 +174,7 @@ namespace GSCFieldApp.ViewModels
         private SolidColorBrush _documentColor = new SolidColorBrush();
         private SolidColorBrush _stationColor = new SolidColorBrush();
         private SolidColorBrush _locationColor = new SolidColorBrush();
+        private SolidColorBrush _mineralAltColor = new SolidColorBrush();
         private SolidColorBrush _envColor = new SolidColorBrush();
 
         private SolidColorBrush _locationAddIconColor = new SolidColorBrush();
@@ -184,7 +185,7 @@ namespace GSCFieldApp.ViewModels
         private SolidColorBrush _structureAddIconColor = new SolidColorBrush();
         private SolidColorBrush _pflowAddIconColor = new SolidColorBrush();
         private SolidColorBrush _fossilAddIconColor = new SolidColorBrush();
-        private SolidColorBrush _mineralAltColor = new SolidColorBrush();
+        private SolidColorBrush _mineralAltIconColor = new SolidColorBrush();
         private SolidColorBrush _mineralAltAddIconColor = new SolidColorBrush();
         private SolidColorBrush _environmentIconColor = new SolidColorBrush();
         private SolidColorBrush _environmentAddIconColor = new SolidColorBrush();
@@ -473,7 +474,7 @@ namespace GSCFieldApp.ViewModels
         public SolidColorBrush LocationAddIconColor { get { return _locationAddIconColor; } set { _locationAddIconColor = value; } }
         public SolidColorBrush MineralAltColor { get { return _mineralAltColor; } set { _mineralAltColor = value; } }
         public SolidColorBrush MineralAltAddIconColor { get { return _mineralAltAddIconColor; } set { _mineralAltAddIconColor = value; } }
-        public SolidColorBrush EnvironmentColor { get { return _environmentIconColor; } set { _environmentIconColor = value; } }
+        public SolidColorBrush EnvironmentColor { get { return _envColor; } set { _envColor = value; } }
         public SolidColorBrush EnvironmentAddIconColor { get { return _environmentAddIconColor; } set { _environmentAddIconColor = value; } }
 
         #endregion
@@ -816,6 +817,7 @@ namespace GSCFieldApp.ViewModels
             _reportDetailedStructure.Clear();
             _reportDetailSample.Clear();
             _reportDetailedMineralAlt.Clear();
+            _reportDetailEnvironment.Clear();
             RaisePropertyChanged("ReportDetailedLocation");
             RaisePropertyChanged("ReportDetailedDocument"); 
             RaisePropertyChanged("ReportDetailedEarthmat");
@@ -826,6 +828,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("ReportDetailedStation");
             RaisePropertyChanged("ReportDetailedStructure");
             RaisePropertyChanged("ReportDetailedMineralAlt");
+            RaisePropertyChanged("ReportDetailEnvironment");
 
             //Reset opacity of header
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
@@ -838,6 +841,7 @@ namespace GSCFieldApp.ViewModels
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineralAlteration);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStation);
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEnvironment);
         }
 
         /// <summary>
@@ -2444,7 +2448,10 @@ namespace GSCFieldApp.ViewModels
             {
                 _mineralAltHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt);
             }
-
+            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandEnv) != null)
+            {
+                _environmentHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandEnv);
+            }
         }
 
         /// <summary>
@@ -2631,7 +2638,14 @@ namespace GSCFieldApp.ViewModels
             {
                 _earthmatPanelVisibility = Visibility.Collapsed;
             }
-
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment))
+            {
+                _environmentPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _environmentPanelVisibility = Visibility.Collapsed;
+            }
             RaisePropertyChanged("SamplePanelVisibility");
             RaisePropertyChanged("EarthmatPanelVisibility");
             RaisePropertyChanged("MineralPanelVisibility");
@@ -2640,6 +2654,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("PFlowPanelVisibility");
             RaisePropertyChanged("FossilPanelVisibility");
             RaisePropertyChanged("MineralAltPanelVisibility");
+            RaisePropertyChanged("EnvironmentPanelVisibility");
         }
 
         #endregion
@@ -2695,8 +2710,8 @@ namespace GSCFieldApp.ViewModels
             _mineralAddIconOpacity = disableOpacity; //Disable child of childs 
             _mineralAddIconColor.Color = GetTableColor(string.Empty);
 
-            _environmentAddIconOpacity = disableOpacity; //Disable child of childs 
-            _environmentAddIconColor.Color = GetTableColor(string.Empty);
+            _environmentAddIconOpacity = enableOpacity; //Enable child of station
+            _environmentAddIconColor.Color = GetTableColor(DatabaseLiterals.TableEnvironment);
 
             //Enable add icon for children 
             if (_reportEarthmatIndex != -1)
@@ -2784,7 +2799,13 @@ namespace GSCFieldApp.ViewModels
                 }
 
             }
+            if (_reportEnvironmentIndex != -1)
+            {
+                _environmentIconOpacity = enableOpacity;
+                _environmentAddIconOpacity = enableOpacity;
 
+                hasEnvironment = true;
+            }
 
             // Enable add icons for children, special case here if there is only one station
             if (_reportDetailedStation.Count > 0 && _reportDetailedStation.Count == 1)
@@ -2857,7 +2878,7 @@ namespace GSCFieldApp.ViewModels
                 _earthmatAddIconOpacity = disableOpacity;
                 _mineralAltAddIconOpacity = disableOpacity;
                 _documentAddIconOpacity = disableOpacity;
-                _environmentIconOpacity = disableOpacity;
+                _environmentAddIconOpacity = disableOpacity;
             }
             if (!hasMineralAlt)
             {
@@ -3179,6 +3200,30 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("MineralAltIconColorOpacity");
                 RaisePropertyChanged("MineralAltColor");
             }
+
+            //environment records
+            if (tableToUpdateHeader == Dictionaries.DatabaseLiterals.TableEnvironment)
+            {
+                if (_reportDetailEnvironment.Count != 0)
+                {
+                    _environmentIconColorOpacity = enableOpacity;
+                    Color mc = new Color();
+                    if (Application.Current.Resources[resourcenameFieldEnvironmentColor] != null)
+                    {
+                        mc = (Color)Application.Current.Resources[resourcenameFieldEnvironmentColor];
+                    }
+
+                    _envColor.Color = mc;
+                }
+                else
+                {
+                    _environmentIconColorOpacity = fullDisableOpacity;
+                    _envColor.Color = dc;
+                }
+                RaisePropertyChanged("EnvironmentIconColorOpacity");
+                RaisePropertyChanged("EnvironmentColor");
+            }
+
         }
 
         #endregion
@@ -3265,6 +3310,13 @@ namespace GSCFieldApp.ViewModels
                         maC = (Color)Application.Current.Resources[resourcenameFieldMineralAltColor];
                     }
                     return maC;
+                case DatabaseLiterals.TableEnvironment:
+                    Color envC = new Color();
+                    if (Application.Current.Resources[resourcenameFieldEnvironmentColor] != null)
+                    {
+                        envC = (Color)Application.Current.Resources[resourcenameFieldEnvironmentColor];
+                    }
+                    return envC;
                 default:
                     //Create disable color brush
                     Color dc = new Color();

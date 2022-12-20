@@ -112,10 +112,10 @@
 
                                 <ToggleSwitch x:Name="PaleoflowToggleSwitch" x:Uid="SettingPageTogglePflow" IsOn="{x:Bind ViewModel.PflowToggle, Mode=TwoWay}"
                                     OffContent="" OnContent="" />
-                                <ToggleSwitch x:Name="EnvironmentToggleSwitch" x:Uid="SettingPageToggleEnvironment" Visibility="Collapsed"
+                                <ToggleSwitch x:Name="EnvironmentToggleSwitch" x:Uid="SettingPageToggleEnvironment"
                                     OffContent="" OnContent="" IsOn="{x:Bind ViewModel.EnvironmentToggle, Mode=TwoWay}"/>
-                                <ToggleSwitch x:Name="SurficialToggleSwitch" x:Uid="SettingPageToggleSurficial" Visibility="Collapsed"
-                                    OffContent="" OnContent="" IsOn="{x:Bind ViewModel.SurficialToggle, Mode=TwoWay}"/>
+                                <!--<ToggleSwitch x:Name="SurficialToggleSwitch" x:Uid="SettingPageToggleSurficial" Visibility="Collapsed"
+                                    OffContent="" OnContent="" IsOn="{x:Bind ViewModel.SurficialToggle, Mode=TwoWay}"/>-->
 
                             </GridView>
 

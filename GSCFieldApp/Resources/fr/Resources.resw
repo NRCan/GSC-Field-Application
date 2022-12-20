@@ -1623,7 +1623,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="FieldworkTableStationObsSource.Header" xml:space="preserve">
     <value>Source</value>
   </data>
-  <data name="FieldworkTableEnvironment.Text	Environment" xml:space="preserve">
+  <data name="FieldworkTableEnvironment.Text" xml:space="preserve">
     <value>Environnement</value>
   </data>
   <data name="SettingPageToggleEnvironment.OffContent" xml:space="preserve">

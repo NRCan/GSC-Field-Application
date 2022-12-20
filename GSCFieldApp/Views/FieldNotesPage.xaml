@@ -1012,6 +1012,7 @@
                         <theme:ExpandPanel.HeaderBorderBrush>
                             <SolidColorBrush Color="{x:Bind ViewModel.EnvironmentColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
                         </theme:ExpandPanel.HeaderBorderBrush>
+                        
                         <theme:ExpandPanel.HeaderContent>
                             <RelativePanel x:Name="EnvRelativePanel" >
                                 <Rectangle x:Name="EnvBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
@@ -1034,7 +1035,7 @@
                             <RelativePanel >
                                 <SymbolIcon x:Name="EnvironmentAddIcon" Foreground="{x:Bind ViewModel.EnvironmentAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" 
                                             Symbol="Add" RelativePanel.LeftOf="EnvironmentEditIcon" Margin="8" 
-                                            Opacity="{x:Bind ViewModel.EnvironmentIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.EnvironmentAddIcon_Tapped}" />
+                                            Opacity="{x:Bind ViewModel.EnvironmentAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.EnvironmentAddIcon_Tapped}" />
                                 <SymbolIcon x:Name="EnvironmentEditIcon" 
                                             Foreground="{x:Bind ViewModel.EnvironmentColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" 
                                             Symbol="Edit"  RelativePanel.LeftOf="EnvironmentDeleteIcon" Margin="8" 
