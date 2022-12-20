@@ -13,7 +13,6 @@ using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using Template10.Controls;
 using Windows.UI;
-using Environment = GSCFieldApp.Models.Environment;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -69,7 +68,7 @@ namespace GSCFieldApp.ViewModels
         private readonly FieldLocation locationModel = new FieldLocation();
         private readonly Mineral mineralModel = new Mineral();
         private readonly MineralAlteration mineralAltModel = new MineralAlteration();
-        private readonly Environment environmentModel = new Environment();  
+        private readonly EnvironmentModel environmentModel = new EnvironmentModel();  
 
         //UI interaction
         private string deleteRequestFromTable = string.Empty;
@@ -1073,17 +1072,17 @@ namespace GSCFieldApp.ViewModels
                 //Get a list of related environment from selected station
                 //Querying with Linq
                 List<object> envTableRaw = dAccess.ReadTable(environmentModel.GetType(), null);
-                IEnumerable<Environment> envTable = envTableRaw.Cast<Environment>(); //Cast to proper list type
-                IEnumerable<Environment> envParentStations = from env in envTable where env.EnvStationID == statID select env;
+                IEnumerable<EnvironmentModel> envTable = envTableRaw.Cast<EnvironmentModel>(); //Cast to proper list type
+                IEnumerable<EnvironmentModel> envParentStations = from env in envTable where env.EnvStationID == statID select env;
 
                 if (envParentStations.Count() != 0 || envParentStations != null)
                 {
 
 
-                    foreach (Environment envs in envParentStations)
+                    foreach (EnvironmentModel envs in envParentStations)
                     {
                         //Cast
-                        Environment currentEnv = envs as Environment;
+                        EnvironmentModel currentEnv = envs as EnvironmentModel;
 
                         //Fill the report item detail
                         FieldNotes currentDetailReport = new FieldNotes

@@ -185,7 +185,7 @@
     <Compile Include="Models\Contacts.cs" />
     <Compile Include="Models\Colour.cs" />
     <Compile Include="Models\DD2DMS.cs" />
-    <Compile Include="Models\Environment.cs" />
+    <Compile Include="Models\EnvironmentModel.cs" />
     <Compile Include="Models\GraphicPlacement.cs" />
     <Compile Include="Models\MapPageLayers.cs" />
     <Compile Include="Models\Document.cs" />

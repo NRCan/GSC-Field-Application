@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
-using Environment = GSCFieldApp.Models.Environment;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -22,7 +21,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         readonly Mineral mineralModel = new Mineral();
         readonly Metadata metadataModel = new Metadata();
         readonly MineralAlteration minAlterationModel = new MineralAlteration();
-        readonly Environment envModel = new Environment();
+        readonly EnvironmentModel envModel = new EnvironmentModel();
         readonly DataAccess dAccess = new DataAccess();
 
         public DataIDCalculation()
@@ -865,7 +864,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //Querying with Linq
             List<object> envTableRaw = dAccess.ReadTable(envModel.GetType(), null);
-            IEnumerable<Environment> envTable = envTableRaw.Cast<Environment>(); //Cast to proper list type
+            IEnumerable<EnvironmentModel> envTable = envTableRaw.Cast<EnvironmentModel>(); //Cast to proper list type
             IEnumerable<string> envParentStations = from env in envTable where env.EnvStationID == parentID orderby env.EnvName descending select env.EnvName;
 
             int startingNumber = 1;
@@ -894,7 +893,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleENVString = parentAlias + prefix + startingNumberStr;
 
                     //Find existing
-                    IEnumerable<Environment> existingENV = from env2 in envTable where env2.EnvStationID == parentID && env2.EnvName == finaleENVString select env2;
+                    IEnumerable<EnvironmentModel> existingENV = from env2 in envTable where env2.EnvStationID == parentID && env2.EnvName == finaleENVString select env2;
 
                     if (existingENV.Count() == 0 || existingENV == null)
                     {

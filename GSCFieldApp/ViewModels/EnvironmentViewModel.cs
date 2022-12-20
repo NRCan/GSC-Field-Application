@@ -9,7 +9,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using GSCFieldApp.Dictionaries;
-using Environment = GSCFieldApp.Models.Environment;
 using System.Runtime.ConstrainedExecution;
 
 namespace GSCFieldApp.ViewModels
@@ -17,7 +16,7 @@ namespace GSCFieldApp.ViewModels
     public class EnvironmentViewModel : ViewModelBase
     {
         #region INITIALIZATION
-        private Environment model = new Environment();
+        private EnvironmentModel environmentModel = new EnvironmentModel();
         private string _environmentid = string.Empty;
         private string _environmentAlias = string.Empty;
         public bool doEnvironmentUpdate = false;

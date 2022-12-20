@@ -9,7 +9,7 @@ using SQLite;
 namespace GSCFieldApp.Models
 {
     [Table(DatabaseLiterals.TableEnvironment)]
-    public class Environment
+    public class EnvironmentModel
     {
         [PrimaryKey, Column(DatabaseLiterals.FieldEnvID)]
         public string EnvID { get; set; }

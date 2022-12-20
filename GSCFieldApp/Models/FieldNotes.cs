@@ -30,7 +30,7 @@
 
         public Models.MineralAlteration mineralAlteration { get; set; }
 
-        public Models.Environment environment { get; set; }
+        public Models.EnvironmentModel environment { get; set; }
 
         //Define here are the properties that can be used for edit and delete operation
         public string GenericID { get; set; }
@@ -71,7 +71,7 @@
             fossil = new Models.Fossil();
             mineral = new Models.Mineral();
             mineralAlteration = new Models.MineralAlteration();
-            environment = new Models.Environment();
+            environment = new Models.EnvironmentModel();
         }
 
         public bool Validate()
