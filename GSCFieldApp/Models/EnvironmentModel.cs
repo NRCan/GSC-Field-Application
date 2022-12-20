@@ -30,12 +30,12 @@ namespace GSCFieldApp.Models
         public string EnvPermIndicator{ get; set; }
         [Column(DatabaseLiterals.FieldEnvGroundPattern)]
         public string EnvGroundPattern { get; set; }
-        [Column(DatabaseLiterals.FieldEnvActiveLayerDepth)]
-        public string EnvActiveLayerDepth { get; set; }
         [Column(DatabaseLiterals.FieldEnvGroundIce)]
         public string EnvGroundIce { get; set; }
         [Column(DatabaseLiterals.FieldEnvGroundCover)]
         public string EnvGroundCover { get; set; }
+        [Column(DatabaseLiterals.FieldEnvActiveLayerDepth)]
+        public string EnvActiveLayerDepth { get; set; }
         [Column(DatabaseLiterals.FieldEnvBoulder)]
         public string EnvBoulder { get; set; }
         [Column(DatabaseLiterals.FieldEnvExposure)]

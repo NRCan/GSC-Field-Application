@@ -1635,4 +1635,13 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="SettingPageToggleEnvironment.OnContent" xml:space="preserve">
     <value>Environment</value>
   </data>
+  <data name="EnvironmentDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="EnvironmentDialogRelief.Header" xml:space="preserve">
+    <value>Relief</value>
+  </data>
+  <data name="EnvironmentGridView_Landscape.Content" xml:space="preserve">
+    <value>Landscape</value>
+  </data>
 </root>

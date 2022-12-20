@@ -1331,6 +1331,44 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     break;
                 #endregion
+                #region Environment
+                case Dictionaries.DatabaseLiterals.TableEnvironment:
+
+                    EnvironmentModel inEnv = inClassObject as EnvironmentModel;
+
+                    //Iterate through fields and them to the query
+                    foreach (TableMapping.Column col in inMapping.Columns)
+                    {
+                        Type colType = col.ColumnType;
+
+                        var value = col.GetValue(inEnv);
+
+                        if (value != null)
+                        {
+                            if (colType == typeof(System.String))
+                            {
+                                value = '"' + value.ToString() + '"';
+                            }
+
+                            if (iterator > 0)
+                            {
+                                updateQuery = updateQuery + ", " + col.Name + " = " + value;
+                            }
+                            else
+                            {
+                                updateQuery = updateQuery + col.Name + " = " + value;
+                            }
+                            iterator++;
+                        }
+
+                    }
+
+
+                    //Finish the query with the where clause
+                    updateQuery = updateQuery + " WHERE " + inMapping.PK.Name + " = '" + inMapping.FindColumn(inMapping.PK.Name).GetValue(inEnv) + "'";
+
+                    break;
+                #endregion
                 #region Metadata Case
                 case Dictionaries.DatabaseLiterals.TableMetadata:
 
