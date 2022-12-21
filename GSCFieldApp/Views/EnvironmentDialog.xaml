@@ -59,10 +59,65 @@
                             <ComboBox x:Name="EnvironmentReliefCombobox" x:Uid="EnvironmentDialogRelief" Style="{ThemeResource ComboboxMandatoryField}"
                                 ItemsSource="{x:Bind EnvViewModel.EnvironmentRelief}" 
                                 SelectedValue="{x:Bind EnvViewModel.SelectedEnvironmentRelief, Mode=TwoWay}"/>
+                            <ComboBox x:Name="EnvironmentBoulderCombobox" x:Uid="EnvironmentDialogBoulder"
+                                ItemsSource="{x:Bind EnvViewModel.EnvironmentBoulder}" 
+                                SelectedValue="{x:Bind EnvViewModel.SelectedEnvironmentBoulder, Mode=TwoWay}"/>
+                            <TextBox x:Name="EnvironmentSlope" x:Uid="EnvironmentDialogSlope" MinWidth="35" HorizontalAlignment="Stretch"
+                                Text="{x:Bind EnvViewModel.Slope, Mode=TwoWay}" InputScope="Number"/>
+                            <TextBox x:Name="EnvironmentAzim" x:Uid="EnvironmentDialogAzim" MinWidth="35" HorizontalAlignment="Stretch"
+                                Text="{x:Bind EnvViewModel.Azim, Mode=TwoWay}" InputScope="Number"/>
                         </GridView>
 
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01" RelativePanel.Below="envGridView_01"
+                           Fill="{ThemeResource FieldEnvironmentColorBrush}" />
+
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Terrain" RelativePanel.Below="MainSeparator_01" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Terrain"/>
+
+                            <ComboBox x:Name="EnvironmentDrainageCombobox" x:Uid="EnvironmentDialogDrainage"
+                                ItemsSource="{x:Bind EnvViewModel.EnvironmentDrainage}" 
+                                SelectedValue="{x:Bind EnvViewModel.SelectedEnvironmentDrainage, Mode=TwoWay}"/>
+                            <ComboBox x:Name="EnvironmentPermafrostCombobox" x:Uid="EnvironmentDialogPermafrost"
+                                ItemsSource="{x:Bind EnvViewModel.EnvironmentPermafrost}" 
+                                SelectedValue="{x:Bind EnvViewModel.SelectedEnvironmentPermafrost, Mode=TwoWay}"/>
+                            <ComboBox x:Name="EnvironmentExposureTypeCombobox" x:Uid="EnvironmentDialogExposureType" 
+                                     ItemsSource="{x:Bind EnvViewModel.EnvironmentExposureType}" 
+                                SelectedValue="{x:Bind EnvViewModel.SelectedEnvironmentExposureType, Mode=TwoWay}"/>
+                            <TextBox x:Name="EnvironmentDepthLayer" x:Uid="EnvironmentDialogDepthLayer" MinWidth="35" HorizontalAlignment="Stretch"
+                                Text="{x:Bind EnvViewModel.Depth, Mode=TwoWay}" InputScope="Number"/>
+   
+                        </GridView>
+
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_02" RelativePanel.Below="EarthmatGridView_Terrain"
+                           Fill="{ThemeResource FieldEnvironmentColorBrush}" />
+
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Ground" RelativePanel.Below="MainSeparator_02" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Ground"/>
+                            
+                            <RelativePanel x:Name="EnvironmentPatternGroundPanel">
+                                <ComboBox x:Name="EnvironmentGround_PatternCombobox" x:Uid="EnvironmentPatternGround"
+                                ItemsSource="{x:Bind EnvViewModel.EnvironmentGroundPattern}" 
+                                SelectedValue="{x:Bind EnvViewModel.SelectedEnvironmentGroundPattern, Mode=TwoWay}"
+                                                SelectionChanged="{x:Bind EnvViewModel.ConcatComboBox_SelectionChanged}"/>
+                                <ListView x:Name="EnvironmentGround_PatternConcat" Style="{StaticResource ConcatenatedListView}"
+                                                RelativePanel.Below="EnvironmentGround_PatternCombobox" Height="136" 
+                                                ItemTemplate="{StaticResource ConcatenatedValueTemplate}" 
+                                                ItemsSource="{x:Bind EnvViewModel.EnvironmentGroundPatternValues}"/>
+                            </RelativePanel>
+                            <ComboBox x:Name="EnvironmentGroundCoverCombobox" x:Uid="EnvironmentDialogGroundCover" 
+                                     ItemsSource="{x:Bind EnvViewModel.EnvironmentGroundCover}" 
+                                SelectedValue="{x:Bind EnvViewModel.SelectedEnvironmentGroundCover, Mode=TwoWay}"/>
+                            <ComboBox x:Name="EnvironmentGroundIceCombobox" x:Uid="EnvironmentDialogGroundIce" 
+                                     ItemsSource="{x:Bind EnvViewModel.EnvironmentGroundIce}" 
+                                SelectedValue="{x:Bind EnvViewModel.SelectedEnvironmentGroundIce, Mode=TwoWay}"/>
+
+                        </GridView>
+
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_03" RelativePanel.Below="EarthmatGridView_Ground"
+                           Fill="{ThemeResource FieldEnvironmentColorBrush}" />
+
                         <TextBox Style="{ThemeResource Notes}" x:Name="EnvironmentNoteTextbox" x:Uid="EnvironmentDialogNote"
-                            RelativePanel.Below="envGridView_01"
+                            RelativePanel.Below="MainSeparator_03"
                             Text ="{x:Bind EnvViewModel.Notes, Mode=TwoWay}"/>
 
 

@@ -1632,13 +1632,49 @@ Shimamura, Kaz – Conseiller</value>
   <data name="SettingPageToggleEnvironment.OnContent" xml:space="preserve">
     <value>Environnement</value>
   </data>
+  <data name="EarthmatGridView_Ground.Content" xml:space="preserve">
+    <value>Sol</value>
+  </data>
+  <data name="EarthmatGridView_Terrain.Content" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="EnvironmentDialogAzim.Header" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="EnvironmentDialogBoulder.Header" xml:space="preserve">
+    <value>Rocher</value>
+  </data>
+  <data name="EnvironmentDialogDepthLayer.Header" xml:space="preserve">
+    <value>Profondeur couche active (m)</value>
+  </data>
+  <data name="EnvironmentDialogDrainage.Header" xml:space="preserve">
+    <value>Drainage</value>
+  </data>
+  <data name="EnvironmentDialogExposureType.Header" xml:space="preserve">
+    <value>Exposition</value>
+  </data>
+  <data name="EnvironmentDialogGroundCover.Header" xml:space="preserve">
+    <value>Couverture</value>
+  </data>
+  <data name="EnvironmentDialogGroundIce.Header" xml:space="preserve">
+    <value>Glace</value>
+  </data>
   <data name="EnvironmentDialogNote.Header" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="EnvironmentDialogPermafrost.Header" xml:space="preserve">
+    <value>Indicateur de permafrost</value>
   </data>
   <data name="EnvironmentDialogRelief.Header" xml:space="preserve">
     <value>Relief</value>
   </data>
+  <data name="EnvironmentDialogSlope.Header" xml:space="preserve">
+    <value>Pente</value>
+  </data>
   <data name="EnvironmentGridView_Landscape.Content" xml:space="preserve">
     <value>Paysage</value>
+  </data>
+  <data name="EnvironmentPatternGround.Header" xml:space="preserve">
+    <value>Motifs</value>
   </data>
 </root>

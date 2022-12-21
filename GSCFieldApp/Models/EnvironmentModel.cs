@@ -21,9 +21,9 @@ namespace GSCFieldApp.Models
         public string EnvRelief { get; set; }
 
         [Column(DatabaseLiterals.FieldEnvSlope)]
-        public string EnvSlope { get; set; }
+        public int EnvSlope { get; set; }
         [Column(DatabaseLiterals.FieldEnvAzim)]
-        public string EnvAzim { get; set; }
+        public int EnvAzim { get; set; }
         [Column(DatabaseLiterals.FieldEnvDrainage)]
         public string EnvDrainage{ get; set; }
         [Column(DatabaseLiterals.FieldEnvPermIndicator)]
@@ -35,7 +35,7 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEnvGroundCover)]
         public string EnvGroundCover { get; set; }
         [Column(DatabaseLiterals.FieldEnvActiveLayerDepth)]
-        public string EnvActiveLayerDepth { get; set; }
+        public double EnvActiveLayerDepth { get; set; }
         [Column(DatabaseLiterals.FieldEnvBoulder)]
         public string EnvBoulder { get; set; }
         [Column(DatabaseLiterals.FieldEnvExposure)]

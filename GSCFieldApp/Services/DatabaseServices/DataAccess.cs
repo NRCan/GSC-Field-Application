@@ -266,12 +266,12 @@ namespace GSCFieldApp.Services.DatabaseServices
                     if (doUpdate)
                     {
                         // update - Not working version 3.13 SQLite-Net UWP
-                        //int sucess = db.Update(tableObject);
+                        int sucess = inDB.Update(tableObject);
 
-                        //Update - To bypass update bug
-                        string upQuery = GetUpdateQueryFromClass(tableObject, inDB);
-                        SQLiteCommand command = inDB.CreateCommand(upQuery);
-                        command.ExecuteNonQuery();
+                        ////Update - To bypass update bug
+                        //string upQuery = GetUpdateQueryFromClass(tableObject, inDB);
+                        //SQLiteCommand command = inDB.CreateCommand(upQuery);
+                        //command.ExecuteNonQuery();
 
                     }
                     else
