@@ -1677,4 +1677,10 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EnvironmentPatternGround.Header" xml:space="preserve">
     <value>Motifs</value>
   </data>
+  <data name="PicklistDialogThemeEnvironment.Text" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="SettingPageVocabEnvironment.Content" xml:space="preserve">
+    <value>Environ.</value>
+  </data>
 </root>

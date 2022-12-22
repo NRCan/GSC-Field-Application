@@ -268,67 +268,68 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// On save event
         /// </summary>
-        public async Task SaveDialogInfo()
+        public void SaveDialogInfo()
         {
-
-            //Get date
-            DateTime currentTime = DateTime.Now;
-            string currentStringTime = String.Format("{0:yyyy-MM-dd}", currentTime);
-
-            //Get user metaid
-            string userID = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
-
-            //Set order
-            double userOrder = 1.0;
-
-            //Iterate through picklist
-            foreach (Vocabularies finalValues in _picklistValues)
+            if (_picklistValues.Count > 0)
             {
-                //Variables
-                bool udpateTerm = true;
+                //Get date
+                DateTime currentTime = DateTime.Now;
+                string currentStringTime = String.Format("{0:yyyy-MM-dd}", currentTime);
 
-                //Detect new terms
-                if (_picklistValueCodesNew.Contains(finalValues.Code))
+                //Get user metaid
+                string userID = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
+
+                //Set order
+                double userOrder = 1.0;
+
+                //Iterate through picklist
+                foreach (Vocabularies finalValues in _picklistValues)
                 {
-                    udpateTerm = false; //Add, don't update
+                    //Variables
+                    bool udpateTerm = true;
 
-                    //Set creator
-                    finalValues.Creator = userID;
-                    finalValues.CreatorDate = currentStringTime;
+                    //Detect new terms
+                    if (_picklistValueCodesNew.Contains(finalValues.Code))
+                    {
+                        udpateTerm = false; //Add, don't update
+
+                        //Set creator
+                        finalValues.Creator = userID;
+                        finalValues.CreatorDate = currentStringTime;
+                    }
+                    else
+                    {
+                        //Set editor
+                        finalValues.Editor = userID;
+                        finalValues.EditorDate = currentStringTime;
+                    }
+
+                    //Detect parent
+                    if ((_selectedParent != null || _selectedParent != string.Empty) && finalValues.Description == _addModifyTerm)
+                    {
+                        finalValues.RelatedTo = _selectedParent;
+                    }
+
+                    finalValues.Order = userOrder;
+
+                    //Save model class
+                    accessData.SaveFromSQLTableObject(finalValues, udpateTerm);
+
+                    userOrder++;
                 }
-                else
+
+                //Update semantic zoom data for lithology if needed
+                if (_selectedPicklist == Dictionaries.DatabaseLiterals.KeywordLithgrouptype || _selectedPicklist == Dictionaries.DatabaseLiterals.KeywordLithDetail)
                 {
-                    //Set editor
-                    finalValues.Editor = userID;
-                    finalValues.EditorDate = currentStringTime;
+                    UpdateLithology();
                 }
-
-                //Detect parent
-                if ((_selectedParent != null || _selectedParent != string.Empty) && finalValues.Description == _addModifyTerm)
+                else if (_selectedPicklist == Dictionaries.DatabaseLiterals.KeywordStrucClassType || _selectedPicklist == Dictionaries.DatabaseLiterals.KeywordStrucDetail)
                 {
-                    finalValues.RelatedTo = _selectedParent;
+                    //Update semantic zoom data for structure type if needed
+                    UpdateStructureType();
                 }
 
-                finalValues.Order = userOrder;
-
-                //Save model class
-                accessData.SaveFromSQLTableObject(finalValues, udpateTerm);
-
-                userOrder++;
             }
-
-            //Update semantic zoom data for lithology if needed
-            if (_selectedPicklist == Dictionaries.DatabaseLiterals.KeywordLithgrouptype || _selectedPicklist == Dictionaries.DatabaseLiterals.KeywordLithDetail)
-            {
-                UpdateLithology();
-            }
-            else if (_selectedPicklist == Dictionaries.DatabaseLiterals.KeywordStrucClassType || _selectedPicklist == Dictionaries.DatabaseLiterals.KeywordStrucDetail)
-            {
-                //Update semantic zoom data for structure type if needed
-                UpdateStructureType();
-            }
-
-            await Task.CompletedTask;
         }
 
 

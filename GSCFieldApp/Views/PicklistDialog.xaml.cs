@@ -74,6 +74,11 @@ namespace GSCFieldApp.Views
                         string themeTextMinAlt = appResourcesMinAlt.GetString("PicklistDialogThemeMineralAlt/Text");
                         ModifyHeader(themeTextMinAlt);
                         break;
+                    case Dictionaries.DatabaseLiterals.KeywordEnvironment:
+                        ResourceLoader appResourcesEnv = ResourceLoader.GetForCurrentView();
+                        string themeTextEnv = appResourcesEnv.GetString("PicklistDialogThemeEnvironment/Text");
+                        ModifyHeader(themeTextEnv);
+                        break;
                     default:
                         break;
                 }
@@ -207,10 +212,10 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void picklistSelector_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
+        private void picklistSelector_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
         {
             //Save current list if needed
-            await picklistVM.SaveDialogInfo();
+            picklistVM.SaveDialogInfo();
 
             //Cast
             ComboBox senderBox = sender as ComboBox;
@@ -326,9 +331,9 @@ namespace GSCFieldApp.Views
         {
             this.picklistSaveButton.Focus(FocusState.Programmatic);
         }
-        private async void PicklistSaveButton_GotFocusAsync(object sender, RoutedEventArgs e)
+        private void PicklistSaveButton_GotFocusAsync(object sender, RoutedEventArgs e)
         {
-            await picklistVM.SaveDialogInfo();
+            picklistVM.SaveDialogInfo();
             CloseControl();
         }
         #endregion

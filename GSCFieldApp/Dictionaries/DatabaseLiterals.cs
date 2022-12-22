@@ -343,6 +343,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordMA = "alteration"; 
         public const string KeywordMineral = "mineral";
         public const string KeywordFossil = "fossil";
+        public const string KeywordEnvironment = "environ";
         public const string KeywordPflow = "flow";
         public const string KeywordConcatCharacter = " | ";
         public const string KeywordConcatCharacter2nd = " - "; //Used when first contact is already being used

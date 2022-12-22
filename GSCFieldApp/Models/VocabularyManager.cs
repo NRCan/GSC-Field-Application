@@ -35,7 +35,7 @@ namespace GSCFieldApp.Models
         public string ThemeEditable { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerVersion)]
-        public string Version { get; set; }
+        public double Version { get; set; }
 
         /// <summary>
         /// A list of all possible fields
