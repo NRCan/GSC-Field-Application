@@ -414,7 +414,7 @@ namespace GSCFieldApp.ViewModels
                 if (_documentPhotoFile != null)
                 {
                     documentModel.FileName = _documentPhotoFile.Name;
-                    documentModel.DocumentType = string.Empty; //Doc type can be empty since embedded photo don't need renaming.
+                    documentModel.DocumentType = DatabaseLiterals.documentTableFileSuffix; //Default value from embeded cameras.
                     documentModel.FileNumber = string.Empty; //File number can be empty since embedded photo don't need renaming
                 }
 
