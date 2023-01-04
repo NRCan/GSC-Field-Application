@@ -840,7 +840,7 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.44)
                         {
-                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion150.ToString().Replace(".", "");
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion150.ToString().Replace(".", "") + "0";
                         }
                         else if (processedDBVersion == 1.5)
                         {

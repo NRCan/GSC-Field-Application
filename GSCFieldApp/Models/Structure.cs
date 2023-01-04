@@ -393,6 +393,7 @@ namespace GSCFieldApp.Models
                 }
 
                 structureFieldList[DatabaseLiterals.DBVersion] = structureFieldListDefault;
+                structureFieldList[DatabaseLiterals.DBVersion150] = structureFieldListDefault;
 
                 //Revert schema 1.5 changes. 
                 List<string> structureFieldList144 = new List<string>();

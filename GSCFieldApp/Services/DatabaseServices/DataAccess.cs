@@ -164,31 +164,38 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="inApplicationPathToFile">The folder inside the project containing the file to copy and the file itself, ex: ModelResources/GSCFieldWork.sqlite</param>
         public async Task WriteResourceToFile(StorageFolder inFolder, string inApplicationPathToFile, string newFileNameWithExt)
         {
-
-            // Create or overwrite file target file in local app data folder
-            StorageFile fileToWrite = await inFolder.CreateFileAsync(newFileNameWithExt, CreationCollisionOption.GenerateUniqueName);
-
-            // Open file in application package
-            StorageFile fileToRead = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + inApplicationPathToFile, UriKind.Absolute));
-
-            byte[] buffer = new byte[1024];
-            using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
+            try
             {
-                using (BinaryReader fileReader = new BinaryReader(await fileToRead.OpenStreamForReadAsync()))
+                // Create or overwrite file target file in local app data folder
+                StorageFile fileToWrite = await inFolder.CreateFileAsync(newFileNameWithExt, CreationCollisionOption.GenerateUniqueName);
+
+                // Open file in application package
+                StorageFile fileToRead = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + inApplicationPathToFile, UriKind.Absolute));
+
+                byte[] buffer = new byte[1024];
+                using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
                 {
-                    long readCount = 0;
-                    while (readCount < fileReader.BaseStream.Length)
+                    using (BinaryReader fileReader = new BinaryReader(await fileToRead.OpenStreamForReadAsync()))
                     {
-                        int read = fileReader.Read(buffer, 0, buffer.Length);
-                        readCount += read;
-                        fileWriter.Write(buffer, 0, read);
+                        long readCount = 0;
+                        while (readCount < fileReader.BaseStream.Length)
+                        {
+                            int read = fileReader.Read(buffer, 0, buffer.Length);
+                            readCount += read;
+                            fileWriter.Write(buffer, 0, read);
+                        }
                     }
                 }
+
+
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToWrite);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToRead);
+            }
+            catch (Exception e)
+            {
+                throw;
             }
 
-
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToWrite);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToRead);
 
         }
 
@@ -506,11 +513,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <summary>
         /// Will take an input database and will upgrade output database vocab tables (dictionaries) with latest coming from an input version
         /// </summary>
-        public void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, double dbVersion, bool closeConnection = true)
+        public async void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, double dbVersion, bool closeConnection = true)
         {
             //Will hold all queries needed to be committed
             List<string> queryList = new List<string>() {};
-
+            List<Exception> exceptionList = new List<Exception>();
 
             //Build attach db query
             string attachDBName = "db2";
@@ -663,7 +670,15 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     foreach (string q in queryList)
                     {
-                        db.Execute(q);
+                        try
+                        {
+                            db.Execute(q);
+                        }
+                        catch (Exception e)
+                        {
+                            exceptionList.Add(e);
+                        }
+                        
                     }
                     db.Commit();
                     db.Close();
@@ -673,8 +688,34 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 foreach (string q in queryList)
                 {
-                    vocabToDBConnection.Execute(q);
+                    try
+                    {
+                        vocabToDBConnection.Execute(q);
+                    }
+                    catch (Exception e)
+                    {
+                        exceptionList.Add(e);
+                    }
+                    
                 }
+            }
+
+            foreach (Exception es in exceptionList)
+            {
+                ContentDialog deleteBookDialog = new ContentDialog()
+                {
+                    Title = "DB Error",
+                    Content = es.Message + "; " + es.StackTrace,
+                    PrimaryButtonText = "Bugger"
+                };
+                deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                ContentDialogResult cdr = await deleteBookDialog.ShowAsync();
+
+                if (cdr == ContentDialogResult.Primary)
+                {
+
+                }
+
             }
 
         }
@@ -688,12 +729,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Variables
             string attachDBName = "dbUpgrade";
             double newVersionNumber = DatabaseLiterals.DBVersion;
+            List<Exception> exceptionList = new List<Exception>();
 
             //Untouched tables to upgrade
             List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata, 
                 DatabaseLiterals.TableEarthMat, DatabaseLiterals.TableSample, DatabaseLiterals.TableStation,
-                DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure,
-                DatabaseLiterals.TableEnvironment, DatabaseLiterals.TableFossil,
+                DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure, DatabaseLiterals.TableFossil,
                 DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,  
                 DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint , DatabaseLiterals.TableFieldCamp};
 
@@ -734,6 +775,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableDocument);
+
+                newVersionNumber = DatabaseLiterals.DBVersion150;
             }
 
             if (inDBVersion == 1.5)
@@ -742,6 +785,9 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableStation);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineral);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineralAlteration);
+
+                newVersionNumber = DatabaseLiterals.DBVersion160;
             }
 
             //Insert remaining tables
@@ -768,14 +814,32 @@ namespace GSCFieldApp.Services.DatabaseServices
                 queryList.Add(vacuumQuery);
 
                 //Attach
-                outToDBConnection.Execute(attachQuery);
+                try
+                {
+                    outToDBConnection.Execute(attachQuery);
+                }
+                catch (Exception e)
+                {
+                    exceptionList.Add(e);
+
+                }
+
 
                 //Shut down foreign keys constraints
-                outToDBConnection.Execute(shutDownForeignConstraints);
+                try
+                {
+                    outToDBConnection.Execute(shutDownForeignConstraints);
+                }
+                catch (Exception e)
+                {
+                    exceptionList.Add(e);
+
+                }
+                
             }
 
             //Update working database
-            List<Exception> exceptionList = new List<Exception>();
+            
             using (var db = outToDBConnection)
             {
 
@@ -853,13 +917,26 @@ namespace GSCFieldApp.Services.DatabaseServices
             string dbSchemaVersionQuery = "SELECT fm." + DatabaseLiterals.FieldUserInfoVersionSchema + " from " + DatabaseLiterals.TableMetadata + " fm";
 
             //Parse result
-            Metadata metadataQueryResult = new Metadata();
-            List<object> mVersions = ReadTable(metadataQueryResult.GetType(), dbSchemaVersionQuery);
-            metadataQueryResult = mVersions[0] as Metadata;
+            try
+            {
+                Metadata metadataQueryResult = new Metadata();
+                List<object> mVersions = ReadTable(metadataQueryResult.GetType(), dbSchemaVersionQuery);
+                metadataQueryResult = mVersions[0] as Metadata;
+                double d_mVersions = DBVersion142;
+                if (metadataQueryResult.VersionSchema != null)
+                {
+                    Double.TryParse(metadataQueryResult.VersionSchema.ToString(), out d_mVersions);
+                }
 
-            Double.TryParse(metadataQueryResult.VersionSchema.ToString(), out double d_mVersions);
+                return d_mVersions;
 
-            return d_mVersions;
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
         }
 
         #endregion
@@ -2121,6 +2198,12 @@ namespace GSCFieldApp.Services.DatabaseServices
                         station_querySelect = station_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldStationRelatedTo;
                     }
+                    else if (stationFields == DatabaseLiterals.FieldStationObsSource)
+                    {
+
+                        station_querySelect = station_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldStationObsSource;
+                    }
                     else
                     {
                         station_querySelect = station_querySelect + ", st." + stationFields + " as " + stationFields;
@@ -2158,10 +2241,35 @@ namespace GSCFieldApp.Services.DatabaseServices
                         earth_querySelect = earth_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldEarthMatPercent;
                     }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatMetaFacies)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatMetaFacies;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatMetaIntensity)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatMetaIntensity;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatMagQualifier)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatMagQualifier;
+                    }
                     else if (earthFields == DatabaseLiterals.FieldEarthMatModComp)
                     {
                         earth_querySelect = earth_querySelect +
                             ", et." + DatabaseLiterals.FieldEarthMatModCompDeprecated + " as " + DatabaseLiterals.FieldEarthMatModComp;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatContact)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", et." + DatabaseLiterals.FieldEarthMatContactDeprecated + " as " + DatabaseLiterals.FieldEarthMatContact;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatModTextStruc)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", et." + DatabaseLiterals.FieldEarthMatModStrucDeprecated + " as " + DatabaseLiterals.FieldEarthMatModTextStruc;
                     }
                     else
                     {
@@ -2199,6 +2307,11 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                         mineral_querySelect = mineral_querySelect +
                             ", m." + DatabaseLiterals.FieldMineralFormDeprecated + " || '" + KeywordConcatCharacter + "' || m." + DatabaseLiterals.FieldMineralHabitDeprecated + " as " + DatabaseLiterals.FieldMineralFormHabit;
+                    }
+                    else if (minFields == DatabaseLiterals.FieldMineralMAID)
+                    {
+                        mineral_querySelect = mineral_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralMAID;
                     }
                     else
                     {

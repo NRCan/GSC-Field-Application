@@ -144,6 +144,7 @@ namespace GSCFieldApp.Models
                 }
 
                 documentFieldList[DatabaseLiterals.DBVersion] = documentFieldListDefault;
+                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldListDefault;
 
                 //Revert schema 1.5 changes. 
                 List<string> documentFieldList144 = new List<string>();

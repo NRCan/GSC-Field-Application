@@ -142,13 +142,14 @@ namespace GSCFieldApp.Models
                 locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
 
                 //Revert schema 1.6 changes. 
-                List<string> earthmatFieldList15 = new List<string>();
-                earthmatFieldList15.AddRange(locationFieldListDefault);
-                earthmatFieldList15.Remove(DatabaseLiterals.FieldLocationNTS);
+                List<string> locationFieldList15 = new List<string>();
+                locationFieldList15.AddRange(locationFieldListDefault);
+                locationFieldList15.Remove(DatabaseLiterals.FieldLocationNTS);
+                locationFieldList[DatabaseLiterals.DBVersion150] = locationFieldList15;
 
                 //Revert schema 1.5 changes. 
                 List<string> locationFieldList144 = new List<string>();
-                locationFieldList144.AddRange(earthmatFieldList15);
+                locationFieldList144.AddRange(locationFieldList15);
                 int removeIndex = locationFieldList144.IndexOf(DatabaseLiterals.FieldLocationAlias);
                 locationFieldList144.Remove(DatabaseLiterals.FieldLocationAlias);
                 locationFieldList144.Insert(removeIndex, DatabaseLiterals.FieldLocationAliasDeprecated);
