@@ -532,11 +532,11 @@ namespace GSCFieldApp.Services.DatabaseServices
             //delete from M_DICTIONARY where M_DICTIONARY.VERSION != 1.5;
             //delete from M_DICTIONARY_MANAGER where M_DICTIONARY_MANAGER.VERSION != 1.5;
             string deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager +
-                " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
+                " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + dbVersion.ToString() + ";";
             string deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary +
-                " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
+                " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + dbVersion.ToString() + ";";
 
-            if (dbVersion < 1.44)
+            if (dbVersion <= 1.44)
             {
                 //Version fields within dictionary didn't exist prior to version 1.5
                 deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager + ";";
@@ -593,7 +593,15 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
             if (dbVersion >= 1.5)
             {
-                insertQuery_vocab = insertQuery_vocab + " WHERE v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() +  "; ";
+                ////Remove possible collision between new and old dictionaries
+                //string deleteQuery_vocab_collision = "DELETE FROM " + DatabaseLiterals.TableDictionary + " WHERE " + DatabaseLiterals.FieldDictionaryTermID + " IN (SELECT vd." +
+                //    DatabaseLiterals.FieldDictionaryTermID + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as vd WHERE vd." + DatabaseLiterals.FieldDictionaryVersion +
+                //    " = " + DBVersion.ToString() + ");";
+
+                //queryList.Add(deleteQuery_vocab_collision);
+
+                insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() +  ") AND (v." +
+                    FieldDictionaryTermID + " NOT IN (SELECT v2." + FieldDictionaryTermID + " FROM " + TableDictionary + " as v2)); ";
             } 
                 
             queryList.Add(insertQuery_vocab);
@@ -786,6 +794,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineral);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
 
                 newVersionNumber = DatabaseLiterals.DBVersion160;
             }
@@ -864,23 +873,27 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             }
 
-            foreach (Exception es in exceptionList)
+            if (exceptionList.Count > 0)
             {
-                ContentDialog deleteBookDialog = new ContentDialog()
+                foreach (Exception es in exceptionList)
                 {
-                    Title = "DB Error",
-                    Content = es.Message + "; " + es.StackTrace,
-                    PrimaryButtonText = "Bugger"
-                };
-                deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                ContentDialogResult cdr = await deleteBookDialog.ShowAsync();
+                    ContentDialog deleteBookDialog = new ContentDialog()
+                    {
+                        Title = "DB Error",
+                        Content = es.Message + "; " + es.StackTrace,
+                        PrimaryButtonText = "Bugger"
+                    };
+                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                    ContentDialogResult cdr = await deleteBookDialog.ShowAsync();
 
-                if (cdr == ContentDialogResult.Primary)
-                {
-                    
+                    if (cdr == ContentDialogResult.Primary)
+                    {
+
+                    }
+
                 }
-
             }
+
         }
 
         /// <summary>
@@ -2112,12 +2125,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            #region F_ENVIRON
-
-            //There should be the same IDNAME to NAME swap here, but this table isn't yet implemented
-
-            #endregion
-
             #region F_METADATA
 
             Metadata modelMetadata = new Metadata();
@@ -2269,7 +2276,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     else if (earthFields == DatabaseLiterals.FieldEarthMatModTextStruc)
                     {
                         earth_querySelect = earth_querySelect +
-                            ", et." + DatabaseLiterals.FieldEarthMatModStrucDeprecated + " as " + DatabaseLiterals.FieldEarthMatModTextStruc;
+                            ", et." + DatabaseLiterals.FieldEarthMatModStrucDeprecated + " || ' | ' || et." + DatabaseLiterals.FieldEarthMatModTextureDeprecated + " as " + DatabaseLiterals.FieldEarthMatModTextStruc;
                     }
                     else
                     {
@@ -2288,6 +2295,14 @@ namespace GSCFieldApp.Services.DatabaseServices
             string insertQuery_16_earth = "INSERT INTO " + DatabaseLiterals.TableEarthMat + " SELECT " + earth_querySelect;
             insertQuery_16_earth = insertQuery_16_earth + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat + " as et";
             insertQuery_16.Add(insertQuery_16_earth);
+
+            //Add some update queries so the textstruc field looks a bit nicer. The | character gets inserted no matter if there is a value or not.
+            string updateQuery_16_earth_pipe = "UPDATE " + DatabaseLiterals.TableEarthMat + " SET " + DatabaseLiterals.FieldEarthMatModTextStruc + " = NULL" +
+                " WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc + " = ' | ';";
+
+            string updateQuery_16_earth_pipe2 = "UPDATE " + DatabaseLiterals.TableEarthMat + " SET " + DatabaseLiterals.FieldEarthMatModTextStruc +
+                " = replace(" + DatabaseLiterals.FieldEarthMatModTextStruc + ", ' | ', '')" +" WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc + 
+                " LIKE '% | ' OR " + DatabaseLiterals.FieldEarthMatModTextStruc + " LIKE ' | %';";
 
             #endregion
 
@@ -2332,6 +2347,145 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_16.Add(insertQuery_16_mineral);
             #endregion
 
+            #region F_MINERAL COMING FROM F_MINERALIZATION_ALTERATION
+            DataIDCalculation idCal = new DataIDCalculation();
+
+            string mineral2_querySelect = string.Empty;
+
+            foreach (string minFields2 in mineralFieldList)
+            {
+                //Get all fields except alias
+
+                if (minFields2 != mineralFieldList.First())
+                {
+                    if (minFields2 == DatabaseLiterals.FieldMineralIDName)
+                    {
+
+                        mineral2_querySelect = mineral2_querySelect +
+                            ", m." + DatabaseLiterals.FieldMineralAlterationName + " || '-mineral'" + " as " + DatabaseLiterals.FieldMineralIDName;
+                    }
+                    else if (minFields2 == DatabaseLiterals.FieldMineral)
+                    {
+                        mineral2_querySelect = mineral2_querySelect +
+                            ", m." + DatabaseLiterals.FieldMineralAlterationMineralDeprecated + " as " + DatabaseLiterals.FieldMineral;
+                    }
+                    else if (minFields2 == DatabaseLiterals.FieldMineralMode)
+                    {
+                        mineral2_querySelect = mineral2_querySelect +
+                            ", m." + DatabaseLiterals.FieldMineralAlterationModeDeprecated + " as " + DatabaseLiterals.FieldMineralMode;
+                    }
+                    else
+                    {
+                        mineral2_querySelect = mineral2_querySelect + ", NULL as " + minFields2;
+                    }
+
+                }
+                else
+                {
+                    //Get a proper new GUID
+                    mineral2_querySelect = "'" + idCal.CalculateMineralID() + "'" + " as " + minFields2;
+                }
+
+            }
+            mineral2_querySelect = mineral2_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_mineral2 = "INSERT INTO " + DatabaseLiterals.TableMineral + " SELECT " + mineral2_querySelect;
+            insertQuery_16_mineral2 = insertQuery_16_mineral2 + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMineralAlteration + " as m";
+            insertQuery_16.Add(insertQuery_16_mineral2);
+
+
+            #endregion
+
+            #region F_LOCATION
+
+            FieldLocation modelLocation = new FieldLocation();
+            List<string> locationFieldList = modelLocation.getFieldList[DBVersion160];
+            string location_querySelect = string.Empty;
+
+            foreach (string locationFields in locationFieldList)
+            {
+                //Get all fields except alias
+
+                if (locationFields != locationFieldList.First())
+                {
+                    if (locationFields == DatabaseLiterals.FieldLocationNTS)
+                    {
+
+                        location_querySelect = location_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldLocationNTS;
+                    }
+                    else
+                    {
+                        location_querySelect = location_querySelect + ", l." + locationFields + " as " + locationFields;
+                    }
+
+                }
+                else
+                {
+                    location_querySelect = " l." + locationFields + " as " + locationFields;
+                }
+
+            }
+            location_querySelect = location_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_location = "INSERT INTO " + DatabaseLiterals.TableLocation + " SELECT " + location_querySelect;
+            insertQuery_16_location = insertQuery_16_location + " FROM " + attachedDBName + "." + DatabaseLiterals.TableLocation + " as l";
+            insertQuery_16.Add(insertQuery_16_location);
+
+            #endregion
+
+            #region F_MINERALIZATION_ALTERATION
+
+            MineralAlteration modelMA = new MineralAlteration();
+            List<string> maFieldList = modelMA.getFieldList[DBVersion160];
+            string ma_querySelect = string.Empty;
+
+            foreach (string malocationFields in maFieldList)
+            {
+                //Get all fields except alias
+
+                if (malocationFields != maFieldList.First())
+                {
+                    if (malocationFields == DatabaseLiterals.FieldMineralAlterationPhase)
+                    {
+
+                        ma_querySelect = ma_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralAlterationPhase;
+                    }
+                    else if (malocationFields == DatabaseLiterals.FieldMineralAlterationTexture)
+                    {
+
+                        ma_querySelect = ma_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralAlterationTexture;
+                    }
+                    else if (malocationFields == DatabaseLiterals.FieldMineralAlterationFacies)
+                    {
+
+                        ma_querySelect = ma_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralAlterationFacies;
+                    }
+                    else
+                    {
+                        ma_querySelect = ma_querySelect + ", ma." + malocationFields + " as " + malocationFields;
+                    }
+
+                }
+                else
+                {
+                    ma_querySelect = " ma." + malocationFields + " as " + malocationFields;
+                }
+
+            }
+            ma_querySelect = ma_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_ma = "INSERT INTO " + DatabaseLiterals.TableMineralAlteration + " SELECT " + ma_querySelect;
+            insertQuery_16_ma = insertQuery_16_ma + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMineralAlteration + " as ma";
+            insertQuery_16.Add(insertQuery_16_ma);
+
+            #endregion
+
+            insertQuery_16.Add(updateQuery_16_earth_pipe);
+            insertQuery_16.Add(updateQuery_16_earth_pipe2);
 
             return insertQuery_16;
         }
