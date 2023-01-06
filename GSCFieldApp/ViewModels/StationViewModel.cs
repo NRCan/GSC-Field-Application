@@ -323,7 +323,7 @@ namespace GSCFieldApp.ViewModels
                     _stationTravNo = sts.StationTravNo.ToString();
 
                     //Make check on date if newer, increment traverse no. if wanted by user
-                    if ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo))
+                    if (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) != null && (bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo))
                     {
                         string currentDate = DateTime.Now.ToShortDateString();
                         DateTime lastStationDate = DateTime.Parse(sts.StationVisitDate);
