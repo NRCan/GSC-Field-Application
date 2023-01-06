@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Dictionaries;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -39,6 +40,9 @@ namespace GSCFieldApp.ViewModels
         private Models.Colour _earthColourW = new Models.Colour();
         private Models.Colour _earthColourF = new Models.Colour();
         private Models.Contacts _earthContact = new Contacts();
+
+        private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         private Dictionary<string, int> _earthResidualPercent = new Dictionary<string, int>(); //Will contain earth material Id and it's percent, for residual percent calculation
 
@@ -112,6 +116,8 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
+
+        public Visibility BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
 
         public EarthMaterial EarthModel { get { return earthmodel; } set { earthmodel = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
@@ -296,34 +302,68 @@ namespace GSCFieldApp.ViewModels
                 _alias = idCalculator.CalculateEarthmatnAlias(_stationid, inDetailModel.GenericAliasName);
             }
 
-            //Fill some first order comboboxes
-            FillDefFabric();
-            FillBedthick();
-            FillMU();
-            FillContactU();
-            FillRelatedEarthmat();
-            FillInterConfidence();
-            FillMineral();
+            //Will enable/disable some fields based on bedrock or surficial usage
+            SetFieldVisibility();
 
+            if (_bedrockVisibility == Visibility.Visible)
+            {
+                //Fill some first order comboboxes
+                FillDefFabric();
+                FillBedthick();
+                FillContactU();
+
+                FillRelatedEarthmat();
+                FillInterConfidence();
+                FillMineral();
+
+                FillMagQualifier();
+                FillMetaIntensity();
+                FillMetaFacies();
+
+                //Fill second order comboboxes (dependant on selected litho type)
+                //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
+                FillModComp();
+                FillModTextureStructure();
+                FillGrSize();
+                FillOccur();
+            }
+
+            FillMU();
             FillColourG();
             FillColourI();
             FillColourQ();
-
-            FillMagQualifier();
-            FillMetaIntensity();
-            FillMetaFacies();
-
-            //Fill second order comboboxes (dependant on selected litho type)
-            //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
-            FillModComp();
-            FillModTextureStructure();
-            FillGrSize();
-            FillOccur();
 
             if (existingDataDetail != null && existingDataDetail.GenericID != null)
             {
                 CalculateResidual();
             }
+
+
+        }
+
+        /// <summary>
+        /// Will set visibility based on a bedrock or surficial field book
+        /// </summary>
+        private void SetFieldVisibility()
+        {
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
+            {
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                {
+                    _bedrockVisibility = Visibility.Visible;
+                }
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                {
+                    _bedrockVisibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                //Fallback
+                _bedrockVisibility = Visibility.Visible;
+            }
+
+            RaisePropertyChanged("BedrockVisibility");
         }
 
         /// <summary>
