@@ -18,6 +18,8 @@ using Template10.Controls;
 using System.IO;
 using GSCFieldApp.Services.FileServices;
 using Windows.Storage.Pickers;
+using Windows.UI.Core;
+using Template10.Utils;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -45,7 +47,7 @@ namespace GSCFieldApp.ViewModels
         //Local settings
         readonly DataLocalSettings localSetting = new DataLocalSettings();
         readonly ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
-
+        ResourceLoader loadLocalization = null;
         //Events
         public static event EventHandler deleteAllLayers; //This event is triggered when a factory reset is requested. Will need to wipe layers.
         public static event EventHandler<bool> fieldBooksUpdate; //This event is triggered whenever there is no more field books or one has been added
@@ -88,6 +90,9 @@ namespace GSCFieldApp.ViewModels
             //Detect new field book save
             GSCFieldApp.Views.FieldBookDialog.newFieldBookSaved -= FieldBookDialog_newFieldBookSaved;
             GSCFieldApp.Views.FieldBookDialog.newFieldBookSaved += FieldBookDialog_newFieldBookSaved;
+
+            //Get localization for UI purposes
+            loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
         }
 
         private void FieldBookDialog_newFieldBookSaved(object sender, EventArgs e)
@@ -263,7 +268,6 @@ namespace GSCFieldApp.ViewModels
             FieldBooks selectedProject = _projectCollection[_selectedProjectIndex];
 
             //Ask user for backup
-            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
             ContentDialog backupDialog = new ContentDialog()
             {
                 Title = loadLocalization.GetString("ProjectBackupTitle"),
@@ -496,7 +500,7 @@ namespace GSCFieldApp.ViewModels
                     FilesToBackup.Add(newFile);
 
                     //Zip and Copy
-                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                    
                     await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath, selectedBook.metadataForProject.UserCode, selectedBook.metadataForProject.ProjectName + "_");
 
                     await newFile.DeleteAsync();
@@ -608,7 +612,6 @@ namespace GSCFieldApp.ViewModels
             {
                 FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
 
-                var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
                 ContentDialog deleteBookDialog = new ContentDialog()
                 {
                     Title = loadLocalization.GetString("ProjectDeleteDialogTitle"),
@@ -755,15 +758,19 @@ namespace GSCFieldApp.ViewModels
                         // Language localization using Resource.resw
                         var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
-                        ContentDialog outDatedVersionDialog = new ContentDialog()
+                        await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                         {
-                            Title = local.GetString("WarningBadVersionTitle"),
-                            Content = local.GetString("WarningBadVersionContent") + " " + DatabaseLiterals.DBVersion.ToString(),
-                            PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
-                        };
+                            ContentDialog outDatedVersionDialog = new ContentDialog()
+                            {
+                                Title = local.GetString("WarningBadVersionTitle"),
+                                Content = local.GetString("WarningBadVersionContent") + " " + DatabaseLiterals.DBVersion.ToString(),
+                                PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
+                            };
+                            outDatedVersionDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                            await Services.ContentDialogMaker.CreateContentDialogAsync(outDatedVersionDialog, false);
 
-                        outDatedVersionDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                        ContentDialogResult cdr = await outDatedVersionDialog.ShowAsync();
+                        }).AsTask();
+
                     }
 
                     OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode, metItem.MetaID, wantedDB.Path, metItem.VersionSchema, false);
@@ -860,61 +867,68 @@ namespace GSCFieldApp.ViewModels
                             accessData.GetLatestVocab(DataAccess.DbPath, upgradeDBConnection, processedDBVersion, false);
 
                             //Upgrade other tables
-                            await accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection, processedDBVersion);
+                            Task upgradeSchema = accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection, processedDBVersion);
+
+                            if (upgradeSchema.IsCompleted)
+                            {
+                                //Rename current fieldbook
+                                string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString()) + Dictionaries.DatabaseLiterals.DBTypeSqlite;
+                                string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName);
+                                string copyPathBeforeMove = DataAccess.DbPath;
+                                File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
+
+                                //Copy upgraded version
+                                File.Move(dbpathToUpgrade, copyPathBeforeMove);
+
+                                //Last check on db version to keep iterating
+                                processedDBVersion = dAccess.GetDBVersion();
+
+                                //Show end message
+                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                {
+                                    ContentDialog upgradedDBDialog = new ContentDialog()
+                                    {
+                                        Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
+                                        Content = loadLocalization.GetString("FieldBookUpgradeContent"),
+                                        PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
+                                    };
+                                    upgradedDBDialog.Closed += upgradedDBDialog_Closed;
+                                    await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
+
+                                }).AsTask();
+                            }
 
                         }
 
-                        //Rename current fieldbook
-                        string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString()) + Dictionaries.DatabaseLiterals.DBTypeSqlite;
-                        string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName);
-                        string copyPathBeforeMove = DataAccess.DbPath;
-                        File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
 
-                        //Copy upgraded version
-                        File.Move(dbpathToUpgrade, copyPathBeforeMove);
-
-                        //Last check on db version to keep iterating
-                        processedDBVersion = dAccess.GetDBVersion();
-                    }
-
-                    //Show end message
-                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                    ContentDialog upgradedDBDialog = new ContentDialog()
-                    {
-                        Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
-                        Content = loadLocalization.GetString("FieldBookUpgradeContent"),
-                        PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
-                    };
-
-                    ContentDialogResult cdr = await upgradedDBDialog.ShowAsync();
-                    if (cdr == ContentDialogResult.Primary)
-                    {
-                        FillProjectCollectionAsync();
-
-                        //Send call to refresh other pages
-                        EventHandler<string> newFieldBookRequest = newFieldBookSelected;
-                        if (newFieldBookRequest != null)
-                        {
-                            newFieldBookRequest(this, System.IO.Directory.GetParent(DataAccess.DbPath).FullName);
-                        }
                     }
                 }
                 else
                 {
                     //Show warning stating current db doesn't need upgraded version
-                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
                     ContentDialog invalidUpgradeDBDialog = new ContentDialog()
                     {
                         Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
                         Content = loadLocalization.GetString("FieldBookUpgradeContentInvalid"),
                         PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
                     };
-                    ContentDialogResult cdr = await invalidUpgradeDBDialog.ShowAsync();
+                    await invalidUpgradeDBDialog.ShowAsync();
                 }
 
             }
 
 
+        }
+
+        private void upgradedDBDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+        {
+            //Send call to refresh other pages
+            FillProjectCollectionAsync();
+            EventHandler<string> newFieldBookRequest = newFieldBookSelected;
+            if (newFieldBookRequest != null)
+            {
+                newFieldBookRequest(this, System.IO.Directory.GetParent(DataAccess.DbPath).FullName);
+            }
         }
         #endregion
     }

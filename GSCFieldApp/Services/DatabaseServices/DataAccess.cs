@@ -10,6 +10,8 @@ using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Dictionaries;
 using Windows.UI.Xaml;
 using SQLite;
+using Windows.UI.Core;
+using Windows.ApplicationModel.Resources;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 
@@ -20,6 +22,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         //ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
         public static DataLocalSettings localSetting;
+        public ResourceLoader local = null;
 
         public static string _dbPath = string.Empty;
         public static string _dbName = string.Empty;
@@ -33,6 +36,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 localSetting = new DataLocalSettings();
             }
+
+            local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
         }
 
         #region DB MANAGEMENT METHODS
@@ -708,23 +713,33 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
             }
 
-            foreach (Exception es in exceptionList)
+            if (exceptionList.Count > 0)
             {
-                ContentDialog deleteBookDialog = new ContentDialog()
-                {
-                    Title = "DB Error",
-                    Content = es.Message + "; " + es.StackTrace,
-                    PrimaryButtonText = "Bugger"
-                };
-                deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                ContentDialogResult cdr = await deleteBookDialog.ShowAsync();
+                string wholeStack = string.Empty;
 
-                if (cdr == ContentDialogResult.Primary)
+                foreach (Exception es in exceptionList)
                 {
+
+                    wholeStack = wholeStack + "; " + es.Message + "; " + es.StackTrace;
 
                 }
 
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    ContentDialog deleteBookDialog = new ContentDialog()
+                    {
+                        Title = "DB Error",
+                        Content = wholeStack,
+                        PrimaryButtonText = "Bugger"
+                    };
+                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
+
+                }).AsTask();
+
+
             }
+
 
         }
 
@@ -875,23 +890,26 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (exceptionList.Count > 0)
             {
+                string wholeStackUpgrade = string.Empty;
+
                 foreach (Exception es in exceptionList)
+                {
+                    wholeStackUpgrade = wholeStackUpgrade + "; " + es.Message + "; " + es.StackTrace;
+                }
+
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     ContentDialog deleteBookDialog = new ContentDialog()
                     {
                         Title = "DB Error",
-                        Content = es.Message + "; " + es.StackTrace,
+                        Content = wholeStackUpgrade,
                         PrimaryButtonText = "Bugger"
                     };
                     deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                    ContentDialogResult cdr = await deleteBookDialog.ShowAsync();
+                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
 
-                    if (cdr == ContentDialogResult.Primary)
-                    {
+                }).AsTask();
 
-                    }
-
-                }
             }
 
         }
