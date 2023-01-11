@@ -1686,4 +1686,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="SettingPageVocabEnvironment.Content" xml:space="preserve">
     <value>Environ.</value>
   </data>
+  <data name="MapPageCenter.Label" xml:space="preserve">
+    <value>Recenter</value>
+  </data>
 </root>

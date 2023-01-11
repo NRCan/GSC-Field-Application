@@ -1683,4 +1683,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="SettingPageVocabEnvironment.Content" xml:space="preserve">
     <value>Environ.</value>
   </data>
+  <data name="MapPageCenter.Label" xml:space="preserve">
+    <value>Recadrer</value>
+  </data>
 </root>
