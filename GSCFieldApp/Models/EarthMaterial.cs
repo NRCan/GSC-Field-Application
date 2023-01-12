@@ -190,19 +190,14 @@ namespace GSCFieldApp.Models
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMagQualifier);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaIntensity);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaFacies);
-
-                int removeIndexModComp = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatModComp);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModComp);
-                earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModCompDeprecated);
-
-                int removeIndexModStruc = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatModTextStruc);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModTextStruc);
-                earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModStrucDeprecated);
-                earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatModTextureDeprecated);
-
-                int removeIndexContactc = earthmatFieldList15.IndexOf(DatabaseLiterals.FieldEarthMatContact);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatContact);
-                earthmatFieldList15.Insert(removeIndexModComp, DatabaseLiterals.FieldEarthMatContactDeprecated);
+
+                earthmatFieldList15.Insert(8, DatabaseLiterals.FieldEarthMatModStrucDeprecated);
+                earthmatFieldList15.Insert(9, DatabaseLiterals.FieldEarthMatModTextureDeprecated);
+                earthmatFieldList15.Insert(10, DatabaseLiterals.FieldEarthMatModCompDeprecated);
+                earthmatFieldList15.Insert(18, DatabaseLiterals.FieldEarthMatContactDeprecated);
 
                 earthmatFieldList[DatabaseLiterals.DBVersion150] = earthmatFieldList15;
 

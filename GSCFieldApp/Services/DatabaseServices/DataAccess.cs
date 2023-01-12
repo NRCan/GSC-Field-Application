@@ -906,7 +906,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         PrimaryButtonText = "Bugger"
                     };
                     deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
+                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, true);
 
                 }).AsTask();
 
