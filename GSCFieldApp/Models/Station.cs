@@ -31,6 +31,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStationObsType)]
         public string StationObsType { get; set; }
 
+        [Column(DatabaseLiterals.FieldStationObsSource)]
+        public string StationObsSource { get; set; }
+
         [Column(DatabaseLiterals.FieldStationOCSize)]
         public string StationOCSize { get; set; }
 
@@ -48,6 +51,9 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldStationSLSNote)]
         public string StationSLSNotes { get; set; }
+
+        [Column(DatabaseLiterals.FieldStationRelatedTo)]
+        public string StationRelatedTo { get; set; }
 
         [Column(DatabaseLiterals.FieldStationAirPhotoNumber)]
         public string StationAirNo { get; set; }
@@ -107,6 +113,14 @@ namespace GSCFieldApp.Models
                 }
 
                 stationFieldList[DatabaseLiterals.DBVersion] = stationFieldListDefault;
+
+                //Revert schema 1.6 changes. 
+                List<string> stationFieldList150 = new List<string>();
+                stationFieldList150.AddRange(stationFieldListDefault);
+                stationFieldList150.Remove(DatabaseLiterals.FieldStationRelatedTo);
+                stationFieldList150.Remove(DatabaseLiterals.FieldStationObsSource);
+
+                stationFieldList[DatabaseLiterals.DBVersion150] = stationFieldList150;
 
                 //Revert schema 1.5 changes. 
                 List<string> stationFieldList144 = new List<string>();

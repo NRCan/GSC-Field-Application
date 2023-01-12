@@ -10,6 +10,8 @@ using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Dictionaries;
 using Windows.UI.Xaml;
 using SQLite;
+using Windows.UI.Core;
+using Windows.ApplicationModel.Resources;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 
@@ -20,6 +22,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         //ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
         public static DataLocalSettings localSetting;
+        public ResourceLoader local = null;
 
         public static string _dbPath = string.Empty;
         public static string _dbName = string.Empty;
@@ -33,6 +36,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 localSetting = new DataLocalSettings();
             }
+
+            local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
         }
 
         #region DB MANAGEMENT METHODS
@@ -164,31 +169,38 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="inApplicationPathToFile">The folder inside the project containing the file to copy and the file itself, ex: ModelResources/GSCFieldWork.sqlite</param>
         public async Task WriteResourceToFile(StorageFolder inFolder, string inApplicationPathToFile, string newFileNameWithExt)
         {
-
-            // Create or overwrite file target file in local app data folder
-            StorageFile fileToWrite = await inFolder.CreateFileAsync(newFileNameWithExt, CreationCollisionOption.GenerateUniqueName);
-
-            // Open file in application package
-            StorageFile fileToRead = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + inApplicationPathToFile, UriKind.Absolute));
-
-            byte[] buffer = new byte[1024];
-            using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
+            try
             {
-                using (BinaryReader fileReader = new BinaryReader(await fileToRead.OpenStreamForReadAsync()))
+                // Create or overwrite file target file in local app data folder
+                StorageFile fileToWrite = await inFolder.CreateFileAsync(newFileNameWithExt, CreationCollisionOption.GenerateUniqueName);
+
+                // Open file in application package
+                StorageFile fileToRead = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + inApplicationPathToFile, UriKind.Absolute));
+
+                byte[] buffer = new byte[1024];
+                using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
                 {
-                    long readCount = 0;
-                    while (readCount < fileReader.BaseStream.Length)
+                    using (BinaryReader fileReader = new BinaryReader(await fileToRead.OpenStreamForReadAsync()))
                     {
-                        int read = fileReader.Read(buffer, 0, buffer.Length);
-                        readCount += read;
-                        fileWriter.Write(buffer, 0, read);
+                        long readCount = 0;
+                        while (readCount < fileReader.BaseStream.Length)
+                        {
+                            int read = fileReader.Read(buffer, 0, buffer.Length);
+                            readCount += read;
+                            fileWriter.Write(buffer, 0, read);
+                        }
                     }
                 }
+
+
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToWrite);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToRead);
+            }
+            catch (Exception e)
+            {
+                throw;
             }
 
-
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToWrite);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fileToRead);
 
         }
 
@@ -266,12 +278,12 @@ namespace GSCFieldApp.Services.DatabaseServices
                     if (doUpdate)
                     {
                         // update - Not working version 3.13 SQLite-Net UWP
-                        //int sucess = db.Update(tableObject);
+                        int sucess = inDB.Update(tableObject);
 
-                        //Update - To bypass update bug
-                        string upQuery = GetUpdateQueryFromClass(tableObject, inDB);
-                        SQLiteCommand command = inDB.CreateCommand(upQuery);
-                        command.ExecuteNonQuery();
+                        ////Update - To bypass update bug
+                        //string upQuery = GetUpdateQueryFromClass(tableObject, inDB);
+                        //SQLiteCommand command = inDB.CreateCommand(upQuery);
+                        //command.ExecuteNonQuery();
 
                     }
                     else
@@ -506,11 +518,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <summary>
         /// Will take an input database and will upgrade output database vocab tables (dictionaries) with latest coming from an input version
         /// </summary>
-        public void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, double dbVersion, bool closeConnection = true)
+        public async void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, double dbVersion, bool closeConnection = true)
         {
             //Will hold all queries needed to be committed
             List<string> queryList = new List<string>() {};
-
+            List<Exception> exceptionList = new List<Exception>();
 
             //Build attach db query
             string attachDBName = "db2";
@@ -525,11 +537,11 @@ namespace GSCFieldApp.Services.DatabaseServices
             //delete from M_DICTIONARY where M_DICTIONARY.VERSION != 1.5;
             //delete from M_DICTIONARY_MANAGER where M_DICTIONARY_MANAGER.VERSION != 1.5;
             string deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager +
-                " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
+                " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + dbVersion.ToString() + ";";
             string deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary +
-                " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + DatabaseLiterals.DBVersion.ToString() + ";";
+                " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + dbVersion.ToString() + ";";
 
-            if (dbVersion < 1.44)
+            if (dbVersion <= 1.44)
             {
                 //Version fields within dictionary didn't exist prior to version 1.5
                 deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager + ";";
@@ -584,9 +596,17 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             string insertQuery_vocab= "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
             insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
-            if (dbVersion > 1.5)
+            if (dbVersion >= 1.5)
             {
-                insertQuery_vocab = insertQuery_vocab + " WHERE v." + TableDictionary + "." + FieldDictionaryVersion + " is null or v." + TableDictionary + "." + FieldDictionaryVersion + " < " + DBVersion.ToString() + ";";
+                ////Remove possible collision between new and old dictionaries
+                //string deleteQuery_vocab_collision = "DELETE FROM " + DatabaseLiterals.TableDictionary + " WHERE " + DatabaseLiterals.FieldDictionaryTermID + " IN (SELECT vd." +
+                //    DatabaseLiterals.FieldDictionaryTermID + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as vd WHERE vd." + DatabaseLiterals.FieldDictionaryVersion +
+                //    " = " + DBVersion.ToString() + ");";
+
+                //queryList.Add(deleteQuery_vocab_collision);
+
+                insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() +  ") AND (v." +
+                    FieldDictionaryTermID + " NOT IN (SELECT v2." + FieldDictionaryTermID + " FROM " + TableDictionary + " as v2)); ";
             } 
                 
             queryList.Add(insertQuery_vocab);
@@ -639,7 +659,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_vocabM = insertQuery_vocabM + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionaryManager + " as vm";
             if (dbVersion >= 1.5)
             {
-                insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or vm." + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
+                insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + FieldDictionaryManagerVersion + " is null or vm." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
             }
             
             queryList.Add(insertQuery_vocabM);
@@ -663,7 +683,15 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     foreach (string q in queryList)
                     {
-                        db.Execute(q);
+                        try
+                        {
+                            db.Execute(q);
+                        }
+                        catch (Exception e)
+                        {
+                            exceptionList.Add(e);
+                        }
+                        
                     }
                     db.Commit();
                     db.Close();
@@ -673,9 +701,45 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 foreach (string q in queryList)
                 {
-                    vocabToDBConnection.Execute(q);
+                    try
+                    {
+                        vocabToDBConnection.Execute(q);
+                    }
+                    catch (Exception e)
+                    {
+                        exceptionList.Add(e);
+                    }
+                    
                 }
             }
+
+            if (exceptionList.Count > 0)
+            {
+                string wholeStack = string.Empty;
+
+                foreach (Exception es in exceptionList)
+                {
+
+                    wholeStack = wholeStack + "; " + es.Message + "; " + es.StackTrace;
+
+                }
+
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    ContentDialog deleteBookDialog = new ContentDialog()
+                    {
+                        Title = "DB Error",
+                        Content = wholeStack,
+                        PrimaryButtonText = "Bugger"
+                    };
+                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
+
+                }).AsTask();
+
+
+            }
+
 
         }
 
@@ -688,12 +752,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Variables
             string attachDBName = "dbUpgrade";
             double newVersionNumber = DatabaseLiterals.DBVersion;
+            List<Exception> exceptionList = new List<Exception>();
 
             //Untouched tables to upgrade
             List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata, 
                 DatabaseLiterals.TableEarthMat, DatabaseLiterals.TableSample, DatabaseLiterals.TableStation,
-                DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure,
-                DatabaseLiterals.TableEnvironment, DatabaseLiterals.TableFossil,
+                DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure, DatabaseLiterals.TableFossil,
                 DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,  
                 DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint , DatabaseLiterals.TableFieldCamp};
 
@@ -734,6 +798,20 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableDocument);
+
+                newVersionNumber = DatabaseLiterals.DBVersion150;
+            }
+
+            if (inDBVersion == 1.5)
+            {
+                queryList.AddRange(GetUpgradeQueryVersion1_6(attachDBName));
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableStation);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineral);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
+
+                newVersionNumber = DatabaseLiterals.DBVersion160;
             }
 
             //Insert remaining tables
@@ -760,14 +838,32 @@ namespace GSCFieldApp.Services.DatabaseServices
                 queryList.Add(vacuumQuery);
 
                 //Attach
-                outToDBConnection.Execute(attachQuery);
+                try
+                {
+                    outToDBConnection.Execute(attachQuery);
+                }
+                catch (Exception e)
+                {
+                    exceptionList.Add(e);
+
+                }
+
 
                 //Shut down foreign keys constraints
-                outToDBConnection.Execute(shutDownForeignConstraints);
+                try
+                {
+                    outToDBConnection.Execute(shutDownForeignConstraints);
+                }
+                catch (Exception e)
+                {
+                    exceptionList.Add(e);
+
+                }
+                
             }
 
             //Update working database
-            List<Exception> exceptionList = new List<Exception>();
+            
             using (var db = outToDBConnection)
             {
 
@@ -792,23 +888,30 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             }
 
-            foreach (Exception es in exceptionList)
+            if (exceptionList.Count > 0)
             {
-                ContentDialog deleteBookDialog = new ContentDialog()
-                {
-                    Title = "DB Error",
-                    Content = es.Message + "; " + es.StackTrace,
-                    PrimaryButtonText = "Bugger"
-                };
-                deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                ContentDialogResult cdr = await deleteBookDialog.ShowAsync();
+                string wholeStackUpgrade = string.Empty;
 
-                if (cdr == ContentDialogResult.Primary)
+                foreach (Exception es in exceptionList)
                 {
-                    
+                    wholeStackUpgrade = wholeStackUpgrade + "; " + es.Message + "; " + es.StackTrace;
                 }
 
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    ContentDialog deleteBookDialog = new ContentDialog()
+                    {
+                        Title = "DB Error",
+                        Content = wholeStackUpgrade,
+                        PrimaryButtonText = "Bugger"
+                    };
+                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, true);
+
+                }).AsTask();
+
             }
+
         }
 
         /// <summary>
@@ -845,13 +948,26 @@ namespace GSCFieldApp.Services.DatabaseServices
             string dbSchemaVersionQuery = "SELECT fm." + DatabaseLiterals.FieldUserInfoVersionSchema + " from " + DatabaseLiterals.TableMetadata + " fm";
 
             //Parse result
-            Metadata metadataQueryResult = new Metadata();
-            List<object> mVersions = ReadTable(metadataQueryResult.GetType(), dbSchemaVersionQuery);
-            metadataQueryResult = mVersions[0] as Metadata;
+            try
+            {
+                Metadata metadataQueryResult = new Metadata();
+                List<object> mVersions = ReadTable(metadataQueryResult.GetType(), dbSchemaVersionQuery);
+                metadataQueryResult = mVersions[0] as Metadata;
+                double d_mVersions = DBVersion142;
+                if (metadataQueryResult.VersionSchema != null)
+                {
+                    Double.TryParse(metadataQueryResult.VersionSchema.ToString(), out d_mVersions);
+                }
 
-            Double.TryParse(metadataQueryResult.VersionSchema.ToString(), out double d_mVersions);
+                return d_mVersions;
 
-            return d_mVersions;
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
         }
 
         #endregion
@@ -1320,6 +1436,44 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Finish the query with the where clause
                     updateQuery = updateQuery + " WHERE " + inMapping.PK.Name + " = '" + inMapping.FindColumn(inMapping.PK.Name).GetValue(inMineralAlt) + "'";
+
+                    break;
+                #endregion
+                #region Environment
+                case Dictionaries.DatabaseLiterals.TableEnvironment:
+
+                    EnvironmentModel inEnv = inClassObject as EnvironmentModel;
+
+                    //Iterate through fields and them to the query
+                    foreach (TableMapping.Column col in inMapping.Columns)
+                    {
+                        Type colType = col.ColumnType;
+
+                        var value = col.GetValue(inEnv);
+
+                        if (value != null)
+                        {
+                            if (colType == typeof(System.String))
+                            {
+                                value = '"' + value.ToString() + '"';
+                            }
+
+                            if (iterator > 0)
+                            {
+                                updateQuery = updateQuery + ", " + col.Name + " = " + value;
+                            }
+                            else
+                            {
+                                updateQuery = updateQuery + col.Name + " = " + value;
+                            }
+                            iterator++;
+                        }
+
+                    }
+
+
+                    //Finish the query with the where clause
+                    updateQuery = updateQuery + " WHERE " + inMapping.PK.Name + " = '" + inMapping.FindColumn(inMapping.PK.Name).GetValue(inEnv) + "'";
 
                     break;
                 #endregion
@@ -1989,12 +2143,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            #region F_ENVIRON
-
-            //There should be the same IDNAME to NAME swap here, but this table isn't yet implemented
-
-            #endregion
-
             #region F_METADATA
 
             Metadata modelMetadata = new Metadata();
@@ -2045,6 +2193,319 @@ namespace GSCFieldApp.Services.DatabaseServices
             #endregion
 
             return insertQuery_15;
+        }
+
+        /// <summary>
+        /// Will output a query to update database to version 1.6
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion1_6(string attachedDBName)
+        {
+            ///Schema v 1.6: 
+            ///https://github.com/NRCan/GSC-Field-Application/milestone/6
+            List<string> insertQuery_16 = new List<string>();
+
+            #region F_STATION
+
+            Station modelStation = new Station();
+            List<string> stationFieldList = modelStation.getFieldList[DBVersion160];
+            string station_querySelect = string.Empty;
+
+            foreach (string stationFields in stationFieldList)
+            {
+                //Get all fields except alias
+
+                if (stationFields != stationFieldList.First())
+                {
+                    if (stationFields == DatabaseLiterals.FieldStationRelatedTo)
+                    {
+
+                        station_querySelect = station_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldStationRelatedTo;
+                    }
+                    else if (stationFields == DatabaseLiterals.FieldStationObsSource)
+                    {
+
+                        station_querySelect = station_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldStationObsSource;
+                    }
+                    else
+                    {
+                        station_querySelect = station_querySelect + ", st." + stationFields + " as " + stationFields;
+                    }
+
+                }
+                else
+                {
+                    station_querySelect = " st." + stationFields + " as " + stationFields;
+                }
+
+            }
+            station_querySelect = station_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_station = "INSERT INTO " + DatabaseLiterals.TableStation + " SELECT " + station_querySelect;
+            insertQuery_16_station = insertQuery_16_station + " FROM " + attachedDBName + "." + DatabaseLiterals.TableStation + " as st";
+            insertQuery_16.Add(insertQuery_16_station);
+
+            #endregion
+
+            #region F_EARTH_MATERIAL
+            EarthMaterial modelEarth = new EarthMaterial();
+            List<string> earthFieldList = modelEarth.getFieldList[DBVersion160];
+            string earth_querySelect = string.Empty;
+
+            foreach (string earthFields in earthFieldList)
+            {
+                //Get all fields except alias
+
+                if (earthFields != earthFieldList.First())
+                {
+                    if (earthFields == DatabaseLiterals.FieldEarthMatPercent)
+                    {
+
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatPercent;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatMetaFacies)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatMetaFacies;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatMetaIntensity)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatMetaIntensity;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatMagQualifier)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatMagQualifier;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatModComp)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", et." + DatabaseLiterals.FieldEarthMatModCompDeprecated + " as " + DatabaseLiterals.FieldEarthMatModComp;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatContact)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", et." + DatabaseLiterals.FieldEarthMatContactDeprecated + " as " + DatabaseLiterals.FieldEarthMatContact;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatModTextStruc)
+                    {
+                        earth_querySelect = earth_querySelect +
+                            ", et." + DatabaseLiterals.FieldEarthMatModStrucDeprecated + " || ' | ' || et." + DatabaseLiterals.FieldEarthMatModTextureDeprecated + " as " + DatabaseLiterals.FieldEarthMatModTextStruc;
+                    }
+                    else
+                    {
+                        earth_querySelect = earth_querySelect + ", et." + earthFields + " as " + earthFields;
+                    }
+
+                }
+                else
+                {
+                    earth_querySelect = " et." + earthFields + " as " + earthFields;
+                }
+
+            }
+            earth_querySelect = earth_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_earth = "INSERT INTO " + DatabaseLiterals.TableEarthMat + " SELECT " + earth_querySelect;
+            insertQuery_16_earth = insertQuery_16_earth + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat + " as et";
+            insertQuery_16.Add(insertQuery_16_earth);
+
+            //Add some update queries so the textstruc field looks a bit nicer. The | character gets inserted no matter if there is a value or not.
+            string updateQuery_16_earth_pipe = "UPDATE " + DatabaseLiterals.TableEarthMat + " SET " + DatabaseLiterals.FieldEarthMatModTextStruc + " = NULL" +
+                " WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc + " = ' | ';";
+
+            string updateQuery_16_earth_pipe2 = "UPDATE " + DatabaseLiterals.TableEarthMat + " SET " + DatabaseLiterals.FieldEarthMatModTextStruc +
+                " = replace(" + DatabaseLiterals.FieldEarthMatModTextStruc + ", ' | ', '')" +" WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc + 
+                " LIKE '% | ' OR " + DatabaseLiterals.FieldEarthMatModTextStruc + " LIKE ' | %';";
+
+            #endregion
+
+            #region F_MINERAL
+            Mineral modelMineral = new Mineral();
+            List<string> mineralFieldList = modelMineral.getFieldList[DBVersion160];
+            string mineral_querySelect = string.Empty;
+
+            foreach (string minFields in mineralFieldList)
+            {
+                //Get all fields except alias
+
+                if (minFields != mineralFieldList.First())
+                {
+                    if (minFields == DatabaseLiterals.FieldMineralFormHabit)
+                    {
+
+                        mineral_querySelect = mineral_querySelect +
+                            ", m." + DatabaseLiterals.FieldMineralFormDeprecated + " || '" + KeywordConcatCharacter + "' || m." + DatabaseLiterals.FieldMineralHabitDeprecated + " as " + DatabaseLiterals.FieldMineralFormHabit;
+                    }
+                    else if (minFields == DatabaseLiterals.FieldMineralMAID)
+                    {
+                        mineral_querySelect = mineral_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralMAID;
+                    }
+                    else
+                    {
+                        mineral_querySelect = mineral_querySelect + ", m." + minFields + " as " + minFields;
+                    }
+
+                }
+                else
+                {
+                    mineral_querySelect = " m." + minFields + " as " + minFields;
+                }
+
+            }
+            mineral_querySelect = mineral_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_mineral = "INSERT INTO " + DatabaseLiterals.TableMineral + " SELECT " + mineral_querySelect;
+            insertQuery_16_mineral = insertQuery_16_mineral + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMineral + " as m";
+            insertQuery_16.Add(insertQuery_16_mineral);
+            #endregion
+
+            #region F_MINERAL COMING FROM F_MINERALIZATION_ALTERATION
+            DataIDCalculation idCal = new DataIDCalculation();
+
+            string mineral2_querySelect = string.Empty;
+
+            foreach (string minFields2 in mineralFieldList)
+            {
+                //Get all fields except alias
+
+                if (minFields2 != mineralFieldList.First())
+                {
+                    if (minFields2 == DatabaseLiterals.FieldMineralIDName)
+                    {
+
+                        mineral2_querySelect = mineral2_querySelect +
+                            ", m." + DatabaseLiterals.FieldMineralAlterationName + " || '-mineral'" + " as " + DatabaseLiterals.FieldMineralIDName;
+                    }
+                    else if (minFields2 == DatabaseLiterals.FieldMineral)
+                    {
+                        mineral2_querySelect = mineral2_querySelect +
+                            ", m." + DatabaseLiterals.FieldMineralAlterationMineralDeprecated + " as " + DatabaseLiterals.FieldMineral;
+                    }
+                    else if (minFields2 == DatabaseLiterals.FieldMineralMode)
+                    {
+                        mineral2_querySelect = mineral2_querySelect +
+                            ", m." + DatabaseLiterals.FieldMineralAlterationModeDeprecated + " as " + DatabaseLiterals.FieldMineralMode;
+                    }
+                    else
+                    {
+                        mineral2_querySelect = mineral2_querySelect + ", NULL as " + minFields2;
+                    }
+
+                }
+                else
+                {
+                    //Get a proper new GUID
+                    mineral2_querySelect = "'" + idCal.CalculateMineralID() + "'" + " as " + minFields2;
+                }
+
+            }
+            mineral2_querySelect = mineral2_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_mineral2 = "INSERT INTO " + DatabaseLiterals.TableMineral + " SELECT " + mineral2_querySelect;
+            insertQuery_16_mineral2 = insertQuery_16_mineral2 + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMineralAlteration + " as m";
+            insertQuery_16.Add(insertQuery_16_mineral2);
+
+
+            #endregion
+
+            #region F_LOCATION
+
+            FieldLocation modelLocation = new FieldLocation();
+            List<string> locationFieldList = modelLocation.getFieldList[DBVersion160];
+            string location_querySelect = string.Empty;
+
+            foreach (string locationFields in locationFieldList)
+            {
+                //Get all fields except alias
+
+                if (locationFields != locationFieldList.First())
+                {
+                    if (locationFields == DatabaseLiterals.FieldLocationNTS)
+                    {
+
+                        location_querySelect = location_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldLocationNTS;
+                    }
+                    else
+                    {
+                        location_querySelect = location_querySelect + ", l." + locationFields + " as " + locationFields;
+                    }
+
+                }
+                else
+                {
+                    location_querySelect = " l." + locationFields + " as " + locationFields;
+                }
+
+            }
+            location_querySelect = location_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_location = "INSERT INTO " + DatabaseLiterals.TableLocation + " SELECT " + location_querySelect;
+            insertQuery_16_location = insertQuery_16_location + " FROM " + attachedDBName + "." + DatabaseLiterals.TableLocation + " as l";
+            insertQuery_16.Add(insertQuery_16_location);
+
+            #endregion
+
+            #region F_MINERALIZATION_ALTERATION
+
+            MineralAlteration modelMA = new MineralAlteration();
+            List<string> maFieldList = modelMA.getFieldList[DBVersion160];
+            string ma_querySelect = string.Empty;
+
+            foreach (string malocationFields in maFieldList)
+            {
+                //Get all fields except alias
+
+                if (malocationFields != maFieldList.First())
+                {
+                    if (malocationFields == DatabaseLiterals.FieldMineralAlterationPhase)
+                    {
+
+                        ma_querySelect = ma_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralAlterationPhase;
+                    }
+                    else if (malocationFields == DatabaseLiterals.FieldMineralAlterationTexture)
+                    {
+
+                        ma_querySelect = ma_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralAlterationTexture;
+                    }
+                    else if (malocationFields == DatabaseLiterals.FieldMineralAlterationFacies)
+                    {
+
+                        ma_querySelect = ma_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralAlterationFacies;
+                    }
+                    else
+                    {
+                        ma_querySelect = ma_querySelect + ", ma." + malocationFields + " as " + malocationFields;
+                    }
+
+                }
+                else
+                {
+                    ma_querySelect = " ma." + malocationFields + " as " + malocationFields;
+                }
+
+            }
+            ma_querySelect = ma_querySelect.Replace(", ,", "");
+
+            string insertQuery_16_ma = "INSERT INTO " + DatabaseLiterals.TableMineralAlteration + " SELECT " + ma_querySelect;
+            insertQuery_16_ma = insertQuery_16_ma + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMineralAlteration + " as ma";
+            insertQuery_16.Add(insertQuery_16_ma);
+
+            #endregion
+
+            insertQuery_16.Add(updateQuery_16_earth_pipe);
+            insertQuery_16.Add(updateQuery_16_earth_pipe2);
+
+            return insertQuery_16;
         }
 
         /// <summary>

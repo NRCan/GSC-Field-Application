@@ -50,6 +50,9 @@
     <Color x:Key="FieldMineralAlterationColor">#647C64</Color>
     <Color x:Key="FieldMineralAlterationColorLight">#849684</Color>
 
+    <Color x:Key="FieldEnvironmentColor">#99cc00</Color>
+    <Color x:Key="FieldEnvironmentColorLight">#bfff00</Color>
+
     <Color x:Key="ReportPageInvalidBackground">Red</Color>
     <!---->
   
@@ -97,7 +100,10 @@
     
     <SolidColorBrush x:Key="FieldMineralAlterationColorBrush" Color="{StaticResource FieldMineralAlterationColor}"/>
     <SolidColorBrush x:Key="FieldMineralAlterationColorLightBrush" Color="{StaticResource FieldMineralAlterationColorLight}"/>
-    
+
+    <SolidColorBrush x:Key="FieldEnvironmentColorBrush" Color="{StaticResource FieldEnvironmentColor}"/>
+    <SolidColorBrush x:Key="FieldEnvironmentColorLightBrush" Color="{StaticResource FieldEnvironmentColorLight}"/>
+
     <SolidColorBrush x:Key="ReportPageInvalidBackgroundBrush" Color="{StaticResource ReportPageInvalidBackground}"/>
     
     <SolidColorBrush x:Key="MapViewBackgroundGridLightColorBrush" Color="{StaticResource MapViewBackgroundGridLightColor}"/>
@@ -440,6 +446,7 @@
         <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True"/>
         <Setter Property="RelativePanel.AlignRightWithPanel" Value="True"/>
     </Style>
+
 
     <Style TargetType="RelativePanel" x:Key="ParentPanel">
         <Setter Property="RelativePanel.AlignLeftWithPanel" Value="True"/>
@@ -1175,6 +1182,51 @@
                         SelectedPointerOverBackground="{ThemeResource FieldMineralAlterationColorLightBrush}"
                         PressedBackground="{ThemeResource FieldMineralAlterationColorLightBrush}"
                         SelectedPressedBackground="{ThemeResource FieldMineralAlterationColorBrush}"/>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="GridViewItem" x:Key="ReportPageGridViewEnvironmentItems">
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="TabNavigation" Value="Local"/>
+        <Setter Property="IsHoldingEnabled" Value="True"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+        <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewItem">
+                    <ListViewItemPresenter
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        SelectionCheckMarkVisualEnabled="True"
+                        CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                        DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                        FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                        FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                        PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" 
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        ContentMargin="{TemplateBinding Padding}"
+                        CheckMode="Inline"            
+                        PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                        SelectedBackground="{ThemeResource FieldEnvironmentColorLightBrush}"
+                        SelectedForeground="Black"
+                        SelectedPointerOverBackground="{ThemeResource FieldEnvironmentColorLightBrush}"
+                        PressedBackground="{ThemeResource FieldEnvironmentColorLightBrush}"
+                        SelectedPressedBackground="{ThemeResource FieldEnvironmentColorBrush}"/>
 
                 </ControlTemplate>
             </Setter.Value>

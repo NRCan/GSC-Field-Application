@@ -1,6 +1,7 @@
 ﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services.DatabaseServices;
 using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,11 +19,8 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldMineral)]
         public string MineralName { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralForm)]
-        public string MineralForm { get; set; }
-
-        [Column(DatabaseLiterals.FieldMineralHabit)]
-        public string MineralHabit { get; set; }
+        [Column(DatabaseLiterals.FieldMineralFormHabit)]
+        public string MineralFormHabit { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralOccurence)]
         public string MineralOccur { get; set; }
@@ -42,11 +40,12 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldMineralNote)]
         public string MineralNote { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralParentID)]
-        public string MineralParentID { get; set; }
+        [Column(DatabaseLiterals.FieldMineralEMID)]
+        public string MineralEMID { get; set; }
 
-        //Hierarchy
-        public string ParentName = DatabaseLiterals.TableEarthMat;
+        [Column(DatabaseLiterals.FieldMineralMAID)]
+        public string MineralMAID { get; set; }
+
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -106,6 +105,49 @@ namespace GSCFieldApp.Models
             }
 
             set { }
-        } 
+        }
+
+        /// <summary>
+        /// A list of all possible fields
+        /// </summary>
+        [Ignore]
+        public Dictionary<double, List<string>> getFieldList
+        {
+            get
+            {
+
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> mineralFieldList = new Dictionary<double, List<string>>();
+                List<string> mineralFieldListDefault = new List<string>();
+
+                mineralFieldListDefault.Add(DatabaseLiterals.FieldMineralID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        mineralFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                mineralFieldList[DatabaseLiterals.DBVersion] = mineralFieldListDefault;
+
+                //Revert schema 1.6 changes. 
+                List<string> mineralFieldList150 = new List<string>();
+                mineralFieldList150.AddRange(mineralFieldListDefault);
+                int removeIndex = mineralFieldList150.IndexOf(DatabaseLiterals.FieldMineralFormHabit);
+                mineralFieldList150.Remove(DatabaseLiterals.FieldMineralFormHabit);
+                mineralFieldList150.Insert(removeIndex, DatabaseLiterals.FieldMineralHabitDeprecated);
+                mineralFieldList150.Insert(removeIndex, DatabaseLiterals.FieldMineralFormDeprecated);
+
+                mineralFieldList150.Remove(DatabaseLiterals.FieldMineralMAID);
+
+                mineralFieldList[DatabaseLiterals.DBVersion150] = mineralFieldList150;
+
+                return mineralFieldList;
+            }
+            set { }
+        }
     }
 }

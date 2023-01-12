@@ -7,6 +7,9 @@ using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System.Text.RegularExpressions;
 using Windows.UI.Xaml.Controls;
+using GSCFieldApp.Dictionaries;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -19,6 +22,7 @@ namespace GSCFieldApp.ViewModels
         private string _earthmatid = string.Empty; //Default
         private string _stationid = string.Empty; //Detault
         private string _colourindex = "0";//Detault
+        private string _percent = "0"; //Default
         private string _contactNote = string.Empty;//Detault
         private string _interpretation = string.Empty;//Detault
         private string _mag = "0";//Detault
@@ -31,7 +35,16 @@ namespace GSCFieldApp.ViewModels
         public string level1Sep = Dictionaries.ApplicationLiterals.parentChildLevel1Seperator;
         public string level2Sep = Dictionaries.ApplicationLiterals.parentChildLevel2Seperator;
         public DataIDCalculation idCalculator = new DataIDCalculation();
-        readonly DataAccess accessData = new DataAccess();
+        DataAccess accessData = new DataAccess();
+        private string _earthResidualText = string.Empty;
+        private Models.Colour _earthColourW = new Models.Colour();
+        private Models.Colour _earthColourF = new Models.Colour();
+        private Models.Contacts _earthContact = new Contacts();
+
+        private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
+
+        private Dictionary<string, int> _earthResidualPercent = new Dictionary<string, int>(); //Will contain earth material Id and it's percent, for residual percent calculation
 
         public FieldNotes existingDataDetail;
        
@@ -55,14 +68,21 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem>_earthmatOccurAs = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatOccurAs = string.Empty;
 
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatMI = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatMI = string.Empty;
+
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatMF = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatMF = string.Empty;
+
         private ObservableCollection<Themes.ComboBoxItem> _earthmatMU= new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatMU= string.Empty;
 
-        private ObservableCollection<Themes.ComboBoxItem> _earthmatCU = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedEarthmatCU = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatContactTypes = new ObservableCollection<Themes.ComboBoxItem>();
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatContactNoteTypes = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatContactTypes = string.Empty;
 
-        private ObservableCollection<Themes.ComboBoxItem> _earthmatCL = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedEarthmatCL = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatRelated = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatRelated = string.Empty;
 
         private ObservableCollection<Themes.ComboBoxItem> _earthmatMineral = new ObservableCollection<Themes.ComboBoxItem>();
         private ObservableCollection<Themes.ComboBoxItem> _earthmatMineralValues = new ObservableCollection<Themes.ComboBoxItem>();
@@ -75,12 +95,19 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _earthmatBedthick = new ObservableCollection<Themes.ComboBoxItem>();
         private ObservableCollection<Themes.ComboBoxItem> _earthmatBedthickValues = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatBedthick = string.Empty;
-        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourF = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedEarthmatColourF = string.Empty;
-        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourW = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedEarthmatColourW = string.Empty;
+
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourG = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatColourG = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourI = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatColourI = string.Empty;
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatColourQ = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatColourQ = string.Empty;
+
         private ObservableCollection<Themes.ComboBoxItem> _earthmatInterConfidence = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatInterConfidence = string.Empty;
+
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatMagQualifier = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatMagQualifier = string.Empty;
 
         //Events and delegate
         public delegate void stationEditEventHandler(object sender); //A delegate for execution events
@@ -89,6 +116,8 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
+
+        public Visibility BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
 
         public EarthMaterial EarthModel { get { return earthmodel; } set { earthmodel = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
@@ -157,6 +186,43 @@ namespace GSCFieldApp.ViewModels
                 
             }
         }
+        public Models.Colour EarthColourF { get { return _earthColourF;  } set { _earthColourF = value; } }
+        public Models.Colour EarthColourW { get { return _earthColourW; } set { _earthColourW = value; } }
+        public Models.Contacts EartContact { get { return _earthContact; } set { _earthContact = value; } }
+        public string Percent
+        {
+            get
+            {
+                return _percent;
+            }
+            set
+            {
+                int index;
+                bool result = int.TryParse(value, out index);
+
+                if (result)
+                {
+                    if (index >= 0 && index <= 100)
+                    {
+                        _percent = value;
+                    }
+                    else
+                    {
+                        _percent = value = "0";
+                        RaisePropertyChanged("Percent");
+                    }
+
+                }
+                else
+                {
+                    _percent = value = "0";
+                    RaisePropertyChanged("Percent");
+                }
+
+
+            }
+        }
+        public string EarthResidualText { get { return _earthResidualText; } set { _earthResidualText = value; } }
         public string ContactNote { get { return _contactNote; } set { _contactNote = value; } }
         public string InterpretationNote { get { return _interpretation; } set { _interpretation = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
@@ -166,9 +232,6 @@ namespace GSCFieldApp.ViewModels
 
         public string GroupTypeDetail { get { return _groupTypeDetail; } set { _groupTypeDetail = value; } }
 
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatModStruc { get { return _earthmatModStruc; } set { _earthmatModStruc = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatModStrucValues { get { return _earthmatModStrucValues; } set { _earthmatModStrucValues = value; } }
-        public string SelectedEarthmatModStruc{get{if (_selectedEarthmatModStruc == null){return string.Empty;}else{return _selectedEarthmatModStruc;}} set { _selectedEarthmatModStruc = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatModTexture { get { return _earthmatModTexture; } set { _earthmatModTexture = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatModTextureValues { get { return _earthmatModTextureValues; } set { _earthmatModTextureValues = value; } }
         public string SelectedEarthmatModTexture { get { if (_selectedEarthmatModTexture == null) { return string.Empty; } else { return _selectedEarthmatModTexture; } } set { _selectedEarthmatModTexture = value; } }
@@ -186,23 +249,41 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> EarthmatBedthick { get { return _earthmatBedthick; } set { _earthmatBedthick = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatBedthickValues { get { return _earthmatBedthickValues; } set { _earthmatBedthickValues = value; } }
         public string SelectedEarthmatBedthick { get { if (_selectedEarthmatBedthick == null) { return string.Empty; } else { return _selectedEarthmatBedthick; } } set { _selectedEarthmatBedthick = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourF { get { return _earthmatColourF; } set { _earthmatColourF = value; } }
-        public string SelectedEarthmatColourF { get { if (_selectedEarthmatColourF == null) { return string.Empty; } else { return _selectedEarthmatColourF; } } set { _selectedEarthmatColourF = value; } }
+
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourGeneric { get { return _earthmatColourG; } set { _earthmatColourG = value; } }
+        public string SelectedEarthmatColourGeneric { get { if (_selectedEarthmatColourG == null) { return string.Empty; } else { return _selectedEarthmatColourG; } } set { _selectedEarthmatColourG = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourIntensity { get { return _earthmatColourI; } set { _earthmatColourI = value; } }
+        public string SelectedEarthmatColourIntensity { get { if (_selectedEarthmatColourI == null) { return string.Empty; } else { return _selectedEarthmatColourI; } } set { _selectedEarthmatColourI = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourQualifier { get { return _earthmatColourQ; } set { _earthmatColourQ = value; } }
+        public string SelectedEarthmatColourQualifier { get { if (_selectedEarthmatColourQ == null) { return string.Empty; } else { return _selectedEarthmatColourQ; } } set { _selectedEarthmatColourQ = value; } }
+
 
         public ObservableCollection<Themes.ComboBoxItem> EarthmatMineral { get { return _earthmatMineral; } set { _earthmatMineral = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatMineralValues { get { return _earthmatMineralValues; } set { _earthmatMineralValues = value; } }
         public string SelectedEarthmatMineral { get { if (_selectedEarthmatMineral == null) { return string.Empty; } else { return _selectedEarthmatMineral; } } set { _selectedEarthmatMineral = value; } }
 
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatMF { get { return _earthmatMF; } set { _earthmatMF = value; } }
+        public string SelectedEarthmatMF { get { if (_selectedEarthmatMF == null) { return string.Empty; } else { return _selectedEarthmatMF; } } set { _selectedEarthmatMF = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatMI { get { return _earthmatMI; } set { _earthmatMI = value; } }
+        public string SelectedEarthmatMI { get { if (_selectedEarthmatMI == null) { return string.Empty; } else { return _selectedEarthmatMI; } } set { _selectedEarthmatMI = value; } }
+
         public ObservableCollection<Themes.ComboBoxItem> EarthmatMU { get { return _earthmatMU; } set { _earthmatMU = value; } }
         public string SelectedEarthmatMU { get { if (_selectedEarthmatMU == null) { return string.Empty; } else { return _selectedEarthmatMU; } } set { _selectedEarthmatMU = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatCU { get { return _earthmatCU; } set { _earthmatCU = value; } }
-        public string SelectedEarthmatCU { get { if (_selectedEarthmatCU == null) { return string.Empty; } else { return _selectedEarthmatCU; } } set { _selectedEarthmatCU = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatCL { get { return _earthmatCL; } set { _earthmatCL = value; } }
-        public string SelectedEarthmatCL { get { if (_selectedEarthmatCL == null) { return string.Empty; } else { return _selectedEarthmatCL; } } set { _selectedEarthmatCL = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EarthmatColourW { get { return _earthmatColourW; } set { _earthmatColourW = value; } }
-        public string SelectedEarthmatColourW { get { if (_selectedEarthmatColourW == null) { return string.Empty; } else { return _selectedEarthmatColourW; } } set { _selectedEarthmatColourW = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatContactTypes { get { return _earthmatContactTypes; } set { _earthmatContactTypes = value; } }
+        public string SelectedEarthmatContactTypes { get { if (_selectedEarthmatContactTypes == null) { return string.Empty; } else { return _selectedEarthmatContactTypes; } } set { _selectedEarthmatContactTypes = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatContactNoteTypes { get { return _earthmatContactNoteTypes; } set { _earthmatContactNoteTypes = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatRelated { get { return _earthmatRelated; } set { _earthmatRelated = value; } }
+        public string SelectedEarthmatRelated { get { if (_selectedEarthmatRelated == null) { return string.Empty; } else { return _selectedEarthmatRelated; } } set { _selectedEarthmatRelated = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EarthmatInterConfidence { get { return _earthmatInterConfidence; } set { _earthmatInterConfidence = value; } }
         public string SelectedEarthmatInterConfidence { get { if (_selectedEarthmatInterConfidence == null) { return string.Empty; } else { return _selectedEarthmatInterConfidence; } } set { _selectedEarthmatInterConfidence = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> MagQualifier { get { return _earthmatMagQualifier; } set { _earthmatMagQualifier = value; } }
+        public string SelectedMagQualifier { get { if (_selectedEarthmatMagQualifier == null) { return string.Empty; } else { return _selectedEarthmatMagQualifier; } } set { _selectedEarthmatMagQualifier = value; } }
 
 
         #endregion
@@ -221,24 +302,68 @@ namespace GSCFieldApp.ViewModels
                 _alias = idCalculator.CalculateEarthmatnAlias(_stationid, inDetailModel.GenericAliasName);
             }
 
-            //Fill some first order comboboxes
-            FillDefFabric();
-            FillBedthick();
-            FillColourF();
-            FillMU();
-            FillContactU();
-            FillContactL();
-            FillColourW();
-            FillInterConfidence();
-            FillMineral();
+            //Will enable/disable some fields based on bedrock or surficial usage
+            SetFieldVisibility();
 
-            //Fill second order comboboxes (dependant on selected litho type)
-            //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
-            FillModComp();
-            FillModStruc();
-            FillModTexture();
-            FillGrSize();
-            FillOccur();
+            if (_bedrockVisibility == Visibility.Visible)
+            {
+                //Fill some first order comboboxes
+                FillDefFabric();
+                FillBedthick();
+                FillContactU();
+
+                FillRelatedEarthmat();
+                FillInterConfidence();
+                FillMineral();
+
+                FillMagQualifier();
+                FillMetaIntensity();
+                FillMetaFacies();
+
+                //Fill second order comboboxes (dependant on selected litho type)
+                //NOTE: needs at least to be initialized and filled at init, else re-selecting an item after init doesn't seem to work.
+                FillModComp();
+                FillModTextureStructure();
+                FillGrSize();
+                FillOccur();
+            }
+
+            FillMU();
+            FillColourG();
+            FillColourI();
+            FillColourQ();
+
+            if (existingDataDetail != null && existingDataDetail.GenericID != null)
+            {
+                CalculateResidual();
+            }
+
+
+        }
+
+        /// <summary>
+        /// Will set visibility based on a bedrock or surficial field book
+        /// </summary>
+        private void SetFieldVisibility()
+        {
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
+            {
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                {
+                    _bedrockVisibility = Visibility.Visible;
+                }
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                {
+                    _bedrockVisibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                //Fallback
+                _bedrockVisibility = Visibility.Visible;
+            }
+
+            RaisePropertyChanged("BedrockVisibility");
         }
 
         /// <summary>
@@ -255,7 +380,7 @@ namespace GSCFieldApp.ViewModels
             _stationid = existingDataDetail.ParentID;
             _alias = existingDataDetail.earthmat.EarthMatName;
             _interpretation = existingDataDetail.earthmat.EarthMatInterp;
-            _contactNote = existingDataDetail.earthmat.EarthMatContact;
+            //_contactNote = existingDataDetail.earthmat.EarthMatContact;
             _colourindex = existingDataDetail.earthmat.EarthMatColourInd.ToString();
             _mag = existingDataDetail.earthmat.EarthMatMagSuscept.ToString();
             _groupTypeDetail = existingDataDetail.earthmat.getGroupTypeDetail;
@@ -263,18 +388,22 @@ namespace GSCFieldApp.ViewModels
             _lithoDetail = existingDataDetail.earthmat.EarthMatLithdetail;
             _lithoGroup = existingDataDetail.earthmat.EarthMatLithgroup;
             _notes = existingDataDetail.earthmat.EarthMatNotes;
+            _percent = existingDataDetail.earthmat.EarthMatPercent.ToString();
+
+            _earthColourW = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourW);
+            _earthColourF = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourF);
+            //_earthContact = new Contacts().fromString(existingDataDetail.earthmat.EarthMatContact);
 
             //Update list view
             UnPipeValues(existingDataDetail.earthmat.EarthMatDefabric, Dictionaries.DatabaseLiterals.FieldEarthMatDefabric);
             UnPipeValues(existingDataDetail.earthmat.EarthMatBedthick, Dictionaries.DatabaseLiterals.FieldEarthMatBedthick);
+            UnPipeValues(existingDataDetail.earthmat.EarthMatContact, Dictionaries.DatabaseLiterals.FieldEarthMatContact);
 
-            _selectedEarthmatColourF = existingDataDetail.earthmat.EarthMatColourF;
             _selectedEarthmatMU = existingDataDetail.earthmat.EarthMatMapunit;
             _selectedEarthmatInterConfidence = existingDataDetail.earthmat.EarthMatInterpConf;
-            _selectedEarthmatColourW = existingDataDetail.earthmat.EarthMatColourW;
-            _selectedEarthmatCU = existingDataDetail.earthmat.EarthMatContactUp;
-            _selectedEarthmatCL = existingDataDetail.earthmat.EarthMatContactLow;
-
+            _selectedEarthmatMagQualifier = existingDataDetail.earthmat.EarthMatMagQualifier;
+            _selectedEarthmatMI = existingDataDetail.earthmat.EarthMatMetaIntensity;
+            _selectedEarthmatMF = existingDataDetail.earthmat.EarthMatMetaIFacies;
 
             //Update UI
             RaisePropertyChanged("EarthmatID");
@@ -286,36 +415,34 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MagSusceptibility");
             RaisePropertyChanged("LithoType");
             RaisePropertyChanged("GroupTypeDetail");
+            RaisePropertyChanged("Percent");
+            RaisePropertyChanged("EarthColourF");
+            RaisePropertyChanged("EarthColourW");
 
-            if (_selectedEarthmatColourF!=null)
-            {
-                RaisePropertyChanged("SelectedEarthmatColourF");
-            }
             if (_selectedEarthmatMU!=null)
             {
                 RaisePropertyChanged("SelectedEarthmatMU");
-            }
-            if (_selectedEarthmatCL != null)
-            {
-                RaisePropertyChanged("SelectedEarthmatCL");
-            }
-            if (_selectedEarthmatCU != null)
-            {
-                RaisePropertyChanged("SelectedEarthmatCU");
-            }
-            if (_selectedEarthmatColourW != null)
-            {
-                RaisePropertyChanged("SelectedEarthmatColourW");
             }
             if (_selectedEarthmatInterConfidence != null)
             {
                 RaisePropertyChanged("SelectedEarthmatInterConfidence");
             }
-
+            if (_selectedEarthmatMagQualifier != null)
+            {
+                RaisePropertyChanged("SelectedMagQualifier");
+            }
+            if (_selectedEarthmatMI != null)
+            {
+                RaisePropertyChanged("SelectedEarthmatMI");
+            }
+            if (_selectedEarthmatMF != null)
+            {
+                RaisePropertyChanged("SelectedEarthmatMF");
+            }
             //Special case for minerals
             List<object> mineralTableRaw = accessData.ReadTable(mineralModel.GetType(), null);
             IEnumerable<Mineral> mineralTable = mineralTableRaw.Cast<Mineral>(); //Cast to proper list type
-            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralParentID == _earthmatid select e;
+            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == _earthmatid select e;
             if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
             {
                 foreach (Mineral mns in mineralParentEarth)
@@ -339,8 +466,7 @@ namespace GSCFieldApp.ViewModels
         public void AutoFillDialog2ndRound(FieldNotes incomingData)
         {
             //Refill some comboboxes
-            FillModStruc();
-            FillModTexture();
+            FillModTextureStructure();
             FillModComp();
             FillGrSize();
             FillOccur();
@@ -349,14 +475,12 @@ namespace GSCFieldApp.ViewModels
             existingDataDetail = incomingData;
 
             //Set
-            _selectedEarthmatModStruc = existingDataDetail.earthmat.EarthMatModStruc;
-            _selectedEarthmatModTexture = existingDataDetail.earthmat.EarthMatModTextur;
+            _selectedEarthmatModTexture = existingDataDetail.earthmat.EarthMatModTextStruc;
             _selectedEarthmatModComp = existingDataDetail.earthmat.EarthMatModComp;
             _selectedEarthmatGrSize = existingDataDetail.earthmat.EarthMatGrSize;
 
             //Update list view
-            UnPipeValues(existingDataDetail.earthmat.EarthMatModStruc, Dictionaries.DatabaseLiterals.FieldEarthMatModStruc);
-            UnPipeValues(existingDataDetail.earthmat.EarthMatModTextur, Dictionaries.DatabaseLiterals.FieldEarthMatModTexture);
+            UnPipeValues(existingDataDetail.earthmat.EarthMatModTextStruc, Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc);
             UnPipeValues(existingDataDetail.earthmat.EarthMatModComp, Dictionaries.DatabaseLiterals.FieldEarthMatModComp);
             UnPipeValues(existingDataDetail.earthmat.EarthMatGrSize, Dictionaries.DatabaseLiterals.FieldEarthMatGrSize);
 
@@ -385,16 +509,16 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatName = _alias;
             earthmodel.EarthMatMagSuscept = double.Parse(_mag);
             earthmodel.EarthMatColourInd = int.Parse(_colourindex);
-            earthmodel.EarthMatContact = _contactNote;
+            //earthmodel.EarthMatContact = _contactNote;
             earthmodel.EarthMatInterp = _interpretation;
             earthmodel.EarthMatNotes = _notes;
-            if (SelectedEarthmatModStruc != null)
-            {
-                earthmodel.EarthMatModStruc = PipePurposes(_earthmatModStrucValues); //process list of values so they are concatenated.
-            }
+            earthmodel.EarthMatPercent = int.Parse(_percent);
+            earthmodel.EarthMatColourF = _earthColourF.ToString();
+            earthmodel.EarthMatColourW = _earthColourW.ToString();
+
             if (SelectedEarthmatModTexture != null)
             {
-                earthmodel.EarthMatModTextur = PipePurposes(_earthmatModTextureValues); //process list of values so they are concatenated.
+                earthmodel.EarthMatModTextStruc = PipePurposes(_earthmatModTextureValues); //process list of values so they are concatenated.
             }
             if (SelectedEarthmatModComp != null)
             {
@@ -403,6 +527,10 @@ namespace GSCFieldApp.ViewModels
             if (SelectedEarthmatGrSize != null)
             {
                 earthmodel.EarthMatGrSize = PipePurposes(_earthmatGrSizeValues); //process list of values so they are concatenated.
+            }
+            if (EarthmatContactNoteTypes != null)
+            {
+                earthmodel.EarthMatContact = PipePurposes(_earthmatContactNoteTypes); //process list of values so they are concatenated.
             }
             if (SelectedEarthmatOccurAs != null)
             {
@@ -416,29 +544,21 @@ namespace GSCFieldApp.ViewModels
             {
                 earthmodel.EarthMatBedthick = PipePurposes(_earthmatBedthickValues); //process list of values so they are concatenated.
             }
-            if (SelectedEarthmatColourF != null)
-            {
-                earthmodel.EarthMatColourF = SelectedEarthmatColourF;
-            }
             if (SelectedEarthmatMU != null)
             {
                 earthmodel.EarthMatMapunit = SelectedEarthmatMU;
             }
-            if (SelectedEarthmatColourW != null)
-            {
-                earthmodel.EarthMatColourW = SelectedEarthmatColourW;
-            }
-            if (SelectedEarthmatCL != null)
-            {
-                earthmodel.EarthMatContactLow = SelectedEarthmatCL;
-            }
-            if (SelectedEarthmatCU != null)
-            {
-                earthmodel.EarthMatContactUp = SelectedEarthmatCU;
-            }
             if (SelectedEarthmatInterConfidence != null)
             {
                 earthmodel.EarthMatInterpConf = SelectedEarthmatInterConfidence;
+            }
+            if (SelectedEarthmatMI != null)
+            {
+                earthmodel.EarthMatMetaIntensity = SelectedEarthmatMI;
+            }
+            if (SelectedEarthmatMF != null)
+            {
+                earthmodel.EarthMatMetaIFacies = SelectedEarthmatMF;
             }
             if (_groupTypeDetail != string.Empty)
             {
@@ -468,28 +588,32 @@ namespace GSCFieldApp.ViewModels
                 }
                 
             }
-
+            if (SelectedMagQualifier != null)
+            {
+                earthmodel.EarthMatMagQualifier = SelectedMagQualifier;
+            }
             //Save model class
             accessData.SaveFromSQLTableObject(earthmodel, doEarthUpdate);
 
             //Special case for minerals
             if (EarthmatMineralValues.Count != 0)
             {
-                FieldNotes earthModelToSave = new FieldNotes
-                {
-                    earthmat = earthmodel
-                };
-
+                FieldNotes earthModelToSave = new FieldNotes();
+                earthModelToSave.earthmat = earthmodel;
+                MineralViewModel minVM = new MineralViewModel(earthModelToSave);
+                List<string> listOfMinerals = new List<string>();
                 foreach (Themes.ComboBoxItem mins in EarthmatMineralValues)
                 {
                     //Save only if the mineral was a new added one, prevent duplicates
                     if (mins.canRemoveItem == Windows.UI.Xaml.Visibility.Visible)
                     {
-                        MineralViewModel minVM = new MineralViewModel(earthModelToSave);
-                        minVM.QuickMineralRecordOnly(existingDataDetail, mins.itemValue);
+                        listOfMinerals.Add(mins.itemValue);
+                        
                     }
 
                 }
+
+                minVM.QuickMineralRecordOnly(existingDataDetail, listOfMinerals, Dictionaries.DatabaseLiterals.TableEarthMat);
 
             }
 
@@ -510,8 +634,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("GroupTypeDetail");
 
             FillModComp();
-            FillModStruc();
-            FillModTexture();
+            FillModTextureStructure();
             FillGrSize();
             FillOccur();
         }
@@ -547,64 +670,11 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("EarthmatMU");
             RaisePropertyChanged("SelectedEarthmatMU");
         }
-        /// <summary>
-        /// Will fill the structural model combobox
-        /// </summary>
-        public void FillModStruc()
-        {
-            _earthmatModStruc.Clear();
-            RaisePropertyChanged("EarthmatModStruc");
-            _earthmatModStrucValues.Clear();
-            RaisePropertyChanged("EarthmatModStrucValues"); 
-
-            //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatModStruc;
-            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
-
-            #region Earthmat structural modal
-
-            //Get lithgroup value
-            string eStruc = string.Empty;
-            if (_groupTypeDetail.Contains(level1Sep))
-            {
-                eStruc = Regex.Split(_groupTypeDetail, level1Sep)[0];
-            }
-            else if (_groupTypeDetail.Contains(level2Sep))
-            {
-                eStruc = Regex.Split(_groupTypeDetail, level2Sep)[0];
-            }
-
-            List<Vocabularies> mStruc = new List<Vocabularies>(); 
-
-            if (eStruc != string.Empty && eStruc != " " && eStruc != "")
-            {
-                mStruc = accessData.GetPicklistValuesFromParent(tableName, fieldName, eStruc, false).ToList();
-            }
-            else
-            {
-                mStruc = accessData.GetPicklistValuesFromParent(tableName, fieldName, "X", false).ToList();
-            }
-
-            //Fill in cbox
-            foreach (var item in accessData.GetComboboxListFromVocab(mStruc, out _selectedEarthmatModStruc))
-            {
-                _earthmatModStruc.Add(item);
-            }
-            
-
-            //Update UI
-            RaisePropertyChanged("EarthmatModStruc");
-            RaisePropertyChanged("SelectedEarthmatModStruc");
-
-            #endregion
-
-
-        }
 
         /// <summary>
         /// Will fill the textural model combobox
         /// </summary>
-        public void FillModTexture()
+        public void FillModTextureStructure()
         {
             _earthmatModTexture.Clear();
             RaisePropertyChanged("EarthmatModTexture");
@@ -612,7 +682,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("EarthmatModTextureValues"); 
 
             //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatModTexture;
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc;
             string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
 
             #region Earthmat structural modal
@@ -857,43 +927,66 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will fill the material colour combobox
         /// </summary>
-        public void FillColourF()
+        public void FillColourG()
         {
 
             //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatColourF;
+            string fieldName = Dictionaries.DatabaseLiterals.KeywordColourGeneric;
             string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
-            foreach (var itemCF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourF))
+            foreach (var itemCF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourG))
             {
-                _earthmatColourF.Add(itemCF);
+                _earthmatColourG.Add(itemCF);
             }
-            
+
 
             //Update UI
-            RaisePropertyChanged("EarthmatColourF");
-            RaisePropertyChanged("SelectedEarthmatColourF");
+            RaisePropertyChanged("EarthmatColourGeneric");
+            RaisePropertyChanged("SelectedEarthmatColourGeneric");
 
         }
+
         /// <summary>
         /// Will fill the material colour combobox
         /// </summary>
-        public void FillColourW()
+        public void FillColourI()
         {
 
             //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatColourW;
+            string fieldName = Dictionaries.DatabaseLiterals.KeywordColourIntensity;
             string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
-            foreach (var itemCW in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourW))
+            foreach (var itemCF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourI))
             {
-                _earthmatColourW.Add(itemCW);
+                _earthmatColourI.Add(itemCF);
             }
 
 
             //Update UI
-            RaisePropertyChanged("EarthmatColourW");
-            RaisePropertyChanged("SelectedEarthmatColourW");
+            RaisePropertyChanged("EarthmatColourIntensity");
+            RaisePropertyChanged("SelectedEarthmatColourIntensity");
 
         }
+
+        // <summary>
+        /// Will fill the material colour combobox
+        /// </summary>
+        public void FillColourQ()
+        {
+
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.KeywordColourQualifier;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemCF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatColourQ))
+            {
+                _earthmatColourQ.Add(itemCF);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("EarthmatColourQualifier");
+            RaisePropertyChanged("SelectedEarthmatColourQualifier");
+
+        }
+
         /// <summary>
         /// Will fill the material contact combobox
         /// </summary>
@@ -903,38 +996,44 @@ namespace GSCFieldApp.ViewModels
             //Init.
             string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatContactUp;
             string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
-            foreach (var itemCU in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatCU))
+            foreach (var itemCU in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatContactTypes))
             {
-                _earthmatCU.Add(itemCU);
+                _earthmatContactTypes.Add(itemCU);
             }
             
 
             //Update UI
-            RaisePropertyChanged("EarthmatCU");
-            RaisePropertyChanged("SelectedEarthmatCU");
+            RaisePropertyChanged("EarthmatContactTypes ");
+            RaisePropertyChanged("SelectedEarthmatContactTypes ");
 
         }
         /// <summary>
-        /// Will fill the material contact combobox
+        /// Will fill with all other earthmaterial associated with parent station
         /// </summary>
-        public void FillContactL()
+        public void FillRelatedEarthmat()
         {
-
-            //Init.
-            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatContactLow;
-            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
-            foreach (var itemCL in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatCL))
+            if (existingDataDetail != null &&  existingDataDetail.station !=null)
             {
-                _earthmatCL.Add(itemCL);
+                //Init.
+                string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + existingDataDetail.station.StationID + "'";
+                List<object> relatedEarths = accessData.ReadTable(earthmodel.GetType(), filterEarthmats);
+                IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
+
+                foreach (EarthMaterial ea in earths)
+                {
+                    Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
+                    newItem.itemValue = ea.EarthMatName;
+                    newItem.itemName = ea.EarthMatName;
+                    _earthmatRelated.Add(newItem);
+                }
+
+
+                //Update UI
+                RaisePropertyChanged("EarthmatRelated");
             }
 
 
-            //Update UI
-            RaisePropertyChanged("EarthmatCL");
-            RaisePropertyChanged("SelectedEarthmatCL");
-
         }
-
         public void FillInterConfidence()
         {
             //Init.
@@ -950,6 +1049,64 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("EarthmatInterConfidence");
             RaisePropertyChanged("SelectedEarthmatInterConfidence"); 
         }
+
+        /// <summary>
+        /// will fill in the mag qualifier combobox
+        /// </summary>
+        public void FillMagQualifier()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatMagQualifier;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemIC in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatMagQualifier))
+            {
+                _earthmatMagQualifier.Add(itemIC);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("MagQualifier");
+            RaisePropertyChanged("SelectedMagQualifier");
+        }
+
+        /// <summary>
+        /// will fill in metamorphic facies intensity combobox
+        /// </summary>
+        public void FillMetaIntensity()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatMetaIntensity;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemIC in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatMI))
+            {
+                _earthmatMI.Add(itemIC);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("EarthmatMI");
+            RaisePropertyChanged("SelectedEarthmatMI"); 
+        }
+
+        /// <summary>
+        /// Will fill in metamorphic facies combobox
+        /// </summary>
+        public void FillMetaFacies()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatMetaFacies;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemIF in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatMF))
+            {
+                _earthmatMF.Add(itemIF);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("EarthmatMF");
+            RaisePropertyChanged("SelectedEarthmatMF");
+        }
+
         #endregion
 
         #region QUICKIE
@@ -974,13 +1131,11 @@ namespace GSCFieldApp.ViewModels
             //Save model class
             accessData.SaveFromSQLTableObject(earthmodel, false);
 
-            FieldNotes outputEarthmatReport = new FieldNotes
-            {
-                earthmat = earthmodel,
-                ParentID = quickStationReport.station.StationID,
-                ParentTableName = Dictionaries.DatabaseLiterals.TableStation,
-                GenericID = earthmodel.EarthMatID.ToString()
-            };
+            FieldNotes outputEarthmatReport = new FieldNotes();
+            outputEarthmatReport.earthmat = earthmodel;
+            outputEarthmatReport.ParentID = quickStationReport.station.StationID;
+            outputEarthmatReport.ParentTableName = Dictionaries.DatabaseLiterals.TableStation;
+            outputEarthmatReport.GenericID = earthmodel.EarthMatID.ToString();
 
             return outputEarthmatReport;
         }
@@ -998,12 +1153,7 @@ namespace GSCFieldApp.ViewModels
 
             Themes.ComboBoxItem oldValue = inPurpose as Themes.ComboBoxItem;
 
-            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModStruc.ToLower()))
-            {
-                _earthmatModStrucValues.Remove(oldValue);
-                RaisePropertyChanged("EarthmatModStrucValues");
-            }
-            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTexture.ToLower()))
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc.ToLower()))
             {
                 _earthmatModTextureValues.Remove(oldValue);
                 RaisePropertyChanged("EarthmatModTextureValues");
@@ -1033,7 +1183,11 @@ namespace GSCFieldApp.ViewModels
                 _earthmatMineralValues.Remove(oldValue);
                 RaisePropertyChanged("EarthmatMineralValues");
             }
-
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatContact.ToLower()))
+            {
+                _earthmatContactNoteTypes.Remove(oldValue);
+                RaisePropertyChanged("EarthmatContactNoteTypes");
+            }
         }
 
         /// <summary>
@@ -1110,14 +1264,7 @@ namespace GSCFieldApp.ViewModels
                     NameToValidate = fieldName;
                 }
 
-                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModStruc.ToLower()))
-                {
-                    parentCollection = EarthmatModStruc;
-                    parentConcatCollection = _earthmatModStrucValues;
-                    parentProperty = "EarthmatModStruc";
-
-                }
-                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTexture.ToLower()))
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc.ToLower()))
                 {
                     parentCollection = EarthmatModTexture;
                     parentConcatCollection = _earthmatModTextureValues;
@@ -1152,6 +1299,15 @@ namespace GSCFieldApp.ViewModels
                     parentCollection = EarthmatMineral;
                     parentConcatCollection = _earthmatMineralValues;
                     parentProperty = "EarthmatMineral";
+
+                }
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatContactDeprecated.ToLower()))
+                {
+                    parentCollection = EarthmatContactNoteTypes;
+                    parentConcatCollection = _earthmatContactNoteTypes;
+                    parentProperty = "EarthmatContactNoteTypes";
+
+                    newValue.itemName = valueToAdd;
 
                 }
                 #endregion
@@ -1226,11 +1382,7 @@ namespace GSCFieldApp.ViewModels
 
             //Clean values first
             ObservableCollection<Themes.ComboBoxItem> collectionToClean = null;
-            if (databaseTableField.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModStruc.ToLower()))
-            {
-                collectionToClean = _earthmatModStrucValues;
-            }
-            if (databaseTableField.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTexture.ToLower()))
+            if (databaseTableField.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatModTextStruc.ToLower()))
             {
                 collectionToClean = _earthmatModTextureValues;
             }
@@ -1250,6 +1402,10 @@ namespace GSCFieldApp.ViewModels
             {
                 collectionToClean = _earthmatBedthickValues;
             }
+            if (databaseTableField.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatContact.ToLower()))
+            {
+                collectionToClean = _earthmatContactNoteTypes;
+            }
             collectionToClean.Clear();
 
             if (inValue != null)
@@ -1267,8 +1423,148 @@ namespace GSCFieldApp.ViewModels
 
         #region EVENTS
 
+        public void EarthPercent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox senderBox = sender as TextBox;
+            if (senderBox!= null && senderBox.Text != string.Empty)
+            {
+                CalculateResidual(senderBox.Text);
+            }
+        }
 
+        /// <summary>
+        /// Will set fresh color textbox with proper entries from 3 colour boxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ColourSetFresh_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            _earthColourF.generic = _selectedEarthmatColourG;
+            _earthColourF.intensity = _selectedEarthmatColourI;
+            _earthColourF.qualifier = _selectedEarthmatColourQ;
+
+            RaisePropertyChanged("EarthColourF");
+        }
+
+        /// <summary>
+        /// Will set weathered color textbox with proper entries from 3 colour boxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ColourSetWeathered_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            _earthColourW.generic = _selectedEarthmatColourG;
+            _earthColourW.intensity = _selectedEarthmatColourI;
+            _earthColourW.qualifier = _selectedEarthmatColourQ;
+
+            RaisePropertyChanged("EarthColourW");
+            
+        }
+
+        /// <summary>
+        /// Will add a new contact object into contact list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void EarthContactSelectionButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            _earthContact.type = _selectedEarthmatContactTypes;
+
+            EarthMaterial em = new EarthMaterial();
+            em.EarthMatName = _selectedEarthmatRelated;
+            _earthContact.relatedEarthMaterialID = em.GetIDLetter;
+
+            AddAConcatenatedValue(_earthContact.ToString(), "EarthmatContactNoteTypes");
+
+            //RaisePropertyChanged("EarthmatContactNoteTypes");
+        }
 
         #endregion
+
+        #region CALCULATE
+        public void CalculateResidual(string newMode = "")
+        {
+            // Language localization using Resource.resw
+            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+            string Prefix = loadLocalization.GetString("EarthResidualLabelPrefix");
+            string MiddleFix = loadLocalization.GetString("EarthResidualLabelMiddlefix");
+            string Suffix = loadLocalization.GetString("EarthResidualLabelSuffix");
+
+            List<object> earthmatTableRaw = accessData.ReadTable(earthmodel.GetType(), null);
+            IEnumerable<EarthMaterial> earthTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
+
+            //Get a list of related mineral from selected earthmat
+            string parentID = existingDataDetail.ParentID;
+
+            //Find proper parent id (request could come from a mineral or an earthmat selection)
+            if (existingDataDetail.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
+            {
+                parentID = existingDataDetail.ParentID;
+            }
+            IEnumerable<EarthMaterial> earthParentStation = from e in earthTable where e.EarthMatStatID == parentID select e;
+
+            if (_earthResidualPercent.Count == 0 && (earthParentStation.Count() != 0 || earthParentStation != null))
+            {
+                foreach (EarthMaterial ets in earthParentStation)
+                {
+                   // _minerals.Add(ets.EarthMatID);
+
+                    int currentPercentage = ets.EarthMatPercent;
+                    bool currentPercentParsed = true;
+                    if (ets.EarthMatID == existingDataDetail.GenericID)
+                    {
+                        if (newMode != string.Empty)
+                        {
+                            currentPercentParsed = int.TryParse(newMode, out currentPercentage);
+                        }
+
+                        if (currentPercentParsed)
+                        {
+                            _earthResidualPercent[ets.EarthMatID] = currentPercentage;
+                        }
+
+                    }
+                    else
+                    {
+                        if (currentPercentParsed)
+                        {
+                            _earthResidualPercent[ets.EarthMatID] = currentPercentage;
+                        }
+
+                    }
+                    
+
+
+                }
+
+                if (_earthResidualPercent.Count() == 0)
+                {
+                    int currentPercentage = 0;
+                    bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                    _earthResidualPercent[existingDataDetail.GenericID] = currentPercentage;
+                }
+
+            }
+            else
+            {
+                int currentPercentage = 0;
+                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                _earthResidualPercent[existingDataDetail.GenericID] = currentPercentage;
+            }
+
+
+            //Calculate total percentage
+            int _earthResidual = 0;
+            foreach (KeyValuePair<string, int> modes in _earthResidualPercent)
+            {
+                _earthResidual = _earthResidual + modes.Value;
+            }
+            _earthResidualText = Prefix + _earthResidual.ToString() + MiddleFix + _earthResidualPercent.Count().ToString() + Suffix;
+            RaisePropertyChanged("EarthResidualText");
+
+        }
+        #endregion
     }
+
+
 }

@@ -448,10 +448,44 @@
                                Text="{x:Bind mineralAlteration.MAMA}" Width="{Binding Width, ElementName=MAListTemplateGrid}"
                                HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
                                Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
-                    <TextBlock x:Name="mineralAltmineralItem" 
-                               Text="{x:Bind mineralAlteration.MAMineral}" Width="{Binding Width, ElementName=MAListTemplateGrid}"
-                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" 
-                               Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
+        <!-- Environment List Template-->
+        <DataTemplate x:Key="ReportEnvTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldEnvironmentColorLightBrush}" BorderThickness="0.5">
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="EnvListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind environment.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="envIDNameItem" 
+                               Text="{x:Bind environment.EnvName}" 
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" 
+                               Grid.Column="0" FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:Name="envReliefItem" 
+                               Text="{x:Bind environment.EnvRelief}" Width="{Binding Width, ElementName=EnvListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" 
+                               Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
 
                 </Grid>
 
@@ -949,7 +983,7 @@
 
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:Name="ReportMineralAltList" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:Name="ReportMineralAlterationList" Style="{StaticResource ReportPageGridView}"
                                     IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
                                     ItemTemplate="{StaticResource ReportMineralAltTemplate}"
                                       SelectedIndex="{x:Bind ViewModel.ReportMineralizationAlterationIndex, Mode=TwoWay}"
@@ -964,8 +998,74 @@
 
                 </Grid>
 
+                <!--Field Environment-->
+                <Grid x:Name="EnvironmentPanel" RelativePanel.Below="MineralAltPanel" 
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.EnvironmentPanelVisibility, Mode=TwoWay}">
+
+                    <theme:ExpandPanel x:Name="EnvironmentExpandPanel" 
+                                            IsExpanded="{x:Bind ViewModel.EnvironmentHeaderExpander, Mode=TwoWay}" 
+                                            RelativePanel.Below="MineralAltExpandPanel"
+                                            ExpandedChanged="{x:Bind ViewModel.EnvironmentExpandPanel_ExpandedChanged, Mode=OneWay}"
+
+                                            MinHeight="30" Margin="0,10,0,0">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.EnvironmentColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel x:Name="EnvRelativePanel" >
+                                <Rectangle x:Name="EnvBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.EnvironmentColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" 
+                                                         Opacity="{x:Bind ViewModel.EnvironmentIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <TextBlock x:Name="textBlock_FieldEnv" x:Uid="FieldworkTableEnvironment"
+                                TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.EnvironmentColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                Text="" FontWeight="Bold"
+                                VerticalAlignment="Top" Height="30" 
+                                Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True" 
+                                Style="{StaticResource SubtitleTextBlockStyle}" SizeChanged="{x:Bind ViewModel.textBlock_FieldEnvironment_SizeChanged}"  />
+
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel >
+                                <SymbolIcon x:Name="EnvironmentAddIcon" Foreground="{x:Bind ViewModel.EnvironmentAddIconColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" 
+                                            Symbol="Add" RelativePanel.LeftOf="EnvironmentEditIcon" Margin="8" 
+                                            Opacity="{x:Bind ViewModel.EnvironmentAddIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.EnvironmentAddIcon_Tapped}" />
+                                <SymbolIcon x:Name="EnvironmentEditIcon" 
+                                            Foreground="{x:Bind ViewModel.EnvironmentColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" 
+                                            Symbol="Edit"  RelativePanel.LeftOf="EnvironmentDeleteIcon" Margin="8" 
+                                            Opacity="{x:Bind ViewModel.EnvironmentIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.EnvironmentEditIcon_Tapped}"/>
+                                <SymbolIcon x:Name="EnvironmentDeleteIcon" 
+                                            Foreground="{x:Bind ViewModel.EnvironmentColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" 
+                                            Symbol="Delete" RelativePanel.AlignRightWithPanel="True" Margin="8" 
+                                            Opacity="{x:Bind ViewModel.EnvironmentIconOpacity, Mode=TwoWay}" Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportEnvironmentList" Style="{StaticResource ReportPageGridView}"
+                                    IsSwipeEnabled="False" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
+                                    ItemTemplate="{StaticResource ReportEnvTemplate}"
+                                      SelectedIndex="{x:Bind ViewModel.ReportEnvironmentIndex, Mode=TwoWay}"
+                                    ItemsSource="{x:Bind ViewModel.ReportDetailEnvironment, Mode=OneWay}" 
+                                    SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
+                                              DoubleTapped="{x:Bind ViewModel.ReportEnvironment_DoubleTapped}"
+                                      ItemContainerStyle="{ThemeResource ReportPageGridViewEnvironmentItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
                 <!--Field Document-->
-                <Grid x:Name="DocumentPanel" RelativePanel.Below="MineralAltPanel" 
+                <Grid x:Name="DocumentPanel" RelativePanel.Below="EnvironmentPanel" 
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True" Visibility="{x:Bind ViewModel.PhotoPanelVisibility, Mode=TwoWay}">
 

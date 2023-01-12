@@ -8,6 +8,8 @@ using GSCFieldApp.Models;
 using Template10.Common;
 using Windows.UI.Xaml.Media.Imaging;
 using GSCFieldApp.Services.DatabaseServices;
+using Windows.UI.Xaml.Media;
+using System.Collections.Generic;
 
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -164,6 +166,29 @@ namespace GSCFieldApp.Views
             }
 
 
+        }
+
+        private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //Find the clicked symbol icon list view parent
+            SymbolIcon senderIcon = sender as SymbolIcon;
+            DependencyObject iconParent = VisualTreeHelper.GetParent(senderIcon);
+            while (!(iconParent is ListView))
+            {
+                iconParent = VisualTreeHelper.GetParent(iconParent);
+
+            }
+
+            //Find value associated with clicked symbol icon and remove from list view.
+            ListView parentListView = iconParent as ListView;
+            IList<object> selectedValues = parentListView.SelectedItems;
+            if (selectedValues.Count > 0)
+            {
+                foreach (object values in selectedValues)
+                {
+                    DocViewModel.RemoveSelectedValue(values, parentListView.Name);
+                }
+            }
         }
     }
 }

@@ -151,7 +151,15 @@ namespace GSCFieldApp.ViewModels
                 }
                 else
                 {
-                    _structDip = value = "0";
+                    if (value == DatabaseLiterals.structurePlanarAttitudeTrend || value == string.Empty)
+                    {
+                        _structDip = value = "";
+                    }
+                    else
+                    {
+                        _structDip = value = "0";
+                    }
+                    
                     RaisePropertyChanged("StructDip");
                 }
 

@@ -131,6 +131,7 @@ namespace GSCFieldApp.Models
                 }
 
                 metadataFieldList[DatabaseLiterals.DBVersion] = metadataFieldListDefault;
+                metadataFieldList[DatabaseLiterals.DBVersion150] = metadataFieldListDefault;
 
                 //Revert schema 1.5 changes. 
                 List<string> metadataFieldList144 = new List<string>();

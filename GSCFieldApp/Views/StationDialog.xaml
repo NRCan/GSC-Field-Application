@@ -5,11 +5,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Controls="using:Template10.Controls"
+    xmlns:Controls="using:Template10.Controls" xmlns:themes="using:GSCFieldApp.Themes"
     mc:Ignorable="d" RenderTransformOrigin="0.5,0.5">
 
     <!-- data entry -->
     <Page>
+
+        <Page.Resources>
+
+            <!-- Concatenated Value Template -->
+            <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
+
+                <RelativePanel>
+                    <TextBlock Margin="5,0,0,0"
+                        Text="{x:Bind itemName}" x:Name="itemNameText"
+                        TextWrapping="NoWrap" />
+                    <SymbolIcon x:Name="ConcatValueCheck" Margin="10,0,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.RightOf="itemNameText" Symbol="Delete" Foreground="#FF0000" Tapped="ConcatValueCheck_Tapped" Visibility="{x:Bind canRemoveItem}"/>
+                </RelativePanel>
+
+            </DataTemplate>
+
+
+        </Page.Resources>
+
         <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 
@@ -53,6 +71,13 @@
                           RelativePanel.AlignLeftWithPanel="True" 
                             MinWidth="175"/>
 
+                            <ComboBox x:Name="StationObsSourceCombox" x:Uid="FieldworkTableStationObsSource"
+                          Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                          ItemsSource="{x:Bind ViewModel.ObservationSource}" 
+                          SelectedValue="{x:Bind ViewModel.SelectedObservationSources, Mode=TwoWay}"
+                          RelativePanel.AlignLeftWithPanel="True" 
+                            MinWidth="175"/>
+
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01"
@@ -65,22 +90,27 @@
                                       Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}" RelativePanel.AlignTopWithPanel="True">
                                 <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StationGridView_Outcrop"/>
 
+                                <RelativePanel x:Name="StationQualityPanel"  >
+                                    <ComboBox x:Name="StationOCQualityComboBox" x:Uid="FieldworkTableStationOCQual"
+                                        ItemsSource="{x:Bind ViewModel.StationQuality}" 
+                                        SelectedValue="{x:Bind ViewModel.SelectedStationQuality, Mode=TwoWay}"
+                                        SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}"/>
 
-                                <ComboBox x:Name="StationQualityComboBox" x:Uid="FieldworkTableStationOCQual"
-                                Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
-                                ItemsSource="{x:Bind ViewModel.StationQuality}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedStationQuality, Mode=TwoWay}"
-                                RelativePanel.RightOf="StationObsTypeCombox" />
+                                    <ListView x:Name="StationOCQualityConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="StationOCQualityComboBox"
+                                                ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
+                                                ItemsSource="{x:Bind ViewModel.StationQualityValues}"/>
 
+                                </RelativePanel>
 
 
                                 <TextBox x:Name="StationSizeTextBox" x:Uid="FieldworkTableStationOCSize"
-                                Text ="{x:Bind ViewModel.StationOCSize, Mode=TwoWay}"
-                                Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
-                                InputScope="Text"
-                                IsSpellCheckEnabled="True"
-                                IsTextPredictionEnabled="True"
-                                RelativePanel.RightOf="StationPhysEnvCombobox"/>
+                                    Text ="{x:Bind ViewModel.StationOCSize, Mode=TwoWay}"
+                                    Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                                    InputScope="Text"
+                                    IsSpellCheckEnabled="True"
+                                    IsTextPredictionEnabled="True"
+                                    RelativePanel.Below="StationOCQualityConcat"/>
+
 
                             </GridView>
 
@@ -108,6 +138,11 @@
                             Header="" InputScope="Number"
                             RelativePanel.RightOf="StationAirPhoto"
                             Text ="{x:Bind ViewModel.TraverseNo, Mode=TwoWay}"/>
+
+                                <TextBox x:Name="StationRelatedTo" x:Uid="FieldworkTableStationRelatedTo"
+                                    Header="" RelativePanel.RightOf="StationTraverseNo"
+                                    Text ="{x:Bind ViewModel.RelatedTo, Mode=TwoWay}"/>
+                                
                             </GridView>
 
                         </RelativePanel>

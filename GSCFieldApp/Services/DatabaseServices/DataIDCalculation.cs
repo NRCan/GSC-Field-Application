@@ -21,6 +21,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         readonly Mineral mineralModel = new Mineral();
         readonly Metadata metadataModel = new Metadata();
         readonly MineralAlteration minAlterationModel = new MineralAlteration();
+        readonly EnvironmentModel envModel = new EnvironmentModel();
         readonly DataAccess dAccess = new DataAccess();
 
         public DataIDCalculation()
@@ -431,7 +432,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             IEnumerable<string> docParent = from d in docTable where d.RelatedID == parentID orderby d.DocumentName descending select d.DocumentName;
 
             string newAlias = string.Empty;
-            string finaleDocumentString = parentAlias + "P";
+            string finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix;
 
             //Detect last sample number and add 1 to it.
             if (docParent.Count() > 0)
@@ -456,7 +457,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         newAlias = newNumber.ToString();
                     }
 
-                    finaleDocumentString = parentAlias + "P" + newAlias;
+                    finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
 
                     //Find existing
                     IEnumerable<Document> existingDocument = from s in docTable where s.RelatedID == parentID && s.DocumentName == finaleDocumentString select s;
@@ -486,7 +487,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     newAlias = startingDocNumber.ToString();
                 }
 
-                finaleDocumentString = parentAlias + "P" + newAlias;
+                finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
             }
 
             return finaleDocumentString;
@@ -708,17 +709,18 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
+        /// <param name="idAddIncrement">A value to add to ID for increment start, used for bacth calculate</param>
         /// <returns></returns>
-        public string CalculateMineralAlias(string parentID, string parentAlias)
+        public string CalculateMineralAlias(string parentID, string parentAlias, int idAddIncrement = 1)
         {
             //Querying with Linq
             List<object> MineralTableRaw = dAccess.ReadTable(mineralModel.GetType(), null);
             IEnumerable<Mineral> mineralTable = MineralTableRaw.Cast<Mineral>(); //Cast to proper list type
-            IEnumerable<string> mineralParentEarth = from e in mineralTable where e.MineralParentID == parentID orderby e.MineralIDName descending select e.MineralIDName;
+            IEnumerable<string> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID orderby e.MineralIDName descending select e.MineralIDName;
 
-            int newID = 1; //Incrementing step
+            int newID = 1 + idAddIncrement; //Incrementing step
             string newAlias = string.Empty;
-            string finaleMineralString = parentAlias;
+            string finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix;
 
             //Detect last sample number and add 1 to it.
             if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) !=null)
@@ -742,10 +744,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                         newAlias = newID.ToString();
                     }
 
-                    finaleMineralString = parentAlias + newAlias;
+                    finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + newAlias;
 
                     //Find existing
-                    IEnumerable<Mineral> existingSamples = from s in mineralTable where s.MineralParentID == parentID && s.MineralIDName == finaleMineralString select s;
+                    IEnumerable<Mineral> existingSamples = from s in mineralTable where s.MineralEMID == parentID || s.MineralMAID == parentID && s.MineralIDName == finaleMineralString select s;
                     if (existingSamples.Count() == 0 || existingSamples == null)
                     {
                         breaker = false;
@@ -757,7 +759,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             else
             {
-                finaleMineralString = parentAlias + "0" + newID;
+                finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + "0" + newID;
             }
 
             return finaleMineralString;
@@ -785,7 +787,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public string CalculateMineralAlterationAlias(string parentID, string parentAlias)
         {
             //Variables
-            string prefix = "X";
+            string prefix = DatabaseLiterals.TableMineralAlterationPrefix;
 
             //Querying with Linq
             List<object> maTableRaw = dAccess.ReadTable(minAlterationModel.GetType(), null);
@@ -847,6 +849,79 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
         #endregion
 
+        #region ENVIRONMENT
+        /// <summary>
+        /// Will calculate an mineral alteration alias from a given parent id and parent alias.
+        /// Should look like YYGeolcodeStationNumberXMANumber --> 17GHV001X01, first environment of first station of geo
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public string CalculateEnvironmentAlias(string parentID, string parentAlias)
+        {
+            //Variables
+            string prefix = DatabaseLiterals.TableEnvironmentPrefix;
+
+            //Querying with Linq
+            List<object> envTableRaw = dAccess.ReadTable(envModel.GetType(), null);
+            IEnumerable<EnvironmentModel> envTable = envTableRaw.Cast<EnvironmentModel>(); //Cast to proper list type
+            IEnumerable<string> envParentStations = from env in envTable where env.EnvStationID == parentID orderby env.EnvName descending select env.EnvName;
+
+            int startingNumber = 1;
+            string startingNumberStr = string.Empty;
+            string finaleENVString = parentAlias;
+
+            //Calculate
+            if (envParentStations.Count() > 0)
+            {
+                string lastAlias = envParentStations.ToList()[0].ToString();
+
+                //Find a non existing name
+                bool breaker = true;
+                while (breaker)
+                {
+                    //Padd current ID with 0 if needed
+                    if (startingNumber < 10)
+                    {
+                        startingNumberStr = "0" + startingNumber.ToString();
+                    }
+                    else
+                    {
+                        startingNumberStr = startingNumber.ToString();
+                    }
+
+                    finaleENVString = parentAlias + prefix + startingNumberStr;
+
+                    //Find existing
+                    IEnumerable<EnvironmentModel> existingENV = from env2 in envTable where env2.EnvStationID == parentID && env2.EnvName == finaleENVString select env2;
+
+                    if (existingENV.Count() == 0 || existingENV == null)
+                    {
+                        breaker = false;
+                    }
+
+                    startingNumber++;
+
+                }
+            }
+            else
+            {
+                finaleENVString = parentAlias + prefix + "0" + startingNumber.ToString();
+            }
+
+            return finaleENVString;
+        }
+
+        /// <summary>
+        /// Will calculate a generic ID from sample table based on the highest current stored id.
+        /// </summary>
+        /// <returns></returns>
+        public string CalculateEnvironmentID()
+        {
+            return CalculateGUID();
+        }
+        #endregion
+
         #endregion
 
         #region GENERIC
@@ -862,7 +937,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             int getRemainder; //In case it's needed, will be calculate from modulo
             int getQuotient; //In case needed, will be used for overload
 
-            List<string> alphaList = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            List<string> alphaList = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", DatabaseLiterals.TableMineralAliasPrefix, "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
             //Retrieve a new numerical id
             int numID = startingNumber;
@@ -943,16 +1018,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             return equivalentNumber;
 
         }
-
-        ///// <summary>
-        ///// Will calculate a new GUID converted to a base 64 string, hence the small guid.
-        ///// </summary>
-        ///// <returns></returns>
-        //public string CalculateSmallGUID()
-        //{
-        //    return Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("===", "");
-
-        //}
 
         /// <summary>
         /// Will calculate a new GUID

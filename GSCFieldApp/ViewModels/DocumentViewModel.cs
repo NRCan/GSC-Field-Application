@@ -41,6 +41,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _docType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDocType = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _category = new ObservableCollection<Themes.ComboBoxItem>();
+        private ObservableCollection<Themes.ComboBoxItem> _categoryValues = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedCategory = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _relatedTable = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedRelatedTable = string.Empty;
@@ -227,6 +228,7 @@ namespace GSCFieldApp.ViewModels
         public string SelectedDocType { get { return _selectedDocType; } set { _selectedDocType = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> Category { get { return _category; } set { _category = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> CategoryValues { get { return _categoryValues; } set { _categoryValues = value; } }
         public string SelectedCategory { get { return _selectedCategory; } set { _selectedCategory = value; } }
         public ObservableCollection<Themes.ComboBoxItem> RelatedTable { get { return _relatedTable; } set { _relatedTable = value; } }
         public string SelectedRelatedTable { get { return _selectedRelatedTable; } set { _selectedRelatedTable = value; } }
@@ -378,6 +380,8 @@ namespace GSCFieldApp.ViewModels
             //Validate if the file number exists or not. If yes don't save anything.
             if (!_fileNumberExists)
             {
+                Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
+
                 //Get current UI information and add to model class
                 documentModel.DocumentID = _documentID;
                 documentModel.DocumentName = _documentName;
@@ -390,6 +394,11 @@ namespace GSCFieldApp.ViewModels
                 if (SelectedCategory != null)
                 {
                     documentModel.Category = SelectedCategory;
+                }
+
+                if (SelectedCategory != null)
+                {
+                    documentModel.Category = concat.PipeValues(_categoryValues); //process list of values so they are concatenated.
                 }
 
                 if (SelectedDocType != null)
@@ -879,7 +888,7 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableMineral)
                     {
                         string filterMineralSelectJoin = "Select * from " + DatabaseLiterals.TableMineral + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
+                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralEMID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
                         List<object> relatedMineral = dataAcess.ReadTable(mineralModel.GetType(), filterMineralSelectJoin + filterMineralWhere);
                         IEnumerable<Mineral> minerals = relatedMineral.Cast<Mineral>();
                         foreach (Mineral ms in minerals)
@@ -939,7 +948,7 @@ namespace GSCFieldApp.ViewModels
             _documentPhotoPath = existingDataDetailDocument.document.PhotoPath;
 
             _selectedRelatedID = existingDataDetailDocument.document.RelatedID;
-            _selectedCategory = existingDataDetailDocument.document.Category;
+            //_selectedCategory = existingDataDetailDocument.document.Category;
             _selectedDocType = existingDataDetailDocument.document.DocumentType;
             _selectedRelatedTable = existingDataDetailDocument.document.RelatedTable;
 
@@ -959,7 +968,12 @@ namespace GSCFieldApp.ViewModels
                 _documentPhotoPath = string.Empty;
             }
 
-
+            //Concatenated box
+            Themes.ConcatenatedCombobox ccBox = new Themes.ConcatenatedCombobox();
+            foreach (string d in ccBox.UnpipeString(existingDataDetailDocument.document.Category))
+            {
+                AddAConcatenatedValue(d, "Category");
+            }
 
             //Update UI
             RaisePropertyChanged("DocumentID");
@@ -971,7 +985,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("FileNumber");
             RaisePropertyChanged("DocumentNumber");
 
-            RaisePropertyChanged("SelectedCategory");
+            //RaisePropertyChanged("SelectedCategory");
             RaisePropertyChanged("SelectedDocType");
             RaisePropertyChanged("SelectedRelatedTable");
             RaisePropertyChanged("SelectedRelatedID");
@@ -1159,6 +1173,130 @@ namespace GSCFieldApp.ViewModels
 
             return tempFileNumber;
         }
+
+        #endregion
+
+        #region CONCATENATED FIELDS
+
+        /// <summary>
+        /// Will remove a category
+        /// </summary>
+        /// <param name="inPurpose"></param>
+        public void RemoveSelectedValue(object inPurpose, string parentListViewName)
+        {
+
+            Themes.ComboBoxItem oldValue = inPurpose as Themes.ComboBoxItem;
+
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldDocumentCategory.ToLower()))
+            {
+                _categoryValues.Remove(oldValue);
+                RaisePropertyChanged("CategoryValues");
+            }
+
+        }
+
+        /// <summary>
+        /// Will refresh the concatenated part of the purpose whenever a value is selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ConcatComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox senderBox = sender as ComboBox;
+            if (senderBox.SelectedValue != null)
+            {
+                AddAConcatenatedValue(senderBox.SelectedValue.ToString(), senderBox.Name);
+            }
+
+        }
+
+        /// <summary>
+        /// Will add to the list of purposes a selected purpose by the user.
+        /// </summary>
+        /// <param name="fieldName"> Optional, database table field name to know which collection to update</param>
+        /// <param name="parentComboboxName">Optional, parent combobox name in which a selected value will be appended to the list</param>
+        public void AddAConcatenatedValue(string valueToAdd, string parentComboboxName = null, string fieldName = null, bool canRemove = true)
+        {
+            if (valueToAdd != null && valueToAdd != String.Empty)
+            {
+                //Create new cbox item
+                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
+                newValue.itemValue = valueToAdd;
+
+                //Set visibility
+                if (canRemove)
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Visible;
+                }
+                else
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Collapsed;
+                }
+
+
+                #region Find parent collection
+                ObservableCollection<Themes.ComboBoxItem> parentCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                ObservableCollection<Themes.ComboBoxItem> parentConcatCollection = new ObservableCollection<Themes.ComboBoxItem>();
+                List<Themes.ComboBoxItem> parentList = new List<Themes.ComboBoxItem>();
+
+                string parentProperty = string.Empty;
+
+                string NameToValidate = string.Empty;
+                if (parentComboboxName != null)
+                {
+                    NameToValidate = parentComboboxName;
+                }
+                if (fieldName != null)
+                {
+                    NameToValidate = fieldName;
+                }
+
+                if (NameToValidate.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldDocumentCategory.ToLower()))
+                {
+                    parentCollection = Category;
+                    parentConcatCollection = _categoryValues;
+                    parentProperty = "Category";
+
+                }
+
+                #endregion
+
+
+                //Find itemName from itemValue in parent collection
+                if (parentCollection != null)
+                {
+                    foreach (Themes.ComboBoxItem cb in parentCollection)
+                    {
+                        if (cb.itemValue == valueToAdd || cb.itemName == valueToAdd)
+                        {
+                            newValue.itemName = cb.itemName;
+                            newValue.itemValue = cb.itemValue;
+                            break;
+                        }
+                    }
+                }
+
+                //Update collection
+                if (newValue.itemName != null && newValue.itemName != string.Empty && newValue.itemName != Dictionaries.DatabaseLiterals.picklistNADescription)
+                {
+                    bool foundValue = false;
+                    foreach (Themes.ComboBoxItem existingItems in parentConcatCollection)
+                    {
+                        if (valueToAdd == existingItems.itemName)
+                        {
+                            foundValue = true;
+                        }
+                    }
+                    if (!foundValue)
+                    {
+                        parentConcatCollection.Add(newValue);
+                        RaisePropertyChanged(parentProperty);
+                    }
+
+                }
+            }
+        }
+
 
         #endregion
 

@@ -113,7 +113,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>-->
             </AppBarButton>
-            <AppBarButton x:Name="MapRecenter" x:Uid="MapPageCenter" Label="" ToolTipService.ToolTip="" Icon="MapPin" Foreground="White" MaxWidth="120" Height="65" IsCompact ="True" VerticalAlignment="Top" Tapped="{x:Bind MapPageViewModel.MapRecenter_Tapped}">
+            <AppBarButton x:Name="MapRecenter" x:Uid="MapPageCenter" Label="Recenter" ToolTipService.ToolTip="" Icon="MapPin" Foreground="White" MaxWidth="120" Height="65" IsCompact ="True" VerticalAlignment="Top" Tapped="{x:Bind MapPageViewModel.MapRecenter_Tapped}">
 
 
             </AppBarButton>

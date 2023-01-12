@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SQLite;
 using GSCFieldApp.Dictionaries;
+using Newtonsoft.Json.Linq;
 
 namespace GSCFieldApp.Models
 {
@@ -27,20 +28,26 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatLithdetail)]
         public string EarthMatLithdetail { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatModComp)]
+        public string EarthMatModComp { get; set; }
+
+        [Column(DatabaseLiterals.FieldEarthMatMetaFacies)]
+        public string EarthMatMetaIFacies{ get; set; }
+
+        [Column(DatabaseLiterals.FieldEarthMatMetaIntensity)]
+        public string EarthMatMetaIntensity{ get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatMapunit)]
         public string EarthMatMapunit { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatOccurs)]
         public string EarthMatOccurs { get; set; }
 
-        [Column(DatabaseLiterals.FieldEarthMatModStruc)]
-        public string EarthMatModStruc { get; set; }
+        [Column(DatabaseLiterals.FieldEarthMatPercent)]
+        public int EarthMatPercent { get; set; }
 
-        [Column(DatabaseLiterals.FieldEarthMatModTexture)]
-        public string EarthMatModTextur { get; set; }
-
-        [Column(DatabaseLiterals.FieldEarthMatModComp)]
-        public string EarthMatModComp { get; set; }
+        [Column(DatabaseLiterals.FieldEarthMatModTextStruc)]
+        public string EarthMatModTextStruc { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatGrSize)]
         public string EarthMatGrSize { get; set; }
@@ -62,6 +69,9 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldEarthMatMagSuscept)]
         public double EarthMatMagSuscept { get; set; }
+
+        [Column(DatabaseLiterals.FieldEarthMatMagQualifier)]
+        public string EarthMatMagQualifier { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatContact)]
         public string EarthMatContact { get; set; }
@@ -173,9 +183,27 @@ namespace GSCFieldApp.Models
 
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
 
+                //Revert schema 1.6 changes. 
+                List<string> earthmatFieldList15 = new List<string>();
+                earthmatFieldList15.AddRange(earthmatFieldListDefault);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatPercent);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMagQualifier);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaIntensity);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaFacies);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModComp);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatModTextStruc);
+                earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatContact);
+
+                earthmatFieldList15.Insert(8, DatabaseLiterals.FieldEarthMatModStrucDeprecated);
+                earthmatFieldList15.Insert(9, DatabaseLiterals.FieldEarthMatModTextureDeprecated);
+                earthmatFieldList15.Insert(10, DatabaseLiterals.FieldEarthMatModCompDeprecated);
+                earthmatFieldList15.Insert(18, DatabaseLiterals.FieldEarthMatContactDeprecated);
+
+                earthmatFieldList[DatabaseLiterals.DBVersion150] = earthmatFieldList15;
+
                 //Revert schema 1.5 changes. 
                 List<string> earthmatFieldList144 = new List<string>();
-                earthmatFieldList144.AddRange(earthmatFieldListDefault);
+                earthmatFieldList144.AddRange(earthmatFieldList15);
                 int removeIndex = earthmatFieldList144.IndexOf(DatabaseLiterals.FieldEarthMatName);
                 earthmatFieldList144.Remove(DatabaseLiterals.FieldEarthMatName);
                 earthmatFieldList144.Insert(removeIndex, DatabaseLiterals.FieldEarthMatNameDeprecated);
@@ -195,6 +223,32 @@ namespace GSCFieldApp.Models
                 return earthmatFieldList;
             }
             set { }
+        }
+
+        /// <summary>
+        /// Will extract the letter defining the ID of current earthmat, A-B-C, etc.
+        /// </summary>
+        /// <returns></returns>
+        [Ignore]
+        public string GetIDLetter
+        {
+            get
+            {
+                //Get index of last digits
+                string getLast3 = this.EarthMatName.Substring(this.EarthMatName.Length - 3);
+                string strOnlyID = string.Empty;
+                foreach (char c in getLast3)
+                {
+                    if (char.IsLetter(c))
+                    {
+                        strOnlyID = strOnlyID + c;
+                    }
+                }
+                return strOnlyID; 
+            }
+            
+            set{ }
+            
         }
     }
 }

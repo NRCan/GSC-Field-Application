@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -106,11 +107,11 @@ namespace GSCFieldApp.Views
             {
                 //Set the ItemsSource to be your filtered dataset
                 //sender.ItemsSource = dataset;
-                var search_term = MineralAutoSuggest.Text.ToLower();
-                var results = Minerals.Where(i => i.ToLower().Contains(search_term)).ToList();
+                string search_term = MineralAutoSuggest.Text.ToLower();
+                List<string> results = Minerals.Where(i => i.ToLower().Contains(search_term)).ToList();
 
-                if (results.Count > 0)
-                    MineralAutoSuggest.ItemsSource = results.ToList().OrderBy(x => x.GetType().GetProperty(this.MineralAutoSuggest.DisplayMemberPath).GetValue(x)).ToList();
+                if (results != null && results.Count > 0)
+                    MineralAutoSuggest.ItemsSource = results;
                 else
                     MineralAutoSuggest.ItemsSource = new string[] { "No results found" };
             }
@@ -161,5 +162,27 @@ namespace GSCFieldApp.Views
             return outResults;
         }
 
+        private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //Find the clicked symbol icon list view parent
+            SymbolIcon senderIcon = sender as SymbolIcon;
+            DependencyObject iconParent = VisualTreeHelper.GetParent(senderIcon);
+            while (!(iconParent is ListView))
+            {
+                iconParent = VisualTreeHelper.GetParent(iconParent);
+
+            }
+
+            //Find value associated with clicked symbol icon and remove from list view.
+            ListView parentListView = iconParent as ListView;
+            IList<object> selectedValues = parentListView.SelectedItems;
+            if (selectedValues.Count > 0)
+            {
+                foreach (object values in selectedValues)
+                {
+                    MineralVM.RemoveSelectedValue(values, parentListView.Name);
+                }
+            }
+        }
     }
 }

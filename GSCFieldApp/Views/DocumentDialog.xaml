@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Controls="using:Template10.Controls"
     xmlns:converters="using:GSCFieldApp.Converters"
+    xmlns:themes="using:GSCFieldApp.Themes"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -17,6 +18,24 @@
     </UserControl.Resources>
     
     <Page>
+
+        <Page.Resources>
+
+            <!-- Concatenated Value Template -->
+            <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
+
+                <RelativePanel>
+                    <TextBlock Margin="5,0,0,0"
+                        Text="{x:Bind itemName}" x:Name="itemNameText"
+                        TextWrapping="NoWrap" />
+                    <SymbolIcon x:Name="ConcatValueCheck" Margin="10,0,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.RightOf="itemNameText" Symbol="Delete" Foreground="#FF0000" Tapped="ConcatValueCheck_Tapped" Visibility="{x:Bind canRemoveItem}"/>
+                </RelativePanel>
+
+            </DataTemplate>
+
+
+        </Page.Resources>
+
         <!-- data entry -->
         <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -44,20 +63,25 @@
                 <ScrollViewer Style="{StaticResource VerticalScroll}">
                     <RelativePanel Style="{StaticResource ChildPanel}" x:Name="docScrollRelativePanel" RenderTransformOrigin="0.5,0.5">
 
-                        <ComboBox x:Name="DocumentCategoryCombobox" x:Uid="DocumentCategoryCombobox" Style="{ThemeResource ComboboxMandatoryField}"
-                          RelativePanel.AlignLeftWithPanel="True"
-                          ItemsSource="{x:Bind DocViewModel.Category}" 
-                          SelectedValue="{x:Bind DocViewModel.SelectedCategory, Mode=TwoWay}"/>
+                        <RelativePanel x:Name="relPanelCategory" RelativePanel.AlignLeftWithPanel="True">
+                            <ComboBox x:Name="DocumentCategoryCombobox" x:Uid="DocumentCategoryCombobox" Style="{ThemeResource ComboboxMandatoryField}"
+                              ItemsSource="{x:Bind DocViewModel.Category}" SelectionChanged="{x:Bind DocViewModel.ConcatComboBox_SelectionChanged}"
+                              SelectedValue="{x:Bind DocViewModel.SelectedCategory, Mode=TwoWay}"/>
+                            <ListView x:Name="DocumentCategoryConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="DocumentCategoryCombobox"
+                                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
+                                                        ItemsSource="{x:Bind DocViewModel.CategoryValues}"/>
+
+                        </RelativePanel>
 
                         <TextBox x:Name="DocumentDirectionTextbox" x:Uid="DocumentDirectionTextbox"
-                         HorizontalAlignment="Stretch"
-                         MaxLength="0"
-                         TextWrapping="Wrap"
-                         InputScope="Number"
-                         IsSpellCheckEnabled="True"
-                         IsTextPredictionEnabled="True"
-                         RelativePanel.RightOf="DocumentCategoryCombobox"
-                         Text ="{x:Bind DocViewModel.Direction, Mode=TwoWay}"/>
+                             HorizontalAlignment="Stretch"
+                             MaxLength="0"
+                             TextWrapping="Wrap"
+                             InputScope="Number"
+                             IsSpellCheckEnabled="True"
+                             IsTextPredictionEnabled="True"
+                             RelativePanel.Below="relPanelCategory"
+                             Text ="{x:Bind DocViewModel.Direction, Mode=TwoWay}"/>
 
 
                         <SymbolIcon x:Name="DocumentDirectionSymIcon" x:Uid="DocumentDirectionIcon" 
@@ -71,7 +95,7 @@
                         </SymbolIcon>
                         
                         <TextBox Style="{ThemeResource Notes}" x:Name="DocumentCaptionTextbox" x:Uid="DocumentCaptionTextbox"
-                         RelativePanel.Below="DocumentCategoryCombobox" 
+                         RelativePanel.Below="DocumentDirectionTextbox" 
                          Text ="{x:Bind DocViewModel.Description, Mode=TwoWay}"/>
 
                         <Button x:Name="LoadPreviousCaptionButton" Content="Load Previous" Margin="0,10,0,0"

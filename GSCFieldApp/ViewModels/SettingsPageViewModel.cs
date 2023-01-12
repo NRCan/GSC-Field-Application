@@ -11,6 +11,7 @@ using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services.FileServices;
 using SQLite;
 using System.IO;
+using System.Globalization;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -211,6 +212,10 @@ namespace GSCFieldApp.ViewModels
             {
                 _earthToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat);
             }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null)
+            {
+                _environmentToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment);
+            }
             //else
             //{
             //    _fossilToggle = false;
@@ -224,6 +229,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("MineralToggle");
             RaisePropertyChanged("PflowToggle");
             RaisePropertyChanged("MAToggle");
+            RaisePropertyChanged("EnvironmentToggle");
             #endregion
 
         }
@@ -678,6 +684,8 @@ namespace GSCFieldApp.ViewModels
                 return $"{v.Major}.{v.Minor}.{v.Build}.{v.Revision}";
             }
         }
+
+        public string VersionDB => DatabaseLiterals.DBVersion.ToString(CultureInfo.GetCultureInfo("en-US")); //Enforce english, else version will get a comma in french
 
         public Uri RateMe => new Uri("http://aka.ms/template10");
     }

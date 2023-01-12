@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.UI.Xaml;
@@ -61,11 +62,16 @@ namespace GSCFieldApp.Themes
         public List<string> UnpipeString(string inString)
         {
             //Variables
-            List<string> outputRawList = inString.Split(Dictionaries.DatabaseLiterals.KeywordConcatCharacter.Trim().ToCharArray()).ToList();
             List<string> outputList = new List<string>();
-            foreach (string val in outputRawList)
+
+            //Parse string
+            if (inString != null && inString != String.Empty)
             {
-                outputList.Add(val.Trim());
+                List<string> outputRawList = inString.Split(Dictionaries.DatabaseLiterals.KeywordConcatCharacter.Trim().ToCharArray()).ToList();
+                foreach (string val in outputRawList)
+                {
+                    outputList.Add(val.Trim());
+                }
             }
 
             return outputList;

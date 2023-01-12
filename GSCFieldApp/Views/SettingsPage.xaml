@@ -112,8 +112,10 @@
 
                                 <ToggleSwitch x:Name="PaleoflowToggleSwitch" x:Uid="SettingPageTogglePflow" IsOn="{x:Bind ViewModel.PflowToggle, Mode=TwoWay}"
                                     OffContent="" OnContent="" />
-                                <ToggleSwitch x:Name="SurficialToggleSwitch" x:Uid="SettingPageToggleSurficial" Visibility="Collapsed"
-                                    OffContent="" OnContent="" IsOn="{x:Bind ViewModel.SurficialToggle, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="EnvironmentToggleSwitch" x:Uid="SettingPageToggleEnvironment"
+                                    OffContent="" OnContent="" IsOn="{x:Bind ViewModel.EnvironmentToggle, Mode=TwoWay}"/>
+                                <!--<ToggleSwitch x:Name="SurficialToggleSwitch" x:Uid="SettingPageToggleSurficial" Visibility="Collapsed"
+                                    OffContent="" OnContent="" IsOn="{x:Bind ViewModel.SurficialToggle, Mode=TwoWay}"/>-->
 
                             </GridView>
 
@@ -180,6 +182,11 @@
                                 </Button.Background>
                             </Button>
 
+                            <Button x:Name="EnvironmentThemeList" FontWeight="Bold" x:Uid="SettingPageVocabEnvironment" Height="100" Width="100" Margin="5" Tapped="ThemeList_Tapped">
+                                <Button.Background>
+                                    <SolidColorBrush Color="{ThemeResource FieldEnvironmentColor}"/>
+                                </Button.Background>
+                            </Button>
 
 
                         </GridView>
@@ -268,10 +275,17 @@
                         <Run Text="{Binding Version}" />
                     </TextBlock>
 
+                    <TextBlock x:Name="VersionDBTextBlock" 
+                               RelativePanel.AlignLeftWithPanel="True"
+                               RelativePanel.Below="VersionTextBlock">
+                        <Run x:Uid="AboutDatabaseVersion">Version</Run>
+                        <Run Text="{Binding VersionDB}" />
+                    </TextBlock>
+
                     <!--Contact Info-->
                     <TextBlock x:Name="ContactTextBlock" Margin="0,12,0,12" x:Uid="AboutContactHeader"
                                FontSize="22" RelativePanel.AlignLeftWithPanel="True"
-                               RelativePanel.Below="VersionTextBlock"
+                               RelativePanel.Below="VersionDBTextBlock"
                                Text="" />
 
                     <TextBlock x:Name="ContactInfoTextBlock" x:Uid="AboutContactInfo"

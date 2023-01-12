@@ -81,7 +81,7 @@ namespace GSCFieldApp.Models
         public string Visibility { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryVersion)]
-        public string Version { get; set; }
+        public double Version { get; set; }
 
         /// <summary>
         /// CompareTo method to filter vocabularies by order number

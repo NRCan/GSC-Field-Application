@@ -1064,8 +1064,7 @@ namespace GSCFieldApp.ViewModels
                     #region STRUCTURES
 
                     ///For structure symboles (planar and linear) make sure they are wanted by user but that it's within a bedrock field notebook also
-
-                    if ((bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
+                    if (localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) != null && (bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
                     {
                         //Get related structures, if any
                         List<object> strucTableRows = new List<object>();
@@ -3482,8 +3481,14 @@ namespace GSCFieldApp.ViewModels
             }
             else if (!fromSelection)
             {
-                esriMap.Basemap.BaseLayers.Clear();
+                try
+                {
+                    esriMap.Basemap.BaseLayers.Clear();
+                }
+                catch (Exception)
+                {
 
+                }
             }
         }
 

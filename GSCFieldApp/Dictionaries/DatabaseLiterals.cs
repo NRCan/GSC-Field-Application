@@ -1,9 +1,12 @@
-﻿namespace GSCFieldApp.Dictionaries
+﻿using Windows.Devices.Bluetooth.Advertisement;
+
+namespace GSCFieldApp.Dictionaries
 {
     public static class DatabaseLiterals
     {
         #region Database version
-        public const double DBVersion = 1.5; //Will be used to verify loaded projects.
+        public const double DBVersion = 1.6; //Will be used to verify loaded projects.
+        public const double DBVersion160 = 1.6; //Will be used to verify loaded projects.
         public const double DBVersion150 = 1.5; //Will be used to verify and upgrade loaded projects
         public const double DBVersion144 = 1.44; //Will be used to verify and upgrade loaded projects
         public const double DBVersion143 = 1.43; //Will be used to verify and upgrade loaded projects
@@ -23,7 +26,7 @@
         public const string FieldLocationLongitude = "LONGITUDE";//Version 1.0
         public const string FieldLocationLatitude = "LATITUDE";//Version 1.0
         public const string FieldLocationElevation = "ELEVATION"; //Version 1.0
-        public const string FieldLocationMetaID = "METAID";//Version 1.0
+        public const string FieldLocationMetaID = "METAID";//
         public const string FieldLocationElevationMethod = "ELEVMETHOD";//Version 1.0
         public const string FieldLocationEntryType = "ENTRYTYPE";//Version 1.0
         public const string FieldLocationErrorMeasure = "ERRORMEASURE";//Version 1.0
@@ -38,6 +41,7 @@
         public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0 DEL Version 1.44
         public const string FieldLocationNotes = "NOTES"; //Version 1.0
         public const string FieldLocationReportLink = "REPORT_LINK"; //Version < 1.5
+        public const string FieldLocationNTS = "NTS"; //Version 1.6
 
         public const string FieldUserInfoID = "METAID";//Version 1.0
         public const string FieldUserInfoUCode = "GEOLCODE";//Version 1.0
@@ -83,6 +87,8 @@
         public const string FieldStationReportLink = "REPORT_LINK";
         public const string FieldStationLegend = "LEGENDVAL";
         public const string FieldStationInterpretation = "LNDINTERP";
+        public const string FieldStationRelatedTo = "RELATEDTO"; //Version 1.60
+        public const string FieldStationObsSource = "OBSSOURCE"; //Version 1.60
 
         public const string FieldEarthMatID = "EARTHMATID";//Version 1.0
         public const string FieldEarthMatName = "EARTHMATIDNAME";//Version 1.5
@@ -93,22 +99,29 @@
         public const string FieldEarthMatLithdetail = "LITHDETAIL";//Version 1.0
         public const string FieldEarthMatMapunit = "MAPUNIT";//Version 1.0
         public const string FieldEarthMatOccurs = "OCCURAS";//Version 1.0
-        public const string FieldEarthMatModStruc = "MODSTRUC";//Version 1.0 Concatenated field
-        public const string FieldEarthMatModTexture = "MODTEXTURE";//Version 1.0 Concatenated field
-        public const string FieldEarthMatModComp = "MODCOMP";//Version 1.0 Concatenated field
+        public const string FieldEarthMatModStrucDeprecated = "MODSTRUC";//Version 1.0 Concatenated field
+        public const string FieldEarthMatModTextureDeprecated = "MODTEXTURE";//Version 1.0 Concatenated field
+        public const string FieldEarthMatModTextStruc = "TEXTSTRUC";//Version 1.6 Merger between MODESTRUC and MODTEXTURE Concatenated field
+        public const string FieldEarthMatModCompDeprecated = "MODCOMP";//Version 1.0 Concatenated field Deprecated
+        public const string FieldEarthMatModComp = "LITHQUALIFIER";//Version 1.6 Concatenated field
         public const string FieldEarthMatGrSize = "GRCRYSIZE";//Version 1.0 Concatenated field
         public const string FieldEarthMatDefabric = "DEFFABRIC";//Version 1.0 Concatenated field
         public const string FieldEarthMatColourF = "COLOURF";//Version 1.0
         public const string FieldEarthMatColourW = "COLOURW";//Version 1.0
         public const string FieldEarthMatColourInd = "COLOURIND";//Version 1.0
         public const string FieldEarthMatMagSuscept = "MAGSUSCEPT";//Version 1.0
-        public const string FieldEarthMatContact = "CONTACT";//Version 1.0
+        public const string FieldEarthMatContactDeprecated = "CONTACT";//Version 1.0
+        public const string FieldEarthMatContact = "RELATED_CONTACT_NOTE"; //Version 1.6
         public const string FieldEarthMatContactUp = "CONTACTUP";//Version 1.0
         public const string FieldEarthMatContactLow = "CONTACTLOW";//Version 1.0
         public const string FieldEarthMatInterp = "INTERP";//Version 1.0
         public const string FieldEarthMatInterpConf = "INTERPCONF";//Version 1.0
         public const string FieldEarthMatBedthick = "BEDTHICK"; //Version 1.0 Concatenated field
         public const string FieldEarthMatNotes = "NOTES"; //Version 1.43
+        public const string FieldEarthMatPercent = "EM_PERCENT"; //Version 1.60
+        public const string FieldEarthMatMagQualifier = "MAGQUALIFIER"; //Version 1.60
+        public const string FieldEarthMatMetaIntensity = "METAINTENSITY"; // Version 1.60
+        public const string FieldEarthMatMetaFacies = "METAFACIES"; // Version 1.60
 
         public const string FieldSampleID = "SAMPLEID"; //Version 1.0
         public const string FieldSampleName = "SAMPLEIDNAME"; //Version 1.5
@@ -226,27 +239,50 @@
         public const string FieldMineralID = "MINERALID";//Version 1.0
         public const string FieldMineralIDName = "MINERALIDNAME";//Version 1.0
         public const string FieldMineral = "MINERAL";//Version 1.0
-        public const string FieldMineralForm = "FORM";//Version 1.0
-        public const string FieldMineralHabit = "HABIT";//Version 1.0
+        public const string FieldMineralFormDeprecated = "FORM";//Version 1.0 deprecated
+        public const string FieldMineralHabitDeprecated = "HABIT";//Version 1.0 deprecated
         public const string FieldMineralOccurence = "OCCURRENCE";//Version 1.0
         public const string FieldMineralColour = "COLOUR";//Version 1.0
         public const string FieldMineralSizeMin = "SIZEMINMM";//Version 1.0
         public const string FieldMineralSizeMax = "SIZEMAXMM";//Version 1.0
         public const string FieldMineralMode = "M_MODE";//Version 1.0
         public const string FieldMineralNote = "NOTES";//Version 1.0
-        public const string FieldMineralParentID = "EARTHMATID";//Version 1.0
+        public const string FieldMineralEMID = "EARTHMATID";//Version 1.0
+        public const string FieldMineralFormHabit = "FORM_HABIT"; //Version 1.6
+        public const string FieldMineralMAID = "MAID"; //Version 1.6
 
         public const string FieldMineralAlterationID = "MAID";//Version 1.0
         public const string FieldMineralAlterationName = "MAIDNAME";//Version 1.0
         public const string FieldMineralAlteration = "MA";//Version 1.0
         public const string FieldMineralAlterationUnit = "UNIT";//Version 1.0
-        public const string FieldMineralAlterationMineral = "MINERAL";//Version 1.0
-        public const string FieldMineralAlterationMode = "M_MODE";//Version 1.0
+        public const string FieldMineralAlterationMineralDeprecated = "MINERAL";//Version 1.0 deprecated
+        public const string FieldMineralAlterationModeDeprecated = "M_MODE";//Version 1.0 deprecated
         public const string FieldMineralAlterationDistrubute = "DISTRIBUTE";//Version 1.0
         public const string FieldMineralAlterationNotes = "NOTES";//Version 1.0
         public const string FieldMineralAlterationRelTable = "RELATIONTABLE";//Version 1.0
         public const string FieldMineralAlterationRelID = "RELATIONID";//Version 1.0
+        public const string FieldMineralAlterationPhase = "PHASE"; //Version 1.6
+        public const string FieldMineralAlterationTexture = "TEXTSTRUC"; //Version 1.6
+        public const string FieldMineralAlterationFacies = "ALTERATION_FACIES"; //Version 1.6
 
+        public const string FieldEnvID = "ENVIRONID"; //Version 1.6
+        public const string FieldEnvName = "ENVIRONIDNAME"; //Version 1.6
+        public const string FieldEnvRelief = "RELIEF"; //Version 1.6
+        public const string FieldEnvSlope = "SLOPE"; //Version 1.6
+        public const string FieldEnvAzim = "AZIMUTH"; //Version 1.6
+        public const string FieldEnvDrainage = "DRAINAGE"; //Version 1.6
+        public const string FieldEnvPermIndicator = "PERMAFROST_INDICATOR"; //Version 1.6
+        public const string FieldEnvGroundPattern = "GROUND_PATTERN"; //Version 1.6
+        public const string FieldEnvActiveLayerDepth = "ACTIVE_LAYER_DEPTH"; //Version 1.6
+        public const string FieldEnvGroundIce = "GROUND_ICE"; //Version 1.6
+        public const string FieldEnvGroundCover = "GROUND_COVER"; //Version 1.6
+        public const string FieldEnvBoulder = "BOULDER_FIELD"; //Version 1.6
+        public const string FieldEnvExposure = "EXPOSURE"; //Version 1.6
+        public const string FieldEnvNotes = "NOTES";//Version 1.6
+        public const string FieldEnvStationID = "STATIONID"; //Version 1.6
+        public const string FieldEnvMineralization = "MINIMPORT"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
+        public const string FieldEnvMineralizationNote = "MINNOTE"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
+        public const string FieldEnvGossan = "GOSSPRES"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
 
         #endregion
 
@@ -293,6 +329,7 @@
         public const string locationEntryTypeTap = "Tap";
         public const string sampleTypeOriented = "oriented";
         public const string samplePurposePaleomag = "paleomagnetism";
+        public const string structurePlanarAttitudeTrend = "trend";
 
         #endregion
 
@@ -306,8 +343,10 @@
         public const string KeywordMA = "alteration"; 
         public const string KeywordMineral = "mineral";
         public const string KeywordFossil = "fossil";
+        public const string KeywordEnvironment = "environ";
         public const string KeywordPflow = "flow";
         public const string KeywordConcatCharacter = " | ";
+        public const string KeywordConcatCharacter2nd = " - "; //Used when first contact is already being used
         public const string KeywordLithgrouptype = "LITHGROUPTYPE"; //Used to detect lithgrouptype picklist selection in the picklist editor, to launch a semantic zoom data update.
         public const string KeywordLithDetail = "LITHDETAIL"; //Used to detect lithdetail picklist selection in the picklist editor, to launch a semantic zoom data update.
         public const string KeywordStrucClassType = "STRUCCLASSTYPE"; //Used to detect strucclasstype picklist selection in the picklist editor, to launch a semantic zoom data update.
@@ -319,7 +358,9 @@
         public const string KeywordLocation = "location";
         public const string KeywordManual = "manual";
         public const string KeywordEPSGDefault = "4326"; //WGS 84
-
+        public const string KeywordColourGeneric = "COLOUR_GENERIC"; //Name of the generic colour picklist within M_DICTIONNARY_MANAGER
+        public const string KeywordColourIntensity = "COLOUR_INTENSITY"; //Name of the intensity colour picklist within M_DICTIONNARY_MANAGER
+        public const string KeywordColourQualifier = "COLOUR_QUALIFIER"; //Name of the qualifier colour picklist within M_DICTIONNARY_MANAGER
         #endregion
 
         #region Database guids
@@ -330,6 +371,14 @@
         public const string termIDEntryType_Manual = "7b60543f-a147-4625-968a-72ef81beb567";
         public const string termIDPaleoMagnetismSurficial = "A19B762E-C39D-4D20-80D7-81525F729A5E"; //sample purpose being paleomagnetism
         public const string termIDOriented = "6c4c5c6a-913f-4374-88de-90c4544be041"; //sample type being oriented
+
+        #endregion
+
+        #region Database Alias name prefixes
+        public const string TableMineralAliasPrefix = "M";
+        public const string TableDocumentAliasPrefix = "P";
+        public const string TableMineralAlterationPrefix = "X";
+        public const string TableEnvironmentPrefix = "E";
 
         #endregion
 

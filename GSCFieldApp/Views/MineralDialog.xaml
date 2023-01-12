@@ -4,11 +4,28 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Controls="using:Template10.Controls"
+    xmlns:Controls="using:Template10.Controls" xmlns:themes="using:GSCFieldApp.Themes"
     mc:Ignorable="d">
 
     <!-- data entry -->
     <Page>
+
+        <Page.Resources>
+
+            <!-- Concatenated Value Template -->
+            <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
+
+                <RelativePanel>
+                    <TextBlock Margin="5,0,0,0"
+                        Text="{x:Bind itemName}" x:Name="itemNameText"
+                        TextWrapping="NoWrap" />
+                    <SymbolIcon x:Name="ConcatValueCheck" Margin="10,0,0,0" RelativePanel.AlignRightWithPanel="True" RelativePanel.RightOf="itemNameText" Symbol="Delete" Foreground="#FF0000" Tapped="ConcatValueCheck_Tapped" Visibility="{x:Bind canRemoveItem}"/>
+                </RelativePanel>
+
+            </DataTemplate>
+
+
+        </Page.Resources>
 
         <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -79,16 +96,19 @@
 
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralGridView_03" RelativePanel.Below="MainSeparator_02">
-                            
-                            <ComboBox x:Name="MineralFormComboBox" x:Uid="MineralDialogForm"
-                                Header="" 
-                                ItemsSource="{x:Bind MineralVM.MineralForm}" 
-                                SelectedValue="{x:Bind MineralVM.SelectedMineralForm, Mode=TwoWay}"/>
 
-                            <ComboBox x:Name="MineralHabitComboBox" x:Uid="MineralDialogHabit"
+
+
+                            <RelativePanel x:Name="MineralFormRelativePanelFormHabit">
+                                <ComboBox x:Name="MineralFormHabitComboBox" x:Uid="MineralDialogForm"
                                 Header="" 
-                                ItemsSource="{x:Bind MineralVM.MineralHabit}" 
-                                SelectedValue="{x:Bind MineralVM.SelectedMineralHabit, Mode=TwoWay}"/>
+                                ItemsSource="{x:Bind MineralVM.MineralFormHabit}" SelectionChanged="{x:Bind MineralVM.ConcatComboBox_SelectionChanged}"
+                                SelectedValue="{x:Bind MineralVM.SelectedMineralFormHabit, Mode=TwoWay}"/>
+
+                                <ListView x:Name="MineralFormConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MineralFormHabitComboBox"
+                                                ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
+                                                ItemsSource="{x:Bind MineralVM.MineralFormHabitValues}"/>
+                            </RelativePanel>
 
                             <ComboBox x:Name="MineralOccurComboBox" x:Uid="MineralDialogOccur"
                                 Header="" 

@@ -354,14 +354,11 @@
   <data name="EarthDialogGrSize.Header" xml:space="preserve">
     <value>Grain/Crystal Size</value>
   </data>
-  <data name="EarthDialoghModStruc.Header" xml:space="preserve">
-    <value>Structural</value>
-  </data>
   <data name="EarthDialogModComp.Header" xml:space="preserve">
-    <value>Compositional</value>
+    <value>Qualifier</value>
   </data>
   <data name="EarthDialogModText.Header" xml:space="preserve">
-    <value>Textural</value>
+    <value>Texture/Structure</value>
   </data>
   <data name="EarthDialogMU.Header" xml:space="preserve">
     <value>Map Unit</value>
@@ -381,14 +378,14 @@
   <data name="EarthDialogColourW.Header" xml:space="preserve">
     <value>Weathered</value>
   </data>
-  <data name="EarthDialogContactLow.Header" xml:space="preserve">
-    <value>Lower</value>
+  <data name="EarthDialogContactRelated.Header" xml:space="preserve">
+    <value>Related to</value>
   </data>
-  <data name="EarthDialogContactNote.Header" xml:space="preserve">
-    <value>Note</value>
+  <data name="EarthDialogContactNote.Text" xml:space="preserve">
+    <value>Description</value>
   </data>
-  <data name="EarthDialogContactUp.Header" xml:space="preserve">
-    <value>Upper</value>
+  <data name="EarthDialogContactType.Header" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="EarthDialogInterp.Header" xml:space="preserve">
     <value>Interpretation</value>
@@ -811,10 +808,10 @@
     <value>Quality</value>
   </data>
   <data name="PflowDialogDip.Header" xml:space="preserve">
-    <value>Dip/Plunge</value>
+    <value>Dip</value>
   </data>
   <data name="PflowDialogDir.Header" xml:space="preserve">
-    <value>Direction</value>
+    <value>Sense</value>
   </data>
   <data name="PflowDialogFeature.Header" xml:space="preserve">
     <value>Type</value>
@@ -885,9 +882,6 @@
   <data name="LocaitonDialogLongitude.Header" xml:space="preserve">
     <value>Longitude</value>
   </data>
-  <data name="LocationDialogElevation.Header" xml:space="preserve">
-    <value>Elevation</value>
-  </data>
   <data name="LocationDialogLatitude.Header" xml:space="preserve">
     <value>Latitude</value>
   </data>
@@ -907,7 +901,7 @@
     <value>Colour</value>
   </data>
   <data name="MineralDialogForm.Header" xml:space="preserve">
-    <value>Form</value>
+    <value>Form / Habit</value>
   </data>
   <data name="MineralDialogHabit.Header" xml:space="preserve">
     <value>Habit</value>
@@ -1383,9 +1377,6 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
     <value>Entry rock type ie. basalt</value>
   </data>
-  <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
-    <value>Elevation (m)</value>
-  </data>
   <data name="LocationDialogGridView_Geo.Content" xml:space="preserve">
     <value>Geographic</value>
   </data>
@@ -1560,7 +1551,142 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MapPageIdentifyStructureDialogTitle" xml:space="preserve">
     <value>Structure summary</value>
   </data>
+  <data name="FieldworkTableStationRelatedTo.Header" xml:space="preserve">
+    <value>Related To (e.g. another station id)</value>
+  </data>
+  <data name="EarthDialogPercent.Header" xml:space="preserve">
+    <value>Percent</value>
+  </data>
+  <data name="EarthResidualLabel.Text" xml:space="preserve">
+    <value>Residual</value>
+  </data>
+  <data name="EarthResidualLabelMiddlefix" xml:space="preserve">
+    <value>% (</value>
+  </data>
+  <data name="EarthResidualLabelPrefix" xml:space="preserve">
+    <value>Total Mode: </value>
+  </data>
+  <data name="EarthResidualLabelSuffix" xml:space="preserve">
+    <value>elements)</value>
+  </data>
+  <data name="EarthDialogColourGeneric.Header" xml:space="preserve">
+    <value>Generic</value>
+  </data>
+  <data name="EarthDialogColourntensity.Header" xml:space="preserve">
+    <value>Intensity</value>
+  </data>
+  <data name="EarthDialogColourQualifier.Header" xml:space="preserve">
+    <value>Qualifier</value>
+  </data>
+  <data name="EarthDialogMagQualifier.Header" xml:space="preserve">
+    <value>Qualifier</value>
+  </data>
+  <data name="AboutDatabaseVersion.Text" xml:space="preserve">
+    <value>Database Version</value>
+  </data>
+  <data name="EarthDialogMI.Header" xml:space="preserve">
+    <value>Intensity</value>
+  </data>
+  <data name="EarthmatGridView_MetaIntensity.Content" xml:space="preserve">
+    <value>Metamorphic Facies</value>
+  </data>
+  <data name="LocationDialogElevation.Header" xml:space="preserve">
+    <value>Elevation</value>
+  </data>
+  <data name="LocationDialogGridView_General.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="LocationDialogNTS.Header" xml:space="preserve">
+    <value>National Topographic Sheet (NTS)</value>
+  </data>
+  <data name="MAGridView_Mineralogy.Content" xml:space="preserve">
+    <value>Mineralogy</value>
+  </data>
+  <data name="MineralAltFacies.Header" xml:space="preserve">
+    <value>Alteration facies</value>
+  </data>
+  <data name="MineralAltPhase.Header" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="MineralAltTexture.Header" xml:space="preserve">
+    <value>Texture</value>
+  </data>
+  <data name="MAGridViewDescription.Content" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MAGridViewGeneral.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="EarthDialogMF.Header" xml:space="preserve">
+    <value>Facies</value>
+  </data>
+  <data name="SetButtons.Content" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="FieldworkTableStationObsSource.Header" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="FieldworkTableEnvironment.Text" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="SettingPageToggleEnvironment.OffContent" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="SettingPageToggleEnvironment.OnContent" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="EarthmatGridView_Ground.Content" xml:space="preserve">
+    <value>Ground</value>
+  </data>
+  <data name="EarthmatGridView_Terrain.Content" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="EnvironmentDialogAzim.Header" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="EnvironmentDialogBoulder.Header" xml:space="preserve">
+    <value>Boulder</value>
+  </data>
+  <data name="EnvironmentDialogDepthLayer.Header" xml:space="preserve">
+    <value>Active Depth Layer (m)</value>
+  </data>
+  <data name="EnvironmentDialogDrainage.Header" xml:space="preserve">
+    <value>Drainage</value>
+  </data>
+  <data name="EnvironmentDialogExposureType.Header" xml:space="preserve">
+    <value>Exposure</value>
+  </data>
+  <data name="EnvironmentDialogGroundCover.Header" xml:space="preserve">
+    <value>Cover</value>
+  </data>
+  <data name="EnvironmentDialogGroundIce.Header" xml:space="preserve">
+    <value>Ice</value>
+  </data>
+  <data name="EnvironmentDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="EnvironmentDialogPermafrost.Header" xml:space="preserve">
+    <value>Permafrost Indicator</value>
+  </data>
+  <data name="EnvironmentDialogRelief.Header" xml:space="preserve">
+    <value>Relief</value>
+  </data>
+  <data name="EnvironmentDialogSlope.Header" xml:space="preserve">
+    <value>Slope</value>
+  </data>
+  <data name="EnvironmentGridView_Landscape.Content" xml:space="preserve">
+    <value>Landscape</value>
+  </data>
+  <data name="EnvironmentPatternGround.Header" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="PicklistDialogThemeEnvironment.Text" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="SettingPageVocabEnvironment.Content" xml:space="preserve">
+    <value>Environ.</value>
+  </data>
   <data name="MapPageCenter.Label" xml:space="preserve">
-    <value>Center</value>
+    <value>Recenter</value>
   </data>
 </root>

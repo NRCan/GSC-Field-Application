@@ -354,14 +354,11 @@
   <data name="EarthDialogGrSize.Header" xml:space="preserve">
     <value>Granulométrie</value>
   </data>
-  <data name="EarthDialoghModStruc.Header" xml:space="preserve">
-    <value>Modificateur Structure</value>
-  </data>
   <data name="EarthDialogModComp.Header" xml:space="preserve">
-    <value>Composition Structurel</value>
+    <value>Qualificatif structurel</value>
   </data>
   <data name="EarthDialogModText.Header" xml:space="preserve">
-    <value>Texture Structurel</value>
+    <value>Texture/Structure</value>
   </data>
   <data name="EarthDialogMU.Header" xml:space="preserve">
     <value>Unité Cartographique</value>
@@ -381,14 +378,14 @@
   <data name="EarthDialogColourW.Header" xml:space="preserve">
     <value>Surface altérée</value>
   </data>
-  <data name="EarthDialogContactLow.Header" xml:space="preserve">
-    <value>Contact Inférieur</value>
+  <data name="EarthDialogContactRelated.Header" xml:space="preserve">
+    <value>En relation avec</value>
   </data>
-  <data name="EarthDialogContactNote.Header" xml:space="preserve">
-    <value>Note</value>
+  <data name="EarthDialogContactNote.Text" xml:space="preserve">
+    <value>Description</value>
   </data>
-  <data name="EarthDialogContactUp.Header" xml:space="preserve">
-    <value>Contact Supérieur</value>
+  <data name="EarthDialogContactType.Header" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="EarthDialogInterp.Header" xml:space="preserve">
     <value>Interprétation</value>
@@ -805,10 +802,10 @@
     <value>Qualité</value>
   </data>
   <data name="PflowDialogDip.Header" xml:space="preserve">
-    <value>Pendage/Plongé</value>
+    <value>Pendage</value>
   </data>
   <data name="PflowDialogDir.Header" xml:space="preserve">
-    <value>Direction</value>
+    <value>Sense</value>
   </data>
   <data name="PflowDialogFeature.Header" xml:space="preserve">
     <value>Type</value>
@@ -901,7 +898,7 @@
     <value>Couleur</value>
   </data>
   <data name="MineralDialogForm.Header" xml:space="preserve">
-    <value>Forme</value>
+    <value>Forme / Structure</value>
   </data>
   <data name="MineralDialogHabit.Header" xml:space="preserve">
     <value>Structure</value>
@@ -1503,9 +1500,6 @@ Shimamura, Kaz – Conseiller</value>
   <data name="UserInfoDialogAName.PlaceholderText" xml:space="preserve">
     <value>Nom</value>
   </data>
-  <data name="LocationDialogGridView_Accuracy.Content" xml:space="preserve">
-    <value>Précision</value>
-  </data>
   <data name="LocationDialogAccuracy.Header" xml:space="preserve">
     <value>Précision (m)</value>
   </data>
@@ -1557,7 +1551,139 @@ Shimamura, Kaz – Conseiller</value>
   <data name="MapPageIdentifyStructureDialogTitle" xml:space="preserve">
     <value>Sommaire de la structure</value>
   </data>
+  <data name="FieldworkTableStationRelatedTo.Header" xml:space="preserve">
+    <value>En lien avec (ex: un autre station)</value>
+  </data>
+  <data name="EarthDialogPercent.Header" xml:space="preserve">
+    <value>Pourcentage</value>
+  </data>
+  <data name="EarthResidualLabel.Text" xml:space="preserve">
+    <value>Résiduel</value>
+  </data>
+  <data name="EarthResidualLabelMiddlefix" xml:space="preserve">
+    <value>% (</value>
+  </data>
+  <data name="EarthResidualLabelPrefix" xml:space="preserve">
+    <value>Pourcentage total: </value>
+  </data>
+  <data name="EarthResidualLabelSuffix" xml:space="preserve">
+    <value>éléments)</value>
+  </data>
+  <data name="EarthDialogColourGeneric.Header" xml:space="preserve">
+    <value>De base</value>
+  </data>
+  <data name="EarthDialogColourntensity.Header" xml:space="preserve">
+    <value>Intensité</value>
+  </data>
+  <data name="EarthDialogColourQualifier.Header" xml:space="preserve">
+    <value>Qualificatif</value>
+  </data>
+  <data name="EarthDialogMagQualifier.Header" xml:space="preserve">
+    <value>Qualificatif</value>
+  </data>
+  <data name="AboutDatabaseVersion.Text" xml:space="preserve">
+    <value>Version base de données</value>
+  </data>
+  <data name="EarthDialogMI.Header" xml:space="preserve">
+    <value>Intensité</value>
+  </data>
+  <data name="EarthmatGridView_MetaIntensity.Content" xml:space="preserve">
+    <value>Faciès métamorphique</value>
+  </data>
+  <data name="LocationDialogGridView_General.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="LocationDialogNTS.Header" xml:space="preserve">
+    <value>Système national de référence cartographique (SNRC)</value>
+  </data>
+  <data name="MAGridView_Mineralogy.Content" xml:space="preserve">
+    <value>Minéralogie</value>
+  </data>
+  <data name="MineralAltFacies.Header" xml:space="preserve">
+    <value>Faciès d'altération</value>
+  </data>
+  <data name="MineralAltPhase.Header" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="MineralAltTexture.Header" xml:space="preserve">
+    <value>Texture</value>
+  </data>
+  <data name="MAGridViewDescription.Content" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MAGridViewGeneral.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="EarthDialogMF.Header" xml:space="preserve">
+    <value>Faciès</value>
+  </data>
+  <data name="SetButtons.Content" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
+  <data name="FieldworkTableStationObsSource.Header" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="FieldworkTableEnvironment.Text" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="SettingPageToggleEnvironment.OffContent" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="SettingPageToggleEnvironment.OnContent" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="EarthmatGridView_Ground.Content" xml:space="preserve">
+    <value>Sol</value>
+  </data>
+  <data name="EarthmatGridView_Terrain.Content" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="EnvironmentDialogAzim.Header" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="EnvironmentDialogBoulder.Header" xml:space="preserve">
+    <value>Rocher</value>
+  </data>
+  <data name="EnvironmentDialogDepthLayer.Header" xml:space="preserve">
+    <value>Profondeur couche active (m)</value>
+  </data>
+  <data name="EnvironmentDialogDrainage.Header" xml:space="preserve">
+    <value>Drainage</value>
+  </data>
+  <data name="EnvironmentDialogExposureType.Header" xml:space="preserve">
+    <value>Exposition</value>
+  </data>
+  <data name="EnvironmentDialogGroundCover.Header" xml:space="preserve">
+    <value>Couverture</value>
+  </data>
+  <data name="EnvironmentDialogGroundIce.Header" xml:space="preserve">
+    <value>Glace</value>
+  </data>
+  <data name="EnvironmentDialogNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="EnvironmentDialogPermafrost.Header" xml:space="preserve">
+    <value>Indicateur de permafrost</value>
+  </data>
+  <data name="EnvironmentDialogRelief.Header" xml:space="preserve">
+    <value>Relief</value>
+  </data>
+  <data name="EnvironmentDialogSlope.Header" xml:space="preserve">
+    <value>Pente</value>
+  </data>
+  <data name="EnvironmentGridView_Landscape.Content" xml:space="preserve">
+    <value>Paysage</value>
+  </data>
+  <data name="EnvironmentPatternGround.Header" xml:space="preserve">
+    <value>Motifs</value>
+  </data>
+  <data name="PicklistDialogThemeEnvironment.Text" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="SettingPageVocabEnvironment.Content" xml:space="preserve">
+    <value>Environ.</value>
+  </data>
   <data name="MapPageCenter.Label" xml:space="preserve">
-    <value>Centrer</value>
+    <value>Recadrer</value>
   </data>
 </root>
