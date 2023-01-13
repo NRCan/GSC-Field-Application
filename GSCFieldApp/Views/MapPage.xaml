@@ -76,9 +76,18 @@
 
         <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" IsOpen="True" Height="40">
+            <AppBarButton x:Name="LatLongUTM" Label="Coordinates" x:Uid="MapPageLatLongUTM" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="Read">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="LatLong DMS" Click="LatLongDMSButtonClicked"/>
+                        <MenuFlyoutItem Text="LatLong DD" Click="LatLongDDButtonClicked"/>
+                        <MenuFlyoutItem Text="UTM" Click="UTMButtonClicked"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
             <AppBarButton Foreground="White" Icon="OpenFile" MaxWidth="120" Height="55" IsCompact ="True" VerticalAlignment="Top" x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
             <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White" MaxWidth="100" Height="50" IsCompact ="True" VerticalAlignment="Top" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
-                <AppBarButton.Icon>
+                    <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
@@ -142,7 +151,7 @@
 
                 </Border>
 
-                <Border x:Name="MapCoordinateInfo2" RelativePanel.Below="MapCoordinateInfo" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0" >
+                <Border x:Name="MapCoordinateInfo2" RelativePanel.Below="MapCoordinateInfo5" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0">
 
                     <TextBlock Name="MapCoordinateAccuracyText" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
@@ -158,6 +167,28 @@
 
                     <Run Text="Projection: " x:Uid="MapInfoMapProjectionLabel"/>
                     <Run Text="{x:Bind MapPageViewModel.CurrentProjection, Mode=OneWay}"/>
+                    </TextBlock>
+        
+                </Border>
+                <Border x:Name="MapCoordinateInfo4" RelativePanel.Below="MapCoordinateInfo" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0" Visibility="Collapsed">
+
+                    <TextBlock Name="MapCoordinateText4" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0">
+
+                    <Run Text="Location: " x:Uid="MapInfoLocationLabel"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentLatitude, Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentLongitude, Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentAltitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
+                    </TextBlock>
+
+                </Border>
+                <Border x:Name="MapCoordinateInfo5" RelativePanel.Below="MapCoordinateInfo4" CornerRadius="5,5,5,5" Style="{ThemeResource FieldMapBorderStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,5,0,0" Visibility="Collapsed">
+
+                    <TextBlock Name="MapCoordinateText5" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
+
+                    <Run Text="Location: " x:Uid="MapInfoLocationLabel"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentEasting, Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentNorthing, Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentAltitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
                     </TextBlock>
 
                 </Border>
