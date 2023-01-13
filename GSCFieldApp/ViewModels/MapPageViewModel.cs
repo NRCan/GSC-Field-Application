@@ -83,6 +83,8 @@ namespace GSCFieldApp.ViewModels
         public double _currentLongitude = 0.0;
         public double _currentLatitude = 0.0;
         public double _currentAltitude = 0.0;
+        public double _currentEasting = 0.0;
+        public double _currentNorthing = 0.0;
         public double _currentAccuracy = 0.0;
         public string _currentProjection = string.Empty; //Added by jamel to get projection info
         public bool initializingGPS = false;
@@ -189,6 +191,8 @@ namespace GSCFieldApp.ViewModels
         public double CurrentLongitude { get { return _currentLongitude; } set { _currentLongitude = value; } }
         public double CurrentLatitude { get { return _currentLatitude; } set { _currentLatitude = value; } }
         public double CurrentAltitude { get { return _currentAltitude; } set { _currentAltitude = value; } }
+        public double CurrentEasting { get { return _currentEasting; } set { _currentEasting = value; } }
+        public double CurrentNorthing { get { return _currentNorthing; } set { _currentNorthing = value; } }
         public double CurrentAccuracy { get { return _currentAccuracy; } set { _currentAccuracy = value; } }
         public string CurrentProjection { get { return _currentProjection; } set { _currentProjection = value; } } //Added by Jamel
         public Tuple<double, double> lastTakenLocation { get; set; }

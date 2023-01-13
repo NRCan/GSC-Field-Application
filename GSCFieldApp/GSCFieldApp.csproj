@@ -28,7 +28,7 @@
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
-    <PackageCertificateThumbprint>14CF0ECF911C8A37CF0E2EF4F8E06F25425B80C1</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>6B7049B18F83DEAB062ECE19F1E939B8756E21E4</PackageCertificateThumbprint>
     <AppxPackageDir>C:\work data\datacollections\PublishedVersions\</AppxPackageDir>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>365</AppInstallerUpdateFrequency>
@@ -145,6 +145,7 @@
     <Content Include="ModelResources\GSCFieldwork_v150.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="GSCFieldApp_TemporaryKey.pfx" />
     <None Include="ModelResources\Readme.md" />
     <None Include="Models\Readme.md" />
     <None Include="project.json" />

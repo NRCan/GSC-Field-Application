@@ -127,8 +127,9 @@ namespace GSCFieldApp.Views
         private void MapInfoButtonClicked(object sender, RoutedEventArgs e)
         {
             //Hide or show coordinates, accuracy, and projection info when clicked
-            MapCoordinateInfo.Visibility = (MapCoordinateInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+            //MapCoordinateInfo.Visibility = (MapCoordinateInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapScaleInfo.Visibility = (MapScaleInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+            //myMapView.Grid.IsVisible = (myMapView.Grid.IsVisible == true ? false : true);
             localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
             if (myMapView.Grid != null)
             {
@@ -137,6 +138,9 @@ namespace GSCFieldApp.Views
 
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+            //MapCoordinateInfo4.Visibility = (MapCoordinateInfo4.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+            //MapCoordinateInfo5.Visibility = (MapCoordinateInfo5.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+
 
             //Try and enforce whole map view redraw see #176
             //MapPageViewModel.esriMap = null;
@@ -145,6 +149,31 @@ namespace GSCFieldApp.Views
             //await MapPageViewModel.SetMapView(myMapView);
 
         }
+
+        private void LatLongDMSButtonClicked(object sender, RoutedEventArgs e)
+        {
+            //Hide or show Lat Long and UTM coordinates
+            MapCoordinateInfo.Visibility = Visibility.Visible;
+            MapCoordinateInfo4.Visibility = Visibility.Collapsed;
+            MapCoordinateInfo5.Visibility = Visibility.Collapsed;
+        }
+
+        private void LatLongDDButtonClicked(object sender, RoutedEventArgs e)
+        {
+            //Hide or show Lat Long and UTM coordinates
+            MapCoordinateInfo.Visibility = Visibility.Collapsed;
+            MapCoordinateInfo4.Visibility = Visibility.Visible;
+            MapCoordinateInfo5.Visibility = Visibility.Collapsed;
+        }
+
+        private void UTMButtonClicked(object sender, RoutedEventArgs e)
+        {
+            //Hide or show Lat Long and UTM coordinates
+            MapCoordinateInfo.Visibility = Visibility.Collapsed;
+            MapCoordinateInfo4.Visibility = Visibility.Collapsed;
+            MapCoordinateInfo5.Visibility = Visibility.Visible;
+        }
+
 
         /// <summary>
         /// Will triggered a delete action on the selected layer. It'll be removed from the map and deleted from the local state folder.
