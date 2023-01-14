@@ -76,7 +76,7 @@
 
         <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" IsOpen="True" Height="40">
-            <AppBarButton x:Name="LatLongUTM" Label="Coordinates" x:Uid="MapPageLatLongUTM" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="Read">
+            <AppBarButton x:Name="LatLongUTM" Visibility="Collapsed" Label="Coordinates" x:Uid="MapPageLatLongUTM" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="Read">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="LatLong DMS" Click="LatLongDMSButtonClicked"/>
