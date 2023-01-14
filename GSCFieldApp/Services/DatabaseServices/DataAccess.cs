@@ -272,25 +272,32 @@ namespace GSCFieldApp.Services.DatabaseServices
             // Create a new connection
             using (inDB)
             {
-
-                inDB.RunInTransaction(() =>
+                try
                 {
-                    if (doUpdate)
+                    inDB.RunInTransaction(() =>
                     {
-                        // update - Not working version 3.13 SQLite-Net UWP
-                        int sucess = inDB.Update(tableObject);
+                        if (doUpdate)
+                        {
+                            // update - Not working version 3.13 SQLite-Net UWP
+                            int sucess = inDB.Update(tableObject);
 
-                        ////Update - To bypass update bug
-                        //string upQuery = GetUpdateQueryFromClass(tableObject, inDB);
-                        //SQLiteCommand command = inDB.CreateCommand(upQuery);
-                        //command.ExecuteNonQuery();
+                            ////Update - To bypass update bug
+                            //string upQuery = GetUpdateQueryFromClass(tableObject, inDB);
+                            //SQLiteCommand command = inDB.CreateCommand(upQuery);
+                            //command.ExecuteNonQuery();
 
-                    }
-                    else
-                    {
-                        int sucess = inDB.Insert(tableObject);
-                    }
-                });
+                        }
+                        else
+                        {
+                            int success = inDB.Insert(tableObject);
+                        }
+                    });
+                }
+                catch (SQLite.SQLiteException ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+
 
                 inDB.Close();
             }

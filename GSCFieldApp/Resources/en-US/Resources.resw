@@ -1689,4 +1689,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MapPageCenter.Label" xml:space="preserve">
     <value>Recenter</value>
   </data>
+  <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
+    <value>Elevation (m)</value>
+  </data>
 </root>

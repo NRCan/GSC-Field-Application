@@ -29,10 +29,10 @@ namespace GSCFieldApp.Models
         public string FileName { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentFileNo)]
-        public string FileNumber { get; set; }
+        public int FileNumber { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentDirection)]
-        public string Direction { get; set; }
+        public int Direction { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentDescription)]
         public string Description { get; set; }
@@ -47,10 +47,10 @@ namespace GSCFieldApp.Models
         public string RelatedID { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentObjLocX)]
-        public string ObjectX { get; set; }
+        public double? ObjectX { get; set; }
 
         [Column(DatabaseLiterals.FIeldDocumentObjLocY)]
-        public string ObjectY { get; set; }
+        public double? ObjectY { get; set; }
 
 
         /// <summary>

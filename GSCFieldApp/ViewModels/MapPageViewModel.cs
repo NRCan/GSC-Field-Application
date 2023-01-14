@@ -3487,7 +3487,11 @@ namespace GSCFieldApp.ViewModels
             {
                 try
                 {
-                    esriMap.Basemap.BaseLayers.Clear();
+                    if (esriMap != null)
+                    {
+                        esriMap.Basemap.BaseLayers.Clear();
+                    }
+                    
                 }
                 catch (Exception)
                 {

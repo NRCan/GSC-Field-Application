@@ -335,7 +335,7 @@ namespace GSCFieldApp.ViewModels
         { 
             List<object> docTableLRaw = accessData.ReadTable(documentModel.GetType(), null);
             IEnumerable<Document> docTable = docTableLRaw.Cast<Document>(); //Cast to proper list type
-            IEnumerable<string> docs = from d in docTable select d.FileNumber;
+            IEnumerable<string> docs = from d in docTable select d.FileNumber.ToString();
             foreach (string ds in docs)
             {
                 _fileNumbers.Add(ds);
@@ -386,9 +386,19 @@ namespace GSCFieldApp.ViewModels
                 documentModel.DocumentID = _documentID;
                 documentModel.DocumentName = _documentName;
                 documentModel.Description = _description;
-                documentModel.Direction = _direction;
+                
                 documentModel.FileName = _fileName;
-                documentModel.FileNumber = _fileNumber;
+                
+
+                //Variable parsing
+                if (_direction != String.Empty)
+                {
+                    documentModel.Direction = int.Parse(_direction);
+                }
+                if (_fileNumber != String.Empty)
+                {
+                    documentModel.FileNumber = int.Parse(_fileNumber);
+                }
 
                 #region COMBOBOXES
                 if (SelectedCategory != null)
@@ -424,7 +434,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     documentModel.FileName = _documentPhotoFile.Name;
                     documentModel.DocumentType = DatabaseLiterals.documentTableFileSuffix; //Default value from embeded cameras.
-                    documentModel.FileNumber = string.Empty; //File number can be empty since embedded photo don't need renaming
+                    //documentModel.FileNumber = string.Empty; //File number can be empty since embedded photo don't need renaming
                 }
 
                 #endregion
@@ -444,10 +454,12 @@ namespace GSCFieldApp.ViewModels
                         int currentIteration = 1;
                         while (iteratedFileNumber <= totalIteration)
                         {
+                            _fileNumber = iteratedFileNumber.ToString();
+
                             Document newDoc = new Document
                             {
                                 DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
-                                FileNumber = _fileNumber = iteratedFileNumber.ToString(),
+                                FileNumber = iteratedFileNumber,
                                 FileName = _fileName = CalculateFileName(),
                                 DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
 
@@ -942,9 +954,9 @@ namespace GSCFieldApp.ViewModels
             _documentID = existingDataDetailDocument.document.DocumentID;
             _documentName = existingDataDetailDocument.document.DocumentName;
             _description = existingDataDetailDocument.document.Description;
-            _direction = existingDataDetailDocument.document.Direction;
+            _direction = existingDataDetailDocument.document.Direction.ToString();
             _fileName = existingDataDetailDocument.document.FileName;
-            _fileNumber = existingDataDetailDocument.document.FileNumber;
+            _fileNumber = existingDataDetailDocument.document.FileNumber.ToString();
             _documentPhotoPath = existingDataDetailDocument.document.PhotoPath;
 
             _selectedRelatedID = existingDataDetailDocument.document.RelatedID;
