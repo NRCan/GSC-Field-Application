@@ -127,20 +127,24 @@ namespace GSCFieldApp.Views
         private void MapInfoButtonClicked(object sender, RoutedEventArgs e)
         {
             //Hide or show coordinates, accuracy, and projection info when clicked
-            //MapCoordinateInfo.Visibility = (MapCoordinateInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapScaleInfo.Visibility = (MapScaleInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-            //myMapView.Grid.IsVisible = (myMapView.Grid.IsVisible == true ? false : true);
-            localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
-            if (myMapView.Grid != null)
-            {
-                myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
-            }
 
+            if (localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) != null)
+            {
+                localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
+
+                if (myMapView.Grid != null)
+                {
+                    myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
+                }
+            }
+            else
+            {
+                localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, false);
+            }
+            
             MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
             MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-            //MapCoordinateInfo4.Visibility = (MapCoordinateInfo4.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-            //MapCoordinateInfo5.Visibility = (MapCoordinateInfo5.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-
 
             //Try and enforce whole map view redraw see #176
             //MapPageViewModel.esriMap = null;
