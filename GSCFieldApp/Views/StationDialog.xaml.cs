@@ -39,21 +39,11 @@ namespace GSCFieldApp.Views
             this.Loading += StationDataPart_Loading;
             this.Loaded += StationDataPart_Loaded;
 
-            this.stationSaveButton.GotFocus += StationSaveButton_GotFocus; //bug 306
         }
-
-        private void StationSaveButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-            ViewModel.SaveDialogInfo();
-            CloseControl();
-        }
-
         private void StationDataPart_Loaded(object sender, RoutedEventArgs e)
         {
             //EasterEgg();
         }
-
         private void StationDataPart_Loading(FrameworkElement sender, object args)
         {
             //Get information to automatically fill the dialog if data already exists (report page vs new station)
@@ -93,8 +83,8 @@ namespace GSCFieldApp.Views
 
         private void stationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.stationSaveButton.Focus(FocusState.Programmatic);
-
+            ViewModel.SaveDialogInfo();
+            CloseControl();
         }
 
         #endregion

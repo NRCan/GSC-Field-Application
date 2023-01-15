@@ -87,7 +87,6 @@ namespace GSCFieldApp.Views
 
             }
 
-            this.picklistSaveButton.GotFocus += PicklistSaveButton_GotFocusAsync; //bug 306
         }
 
         #region CLOSE
@@ -329,13 +328,10 @@ namespace GSCFieldApp.Views
         #region SAVE
         private void PicklistSaveButton_TappedAsync(object sender, TappedRoutedEventArgs e)
         {
-            this.picklistSaveButton.Focus(FocusState.Programmatic);
-        }
-        private void PicklistSaveButton_GotFocusAsync(object sender, RoutedEventArgs e)
-        {
             picklistVM.SaveDialogInfo();
             CloseControl();
         }
+
         #endregion
 
         #region GET METHODS

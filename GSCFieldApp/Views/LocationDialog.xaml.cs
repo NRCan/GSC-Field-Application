@@ -41,38 +41,10 @@ namespace GSCFieldApp.Views
                 entryType = parentViewModel.location.LocationEntryType
             };
 
-            this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocusAsync;
-
             this.Loading += LocationDialog_Loading;
             this.Unloaded += LocationDialog_Unloaded;
 
             defaultBrush = this.LocationAcuracy.BorderBrush;
-        }
-
-        private async void LocationSaveButton_GotFocusAsync(object sender, RoutedEventArgs e)
-        {
-            
-            Task<bool> isUIValid = isLocationValidAsync();
-            await isUIValid;
-
-            if (isUIValid.Result)
-            {
-                locationVM.SaveDialogInfo();
-                CloseControl();
-            }
-            else
-            {
-                ContentDialog defaultEventLocationDialog = new ContentDialog()
-                {
-                    Title = local.GetString("LocationDialogBadSaveTitle"),
-                    Content = local.GetString("LocationDialogBadSaveContent"),
-                    CloseButtonText = local.GetString("GenericDialog_ButtonOK")
-                };
-                defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
-
-                this.LocationDatum.Focus(FocusState.Programmatic);
-            }
         }
 
         private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
@@ -167,9 +139,29 @@ namespace GSCFieldApp.Views
         #endregion
 
         #region SAVE
-        private void LocationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void LocationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             e.Handled = true;
+
+            Task<bool> isUIValid = isLocationValidAsync();
+
+            if (isUIValid.Result)
+            {
+                locationVM.SaveDialogInfo();
+                CloseControl();
+            }
+            else
+            {
+                ContentDialog defaultEventLocationDialog = new ContentDialog()
+                {
+                    Title = local.GetString("LocationDialogBadSaveTitle"),
+                    Content = local.GetString("LocationDialogBadSaveContent"),
+                    CloseButtonText = local.GetString("GenericDialog_ButtonOK")
+                };
+                defaultEventLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                await Services.ContentDialogMaker.CreateContentDialogAsync(defaultEventLocationDialog, true);
+
+            }
         }
 
         #endregion

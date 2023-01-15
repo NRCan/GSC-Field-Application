@@ -21,7 +21,7 @@ namespace GSCFieldApp.Views
             this.InitializeComponent();
 
             this.Loading += Paleoflow_Loading;
-            this.pflowSaveButton.GotFocus += PflowSaveButton_GotFocus;
+
         }
 
         #region CLOSE
@@ -44,11 +44,6 @@ namespace GSCFieldApp.Views
 
         #region EVENTS
 
-        private void PflowSaveButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-            pflowModel.SaveDialogInfo();
-            CloseControl();
-        }
 
         private void Paleoflow_Loading(FrameworkElement sender, object args)
         {
@@ -81,7 +76,8 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void pflowSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.pflowSaveButton.Focus(FocusState.Programmatic);
+            pflowModel.SaveDialogInfo();
+            CloseControl();
 
         }
 

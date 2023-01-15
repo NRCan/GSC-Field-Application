@@ -31,7 +31,6 @@ namespace GSCFieldApp.Views
 
             this.Loading += environmentDialog_Loading;
 
-            this.envSaveButton.GotFocus += EnvSaveButton_GotFocus; //bug 306
         }
 
 
@@ -53,19 +52,12 @@ namespace GSCFieldApp.Views
             }
         }
 
-        private void EnvSaveButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-            EnvViewModel.SaveDialogInfo();
-            CloseControl();
-        }
-
         #region SAVE
 
         private void envSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.envSaveButton.Focus(FocusState.Programmatic);
-
+            EnvViewModel.SaveDialogInfo();
+            CloseControl();
         }
 
         #endregion

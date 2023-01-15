@@ -21,7 +21,6 @@ namespace GSCFieldApp.Views
             this.InitializeComponent();
 
             this.Loading += FossilDialog_Loading;
-            this.fossilSaveButton.GotFocus += FossilSaveButton_GotFocus;
         }
 
         #region EVENTS
@@ -46,14 +45,11 @@ namespace GSCFieldApp.Views
 
         private void fossilSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.fossilSaveButton.Focus(FocusState.Programmatic);
-
-        }
-        private void FossilSaveButton_GotFocus(object sender, RoutedEventArgs e)
-        {
             fossilModel.SaveDialogInfo();
             CloseControl();
+
         }
+
         #endregion
 
         #region CLOSE

@@ -36,7 +36,6 @@ namespace GSCFieldApp.Views
             this.InitializeComponent();
             ViewModel = new EarthmatViewModel(inDetailViewModel);
             this.Loading += EarthmatDialog_Loading;
-            this.earthmatSaveButton.GotFocus += EarthmatSaveButton_GotFocus;
 
         }
         
@@ -66,10 +65,6 @@ namespace GSCFieldApp.Views
 
         #region SAVE
         private void earthmatSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            this.earthmatSaveButton.Focus(FocusState.Programmatic);
-        }
-        private void EarthmatSaveButton_GotFocus(object sender, RoutedEventArgs e)
         {
             ViewModel.SaveDialogInfo();
             CloseControl();

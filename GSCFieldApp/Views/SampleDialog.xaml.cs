@@ -25,13 +25,7 @@ namespace GSCFieldApp.Views
 
             ViewModel = new SampleViewModel(inDetailViewModel);
             this.Loading += SampleDialog_Loading;
-            this.sampleSaveButton.GotFocus += SampleSaveButton_GotFocus;
-        }
 
-        private void SampleSaveButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-            ViewModel.SaveDialogInfo();
-            CloseControl();
         }
 
         /// <summary>
@@ -87,8 +81,8 @@ namespace GSCFieldApp.Views
         #region SAVE
         private void sampleSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.sampleSaveButton.Focus(FocusState.Programmatic);
-
+            ViewModel.SaveDialogInfo();
+            CloseControl();
         }
 
 

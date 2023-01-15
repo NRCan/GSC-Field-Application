@@ -47,18 +47,10 @@ namespace GSCFieldApp.Views
             strucViewModel = new StructureViewModel(inDetailViewModel);
 
             this.Loading += StructureDialog_Loading;
-            this.structSaveButton.GotFocus += StructSaveButton_GotFocus;
 
             defaultColourBrush = this.strucType.BorderBrush;
 
         }
-
-        private void StructSaveButton_GotFocus(object sender, RoutedEventArgs e)
-        {
-            strucViewModel.SaveDialogInfoAsync();
-            CloseControl();
-        }
-
 
         #region CLOSE
         /// <summary>
@@ -125,6 +117,8 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void structSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            strucViewModel.SaveDialogInfoAsync();
+            CloseControl();
         }
 
         /// <summary>
