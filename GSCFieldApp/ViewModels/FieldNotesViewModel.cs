@@ -2093,42 +2093,6 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("ReportDetailedMineral");
 
             }
-            //If the selection is already a mineral, coming form an edit
-            //if (_reportMineralIndex != -1)
-            //{
-            //    #region Conditional to have a selected mineral
-            //    //foundParentOrSibling = true;
-
-            //    //Get a list of related samples from selected earthmat
-            //    //Querying with Linq
-            //    IEnumerable<Mineral> mineralParent = from e in mineralTable where e.MineralEMID == _reportDetailedMinerals[_reportMineralIndex].ParentID || e.MineralMAID == _reportDetailedMinerals[_reportMineralIndex].ParentID select e;
-
-            //    if (mineralParent.Count() != 0 || mineralParent != null)
-            //    {
-            //        Mineral mp = mineralParent.First();
-            //        if (mp.MineralEMID != null)
-            //        {
-            //            FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].earthmat.EarthMatID);
-            //        }
-            //        else if (mp.MineralMAID != null)
-            //        {
-            //            FillMineralFromParent(mineralParent, _reportDetailedMinerals[_reportMineralIndex].mineralAlteration.MAID);
-            //        }
-
-            //    }
-
-            //    //Manage header opacity
-            //    mineralRecordCount = mineralParent.Count();
-
-            //    #endregion
-
-            //    //Manager header color opacity (transparent if no items)
-            //    SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineral);
-
-            //    RaisePropertyChanged("ReportDetailedMineral");
-
-            //}
-
 
             if (_reportStationIndex != -1 && _reportMineralizationAlterationIndex == -1 && _reportEarthmatIndex == -1)
             {
@@ -2168,7 +2132,7 @@ namespace GSCFieldApp.ViewModels
 
                 RaisePropertyChanged("ReportDetailedMineral");
 
-                }
+            }
 
             SetHeaderIconOpacity();
         }
@@ -2195,12 +2159,12 @@ namespace GSCFieldApp.ViewModels
 
                 if (parentID == string.Empty && m.MineralEMID != null)
                 {
-                    currentDetailReport.ParentID = m.MineralEMID; //TO keep the link with earthmat table
+                    currentDetailReport.ParentID = m.MineralEMID.ToString(); //TO keep the link with earthmat table
                     currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
                 }
                 else if (parentID == string.Empty && m.MineralMAID != null)
                 {
-                    currentDetailReport.ParentID = m.MineralMAID; //TO keep the link with earthmat table
+                    currentDetailReport.ParentID = m.MineralMAID.ToString(); //TO keep the link with earthmat table
                     currentDetailReport.ParentTableName = DatabaseLiterals.TableMineralAlteration; //To keep the link with location table.
                 }
                 else

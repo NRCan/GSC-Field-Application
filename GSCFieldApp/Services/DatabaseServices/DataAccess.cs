@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using SQLite;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Resources;
+using System.Diagnostics;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 
@@ -290,6 +291,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                         else
                         {
                             int success = inDB.Insert(tableObject);
+                            Debug.WriteLine(inDB);
+                            Console.WriteLine(success.ToString());
                         }
                     });
                 }
