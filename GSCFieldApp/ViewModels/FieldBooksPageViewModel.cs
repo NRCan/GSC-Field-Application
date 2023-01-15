@@ -331,9 +331,10 @@ namespace GSCFieldApp.ViewModels
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoFWorkType, _projectCollection[newIndex].metadataForProject.FieldworkType);
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoUCode, _projectCollection[newIndex].metadataForProject.UserCode);
                 localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoID, _projectCollection[newIndex].metadataForProject.MetaID);
+                DataAccess.DbPath = _projectCollection[newIndex].ProjectDBPath;
 
                 ApplicationData.Current.SignalDataChanged();
-                DataAccess.DbPath = _projectCollection[newIndex].ProjectDBPath;
+                
             }
 
 
@@ -352,8 +353,16 @@ namespace GSCFieldApp.ViewModels
                 }
             }
 
+            //Send call to refresh other pages
+            EventHandler<string> newFieldBookRequest = newFieldBookSelected;
+            if (newFieldBookRequest != null)
+            {
+                newFieldBookRequest(this, null);
+            }
+
             //Refresh page
             FillProjectCollectionAsync();
+            
         }
 
         /// <summary>

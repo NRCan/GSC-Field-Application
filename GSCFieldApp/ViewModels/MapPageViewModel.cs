@@ -1832,6 +1832,8 @@ namespace GSCFieldApp.ViewModels
         private void SettingsPageViewModel_deleteAllLayers(object sender, EventArgs e)
         {
             DeleteLayersAsync(false);
+            RefreshMap(true);
+         
         }
 
         /// <summary>
@@ -1853,19 +1855,8 @@ namespace GSCFieldApp.ViewModels
 
         private async void FieldBooksPageViewModel_newFieldBookSelectedAsync(object sender, string e)
         {
-            ClearMapViewSettings();
-            ClearLayers();
-            DisplayPointAndLabelsAsync(currentMapView);
-            try
-            {
-                await AddAllLayers();
-            }
-            catch (Exception)
-            {
-
-            }
-
-
+            DeleteLayersAsync(false);
+            RefreshMap(true);
         }
 
         /// <summary>
@@ -2485,47 +2476,6 @@ namespace GSCFieldApp.ViewModels
 
             return System.Drawing.Color.FromArgb(red, green, blue);
         }
-
-        /// <summary>
-        /// Will create a blanck polygon feature and add it to base map its extent gets initialized to new polygon extent instead of first entered tpk.
-        /// A project will be force to match input spatial reference to work properly.
-        /// </summary>
-        /// <param name="inSP"></param>
-        //public void AddBlanckFeature(SpatialReference inSP)
-        //{
-        //    if (inSP != null)
-        //    {
-        //        //Define extent by creating a new polygon
-        //        SpatialReference wgs84 = SpatialReference.Create(4326);
-        //        PolygonBuilder polyBuilder = new PolygonBuilder(wgs84);
-        //        polyBuilder.AddPoint(new MapPoint(-143.6561, 41.0437, wgs84));
-        //        polyBuilder.AddPoint(new MapPoint(-143.6561, 83.4417, wgs84));
-        //        polyBuilder.AddPoint(new MapPoint(-56.7885, 83.4417, wgs84));
-        //        polyBuilder.AddPoint(new MapPoint(-56.7885, 41.0437, wgs84));
-
-        //        //Project
-        //        Polygon blanckPoly = (Polygon)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(polyBuilder.ToGeometry(), inSP);
-
-        //        // defines the schema for the geometry's attribute
-        //        List<Field> polygonFields = new List<Field>();
-        //        polygonFields.Add(Field.CreateString("Area", "Area Name", 50));
-
-        //        FeatureCollectionTable polygonTable = new FeatureCollectionTable(polygonFields, GeometryType.Polygon, inSP);
-        //        Dictionary<string, object> attributes = new Dictionary<string, object>();
-        //        attributes[polygonFields[0].Name] = "Blanck area";
-        //        Feature blanckFeature = polygonTable.CreateFeature(attributes, blanckPoly);
-        //        polygonTable.AddFeatureAsync(blanckFeature);
-
-        //        FeatureCollection fCollection = new FeatureCollection();
-        //        fCollection.Tables.Add(polygonTable);
-        //        FeatureCollectionLayer fCollectionLayer = new FeatureCollectionLayer(fCollection);
-        //        fCollectionLayer.Name = "Blanck area";
-        //        fCollectionLayer.IsVisible = false;
-
-        //        esriMap.Basemap.BaseLayers.Add(fCollectionLayer);
-        //    }
-
-        //}
 
         /// <summary>
         /// Will clear saved settings. To be used when creating and switching field books.
