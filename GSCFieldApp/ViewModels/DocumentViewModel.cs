@@ -1117,7 +1117,7 @@ namespace GSCFieldApp.ViewModels
             //Update file number
             TextBox senderBox = sender as TextBox;
             _fileNumber = senderBox.Text;
-            if (_fileNumber != string.Empty)
+            if (_fileNumber != string.Empty && !doDocumentUpdate)
             {
                 CalculateFileName();
             }
