@@ -85,7 +85,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         _mineralSizeMin = value;
                     }
-                    else193
+                    else
                     {
                         _mineralSizeMin = value = "0";
                         RaisePropertyChanged("MineralSizeMin");
