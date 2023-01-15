@@ -20,6 +20,7 @@ using GSCFieldApp.Services.FileServices;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Template10.Utils;
+using System.Diagnostics;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -345,25 +346,14 @@ namespace GSCFieldApp.ViewModels
                 {
                     await folderToDelete.DeleteAsync();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    Debug.WriteLine(e.Message);
                 }
-            }
-
-
-
-
-            //If user is trying to delete the only loaded field book
-            if (_projectCollection.Count == 1)
-            {
-                await AddNewProject();
             }
 
             //Refresh page
             FillProjectCollectionAsync();
-
-
         }
 
         /// <summary>
