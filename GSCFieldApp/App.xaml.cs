@@ -76,8 +76,7 @@ namespace GSCFieldApp
         /// </summary>
         public void SetESRILicence()
         {
-            string licenseKey = "runtimelite,1000,rud6138198800,none,YYPJD4SZ8P4YTJT46103";
-            Esri.ArcGISRuntime.ArcGISRuntimeEnvironment.SetLicense(licenseKey);
+            Esri.ArcGISRuntime.ArcGISRuntimeEnvironment.SetLicense(ESRIRuntimeLicence.esrilicenceKey);
         }
 
     }

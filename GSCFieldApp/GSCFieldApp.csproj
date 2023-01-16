@@ -150,7 +150,6 @@
     <None Include="project.json" />
     <None Include="Properties\Readme.md" />
     <None Include="Readme.md" />
-    <PRIResource Include="Resources.resw" />
     <None Include="Resources\Readme.md" />
     <None Include="Services\Readme.md" />
     <None Include="Styles\Readme.md" />
@@ -184,6 +183,7 @@
     <Compile Include="Dictionaries\DatabaseLiterals.cs" />
     <Compile Include="Dictionaries\ScienceLiterals.cs" />
     <Compile Include="Dictionaries\ApplicationLiterals.cs" />
+    <Compile Include="ESRIRuntimeLicence.cs" />
     <Compile Include="Models\Contacts.cs" />
     <Compile Include="Models\Colour.cs" />
     <Compile Include="Models\DD2DMS.cs" />
