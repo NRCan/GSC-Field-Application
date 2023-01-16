@@ -34,7 +34,7 @@ namespace GSCFieldApp.ViewModels
         private string _stationOCSize = string.Empty;
         private string _stationTravNo = string.Empty;
         private string _stationRelatedTo = string.Empty; //sqlite v 1.6
-        private bool _enability = true; //Default
+
 
         private ObservableCollection<Themes.ComboBoxItem> _stationTypes = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStationTypes = string.Empty;
@@ -54,7 +54,7 @@ namespace GSCFieldApp.ViewModels
         public DataIDCalculation idCalculator = new DataIDCalculation();
 
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
-
+        private Visibility _waypointVisibility = Visibility.Visible; //Visibility for waypoint fields only
         //Events and delegate
         public delegate void stationEditEventHandler(object sender); //A delegate for execution events
         public event stationEditEventHandler newStationEdit; //This event is triggered when a save has been done on station table.
@@ -93,7 +93,7 @@ namespace GSCFieldApp.ViewModels
 
         #region PROPERTIES
         public Visibility BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
-
+        public Visibility WaypointVisibility { get { return _waypointVisibility; } set { _waypointVisibility = value; } }
         public string Latitude { get { return _latitude.ToString(); } set { _latitude = Convert.ToDouble(value); } }
         public string Longitude { get { return _longitude.ToString(); } set { _longitude = Convert.ToDouble(value); } }
         public string Elevation { get { return _elevation.ToString(); } set { _elevation = Convert.ToDouble(value); } }
@@ -142,7 +142,6 @@ namespace GSCFieldApp.ViewModels
         }
         public string SlSNotes { get { return _slsnotes; } set { _slsnotes = value; } }
         public string StationOCSize { get { return _stationOCSize; } set { _stationOCSize = value; } }
-        public bool Enability { get { return _enability; } set { _enability = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> StationTypes {get { return _stationTypes; } set { _stationTypes = value; } }
         public string SelectedStationTypes{ get { return _selectedStationTypes; } set { _selectedStationTypes = value; } }
@@ -261,7 +260,7 @@ namespace GSCFieldApp.ViewModels
 
             if (isWaypoint)
             {
-                _enability = false;
+                _waypointVisibility = Visibility.Collapsed;
                 RaisePropertyChanged("Enability");
             }
 
@@ -479,8 +478,8 @@ namespace GSCFieldApp.ViewModels
             //Clear other 
 
             //Disable controls that can't be changed by user
-            _enability = false;
-            RaisePropertyChanged("Enability");
+            _waypointVisibility = Visibility.Collapsed;
+            RaisePropertyChanged("WaypointVisibility");
         }
 
         /// <summary>

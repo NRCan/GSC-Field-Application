@@ -61,18 +61,18 @@
                     <RelativePanel Style="{StaticResource ChildPanel}" x:Name="obsScrollRelativePanel">
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="StationGridView" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
-                                  RelativePanel.AlignTopWithPanel="True">
+                                  RelativePanel.AlignTopWithPanel="True" Visibility="{x:Bind ViewModel.WaypointVisibility, Mode=TwoWay}">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StationGridView_Type"/>
 
                                 <ComboBox x:Name="StationObsTypeCombox" x:Uid="FieldworkTableStationOCType" Style="{ThemeResource ComboboxMandatoryField}"
-                          Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                          Header="" 
                           ItemsSource="{x:Bind ViewModel.StationTypes}" 
                           SelectedValue="{x:Bind ViewModel.SelectedStationTypes, Mode=TwoWay}"
                           RelativePanel.AlignLeftWithPanel="True" 
                             MinWidth="175"/>
 
                             <ComboBox x:Name="StationObsSourceCombox" x:Uid="FieldworkTableStationObsSource"
-                          Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                          Header="" 
                           ItemsSource="{x:Bind ViewModel.ObservationSource}" 
                           SelectedValue="{x:Bind ViewModel.SelectedObservationSources, Mode=TwoWay}"
                           RelativePanel.AlignLeftWithPanel="True" 
@@ -84,7 +84,7 @@
                            RelativePanel.Below="StationGridView" Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}"
                            Fill="{ThemeResource FieldStationColorBrush}" />
 
-                        <RelativePanel x:Name="StationRelpanel_01" RelativePanel.Below="MainSeparator_01" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                        <RelativePanel x:Name="StationRelpanel_01" Visibility="{x:Bind ViewModel.WaypointVisibility, Mode=TwoWay}" RelativePanel.Below="MainSeparator_01" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
 
                             <GridView Style="{StaticResource NonselectableGridView}" x:Name="StationGridView_02" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
                                       Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}" RelativePanel.AlignTopWithPanel="True">
@@ -92,7 +92,7 @@
 
                                 <RelativePanel x:Name="StationQualityPanel"  >
                                     <ComboBox x:Name="StationOCQualityComboBox" x:Uid="FieldworkTableStationOCQual"
-                                        ItemsSource="{x:Bind ViewModel.StationQuality}" 
+                                        ItemsSource="{x:Bind ViewModel.StationQuality}"
                                         SelectedValue="{x:Bind ViewModel.SelectedStationQuality, Mode=TwoWay}"
                                         SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}"/>
 
@@ -104,8 +104,8 @@
 
 
                                 <TextBox x:Name="StationSizeTextBox" x:Uid="FieldworkTableStationOCSize"
-                                    Text ="{x:Bind ViewModel.StationOCSize, Mode=TwoWay}"
-                                    Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                                    Text ="{x:Bind ViewModel.StationOCSize, Mode=TwoWay}" 
+                                    Header="" 
                                     InputScope="Text"
                                     IsSpellCheckEnabled="True"
                                     IsTextPredictionEnabled="True"
@@ -115,7 +115,7 @@
                             </GridView>
 
                             <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_02"
-                           RelativePanel.Below="StationGridView_02" 
+                           RelativePanel.Below="StationGridView_02" Visibility="{x:Bind ViewModel.WaypointVisibility, Mode=TwoWay}"
                            Fill="{ThemeResource FieldStationColorBrush}" />
 
                             <GridView Style="{StaticResource NonselectableGridView}" x:Name="StationGridView_03" HorizontalContentAlignment="Stretch" 
@@ -124,23 +124,23 @@
                                 <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StationGridView_Other"/>
 
                                 <ComboBox x:Name="StationPhysEnvCombobox" x:Uid="FieldworkTableStationPhysEnv"
-                          Header="" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}" 
+                          Header="" Visibility="{x:Bind ViewModel.WaypointVisibility, Mode=TwoWay}"
                           ItemsSource="{x:Bind ViewModel.StationPhysEnv}"
                           SelectedValue="{x:Bind ViewModel.SelectedStationPhysEnv, Mode=TwoWay}"
                           RelativePanel.RightOf="StationQualityComboBox" />
 
                                 <TextBox x:Name="StationAirPhoto" x:Uid="FieldworkTableStationAirNo"
-                            Header="" InputScope="Text" 
+                            Header="" InputScope="Text" Visibility="{x:Bind ViewModel.WaypointVisibility, Mode=TwoWay}"
                             RelativePanel.RightOf="StationSizeTextBox"
                             Text ="{x:Bind ViewModel.AirPhoto, Mode=TwoWay}"/>
 
                                 <TextBox x:Name="StationTraverseNo" x:Uid="FieldworkTableStationTravNo"
-                            Header="" InputScope="Number"
+                            Header="" InputScope="Number" 
                             RelativePanel.RightOf="StationAirPhoto"
                             Text ="{x:Bind ViewModel.TraverseNo, Mode=TwoWay}"/>
 
                                 <TextBox x:Name="StationRelatedTo" x:Uid="FieldworkTableStationRelatedTo"
-                                    Header="" RelativePanel.RightOf="StationTraverseNo"
+                                    Header="" RelativePanel.RightOf="StationTraverseNo" Visibility="{x:Bind ViewModel.WaypointVisibility, Mode=TwoWay}"
                                     Text ="{x:Bind ViewModel.RelatedTo, Mode=TwoWay}"/>
                                 
                             </GridView>
@@ -151,7 +151,7 @@
                             Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}" TextChanged="NoteTextBox_TextChanged"/>
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="SLSNoteTextbox" x:Uid="FieldworkTableStationSLSNotes"
-                             RelativePanel.Below="NoteTextBox"  IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                             RelativePanel.Below="NoteTextBox"  Visibility="{x:Bind ViewModel.WaypointVisibility, Mode=TwoWay}"
                              Text ="{x:Bind ViewModel.SlSNotes, Mode=TwoWay}"/>
                         <!--<Image x:Name="mosquito" Height="60" Width="60" Source="ms-appx:///Assets/mosquito.png"
                                Visibility="Collapsed" />-->
