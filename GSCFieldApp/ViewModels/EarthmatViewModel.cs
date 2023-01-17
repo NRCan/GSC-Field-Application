@@ -613,7 +613,7 @@ namespace GSCFieldApp.ViewModels
 
                 }
 
-                minVM.QuickMineralRecordOnly(existingDataDetail, listOfMinerals, Dictionaries.DatabaseLiterals.TableEarthMat);
+                minVM.QuickMineralRecordOnly(earthmodel.EarthMatID, listOfMinerals, Dictionaries.DatabaseLiterals.TableEarthMat);
 
             }
 

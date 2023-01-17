@@ -200,6 +200,10 @@ namespace GSCFieldApp.ViewModels
                 mineralAltModel.MAFacies = SelectedMineralAltFacies;
             }
 
+            //Save model class
+            accessData.SaveFromSQLTableObject(mineralAltModel, doMineralAltUpdate);
+
+
             //process list of values so they are concatenated.
             ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
             mineralAltModel.MADistribute = ccBox.PipeValues(_mineralAltDistValues);
@@ -222,12 +226,9 @@ namespace GSCFieldApp.ViewModels
 
                 }
 
-                minVM.QuickMineralRecordOnly(existingDataDetailMineralAlt, listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                minVM.QuickMineralRecordOnly(mineralAltModel.MAID, listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
 
             }
-
-            //Save model class
-            accessData.SaveFromSQLTableObject(mineralAltModel, doMineralAltUpdate);
 
             //Launch an event call for everyone that an min. alt. has been edited.
             if (newMineralAltEdit != null)
