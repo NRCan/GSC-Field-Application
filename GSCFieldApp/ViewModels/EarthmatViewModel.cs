@@ -1468,15 +1468,19 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         public void EarthContactSelectionButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            _earthContact.type = _selectedEarthmatContactTypes;
+            if (_selectedEarthmatRelated != null && _selectedEarthmatRelated != String.Empty)
+            {
+                _earthContact.type = _selectedEarthmatContactTypes;
 
-            EarthMaterial em = new EarthMaterial();
-            em.EarthMatName = _selectedEarthmatRelated;
-            _earthContact.relatedEarthMaterialID = em.GetIDLetter;
+                EarthMaterial em = new EarthMaterial();
+                em.EarthMatName = _selectedEarthmatRelated;
+                _earthContact.relatedEarthMaterialID = em.GetIDLetter;
 
-            AddAConcatenatedValue(_earthContact.ToString(), "EarthmatContactNoteTypes");
+                AddAConcatenatedValue(_earthContact.ToString(), "EarthmatContactNoteTypes");
+            }
 
-            //RaisePropertyChanged("EarthmatContactNoteTypes");
+
+
         }
 
         #endregion
