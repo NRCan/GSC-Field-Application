@@ -179,6 +179,11 @@ namespace GSCFieldApp.ViewModels
             mineralAltModel.MAParentTable = Dictionaries.DatabaseLiterals.TableStation;
             mineralAltModel.MAParentID = _mineralAltParentID;
 
+            //process list of values so they are concatenated.
+            ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
+            mineralAltModel.MADistribute = ccBox.PipeValues(_mineralAltDistValues);
+
+            //Process other comboboxes
             if (SelectedMineralAltMA != null)
             {
                 mineralAltModel.MAMA = SelectedMineralAltMA;
@@ -203,19 +208,11 @@ namespace GSCFieldApp.ViewModels
             //Save model class
             accessData.SaveFromSQLTableObject(mineralAltModel, doMineralAltUpdate);
 
-
-            //process list of values so they are concatenated.
-            ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
-            mineralAltModel.MADistribute = ccBox.PipeValues(_mineralAltDistValues);
-
             //Special case for minerals
             if (MineralAltMineralsValues.Count != 0)
             {
-                FieldNotes maModelToSave = new FieldNotes();
-                maModelToSave.mineralAlteration = mineralAltModel;
-                MineralViewModel minVM = new MineralViewModel(maModelToSave);
-                List<string> listOfMinerals = new List<string>();
 
+                List<string> listOfMinerals = new List<string>();
                 foreach (Themes.ComboBoxItem mins in MineralAltMineralsValues)
                 {
                     //Save only if the mineral was a new added one, prevent duplicates
@@ -226,7 +223,14 @@ namespace GSCFieldApp.ViewModels
 
                 }
 
-                minVM.QuickMineralRecordOnly(mineralAltModel.MAID, listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                if (listOfMinerals.Count > 0)
+                {
+                    FieldNotes maModelToSave = new FieldNotes();
+                    maModelToSave.mineralAlteration = mineralAltModel;
+                    MineralViewModel minVM = new MineralViewModel(maModelToSave, true);
+
+                    minVM.QuickMineralRecordOnly(mineralAltModel.MAID, listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                }
 
             }
 

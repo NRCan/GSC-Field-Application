@@ -149,8 +149,9 @@ namespace GSCFieldApp.ViewModels
         public string SelectedMineralModeText { get { return _selectedMineralModeText; } set { _selectedMineralModeText = value; } }
         #endregion
 
-        public MineralViewModel(FieldNotes inReportModel)
+        public MineralViewModel(FieldNotes inReportModel, bool forQuick = false)
         {
+
             //On init for new samples calculates values for default UI form
             if (inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableEarthMat || inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
             {
@@ -182,20 +183,24 @@ namespace GSCFieldApp.ViewModels
                 _mineralMAID = inReportModel.mineralAlteration.MAID;
             }
 
-            _mineralID = mineralIDCalculator.CalculateMineralID();
-            _mineralAlias = mineralIDCalculator.CalculateMineralAlias(_mineralParentID, _mineralParentAlias);
-
-            existingDataDetailMineral = inReportModel;
-
-            if (existingDataDetailMineral.GenericID != null)
+            if (!forQuick)
             {
-                CalculateResidual();
+                _mineralID = mineralIDCalculator.CalculateMineralID();
+                _mineralAlias = mineralIDCalculator.CalculateMineralAlias(_mineralParentID, _mineralParentAlias);
+
+                existingDataDetailMineral = inReportModel;
+
+                if (existingDataDetailMineral.GenericID != null)
+                {
+                    CalculateResidual();
+                }
+
+                FillColour();
+                FillForm();
+                FillOccur();
+                FillMode();
             }
-            
-            FillColour();
-            FillForm();
-            FillOccur();
-            FillMode();
+
         }
 
         public void InitFill2ndRound(string fullMineralText)

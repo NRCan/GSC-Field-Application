@@ -277,6 +277,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     inDB.RunInTransaction(() =>
                     {
+                        //For debug
+                        inDB.Tracer = new Action<string>(q => Debug.WriteLine(q));
+                        inDB.Trace = true;
+
                         if (doUpdate)
                         {
                             // update - Not working version 3.13 SQLite-Net UWP
@@ -291,8 +295,6 @@ namespace GSCFieldApp.Services.DatabaseServices
                         else
                         {
                             int success = inDB.Insert(tableObject);
-                            Debug.WriteLine(inDB);
-                            Console.WriteLine(success.ToString());
                         }
                     });
                 }

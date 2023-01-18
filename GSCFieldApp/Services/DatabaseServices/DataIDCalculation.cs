@@ -747,8 +747,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + newAlias;
 
                     //Find existing
-                    IEnumerable<Mineral> existingSamples = from s in mineralTable where s.MineralEMID == parentID || s.MineralMAID == parentID && s.MineralIDName == finaleMineralString select s;
-                    if (existingSamples.Count() == 0 || existingSamples == null)
+                    IEnumerable<string> existingMinerals = from m in mineralTable where m.MineralIDName == finaleMineralString select m.MineralIDName;
+                    if (existingMinerals.Count() == 0 || existingMinerals == null)
                     {
                         breaker = false;
                     }

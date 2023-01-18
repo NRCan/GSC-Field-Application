@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Dictionaries;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml;
+using GSCFieldApp.Themes;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -516,49 +517,35 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatColourF = _earthColourF.ToString();
             earthmodel.EarthMatColourW = _earthColourW.ToString();
 
-            if (SelectedEarthmatModTexture != null)
-            {
-                earthmodel.EarthMatModTextStruc = PipePurposes(_earthmatModTextureValues); //process list of values so they are concatenated.
-            }
-            if (SelectedEarthmatModComp != null)
-            {
-                earthmodel.EarthMatModComp = PipePurposes(_earthmatModCompValues); //process list of values so they are concatenated.
-            }
-            if (SelectedEarthmatGrSize != null)
-            {
-                earthmodel.EarthMatGrSize = PipePurposes(_earthmatGrSizeValues); //process list of values so they are concatenated.
-            }
-            if (EarthmatContactNoteTypes != null)
-            {
-                earthmodel.EarthMatContact = PipePurposes(_earthmatContactNoteTypes); //process list of values so they are concatenated.
-            }
-            if (SelectedEarthmatOccurAs != null)
+            //process list of values so they are concatenated.
+            ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
+
+            earthmodel.EarthMatModTextStruc = ccBox.PipeValues(_earthmatModTextureValues); //process list of values so they are concatenated.
+            earthmodel.EarthMatModComp = ccBox.PipeValues(_earthmatModCompValues); //process list of values so they are concatenated.
+            earthmodel.EarthMatGrSize = ccBox.PipeValues(_earthmatGrSizeValues); //process list of values so they are concatenated.
+            earthmodel.EarthMatContact = ccBox.PipeValues(_earthmatContactNoteTypes); //process list of values so they are concatenated.
+            earthmodel.EarthMatDefabric = ccBox.PipeValues(_earthmatDefFabricValues); //process list of values so they are concatenated.
+            earthmodel.EarthMatBedthick = ccBox.PipeValues(_earthmatBedthickValues); //process list of values so they are concatenated.
+
+            if (_selectedEarthmatOccurAs != null)
             {
                 earthmodel.EarthMatOccurs = SelectedEarthmatOccurAs;
             }
-            if (SelectedEarthmatDefFabric != null)
+            if (_selectedEarthmatMU != null)
             {
-                earthmodel.EarthMatDefabric = PipePurposes(_earthmatDefFabricValues); //process list of values so they are concatenated.
+                earthmodel.EarthMatMapunit = _selectedEarthmatMU;
             }
-            if (SelectedEarthmatBedthick != null)
+            if (_selectedEarthmatInterConfidence != null)
             {
-                earthmodel.EarthMatBedthick = PipePurposes(_earthmatBedthickValues); //process list of values so they are concatenated.
+                earthmodel.EarthMatInterpConf = _selectedEarthmatInterConfidence;
             }
-            if (SelectedEarthmatMU != null)
+            if (_selectedEarthmatMI != null)
             {
-                earthmodel.EarthMatMapunit = SelectedEarthmatMU;
+                earthmodel.EarthMatMetaIntensity = _selectedEarthmatMI;
             }
-            if (SelectedEarthmatInterConfidence != null)
+            if (_selectedEarthmatMF != null)
             {
-                earthmodel.EarthMatInterpConf = SelectedEarthmatInterConfidence;
-            }
-            if (SelectedEarthmatMI != null)
-            {
-                earthmodel.EarthMatMetaIntensity = SelectedEarthmatMI;
-            }
-            if (SelectedEarthmatMF != null)
-            {
-                earthmodel.EarthMatMetaIFacies = SelectedEarthmatMF;
+                earthmodel.EarthMatMetaIFacies = _selectedEarthmatMF;
             }
             if (_groupTypeDetail != string.Empty)
             {
@@ -588,19 +575,17 @@ namespace GSCFieldApp.ViewModels
                 }
                 
             }
-            if (SelectedMagQualifier != null)
+            if (_selectedEarthmatMagQualifier != null && _selectedEarthmatMagQualifier != string.Empty)
             {
-                earthmodel.EarthMatMagQualifier = SelectedMagQualifier;
+                earthmodel.EarthMatMagQualifier = _selectedEarthmatMagQualifier;
             }
             //Save model class
             accessData.SaveFromSQLTableObject(earthmodel, doEarthUpdate);
 
             //Special case for minerals
-            if (EarthmatMineralValues.Count != 0)
+            if (_earthmatMineralValues.Count != 0)
             {
-                FieldNotes earthModelToSave = new FieldNotes();
-                earthModelToSave.earthmat = earthmodel;
-                MineralViewModel minVM = new MineralViewModel(earthModelToSave);
+
                 List<string> listOfMinerals = new List<string>();
                 foreach (Themes.ComboBoxItem mins in EarthmatMineralValues)
                 {
@@ -608,12 +593,20 @@ namespace GSCFieldApp.ViewModels
                     if (mins.canRemoveItem == Windows.UI.Xaml.Visibility.Visible)
                     {
                         listOfMinerals.Add(mins.itemValue);
-                        
+
                     }
 
                 }
 
-                minVM.QuickMineralRecordOnly(earthmodel.EarthMatID, listOfMinerals, Dictionaries.DatabaseLiterals.TableEarthMat);
+                if (listOfMinerals.Count > 0)
+                {
+                    FieldNotes earthModelToSave = new FieldNotes();
+                    earthModelToSave.earthmat = earthmodel;
+                    MineralViewModel minVM = new MineralViewModel(earthModelToSave, true);
+
+                    minVM.QuickMineralRecordOnly(earthmodel.EarthMatID, listOfMinerals, Dictionaries.DatabaseLiterals.TableEarthMat);
+                }
+
 
             }
 
