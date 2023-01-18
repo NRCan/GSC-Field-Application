@@ -6,6 +6,9 @@
 # esri licence
 GSCFieldApp/ESRIRuntimeLicence.cs
 
+# File that references app certificate
+GSCFieldApp/Package.appxmanifest
+
 # User-specific files
 *.rsuser
 *.suo
