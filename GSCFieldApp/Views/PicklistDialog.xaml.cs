@@ -118,6 +118,7 @@ namespace GSCFieldApp.Views
                 SecondaryButtonText = loadLocalization.GetString("GenericDialog_ButtonNo")
             };
 
+            closeEditorDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
             ContentDialogResult cdr = await closeEditorDialog.ShowAsync();
             if (cdr == ContentDialogResult.Primary)
             {

@@ -1403,12 +1403,23 @@
     <Style TargetType="ContentDialog" x:Key="DeleteDialog">
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="Background" Value="{StaticResource ErrorColor}" />
+        <Setter Property="PrimaryButtonStyle" Value="{StaticResource CustomBlackFontButtons}"/>
+        <Setter Property="SecondaryButtonStyle" Value="{StaticResource CustomBlackFontButtons}"/>
+        <Setter Property="CloseButtonStyle" Value="{StaticResource CustomBlackFontButtons}"/>
     </Style>
 
     <!-- Default style for Windows.UI.Xaml.Controls.ContentDialog -->
     <Style TargetType="ContentDialog" x:Key="WarningDialog">
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="Background" Value="{StaticResource WarningColor}" />
+        <Setter Property="PrimaryButtonStyle" Value="{StaticResource CustomBlackFontButtons}"/>
+        <Setter Property="SecondaryButtonStyle" Value="{StaticResource CustomBlackFontButtons}"/>
+        <Setter Property="CloseButtonStyle" Value="{StaticResource CustomBlackFontButtons}"/>
+    </Style>
+
+    <!-- Default style for Windows.UI.Xaml.Controls.ContentDialog -->
+    <Style TargetType="Button" x:Key="CustomBlackFontButtons">
+        <Setter Property="Foreground" Value="Black" />
     </Style>
 
     <!--Long descriptive fields-->
