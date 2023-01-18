@@ -6,15 +6,13 @@
 # esri licence
 GSCFieldApp/ESRIRuntimeLicence.cs
 
-# File that references app certificate
-GSCFieldApp/Package.appxmanifest
-
 # User-specific files
 *.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
+*.appxmanifest
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

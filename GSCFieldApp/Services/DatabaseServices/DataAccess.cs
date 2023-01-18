@@ -548,20 +548,20 @@ namespace GSCFieldApp.Services.DatabaseServices
             ///Wipe new database of everything else but latest version of vocab
             //delete from M_DICTIONARY where M_DICTIONARY.VERSION != 1.5;
             //delete from M_DICTIONARY_MANAGER where M_DICTIONARY_MANAGER.VERSION != 1.5;
-            string deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager +
-                " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + dbVersion.ToString() + ";";
+            //string deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager +
+            //    " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + dbVersion.ToString() + ";";
             string deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary +
                 " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + dbVersion.ToString() + ";";
 
             if (dbVersion <= 1.44)
             {
                 //Version fields within dictionary didn't exist prior to version 1.5
-                deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager + ";";
+                //deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager + ";";
                 deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary + ";";
             }
 
             queryList.Add(deleteQuery2);
-            queryList.Add(deleteQuery);
+            //queryList.Add(deleteQuery);
 
             //Build insert queries
             #region M_DICTIONARY
