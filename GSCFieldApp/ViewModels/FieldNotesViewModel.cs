@@ -2524,101 +2524,57 @@ namespace GSCFieldApp.ViewModels
 
         #region VISIBILITY MANAGEMENT
 
-        public void SetHeaderVisibility()
+        /// <summary>
+        /// Will set header visibility for all needed forms
+        /// </summary>
+        public void SetHeadersVisibility()
         {
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableSample)!=null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableSample))
+
+            List<Tuple<string, Visibility, string>> tableAsHeaders = new List<Tuple<string, Visibility, string>>() {
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableEarthMat, _earthmatPanelVisibility, "EarthmatPanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableSample, _samplePanelVisibility, "SamplePanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableDocument, _documentPanelVisibility, "PhotoPanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableStructure, _structurePanelVisibility, "StructurePanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableFossil, _fossilPanelVisibility, "FossilPanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TablePFlow, _pflowPanelVisibility, "PFlowPanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableEnvironment, _environmentPanelVisibility, "EnvironmentPanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableMineral, _mineralPanelVisibility, "MineralPanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableMineralAlteration, _mineralAltPanelVisibility, "MineralAltPanelVisibility"),};
+
+            foreach (Tuple<string, Visibility, string> tables in tableAsHeaders)
             {
-                _samplePanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _samplePanelVisibility = Visibility.Collapsed;
+                SetHeaderVisibility(tables.Item1, tables.Item2, tables.Item3);
             }
 
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineral) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineral))
+        }
+
+
+        /// <summary>
+        /// Will validate and instantiate default for header visibility in field note page
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="inTableVisibility"></param>
+        /// <param name="propertyName"></param>
+        public void SetHeaderVisibility(string tableName, Visibility inTableVisibility, string propertyName )
+        {
+            if (localSetting.GetSettingValue(tableName) != null) 
             {
-                _mineralPanelVisibility = Visibility.Visible;
+                if ((bool)localSetting.GetSettingValue(tableName))
+                {
+                    inTableVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    inTableVisibility = Visibility.Collapsed;
+                } 
+                
             }
             else
             {
-                _mineralPanelVisibility = Visibility.Collapsed;
+                inTableVisibility = Visibility.Visible;
             }
 
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration))
-            {
-                _mineralAltPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _mineralAltPanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableDocument) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableDocument))
-            {
-                _documentPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _documentPanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableStructure) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableStructure))
-            {
-                _structurePanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _structurePanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TablePFlow) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TablePFlow))
-            {
-                _pflowPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _pflowPanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableFossil) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableFossil))
-            {
-                _fossilPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _fossilPanelVisibility = Visibility.Collapsed;
-            }
-
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration))
-            {
-                _mineralAltPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _mineralAltPanelVisibility = Visibility.Collapsed;
-            }
-
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat))
-            {
-                _earthmatPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _earthmatPanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment))
-            {
-                _environmentPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _environmentPanelVisibility = Visibility.Collapsed;
-            }
-            RaisePropertyChanged("SamplePanelVisibility");
-            RaisePropertyChanged("EarthmatPanelVisibility");
-            RaisePropertyChanged("MineralPanelVisibility");
-            RaisePropertyChanged("PhotoPanelVisibility");
-            RaisePropertyChanged("StructurePanelVisibility");
-            RaisePropertyChanged("PFlowPanelVisibility");
-            RaisePropertyChanged("FossilPanelVisibility");
-            RaisePropertyChanged("MineralAltPanelVisibility");
-            RaisePropertyChanged("EnvironmentPanelVisibility");
+            RaisePropertyChanged(propertyName);
         }
 
         #endregion
@@ -3968,7 +3924,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void pageBeingLoaded()
         {
-            SetHeaderVisibility();
+            SetHeadersVisibility();
             SetHeaderIconOpacity();
             SetHeaderExpansion();
         }
