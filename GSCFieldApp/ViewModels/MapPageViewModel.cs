@@ -92,12 +92,21 @@ namespace GSCFieldApp.ViewModels
         public Symbol _GPSModeSymbol = Symbol.Target;
 
         //Map Graphics
-        private readonly SimpleMarkerSymbol posSym = new SimpleMarkerSymbol();
+        private readonly SimpleMarkerSymbol _posSym = new SimpleMarkerSymbol();
         public GraphicsOverlay _OverlayStation;
         public GraphicsOverlay _OverlayStationLabel;
         public GraphicsOverlay _OverlayCurrentPosition;
         public GraphicsOverlay _OverlayStructure;
         public Dictionary<string, List<GraphicsOverlay>> _overlayContainerOther; //Will act as a "layer" container but for graphics, just like esriMap.Basemap.BaseLayers object
+        private System.Drawing.Color _accuracyColor = new System.Drawing.Color();
+        private SimpleFillSymbol _accSym = new SimpleFillSymbol();
+        private SimpleLineSymbol _accLineSym = new SimpleLineSymbol();
+        //private Graphic _accGraphic = null;
+        private MapPoint _centerPoint = new MapPoint(0, 0, 0.0, SpatialReferences.Wgs84);
+        private MapPoint _projectedCenterPoint = null;
+        //private Graphic _posGraphic = null;
+        public bool pauseGraphicRefresh = false;
+
 
         //Delegates and events
         public static event EventHandler newDataLoaded; //This event is triggered when a new data has been loaded
@@ -242,6 +251,7 @@ namespace GSCFieldApp.ViewModels
             if (currentMapView == null)
             {
                 currentMapView = inMapView;
+
             }
 
 
@@ -1334,6 +1344,8 @@ namespace GSCFieldApp.ViewModels
         {
             ClearSelection();
 
+            pauseGraphicRefresh = true; //Make sure the location graphic is paused and doesn't interact with UI.
+
             if (clickedQuickButton != Dictionaries.DatabaseLiterals.KeywordLocation)
             {
                 if (inLocation == null)
@@ -1758,7 +1770,7 @@ namespace GSCFieldApp.ViewModels
                     
 
                     //Only move if there is a coordinate
-                    if (in_position.Coordinate.Point.Position.Longitude != 0 && in_position.Coordinate.Point.Position.Latitude != 0)
+                    if (in_position.Coordinate.Point.Position.Longitude != 0 && in_position.Coordinate.Point.Position.Latitude != 0 && !pauseGraphicRefresh)
                     {
                         //Keep and update coordinates
                         _currentMSGeoposition = in_position;
@@ -1781,34 +1793,43 @@ namespace GSCFieldApp.ViewModels
                     //    RaisePropertyChanged("CurrentAccuracy");
                     //}
 
-                    //Clear current graphics
-                    if (_OverlayCurrentPosition == null)
+                    if (!pauseGraphicRefresh)
                     {
-                        _OverlayCurrentPosition = new GraphicsOverlay();
+                        //Clear current graphics
+                        if (_OverlayCurrentPosition == null)
+                        {
+                            _OverlayCurrentPosition = new GraphicsOverlay();
+                        }
+                        else
+                        {
+                            _OverlayCurrentPosition.Graphics.Clear();
+                        }
+
+                        if (!currentMapView.GraphicsOverlays.Contains(_OverlayCurrentPosition))
+                        {
+                            currentMapView.GraphicsOverlays.Add(_OverlayCurrentPosition);
+                        }
+
+                        _centerPoint = new MapPoint(_currentLongitude, _currentLatitude, _currentAccuracy, SpatialReferences.Wgs84); //Can't just update geometry
+
+                        //Build current accuracy graphic
+                        Graphic _accGraphic = GetAccuracyGraphic();
+
+                        //Build current position graphic
+                        _posSym.Color = _accuracyColor;
+                        var _posGraphic = new Graphic(
+                            _centerPoint,
+                            _posSym);
+                        _posGraphic.Attributes.Add(attributeID, attributeIDPosition);
+
+                        //Update graphic collection and UI
+                        _OverlayCurrentPosition.Graphics.Add(_posGraphic);
+                        _OverlayCurrentPosition.Graphics.Add(_accGraphic);
+                        //currentMapView.Focus(FocusState.Unfocused);
+                        //currentMapView.UpdateLayout();
                     }
-                    else
-                    {
-                        _OverlayCurrentPosition.Graphics.Clear();
-                    }
 
-                    if (!currentMapView.GraphicsOverlays.Contains(_OverlayCurrentPosition))
-                    {
-                        currentMapView.GraphicsOverlays.Add(_OverlayCurrentPosition);
-                    }
 
-                    //Build current accuracy graphic
-                    System.Drawing.Color accColor = new System.Drawing.Color();
-                    Graphic accGraphic = GetAccuracyGraphic(_currentLongitude, _currentLatitude, _currentAccuracy, 36, out accColor);
-
-                    //Build current position graphic
-                    var posGraphic = new Graphic(new MapPoint(_currentLongitude, _currentLatitude, SpatialReferences.Wgs84), posSym);
-                    posSym.Color = accColor;
-                    posGraphic.Attributes.Add(attributeID, attributeIDPosition);
-
-                    //Update graphic collection and UI
-                    _OverlayCurrentPosition.Graphics.Add(posGraphic);
-                    _OverlayCurrentPosition.Graphics.Add(accGraphic);
-                    //currentMapView.UpdateLayout();
 
                 }
                 else
@@ -2358,80 +2379,78 @@ namespace GSCFieldApp.ViewModels
         public void CreatePositionGraphic()
         {
             //SimpleMarkerSymbol posSym = new SimpleMarkerSymbol();
-            posSym.Color = System.Drawing.Color.FromArgb(0, 122, 194);
-            posSym.Size = 23.0;
+            _posSym.Color = System.Drawing.Color.FromArgb(0, 122, 194);
+            _posSym.Size = 23.0;
             SimpleLineSymbol posLineSym = new SimpleLineSymbol
             {
                 Color = System.Drawing.Color.White,
                 Width = 2
             };
-            posSym.Outline = posLineSym;
+            _posSym.Outline = posLineSym;
         }
 
         /// <summary>
         /// Will set the position graphic so user can see where he is located.
         /// </summary>
-        public Graphic GetAccuracyGraphic(double centerX, double centerY, double radiusInMeter, int numberOfVertices, out System.Drawing.Color accColor)
+        public Graphic GetAccuracyGraphic(int numberOfVertices = 36)
         {
             //Init symbols
-            SimpleFillSymbol accSym = new SimpleFillSymbol();
-            SimpleLineSymbol accLineSym = new SimpleLineSymbol();
             Windows.UI.Color posColor = (Windows.UI.Color)Application.Current.Resources["PositionColor"];
             int defaultAlpha = 30;
 
             //Parse accuracy to change color
-            if (radiusInMeter > 20 && radiusInMeter <= 40)
+            if (_currentAccuracy > 20 && _currentAccuracy <= 40)
             {
                 posColor = (Windows.UI.Color)Application.Current.Resources["WarningColor"];
                 defaultAlpha = 50;
 
             }
-            else if (radiusInMeter > 40)
+            else if (_currentAccuracy > 40)
             {
                 posColor = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
                 defaultAlpha = 75;
             }
-            else if (radiusInMeter == 0)
+            else if (_currentAccuracy == 0)
             {
                 posColor = (Windows.UI.Color)Application.Current.Resources["ErrorColor"];
                 defaultAlpha = 75;
-                radiusInMeter = 1000; //Maximum accuracy for invalid position
+                _currentAccuracy = 1000; //Maximum accuracy for invalid position
             }
 
             //Finalize symbols
-            accColor = System.Drawing.Color.FromArgb(posColor.R, posColor.G, posColor.B);
-            accSym.Color = System.Drawing.Color.FromArgb(defaultAlpha, posColor.R, posColor.G, posColor.B);
-            accLineSym.Color = accColor;
-            accLineSym.Width = 2;
-            accSym.Outline = accLineSym;
+            _accuracyColor = System.Drawing.Color.FromArgb(posColor.R, posColor.G, posColor.B);
+            _accSym.Color = System.Drawing.Color.FromArgb(defaultAlpha, posColor.R, posColor.G, posColor.B);
+            _accLineSym.Color = _accuracyColor;
+            _accLineSym.Width = 2;
+            _accSym.Outline = _accLineSym;
 
             //Set graphic
-            Graphic accGraphic = new Graphic
+            Graphic _accGraphic = new Graphic()
             {
-                Geometry = GetAccuracyPolygon(centerX, centerY, radiusInMeter, numberOfVertices),
-                Symbol = accSym
+                Geometry = GetAccuracyPolygon(numberOfVertices),
+                Symbol = _accSym
             };
-            accGraphic.Attributes.Add(attributeID, attributeIDAccuracy);
+            _accGraphic.Attributes.Add(attributeID, attributeIDAccuracy);
 
-            return accGraphic;
+            return _accGraphic;
         }
 
         /// <summary>
         /// Will set the position graphic so user can see where he is located.
         /// </summary>
-        public Polygon GetAccuracyPolygon(double centerX, double centerY, double radiusInMeter, int numberOfVertices)
+        public Polygon GetAccuracyPolygon(int numberOfVertices)
         {
-            MapPoint centerPoint = new MapPoint(centerX, centerY, 0.0, SpatialReferences.Wgs84);
-            MapPoint projectedPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(centerPoint, SpatialReferences.WebMercator);
+            _projectedCenterPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(_centerPoint, SpatialReferences.WebMercator);
 
             PolygonBuilder polyBuilder = new PolygonBuilder(SpatialReferences.WebMercator);
+
             List<MapPoint> polyPoints = new List<MapPoint>();
             int degreeInternalIteration = 0;
             int degreeInterval = Convert.ToInt16(Math.Floor(360.0 / numberOfVertices));
             for (int v = 0; v < numberOfVertices; v++)
             {
-                double newX = projectedPoint.X + (radiusInMeter * Math.Cos(degreeInternalIteration * Math.PI / 180));
-                double newY = projectedPoint.Y + (radiusInMeter * Math.Sin(degreeInternalIteration * Math.PI / 180));
+                double newX = _projectedCenterPoint.X + (_currentAccuracy * Math.Cos(degreeInternalIteration * Math.PI / 180));
+                double newY = _projectedCenterPoint.Y + (_currentAccuracy * Math.Sin(degreeInternalIteration * Math.PI / 180));
 
                 polyPoints.Add(new MapPoint(newX, newY));
 
