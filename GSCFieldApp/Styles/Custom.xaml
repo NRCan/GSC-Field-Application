@@ -2016,6 +2016,10 @@
                 <Setter Property="Foreground" Value="{ThemeResource ContrastColorBrush}" />
                 <Setter Property="VisualStateNarrowMinWidth" Value="{StaticResource NarrowMinWidth}" />
                 <Setter Property="VisualStateNormalMinWidth" Value="{StaticResource NormalMinWidth}" />
+                <Setter Property="IsRightTapEnabled" Value="False" />
+                <Setter Property="IsHoldingEnabled" Value="False" />
+                <Setter Property="IsDoubleTapEnabled" Value="False" />
+
             </Style>
            
 

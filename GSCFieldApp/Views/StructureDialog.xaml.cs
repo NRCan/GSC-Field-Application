@@ -35,7 +35,9 @@ namespace GSCFieldApp.Views
         private readonly Brush defaultColourBrush;
         private Color defaultBorderColor;
 
-        public int testing;
+        public delegate void strucCloseWithoutSaveEventHandler(object sender); //A delegate for execution events
+        public event strucCloseWithoutSaveEventHandler strucClosed; //This event is triggered when a save has been done on station table.
+
 
         public StructureDialog(FieldNotes inDetailViewModel, bool isQuickStructure)
         {
@@ -67,6 +69,12 @@ namespace GSCFieldApp.Views
                 modalStructClose.ModalContent = viewStructClose;
                 modalStructClose.IsModal = false;
             });
+
+            if (strucClosed != null)
+            {
+                strucClosed(this);
+            }
+
         }
         #endregion
 

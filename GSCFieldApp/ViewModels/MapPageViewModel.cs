@@ -153,7 +153,7 @@ namespace GSCFieldApp.ViewModels
             SetQuickButtonEnable();
 
             //Fill vocab 
-            FillLocationVocab();          
+            FillLocationVocab();
 
         }
 
@@ -251,7 +251,6 @@ namespace GSCFieldApp.ViewModels
             if (currentMapView == null)
             {
                 currentMapView = inMapView;
-
             }
 
 
@@ -279,6 +278,7 @@ namespace GSCFieldApp.ViewModels
             SetQuickButtonEnable();
 
         }
+
 
         /// <summary>
         /// Will initialized the GPS 
@@ -1430,11 +1430,19 @@ namespace GSCFieldApp.ViewModels
             var view = modal.ModalContent as Views.StationDataPart;
             modal.ModalContent = view = new Views.StationDataPart(null, false);
             view.mapPosition = stationMapPoint;
+            view.ViewModel.newStationEdit -= NavigateToReport;
             view.ViewModel.newStationEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
-
+            view.stationClosed -= modalDialogClosed;
+            view.stationClosed += modalDialogClosed;
             DataLocalSettings dLocalSettings = new DataLocalSettings();
             dLocalSettings.SetSettingValue("forceNoteRefresh", false);
+        }
+
+        private void modalDialogClosed(object sender)
+        {
+            //Unpaused graphic refresh 
+            pauseGraphicRefresh = false;
         }
 
         /// <summary>
@@ -1451,9 +1459,9 @@ namespace GSCFieldApp.ViewModels
             };
             modal.ModalContent = view = new Views.LocationDialog(newLocationFieldNotes);
             view.locationVM.doLocationUpdate = false;
+            view.locationVM.newLocationEdit -= NavigationToStationDialog;
             view.locationVM.newLocationEdit += NavigationToStationDialog; //Detect when the add/edit request has finished.
             modal.IsModal = true;
-
             DataLocalSettings dLocalSettings = new DataLocalSettings();
             dLocalSettings.SetSettingValue("forceNoteRefresh", true);
         }
@@ -1612,6 +1620,9 @@ namespace GSCFieldApp.ViewModels
             view.ViewModel.newSampleEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
 
+            view.sampClosed -= modalDialogClosed;
+            view.sampClosed += modalDialogClosed;
+
         }
 
         public void GotoStructureDialog(FieldLocation structureMapPoint)
@@ -1626,6 +1637,9 @@ namespace GSCFieldApp.ViewModels
             view.strucViewModel.newStructureEdit -= NavigateToReport;
             view.strucViewModel.newStructureEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
+            view.strucClosed -= modalDialogClosed;
+            view.strucClosed += modalDialogClosed;
+
 
         }
 
@@ -1646,6 +1660,9 @@ namespace GSCFieldApp.ViewModels
             view.pflowModel.newPflowEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
 
+            view.pflowClosed -= modalDialogClosed;
+            view.pflowClosed += modalDialogClosed;
+
         }
 
         /// <summary>
@@ -1659,12 +1676,16 @@ namespace GSCFieldApp.ViewModels
             StationViewModel svm = new StationViewModel(false);
             FieldNotes quickStation = svm.QuickStation(documentMapPoint);
 
-            var modal = Window.Current.Content as ModalDialog;
+            ModalDialog modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.DocumentDialog;
             modal.ModalContent = view = new Views.DocumentDialog(quickStation, quickStation, true);
             view.DocViewModel.newDocumentEdit -= NavigateToReport;
             view.DocViewModel.newDocumentEdit += NavigateToReport; //Detect when the add/edit request has finished.
             modal.IsModal = true;
+
+            view.documentClosed -= modalDialogClosed;
+            view.documentClosed += modalDialogClosed;
+
         }
 
         /// <summary>
