@@ -1892,7 +1892,7 @@ namespace GSCFieldApp.ViewModels
 
         public void MapRecenter_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(0.75));
+            currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, currentMapView.MapScale), TimeSpan.FromSeconds(0.75));
         }
 
         private async void FieldBooksPageViewModel_newFieldBookSelectedAsync(object sender, string e)
