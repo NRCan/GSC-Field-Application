@@ -1176,7 +1176,7 @@ namespace GSCFieldApp.ViewModels
                 _earthmatMineralValues.Remove(oldValue);
                 RaisePropertyChanged("EarthmatMineralValues");
             }
-            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatContact.ToLower()))
+            if (parentListViewName.ToLower().Contains(Dictionaries.DatabaseLiterals.FieldEarthMatContactDeprecated.ToLower()))
             {
                 _earthmatContactNoteTypes.Remove(oldValue);
                 RaisePropertyChanged("EarthmatContactNoteTypes");

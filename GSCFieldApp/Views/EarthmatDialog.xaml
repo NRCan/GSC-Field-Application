@@ -234,7 +234,7 @@
 
                                 <RelativePanel x:Name="EarthContactNotePanel" RelativePanel.RightOf="EarthContactButtonPanel">
                                     <TextBlock x:Name="EarthContactNoteHeader" x:Uid="EarthDialogContactNote" Margin="0,0,0,-5"/>
-                                    <ListView x:Name="EarthContactNoteComboBox"  Height="136"
+                                    <ListView x:Name="EarthContactConcat"  Height="136"
                                               RelativePanel.Below="EarthContactNoteHeader"
                                               Style="{StaticResource ConcatenatedListView}"
                                                 ItemTemplate="{StaticResource ConcatenatedValueTemplate}" 
