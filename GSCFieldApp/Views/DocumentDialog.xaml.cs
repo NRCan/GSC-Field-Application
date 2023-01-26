@@ -25,6 +25,10 @@ namespace GSCFieldApp.Views
         //Local settings
         readonly DataLocalSettings lSetting = new DataLocalSettings();
 
+        public delegate void documentCloseWithoutSaveEventHandler(object sender); //A delegate for execution events
+        public event documentCloseWithoutSaveEventHandler documentClosed; //This event is triggered when a save has been done on station table.
+
+
         public DocumentDialog(FieldNotes inDetailViewModel, FieldNotes stationSummaryID, bool quickPhoto)
         {
             parentViewModel = inDetailViewModel;
@@ -92,6 +96,12 @@ namespace GSCFieldApp.Views
                 modal.ModalContent = view;
                 modal.IsModal = false;
             });
+
+            if (documentClosed != null)
+            {
+                documentClosed(this);
+            }
+
         }
 
         private void documentBackButton_Tapped(object sender, TappedRoutedEventArgs e)

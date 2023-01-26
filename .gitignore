@@ -12,6 +12,7 @@ GSCFieldApp/ESRIRuntimeLicence.cs
 *.user
 *.userosscache
 *.sln.docstates
+*.appxmanifest
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -149,8 +149,9 @@ namespace GSCFieldApp.ViewModels
         public string SelectedMineralModeText { get { return _selectedMineralModeText; } set { _selectedMineralModeText = value; } }
         #endregion
 
-        public MineralViewModel(FieldNotes inReportModel)
+        public MineralViewModel(FieldNotes inReportModel, bool forQuick = false)
         {
+
             //On init for new samples calculates values for default UI form
             if (inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableEarthMat || inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
             {
@@ -182,20 +183,24 @@ namespace GSCFieldApp.ViewModels
                 _mineralMAID = inReportModel.mineralAlteration.MAID;
             }
 
-            _mineralID = mineralIDCalculator.CalculateMineralID();
-            _mineralAlias = mineralIDCalculator.CalculateMineralAlias(_mineralParentID, _mineralParentAlias);
-
-            existingDataDetailMineral = inReportModel;
-
-            if (existingDataDetailMineral.GenericID != null)
+            if (!forQuick)
             {
-                CalculateResidual();
+                _mineralID = mineralIDCalculator.CalculateMineralID();
+                _mineralAlias = mineralIDCalculator.CalculateMineralAlias(_mineralParentID, _mineralParentAlias);
+
+                existingDataDetailMineral = inReportModel;
+
+                if (existingDataDetailMineral.GenericID != null)
+                {
+                    CalculateResidual();
+                }
+
+                FillColour();
+                FillForm();
+                FillOccur();
+                FillMode();
             }
-            
-            FillColour();
-            FillForm();
-            FillOccur();
-            FillMode();
+
         }
 
         public void InitFill2ndRound(string fullMineralText)
@@ -528,7 +533,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="parentModel">Earhtmat parent model</param>
         /// <param name="inMineralName">The new mineral name to add inside table</param>
         /// <returns>A detail report class</returns>
-        public void QuickMineralRecordOnly(FieldNotes parentModel, List<string> inMineralNames, string parentName)
+        public void QuickMineralRecordOnly(string parentID, List<string> inMineralNames, string parentName)
         {
             if (inMineralNames.Count() > 0)
             {
@@ -538,13 +543,14 @@ namespace GSCFieldApp.ViewModels
                 {
                     Mineral newMineral = new Mineral();
                     //Get current class information and add to model
+                    _mineralParentID = parentID;
                     if (parentName == DatabaseLiterals.TableEarthMat)
                     {
                         newMineral.MineralEMID = _mineralParentID; //Foreigh key
                     }
                     else if (parentName == DatabaseLiterals.TableMineralAlteration)
                     {
-                        newMineral.MineralMAID = _mineralParentID; //Foreigh key
+                        newMineral.MineralMAID = _mineralParentID;  //Foreigh key
                     }
 
                     newMineral.MineralIDName = mineralIDCalculator.CalculateMineralAlias(_mineralParentID, _mineralParentAlias, inMineralNames.IndexOf(inMinName));

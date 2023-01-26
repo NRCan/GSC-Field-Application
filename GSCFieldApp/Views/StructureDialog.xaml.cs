@@ -1,18 +1,17 @@
-﻿using GSCFieldApp.ViewModels;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Template10.Common;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using GSCFieldApp.Models;
-using System.Diagnostics;
-using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI;
-using System.ComponentModel.DataAnnotations.Schema;
-using GSCFieldApp.Dictionaries;
 
 //using SQLite.Net;
 //using SQLite.Net.Platform.WinRT;
@@ -32,10 +31,12 @@ namespace GSCFieldApp.Views
         private readonly DataAccess accessData = new DataAccess();
 
         private readonly SolidColorBrush failColour = new SolidColorBrush(Windows.UI.Colors.Red);
-        private readonly Brush defaultColourBrush;
+        private Brush defaultColourBrush;
         private Color defaultBorderColor;
 
-        public int testing;
+        public delegate void strucCloseWithoutSaveEventHandler(object sender); //A delegate for execution events
+        public event strucCloseWithoutSaveEventHandler strucClosed; //This event is triggered when a save has been done on station table.
+
 
         public StructureDialog(FieldNotes inDetailViewModel, bool isQuickStructure)
         {
@@ -67,6 +68,12 @@ namespace GSCFieldApp.Views
                 modalStructClose.ModalContent = viewStructClose;
                 modalStructClose.IsModal = false;
             });
+
+            if (strucClosed != null)
+            {
+                strucClosed(this);
+            }
+
         }
         #endregion
 
@@ -221,6 +228,10 @@ namespace GSCFieldApp.Views
             }
             else
             {
+                //Preserver previous brush
+                defaultColourBrush = StructureDipNumBox.BorderBrush;
+
+                //Set to fail border color
                 StructureDipNumBox.BorderBrush = failColour;
                 this.StructureDipError.Visibility = Visibility.Visible;
             }
@@ -243,6 +254,10 @@ namespace GSCFieldApp.Views
             }
             else
             {
+                //Preserver previous brush
+                defaultColourBrush = StructureDipNumBox.BorderBrush;
+
+                //Set to fail border color
                 StructureAzimuthNumBox.BorderBrush = failColour;
                 this.StructureAzimError.Visibility = Visibility.Visible;
             }

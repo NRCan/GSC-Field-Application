@@ -95,10 +95,11 @@ namespace GSCFieldApp.Views
 
         }
 
-        //protected override void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //    base.OnNavigatedTo(e);
-        //}
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            MapPageViewModel.pauseGraphicRefresh = false; //Unset any pause on graphic refresh
+        }
 
         /// <summary>
         /// Triggered when user is going out of the map page

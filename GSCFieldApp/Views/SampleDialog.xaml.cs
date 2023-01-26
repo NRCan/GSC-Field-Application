@@ -16,6 +16,10 @@ namespace GSCFieldApp.Views
         public FieldNotes parentViewModel { get; set; }
         public bool isAQuickSample = false;
 
+        public delegate void sampCloseWithoutSaveEventHandler(object sender); //A delegate for execution events
+        public event sampCloseWithoutSaveEventHandler sampClosed; //This event is triggered when a save has been done on station table.
+
+
         public SampleDialog(FieldNotes inDetailViewModel, bool isQuickSample)
         {
             parentViewModel = inDetailViewModel;
@@ -63,6 +67,12 @@ namespace GSCFieldApp.Views
                 modalSampleClose.ModalContent = viewSampleClose;
                 modalSampleClose.IsModal = false;
             });
+
+            if (sampClosed != null)
+            {
+                sampClosed(this);
+            }
+
         }
 
         private void sampleBackButton_Tapped(object sender, TappedRoutedEventArgs e)

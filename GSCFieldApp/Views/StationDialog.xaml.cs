@@ -20,6 +20,9 @@ namespace GSCFieldApp.Views
         public StationViewModel ViewModel { get; set; }
         public FieldLocation mapPosition { get; set; }
         public bool _isWaypoint = false;
+        public delegate void stationCloseWithoutSaveEventHandler(object sender); //A delegate for execution events
+        public event stationCloseWithoutSaveEventHandler stationClosed; //This event is triggered when a save has been done on station table.
+
         public StationDataPart(FieldNotes inParentReport, bool isWaypoint)
         {
             if (inParentReport != null)
@@ -36,6 +39,8 @@ namespace GSCFieldApp.Views
             {
                 this.ViewModel.Location = mapPosition;
             }
+            this.Loading -= StationDataPart_Loading;
+            this.Loaded -= StationDataPart_Loaded;
             this.Loading += StationDataPart_Loading;
             this.Loaded += StationDataPart_Loaded;
 
@@ -104,6 +109,11 @@ namespace GSCFieldApp.Views
                 modal.ModalContent = view;
                 modal.IsModal = false;
             });
+
+            if (stationClosed != null)
+            {
+                stationClosed(this);
+            }
 
         }
 

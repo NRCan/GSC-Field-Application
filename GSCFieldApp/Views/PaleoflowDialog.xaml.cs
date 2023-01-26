@@ -14,6 +14,10 @@ namespace GSCFieldApp.Views
         public PaleoflowViewModel pflowModel { get; set; }
         public FieldNotes pflowParentViewModel { get; set; }
 
+        public delegate void pflowCloseWithoutSaveEventHandler(object sender); //A delegate for execution events
+        public event pflowCloseWithoutSaveEventHandler pflowClosed; //This event is triggered when a save has been done on station table.
+
+
         public PaleoflowDialog(FieldNotes inDetailViewModel)
         {
             pflowParentViewModel = inDetailViewModel;
@@ -39,6 +43,11 @@ namespace GSCFieldApp.Views
                 modalpflowClose.ModalContent = viewPflowClose;
                 modalpflowClose.IsModal = false;
             });
+
+            if (pflowClosed != null)
+            {
+                pflowClosed(this);
+            }
         }
         #endregion
 
