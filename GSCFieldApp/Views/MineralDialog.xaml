@@ -53,13 +53,13 @@
                             <RelativePanel>
                                 <AutoSuggestBox x:Name="MineralAutoSuggest" x:Uid="MineralAutoSuggest" QueryIcon="Find" Width="300"
                                     TextChanged="MineralAutoSuggest_TextChanged"
-                                    QuerySubmitted="MineralAutoSuggest_QuerySubmitted" Margin="0,0,0,10"/>
+                                    QuerySubmitted="MineralAutoSuggest_QuerySubmitted" Margin="0,0,0,10" TabIndex="1" IsTabStop="True"/>
                                 <TextBox x:Name="MineralNamesTextbox" x:Uid="MineralNamesTextbox" RelativePanel.Below="MineralAutoSuggest" Style="{ThemeResource TextboxMandatoryField}"
-                                     Text="{x:Bind MineralVM.MineralName, Mode=TwoWay}"/>
+                                     Text="{x:Bind MineralVM.MineralName, Mode=TwoWay}" TabIndex="2" IsReadOnly="True"/>
 
                                 <ComboBox x:Name="MineralModeBox" x:Uid="MinderalDialogMode" Style="{ThemeResource ComboboxMandatoryField}" RelativePanel.RightOf="MineralNamesTextbox" RelativePanel.AlignBottomWithPanel="True"
                                       ItemsSource="{x:Bind MineralVM.MineralModeText}"
-                                      SelectedValue="{x:Bind MineralVM.SelectedMineralModeText, Mode=TwoWay}" SelectionChanged="{x:Bind MineralVM.MineralModeBox_SelectionChanged}"/>
+                                      SelectedValue="{x:Bind MineralVM.SelectedMineralModeText, Mode=TwoWay}" SelectionChanged="{x:Bind MineralVM.MineralModeBox_SelectionChanged}" TabIndex="3"/>
 
                             </RelativePanel>
 
@@ -76,17 +76,17 @@
                             <ComboBox x:Name="MineralColourComboBox" x:Uid="MineralDialogColour"
                                 Header="" 
                                 ItemsSource="{x:Bind MineralVM.MineralColour}" 
-                                SelectedValue="{x:Bind MineralVM.SelectedMineralColor, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind MineralVM.SelectedMineralColor, Mode=TwoWay}" TabIndex="4"/>
 
                             <TextBox x:Name="MineralSizeMinNumBox" x:Uid="MinderalDialogSizeMin"
                                 HorizontalAlignment="Stretch" MinWidth="20" Width="Auto"
                                 InputScope="Number"
-                                Text ="{x:Bind MineralVM.MineralSizeMin, Mode=TwoWay}"/>
+                                Text ="{x:Bind MineralVM.MineralSizeMin, Mode=TwoWay}" TabIndex="3"/>
 
                             <TextBox x:Name="MineralSizeMaxNumBox" x:Uid="MinderalDialodSizeMax"
                                 HorizontalAlignment="Stretch" MinWidth="20" Width="Auto"
                                 InputScope="Number"
-                                Text ="{x:Bind MineralVM.MineralSizeMax, Mode=TwoWay}"/>
+                                Text ="{x:Bind MineralVM.MineralSizeMax, Mode=TwoWay}" TabIndex="6"/>
 
                         </GridView>
 
@@ -103,24 +103,24 @@
                                 <ComboBox x:Name="MineralFormHabitComboBox" x:Uid="MineralDialogForm"
                                 Header="" 
                                 ItemsSource="{x:Bind MineralVM.MineralFormHabit}" SelectionChanged="{x:Bind MineralVM.ConcatComboBox_SelectionChanged}"
-                                SelectedValue="{x:Bind MineralVM.SelectedMineralFormHabit, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind MineralVM.SelectedMineralFormHabit, Mode=TwoWay}" TabIndex="7"/>
 
                                 <ListView x:Name="MineralFormConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="MineralFormHabitComboBox"
                                                 ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
-                                                ItemsSource="{x:Bind MineralVM.MineralFormHabitValues}"/>
+                                                ItemsSource="{x:Bind MineralVM.MineralFormHabitValues}" TabIndex="8" IsTabStop="True"/>
                             </RelativePanel>
 
                             <ComboBox x:Name="MineralOccurComboBox" x:Uid="MineralDialogOccur"
                                 Header="" 
                                 ItemsSource="{x:Bind MineralVM.MineralOccur}" 
-                                SelectedValue="{x:Bind MineralVM.SelectedMineralOccur, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind MineralVM.SelectedMineralOccur, Mode=TwoWay}" TabIndex="9"/>
                             
                         </GridView>
 
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="MineralNoteComboBox" x:Uid="MineralDialogNote"
                             RelativePanel.Below="MineralGridView_03"
-                            Text="{x:Bind MineralVM.MineralNote, Mode=TwoWay}"/>
+                            Text="{x:Bind MineralVM.MineralNote, Mode=TwoWay}" TabIndex="10"/>
 
                     </RelativePanel>
                 </ScrollViewer>

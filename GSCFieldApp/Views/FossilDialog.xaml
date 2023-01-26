@@ -34,12 +34,12 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="fossilGridView_01">
                             <ComboBox x:Name="FossilClassCombobox" x:Uid="FossilDialogClass" Style="{ThemeResource ComboboxMandatoryField}"
                                 ItemsSource="{x:Bind fossilModel.FossilType}" 
-                                SelectedValue="{x:Bind fossilModel.SelectedFossilType, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind fossilModel.SelectedFossilType, Mode=TwoWay}" TabIndex="1"/>
                         </GridView>
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="fossilNoteTextbox" x:Uid="FossilDialogNote"
                             RelativePanel.Below="fossilGridView_01"
-                            Text ="{x:Bind fossilModel.FossilNote, Mode=TwoWay}"/>
+                            Text ="{x:Bind fossilModel.FossilNote, Mode=TwoWay}" TabIndex="2"/>
 
                     </RelativePanel>
                 </ScrollViewer>

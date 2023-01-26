@@ -431,7 +431,7 @@ namespace GSCFieldApp.Views
             Themes.ComboBoxItem senderItem = senderBox.SelectedItem as Themes.ComboBoxItem;
             string senderValue = senderItem.itemValue;
 
-            if (senderValue == DatabaseLiterals.structurePlanarAttitudeTrend)
+                if (senderValue == DatabaseLiterals.structurePlanarAttitudeTrend)
             {
                 //Nullify dip
                 strucViewModel.StructDip = string.Empty;

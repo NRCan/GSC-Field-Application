@@ -38,7 +38,7 @@
                     <RelativePanel Style="{StaticResource ChildPanel}" x:Name="strucScrollRelativePanel">
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="StructureGridView_Type">
-                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StructureGridView_Type"/>
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StructureGridView_Type" IsEnabled="False"/>
 
                             <RelativePanel>
                             <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
@@ -50,11 +50,11 @@
                                                 
                                                 TextChanged="StructureAutoSuggest_TextChanged"
                                                 QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
-                                                Width="300"/>
+                                                Width="300" IsTabStop="True" TabIndex="1"/>
                                 <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" 
                                  RelativePanel.Below="StructureAutoSuggest" RelativePanel.RightOf="structTypeSearch"
-                                 Width="Auto" Style="{ThemeResource TextboxMandatoryField}" IsReadOnly="True" FontWeight="Bold"
-                                 Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}" TextChanged="strucType_TextChanged" />
+                                 Width="Auto" Style="{ThemeResource TextboxMandatoryField}" FontWeight="Bold"
+                                 Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}" TextChanged="strucType_TextChanged" TabIndex="2" IsReadOnly="True" />
                         </RelativePanel>
                         </GridView>
 
@@ -67,16 +67,16 @@
                                 HorizontalAlignment="Stretch"
                                 InputScope="Number"
                                 Text ="{x:Bind strucViewModel.StructAzim, Mode=TwoWay}"
-                                TextChanged="StructureAzimuthNumBox_TextChanged"/>
+                                TextChanged="StructureAzimuthNumBox_TextChanged" TabIndex="3"/>
                             <TextBox x:Name="StructureDipNumBox" x:Uid="StructureDialogDip" Style="{ThemeResource TextboxMandatoryField}"
                                 HorizontalAlignment="Stretch"
                                 InputScope="Number"
                                 Text ="{x:Bind strucViewModel.StructDip, Mode=TwoWay}"
-                                TextChanged="StructureDipNumBox_TextChanged"     />
+                                TextChanged="StructureDipNumBox_TextChanged" TabIndex="4"     />
                             <ComboBox x:Name="StructureRelatedCombobox" x:Uid="StructureDialogRelated"
                                     ItemsSource="{x:Bind strucViewModel.StructRelated}" 
                                 SelectedValue="{x:Bind strucViewModel.SelectedStructRelated, Mode=TwoWay}"
-                                      SelectionChanged="StructureRelatedCombobox_SelectionChanged"/>
+                                      SelectionChanged="StructureRelatedCombobox_SelectionChanged" TabIndex="5"/>
 
                             
 
@@ -127,11 +127,11 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="StructureGridView_02" RelativePanel.Below="MainSeparator_01">
                             <ComboBox x:Name="structMethod" x:Uid="StructureDialogMethod"
                                 ItemsSource="{x:Bind strucViewModel.StructMethod}" 
-                                SelectedValue="{x:Bind strucViewModel.SelectedStructMethod, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind strucViewModel.SelectedStructMethod, Mode=TwoWay}" TabIndex="6"/>
                             <ComboBox x:Name="StructureFormatCombobox" x:Uid="StructureDialogFormat" Style="{ThemeResource ComboboxMandatoryField}"  
                                 ItemsSource="{x:Bind strucViewModel.StructFormat}" 
                                 SelectedValue="{x:Bind strucViewModel.SelectedStructFormat, Mode=TwoWay}"
-                                SelectionChanged="StructureFormatCombobox_SelectionChanged"      />
+                                SelectionChanged="StructureFormatCombobox_SelectionChanged" TabIndex="7"      />
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_02"
@@ -142,19 +142,19 @@
 
                             <ComboBox x:Name="StructureAttitudeCombobox" x:Uid="StructureDialogAttitude"  
                                 ItemsSource="{x:Bind strucViewModel.StructAttitude}" SelectionChanged="StructureAttitudeCombobox_SelectionChanged"  
-                                SelectedValue="{x:Bind strucViewModel.SelectedStructAttitude, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind strucViewModel.SelectedStructAttitude, Mode=TwoWay}" TabIndex="8"/>
                             <ComboBox x:Name="StructureyoungCombobox" x:Uid="StructureDialogYoung"  
                                 ItemsSource="{x:Bind strucViewModel.StructYoung}" 
-                                SelectedValue="{x:Bind strucViewModel.SelectedStructYoung, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind strucViewModel.SelectedStructYoung, Mode=TwoWay}" TabIndex="9"/>
                             <ComboBox x:Name="StructureGenCombobox" x:Uid="StructureDialogGen"  
                                 ItemsSource="{x:Bind strucViewModel.StructGen}"
-                                SelectedValue="{x:Bind strucViewModel.SelectedStructGen, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind strucViewModel.SelectedStructGen, Mode=TwoWay}" TabIndex="10"/>
                             <ComboBox x:Name="StructureStrainCombobox" x:Uid="StructureDialogStrain"  
                                 ItemsSource="{x:Bind strucViewModel.StructStrain}" 
-                                SelectedValue="{x:Bind strucViewModel.SelectedStructStrain, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind strucViewModel.SelectedStructStrain, Mode=TwoWay}" TabIndex="11"/>
                             <ComboBox x:Name="StructureFlatCombobox" x:Uid="StructureDialogFlat"  
                                 ItemsSource="{x:Bind strucViewModel.StructFlat}" 
-                                SelectedValue="{x:Bind strucViewModel.SelectedStructFlat, Mode=TwoWay}"/>
+                                SelectedValue="{x:Bind strucViewModel.SelectedStructFlat, Mode=TwoWay}" TabIndex="12"/>
                                 
                         </GridView>
 
@@ -164,15 +164,15 @@
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="StructureFabricTextbox" x:Uid="StructureDialogFabric"
                             RelativePanel.Below="MainSeparator_03"
-                            Text ="{x:Bind strucViewModel.StructFabric, Mode=TwoWay}"/>
+                            Text ="{x:Bind strucViewModel.StructFabric, Mode=TwoWay}" TabIndex="13"/>
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="StructureSenseTextbox" x:Uid="StructureDialogSense"
                             RelativePanel.Below="StructureFabricTextbox"
-                            Text ="{x:Bind strucViewModel.StructSense, Mode=TwoWay}"/>
+                            Text ="{x:Bind strucViewModel.StructSense, Mode=TwoWay}" TabIndex="14"/>
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="StructureNoteTextbox" x:Uid="StructureDialogNote"
                             RelativePanel.Below="StructureSenseTextbox"
-                            Text ="{x:Bind strucViewModel.StructNote, Mode=TwoWay}"/>
+                            Text ="{x:Bind strucViewModel.StructNote, Mode=TwoWay}" TabIndex="15"/>
 
                     </RelativePanel>
                 </ScrollViewer>

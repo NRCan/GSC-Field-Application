@@ -1767,6 +1767,8 @@ namespace GSCFieldApp.ViewModels
                         _currentLongitude = in_position.Coordinate.Point.Position.Longitude;
                         RaisePropertyChanged("CurrentLongitude");
                         _currentLatitude = in_position.Coordinate.Point.Position.Latitude;
+                        _currentEasting = in_position.Coordinate.Point.Position.Latitude;  //CoordinateFormatter.ToUtm(in_position.Coordinate.Point.Position.Latitude, UtmConversionMode.NorthSouthIndicators, true);
+                        _currentNorthing = in_position.Coordinate.Point.Position.Latitude;
                         RaisePropertyChanged("CurrentLatitude");
                         _currentAltitude = in_position.Coordinate.Point.Position.Altitude;
                         RaisePropertyChanged("CurrentAltitude");

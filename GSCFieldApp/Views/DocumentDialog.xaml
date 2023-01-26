@@ -66,10 +66,10 @@
                         <RelativePanel x:Name="relPanelCategory" RelativePanel.AlignLeftWithPanel="True">
                             <ComboBox x:Name="DocumentCategoryCombobox" x:Uid="DocumentCategoryCombobox" Style="{ThemeResource ComboboxMandatoryField}"
                               ItemsSource="{x:Bind DocViewModel.Category}" SelectionChanged="{x:Bind DocViewModel.ConcatComboBox_SelectionChanged}"
-                              SelectedValue="{x:Bind DocViewModel.SelectedCategory, Mode=TwoWay}"/>
+                              SelectedValue="{x:Bind DocViewModel.SelectedCategory, Mode=TwoWay}" TabIndex="1"/>
                             <ListView x:Name="DocumentCategoryConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="DocumentCategoryCombobox"
                                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
-                                                        ItemsSource="{x:Bind DocViewModel.CategoryValues}"/>
+                                                        ItemsSource="{x:Bind DocViewModel.CategoryValues}" IsTabStop="True" TabIndex="2"/>
 
                         </RelativePanel>
 
@@ -81,7 +81,7 @@
                              IsSpellCheckEnabled="True"
                              IsTextPredictionEnabled="True"
                              RelativePanel.Below="relPanelCategory"
-                             Text ="{x:Bind DocViewModel.Direction, Mode=TwoWay}"/>
+                             Text ="{x:Bind DocViewModel.Direction, Mode=TwoWay}" TabIndex="3"/>
 
 
                         <SymbolIcon x:Name="DocumentDirectionSymIcon" x:Uid="DocumentDirectionIcon" 
@@ -96,7 +96,7 @@
                         
                         <TextBox Style="{ThemeResource Notes}" x:Name="DocumentCaptionTextbox" x:Uid="DocumentCaptionTextbox"
                          RelativePanel.Below="DocumentDirectionTextbox" 
-                         Text ="{x:Bind DocViewModel.Description, Mode=TwoWay}"/>
+                         Text ="{x:Bind DocViewModel.Description, Mode=TwoWay}" TabIndex="4"/>
 
                         <Button x:Name="LoadPreviousCaptionButton" Content="Load Previous" Margin="0,10,0,0"
                             RelativePanel.Below="DocumentCaptionTextbox" 
@@ -112,7 +112,7 @@
                             <ComboBox x:Name="DocumentTypeCombobox" x:Uid="DocumentTypeCombobox"
                               ItemsSource="{x:Bind DocViewModel.DocType}" 
                               SelectedValue="{x:Bind DocViewModel.SelectedDocType, Mode=TwoWay}" 
-                              SelectionChanged="{x:Bind DocViewModel.DocumentTypeCombobox_SelectionChanged}"/>
+                              SelectionChanged="{x:Bind DocViewModel.DocumentTypeCombobox_SelectionChanged}" TabIndex="5"/>
                             
                             <StackPanel Orientation="Horizontal" x:Name="DocumentFromToBoxes">
 
@@ -140,7 +140,7 @@
                              HorizontalAlignment="Stretch"
                              MaxLength="0"
                              InputScope="Text"
-                             Text ="{x:Bind DocViewModel.FileName, Mode=TwoWay}"/>
+                             Text ="{x:Bind DocViewModel.FileName, Mode=TwoWay}" TabIndex="6"/>
 
                         <Image x:Name="imagePreview" Tapped="imagePreview_Tapped" 
                                Width="300" Height="300" Margin="0,-25,10,0" Visibility="{x:Bind DocViewModel.DocumentPhotoExists, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"
@@ -162,14 +162,14 @@
                               Margin="0,0,0,5"
                               ItemsSource="{x:Bind DocViewModel.RelatedTable}" 
                               SelectedValue="{x:Bind DocViewModel.SelectedRelatedTable, Mode=TwoWay}"
-                              Visibility="{x:Bind DocViewModel.DocumentModeVisibility}" SelectionChanged="{x:Bind DocViewModel.DocumentParentThemeCombobox_SelectionChanged}"/>
+                              Visibility="{x:Bind DocViewModel.DocumentModeVisibility}" SelectionChanged="{x:Bind DocViewModel.DocumentParentThemeCombobox_SelectionChanged}" TabIndex="7"/>
                         <ComboBox x:Name="DocumentParentIDCombobox" x:Uid="DocumentRelatedItemCombobox"
                               RelativePanel.Below="SeperatorLine_04"
                               Margin="10,0,0,5"
                           RelativePanel.RightOf="DocumentParentThemeCombobox"
                           Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"
                           ItemsSource="{x:Bind DocViewModel.RelatedIds}" 
-                          SelectedValue="{x:Bind DocViewModel.SelectedRelatedID, Mode=TwoWay}"/>
+                          SelectedValue="{x:Bind DocViewModel.SelectedRelatedID, Mode=TwoWay}" TabIndex="8"/>
 
                         <TextBox x:Name="DocumentObjectXTextbox" x:Uid="DocumentObjectXTextbox"
                          HorizontalAlignment="Stretch"

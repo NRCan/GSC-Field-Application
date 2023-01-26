@@ -186,8 +186,8 @@
                     <TextBlock Name="MapCoordinateText5" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
                     <Run Text="Location: " x:Uid="MapInfoLocationLabel"/>
-                    <Run Text="{x:Bind MapPageViewModel.CurrentEasting, Mode=OneWay}"/>
-                    <Run Text="{x:Bind MapPageViewModel.CurrentNorthing, Mode=OneWay}"/>
+                    <!--<Run Text="{x:Bind MapPageViewModel.CurrentEasting, Converter={StaticResource DD2UTM}, ConverterParameter='Easting', Mode=OneWay}"/>
+                    <Run Text="{x:Bind MapPageViewModel.CurrentNorthing, Converter={StaticResource DD2UTM}, ConverterParameter='Northing', Mode=OneWay}"/>-->
                     <Run Text="{x:Bind MapPageViewModel.CurrentAltitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
                     </TextBlock>
 
