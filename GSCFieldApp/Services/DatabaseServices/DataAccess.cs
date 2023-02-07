@@ -13,9 +13,10 @@ using SQLite;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Resources;
 using System.Diagnostics;
+using SpatialiteSharp;
+using System.Reflection;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
-
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataAccess
@@ -89,6 +90,13 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
         }
 
+        public string GetDefaultDatabasePath
+        { 
+            get
+            {
+                return DbPath;
+            }
+        }
         /// <summary>
         /// Get a sqlite connection object
         /// </summary>
@@ -121,6 +129,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             return System.IO.File.Exists(DbPath);
         }
+
 
         #endregion
 

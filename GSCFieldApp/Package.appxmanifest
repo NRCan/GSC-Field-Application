@@ -28,14 +28,6 @@
             </uap:SupportedFileTypes>
           </uap:FileSavePicker>
         </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="sqlite">
-            <uap:DisplayName>sqlite</uap:DisplayName>
-            <uap:SupportedFileTypes>
-              <uap:FileType>.sqlite</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

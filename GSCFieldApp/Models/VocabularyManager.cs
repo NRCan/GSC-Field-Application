@@ -9,8 +9,10 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableDictionaryManager)]
     public class VocabularyManager
     {
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldDictionaryManagerLinkID)]
+        [Column(DatabaseLiterals.FieldDictionaryManagerLinkID)]
         public string ThemeID { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerCodedTheme)]

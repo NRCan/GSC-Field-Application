@@ -10,7 +10,11 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableStructure)]
     public class Structure
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldStructureID)]
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+
+        public string rowid { get; set; }
+
+        [Column(DatabaseLiterals.FieldStructureID)]
         public string StructureID { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureName)]

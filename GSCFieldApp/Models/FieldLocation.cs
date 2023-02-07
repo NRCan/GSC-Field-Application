@@ -10,10 +10,13 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableLocation)]
     public class FieldLocation: BindableBase
     {
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [PrimaryKey, Column(DatabaseLiterals.FieldLocationID)]
+        [Column(DatabaseLiterals.FieldLocationID)]
         public string LocationID { get; set; }
 
         /// <summary>

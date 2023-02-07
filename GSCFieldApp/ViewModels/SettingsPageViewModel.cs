@@ -427,7 +427,8 @@ namespace GSCFieldApp.ViewModels
             {
                 SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
             };
-            filesPicker.FileTypeFilter.Add(".sqlite");
+            filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
+            filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
 
             //Get users selected files
             StorageFile f = await filesPicker.PickSingleFileAsync();

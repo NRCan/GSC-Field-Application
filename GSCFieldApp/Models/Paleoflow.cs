@@ -6,7 +6,10 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TablePFlow)]
     public class Paleoflow
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldPFlowID)]
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
+
+        [Column(DatabaseLiterals.FieldPFlowID)]
         public string PFlowID { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowName)]

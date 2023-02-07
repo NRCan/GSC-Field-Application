@@ -14,6 +14,7 @@ using Esri.ArcGISRuntime.UI.Controls;
 using Esri.ArcGISRuntime.UI;
 using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Symbology;
+using Esri.ArcGISRuntime.Data;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
@@ -22,7 +23,6 @@ using Template10.Controls;
 using Windows.ApplicationModel.Resources;
 using Windows.System;
 using Windows.UI.Xaml.Input;
-using Esri.ArcGISRuntime.Data;
 using System.Globalization;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
 using Newtonsoft.Json;
@@ -617,305 +617,305 @@ namespace GSCFieldApp.ViewModels
         /// <param name="inLocationTableRows"></param>
         public void LoadFromGivenDB(List<object> inLocationTableRows, SQLiteConnection dbConnection, Dictionary<string, Graphic> graphicList, bool isDefaultDB)
         {
-            PictureMarkerSymbol pointSym = new PictureMarkerSymbol(new Uri("ms-appx:///Assets/IC809393.png"));
+            //PictureMarkerSymbol pointSym = new PictureMarkerSymbol(new Uri("ms-appx:///Assets/IC809393.png"));
 
-            Uri planarPath = new Uri("ms-appx:///Assets/Images/theme-light/struc_planar.png");
-            Uri linearPath = new Uri("ms-appx:///Assets/Images/theme-light/struc_linear.png");
+            //Uri planarPath = new Uri("ms-appx:///Assets/Images/theme-light/struc_planar.png");
+            //Uri linearPath = new Uri("ms-appx:///Assets/Images/theme-light/struc_linear.png");
 
-            PictureMarkerSymbol StrucPlaneSym = new PictureMarkerSymbol(planarPath);
-            PictureMarkerSymbol StrucLinearSym = new PictureMarkerSymbol(linearPath);
+            //PictureMarkerSymbol StrucPlaneSym = new PictureMarkerSymbol(planarPath);
+            //PictureMarkerSymbol StrucLinearSym = new PictureMarkerSymbol(linearPath);
 
-            //Choose proper overlay
-            GraphicsOverlay pointOverlay = new GraphicsOverlay();
-            GraphicsOverlay pointLabelOverlay = new GraphicsOverlay();
-            GraphicsOverlay structureOverlay = new GraphicsOverlay();
+            ////Choose proper overlay
+            //GraphicsOverlay pointOverlay = new GraphicsOverlay();
+            //GraphicsOverlay pointLabelOverlay = new GraphicsOverlay();
+            //GraphicsOverlay structureOverlay = new GraphicsOverlay();
 
-            //Set some rendering defaults
-            Renderer graphRenderer = new SimpleRenderer
-            {
-                RotationType = RotationType.Geographic
-            };
-            pointOverlay.Renderer = graphRenderer;
+            ////Set some rendering defaults
+            //Renderer graphRenderer = new SimpleRenderer
+            //{
+            //    RotationType = RotationType.Geographic
+            //};
+            //pointOverlay.Renderer = graphRenderer;
 
-            if (isDefaultDB)
-            {
-                pointOverlay = _OverlayStation;
-                pointLabelOverlay = _OverlayStationLabel;
-                structureOverlay = _OverlayStructure;
-            }
-            else
-            {
-                string dbFileName = Path.GetFileName(dbConnection.DatabasePath);
-                if (_overlayContainerOther.ContainsKey(dbFileName))
-                {
-                    pointOverlay = _overlayContainerOther[dbFileName][0];
-                    pointLabelOverlay = _overlayContainerOther[dbFileName][1];
-                    structureOverlay = _overlayContainerOther[dbFileName][2];
-                }
+            //if (isDefaultDB)
+            //{
+            //    pointOverlay = _OverlayStation;
+            //    pointLabelOverlay = _OverlayStationLabel;
+            //    structureOverlay = _OverlayStructure;
+            //}
+            //else
+            //{
+            //    string dbFileName = Path.GetFileName(dbConnection.DatabasePath);
+            //    if (_overlayContainerOther.ContainsKey(dbFileName))
+            //    {
+            //        pointOverlay = _overlayContainerOther[dbFileName][0];
+            //        pointLabelOverlay = _overlayContainerOther[dbFileName][1];
+            //        structureOverlay = _overlayContainerOther[dbFileName][2];
+            //    }
 
-            }
+            //}
 
-            #region ADD
-            // Get latitude, longitude and station id and add to graphics overlay
-            foreach (object lcs in inLocationTableRows)
-            {
-                //Variables
-                bool stationGraphicExists = false;
-                bool structureGraphicExists = false;
+            //#region ADD
+            //// Get latitude, longitude and station id and add to graphics overlay
+            //foreach (object lcs in inLocationTableRows)
+            //{
+            //    //Variables
+            //    bool stationGraphicExists = false;
+            //    bool structureGraphicExists = false;
 
-                #region POINT SYMBOL
-                Models.FieldLocation currentLocation = lcs as Models.FieldLocation;
-                var ptLatitude = currentLocation.LocationLat;
-                var ptLongitude = currentLocation.LocationLong;
-                var ptLocId = currentLocation.LocationID;
+            //    #region POINT SYMBOL
+            //    Models.FieldLocation currentLocation = lcs as Models.FieldLocation;
+            //    var ptLatitude = currentLocation.LocationLat;
+            //    var ptLongitude = currentLocation.LocationLong;
+            //    var ptLocId = currentLocation.LocationID;
 
-                //Get related station
-                List<object> stationTableRows = new List<object>();
-                Station stations = new Station();
-                string stationsSelectionQuery = "Select * from " + DatabaseLiterals.TableStation + " where " + DatabaseLiterals.FieldLocationID + " = '" + currentLocation.LocationID + "'";
-                stationTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(stations.GetType(), stationsSelectionQuery, dbConnection);
+            //    //Get related station
+            //    List<object> stationTableRows = new List<object>();
+            //    Station stations = new Station();
+            //    string stationsSelectionQuery = "Select * from " + DatabaseLiterals.TableStation + " where " + DatabaseLiterals.FieldLocationID + " = '" + currentLocation.LocationID + "'";
+            //    stationTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(stations.GetType(), stationsSelectionQuery, dbConnection);
 
-                // should only be one station returned, this approach doesn't allow for multiple stations
-                var ptStationId = string.Empty;
-                var ptStationDate = string.Empty;
-                var ptStationTime = string.Empty;
-                var ptStationType = string.Empty;
-                string ptStationLocationID = string.Empty;
-                double ptStationLocationLat;
-                double ptStationLocationLong;
-                string ptStationLocationEPSG = string.Empty;
-                foreach (object scs in stationTableRows)
-                {
-                    Models.Station currentStation = scs as Models.Station;
-                    ptStationId = currentStation.StationAlias;
-                    ptStationDate = currentStation.StationVisitDate;
-                    ptStationTime = currentStation.StationVisitTime;
-                    ptStationType = currentStation.StationObsType;
-                    ptStationLocationID = currentLocation.LocationID;
-                    ptStationLocationLat = currentLocation.LocationLat;
-                    ptStationLocationLong = currentLocation.LocationLong;
-                    ptStationLocationEPSG = currentLocation.LocationDatum;
-                }
+            //    // should only be one station returned, this approach doesn't allow for multiple stations
+            //    var ptStationId = string.Empty;
+            //    var ptStationDate = string.Empty;
+            //    var ptStationTime = string.Empty;
+            //    var ptStationType = string.Empty;
+            //    string ptStationLocationID = string.Empty;
+            //    double ptStationLocationLat;
+            //    double ptStationLocationLong;
+            //    string ptStationLocationEPSG = string.Empty;
+            //    foreach (object scs in stationTableRows)
+            //    {
+            //        Models.Station currentStation = scs as Models.Station;
+            //        ptStationId = currentStation.StationAlias;
+            //        ptStationDate = currentStation.StationVisitDate;
+            //        ptStationTime = currentStation.StationVisitTime;
+            //        ptStationType = currentStation.StationObsType;
+            //        ptStationLocationID = currentLocation.LocationID;
+            //        ptStationLocationLat = currentLocation.LocationLat;
+            //        ptStationLocationLong = currentLocation.LocationLong;
+            //        ptStationLocationEPSG = currentLocation.LocationDatum;
+            //    }
 
-                //Find if station was already loaded
-                if (graphicList.ContainsKey(currentLocation.LocationID))
-                {
-                    stationGraphicExists = true;
-                    graphicList.Remove(currentLocation.LocationID);
-                }
+            //    //Find if station was already loaded
+            //    if (graphicList.ContainsKey(currentLocation.LocationID))
+            //    {
+            //        stationGraphicExists = true;
+            //        graphicList.Remove(currentLocation.LocationID);
+            //    }
 
-                //Add new graphic station and it's related label if needed
-                if (!stationGraphicExists && ptStationId != null && ptStationId != string.Empty)
-                {
-                    //Tracking available offset placement 
-                    List<int> placementPool = Enumerable.Range(1, 8).ToList();
+            //    //Add new graphic station and it's related label if needed
+            //    if (!stationGraphicExists && ptStationId != null && ptStationId != string.Empty)
+            //    {
+            //        //Tracking available offset placement 
+            //        List<int> placementPool = Enumerable.Range(1, 8).ToList();
 
-                    #region MAIN POINT
-                    //Create Map Point for graphic
-                    MapPoint geoPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
+            //        #region MAIN POINT
+            //        //Create Map Point for graphic
+            //        MapPoint geoPoint = new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84);
 
-                    //Get if datum transformation is needed
-                    int.TryParse(ptStationLocationEPSG, out int epsg);
+            //        //Get if datum transformation is needed
+            //        int.TryParse(ptStationLocationEPSG, out int epsg);
 
-                    if (epsg != 0 && epsg != 4326)
-                    {
-                        DatumTransformation datumTransfo = null;
-                        SpatialReference outSR = null;
+            //        if (epsg != 0 && epsg != 4326)
+            //        {
+            //            DatumTransformation datumTransfo = null;
+            //            SpatialReference outSR = null;
 
-                        if ((epsg > 26900 && epsg < 27000))
-                        {
-                            outSR = SpatialReference.Create(4326);
-                            datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
-                        }
-
-
-                        MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
-
-                        //Validate if transformation is needed.
-                        if (datumTransfo != null)
-                        {
-                            //Replace geopoint
-                            geoPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
-                        }
-
-                    }
-
-                    var StationGraphic = new Graphic(geoPoint, pointSym);
-                    StationGraphic.Attributes.Add("Id", ptStationId.ToString());
-                    StationGraphic.Attributes.Add("Date", ptStationDate.ToString());
-                    StationGraphic.Attributes.Add("Time", ptStationTime.ToString());
-                    StationGraphic.Attributes.Add("tableType", DatabaseLiterals.TableStation);
-                    StationGraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
-                    if (ptStationType != null)
-                    {
-                        StationGraphic.Attributes.Add("Type", ptStationType.ToString());
-                    }
-                    else
-                    {
-                        StationGraphic.Attributes.Add("Type", string.Empty);
-                    }
-
-                    StationGraphic.Attributes.Add("Default", isDefaultDB);
-
-                    pointOverlay.Graphics.Add(StationGraphic);
-
-                    #endregion
-
-                    #region LABEL SYMBOL
-                    GraphicPlacement placements = new GraphicPlacement();
-                    var textSym = new TextSymbol
-                    {
-                        FontFamily = "Arial",
-                        FontWeight = FontWeight.Bold,
-                        Color = System.Drawing.Color.Black,
-                        HaloColor = System.Drawing.Color.WhiteSmoke,
-                        HaloWidth = 2,
-                        Size = 16,
-                        HorizontalAlignment = Esri.ArcGISRuntime.Symbology.HorizontalAlignment.Left,
-                        VerticalAlignment = Esri.ArcGISRuntime.Symbology.VerticalAlignment.Baseline,
-                        OffsetX = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item1,
-                        OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2
-                    };
-                    placementPool.RemoveAt(0); //Remove taken placement from pool
-                    textSym.Text = ptStationId.ToString();
-                    pointLabelOverlay.Graphics.Add(new Graphic(new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84), textSym));
-                    #endregion
-
-                    #region STRUCTURES
-
-                    ///For structure symboles (planar and linear) make sure they are wanted by user but that it's within a bedrock field notebook also
-
-                    if ((bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
-                    {
-                        //Get related structures, if any
-                        List<object> strucTableRows = new List<object>();
-                        Structure structs = new Structure();
-                        string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
-                            " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
-                            " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
-                            " WHERE st." + DatabaseLiterals.FieldStationAlias + " = '" + ptStationId + "';";
-                        strucTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(structs.GetType(), structSelectionQuery, dbConnection);
-
-                        //Variables
-                        if (!structureGraphicExists && strucTableRows.Count() > 0)
-                        {
-                            //Structure pairs tracking
-                            //Key = record ID, Value = priority number for placement
-                            Dictionary<string, int> strucPairs = new Dictionary<string, int>();
-                            int iteration = 1;
-                            foreach (Structure sts in strucTableRows)
-                            {
-                                //Manage pair tracking for pool placement 
-                                if (!strucPairs.ContainsKey(sts.StructureID))
-                                {
-                                    if (sts.StructureRelated != null && sts.StructureRelated != String.Empty)
-                                    {
-                                        //Get related struc placement priority
-                                        strucPairs[sts.StructureID] = strucPairs[sts.StructureRelated];
-                                    }
-                                    else
-                                    {
-                                        //Assign new priority and remove it from the pool
-                                        strucPairs[sts.StructureID] = iteration;
-                                        iteration = iteration + 1;
-                                    }
-
-                                }
+            //            if ((epsg > 26900 && epsg < 27000))
+            //            {
+            //                outSR = SpatialReference.Create(4326);
+            //                datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
+            //            }
 
 
-                                //Set proper symbol
-                                PictureMarkerSymbol strucSym = StrucPlaneSym.Clone() as PictureMarkerSymbol;
-                                if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
-                                {
-                                    strucSym = StrucLinearSym.Clone() as PictureMarkerSymbol;
-                                }
+            //            MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
 
-                                //Set azim
-                                double.TryParse(sts.StructureSymAng, out double azimAngle);
-                                if (azimAngle != 0.0)
-                                {
-                                    strucSym.Angle = azimAngle;
-                                }
-                                strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
+            //            //Validate if transformation is needed.
+            //            if (datumTransfo != null)
+            //            {
+            //                //Replace geopoint
+            //                geoPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+            //            }
 
-                                //Set offset
-                                Tuple<double, double> symOffset = placements.GetPositionOffsetFromPlacementPriority(strucPairs[sts.StructureID], ptLongitude, ptLatitude, 100.0);
+            //        }
 
-                                //Create Map Point for graphic
-                                MapPoint geoStructPoint = new MapPoint(symOffset.Item1, symOffset.Item2, SpatialReferences.Wgs84);
+            //        var StationGraphic = new Graphic(geoPoint, pointSym);
+            //        StationGraphic.Attributes.Add("Id", ptStationId.ToString());
+            //        StationGraphic.Attributes.Add("Date", ptStationDate.ToString());
+            //        StationGraphic.Attributes.Add("Time", ptStationTime.ToString());
+            //        StationGraphic.Attributes.Add("tableType", DatabaseLiterals.TableStation);
+            //        StationGraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
+            //        if (ptStationType != null)
+            //        {
+            //            StationGraphic.Attributes.Add("Type", ptStationType.ToString());
+            //        }
+            //        else
+            //        {
+            //            StationGraphic.Attributes.Add("Type", string.Empty);
+            //        }
 
-                                //Get if datum transformation is needed
-                                if (epsg != 0 && epsg != 4326)
-                                {
-                                    DatumTransformation datumTransfo = null;
-                                    SpatialReference outSR = null;
+            //        StationGraphic.Attributes.Add("Default", isDefaultDB);
 
-                                    if ((epsg > 26900 && epsg < 27000))
-                                    {
-                                        outSR = SpatialReference.Create(4617);
-                                        datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
-                                    }
+            //        pointOverlay.Graphics.Add(StationGraphic);
 
-                                    MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
+            //        #endregion
 
-                                    //Validate if transformation is needed.
-                                    if (datumTransfo != null)
-                                    {
-                                        //Replace geopoint
-                                        geoStructPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
-                                    }
+            //        #region LABEL SYMBOL
+            //        GraphicPlacement placements = new GraphicPlacement();
+            //        var textSym = new TextSymbol
+            //        {
+            //            FontFamily = "Arial",
+            //            FontWeight = FontWeight.Bold,
+            //            Color = System.Drawing.Color.Black,
+            //            HaloColor = System.Drawing.Color.WhiteSmoke,
+            //            HaloWidth = 2,
+            //            Size = 16,
+            //            HorizontalAlignment = Esri.ArcGISRuntime.Symbology.HorizontalAlignment.Left,
+            //            VerticalAlignment = Esri.ArcGISRuntime.Symbology.VerticalAlignment.Baseline,
+            //            OffsetX = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item1,
+            //            OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2
+            //        };
+            //        placementPool.RemoveAt(0); //Remove taken placement from pool
+            //        textSym.Text = ptStationId.ToString();
+            //        pointLabelOverlay.Graphics.Add(new Graphic(new MapPoint(ptLongitude, ptLatitude, SpatialReferences.Wgs84), textSym));
+            //        #endregion
 
-                                }
+            //        #region STRUCTURES
 
-                                //TODO make up for a different way to measure azim (not right hand rule)
-                                var Sgraphic = new Graphic(geoStructPoint, strucSym);
-                                Sgraphic.Attributes.Add("Id", sts.StructureName.ToString());
-                                Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
-                                Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
-                                Sgraphic.Attributes.Add("StructureClass", sts.getClassTypeDetail);
-                                Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
-                                Sgraphic.Attributes.Add("Dip", sts.StructureDipPlunge.ToString());
-                                Sgraphic.Attributes.Add("Default", isDefaultDB);
-                                Sgraphic.Attributes.Add("tableType", DatabaseLiterals.TableStructure);
-                                Sgraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
-                                structureOverlay.Graphics.Add(Sgraphic);
+            //        ///For structure symboles (planar and linear) make sure they are wanted by user but that it's within a bedrock field notebook also
 
-                                //Set station symbol to transparent so we clearly see the structures instead
-                                //StationGraphic.IsVisible = false;
+            //        if ((bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
+            //        {
+            //            //Get related structures, if any
+            //            List<object> strucTableRows = new List<object>();
+            //            Structure structs = new Structure();
+            //            string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
+            //                " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
+            //                " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
+            //                " WHERE st." + DatabaseLiterals.FieldStationAlias + " = '" + ptStationId + "';";
+            //            strucTableRows = accessData.ReadTableFromDBConnectionWithoutClosingConnection(structs.GetType(), structSelectionQuery, dbConnection);
 
-                            }
+            //            //Variables
+            //            if (!structureGraphicExists && strucTableRows.Count() > 0)
+            //            {
+            //                //Structure pairs tracking
+            //                //Key = record ID, Value = priority number for placement
+            //                Dictionary<string, int> strucPairs = new Dictionary<string, int>();
+            //                int iteration = 1;
+            //                foreach (Structure sts in strucTableRows)
+            //                {
+            //                    //Manage pair tracking for pool placement 
+            //                    if (!strucPairs.ContainsKey(sts.StructureID))
+            //                    {
+            //                        if (sts.StructureRelated != null && sts.StructureRelated != String.Empty)
+            //                        {
+            //                            //Get related struc placement priority
+            //                            strucPairs[sts.StructureID] = strucPairs[sts.StructureRelated];
+            //                        }
+            //                        else
+            //                        {
+            //                            //Assign new priority and remove it from the pool
+            //                            strucPairs[sts.StructureID] = iteration;
+            //                            iteration = iteration + 1;
+            //                        }
+
+            //                    }
 
 
-                        }
-                        else
-                        {
+            //                    //Set proper symbol
+            //                    PictureMarkerSymbol strucSym = StrucPlaneSym.Clone() as PictureMarkerSymbol;
+            //                    if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
+            //                    {
+            //                        strucSym = StrucLinearSym.Clone() as PictureMarkerSymbol;
+            //                    }
 
-                        }
-                    }
-                    else
-                    {
-                        //Set station symbol to transparent so we clearly see the structures instead
-                        StationGraphic.IsVisible = true;
-                        structureOverlay.Graphics.Clear();
-                    }
+            //                    //Set azim
+            //                    double.TryParse(sts.StructureSymAng, out double azimAngle);
+            //                    if (azimAngle != 0.0)
+            //                    {
+            //                        strucSym.Angle = azimAngle;
+            //                    }
+            //                    strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
 
-                    #endregion
-                }
+            //                    //Set offset
+            //                    Tuple<double, double> symOffset = placements.GetPositionOffsetFromPlacementPriority(strucPairs[sts.StructureID], ptLongitude, ptLatitude, 100.0);
 
-                #endregion
-            }
-            #endregion
+            //                    //Create Map Point for graphic
+            //                    MapPoint geoStructPoint = new MapPoint(symOffset.Item1, symOffset.Item2, SpatialReferences.Wgs84);
 
-            #region REMOVE
-            //For remaining loc in loadedGraphicList
-            foreach (KeyValuePair<string, Graphic> grr in graphicList)
-            {
-                int indexOfGraphic = pointOverlay.Graphics.IndexOf(grr.Value);
-                pointOverlay.Graphics.RemoveAt(indexOfGraphic);
-                pointLabelOverlay.Graphics.RemoveAt(indexOfGraphic);
-            }
+            //                    //Get if datum transformation is needed
+            //                    if (epsg != 0 && epsg != 4326)
+            //                    {
+            //                        DatumTransformation datumTransfo = null;
+            //                        SpatialReference outSR = null;
 
-            #endregion
+            //                        if ((epsg > 26900 && epsg < 27000))
+            //                        {
+            //                            outSR = SpatialReference.Create(4617);
+            //                            datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
+            //                        }
+
+            //                        MapPoint proPoint = new MapPoint(ptLongitude, ptLatitude, outSR);
+
+            //                        //Validate if transformation is needed.
+            //                        if (datumTransfo != null)
+            //                        {
+            //                            //Replace geopoint
+            //                            geoStructPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+            //                        }
+
+            //                    }
+
+            //                    //TODO make up for a different way to measure azim (not right hand rule)
+            //                    var Sgraphic = new Graphic(geoStructPoint, strucSym);
+            //                    Sgraphic.Attributes.Add("Id", sts.StructureName.ToString());
+            //                    Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
+            //                    Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
+            //                    Sgraphic.Attributes.Add("StructureClass", sts.getClassTypeDetail);
+            //                    Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
+            //                    Sgraphic.Attributes.Add("Dip", sts.StructureDipPlunge.ToString());
+            //                    Sgraphic.Attributes.Add("Default", isDefaultDB);
+            //                    Sgraphic.Attributes.Add("tableType", DatabaseLiterals.TableStructure);
+            //                    Sgraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
+            //                    structureOverlay.Graphics.Add(Sgraphic);
+
+            //                    //Set station symbol to transparent so we clearly see the structures instead
+            //                    //StationGraphic.IsVisible = false;
+
+            //                }
+
+
+            //            }
+            //            else
+            //            {
+
+            //            }
+            //        }
+            //        else
+            //        {
+            //            //Set station symbol to transparent so we clearly see the structures instead
+            //            StationGraphic.IsVisible = true;
+            //            structureOverlay.Graphics.Clear();
+            //        }
+
+            //        #endregion
+            //    }
+
+            //    #endregion
+            //}
+            //#endregion
+
+            //#region REMOVE
+            ////For remaining loc in loadedGraphicList
+            //foreach (KeyValuePair<string, Graphic> grr in graphicList)
+            //{
+            //    int indexOfGraphic = pointOverlay.Graphics.IndexOf(grr.Value);
+            //    pointOverlay.Graphics.RemoveAt(indexOfGraphic);
+            //    pointLabelOverlay.Graphics.RemoveAt(indexOfGraphic);
+            //}
+
+            //#endregion
 
         }
 
@@ -956,8 +956,6 @@ namespace GSCFieldApp.ViewModels
             }
 
             #region ADD
-
-
 
             string selectMetadata = "SELECT * FROM " + DatabaseLiterals.TableMetadata + " fm ";
             string joinLocation = "JOIN " + DatabaseLiterals.TableLocation + " fl on fm." + DatabaseLiterals.FieldUserInfoID + " = fl." + DatabaseLiterals.FieldLocationMetaID + " ";
@@ -2622,7 +2620,11 @@ namespace GSCFieldApp.ViewModels
                 {
                     tpkList[sf.Name] = sf;
                 }
-                else if (fileName.Contains(".sqlite") && !fileName.Contains(DatabaseLiterals.DBName))
+                else if (fileName.Contains(DatabaseLiterals.DBTypeSqlite) && !fileName.Contains(DatabaseLiterals.DBName))
+                {
+                    sqliteList[sf.Name] = sf;
+                }
+                else if (fileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated) && !fileName.Contains(DatabaseLiterals.DBName))
                 {
                     sqliteList[sf.Name] = sf;
                 }
@@ -2696,7 +2698,7 @@ namespace GSCFieldApp.ViewModels
                         }
 
                     }
-                    else if (configs.LayerName != null && configs.LayerName.Contains(".sqlite"))
+                    else if (configs.LayerName != null && (configs.LayerName.Contains(DatabaseLiterals.DBTypeSqlite)  || configs.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)))
                     {
                         if (sqliteList.ContainsKey(configs.LayerName))
                         {
@@ -2949,7 +2951,7 @@ namespace GSCFieldApp.ViewModels
                     #endregion
                 }
 
-                if (esriMap != null && esriMap.AllLayers.Count > 0 && layerName.Contains(".sqlite"))
+                if (esriMap != null && esriMap.AllLayers.Count > 0 && (layerName.Contains(DatabaseLiterals.DBTypeSqlite) || layerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)))
                 {
 
                     #region OVERLAYS
@@ -3025,7 +3027,7 @@ namespace GSCFieldApp.ViewModels
                     ObservableCollection<MapPageLayers> newFileList = new ObservableCollection<MapPageLayers>();
                     foreach (MapPageLayers orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
                     {
-                        if (orderedFiles.LayerName.Contains(".tpk") || (orderedFiles.LayerName.Contains(".sqlite") && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)))
+                        if (orderedFiles.LayerName.Contains(".tpk") || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqlite) && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated) && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) )
                         {
                             //Build path
                             string localFilePath = Path.Combine(accessData.ProjectPath, orderedFiles.LayerName);
@@ -3166,7 +3168,8 @@ namespace GSCFieldApp.ViewModels
                     SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
                 };
                 filesPicker.FileTypeFilter.Add(".tpk");
-                filesPicker.FileTypeFilter.Add(".sqlite");
+                filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
+                filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
                 filesPicker.FileTypeFilter.Add(".mmpk");
                 //Get users selected files
                 IReadOnlyList<StorageFile> files = await filesPicker.PickMultipleFilesAsync();

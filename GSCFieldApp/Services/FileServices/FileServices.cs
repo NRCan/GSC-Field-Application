@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.IO.Compression;
 using Windows.UI.Xaml;
+using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Services.FileServices
 {
@@ -111,8 +112,8 @@ namespace GSCFieldApp.Services.FileServices
             {
                 SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
             };
-            fileSavePicker.FileTypeChoices.Add("sqlite", new List<string>() { ".sqlite" });
-            fileSavePicker.DefaultFileExtension = ".sqlite";
+            fileSavePicker.FileTypeChoices.Add(DatabaseLiterals.DBTypeSqliteName, new List<string>() { DatabaseLiterals.DBTypeSqlite });
+            fileSavePicker.DefaultFileExtension = DatabaseLiterals.DBTypeSqlite;
             fileSavePicker.SuggestedFileName = CalculateDBCopyName(currentUserCode); //Should be something like Geolcode_YYYYMMDD_GSCFieldwork.sqlite
 
             //Get users selected save files

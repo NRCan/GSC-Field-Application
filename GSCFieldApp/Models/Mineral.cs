@@ -10,7 +10,11 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableMineral)]
     public class Mineral
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldMineralID)]
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+
+        public string rowid { get; set; }
+
+        [Column(DatabaseLiterals.FieldMineralID)]
         public string MineralID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralIDName)]

@@ -473,14 +473,14 @@ namespace GSCFieldApp.ViewModels
                 //calculate new name for output database in the archive
                 string uCode = currentLocalSettings.Containers[ApplicationLiterals.LocalSettingMainContainer].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode].ToString();
                 FileServices fService = new FileServices();
-                string newName = fService.CalculateDBCopyName(uCode) + ".sqlite";
+                string newName = fService.CalculateDBCopyName(uCode) + DatabaseLiterals.DBTypeSqlite;
                 StorageFile databaseToRename = null;
 
                 //Build list of files to add to archive
                 foreach (StorageFile files in fieldBookPhotosRO)
                 {
                     //Get databases
-                    if (files.Name.ToLower().Contains(".sqlite") && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
+                    if (files.Name.ToLower().Contains(DatabaseLiterals.DBTypeSqlite) && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
                     {
 
                         databaseToRename = files;
@@ -673,9 +673,10 @@ namespace GSCFieldApp.ViewModels
                 ViewMode = PickerViewMode.List,
                 SuggestedStartLocation = PickerLocationId.Desktop
             };
-            openPicker.FileTypeFilter.Add(".sqlite");
+            openPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
+            openPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
             openPicker.FileTypeFilter.Add(".zip");
-
+            
             StorageFile inFile = await openPicker.PickSingleFileAsync();
             if (inFile != null)
             {
@@ -719,7 +720,7 @@ namespace GSCFieldApp.ViewModels
 
                 foreach (StorageFile sf in storageFiles)
                 {
-                    if (sf.Name.Contains(".sqlite"))
+                    if (sf.Name.Contains(Dictionaries.DatabaseLiterals.DBTypeSqlite))
                     {
                         if (isRestoreFromZip)
                         {

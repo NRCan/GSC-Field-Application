@@ -10,6 +10,9 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableMetadata)]
     public class Metadata : BindableBase
     {
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
+
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>

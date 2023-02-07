@@ -13,7 +13,10 @@ namespace GSCFieldApp.Models
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableLocation;
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldDocumentID)]
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentID)]
         public string DocumentID { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentName)]

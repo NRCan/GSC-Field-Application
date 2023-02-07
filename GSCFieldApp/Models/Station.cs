@@ -9,8 +9,10 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableStation)]
     public class Station
     {
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldStationID)]
+        [Column(DatabaseLiterals.FieldStationID)]
         public string StationID { get; set; }
 
         [Column(DatabaseLiterals.FieldStationAlias)]

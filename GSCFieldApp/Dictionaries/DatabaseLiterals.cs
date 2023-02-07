@@ -1,4 +1,5 @@
-﻿using Windows.Devices.Bluetooth.Advertisement;
+﻿using Windows.ApplicationModel.Contacts;
+using Windows.Devices.Bluetooth.Advertisement;
 
 namespace GSCFieldApp.Dictionaries
 {
@@ -20,6 +21,10 @@ namespace GSCFieldApp.Dictionaries
         #endregion
 
         #region Database field names
+
+        public const string FieldGenericRowID = "OBJECTID"; //Version 1.7 mandatory with geopackages.
+        public const string FieldGenericGeometry = "Shape"; //Version 1.7
+
         public const string FieldLocationID = "LOCATIONID";//Version 1.0
         public const string FieldLocationAlias = "LOCATIONIDNAME";//Version 1.5
         public const string FieldLocationAliasDeprecated = "LOCATIONNAME";//Version < 1.5
@@ -311,7 +316,9 @@ namespace GSCFieldApp.Dictionaries
         #endregion
 
         #region Database extension types
-        public const string DBTypeSqlite = ".sqlite";
+        public const string DBTypeSqlite = ".gpkg"; //Version 1.7
+        public const string DBTypeSqliteDeprecated = ".sqlite"; //Version < 1.7
+        public const string DBTypeSqliteName = "geopackage"; //Version 1.7
         #endregion
 
         #region Database default values for field

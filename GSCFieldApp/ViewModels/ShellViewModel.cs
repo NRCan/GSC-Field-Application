@@ -83,7 +83,7 @@ namespace GSCFieldApp.ViewModels
             //calculate new name for output database in the archive
             string uCode = currentLocalSettings.Containers[ApplicationLiterals.LocalSettingMainContainer].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode].ToString();
             FileServices fService = new FileServices();
-            string newName = fService.CalculateDBCopyName(uCode) + ".sqlite";
+            string newName = fService.CalculateDBCopyName(uCode) + DatabaseLiterals.DBTypeSqlite;
 
             //Iterate through field book folder files
             string _fieldBooLocalPath = localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString();
@@ -96,7 +96,7 @@ namespace GSCFieldApp.ViewModels
             foreach (StorageFile files in fieldBookPhotosRO)
             {
                 //Get databases
-                if (files.Name.ToLower().Contains(".sqlite") && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
+                if (files.Name.ToLower().Contains(DatabaseLiterals.DBTypeSqlite) && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
                 {
 
                     FilesToBackup.Add(files);
@@ -168,7 +168,7 @@ namespace GSCFieldApp.ViewModels
 
                 
             }
-            else if (FilesToBackup.Count == 1 && FilesToBackup[0].Name.Contains(".sqlite"))
+            else if (FilesToBackup.Count == 1 && FilesToBackup[0].Name.Contains(DatabaseLiterals.DBTypeSqlite))
             {
                 //Do not zip, only output sqlite
                 try

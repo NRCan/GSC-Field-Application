@@ -11,7 +11,10 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableEnvironment)]
     public class EnvironmentModel
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldEnvID)]
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
+
+        [Column(DatabaseLiterals.FieldEnvID)]
         public string EnvID { get; set; }
 
         [Column(DatabaseLiterals.FieldEnvName)]

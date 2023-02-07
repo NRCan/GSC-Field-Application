@@ -9,7 +9,10 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableMineralAlteration)]
     public class MineralAlteration
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldMineralAlterationID)]
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
+
+        [Column(DatabaseLiterals.FieldMineralAlterationID)]
         public string MAID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralAlterationName)]

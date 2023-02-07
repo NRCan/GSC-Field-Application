@@ -6,7 +6,10 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableFossil)]
     public class Fossil
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldFossilID)]
+        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
+
+        [Column(DatabaseLiterals.FieldFossilID)]
         public string FossilID { get; set; }
 
         [Column(DatabaseLiterals.FieldFossilName)]
