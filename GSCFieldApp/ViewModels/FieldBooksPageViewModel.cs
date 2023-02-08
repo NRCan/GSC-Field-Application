@@ -128,7 +128,7 @@ namespace GSCFieldApp.ViewModels
                 foreach (StorageFile sfi in localFiles)
                 {
                     //Get the database
-                    if (sfi.FileType.Contains("sql") && sfi.DisplayName == DatabaseLiterals.DBName)
+                    if (sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) && sfi.DisplayName == DatabaseLiterals.DBName)
                     {
                         FieldBooks currentDB = new FieldBooks();
 

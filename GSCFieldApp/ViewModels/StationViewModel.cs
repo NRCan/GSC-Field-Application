@@ -547,9 +547,14 @@ namespace GSCFieldApp.ViewModels
             Location.LocationAlias = _locationAlias = idCalculator.CalculateLocationAlias(_alias); //Calculate new value
             Location.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
 
-
+            //Fill in the table location
             accessData.SaveFromSQLTableObject(Location, false);
 
+            //Fill in the feature location
+            GeopackageService geoService = new GeopackageService();
+            string insertQuery = accessData.GetGeopackageInsertQuery(Location, DatabaseLiterals.TableLocationFeature);
+            geoService.DoSpatialiteQueryInGeopackage(insertQuery);
+           
             return Location.LocationID;
         }
 

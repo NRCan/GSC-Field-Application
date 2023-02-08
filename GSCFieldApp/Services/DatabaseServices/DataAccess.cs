@@ -15,6 +15,7 @@ using Windows.ApplicationModel.Resources;
 using System.Diagnostics;
 using SpatialiteSharp;
 using System.Reflection;
+using Esri.ArcGISRuntime.Location;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 namespace GSCFieldApp.Services.DatabaseServices
@@ -2545,6 +2546,87 @@ namespace GSCFieldApp.Services.DatabaseServices
                 db.Close();
             }
             return relatedStructure;
+        }
+
+        /// <summary>
+        /// Will generate an insert query for geopackages
+        /// </summary>
+        /// <param name="inClassObject"></param>
+        /// <returns></returns>
+        public string GetGeopackageInsertQuery(object inClassObject, string tableNameIfDifferent = "")
+        {
+            //Variables
+            string insertQuery = @"INSERT INTO "; //Init
+
+            //Get a table mapping object
+            TableMapping inMapping = GetATableObject(inClassObject.GetType(), DbConnection);
+            string inTableName = inMapping.TableName;
+
+            if (inMapping.TableName == DatabaseLiterals.TableLocation)
+            {
+                //Map to proper object
+                FieldLocation inLocation = inClassObject as FieldLocation;
+
+                //Add table name in query
+                if (tableNameIfDifferent != inTableName && tableNameIfDifferent != string.Empty)
+                {
+                    inTableName = tableNameIfDifferent;
+                }
+                insertQuery = insertQuery + inTableName + " (" + DatabaseLiterals.FieldGenericGeometry + ",";
+
+                //Fill in the field name list of the query
+                foreach (TableMapping.Column col in inMapping.Columns)
+                {
+                    Type colType = col.ColumnType;
+
+                    var value = col.GetValue(inLocation);
+
+                    if (value != null)
+                    {
+                        insertQuery = insertQuery + col.Name + ",";
+                    }
+
+                }
+
+                //Remove last comma
+                insertQuery = insertQuery.Remove(insertQuery.Length - 1, 1);
+
+                //Add make point sql method
+                insertQuery = insertQuery + ") VALUES (MakePoint( " + inLocation.LocationLong +
+                    ", " + inLocation.LocationLat + ", " + inLocation.LocationDatum + ")";
+
+                //Finalize query with values
+                foreach (TableMapping.Column col in inMapping.Columns)
+                {
+                    Type colType = col.ColumnType;
+
+                    var value = col.GetValue(inLocation);
+
+                    if (value != null)
+                    {
+                        if (colType == typeof(System.String))
+                        {
+                            value = '"' + value.ToString() + '"';
+                        }
+
+                        if (col == inMapping.Columns.Last())
+                        {
+                            insertQuery = insertQuery + ", " + value + ") ";
+                        }
+                        else
+                        {
+                            insertQuery = insertQuery + ", " + value;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return insertQuery;
+            
+
         }
 
         #endregion

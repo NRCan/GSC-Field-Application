@@ -4,6 +4,8 @@ using System.Linq;
 using Template10.Mvvm;
 using SQLite;
 using GSCFieldApp.Dictionaries;
+using System.Globalization;
+using Windows.Foundation.Collections;
 
 namespace GSCFieldApp.Models
 {
@@ -177,5 +179,6 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
     }
 }

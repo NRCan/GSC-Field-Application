@@ -16,6 +16,10 @@ namespace GSCFieldApp.Services.DatabaseServices
     {
         public DataAccess dAcccess = new DataAccess();
 
+        /// <summary>
+        /// This special class is used since mod_spatialite can't seem to be working
+        /// along with sqlite-net-pcl. 
+        /// </summary>
         public GeopackageService()
         { 
 
@@ -47,7 +51,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     amphibiousCommand.ExecuteNonQuery();
 
                     //Pass query
-                    //example: "INSERT INTO FS_LOCATION4 (Shape, locationid) values (MakePoint(-80.314,46.930, 4326), 'test_gab_visual_studio2')"
+                    //example: "INSERT INTO FS_LOCATION (Shape, locationid, latitude, longitude, metaid) values (MakePoint(-80.314,46.930, 4326), 'test_gab_visual_studio2', 46.930, -80.314, '7297f789-36e8-4c06-86e9-46b9ffcb1607')"
                     SQLiteCommand addLocation = new SQLiteCommand(in_query, db);
                     addLocation.ExecuteNonQuery();
                     

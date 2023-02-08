@@ -312,6 +312,7 @@ namespace GSCFieldApp.Dictionaries
         public const string TableTraversePoint = "FS_TRAVERSE_POINT";
         public const string TableTraverseLine = "FS_TRAVERSE_LINE";
         public const string TableFieldCamp = "FS_FIELDCAMP";
+        public const string TableLocationFeature = "FS_LOCATION"; //Version 1.7
 
         #endregion
 
