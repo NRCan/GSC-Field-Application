@@ -2592,7 +2592,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 insertQuery = insertQuery.Remove(insertQuery.Length - 1, 1);
 
                 //Add make point sql method
-                insertQuery = insertQuery + ") VALUES (MakePoint( " + inLocation.LocationLong +
+                insertQuery = insertQuery + ") VALUES (gpkgMakePoint( " + inLocation.LocationLong +
                     ", " + inLocation.LocationLat + ", " + inLocation.LocationDatum + ")";
 
                 //Finalize query with values

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="NaturalResourcesCanada.GeologicalSurveyCanadaField" Publisher="CN=Geological Survey of Canada, O=Natural Resources Canada, C=CA" Version="2.2.59.0" />
-  <mp:PhoneIdentity PhoneProductId="b9976d28-84bd-4232-8ea7-a89944093fc1" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="NaturalResourcesCanada.GSCFieldApplication" Publisher="CN=4BD3CC5C-7CF5-4E7B-BBD4-A5F65BC9B27D" Version="2.2.62.0" />
+  <mp:PhoneIdentity PhoneProductId="b78e1b2a-7ee8-4aed-a0ab-4f7d6a526871" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Geological Survey Canada Field Application</DisplayName>
+    <DisplayName>GSC Field Application</DisplayName>
     <PublisherDisplayName>Natural Resources Canada</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="GSCFieldApp.App">
-      <uap:VisualElements DisplayName="Geological Survey Canada Field Application" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Geological Survey of Canada on field application." BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="GSC Field Application" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Geological Survey of Canada on field application." BackgroundColor="transparent">
         <uap:DefaultTile ShortName="GSC Logo">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#710B2C" />

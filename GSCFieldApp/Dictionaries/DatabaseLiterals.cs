@@ -23,7 +23,7 @@ namespace GSCFieldApp.Dictionaries
         #region Database field names
 
         public const string FieldGenericRowID = "OBJECTID"; //Version 1.7 mandatory with geopackages.
-        public const string FieldGenericGeometry = "Shape"; //Version 1.7
+        public const string FieldGenericGeometry = "geometry"; //Version 1.7
 
         public const string FieldLocationID = "LOCATIONID";//Version 1.0
         public const string FieldLocationAlias = "LOCATIONIDNAME";//Version 1.5

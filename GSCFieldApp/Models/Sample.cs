@@ -10,7 +10,6 @@ namespace GSCFieldApp.Models
     public class Sample
     {
         [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
-
         public string rowid { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleID)]
