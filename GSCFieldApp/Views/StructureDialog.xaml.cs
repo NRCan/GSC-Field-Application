@@ -152,7 +152,7 @@ namespace GSCFieldApp.Views
 
                 if (result != null)
                 {
-                    if (!strucType.Text.Contains(result.StructureClass.ToString()) && result.StructureSymAng != string.Empty)
+                    if (result.StructureClass != null && !strucType.Text.Contains(result.StructureClass.ToString()) && result.StructureSymAng != string.Empty)
                     {
                         //int primaryAzimuth = System.Convert.ToInt32(StructureAzimuthNumBox.Text.ToString());
                         int relatedAngle = System.Convert.ToInt32(result.StructureSymAng);
