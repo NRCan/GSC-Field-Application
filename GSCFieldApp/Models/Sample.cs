@@ -106,7 +106,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> sampleFieldList = new Dictionary<double, List<string>>();
                 List<string> sampleFieldListDefault = new List<string>();
 
-                sampleFieldListDefault.Add(DatabaseLiterals.FieldSampleID);
+                sampleFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -117,11 +117,19 @@ namespace GSCFieldApp.Models
                 }
 
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
-                sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldListDefault;
+                
+
+                //Revert shcema 1.7 changes
+                List<string> sampleFieldList160 = new List<string>();
+                sampleFieldList160.AddRange(sampleFieldListDefault);
+                sampleFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
+
+                sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldList160;
 
                 //Revert schema 1.5 changes. 
                 List<string> sampleFieldList144 = new List<string>();
-                sampleFieldList144.AddRange(sampleFieldListDefault);
+                sampleFieldList144.AddRange(sampleFieldList[DatabaseLiterals.DBVersion150]);
                 int removeIndex = sampleFieldList144.IndexOf(DatabaseLiterals.FieldSampleName);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleName);
                 sampleFieldList144.Insert(removeIndex,DatabaseLiterals.FieldSampleNameDeprecated);

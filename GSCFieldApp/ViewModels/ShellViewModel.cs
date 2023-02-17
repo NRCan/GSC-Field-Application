@@ -98,8 +98,12 @@ namespace GSCFieldApp.ViewModels
                 //Get databases
                 if (files.Name.ToLower().Contains(DatabaseLiterals.DBTypeSqlite) && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
                 {
-
-                    FilesToBackup.Add(files);
+                    //Do not get logging files
+                    if (!files.Name.ToLower().Contains(DatabaseLiterals.DBTypeGeopackageSHM) && !files.Name.ToLower().Contains(DatabaseLiterals.DBTypeGeopackageWal))
+                    {
+                        FilesToBackup.Add(files);
+                    }
+                    
                 }
 
                 //Get photos

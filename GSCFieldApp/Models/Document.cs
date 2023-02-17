@@ -136,7 +136,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> documentFieldList = new Dictionary<double, List<string>>();
                 List<string> documentFieldListDefault = new List<string>();
 
-                documentFieldListDefault.Add(DatabaseLiterals.FieldDocumentID);
+                documentFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -147,11 +147,19 @@ namespace GSCFieldApp.Models
                 }
 
                 documentFieldList[DatabaseLiterals.DBVersion] = documentFieldListDefault;
-                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldListDefault;
+
+                //Revert shcema 1.7 changes
+                List<string> documentFieldList160 = new List<string>();
+                documentFieldList160.AddRange(documentFieldListDefault);
+                documentFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                documentFieldList[DatabaseLiterals.DBVersion160] = documentFieldList160;
+
+                //Noting has change in 1.6
+                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldList160;
 
                 //Revert schema 1.5 changes. 
                 List<string> documentFieldList144 = new List<string>();
-                documentFieldList144.AddRange(documentFieldListDefault);
+                documentFieldList144.AddRange(documentFieldList[DatabaseLiterals.DBVersion150]);
                 int removeIndex = documentFieldList144.IndexOf(DatabaseLiterals.FieldDocumentName);
                 documentFieldList144.Remove(DatabaseLiterals.FieldDocumentName);
                 documentFieldList144.Insert(removeIndex,DatabaseLiterals.FieldDocumentNameDeprecated);

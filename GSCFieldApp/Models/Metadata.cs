@@ -123,7 +123,7 @@ namespace GSCFieldApp.Models
                 //version of the class
                 Dictionary<double, List<string>> metadataFieldList = new Dictionary<double, List<string>>();
                 List<string> metadataFieldListDefault = new List<string>();
-
+                metadataFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -134,11 +134,20 @@ namespace GSCFieldApp.Models
                 }
 
                 metadataFieldList[DatabaseLiterals.DBVersion] = metadataFieldListDefault;
-                metadataFieldList[DatabaseLiterals.DBVersion150] = metadataFieldListDefault;
+                
+
+                //Revert shcema 1.7 changes
+                List<string> metadataFieldList160 = new List<string>();
+                metadataFieldList160.AddRange(metadataFieldListDefault);
+                metadataFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                metadataFieldList[DatabaseLiterals.DBVersion160] = metadataFieldList160;
+
+                //Noting changed in 1.6
+                metadataFieldList[DatabaseLiterals.DBVersion150] = metadataFieldList160;
 
                 //Revert schema 1.5 changes. 
                 List<string> metadataFieldList144 = new List<string>();
-                metadataFieldList144.AddRange(metadataFieldListDefault);
+                metadataFieldList144.AddRange(metadataFieldList[DatabaseLiterals.DBVersion150]);
                 metadataFieldList144.Remove(DatabaseLiterals.FieldUserInfoActivityName);
                 metadataFieldList144.Remove(DatabaseLiterals.FieldUserInfoNotes);
                 metadataFieldList[DatabaseLiterals.DBVersion144] = metadataFieldList144;

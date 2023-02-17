@@ -128,7 +128,8 @@ namespace GSCFieldApp.ViewModels
                 foreach (StorageFile sfi in localFiles)
                 {
                     //Get the database
-                    if (sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) && sfi.DisplayName == DatabaseLiterals.DBName)
+                    if ((sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) || sfi.FileType.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)) 
+                        && sfi.DisplayName == DatabaseLiterals.DBName)
                     {
                         FieldBooks currentDB = new FieldBooks();
 
@@ -720,11 +721,12 @@ namespace GSCFieldApp.ViewModels
 
                 foreach (StorageFile sf in storageFiles)
                 {
-                    if (sf.Name.Contains(Dictionaries.DatabaseLiterals.DBTypeSqlite))
+                    if (sf.Name.Contains(Dictionaries.DatabaseLiterals.DBTypeSqlite) || sf.Name.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
                     {
                         if (isRestoreFromZip)
                         {
-                            if (inFile.Name.Contains(sf.Name.Split('.')[0]) || sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite)
+                            if (inFile.Name.Contains(sf.Name.Split('.')[0]) || sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite
+                                || sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqliteDeprecated)
                             {
                                 wantedDB = sf;
                             }
@@ -740,10 +742,19 @@ namespace GSCFieldApp.ViewModels
                 if (wantedDB != null)
                 {
                     //Rename if needed
-                    if (wantedDB.Name != Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite)
+                    string extension = DatabaseLiterals.DBTypeSqlite;
+                    if (!wantedDB.Name.Contains(extension))
                     {
-                        await wantedDB.RenameAsync(Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite);
+                        if (wantedDB.Name.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                        {
+                            extension = DatabaseLiterals.DBTypeSqliteDeprecated;
+                        }
                     }
+                    if (wantedDB.Name != Dictionaries.DatabaseLiterals.DBName + extension)
+                    {
+                        await wantedDB.RenameAsync(Dictionaries.DatabaseLiterals.DBName + extension);
+                    }
+                    
 
                     SQLiteConnection loadedDBConnection = accessData.GetConnectionFromPath(wantedDB.Path);
 
@@ -851,7 +862,11 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.5)
                         {
-                            //Current defaulting to 1.6
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion160.ToString().Replace(".", "") + "0";
+                        }
+                        else if (processedDBVersion == 1.6)
+                        {
+                            //Current defaulting to 1.7
                         }
                         versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now

@@ -104,7 +104,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> stationFieldList = new Dictionary<double, List<string>>();
                 List<string> stationFieldListDefault = new List<string>();
 
-                stationFieldListDefault.Add(DatabaseLiterals.FieldStationID);
+                stationFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -116,9 +116,16 @@ namespace GSCFieldApp.Models
 
                 stationFieldList[DatabaseLiterals.DBVersion] = stationFieldListDefault;
 
+                //Revert shcema 1.7 changes
+                List<string> statFieldList160 = new List<string>();
+                statFieldList160.AddRange(stationFieldListDefault);
+                statFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                stationFieldList[DatabaseLiterals.DBVersion160] = statFieldList160;
+
+
                 //Revert schema 1.6 changes. 
                 List<string> stationFieldList150 = new List<string>();
-                stationFieldList150.AddRange(stationFieldListDefault);
+                stationFieldList150.AddRange(statFieldList160);
                 stationFieldList150.Remove(DatabaseLiterals.FieldStationRelatedTo);
                 stationFieldList150.Remove(DatabaseLiterals.FieldStationObsSource);
 

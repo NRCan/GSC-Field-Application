@@ -6,7 +6,8 @@ namespace GSCFieldApp.Dictionaries
     public static class DatabaseLiterals
     {
         #region Database version
-        public const double DBVersion = 1.6; //Will be used to verify loaded projects.
+        public const double DBVersion = 1.7; //Will be used to verify loaded projects.
+        public const double DBVersion170 = 1.7; //Will be used to verify loaded projects.
         public const double DBVersion160 = 1.6; //Will be used to verify loaded projects.
         public const double DBVersion150 = 1.5; //Will be used to verify and upgrade loaded projects
         public const double DBVersion144 = 1.44; //Will be used to verify and upgrade loaded projects
@@ -311,7 +312,7 @@ namespace GSCFieldApp.Dictionaries
         public const string TableFavorites = "F_FAVORITE"; //Deprecated
         public const string TableTraversePoint = "FS_TRAVERSE_POINT";
         public const string TableTraverseLine = "FS_TRAVERSE_LINE";
-        public const string TableFieldCamp = "FS_FIELDCAMP";
+        public const string TableFieldCampDeprecated = "FS_FIELDCAMP"; //Deprecated version 1.7
         public const string TableLocationFeature = "FS_LOCATION"; //Version 1.7
 
         #endregion
@@ -320,6 +321,8 @@ namespace GSCFieldApp.Dictionaries
         public const string DBTypeSqlite = ".gpkg"; //Version 1.7
         public const string DBTypeSqliteDeprecated = ".sqlite"; //Version < 1.7
         public const string DBTypeSqliteName = "geopackage"; //Version 1.7
+        public const string DBTypeGeopackageWal = "-wal"; //Version 1.7
+        public const string DBTypeGeopackageSHM = "-shm"; //Version 1.7
         #endregion
 
         #region Database default values for field

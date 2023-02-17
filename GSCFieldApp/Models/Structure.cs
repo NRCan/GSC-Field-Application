@@ -386,7 +386,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> structureFieldList = new Dictionary<double, List<string>>();
                 List<string> structureFieldListDefault = new List<string>();
 
-                structureFieldListDefault.Add(DatabaseLiterals.FieldStructureID);
+                structureFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -397,7 +397,15 @@ namespace GSCFieldApp.Models
                 }
 
                 structureFieldList[DatabaseLiterals.DBVersion] = structureFieldListDefault;
-                structureFieldList[DatabaseLiterals.DBVersion150] = structureFieldListDefault;
+                
+
+                //Revert shcema 1.7 changes
+                List<string> strucFieldList160 = new List<string>();
+                strucFieldList160.AddRange(structureFieldListDefault);
+                strucFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                structureFieldList[DatabaseLiterals.DBVersion160] = strucFieldList160;
+
+                structureFieldList[DatabaseLiterals.DBVersion150] = strucFieldList160;
 
                 //Revert schema 1.5 changes. 
                 List<string> structureFieldList144 = new List<string>();

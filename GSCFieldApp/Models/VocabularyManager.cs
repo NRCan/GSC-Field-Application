@@ -53,7 +53,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> vocabManagerFieldList = new Dictionary<double, List<string>>();
                 List<string> vocabManagerFieldListDefault = new List<string>();
 
-                vocabManagerFieldListDefault.Add(DatabaseLiterals.FieldDictionaryManagerLinkID);
+                vocabManagerFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -65,9 +65,16 @@ namespace GSCFieldApp.Models
 
                 vocabManagerFieldList[DatabaseLiterals.DBVersion] = vocabManagerFieldListDefault;
 
+                //Revert shcema 1.7 changes
+                List<string> vocMaFieldList160 = new List<string>();
+                vocMaFieldList160.AddRange(vocabManagerFieldListDefault);
+                vocMaFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                vocabManagerFieldList[DatabaseLiterals.DBVersion160] = vocMaFieldList160;
+
+
                 //Revert schema 1.5 changes. 
                 List<string> vocabFieldList144 = new List<string>();
-                vocabFieldList144.AddRange(vocabManagerFieldListDefault);
+                vocabFieldList144.AddRange(vocMaFieldList160);
                 vocabFieldList144.Remove(DatabaseLiterals.FieldDictionaryManagerVersion);
                 vocabManagerFieldList[DatabaseLiterals.DBVersion144] = vocabFieldList144;
 

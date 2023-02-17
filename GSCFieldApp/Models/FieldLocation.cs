@@ -134,7 +134,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> locationFieldList = new Dictionary<double, List<string>>();
                 List<string> locationFieldListDefault = new List<string>();
 
-                locationFieldListDefault.Add(DatabaseLiterals.FieldLocationID);
+                locationFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -146,9 +146,15 @@ namespace GSCFieldApp.Models
 
                 locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
 
+                //Revert shcema 1.7 changes
+                List<string> locationFieldList160 = new List<string>();
+                locationFieldList160.AddRange(locationFieldListDefault);
+                locationFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;
+
                 //Revert schema 1.6 changes. 
                 List<string> locationFieldList15 = new List<string>();
-                locationFieldList15.AddRange(locationFieldListDefault);
+                locationFieldList15.AddRange(locationFieldList160);
                 locationFieldList15.Remove(DatabaseLiterals.FieldLocationNTS);
                 locationFieldList[DatabaseLiterals.DBVersion150] = locationFieldList15;
 

@@ -781,7 +781,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 DatabaseLiterals.TableEarthMat, DatabaseLiterals.TableSample, DatabaseLiterals.TableStation,
                 DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure, DatabaseLiterals.TableFossil,
                 DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,  
-                DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint , DatabaseLiterals.TableFieldCamp};
+                DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint, 
+                DatabaseLiterals.TableEnvironment, DatabaseLiterals.TableLocationFeature};
 
 
             //List of queries to send as a batch
@@ -834,6 +835,14 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
 
                 newVersionNumber = DatabaseLiterals.DBVersion160;
+            }
+
+            if (inDBVersion == DBVersion160)
+            {
+                queryList.AddRange(GetUpgradeQueryVersion1_7(attachDBName));
+                upgradeUntouchedTables.Clear();
+                upgradeUntouchedTables.Add(DatabaseLiterals.TableDictionary);
+                newVersionNumber = DatabaseLiterals.DBVersion170;
             }
 
             //Insert remaining tables
@@ -2531,6 +2540,145 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// Will output a query to update database to version 1.6
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion1_7(string attachedDBName)
+        {
+            ///Schema v 1.7: 
+            ///https://github.com/NRCan/GSC-Field-Application/milestone/8
+            List<string> insertQuery_17 = new List<string>();
+            List<string> nullFieldList = new List<string>() { DatabaseLiterals.FieldGenericRowID };
+            #region F_METADATA
+
+            Metadata modelMetadata = new Metadata();
+            List<string> metadataFieldList = modelMetadata.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(metadataFieldList, nullFieldList, DatabaseLiterals.TableMetadata, attachedDBName));
+
+            #endregion
+
+            #region F_LOCATION
+
+            FieldLocation modelLocation = new FieldLocation();
+            List<string> locationFieldList = modelLocation.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(locationFieldList, nullFieldList, DatabaseLiterals.TableLocation, attachedDBName));
+
+            #endregion
+
+            #region F_STATION
+
+            Station modelStation = new Station();
+            List<string> stationFieldList = modelStation.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(stationFieldList, nullFieldList, DatabaseLiterals.TableStation, attachedDBName));
+
+            #endregion
+
+            #region F_EARTHMAT
+
+            EarthMaterial modelEM = new EarthMaterial();
+            List<string> earthmatFieldList = modelEM.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(earthmatFieldList, nullFieldList, DatabaseLiterals.TableEarthMat, attachedDBName));
+
+            #endregion
+
+            #region F_SAMPLE
+
+            Sample modelSample = new Sample();
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(sampleFieldList, nullFieldList, DatabaseLiterals.TableSample, attachedDBName));
+
+            #endregion
+
+            #region F_STRUCTURE
+
+            Structure modelStructure = new Structure();
+            List<string> structureFieldList = modelStructure.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(structureFieldList, nullFieldList, DatabaseLiterals.TableStructure, attachedDBName));
+
+            #endregion
+
+            #region F_PALEO_FLOW
+
+            Paleoflow modelPFlow = new Paleoflow();
+            List<string> pflowFieldList = modelPFlow.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(pflowFieldList, nullFieldList, DatabaseLiterals.TablePFlow, attachedDBName));
+
+            #endregion
+
+            #region F_ENVIRONMENT
+
+            EnvironmentModel modelEnv = new EnvironmentModel();
+            List<string> envFieldList = modelEnv.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(envFieldList, nullFieldList, DatabaseLiterals.TableEnvironment, attachedDBName));
+
+            #endregion
+
+            #region F_MINERALIZATION_ALTERAION
+
+            MineralAlteration modelMA = new MineralAlteration();
+            List<string> maFieldList = modelMA.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(maFieldList, nullFieldList, DatabaseLiterals.TableMineralAlteration, attachedDBName));
+
+            #endregion
+
+            #region F_MINERAL
+
+            Mineral modelMineral = new Mineral();
+            List<string> mineralFieldList = modelMineral.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, DatabaseLiterals.TableMineral, attachedDBName));
+
+            #endregion
+
+            #region F_FOSSIL
+
+            Fossil modelFossil = new Fossil();
+            List<string> fossilFieldList = modelFossil.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(fossilFieldList, nullFieldList, DatabaseLiterals.TableFossil, attachedDBName));
+
+            #endregion
+
+            #region M_DICTIONARY
+
+            Vocabularies modelVocab = new Vocabularies();
+            List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabFieldList, nullFieldList, DatabaseLiterals.TableDictionary, attachedDBName));
+
+            #endregion
+
+            #region M_DICTIONARY_MANAGER
+
+            VocabularyManager modelVocabManager = new VocabularyManager();
+            List<string> vocabManagerFieldList = modelVocabManager.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabManagerFieldList, nullFieldList, DatabaseLiterals.TableDictionaryManager, attachedDBName));
+
+            #endregion
+
+            #region F_DOCUMENT
+
+            Document modelDocument = new Document();
+            List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(documentFieldList, nullFieldList, DatabaseLiterals.TableDocument, attachedDBName));
+
+            #endregion
+
+            return insertQuery_17;
+        }
+
+        /// <summary>
         /// Will return a related structure record as an object
         /// </summary>
         /// <param name="StrucId"></param>
@@ -2627,6 +2775,73 @@ namespace GSCFieldApp.Services.DatabaseServices
             return insertQuery;
             
 
+        }
+
+        /// <summary>
+        /// From a given list of fields, it'll produce an insert query
+        /// Mainly used for database schema upgrade
+        /// </summary>
+        /// <param name="fieldList">All field names that needs to be added to insert query</param>
+        /// <param name="fieldNullList">Field names that needs to be null since they aren't in the new database</param>
+        /// <param name="tableName">Table name to insert into</param>
+        /// <param name="attachedDBName">An attached database name if needed</param>
+        /// <returns></returns>
+        public string GenerateInsertQueriesFromModel(List<string> fieldList, List<string> fieldNullList, string tableName, string attachedDBName = "")
+        {
+            //Variables
+            string query_select = string.Empty;
+            string alias = tableName.Substring(0, 3);
+
+            //Iterate through field name list
+            foreach (string fields in fieldList)
+            {
+                //Get all fields except alias
+                if (fields != fieldList.First())
+                {
+                    //Manage field that needs to be set to null
+                    if (fieldNullList.Contains(fields))
+                    {
+
+                        query_select = query_select + ", NULL as " + fields;
+                    }
+                    else
+                    {
+                        query_select = query_select + ", " + alias + "." + fields + " as " + fields;
+                    }
+
+                }
+                else
+                {
+                    if (fieldNullList.Contains(fields))
+                    {
+                        query_select = " NULL as " + fields;
+                    }
+                    else 
+                    {
+                        query_select = " " + alias + "." + fields + " as " + fields;
+                    }
+                        
+                }
+
+            }
+
+            //Remove empty values
+            query_select = query_select.Replace(", ,", "");
+
+            //Build full query
+            string insert_query = "INSERT INTO " + tableName + " SELECT " + query_select;
+
+            if (attachedDBName != string.Empty)
+            {
+                insert_query = insert_query + " FROM " + attachedDBName + "." + tableName + " as " + alias;
+            }
+            else
+            {
+                insert_query = insert_query + " FROM " + tableName + " as " + alias;
+            }
+            
+
+            return insert_query;
         }
 
         #endregion
