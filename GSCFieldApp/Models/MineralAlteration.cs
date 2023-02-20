@@ -43,7 +43,7 @@ namespace GSCFieldApp.Models
         public string MAParentTable { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralAlterationRelID)]
-        public string MAParentID { get; set; }
+        public int MAParentID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableStation;

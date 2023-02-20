@@ -630,7 +630,7 @@ namespace GSCFieldApp.ViewModels
             Station stationModel = new Station();
             List<object> stationTableLRaw = accessData.ReadTable(stationModel.GetType(), null);
             IEnumerable<Station> stationTable = stationTableLRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<int> stats = from s in stationTable where s.StationID == inParentModel.ParentID select s.LocationID;
+            IEnumerable<int> stats = from s in stationTable where s.StationID == int.Parse(inParentModel.ParentID) select s.LocationID;
             List<int> locationFromStat = stats.ToList();
 
             //Delete location

@@ -89,9 +89,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID for station table from row count.
         /// </summary>
         /// <returns></returns>
-        public string CalculateStationID()
+        public int CalculateStationID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateEarthmatnAlias(string parentID, string parentAlias)
+        public string CalculateEarthmatnAlias(int parentID, string parentAlias)
         {
 
             //Querying with Linq
@@ -436,7 +436,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateDocumentAlias(string parentID, string parentAlias, int startingDocNumber = 1)
+        public string CalculateDocumentAlias(int parentID, string parentAlias, int startingDocNumber = 1)
         {
             //Querying with Linq
             List<object> doctableRaw = dAccess.ReadTable(docModel.GetType(), null);
@@ -796,7 +796,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateMineralAlterationAlias(string parentID, string parentAlias)
+        public string CalculateMineralAlterationAlias(int parentID, string parentAlias)
         {
             //Variables
             string prefix = DatabaseLiterals.TableMineralAlterationPrefix;
@@ -869,7 +869,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateEnvironmentAlias(string parentID, string parentAlias)
+        public string CalculateEnvironmentAlias(int parentID, string parentAlias)
         {
             //Variables
             string prefix = DatabaseLiterals.TableEnvironmentPrefix;

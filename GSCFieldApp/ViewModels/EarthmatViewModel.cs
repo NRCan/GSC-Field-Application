@@ -21,7 +21,7 @@ namespace GSCFieldApp.ViewModels
         private readonly Mineral mineralModel = new Mineral();
         private string _alias = string.Empty; //Default
         private string _earthmatid = string.Empty; //Default
-        private string _stationid = string.Empty; //Detault
+        private int _stationid = 0; //Detault
         private string _colourindex = "0";//Detault
         private string _percent = "0"; //Default
         private string _contactNote = string.Empty;//Detault
@@ -122,7 +122,7 @@ namespace GSCFieldApp.ViewModels
 
         public EarthMaterial EarthModel { get { return earthmodel; } set { earthmodel = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
-        public string StationID { get { return _stationid; } set { _stationid = value; } }
+        public int StationID { get { return _stationid; } set { _stationid = value; } }
         public string EarthmatID { get { return _earthmatid; } set { _earthmatid = value; } }
         public string MagSusceptibility
         {
@@ -299,7 +299,7 @@ namespace GSCFieldApp.ViewModels
 
             if (inDetailModel!= null) //detail model could be null if a quick earthmat is asked
             {
-                _stationid = inDetailModel.GenericID;
+                _stationid = int.Parse(inDetailModel.GenericID);
                 _alias = idCalculator.CalculateEarthmatnAlias(_stationid, inDetailModel.GenericAliasName);
             }
 
@@ -378,7 +378,7 @@ namespace GSCFieldApp.ViewModels
 
             //Set
             _earthmatid = existingDataDetail.earthmat.EarthMatID;
-            _stationid = existingDataDetail.ParentID;
+            _stationid = int.Parse(existingDataDetail.ParentID);
             _alias = existingDataDetail.earthmat.EarthMatName;
             _interpretation = existingDataDetail.earthmat.EarthMatInterp;
             //_contactNote = existingDataDetail.earthmat.EarthMatContact;
@@ -1126,7 +1126,7 @@ namespace GSCFieldApp.ViewModels
 
             FieldNotes outputEarthmatReport = new FieldNotes();
             outputEarthmatReport.earthmat = earthmodel;
-            outputEarthmatReport.ParentID = quickStationReport.station.StationID;
+            outputEarthmatReport.ParentID = quickStationReport.station.StationID.ToString();
             outputEarthmatReport.ParentTableName = Dictionaries.DatabaseLiterals.TableStation;
             outputEarthmatReport.GenericID = earthmodel.EarthMatID.ToString();
 
@@ -1498,7 +1498,7 @@ namespace GSCFieldApp.ViewModels
             {
                 parentID = existingDataDetail.ParentID;
             }
-            IEnumerable<EarthMaterial> earthParentStation = from e in earthTable where e.EarthMatStatID == parentID select e;
+            IEnumerable<EarthMaterial> earthParentStation = from e in earthTable where e.EarthMatStatID == int.Parse(parentID) select e;
 
             if (_earthResidualPercent.Count == 0 && (earthParentStation.Count() != 0 || earthParentStation != null))
             {

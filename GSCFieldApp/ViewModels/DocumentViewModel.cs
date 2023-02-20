@@ -46,7 +46,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _relatedTable = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedRelatedTable = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _relatedIDs = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedRelatedID = string.Empty;
+        private int _selectedRelatedID = 0;
         private Visibility _documentModeVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _documentUpdateVisibility = Visibility.Visible; //Visibility for fields that can't be edited when the form is poped as an edit of an existing record.
         private bool _fileNameReadOnly = true;
@@ -233,7 +233,7 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> RelatedTable { get { return _relatedTable; } set { _relatedTable = value; } }
         public string SelectedRelatedTable { get { return _selectedRelatedTable; } set { _selectedRelatedTable = value; } }
         public ObservableCollection<Themes.ComboBoxItem> RelatedIds { get { return _relatedIDs; } set { _relatedIDs = value; } }
-        public string SelectedRelatedID { get { return _selectedRelatedID; } set { _selectedRelatedID = value; } }
+        public int SelectedRelatedID { get { return _selectedRelatedID; } set { _selectedRelatedID = value; } }
 
         public bool DocumentPhotoExists { get { return _documentPhotoExists; } set { _documentPhotoExists = value; } }
         public String DocumentPhotoPath { get { return _documentPhotoPath; } set { _documentPhotoPath = value; } }
@@ -254,13 +254,13 @@ namespace GSCFieldApp.ViewModels
 
             if (stationSummaryID.GenericID != null)
             {
-                _selectedRelatedID = stationSummaryID.GenericID; //Init with what was selected by the user in the report
+                _selectedRelatedID = int.Parse(stationSummaryID.GenericID); //Init with what was selected by the user in the report
                 _selectedRelatedTable = DatabaseLiterals.TableStation;
 
                 //Calculate new document name if needed (on new document only) and set relation from report
                 if (inDetailModel.GenericTableName != Dictionaries.DatabaseLiterals.TableDocument || doDocumentUpdate == false)
                 {
-                    _documentName = idCalculatorDoc.CalculateDocumentAlias(stationSummaryID.GenericID, stationSummaryID.GenericAliasName, 1);
+                    _documentName = idCalculatorDoc.CalculateDocumentAlias(int.Parse(stationSummaryID.GenericID), stationSummaryID.GenericAliasName, 1);
                 }
             }
             else if (stationSummaryID.station != null)
@@ -461,7 +461,7 @@ namespace GSCFieldApp.ViewModels
                                 DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
                                 FileNumber = iteratedFileNumber,
                                 FileName = _fileName = CalculateFileName(),
-                                DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
+                                DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(int.Parse(selectedStationSummaryDocument.GenericID), selectedStationSummaryDocument.GenericAliasName, currentIteration),
 
                                 Category = documentModel.Category,
                                 Description = documentModel.Description,
@@ -658,7 +658,7 @@ namespace GSCFieldApp.ViewModels
             Station stationModel = new Station();
             List<object> stationTableLRaw = accessData.ReadTable(stationModel.GetType(), null);
             IEnumerable<Station> stationTable = stationTableLRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<int> stats = from s in stationTable where s.StationID == inParentModel.GenericID select s.LocationID;
+            IEnumerable<int> stats = from s in stationTable where s.StationID == int.Parse(inParentModel.GenericID) select s.LocationID;
             List<int> locationFromStat = stats.ToList();
 
             //Delete location
@@ -759,16 +759,16 @@ namespace GSCFieldApp.ViewModels
 
 
                 //Get the right station id wheter it's coming from the report or the map page as quick photo
-                string processedStationID = string.Empty;
+                int processedStationID = 0;
                 if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.GenericID != null)
                 {
-                    processedStationID = selectedStationSummaryDocument.GenericID;
+                    processedStationID = int.Parse(selectedStationSummaryDocument.GenericID);
                 }
                 else if (selectedStationSummaryDocument.ParentTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.ParentID != null)
                 {
-                    processedStationID = selectedStationSummaryDocument.ParentID;
+                    processedStationID = int.Parse(selectedStationSummaryDocument.ParentID);
                 }
-                if (selectedStationSummaryDocument.station.StationID != null && selectedStationSummaryDocument.station.StationID != string.Empty)
+                if (selectedStationSummaryDocument.station.StationID != null && selectedStationSummaryDocument.station.StationID != 0)
                 {
                     processedStationID = selectedStationSummaryDocument.station.StationID;
                 }
@@ -785,7 +785,7 @@ namespace GSCFieldApp.ViewModels
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = sts.StationID,
+                                itemValue = sts.StationID.ToString(),
                                 itemName = sts.StationAlias
                             };
                             _relatedIDs.Add(newItem);

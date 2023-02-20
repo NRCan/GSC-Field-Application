@@ -47,7 +47,7 @@ namespace GSCFieldApp.Models
         public string RelatedTable { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentRelatedID)]
-        public string RelatedID { get; set; }
+        public int RelatedID { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentObjLocX)]
         public double? ObjectX { get; set; }

@@ -22,7 +22,7 @@ namespace GSCFieldApp.ViewModels
         private double _longitude = 0.0; //Default
         private double _elevation = 0.0;//Default
         private string _alias = string.Empty; //Default
-        private string _stationid = string.Empty; //Default
+        private int _stationid = 0; //Default
         private int _locationid = 0; //Default
         private string _locationAlias = string.Empty; //Default
         private string _airno = string.Empty; //Default
@@ -103,7 +103,7 @@ namespace GSCFieldApp.ViewModels
         public Station StationModel { get { return model; } set { model = value; } }
         public FieldLocation Location { get { return _location; } set { _location = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
-        public string StationID { get { return _stationid; } set { _stationid = value; } }
+        public int StationID { get { return _stationid; } set { _stationid = value; } }
         public int LocationID { get { return _locationid; } set { _locationid = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
         public string RelatedTo { get { return _stationRelatedTo; } set { _stationRelatedTo = value; } }
@@ -204,7 +204,7 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Synchronize with values that can't be changed by the user.
-                _stationid = existingDataDetail.GenericID;
+                _stationid = int.Parse(existingDataDetail.GenericID);
                 _alias = existingDataDetail.station.StationAlias;
                 _dateDate = existingDataDetail.station.StationVisitDate;
                 _dateTime = existingDataDetail.station.StationVisitTime;
@@ -590,7 +590,7 @@ namespace GSCFieldApp.ViewModels
             FieldNotes outputStationReport = new FieldNotes
             {
                 ParentID = quickLocID.ToString(),
-                GenericID = _stationid,
+                GenericID = _stationid.ToString(),
                 GenericAliasName = _alias,
                 GenericTableName = Dictionaries.DatabaseLiterals.TableStation,
                 station = StationModel

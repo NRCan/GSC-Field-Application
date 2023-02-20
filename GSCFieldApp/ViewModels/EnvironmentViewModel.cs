@@ -69,7 +69,7 @@ namespace GSCFieldApp.ViewModels
 
             //On init for new stations calculate values so UI shows stuff.
             _environmentid = idCalculator.CalculateEnvironmentID();
-            _envirommentParentID = inReportModel.station.StationID;
+            _envirommentParentID = inReportModel.station.StationID.ToString();
 
             //Fill controls
             FillRelief();
@@ -210,7 +210,7 @@ namespace GSCFieldApp.ViewModels
         {
             //Save the new station
             environmentModel.EnvID = _environmentid; //Prime key
-            environmentModel.EnvStationID = _envirommentParentID; //Foreign key
+            environmentModel.EnvStationID = int.Parse(_envirommentParentID); //Foreign key
             environmentModel.EnvName = _environmentAlias;
             environmentModel.EnvNotes = _notes;
             environmentModel.EnvSlope = int.Parse(_slope);

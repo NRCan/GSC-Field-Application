@@ -20,7 +20,7 @@ namespace GSCFieldApp.Models
         public string EarthMatName { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatStatID)]
-        public string EarthMatStatID { get; set; }
+        public int EarthMatStatID { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatLithgroup)]
         public string EarthMatLithgroup { get; set; }

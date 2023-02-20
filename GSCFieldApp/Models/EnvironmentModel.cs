@@ -46,7 +46,7 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEnvNotes)]
         public string EnvNotes { get; set; }
         [Column(DatabaseLiterals.FieldEnvStationID)]
-        public string EnvStationID { get; set; }
+        public int EnvStationID { get; set; }
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
