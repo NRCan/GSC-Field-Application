@@ -9,6 +9,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using SpatialiteSharp;
+using System.Transactions;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -41,6 +42,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                 db.ConnectionString = @"Data Source=" + dbPath + "; Version=3";
                 db.Open();
 
+                //Make sure journal creation is off (anti wal and shm files)
+                SQLiteCommand wallOffCommand = new SQLiteCommand(@"PRAGMA journal_mode=DELETE;", db);
+                wallOffCommand.ExecuteNonQuery();
+
                 using (var transaction = db.BeginTransaction())
                 {
                     //Load spatialite extension
@@ -53,11 +58,16 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Pass query
                     //example: "INSERT INTO FS_LOCATION (Shape, locationid, latitude, longitude, metaid) values (MakePoint(-80.314,46.930, 4326), 'test_gab_visual_studio2', 46.930, -80.314, '7297f789-36e8-4c06-86e9-46b9ffcb1607')"
                     SQLiteCommand addLocation = new SQLiteCommand(in_query, db);
-                    addLocation.ExecuteNonQuery();
+                    addLocation.ExecuteNonQuery();   
+
+                    //Disable mode
+                    //SQLiteCommand amphibiousCommandOff = new SQLiteCommand(@"select DisableGpkgAmphibiousMode()", db);
+                    //amphibiousCommandOff.ExecuteNonQuery();
+
                     
                     transaction.Commit();
                 }
-
+                
                 db.Close();
             }
 
