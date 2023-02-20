@@ -36,9 +36,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate an generic ID for location table.
         /// </summary>
         /// <returns></returns>
-        public string CalculateLocationID()
+        public int CalculateLocationID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>

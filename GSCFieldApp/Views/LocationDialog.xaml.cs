@@ -57,7 +57,7 @@ namespace GSCFieldApp.Views
                 {
                     location = locationVM.locationModel,
                     GenericAliasName = locationVM.LocationAlias,
-                    GenericID = locationVM.LocationID
+                    GenericID = locationVM.LocationID.ToString()
                 };
                 stationParent.GenericID = Dictionaries.DatabaseLiterals.TableLocation;
 

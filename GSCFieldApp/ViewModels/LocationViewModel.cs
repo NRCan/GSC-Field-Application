@@ -21,7 +21,7 @@ namespace GSCFieldApp.ViewModels
         //UI default values
 
         private string _locationAlias = string.Empty;
-        private string _locationID = string.Empty;
+        private int _locationID = 0;
 
         private string _locationLatitude = "0";
         private string _locationLongitude = "0"; //Default
@@ -58,7 +58,7 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
 
         public string LocationAlias { get { return _locationAlias; } set { _locationAlias = value; } }
-        public string LocationID { get { return _locationID; } set { _locationID = value; } }
+        public int LocationID { get { return _locationID; } set { _locationID = value; } }
         public string LocationLatitude {
             get { return _locationLatitude; }
             set

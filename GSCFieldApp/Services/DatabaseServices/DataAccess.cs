@@ -480,14 +480,22 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="tableName">The table name to delete the record from</param>
         /// <param name="tableFieldName">The table field name to select the record with</param>
         /// <param name="recordIDToDelete">The table field value to delete.</param>
-        public void DeleteRecord(string tableName, string tableFieldName, string recordIDToDelete)
+        public void DeleteRecord(string tableName, string tableFieldName, string recordIDToDelete, bool isInt = false)
         {
 
             using (SQLiteConnection dbConnect = DbConnection)
             {
                 SQLiteCommand delCommand = dbConnect.CreateCommand("PRAGMA foreign_keys=ON");
                 delCommand.ExecuteNonQuery();
-                delCommand.CommandText = "DELETE FROM " + tableName + " WHERE " + tableFieldName + " = '" + recordIDToDelete + "'";
+                if (isInt)
+                {
+                    delCommand.CommandText = "DELETE FROM " + tableName + " WHERE " + tableFieldName + " = " + recordIDToDelete + ";";
+                }
+                else
+                {
+                    delCommand.CommandText = "DELETE FROM " + tableName + " WHERE " + tableFieldName + " = '" + recordIDToDelete + "';";
+                }
+                
                 delCommand.ExecuteNonQuery();
 
                 dbConnect.Close();

@@ -64,7 +64,7 @@ namespace GSCFieldApp.Models
         public string StateionReportLink { get; set; }
 
         [Column(DatabaseLiterals.FieldStationObsID)]
-        public string LocationID { get; set; }
+        public int LocationID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableLocation;

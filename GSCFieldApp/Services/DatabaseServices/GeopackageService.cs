@@ -43,6 +43,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 db.Open();
 
                 //Make sure journal creation is off (anti wal and shm files)
+                //https://www.sqlite.org/wal.html
                 SQLiteCommand wallOffCommand = new SQLiteCommand(@"PRAGMA journal_mode=DELETE;", db);
                 wallOffCommand.ExecuteNonQuery();
 

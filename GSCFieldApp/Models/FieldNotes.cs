@@ -41,6 +41,7 @@
 
         //Define here are the properties that can be used for add operation. TODO ParentTableName could be deduce from the relation inside the database.
         public string ParentID { get; set; }
+
         public string ParentTableName { get; set; }
 
         public string MainID { get; set; } //Basically the original location ID for all records

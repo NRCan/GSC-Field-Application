@@ -737,10 +737,10 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldStationID,
                             GenericAliasName = currentStation.StationAlias,
 
-                            ParentID = currentStation.LocationID, //TO keep the link with location table
+                            ParentID = currentStation.LocationID.ToString(), //TO keep the link with location table
                             ParentTableName = DatabaseLiterals.TableLocation, //To keep the link with location table.
 
-                            MainID = currentStation.LocationID
+                            MainID = currentStation.LocationID.ToString()
                         };
 
                         //Fill with location
@@ -1145,7 +1145,7 @@ namespace GSCFieldApp.ViewModels
                 FieldNotes currentReport = _reportDetailedStation[_reportStationIndex];
 
                 //Get parent id
-                string locID = currentReport.station.LocationID;
+                int locID = currentReport.station.LocationID;
 
                 //Get a list of related earthmat from selected station
                 //Querying with Linq
@@ -1295,7 +1295,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = currentDocuments.RelatedID, //TO keep the link with location table
                             ParentTableName = currentDocuments.RelatedTable, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[_reportStationIndex].station.LocationID
+                            MainID = _reportDetailedStation[_reportStationIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedDocument.Add(currentDetailReport);
@@ -1370,7 +1370,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[_reportStationIndex].station.LocationID
+                            MainID = _reportDetailedStation[_reportStationIndex].station.LocationID.ToString()
                         };
 
                         ReportDetailedSample.Add(currentDetailReport);
@@ -1421,7 +1421,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = _reportDetailSample[_reportSampleIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         ReportDetailedSample.Add(currentDetailReport);
@@ -1478,7 +1478,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = spl.SampleEarthmatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailSample.Add(currentDetailReport);
@@ -1550,7 +1550,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedStructure.Add(currentDetailReport);
@@ -1600,7 +1600,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = _reportDetailedStructure[_reportStructureIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedStructure.Add(currentDetailReport);
@@ -1658,7 +1658,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = spl.StructureParentID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedStructure.Add(currentDetailReport);
@@ -1725,7 +1725,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedFossil.Add(currentDetailReport);
@@ -1775,7 +1775,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = _reportDetailedFossil[_reportFossilIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedFossil.Add(currentDetailReport);
@@ -1832,7 +1832,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = fss.FossilParentID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedFossil.Add(currentDetailReport);
@@ -1898,7 +1898,7 @@ namespace GSCFieldApp.ViewModels
                             ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
                         _reportDetailedPflow.Add(currentDetailReport);
 
@@ -1945,7 +1945,7 @@ namespace GSCFieldApp.ViewModels
 
                             ParentID = _reportDetailedPflow[_reportPflowIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedPflow.Add(currentDetailReport);
@@ -2002,7 +2002,7 @@ namespace GSCFieldApp.ViewModels
 
                             ParentID = pf.PFlowParentID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
-                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
+                            MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
 
                         _reportDetailedPflow.Add(currentDetailReport);
@@ -2173,7 +2173,7 @@ namespace GSCFieldApp.ViewModels
                 }
                 
                 
-                currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString();
 
                 _reportDetailedMinerals.Add(currentDetailReport);
 
@@ -2328,7 +2328,7 @@ namespace GSCFieldApp.ViewModels
                     if (deleteTableName == DatabaseLiterals.TableStation)
                     {
                         //Delete location too
-                        dAccess.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, noteToDelete.station.LocationID);
+                        dAccess.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, noteToDelete.station.LocationID.ToString(), true);
                     }
 
                     if (deleteTableName == DatabaseLiterals.TableDocument)

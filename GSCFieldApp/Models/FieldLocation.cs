@@ -12,14 +12,11 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableLocation)]
     public class FieldLocation: BindableBase
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
-        public string rowid { get; set; }
-
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [Column(DatabaseLiterals.FieldLocationID)]
-        public string LocationID { get; set; }
+        [PrimaryKey, Column(DatabaseLiterals.FieldLocationID)]
+        public int LocationID { get; set; }
 
         /// <summary>
         /// Gets or sets the first name.
@@ -134,7 +131,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> locationFieldList = new Dictionary<double, List<string>>();
                 List<string> locationFieldListDefault = new List<string>();
 
-                locationFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                locationFieldListDefault.Add(DatabaseLiterals.FieldLocationID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -146,15 +143,15 @@ namespace GSCFieldApp.Models
 
                 locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
 
-                //Revert shcema 1.7 changes
-                List<string> locationFieldList160 = new List<string>();
-                locationFieldList160.AddRange(locationFieldListDefault);
-                locationFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;
+                ////Revert shcema 1.7 changes
+                //List<string> locationFieldList160 = new List<string>();
+                //locationFieldList160.AddRange(locationFieldListDefault);
+                //locationFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;
 
                 //Revert schema 1.6 changes. 
                 List<string> locationFieldList15 = new List<string>();
-                locationFieldList15.AddRange(locationFieldList160);
+                locationFieldList15.AddRange(locationFieldListDefault);
                 locationFieldList15.Remove(DatabaseLiterals.FieldLocationNTS);
                 locationFieldList[DatabaseLiterals.DBVersion150] = locationFieldList15;
 
