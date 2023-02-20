@@ -233,7 +233,7 @@ namespace GSCFieldApp.ViewModels
                 foreach (FieldBooks prjs in _projectCollection)
                 {
                     //Get match
-                    if (prjs.metadataForProject.MetaID == localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString())
+                    if (prjs.metadataForProject.MetaID == int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()))
                     {
                         //Refresh UI
                         _selectedProjectIndex = _projectCollection.IndexOf(prjs);
@@ -419,7 +419,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="fieldworkType"></param>
         /// <param name="userCode"></param>
         /// <param name="metaID"></param>
-        public async void OpenFieldBook(string projectPath, string fieldworkType, string userCode, string metaID, string dbPath, string dbVersion, bool withNavigateToMap = true)
+        public async void OpenFieldBook(string projectPath, string fieldworkType, string userCode, int metaID, string dbPath, string dbVersion, bool withNavigateToMap = true)
         {
             //Clear previous field book settings
             localSetting.WipeUserMapSettings();
@@ -534,7 +534,7 @@ namespace GSCFieldApp.ViewModels
             string pPath = _projectCollection[_selectedProjectIndex].ProjectPath;
             string wType = _projectCollection[_selectedProjectIndex].metadataForProject.FieldworkType;
             string uCode = _projectCollection[_selectedProjectIndex].metadataForProject.UserCode;
-            string mID = _projectCollection[_selectedProjectIndex].metadataForProject.MetaID;
+            int mID = _projectCollection[_selectedProjectIndex].metadataForProject.MetaID;
             string dbP = _projectCollection[_selectedProjectIndex].ProjectDBPath;
             string dbVersion = _projectCollection[_selectedProjectIndex].metadataForProject.VersionSchema;
 

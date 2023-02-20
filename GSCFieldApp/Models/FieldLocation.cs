@@ -69,7 +69,7 @@ namespace GSCFieldApp.Models
         public string LocationNotes { get; set; }
 
         [Column(DatabaseLiterals.FieldLocationMetaID)]
-        public string MetaID { get; set; }
+        public int MetaID { get; set; }
 
         public string LocationTableName
         {

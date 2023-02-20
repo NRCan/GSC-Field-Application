@@ -10,14 +10,12 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableMetadata)]
     public class Metadata : BindableBase
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
-        public string rowid { get; set; }
 
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [Column(DatabaseLiterals.FieldUserInfoID), PrimaryKey, NotNull]
-        public string MetaID { get; set; }
+        [PrimaryKey, Column(DatabaseLiterals.FieldUserInfoID), NotNull]
+        public int MetaID { get; set; }
 
         [Column(DatabaseLiterals.FieldUserInfoPCode)]
         public string ProjectCode { get; set; }
@@ -76,8 +74,9 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (MetaID != string.Empty && UserCode != string.Empty && FieldworkType != string.Empty && MetadataActivity != string.Empty && 
-                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && VersionSchema != string.Empty && StationStartNumber != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
+                if (UserCode != string.Empty && FieldworkType != string.Empty && MetadataActivity != string.Empty && 
+                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && 
+                    VersionSchema != string.Empty && StationStartNumber != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
                 {
                     return true;
                 }
@@ -123,7 +122,7 @@ namespace GSCFieldApp.Models
                 //version of the class
                 Dictionary<double, List<string>> metadataFieldList = new Dictionary<double, List<string>>();
                 List<string> metadataFieldListDefault = new List<string>();
-                metadataFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                metadataFieldListDefault.Add(DatabaseLiterals.FieldUserInfoID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -137,13 +136,13 @@ namespace GSCFieldApp.Models
                 
 
                 //Revert shcema 1.7 changes
-                List<string> metadataFieldList160 = new List<string>();
-                metadataFieldList160.AddRange(metadataFieldListDefault);
-                metadataFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                metadataFieldList[DatabaseLiterals.DBVersion160] = metadataFieldList160;
+                //List<string> metadataFieldList160 = new List<string>();
+                //metadataFieldList160.AddRange(metadataFieldListDefault);
+                //metadataFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //metadataFieldList[DatabaseLiterals.DBVersion160] = metadataFieldList160;
 
                 //Noting changed in 1.6
-                metadataFieldList[DatabaseLiterals.DBVersion150] = metadataFieldList160;
+                //metadataFieldList[DatabaseLiterals.DBVersion150] = metadataFieldList160;
 
                 //Revert schema 1.5 changes. 
                 List<string> metadataFieldList144 = new List<string>();

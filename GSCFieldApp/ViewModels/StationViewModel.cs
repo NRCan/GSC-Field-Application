@@ -545,7 +545,7 @@ namespace GSCFieldApp.ViewModels
 
             Location.LocationID = _locationid = idCalculator.CalculateLocationID(); //Calculate new value
             Location.LocationAlias = _locationAlias = idCalculator.CalculateLocationAlias(_alias); //Calculate new value
-            Location.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
+            Location.MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()); //Foreign key
 
             //Fill in the table location
             accessData.SaveFromSQLTableObject(Location, false);

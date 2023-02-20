@@ -92,7 +92,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         public string GetDefaultDatabasePath
-        { 
+        {
             get
             {
                 return DbPath;
@@ -163,7 +163,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will create the fieldworkd sqlite database from an embedded resource
         /// </summary>
         /// <returns></returns>
-        public async Task CreateDatabaseFromResourceTo(string toFolderPath, string dbName )
+        public async Task CreateDatabaseFromResourceTo(string toFolderPath, string dbName)
         {
 
             StorageFolder folderPath = await StorageFolder.GetFolderFromPathAsync(toFolderPath);
@@ -209,7 +209,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             catch (Exception e)
             {
-                throw;
+                Debug.Write(e.Message);
             }
 
 
@@ -227,7 +227,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             int incrementer = 1; //Will be used to name project folders (pretty basic)
             string fieldProjectPath = Path.Combine(ApplicationData.Current.LocalFolder.Path); //Wanted path for project data
             StorageFolder fieldFolder = await StorageFolder.GetFolderFromPathAsync(fieldProjectPath);//Current folder object to local state
- 
+
             bool breaker = false; //Will be used to break while clause whenever a folder has been created.
             while (!breaker)
             {
@@ -306,7 +306,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                         {
                             int success = inDB.Insert(tableObject);
                         }
+
+                        
                     });
+
+                    inDB.Commit();
                 }
                 catch (SQLite.SQLiteException ex)
                 {
@@ -336,7 +340,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         int sucess = DbConnection.Insert(t);
                     }
                 });
-
+                DbConnection.Commit();
                 DbConnection.Close();
             }
         }
@@ -361,7 +365,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         //Update - To bypass update bug
                         SQLiteCommand command = db.CreateCommand(updateQuery);
                         command.ExecuteNonQuery();
-
+                        db.Commit();
                     }
 
                 });
@@ -543,7 +547,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, double dbVersion, bool closeConnection = true)
         {
             //Will hold all queries needed to be committed
-            List<string> queryList = new List<string>() {};
+            List<string> queryList = new List<string>() { };
             List<Exception> exceptionList = new List<Exception>();
 
             //Build attach db query
@@ -602,7 +606,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         //Do nothing, field didn't exist
                     }
-                    else 
+                    else
                     {
                         vocab_querySelect = vocab_querySelect + ", v." + vocabFields + " as " + vocabFields;
                     }
@@ -616,7 +620,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             vocab_querySelect = vocab_querySelect.Replace(", ,", "");
 
-            string insertQuery_vocab= "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
+            string insertQuery_vocab = "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
             insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
             if (dbVersion >= 1.5)
             {
@@ -627,10 +631,10 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //queryList.Add(deleteQuery_vocab_collision);
 
-                insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() +  ") AND (v." +
+                insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() + ") AND (v." +
                     FieldDictionaryTermID + " NOT IN (SELECT v2." + FieldDictionaryTermID + " FROM " + TableDictionary + " as v2)); ";
-            } 
-                
+            }
+
             queryList.Add(insertQuery_vocab);
 
             #endregion
@@ -654,7 +658,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                             ", CASE WHEN EXISTS (SELECT sql from " + attachDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDictionaryManager + "%" + DatabaseLiterals.FieldDictionaryManagerVersion +
                             "%') THEN (vm." + DatabaseLiterals.FieldDictionaryManagerVersion + ") ELSE NULL END as " + DatabaseLiterals.FieldDictionaryManagerVersion;
                     }
-                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion == 1.5 || vocabMFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion == 1.44) 
+                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion == 1.5 || vocabMFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion == 1.44)
                     {
                         vocabm_querySelect = vocabm_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldDictionaryManagerVersion;
@@ -683,7 +687,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + FieldDictionaryManagerVersion + " is null or vm." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
             }
-            
+
             queryList.Add(insertQuery_vocabM);
 
             #endregion
@@ -713,13 +717,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                         {
                             exceptionList.Add(e);
                         }
-                        
+
                     }
                     db.Commit();
                     db.Close();
                 }
             }
-            else 
+            else
             {
                 foreach (string q in queryList)
                 {
@@ -731,7 +735,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         exceptionList.Add(e);
                     }
-                    
+
                 }
             }
 
@@ -777,11 +781,11 @@ namespace GSCFieldApp.Services.DatabaseServices
             List<Exception> exceptionList = new List<Exception>();
 
             //Untouched tables to upgrade
-            List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata, 
+            List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata,
                 DatabaseLiterals.TableEarthMat, DatabaseLiterals.TableSample, DatabaseLiterals.TableStation,
                 DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure, DatabaseLiterals.TableFossil,
-                DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,  
-                DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint, 
+                DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,
+                DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint,
                 DatabaseLiterals.TableEnvironment, DatabaseLiterals.TableLocationFeature};
 
 
@@ -812,7 +816,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 newVersionNumber = DatabaseLiterals.DBVersion144;
             }
             if (inDBVersion < 1.5 && inDBVersion >= 1.44)
-            { 
+            {
                 queryList.AddRange(GetUpgradeQueryVersion1_5(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableSample);
@@ -890,11 +894,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                     exceptionList.Add(e);
 
                 }
-                
+
             }
 
             //Update working database
-            
+
             using (var db = outToDBConnection)
             {
 
@@ -996,7 +1000,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             catch (Exception e)
             {
-                throw;
+                Debug.Write(e.Message);
+                return 0.0;
             }
 
         }
@@ -1778,11 +1783,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                         //Set notes to empty
                         earthmat_querySelect = earthmat_querySelect + ", '' as " + earthmatFields;
                     }
-                    else 
+                    else
                     {
                         earthmat_querySelect = earthmat_querySelect + ", " + earthmatFields;
                     }
-                    
+
 
                 }
                 else
@@ -1848,7 +1853,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         location_querySelect = location_querySelect + ", l." + locationFields + " as " + locationFields;
                     }
                 }
-                else 
+                else
                 {
                     location_querySelect = "l." + locationFields + " as " + locationFields;
                 }
@@ -2198,17 +2203,17 @@ namespace GSCFieldApp.Services.DatabaseServices
                         metadata_querySelect = metadata_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldUserInfoNotes;
                     }
-                    else 
+                    else
                     {
                         metadata_querySelect = metadata_querySelect + ", m." + metFields + " as " + metFields;
                     }
                 }
-                else 
+                else
                 {
                     metadata_querySelect = " m." + metFields + " as " + metFields;
                 }
 
-  
+
             }
             metadata_querySelect = metadata_querySelect.Replace(", ,", "");
 
@@ -2350,7 +2355,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 " WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc + " = ' | ';";
 
             string updateQuery_16_earth_pipe2 = "UPDATE " + DatabaseLiterals.TableEarthMat + " SET " + DatabaseLiterals.FieldEarthMatModTextStruc +
-                " = replace(" + DatabaseLiterals.FieldEarthMatModTextStruc + ", ' | ', '')" +" WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc + 
+                " = replace(" + DatabaseLiterals.FieldEarthMatModTextStruc + ", ' | ', '')" + " WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc +
                 " LIKE '% | ' OR " + DatabaseLiterals.FieldEarthMatModTextStruc + " LIKE ' | %';";
 
             #endregion
@@ -2773,7 +2778,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             return insertQuery;
-            
+
 
         }
 
@@ -2816,11 +2821,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         query_select = " NULL as " + fields;
                     }
-                    else 
+                    else
                     {
                         query_select = " " + alias + "." + fields + " as " + fields;
                     }
-                        
+
                 }
 
             }
@@ -2839,7 +2844,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 insert_query = insert_query + " FROM " + tableName + " as " + alias;
             }
-            
+
 
             return insert_query;
         }

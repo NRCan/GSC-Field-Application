@@ -1410,7 +1410,7 @@ namespace GSCFieldApp.ViewModels
                     LocationEntryType = vocabEntryTypeManual,
                     LocationID = idCalculator.CalculateLocationID(), //Calculate new value
                     LocationAlias = idCalculator.CalculateLocationAlias(string.Empty), //Calculate new value
-                    MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString() //Foreign key
+                    MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()) //Foreign key
                 };
 
                 GotoLocationDataPart(manualLocation);

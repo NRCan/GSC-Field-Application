@@ -51,13 +51,13 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
         public Metadata Model { get { return model; } set { model = value; } }
 
-        public string Id
+        public int Id
         {
             get
             {
                 if (this.model == null)
                 {
-                    return string.Empty;
+                    return -1;
                 }
 
                 return this.model.MetaID;

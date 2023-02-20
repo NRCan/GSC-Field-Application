@@ -69,9 +69,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a new metadata id for current user
         /// </summary>
         /// <returns></returns>
-        public string CalculateMetadataID()
+        public int CalculateMetadataID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>
@@ -104,91 +104,103 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
 
             //Get current geolcode
-            string currentGeolcode = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
-            string currentMetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
-
-            //Querying with Linq
-            string stationQuerySelect = "SELECT *";
-            string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
-            string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "'";
-            string stationQueryWhere2 = " OR " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " IS NULL";
-            string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere + stationQueryWhere2;
-
-            List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), string.Empty);
-            List<object> stationTableRaw = dAccess.ReadTable(stationModel.GetType(), stationQueryFinal);
-            
-            IEnumerable<Station> stationTable = stationTableRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
-            IEnumerable<string> stations = from s in stationTable join l in locationTable on s.LocationID equals l.LocationID where l.MetaID == currentMetaID orderby s.StationAlias descending select s.StationAlias;
-
-            //Get current year
-            string currentDate = currentDate = stationDate.Year.ToString();
-
-            //Get initial station start number if needed
-            int stationCount = stations.Count();
-            if (stationCount == 0)
+            string currentGeolcode = localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoUCode).ToString();
+            if (localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID) != null)
             {
-                List<object> metadataTableRaw = dAccess.ReadTable(metadataModel.GetType(), null);
-                IEnumerable<Metadata> metadataTable = metadataTableRaw.Cast<Metadata>(); //Cast to proper list type
-                IEnumerable<Metadata> metadatas = from m in metadataTable where m.MetaID == currentMetaID select m;
-                List<Metadata> metadatasList = metadatas.ToList();
-                stationCount = Convert.ToInt16(metadatasList[0].StationStartNumber);
-            }
-            else
-            {
-                //Get actual last alias and extract it's number
-                string lastAlias = stations.ToList()[0].ToString();
-                List<char> lastCharacters = lastAlias.ToList();
-                List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 3, 3);
-                string lastNumber = string.Empty;
-                foreach (char c in lastNumbers)
-                {
-                    //Rebuild number
-                    lastNumber = lastNumber + c;
-                }
-                int lastCharacterNumber = Convert.ToInt32(lastNumber);
+                int currentMetaID = int.Parse(localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID).ToString());
 
-                //Increment
-                stationCount = lastCharacterNumber + 1;
-            }
+                //Querying with Linq
+                string stationQuerySelect = "SELECT *";
+                string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
+                string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "'";
+                string stationQueryWhere2 = " OR " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " IS NULL";
+                string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere + stationQueryWhere2;
 
-            //Padd current ID with 0 if needed
-            
-            string outputStringID = string.Empty;
-            bool breaker = true;
-            string finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
-            while (breaker)
-            {
-                if (stationCount < 10)
+                List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), string.Empty);
+                List<object> stationTableRaw = dAccess.ReadTable(stationModel.GetType(), stationQueryFinal);
+
+                IEnumerable<Station> stationTable = stationTableRaw.Cast<Station>(); //Cast to proper list type
+                IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
+                IEnumerable<string> stations = from s in stationTable join l in locationTable on s.LocationID equals l.LocationID where l.MetaID == currentMetaID orderby s.StationAlias descending select s.StationAlias;
+
+                //Get current year
+                string currentDate = currentDate = stationDate.Year.ToString();
+
+                //Get initial station start number if needed
+                int stationCount = stations.Count();
+                if (stationCount == 0)
                 {
-                    outputStringID = "000" + stationCount.ToString();
-                }
-                else if (stationCount >= 10 && stationCount < 100)
-                {
-                    outputStringID = "00" + stationCount.ToString();
-                }
-                else if (stationCount >=100 && stationCount < 1000)
-                {
-                    outputStringID = "0" + stationCount.ToString();
+                    List<object> metadataTableRaw = dAccess.ReadTable(metadataModel.GetType(), null);
+                    IEnumerable<Metadata> metadataTable = metadataTableRaw.Cast<Metadata>(); //Cast to proper list type
+                    IEnumerable<Metadata> metadatas = from m in metadataTable where m.MetaID == currentMetaID select m;
+                    List<Metadata> metadatasList = metadatas.ToList();
+                    stationCount = Convert.ToInt16(metadatasList[0].StationStartNumber);
                 }
                 else
                 {
-                    outputStringID = stationCount.ToString();
+                    //Get actual last alias and extract it's number
+                    string lastAlias = stations.ToList()[0].ToString();
+                    List<char> lastCharacters = lastAlias.ToList();
+                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 3, 3);
+                    string lastNumber = string.Empty;
+                    foreach (char c in lastNumbers)
+                    {
+                        //Rebuild number
+                        lastNumber = lastNumber + c;
+                    }
+                    int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+                    //Increment
+                    stationCount = lastCharacterNumber + 1;
                 }
 
-                finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID;
+                //Padd current ID with 0 if needed
 
-                IEnumerable<Station> existinStations = from s in stationTable join l in locationTable on s.LocationID equals l.LocationID where l.MetaID == currentMetaID && s.StationAlias == finaleStationString select s;
-
-                if (existinStations.Count() ==0 || existinStations == null)
+                string outputStringID = string.Empty;
+                bool breaker = true;
+                string finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
+                while (breaker)
                 {
-                    breaker = false;
+                    if (stationCount < 10)
+                    {
+                        outputStringID = "000" + stationCount.ToString();
+                    }
+                    else if (stationCount >= 10 && stationCount < 100)
+                    {
+                        outputStringID = "00" + stationCount.ToString();
+                    }
+                    else if (stationCount >= 100 && stationCount < 1000)
+                    {
+                        outputStringID = "0" + stationCount.ToString();
+                    }
+                    else
+                    {
+                        outputStringID = stationCount.ToString();
+                    }
+
+                    finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID;
+
+                    IEnumerable<Station> existinStations = from s in stationTable join l in locationTable on s.LocationID equals l.LocationID where l.MetaID == currentMetaID && s.StationAlias == finaleStationString select s;
+
+                    if (existinStations.Count() == 0 || existinStations == null)
+                    {
+                        breaker = false;
+                    }
+
+                    stationCount++;
                 }
 
-                stationCount++;
+                return finaleStationString;
             }
+            else
+            {
+                return String.Empty;
+            }
+            
 
-            return finaleStationString; 
+
+
+            
 
         }
 
@@ -1026,6 +1038,24 @@ namespace GSCFieldApp.Services.DatabaseServices
         public string CalculateGUID()
         {
             return Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// Will create an integer hash code from insert GUID or from a new one if inGUID stays empty
+        /// Warning possible collision ahead.
+        /// </summary>
+        /// <returns></returns>
+        public int GetHashCodeFromGUID(string inGUID = "")
+        {
+            if (inGUID != string.Empty)
+            {
+                return inGUID.GetHashCode();
+            }
+            else
+            {
+                return Guid.NewGuid().GetHashCode();
+            }
+            
         }
         #endregion
     }

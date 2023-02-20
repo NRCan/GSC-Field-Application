@@ -237,7 +237,7 @@ namespace GSCFieldApp.ViewModels
             locationModel.LocationLat = _lat;
             locationModel.LocationLong = _long;
             locationModel.LocationElev = Double.Parse(LocationElevation);
-            locationModel.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
+            locationModel.MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()); //Foreign key
             locationModel.LocationNotes = LocationNotes;
             locationModel.LocationErrorMeasure = _accu;
             locationModel.locationNTS = _locationNTS;

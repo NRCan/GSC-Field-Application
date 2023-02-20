@@ -3261,7 +3261,7 @@ namespace GSCFieldApp.ViewModels
                 LocationEntryType = Dictionaries.DatabaseLiterals.locationEntryTypeManual,
                 LocationID = idCalculator.CalculateLocationID(), //Calculate new value
                 LocationAlias = idCalculator.CalculateLocationAlias(string.Empty), //Calculate new value
-                MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString() //Foreign key
+                MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()) //Foreign key
             };
 
             FieldNotes emptyFieldNotes = new FieldNotes
