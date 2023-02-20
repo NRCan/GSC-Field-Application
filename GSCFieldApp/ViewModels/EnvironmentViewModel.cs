@@ -18,7 +18,7 @@ namespace GSCFieldApp.ViewModels
     {
         #region INITIALIZATION
         private EnvironmentModel environmentModel = new EnvironmentModel();
-        private string _environmentid = string.Empty;
+        private int _environmentid = 0;
         private string _environmentAlias = string.Empty;
         private string _envirommentParentID = string.Empty;
         public bool doEnvironmentUpdate = false;
@@ -88,7 +88,7 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
-        public string EnvironmentID { get { return _environmentid; } set { _environmentid = value; } }
+        public int EnvironmentID { get { return _environmentid; } set { _environmentid = value; } }
         public string Alias { get { return _environmentAlias; } set { _environmentAlias = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
         public string Slope 

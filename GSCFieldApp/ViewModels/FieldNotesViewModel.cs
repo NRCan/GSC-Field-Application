@@ -1109,7 +1109,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailEnvironment.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(currentEnv.isValid, currentEnv.EnvID, currentDetailReport.MainID);
+                        ValidateCheck(currentEnv.isValid, currentEnv.EnvID.ToString(), currentDetailReport.MainID);
 
                     }
 
