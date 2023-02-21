@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
+using Windows.ApplicationModel.Store.Preview.InstallControl;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -855,9 +856,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from sample table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateMineralAlterationID()
+        public int CalculateMineralAlterationID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
         #endregion
 

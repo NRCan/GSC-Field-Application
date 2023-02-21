@@ -924,7 +924,7 @@ namespace GSCFieldApp.ViewModels
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = ma.MAID,
+                                itemValue = ma.MAID.ToString(),
                                 itemName = ma.MAName
                             };
                             _relatedIDs.Add(newItem);

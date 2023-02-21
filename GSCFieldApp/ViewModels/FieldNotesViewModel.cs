@@ -1035,7 +1035,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedMineralAlt.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(currentMinealAlt.isValid, currentMinealAlt.MAID, currentDetailReport.MainID);
+                        ValidateCheck(currentMinealAlt.isValid, currentMinealAlt.MAID.ToString(), currentDetailReport.MainID);
 
                     }
 
@@ -2078,7 +2078,7 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == int.Parse(_reportDetailedMineralAlt[_reportMineralizationAlterationIndex].GenericID) select e;
                 if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
                 {
-                    FillMineralFromParent(mineralParentEarth, int.Parse(_reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID));
+                    FillMineralFromParent(mineralParentEarth, _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID);
 
                     //Manage header opacity
                     mineralRecordCount = mineralParentEarth.Count();
@@ -2110,11 +2110,11 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of minerals from parent
                 IEnumerable<int> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
-                IEnumerable<string> mineralizationAlterationFromStation = from ma in maTable join stat in stationTable on ma.MAParentID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select ma.MAID;
+                IEnumerable<int> mineralizationAlterationFromStation = from ma in maTable join stat in stationTable on ma.MAParentID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select ma.MAID;
 
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Mineral> minParent = from smp in mineralTable join e2 in earthTable on smp.MineralEMID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
-                IEnumerable<Mineral> minParentMA = from min in mineralTable join ma in maTable on min.MineralMAID equals int.Parse(ma.MAID) where mineralizationAlterationFromStation.Contains(ma.MAID) select min;
+                IEnumerable<Mineral> minParentMA = from min in mineralTable join ma in maTable on min.MineralMAID equals ma.MAID where mineralizationAlterationFromStation.Contains(ma.MAID) select min;
 
                 if (minParent.Count() != 0 || minParent != null || minParentMA.Count() != 0 || minParentMA!= null)
                 {

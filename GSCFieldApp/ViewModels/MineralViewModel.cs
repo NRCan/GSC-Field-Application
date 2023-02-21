@@ -165,7 +165,7 @@ namespace GSCFieldApp.ViewModels
                 }
                 else if (inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
                 {
-                    _mineralMAID = int.Parse(inReportModel.mineralAlteration.MAID);
+                    _mineralMAID = inReportModel.mineralAlteration.MAID;
                 }
             }
             else if (inReportModel.earthmat.EarthMatID != 0) //Case mineral is created from earthmat dialog
@@ -175,12 +175,12 @@ namespace GSCFieldApp.ViewModels
                 _mineralParentName = Dictionaries.DatabaseLiterals.TableEarthMat;
                 _mineralEMID = inReportModel.earthmat.EarthMatID;
             }
-            else if (inReportModel.mineralAlteration.MAID != null) //Case mineral is created from mineral alteration dialog
+            else if (inReportModel.mineralAlteration.MAID != 0) //Case mineral is created from mineral alteration dialog
             {
-                _mineralParentID = int.Parse(inReportModel.mineralAlteration.MAID);
+                _mineralParentID = inReportModel.mineralAlteration.MAID;
                 _mineralParentAlias = inReportModel.mineralAlteration.MAName;
                 _mineralParentName = Dictionaries.DatabaseLiterals.TableMineralAlteration;
-                _mineralMAID = int.Parse(inReportModel.mineralAlteration.MAID);
+                _mineralMAID = inReportModel.mineralAlteration.MAID;
             }
 
             if (!forQuick)

@@ -16,7 +16,7 @@ namespace GSCFieldApp.ViewModels
 
         //UI default values
         private string _mineralAltAlias = string.Empty;
-        private string _mineralAltID = string.Empty;
+        private int _mineralAltID = 0;
         private int _mineralAltParentID = 0;
 
         private string _mineralAltNote = string.Empty;
@@ -61,7 +61,7 @@ namespace GSCFieldApp.ViewModels
         public MineralAlteration MineralAltModel { get { return mineralAltModel; } set { mineralAltModel = value; } }
         public string MineralAltAlias { get { return _mineralAltAlias; } set { _mineralAltAlias = value; } }
         public string MineralAltNote { get { return _mineralAltNote; } set { _mineralAltNote = value; } }
-        public string MineralAltID { get { return _mineralAltID; } set { _mineralAltID = value; } }
+        public int MineralAltID { get { return _mineralAltID; } set { _mineralAltID = value; } }
         public int MineralAltParentID { get { return _mineralAltParentID; } set { _mineralAltParentID = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> MineralAltMA { get { return _mineralAltMA; } set { _mineralAltMA = value; } }
@@ -143,7 +143,7 @@ namespace GSCFieldApp.ViewModels
             //Special case for minerals
             List<object> mineralTableRaw = accessData.ReadTable(mineralModel.GetType(), null);
             IEnumerable<Mineral> mineralTable = mineralTableRaw.Cast<Mineral>(); //Cast to proper list type
-            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == int.Parse(_mineralAltID) select e;
+            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == _mineralAltID select e;
             if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
             {
                 foreach (Mineral mns in mineralParentEarth)
@@ -229,7 +229,7 @@ namespace GSCFieldApp.ViewModels
                     maModelToSave.mineralAlteration = mineralAltModel;
                     MineralViewModel minVM = new MineralViewModel(maModelToSave, true);
 
-                    minVM.QuickMineralRecordOnly(int.Parse(mineralAltModel.MAID), listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                    minVM.QuickMineralRecordOnly(mineralAltModel.MAID, listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
                 }
 
             }
