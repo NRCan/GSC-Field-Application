@@ -1556,7 +1556,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedStructure.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(spl.isValid, spl.StructureID, currentDetailReport.MainID);
+                        ValidateCheck(spl.isValid, spl.StructureID.ToString(), currentDetailReport.MainID);
                     }
 
 
@@ -1606,7 +1606,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedStructure.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(spl.isValid, spl.StructureID, currentDetailReport.MainID);
+                        ValidateCheck(spl.isValid, spl.StructureID.ToString(), currentDetailReport.MainID);
                     }
                 }
 
@@ -1664,7 +1664,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedStructure.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(spl.isValid, spl.StructureID, currentDetailReport.MainID);
+                        ValidateCheck(spl.isValid, spl.StructureID.ToString(), currentDetailReport.MainID);
                     }
                 }
 

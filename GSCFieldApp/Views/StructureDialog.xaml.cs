@@ -147,7 +147,7 @@ namespace GSCFieldApp.Views
             ComboBox cb = sender as ComboBox;
             if (cb.SelectedValue != null)
             {
-                string strucID = cb.SelectedValue.ToString();
+                int strucID = int.Parse(cb.SelectedValue.ToString());
                 Structure result = accessData.GetRelatedStructure(strucID);
 
                 if (result != null)

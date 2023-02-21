@@ -2696,7 +2696,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="StrucId"></param>
         /// <returns></returns>
-        public Structure GetRelatedStructure(string StrucId)
+        public Structure GetRelatedStructure(int StrucId)
         {
             Structure relatedStructure = new Structure();
             using (var db = DbConnection)

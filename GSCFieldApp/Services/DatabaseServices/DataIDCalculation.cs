@@ -513,9 +513,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID for structure table
         /// </summary>
         /// <returns></returns>
-        public string CalculateStructureID()
+        public int CalculateStructureID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>

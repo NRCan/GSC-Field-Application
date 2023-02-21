@@ -1092,14 +1092,14 @@ namespace GSCFieldApp.ViewModels
                         {
                             //Structure pairs tracking
                             //Key = record ID, Value = priority number for placement
-                            Dictionary<string, int> strucPairs = new Dictionary<string, int>();
+                            Dictionary<int, int> strucPairs = new Dictionary<int, int>();
                             int iteration = 1;
                             foreach (Structure sts in strucTableRows)
                             {
                                 //Manage pair tracking for pool placement 
                                 if (!strucPairs.ContainsKey(sts.StructureID))
                                 {
-                                    if (sts.StructureRelated != null && sts.StructureRelated != String.Empty && sts.StructureRelated != DatabaseLiterals.picklistNACode)
+                                    if (sts.StructureRelated != 0)
                                     {
                                         //Get related struc placement priority
                                         strucPairs[sts.StructureID] = strucPairs[sts.StructureRelated];
