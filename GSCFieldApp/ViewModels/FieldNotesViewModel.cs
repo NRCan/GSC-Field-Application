@@ -1731,7 +1731,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedFossil.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(fss.isValid, fss.FossilID, currentDetailReport.MainID);
+                        ValidateCheck(fss.isValid, fss.FossilID.ToString(), currentDetailReport.MainID);
                     }
 
 
@@ -1781,7 +1781,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedFossil.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(fss.isValid, fss.FossilID, currentDetailReport.MainID);
+                        ValidateCheck(fss.isValid, fss.FossilID.ToString(), currentDetailReport.MainID);
                     }
                 }
 
@@ -1838,7 +1838,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedFossil.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(fss.isValid, fss.FossilID, currentDetailReport.MainID);
+                        ValidateCheck(fss.isValid, fss.FossilID.ToString(), currentDetailReport.MainID);
                     }
                 }
 

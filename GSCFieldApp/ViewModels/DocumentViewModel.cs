@@ -872,7 +872,7 @@ namespace GSCFieldApp.ViewModels
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = fs.FossilID,
+                                itemValue = fs.FossilID.ToString(),
                                 itemName = fs.FossilIDName
                             };
                             _relatedIDs.Add(newItem);

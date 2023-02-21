@@ -9,11 +9,9 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableFossil)]
     public class Fossil
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
-        public string rowid { get; set; }
 
-        [Column(DatabaseLiterals.FieldFossilID)]
-        public string FossilID { get; set; }
+        [PrimaryKey, Column(DatabaseLiterals.FieldFossilID)]
+        public int FossilID { get; set; }
 
         [Column(DatabaseLiterals.FieldFossilName)]
         public string FossilIDName { get; set; }
@@ -64,7 +62,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> fossilFieldList = new Dictionary<double, List<string>>();
                 List<string> fossilFieldListDefault = new List<string>();
 
-                fossilFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                fossilFieldListDefault.Add(DatabaseLiterals.FieldFossilID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -77,10 +75,10 @@ namespace GSCFieldApp.Models
                 fossilFieldList[DatabaseLiterals.DBVersion] = fossilFieldListDefault;
 
                 //Revert shcema 1.7 changes
-                List<string> fossilFieldList160 = new List<string>();
-                fossilFieldList160.AddRange(fossilFieldListDefault);
-                fossilFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                fossilFieldList[DatabaseLiterals.DBVersion160] = fossilFieldList160;
+                //List<string> fossilFieldList160 = new List<string>();
+                //fossilFieldList160.AddRange(fossilFieldListDefault);
+                //fossilFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //fossilFieldList[DatabaseLiterals.DBVersion160] = fossilFieldList160;
 
 
                 return fossilFieldList;

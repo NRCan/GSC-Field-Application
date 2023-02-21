@@ -17,7 +17,7 @@ namespace GSCFieldApp.ViewModels
 
         public string _fossilNote = string.Empty;//Default
         public int _fossilParentID = 0;
-        public string _fossilID = string.Empty;
+        public int _fossilID = 0;
         public string _fossilName = string.Empty;
 
         //Model init
@@ -35,7 +35,7 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
         public string FossilNote { get { return _fossilNote; } set { _fossilNote = value; } }
         public int FossilParentID { get { return _fossilParentID; } set { _fossilParentID = value; } }
-        public string FossilID { get { return _fossilID; } set { _fossilID = value; } }
+        public int FossilID { get { return _fossilID; } set { _fossilID = value; } }
         public string FossilName { get { return _fossilName; } set { _fossilName = value; } }
         public List<Themes.ComboBoxItem> FossilType { get { return _fossilType; } set { _fossilType = value; } }
         public string SelectedFossilType { get { return _selectedFossilType; } set { _selectedFossilType = value; } }

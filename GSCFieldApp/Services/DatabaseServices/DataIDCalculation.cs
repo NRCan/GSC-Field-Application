@@ -652,9 +652,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate an generic ID for fossil table.
         /// </summary>
         /// <returns></returns>
-        public string CalculateFossilID()
+        public int CalculateFossilID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>
