@@ -77,7 +77,7 @@
 
         public bool Validate()
         {
-            if ((station.StationID != null && !station.isValid) || (earthmat.EarthMatID != null && !earthmat.isValid) || (sample.SampleID != null && !sample.isValid) ||
+            if ((station.StationID != 0 && !station.isValid) || (earthmat.EarthMatID != 0 && !earthmat.isValid) || (sample.SampleID != null && !sample.isValid) ||
             (fossil.FossilID != null && !fossil.isValid) || (document.DocumentID != null && !document.isValid) || (structure.StructureID != null && !structure.isValid) ||
             (paleoflow.PFlowID != null && !paleoflow.isValid))
             {

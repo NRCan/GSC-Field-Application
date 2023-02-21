@@ -20,7 +20,7 @@ namespace GSCFieldApp.ViewModels
         private EarthMaterial earthmodel = new EarthMaterial();
         private readonly Mineral mineralModel = new Mineral();
         private string _alias = string.Empty; //Default
-        private string _earthmatid = string.Empty; //Default
+        private int _earthmatid = 0; //Default
         private int _stationid = 0; //Detault
         private string _colourindex = "0";//Detault
         private string _percent = "0"; //Default
@@ -45,7 +45,7 @@ namespace GSCFieldApp.ViewModels
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
         readonly DataLocalSettings localSetting = new DataLocalSettings();
 
-        private Dictionary<string, int> _earthResidualPercent = new Dictionary<string, int>(); //Will contain earth material Id and it's percent, for residual percent calculation
+        private Dictionary<int, int> _earthResidualPercent = new Dictionary<int, int>(); //Will contain earth material Id and it's percent, for residual percent calculation
 
         public FieldNotes existingDataDetail;
        
@@ -123,7 +123,7 @@ namespace GSCFieldApp.ViewModels
         public EarthMaterial EarthModel { get { return earthmodel; } set { earthmodel = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
         public int StationID { get { return _stationid; } set { _stationid = value; } }
-        public string EarthmatID { get { return _earthmatid; } set { _earthmatid = value; } }
+        public int EarthmatID { get { return _earthmatid; } set { _earthmatid = value; } }
         public string MagSusceptibility
         {
             get
@@ -1508,7 +1508,7 @@ namespace GSCFieldApp.ViewModels
 
                     int currentPercentage = ets.EarthMatPercent;
                     bool currentPercentParsed = true;
-                    if (ets.EarthMatID == existingDataDetail.GenericID)
+                    if (ets.EarthMatID == int.Parse(existingDataDetail.GenericID))
                     {
                         if (newMode != string.Empty)
                         {
@@ -1538,7 +1538,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     int currentPercentage = 0;
                     bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                    _earthResidualPercent[existingDataDetail.GenericID] = currentPercentage;
+                    _earthResidualPercent[int.Parse(existingDataDetail.GenericID)] = currentPercentage;
                 }
 
             }
@@ -1546,13 +1546,13 @@ namespace GSCFieldApp.ViewModels
             {
                 int currentPercentage = 0;
                 bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                _earthResidualPercent[existingDataDetail.GenericID] = currentPercentage;
+                _earthResidualPercent[int.Parse(existingDataDetail.GenericID)] = currentPercentage;
             }
 
 
             //Calculate total percentage
             int _earthResidual = 0;
-            foreach (KeyValuePair<string, int> modes in _earthResidualPercent)
+            foreach (KeyValuePair<int, int> modes in _earthResidualPercent)
             {
                 _earthResidual = _earthResidual + modes.Value;
             }

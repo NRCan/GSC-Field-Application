@@ -953,7 +953,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedEarthmat.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(currentEarth.isValid, currentEarth.EarthMatID, currentDetailReport.MainID);
+                        ValidateCheck(currentEarth.isValid, currentEarth.EarthMatID.ToString(), currentDetailReport.MainID);
 
                     }
                 }
@@ -1351,7 +1351,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Sample> sampleParentEarth = from e in sampleTable where e.SampleEarthmatID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
+                IEnumerable<Sample> sampleParentEarth = from e in sampleTable where e.SampleEarthmatID == int.Parse(_reportDetailedEarthmat[_reportEarthmatIndex].GenericID) select e;
                 if (sampleParentEarth.Count() != 0 || sampleParentEarth != null)
                 {
                     foreach (Sample spl in sampleParentEarth)
@@ -1367,7 +1367,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldSampleID,
                             GenericAliasName = spl.SampleName,
 
-                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[_reportStationIndex].station.LocationID.ToString()
@@ -1402,7 +1402,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Sample> sampleParent = from e in sampleTable where e.SampleEarthmatID == _reportDetailSample[_reportSampleIndex].ParentID select e;
+                IEnumerable<Sample> sampleParent = from e in sampleTable where e.SampleEarthmatID == int.Parse(_reportDetailSample[_reportSampleIndex].ParentID) select e;
 
                 if (sampleParent.Count() != 0 || sampleParent != null)
                 {
@@ -1418,7 +1418,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldSampleID,
                             GenericAliasName = spl.SampleName,
 
-                            ParentID = _reportDetailSample[_reportSampleIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailSample[_reportSampleIndex].earthmat.EarthMatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1456,7 +1456,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of all samples from selected station
                 //Get a list of earthmat ids from selected stationID
-                IEnumerable<string> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
+                IEnumerable<int> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
 
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Sample> sampleParent_ = from smp in sampleTable join e2 in earthTable on smp.SampleEarthmatID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
@@ -1475,7 +1475,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldSampleID,
                             GenericAliasName = spl.SampleName,
 
-                            ParentID = spl.SampleEarthmatID, //TO keep the link with earthmat table
+                            ParentID = spl.SampleEarthmatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1531,7 +1531,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Structure> structParentEarth = from e in structureTable where e.StructureParentID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
+                IEnumerable<Structure> structParentEarth = from e in structureTable where e.StructureParentID == int.Parse(_reportDetailedEarthmat[_reportEarthmatIndex].GenericID) select e;
                 if (structParentEarth.Count() != 0 || structParentEarth != null)
                 {
                     foreach (Structure spl in structParentEarth)
@@ -1547,7 +1547,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldStructureID,
                             GenericAliasName = spl.StructureName,
 
-                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1581,7 +1581,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Structure> strucParent = from e in structureTable where e.StructureParentID == _reportDetailedStructure[_reportStructureIndex].ParentID select e;
+                IEnumerable<Structure> strucParent = from e in structureTable where e.StructureParentID == int.Parse(_reportDetailedStructure[_reportStructureIndex].ParentID) select e;
 
                 if (strucParent.Count() != 0 || strucParent != null)
                 {
@@ -1597,7 +1597,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldStructureID,
                             GenericAliasName = spl.StructureName,
 
-                            ParentID = _reportDetailedStructure[_reportStructureIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailedStructure[_reportStructureIndex].earthmat.EarthMatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1636,7 +1636,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of all samples from selected station
                 //Get a list of earthmat ids from selected stationID
-                IEnumerable<string> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
+                IEnumerable<int> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
 
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Structure> stParent = from smp in structureTable join e2 in earthTable on smp.StructureParentID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
@@ -1655,7 +1655,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldStructureID,
                             GenericAliasName = spl.StructureName,
 
-                            ParentID = spl.StructureParentID, //TO keep the link with earthmat table
+                            ParentID = spl.StructureParentID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1706,7 +1706,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Fossil> fossilParentEarth = from e in fossilTable where e.FossilParentID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
+                IEnumerable<Fossil> fossilParentEarth = from e in fossilTable where e.FossilParentID == int.Parse(_reportDetailedEarthmat[_reportEarthmatIndex].GenericID) select e;
                 if (fossilParentEarth.Count() != 0 || fossilParentEarth != null)
                 {
                     foreach (Fossil fss in fossilParentEarth)
@@ -1722,7 +1722,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldFossilID,
                             GenericAliasName = fss.FossilIDName,
 
-                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1756,7 +1756,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Fossil> fossilParent = from e in fossilTable where e.FossilParentID == _reportDetailedFossil[_reportFossilIndex].ParentID select e;
+                IEnumerable<Fossil> fossilParent = from e in fossilTable where e.FossilParentID == int.Parse(_reportDetailedFossil[_reportFossilIndex].ParentID) select e;
 
                 if (fossilParent.Count() != 0 || fossilParent != null)
                 {
@@ -1772,7 +1772,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldFossilID,
                             GenericAliasName = fss.FossilIDName,
 
-                            ParentID = _reportDetailedFossil[_reportFossilIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailedFossil[_reportFossilIndex].earthmat.EarthMatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1810,7 +1810,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of all samples from selected station
                 //Get a list of earthmat ids from selected stationID
-                IEnumerable<string> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
+                IEnumerable<int> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
 
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Fossil> stParent = from smp in fossilTable join e2 in earthTable on smp.FossilParentID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
@@ -1829,7 +1829,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldFossilID,
                             GenericAliasName = fss.FossilIDName,
 
-                            ParentID = fss.FossilParentID, //TO keep the link with earthmat table
+                            ParentID = fss.FossilParentID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1879,7 +1879,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Paleoflow> pflowParentEarth = from e in pflowTable where e.PFlowParentID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
+                IEnumerable<Paleoflow> pflowParentEarth = from e in pflowTable where e.PFlowParentID == int.Parse(_reportDetailedEarthmat[_reportEarthmatIndex].GenericID) select e;
                 if (pflowParentEarth.Count() != 0 || pflowParentEarth != null)
                 {
                     foreach (Paleoflow pf in pflowParentEarth)
@@ -1895,7 +1895,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldPFlowID,
                             GenericAliasName = pf.PFlowName,
 
-                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
@@ -1927,7 +1927,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Paleoflow> pflowParent = from e in pflowTable where e.PFlowParentID == _reportDetailedPflow[_reportPflowIndex].ParentID select e;
+                IEnumerable<Paleoflow> pflowParent = from e in pflowTable where e.PFlowParentID == int.Parse(_reportDetailedPflow[_reportPflowIndex].ParentID) select e;
 
                 if (pflowParent.Count() != 0 || pflowParent != null)
                 {
@@ -1943,7 +1943,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldPFlowID,
                             GenericAliasName = pf.PFlowName,
 
-                            ParentID = _reportDetailedPflow[_reportPflowIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailedPflow[_reportPflowIndex].earthmat.EarthMatID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
@@ -1981,7 +1981,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of all samples from selected station
                 //Get a list of earthmat ids from selected stationID
-                IEnumerable<string> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
+                IEnumerable<int> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
 
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Paleoflow> pfParent = from smp in pflowTable join e2 in earthTable on smp.PFlowParentID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
@@ -2000,7 +2000,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldPFlowID,
                             GenericAliasName = pf.PFlowName,
 
-                            ParentID = pf.PFlowParentID, //TO keep the link with earthmat table
+                            ParentID = pf.PFlowParentID.ToString(), //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID.ToString()
                         };
@@ -2049,7 +2049,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
+                IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == int.Parse(_reportDetailedEarthmat[_reportEarthmatIndex].GenericID) select e;
                 if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
                 {
                     FillMineralFromParent(mineralParentEarth, _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID);
@@ -2075,10 +2075,10 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].GenericID select e;
+                IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == int.Parse(_reportDetailedMineralAlt[_reportMineralizationAlterationIndex].GenericID) select e;
                 if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
                 {
-                    FillMineralFromParent(mineralParentEarth, _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID);
+                    FillMineralFromParent(mineralParentEarth, int.Parse(_reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID));
 
                     //Manage header opacity
                     mineralRecordCount = mineralParentEarth.Count();
@@ -2109,17 +2109,17 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<MineralAlteration> maTable = maTableRaw.Cast<MineralAlteration>(); //Cast to proper list type
 
                 //Get a list of minerals from parent
-                IEnumerable<string> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
+                IEnumerable<int> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select e.EarthMatID;
                 IEnumerable<string> mineralizationAlterationFromStation = from ma in maTable join stat in stationTable on ma.MAParentID equals stat.StationID where stat.StationID == int.Parse(_reportDetailedStation[_reportStationIndex].GenericID) select ma.MAID;
 
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Mineral> minParent = from smp in mineralTable join e2 in earthTable on smp.MineralEMID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
-                IEnumerable<Mineral> minParentMA = from min in mineralTable join ma in maTable on min.MineralMAID equals ma.MAID where mineralizationAlterationFromStation.Contains(ma.MAID) select min;
+                IEnumerable<Mineral> minParentMA = from min in mineralTable join ma in maTable on min.MineralMAID equals int.Parse(ma.MAID) where mineralizationAlterationFromStation.Contains(ma.MAID) select min;
 
                 if (minParent.Count() != 0 || minParent != null || minParentMA.Count() != 0 || minParentMA!= null)
                 {
                     minParent = minParent.Concat<Mineral>(minParentMA);
-                    FillMineralFromParent(minParent, _reportDetailedStation[_reportStationIndex].GenericID);
+                    FillMineralFromParent(minParent, int.Parse(_reportDetailedStation[_reportStationIndex].GenericID));
                 }
 
                 //Manage header opacity
@@ -2142,7 +2142,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="parentCollection"></param>
         /// <param name="parentID"></param>
-        private void FillMineralFromParent(IEnumerable<Mineral> parentCollection, string parentID)
+        private void FillMineralFromParent(IEnumerable<Mineral> parentCollection, int parentID)
         {
             foreach (Mineral m in parentCollection)
             {
@@ -2157,19 +2157,19 @@ namespace GSCFieldApp.ViewModels
                     GenericAliasName = m.MineralIDName
                 };
 
-                if (parentID == string.Empty && m.MineralEMID != null)
+                if (parentID == 0 && m.MineralEMID != 0)
                 {
                     currentDetailReport.ParentID = m.MineralEMID.ToString(); //TO keep the link with earthmat table
                     currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
                 }
-                else if (parentID == string.Empty && m.MineralMAID != null)
+                else if (parentID == 0 && m.MineralMAID != 0)
                 {
                     currentDetailReport.ParentID = m.MineralMAID.ToString(); //TO keep the link with earthmat table
                     currentDetailReport.ParentTableName = DatabaseLiterals.TableMineralAlteration; //To keep the link with location table.
                 }
                 else
                 {
-                    currentDetailReport.ParentID = parentID; //TO keep the link with earthmat table
+                    currentDetailReport.ParentID = parentID.ToString(); //TO keep the link with earthmat table
                 }
                 
                 

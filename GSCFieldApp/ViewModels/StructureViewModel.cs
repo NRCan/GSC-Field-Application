@@ -44,7 +44,7 @@ namespace GSCFieldApp.ViewModels
         private string _structSense = string.Empty; //Default
         private string _structNote = string.Empty; //Default
         private string _structID = string.Empty; //Default
-        private string _structParentID = string.Empty; //Default
+        private int _structParentID = 0; //Default
         private string _structName = string.Empty; //Default
         private string _structClass = string.Empty;
         private string _structType = string.Empty;
@@ -73,7 +73,7 @@ namespace GSCFieldApp.ViewModels
         public string StructType { get { return _structType; } set { _structType = value; } }
         public string StructID { get { return _structID; } set { _structID = value; } }
         public string StructName { get { return _structName; } set { _structName = value; } }
-        public string StructParentID { get { return _structParentID; } set { _structParentID = value; } }
+        public int StructParentID { get { return _structParentID; } set { _structParentID = value; } }
         public string StructClassTypeDetail { get { return _strucclasstypedetail; } set { _strucclasstypedetail = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StructFormat { get { return _structFormat; } set { _structFormat = value; } }
         public string SelectedStructFormat { get { return _selectedStructFormat; } set { _selectedStructFormat = value; } }
@@ -172,7 +172,7 @@ namespace GSCFieldApp.ViewModels
         public StructureViewModel(FieldNotes inReport)
         {
             //On init for new samples calculates values for default UI form
-            _structParentID = inReport.GenericID;
+            _structParentID = int.Parse(inReport.GenericID);
             _structID = structureCalculator.CalculateStructureID();
             _structName = structureCalculator.CalculateStructureAlias(_structParentID, inReport.earthmat.EarthMatName);
 
@@ -245,7 +245,7 @@ namespace GSCFieldApp.ViewModels
             {
                 foreach (Structure st in strucTable)
                 {
-                    if (st.StructureID != _structID && st.StructureID != _structParentID)
+                    if (st.StructureID != _structID && st.StructureID != _structParentID.ToString())
                     {
                         Themes.ComboBoxItem structItem = new Themes.ComboBoxItem
                         {

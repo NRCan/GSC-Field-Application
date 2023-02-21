@@ -61,7 +61,7 @@ namespace GSCFieldApp.Models
         public string PFlowNotes { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowParentID)]
-        public string PFlowParentID { get; set; }
+        public int PFlowParentID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;

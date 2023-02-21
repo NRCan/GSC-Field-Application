@@ -19,7 +19,7 @@ namespace GSCFieldApp.ViewModels
         
         private string _sampleAlias = string.Empty;
         private string _sampleID = string.Empty;
-        private string _sampleEartmatID = string.Empty;
+        private int _sampleEartmatID = 0;
 
         private string _sampleNote = string.Empty;
         private string _sampleAzim = string.Empty; //Default
@@ -81,7 +81,7 @@ namespace GSCFieldApp.ViewModels
 
         public string SampleNote { get { return _sampleNote; } set { _sampleNote = value; } }
         public string SampleID { get { return _sampleID; } set { _sampleID = value; } }
-        public string SampleEarthmatID { get { return _sampleEartmatID; } set { _sampleEartmatID = value; } }
+        public int SampleEarthmatID { get { return _sampleEartmatID; } set { _sampleEartmatID = value; } }
         public string SampleDuplicateName { get { return _sampleDuplicateName; } set { _sampleDuplicateName = value; } }
 
         public bool IsSampleDuplicate { get { return _isSampleDuplicate; } set { _isSampleDuplicate = value; } }
@@ -245,7 +245,7 @@ namespace GSCFieldApp.ViewModels
         public SampleViewModel(FieldNotes inDetailModel)
         {
             //On init for new samples calculates values for default UI form
-            _sampleEartmatID = inDetailModel.GenericID;
+            _sampleEartmatID = int.Parse(inDetailModel.GenericID);
             _sampleID = sampleIDCalculator.CalculateSampleID();
             _sampleAlias = sampleIDCalculator.CalculateSampleAlias(_sampleEartmatID, inDetailModel.earthmat.EarthMatName);
 
@@ -272,7 +272,7 @@ namespace GSCFieldApp.ViewModels
             //Set
             _sampleID = existingDataDetailSample.sample.SampleID;
             _sampleNote = existingDataDetailSample.sample.SampleNotes;
-            _sampleEartmatID = existingDataDetailSample.ParentID;
+            _sampleEartmatID = int.Parse(existingDataDetailSample.ParentID);
             _sampleAlias = existingDataDetailSample.sample.SampleName;
             _selectedSampleType = existingDataDetailSample.sample.SampleType;
             _selectedSampleSurface = existingDataDetailSample.sample.SampleSurface;

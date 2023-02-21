@@ -2060,7 +2060,7 @@ namespace GSCFieldApp.ViewModels
         {
             // Get select station information
             var tupleStation = queryStation(graphicID);
-            string stationId = tupleStation.Item1;
+            int stationId = tupleStation.Item1;
             string stationDate = tupleStation.Item2;
             string stationTime = tupleStation.Item3;
 
@@ -2068,46 +2068,46 @@ namespace GSCFieldApp.ViewModels
             var tupleEarthmat = queryEarthmat(stationId);
             string earthmatDetail = tupleEarthmat.Item1;
             int earthmatCount = tupleEarthmat.Item2;
-            List<string> earthmatidList = tupleEarthmat.Item3;
+            List<int> earthmatidList = tupleEarthmat.Item3;
 
             // Get select ma information
             MineralAlteration modelMineralAlteration = new MineralAlteration();
-            int maCount = CountChild(stationId, Dictionaries.DatabaseLiterals.FieldMineralAlterationRelID, Dictionaries.DatabaseLiterals.TableMineralAlteration, modelMineralAlteration);
+            int maCount = CountChild(stationId.ToString(), Dictionaries.DatabaseLiterals.FieldMineralAlterationRelID, Dictionaries.DatabaseLiterals.TableMineralAlteration, modelMineralAlteration);
 
             // Get select document information
             Document modelDocument = new Document();
-            int documentCount = CountChild(stationId, Dictionaries.DatabaseLiterals.FieldDocumentRelatedID, Dictionaries.DatabaseLiterals.TableDocument, modelDocument);
+            int documentCount = CountChild(stationId.ToString(), Dictionaries.DatabaseLiterals.FieldDocumentRelatedID, Dictionaries.DatabaseLiterals.TableDocument, modelDocument);
 
             // getting the count for the children sample, mineral, fossil, structure 
             int sampleTotalCount = 0;
-            foreach (string earthmatId in earthmatidList)
+            foreach (int earthmatId in earthmatidList)
             {
                 Sample modelSample = new Sample();
-                int sampleCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableSample, modelSample);
+                int sampleCount = CountChild(earthmatId.ToString(), Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableSample, modelSample);
                 sampleTotalCount += sampleCount;
             }
 
             int structureTotalCount = 0;
-            foreach (string earthmatId in earthmatidList)
+            foreach (int earthmatId in earthmatidList)
             {
                 Structure modelStructure = new Structure();
-                int structureCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableStructure, modelStructure);
+                int structureCount = CountChild(earthmatId.ToString(), Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableStructure, modelStructure);
                 structureTotalCount += structureCount;
             }
 
             int mineralTotalCount = 0;
-            foreach (string earthmatId in earthmatidList)
+            foreach (int earthmatId in earthmatidList)
             {
                 Mineral modelMineral = new Mineral();
-                int mineralCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableMineral, modelMineral);
+                int mineralCount = CountChild(earthmatId.ToString(), Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableMineral, modelMineral);
                 mineralTotalCount += mineralCount;
             }
 
             int fossilTotalCount = 0;
-            foreach (string earthmatId in earthmatidList)
+            foreach (int earthmatId in earthmatidList)
             {
                 Fossil modelFossil = new Fossil();
-                int fossilCount = CountChild(earthmatId, Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableFossil, modelFossil);
+                int fossilCount = CountChild(earthmatId.ToString(), Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableFossil, modelFossil);
                 fossilTotalCount += fossilCount;
             }
 
@@ -2215,10 +2215,10 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region METHODS
-        private Tuple<string, string, string> queryStation(string id)
+        private Tuple<int, string, string> queryStation(string id)
         {
             Station stationModel = new Station();
-            string stationId = "";
+            int stationId = 0;
             string stationDate = "";
             string stationTime = "";
 
@@ -2232,29 +2232,29 @@ namespace GSCFieldApp.ViewModels
             {
                 foreach (Station station in stationTable)
                 {
-                    stationId = station.StationID.ToString();
+                    stationId = station.StationID;
                     stationDate = station.StationVisitDate.ToString();
                     stationTime = station.StationVisitTime.ToString();
                 }
             }
 
-            return new Tuple<string, string, string>(stationId, stationDate, stationTime);
+            return new Tuple<int, string, string>(stationId, stationDate, stationTime);
         }
 
-        private Tuple<string, int, List<string>> queryEarthmat(string id)
+        private Tuple<string, int, List<int>> queryEarthmat(int id)
         {
             EarthMaterial earthmatModel = new EarthMaterial();
             string earthmatDetail = "";
 
             string earthmatQuerySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableEarthMat;
-            string earthmatQueryWhere = " WHERE STATIONID " + " = '" + id + "'";
+            string earthmatQueryWhere = " WHERE STATIONID " + " = " + id.ToString();
             string earthmatQueryFinal = earthmatQuerySelect + earthmatQueryWhere;
 
             List<object> earthmatResults = accessData.ReadTable(earthmatModel.GetType(), earthmatQueryFinal);
             IEnumerable<EarthMaterial> earthmatTable = earthmatResults.Cast<EarthMaterial>();
             int earthmatCount = earthmatTable.Count();
 
-            List<string> earthmatidList = new List<string>();
+            List<int> earthmatidList = new List<int>();
             string tempMaterial = "";
             if (earthmatTable.Count() != 0)
             {
@@ -2274,9 +2274,10 @@ namespace GSCFieldApp.ViewModels
                 }
             }
 
-            return new Tuple<string, int, List<string>>(earthmatDetail, earthmatCount, earthmatidList);
+            return new Tuple<string, int, List<int>>(earthmatDetail, earthmatCount, earthmatidList);
         }
 
+        //TODO 215
         private int CountChild(string idValue, string fieldName, string tableName, object modelType)
         {
             string querySelect = "SELECT * FROM " + tableName;
@@ -3023,7 +3024,7 @@ namespace GSCFieldApp.ViewModels
 
                     esriMap.Basemap.BaseLayers.Clear();
 
-                    bool firstIteration = true;
+                    //bool firstIteration = true;
                     ObservableCollection<MapPageLayers> newFileList = new ObservableCollection<MapPageLayers>();
                     foreach (MapPageLayers orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
                     {

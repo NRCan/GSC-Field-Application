@@ -45,10 +45,10 @@ namespace GSCFieldApp.Models
         public string MineralNote { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralEMID)]
-        public string MineralEMID { get; set; }
+        public int MineralEMID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralMAID)]
-        public string MineralMAID { get; set; }
+        public int MineralMAID { get; set; }
 
 
         /// <summary>

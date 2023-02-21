@@ -46,7 +46,7 @@ namespace GSCFieldApp.Models
         public string SampleSMID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleEarthmatID)]
-        public string SampleEarthmatID { get; set; }
+        public int SampleEarthmatID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleQuality)]
         public string SampleQuality { get; set; }

@@ -416,7 +416,7 @@ namespace GSCFieldApp.ViewModels
                     documentModel.DocumentType = SelectedDocType;
                 }
 
-                if (SelectedRelatedTable != null && SelectedRelatedID != null)
+                if (SelectedRelatedTable != null && SelectedRelatedID != 0)
                 {
                     documentModel.RelatedTable = SelectedRelatedTable;
                     documentModel.RelatedID = SelectedRelatedID;
@@ -768,7 +768,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     processedStationID = int.Parse(selectedStationSummaryDocument.ParentID);
                 }
-                if (selectedStationSummaryDocument.station.StationID != null && selectedStationSummaryDocument.station.StationID != 0)
+                if (selectedStationSummaryDocument.station.StationID != 0 && selectedStationSummaryDocument.station.StationID != 0)
                 {
                     processedStationID = selectedStationSummaryDocument.station.StationID;
                 }
@@ -802,7 +802,7 @@ namespace GSCFieldApp.ViewModels
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = ea.EarthMatID,
+                                itemValue = ea.EarthMatID.ToString(),
                                 itemName = ea.EarthMatName
                             };
                             _relatedIDs.Add(newItem);

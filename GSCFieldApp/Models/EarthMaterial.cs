@@ -10,11 +10,8 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableEarthMat)]
     public class EarthMaterial
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
-        public string rowid { get; set; }
-
-        [Column(DatabaseLiterals.FieldEarthMatID)]
-        public string EarthMatID { get; set; }
+        [PrimaryKey, Column(DatabaseLiterals.FieldEarthMatID)]
+        public int EarthMatID { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatName)]
         public string EarthMatName { get; set; }
@@ -174,7 +171,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> earthmatFieldList = new Dictionary<double, List<string>>();
                 List<string> earthmatFieldListDefault = new List<string>();
 
-                earthmatFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                earthmatFieldListDefault.Add(DatabaseLiterals.FieldEarthMatID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -187,14 +184,14 @@ namespace GSCFieldApp.Models
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
 
                 //Revert shcema 1.7 changes
-                List<string> earthmatFieldList160 = new List<string>();
-                earthmatFieldList160.AddRange(earthmatFieldListDefault);
-                earthmatFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                earthmatFieldList[DatabaseLiterals.DBVersion160] = earthmatFieldList160;
+                //List<string> earthmatFieldList160 = new List<string>();
+                //earthmatFieldList160.AddRange(earthmatFieldListDefault);
+                //earthmatFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //earthmatFieldList[DatabaseLiterals.DBVersion160] = earthmatFieldList160;
 
                 //Revert schema 1.6 changes. 
                 List<string> earthmatFieldList15 = new List<string>();
-                earthmatFieldList15.AddRange(earthmatFieldList160);
+                earthmatFieldList15.AddRange(earthmatFieldListDefault);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatPercent);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMagQualifier);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaIntensity);

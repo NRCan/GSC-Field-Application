@@ -16,7 +16,7 @@ namespace GSCFieldApp.ViewModels
         private string _selectedFossilType = string.Empty;
 
         public string _fossilNote = string.Empty;//Default
-        public string _fossilParentID = string.Empty;
+        public int _fossilParentID = 0;
         public string _fossilID = string.Empty;
         public string _fossilName = string.Empty;
 
@@ -34,7 +34,7 @@ namespace GSCFieldApp.ViewModels
 
         #region PROPERTIES
         public string FossilNote { get { return _fossilNote; } set { _fossilNote = value; } }
-        public string FossilParentID { get { return _fossilParentID; } set { _fossilParentID = value; } }
+        public int FossilParentID { get { return _fossilParentID; } set { _fossilParentID = value; } }
         public string FossilID { get { return _fossilID; } set { _fossilID = value; } }
         public string FossilName { get { return _fossilName; } set { _fossilName = value; } }
         public List<Themes.ComboBoxItem> FossilType { get { return _fossilType; } set { _fossilType = value; } }
@@ -47,7 +47,7 @@ namespace GSCFieldApp.ViewModels
         public FossilViewModel(FieldNotes inReportDetail)
         {
             //On init for new samples calculates values for default UI form
-            _fossilParentID = inReportDetail.GenericID;
+            _fossilParentID = int.Parse(inReportDetail.GenericID);
             _fossilID = fossilCalculator.CalculateFossilID();
             _fossilName = fossilCalculator.CalculateFossilAlias(_fossilParentID, inReportDetail.earthmat.EarthMatName);
 

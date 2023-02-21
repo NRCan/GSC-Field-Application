@@ -341,9 +341,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from earth material table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateEarthmatID()
+        public int CalculateEarthmatID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         #endregion
@@ -355,7 +355,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateSampleAlias(string parentID, string parentAlias)
+        public string CalculateSampleAlias(int parentID, string parentAlias)
         {
             //Querying with Linq
             List<object> sampleTableRaw = dAccess.ReadTable(sampleModel.GetType(), null);
@@ -524,7 +524,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateStructureAlias(string parentID, string parentAlias)
+        public string CalculateStructureAlias(int parentID, string parentAlias)
         {
             //Querying with Linq
             List<object> structureTableRaw = dAccess.ReadTable(structModel.GetType(), null);
@@ -594,7 +594,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculatePflowAlias(string parentID, string parentAlias)
+        public string CalculatePflowAlias(int parentID, string parentAlias)
         {
             //Querying with Linq
             List<object> pflowTableRaw = dAccess.ReadTable(pflowModel.GetType(), null);
@@ -664,7 +664,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateFossilAlias(string parentID, string parentAlias)
+        public string CalculateFossilAlias(int parentID, string parentAlias)
         {
             //Querying with Linq
             List<object> fossilTableRaw = dAccess.ReadTable(fossilModel.GetType(), null);
@@ -723,7 +723,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentAlias"></param>
         /// <param name="idAddIncrement">A value to add to ID for increment start, used for bacth calculate</param>
         /// <returns></returns>
-        public string CalculateMineralAlias(string parentID, string parentAlias, int idAddIncrement = 0)
+        public string CalculateMineralAlias(int parentID, string parentAlias, int idAddIncrement = 0)
         {
             //Querying with Linq
             List<object> MineralTableRaw = dAccess.ReadTable(mineralModel.GetType(), null);

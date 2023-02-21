@@ -111,7 +111,7 @@ namespace GSCFieldApp.Models
         public string StructureNotes { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureParentID)]
-        public string StructureParentID { get; set; }
+        public int StructureParentID { get; set; }
 
         private string _structureSymAng = string.Empty;
 

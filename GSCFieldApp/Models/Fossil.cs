@@ -25,7 +25,7 @@ namespace GSCFieldApp.Models
         public string FossilNote { get; set; }
 
         [Column(DatabaseLiterals.FieldFossilParentID)]
-        public string FossilParentID { get; set; }
+        public int FossilParentID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;

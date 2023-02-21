@@ -40,7 +40,7 @@ namespace GSCFieldApp.ViewModels
         public string _pflowDipPlunge = string.Empty;
         public string _pflowAzim = string.Empty;
         public bool? _pflowMainDirection = false;
-        public string _pflowParentID = string.Empty;
+        public int _pflowParentID = 0;
         public string _pflowID = string.Empty;
         public string _pflowName = string.Empty;
 
@@ -59,7 +59,7 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
         public string PflowNote { get { return _pflowNote; } set { _pflowNote = value; } }
         public bool? PflowMainDirection { get { return _pflowMainDirection; } set { _pflowMainDirection = value; } }
-        public string PflowParentID { get { return _pflowParentID; } set { _pflowParentID = value; } }
+        public int PflowParentID { get { return _pflowParentID; } set { _pflowParentID = value; } }
         public string PflowID { get { return _pflowID; } set { _pflowID = value; } }
         public string PflowName { get { return _pflowName; } set { _pflowName = value; } }
         public ObservableCollection<Themes.ComboBoxItem> PflowClass { get { return _pflowClass; } set { _pflowClass = value; } }
@@ -154,7 +154,7 @@ namespace GSCFieldApp.ViewModels
         public PaleoflowViewModel(FieldNotes inReportDetail)
         {
             //On init for new samples calculates values for default UI form
-            _pflowParentID = inReportDetail.GenericID;
+            _pflowParentID = int.Parse(inReportDetail.GenericID);
             _pflowID = pflowCalculator.CalculatePFlowID();
             _pflowName = pflowCalculator.CalculatePflowAlias(_pflowParentID, inReportDetail.earthmat.EarthMatName);
 

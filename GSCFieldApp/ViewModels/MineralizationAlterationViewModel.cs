@@ -143,7 +143,7 @@ namespace GSCFieldApp.ViewModels
             //Special case for minerals
             List<object> mineralTableRaw = accessData.ReadTable(mineralModel.GetType(), null);
             IEnumerable<Mineral> mineralTable = mineralTableRaw.Cast<Mineral>(); //Cast to proper list type
-            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == _mineralAltID select e;
+            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == int.Parse(_mineralAltID) select e;
             if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
             {
                 foreach (Mineral mns in mineralParentEarth)
@@ -229,7 +229,7 @@ namespace GSCFieldApp.ViewModels
                     maModelToSave.mineralAlteration = mineralAltModel;
                     MineralViewModel minVM = new MineralViewModel(maModelToSave, true);
 
-                    minVM.QuickMineralRecordOnly(mineralAltModel.MAID, listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                    minVM.QuickMineralRecordOnly(int.Parse(mineralAltModel.MAID), listOfMinerals, Dictionaries.DatabaseLiterals.TableMineralAlteration);
                 }
 
             }
