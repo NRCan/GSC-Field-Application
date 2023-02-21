@@ -724,7 +724,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentAlias"></param>
         /// <param name="idAddIncrement">A value to add to ID for increment start, used for bacth calculate</param>
         /// <returns></returns>
-        public string CalculateMineralAlias(int parentID, string parentAlias, int idAddIncrement = 0)
+        public string CalculateMineralAlias(int? parentID, string parentAlias, int idAddIncrement = 0)
         {
             //Querying with Linq
             List<object> MineralTableRaw = dAccess.ReadTable(mineralModel.GetType(), null);

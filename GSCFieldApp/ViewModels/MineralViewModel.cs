@@ -20,7 +20,7 @@ namespace GSCFieldApp.ViewModels
         //UI default values
         private string _mineralAlias = string.Empty;
         private int _mineralID = 0;
-        private int _mineralParentID = 0;
+        private int? _mineralParentID = null;
         private string _mineralParentName = string.Empty;
         private string _mineralParentAlias = string.Empty;
         private string _mineralNote = string.Empty;
@@ -29,8 +29,8 @@ namespace GSCFieldApp.ViewModels
         private readonly string _mineralMode = string.Empty;
         private string _mineralResidualText = string.Empty;
         private string _mineralName = string.Empty;
-        private int _mineralMAID = 0;
-        private int _mineralEMID = 0;
+        private int? _mineralMAID = null;
+        private int? _mineralEMID = null;
 
         private readonly Dictionary<int, int> _mineralResidualModes = new Dictionary<int, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
         private readonly List<string> _minerals = new List<string>(); //Will contain a list of all minerals related to current parent earthmat. To catch duplicates
@@ -66,7 +66,7 @@ namespace GSCFieldApp.ViewModels
         public string MineralAlias { get { return _mineralAlias; } set { _mineralAlias = value; } }
         public string MineralNote { get { return _mineralNote; } set { _mineralNote = value; } }
         public int MineralID { get { return _mineralID; } set { _mineralID = value; } }
-        public int MineralParentID { get { return _mineralParentID; } set { _mineralParentID = value; } }
+        public int? MineralParentID { get { return _mineralParentID; } set { _mineralParentID = value; } }
         public string MineralResidualText { get { return _mineralResidualText; } set { _mineralResidualText = value; } }
         public string MineralName { get { return _mineralName; } set { _mineralName = value; } }
         public string MineralSizeMin
@@ -136,8 +136,8 @@ namespace GSCFieldApp.ViewModels
         }
 
         public string MineralParentName { get { return _mineralParentName; } set { _mineralParentName = value; } }
-        public int MineralEMID { get { return _mineralEMID; } set { _mineralEMID = value; } }
-        public int MineralMAID { get { return _mineralMAID; } set { _mineralMAID = value; } }
+        public int? MineralEMID { get { return _mineralEMID; } set { _mineralEMID = value; } }
+        public int? MineralMAID { get { return _mineralMAID; } set { _mineralMAID = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralColour { get { return _mineralColor; } set { _mineralColor = value; } }
         public string SelectedMineralColor { get { return _selectedMineralColor; } set { _selectedMineralColor = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralFormHabit { get { return _mineralFormHabit; } set { _mineralFormHabit = value; } }
@@ -223,7 +223,7 @@ namespace GSCFieldApp.ViewModels
             _mineralNote = existingDataDetailMineral.mineral.MineralNote;
 
             //Set parent
-            if (existingDataDetailMineral.mineral.MineralEMID != 0)
+            if (existingDataDetailMineral.mineral.MineralEMID != null)
             {
                 _mineralParentID = existingDataDetailMineral.mineral.MineralEMID;
                 _mineralParentName = DatabaseLiterals.TableEarthMat;
@@ -459,7 +459,7 @@ namespace GSCFieldApp.ViewModels
             }
             else if (existingDataDetailMineral.ParentTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
             {
-                parentID = existingDataDetailMineral.mineral.MineralMAID;
+                parentID = existingDataDetailMineral.mineral.MineralMAID ?? default(int);
             }
             IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID select e;
 

@@ -2159,12 +2159,12 @@ namespace GSCFieldApp.ViewModels
 
                 if (parentID == 0 && m.MineralEMID != 0)
                 {
-                    currentDetailReport.ParentID = m.MineralEMID; //TO keep the link with earthmat table
+                    currentDetailReport.ParentID = m.MineralEMID ?? default(int); //TO keep the link with earthmat table
                     currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
                 }
                 else if (parentID == 0 && m.MineralMAID != 0)
                 {
-                    currentDetailReport.ParentID = m.MineralMAID; //TO keep the link with earthmat table
+                    currentDetailReport.ParentID = m.MineralMAID ?? default(int); //TO keep the link with earthmat table
                     currentDetailReport.ParentTableName = DatabaseLiterals.TableMineralAlteration; //To keep the link with location table.
                 }
                 else
