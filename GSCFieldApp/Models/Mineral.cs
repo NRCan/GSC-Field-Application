@@ -10,12 +10,9 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableMineral)]
     public class Mineral
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
 
-        public string rowid { get; set; }
-
-        [Column(DatabaseLiterals.FieldMineralID)]
-        public string MineralID { get; set; }
+        [PrimaryKey, Column(DatabaseLiterals.FieldMineralID)]
+        public int MineralID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralIDName)]
         public string MineralIDName { get; set; }
@@ -125,7 +122,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> mineralFieldList = new Dictionary<double, List<string>>();
                 List<string> mineralFieldListDefault = new List<string>();
 
-                mineralFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                mineralFieldListDefault.Add(DatabaseLiterals.FieldMineralID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -138,15 +135,15 @@ namespace GSCFieldApp.Models
                 mineralFieldList[DatabaseLiterals.DBVersion] = mineralFieldListDefault;
 
                 //Revert shcema 1.7 changes
-                List<string> mineralFieldList160 = new List<string>();
-                mineralFieldList160.AddRange(mineralFieldListDefault);
-                mineralFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                mineralFieldList[DatabaseLiterals.DBVersion160] = mineralFieldList160;
+                //List<string> mineralFieldList160 = new List<string>();
+                //mineralFieldList160.AddRange(mineralFieldListDefault);
+                //mineralFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //mineralFieldList[DatabaseLiterals.DBVersion160] = mineralFieldList160;
 
 
                 //Revert schema 1.6 changes. 
                 List<string> mineralFieldList150 = new List<string>();
-                mineralFieldList150.AddRange(mineralFieldList160);
+                mineralFieldList150.AddRange(mineralFieldListDefault);
                 int removeIndex = mineralFieldList150.IndexOf(DatabaseLiterals.FieldMineralFormHabit);
                 mineralFieldList150.Remove(DatabaseLiterals.FieldMineralFormHabit);
                 mineralFieldList150.Insert(removeIndex, DatabaseLiterals.FieldMineralHabitDeprecated);

@@ -2178,7 +2178,7 @@ namespace GSCFieldApp.ViewModels
                 _reportDetailedMinerals.Add(currentDetailReport);
 
                 //Refresh summary
-                ValidateCheck(m.isValid, m.MineralID, currentDetailReport.MainID);
+                ValidateCheck(m.isValid, m.MineralID.ToString(), currentDetailReport.MainID);
             }
 
         }

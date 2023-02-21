@@ -781,9 +781,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from sample table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateMineralID()
+        public int CalculateMineralID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         #endregion

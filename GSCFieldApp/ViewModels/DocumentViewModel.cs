@@ -907,7 +907,7 @@ namespace GSCFieldApp.ViewModels
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = ms.MineralID,
+                                itemValue = ms.MineralID.ToString(),
                                 itemName = ms.MineralIDName
                             };
                             _relatedIDs.Add(newItem);
