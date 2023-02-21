@@ -3550,9 +3550,9 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void EditPflow()
         {
-            if (_reportEarthmatIndex != -1)
+            if (_reportPflowIndex != -1)
             {
-                PopPaleoflow(_reportDetailedPflow[_reportEarthmatIndex], true);
+                PopPaleoflow(_reportDetailedPflow[_reportPflowIndex], true);
             }
         }
 
