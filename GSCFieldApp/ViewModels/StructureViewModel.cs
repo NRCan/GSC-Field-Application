@@ -35,7 +35,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _structFlat = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStructFlat = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _structRel = new ObservableCollection<Themes.ComboBoxItem>();
-        private int _selectedStructRel = 0;
+        private string _selectedStructRel = string.Empty;
 
         public string _structDetail = string.Empty;//Default
         private string _structAzim = string.Empty; //Default
@@ -92,7 +92,7 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> StructFlat { get { return _structFlat; } set { _structFlat = value; } }
         public string SelectedStructFlat{ get { return _selectedStructFlat; } set { _selectedStructFlat = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StructRelated { get { return _structRel; } set { _structRel = value; } }
-        public int SelectedStructRelated { get { return _selectedStructRel; } set { _selectedStructRel = value; } }
+        public string SelectedStructRelated { get { return _selectedStructRel; } set { _selectedStructRel = value; } }
         public string StructAzim
         {
             get
@@ -279,7 +279,7 @@ namespace GSCFieldApp.ViewModels
                 _structRel.Insert(0, structItem);
 
                 //Reselect user value
-                _selectedStructRel = existingDataDetailStructure.structure.StructureRelated;
+                _selectedStructRel = existingDataDetailStructure.structure.StructureRelated.ToString();
                 RaisePropertyChanged("SelectedStructRelated");
             }
 
@@ -532,9 +532,9 @@ namespace GSCFieldApp.ViewModels
 
 
             //Take care of related structure
-            if (existingDataDetailStructure.structure.StructureRelated != 0 && existingDataDetailStructure.structure.StructureRelated != 0)
+            if (existingDataDetailStructure.structure.StructureRelated != null && existingDataDetailStructure.structure.StructureRelated != null)
             {
-                _selectedStructRel = existingDataDetailStructure.structure.StructureRelated;
+                _selectedStructRel = existingDataDetailStructure.structure.StructureRelated.ToString();
                 RaisePropertyChanged("SelectedStructRelated");
             }
 
@@ -678,9 +678,9 @@ namespace GSCFieldApp.ViewModels
             {
                 structureModel.StructureFlattening = SelectedStructFlat;
             }
-            if (SelectedStructRelated != 0)
+            if (SelectedStructRelated != null)
             {
-                structureModel.StructureRelated = SelectedStructRelated;
+                structureModel.StructureRelated = int.Parse(SelectedStructRelated);
             }
 
             if (_strucclasstypedetail != string.Empty)

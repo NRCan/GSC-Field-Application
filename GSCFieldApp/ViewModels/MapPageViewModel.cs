@@ -1099,10 +1099,11 @@ namespace GSCFieldApp.ViewModels
                                 //Manage pair tracking for pool placement 
                                 if (!strucPairs.ContainsKey(sts.StructureID))
                                 {
-                                    if (sts.StructureRelated != 0)
+                                    if (sts.StructureRelated != null)
                                     {
+                                        int relatedStruc = sts.StructureRelated ?? default(int);
                                         //Get related struc placement priority
-                                        strucPairs[sts.StructureID] = strucPairs[sts.StructureRelated];
+                                        strucPairs[sts.StructureID] = strucPairs[relatedStruc];
                                     }
                                     else
                                     {

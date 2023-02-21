@@ -47,7 +47,7 @@ namespace GSCFieldApp.Models
         public string StructureFlattening { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureRelated)]
-        public int StructureRelated { get; set; }
+        public int? StructureRelated { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureFabric)]
         public string StructureFabric { get; set; }

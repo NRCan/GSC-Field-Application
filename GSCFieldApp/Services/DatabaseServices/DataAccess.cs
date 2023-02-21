@@ -2689,16 +2689,20 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="StrucId"></param>
         /// <returns></returns>
-        public Structure GetRelatedStructure(int StrucId)
+        public Structure GetRelatedStructure(int? StrucId)
         {
             Structure relatedStructure = new Structure();
-            using (var db = DbConnection)
+            if (StrucId != null)
             {
-                relatedStructure = db.Find<Structure>(struc => struc.StructureID == StrucId);
-                // The following works if the field being searched is the primary key.
-                //relatedStructure = db.Find<Structure>(StrucId);
-                db.Close();
+                using (var db = DbConnection)
+                {
+                    relatedStructure = db.Find<Structure>(struc => struc.StructureID == StrucId);
+                    // The following works if the field being searched is the primary key.
+                    //relatedStructure = db.Find<Structure>(StrucId);
+                    db.Close();
+                }
             }
+
             return relatedStructure;
         }
 
