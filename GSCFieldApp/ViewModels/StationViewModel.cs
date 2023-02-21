@@ -194,17 +194,17 @@ namespace GSCFieldApp.ViewModels
             {
                 doStationUpdate = true;
 
-                if (existingDataDetail.ParentID != null && existingDataDetail.ParentID != string.Empty)
+                if (existingDataDetail.ParentID != 0)
                 {
-                    _locationid = int.Parse(existingDataDetail.ParentID); //Get location id from parent
+                    _locationid = existingDataDetail.ParentID; //Get location id from parent
                 }
                 else
                 {
-                    _locationid = int.Parse(existingDataDetail.GenericID); //Get location id from generic
+                    _locationid = existingDataDetail.GenericID; //Get location id from generic
                 }
 
                 //Synchronize with values that can't be changed by the user.
-                _stationid = int.Parse(existingDataDetail.GenericID);
+                _stationid = existingDataDetail.GenericID;
                 _alias = existingDataDetail.station.StationAlias;
                 _dateDate = existingDataDetail.station.StationVisitDate;
                 _dateTime = existingDataDetail.station.StationVisitTime;
@@ -589,8 +589,8 @@ namespace GSCFieldApp.ViewModels
 
             FieldNotes outputStationReport = new FieldNotes
             {
-                ParentID = quickLocID.ToString(),
-                GenericID = _stationid.ToString(),
+                ParentID = quickLocID,
+                GenericID = _stationid,
                 GenericAliasName = _alias,
                 GenericTableName = Dictionaries.DatabaseLiterals.TableStation,
                 station = StationModel
@@ -622,7 +622,7 @@ namespace GSCFieldApp.ViewModels
             if (drd == ContentDialogResult.Primary)
             {
                 //Delete location 
-                accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, _location.LocationID.ToString(), true);
+                accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, _location.LocationID);
 
                 proceed = true;
             }

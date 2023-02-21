@@ -90,7 +90,7 @@ namespace GSCFieldApp.ViewModels
         public MineralizationAlterationViewModel(FieldNotes inReportModel)
         {
             _mineralAltID = mineralAltIDCalculator.CalculateMineralAlterationID();
-            _mineralAltParentID = int.Parse(inReportModel.GenericID);
+            _mineralAltParentID = inReportModel.GenericID;
             _mineralAltAlias = mineralAltIDCalculator.CalculateMineralAlterationAlias(_mineralAltParentID, inReportModel.station.StationAlias);
 
             existingDataDetailMineralAlt = inReportModel;
@@ -118,7 +118,7 @@ namespace GSCFieldApp.ViewModels
             //Set
             _mineralAltID = existingDataDetailMineralAlt.mineralAlteration.MAID;
             _mineralAltNote = existingDataDetailMineralAlt.mineralAlteration.MANotes;
-            _mineralAltParentID = int.Parse(existingDataDetailMineralAlt.ParentID);
+            _mineralAltParentID = existingDataDetailMineralAlt.ParentID;
             _mineralAltAlias = existingDataDetailMineralAlt.mineralAlteration.MAName;
 
             _selectedMineralAltMA = existingDataDetailMineralAlt.mineralAlteration.MAMA;

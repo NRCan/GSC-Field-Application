@@ -245,7 +245,7 @@ namespace GSCFieldApp.ViewModels
         public SampleViewModel(FieldNotes inDetailModel)
         {
             //On init for new samples calculates values for default UI form
-            _sampleEartmatID = int.Parse(inDetailModel.GenericID);
+            _sampleEartmatID = inDetailModel.GenericID;
             _sampleID = sampleIDCalculator.CalculateSampleID();
             _sampleAlias = sampleIDCalculator.CalculateSampleAlias(_sampleEartmatID, inDetailModel.earthmat.EarthMatName);
 
@@ -272,7 +272,7 @@ namespace GSCFieldApp.ViewModels
             //Set
             _sampleID = existingDataDetailSample.sample.SampleID;
             _sampleNote = existingDataDetailSample.sample.SampleNotes;
-            _sampleEartmatID = int.Parse(existingDataDetailSample.ParentID);
+            _sampleEartmatID = existingDataDetailSample.ParentID;
             _sampleAlias = existingDataDetailSample.sample.SampleName;
             _selectedSampleType = existingDataDetailSample.sample.SampleType;
             _selectedSampleSurface = existingDataDetailSample.sample.SampleSurface;
@@ -533,11 +533,11 @@ namespace GSCFieldApp.ViewModels
             Station stationModel = new Station();
             List<object> stationTableLRaw = accessData.ReadTable(stationModel.GetType(), null);
             IEnumerable<Station> stationTable = stationTableLRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<int> stats = from s in stationTable where s.StationID == int.Parse(inParentModel.ParentID) select s.LocationID;
+            IEnumerable<int> stats = from s in stationTable where s.StationID == inParentModel.ParentID select s.LocationID;
             List<int> locationFromStat = stats.ToList();
 
             //Delete location
-            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0].ToString(), true);
+            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
         }
 
         /// <summary>

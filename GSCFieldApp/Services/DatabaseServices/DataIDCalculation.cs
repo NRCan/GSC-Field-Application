@@ -426,9 +426,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate an generic ID for document table.
         /// </summary>
         /// <returns></returns>
-        public string CalculateDocumentID()
+        public int CalculateDocumentID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>

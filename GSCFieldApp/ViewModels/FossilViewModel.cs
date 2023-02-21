@@ -47,7 +47,7 @@ namespace GSCFieldApp.ViewModels
         public FossilViewModel(FieldNotes inReportDetail)
         {
             //On init for new samples calculates values for default UI form
-            _fossilParentID = int.Parse(inReportDetail.GenericID);
+            _fossilParentID = inReportDetail.GenericID;
             _fossilID = fossilCalculator.CalculateFossilID();
             _fossilName = fossilCalculator.CalculateFossilAlias(_fossilParentID, inReportDetail.earthmat.EarthMatName);
 

@@ -13,11 +13,8 @@ namespace GSCFieldApp.Models
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableLocation;
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
-        public string rowid { get; set; }
-
-        [Column(DatabaseLiterals.FieldDocumentID)]
-        public string DocumentID { get; set; }
+        [PrimaryKey, Column(DatabaseLiterals.FieldDocumentID)]
+        public int DocumentID { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentName)]
         public string DocumentName { get; set; }
@@ -136,7 +133,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> documentFieldList = new Dictionary<double, List<string>>();
                 List<string> documentFieldListDefault = new List<string>();
 
-                documentFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                documentFieldListDefault.Add(DatabaseLiterals.FieldDocumentID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -149,13 +146,13 @@ namespace GSCFieldApp.Models
                 documentFieldList[DatabaseLiterals.DBVersion] = documentFieldListDefault;
 
                 //Revert shcema 1.7 changes
-                List<string> documentFieldList160 = new List<string>();
-                documentFieldList160.AddRange(documentFieldListDefault);
-                documentFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                documentFieldList[DatabaseLiterals.DBVersion160] = documentFieldList160;
+                //List<string> documentFieldList160 = new List<string>();
+                //documentFieldList160.AddRange(documentFieldListDefault);
+                //documentFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //documentFieldList[DatabaseLiterals.DBVersion160] = documentFieldList160;
 
                 //Noting has change in 1.6
-                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldList160;
+                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldListDefault;
 
                 //Revert schema 1.5 changes. 
                 List<string> documentFieldList144 = new List<string>();

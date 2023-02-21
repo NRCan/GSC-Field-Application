@@ -299,7 +299,7 @@ namespace GSCFieldApp.ViewModels
 
             if (inDetailModel!= null) //detail model could be null if a quick earthmat is asked
             {
-                _stationid = int.Parse(inDetailModel.GenericID);
+                _stationid = inDetailModel.GenericID;
                 _alias = idCalculator.CalculateEarthmatnAlias(_stationid, inDetailModel.GenericAliasName);
             }
 
@@ -334,7 +334,7 @@ namespace GSCFieldApp.ViewModels
             FillColourI();
             FillColourQ();
 
-            if (existingDataDetail != null && existingDataDetail.GenericID != null)
+            if (existingDataDetail != null && existingDataDetail.GenericID != 0)
             {
                 CalculateResidual();
             }
@@ -378,7 +378,7 @@ namespace GSCFieldApp.ViewModels
 
             //Set
             _earthmatid = existingDataDetail.earthmat.EarthMatID;
-            _stationid = int.Parse(existingDataDetail.ParentID);
+            _stationid = existingDataDetail.ParentID;
             _alias = existingDataDetail.earthmat.EarthMatName;
             _interpretation = existingDataDetail.earthmat.EarthMatInterp;
             //_contactNote = existingDataDetail.earthmat.EarthMatContact;
@@ -1126,9 +1126,9 @@ namespace GSCFieldApp.ViewModels
 
             FieldNotes outputEarthmatReport = new FieldNotes();
             outputEarthmatReport.earthmat = earthmodel;
-            outputEarthmatReport.ParentID = quickStationReport.station.StationID.ToString();
+            outputEarthmatReport.ParentID = quickStationReport.station.StationID;
             outputEarthmatReport.ParentTableName = Dictionaries.DatabaseLiterals.TableStation;
-            outputEarthmatReport.GenericID = earthmodel.EarthMatID.ToString();
+            outputEarthmatReport.GenericID = earthmodel.EarthMatID;
 
             return outputEarthmatReport;
         }
@@ -1491,14 +1491,14 @@ namespace GSCFieldApp.ViewModels
             IEnumerable<EarthMaterial> earthTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
 
             //Get a list of related mineral from selected earthmat
-            string parentID = existingDataDetail.ParentID;
+            int parentID = existingDataDetail.ParentID;
 
             //Find proper parent id (request could come from a mineral or an earthmat selection)
             if (existingDataDetail.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
             {
                 parentID = existingDataDetail.ParentID;
             }
-            IEnumerable<EarthMaterial> earthParentStation = from e in earthTable where e.EarthMatStatID == int.Parse(parentID) select e;
+            IEnumerable<EarthMaterial> earthParentStation = from e in earthTable where e.EarthMatStatID == parentID select e;
 
             if (_earthResidualPercent.Count == 0 && (earthParentStation.Count() != 0 || earthParentStation != null))
             {
@@ -1508,7 +1508,7 @@ namespace GSCFieldApp.ViewModels
 
                     int currentPercentage = ets.EarthMatPercent;
                     bool currentPercentParsed = true;
-                    if (ets.EarthMatID == int.Parse(existingDataDetail.GenericID))
+                    if (ets.EarthMatID == existingDataDetail.GenericID)
                     {
                         if (newMode != string.Empty)
                         {
@@ -1538,7 +1538,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     int currentPercentage = 0;
                     bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                    _earthResidualPercent[int.Parse(existingDataDetail.GenericID)] = currentPercentage;
+                    _earthResidualPercent[existingDataDetail.GenericID] = currentPercentage;
                 }
 
             }
@@ -1546,7 +1546,7 @@ namespace GSCFieldApp.ViewModels
             {
                 int currentPercentage = 0;
                 bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                _earthResidualPercent[int.Parse(existingDataDetail.GenericID)] = currentPercentage;
+                _earthResidualPercent[existingDataDetail.GenericID] = currentPercentage;
             }
 
 

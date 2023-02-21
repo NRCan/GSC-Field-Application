@@ -32,7 +32,7 @@ namespace GSCFieldApp.ViewModels
         private readonly MineralAlteration maModel = new MineralAlteration();
         private readonly DataAccess dataAcess = new DataAccess();
         private string _description = string.Empty; //Default
-        private string _documentID = string.Empty;  //Default
+        private int _documentID = 0;  //Default
         private string _documentName = string.Empty; //Default
         private string _direction = string.Empty; //Default
         private string _fileName = string.Empty; //Default
@@ -81,7 +81,7 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
 
         public string Description { get { return _description; } set { _description = value; } }
-        public string DocumentID { get { return _documentID; } set { _documentID = value; } }
+        public int DocumentID { get { return _documentID; } set { _documentID = value; } }
         public string DocumentName { get { return _documentName; } set { _documentName = value; } }
         public string FileName { get { return _fileName; } set { _fileName = value; } }
         public string Direction
@@ -252,15 +252,15 @@ namespace GSCFieldApp.ViewModels
             selectedStationSummaryDocument = stationSummaryID;
             _documentID = idCalculatorDoc.CalculateDocumentID(); //Calculate new document ID
 
-            if (stationSummaryID.GenericID != null)
+            if (stationSummaryID.GenericID != 0)
             {
-                _selectedRelatedID = int.Parse(stationSummaryID.GenericID); //Init with what was selected by the user in the report
+                _selectedRelatedID = stationSummaryID.GenericID; //Init with what was selected by the user in the report
                 _selectedRelatedTable = DatabaseLiterals.TableStation;
 
                 //Calculate new document name if needed (on new document only) and set relation from report
                 if (inDetailModel.GenericTableName != Dictionaries.DatabaseLiterals.TableDocument || doDocumentUpdate == false)
                 {
-                    _documentName = idCalculatorDoc.CalculateDocumentAlias(int.Parse(stationSummaryID.GenericID), stationSummaryID.GenericAliasName, 1);
+                    _documentName = idCalculatorDoc.CalculateDocumentAlias(stationSummaryID.GenericID, stationSummaryID.GenericAliasName, 1);
                 }
             }
             else if (stationSummaryID.station != null)
@@ -461,7 +461,7 @@ namespace GSCFieldApp.ViewModels
                                 DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
                                 FileNumber = iteratedFileNumber,
                                 FileName = _fileName = CalculateFileName(),
-                                DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(int.Parse(selectedStationSummaryDocument.GenericID), selectedStationSummaryDocument.GenericAliasName, currentIteration),
+                                DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
 
                                 Category = documentModel.Category,
                                 Description = documentModel.Description,
@@ -658,11 +658,11 @@ namespace GSCFieldApp.ViewModels
             Station stationModel = new Station();
             List<object> stationTableLRaw = accessData.ReadTable(stationModel.GetType(), null);
             IEnumerable<Station> stationTable = stationTableLRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<int> stats = from s in stationTable where s.StationID == int.Parse(inParentModel.GenericID) select s.LocationID;
+            IEnumerable<int> stats = from s in stationTable where s.StationID == inParentModel.GenericID select s.LocationID;
             List<int> locationFromStat = stats.ToList();
 
             //Delete location
-            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0].ToString(), true);
+            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
         }
 
         /// <summary>
@@ -760,13 +760,13 @@ namespace GSCFieldApp.ViewModels
 
                 //Get the right station id wheter it's coming from the report or the map page as quick photo
                 int processedStationID = 0;
-                if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.GenericID != null)
+                if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.GenericID != 0)
                 {
-                    processedStationID = int.Parse(selectedStationSummaryDocument.GenericID);
+                    processedStationID = selectedStationSummaryDocument.GenericID;
                 }
-                else if (selectedStationSummaryDocument.ParentTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.ParentID != null)
+                else if (selectedStationSummaryDocument.ParentTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.ParentID != 0)
                 {
-                    processedStationID = int.Parse(selectedStationSummaryDocument.ParentID);
+                    processedStationID = selectedStationSummaryDocument.ParentID;
                 }
                 if (selectedStationSummaryDocument.station.StationID != 0 && selectedStationSummaryDocument.station.StationID != 0)
                 {

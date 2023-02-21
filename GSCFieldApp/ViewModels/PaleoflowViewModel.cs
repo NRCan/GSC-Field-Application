@@ -154,7 +154,7 @@ namespace GSCFieldApp.ViewModels
         public PaleoflowViewModel(FieldNotes inReportDetail)
         {
             //On init for new samples calculates values for default UI form
-            _pflowParentID = int.Parse(inReportDetail.GenericID);
+            _pflowParentID = inReportDetail.GenericID;
             _pflowID = pflowCalculator.CalculatePFlowID();
             _pflowName = pflowCalculator.CalculatePflowAlias(_pflowParentID, inReportDetail.earthmat.EarthMatName);
 

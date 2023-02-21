@@ -172,7 +172,7 @@ namespace GSCFieldApp.ViewModels
         public StructureViewModel(FieldNotes inReport)
         {
             //On init for new samples calculates values for default UI form
-            _structParentID = int.Parse(inReport.GenericID);
+            _structParentID = inReport.GenericID;
             _structID = structureCalculator.CalculateStructureID();
             _structName = structureCalculator.CalculateStructureAlias(_structParentID, inReport.earthmat.EarthMatName);
 
@@ -532,7 +532,7 @@ namespace GSCFieldApp.ViewModels
 
 
             //Take care of related structure
-            if (existingDataDetailStructure.structure.StructureRelated != null && existingDataDetailStructure.structure.StructureRelated != 0)
+            if (existingDataDetailStructure.structure.StructureRelated != 0 && existingDataDetailStructure.structure.StructureRelated != 0)
             {
                 _selectedStructRel = existingDataDetailStructure.structure.StructureRelated;
                 RaisePropertyChanged("SelectedStructRelated");
@@ -631,11 +631,11 @@ namespace GSCFieldApp.ViewModels
             Station stationModel = new Station();
             List<object> stationTableLRaw = accessData.ReadTable(stationModel.GetType(), null);
             IEnumerable<Station> stationTable = stationTableLRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<int> stats = from s in stationTable where s.StationID == int.Parse(inParentModel.ParentID) select s.LocationID;
+            IEnumerable<int> stats = from s in stationTable where s.StationID == inParentModel.ParentID select s.LocationID;
             List<int> locationFromStat = stats.ToList();
 
             //Delete location
-            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0].ToString(), true);
+            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
         }
 
         public void BuildStructureObject()

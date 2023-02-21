@@ -155,7 +155,7 @@ namespace GSCFieldApp.ViewModels
             //On init for new samples calculates values for default UI form
             if (inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableEarthMat || inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
             {
-                _mineralParentID = int.Parse(inReportModel.GenericID);
+                _mineralParentID = inReportModel.GenericID;
                 _mineralParentAlias = inReportModel.GenericAliasName;
                 _mineralParentName = inReportModel.GenericTableName;
 
@@ -190,7 +190,7 @@ namespace GSCFieldApp.ViewModels
 
                 existingDataDetailMineral = inReportModel;
 
-                if (existingDataDetailMineral.GenericID != null)
+                if (existingDataDetailMineral.GenericID != 0)
                 {
                     CalculateResidual();
                 }
@@ -450,7 +450,7 @@ namespace GSCFieldApp.ViewModels
             IEnumerable<Mineral> mineralTable = mineralTableRaw.Cast<Mineral>(); //Cast to proper list type
 
             //Get a list of related mineral from selected earthmat
-            string parentID = existingDataDetailMineral.ParentID;
+            int parentID = existingDataDetailMineral.ParentID;
 
             //Find proper parent id (request could come from a mineral or an earthmat selection or a minerlization alteration)
             if (existingDataDetailMineral.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
@@ -459,9 +459,9 @@ namespace GSCFieldApp.ViewModels
             }
             else if (existingDataDetailMineral.ParentTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
             {
-                parentID = existingDataDetailMineral.mineral.MineralMAID.ToString();
+                parentID = existingDataDetailMineral.mineral.MineralMAID;
             }
-            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == int.Parse(parentID) || e.MineralMAID == int.Parse(parentID) select e;
+            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID select e;
 
             if (_mineralResidualModes.Count == 0 && (mineralParentEarth.Count() != 0 || mineralParentEarth != null))
             {
@@ -473,7 +473,7 @@ namespace GSCFieldApp.ViewModels
 
                     if (currentModeParsed)
                     {
-                        if (mns.MineralID == int.Parse(existingDataDetailMineral.GenericID))
+                        if (mns.MineralID == existingDataDetailMineral.GenericID)
                         {
                             if (newMode != string.Empty)
                             {
@@ -502,14 +502,14 @@ namespace GSCFieldApp.ViewModels
                 if (_mineralResidualModes.Count() == 0)
                 {
                     bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
-                    _mineralResidualModes[int.Parse(existingDataDetailMineral.GenericID)] = currentPercentage;
+                    _mineralResidualModes[existingDataDetailMineral.GenericID] = currentPercentage;
                 }
 
             }
             else
             {
                 bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
-                _mineralResidualModes[int.Parse(existingDataDetailMineral.GenericID)] = currentPercentage;
+                _mineralResidualModes[existingDataDetailMineral.GenericID] = currentPercentage;
             }
 
 
