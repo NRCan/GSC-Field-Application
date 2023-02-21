@@ -18,7 +18,7 @@ namespace GSCFieldApp.ViewModels
         //UI default values
         
         private string _sampleAlias = string.Empty;
-        private string _sampleID = string.Empty;
+        private int _sampleID = 0;
         private int _sampleEartmatID = 0;
 
         private string _sampleNote = string.Empty;
@@ -80,7 +80,7 @@ namespace GSCFieldApp.ViewModels
         public string SampleAlias { get { return _sampleAlias; } set { _sampleAlias = value; } }
 
         public string SampleNote { get { return _sampleNote; } set { _sampleNote = value; } }
-        public string SampleID { get { return _sampleID; } set { _sampleID = value; } }
+        public int SampleID { get { return _sampleID; } set { _sampleID = value; } }
         public int SampleEarthmatID { get { return _sampleEartmatID; } set { _sampleEartmatID = value; } }
         public string SampleDuplicateName { get { return _sampleDuplicateName; } set { _sampleDuplicateName = value; } }
 

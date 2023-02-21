@@ -1376,7 +1376,7 @@ namespace GSCFieldApp.ViewModels
                         ReportDetailedSample.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(spl.isValid, spl.SampleID, currentDetailReport.MainID);
+                        ValidateCheck(spl.isValid, spl.SampleID.ToString(), currentDetailReport.MainID);
 
                     }
 
@@ -1427,7 +1427,7 @@ namespace GSCFieldApp.ViewModels
                         ReportDetailedSample.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(spl.isValid, spl.SampleID, currentDetailReport.MainID);
+                        ValidateCheck(spl.isValid, spl.SampleID.ToString(), currentDetailReport.MainID);
                     }
                 }
 
@@ -1484,7 +1484,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailSample.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(spl.isValid, spl.SampleID, currentDetailReport.MainID);
+                        ValidateCheck(spl.isValid, spl.SampleID.ToString(), currentDetailReport.MainID);
 
                     }
                 }
@@ -1903,7 +1903,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedPflow.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(pf.isValid, pf.PFlowID, currentDetailReport.MainID);
+                        ValidateCheck(pf.isValid, pf.PFlowID.ToString(), currentDetailReport.MainID);
                     }
 
 
@@ -1951,7 +1951,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedPflow.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(pf.isValid, pf.PFlowID, currentDetailReport.MainID);
+                        ValidateCheck(pf.isValid, pf.PFlowID.ToString(), currentDetailReport.MainID);
                     }
                 }
 
@@ -2008,7 +2008,7 @@ namespace GSCFieldApp.ViewModels
                         _reportDetailedPflow.Add(currentDetailReport);
 
                         //Refresh summary
-                        ValidateCheck(pf.isValid, pf.PFlowID, currentDetailReport.MainID);
+                        ValidateCheck(pf.isValid, pf.PFlowID.ToString(), currentDetailReport.MainID);
                     }
                 }
 

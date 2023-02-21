@@ -414,9 +414,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from sample table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateSampleID()
+        public int CalculateSampleID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         #endregion
@@ -583,9 +583,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate an generic ID for paleoflow table.
         /// </summary>
         /// <returns></returns>
-        public string CalculatePFlowID()
+        public int CalculatePFlowID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>

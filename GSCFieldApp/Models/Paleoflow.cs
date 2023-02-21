@@ -9,11 +9,8 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TablePFlow)]
     public class Paleoflow
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
-        public string rowid { get; set; }
-
-        [Column(DatabaseLiterals.FieldPFlowID)]
-        public string PFlowID { get; set; }
+        [PrimaryKey, Column(DatabaseLiterals.FieldPFlowID)]
+        public int PFlowID { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowName)]
         public string PFlowName { get; set; }
@@ -101,7 +98,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> pflowFieldList = new Dictionary<double, List<string>>();
                 List<string> pflowFieldListDefault = new List<string>();
 
-                pflowFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                pflowFieldListDefault.Add(DatabaseLiterals.FieldPFlowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -114,10 +111,10 @@ namespace GSCFieldApp.Models
                 pflowFieldList[DatabaseLiterals.DBVersion] = pflowFieldListDefault;
 
                 //Revert shcema 1.7 changes
-                List<string> pflowFieldList160 = new List<string>();
-                pflowFieldList160.AddRange(pflowFieldListDefault);
-                pflowFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                pflowFieldList[DatabaseLiterals.DBVersion160] = pflowFieldList160;
+                //List<string> pflowFieldList160 = new List<string>();
+                //pflowFieldList160.AddRange(pflowFieldListDefault);
+                //pflowFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //pflowFieldList[DatabaseLiterals.DBVersion160] = pflowFieldList160;
 
 
                 return pflowFieldList;

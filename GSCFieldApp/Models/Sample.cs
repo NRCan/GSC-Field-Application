@@ -9,11 +9,8 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableSample)]
     public class Sample
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
-        public string rowid { get; set; }
-
-        [Column(DatabaseLiterals.FieldSampleID)]
-        public string SampleID { get; set; }
+        [PrimaryKey, Column(DatabaseLiterals.FieldSampleID)]
+        public int SampleID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleName)]
         public string SampleName { get; set; }
@@ -106,7 +103,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> sampleFieldList = new Dictionary<double, List<string>>();
                 List<string> sampleFieldListDefault = new List<string>();
 
-                sampleFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                sampleFieldListDefault.Add(DatabaseLiterals.FieldSampleID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -120,12 +117,12 @@ namespace GSCFieldApp.Models
                 
 
                 //Revert shcema 1.7 changes
-                List<string> sampleFieldList160 = new List<string>();
-                sampleFieldList160.AddRange(sampleFieldListDefault);
-                sampleFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
+                //List<string> sampleFieldList160 = new List<string>();
+                //sampleFieldList160.AddRange(sampleFieldListDefault);
+                //sampleFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
 
-                sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldList160;
+                sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldListDefault;
 
                 //Revert schema 1.5 changes. 
                 List<string> sampleFieldList144 = new List<string>();

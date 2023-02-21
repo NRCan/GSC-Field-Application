@@ -41,7 +41,7 @@ namespace GSCFieldApp.ViewModels
         public string _pflowAzim = string.Empty;
         public bool? _pflowMainDirection = false;
         public int _pflowParentID = 0;
-        public string _pflowID = string.Empty;
+        public int _pflowID = 0;
         public string _pflowName = string.Empty;
 
         //Model init
@@ -60,7 +60,7 @@ namespace GSCFieldApp.ViewModels
         public string PflowNote { get { return _pflowNote; } set { _pflowNote = value; } }
         public bool? PflowMainDirection { get { return _pflowMainDirection; } set { _pflowMainDirection = value; } }
         public int PflowParentID { get { return _pflowParentID; } set { _pflowParentID = value; } }
-        public string PflowID { get { return _pflowID; } set { _pflowID = value; } }
+        public int PflowID { get { return _pflowID; } set { _pflowID = value; } }
         public string PflowName { get { return _pflowName; } set { _pflowName = value; } }
         public ObservableCollection<Themes.ComboBoxItem> PflowClass { get { return _pflowClass; } set { _pflowClass = value; } }
         public string SelectedPflowClass { get { return _selectedPflowClass; } set { _selectedPflowClass = value; } }

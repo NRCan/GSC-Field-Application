@@ -837,7 +837,7 @@ namespace GSCFieldApp.ViewModels
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = sm.SampleID,
+                                itemValue = sm.SampleID.ToString(),
                                 itemName = sm.SampleName
                             };
                             _relatedIDs.Add(newItem);
@@ -855,7 +855,7 @@ namespace GSCFieldApp.ViewModels
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = pf.PFlowID,
+                                itemValue = pf.PFlowID.ToString(),
                                 itemName = pf.PFlowName
                             };
                             _relatedIDs.Add(newItem);
