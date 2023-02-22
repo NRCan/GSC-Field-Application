@@ -18,9 +18,9 @@ namespace GSCFieldApp.Models
         [PrimaryKey, Column(DatabaseLiterals.FieldLocationID)]
         public int LocationID { get; set; }
 
-        /// <summary>
-        /// Gets or sets the first name.
-        /// </summary> 
+        [Column(DatabaseLiterals.FieldGenericGeometry)]
+        public int LocationGeometry { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationAlias)]
         public string LocationAlias { get; set; }
 

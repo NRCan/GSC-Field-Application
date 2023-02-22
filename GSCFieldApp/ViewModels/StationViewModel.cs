@@ -64,13 +64,10 @@ namespace GSCFieldApp.ViewModels
 
         public StationViewModel(bool isWayPoint)
         {
-            //On init for new stations calculate values so UI shows stuff.
-            _stationid = idCalculator.CalculateStationID();
 
             //Fill controls
             FillStationType();
             
-
             //Treat station for themes.
             if (isWayPoint)
             {
@@ -84,6 +81,10 @@ namespace GSCFieldApp.ViewModels
                 FillAirPhotoNo_TraverseNo();
                 FillObsSource();
             }
+
+            //On init for new stations calculate values so UI shows stuff.
+            _stationid = idCalculator.CalculateStationID(_alias);
+
 
             SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
 
@@ -543,16 +544,17 @@ namespace GSCFieldApp.ViewModels
                 Location.LocationElev = _elevation;
             }
 
-            Location.LocationID = _locationid = idCalculator.CalculateLocationID(); //Calculate new value
+            
             Location.LocationAlias = _locationAlias = idCalculator.CalculateLocationAlias(_alias); //Calculate new value
+            Location.LocationID = _locationid = idCalculator.CalculateLocationID(_locationAlias); //Calculate new value
             Location.MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()); //Foreign key
 
             //Fill in the table location
-            accessData.SaveFromSQLTableObject(Location, false);
+            //accessData.SaveFromSQLTableObject(Location, false);
 
             //Fill in the feature location
             GeopackageService geoService = new GeopackageService();
-            string insertQuery = accessData.GetGeopackageInsertQuery(Location, DatabaseLiterals.TableLocationFeature);
+            string insertQuery = accessData.GetGeopackageInsertQuery(Location);
             geoService.DoSpatialiteQueryInGeopackage(insertQuery);
            
             return Location.LocationID;

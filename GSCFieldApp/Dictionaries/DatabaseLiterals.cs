@@ -310,10 +310,11 @@ namespace GSCFieldApp.Dictionaries
         public const string TableDictionary = "M_DICTIONARY"; //Version 1.0
         public const string TableDictionaryManager = "M_DICTIONARY_MANAGER"; //Version 1.0
         public const string TableFavorites = "F_FAVORITE"; //Deprecated
-        public const string TableTraversePoint = "FS_TRAVERSE_POINT";
-        public const string TableTraverseLine = "FS_TRAVERSE_LINE";
+        public const string TableTraversePointDeprecated = "FS_TRAVERSE_POINT";//Deprecated
+        public const string TableTraverseLineDeprecated = "FS_TRAVERSE_LINE";//Deprecated
+        public const string TableTraversePoint = "F_TRAVERSE_POINT";//Version 1.7
+        public const string TableTraverseLine = "F_TRAVERSE_LINE";//Version 1.7
         public const string TableFieldCampDeprecated = "FS_FIELDCAMP"; //Deprecated version 1.7
-        public const string TableLocationFeature = "FS_LOCATION"; //Version 1.7
 
         #endregion
 

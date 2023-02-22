@@ -787,7 +787,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure, DatabaseLiterals.TableFossil,
                 DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,
                 DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint,
-                DatabaseLiterals.TableEnvironment, DatabaseLiterals.TableLocationFeature};
+                DatabaseLiterals.TableEnvironment};
 
 
             //List of queries to send as a batch
@@ -2739,7 +2739,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     var value = col.GetValue(inLocation);
 
-                    if (value != null)
+                    if (value != null && col.Name != DatabaseLiterals.FieldGenericGeometry)
                     {
                         insertQuery = insertQuery + col.Name + ",";
                     }
@@ -2760,7 +2760,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     var value = col.GetValue(inLocation);
 
-                    if (value != null)
+                    if (value != null && col.Name != DatabaseLiterals.FieldGenericGeometry)
                     {
                         if (colType == typeof(System.String))
                         {
