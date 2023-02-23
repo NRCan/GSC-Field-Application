@@ -173,7 +173,7 @@ namespace GSCFieldApp.ViewModels
         {
             //On init for new samples calculates values for default UI form
             _structParentID = inReport.GenericID;
-            _structID = structureCalculator.CalculateStructureID();
+            //_structID = structureCalculator.CalculateStructureID();
             _structName = structureCalculator.CalculateStructureAlias(_structParentID, inReport.earthmat.EarthMatName);
 
             existingDataDetailStructure = inReport;
@@ -608,16 +608,18 @@ namespace GSCFieldApp.ViewModels
             BuildStructureObject();
 
             //Save model class
-            if (structureModel.StructureID != 0)
-            {
-                accessData.SaveFromSQLTableObject(structureModel, doStructureUpdate);
+            object strucObject = (object)structureModel;
+            accessData.SaveFromSQLTableObject(ref strucObject, doStructureUpdate);
+            structureModel = (Structure)strucObject;
 
-                //Launch an event call for everyone that an earthmat has been edited.
-                if (newStructureEdit != null)
-                {
-                    newStructureEdit(this);
-                }
+            //accessData.SaveFromSQLTableObject(structureModel, doStructureUpdate);
+
+            //Launch an event call for everyone that an earthmat has been edited.
+            if (newStructureEdit != null)
+            {
+                newStructureEdit(this);
             }
+            
 
         }
 
@@ -678,7 +680,7 @@ namespace GSCFieldApp.ViewModels
             {
                 structureModel.StructureFlattening = SelectedStructFlat;
             }
-            if (SelectedStructRelated != null)
+            if (SelectedStructRelated != null && SelectedStructRelated != string.Empty)
             {
                 structureModel.StructureRelated = int.Parse(SelectedStructRelated);
             }

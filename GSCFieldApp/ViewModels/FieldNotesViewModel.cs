@@ -30,18 +30,18 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// A collection of observation class to display on screen in the report page.
         /// </summary>
-        private readonly ObservableCollection<FieldNotes> _reportSummaryDateItems = new ObservableCollection<FieldNotes>();
+        private ObservableCollection<FieldNotes> _reportSummaryDateItems = new ObservableCollection<FieldNotes>();
         public ObservableCollection<FieldNotes> _reportDetailedStation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailedEarthmat = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailSample = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailedDocument = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailedStructure = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailedPflow = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailedFossil = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailedLocation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailedMinerals = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailedMineralAlt = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private readonly ObservableCollection<FieldNotes> _reportDetailEnvironment = new ObservableCollection<FieldNotes>(); //WIll be used for right panel
+        private ObservableCollection<FieldNotes> _reportDetailedEarthmat = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailSample = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailedDocument = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailedStructure = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailedPflow = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailedFossil = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailedLocation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailedMinerals = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailedMineralAlt = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailEnvironment = new ObservableCollection<FieldNotes>(); //WIll be used for right panel
 
         public FieldNotes selectedSummaryDateItem = new FieldNotes();
         public int _reportDateIndex = -1;
@@ -58,17 +58,17 @@ namespace GSCFieldApp.ViewModels
         public int _reportEnvironmentIndex = -1;
 
         //Some model inits
-        private readonly Station stationModel = new Station();
-        private readonly EarthMaterial earthModel = new EarthMaterial();
-        private readonly Sample sampleModel = new Sample();
-        private readonly Document documentModel = new Document();
-        private readonly Structure structureModel = new Structure();
-        private readonly Paleoflow pflowModel = new Paleoflow();
-        private readonly Fossil fossilModel = new Fossil();
-        private readonly FieldLocation locationModel = new FieldLocation();
-        private readonly Mineral mineralModel = new Mineral();
-        private readonly MineralAlteration mineralAltModel = new MineralAlteration();
-        private readonly EnvironmentModel environmentModel = new EnvironmentModel();  
+        private Station stationModel = new Station();
+        private EarthMaterial earthModel = new EarthMaterial();
+        private Sample sampleModel = new Sample();
+        private Document documentModel = new Document();
+        private Structure structureModel = new Structure();
+        private Paleoflow pflowModel = new Paleoflow();
+        private Fossil fossilModel = new Fossil();
+        private FieldLocation locationModel = new FieldLocation();
+        private Mineral mineralModel = new Mineral();
+        private MineralAlteration mineralAltModel = new MineralAlteration();
+        private EnvironmentModel environmentModel = new EnvironmentModel();  
 
         //UI interaction
         private string deleteRequestFromTable = string.Empty;
@@ -705,7 +705,7 @@ namespace GSCFieldApp.ViewModels
         public void FillStationFromList()
         {
             #region Conditional to user having selected a station
-            
+            EmptyAll();
             if (_reportDateIndex != -1)
             {
                 //Variables
@@ -720,7 +720,7 @@ namespace GSCFieldApp.ViewModels
 
                 _reportDetailedStation.Clear();
 
-                if (stationTableRows.Count != 0 || stationTableRows != null)
+                if (stationTableRows.Count != 0)
                 {
                     foreach (object sts in stationTableRows)
                     {
@@ -767,7 +767,7 @@ namespace GSCFieldApp.ViewModels
                         }
 
                     }
-                } 
+                }
 
                 //Manager header opacity
                 stationLocationRowCount = stationTableRows.Count;
@@ -925,7 +925,7 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<EarthMaterial> earthmatTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
                 IEnumerable<EarthMaterial> eartmatParentStations = from e in earthmatTable where e.EarthMatStatID == statID select e;
 
-                if (eartmatParentStations.Count() != 0 || eartmatParentStations != null)
+                if (eartmatParentStations.Count() != 0)
                 {
                     foreach (EarthMaterial earths in eartmatParentStations)
                     {
@@ -1005,7 +1005,7 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<MineralAlteration> maTable = maTableRaw.Cast<MineralAlteration>(); //Cast to proper list type
                 IEnumerable<MineralAlteration> maParentStations = from ma in maTable where ma.MAParentID == statID select ma;
 
-                if (maParentStations.Count() != 0 || maParentStations != null)
+                if (maParentStations.Count() != 0)
                 {
 
 
@@ -1079,7 +1079,7 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<EnvironmentModel> envTable = envTableRaw.Cast<EnvironmentModel>(); //Cast to proper list type
                 IEnumerable<EnvironmentModel> envParentStations = from env in envTable where env.EnvStationID == statID select env;
 
-                if (envParentStations.Count() != 0 || envParentStations != null)
+                if (envParentStations.Count() != 0)
                 {
 
 
@@ -1153,7 +1153,7 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
                 IEnumerable<FieldLocation> locationResult = from l in locationTable where l.LocationID == locID select l;
 
-                if (locationResult.Count() != 0 || locationResult != null)
+                if (locationResult.Count() != 0)
                 {
 
 
@@ -1270,7 +1270,7 @@ namespace GSCFieldApp.ViewModels
             //Get documents
             IEnumerable<Document> documents = dAccess.ReadTable(documentModel.GetType(), finalQuery).Cast<Document>();
 
-            if (documents != null || documents.Count() != 0)
+            if (documents.Count() != 0)
             {
                 if (_reportStationIndex != -1)
                 {
@@ -1352,7 +1352,7 @@ namespace GSCFieldApp.ViewModels
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
                 IEnumerable<Sample> sampleParentEarth = from e in sampleTable where e.SampleEarthmatID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
-                if (sampleParentEarth.Count() != 0 || sampleParentEarth != null)
+                if (sampleParentEarth.Count() != 0)
                 {
                     foreach (Sample spl in sampleParentEarth)
                     {
@@ -1404,7 +1404,7 @@ namespace GSCFieldApp.ViewModels
                 //Querying with Linq
                 IEnumerable<Sample> sampleParent = from e in sampleTable where e.SampleEarthmatID == _reportDetailSample[_reportSampleIndex].ParentID select e;
 
-                if (sampleParent.Count() != 0 || sampleParent != null)
+                if (sampleParent.Count() != 0)
                 {
                     foreach (Sample spl in sampleParent)
                     {
@@ -1461,7 +1461,7 @@ namespace GSCFieldApp.ViewModels
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Sample> sampleParent_ = from smp in sampleTable join e2 in earthTable on smp.SampleEarthmatID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
 
-                if (sampleParent_.Count() != 0 || sampleParent_ != null)
+                if (sampleParent_.Count() != 0)
                 {
                     foreach (Sample spl in sampleParent_)
                     {
@@ -1532,7 +1532,7 @@ namespace GSCFieldApp.ViewModels
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
                 IEnumerable<Structure> structParentEarth = from e in structureTable where e.StructureParentID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
-                if (structParentEarth.Count() != 0 || structParentEarth != null)
+                if (structParentEarth.Count() != 0)
                 {
                     foreach (Structure spl in structParentEarth)
                     {
@@ -1583,7 +1583,7 @@ namespace GSCFieldApp.ViewModels
                 //Querying with Linq
                 IEnumerable<Structure> strucParent = from e in structureTable where e.StructureParentID == _reportDetailedStructure[_reportStructureIndex].ParentID select e;
 
-                if (strucParent.Count() != 0 || strucParent != null)
+                if (strucParent.Count() != 0)
                 {
                     foreach (Structure spl in strucParent)
                     {
@@ -1707,7 +1707,7 @@ namespace GSCFieldApp.ViewModels
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
                 IEnumerable<Fossil> fossilParentEarth = from e in fossilTable where e.FossilParentID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
-                if (fossilParentEarth.Count() != 0 || fossilParentEarth != null)
+                if (fossilParentEarth.Count() != 0)
                 {
                     foreach (Fossil fss in fossilParentEarth)
                     {
@@ -1758,7 +1758,7 @@ namespace GSCFieldApp.ViewModels
                 //Querying with Linq
                 IEnumerable<Fossil> fossilParent = from e in fossilTable where e.FossilParentID == _reportDetailedFossil[_reportFossilIndex].ParentID select e;
 
-                if (fossilParent.Count() != 0 || fossilParent != null)
+                if (fossilParent.Count() != 0)
                 {
                     foreach (Fossil fss in fossilParent)
                     {
@@ -1815,7 +1815,7 @@ namespace GSCFieldApp.ViewModels
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Fossil> stParent = from smp in fossilTable join e2 in earthTable on smp.FossilParentID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
 
-                if (stParent.Count() != 0 || stParent != null)
+                if (stParent.Count() != 0)
                 {
                     foreach (Fossil fss in stParent)
                     {
@@ -1880,7 +1880,7 @@ namespace GSCFieldApp.ViewModels
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
                 IEnumerable<Paleoflow> pflowParentEarth = from e in pflowTable where e.PFlowParentID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
-                if (pflowParentEarth.Count() != 0 || pflowParentEarth != null)
+                if (pflowParentEarth.Count() != 0)
                 {
                     foreach (Paleoflow pf in pflowParentEarth)
                     {
@@ -1929,7 +1929,7 @@ namespace GSCFieldApp.ViewModels
                 //Querying with Linq
                 IEnumerable<Paleoflow> pflowParent = from e in pflowTable where e.PFlowParentID == _reportDetailedPflow[_reportPflowIndex].ParentID select e;
 
-                if (pflowParent.Count() != 0 || pflowParent != null)
+                if (pflowParent.Count() != 0)
                 {
                     foreach (Paleoflow pf in pflowParent)
                     {
@@ -1986,7 +1986,7 @@ namespace GSCFieldApp.ViewModels
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Paleoflow> pfParent = from smp in pflowTable join e2 in earthTable on smp.PFlowParentID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
 
-                if (pfParent.Count() != 0 || pfParent != null)
+                if (pfParent.Count() != 0)
                 {
                     foreach (Paleoflow pf in pfParent)
                     {
@@ -2050,7 +2050,7 @@ namespace GSCFieldApp.ViewModels
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
                 IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
-                if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
+                if (mineralParentEarth.Count() != 0)
                 {
                     FillMineralFromParent(mineralParentEarth, _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID);
 
@@ -2076,7 +2076,7 @@ namespace GSCFieldApp.ViewModels
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
                 IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].GenericID select e;
-                if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
+                if (mineralParentEarth.Count() != 0)
                 {
                     FillMineralFromParent(mineralParentEarth, _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID);
 
@@ -2116,7 +2116,7 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<Mineral> minParent = from smp in mineralTable join e2 in earthTable on smp.MineralEMID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;
                 IEnumerable<Mineral> minParentMA = from min in mineralTable join ma in maTable on min.MineralMAID equals ma.MAID where mineralizationAlterationFromStation.Contains(ma.MAID) select min;
 
-                if (minParent.Count() != 0 || minParent != null || minParentMA.Count() != 0 || minParentMA!= null)
+                if (minParent.Count() != 0 || minParentMA.Count() != 0)
                 {
                     minParent = minParent.Concat<Mineral>(minParentMA);
                     FillMineralFromParent(minParent, _reportDetailedStation[_reportStationIndex].GenericID);
@@ -2157,12 +2157,12 @@ namespace GSCFieldApp.ViewModels
                     GenericAliasName = m.MineralIDName
                 };
 
-                if (parentID == 0 && m.MineralEMID != 0)
+                if (parentID == 0 && m.MineralEMID != null)
                 {
                     currentDetailReport.ParentID = m.MineralEMID ?? default(int); //TO keep the link with earthmat table
                     currentDetailReport.ParentTableName = DatabaseLiterals.TableEarthMat; //To keep the link with location table.
                 }
-                else if (parentID == 0 && m.MineralMAID != 0)
+                else if (parentID == 0 && m.MineralMAID != null)
                 {
                     currentDetailReport.ParentID = m.MineralMAID ?? default(int); //TO keep the link with earthmat table
                     currentDetailReport.ParentTableName = DatabaseLiterals.TableMineralAlteration; //To keep the link with location table.
@@ -3259,7 +3259,7 @@ namespace GSCFieldApp.ViewModels
                 LocationLat = 0.0,
                 LocationLong = 0.0,
                 LocationEntryType = Dictionaries.DatabaseLiterals.locationEntryTypeManual,
-                LocationID = idCalculator.CalculateLocationID(), //Calculate new value
+                //LocationID = idCalculator.CalculateLocationID(), //Calculate new value
                 LocationAlias = idCalculator.CalculateLocationAlias(string.Empty), //Calculate new value
                 MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()) //Foreign key
             };
@@ -3285,7 +3285,11 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void EditLocation()
         {
-            PopLocation(_reportDetailedStation[ReportStationListIndex], true);
+            if (ReportStationListIndex != -1)
+            {
+                PopLocation(_reportDetailedStation[ReportStationListIndex], true);
+            }
+            
         }
 
         public void ViewModel_newLocationEdit(object sender)

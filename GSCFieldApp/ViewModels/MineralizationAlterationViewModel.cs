@@ -89,7 +89,7 @@ namespace GSCFieldApp.ViewModels
 
         public MineralizationAlterationViewModel(FieldNotes inReportModel)
         {
-            _mineralAltID = mineralAltIDCalculator.CalculateMineralAlterationID();
+            //_mineralAltID = mineralAltIDCalculator.CalculateMineralAlterationID();
             _mineralAltParentID = inReportModel.GenericID;
             _mineralAltAlias = mineralAltIDCalculator.CalculateMineralAlterationAlias(_mineralAltParentID, inReportModel.station.StationAlias);
 
@@ -206,7 +206,10 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Save model class
-            accessData.SaveFromSQLTableObject(mineralAltModel, doMineralAltUpdate);
+            object mineralAltOject = (object)mineralAltModel;
+            accessData.SaveFromSQLTableObject(ref mineralAltOject, doMineralAltUpdate);
+            mineralAltModel = (MineralAlteration)mineralAltOject;
+            //accessData.SaveFromSQLTableObject(mineralAltModel, doMineralAltUpdate);
 
             //Special case for minerals
             if (MineralAltMineralsValues.Count != 0)

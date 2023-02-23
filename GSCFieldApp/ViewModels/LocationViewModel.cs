@@ -131,7 +131,7 @@ namespace GSCFieldApp.ViewModels
         public LocationViewModel(FieldNotes inReport)
         {
             //On init for new stations calculate values so UI shows stuff.
-            _locationID = idCalculator.CalculateLocationID();
+            //_locationID = idCalculator.CalculateLocationID();
             _locationAlias = idCalculator.CalculateLocationAlias();
 
             FillDatum();
@@ -257,7 +257,10 @@ namespace GSCFieldApp.ViewModels
 
 
             //Save model class
-            accessData.SaveFromSQLTableObject(locationModel, doLocationUpdate);
+            object locObject = (object)locationModel;
+            accessData.SaveFromSQLTableObject(ref locObject, doLocationUpdate);
+            locationModel = (FieldLocation)locObject;
+            //accessData.SaveFromSQLTableObject(locationModel, doLocationUpdate);
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newLocationEdit != null)

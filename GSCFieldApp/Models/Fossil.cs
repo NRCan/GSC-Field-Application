@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     public class Fossil
     {
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldFossilID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldFossilID)]
         public int FossilID { get; set; }
 
         [Column(DatabaseLiterals.FieldFossilName)]

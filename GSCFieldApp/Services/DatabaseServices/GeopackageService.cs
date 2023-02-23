@@ -31,10 +31,12 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="in_query"></param>
         /// <returns></returns>
-        public void DoSpatialiteQueryInGeopackage(string in_query)
+        public int DoSpatialiteQueryInGeopackage(string in_query)
         {
 
             string dbPath = dAcccess.GetDefaultDatabasePath;
+
+            int newId = int.MinValue;
 
             // Create a new connection
             using (SQLiteConnection db = new SQLiteConnection())
@@ -59,7 +61,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Pass query
                     //example: "INSERT INTO FS_LOCATION (Shape, locationid, latitude, longitude, metaid) values (MakePoint(-80.314,46.930, 4326), 'test_gab_visual_studio2', 46.930, -80.314, '7297f789-36e8-4c06-86e9-46b9ffcb1607')"
                     SQLiteCommand addLocation = new SQLiteCommand(in_query, db);
-                    addLocation.ExecuteNonQuery();   
+                    object scalar = addLocation.ExecuteScalar(System.Data.CommandBehavior.SingleResult);
+                    newId = int.Parse(scalar.ToString());   
 
                     //Disable mode
                     //SQLiteCommand amphibiousCommandOff = new SQLiteCommand(@"select DisableGpkgAmphibiousMode()", db);
@@ -72,6 +75,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 db.Close();
             }
 
+            return newId;
         }
 
     }

@@ -185,7 +185,7 @@ namespace GSCFieldApp.ViewModels
 
             if (!forQuick)
             {
-                _mineralID = mineralIDCalculator.CalculateMineralID();
+                //_mineralID = mineralIDCalculator.CalculateMineralID();
                 _mineralAlias = mineralIDCalculator.CalculateMineralAlias(_mineralParentID, _mineralParentAlias);
 
                 existingDataDetailMineral = inReportModel;
@@ -354,7 +354,11 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Save model class
-            accessData.SaveFromSQLTableObject(mineralModel, doMineralUpdate);
+            object mineralOject = (object)mineralModel;
+            accessData.SaveFromSQLTableObject(ref mineralOject, doMineralUpdate);
+            mineralModel = (Mineral)mineralOject;
+
+            //accessData.SaveFromSQLTableObject(mineralModel, doMineralUpdate);
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newMineralEdit != null)
@@ -554,7 +558,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                     newMineral.MineralIDName = mineralIDCalculator.CalculateMineralAlias(_mineralParentID, _mineralParentAlias, inMineralNames.IndexOf(inMinName));
-                    newMineral.MineralID = mineralIDCalculator.CalculateMineralID(); //Prime key
+                    //newMineral.MineralID = mineralIDCalculator.CalculateMineralID(); //Prime key
                     newMineral.MineralName = inMinName;
                     //newMineral.MineralSizeMax = 0.ToString();
                     //newMineral.MineralSizeMin = 0.ToString();

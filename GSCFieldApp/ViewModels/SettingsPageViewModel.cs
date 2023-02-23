@@ -662,7 +662,11 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Save model class
-                accessData.SaveFromSQLTableObject(dTypes, true);
+                //accessData.SaveFromSQLTableObject(dTypes, true);
+
+                object dObject = (object)dTypes;
+                accessData.SaveFromSQLTableObject(ref dObject, true);
+                //dTypes = (Vocabularies)dObject;
             }
 
         }

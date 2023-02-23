@@ -11,7 +11,7 @@ namespace GSCFieldApp.Models
     public class Mineral
     {
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldMineralID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldMineralID)]
         public int MineralID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralIDName)]

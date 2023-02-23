@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableEarthMat)]
     public class EarthMaterial
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldEarthMatID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldEarthMatID)]
         public int EarthMatID { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatName)]

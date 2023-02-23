@@ -580,7 +580,11 @@ namespace GSCFieldApp.ViewModels
                 earthmodel.EarthMatMagQualifier = _selectedEarthmatMagQualifier;
             }
             //Save model class
-            accessData.SaveFromSQLTableObject(earthmodel, doEarthUpdate);
+            //accessData.SaveFromSQLTableObject(ref earthmodel, doEarthUpdate);
+
+            object earthObject = (object)earthmodel;
+            accessData.SaveFromSQLTableObject(ref earthObject, doEarthUpdate);
+            earthmodel = (EarthMaterial)earthObject;
 
             //Special case for minerals
             if (_earthmatMineralValues.Count != 0)
@@ -1122,7 +1126,9 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatStatID = quickStationReport.station.StationID; //Foreign key
 
             //Save model class
-            accessData.SaveFromSQLTableObject(earthmodel, false);
+            object earthObject = (object)earthmodel;
+            accessData.SaveFromSQLTableObject(ref earthObject, false);
+            earthmodel = (EarthMaterial)earthObject;
 
             FieldNotes outputEarthmatReport = new FieldNotes();
             outputEarthmatReport.earthmat = earthmodel;

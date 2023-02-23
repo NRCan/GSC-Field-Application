@@ -9,7 +9,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableDictionaryManager)]
     public class VocabularyManager
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID)]
         public string rowid { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerLinkID)]

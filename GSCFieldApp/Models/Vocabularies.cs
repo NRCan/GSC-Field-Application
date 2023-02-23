@@ -32,7 +32,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableDictionary)]
     public class Vocabularies: IComparable<Vocabularies>
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldGenericRowID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID)]
         public string rowid { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryTermID)]

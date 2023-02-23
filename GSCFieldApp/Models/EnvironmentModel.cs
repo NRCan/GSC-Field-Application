@@ -12,7 +12,7 @@ namespace GSCFieldApp.Models
     public class EnvironmentModel
     {
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldEnvID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldEnvID)]
         public int EnvID { get; set; }
 
         [Column(DatabaseLiterals.FieldEnvName)]

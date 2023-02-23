@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     public class MineralAlteration
     {
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldMineralAlterationID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldMineralAlterationID)]
         public int MAID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralAlterationName)]

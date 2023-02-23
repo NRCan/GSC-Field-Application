@@ -15,7 +15,7 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [PrimaryKey, Column(DatabaseLiterals.FieldLocationID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldLocationID)]
         public int LocationID { get; set; }
 
         [Column(DatabaseLiterals.FieldGenericGeometry)]

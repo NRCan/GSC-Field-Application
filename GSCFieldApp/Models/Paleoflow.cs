@@ -9,7 +9,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TablePFlow)]
     public class Paleoflow
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldPFlowID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldPFlowID)]
         public int PFlowID { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowName)]

@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     public class Station
     {
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldStationID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldStationID)]
         public int StationID { get; set; }
 
         [Column(DatabaseLiterals.FieldStationAlias)]

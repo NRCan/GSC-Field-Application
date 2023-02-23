@@ -45,7 +45,7 @@ namespace GSCFieldApp.ViewModels
         public string _pflowName = string.Empty;
 
         //Model init
-        private readonly Paleoflow pflowModel = new Paleoflow();
+        private Paleoflow pflowModel = new Paleoflow();
         public DataIDCalculation pflowCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailPflow;
         readonly DataAccess accessData = new DataAccess();
@@ -155,7 +155,7 @@ namespace GSCFieldApp.ViewModels
         {
             //On init for new samples calculates values for default UI form
             _pflowParentID = inReportDetail.GenericID;
-            _pflowID = pflowCalculator.CalculatePFlowID();
+            //_pflowID = pflowCalculator.CalculatePFlowID();
             _pflowName = pflowCalculator.CalculatePflowAlias(_pflowParentID, inReportDetail.earthmat.EarthMatName);
 
             FillPflowClass();
@@ -512,7 +512,10 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Save model class
-            accessData.SaveFromSQLTableObject(pflowModel, doPflowUpdate);
+            object pflowObject = (object)pflowModel;
+            accessData.SaveFromSQLTableObject(ref pflowObject, doPflowUpdate);
+            pflowModel = (Paleoflow)pflowObject;
+            //accessData.SaveFromSQLTableObject(pflowModel, doPflowUpdate);
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newPflowEdit != null)

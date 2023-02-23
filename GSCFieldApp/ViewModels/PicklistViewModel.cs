@@ -313,7 +313,10 @@ namespace GSCFieldApp.ViewModels
                     finalValues.Order = userOrder;
 
                     //Save model class
-                    accessData.SaveFromSQLTableObject(finalValues, udpateTerm);
+                    object vObject = (object)finalValues;
+                    accessData.SaveFromSQLTableObject(ref vObject, udpateTerm);
+                    //pflowModel = (Paleoflow)pflowObject;
+                    //accessData.SaveFromSQLTableObject(finalValues, udpateTerm);
 
                     userOrder++;
                 }

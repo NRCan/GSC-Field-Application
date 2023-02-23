@@ -268,9 +268,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// 
         /// </summary>
         /// <param name="tableObject"></param>
-        public void SaveFromSQLTableObject(object tableObject, bool doUpdate)
+        public void SaveFromSQLTableObject(ref object tableObject, bool doUpdate)
         {
-            SaveSQLTableObjectFromDB(tableObject, doUpdate, DbConnection);
+           SaveSQLTableObjectFromDB(ref tableObject, doUpdate, DbConnection);
         }
 
         /// <summary>
@@ -278,8 +278,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// 
         /// </summary>
         /// <param name="tableObject"></param>
-        public void SaveSQLTableObjectFromDB(object tableObject, bool doUpdate, SQLiteConnection inDB)
+        public void SaveSQLTableObjectFromDB(ref object tableObject, bool doUpdate, SQLiteConnection inDB)
         {
+            //Get a copy of  table object else a ref can't be used in an anonymous method
+            object newTableObject = tableObject;
+
             // Create a new connection
             using (inDB)
             {
@@ -293,8 +296,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                         if (doUpdate)
                         {
+                            
                             // update - Not working version 3.13 SQLite-Net UWP
-                            int sucess = inDB.Update(tableObject);
+                            int sucess = inDB.Update(newTableObject);
 
                             ////Update - To bypass update bug
                             //string upQuery = GetUpdateQueryFromClass(tableObject, inDB);
@@ -304,7 +308,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         }
                         else
                         {
-                            int success = inDB.Insert(tableObject);
+                            int success = inDB.Insert(newTableObject);
                         }
 
                         
@@ -320,6 +324,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 inDB.Close();
             }
+
+            //Return copy of filled out object copy
+            tableObject = newTableObject;
         }
 
         /// <summary>
@@ -327,7 +334,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// 
         /// </summary>
         /// <param name="tableObject"></param>
-        public void BatchSaveSQLTables(List<object> tableObject)
+        public List<object> BatchSaveSQLTables(List<object> tableObjects)
         {
             // Create a new connection
             using (DbConnection)
@@ -335,7 +342,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 DbConnection.RunInTransaction(() =>
                 {
-                    foreach (object t in tableObject)
+                    foreach (object t in tableObjects)
                     {
                         int sucess = DbConnection.Insert(t);
                     }
@@ -343,6 +350,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 DbConnection.Commit();
                 DbConnection.Close();
             }
+
+            return tableObjects;
         }
 
         /// <summary>
@@ -2767,6 +2776,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                             value = '"' + value.ToString() + '"';
                         }
 
+                        if (col.Name == DatabaseLiterals.FieldLocationID)
+                        {
+                            value = "NULL";
+                        }
+
                         if (col == inMapping.Columns.Last())
                         {
                             insertQuery = insertQuery + ", " + value + ") ";
@@ -2782,7 +2796,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             }
 
-            return insertQuery;
+            return insertQuery + " returning " + DatabaseLiterals.FieldLocationID + ";";
 
 
         }

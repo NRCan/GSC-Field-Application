@@ -246,7 +246,7 @@ namespace GSCFieldApp.ViewModels
         {
             //On init for new samples calculates values for default UI form
             _sampleEartmatID = inDetailModel.GenericID;
-            _sampleID = sampleIDCalculator.CalculateSampleID();
+            //_sampleID = sampleIDCalculator.CalculateSampleID();
             _sampleAlias = sampleIDCalculator.CalculateSampleAlias(_sampleEartmatID, inDetailModel.earthmat.EarthMatName);
 
             FillSamplePurpose();
@@ -357,7 +357,10 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Save model class
-            accessData.SaveFromSQLTableObject(sampleModel, doSampleUpdate);
+            object sampleObject = (object)sampleModel;
+            accessData.SaveFromSQLTableObject(ref sampleObject, doSampleUpdate);
+            sampleModel = (Sample)sampleObject;
+            //accessData.SaveFromSQLTableObject(sampleModel, doSampleUpdate);
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newSampleEdit != null)

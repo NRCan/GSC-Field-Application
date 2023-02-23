@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls;
 using System.Globalization;
 using System.Collections.ObjectModel;
 using Windows.Media.Capture;
+using System.Reflection;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -20,7 +21,7 @@ namespace GSCFieldApp.ViewModels
         #region INITIALIZATION
 
         //UI
-        private readonly Document documentModel = new Document();
+        private Document documentModel = new Document();
         private readonly Station stationModel = new Station();
         private readonly EarthMaterial eartModel = new EarthMaterial();
         private readonly Sample smModel = new Sample();
@@ -250,7 +251,7 @@ namespace GSCFieldApp.ViewModels
             //Keep report detail
             existingDataDetailDocument = inDetailModel;
             selectedStationSummaryDocument = stationSummaryID;
-            _documentID = idCalculatorDoc.CalculateDocumentID(); //Calculate new document ID
+            //_documentID = idCalculatorDoc.CalculateDocumentID(); //Calculate new document ID
 
             if (stationSummaryID.GenericID != 0)
             {
@@ -458,7 +459,7 @@ namespace GSCFieldApp.ViewModels
 
                             Document newDoc = new Document
                             {
-                                DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
+                                //DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
                                 FileNumber = iteratedFileNumber,
                                 FileName = _fileName = CalculateFileName(),
                                 DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
@@ -483,13 +484,19 @@ namespace GSCFieldApp.ViewModels
                     else
                     {
                         //Save model class
-                        dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
+                        object docObject = (object)documentModel;
+                        dataAcess.SaveFromSQLTableObject(ref docObject, doDocumentUpdate);
+                        documentModel = (Document)docObject;
+                        //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
                     }
                 }
                 else
                 {
                     //Save model class
-                    dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
+                    object docObject = (object)documentModel;
+                    dataAcess.SaveFromSQLTableObject(ref docObject, doDocumentUpdate);
+                    documentModel = (Document)docObject;
+                    //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
                 }
 
                 #endregion

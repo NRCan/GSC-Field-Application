@@ -83,7 +83,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             //On init for new stations calculate values so UI shows stuff.
-            _stationid = idCalculator.CalculateStationID(_alias);
+            //_stationid = idCalculator.CalculateStationID(_alias);
 
 
             SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
@@ -179,7 +179,7 @@ namespace GSCFieldApp.ViewModels
                 //Init location if it doesn't already exist from a manual entry
                 if (_location.LocationEntryType != Dictionaries.DatabaseLiterals.locationEntryTypeManual)
                 {
-                    QuickLocation(_location);
+                    _locationid = QuickLocation(_location);
                 }
                 else
                 {
@@ -246,7 +246,11 @@ namespace GSCFieldApp.ViewModels
             }
 
 
-            accessData.SaveFromSQLTableObject(StationModel, doStationUpdate);
+            object stationObject = (object)StationModel;
+            accessData.SaveFromSQLTableObject(ref stationObject, doStationUpdate);
+            StationModel = (Station)stationObject;
+
+            //accessData.SaveFromSQLTableObject(StationModel, doStationUpdate);
 
             if (newStationEdit!=null)
             {
@@ -546,7 +550,7 @@ namespace GSCFieldApp.ViewModels
 
             
             Location.LocationAlias = _locationAlias = idCalculator.CalculateLocationAlias(_alias); //Calculate new value
-            Location.LocationID = _locationid = idCalculator.CalculateLocationID(_locationAlias); //Calculate new value
+            //Location.LocationID = _locationid = idCalculator.CalculateLocationID(_locationAlias); //Calculate new value
             Location.MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()); //Foreign key
 
             //Fill in the table location
@@ -555,8 +559,8 @@ namespace GSCFieldApp.ViewModels
             //Fill in the feature location
             GeopackageService geoService = new GeopackageService();
             string insertQuery = accessData.GetGeopackageInsertQuery(Location);
-            geoService.DoSpatialiteQueryInGeopackage(insertQuery);
-           
+            
+            Location.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
             return Location.LocationID;
         }
 
@@ -575,7 +579,7 @@ namespace GSCFieldApp.ViewModels
             FillAirPhotoNo_TraverseNo();
 
             //Save the new station
-            StationModel.StationID = _stationid; //Prime key
+            //StationModel.StationID = _stationid; //Prime key
             StationModel.LocationID = quickLocID; //Foreign key
             StationModel.StationAlias = _alias;
             StationModel.StationVisitDate = _dateDate = CalculateStationDate(); //Calculate new value
@@ -585,9 +589,12 @@ namespace GSCFieldApp.ViewModels
             {
                 StationModel.StationTravNo = Convert.ToInt32(_stationTravNo);
             }
-            
 
-            accessData.SaveFromSQLTableObject(StationModel, false);
+            object stationObject = (object)StationModel;
+            accessData.SaveFromSQLTableObject(ref stationObject, false);
+            StationModel = (Station)stationObject;
+
+            //accessData.SaveFromSQLTableObject(StationModel, false);
 
             FieldNotes outputStationReport = new FieldNotes
             {

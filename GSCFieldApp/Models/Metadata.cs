@@ -14,7 +14,7 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [PrimaryKey, Column(DatabaseLiterals.FieldUserInfoID), NotNull]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldUserInfoID), NotNull]
         public int MetaID { get; set; }
 
         [Column(DatabaseLiterals.FieldUserInfoPCode)]

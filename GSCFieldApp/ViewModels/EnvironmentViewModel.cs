@@ -68,7 +68,7 @@ namespace GSCFieldApp.ViewModels
             existingDataDetail = inReportModel;
 
             //On init for new stations calculate values so UI shows stuff.
-            _environmentid = idCalculator.CalculateEnvironmentID();
+            //_environmentid = idCalculator.CalculateEnvironmentID();
             _envirommentParentID = inReportModel.station.StationID.ToString();
 
             //Fill controls
@@ -254,7 +254,10 @@ namespace GSCFieldApp.ViewModels
             ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
             environmentModel.EnvGroundPattern = ccBox.PipeValues(_environmentGroundPatternValues);
 
-            accessData.SaveFromSQLTableObject(environmentModel, doEnvironmentUpdate);
+            object envObject = (object)environmentModel;
+            accessData.SaveFromSQLTableObject(ref envObject, doEnvironmentUpdate);
+            environmentModel = (EnvironmentModel)envObject;
+            //accessData.SaveFromSQLTableObject(environmentModel, doEnvironmentUpdate);
 
             if (newEnvironmentEdit != null)
             {

@@ -9,7 +9,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableSample)]
     public class Sample
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldSampleID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldSampleID)]
         public int SampleID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleName)]

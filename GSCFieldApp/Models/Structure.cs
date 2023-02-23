@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableStructure)]
     public class Structure
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldStructureID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldStructureID)]
         public int StructureID { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureName)]
@@ -123,11 +123,11 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((StructureType != string.Empty && StructureType != null && StructureType != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureDetail != string.Empty && StructureDetail != null && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureFormat != string.Empty && StructureFormat != null && StructureFormat != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureAzimuth != string.Empty && StructureAzimuth != null && StructureAzimuth != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureDipPlunge != string.Empty && StructureDipPlunge != null && StructureDipPlunge != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                if ((StructureType != string.Empty && StructureType != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureDetail != string.Empty && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureFormat != string.Empty && StructureFormat != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureAzimuth != string.Empty  && StructureAzimuth != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureDipPlunge != string.Empty && StructureDipPlunge != Dictionaries.DatabaseLiterals.picklistNACode) &&
                     (isRelatedStructuresAzimuthValid == true || isRelatedStructuresAzimuthValid == null) &&
                     (isRelatedStructuresDipValid == true || isRelatedStructuresDipValid == null))
                 {
@@ -197,7 +197,7 @@ namespace GSCFieldApp.Models
             get
             {
                 if (StructureClass != null && StructureClass != string.Empty
-                    && StructureRelated != 0
+                    && StructureRelated != null
                     && StructureAzimuth != string.Empty)
                 {
                     //Init variables
@@ -236,7 +236,11 @@ namespace GSCFieldApp.Models
                     {
                         int.TryParse(StructureAzimuth, out azimuthLinear);
                     }
-                    else if (relatedStructure != null && relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear) && relatedStructure.StructureAzimuth != null && relatedStructure.StructureAzimuth != string.Empty)
+                    else if (relatedStructure != null && 
+                        relatedStructure.StructureClass != null &&
+                        relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear) && 
+                        relatedStructure.StructureAzimuth != null && 
+                        relatedStructure.StructureAzimuth != string.Empty)
                     {
                         int.TryParse(relatedStructure.StructureAzimuth, out azimuthLinear);
                     }
@@ -287,7 +291,7 @@ namespace GSCFieldApp.Models
             get
             {
                 if (StructureClass != null
-                    && StructureRelated != 0
+                    && StructureRelated != null
                     && StructureAzimuth != null
                     && StructureClass != string.Empty
                     && StructureAzimuth != string.Empty)
