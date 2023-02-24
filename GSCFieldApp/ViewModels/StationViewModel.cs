@@ -68,6 +68,8 @@ namespace GSCFieldApp.ViewModels
             //Fill controls
             FillStationType();
             
+            SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
+
             //Treat station for themes.
             if (isWayPoint)
             {
@@ -81,12 +83,6 @@ namespace GSCFieldApp.ViewModels
                 FillAirPhotoNo_TraverseNo();
                 FillObsSource();
             }
-
-            //On init for new stations calculate values so UI shows stuff.
-            //_stationid = idCalculator.CalculateStationID(_alias);
-
-
-            SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
 
         }
 
@@ -263,12 +259,6 @@ namespace GSCFieldApp.ViewModels
         {
             existingDataDetail = incomingData;
 
-            if (isWaypoint)
-            {
-                _waypointVisibility = Visibility.Collapsed;
-                RaisePropertyChanged("Enability");
-            }
-
             _latitude = Convert.ToDouble(existingDataDetail.location.LocationLat);
             _longitude = Convert.ToDouble(existingDataDetail.location.LocationLong);
             _elevation = Convert.ToDouble(existingDataDetail.location.LocationElev);
@@ -302,6 +292,19 @@ namespace GSCFieldApp.ViewModels
             {
                 AddAConcatenatedValue(s, DatabaseLiterals.FieldStationOCQuality);
             }
+
+            //Validate waypoint form
+            if (_selectedStationTypes == DatabaseLiterals.KeywordStationWaypoint || isWaypoint)
+            {
+                _waypointVisibility = Visibility.Collapsed;
+                RaisePropertyChanged("WaypointVisibility");
+            }
+            else 
+            {
+                _waypointVisibility = Visibility.Visible;
+                RaisePropertyChanged("WaypointVisibility");
+            }
+
 
         }
 
