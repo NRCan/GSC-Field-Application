@@ -216,11 +216,11 @@ namespace GSCFieldApp.ViewModels
             //For new structures or editing existing structures
             if (existingDataDetailStructure.GenericTableName == Dictionaries.DatabaseLiterals.TableEarthMat)
             {
-                queryWhere = queryWhere + " = '" + existingDataDetailStructure.GenericID + "'";
+                queryWhere = queryWhere + " = " + existingDataDetailStructure.GenericID;
             }
             else if (existingDataDetailStructure.GenericTableName == Dictionaries.DatabaseLiterals.TableStructure)
             {
-                queryWhere = queryWhere + " = '" + existingDataDetailStructure.ParentID + "'";
+                queryWhere = queryWhere + " = " + existingDataDetailStructure.ParentID ;
             }
 
             //Extra where clause to select only counterpart and not same structure types
