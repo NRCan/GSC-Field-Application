@@ -312,6 +312,9 @@ namespace GSCFieldApp.ViewModels
             UnPipePurposes(existingDataDetailSample.sample.SamplePurpose);
 
             doSampleUpdate = true;
+
+            //Validate paleomag controls visibility
+            ValidateForPaleomagnetism();
         }
 
         /// <summary>
@@ -646,15 +649,35 @@ namespace GSCFieldApp.ViewModels
             #region validate paleomagnetism
 
             //Validate for oriented samplem type and paleomagnetism. This should trigger view on Oriented set of inputs
-            if (_surficialVisibility == Visibility.Visible && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag && SelectedSampleType == DatabaseLiterals.sampleTypeOriented)
+            if (_surficialVisibility == Visibility.Visible 
+                && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag 
+                && SelectedSampleType == DatabaseLiterals.sampleTypeOriented)
             {
                 _bedrockVisibility = Visibility.Visible;
                 RaisePropertyChanged("BedrockVisibility");
             }
-            else if (_surficialVisibility == Visibility.Visible && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag || SelectedSampleType != DatabaseLiterals.sampleTypeOriented))
+            else if (_surficialVisibility == Visibility.Visible 
+                && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag 
+                || SelectedSampleType != DatabaseLiterals.sampleTypeOriented))
             {
                 _bedrockVisibility = Visibility.Collapsed;
                 RaisePropertyChanged("BedrockVisibility");
+            }
+
+            //Validate within purposes list
+            if (_surficialVisibility == Visibility.Visible 
+                && SelectedSampleType == DatabaseLiterals.sampleTypeOriented
+                && SelectedSamplePurpose == String.Empty 
+                && PurposeValues.Count > 0)
+            {
+                foreach (Themes.ComboBoxItem cbi in PurposeValues)
+                {
+                    if (cbi.itemValue.Contains(DatabaseLiterals.samplePurposePaleomag))
+                    {
+                        _bedrockVisibility = Visibility.Visible;
+                        RaisePropertyChanged("BedrockVisibility");
+                    }
+                }
             }
 
             //If needed, force deactivation of the whole header.
