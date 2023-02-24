@@ -314,7 +314,6 @@ namespace GSCFieldApp.ViewModels
                 FillContactU();
 
                 FillRelatedEarthmat();
-                FillInterConfidence();
                 FillMineral();
 
                 FillMagQualifier();
@@ -333,6 +332,7 @@ namespace GSCFieldApp.ViewModels
             FillColourG();
             FillColourI();
             FillColourQ();
+            FillInterConfidence();
 
             if (existingDataDetail != null && existingDataDetail.GenericID != 0)
             {
