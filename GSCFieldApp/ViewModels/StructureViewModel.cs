@@ -680,7 +680,8 @@ namespace GSCFieldApp.ViewModels
             {
                 structureModel.StructureFlattening = SelectedStructFlat;
             }
-            if (SelectedStructRelated != null && SelectedStructRelated != string.Empty)
+            if (SelectedStructRelated != null && SelectedStructRelated != string.Empty 
+                && SelectedStructRelated != DatabaseLiterals.picklistNACode)
             {
                 structureModel.StructureRelated = int.Parse(SelectedStructRelated);
             }
