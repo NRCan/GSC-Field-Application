@@ -29,6 +29,14 @@ using Newtonsoft.Json;
 using SQLite;
 using GSCFieldApp.Services;
 
+//Added by jamel
+using ProjNet.CoordinateSystems;
+using ProjNet.CoordinateSystems.Transformations;
+using ProjNet.Converters.WellKnownText;
+using ProjNet;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
+
 namespace GSCFieldApp.ViewModels
 {
 
@@ -1799,11 +1807,18 @@ namespace GSCFieldApp.ViewModels
                         _currentLongitude = in_position.Coordinate.Point.Position.Longitude;
                         RaisePropertyChanged("CurrentLongitude");
                         _currentLatitude = in_position.Coordinate.Point.Position.Latitude;
-                        _currentEasting = in_position.Coordinate.Point.Position.Latitude;  //CoordinateFormatter.ToUtm(in_position.Coordinate.Point.Position.Latitude, UtmConversionMode.NorthSouthIndicators, true);
-                        _currentNorthing = in_position.Coordinate.Point.Position.Latitude;
+                        //_currentEasting = in_position.Coordinate.Point.Position.Latitude;  //CoordinateFormatter.ToUtm(in_position.Coordinate.Point.Position.Latitude, UtmConversionMode.NorthSouthIndicators, true);
+                        //_currentNorthing = in_position.Coordinate.Point.Position.Latitude;
                         RaisePropertyChanged("CurrentLatitude");
                         _currentAltitude = in_position.Coordinate.Point.Position.Altitude;
                         RaisePropertyChanged("CurrentAltitude");
+
+                        //added by jamel
+                        double[] eastingNorthing = ConvertLatLongToEastingNorthing(_currentLatitude, _currentLongitude);
+                        _currentEasting = eastingNorthing[0];
+                        _currentNorthing = eastingNorthing[1];
+                        RaisePropertyChanged("CurrentNorthing");
+                        RaisePropertyChanged("CurrentEasting");
 
                         //Reset view on current location
                         //bool settingViewPoint = await currentMapView.SetViewpointAsync(new Viewpoint(_currentLatitude, _currentLongitude, mapScale), TimeSpan.FromSeconds(0.75));
@@ -2216,6 +2231,28 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region METHODS
+
+        //Added by Jamel
+        public static double[] ConvertLatLongToEastingNorthing(double lat, double lng)
+        {
+
+            //Determine zone
+            int utmzone = (int)((lng - -186.0) / 6.0);
+
+            // Define the source and target coordinate systems
+            ICoordinateSystem epsg4326 = GeographicCoordinateSystem.WGS84;
+            ICoordinateSystem epsg27700 = ProjectedCoordinateSystem.WGS84_UTM(utmzone, true);
+
+            // Create the coordinate transformation
+            CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory();
+            ICoordinateTransformation transformation = ctFact.CreateFromCoordinateSystems(epsg4326, epsg27700);
+
+            // Create the source and target coordinate points
+            double[] srcPoint = new double[] { lng, lat };
+            double[] targetPoint = transformation.MathTransform.Transform(srcPoint);
+
+            return targetPoint;
+        }
         private Tuple<int, string, string> queryStation(string id)
         {
             Station stationModel = new Station();
