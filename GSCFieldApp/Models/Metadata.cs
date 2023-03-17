@@ -133,16 +133,16 @@ namespace GSCFieldApp.Models
                 }
 
                 metadataFieldList[DatabaseLiterals.DBVersion] = metadataFieldListDefault;
-                
+
 
                 //Revert shcema 1.7 changes
-                //List<string> metadataFieldList160 = new List<string>();
-                //metadataFieldList160.AddRange(metadataFieldListDefault);
-                //metadataFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //metadataFieldList[DatabaseLiterals.DBVersion160] = metadataFieldList160;
+                List<string> metadataFieldList160 = new List<string>();
+                metadataFieldList160.AddRange(metadataFieldListDefault);
+                metadataFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                metadataFieldList[DatabaseLiterals.DBVersion160] = metadataFieldList160;
 
                 //Noting changed in 1.6
-                //metadataFieldList[DatabaseLiterals.DBVersion150] = metadataFieldList160;
+                metadataFieldList[DatabaseLiterals.DBVersion150] = metadataFieldList160;
 
                 //Revert schema 1.5 changes. 
                 List<string> metadataFieldList144 = new List<string>();

@@ -318,6 +318,14 @@ namespace GSCFieldApp.Dictionaries
 
         #endregion
 
+        #region Database table views name
+
+        public const string ViewPrefix = "view_"; //Version 1.7 - used for legacy data format prime key mitigation
+        public const string ViewGenericLegacyPrimeKey = "PRIME"; //Version 1.7 - used for legacy data format prime key mitigation
+        public const string ViewGenericLegacyForeignKey = "FORE"; //Version 1.7 - used for legacy data format prime key mitigation
+
+        #endregion
+
         #region Database extension types
         public const string DBTypeSqlite = ".gpkg"; //Version 1.7
         public const string DBTypeSqliteDeprecated = ".sqlite"; //Version < 1.7

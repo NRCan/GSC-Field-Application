@@ -21,6 +21,8 @@ using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Template10.Utils;
 using System.Diagnostics;
+using Windows.UI.Xaml.Shapes;
+using Path = System.IO.Path;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -845,8 +847,9 @@ namespace GSCFieldApp.ViewModels
                         //Keep current database path before creating the new one
                         string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
                         
-                        //Create new fieldbook 
+                        //Create new fieldbook with embeded resource of legacy schema
                         string versionFileName = DatabaseLiterals.DBName;
+
                         if (processedDBVersion == 1.42)
                         {
                             //Skip straight to 1.44, since 1.43 only targeted picklist values
@@ -866,8 +869,10 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.6)
                         {
+                            
                             //Current defaulting to 1.7
                         }
+
                         versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
 
@@ -884,19 +889,41 @@ namespace GSCFieldApp.ViewModels
                             //Upgrade other tables
                             Task upgradeSchema = accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection, processedDBVersion);
 
-                            if (upgradeSchema.IsCompleted)
+                            if (upgradeSchema.IsCompleted && upgradeSchema.Status != TaskStatus.Faulted)
                             {
                                 //Rename current fieldbook
-                                string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString()) + Dictionaries.DatabaseLiterals.DBTypeSqlite;
-                                string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName);
+                                string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString().Replace(".", ""));
+
+                                string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName) + DatabaseLiterals.DBTypeSqlite;
                                 string copyPathBeforeMove = DataAccess.DbPath;
+
+                                //Legacy file type management for file naming
+                                if (processedDBVersion == DatabaseLiterals.DBVersion160)
+                                {
+                                    upgradedDBPath = upgradedDBPath.Replace(DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated);
+                                    copyPathBeforeMove = copyPathBeforeMove.Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
+                                }
+
+                                //Move
                                 File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
 
                                 //Copy upgraded version
                                 File.Move(dbpathToUpgrade, copyPathBeforeMove);
 
+                                //Update local settings
+                                DataAccess.DbPath = copyPathBeforeMove;
+
                                 //Last check on db version to keep iterating
                                 processedDBVersion = dAccess.GetDBVersion();
+
+                                //One last special move for legacy format
+                                if (processedDBVersion == 1.7)
+                                {
+                                    //Force an update on geometry field
+                                    string updateGeometryQuery = dAccess.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                                    GeopackageService packService = new GeopackageService();
+                                    packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
+                                }
 
                                 //Show end message
                                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -909,6 +936,22 @@ namespace GSCFieldApp.ViewModels
                                     };
                                     upgradedDBDialog.Closed += upgradedDBDialog_Closed;
                                     await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
+
+                                }).AsTask();
+                            }
+                            else
+                            {
+                                //Show error message
+                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                {
+                                    ContentDialog deleteBookDialog = new ContentDialog()
+                                    {
+                                        Title = "DB Error",
+                                        Content = upgradeSchema.Exception.Message,
+                                        PrimaryButtonText = "Bugger"
+                                    };
+                                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
 
                                 }).AsTask();
                             }
