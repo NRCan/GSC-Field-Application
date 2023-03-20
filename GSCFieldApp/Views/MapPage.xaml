@@ -76,12 +76,12 @@
 
         <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" IsOpen="True" Height="40">
-            <AppBarButton x:Name="LatLongUTM" Label="Coordinates" x:Uid="MapPageLatLongUTM" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="Read">
+            <AppBarButton x:Name="LatLongUTM" Label="" x:Uid="MapPageLatLongUTM" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="Read">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="LatLong DMS" Click="LatLongDMSButtonClicked"/>
-                        <MenuFlyoutItem Text="LatLong DD" Click="LatLongDDButtonClicked"/>
-                        <MenuFlyoutItem Text="UTM" Click="UTMButtonClicked"/>
+                        <MenuFlyoutItem Text="" Click="LatLongDMSButtonClicked" x:Uid="MapPageLatLongDMSButton"/>
+                        <MenuFlyoutItem Text="" Click="LatLongDDButtonClicked" x:Uid="MapPageLatLongDDButton"/>
+                        <MenuFlyoutItem Text="" Click="UTMButtonClicked" x:Uid="MapPageUTMButton"/>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

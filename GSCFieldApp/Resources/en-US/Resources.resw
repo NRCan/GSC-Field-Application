@@ -1692,4 +1692,16 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
     <value>Elevation (m)</value>
   </data>
+  <data name="MapPageLatLongDDButton.Text" xml:space="preserve">
+    <value>DD</value>
+  </data>
+  <data name="MapPageLatLongDMSButton.Text" xml:space="preserve">
+    <value>DMS</value>
+  </data>
+  <data name="MapPageLatLongUTM.Label" xml:space="preserve">
+    <value>Coordinates</value>
+  </data>
+  <data name="MapPageUTMButton.Text" xml:space="preserve">
+    <value>UTM</value>
+  </data>
 </root>

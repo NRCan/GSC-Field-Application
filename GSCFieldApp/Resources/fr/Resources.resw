@@ -1686,4 +1686,16 @@ Shimamura, Kaz – Conseiller</value>
   <data name="MapPageCenter.Label" xml:space="preserve">
     <value>Recadrer</value>
   </data>
+  <data name="MapPageLatLongDDButton.Text" xml:space="preserve">
+    <value>DD</value>
+  </data>
+  <data name="MapPageLatLongDMSButton.Text" xml:space="preserve">
+    <value>DMS</value>
+  </data>
+  <data name="MapPageLatLongUTM.Label" xml:space="preserve">
+    <value>Coordonnées</value>
+  </data>
+  <data name="MapPageUTMButton.Text" xml:space="preserve">
+    <value>UTM</value>
+  </data>
 </root>
