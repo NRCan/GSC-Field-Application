@@ -2565,7 +2565,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             ///Schema v 1.7: 
             ///https://github.com/NRCan/GSC-Field-Application/milestone/8
             List<string> insertQuery_17 = new List<string>();
-            List<string> nullFieldList = new List<string>() { DatabaseLiterals.FieldGenericRowID , FieldGenericGeometry };
+            List<string> nullFieldList = new List<string>() { DatabaseLiterals.FieldGenericRowID , FieldGenericGeometry,
+            FieldSampleBucketTray, FieldSampleWarehouseLocation};
 
             #region F_METADATA
 
@@ -2637,14 +2638,23 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            //#region F_SAMPLE
+            #region F_SAMPLE
 
-            //Sample modelSample = new Sample();
-            //List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+            Sample modelSample = new Sample();
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(sampleFieldList, nullFieldList, DatabaseLiterals.TableSample, attachedDBName));
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableSample, FieldSampleID,
+                FieldSampleEarthmatID, earthView, FieldSampleEarthmatID));
 
-            //#endregion
+            //Get insert query 
+            Tuple<string, string> primeSample = new Tuple<string, string>(FieldSampleID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignSample = new Tuple<string, string>(FieldSampleEarthmatID, ViewGenericLegacyForeignKey);
+            string sampleView = ViewPrefix + TableSample;
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(sampleFieldList, nullFieldList, TableSample,
+                primeSample, foreignSample, attachedDBName, sampleView));
+
+            #endregion
 
             //#region F_STRUCTURE
 

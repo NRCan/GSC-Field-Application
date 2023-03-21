@@ -25,10 +25,10 @@ namespace GSCFieldApp.Models
         public string SampleFormat { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleAzim)]
-        public string SampleAzim { get; set; }
+        public int SampleAzim { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDipPlunge)]
-        public string SampleDiplunge { get; set; }
+        public int SampleDiplunge { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleSurface)]
         public string SampleSurface { get; set; }
@@ -40,7 +40,7 @@ namespace GSCFieldApp.Models
         public string SampleCuration { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleManagementID)]
-        public string SampleSMID { get; set; }
+        public int SampleSMID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleEarthmatID)]
         public int SampleEarthmatID { get; set; }
@@ -52,13 +52,13 @@ namespace GSCFieldApp.Models
         public string SampleHorizon { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMin)]
-        public string SampleDepthMin { get; set; }
+        public int SampleDepthMin { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMax)]
-        public string SampleDepthMax { get; set; }
+        public int SampleDepthMax { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDuplicate)]
-        public string SampleDuplicate { get; set; }
+        public int SampleDuplicate { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDuplicateName)]
         public string SampleDuplicateName { get; set; }
