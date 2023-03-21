@@ -2656,14 +2656,23 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            //#region F_STRUCTURE
+            #region F_STRUCTURE
 
-            //Structure modelStructure = new Structure();
-            //List<string> structureFieldList = modelStructure.getFieldList[DBVersion];
+            Structure modelStructure = new Structure();
+            List<string> structureFieldList = modelStructure.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(structureFieldList, nullFieldList, DatabaseLiterals.TableStructure, attachedDBName));
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableStructure, FieldStructureID,
+                FieldStructureParentID, earthView, FieldStructureParentID));
 
-            //#endregion
+            //Get insert query 
+            Tuple<string, string> primeStructure = new Tuple<string, string>(FieldStructureID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignStructure = new Tuple<string, string>(FieldStructureParentID, ViewGenericLegacyForeignKey);
+            string strucView = ViewPrefix + TableStructure;
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(structureFieldList, nullFieldList, TableStructure, 
+                primeStructure, foreignStructure, attachedDBName, strucView));
+
+            #endregion
 
             //#region F_PALEO_FLOW
 

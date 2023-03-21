@@ -56,13 +56,13 @@ namespace GSCFieldApp.Models
         public string StructureSense { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureAzimuth)]
-        public string StructureAzimuth { get; set; }
+        public int StructureAzimuth { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureDip)]
-        public string StructureDipPlunge { get; set; }
+        public int StructureDipPlunge { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureSymAng)]
-        public string StructureSymAng
+        public int StructureSymAng
         {
             //Autocalculated field based on selected format, if any is chosen.
             get
@@ -72,25 +72,16 @@ namespace GSCFieldApp.Models
                     StructureFormat.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordDipDipDirectionRule) &&
                     StructureClass.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordPlanar))
                 {
-                    bool isInt = int.TryParse(StructureAzimuth, out int intAzim);
 
-                    if (isInt)
+                    if (StructureAzimuth >= 0 && StructureAzimuth <= 90)
                     {
-                        if (intAzim >= 0 && intAzim <= 90)
-                        {
-                            return (360 + (intAzim - 90)).ToString();
-                        }
-                        else
-                        {
-                            return (intAzim - 90).ToString();
-                        }
-
-
+                        return (360 + (StructureAzimuth - 90));
                     }
                     else
                     {
-                        return StructureAzimuth;
+                        return (StructureAzimuth - 90);
                     }
+
                 }
                 else
                 {
@@ -109,7 +100,7 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStructureParentID)]
         public int StructureParentID { get; set; }
 
-        private string _structureSymAng = string.Empty;
+        private int? _structureSymAng;
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
@@ -126,8 +117,6 @@ namespace GSCFieldApp.Models
                 if ((StructureType != string.Empty && StructureType != Dictionaries.DatabaseLiterals.picklistNACode) &&
                     (StructureDetail != string.Empty && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode) &&
                     (StructureFormat != string.Empty && StructureFormat != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureAzimuth != string.Empty  && StructureAzimuth != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureDipPlunge != string.Empty && StructureDipPlunge != Dictionaries.DatabaseLiterals.picklistNACode) &&
                     (isRelatedStructuresAzimuthValid == true || isRelatedStructuresAzimuthValid == null) &&
                     (isRelatedStructuresDipValid == true || isRelatedStructuresDipValid == null))
                 {
@@ -135,7 +124,7 @@ namespace GSCFieldApp.Models
                 }
                 else
                 {
-                    if (StructureDipPlunge == string.Empty && StructureAttitude == DatabaseLiterals.structurePlanarAttitudeTrend)
+                    if (StructureAttitude == DatabaseLiterals.structurePlanarAttitudeTrend)
                     {
                         return true;
                     }
@@ -197,8 +186,7 @@ namespace GSCFieldApp.Models
             get
             {
                 if (StructureClass != null && StructureClass != string.Empty
-                    && StructureRelated != null
-                    && StructureAzimuth != string.Empty)
+                    && StructureRelated != null)
                 {
                     //Init variables
                     int azimuthPlanar = int.MinValue;
@@ -215,16 +203,16 @@ namespace GSCFieldApp.Models
                     //Fill in variables
                     if (StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
                     {
-                        int.TryParse(StructureAzimuth, out azimuthPlanar);
+                        azimuthPlanar = StructureAzimuth;
 
                         if (azimuthPlanar != int.MinValue)
                         {
                             azimuthPlanarMax = azimuthPlanar + 180;
                         }
                     }
-                    else if (relatedStructure != null && relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar) && relatedStructure.StructureAzimuth != string.Empty)
+                    else if (relatedStructure != null && relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
                     {
-                        int.TryParse(relatedStructure.StructureAzimuth, out azimuthPlanar);
+                        azimuthPlanar = StructureAzimuth;
 
                         if (azimuthPlanar != int.MinValue)
                         {
@@ -234,15 +222,13 @@ namespace GSCFieldApp.Models
 
                     if (StructureClass.Contains(DatabaseLiterals.KeywordLinear))
                     {
-                        int.TryParse(StructureAzimuth, out azimuthLinear);
+                        azimuthLinear = StructureAzimuth;
                     }
                     else if (relatedStructure != null && 
                         relatedStructure.StructureClass != null &&
-                        relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear) && 
-                        relatedStructure.StructureAzimuth != null && 
-                        relatedStructure.StructureAzimuth != string.Empty)
+                        relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear))
                     {
-                        int.TryParse(relatedStructure.StructureAzimuth, out azimuthLinear);
+                        azimuthLinear = StructureAzimuth;
                     }
 
                     //Validate linear and planar azimuths
@@ -292,9 +278,7 @@ namespace GSCFieldApp.Models
             {
                 if (StructureClass != null
                     && StructureRelated != null
-                    && StructureAzimuth != null
-                    && StructureClass != string.Empty
-                    && StructureAzimuth != string.Empty)
+                    && StructureClass != string.Empty)
                 {
                     //Init variables
                     int dipPlanar = int.MinValue;
@@ -311,20 +295,20 @@ namespace GSCFieldApp.Models
                     //Fill in variables
                     if (StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
                     {
-                        int.TryParse(StructureDipPlunge, out dipPlanar);
+                        dipPlanar = StructureDipPlunge;
                     }
-                    else if (relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar) && relatedStructure.StructureDipPlunge != string.Empty)
+                    else if (relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
                     {
-                        int.TryParse(relatedStructure.StructureDipPlunge, out dipPlanar);
+                        dipPlanar = StructureDipPlunge;
                     }
 
                     if (StructureClass.Contains(DatabaseLiterals.KeywordLinear))
                     {
-                        int.TryParse(StructureDipPlunge, out dipLinear);
+                        dipLinear = StructureDipPlunge;
                     }
-                    else if (relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear) && relatedStructure.StructureDipPlunge != string.Empty)
+                    else if (relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear))
                     {
-                        int.TryParse(relatedStructure.StructureDipPlunge, out dipLinear);
+                        dipLinear = StructureDipPlunge;
                     }
 
                     //Validate linear and planar azimuths
