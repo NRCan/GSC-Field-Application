@@ -148,8 +148,10 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleDuplicateName = "DUPLICATENAME";//Version 1.5
         public const string FieldSampleState = "STATE";//Version 1.5
         public const string FieldCurationID = "CURATIONID";
-        public const string FieldSampleManagementID = "SMID";
+        public const string FieldSampleWarehouseLocation= "WAREHOUSE_LOCATION"; //Version 1.7
+        public const string FieldSampleBucketTray = "BUCKET_OR_TRAY_NO"; //Version 1.7
 
+        public const string FieldSampleManagementID = "SMID";
         public const string FieldDictionaryTermID = "TERMID";//Version 1.0
         public const string FieldDictionaryCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryCode = "CODE";//Version 1.0

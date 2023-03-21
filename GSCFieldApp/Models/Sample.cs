@@ -66,6 +66,12 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleState)]
         public string SampleState { get; set; }
 
+        [Column(DatabaseLiterals.FieldSampleWarehouseLocation)]
+        public string SampleWarehouse { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleBucketTray)]
+        public string SampleBucket { get; set; }
+
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
@@ -114,15 +120,16 @@ namespace GSCFieldApp.Models
                 }
 
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
-                
+
 
                 //Revert shcema 1.7 changes
-                //List<string> sampleFieldList160 = new List<string>();
-                //sampleFieldList160.AddRange(sampleFieldListDefault);
-                //sampleFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
+                List<string> sampleFieldList160 = new List<string>();
+                sampleFieldList160.AddRange(sampleFieldListDefault);
+                sampleFieldList160.Remove(DatabaseLiterals.FieldSampleBucketTray);
+                sampleFieldList160.Remove(DatabaseLiterals.FieldSampleWarehouseLocation);
+                sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
 
-                sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldListDefault;
+                sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldList160;
 
                 //Revert schema 1.5 changes. 
                 List<string> sampleFieldList144 = new List<string>();
