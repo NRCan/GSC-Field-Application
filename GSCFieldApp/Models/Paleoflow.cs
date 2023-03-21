@@ -28,16 +28,16 @@ namespace GSCFieldApp.Models
         public string PFlowMethod { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowAzimuth)]
-        public string PFlowAzimuth { get; set; }
+        public int PFlowAzimuth { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowMainDir)]
         public string PFlowMainDir { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowRelage)]
-        public string PFlowRelAge { get; set; }
+        public int PFlowRelAge { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowDip)]
-        public string PFlowDip { get; set; }
+        public int PFlowDip { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowNumIndic)]
         public string PFlowNumIndic { get; set; }

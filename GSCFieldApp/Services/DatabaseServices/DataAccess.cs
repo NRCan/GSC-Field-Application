@@ -2674,14 +2674,23 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            //#region F_PALEO_FLOW
+            #region F_PALEO_FLOW
 
-            //Paleoflow modelPFlow = new Paleoflow();
-            //List<string> pflowFieldList = modelPFlow.getFieldList[DBVersion];
+            Paleoflow modelPFlow = new Paleoflow();
+            List<string> pflowFieldList = modelPFlow.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(pflowFieldList, nullFieldList, DatabaseLiterals.TablePFlow, attachedDBName));
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TablePFlow, FieldPFlowID,
+                FieldPFlowParentID, earthView, FieldPFlowParentID));
 
-            //#endregion
+            //Get insert query 
+            Tuple<string, string> primePflow= new Tuple<string, string>(FieldPFlowID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignPflow = new Tuple<string, string>(FieldPFlowParentID, ViewGenericLegacyForeignKey);
+            string pflowView = ViewPrefix + TablePFlow;
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(pflowFieldList, nullFieldList, TablePFlow,
+                primePflow, foreignPflow, attachedDBName, pflowView));
+
+            #endregion
 
             //#region F_ENVIRONMENT
 

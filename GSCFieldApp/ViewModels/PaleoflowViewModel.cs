@@ -408,7 +408,7 @@ namespace GSCFieldApp.ViewModels
             _selectedPflowBedSurface = existingDataDetailPflow.paleoflow.PFlowBedsurf;
             _selectedPflowDefined = existingDataDetailPflow.paleoflow.PFlowDefinition;
             _selectedPflowNoIndicator = existingDataDetailPflow.paleoflow.PFlowNumIndic;
-            _selectedPflowAge = existingDataDetailPflow.paleoflow.PFlowRelAge;
+            _selectedPflowAge = existingDataDetailPflow.paleoflow.PFlowRelAge.ToString();
             _selectedPflowMethod = existingDataDetailPflow.paleoflow.PFlowMethod;
             _selectedPflowRelative = existingDataDetailPflow.paleoflow.PFlowRelation;
             _selectedPflowFeature = existingDataDetailPflow.paleoflow.PFlowFeature;
@@ -450,8 +450,8 @@ namespace GSCFieldApp.ViewModels
             pflowModel.PFlowName = _pflowName;
             pflowModel.PFlowParentID = _pflowParentID;
             pflowModel.PFlowNotes = _pflowNote;
-            pflowModel.PFlowDip = _pflowDipPlunge;
-            pflowModel.PFlowAzimuth = _pflowAzim;
+            pflowModel.PFlowDip = int.Parse(_pflowDipPlunge);
+            pflowModel.PFlowAzimuth = int.Parse(_pflowAzim);
 
             if (PflowMainDirection.HasValue)
             {
@@ -500,7 +500,7 @@ namespace GSCFieldApp.ViewModels
             }
             if (SelectedPflowage != null)
             {
-                pflowModel.PFlowRelAge = SelectedPflowage;
+                pflowModel.PFlowRelAge = int.Parse(SelectedPflowage);
             }
             if (SelectedPflowMethod != null)
             {
