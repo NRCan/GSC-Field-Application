@@ -2692,23 +2692,43 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            //#region F_ENVIRONMENT
+            #region F_ENVIRONMENT
 
-            //EnvironmentModel modelEnv = new EnvironmentModel();
-            //List<string> envFieldList = modelEnv.getFieldList[DBVersion];
+            EnvironmentModel modelEnv = new EnvironmentModel();
+            List<string> envFieldList = modelEnv.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(envFieldList, nullFieldList, DatabaseLiterals.TableEnvironment, attachedDBName));
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableEnvironment, FieldEnvID,
+                FieldEnvStationID, statView, FieldEnvStationID));
 
-            //#endregion
+            //Get insert query 
+            Tuple<string, string> primeEnv = new Tuple<string, string>(FieldEnvID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignEnv = new Tuple<string, string>(FieldEnvStationID, ViewGenericLegacyForeignKey);
+            string envView = ViewPrefix + TableEnvironment;
 
-            //#region F_MINERALIZATION_ALTERAION
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(envFieldList, nullFieldList, TableEnvironment,
+                primeEnv, foreignEnv, attachedDBName, envView));
 
-            //MineralAlteration modelMA = new MineralAlteration();
-            //List<string> maFieldList = modelMA.getFieldList[DBVersion];
+            #endregion
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(maFieldList, nullFieldList, DatabaseLiterals.TableMineralAlteration, attachedDBName));
+            #region F_MINERALIZATION_ALTERAION
 
-            //#endregion
+            MineralAlteration modelMA = new MineralAlteration();
+            List<string> maFieldList = modelMA.getFieldList[DBVersion];
+
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMineralAlteration, FieldMineralAlterationID,
+                FieldMineralAlterationRelID, statView, FieldStationID));
+
+            //Get insert query 
+            Tuple<string, string> primeMA= new Tuple<string, string>(FieldMineralAlterationID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignMA = new Tuple<string, string>(FieldMineralAlterationRelID, ViewGenericLegacyForeignKey);
+            string MAView = ViewPrefix + TableMineralAlteration;
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(maFieldList, nullFieldList, TableMineralAlteration,
+                primeMA, foreignMA, attachedDBName, MAView));
+
+            #endregion
 
             //#region F_MINERAL
 
@@ -2719,14 +2739,24 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //#endregion
 
-            //#region F_FOSSIL
+            #region F_FOSSIL
 
-            //Fossil modelFossil = new Fossil();
-            //List<string> fossilFieldList = modelFossil.getFieldList[DBVersion];
+            Fossil modelFossil = new Fossil();
+            List<string> fossilFieldList = modelFossil.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(fossilFieldList, nullFieldList, DatabaseLiterals.TableFossil, attachedDBName));
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableFossil, FieldFossilID,
+                FieldFossilParentID, earthView, FieldFossilParentID));
 
-            //#endregion
+            //Get insert query 
+            Tuple<string, string> primeFossil = new Tuple<string, string>(FieldFossilID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignFossil = new Tuple<string, string>(FieldFossilParentID, ViewGenericLegacyForeignKey);
+            string fossilView = ViewPrefix + TableFossil;
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(fossilFieldList, nullFieldList, TableFossil, 
+                primeFossil, foreignFossil, attachedDBName, fossilView));
+
+            #endregion
 
             //#region M_DICTIONARY
 
@@ -2746,14 +2776,24 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //#endregion
 
-            //#region F_DOCUMENT
+            #region F_DOCUMENT
 
-            //Document modelDocument = new Document();
-            //List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
+            Document modelDocument = new Document();
+            List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(documentFieldList, nullFieldList, DatabaseLiterals.TableDocument, attachedDBName));
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableDocument, FieldDocumentID,
+                FieldDocumentRelatedID, statView, FieldStationID));
 
-            //#endregion
+            //Get insert query 
+            Tuple<string, string> primeDoc = new Tuple<string, string>(FieldDocumentID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignDoc = new Tuple<string, string>(FieldDocumentRelatedID, ViewGenericLegacyForeignKey);
+            string docView = ViewPrefix + TableDocument;
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(documentFieldList, nullFieldList, TableDocument,
+                primeDoc, foreignDoc, attachedDBName, docView));
+
+            #endregion
 
             return insertQuery_17;
         }
