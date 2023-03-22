@@ -625,7 +625,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 else
                 {
-                    vocab_querySelect = " v." + vocabFields + " as " + vocabFields;
+                    if (vocabFields == FieldGenericRowID && dbVersion == DBVersion160)
+                    {
+                        vocab_querySelect = " NULL as " + vocabFields;
+                    }
+                    else
+                    {
+                        vocab_querySelect = " v." + vocabFields + " as " + vocabFields;
+                    }
+                    
                 }
 
             }
@@ -686,7 +694,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 else
                 {
-                    vocabm_querySelect = " vm." + vocabMFields + " as " + vocabMFields;
+                    if (vocabMFields == FieldGenericRowID && dbVersion == DBVersion160)
+                    {
+                        vocabm_querySelect = " NULL as " + vocabMFields;
+                    }
+                    else
+                    {
+                        vocabm_querySelect = " vm." + vocabMFields + " as " + vocabMFields;
+                    }
+                        
                 }
 
             }
@@ -2713,6 +2729,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #region F_MINERALIZATION_ALTERAION
 
+            ///Warning: We assumed that by default records will be linked with station
+           
             MineralAlteration modelMA = new MineralAlteration();
             List<string> maFieldList = modelMA.getFieldList[DBVersion];
 
@@ -2730,14 +2748,31 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            //#region F_MINERAL
+            #region F_MINERAL
 
-            //Mineral modelMineral = new Mineral();
-            //List<string> mineralFieldList = modelMineral.getFieldList[DBVersion];
+            Mineral modelMineral = new Mineral();
+            List<string> mineralFieldList = modelMineral.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, DatabaseLiterals.TableMineral, attachedDBName));
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            string MineralView = ViewPrefix + TableMineral;
 
-            //#endregion
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMineral, FieldMineralID,
+                FieldMineralMAID, MAView, FieldMineralAlterationID));
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMineral, FieldMineralID,
+                FieldMineralEMID, earthView, FieldEarthMatID, MineralView + "_2"));
+
+            //Get insert query 
+            Tuple<string, string> primeMineral = new Tuple<string, string>(FieldMineralID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignMineral = new Tuple<string, string>(FieldMineralMAID, ViewGenericLegacyForeignKey);
+            Tuple<string, string> foreignMineral2 = new Tuple<string, string>(FieldEarthMatID, ViewGenericLegacyForeignKey);
+            
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, TableMineral,
+                primeMineral, foreignMineral, attachedDBName, MineralView));
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, TableMineral,
+                primeMineral, foreignMineral2, attachedDBName, MineralView + "_2"));
+
+            #endregion
 
             #region F_FOSSIL
 
@@ -2758,25 +2793,27 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            //#region M_DICTIONARY
+            #region M_DICTIONARY
 
-            //Vocabularies modelVocab = new Vocabularies();
-            //List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
+            Vocabularies modelVocab = new Vocabularies();
+            List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabFieldList, nullFieldList, DatabaseLiterals.TableDictionary, attachedDBName));
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabFieldList, nullFieldList, TableDictionary, null, null, attachedDBName));
 
-            //#endregion
+            #endregion
 
-            //#region M_DICTIONARY_MANAGER
+            #region M_DICTIONARY_MANAGER
 
-            //VocabularyManager modelVocabManager = new VocabularyManager();
-            //List<string> vocabManagerFieldList = modelVocabManager.getFieldList[DBVersion];
+            VocabularyManager modelVocabManager = new VocabularyManager();
+            List<string> vocabManagerFieldList = modelVocabManager.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabManagerFieldList, nullFieldList, DatabaseLiterals.TableDictionaryManager, attachedDBName));
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabManagerFieldList, nullFieldList, TableDictionaryManager, null, null, attachedDBName));
 
-            //#endregion
+            #endregion
 
             #region F_DOCUMENT
+
+            ///Warning: We assumed that by default records will be linked with station
 
             Document modelDocument = new Document();
             List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
@@ -2945,8 +2982,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
 
             //Variables
+            DataIDCalculation did = new DataIDCalculation();
+            Random ran = new Random();
+
             string query_select = string.Empty;
-            string alias = tableName.Substring(0, 3);
+            string alias = did.CalculateAlphabeticID(true, ran.Next(1,50));
             string incrementChar = string.Empty;
 
             //Iterate through field name list
@@ -3034,7 +3074,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="relatedView">View name of for relationship to get foreign key(optional)</param>
         /// <param name="relatedPrimeKey">Field name of the original foreign key in related view (optional)</param>
         /// <returns></returns>
-        public string GenerateLegacyFormatViews(string attachedDBName, string tableName, string primeKey, string foreignKey = "", string relatedView = "", string relatedPrimeKey = "")
+        public string GenerateLegacyFormatViews(string attachedDBName, string tableName, string primeKey, string foreignKey = "", string relatedView = "", string relatedPrimeKey = "", string viewName = "")
         {
             //Top parent view meant to look like
             ///create view view_metadata as
@@ -3049,7 +3089,14 @@ namespace GSCFieldApp.Services.DatabaseServices
             string viewAlias = "v";
 
             string outputQueryView = "CREATE VIEW " + attachedDBName + "." + ViewPrefix + tableName + " as SELECT " + tableAlias + ".*, ROW_NUMBER() OVER(ORDER BY f." +
-                primeKey + ") as " + ViewGenericLegacyPrimeKey; 
+                primeKey + ") as " + ViewGenericLegacyPrimeKey;
+
+            //Rare case when a second view is needed for multiple relationship
+            if (viewName != String.Empty)
+            {
+                outputQueryView = "CREATE VIEW " + attachedDBName + "." + viewName + " as SELECT " + tableAlias + ".*, ROW_NUMBER() OVER(ORDER BY f." +
+                primeKey + ") as " + ViewGenericLegacyPrimeKey;
+            }
 
             if (relatedView != string.Empty)
             {
