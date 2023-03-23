@@ -21,7 +21,7 @@ namespace GSCFieldApp.ViewModels
         //UI default values
 
         private string _locationAlias = string.Empty;
-        private string _locationID = string.Empty;
+        private int _locationID = 0;
 
         private string _locationLatitude = "0";
         private string _locationLongitude = "0"; //Default
@@ -58,7 +58,7 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
 
         public string LocationAlias { get { return _locationAlias; } set { _locationAlias = value; } }
-        public string LocationID { get { return _locationID; } set { _locationID = value; } }
+        public int LocationID { get { return _locationID; } set { _locationID = value; } }
         public string LocationLatitude {
             get { return _locationLatitude; }
             set
@@ -131,7 +131,7 @@ namespace GSCFieldApp.ViewModels
         public LocationViewModel(FieldNotes inReport)
         {
             //On init for new stations calculate values so UI shows stuff.
-            _locationID = idCalculator.CalculateLocationID();
+            //_locationID = idCalculator.CalculateLocationID();
             _locationAlias = idCalculator.CalculateLocationAlias();
 
             FillDatum();
@@ -237,7 +237,7 @@ namespace GSCFieldApp.ViewModels
             locationModel.LocationLat = _lat;
             locationModel.LocationLong = _long;
             locationModel.LocationElev = Double.Parse(LocationElevation);
-            locationModel.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
+            locationModel.MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()); //Foreign key
             locationModel.LocationNotes = LocationNotes;
             locationModel.LocationErrorMeasure = _accu;
             locationModel.locationNTS = _locationNTS;
@@ -257,7 +257,10 @@ namespace GSCFieldApp.ViewModels
 
 
             //Save model class
-            accessData.SaveFromSQLTableObject(locationModel, doLocationUpdate);
+            object locObject = (object)locationModel;
+            accessData.SaveFromSQLTableObject(ref locObject, doLocationUpdate);
+            locationModel = (FieldLocation)locObject;
+            //accessData.SaveFromSQLTableObject(locationModel, doLocationUpdate);
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newLocationEdit != null)

@@ -9,8 +9,9 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableMineralAlteration)]
     public class MineralAlteration
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldMineralAlterationID)]
-        public string MAID { get; set; }
+
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldMineralAlterationID)]
+        public int MAID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralAlterationName)]
         public string MAName { get; set; }
@@ -40,7 +41,7 @@ namespace GSCFieldApp.Models
         public string MAParentTable { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralAlterationRelID)]
-        public string MAParentID { get; set; }
+        public int MAParentID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableStation;
@@ -91,6 +92,13 @@ namespace GSCFieldApp.Models
                 }
 
                 maFieldList[DatabaseLiterals.DBVersion] = maFieldListDefault;
+
+                //Revert shcema 1.7 changes
+                //List<string> maFieldList160 = new List<string>();
+                //maFieldList160.AddRange(maFieldListDefault);
+                //maFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //maFieldList[DatabaseLiterals.DBVersion160] = maFieldList160;
+
 
                 //Revert schema 1.6 changes. 
                 List<string> maFieldList150 = new List<string>();

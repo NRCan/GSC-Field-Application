@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
+  <Identity Name="NaturalResourcesCanada.GeologicalSurveyCanadaField" Publisher="CN=Geological Survey of Canada, O=Natural Resources Canada, C=CA" Version="2.3.0.0" />
+  <mp:PhoneIdentity PhoneProductId="4c23fe86-da44-43b3-ad29-1485e56d26e7" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>Geological Survey Canada Field Application</DisplayName>
+    <PublisherDisplayName>Natural Resources Canada</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="GSCFieldApp.App">
+      <uap:VisualElements DisplayName="Geological Survey Canada Field Application" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="Geological Survey of Canada on field application." BackgroundColor="transparent">
+        <uap:DefaultTile ShortName="GSC Logo">
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#710B2C" />
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.fileSavePicker">
+          <uap:FileSavePicker>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.sqlite</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileSavePicker>
+        </uap:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <uap:Capability Name="removableStorage" />
+    <DeviceCapability Name="location" />
+    <DeviceCapability Name="serialcommunication"/>
+  </Capabilities>
+</Package>

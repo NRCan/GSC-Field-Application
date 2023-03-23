@@ -10,8 +10,8 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableStructure)]
     public class Structure
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldStructureID)]
-        public string StructureID { get; set; }
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldStructureID)]
+        public int StructureID { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureName)]
         public string StructureName { get; set; }
@@ -47,7 +47,7 @@ namespace GSCFieldApp.Models
         public string StructureFlattening { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureRelated)]
-        public string StructureRelated { get; set; }
+        public int? StructureRelated { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureFabric)]
         public string StructureFabric { get; set; }
@@ -107,7 +107,7 @@ namespace GSCFieldApp.Models
         public string StructureNotes { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureParentID)]
-        public string StructureParentID { get; set; }
+        public int StructureParentID { get; set; }
 
         private string _structureSymAng = string.Empty;
 
@@ -123,11 +123,11 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((StructureType != string.Empty && StructureType != null && StructureType != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureDetail != string.Empty && StructureDetail != null && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureFormat != string.Empty && StructureFormat != null && StructureFormat != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureAzimuth != string.Empty && StructureAzimuth != null && StructureAzimuth != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (StructureDipPlunge != string.Empty && StructureDipPlunge != null && StructureDipPlunge != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                if ((StructureType != string.Empty && StructureType != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureDetail != string.Empty && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureFormat != string.Empty && StructureFormat != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureAzimuth != string.Empty  && StructureAzimuth != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureDipPlunge != string.Empty && StructureDipPlunge != Dictionaries.DatabaseLiterals.picklistNACode) &&
                     (isRelatedStructuresAzimuthValid == true || isRelatedStructuresAzimuthValid == null) &&
                     (isRelatedStructuresDipValid == true || isRelatedStructuresDipValid == null))
                 {
@@ -198,9 +198,7 @@ namespace GSCFieldApp.Models
             {
                 if (StructureClass != null && StructureClass != string.Empty
                     && StructureRelated != null
-                    && StructureRelated != string.Empty
-                    && StructureAzimuth != string.Empty
-                    && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)
+                    && StructureAzimuth != string.Empty)
                 {
                     //Init variables
                     int azimuthPlanar = int.MinValue;
@@ -238,7 +236,11 @@ namespace GSCFieldApp.Models
                     {
                         int.TryParse(StructureAzimuth, out azimuthLinear);
                     }
-                    else if (relatedStructure != null && relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear) && relatedStructure.StructureAzimuth != null && relatedStructure.StructureAzimuth != string.Empty)
+                    else if (relatedStructure != null && 
+                        relatedStructure.StructureClass != null &&
+                        relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear) && 
+                        relatedStructure.StructureAzimuth != null && 
+                        relatedStructure.StructureAzimuth != string.Empty)
                     {
                         int.TryParse(relatedStructure.StructureAzimuth, out azimuthLinear);
                     }
@@ -292,9 +294,7 @@ namespace GSCFieldApp.Models
                     && StructureRelated != null
                     && StructureAzimuth != null
                     && StructureClass != string.Empty
-                    && StructureRelated != string.Empty
-                    && StructureAzimuth != string.Empty
-                    && StructureRelated != Dictionaries.DatabaseLiterals.picklistNACode)
+                    && StructureAzimuth != string.Empty)
                 {
                     //Init variables
                     int dipPlanar = int.MinValue;
@@ -355,7 +355,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (StructureRelated != string.Empty)
+                if (StructureRelated != 0)
                 {
                     //Get related structure azim
                     Services.DatabaseServices.DataAccess da = new Services.DatabaseServices.DataAccess();
@@ -393,6 +393,14 @@ namespace GSCFieldApp.Models
                 }
 
                 structureFieldList[DatabaseLiterals.DBVersion] = structureFieldListDefault;
+                
+
+                //Revert shcema 1.7 changes
+                //List<string> strucFieldList160 = new List<string>();
+                //strucFieldList160.AddRange(structureFieldListDefault);
+                //strucFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //structureFieldList[DatabaseLiterals.DBVersion160] = strucFieldList160;
+
                 structureFieldList[DatabaseLiterals.DBVersion150] = structureFieldListDefault;
 
                 //Revert schema 1.5 changes. 

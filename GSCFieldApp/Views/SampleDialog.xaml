@@ -105,7 +105,7 @@
                                 <ComboBox x:Name="SampleSurfaceComboBox" x:Uid="SampleDialogSurface"
                                 Header=""
                                 ItemsSource="{x:Bind ViewModel.SampleSurface}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedSampleSurface, Mode=TwoWay}" IsHitTestVisible="False" TabIndex="9"/>
+                                SelectedValue="{x:Bind ViewModel.SelectedSampleSurface, Mode=TwoWay}" TabIndex="9"/>
 
                             </GridView>
 

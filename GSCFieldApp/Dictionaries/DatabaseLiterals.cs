@@ -1,11 +1,13 @@
-﻿using Windows.Devices.Bluetooth.Advertisement;
+﻿using Windows.ApplicationModel.Contacts;
+using Windows.Devices.Bluetooth.Advertisement;
 
 namespace GSCFieldApp.Dictionaries
 {
     public static class DatabaseLiterals
     {
         #region Database version
-        public const double DBVersion = 1.6; //Will be used to verify loaded projects.
+        public const double DBVersion = 1.7; //Will be used to verify loaded projects.
+        public const double DBVersion170 = 1.7; //Will be used to verify loaded projects.
         public const double DBVersion160 = 1.6; //Will be used to verify loaded projects.
         public const double DBVersion150 = 1.5; //Will be used to verify and upgrade loaded projects
         public const double DBVersion144 = 1.44; //Will be used to verify and upgrade loaded projects
@@ -20,6 +22,10 @@ namespace GSCFieldApp.Dictionaries
         #endregion
 
         #region Database field names
+
+        public const string FieldGenericRowID = "OBJECTID"; //Version 1.7 mandatory with geopackages.
+        public const string FieldGenericGeometry = "geometry"; //Version 1.7
+
         public const string FieldLocationID = "LOCATIONID";//Version 1.0
         public const string FieldLocationAlias = "LOCATIONIDNAME";//Version 1.5
         public const string FieldLocationAliasDeprecated = "LOCATIONNAME";//Version < 1.5
@@ -304,14 +310,28 @@ namespace GSCFieldApp.Dictionaries
         public const string TableDictionary = "M_DICTIONARY"; //Version 1.0
         public const string TableDictionaryManager = "M_DICTIONARY_MANAGER"; //Version 1.0
         public const string TableFavorites = "F_FAVORITE"; //Deprecated
-        public const string TableTraversePoint = "FS_TRAVERSE_POINT";
-        public const string TableTraverseLine = "FS_TRAVERSE_LINE";
-        public const string TableFieldCamp = "FS_FIELDCAMP";
+        public const string TableTraversePointDeprecated = "FS_TRAVERSE_POINT";//Deprecated
+        public const string TableTraverseLineDeprecated = "FS_TRAVERSE_LINE";//Deprecated
+        public const string TableTraversePoint = "F_TRAVERSE_POINT";//Version 1.7
+        public const string TableTraverseLine = "F_TRAVERSE_LINE";//Version 1.7
+        public const string TableFieldCampDeprecated = "FS_FIELDCAMP"; //Deprecated version 1.7
+
+        #endregion
+
+        #region Database table views name
+
+        public const string ViewPrefix = "view_"; //Version 1.7 - used for legacy data format prime key mitigation
+        public const string ViewGenericLegacyPrimeKey = "PRIME"; //Version 1.7 - used for legacy data format prime key mitigation
+        public const string ViewGenericLegacyForeignKey = "FORE"; //Version 1.7 - used for legacy data format prime key mitigation
 
         #endregion
 
         #region Database extension types
-        public const string DBTypeSqlite = ".sqlite";
+        public const string DBTypeSqlite = ".gpkg"; //Version 1.7
+        public const string DBTypeSqliteDeprecated = ".sqlite"; //Version < 1.7
+        public const string DBTypeSqliteName = "geopackage"; //Version 1.7
+        public const string DBTypeGeopackageWal = "-wal"; //Version 1.7
+        public const string DBTypeGeopackageSHM = "-shm"; //Version 1.7
         #endregion
 
         #region Database default values for field

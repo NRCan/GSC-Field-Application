@@ -10,8 +10,9 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableMineral)]
     public class Mineral
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldMineralID)]
-        public string MineralID { get; set; }
+
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldMineralID)]
+        public int MineralID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralIDName)]
         public string MineralIDName { get; set; }
@@ -41,10 +42,10 @@ namespace GSCFieldApp.Models
         public string MineralNote { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralEMID)]
-        public string MineralEMID { get; set; }
+        public int? MineralEMID { get; set; }
 
         [Column(DatabaseLiterals.FieldMineralMAID)]
-        public string MineralMAID { get; set; }
+        public int? MineralMAID { get; set; }
 
 
         /// <summary>
@@ -132,6 +133,13 @@ namespace GSCFieldApp.Models
                 }
 
                 mineralFieldList[DatabaseLiterals.DBVersion] = mineralFieldListDefault;
+
+                //Revert shcema 1.7 changes
+                //List<string> mineralFieldList160 = new List<string>();
+                //mineralFieldList160.AddRange(mineralFieldListDefault);
+                //mineralFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //mineralFieldList[DatabaseLiterals.DBVersion160] = mineralFieldList160;
+
 
                 //Revert schema 1.6 changes. 
                 List<string> mineralFieldList150 = new List<string>();

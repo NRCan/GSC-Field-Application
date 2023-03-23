@@ -4,6 +4,8 @@ using System.Linq;
 using Template10.Mvvm;
 using SQLite;
 using GSCFieldApp.Dictionaries;
+using System.Globalization;
+using Windows.Foundation.Collections;
 
 namespace GSCFieldApp.Models
 {
@@ -13,12 +15,12 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [PrimaryKey, Column(DatabaseLiterals.FieldLocationID)]
-        public string LocationID { get; set; }
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldLocationID)]
+        public int LocationID { get; set; }
 
-        /// <summary>
-        /// Gets or sets the first name.
-        /// </summary> 
+        [Column(DatabaseLiterals.FieldGenericGeometry)]
+        public int LocationGeometry { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationAlias)]
         public string LocationAlias { get; set; }
 
@@ -64,7 +66,7 @@ namespace GSCFieldApp.Models
         public string LocationNotes { get; set; }
 
         [Column(DatabaseLiterals.FieldLocationMetaID)]
-        public string MetaID { get; set; }
+        public int MetaID { get; set; }
 
         public string LocationTableName
         {
@@ -141,6 +143,12 @@ namespace GSCFieldApp.Models
 
                 locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
 
+                ////Revert shcema 1.7 changes
+                //List<string> locationFieldList160 = new List<string>();
+                //locationFieldList160.AddRange(locationFieldListDefault);
+                //locationFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;
+
                 //Revert schema 1.6 changes. 
                 List<string> locationFieldList15 = new List<string>();
                 locationFieldList15.AddRange(locationFieldListDefault);
@@ -174,5 +182,6 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
     }
 }

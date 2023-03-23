@@ -11,8 +11,9 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableEnvironment)]
     public class EnvironmentModel
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldEnvID)]
-        public string EnvID { get; set; }
+
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldEnvID)]
+        public int EnvID { get; set; }
 
         [Column(DatabaseLiterals.FieldEnvName)]
         public string EnvName { get; set; }
@@ -43,7 +44,7 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEnvNotes)]
         public string EnvNotes { get; set; }
         [Column(DatabaseLiterals.FieldEnvStationID)]
-        public string EnvStationID { get; set; }
+        public int EnvStationID { get; set; }
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -65,6 +66,44 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
+        /// <summary>
+        /// A list of all possible fields from current class but also from previous schemas (for db upgrade)
+        /// </summary>
+        [Ignore]
+        public Dictionary<double, List<string>> getFieldList
+        {
+            get
+            {
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> envFieldList = new Dictionary<double, List<string>>();
+                List<string> envFieldListDefault = new List<string>();
+
+                envFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        envFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                envFieldList[DatabaseLiterals.DBVersion] = envFieldListDefault;
+
+                //Revert shcema 1.7 changes
+                List<string> envFieldList160 = new List<string>();
+                envFieldList160.AddRange(envFieldListDefault);
+                envFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                envFieldList[DatabaseLiterals.DBVersion160] = envFieldList160;
+
+
+                return envFieldList;
+            }
+            set { }
+        }
+
 
     }
 }

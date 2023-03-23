@@ -134,7 +134,8 @@ namespace GSCFieldApp.ViewModels
                 foreach (StorageFile sfi in localFiles)
                 {
                     //Get the database
-                    if (sfi.FileType.Contains("sql") && sfi.DisplayName == DatabaseLiterals.DBName)
+                    if ((sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) || sfi.FileType.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)) 
+                        && sfi.DisplayName == DatabaseLiterals.DBName)
                     {
                         FieldBooks currentDB = new FieldBooks();
 
@@ -238,7 +239,7 @@ namespace GSCFieldApp.ViewModels
                 foreach (FieldBooks prjs in _projectCollection)
                 {
                     //Get match
-                    if (prjs.metadataForProject.MetaID == localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString())
+                    if (prjs.metadataForProject.MetaID == int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()))
                     {
                         //Refresh UI
                         _selectedProjectIndex = _projectCollection.IndexOf(prjs);
@@ -424,7 +425,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="fieldworkType"></param>
         /// <param name="userCode"></param>
         /// <param name="metaID"></param>
-        public async void OpenFieldBook(string projectPath, string fieldworkType, string userCode, string metaID, string dbPath, string dbVersion, bool withNavigateToMap = true)
+        public async void OpenFieldBook(string projectPath, string fieldworkType, string userCode, int metaID, string dbPath, string dbVersion, bool withNavigateToMap = true)
         {
             //Clear previous field book settings
             localSetting.WipeUserMapSettings();
@@ -479,14 +480,14 @@ namespace GSCFieldApp.ViewModels
                 //calculate new name for output database in the archive
                 string uCode = currentLocalSettings.Containers[ApplicationLiterals.LocalSettingMainContainer].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode].ToString();
                 FileServices fService = new FileServices();
-                string newName = fService.CalculateDBCopyName(uCode) + ".sqlite";
+                string newName = fService.CalculateDBCopyName(uCode) + DatabaseLiterals.DBTypeSqlite;
                 StorageFile databaseToRename = null;
 
                 //Build list of files to add to archive
                 foreach (StorageFile files in fieldBookPhotosRO)
                 {
                     //Get databases
-                    if (files.Name.ToLower().Contains(".sqlite") && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
+                    if (files.Name.ToLower().Contains(DatabaseLiterals.DBTypeSqlite) && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
                     {
 
                         databaseToRename = files;
@@ -567,7 +568,7 @@ namespace GSCFieldApp.ViewModels
             string pPath = _projectCollection[_selectedProjectIndex].ProjectPath;
             string wType = _projectCollection[_selectedProjectIndex].metadataForProject.FieldworkType;
             string uCode = _projectCollection[_selectedProjectIndex].metadataForProject.UserCode;
-            string mID = _projectCollection[_selectedProjectIndex].metadataForProject.MetaID;
+            int mID = _projectCollection[_selectedProjectIndex].metadataForProject.MetaID;
             string dbP = _projectCollection[_selectedProjectIndex].ProjectDBPath;
             string dbVersion = _projectCollection[_selectedProjectIndex].metadataForProject.VersionSchema;
 
@@ -707,9 +708,10 @@ namespace GSCFieldApp.ViewModels
                 ViewMode = PickerViewMode.List,
                 SuggestedStartLocation = PickerLocationId.Desktop
             };
-            openPicker.FileTypeFilter.Add(".sqlite");
+            openPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
+            openPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
             openPicker.FileTypeFilter.Add(".zip");
-
+            
             StorageFile inFile = await openPicker.PickSingleFileAsync();
             if (inFile != null)
             {
@@ -758,11 +760,12 @@ namespace GSCFieldApp.ViewModels
 
                 foreach (StorageFile sf in storageFiles)
                 {
-                    if (sf.Name.Contains(".sqlite"))
+                    if (sf.Name.Contains(Dictionaries.DatabaseLiterals.DBTypeSqlite) || sf.Name.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
                     {
                         if (isRestoreFromZip)
                         {
-                            if (inFile.Name.Contains(sf.Name.Split('.')[0]) || sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite)
+                            if (inFile.Name.Contains(sf.Name.Split('.')[0]) || sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite
+                                || sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqliteDeprecated)
                             {
                                 wantedDB = sf;
                             }
@@ -778,10 +781,19 @@ namespace GSCFieldApp.ViewModels
                 if (wantedDB != null)
                 {
                     //Rename if needed
-                    if (wantedDB.Name != Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite)
+                    string extension = DatabaseLiterals.DBTypeSqlite;
+                    if (!wantedDB.Name.Contains(extension))
                     {
-                        await wantedDB.RenameAsync(Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite);
+                        if (wantedDB.Name.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                        {
+                            extension = DatabaseLiterals.DBTypeSqliteDeprecated;
+                        }
                     }
+                    if (wantedDB.Name != Dictionaries.DatabaseLiterals.DBName + extension)
+                    {
+                        await wantedDB.RenameAsync(Dictionaries.DatabaseLiterals.DBName + extension);
+                    }
+                    
 
                     SQLiteConnection loadedDBConnection = accessData.GetConnectionFromPath(wantedDB.Path);
 
@@ -874,7 +886,7 @@ namespace GSCFieldApp.ViewModels
                         //Keep current database path before creating the new one
                         string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
                         
-                        //Create new fieldbook 
+                        //Create new fieldbook with embeded resource of legacy schema
                         string versionFileName = DatabaseLiterals.DBName;
                         //string OldVersionFileName = DatabaseLiterals.DBName;
 
@@ -893,8 +905,14 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.5)
                         {
-                            //Current defaulting to 1.6
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion160.ToString().Replace(".", "") + "0";
                         }
+                        else if (processedDBVersion == 1.6)
+                        {
+                            
+                            //Current defaulting to 1.7
+                        }
+
                         versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
                         //string oldVersionDbpathToUpgrade = Path.Combine(dbFolderToUpgrade, OldVersionFileName); //in root of local state folder for now
@@ -912,19 +930,41 @@ namespace GSCFieldApp.ViewModels
                             //Upgrade other tables
                             Task upgradeSchema = accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection, processedDBVersion);
 
-                            if (upgradeSchema.IsCompleted)
+                            if (upgradeSchema.IsCompleted && upgradeSchema.Status != TaskStatus.Faulted)
                             {
                                 //Rename current fieldbook
-                                string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString()) + Dictionaries.DatabaseLiterals.DBTypeSqlite;
-                                string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName);
+                                string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString().Replace(".", ""));
+
+                                string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName) + DatabaseLiterals.DBTypeSqlite;
                                 string copyPathBeforeMove = DataAccess.DbPath;
+
+                                //Legacy file type management for file naming
+                                if (processedDBVersion == DatabaseLiterals.DBVersion160)
+                                {
+                                    upgradedDBPath = upgradedDBPath.Replace(DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated);
+                                    copyPathBeforeMove = copyPathBeforeMove.Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
+                                }
+
+                                //Move
                                 File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
 
                                 //Copy upgraded version
                                 File.Move(dbpathToUpgrade, copyPathBeforeMove);
 
+                                //Update local settings
+                                DataAccess.DbPath = copyPathBeforeMove;
+
                                 //Last check on db version to keep iterating
                                 processedDBVersion = dAccess.GetDBVersion();
+
+                                //One last special move for legacy format
+                                if (processedDBVersion == 1.7)
+                                {
+                                    //Force an update on geometry field
+                                    string updateGeometryQuery = dAccess.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                                    GeopackageService packService = new GeopackageService();
+                                    packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
+                                }
 
                                 //Show end message
                                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -937,6 +977,22 @@ namespace GSCFieldApp.ViewModels
                                     };
                                     upgradedDBDialog.Closed += upgradedDBDialog_Closed;
                                     await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
+
+                                }).AsTask();
+                            }
+                            else
+                            {
+                                //Show error message
+                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                {
+                                    ContentDialog deleteBookDialog = new ContentDialog()
+                                    {
+                                        Title = "DB Error",
+                                        Content = upgradeSchema.Exception.Message,
+                                        PrimaryButtonText = "Bugger"
+                                    };
+                                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
 
                                 }).AsTask();
                             }

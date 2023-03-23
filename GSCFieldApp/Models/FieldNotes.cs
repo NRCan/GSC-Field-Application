@@ -33,17 +33,19 @@
         public Models.EnvironmentModel environment { get; set; }
 
         //Define here are the properties that can be used for edit and delete operation
-        public string GenericID { get; set; }
+        public int GenericID { get; set; }
         public string GenericTableName { get; set; }
+        //Name of the field that holds the ids
         public string GenericFieldID { get; set; }
 
         public string GenericAliasName { get; set; }
 
         //Define here are the properties that can be used for add operation. TODO ParentTableName could be deduce from the relation inside the database.
-        public string ParentID { get; set; }
+        public int ParentID { get; set; }
+
         public string ParentTableName { get; set; }
 
-        public string MainID { get; set; } //Basically the original location ID for all records
+        public int MainID { get; set; } //Basically the original location ID for all records
 
         public bool _isValid = true;
 
@@ -76,9 +78,9 @@
 
         public bool Validate()
         {
-            if ((station.StationID != null && !station.isValid) || (earthmat.EarthMatID != null && !earthmat.isValid) || (sample.SampleID != null && !sample.isValid) ||
-            (fossil.FossilID != null && !fossil.isValid) || (document.DocumentID != null && !document.isValid) || (structure.StructureID != null && !structure.isValid) ||
-            (paleoflow.PFlowID != null && !paleoflow.isValid))
+            if ((station.StationID != 0 && !station.isValid) || (earthmat.EarthMatID != 0 && !earthmat.isValid) || (sample.SampleID != 0 && !sample.isValid) ||
+            (fossil.FossilID != 0 && !fossil.isValid) || (document.DocumentID != 0 && !document.isValid) || (structure.StructureID != 0 && !structure.isValid) ||
+            (paleoflow.PFlowID != 0 && !paleoflow.isValid))
             {
                 return false;
             }

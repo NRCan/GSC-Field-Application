@@ -20,8 +20,8 @@ namespace GSCFieldApp.ViewModels
         private EarthMaterial earthmodel = new EarthMaterial();
         private readonly Mineral mineralModel = new Mineral();
         private string _alias = string.Empty; //Default
-        private string _earthmatid = string.Empty; //Default
-        private string _stationid = string.Empty; //Detault
+        private int _earthmatid = 0; //Default
+        private int _stationid = 0; //Detault
         private string _colourindex = "0";//Detault
         private string _percent = "0"; //Default
         private string _contactNote = string.Empty;//Detault
@@ -45,7 +45,7 @@ namespace GSCFieldApp.ViewModels
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
         readonly DataLocalSettings localSetting = new DataLocalSettings();
 
-        private Dictionary<string, int> _earthResidualPercent = new Dictionary<string, int>(); //Will contain earth material Id and it's percent, for residual percent calculation
+        private Dictionary<int, int> _earthResidualPercent = new Dictionary<int, int>(); //Will contain earth material Id and it's percent, for residual percent calculation
 
         public FieldNotes existingDataDetail;
        
@@ -122,8 +122,8 @@ namespace GSCFieldApp.ViewModels
 
         public EarthMaterial EarthModel { get { return earthmodel; } set { earthmodel = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
-        public string StationID { get { return _stationid; } set { _stationid = value; } }
-        public string EarthmatID { get { return _earthmatid; } set { _earthmatid = value; } }
+        public int StationID { get { return _stationid; } set { _stationid = value; } }
+        public int EarthmatID { get { return _earthmatid; } set { _earthmatid = value; } }
         public string MagSusceptibility
         {
             get
@@ -314,7 +314,6 @@ namespace GSCFieldApp.ViewModels
                 FillContactU();
 
                 FillRelatedEarthmat();
-                FillInterConfidence();
                 FillMineral();
 
                 FillMagQualifier();
@@ -333,8 +332,9 @@ namespace GSCFieldApp.ViewModels
             FillColourG();
             FillColourI();
             FillColourQ();
+            FillInterConfidence();
 
-            if (existingDataDetail != null && existingDataDetail.GenericID != null)
+            if (existingDataDetail != null && existingDataDetail.GenericID != 0)
             {
                 CalculateResidual();
             }
@@ -580,7 +580,11 @@ namespace GSCFieldApp.ViewModels
                 earthmodel.EarthMatMagQualifier = _selectedEarthmatMagQualifier;
             }
             //Save model class
-            accessData.SaveFromSQLTableObject(earthmodel, doEarthUpdate);
+            //accessData.SaveFromSQLTableObject(ref earthmodel, doEarthUpdate);
+
+            object earthObject = (object)earthmodel;
+            accessData.SaveFromSQLTableObject(ref earthObject, doEarthUpdate);
+            earthmodel = (EarthMaterial)earthObject;
 
             //Special case for minerals
             if (_earthmatMineralValues.Count != 0)
@@ -1122,13 +1126,15 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatStatID = quickStationReport.station.StationID; //Foreign key
 
             //Save model class
-            accessData.SaveFromSQLTableObject(earthmodel, false);
+            object earthObject = (object)earthmodel;
+            accessData.SaveFromSQLTableObject(ref earthObject, false);
+            earthmodel = (EarthMaterial)earthObject;
 
             FieldNotes outputEarthmatReport = new FieldNotes();
             outputEarthmatReport.earthmat = earthmodel;
             outputEarthmatReport.ParentID = quickStationReport.station.StationID;
             outputEarthmatReport.ParentTableName = Dictionaries.DatabaseLiterals.TableStation;
-            outputEarthmatReport.GenericID = earthmodel.EarthMatID.ToString();
+            outputEarthmatReport.GenericID = earthmodel.EarthMatID;
 
             return outputEarthmatReport;
         }
@@ -1491,7 +1497,7 @@ namespace GSCFieldApp.ViewModels
             IEnumerable<EarthMaterial> earthTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
 
             //Get a list of related mineral from selected earthmat
-            string parentID = existingDataDetail.ParentID;
+            int parentID = existingDataDetail.ParentID;
 
             //Find proper parent id (request could come from a mineral or an earthmat selection)
             if (existingDataDetail.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
@@ -1552,7 +1558,7 @@ namespace GSCFieldApp.ViewModels
 
             //Calculate total percentage
             int _earthResidual = 0;
-            foreach (KeyValuePair<string, int> modes in _earthResidualPercent)
+            foreach (KeyValuePair<int, int> modes in _earthResidualPercent)
             {
                 _earthResidual = _earthResidual + modes.Value;
             }

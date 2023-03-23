@@ -18,8 +18,8 @@ namespace GSCFieldApp.ViewModels
         //UI default values
         
         private string _sampleAlias = string.Empty;
-        private string _sampleID = string.Empty;
-        private string _sampleEartmatID = string.Empty;
+        private int _sampleID = 0;
+        private int _sampleEartmatID = 0;
 
         private string _sampleNote = string.Empty;
         private string _sampleAzim = string.Empty; //Default
@@ -80,8 +80,8 @@ namespace GSCFieldApp.ViewModels
         public string SampleAlias { get { return _sampleAlias; } set { _sampleAlias = value; } }
 
         public string SampleNote { get { return _sampleNote; } set { _sampleNote = value; } }
-        public string SampleID { get { return _sampleID; } set { _sampleID = value; } }
-        public string SampleEarthmatID { get { return _sampleEartmatID; } set { _sampleEartmatID = value; } }
+        public int SampleID { get { return _sampleID; } set { _sampleID = value; } }
+        public int SampleEarthmatID { get { return _sampleEartmatID; } set { _sampleEartmatID = value; } }
         public string SampleDuplicateName { get { return _sampleDuplicateName; } set { _sampleDuplicateName = value; } }
 
         public bool IsSampleDuplicate { get { return _isSampleDuplicate; } set { _isSampleDuplicate = value; } }
@@ -246,7 +246,7 @@ namespace GSCFieldApp.ViewModels
         {
             //On init for new samples calculates values for default UI form
             _sampleEartmatID = inDetailModel.GenericID;
-            _sampleID = sampleIDCalculator.CalculateSampleID();
+            //_sampleID = sampleIDCalculator.CalculateSampleID();
             _sampleAlias = sampleIDCalculator.CalculateSampleAlias(_sampleEartmatID, inDetailModel.earthmat.EarthMatName);
 
             FillSamplePurpose();
@@ -312,6 +312,9 @@ namespace GSCFieldApp.ViewModels
             UnPipePurposes(existingDataDetailSample.sample.SamplePurpose);
 
             doSampleUpdate = true;
+
+            //Validate paleomag controls visibility
+            ValidateForPaleomagnetism();
         }
 
         /// <summary>
@@ -357,7 +360,10 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Save model class
-            accessData.SaveFromSQLTableObject(sampleModel, doSampleUpdate);
+            object sampleObject = (object)sampleModel;
+            accessData.SaveFromSQLTableObject(ref sampleObject, doSampleUpdate);
+            sampleModel = (Sample)sampleObject;
+            //accessData.SaveFromSQLTableObject(sampleModel, doSampleUpdate);
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newSampleEdit != null)
@@ -533,8 +539,8 @@ namespace GSCFieldApp.ViewModels
             Station stationModel = new Station();
             List<object> stationTableLRaw = accessData.ReadTable(stationModel.GetType(), null);
             IEnumerable<Station> stationTable = stationTableLRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<string> stats = from s in stationTable where s.StationID == inParentModel.ParentID select s.LocationID;
-            List<string> locationFromStat = stats.ToList();
+            IEnumerable<int> stats = from s in stationTable where s.StationID == inParentModel.ParentID select s.LocationID;
+            List<int> locationFromStat = stats.ToList();
 
             //Delete location
             accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
@@ -643,15 +649,35 @@ namespace GSCFieldApp.ViewModels
             #region validate paleomagnetism
 
             //Validate for oriented samplem type and paleomagnetism. This should trigger view on Oriented set of inputs
-            if (_surficialVisibility == Visibility.Visible && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag && SelectedSampleType == DatabaseLiterals.sampleTypeOriented)
+            if (_surficialVisibility == Visibility.Visible 
+                && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag 
+                && SelectedSampleType == DatabaseLiterals.sampleTypeOriented)
             {
                 _bedrockVisibility = Visibility.Visible;
                 RaisePropertyChanged("BedrockVisibility");
             }
-            else if (_surficialVisibility == Visibility.Visible && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag || SelectedSampleType != DatabaseLiterals.sampleTypeOriented))
+            else if (_surficialVisibility == Visibility.Visible 
+                && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag 
+                || SelectedSampleType != DatabaseLiterals.sampleTypeOriented))
             {
                 _bedrockVisibility = Visibility.Collapsed;
                 RaisePropertyChanged("BedrockVisibility");
+            }
+
+            //Validate within purposes list
+            if (_surficialVisibility == Visibility.Visible 
+                && SelectedSampleType == DatabaseLiterals.sampleTypeOriented
+                && SelectedSamplePurpose == String.Empty 
+                && PurposeValues.Count > 0)
+            {
+                foreach (Themes.ComboBoxItem cbi in PurposeValues)
+                {
+                    if (cbi.itemValue.Contains(DatabaseLiterals.samplePurposePaleomag))
+                    {
+                        _bedrockVisibility = Visibility.Visible;
+                        RaisePropertyChanged("BedrockVisibility");
+                    }
+                }
             }
 
             //If needed, force deactivation of the whole header.

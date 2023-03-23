@@ -18,7 +18,7 @@ namespace GSCFieldApp.ViewModels
     {
         #region INITIALIZATION
         private EnvironmentModel environmentModel = new EnvironmentModel();
-        private string _environmentid = string.Empty;
+        private int _environmentid = 0;
         private string _environmentAlias = string.Empty;
         private string _envirommentParentID = string.Empty;
         public bool doEnvironmentUpdate = false;
@@ -68,8 +68,8 @@ namespace GSCFieldApp.ViewModels
             existingDataDetail = inReportModel;
 
             //On init for new stations calculate values so UI shows stuff.
-            _environmentid = idCalculator.CalculateEnvironmentID();
-            _envirommentParentID = inReportModel.station.StationID;
+            //_environmentid = idCalculator.CalculateEnvironmentID();
+            _envirommentParentID = inReportModel.station.StationID.ToString();
 
             //Fill controls
             FillRelief();
@@ -88,7 +88,7 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
-        public string EnvironmentID { get { return _environmentid; } set { _environmentid = value; } }
+        public int EnvironmentID { get { return _environmentid; } set { _environmentid = value; } }
         public string Alias { get { return _environmentAlias; } set { _environmentAlias = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
         public string Slope 
@@ -210,7 +210,7 @@ namespace GSCFieldApp.ViewModels
         {
             //Save the new station
             environmentModel.EnvID = _environmentid; //Prime key
-            environmentModel.EnvStationID = _envirommentParentID; //Foreign key
+            environmentModel.EnvStationID = int.Parse(_envirommentParentID); //Foreign key
             environmentModel.EnvName = _environmentAlias;
             environmentModel.EnvNotes = _notes;
             environmentModel.EnvSlope = int.Parse(_slope);
@@ -254,7 +254,10 @@ namespace GSCFieldApp.ViewModels
             ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
             environmentModel.EnvGroundPattern = ccBox.PipeValues(_environmentGroundPatternValues);
 
-            accessData.SaveFromSQLTableObject(environmentModel, doEnvironmentUpdate);
+            object envObject = (object)environmentModel;
+            accessData.SaveFromSQLTableObject(ref envObject, doEnvironmentUpdate);
+            environmentModel = (EnvironmentModel)envObject;
+            //accessData.SaveFromSQLTableObject(environmentModel, doEnvironmentUpdate);
 
             if (newEnvironmentEdit != null)
             {

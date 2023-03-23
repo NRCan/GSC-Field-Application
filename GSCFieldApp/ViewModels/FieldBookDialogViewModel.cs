@@ -51,13 +51,13 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
         public Metadata Model { get { return model; } set { model = value; } }
 
-        public string Id
+        public int Id
         {
             get
             {
                 if (this.model == null)
                 {
-                    return string.Empty;
+                    return -1;
                 }
 
                 return this.model.MetaID;
@@ -171,7 +171,10 @@ namespace GSCFieldApp.ViewModels
             if (!doUserUpdate)
             {
                 //Insert new row
-                ad.SaveFromSQLTableObject(Model, false);
+                object modelObject = (object)Model;
+                ad.SaveFromSQLTableObject(ref modelObject, false);
+                Model = (Metadata)modelObject;
+                //ad.SaveFromSQLTableObject(Model, false);
 
                 //Update settings with new selected project
                 ApplicationData.Current.SignalDataChanged();
@@ -186,7 +189,10 @@ namespace GSCFieldApp.ViewModels
                 SQLiteConnection selectedProjectConnection = new SQLiteConnection(existingUserDetail.ProjectDBPath);
 
                 //Update existing
-                ad.SaveSQLTableObjectFromDB(Model, doUserUpdate, selectedProjectConnection);
+                object modelObject = (object)Model;
+                ad.SaveSQLTableObjectFromDB(ref modelObject, doUserUpdate, selectedProjectConnection);
+                Model = (Metadata)modelObject;
+                //ad.SaveSQLTableObjectFromDB(Model, doUserUpdate, selectedProjectConnection);
 
             }
 
@@ -266,7 +272,7 @@ namespace GSCFieldApp.ViewModels
             {
                 //Set metadata ID
                 Services.DatabaseServices.DataIDCalculation newIDMethod = new Services.DatabaseServices.DataIDCalculation();
-                Model.MetaID = newIDMethod.CalculateMetadataID();
+                //Model.MetaID = newIDMethod.CalculateMetadataID();
 
                 //Get current application version
                 Package currentPack = Package.Current;
@@ -320,11 +326,11 @@ namespace GSCFieldApp.ViewModels
             if (Model != null && Model.isValid)
             {
 
-                //Save in the local settings first
+                SaveMetadata();
+
+                //Save in the local settings 
                 Services.DatabaseServices.DataLocalSettings dLocalSet = new Services.DatabaseServices.DataLocalSettings();
                 dLocalSet.SaveUserInfoInSettings(Model);
-
-                SaveMetadata();
 
             }
 

@@ -145,14 +145,15 @@ namespace GSCFieldApp.Views
         private void StructureRelatedCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            if (cb.SelectedValue != null)
+            if (cb.SelectedValue != null && cb.SelectedValue.ToString() != string.Empty 
+                && cb.SelectedValue.ToString() != DatabaseLiterals.picklistNACode)
             {
-                string strucID = cb.SelectedValue.ToString();
+                int strucID = int.Parse(cb.SelectedValue.ToString());
                 Structure result = accessData.GetRelatedStructure(strucID);
 
                 if (result != null)
                 {
-                    if (!strucType.Text.Contains(result.StructureClass.ToString()) && result.StructureSymAng != string.Empty)
+                    if (result.StructureClass != null && !strucType.Text.Contains(result.StructureClass.ToString()) && result.StructureSymAng != string.Empty)
                     {
                         //int primaryAzimuth = System.Convert.ToInt32(StructureAzimuthNumBox.Text.ToString());
                         int relatedAngle = System.Convert.ToInt32(result.StructureSymAng);

@@ -22,8 +22,8 @@ namespace GSCFieldApp.ViewModels
         private double _longitude = 0.0; //Default
         private double _elevation = 0.0;//Default
         private string _alias = string.Empty; //Default
-        private string _stationid = string.Empty; //Default
-        private string _locationid = string.Empty; //Default
+        private int _stationid = 0; //Default
+        private int _locationid = 0; //Default
         private string _locationAlias = string.Empty; //Default
         private string _airno = string.Empty; //Default
         private string _slsnotes = string.Empty; //Default
@@ -64,12 +64,11 @@ namespace GSCFieldApp.ViewModels
 
         public StationViewModel(bool isWayPoint)
         {
-            //On init for new stations calculate values so UI shows stuff.
-            _stationid = idCalculator.CalculateStationID();
 
             //Fill controls
             FillStationType();
             
+            SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
 
             //Treat station for themes.
             if (isWayPoint)
@@ -84,8 +83,6 @@ namespace GSCFieldApp.ViewModels
                 FillAirPhotoNo_TraverseNo();
                 FillObsSource();
             }
-
-            SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
 
         }
 
@@ -103,8 +100,8 @@ namespace GSCFieldApp.ViewModels
         public Station StationModel { get { return model; } set { model = value; } }
         public FieldLocation Location { get { return _location; } set { _location = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
-        public string StationID { get { return _stationid; } set { _stationid = value; } }
-        public string LocationID { get { return _locationid; } set { _locationid = value; } }
+        public int StationID { get { return _stationid; } set { _stationid = value; } }
+        public int LocationID { get { return _locationid; } set { _locationid = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
         public string RelatedTo { get { return _stationRelatedTo; } set { _stationRelatedTo = value; } }
         public string AirPhoto { get { return _airno; } set { _airno = value; } }
@@ -178,7 +175,7 @@ namespace GSCFieldApp.ViewModels
                 //Init location if it doesn't already exist from a manual entry
                 if (_location.LocationEntryType != Dictionaries.DatabaseLiterals.locationEntryTypeManual)
                 {
-                    QuickLocation(_location);
+                    _locationid = QuickLocation(_location);
                 }
                 else
                 {
@@ -194,7 +191,7 @@ namespace GSCFieldApp.ViewModels
             {
                 doStationUpdate = true;
 
-                if (existingDataDetail.ParentID != null && existingDataDetail.ParentID != string.Empty)
+                if (existingDataDetail.ParentID != 0)
                 {
                     _locationid = existingDataDetail.ParentID; //Get location id from parent
                 }
@@ -245,7 +242,11 @@ namespace GSCFieldApp.ViewModels
             }
 
 
-            accessData.SaveFromSQLTableObject(StationModel, doStationUpdate);
+            object stationObject = (object)StationModel;
+            accessData.SaveFromSQLTableObject(ref stationObject, doStationUpdate);
+            StationModel = (Station)stationObject;
+
+            //accessData.SaveFromSQLTableObject(StationModel, doStationUpdate);
 
             if (newStationEdit!=null)
             {
@@ -257,12 +258,6 @@ namespace GSCFieldApp.ViewModels
         public void AutoFillDialog(FieldNotes incomingData, bool isWaypoint)
         {
             existingDataDetail = incomingData;
-
-            if (isWaypoint)
-            {
-                _waypointVisibility = Visibility.Collapsed;
-                RaisePropertyChanged("Enability");
-            }
 
             _latitude = Convert.ToDouble(existingDataDetail.location.LocationLat);
             _longitude = Convert.ToDouble(existingDataDetail.location.LocationLong);
@@ -297,6 +292,19 @@ namespace GSCFieldApp.ViewModels
             {
                 AddAConcatenatedValue(s, DatabaseLiterals.FieldStationOCQuality);
             }
+
+            //Validate waypoint form
+            if (_selectedStationTypes == DatabaseLiterals.KeywordStationWaypoint || isWaypoint)
+            {
+                _waypointVisibility = Visibility.Collapsed;
+                RaisePropertyChanged("WaypointVisibility");
+            }
+            else 
+            {
+                _waypointVisibility = Visibility.Visible;
+                RaisePropertyChanged("WaypointVisibility");
+            }
+
 
         }
 
@@ -516,7 +524,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="inLocation"></param>
         /// <returns>Location ID</returns>
-        public string QuickLocation(FieldLocation inLocation)
+        public int QuickLocation(FieldLocation inLocation)
         {
 
             //Set location
@@ -543,13 +551,19 @@ namespace GSCFieldApp.ViewModels
                 Location.LocationElev = _elevation;
             }
 
-            Location.LocationID = _locationid = idCalculator.CalculateLocationID(); //Calculate new value
+            
             Location.LocationAlias = _locationAlias = idCalculator.CalculateLocationAlias(_alias); //Calculate new value
-            Location.MetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString(); //Foreign key
+            //Location.LocationID = _locationid = idCalculator.CalculateLocationID(_locationAlias); //Calculate new value
+            Location.MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()); //Foreign key
 
+            //Fill in the table location
+            //accessData.SaveFromSQLTableObject(Location, false);
 
-            accessData.SaveFromSQLTableObject(Location, false);
-
+            //Fill in the feature location
+            GeopackageService geoService = new GeopackageService();
+            string insertQuery = accessData.GetGeopackageInsertQuery(Location);
+            
+            Location.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
             return Location.LocationID;
         }
 
@@ -562,13 +576,13 @@ namespace GSCFieldApp.ViewModels
         public FieldNotes QuickStation(FieldLocation inPosition)
         {
             //Create a quick location first
-            string quickLocID = QuickLocation(inPosition);
+            int quickLocID = QuickLocation(inPosition);
 
             //Calculate air and traverse #
             FillAirPhotoNo_TraverseNo();
 
             //Save the new station
-            StationModel.StationID = _stationid; //Prime key
+            //StationModel.StationID = _stationid; //Prime key
             StationModel.LocationID = quickLocID; //Foreign key
             StationModel.StationAlias = _alias;
             StationModel.StationVisitDate = _dateDate = CalculateStationDate(); //Calculate new value
@@ -578,9 +592,12 @@ namespace GSCFieldApp.ViewModels
             {
                 StationModel.StationTravNo = Convert.ToInt32(_stationTravNo);
             }
-            
 
-            accessData.SaveFromSQLTableObject(StationModel, false);
+            object stationObject = (object)StationModel;
+            accessData.SaveFromSQLTableObject(ref stationObject, false);
+            StationModel = (Station)stationObject;
+
+            //accessData.SaveFromSQLTableObject(StationModel, false);
 
             FieldNotes outputStationReport = new FieldNotes
             {

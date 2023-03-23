@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
+using Windows.ApplicationModel.Store.Preview.InstallControl;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -36,9 +37,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate an generic ID for location table.
         /// </summary>
         /// <returns></returns>
-        public string CalculateLocationID()
+        public int CalculateLocationID(string inAlias = "")
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID(inAlias);
         }
 
         /// <summary>
@@ -69,9 +70,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a new metadata id for current user
         /// </summary>
         /// <returns></returns>
-        public string CalculateMetadataID()
+        public int CalculateMetadataID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>
@@ -89,9 +90,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID for station table from row count.
         /// </summary>
         /// <returns></returns>
-        public string CalculateStationID()
+        public int CalculateStationID(string inAlias)
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID(inAlias);
         }
 
         /// <summary>
@@ -104,91 +105,103 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
 
             //Get current geolcode
-            string currentGeolcode = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
-            string currentMetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
-
-            //Querying with Linq
-            string stationQuerySelect = "SELECT *";
-            string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
-            string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "'";
-            string stationQueryWhere2 = " OR " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " IS NULL";
-            string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere + stationQueryWhere2;
-
-            List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), string.Empty);
-            List<object> stationTableRaw = dAccess.ReadTable(stationModel.GetType(), stationQueryFinal);
-            
-            IEnumerable<Station> stationTable = stationTableRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
-            IEnumerable<string> stations = from s in stationTable join l in locationTable on s.LocationID equals l.LocationID where l.MetaID == currentMetaID orderby s.StationAlias descending select s.StationAlias;
-
-            //Get current year
-            string currentDate = currentDate = stationDate.Year.ToString();
-
-            //Get initial station start number if needed
-            int stationCount = stations.Count();
-            if (stationCount == 0)
+            string currentGeolcode = localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoUCode).ToString();
+            if (localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID) != null)
             {
-                List<object> metadataTableRaw = dAccess.ReadTable(metadataModel.GetType(), null);
-                IEnumerable<Metadata> metadataTable = metadataTableRaw.Cast<Metadata>(); //Cast to proper list type
-                IEnumerable<Metadata> metadatas = from m in metadataTable where m.MetaID == currentMetaID select m;
-                List<Metadata> metadatasList = metadatas.ToList();
-                stationCount = Convert.ToInt16(metadatasList[0].StationStartNumber);
-            }
-            else
-            {
-                //Get actual last alias and extract it's number
-                string lastAlias = stations.ToList()[0].ToString();
-                List<char> lastCharacters = lastAlias.ToList();
-                List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 3, 3);
-                string lastNumber = string.Empty;
-                foreach (char c in lastNumbers)
-                {
-                    //Rebuild number
-                    lastNumber = lastNumber + c;
-                }
-                int lastCharacterNumber = Convert.ToInt32(lastNumber);
+                int currentMetaID = int.Parse(localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID).ToString());
 
-                //Increment
-                stationCount = lastCharacterNumber + 1;
-            }
+                //Querying with Linq
+                string stationQuerySelect = "SELECT *";
+                string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
+                string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "'";
+                string stationQueryWhere2 = " OR " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " IS NULL";
+                string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere + stationQueryWhere2;
 
-            //Padd current ID with 0 if needed
-            
-            string outputStringID = string.Empty;
-            bool breaker = true;
-            string finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
-            while (breaker)
-            {
-                if (stationCount < 10)
+                List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), string.Empty);
+                List<object> stationTableRaw = dAccess.ReadTable(stationModel.GetType(), stationQueryFinal);
+
+                IEnumerable<Station> stationTable = stationTableRaw.Cast<Station>(); //Cast to proper list type
+                IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
+                IEnumerable<string> stations = from s in stationTable join l in locationTable on s.LocationID equals l.LocationID where l.MetaID == currentMetaID orderby s.StationAlias descending select s.StationAlias;
+
+                //Get current year
+                string currentDate = currentDate = stationDate.Year.ToString();
+
+                //Get initial station start number if needed
+                int stationCount = stations.Count();
+                if (stationCount == 0)
                 {
-                    outputStringID = "000" + stationCount.ToString();
-                }
-                else if (stationCount >= 10 && stationCount < 100)
-                {
-                    outputStringID = "00" + stationCount.ToString();
-                }
-                else if (stationCount >=100 && stationCount < 1000)
-                {
-                    outputStringID = "0" + stationCount.ToString();
+                    List<object> metadataTableRaw = dAccess.ReadTable(metadataModel.GetType(), null);
+                    IEnumerable<Metadata> metadataTable = metadataTableRaw.Cast<Metadata>(); //Cast to proper list type
+                    IEnumerable<Metadata> metadatas = from m in metadataTable where m.MetaID == currentMetaID select m;
+                    List<Metadata> metadatasList = metadatas.ToList();
+                    stationCount = Convert.ToInt16(metadatasList[0].StationStartNumber);
                 }
                 else
                 {
-                    outputStringID = stationCount.ToString();
+                    //Get actual last alias and extract it's number
+                    string lastAlias = stations.ToList()[0].ToString();
+                    List<char> lastCharacters = lastAlias.ToList();
+                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 3, 3);
+                    string lastNumber = string.Empty;
+                    foreach (char c in lastNumbers)
+                    {
+                        //Rebuild number
+                        lastNumber = lastNumber + c;
+                    }
+                    int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+                    //Increment
+                    stationCount = lastCharacterNumber + 1;
                 }
 
-                finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID;
+                //Padd current ID with 0 if needed
 
-                IEnumerable<Station> existinStations = from s in stationTable join l in locationTable on s.LocationID equals l.LocationID where l.MetaID == currentMetaID && s.StationAlias == finaleStationString select s;
-
-                if (existinStations.Count() ==0 || existinStations == null)
+                string outputStringID = string.Empty;
+                bool breaker = true;
+                string finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
+                while (breaker)
                 {
-                    breaker = false;
+                    if (stationCount < 10)
+                    {
+                        outputStringID = "000" + stationCount.ToString();
+                    }
+                    else if (stationCount >= 10 && stationCount < 100)
+                    {
+                        outputStringID = "00" + stationCount.ToString();
+                    }
+                    else if (stationCount >= 100 && stationCount < 1000)
+                    {
+                        outputStringID = "0" + stationCount.ToString();
+                    }
+                    else
+                    {
+                        outputStringID = stationCount.ToString();
+                    }
+
+                    finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID;
+
+                    IEnumerable<Station> existinStations = from s in stationTable join l in locationTable on s.LocationID equals l.LocationID where l.MetaID == currentMetaID && s.StationAlias == finaleStationString select s;
+
+                    if (existinStations.Count() == 0 || existinStations == null)
+                    {
+                        breaker = false;
+                    }
+
+                    stationCount++;
                 }
 
-                stationCount++;
+                return finaleStationString;
             }
+            else
+            {
+                return String.Empty;
+            }
+            
 
-            return finaleStationString; 
+
+
+            
 
         }
 
@@ -262,7 +275,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateEarthmatnAlias(string parentID, string parentAlias)
+        public string CalculateEarthmatnAlias(int parentID, string parentAlias)
         {
 
             //Querying with Linq
@@ -329,9 +342,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from earth material table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateEarthmatID()
+        public int CalculateEarthmatID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         #endregion
@@ -343,7 +356,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateSampleAlias(string parentID, string parentAlias)
+        public string CalculateSampleAlias(int parentID, string parentAlias)
         {
             //Querying with Linq
             List<object> sampleTableRaw = dAccess.ReadTable(sampleModel.GetType(), null);
@@ -401,9 +414,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from sample table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateSampleID()
+        public int CalculateSampleID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         #endregion
@@ -413,9 +426,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate an generic ID for document table.
         /// </summary>
         /// <returns></returns>
-        public string CalculateDocumentID()
+        public int CalculateDocumentID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>
@@ -424,7 +437,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateDocumentAlias(string parentID, string parentAlias, int startingDocNumber = 1)
+        public string CalculateDocumentAlias(int parentID, string parentAlias, int startingDocNumber = 1)
         {
             //Querying with Linq
             List<object> doctableRaw = dAccess.ReadTable(docModel.GetType(), null);
@@ -500,9 +513,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID for structure table
         /// </summary>
         /// <returns></returns>
-        public string CalculateStructureID()
+        public int CalculateStructureID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>
@@ -512,7 +525,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateStructureAlias(string parentID, string parentAlias)
+        public string CalculateStructureAlias(int parentID, string parentAlias)
         {
             //Querying with Linq
             List<object> structureTableRaw = dAccess.ReadTable(structModel.GetType(), null);
@@ -570,9 +583,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate an generic ID for paleoflow table.
         /// </summary>
         /// <returns></returns>
-        public string CalculatePFlowID()
+        public int CalculatePFlowID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>
@@ -582,7 +595,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculatePflowAlias(string parentID, string parentAlias)
+        public string CalculatePflowAlias(int parentID, string parentAlias)
         {
             //Querying with Linq
             List<object> pflowTableRaw = dAccess.ReadTable(pflowModel.GetType(), null);
@@ -640,9 +653,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate an generic ID for fossil table.
         /// </summary>
         /// <returns></returns>
-        public string CalculateFossilID()
+        public int CalculateFossilID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         /// <summary>
@@ -652,7 +665,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateFossilAlias(string parentID, string parentAlias)
+        public string CalculateFossilAlias(int parentID, string parentAlias)
         {
             //Querying with Linq
             List<object> fossilTableRaw = dAccess.ReadTable(fossilModel.GetType(), null);
@@ -711,7 +724,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentAlias"></param>
         /// <param name="idAddIncrement">A value to add to ID for increment start, used for bacth calculate</param>
         /// <returns></returns>
-        public string CalculateMineralAlias(string parentID, string parentAlias, int idAddIncrement = 0)
+        public string CalculateMineralAlias(int? parentID, string parentAlias, int idAddIncrement = 0)
         {
             //Querying with Linq
             List<object> MineralTableRaw = dAccess.ReadTable(mineralModel.GetType(), null);
@@ -769,9 +782,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from sample table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateMineralID()
+        public int CalculateMineralID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
 
         #endregion
@@ -784,7 +797,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateMineralAlterationAlias(string parentID, string parentAlias)
+        public string CalculateMineralAlterationAlias(int parentID, string parentAlias)
         {
             //Variables
             string prefix = DatabaseLiterals.TableMineralAlterationPrefix;
@@ -843,9 +856,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from sample table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateMineralAlterationID()
+        public int CalculateMineralAlterationID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
         #endregion
 
@@ -857,7 +870,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateEnvironmentAlias(string parentID, string parentAlias)
+        public string CalculateEnvironmentAlias(int parentID, string parentAlias)
         {
             //Variables
             string prefix = DatabaseLiterals.TableEnvironmentPrefix;
@@ -916,9 +929,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will calculate a generic ID from sample table based on the highest current stored id.
         /// </summary>
         /// <returns></returns>
-        public string CalculateEnvironmentID()
+        public int CalculateEnvironmentID()
         {
-            return CalculateGUID();
+            return GetHashCodeFromGUID();
         }
         #endregion
 
@@ -1026,6 +1039,24 @@ namespace GSCFieldApp.Services.DatabaseServices
         public string CalculateGUID()
         {
             return Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// Will create an integer hash code from insert GUID or from a new one if inGUID stays empty
+        /// Warning possible collision ahead.
+        /// </summary>
+        /// <returns></returns>
+        public int GetHashCodeFromGUID(string inGUID = "")
+        {
+            if (inGUID != string.Empty)
+            {
+                return inGUID.GetHashCode();
+            }
+            else
+            {
+                return Guid.NewGuid().GetHashCode();
+            }
+            
         }
         #endregion
     }

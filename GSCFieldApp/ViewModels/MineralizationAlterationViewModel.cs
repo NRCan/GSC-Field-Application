@@ -16,8 +16,8 @@ namespace GSCFieldApp.ViewModels
 
         //UI default values
         private string _mineralAltAlias = string.Empty;
-        private string _mineralAltID = string.Empty;
-        private string _mineralAltParentID = string.Empty;
+        private int _mineralAltID = 0;
+        private int _mineralAltParentID = 0;
 
         private string _mineralAltNote = string.Empty;
         private List<string> _mineralAlterations = new List<string>(); //Will contain a list of all mineral alterations related to current parent station. To catch duplicates
@@ -61,8 +61,8 @@ namespace GSCFieldApp.ViewModels
         public MineralAlteration MineralAltModel { get { return mineralAltModel; } set { mineralAltModel = value; } }
         public string MineralAltAlias { get { return _mineralAltAlias; } set { _mineralAltAlias = value; } }
         public string MineralAltNote { get { return _mineralAltNote; } set { _mineralAltNote = value; } }
-        public string MineralAltID { get { return _mineralAltID; } set { _mineralAltID = value; } }
-        public string MineralAltParentID { get { return _mineralAltParentID; } set { _mineralAltParentID = value; } }
+        public int MineralAltID { get { return _mineralAltID; } set { _mineralAltID = value; } }
+        public int MineralAltParentID { get { return _mineralAltParentID; } set { _mineralAltParentID = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> MineralAltMA { get { return _mineralAltMA; } set { _mineralAltMA = value; } }
         public string SelectedMineralAltMA { get { return _selectedMineralAltMA; } set { _selectedMineralAltMA = value; } }
@@ -89,7 +89,7 @@ namespace GSCFieldApp.ViewModels
 
         public MineralizationAlterationViewModel(FieldNotes inReportModel)
         {
-            _mineralAltID = mineralAltIDCalculator.CalculateMineralAlterationID();
+            //_mineralAltID = mineralAltIDCalculator.CalculateMineralAlterationID();
             _mineralAltParentID = inReportModel.GenericID;
             _mineralAltAlias = mineralAltIDCalculator.CalculateMineralAlterationAlias(_mineralAltParentID, inReportModel.station.StationAlias);
 
@@ -206,7 +206,10 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Save model class
-            accessData.SaveFromSQLTableObject(mineralAltModel, doMineralAltUpdate);
+            object mineralAltOject = (object)mineralAltModel;
+            accessData.SaveFromSQLTableObject(ref mineralAltOject, doMineralAltUpdate);
+            mineralAltModel = (MineralAlteration)mineralAltOject;
+            //accessData.SaveFromSQLTableObject(mineralAltModel, doMineralAltUpdate);
 
             //Special case for minerals
             if (MineralAltMineralsValues.Count != 0)

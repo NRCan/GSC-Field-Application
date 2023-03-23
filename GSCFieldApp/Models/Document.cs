@@ -13,8 +13,8 @@ namespace GSCFieldApp.Models
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableLocation;
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldDocumentID)]
-        public string DocumentID { get; set; }
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldDocumentID)]
+        public int DocumentID { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentName)]
         public string DocumentName { get; set; }
@@ -44,7 +44,7 @@ namespace GSCFieldApp.Models
         public string RelatedTable { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentRelatedID)]
-        public string RelatedID { get; set; }
+        public int RelatedID { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentObjLocX)]
         public double? ObjectX { get; set; }
@@ -144,11 +144,19 @@ namespace GSCFieldApp.Models
                 }
 
                 documentFieldList[DatabaseLiterals.DBVersion] = documentFieldListDefault;
+
+                //Revert shcema 1.7 changes
+                //List<string> documentFieldList160 = new List<string>();
+                //documentFieldList160.AddRange(documentFieldListDefault);
+                //documentFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //documentFieldList[DatabaseLiterals.DBVersion160] = documentFieldList160;
+
+                //Noting has change in 1.6
                 documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldListDefault;
 
                 //Revert schema 1.5 changes. 
                 List<string> documentFieldList144 = new List<string>();
-                documentFieldList144.AddRange(documentFieldListDefault);
+                documentFieldList144.AddRange(documentFieldList[DatabaseLiterals.DBVersion150]);
                 int removeIndex = documentFieldList144.IndexOf(DatabaseLiterals.FieldDocumentName);
                 documentFieldList144.Remove(DatabaseLiterals.FieldDocumentName);
                 documentFieldList144.Insert(removeIndex,DatabaseLiterals.FieldDocumentNameDeprecated);

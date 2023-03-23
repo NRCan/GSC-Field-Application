@@ -16,12 +16,12 @@ namespace GSCFieldApp.ViewModels
         private string _selectedFossilType = string.Empty;
 
         public string _fossilNote = string.Empty;//Default
-        public string _fossilParentID = string.Empty;
-        public string _fossilID = string.Empty;
+        public int _fossilParentID = 0;
+        public int _fossilID = 0;
         public string _fossilName = string.Empty;
 
         //Model init
-        private readonly Fossil fossilModel = new Fossil();
+        private Fossil fossilModel = new Fossil();
         public DataIDCalculation fossilCalculator = new DataIDCalculation();
         public FieldNotes existingDataDetailFossil;
         readonly DataAccess accessData = new DataAccess();
@@ -34,8 +34,8 @@ namespace GSCFieldApp.ViewModels
 
         #region PROPERTIES
         public string FossilNote { get { return _fossilNote; } set { _fossilNote = value; } }
-        public string FossilParentID { get { return _fossilParentID; } set { _fossilParentID = value; } }
-        public string FossilID { get { return _fossilID; } set { _fossilID = value; } }
+        public int FossilParentID { get { return _fossilParentID; } set { _fossilParentID = value; } }
+        public int FossilID { get { return _fossilID; } set { _fossilID = value; } }
         public string FossilName { get { return _fossilName; } set { _fossilName = value; } }
         public List<Themes.ComboBoxItem> FossilType { get { return _fossilType; } set { _fossilType = value; } }
         public string SelectedFossilType { get { return _selectedFossilType; } set { _selectedFossilType = value; } }
@@ -48,7 +48,7 @@ namespace GSCFieldApp.ViewModels
         {
             //On init for new samples calculates values for default UI form
             _fossilParentID = inReportDetail.GenericID;
-            _fossilID = fossilCalculator.CalculateFossilID();
+            //_fossilID = fossilCalculator.CalculateFossilID();
             _fossilName = fossilCalculator.CalculateFossilAlias(_fossilParentID, inReportDetail.earthmat.EarthMatName);
 
             FillFossilType();
@@ -103,7 +103,10 @@ namespace GSCFieldApp.ViewModels
 
 
             //Save model class
-            accessData.SaveFromSQLTableObject(fossilModel, doFossilUpdate);
+            object fossilObject = (object)fossilModel;
+            accessData.SaveFromSQLTableObject(ref fossilObject, doFossilUpdate);
+            fossilModel = (Fossil)fossilObject;
+            //accessData.SaveFromSQLTableObject(fossilModel, doFossilUpdate);
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newFossilEdit != null)

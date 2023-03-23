@@ -9,9 +9,8 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableSample)]
     public class Sample
     {
-
-        [PrimaryKey, Column(DatabaseLiterals.FieldSampleID)]
-        public string SampleID { get; set; }
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldSampleID)]
+        public int SampleID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleName)]
         public string SampleName { get; set; }
@@ -44,7 +43,7 @@ namespace GSCFieldApp.Models
         public string SampleSMID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleEarthmatID)]
-        public string SampleEarthmatID { get; set; }
+        public int SampleEarthmatID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleQuality)]
         public string SampleQuality { get; set; }
@@ -115,11 +114,19 @@ namespace GSCFieldApp.Models
                 }
 
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
+                
+
+                //Revert shcema 1.7 changes
+                //List<string> sampleFieldList160 = new List<string>();
+                //sampleFieldList160.AddRange(sampleFieldListDefault);
+                //sampleFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
+
                 sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldListDefault;
 
                 //Revert schema 1.5 changes. 
                 List<string> sampleFieldList144 = new List<string>();
-                sampleFieldList144.AddRange(sampleFieldListDefault);
+                sampleFieldList144.AddRange(sampleFieldList[DatabaseLiterals.DBVersion150]);
                 int removeIndex = sampleFieldList144.IndexOf(DatabaseLiterals.FieldSampleName);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleName);
                 sampleFieldList144.Insert(removeIndex,DatabaseLiterals.FieldSampleNameDeprecated);

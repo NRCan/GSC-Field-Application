@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls;
 using System.Globalization;
 using System.Collections.ObjectModel;
 using Windows.Media.Capture;
+using System.Reflection;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -20,7 +21,7 @@ namespace GSCFieldApp.ViewModels
         #region INITIALIZATION
 
         //UI
-        private readonly Document documentModel = new Document();
+        private Document documentModel = new Document();
         private readonly Station stationModel = new Station();
         private readonly EarthMaterial eartModel = new EarthMaterial();
         private readonly Sample smModel = new Sample();
@@ -32,7 +33,7 @@ namespace GSCFieldApp.ViewModels
         private readonly MineralAlteration maModel = new MineralAlteration();
         private readonly DataAccess dataAcess = new DataAccess();
         private string _description = string.Empty; //Default
-        private string _documentID = string.Empty;  //Default
+        private int _documentID = 0;  //Default
         private string _documentName = string.Empty; //Default
         private string _direction = string.Empty; //Default
         private string _fileName = string.Empty; //Default
@@ -46,7 +47,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _relatedTable = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedRelatedTable = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _relatedIDs = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedRelatedID = string.Empty;
+        private int _selectedRelatedID = 0;
         private Visibility _documentModeVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _documentUpdateVisibility = Visibility.Visible; //Visibility for fields that can't be edited when the form is poped as an edit of an existing record.
         private bool _fileNameReadOnly = true;
@@ -81,7 +82,7 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
 
         public string Description { get { return _description; } set { _description = value; } }
-        public string DocumentID { get { return _documentID; } set { _documentID = value; } }
+        public int DocumentID { get { return _documentID; } set { _documentID = value; } }
         public string DocumentName { get { return _documentName; } set { _documentName = value; } }
         public string FileName { get { return _fileName; } set { _fileName = value; } }
         public string Direction
@@ -233,7 +234,7 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> RelatedTable { get { return _relatedTable; } set { _relatedTable = value; } }
         public string SelectedRelatedTable { get { return _selectedRelatedTable; } set { _selectedRelatedTable = value; } }
         public ObservableCollection<Themes.ComboBoxItem> RelatedIds { get { return _relatedIDs; } set { _relatedIDs = value; } }
-        public string SelectedRelatedID { get { return _selectedRelatedID; } set { _selectedRelatedID = value; } }
+        public int SelectedRelatedID { get { return _selectedRelatedID; } set { _selectedRelatedID = value; } }
 
         public bool DocumentPhotoExists { get { return _documentPhotoExists; } set { _documentPhotoExists = value; } }
         public String DocumentPhotoPath { get { return _documentPhotoPath; } set { _documentPhotoPath = value; } }
@@ -250,9 +251,9 @@ namespace GSCFieldApp.ViewModels
             //Keep report detail
             existingDataDetailDocument = inDetailModel;
             selectedStationSummaryDocument = stationSummaryID;
-            _documentID = idCalculatorDoc.CalculateDocumentID(); //Calculate new document ID
+            //_documentID = idCalculatorDoc.CalculateDocumentID(); //Calculate new document ID
 
-            if (stationSummaryID.GenericID != null)
+            if (stationSummaryID.GenericID != 0)
             {
                 _selectedRelatedID = stationSummaryID.GenericID; //Init with what was selected by the user in the report
                 _selectedRelatedTable = DatabaseLiterals.TableStation;
@@ -284,14 +285,14 @@ namespace GSCFieldApp.ViewModels
 
             SetFieldVisibility(); //Will make visible or not some fields based on user option to see full document or photo style dialog
 
-            RaisePropertyChanged("SelectedRelatedID");
-            RaisePropertyChanged("SelectedRelatedTable");
-
             //Fill comboboxes
             FillCategory();
             FillDocumentType();
             FillRelatedTable();
             FillRelatedIDs();
+
+            RaisePropertyChanged("SelectedRelatedID");
+            RaisePropertyChanged("SelectedRelatedTable");
 
             //Get some info for validation
             GetAllFileNumbers();
@@ -416,7 +417,7 @@ namespace GSCFieldApp.ViewModels
                     documentModel.DocumentType = SelectedDocType;
                 }
 
-                if (SelectedRelatedTable != null && SelectedRelatedID != null)
+                if (SelectedRelatedTable != null && SelectedRelatedID != 0)
                 {
                     documentModel.RelatedTable = SelectedRelatedTable;
                     documentModel.RelatedID = SelectedRelatedID;
@@ -458,7 +459,7 @@ namespace GSCFieldApp.ViewModels
 
                             Document newDoc = new Document
                             {
-                                DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
+                                //DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
                                 FileNumber = iteratedFileNumber,
                                 FileName = _fileName = CalculateFileName(),
                                 DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
@@ -483,13 +484,19 @@ namespace GSCFieldApp.ViewModels
                     else
                     {
                         //Save model class
-                        dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
+                        object docObject = (object)documentModel;
+                        dataAcess.SaveFromSQLTableObject(ref docObject, doDocumentUpdate);
+                        documentModel = (Document)docObject;
+                        //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
                     }
                 }
                 else
                 {
                     //Save model class
-                    dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
+                    object docObject = (object)documentModel;
+                    dataAcess.SaveFromSQLTableObject(ref docObject, doDocumentUpdate);
+                    documentModel = (Document)docObject;
+                    //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
                 }
 
                 #endregion
@@ -658,8 +665,8 @@ namespace GSCFieldApp.ViewModels
             Station stationModel = new Station();
             List<object> stationTableLRaw = accessData.ReadTable(stationModel.GetType(), null);
             IEnumerable<Station> stationTable = stationTableLRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<string> stats = from s in stationTable where s.StationID == inParentModel.GenericID select s.LocationID;
-            List<string> locationFromStat = stats.ToList();
+            IEnumerable<int> stats = from s in stationTable where s.StationID == inParentModel.GenericID select s.LocationID;
+            List<int> locationFromStat = stats.ToList();
 
             //Delete location
             accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
@@ -759,16 +766,16 @@ namespace GSCFieldApp.ViewModels
 
 
                 //Get the right station id wheter it's coming from the report or the map page as quick photo
-                string processedStationID = string.Empty;
-                if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.GenericID != null)
+                int processedStationID = 0;
+                if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.GenericID != 0)
                 {
                     processedStationID = selectedStationSummaryDocument.GenericID;
                 }
-                else if (selectedStationSummaryDocument.ParentTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.ParentID != null)
+                else if (selectedStationSummaryDocument.ParentTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.ParentID != 0)
                 {
                     processedStationID = selectedStationSummaryDocument.ParentID;
                 }
-                if (selectedStationSummaryDocument.station.StationID != null && selectedStationSummaryDocument.station.StationID != string.Empty)
+                if (selectedStationSummaryDocument.station.StationID != 0 && selectedStationSummaryDocument.station.StationID != 0)
                 {
                     processedStationID = selectedStationSummaryDocument.station.StationID;
                 }
@@ -778,14 +785,14 @@ namespace GSCFieldApp.ViewModels
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableStation)
                     {
-                        string filterStations = "Select * from " + DatabaseLiterals.TableStation + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = '" + processedStationID + "'";
+                        string filterStations = "Select * from " + DatabaseLiterals.TableStation + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = " + processedStationID;
                         List<object> relatedStations = dataAcess.ReadTable(stationModel.GetType(), filterStations);
                         IEnumerable<Station> statTables = relatedStations.Cast<Station>();
                         foreach (Station sts in statTables)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = sts.StationID,
+                                itemValue = sts.StationID.ToString(),
                                 itemName = sts.StationAlias
                             };
                             _relatedIDs.Add(newItem);
@@ -795,14 +802,14 @@ namespace GSCFieldApp.ViewModels
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableEarthMat)
                     {
-                        string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
+                        string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
                         List<object> relatedEarths = dataAcess.ReadTable(eartModel.GetType(), filterEarthmats);
                         IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
                         foreach (EarthMaterial ea in earths)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = ea.EarthMatID,
+                                itemValue = ea.EarthMatID.ToString(),
                                 itemName = ea.EarthMatName
                             };
                             _relatedIDs.Add(newItem);
@@ -812,15 +819,15 @@ namespace GSCFieldApp.ViewModels
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableLocation)
                     {
-                        string filterLocations = "Select * from " + DatabaseLiterals.TableLocation + " where " + DatabaseLiterals.TableLocation + "." + DatabaseLiterals.FieldLocationID + " = '" + selectedStationSummaryDocument.ParentID + "'";
+                        string filterLocations = "Select * from " + DatabaseLiterals.TableLocation + " where " + DatabaseLiterals.TableLocation + "." + DatabaseLiterals.FieldLocationID + " = " + selectedStationSummaryDocument.ParentID;
                         List<object> relatedLocations = dataAcess.ReadTable(locationModel.GetType(), filterLocations);
                         IEnumerable<FieldLocation> locs = relatedLocations.Cast<FieldLocation>();
                         foreach (FieldLocation lc in locs)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = lc.LocationID,
-                                itemName = lc.LocationID //Alias isn't filled.
+                                itemValue = lc.LocationID.ToString(),
+                                itemName = lc.LocationID.ToString() //Alias isn't filled.
                             };
                             _relatedIDs.Add(newItem);
                         }
@@ -830,14 +837,14 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableSample)
                     {
                         string filterSamplesSelectJoin = "Select * from " + DatabaseLiterals.TableSample + " join " + DatabaseLiterals.TableEarthMat; 
-                        string filterSamplesWhere =  " on " + DatabaseLiterals.TableSample + "." + DatabaseLiterals.FieldSampleEarthmatID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
+                        string filterSamplesWhere =  " on " + DatabaseLiterals.TableSample + "." + DatabaseLiterals.FieldSampleEarthmatID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
                         List<object> relatedSamples = dataAcess.ReadTable(smModel.GetType(), filterSamplesSelectJoin + filterSamplesWhere);
                         IEnumerable<Sample> sms = relatedSamples.Cast<Sample>();
                         foreach (Sample sm in sms)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = sm.SampleID,
+                                itemValue = sm.SampleID.ToString(),
                                 itemName = sm.SampleName
                             };
                             _relatedIDs.Add(newItem);
@@ -848,14 +855,14 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TablePFlow)
                     {
                         string filterPflowSelectJoin = "Select * from " + DatabaseLiterals.TablePFlow + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterPflowWhere = " on " + DatabaseLiterals.TablePFlow + "." + DatabaseLiterals.FieldPFlowParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
+                        string filterPflowWhere = " on " + DatabaseLiterals.TablePFlow + "." + DatabaseLiterals.FieldPFlowParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
                         List<object> relatedPflow = dataAcess.ReadTable(pflowModel.GetType(), filterPflowSelectJoin + filterPflowWhere);
                         IEnumerable<Paleoflow> pfs = relatedPflow.Cast<Paleoflow>();
                         foreach (Paleoflow pf in pfs)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = pf.PFlowID,
+                                itemValue = pf.PFlowID.ToString(),
                                 itemName = pf.PFlowName
                             };
                             _relatedIDs.Add(newItem);
@@ -865,14 +872,14 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableFossil)
                     {
                         string filterFossilSelectJoin = "Select * from " + DatabaseLiterals.TableFossil + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterFossilWhere = " on " + DatabaseLiterals.TableFossil + "." + DatabaseLiterals.FieldFossilParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
+                        string filterFossilWhere = " on " + DatabaseLiterals.TableFossil + "." + DatabaseLiterals.FieldFossilParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
                         List<object> relatedFossil = dataAcess.ReadTable(fossilModel.GetType(), filterFossilSelectJoin + filterFossilWhere);
                         IEnumerable<Fossil> fss = relatedFossil.Cast<Fossil>();
                         foreach (Fossil fs in fss)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = fs.FossilID,
+                                itemValue = fs.FossilID.ToString(),
                                 itemName = fs.FossilIDName
                             };
                             _relatedIDs.Add(newItem);
@@ -882,14 +889,14 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableStructure)
                     {
                         string filterStructureSelectJoin = "Select * from " + DatabaseLiterals.TableStructure + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterStructureWhere = " on " + DatabaseLiterals.TableStructure + "." + DatabaseLiterals.FieldStructureParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
+                        string filterStructureWhere = " on " + DatabaseLiterals.TableStructure + "." + DatabaseLiterals.FieldStructureParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
                         List<object> relatedFossil = dataAcess.ReadTable(structureModel.GetType(), filterStructureSelectJoin + filterStructureWhere);
                         IEnumerable<Structure> sts = relatedFossil.Cast<Structure>();
                         foreach (Structure st in sts)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = st.StructureID,
+                                itemValue = st.StructureID.ToString(),
                                 itemName = st.StructureName
                             };
                             _relatedIDs.Add(newItem);
@@ -900,14 +907,14 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableMineral)
                     {
                         string filterMineralSelectJoin = "Select * from " + DatabaseLiterals.TableMineral + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralEMID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + processedStationID + "'";
+                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralEMID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
                         List<object> relatedMineral = dataAcess.ReadTable(mineralModel.GetType(), filterMineralSelectJoin + filterMineralWhere);
                         IEnumerable<Mineral> minerals = relatedMineral.Cast<Mineral>();
                         foreach (Mineral ms in minerals)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = ms.MineralID,
+                                itemValue = ms.MineralID.ToString(),
                                 itemName = ms.MineralIDName
                             };
                             _relatedIDs.Add(newItem);
@@ -917,14 +924,14 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableMineralAlteration)
                     {
                         string filterMASelectJoin = "Select * from " + DatabaseLiterals.TableMineralAlteration + " join " + DatabaseLiterals.TableStation;
-                        string filterMAWhere = " on " + DatabaseLiterals.TableMineralAlteration + "." + DatabaseLiterals.FieldMineralAlterationRelID + " = " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = '" + processedStationID + "'";
+                        string filterMAWhere = " on " + DatabaseLiterals.TableMineralAlteration + "." + DatabaseLiterals.FieldMineralAlterationRelID + " = " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = " + processedStationID;
                         List<object> relatedMA = dataAcess.ReadTable(maModel.GetType(), filterMASelectJoin + filterMAWhere);
                         IEnumerable<MineralAlteration> mineralizationAlterations = relatedMA.Cast<MineralAlteration>();
                         foreach (MineralAlteration ma in mineralizationAlterations)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = ma.MAID,
+                                itemValue = ma.MAID.ToString(),
                                 itemName = ma.MAName
                             };
                             _relatedIDs.Add(newItem);
@@ -999,8 +1006,13 @@ namespace GSCFieldApp.ViewModels
 
             //RaisePropertyChanged("SelectedCategory");
             RaisePropertyChanged("SelectedDocType");
-            RaisePropertyChanged("SelectedRelatedTable");
-            RaisePropertyChanged("SelectedRelatedID");
+
+            if (_documentModeVisibility == Visibility.Visible)
+            {
+                RaisePropertyChanged("SelectedRelatedTable");
+                RaisePropertyChanged("SelectedRelatedID");
+            }
+
 
             RaisePropertyChanged("DocumentPhotoPath");
             RaisePropertyChanged("DocumentPhotoExists");

@@ -32,7 +32,10 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableDictionary)]
     public class Vocabularies: IComparable<Vocabularies>
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldDictionaryTermID)]
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID)]
+        public string rowid { get; set; }
+
+        [Column(DatabaseLiterals.FieldDictionaryTermID)]
         public string TermID { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryCodedTheme)]
@@ -119,9 +122,17 @@ namespace GSCFieldApp.Models
 
                 vocabFieldList[DatabaseLiterals.DBVersion] = vocabFieldListDefault;
 
+
+                //Revert shcema 1.7 changes
+                List<string> vocFieldList160 = new List<string>();
+                vocFieldList160.AddRange(vocabFieldListDefault);
+                vocFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                vocabFieldList[DatabaseLiterals.DBVersion160] = vocFieldList160;
+
+
                 //Revert schema 1.5 changes. 
                 List<string> vocabFieldList144 = new List<string>();
-                vocabFieldList144.AddRange(vocabFieldListDefault);
+                vocabFieldList144.AddRange(vocFieldList160);
                 vocabFieldList144.Remove(DatabaseLiterals.FieldDictionaryVersion);
                 vocabFieldList[DatabaseLiterals.DBVersion144] = vocabFieldList144;
 

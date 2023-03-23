@@ -76,12 +76,12 @@
 
         <Controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" DefaultLabelPosition="Right" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True" 
                              EllipsisVisibility="Collapsed" IsOpen="True" Height="40">
-            <AppBarButton x:Name="LatLongUTM" Visibility="Collapsed" Label="Coordinates" x:Uid="MapPageLatLongUTM" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="Read">
+            <AppBarButton x:Name="LatLongUTM" Label="" x:Uid="MapPageLatLongUTM" ToolTipService.ToolTip="" MaxWidth="100" Height="70" IsCompact ="True" VerticalAlignment="Top" Foreground="White" Icon="Read">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="LatLong DMS" Click="LatLongDMSButtonClicked"/>
-                        <MenuFlyoutItem Text="LatLong DD" Click="LatLongDDButtonClicked"/>
-                        <MenuFlyoutItem Text="UTM" Click="UTMButtonClicked"/>
+                        <MenuFlyoutItem Text="" Click="LatLongDMSButtonClicked" x:Uid="MapPageLatLongDMSButton"/>
+                        <MenuFlyoutItem Text="" Click="LatLongDDButtonClicked" x:Uid="MapPageLatLongDDButton"/>
+                        <MenuFlyoutItem Text="" Click="UTMButtonClicked" x:Uid="MapPageUTMButton"/>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -186,8 +186,8 @@
                     <TextBlock Name="MapCoordinateText5" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0,5,0" >
 
                     <Run Text="Location: " x:Uid="MapInfoLocationLabel"/>
-                    <!--<Run Text="{x:Bind MapPageViewModel.CurrentEasting, Converter={StaticResource DD2UTM}, ConverterParameter='Easting', Mode=OneWay}"/>
-                    <Run Text="{x:Bind MapPageViewModel.CurrentNorthing, Converter={StaticResource DD2UTM}, ConverterParameter='Northing', Mode=OneWay}"/>-->
+                    <Run Text="{x:Bind MapPageViewModel.CurrentEasting, Mode=OneWay}"/> <!--Converter={StaticResource DD2UTM}, ConverterParameter='Easting', --> 
+                    <Run Text="{x:Bind MapPageViewModel.CurrentNorthing, Mode=OneWay}"/> <!--Converter={StaticResource DD2UTM}, ConverterParameter='Northing', -->
                     <Run Text="{x:Bind MapPageViewModel.CurrentAltitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
                     </TextBlock>
 

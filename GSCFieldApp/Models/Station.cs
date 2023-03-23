@@ -10,8 +10,8 @@ namespace GSCFieldApp.Models
     public class Station
     {
 
-        [PrimaryKey, Column(DatabaseLiterals.FieldStationID)]
-        public string StationID { get; set; }
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldStationID)]
+        public int StationID { get; set; }
 
         [Column(DatabaseLiterals.FieldStationAlias)]
         public string StationAlias { get; set; }
@@ -62,7 +62,7 @@ namespace GSCFieldApp.Models
         public string StateionReportLink { get; set; }
 
         [Column(DatabaseLiterals.FieldStationObsID)]
-        public string LocationID { get; set; }
+        public int LocationID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableLocation;
@@ -113,6 +113,13 @@ namespace GSCFieldApp.Models
                 }
 
                 stationFieldList[DatabaseLiterals.DBVersion] = stationFieldListDefault;
+
+                //Revert shcema 1.7 changes
+                //List<string> statFieldList160 = new List<string>();
+                //statFieldList160.AddRange(stationFieldListDefault);
+                //statFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //stationFieldList[DatabaseLiterals.DBVersion160] = statFieldList160;
+
 
                 //Revert schema 1.6 changes. 
                 List<string> stationFieldList150 = new List<string>();

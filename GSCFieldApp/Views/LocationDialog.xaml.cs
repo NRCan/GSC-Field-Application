@@ -59,7 +59,7 @@ namespace GSCFieldApp.Views
                     GenericAliasName = locationVM.LocationAlias,
                     GenericID = locationVM.LocationID
                 };
-                stationParent.GenericID = Dictionaries.DatabaseLiterals.TableLocation;
+                stationParent.ParentTableName = Dictionaries.DatabaseLiterals.TableLocation;
 
                 //Create a map point
                 var modal = Window.Current.Content as ModalDialog;

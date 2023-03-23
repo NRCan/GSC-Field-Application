@@ -10,14 +10,14 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableEarthMat)]
     public class EarthMaterial
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldEarthMatID)]
-        public string EarthMatID { get; set; }
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldEarthMatID)]
+        public int EarthMatID { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatName)]
         public string EarthMatName { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatStatID)]
-        public string EarthMatStatID { get; set; }
+        public int EarthMatStatID { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatLithgroup)]
         public string EarthMatLithgroup { get; set; }
@@ -182,6 +182,12 @@ namespace GSCFieldApp.Models
                 }
 
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
+
+                //Revert shcema 1.7 changes
+                //List<string> earthmatFieldList160 = new List<string>();
+                //earthmatFieldList160.AddRange(earthmatFieldListDefault);
+                //earthmatFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //earthmatFieldList[DatabaseLiterals.DBVersion160] = earthmatFieldList160;
 
                 //Revert schema 1.6 changes. 
                 List<string> earthmatFieldList15 = new List<string>();

@@ -1,13 +1,17 @@
 ﻿using GSCFieldApp.Dictionaries;
 using SQLite;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GSCFieldApp.Models
 {
     [Table(DatabaseLiterals.TableFossil)]
     public class Fossil
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldFossilID)]
-        public string FossilID { get; set; }
+
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldFossilID)]
+        public int FossilID { get; set; }
 
         [Column(DatabaseLiterals.FieldFossilName)]
         public string FossilIDName { get; set; }
@@ -19,7 +23,7 @@ namespace GSCFieldApp.Models
         public string FossilNote { get; set; }
 
         [Column(DatabaseLiterals.FieldFossilParentID)]
-        public string FossilParentID { get; set; }
+        public int FossilParentID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
@@ -41,6 +45,43 @@ namespace GSCFieldApp.Models
                 {
                     return false;
                 }
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// A list of all possible fields from current class but also from previous schemas (for db upgrade)
+        /// </summary>
+        [Ignore]
+        public Dictionary<double, List<string>> getFieldList
+        {
+            get
+            {
+                //Create a new list of all current columns in current class. This will act as the most recent
+                //version of the class
+                Dictionary<double, List<string>> fossilFieldList = new Dictionary<double, List<string>>();
+                List<string> fossilFieldListDefault = new List<string>();
+
+                fossilFieldListDefault.Add(DatabaseLiterals.FieldFossilID);
+                foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
+                {
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    {
+                        fossilFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                    }
+
+                }
+
+                fossilFieldList[DatabaseLiterals.DBVersion] = fossilFieldListDefault;
+
+                //Revert shcema 1.7 changes
+                //List<string> fossilFieldList160 = new List<string>();
+                //fossilFieldList160.AddRange(fossilFieldListDefault);
+                //fossilFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
+                //fossilFieldList[DatabaseLiterals.DBVersion160] = fossilFieldList160;
+
+
+                return fossilFieldList;
             }
             set { }
         }

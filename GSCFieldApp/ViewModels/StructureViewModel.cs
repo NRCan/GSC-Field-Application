@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Template10.Mvvm;
 using Windows.UI.Xaml.Controls;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Models;
-using System.Text.RegularExpressions;
-using System.Collections.ObjectModel;
-using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -43,8 +43,8 @@ namespace GSCFieldApp.ViewModels
         private string _structFabric = string.Empty; //Default
         private string _structSense = string.Empty; //Default
         private string _structNote = string.Empty; //Default
-        private string _structID = string.Empty; //Default
-        private string _structParentID = string.Empty; //Default
+        private int _structID = 0; //Default
+        private int _structParentID = 0; //Default
         private string _structName = string.Empty; //Default
         private string _structClass = string.Empty;
         private string _structType = string.Empty;
@@ -71,9 +71,9 @@ namespace GSCFieldApp.ViewModels
         public string StructNote { get { return _structNote; } set { _structNote = value; } }
         public string StructClass { get { return _structClass; } set { _structClass = value; } }
         public string StructType { get { return _structType; } set { _structType = value; } }
-        public string StructID { get { return _structID; } set { _structID = value; } }
+        public int StructID { get { return _structID; } set { _structID = value; } }
         public string StructName { get { return _structName; } set { _structName = value; } }
-        public string StructParentID { get { return _structParentID; } set { _structParentID = value; } }
+        public int StructParentID { get { return _structParentID; } set { _structParentID = value; } }
         public string StructClassTypeDetail { get { return _strucclasstypedetail; } set { _strucclasstypedetail = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StructFormat { get { return _structFormat; } set { _structFormat = value; } }
         public string SelectedStructFormat { get { return _selectedStructFormat; } set { _selectedStructFormat = value; } }
@@ -173,7 +173,7 @@ namespace GSCFieldApp.ViewModels
         {
             //On init for new samples calculates values for default UI form
             _structParentID = inReport.GenericID;
-            _structID = structureCalculator.CalculateStructureID();
+            //_structID = structureCalculator.CalculateStructureID();
             _structName = structureCalculator.CalculateStructureAlias(_structParentID, inReport.earthmat.EarthMatName);
 
             existingDataDetailStructure = inReport;
@@ -216,11 +216,11 @@ namespace GSCFieldApp.ViewModels
             //For new structures or editing existing structures
             if (existingDataDetailStructure.GenericTableName == Dictionaries.DatabaseLiterals.TableEarthMat)
             {
-                queryWhere = queryWhere + " = '" + existingDataDetailStructure.GenericID + "'";
+                queryWhere = queryWhere + " = " + existingDataDetailStructure.GenericID;
             }
             else if (existingDataDetailStructure.GenericTableName == Dictionaries.DatabaseLiterals.TableStructure)
             {
-                queryWhere = queryWhere + " = '" + existingDataDetailStructure.ParentID + "'";
+                queryWhere = queryWhere + " = " + existingDataDetailStructure.ParentID ;
             }
 
             //Extra where clause to select only counterpart and not same structure types
@@ -250,7 +250,7 @@ namespace GSCFieldApp.ViewModels
                         Themes.ComboBoxItem structItem = new Themes.ComboBoxItem
                         {
                             itemName = st.StructureName,
-                            itemValue = st.StructureID
+                            itemValue = st.StructureID.ToString()
                         };
                         _structRel.Add(structItem);
                     }
@@ -279,7 +279,7 @@ namespace GSCFieldApp.ViewModels
                 _structRel.Insert(0, structItem);
 
                 //Reselect user value
-                _selectedStructRel = existingDataDetailStructure.structure.StructureRelated;
+                _selectedStructRel = existingDataDetailStructure.structure.StructureRelated.ToString();
                 RaisePropertyChanged("SelectedStructRelated");
             }
 
@@ -528,8 +528,15 @@ namespace GSCFieldApp.ViewModels
 
             _selectedStructFlat = existingDataDetailStructure.structure.StructureFlattening;
             _selectedStructMethod = existingDataDetailStructure.structure.StructureMethod;
-            _selectedStructRel = existingDataDetailStructure.structure.StructureRelated;
             _selectedStructStrain = existingDataDetailStructure.structure.StructureStrain;
+
+
+            //Take care of related structure
+            if (existingDataDetailStructure.structure.StructureRelated != null && existingDataDetailStructure.structure.StructureRelated != null)
+            {
+                _selectedStructRel = existingDataDetailStructure.structure.StructureRelated.ToString();
+                RaisePropertyChanged("SelectedStructRelated");
+            }
 
             //Update UI
             RaisePropertyChanged("StructID");
@@ -545,16 +552,10 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("StructClassTypeDetail");
 
             RaisePropertyChanged("SelectedStructFlat"); 
-            RaisePropertyChanged("SelectedStructMethod"); 
-            RaisePropertyChanged("SelectedStructRelated"); 
+            RaisePropertyChanged("SelectedStructMethod");  
             RaisePropertyChanged("SelectedStructStrain");
 
-            //Take care of related structure
-            if (true)
-            {
-
-            }
-
+            
             AutoFillDialog2ndRound(incomingData); 
 
             doStructureUpdate = true;
@@ -607,16 +608,18 @@ namespace GSCFieldApp.ViewModels
             BuildStructureObject();
 
             //Save model class
-            if (structureModel.StructureID != null)
-            {
-                accessData.SaveFromSQLTableObject(structureModel, doStructureUpdate);
+            object strucObject = (object)structureModel;
+            accessData.SaveFromSQLTableObject(ref strucObject, doStructureUpdate);
+            structureModel = (Structure)strucObject;
 
-                //Launch an event call for everyone that an earthmat has been edited.
-                if (newStructureEdit != null)
-                {
-                    newStructureEdit(this);
-                }
+            //accessData.SaveFromSQLTableObject(structureModel, doStructureUpdate);
+
+            //Launch an event call for everyone that an earthmat has been edited.
+            if (newStructureEdit != null)
+            {
+                newStructureEdit(this);
             }
+            
 
         }
 
@@ -630,8 +633,8 @@ namespace GSCFieldApp.ViewModels
             Station stationModel = new Station();
             List<object> stationTableLRaw = accessData.ReadTable(stationModel.GetType(), null);
             IEnumerable<Station> stationTable = stationTableLRaw.Cast<Station>(); //Cast to proper list type
-            IEnumerable<string> stats = from s in stationTable where s.StationID == inParentModel.ParentID select s.LocationID;
-            List<string> locationFromStat = stats.ToList();
+            IEnumerable<int> stats = from s in stationTable where s.StationID == inParentModel.ParentID select s.LocationID;
+            List<int> locationFromStat = stats.ToList();
 
             //Delete location
             accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
@@ -677,9 +680,10 @@ namespace GSCFieldApp.ViewModels
             {
                 structureModel.StructureFlattening = SelectedStructFlat;
             }
-            if (SelectedStructRelated != null)
+            if (SelectedStructRelated != null && SelectedStructRelated != string.Empty 
+                && SelectedStructRelated != DatabaseLiterals.picklistNACode)
             {
-                structureModel.StructureRelated = SelectedStructRelated;
+                structureModel.StructureRelated = int.Parse(SelectedStructRelated);
             }
 
             if (_strucclasstypedetail != string.Empty)

@@ -13,9 +13,12 @@ using SQLite;
 using Windows.UI.Core;
 using Windows.ApplicationModel.Resources;
 using System.Diagnostics;
+using SpatialiteSharp;
+using System.Reflection;
+using Esri.ArcGISRuntime.Location;
+using Esri.ArcGISRuntime.Data;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
-
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataAccess
@@ -89,6 +92,13 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
         }
 
+        public string GetDefaultDatabasePath
+        {
+            get
+            {
+                return DbPath;
+            }
+        }
         /// <summary>
         /// Get a sqlite connection object
         /// </summary>
@@ -122,6 +132,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             return System.IO.File.Exists(DbPath);
         }
 
+
         #endregion
 
         #region DATA MANAGEMENT METHODS (Create, Update, Read)
@@ -153,7 +164,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will create the fieldworkd sqlite database from an embedded resource
         /// </summary>
         /// <returns></returns>
-        public async Task CreateDatabaseFromResourceTo(string toFolderPath, string dbName )
+        public async Task CreateDatabaseFromResourceTo(string toFolderPath, string dbName)
         {
 
             StorageFolder folderPath = await StorageFolder.GetFolderFromPathAsync(toFolderPath);
@@ -199,7 +210,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             catch (Exception e)
             {
-                throw;
+                Debug.Write(e.Message);
             }
 
 
@@ -217,7 +228,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             int incrementer = 1; //Will be used to name project folders (pretty basic)
             string fieldProjectPath = Path.Combine(ApplicationData.Current.LocalFolder.Path); //Wanted path for project data
             StorageFolder fieldFolder = await StorageFolder.GetFolderFromPathAsync(fieldProjectPath);//Current folder object to local state
- 
+
             bool breaker = false; //Will be used to break while clause whenever a folder has been created.
             while (!breaker)
             {
@@ -258,9 +269,9 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// 
         /// </summary>
         /// <param name="tableObject"></param>
-        public void SaveFromSQLTableObject(object tableObject, bool doUpdate)
+        public void SaveFromSQLTableObject(ref object tableObject, bool doUpdate)
         {
-            SaveSQLTableObjectFromDB(tableObject, doUpdate, DbConnection);
+           SaveSQLTableObjectFromDB(ref tableObject, doUpdate, DbConnection);
         }
 
         /// <summary>
@@ -268,8 +279,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// 
         /// </summary>
         /// <param name="tableObject"></param>
-        public void SaveSQLTableObjectFromDB(object tableObject, bool doUpdate, SQLiteConnection inDB)
+        public void SaveSQLTableObjectFromDB(ref object tableObject, bool doUpdate, SQLiteConnection inDB)
         {
+            //Get a copy of  table object else a ref can't be used in an anonymous method
+            object newTableObject = tableObject;
+
             // Create a new connection
             using (inDB)
             {
@@ -283,8 +297,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                         if (doUpdate)
                         {
+                            
                             // update - Not working version 3.13 SQLite-Net UWP
-                            int sucess = inDB.Update(tableObject);
+                            int sucess = inDB.Update(newTableObject);
 
                             ////Update - To bypass update bug
                             //string upQuery = GetUpdateQueryFromClass(tableObject, inDB);
@@ -294,9 +309,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                         }
                         else
                         {
-                            int success = inDB.Insert(tableObject);
+                            int success = inDB.Insert(newTableObject);
                         }
+
+                        
                     });
+
+                    inDB.Commit();
                 }
                 catch (SQLite.SQLiteException ex)
                 {
@@ -306,6 +325,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 inDB.Close();
             }
+
+            //Return copy of filled out object copy
+            tableObject = newTableObject;
         }
 
         /// <summary>
@@ -313,7 +335,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// 
         /// </summary>
         /// <param name="tableObject"></param>
-        public void BatchSaveSQLTables(List<object> tableObject)
+        public List<object> BatchSaveSQLTables(List<object> tableObjects)
         {
             // Create a new connection
             using (DbConnection)
@@ -321,14 +343,16 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 DbConnection.RunInTransaction(() =>
                 {
-                    foreach (object t in tableObject)
+                    foreach (object t in tableObjects)
                     {
                         int sucess = DbConnection.Insert(t);
                     }
                 });
-
+                DbConnection.Commit();
                 DbConnection.Close();
             }
+
+            return tableObjects;
         }
 
         /// <summary>
@@ -351,7 +375,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         //Update - To bypass update bug
                         SQLiteCommand command = db.CreateCommand(updateQuery);
                         command.ExecuteNonQuery();
-
+                        db.Commit();
                     }
 
                 });
@@ -405,9 +429,9 @@ namespace GSCFieldApp.Services.DatabaseServices
                         tableRows = dbCon.Query(tableMap, query);
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    Debug.Write(e.Message);
                 }
 
                 dbCon.Close();
@@ -466,14 +490,15 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="tableName">The table name to delete the record from</param>
         /// <param name="tableFieldName">The table field name to select the record with</param>
         /// <param name="recordIDToDelete">The table field value to delete.</param>
-        public void DeleteRecord(string tableName, string tableFieldName, string recordIDToDelete)
+        public void DeleteRecord(string tableName, string tableFieldName, int recordIDToDelete)
         {
 
             using (SQLiteConnection dbConnect = DbConnection)
             {
                 SQLiteCommand delCommand = dbConnect.CreateCommand("PRAGMA foreign_keys=ON");
                 delCommand.ExecuteNonQuery();
-                delCommand.CommandText = "DELETE FROM " + tableName + " WHERE " + tableFieldName + " = '" + recordIDToDelete + "'";
+                delCommand.CommandText = "DELETE FROM " + tableName + " WHERE " + tableFieldName + " = " + recordIDToDelete + ";";
+    
                 delCommand.ExecuteNonQuery();
 
                 dbConnect.Close();
@@ -533,7 +558,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async void GetLatestVocab(string vocabFromDBPath, SQLiteConnection vocabToDBConnection, double dbVersion, bool closeConnection = true)
         {
             //Will hold all queries needed to be committed
-            List<string> queryList = new List<string>() {};
+            List<string> queryList = new List<string>() { };
             List<Exception> exceptionList = new List<Exception>();
 
             //Build attach db query
@@ -592,7 +617,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         //Do nothing, field didn't exist
                     }
-                    else 
+                    else
                     {
                         vocab_querySelect = vocab_querySelect + ", v." + vocabFields + " as " + vocabFields;
                     }
@@ -606,7 +631,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             vocab_querySelect = vocab_querySelect.Replace(", ,", "");
 
-            string insertQuery_vocab= "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
+            string insertQuery_vocab = "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
             insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
             if (dbVersion >= 1.5)
             {
@@ -617,10 +642,10 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //queryList.Add(deleteQuery_vocab_collision);
 
-                insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() +  ") AND (v." +
+                insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() + ") AND (v." +
                     FieldDictionaryTermID + " NOT IN (SELECT v2." + FieldDictionaryTermID + " FROM " + TableDictionary + " as v2)); ";
-            } 
-                
+            }
+
             queryList.Add(insertQuery_vocab);
 
             #endregion
@@ -644,7 +669,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                             ", CASE WHEN EXISTS (SELECT sql from " + attachDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDictionaryManager + "%" + DatabaseLiterals.FieldDictionaryManagerVersion +
                             "%') THEN (vm." + DatabaseLiterals.FieldDictionaryManagerVersion + ") ELSE NULL END as " + DatabaseLiterals.FieldDictionaryManagerVersion;
                     }
-                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion == 1.5 || vocabMFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion == 1.44) 
+                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion == 1.5 || vocabMFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion == 1.44)
                     {
                         vocabm_querySelect = vocabm_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldDictionaryManagerVersion;
@@ -673,7 +698,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + FieldDictionaryManagerVersion + " is null or vm." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
             }
-            
+
             queryList.Add(insertQuery_vocabM);
 
             #endregion
@@ -703,13 +728,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                         {
                             exceptionList.Add(e);
                         }
-                        
+
                     }
                     db.Commit();
                     db.Close();
                 }
             }
-            else 
+            else
             {
                 foreach (string q in queryList)
                 {
@@ -721,7 +746,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         exceptionList.Add(e);
                     }
-                    
+
                 }
             }
 
@@ -767,11 +792,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             List<Exception> exceptionList = new List<Exception>();
 
             //Untouched tables to upgrade
-            List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata, 
+            List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata,
                 DatabaseLiterals.TableEarthMat, DatabaseLiterals.TableSample, DatabaseLiterals.TableStation,
                 DatabaseLiterals.TableDocument, DatabaseLiterals.TableStructure, DatabaseLiterals.TableFossil,
-                DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,  
-                DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint , DatabaseLiterals.TableFieldCamp};
+                DatabaseLiterals.TableMineral, DatabaseLiterals.TableMineralAlteration , DatabaseLiterals.TablePFlow,
+                DatabaseLiterals.TableTraverseLine, DatabaseLiterals.TableTraversePoint,
+                DatabaseLiterals.TableEnvironment};
 
 
             //List of queries to send as a batch
@@ -801,7 +827,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 newVersionNumber = DatabaseLiterals.DBVersion144;
             }
             if (inDBVersion < 1.5 && inDBVersion >= 1.44)
-            { 
+            {
                 queryList.AddRange(GetUpgradeQueryVersion1_5(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableSample);
@@ -824,6 +850,14 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
 
                 newVersionNumber = DatabaseLiterals.DBVersion160;
+            }
+
+            if (inDBVersion == DBVersion160)
+            {
+                queryList.AddRange(GetUpgradeQueryVersion1_7(attachDBName));
+                upgradeUntouchedTables.Clear();
+                //upgradeUntouchedTables.Add(DatabaseLiterals.TableDictionary);
+                newVersionNumber = DatabaseLiterals.DBVersion170;
             }
 
             //Insert remaining tables
@@ -871,11 +905,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                     exceptionList.Add(e);
 
                 }
-                
+
             }
 
             //Update working database
-            
             using (var db = outToDBConnection)
             {
 
@@ -899,6 +932,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 db.Close();
 
             }
+
 
             if (exceptionList.Count > 0)
             {
@@ -977,7 +1011,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             catch (Exception e)
             {
-                throw;
+                Debug.Write(e.Message);
+                return 0.0;
             }
 
         }
@@ -1759,11 +1794,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                         //Set notes to empty
                         earthmat_querySelect = earthmat_querySelect + ", '' as " + earthmatFields;
                     }
-                    else 
+                    else
                     {
                         earthmat_querySelect = earthmat_querySelect + ", " + earthmatFields;
                     }
-                    
+
 
                 }
                 else
@@ -1829,7 +1864,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         location_querySelect = location_querySelect + ", l." + locationFields + " as " + locationFields;
                     }
                 }
-                else 
+                else
                 {
                     location_querySelect = "l." + locationFields + " as " + locationFields;
                 }
@@ -2179,17 +2214,17 @@ namespace GSCFieldApp.Services.DatabaseServices
                         metadata_querySelect = metadata_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldUserInfoNotes;
                     }
-                    else 
+                    else
                     {
                         metadata_querySelect = metadata_querySelect + ", m." + metFields + " as " + metFields;
                     }
                 }
-                else 
+                else
                 {
                     metadata_querySelect = " m." + metFields + " as " + metFields;
                 }
 
-  
+
             }
             metadata_querySelect = metadata_querySelect.Replace(", ,", "");
 
@@ -2331,7 +2366,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 " WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc + " = ' | ';";
 
             string updateQuery_16_earth_pipe2 = "UPDATE " + DatabaseLiterals.TableEarthMat + " SET " + DatabaseLiterals.FieldEarthMatModTextStruc +
-                " = replace(" + DatabaseLiterals.FieldEarthMatModTextStruc + ", ' | ', '')" +" WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc + 
+                " = replace(" + DatabaseLiterals.FieldEarthMatModTextStruc + ", ' | ', '')" + " WHERE " + DatabaseLiterals.FieldEarthMatModTextStruc +
                 " LIKE '% | ' OR " + DatabaseLiterals.FieldEarthMatModTextStruc + " LIKE ' | %';";
 
             #endregion
@@ -2521,21 +2556,447 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// Will output a query to update database to version 1.6
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion1_7(string attachedDBName)
+        {
+            
+            ///Schema v 1.7: 
+            ///https://github.com/NRCan/GSC-Field-Application/milestone/8
+            List<string> insertQuery_17 = new List<string>();
+            List<string> nullFieldList = new List<string>() { DatabaseLiterals.FieldGenericRowID , FieldGenericGeometry };
+
+            #region F_METADATA
+
+            Metadata modelMetadata = new Metadata();
+            List<string> metadataFieldList = modelMetadata.getFieldList[DBVersion];
+
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            string metaView = ViewPrefix + TableMetadata;
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMetadata, FieldUserInfoID));
+
+            //Get insert query 
+            Tuple<string, string> primeMetadata = new Tuple<string, string>(FieldUserInfoID, ViewGenericLegacyPrimeKey);
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(metadataFieldList, nullFieldList, TableMetadata, primeMetadata, null, attachedDBName, metaView));
+
+            #endregion
+
+            #region F_LOCATION
+
+            FieldLocation modelLocation = new FieldLocation();
+            List<string> locationFieldList = modelLocation.getFieldList[DBVersion];
+
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            string locationView = ViewPrefix + TableLocation;
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableLocation, FieldLocationID,
+                FieldLocationMetaID, metaView, FieldUserInfoID));
+
+            //Get insert query 
+            Tuple<string, string> primeLocation = new Tuple<string, string>(FieldLocationID, ViewGenericLegacyPrimeKey) ;
+            Tuple<string, string> foreignLocation = new Tuple<string, string>(FieldUserInfoID, ViewGenericLegacyForeignKey);
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(locationFieldList, nullFieldList, TableLocation, 
+                primeLocation, foreignLocation, attachedDBName, locationView));
+
+            #endregion
+
+            #region F_STATION
+
+            Station modelStation = new Station();
+            List<string> stationFieldList = modelStation.getFieldList[DBVersion];
+
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableStation, FieldStationID,
+                FieldStationObsID, locationView, FieldStationObsID));
+
+            //Get insert query 
+            Tuple<string, string> primeStat = new Tuple<string, string>(FieldStationID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignStat = new Tuple<string, string>(FieldStationObsID, ViewGenericLegacyForeignKey);
+            string statView = ViewPrefix + TableStation;
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(stationFieldList, nullFieldList, TableStation,
+                primeStat, foreignStat, attachedDBName, statView));
+
+            #endregion
+
+            #region F_EARTHMAT
+
+            EarthMaterial modelEM = new EarthMaterial();
+            List<string> earthmatFieldList = modelEM.getFieldList[DBVersion];
+
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableEarthMat, FieldEarthMatID,
+                FieldEarthMatStatID, statView, FieldEarthMatStatID));
+
+            //Get insert query 
+            Tuple<string, string> primeEarth = new Tuple<string, string>(FieldEarthMatID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignEarth = new Tuple<string, string>(FieldEarthMatStatID, ViewGenericLegacyForeignKey);
+            string earthView = ViewPrefix + TableEarthMat;
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(earthmatFieldList, nullFieldList, TableEarthMat,
+                primeEarth, foreignEarth, attachedDBName, earthView));
+
+            #endregion
+
+            //#region F_SAMPLE
+
+            //Sample modelSample = new Sample();
+            //List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(sampleFieldList, nullFieldList, DatabaseLiterals.TableSample, attachedDBName));
+
+            //#endregion
+
+            //#region F_STRUCTURE
+
+            //Structure modelStructure = new Structure();
+            //List<string> structureFieldList = modelStructure.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(structureFieldList, nullFieldList, DatabaseLiterals.TableStructure, attachedDBName));
+
+            //#endregion
+
+            //#region F_PALEO_FLOW
+
+            //Paleoflow modelPFlow = new Paleoflow();
+            //List<string> pflowFieldList = modelPFlow.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(pflowFieldList, nullFieldList, DatabaseLiterals.TablePFlow, attachedDBName));
+
+            //#endregion
+
+            //#region F_ENVIRONMENT
+
+            //EnvironmentModel modelEnv = new EnvironmentModel();
+            //List<string> envFieldList = modelEnv.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(envFieldList, nullFieldList, DatabaseLiterals.TableEnvironment, attachedDBName));
+
+            //#endregion
+
+            //#region F_MINERALIZATION_ALTERAION
+
+            //MineralAlteration modelMA = new MineralAlteration();
+            //List<string> maFieldList = modelMA.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(maFieldList, nullFieldList, DatabaseLiterals.TableMineralAlteration, attachedDBName));
+
+            //#endregion
+
+            //#region F_MINERAL
+
+            //Mineral modelMineral = new Mineral();
+            //List<string> mineralFieldList = modelMineral.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, DatabaseLiterals.TableMineral, attachedDBName));
+
+            //#endregion
+
+            //#region F_FOSSIL
+
+            //Fossil modelFossil = new Fossil();
+            //List<string> fossilFieldList = modelFossil.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(fossilFieldList, nullFieldList, DatabaseLiterals.TableFossil, attachedDBName));
+
+            //#endregion
+
+            //#region M_DICTIONARY
+
+            //Vocabularies modelVocab = new Vocabularies();
+            //List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabFieldList, nullFieldList, DatabaseLiterals.TableDictionary, attachedDBName));
+
+            //#endregion
+
+            //#region M_DICTIONARY_MANAGER
+
+            //VocabularyManager modelVocabManager = new VocabularyManager();
+            //List<string> vocabManagerFieldList = modelVocabManager.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabManagerFieldList, nullFieldList, DatabaseLiterals.TableDictionaryManager, attachedDBName));
+
+            //#endregion
+
+            //#region F_DOCUMENT
+
+            //Document modelDocument = new Document();
+            //List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
+
+            //insertQuery_17.Add(GenerateInsertQueriesFromModel(documentFieldList, nullFieldList, DatabaseLiterals.TableDocument, attachedDBName));
+
+            //#endregion
+
+            return insertQuery_17;
+        }
+
+        /// <summary>
         /// Will return a related structure record as an object
         /// </summary>
         /// <param name="StrucId"></param>
         /// <returns></returns>
-        public Structure GetRelatedStructure(string StrucId)
+        public Structure GetRelatedStructure(int? StrucId)
         {
             Structure relatedStructure = new Structure();
-            using (var db = DbConnection)
+            if (StrucId != null)
             {
-                relatedStructure = db.Find<Structure>(struc => struc.StructureID == StrucId);
-                // The following works if the field being searched is the primary key.
-                //relatedStructure = db.Find<Structure>(StrucId);
-                db.Close();
+                using (var db = DbConnection)
+                {
+                    relatedStructure = db.Find<Structure>(struc => struc.StructureID == StrucId);
+                    // The following works if the field being searched is the primary key.
+                    //relatedStructure = db.Find<Structure>(StrucId);
+                    db.Close();
+                }
             }
+
             return relatedStructure;
+        }
+
+        /// <summary>
+        /// Will generate an insert query for geopackages
+        /// </summary>
+        /// <param name="inClassObject"></param>
+        /// <returns></returns>
+        public string GetGeopackageInsertQuery(object inClassObject, string tableNameIfDifferent = "")
+        {
+            //Variables
+            string insertQuery = @"INSERT INTO "; //Init
+
+            //Get a table mapping object
+            TableMapping inMapping = GetATableObject(inClassObject.GetType(), DbConnection);
+            string inTableName = inMapping.TableName;
+
+            if (inMapping.TableName == DatabaseLiterals.TableLocation)
+            {
+                //Map to proper object
+                FieldLocation inLocation = inClassObject as FieldLocation;
+
+                //Add table name in query
+                if (tableNameIfDifferent != inTableName && tableNameIfDifferent != string.Empty)
+                {
+                    inTableName = tableNameIfDifferent;
+                }
+                insertQuery = insertQuery + inTableName + " (" + DatabaseLiterals.FieldGenericGeometry + ",";
+
+                //Fill in the field name list of the query
+                foreach (TableMapping.Column col in inMapping.Columns)
+                {
+                    Type colType = col.ColumnType;
+
+                    var value = col.GetValue(inLocation);
+
+                    if (value != null && col.Name != DatabaseLiterals.FieldGenericGeometry)
+                    {
+                        insertQuery = insertQuery + col.Name + ",";
+                    }
+
+                }
+
+                //Remove last comma
+                insertQuery = insertQuery.Remove(insertQuery.Length - 1, 1);
+
+                //Add make point sql method
+                insertQuery = insertQuery + ") VALUES (gpkgMakePoint( " + inLocation.LocationLong +
+                    ", " + inLocation.LocationLat + ", " + inLocation.LocationDatum + ")";
+
+                //Finalize query with values
+                foreach (TableMapping.Column col in inMapping.Columns)
+                {
+                    Type colType = col.ColumnType;
+
+                    var value = col.GetValue(inLocation);
+
+                    if (value != null && col.Name != DatabaseLiterals.FieldGenericGeometry)
+                    {
+                        if (colType == typeof(System.String))
+                        {
+                            value = '"' + value.ToString() + '"';
+                        }
+
+                        if (col.Name == DatabaseLiterals.FieldLocationID)
+                        {
+                            value = "NULL";
+                        }
+
+                        if (col == inMapping.Columns.Last())
+                        {
+                            insertQuery = insertQuery + ", " + value + ") ";
+                        }
+                        else
+                        {
+                            insertQuery = insertQuery + ", " + value;
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return insertQuery + " returning " + DatabaseLiterals.FieldLocationID + ";";
+
+
+        }
+
+        /// <summary>
+        /// Will generate an update query for geopackages geometry field
+        /// </summary>
+        /// <param name="inClassObject"></param>
+        /// <param name="tableNameIfDifferent"></param>
+        /// <returns></returns>
+        public string GetGeopackageUpdateQuery(string tableName)
+        {
+            //Variables cast(EPSG as integer)
+            string upQuery = string.Empty; //Init
+
+            if (tableName == DatabaseLiterals.TableLocation)
+            {
+                upQuery = @"UPDATE " + tableName + " SET " + FieldGenericGeometry + " = " +
+                    " gpkgMakePoint( " + FieldLocationLongitude + ", " + FieldLocationLatitude + ", cast(" + 
+                    FieldLocationDatum + " as integer));";
+            }
+
+            return upQuery;
+        }
+
+        /// <summary>
+        /// From a given list of fields, it'll produce an insert query
+        /// Mainly used for database schema upgrade
+        /// </summary>
+        /// <param name="fieldList">All field names that needs to be added to insert query</param>
+        /// <param name="fieldNullList">Field names that needs to be null since they aren't in the new database</param>
+        /// <param name="tableName">Table name to insert into</param>
+        /// <param name="attachedDBName">An attached database name if needed</param>
+        /// <param name="differentSourceTable">Specify a new table name to insert from, if not like original</param>
+        /// <param name="foreignKeyMapping">Specify the original foreign key field and the new field name of if insert doesn't come from same table</param>
+        /// <param name="primeKeyMapping">Specify the original prime key field and the new field name of if insert doesn't come from the same table</param>
+        /// <returns></returns>
+        public string GenerateInsertQueriesFromModel(List<string> fieldList, List<string> fieldNullList, string tableName,
+            Tuple<string, string> primeKeyMapping, Tuple<string, string> foreignKeyMapping,
+            string attachedDBName = "", string differentSourceTable = "")
+        {
+
+            //Variables
+            string query_select = string.Empty;
+            string alias = tableName.Substring(0, 3);
+            string incrementChar = string.Empty;
+
+            //Iterate through field name list
+            foreach (string fields in fieldList)
+            {
+                //Get all fields except alias
+                if (fields != fieldList.First() && incrementChar == string.Empty)
+                {
+                    incrementChar = ",";
+                }
+
+                //Manage fields that needs to be set as null
+                if (fieldNullList.Contains(fields))
+                {
+                    query_select = query_select + incrementChar + " NULL as " + fields;
+                }
+                else
+                {
+                    ///Deal with recalculated prime keys for legacy data format (GUID to INT)
+
+                    //If hits on prime key
+                    if (primeKeyMapping != null && primeKeyMapping.Item1 == fields)
+                    {
+                        query_select = query_select + incrementChar + " " + alias + "." + primeKeyMapping.Item2 + " as " + fields;
+                    }
+                    //If hits on foreign key
+                    else if (foreignKeyMapping != null && foreignKeyMapping.Item1 == fields)
+                    {
+                        query_select = query_select + incrementChar + " " + alias + "." + foreignKeyMapping.Item2 + " as " + fields;
+                    }
+                    else
+                    {
+                        query_select = query_select + incrementChar + " " + alias + "." + fields + " as " + fields; 
+                        
+                    }
+
+                }
+
+                
+
+            }
+
+            //Remove empty values
+            query_select = query_select.Replace(", ,", "");
+
+            //Build full query
+            string insert_query = "INSERT INTO " + tableName + " SELECT " + query_select;
+
+            if (attachedDBName != string.Empty)
+            {
+                if (differentSourceTable != string.Empty)
+                {
+                    insert_query = insert_query + " FROM " + attachedDBName + "." + differentSourceTable + " as " + alias;
+                }
+                else
+                {
+                    insert_query = insert_query + " FROM " + attachedDBName + "." + tableName + " as " + alias;
+                }
+                
+            }
+            else
+            {
+                if (differentSourceTable != string.Empty)
+                {
+                    insert_query = insert_query + " FROM " + differentSourceTable + " as " + alias;
+                }
+                else
+                {
+                    insert_query = insert_query + " FROM " + tableName + " as " + alias;
+                }
+                
+            }
+
+
+            return insert_query;
+        }
+
+        /// <summary>
+        /// Will generate a query to create a temp view that will help
+        /// create integer based prime and foreign keys. Used for legacy data format (sqlite to geopackage)
+        /// </summary>
+        /// <param name="tableName">Name of the table to create a view from</param>
+        /// <param name="primeKey">Field name of the prime key </param>
+        /// <param name="foreignKey">Field name of the foreign key (optional)</param>
+        /// <param name="relatedView">View name of for relationship to get foreign key(optional)</param>
+        /// <param name="relatedPrimeKey">Field name of the original foreign key in related view (optional)</param>
+        /// <returns></returns>
+        public string GenerateLegacyFormatViews(string attachedDBName, string tableName, string primeKey, string foreignKey = "", string relatedView = "", string relatedPrimeKey = "")
+        {
+            //Top parent view meant to look like
+            ///create view view_metadata as
+            ///select f.*, ROW_NUMBER() over(order by f.METAID) as PRIME from F_METADATA as f ;
+
+            //Child table views meant to look like
+            ///create view view_location as
+            ///select f.*, ROW_NUMBER() over(order by f.LOCATIONID) as PRIME, v.PRIME as FORE from F_LOCATION as f
+            ///join view_metadata as v where f.METAID = v.METAID ;
+
+            string tableAlias = "f";
+            string viewAlias = "v";
+
+            string outputQueryView = "CREATE VIEW " + attachedDBName + "." + ViewPrefix + tableName + " as SELECT " + tableAlias + ".*, ROW_NUMBER() OVER(ORDER BY f." +
+                primeKey + ") as " + ViewGenericLegacyPrimeKey; 
+
+            if (relatedView != string.Empty)
+            {
+                //Join to another view
+                outputQueryView = outputQueryView + ", " + viewAlias + "." + ViewGenericLegacyPrimeKey + " as " + ViewGenericLegacyForeignKey + " FROM " + tableName + " as " + tableAlias +
+                    " JOIN " + relatedView + " as " + viewAlias + " WHERE " + tableAlias + "." + foreignKey + " = " + viewAlias + "." + relatedPrimeKey + ";";
+            }
+            else
+            {
+                //Close top parent query
+                outputQueryView = outputQueryView + " FROM " + tableName + " as " + tableAlias + ";";
+            }
+
+
+            return outputQueryView;
         }
 
         #endregion
