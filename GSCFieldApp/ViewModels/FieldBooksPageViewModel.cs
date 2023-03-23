@@ -21,6 +21,12 @@ using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Template10.Utils;
 using System.Diagnostics;
+//Added By jamel
+using OSGeo.GDAL;
+using OSGeo.OGR;
+using Driver = OSGeo.OGR.Driver;
+using OSGeo.OSR;
+
 
 namespace GSCFieldApp.ViewModels
 {
@@ -528,6 +534,34 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
+
+        //Added by jamel
+        public static void ConvertSQLiteToGeoPackage(string inputFilename, string outputFilename)
+        {
+            Gdal.AllRegister();
+            Ogr.RegisterAll();
+
+            DataSource inputDataSource = Ogr.Open(inputFilename, 0);
+            if (inputDataSource == null)
+            {
+                Console.WriteLine($"Failed to open {inputFilename}.");
+                return;
+            }
+
+            // Get the input driver and create the output data source
+            //Driver inputDriver = inputDataSource.GetDriver();
+            //DataSource outputDataSource = inputDriver.CopyDataSource(inputDataSource, outputFilename, null);
+
+            Driver driver = Ogr.GetDriverByName("GPKG");
+            driver.CopyDataSource(inputDataSource, outputFilename, null);
+            
+            Console.WriteLine("Data copied successfully.");
+            Console.ReadLine();
+
+          
+        }
+
         public void projectOpenButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             string pPath = _projectCollection[_selectedProjectIndex].ProjectPath;
@@ -713,6 +747,11 @@ namespace GSCFieldApp.ViewModels
                     isRestoreFromZip = true;
                 }
 
+                //if (inFile.FileType.Contains("SQLite"))
+                //{
+                //    ConvertSQLiteToGeoPackage(inFile.Name, fieldProjectPath + "/" + inFile.Name + ".gpkg");
+                //}
+
                 //Connect to the new database
                 IReadOnlyList<StorageFile> storageFiles = await newFieldBookFolder.GetFilesAsync();
                 StorageFile wantedDB = null;
@@ -811,6 +850,8 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
+        
         public async void ProjectUpgrade_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (System.IO.Directory.Exists(accessData.ProjectPath))
@@ -835,6 +876,8 @@ namespace GSCFieldApp.ViewModels
                         
                         //Create new fieldbook 
                         string versionFileName = DatabaseLiterals.DBName;
+                        //string OldVersionFileName = DatabaseLiterals.DBName;
+
                         if (processedDBVersion == 1.42)
                         {
                             //Skip straight to 1.44, since 1.43 only targeted picklist values
@@ -854,6 +897,7 @@ namespace GSCFieldApp.ViewModels
                         }
                         versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
+                        //string oldVersionDbpathToUpgrade = Path.Combine(dbFolderToUpgrade, OldVersionFileName); //in root of local state folder for now
 
                         Task createNewDatabase = accessData.CreateDatabaseFromResourceTo(dbFolderToUpgrade, versionFileName);
                         await createNewDatabase;

@@ -442,6 +442,17 @@
   <ItemGroup>
     <Folder Include="BundleArtifacts\" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="gdal_csharp">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\GDAL\csharp\gdal_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ogr_csharp">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\GDAL\csharp\ogr_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="osr_csharp">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\GDAL\csharp\osr_csharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
