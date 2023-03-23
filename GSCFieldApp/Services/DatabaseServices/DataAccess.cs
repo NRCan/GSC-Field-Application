@@ -3091,6 +3091,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             string outputQueryView = "CREATE VIEW " + attachedDBName + "." + ViewPrefix + tableName + " as SELECT " + tableAlias + ".*, ROW_NUMBER() OVER(ORDER BY f." +
                 primeKey + ") as " + ViewGenericLegacyPrimeKey;
 
+            //Special case for location that gets data from station also
+            if (tableName == TableLocation)
+            {
+                outputQueryView = outputQueryView + ", tst." + FieldStationReportLinkDeprecated + " as " + FieldLocationReportLink;
+            }
+
             //Rare case when a second view is needed for multiple relationship
             if (viewName != String.Empty)
             {
@@ -3100,14 +3106,27 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (relatedView != string.Empty)
             {
-                //Join to another view
-                outputQueryView = outputQueryView + ", " + viewAlias + "." + ViewGenericLegacyPrimeKey + " as " + ViewGenericLegacyForeignKey + " FROM " + tableName + " as " + tableAlias +
-                    " JOIN " + relatedView + " as " + viewAlias + " WHERE " + tableAlias + "." + foreignKey + " = " + viewAlias + "." + relatedPrimeKey + ";";
+                if (tableName == TableLocation)
+                {
+                    //Join to another view
+                    outputQueryView = outputQueryView + ", " + viewAlias + "." + ViewGenericLegacyPrimeKey + " as " + ViewGenericLegacyForeignKey + " FROM " + tableName + " as " + tableAlias +
+                    " JOIN " + relatedView + " as " + viewAlias + " ON " + tableAlias + "." + foreignKey + " = " + viewAlias + "." + relatedPrimeKey +
+                    " JOIN " + TableStation + " as tst ON " + "tst." + FieldStationObsID + " = " + tableAlias + "." + primeKey + ";";
+                }
+                else
+                {
+                    //Join to another view
+                    outputQueryView = outputQueryView + ", " + viewAlias + "." + ViewGenericLegacyPrimeKey + " as " + ViewGenericLegacyForeignKey + " FROM " + tableName + " as " + tableAlias +
+                    " JOIN " + relatedView + " as " + viewAlias + " ON " + tableAlias + "." + foreignKey + " = " + viewAlias + "." + relatedPrimeKey + ";";
+                }
+
             }
             else
             {
+                
                 //Close top parent query
                 outputQueryView = outputQueryView + " FROM " + tableName + " as " + tableAlias + ";";
+   
             }
 
 

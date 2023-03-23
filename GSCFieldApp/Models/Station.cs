@@ -58,9 +58,6 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStationAirPhotoNumber)]
         public string StationAirNo { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationReportLink)]
-        public string StateionReportLink { get; set; }
-
         [Column(DatabaseLiterals.FieldStationObsID)]
         public int LocationID { get; set; }
 
@@ -115,10 +112,11 @@ namespace GSCFieldApp.Models
                 stationFieldList[DatabaseLiterals.DBVersion] = stationFieldListDefault;
 
                 //Revert shcema 1.7 changes
-                //List<string> statFieldList160 = new List<string>();
-                //statFieldList160.AddRange(stationFieldListDefault);
-                //statFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //stationFieldList[DatabaseLiterals.DBVersion160] = statFieldList160;
+                List<string> statFieldList160 = new List<string>();
+                statFieldList160.AddRange(stationFieldListDefault);
+                int insertIndex = stationFieldListDefault.IndexOf(DatabaseLiterals.FieldStationObsID) - 1;
+                statFieldList160.Insert(insertIndex, DatabaseLiterals.FieldStationReportLinkDeprecated);
+                stationFieldList[DatabaseLiterals.DBVersion160] = statFieldList160;
 
 
                 //Revert schema 1.6 changes. 
