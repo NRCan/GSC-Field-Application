@@ -367,7 +367,7 @@
     <value>Occurs as</value>
   </data>
   <data name="EarthmatGridView_Lithology.Content" xml:space="preserve">
-    <value>Lithology</value>
+    <value>Lithology - Setting and composition</value>
   </data>
   <data name="EarthDialogColourF.Header" xml:space="preserve">
     <value>Fresh</value>
@@ -995,9 +995,6 @@
   </data>
   <data name="EarthmatGridView_Mag.Content" xml:space="preserve">
     <value>Magnetism</value>
-  </data>
-  <data name="EarthmatGridView_Cartography.Content" xml:space="preserve">
-    <value>Cartography</value>
   </data>
   <data name="MapPageAddWaypoint.Label" xml:space="preserve">
     <value>Waypoint</value>
@@ -1703,5 +1700,8 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="MapPageUTMButton.Text" xml:space="preserve">
     <value>UTM</value>
+  </data>
+  <data name="EarthLithAutoSuggest.Header" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>

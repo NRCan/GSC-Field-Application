@@ -367,7 +367,7 @@
     <value>Occurent comme</value>
   </data>
   <data name="EarthmatGridView_Lithology.Content" xml:space="preserve">
-    <value>Type lithologique</value>
+    <value>Lithologie - Cadre et composition</value>
   </data>
   <data name="EarthDialogColourF.Header" xml:space="preserve">
     <value>Surface fraîche</value>
@@ -992,9 +992,6 @@
   </data>
   <data name="EarthmatGridView_Mag.Content" xml:space="preserve">
     <value>Magnétisme</value>
-  </data>
-  <data name="EarthmatGridView_Cartography.Content" xml:space="preserve">
-    <value>Cartographie</value>
   </data>
   <data name="MapPageAddWaypoint.Label" xml:space="preserve">
     <value>Point d'intérêt</value>
@@ -1697,5 +1694,8 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="MapPageUTMButton.Text" xml:space="preserve">
     <value>UTM</value>
+  </data>
+  <data name="EarthLithAutoSuggest.Header" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>
