@@ -65,6 +65,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationNotes)]
         public string LocationNotes { get; set; }
 
+        [Column(DatabaseLiterals.FieldLocationReportLink)]
+        public string LocationReportLink { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationMetaID)]
         public int MetaID { get; set; }
 
@@ -143,11 +146,11 @@ namespace GSCFieldApp.Models
 
                 locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
 
-                ////Revert shcema 1.7 changes
-                //List<string> locationFieldList160 = new List<string>();
-                //locationFieldList160.AddRange(locationFieldListDefault);
-                //locationFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;
+                //Revert shcema 1.7 changes
+                List<string> locationFieldList160 = new List<string>();
+                locationFieldList160.AddRange(locationFieldListDefault);
+                locationFieldList160.Remove(DatabaseLiterals.FieldLocationReportLink);
+                locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;
 
                 //Revert schema 1.6 changes. 
                 List<string> locationFieldList15 = new List<string>();

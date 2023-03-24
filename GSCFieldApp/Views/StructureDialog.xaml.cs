@@ -153,7 +153,7 @@ namespace GSCFieldApp.Views
 
                 if (result != null)
                 {
-                    if (result.StructureClass != null && !strucType.Text.Contains(result.StructureClass.ToString()) && result.StructureSymAng != string.Empty)
+                    if (result.StructureClass != null && !strucType.Text.Contains(result.StructureClass.ToString()))
                     {
                         //int primaryAzimuth = System.Convert.ToInt32(StructureAzimuthNumBox.Text.ToString());
                         int relatedAngle = System.Convert.ToInt32(result.StructureSymAng);
@@ -291,7 +291,7 @@ namespace GSCFieldApp.Views
                 //Structure result = accessData.GetRelatedStructure(strucID);
 
                 int primaryDip = System.Convert.ToInt32(sAngle);
-                int.TryParse(strucViewModel.structureModel.relatedStructure.StructureDipPlunge, out int relatedDip);
+                int relatedDip = strucViewModel.structureModel.relatedStructure.StructureDipPlunge;
 
                 if (strucViewModel.structureModel.StructureClass == Dictionaries.DatabaseLiterals.KeywordLinear)
                 {
@@ -341,7 +341,7 @@ namespace GSCFieldApp.Views
                     this.PlanarIconRotate.Angle = sAngle;
                 }
 
-                strucViewModel.structureModel.StructureAzimuth = sAngle.ToString();
+                strucViewModel.structureModel.StructureAzimuth = sAngle;
 
                 PassFailAzimuthTrend();
             }

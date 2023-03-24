@@ -33,7 +33,7 @@ namespace GSCFieldApp.Models
     public class Vocabularies: IComparable<Vocabularies>
     {
         [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID)]
-        public string rowid { get; set; }
+        public int rowid { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryTermID)]
         public string TermID { get; set; }
@@ -110,7 +110,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> vocabFieldList = new Dictionary<double, List<string>>();
                 List<string> vocabFieldListDefault = new List<string>();
 
-                vocabFieldListDefault.Add(DatabaseLiterals.FieldDictionaryTermID);
+                vocabFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)

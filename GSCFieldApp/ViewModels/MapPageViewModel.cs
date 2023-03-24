@@ -1131,7 +1131,7 @@ namespace GSCFieldApp.ViewModels
                                 }
 
                                 //Set azim
-                                double.TryParse(sts.StructureSymAng, out double azimAngle);
+                                double azimAngle = sts.StructureSymAng;
                                 if (azimAngle != 0.0)
                                 {
                                     strucSym.Angle = azimAngle;

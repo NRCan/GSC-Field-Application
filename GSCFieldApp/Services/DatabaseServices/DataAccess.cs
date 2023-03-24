@@ -625,7 +625,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 else
                 {
-                    vocab_querySelect = " v." + vocabFields + " as " + vocabFields;
+                    if (vocabFields == FieldGenericRowID && dbVersion == DBVersion160)
+                    {
+                        vocab_querySelect = " NULL as " + vocabFields;
+                    }
+                    else
+                    {
+                        vocab_querySelect = " v." + vocabFields + " as " + vocabFields;
+                    }
+                    
                 }
 
             }
@@ -686,7 +694,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 else
                 {
-                    vocabm_querySelect = " vm." + vocabMFields + " as " + vocabMFields;
+                    if (vocabMFields == FieldGenericRowID && dbVersion == DBVersion160)
+                    {
+                        vocabm_querySelect = " NULL as " + vocabMFields;
+                    }
+                    else
+                    {
+                        vocabm_querySelect = " vm." + vocabMFields + " as " + vocabMFields;
+                    }
+                        
                 }
 
             }
@@ -2565,7 +2581,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             ///Schema v 1.7: 
             ///https://github.com/NRCan/GSC-Field-Application/milestone/8
             List<string> insertQuery_17 = new List<string>();
-            List<string> nullFieldList = new List<string>() { DatabaseLiterals.FieldGenericRowID , FieldGenericGeometry };
+            List<string> nullFieldList = new List<string>() { DatabaseLiterals.FieldGenericRowID , FieldGenericGeometry,
+            FieldSampleBucketTray, FieldSampleWarehouseLocation};
 
             #region F_METADATA
 
@@ -2637,95 +2654,183 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            //#region F_SAMPLE
+            #region F_SAMPLE
 
-            //Sample modelSample = new Sample();
-            //List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+            Sample modelSample = new Sample();
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(sampleFieldList, nullFieldList, DatabaseLiterals.TableSample, attachedDBName));
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableSample, FieldSampleID,
+                FieldSampleEarthmatID, earthView, FieldSampleEarthmatID));
 
-            //#endregion
+            //Get insert query 
+            Tuple<string, string> primeSample = new Tuple<string, string>(FieldSampleID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignSample = new Tuple<string, string>(FieldSampleEarthmatID, ViewGenericLegacyForeignKey);
+            string sampleView = ViewPrefix + TableSample;
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(sampleFieldList, nullFieldList, TableSample,
+                primeSample, foreignSample, attachedDBName, sampleView));
 
-            //#region F_STRUCTURE
+            #endregion
 
-            //Structure modelStructure = new Structure();
-            //List<string> structureFieldList = modelStructure.getFieldList[DBVersion];
+            #region F_STRUCTURE
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(structureFieldList, nullFieldList, DatabaseLiterals.TableStructure, attachedDBName));
+            Structure modelStructure = new Structure();
+            List<string> structureFieldList = modelStructure.getFieldList[DBVersion];
 
-            //#endregion
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableStructure, FieldStructureID,
+                FieldStructureParentID, earthView, FieldStructureParentID));
 
-            //#region F_PALEO_FLOW
+            //Get insert query 
+            Tuple<string, string> primeStructure = new Tuple<string, string>(FieldStructureID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignStructure = new Tuple<string, string>(FieldStructureParentID, ViewGenericLegacyForeignKey);
+            string strucView = ViewPrefix + TableStructure;
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(structureFieldList, nullFieldList, TableStructure, 
+                primeStructure, foreignStructure, attachedDBName, strucView));
 
-            //Paleoflow modelPFlow = new Paleoflow();
-            //List<string> pflowFieldList = modelPFlow.getFieldList[DBVersion];
+            #endregion
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(pflowFieldList, nullFieldList, DatabaseLiterals.TablePFlow, attachedDBName));
+            #region F_PALEO_FLOW
 
-            //#endregion
+            Paleoflow modelPFlow = new Paleoflow();
+            List<string> pflowFieldList = modelPFlow.getFieldList[DBVersion];
 
-            //#region F_ENVIRONMENT
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TablePFlow, FieldPFlowID,
+                FieldPFlowParentID, earthView, FieldPFlowParentID));
 
-            //EnvironmentModel modelEnv = new EnvironmentModel();
-            //List<string> envFieldList = modelEnv.getFieldList[DBVersion];
+            //Get insert query 
+            Tuple<string, string> primePflow= new Tuple<string, string>(FieldPFlowID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignPflow = new Tuple<string, string>(FieldPFlowParentID, ViewGenericLegacyForeignKey);
+            string pflowView = ViewPrefix + TablePFlow;
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(pflowFieldList, nullFieldList, TablePFlow,
+                primePflow, foreignPflow, attachedDBName, pflowView));
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(envFieldList, nullFieldList, DatabaseLiterals.TableEnvironment, attachedDBName));
+            #endregion
 
-            //#endregion
+            #region F_ENVIRONMENT
 
-            //#region F_MINERALIZATION_ALTERAION
+            EnvironmentModel modelEnv = new EnvironmentModel();
+            List<string> envFieldList = modelEnv.getFieldList[DBVersion];
 
-            //MineralAlteration modelMA = new MineralAlteration();
-            //List<string> maFieldList = modelMA.getFieldList[DBVersion];
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableEnvironment, FieldEnvID,
+                FieldEnvStationID, statView, FieldEnvStationID));
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(maFieldList, nullFieldList, DatabaseLiterals.TableMineralAlteration, attachedDBName));
+            //Get insert query 
+            Tuple<string, string> primeEnv = new Tuple<string, string>(FieldEnvID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignEnv = new Tuple<string, string>(FieldEnvStationID, ViewGenericLegacyForeignKey);
+            string envView = ViewPrefix + TableEnvironment;
 
-            //#endregion
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(envFieldList, nullFieldList, TableEnvironment,
+                primeEnv, foreignEnv, attachedDBName, envView));
 
-            //#region F_MINERAL
+            #endregion
 
-            //Mineral modelMineral = new Mineral();
-            //List<string> mineralFieldList = modelMineral.getFieldList[DBVersion];
+            #region F_MINERALIZATION_ALTERAION
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, DatabaseLiterals.TableMineral, attachedDBName));
+            ///Warning: We assumed that by default records will be linked with station
+           
+            MineralAlteration modelMA = new MineralAlteration();
+            List<string> maFieldList = modelMA.getFieldList[DBVersion];
 
-            //#endregion
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMineralAlteration, FieldMineralAlterationID,
+                FieldMineralAlterationRelID, statView, FieldStationID));
 
-            //#region F_FOSSIL
+            //Get insert query 
+            Tuple<string, string> primeMA= new Tuple<string, string>(FieldMineralAlterationID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignMA = new Tuple<string, string>(FieldMineralAlterationRelID, ViewGenericLegacyForeignKey);
+            string MAView = ViewPrefix + TableMineralAlteration;
 
-            //Fossil modelFossil = new Fossil();
-            //List<string> fossilFieldList = modelFossil.getFieldList[DBVersion];
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(maFieldList, nullFieldList, TableMineralAlteration,
+                primeMA, foreignMA, attachedDBName, MAView));
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(fossilFieldList, nullFieldList, DatabaseLiterals.TableFossil, attachedDBName));
+            #endregion
 
-            //#endregion
+            #region F_MINERAL
 
-            //#region M_DICTIONARY
+            Mineral modelMineral = new Mineral();
+            List<string> mineralFieldList = modelMineral.getFieldList[DBVersion];
 
-            //Vocabularies modelVocab = new Vocabularies();
-            //List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            string MineralView = ViewPrefix + TableMineral;
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabFieldList, nullFieldList, DatabaseLiterals.TableDictionary, attachedDBName));
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMineral, FieldMineralID,
+                FieldMineralMAID, MAView, FieldMineralAlterationID));
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMineral, FieldMineralID,
+                FieldMineralEMID, earthView, FieldEarthMatID, MineralView + "_2"));
 
-            //#endregion
+            //Get insert query 
+            Tuple<string, string> primeMineral = new Tuple<string, string>(FieldMineralID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignMineral = new Tuple<string, string>(FieldMineralMAID, ViewGenericLegacyForeignKey);
+            Tuple<string, string> foreignMineral2 = new Tuple<string, string>(FieldEarthMatID, ViewGenericLegacyForeignKey);
+            
 
-            //#region M_DICTIONARY_MANAGER
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, TableMineral,
+                primeMineral, foreignMineral, attachedDBName, MineralView));
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, TableMineral,
+                primeMineral, foreignMineral2, attachedDBName, MineralView + "_2"));
 
-            //VocabularyManager modelVocabManager = new VocabularyManager();
-            //List<string> vocabManagerFieldList = modelVocabManager.getFieldList[DBVersion];
+            #endregion
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabManagerFieldList, nullFieldList, DatabaseLiterals.TableDictionaryManager, attachedDBName));
+            #region F_FOSSIL
 
-            //#endregion
+            Fossil modelFossil = new Fossil();
+            List<string> fossilFieldList = modelFossil.getFieldList[DBVersion];
 
-            //#region F_DOCUMENT
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableFossil, FieldFossilID,
+                FieldFossilParentID, earthView, FieldFossilParentID));
 
-            //Document modelDocument = new Document();
-            //List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
+            //Get insert query 
+            Tuple<string, string> primeFossil = new Tuple<string, string>(FieldFossilID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignFossil = new Tuple<string, string>(FieldFossilParentID, ViewGenericLegacyForeignKey);
+            string fossilView = ViewPrefix + TableFossil;
 
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(documentFieldList, nullFieldList, DatabaseLiterals.TableDocument, attachedDBName));
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(fossilFieldList, nullFieldList, TableFossil, 
+                primeFossil, foreignFossil, attachedDBName, fossilView));
 
-            //#endregion
+            #endregion
+
+            #region M_DICTIONARY
+
+            Vocabularies modelVocab = new Vocabularies();
+            List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabFieldList, nullFieldList, TableDictionary, null, null, attachedDBName));
+
+            #endregion
+
+            #region M_DICTIONARY_MANAGER
+
+            VocabularyManager modelVocabManager = new VocabularyManager();
+            List<string> vocabManagerFieldList = modelVocabManager.getFieldList[DBVersion];
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabManagerFieldList, nullFieldList, TableDictionaryManager, null, null, attachedDBName));
+
+            #endregion
+
+            #region F_DOCUMENT
+
+            ///Warning: We assumed that by default records will be linked with station
+
+            Document modelDocument = new Document();
+            List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
+
+            //Get view creation queries to mitigate GUID ids to integer ids.
+            insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableDocument, FieldDocumentID,
+                FieldDocumentRelatedID, statView, FieldStationID));
+
+            //Get insert query 
+            Tuple<string, string> primeDoc = new Tuple<string, string>(FieldDocumentID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> foreignDoc = new Tuple<string, string>(FieldDocumentRelatedID, ViewGenericLegacyForeignKey);
+            string docView = ViewPrefix + TableDocument;
+
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(documentFieldList, nullFieldList, TableDocument,
+                primeDoc, foreignDoc, attachedDBName, docView));
+
+            #endregion
 
             return insertQuery_17;
         }
@@ -2877,8 +2982,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
 
             //Variables
+            DataIDCalculation did = new DataIDCalculation();
+            Random ran = new Random();
+
             string query_select = string.Empty;
-            string alias = tableName.Substring(0, 3);
+            string alias = did.CalculateAlphabeticID(true, ran.Next(1,50));
             string incrementChar = string.Empty;
 
             //Iterate through field name list
@@ -2966,7 +3074,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="relatedView">View name of for relationship to get foreign key(optional)</param>
         /// <param name="relatedPrimeKey">Field name of the original foreign key in related view (optional)</param>
         /// <returns></returns>
-        public string GenerateLegacyFormatViews(string attachedDBName, string tableName, string primeKey, string foreignKey = "", string relatedView = "", string relatedPrimeKey = "")
+        public string GenerateLegacyFormatViews(string attachedDBName, string tableName, string primeKey, string foreignKey = "", string relatedView = "", string relatedPrimeKey = "", string viewName = "")
         {
             //Top parent view meant to look like
             ///create view view_metadata as
@@ -2981,18 +3089,44 @@ namespace GSCFieldApp.Services.DatabaseServices
             string viewAlias = "v";
 
             string outputQueryView = "CREATE VIEW " + attachedDBName + "." + ViewPrefix + tableName + " as SELECT " + tableAlias + ".*, ROW_NUMBER() OVER(ORDER BY f." +
-                primeKey + ") as " + ViewGenericLegacyPrimeKey; 
+                primeKey + ") as " + ViewGenericLegacyPrimeKey;
+
+            //Special case for location that gets data from station also
+            if (tableName == TableLocation)
+            {
+                outputQueryView = outputQueryView + ", tst." + FieldStationReportLinkDeprecated + " as " + FieldLocationReportLink;
+            }
+
+            //Rare case when a second view is needed for multiple relationship
+            if (viewName != String.Empty)
+            {
+                outputQueryView = "CREATE VIEW " + attachedDBName + "." + viewName + " as SELECT " + tableAlias + ".*, ROW_NUMBER() OVER(ORDER BY f." +
+                primeKey + ") as " + ViewGenericLegacyPrimeKey;
+            }
 
             if (relatedView != string.Empty)
             {
-                //Join to another view
-                outputQueryView = outputQueryView + ", " + viewAlias + "." + ViewGenericLegacyPrimeKey + " as " + ViewGenericLegacyForeignKey + " FROM " + tableName + " as " + tableAlias +
-                    " JOIN " + relatedView + " as " + viewAlias + " WHERE " + tableAlias + "." + foreignKey + " = " + viewAlias + "." + relatedPrimeKey + ";";
+                if (tableName == TableLocation)
+                {
+                    //Join to another view
+                    outputQueryView = outputQueryView + ", " + viewAlias + "." + ViewGenericLegacyPrimeKey + " as " + ViewGenericLegacyForeignKey + " FROM " + tableName + " as " + tableAlias +
+                    " JOIN " + relatedView + " as " + viewAlias + " ON " + tableAlias + "." + foreignKey + " = " + viewAlias + "." + relatedPrimeKey +
+                    " JOIN " + TableStation + " as tst ON " + "tst." + FieldStationObsID + " = " + tableAlias + "." + primeKey + ";";
+                }
+                else
+                {
+                    //Join to another view
+                    outputQueryView = outputQueryView + ", " + viewAlias + "." + ViewGenericLegacyPrimeKey + " as " + ViewGenericLegacyForeignKey + " FROM " + tableName + " as " + tableAlias +
+                    " JOIN " + relatedView + " as " + viewAlias + " ON " + tableAlias + "." + foreignKey + " = " + viewAlias + "." + relatedPrimeKey + ";";
+                }
+
             }
             else
             {
+                
                 //Close top parent query
                 outputQueryView = outputQueryView + " FROM " + tableName + " as " + tableAlias + ";";
+   
             }
 
 

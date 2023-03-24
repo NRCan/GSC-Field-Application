@@ -278,12 +278,12 @@ namespace GSCFieldApp.ViewModels
             _selectedSampleSurface = existingDataDetailSample.sample.SampleSurface;
             _selectedSampleQuality = existingDataDetailSample.sample.SampleQuality;
             _selectedSampleFormat = existingDataDetailSample.sample.SampleFormat;
-            _sampleAzim = existingDataDetailSample.sample.SampleAzim;
-            _sampleDip = existingDataDetailSample.sample.SampleDiplunge;
+            _sampleAzim = existingDataDetailSample.sample.SampleAzim.ToString();
+            _sampleDip = existingDataDetailSample.sample.SampleDiplunge.ToString();
             _selectedSampleState = existingDataDetailSample.sample.SampleState;
             _selectedSampleHorizon = existingDataDetailSample.sample.SampleHorizon;
-            _sampleDepthMin = existingDataDetailSample.sample.SampleDepthMin;
-            _sampleDepthMax = existingDataDetailSample.sample.SampleDepthMax;
+            _sampleDepthMin = existingDataDetailSample.sample.SampleDepthMin.ToString();
+            _sampleDepthMax = existingDataDetailSample.sample.SampleDepthMax.ToString();
             _sampleDuplicateName = existingDataDetailSample.sample.SampleDuplicateName;
 
             if (_sampleDuplicateName != String.Empty)
@@ -328,10 +328,10 @@ namespace GSCFieldApp.ViewModels
             sampleModel.SampleNotes = _sampleNote;
             sampleModel.SampleEarthmatID = _sampleEartmatID;
             sampleModel.SamplePurpose = PipePurposes(); //process list of values so they are concatenated.
-            sampleModel.SampleAzim = _sampleAzim;
-            sampleModel.SampleDiplunge = _sampleDip;
-            sampleModel.SampleDepthMin = _sampleDepthMin;
-            sampleModel.SampleDepthMax = _sampleDepthMax;
+            sampleModel.SampleAzim = int.Parse(_sampleAzim);
+            sampleModel.SampleDiplunge = int.Parse(_sampleDip);
+            sampleModel.SampleDepthMin = int.Parse(_sampleDepthMin);
+            sampleModel.SampleDepthMax = int.Parse(_sampleDepthMax);
             sampleModel.SampleDuplicateName = _sampleDuplicateName;
 
             if (SelectedSampleType != null)

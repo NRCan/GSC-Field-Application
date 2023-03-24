@@ -25,10 +25,10 @@ namespace GSCFieldApp.Models
         public string SampleFormat { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleAzim)]
-        public string SampleAzim { get; set; }
+        public int SampleAzim { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDipPlunge)]
-        public string SampleDiplunge { get; set; }
+        public int SampleDiplunge { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleSurface)]
         public string SampleSurface { get; set; }
@@ -40,7 +40,7 @@ namespace GSCFieldApp.Models
         public string SampleCuration { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleManagementID)]
-        public string SampleSMID { get; set; }
+        public int SampleSMID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleEarthmatID)]
         public int SampleEarthmatID { get; set; }
@@ -52,19 +52,25 @@ namespace GSCFieldApp.Models
         public string SampleHorizon { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMin)]
-        public string SampleDepthMin { get; set; }
+        public int SampleDepthMin { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMax)]
-        public string SampleDepthMax { get; set; }
+        public int SampleDepthMax { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDuplicate)]
-        public string SampleDuplicate { get; set; }
+        public int SampleDuplicate { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDuplicateName)]
         public string SampleDuplicateName { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleState)]
         public string SampleState { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleWarehouseLocation)]
+        public string SampleWarehouse { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleBucketTray)]
+        public string SampleBucket { get; set; }
 
 
         //Hierarchy
@@ -114,15 +120,16 @@ namespace GSCFieldApp.Models
                 }
 
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
-                
+
 
                 //Revert shcema 1.7 changes
-                //List<string> sampleFieldList160 = new List<string>();
-                //sampleFieldList160.AddRange(sampleFieldListDefault);
-                //sampleFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
+                List<string> sampleFieldList160 = new List<string>();
+                sampleFieldList160.AddRange(sampleFieldListDefault);
+                sampleFieldList160.Remove(DatabaseLiterals.FieldSampleBucketTray);
+                sampleFieldList160.Remove(DatabaseLiterals.FieldSampleWarehouseLocation);
+                sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
 
-                sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldListDefault;
+                sampleFieldList[DatabaseLiterals.DBVersion150] = sampleFieldList160;
 
                 //Revert schema 1.5 changes. 
                 List<string> sampleFieldList144 = new List<string>();

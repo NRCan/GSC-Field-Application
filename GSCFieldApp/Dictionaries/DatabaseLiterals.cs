@@ -46,7 +46,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldLocationNorthing = "NORTHING";//Version 1.0
         public const string FieldLocationDatumZone = "DATUMZONE"; //Version 1.0 DEL Version 1.44
         public const string FieldLocationNotes = "NOTES"; //Version 1.0
-        public const string FieldLocationReportLink = "REPORT_LINK"; //Version < 1.5
+        public const string FieldLocationReportLink = "REPORT_LINK"; //Version < 1.5; back in version 1.7 stolen from station
         public const string FieldLocationNTS = "NTS"; //Version 1.6
 
         public const string FieldUserInfoID = "METAID";//Version 1.0
@@ -90,7 +90,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldStationObsType = "OBSTYPE"; //Version 1.0
         public const string FieldStationOCQuality = "OCQUALITY";
         public const string FieldStationOCSize = "OCSIZE";
-        public const string FieldStationReportLink = "REPORT_LINK";
+        public const string FieldStationReportLinkDeprecated = "REPORT_LINK"; //Version 1.7, moved to location
         public const string FieldStationLegend = "LEGENDVAL";
         public const string FieldStationInterpretation = "LNDINTERP";
         public const string FieldStationRelatedTo = "RELATEDTO"; //Version 1.60
@@ -148,8 +148,10 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleDuplicateName = "DUPLICATENAME";//Version 1.5
         public const string FieldSampleState = "STATE";//Version 1.5
         public const string FieldCurationID = "CURATIONID";
-        public const string FieldSampleManagementID = "SMID";
+        public const string FieldSampleWarehouseLocation= "WAREHOUSE_LOCATION"; //Version 1.7
+        public const string FieldSampleBucketTray = "BUCKET_OR_TRAY_NO"; //Version 1.7
 
+        public const string FieldSampleManagementID = "SMID";
         public const string FieldDictionaryTermID = "TERMID";//Version 1.0
         public const string FieldDictionaryCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryCode = "CODE";//Version 1.0

@@ -649,8 +649,8 @@ namespace GSCFieldApp.ViewModels
             structureModel.StructureFabric = _structFabric;
             structureModel.StructureSense = _structSense;
             structureModel.StructureParentID = _structParentID;
-            structureModel.StructureAzimuth = _structAzim;
-            structureModel.StructureDipPlunge = _structDip;
+            structureModel.StructureAzimuth = int.Parse(_structAzim);
+            structureModel.StructureDipPlunge = int.Parse(_structDip);
 
             if (SelectedStructFormat != null)
             {
