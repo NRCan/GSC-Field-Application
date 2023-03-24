@@ -328,10 +328,23 @@ namespace GSCFieldApp.ViewModels
             sampleModel.SampleNotes = _sampleNote;
             sampleModel.SampleEarthmatID = _sampleEartmatID;
             sampleModel.SamplePurpose = PipePurposes(); //process list of values so they are concatenated.
-            sampleModel.SampleAzim = int.Parse(_sampleAzim);
-            sampleModel.SampleDiplunge = int.Parse(_sampleDip);
-            sampleModel.SampleDepthMin = int.Parse(_sampleDepthMin);
-            sampleModel.SampleDepthMax = int.Parse(_sampleDepthMax);
+            if (_sampleAzim!= string.Empty)
+            {
+                sampleModel.SampleAzim = int.Parse(_sampleAzim);
+            }
+            if (_sampleDip != string.Empty)
+            {
+                sampleModel.SampleDiplunge = int.Parse(_sampleDip);
+            }
+            if (_sampleDepthMin != string.Empty)
+            {
+                sampleModel.SampleDepthMin = int.Parse(_sampleDepthMin);
+            }
+            if (_sampleDepthMax != string.Empty)
+            {
+                sampleModel.SampleDepthMax = int.Parse(_sampleDepthMax);
+            }
+ 
             sampleModel.SampleDuplicateName = _sampleDuplicateName;
 
             if (SelectedSampleType != null)

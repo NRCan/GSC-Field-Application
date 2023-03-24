@@ -22,10 +22,10 @@ using Windows.UI.Core;
 using Template10.Utils;
 using System.Diagnostics;
 //Added By jamel
-using OSGeo.GDAL;
-using OSGeo.OGR;
-using Driver = OSGeo.OGR.Driver;
-using OSGeo.OSR;
+//using OSGeo.GDAL;
+//using OSGeo.OGR;
+//using Driver = OSGeo.OGR.Driver;
+//using OSGeo.OSR;
 
 
 namespace GSCFieldApp.ViewModels
@@ -538,30 +538,30 @@ namespace GSCFieldApp.ViewModels
         /// 
 
         //Added by jamel
-        public static void ConvertSQLiteToGeoPackage(string inputFilename, string outputFilename)
-        {
-            Gdal.AllRegister();
-            Ogr.RegisterAll();
+        //public static void ConvertSQLiteToGeoPackage(string inputFilename, string outputFilename)
+        //{
+        //    Gdal.AllRegister();
+        //    Ogr.RegisterAll();
 
-            DataSource inputDataSource = Ogr.Open(inputFilename, 0);
-            if (inputDataSource == null)
-            {
-                Console.WriteLine($"Failed to open {inputFilename}.");
-                return;
-            }
+        //    DataSource inputDataSource = Ogr.Open(inputFilename, 0);
+        //    if (inputDataSource == null)
+        //    {
+        //        Console.WriteLine($"Failed to open {inputFilename}.");
+        //        return;
+        //    }
 
-            // Get the input driver and create the output data source
-            //Driver inputDriver = inputDataSource.GetDriver();
-            //DataSource outputDataSource = inputDriver.CopyDataSource(inputDataSource, outputFilename, null);
+        //    // Get the input driver and create the output data source
+        //    //Driver inputDriver = inputDataSource.GetDriver();
+        //    //DataSource outputDataSource = inputDriver.CopyDataSource(inputDataSource, outputFilename, null);
 
-            Driver driver = Ogr.GetDriverByName("GPKG");
-            driver.CopyDataSource(inputDataSource, outputFilename, null);
+        //    Driver driver = Ogr.GetDriverByName("GPKG");
+        //    driver.CopyDataSource(inputDataSource, outputFilename, null);
             
-            Console.WriteLine("Data copied successfully.");
-            Console.ReadLine();
+        //    Console.WriteLine("Data copied successfully.");
+        //    Console.ReadLine();
 
           
-        }
+        //}
 
         public void projectOpenButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
