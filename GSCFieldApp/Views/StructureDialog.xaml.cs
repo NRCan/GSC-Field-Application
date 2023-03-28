@@ -50,7 +50,7 @@ namespace GSCFieldApp.Views
             this.Loading += StructureDialog_Loading;
 
             defaultColourBrush = this.strucType.BorderBrush;
-
+            
         }
 
         #region CLOSE

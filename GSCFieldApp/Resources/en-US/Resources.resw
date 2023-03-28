@@ -1704,4 +1704,16 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthLithAutoSuggest.Header" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="EarthDialogClast.Header" xml:space="preserve">
+    <value>Clast Form</value>
+  </data>
+  <data name="EarthDialogH2o.Header" xml:space="preserve">
+    <value>H2O Content</value>
+  </data>
+  <data name="EarthDialogOxidation.Header" xml:space="preserve">
+    <value>Oxidation</value>
+  </data>
+  <data name="EarthDialogSorting.Header" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
 </root>

@@ -128,6 +128,10 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatMagQualifier = "MAGQUALIFIER"; //Version 1.60
         public const string FieldEarthMatMetaIntensity = "METAINTENSITY"; // Version 1.60
         public const string FieldEarthMatMetaFacies = "METAFACIES"; // Version 1.60
+        public const string FieldEarthMatSorting = "SORTING"; //Version 1.7
+        public const string FieldEarthMatH2O = "H2OCONTENT"; //Version 1.7
+        public const string FieldEarthMatOxidation = "OXIDATION"; //Version 1.7
+        public const string FieldEarthMatClastForm = "CLASTFORM"; //Version 1.7
 
         public const string FieldSampleID = "SAMPLEID"; //Version 1.0
         public const string FieldSampleName = "SAMPLEIDNAME"; //Version 1.5

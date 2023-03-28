@@ -9,6 +9,7 @@ using GSCFieldApp.ViewModels;
 using GSCFieldApp.Models;
 using Template10.Common;
 using GSCFieldApp.Services.DatabaseServices;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,8 +23,8 @@ namespace GSCFieldApp.Views
         public EarthmatViewModel ViewModel { get; set; }
         public FieldNotes parentViewMode { get; set; }
         
-
         public List<string> Rocks { get; private set; }
+
         private readonly DataAccess accessData = new DataAccess();
         public string level1Sep = Dictionaries.ApplicationLiterals.parentChildLevel1Seperator;
         public string level2Sep = Dictionaries.ApplicationLiterals.parentChildLevel2Seperator;
@@ -38,7 +39,7 @@ namespace GSCFieldApp.Views
             this.Loading += EarthmatDialog_Loading;
 
         }
-        
+
         private void EarthmatDialog_Loading(FrameworkElement sender, object args)
         {
             this.Rocks = CreateSuggestionList();
@@ -60,9 +61,7 @@ namespace GSCFieldApp.Views
 
             
         }
-
-        
-
+      
         #region SAVE
         private void earthmatSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -186,7 +185,6 @@ namespace GSCFieldApp.Views
 
         }
 
-
         private void EarthLithAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
@@ -203,7 +201,6 @@ namespace GSCFieldApp.Views
             ViewModel.InitFill2ndRound(EarthLitho.Text);
 
         }
-
         private List<string> CreateSuggestionList()
         {
             Vocabularies vocabularyModel = new Vocabularies();

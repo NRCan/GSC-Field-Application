@@ -88,6 +88,18 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatInterpConf)]
         public string EarthMatInterpConf { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatSorting)]
+        public string EarthMatSorting { get; set; }
+
+        [Column(DatabaseLiterals.FieldEarthMatH2O)]
+        public string EarthMatH2O { get; set; }
+
+        [Column(DatabaseLiterals.FieldEarthMatOxidation)]
+        public string EarthMatOxidation { get; set; }
+
+        [Column(DatabaseLiterals.FieldEarthMatClastForm)]
+        public string EarthMatClastForm{ get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatNotes)]
         public string EarthMatNotes{ get; set; }
 
@@ -184,10 +196,13 @@ namespace GSCFieldApp.Models
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
 
                 //Revert shcema 1.7 changes
-                //List<string> earthmatFieldList160 = new List<string>();
-                //earthmatFieldList160.AddRange(earthmatFieldListDefault);
-                //earthmatFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //earthmatFieldList[DatabaseLiterals.DBVersion160] = earthmatFieldList160;
+                List<string> earthmatFieldList160 = new List<string>();
+                earthmatFieldList160.AddRange(earthmatFieldListDefault);
+                earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatSorting);
+                earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatH2O);
+                earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatOxidation);
+                earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatClastForm);
+                earthmatFieldList[DatabaseLiterals.DBVersion160] = earthmatFieldList160;
 
                 //Revert schema 1.6 changes. 
                 List<string> earthmatFieldList15 = new List<string>();

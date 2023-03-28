@@ -1698,4 +1698,16 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthLithAutoSuggest.Header" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="EarthDialogClast.Header" xml:space="preserve">
+    <value>Forme clastique</value>
+  </data>
+  <data name="EarthDialogH2o.Header" xml:space="preserve">
+    <value>Contenu en eau</value>
+  </data>
+  <data name="EarthDialogOxidation.Header" xml:space="preserve">
+    <value>Oxydation</value>
+  </data>
+  <data name="EarthDialogSorting.Header" xml:space="preserve">
+    <value>Composition</value>
+  </data>
 </root>

@@ -184,6 +184,7 @@
     <Compile Include="Converters\VisibilityFromBoolConverter.cs" />
     <Compile Include="Converters\ReverseBoolConverter.cs" />
     <Compile Include="Converters\VisibilityFromReverseBoolConverter.cs" />
+    <Compile Include="Converters\WidthFromVisibility.cs" />
     <Compile Include="Dictionaries\DatabaseLiterals.cs" />
     <Compile Include="Dictionaries\ScienceLiterals.cs" />
     <Compile Include="Dictionaries\ApplicationLiterals.cs" />

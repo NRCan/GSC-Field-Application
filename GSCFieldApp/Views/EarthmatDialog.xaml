@@ -6,12 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Controls="using:Template10.Controls"
+    xmlns:conv="using:GSCFieldApp.Converters"
     mc:Ignorable="d">
 
 
-    <!--<UserControl.Resources>
-        <converters:SecondOrderPicklistConverter x:Name="SecondOrderPicklistConverter" />
-    </UserControl.Resources>-->
+    <UserControl.Resources>
+        <conv:WidthFromVisibility x:Name="WidthFromVisibility" />
+    </UserControl.Resources>
 
     <!-- data entry -->
     <Page>
@@ -62,7 +63,7 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="EarthmatGridView_Litho">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Lithology" IsEnabled="False"/>
 
-                            <RelativePanel Padding="0,0,0,10">
+                            <RelativePanel Padding="0,5,0,0">
 
                                 <AutoSuggestBox x:Name="EarthLithAutoSuggest" x:Uid="EarthLithAutoSuggest" Header=""
                                                 TextChanged="EarthLithAutoSuggest_TextChanged"
@@ -79,46 +80,60 @@
 
                             </RelativePanel>
 
-                            <RelativePanel Margin="0,0,0,0">
 
-                                <GridView Style="{StaticResource NonselectableGridView}">
-
-                                    <!--Qualifier-->
-                                    <RelativePanel x:Name="detailRelPanel_Comp">
-                                        <ComboBox x:Name="EarthLithQualifierComboBox" x:Uid="EarthDialogModComp" 
-                                    ItemsSource="{x:Bind ViewModel.EarthmatModComp}"
-                                    SelectedValue="{x:Bind ViewModel.SelectedEarthmatModComp, Mode=TwoWay}"
-                                                    SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}" TabIndex="4"/>
-                                        <ListView x:Name="EarthLithQualifierConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="EarthLithQualifierComboBox"
-                                                    ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
-                                                    ItemsSource="{x:Bind ViewModel.EarthmatModCompValues}" TabIndex="5" IsTabStop="True"/>
-
-                                    </RelativePanel>
-
-                                    <ComboBox x:Name="EarthOccurComboBox" Width="Auto" x:Uid="EarthDialogOccur" Header="" Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}" 
-                                ItemsSource="{x:Bind ViewModel.EarthmatOccurAs}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatOccurAs, Mode=TwoWay}" TabIndex="15"/>
-
-                                    <ComboBox x:Name="EarthMUCombobox" Width="Auto" x:Uid="EarthDialogMU" Header=""
-                                ItemsSource="{x:Bind ViewModel.EarthmatMU}"
-                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatMU, Mode=TwoWay}" TabIndex="14"/>
-
-                                    <RelativePanel>
-                                        <TextBox x:Name="EarthPercent" x:Uid="EarthDialogPercent" MinWidth="35" HorizontalAlignment="Stretch" TextChanged="{x:Bind ViewModel.EarthPercent_TextChanged}"
-                                Text="{x:Bind ViewModel.Percent, Mode=TwoWay}" InputScope="Number"/>
-
-                                        <TextBlock x:Name="EarthPercentDynamicLabel" x:Uid="EarthResidualLabel" Text="{x:Bind ViewModel.EarthResidualText, Mode=TwoWay}" RelativePanel.Below="EarthPercent"/>
-
-                                    </RelativePanel>
-
-                                </GridView>
-                                
-
+                            <!--Qualifier-->
+                            <RelativePanel x:Name="detailRelPanel_Comp"
+                                           Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}">
+                                <ComboBox x:Name="EarthLithQualifierComboBox" x:Uid="EarthDialogModComp" 
+                            ItemsSource="{x:Bind ViewModel.EarthmatModComp}"
+                            SelectedValue="{x:Bind ViewModel.SelectedEarthmatModComp, Mode=TwoWay}"
+                                            SelectionChanged="{x:Bind ViewModel.ConcatComboBox_SelectionChanged}" TabIndex="4"/>
+                                <ListView x:Name="EarthLithQualifierConcat" Style="{StaticResource ConcatenatedListView}" RelativePanel.Below="EarthLithQualifierComboBox"
+                                            ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Height="136" 
+                                            ItemsSource="{x:Bind ViewModel.EarthmatModCompValues}" TabIndex="5" IsTabStop="True"/>
 
                             </RelativePanel>
 
+                            <ComboBox x:Name="EarthOccurComboBox" Width="Auto" x:Uid="EarthDialogOccur" Header="" Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}" 
+                                ItemsSource="{x:Bind ViewModel.EarthmatOccurAs}"  
+                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatOccurAs, Mode=TwoWay}" TabIndex="15"/>
 
- 
+                            <ComboBox x:Name="EarthMUCombobox" Width="Auto" x:Uid="EarthDialogMU" Header=""
+                                ItemsSource="{x:Bind ViewModel.EarthmatMU}" 
+                                SelectedValue="{x:Bind ViewModel.SelectedEarthmatMU, Mode=TwoWay}" TabIndex="14"/>
+
+                            <RelativePanel x:Name="EarthPercentPanel" Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}">
+                                <TextBox x:Name="EarthPercent" x:Uid="EarthDialogPercent" MinWidth="35" HorizontalAlignment="Stretch" TextChanged="{x:Bind ViewModel.EarthPercent_TextChanged}"
+                                    Text="{x:Bind ViewModel.Percent, Mode=TwoWay}" InputScope="Number"/>
+
+                                <TextBlock x:Name="EarthPercentDynamicLabel" x:Uid="EarthResidualLabel" Text="{x:Bind ViewModel.EarthResidualText, Mode=TwoWay}" RelativePanel.Below="EarthPercent"/>
+
+                            </RelativePanel>
+
+                            <RelativePanel Visibility="{x:Bind ViewModel.SurficialVisibility, Mode=TwoWay}" >
+                                <ComboBox x:Name="EarthColour_Sorting" x:Uid="EarthDialogSorting"
+                                          ItemsSource="{x:Bind ViewModel.EarthmatSorting}" 
+                                          SelectedValue="{x:Bind ViewModel.SelectedEarthmatSorting, Mode=TwoWay}"/>
+                            </RelativePanel>
+
+                            <RelativePanel Visibility="{x:Bind ViewModel.SurficialVisibility, Mode=TwoWay}" >
+                                <ComboBox x:Name="EarthColour_H2o" x:Uid="EarthDialogH2o" 
+                                            ItemsSource="{x:Bind ViewModel.EarthmatWater}" 
+                                            SelectedValue="{x:Bind ViewModel.SelectedEarthmatWater, Mode=TwoWay}"/>
+                            </RelativePanel>
+
+                            <RelativePanel Visibility="{x:Bind ViewModel.SurficialVisibility, Mode=TwoWay}" >
+                                <ComboBox x:Name="EarthColour_Oxidation" x:Uid="EarthDialogOxidation"
+                                            ItemsSource="{x:Bind ViewModel.EarthmatOxi}" 
+                                            SelectedValue="{x:Bind ViewModel.SelectedEarthmatOxi, Mode=TwoWay}"/>
+                            </RelativePanel>
+
+                            <RelativePanel Visibility="{x:Bind ViewModel.SurficialVisibility, Mode=TwoWay}">
+                                <ComboBox x:Name="EarthColour_Clast" x:Uid="EarthDialogClast" 
+                                          ItemsSource="{x:Bind ViewModel.EarthmatClast}"
+                                          SelectedValue="{x:Bind ViewModel.SelectedEarthmatClast, Mode=TwoWay}"/>
+                            </RelativePanel>
+
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01" RelativePanel.Below="EarthmatGridView_Litho"
@@ -173,8 +188,6 @@
                                                 ItemsSource="{x:Bind ViewModel.EarthmatDefFabricValues}" TabIndex="11" IsTabStop="True"/>
                             </RelativePanel>
 
-
-                            
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01b" RelativePanel.Below="EarthmatGridView_Details"
@@ -355,7 +368,7 @@
 
                         </GridView>
 
-                        <RelativePanel Margin="0,10,0,0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="EarthmatGridView_GeneralNote">
+                        <RelativePanel Margin="0,-60,0,0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="EarthmatGridView_GeneralNote">
                             <TextBox Style="{StaticResource Notes}" x:Name="EarthNoteTextbox" x:Uid="EarthDialogGeneralNote"
                                     Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}"/>
                         </RelativePanel>
