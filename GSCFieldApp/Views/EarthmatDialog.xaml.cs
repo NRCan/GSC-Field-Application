@@ -10,6 +10,7 @@ using GSCFieldApp.Models;
 using Template10.Common;
 using GSCFieldApp.Services.DatabaseServices;
 using Windows.UI.Core;
+using GSCFieldApp.Dictionaries;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -26,8 +27,8 @@ namespace GSCFieldApp.Views
         public List<string> Rocks { get; private set; }
 
         private readonly DataAccess accessData = new DataAccess();
-        public string level1Sep = Dictionaries.ApplicationLiterals.parentChildLevel1Seperator;
-        public string level2Sep = Dictionaries.ApplicationLiterals.parentChildLevel2Seperator;
+        public string level1Sep = ApplicationLiterals.parentChildLevel1Seperator;
+        public string level2Sep = ApplicationLiterals.parentChildLevel2Seperator;
 
         public EarthmatDialog(FieldNotes inDetailViewModel)
         {
@@ -45,7 +46,7 @@ namespace GSCFieldApp.Views
             this.Rocks = CreateSuggestionList();
 
             //Fill automatically the earthmat dialog if an edit is asked by the user.
-            if (parentViewMode.GenericTableName == Dictionaries.DatabaseLiterals.TableEarthMat && ViewModel.doEarthUpdate)
+            if (parentViewMode.GenericTableName == DatabaseLiterals.TableEarthMat && ViewModel.doEarthUpdate)
             {
                 this.ViewModel.AutoFillDialog(parentViewMode);
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewMode.GenericAliasName;
@@ -103,9 +104,19 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private async void EarthLithoSearch_Click(object sender, RoutedEventArgs e)
         {
-            ContentDialogSemanticZoom newDialog = new ContentDialogSemanticZoom(Dictionaries.DatabaseLiterals.TableEarthMat, Dictionaries.DatabaseLiterals.FieldEarthMatLithgroup, Dictionaries.DatabaseLiterals.FieldEarthMatLithdetail);
-            newDialog.userHasSelectedAValue += NewDialog_userHasSelectedAValue;
-            ContentDialogResult results = await newDialog.ShowAsync();
+            if (ViewModel.projectType == ScienceLiterals.ApplicationThemeBedrock)
+            {
+                ContentDialogSemanticZoom newDialog = new ContentDialogSemanticZoom(DatabaseLiterals.TableEarthMat, DatabaseLiterals.FieldEarthMatLithgroup, DatabaseLiterals.FieldEarthMatLithdetail);
+                newDialog.userHasSelectedAValue += NewDialog_userHasSelectedAValue;
+                ContentDialogResult results = await newDialog.ShowAsync();
+            }
+            else if (ViewModel.projectType == ScienceLiterals.ApplicationThemeSurficial)
+            {
+                ContentDialogSemanticZoom newDialog = new ContentDialogSemanticZoom(DatabaseLiterals.TableEarthMat, string.Empty, DatabaseLiterals.FieldEarthMatLithdetail);
+                newDialog.userHasSelectedAValue += NewDialog_userHasSelectedAValue;
+                ContentDialogResult results = await newDialog.ShowAsync();
+            }
+
             
             
         }
@@ -201,20 +212,36 @@ namespace GSCFieldApp.Views
             ViewModel.InitFill2ndRound(EarthLitho.Text);
 
         }
+
+        /// <summary>
+        /// Build a suggestion list for current project type lith detail
+        /// </summary>
+        /// <returns></returns>
         private List<string> CreateSuggestionList()
         {
             Vocabularies vocabularyModel = new Vocabularies();
-            string vocQuerySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableDictionary;
-            string vocQueryWhere = " WHERE CODETHEME = 'LITHDETAIL'";
-            string vocQueryVisibility = " AND " + Dictionaries.DatabaseLiterals.TableDictionary + "." + Dictionaries.DatabaseLiterals.FieldDictionaryVisible + " = '" + Dictionaries.DatabaseLiterals.boolYes + "'";
-            string vocFinalQuery = vocQuerySelect + vocQueryWhere + vocQueryVisibility;
+            string vocQuerySelect = "SELECT * FROM " + DatabaseLiterals.TableDictionary + " as md ";
+            string vocQueryJoin = "JOIN " + DatabaseLiterals.TableDictionaryManager + " as mdm ON md." +
+                DatabaseLiterals.FieldDictionaryCodedTheme + " = mdm." + DatabaseLiterals.FieldDictionaryManagerCodedTheme + " ";
+            string vocQueryWhere = "WHERE " + DatabaseLiterals.FieldDictionaryManagerAssignField + " = 'LITHDETAIL' ";
+            string vocQueryWhereAnd = "AND mdm." + DatabaseLiterals.FieldDictionaryManagerSpecificTo + " = '" + ViewModel.projectType + "' ";
+            string vocQueryVisibility = " AND md." + DatabaseLiterals.FieldDictionaryVisible + " = '" + DatabaseLiterals.boolYes + "'";
+            string vocFinalQuery = vocQuerySelect + vocQueryJoin + vocQueryWhere + vocQueryWhereAnd + vocQueryVisibility;
 
             List<object> vocResults = accessData.ReadTable(vocabularyModel.GetType(), vocFinalQuery);
 
             var outResults = new List<string>();
             foreach (Vocabularies tmp in vocResults)
             {
-                outResults.Add(tmp.RelatedTo.ToString() + " ; " + tmp.Code.ToString());
+                if (tmp.RelatedTo != null && tmp.RelatedTo.ToString() != string.Empty)
+                {
+                    outResults.Add(tmp.RelatedTo.ToString() + " ; " + tmp.Code.ToString());
+
+                }
+                else
+                {
+                    outResults.Add(tmp.Code.ToString());
+                }
             }
 
             return outResults;

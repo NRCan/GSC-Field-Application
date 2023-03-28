@@ -115,8 +115,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((EarthMatLithgroup != string.Empty && EarthMatLithgroup != null && EarthMatLithgroup != Dictionaries.DatabaseLiterals.picklistNACode) && 
-                    (EarthMatLithdetail != string.Empty && EarthMatLithdetail != null && EarthMatLithdetail != Dictionaries.DatabaseLiterals.picklistNACode))
+                if ((EarthMatLithdetail != null && EarthMatLithdetail != string.Empty && EarthMatLithdetail != Dictionaries.DatabaseLiterals.picklistNACode))
                 {
                     return true;
                 }

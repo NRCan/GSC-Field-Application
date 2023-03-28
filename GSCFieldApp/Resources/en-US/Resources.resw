@@ -1716,4 +1716,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthDialogSorting.Header" xml:space="preserve">
     <value>Sorting</value>
   </data>
+  <data name="EarthDialogSurficialLith.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
 </root>

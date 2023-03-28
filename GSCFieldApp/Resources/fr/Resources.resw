@@ -1710,4 +1710,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthDialogSorting.Header" xml:space="preserve">
     <value>Composition</value>
   </data>
+  <data name="EarthDialogSurficialLith.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
 </root>

@@ -61,16 +61,34 @@ namespace GSCFieldApp.Models
 
             //Get a list of parent (title)
             Vocabularies voc = new Vocabularies();
+            
+            string finalQueryTitle = string.Empty;
+
             string querySelect = "SELECT * FROM " + TableDictionary;
-            string queryJoin = " JOIN " + TableDictionaryManager + " ON " + TableDictionary + "." + FieldDictionaryCodedTheme + " = " + TableDictionaryManager + "." + FieldDictionaryManagerCodedTheme;
+            string queryJoin = " JOIN " + TableDictionaryManager + " ON " + TableDictionary + "." + 
+                FieldDictionaryCodedTheme + " = " + TableDictionaryManager + "." + FieldDictionaryManagerCodedTheme;
             string queryAssignTable = " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerAssignTable + " = '" + inAssignTable + "'";
             string queryAssignFieldChild = " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerAssignField + " = '" + inChildFieldName + "'";
-            
+
             string queryAssignFieldParent = " AND " + TableDictionaryManager + "." + FieldDictionaryManagerAssignField + " = '" + inParentFieldName + "'";
             string queryVisibility = " AND " + TableDictionary + "." + FieldDictionaryVisible + " = '" + boolYes + "'";
             string queryOrder = " ORDER BY " + TableDictionary + "." + FieldDictionaryOrder + " ASC";
 
-            string finalQueryTitle = querySelect + queryJoin + queryAssignTable + queryAssignFieldParent + queryVisibility + queryOrder;
+            //In case there isn't parent and list still should display something.
+            if (inParentFieldName != string.Empty)
+            {
+
+                finalQueryTitle = querySelect + queryJoin + queryAssignTable + queryAssignFieldParent + queryVisibility + queryOrder;
+            }
+            else
+            {
+                string queryProjectType = " AND " + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo +
+                    " = '" + ScienceLiterals.ApplicationThemeSurficial + "'";
+
+                finalQueryTitle = querySelect + queryJoin + queryAssignTable + queryAssignFieldChild.Replace("WHERE", "AND") + 
+                    queryProjectType + queryVisibility + queryOrder;
+            }
+            
             
 
             List<object> vocRaw = dAccess.ReadTable(voc.GetType(), finalQueryTitle);
@@ -79,28 +97,34 @@ namespace GSCFieldApp.Models
             //Iterate through parent and get a list of children
             foreach (Vocabularies sVocab in vocTable)
             {
-                //Get detail from given title
-                string queryRelatedTo = " AND " + TableDictionary + "." + FieldDictionaryRelatedTo + " = '" + sVocab.Code + "'";
-                string finaleQueryDetail = querySelect + queryJoin + queryAssignFieldChild + queryRelatedTo + queryVisibility + queryOrder;
-                List<object> vocDetailRaw = dAccess.ReadTable(voc.GetType(), finaleQueryDetail);
-                IEnumerable<Vocabularies> vocDetailTable = vocDetailRaw.Cast<Vocabularies>();
-
-                foreach (Vocabularies dVocab in vocDetailTable)
+                if (inParentFieldName != string.Empty)
                 {
-                    //Build semantic data
-                    _data.Add(new SemanticData(dVocab.RelatedTo, dVocab.Description));
+                    //Get detail from given title
+                    string queryRelatedTo = " AND " + TableDictionary + "." + FieldDictionaryRelatedTo + " = '" + sVocab.Code + "'";
+                    string finaleQueryDetail = querySelect + queryJoin + queryAssignFieldChild + queryRelatedTo + queryVisibility + queryOrder;
+                    List<object> vocDetailRaw = dAccess.ReadTable(voc.GetType(), finaleQueryDetail);
+                    IEnumerable<Vocabularies> vocDetailTable = vocDetailRaw.Cast<Vocabularies>();
 
-                    if (inAssignTable == DatabaseLiterals.TableEarthMat)
+                    foreach (Vocabularies dVocab in vocDetailTable)
                     {
-                        _dataLithology.Add(new SemanticData(dVocab.RelatedTo, dVocab.Description));
-                    }
-                    if (inAssignTable == DatabaseLiterals.TableStructure)
-                    {
-                        _dataStructures.Add(new SemanticData(dVocab.RelatedTo, dVocab.Description));
-                    }
+                        //Build semantic data
+                        _data.Add(new SemanticData(dVocab.RelatedTo, dVocab.Description));
 
+                        if (inAssignTable == DatabaseLiterals.TableEarthMat)
+                        {
+                            _dataLithology.Add(new SemanticData(dVocab.RelatedTo, dVocab.Description));
+                        }
+                        if (inAssignTable == DatabaseLiterals.TableStructure)
+                        {
+                            _dataStructures.Add(new SemanticData(dVocab.RelatedTo, dVocab.Description));
+                        }
+
+                    }
                 }
-
+                else
+                {
+                    _dataLithology.Add(new SemanticData("Surficial test", sVocab.Description));
+                }
             }
 
         }

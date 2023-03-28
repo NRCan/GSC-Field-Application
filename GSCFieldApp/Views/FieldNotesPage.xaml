@@ -155,11 +155,10 @@
                     <!--Values-->
                     <TextBlock x:Name="earthAliasItem" Text="{x:Bind earthmat.EarthMatName}"
                                HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" FontWeight="Bold"  Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock x:Name="earthLithTypeItem" Text="{x:Bind earthmat.EarthMatLithgroup}" Width="{Binding Width, ElementName=EarthmatListTemplateGrid}"
-                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
                     <TextBlock x:Name="earthLithDetailItem" Text="{x:Bind earthmat.EarthMatLithdetail}" Width="{Binding Width, ElementName=EarthmatListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="earthLithTypeItem" Text="{x:Bind earthmat.EarthMatLithgroup}" Width="{Binding Width, ElementName=EarthmatListTemplateGrid}"
                                HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"/>
-
 
                 </Grid>
             </RelativePanel>

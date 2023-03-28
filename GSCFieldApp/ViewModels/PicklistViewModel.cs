@@ -350,12 +350,22 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will force a refresh of the lithology semantic zoom data
         /// </summary>
-        public async void UpdateLithology()
+        public async void UpdateLithology(bool withParent = true)
         {
             await UpdateSemanticZooms();
 
             //Rebuild semantic data
-            Models.SemanticDataGenerator.GetGroupedData(true, Dictionaries.DatabaseLiterals.TableEarthMat, Dictionaries.DatabaseLiterals.FieldEarthMatLithgroup, Dictionaries.DatabaseLiterals.FieldEarthMatLithdetail);
+            if (withParent)
+            {
+                Models.SemanticDataGenerator.GetGroupedData(true, Dictionaries.DatabaseLiterals.TableEarthMat, 
+                    Dictionaries.DatabaseLiterals.FieldEarthMatLithgroup, Dictionaries.DatabaseLiterals.FieldEarthMatLithdetail);
+            }
+            else
+            {
+                Models.SemanticDataGenerator.GetGroupedData(true, Dictionaries.DatabaseLiterals.TableEarthMat,
+                    string.Empty, Dictionaries.DatabaseLiterals.FieldEarthMatLithdetail);
+            }
+            
         }
 
         /// <summary>
