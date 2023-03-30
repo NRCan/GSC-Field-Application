@@ -76,24 +76,24 @@ namespace GSCFieldApp.Services.FileServices
         {
             //Variables
             string outputName = string.Empty;
-
-            string currentDBName = DataAccess._dbName;
+            string projectName = string.Empty;
 
             //Calculate current date
-            string currentDate = String.Format("{0:yyyyMMdd_HH'h'mm}", DateTime.Now);
+            string currentDate = String.Format("{0:yyyy_MM_dd_HH'h'mm}", DateTime.Now);
 
             //Get currennt geolcode
             if (userCode == string.Empty && localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode)!=null)
             {
-                userCode = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString() + "_";
+                userCode = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
             }
-            else
+
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName) != null)
             {
-                userCode = userCode + "_";
+                projectName = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName).ToString().Replace(" ", "_");
             }
 
             //Calculate new output database name
-            outputName = userCode + currentDate;
+            outputName = projectName + "_" + currentDate + "_" + userCode ;
 
             return outputName;
 
