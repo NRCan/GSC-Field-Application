@@ -293,10 +293,30 @@
                                RelativePanel.Below="ContactTextBlock"
                                Text="" />
                     
+                    <!--Project Info-->
+                    <TextBlock x:Name="ProjectTextBlock" Margin="0,12,0,12" x:Uid="AboutProjectHeader"
+                               FontSize="22" RelativePanel.AlignLeftWithPanel="True"
+                               RelativePanel.Below="ContactInfoTextBlock"
+                               Text="" />
+                    <TextBlock x:Name="ProjectURLsTextBlock" 
+                               RelativePanel.AlignLeftWithPanel="True" 
+                               RelativePanel.Below="ProjectTextBlock" TextWrapping="Wrap">
+                        
+                        <Run x:Uid="AboutProjectGit"/><Hyperlink NavigateUri="https://nrcan.github.io/GSC-Field-Application/">
+                            <Run x:Uid="AboutProjectGitHyperlink"/>
+                        </Hyperlink>
+                        <Run x:Uid="AboutProjectGitHyperlinkEnd"/>
+                        <LineBreak/>
+                        <Run x:Uid="AboutProjectIssues"/><Hyperlink NavigateUri="https://github.com/NRCan/GSC-Field-Application/issues">
+                            <Run x:Uid="AboutProjectIssueHyperlink"/>
+                        </Hyperlink>
+                        
+                    </TextBlock>
+
                     <!--Team Info-->
                     <TextBlock x:Name="TeamTextBlock" Margin="0,12,0,12" x:Uid="AboutTeamHeader"
                                FontSize="22" RelativePanel.AlignLeftWithPanel="True"
-                               RelativePanel.Below="ContactInfoTextBlock"
+                               RelativePanel.Below="ProjectURLsTextBlock"
                                Text="" />
 
                     <TextBlock x:Name="TeamInfoTextBlock" x:Uid="AboutTeamInfo"

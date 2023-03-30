@@ -1014,7 +1014,7 @@ Geomatic agent
 Geological Survey of Canada, Natural Resources Canada
 Government of Canada
 490 de la Couronne, Québec, Québec, G1K 9A9
-gabriel.huot-vezina@canada.ca</value>
+gabriel.huot-vezina@nrcan-rncan.gc.ca</value>
   </data>
   <data name="AboutTeamHeader.Text" xml:space="preserve">
     <value>Team</value>
@@ -1718,5 +1718,23 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="EarthDialogSurficialLith.Header" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="AboutProjectGit.Text" xml:space="preserve">
+    <value>Project source code GitHub </value>
+  </data>
+  <data name="AboutProjectGitHyperlink.Text" xml:space="preserve">
+    <value>page.</value>
+  </data>
+  <data name="AboutProjectGitHyperlinkEnd.Text" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="AboutProjectHeader.Text" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="AboutProjectIssueHyperlink.Text" xml:space="preserve">
+    <value>issue.</value>
+  </data>
+  <data name="AboutProjectIssues.Text" xml:space="preserve">
+    <value>Submit an </value>
   </data>
 </root>

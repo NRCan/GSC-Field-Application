@@ -1011,7 +1011,7 @@ Agent géomatique
 Commission géologique du Canada, Ressources naturelles du Canada
 Gouvernment du Canada
 490 de la Couronne, Québec, Québec, G1K 9A9
-gabriel.huot-vezina@canada.ca</value>
+gabriel.huot-vezina@nrcan-rncan.gc.ca</value>
   </data>
   <data name="AboutTeamHeader.Text" xml:space="preserve">
     <value>Équipe</value>
@@ -1712,5 +1712,23 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="EarthDialogSurficialLith.Header" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="AboutProjectGit.Text" xml:space="preserve">
+    <value>Page </value>
+  </data>
+  <data name="AboutProjectGitHyperlink.Text" xml:space="preserve">
+    <value>page.</value>
+  </data>
+  <data name="AboutProjectGitHyperlinkEnd.Text" xml:space="preserve">
+    <value>du code source sur GitHub.</value>
+  </data>
+  <data name="AboutProjectHeader.Text" xml:space="preserve">
+    <value>Projet</value>
+  </data>
+  <data name="AboutProjectIssueHyperlink.Text" xml:space="preserve">
+    <value>problème.</value>
+  </data>
+  <data name="AboutProjectIssues.Text" xml:space="preserve">
+    <value>Soumettre un </value>
   </data>
 </root>
