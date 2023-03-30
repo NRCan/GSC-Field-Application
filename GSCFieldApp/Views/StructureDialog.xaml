@@ -50,10 +50,10 @@
                                     TextChanged="StructureAutoSuggest_TextChanged"
                                     QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
                                     Width="300" IsTabStop="True" TabIndex="1"/>
-                                <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" Width="auto"
+                                <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" Width="0" Visibility="Collapsed"
                                  RelativePanel.Below="StructureAutoSuggest" RelativePanel.RightOf="structTypeSearch"
                                  Style="{ThemeResource TextboxMandatoryField}" FontWeight="Bold"
-                                 Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}" TextChanged="strucType_TextChanged" TabIndex="2" IsReadOnly="True" />
+                                 Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}" TabIndex="2" IsReadOnly="True" />
                         </RelativePanel>
                         </GridView>
 

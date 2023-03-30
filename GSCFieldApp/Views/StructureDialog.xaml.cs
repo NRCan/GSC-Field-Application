@@ -384,8 +384,25 @@ namespace GSCFieldApp.Views
         {
             if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
             {
-                strucType.Text = args.ChosenSuggestion.ToString();
-                strucType.Focus(FocusState.Programmatic);
+                //strucType.Text = args.ChosenSuggestion.ToString();
+                //strucType.Focus(FocusState.Programmatic);
+
+                //Update list that are bound to lithology selection
+                strucViewModel.InitFill2ndRound(strucType.Text);
+
+                if (args.ChosenSuggestion.ToString().StartsWith(Dictionaries.DatabaseLiterals.KeywordPlanar))
+                {
+                    PlanarIcon.Visibility = Visibility.Visible;
+                    LinearIcon.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    PlanarIcon.Visibility = Visibility.Collapsed;
+                    LinearIcon.Visibility = Visibility.Visible;
+                }
+
+                //Refresh related list.
+                strucViewModel.NewSearch_userHasSelectedAValue(args.ChosenSuggestion.ToString());
             }
             else
             {
@@ -393,8 +410,7 @@ namespace GSCFieldApp.Views
                 strucType.Text = string.Empty;
             }
 
-            //Update list that are bound to lithology selection
-            strucViewModel.InitFill2ndRound(strucType.Text);
+
 
         }
         private List<string> CreateSuggestionList()
