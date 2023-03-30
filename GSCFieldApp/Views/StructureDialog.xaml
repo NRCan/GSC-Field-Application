@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <conv:String2Number x:Key="String2Number" />
+        <conv:String2Double x:Key="String2Number" />
     </UserControl.Resources>
 
     <Page>

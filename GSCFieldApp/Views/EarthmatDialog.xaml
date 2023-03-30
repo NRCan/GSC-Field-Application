@@ -10,8 +10,11 @@
     mc:Ignorable="d">
 
 
+    <!--Some useful converters for showing parsed values from different type-->
     <UserControl.Resources>
         <conv:WidthFromVisibility x:Name="WidthFromVisibility" />
+        <conv:String2Double x:Name="StringToDouble"/>
+        <conv:String2Integer x:Name="StringToInteger"/>
     </UserControl.Resources>
 
     <!-- data entry -->
@@ -115,12 +118,13 @@
 
                             <RelativePanel x:Name="EarthPercentPanel" Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}">
                                 <TextBox x:Name="EarthPercent" x:Uid="EarthDialogPercent" MinWidth="35" HorizontalAlignment="Stretch" TextChanged="{x:Bind ViewModel.EarthPercent_TextChanged}"
-                                    Text="{x:Bind ViewModel.Percent, Mode=TwoWay}" InputScope="Number"/>
+                                    Text="{x:Bind ViewModel.Percent, Converter={StaticResource StringToInteger}, Mode=TwoWay}" PlaceholderText="0" InputScope="Number"/>
 
                                 <TextBlock x:Name="EarthPercentDynamicLabel" x:Uid="EarthResidualLabel" Text="{x:Bind ViewModel.EarthResidualText, Mode=TwoWay}" RelativePanel.Below="EarthPercent"/>
 
                             </RelativePanel>
 
+                            <!--Surficial controls-->
                             <RelativePanel Visibility="{x:Bind ViewModel.SurficialVisibility, Mode=TwoWay}" >
                                 <ComboBox x:Name="EarthColour_Sorting" x:Uid="EarthDialogSorting"
                                           ItemsSource="{x:Bind ViewModel.EarthmatSorting}" 
@@ -346,11 +350,11 @@
                                   Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="EarthmatGridView_Mag"/>
 
-                            <TextBox x:Name="EarthMagCombobox" x:Uid="EarthDialogMag"
-                                    Text="{x:Bind ViewModel.MagSusceptibility, Mode=TwoWay}"/>
+                            <TextBox x:Name="EarthMagCombobox" x:Uid="EarthDialogMag" PlaceholderText="0.0"
+                                    Text="{x:Bind ViewModel.MagSusceptibility, Converter={StaticResource StringToDouble}, Mode=TwoWay}" InputScope="Number"/>
                             <ComboBox x:Name="EarthMagQualifierCombobox" x:Uid="EarthDialogMagQualifier"
                                     ItemsSource="{x:Bind ViewModel.MagQualifier, Mode=TwoWay}"
-                                      SelectedValue="{x:Bind ViewModel.SelectedMagQualifier, Mode=TwoWay}"/>
+                                      SelectedValue="{x:Bind ViewModel.SelectedMagQualifier, Mode=OneWay}"/>
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_06" RelativePanel.Below="EarthmatGridView_Mag"

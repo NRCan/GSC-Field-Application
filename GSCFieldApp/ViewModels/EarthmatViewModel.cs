@@ -23,10 +23,10 @@ namespace GSCFieldApp.ViewModels
         private int _earthmatid = 0; //Default
         private int _stationid = 0; //Detault
         private string _colourindex = "0";//Detault
-        private string _percent = "0"; //Default
+        private int? _percent; //Default
         private string _contactNote = string.Empty;//Detault
         private string _interpretation = string.Empty;//Detault
-        private string _mag = "0";//Detault
+        private double? _mag;//Detault
         private string _lithoType = string.Empty;//Detault
         private string _lithoGroup = string.Empty;
         private string _lithoDetail = string.Empty;
@@ -138,7 +138,7 @@ namespace GSCFieldApp.ViewModels
         public string Alias { get { return _alias; } set { _alias = value; } }
         public int StationID { get { return _stationid; } set { _stationid = value; } }
         public int EarthmatID { get { return _earthmatid; } set { _earthmatid = value; } }
-        public string MagSusceptibility
+        public double? MagSusceptibility
         {
             get
             {
@@ -146,7 +146,7 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                bool result = double.TryParse(value, out double mag);
+                bool result = double.TryParse(value.ToString(), out double mag);
 
                 if (result)
                 {
@@ -156,14 +156,14 @@ namespace GSCFieldApp.ViewModels
                     }
                     else
                     {
-                        _mag = value = "0";
+                        _mag = value = 0.0;
                         RaisePropertyChanged("MagSusceptibility");
                     }
 
                 }
                 else
                 {
-                    _mag = value = "0";
+                    _mag = value = 0.0;
                     RaisePropertyChanged("MagSusceptibility");
                 }
 
@@ -204,7 +204,7 @@ namespace GSCFieldApp.ViewModels
         public Models.Colour EarthColourF { get { return _earthColourF;  } set { _earthColourF = value; } }
         public Models.Colour EarthColourW { get { return _earthColourW; } set { _earthColourW = value; } }
         public Models.Contacts EartContact { get { return _earthContact; } set { _earthContact = value; } }
-        public string Percent
+        public int? Percent
         {
             get
             {
@@ -213,7 +213,7 @@ namespace GSCFieldApp.ViewModels
             set
             {
                 int index;
-                bool result = int.TryParse(value, out index);
+                bool result = int.TryParse(value.ToString(), out index);
 
                 if (result)
                 {
@@ -223,14 +223,14 @@ namespace GSCFieldApp.ViewModels
                     }
                     else
                     {
-                        _percent = value = "0";
+                        _percent = value = 0;
                         RaisePropertyChanged("Percent");
                     }
 
                 }
                 else
                 {
-                    _percent = value = "0";
+                    _percent = value = 0;
                     RaisePropertyChanged("Percent");
                 }
 
@@ -427,13 +427,13 @@ namespace GSCFieldApp.ViewModels
             _interpretation = existingDataDetail.earthmat.EarthMatInterp;
             //_contactNote = existingDataDetail.earthmat.EarthMatContact;
             _colourindex = existingDataDetail.earthmat.EarthMatColourInd.ToString();
-            _mag = existingDataDetail.earthmat.EarthMatMagSuscept.ToString();
+            _mag = existingDataDetail.earthmat.EarthMatMagSuscept;
             _groupTypeDetail = existingDataDetail.earthmat.getGroupTypeDetail;
             _lithoType = existingDataDetail.earthmat.EarthMatLithtype;
             _lithoDetail = existingDataDetail.earthmat.EarthMatLithdetail;
             _lithoGroup = existingDataDetail.earthmat.EarthMatLithgroup;
             _notes = existingDataDetail.earthmat.EarthMatNotes;
-            _percent = existingDataDetail.earthmat.EarthMatPercent.ToString();
+            _percent = existingDataDetail.earthmat.EarthMatPercent;
 
             _earthColourW = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourW);
             _earthColourF = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourF);
@@ -577,12 +577,12 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatID = _earthmatid; //Prime key
             earthmodel.EarthMatStatID = _stationid; //Foreign key
             earthmodel.EarthMatName = _alias;
-            earthmodel.EarthMatMagSuscept = double.Parse(_mag);
+            earthmodel.EarthMatMagSuscept = _mag;
             earthmodel.EarthMatColourInd = int.Parse(_colourindex);
             //earthmodel.EarthMatContact = _contactNote;
             earthmodel.EarthMatInterp = _interpretation;
             earthmodel.EarthMatNotes = _notes;
-            earthmodel.EarthMatPercent = int.Parse(_percent);
+            earthmodel.EarthMatPercent = _percent;
             earthmodel.EarthMatColourF = _earthColourF.ToString();
             earthmodel.EarthMatColourW = _earthColourW.ToString();
 
@@ -1694,9 +1694,14 @@ namespace GSCFieldApp.ViewModels
             {
                 foreach (EarthMaterial ets in earthParentStation)
                 {
-                   // _minerals.Add(ets.EarthMatID);
+                    // _minerals.Add(ets.EarthMatID);
 
-                    int currentPercentage = ets.EarthMatPercent;
+                    int currentPercentage = 0;
+                    if (ets.EarthMatPercent != null)
+                    {
+                        currentPercentage = (int)ets.EarthMatPercent;
+                    }
+                    ;
                     bool currentPercentParsed = true;
                     if (ets.EarthMatID == existingDataDetail.GenericID)
                     {

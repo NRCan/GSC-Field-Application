@@ -14,7 +14,7 @@
         <converters:BitmapSourceConverter x:Name="BitmapSourceConverter"/>
         <converters:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter"/>
         <converters:VisibilityFromReverseBoolConverter x:Name="VisibilityFromReverseBoolConverter"/>
-        <converters:String2Number x:Name="StringToDouble"/>
+        <converters:String2Double x:Name="StringToDouble"/>
     </UserControl.Resources>
     
     <Page>

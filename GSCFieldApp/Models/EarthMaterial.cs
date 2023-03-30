@@ -44,7 +44,7 @@ namespace GSCFieldApp.Models
         public string EarthMatOccurs { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatPercent)]
-        public int EarthMatPercent { get; set; }
+        public int? EarthMatPercent { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatModTextStruc)]
         public string EarthMatModTextStruc { get; set; }
@@ -68,7 +68,7 @@ namespace GSCFieldApp.Models
         public int EarthMatColourInd { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMagSuscept)]
-        public double EarthMatMagSuscept { get; set; }
+        public double? EarthMatMagSuscept { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMagQualifier)]
         public string EarthMatMagQualifier { get; set; }
