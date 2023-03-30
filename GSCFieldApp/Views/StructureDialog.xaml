@@ -46,14 +46,13 @@
                                 <SymbolIcon x:Name="SearchLitho" Symbol="Zoom" Margin="-17.667,-15,-17.333,-15"/>
                             </Button>
                             <AutoSuggestBox x:Name="StructureAutoSuggest" x:Uid="StructureAutoSuggest"
-                                 RelativePanel.RightOf="structTypeSearch"
-                                                
-                                                TextChanged="StructureAutoSuggest_TextChanged"
-                                                QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
-                                                Width="300" IsTabStop="True" TabIndex="1"/>
-                                <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" 
+                                    RelativePanel.RightOf="structTypeSearch" Text="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}"
+                                    TextChanged="StructureAutoSuggest_TextChanged"
+                                    QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
+                                    Width="300" IsTabStop="True" TabIndex="1"/>
+                                <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" Width="auto"
                                  RelativePanel.Below="StructureAutoSuggest" RelativePanel.RightOf="structTypeSearch"
-                                 Width="Auto" Style="{ThemeResource TextboxMandatoryField}" FontWeight="Bold"
+                                 Style="{ThemeResource TextboxMandatoryField}" FontWeight="Bold"
                                  Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}" TextChanged="strucType_TextChanged" TabIndex="2" IsReadOnly="True" />
                         </RelativePanel>
                         </GridView>

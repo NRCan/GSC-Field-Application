@@ -1372,7 +1372,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Lithologie sélectionnée</value>
   </data>
   <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
-    <value>Type de lithologie ie. basalt</value>
+    <value>Tapez une lithologie ie. basalt</value>
   </data>
   <data name="LocationDialogGridView_Elevation.Content" xml:space="preserve">
     <value>Élévation (m)</value>
@@ -1730,5 +1730,8 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="AboutProjectIssues.Text" xml:space="preserve">
     <value>Soumettre un </value>
+  </data>
+  <data name="StructureAutoSuggest.PlaceholderText" xml:space="preserve">
+    <value>Tapez Planar ou Linear</value>
   </data>
 </root>

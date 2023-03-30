@@ -1372,7 +1372,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Selected lithology</value>
   </data>
   <data name="EarthLithAutoSuggest.PlaceholderText" xml:space="preserve">
-    <value>Entry rock type ie. basalt</value>
+    <value>Type in rock type ie. basalt</value>
   </data>
   <data name="LocationDialogGridView_Geo.Content" xml:space="preserve">
     <value>Geographic</value>
@@ -1736,5 +1736,8 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="AboutProjectIssues.Text" xml:space="preserve">
     <value>Submit an </value>
+  </data>
+  <data name="StructureAutoSuggest.PlaceholderText" xml:space="preserve">
+    <value>Type in Planar or linear</value>
   </data>
 </root>
