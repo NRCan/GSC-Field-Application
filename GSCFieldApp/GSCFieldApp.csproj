@@ -123,7 +123,6 @@
     <None Include="Assets\Readme.md" />
     <None Include="Converters\Readme.md" />
     <None Include="Dictionaries\Readme.md" />
-    <Content Include="Assets\gsclogo-pantone_yellow.png" />
     <Content Include="Assets\mosquito.png" />
     <Content Include="Assets\Images\theme-dark\struc_linear.png" />
     <Content Include="Assets\Images\theme-dark\struc_planar.png" />
@@ -326,7 +325,6 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

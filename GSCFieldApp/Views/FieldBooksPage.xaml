@@ -65,7 +65,7 @@
                         <LineBreak/>
                     </TextBlock>
 
-                    <Image x:Uid="ProjectListLogo" Height="100" Width="100" Source="ms-appx:///Assets/gsclogo-pantone_yellow.png" Grid.Row="7" HorizontalAlignment="Center"/>
+                    <Image x:Uid="ProjectListLogo" Height="100" Width="100" Source="ms-appx:///Assets/Square150x150Logo.scale-200.png" Grid.Row="7" HorizontalAlignment="Center"/>
 
                     <Rectangle Grid.RowSpan="8" Width="2 " Grid.Column="0" Margin="-5,0,0,0"  HorizontalAlignment="Left" Fill="{StaticResource GSCHammerColorBrush}"/>
 
