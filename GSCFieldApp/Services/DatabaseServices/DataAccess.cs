@@ -2582,7 +2582,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             ///https://github.com/NRCan/GSC-Field-Application/milestone/8
             List<string> insertQuery_17 = new List<string>();
             List<string> nullFieldList = new List<string>() { DatabaseLiterals.FieldGenericRowID , FieldGenericGeometry,
-            FieldSampleBucketTray, FieldSampleWarehouseLocation};
+            FieldSampleBucketTray, FieldSampleWarehouseLocation, FieldEarthMatClastForm, FieldEarthMatH2O,
+            FieldEarthMatOxidation, FieldEarthMatSorting};
 
             #region F_METADATA
 

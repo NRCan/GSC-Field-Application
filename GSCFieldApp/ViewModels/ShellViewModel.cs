@@ -157,7 +157,7 @@ namespace GSCFieldApp.ViewModels
                 localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest, youngestPhoto);
 
                 //Copy
-                await fs.SaveArchiveCopy(newList, "", "", projectName + "_");
+                await fs.SaveArchiveCopy(newList, "", "");
 
                 //Delete renamed copy
                 foreach (StorageFile fsToDelete in newList)

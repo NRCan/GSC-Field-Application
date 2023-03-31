@@ -507,7 +507,8 @@ namespace GSCFieldApp.ViewModels
 
                     //Zip and Copy
                     
-                    await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath, selectedBook.metadataForProject.UserCode, selectedBook.metadataForProject.ProjectName + "_");
+                    await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath, 
+                        selectedBook.metadataForProject.UserCode);
 
                     await newFile.DeleteAsync();
                 }
