@@ -13,6 +13,9 @@ using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using Template10.Controls;
 using Windows.UI;
+using Windows.Foundation.Collections;
+using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -2557,24 +2560,100 @@ namespace GSCFieldApp.ViewModels
         /// <param name="propertyName"></param>
         public void SetHeaderVisibility(string tableName, Visibility inTableVisibility, string propertyName )
         {
-            if (localSetting.GetSettingValue(tableName) != null) 
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableSample) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableSample))
             {
-                if ((bool)localSetting.GetSettingValue(tableName))
-                {
-                    inTableVisibility = Visibility.Visible;
-                }
-                else
-                {
-                    inTableVisibility = Visibility.Collapsed;
-                } 
-                
+                _samplePanelVisibility = Visibility.Visible;
             }
             else
             {
-                inTableVisibility = Visibility.Visible;
+                _samplePanelVisibility = Visibility.Collapsed;
             }
 
-            RaisePropertyChanged(propertyName);
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineral) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineral))
+            {
+                _mineralPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _mineralPanelVisibility = Visibility.Collapsed;
+            }
+
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration))
+            {
+                _mineralAltPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _mineralAltPanelVisibility = Visibility.Collapsed;
+            }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableDocument) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableDocument))
+            {
+                _documentPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _documentPanelVisibility = Visibility.Collapsed;
+            }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableStructure) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableStructure))
+            {
+                _structurePanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _structurePanelVisibility = Visibility.Collapsed;
+            }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TablePFlow) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TablePFlow))
+            {
+                _pflowPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _pflowPanelVisibility = Visibility.Collapsed;
+            }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableFossil) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableFossil))
+            {
+                _fossilPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _fossilPanelVisibility = Visibility.Collapsed;
+            }
+
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration))
+            {
+                _mineralAltPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _mineralAltPanelVisibility = Visibility.Collapsed;
+            }
+
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat))
+            {
+                _earthmatPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _earthmatPanelVisibility = Visibility.Collapsed;
+            }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment))
+            {
+                _environmentPanelVisibility = Visibility.Visible;
+            }
+            else
+            {
+                _environmentPanelVisibility = Visibility.Collapsed;
+            }
+            RaisePropertyChanged("SamplePanelVisibility");
+            RaisePropertyChanged("EarthmatPanelVisibility");
+            RaisePropertyChanged("MineralPanelVisibility");
+            RaisePropertyChanged("PhotoPanelVisibility");
+            RaisePropertyChanged("StructurePanelVisibility");
+            RaisePropertyChanged("PFlowPanelVisibility");
+            RaisePropertyChanged("FossilPanelVisibility");
+            RaisePropertyChanged("MineralAltPanelVisibility");
+            RaisePropertyChanged("EnvironmentPanelVisibility");
+
         }
 
         #endregion
