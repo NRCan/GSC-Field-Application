@@ -31,11 +31,11 @@
     <PackageCertificateThumbprint>14CF0ECF911C8A37CF0E2EF4F8E06F25425B80C1</PackageCertificateThumbprint>
     <AppxPackageDir>C:\work data\datacollections\PublishedVersions\</AppxPackageDir>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppInstallerUpdateFrequency>365</AppInstallerUpdateFrequency>
+    <AppInstallerUpdateFrequency>100</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>Daily</AppInstallerCheckForUpdateFrequency>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <HoursBetweenUpdateChecks>8760</HoursBetweenUpdateChecks>
+    <HoursBetweenUpdateChecks>2400</HoursBetweenUpdateChecks>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppInstallerUri>https://github.com/NRCan/GSC-Field-Application/releases</AppInstallerUri>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
