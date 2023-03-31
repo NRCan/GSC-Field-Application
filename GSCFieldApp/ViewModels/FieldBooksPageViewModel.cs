@@ -238,8 +238,28 @@ namespace GSCFieldApp.ViewModels
                 //Iterate through project to find match
                 foreach (FieldBooks prjs in _projectCollection)
                 {
+                    //Get some unique values
+                    string currentUser = string.Empty;
+                    string currentProject = string.Empty;
+                    string currentActivity = string.Empty;
+
+                    try
+                    {
+                        currentUser = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
+                        currentProject = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName).ToString();
+                        currentActivity = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoActivityName).ToString();
+
+                    }
+                    catch (Exception e)
+                    {
+                        //Probably missing a setting, no big deal it'll fallback on first book.
+                        Debug.WriteLine(e.Message);
+                    }
+
                     //Get match
-                    if (prjs.metadataForProject.MetaID == int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()))
+                    if (prjs.metadataForProject.UserCode == currentUser &&
+                        prjs.metadataForProject.MetadataActivity == currentActivity &&
+                        prjs.metadataForProject.ProjectName == currentProject)
                     {
                         //Refresh UI
                         _selectedProjectIndex = _projectCollection.IndexOf(prjs);
@@ -425,7 +445,9 @@ namespace GSCFieldApp.ViewModels
         /// <param name="fieldworkType"></param>
         /// <param name="userCode"></param>
         /// <param name="metaID"></param>
-        public async void OpenFieldBook(string projectPath, string fieldworkType, string userCode, int metaID, string dbPath, string dbVersion, bool withNavigateToMap = true)
+        public async void OpenFieldBook(string projectPath, string fieldworkType, 
+            string userCode, int metaID, string dbPath, string dbVersion, 
+            string projectName, string activityName, bool withNavigateToMap = true)
         {
             //Clear previous field book settings
             localSetting.WipeUserMapSettings();
@@ -436,6 +458,8 @@ namespace GSCFieldApp.ViewModels
             localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoUCode, userCode);
             localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoID, metaID);
             localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoVersionSchema, dbVersion);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoPName, projectName);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoActivityName, activityName);
 
             ApplicationData.Current.SignalDataChanged();
             DataAccess.DbPath = dbPath;
@@ -572,8 +596,9 @@ namespace GSCFieldApp.ViewModels
             int mID = _projectCollection[_selectedProjectIndex].metadataForProject.MetaID;
             string dbP = _projectCollection[_selectedProjectIndex].ProjectDBPath;
             string dbVersion = _projectCollection[_selectedProjectIndex].metadataForProject.VersionSchema;
-
-            OpenFieldBook(pPath, wType, uCode, mID, dbP, dbVersion);
+            string aName = _projectCollection[_selectedProjectIndex].metadataForProject.MetadataActivity;
+            string pName = _projectCollection[_selectedProjectIndex].metadataForProject.ProjectName;
+            OpenFieldBook(pPath, wType, uCode, mID, dbP, dbVersion, pName, aName);
 
             //Send call to refresh other pages
             EventHandler<string> newFieldBookRequest = newFieldBookSelected;
@@ -824,7 +849,8 @@ namespace GSCFieldApp.ViewModels
 
                     }
 
-                    OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode, metItem.MetaID, wantedDB.Path, metItem.VersionSchema, false);
+                    OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode, 
+                        metItem.MetaID, wantedDB.Path, metItem.VersionSchema, metItem.ProjectName, metItem.MetadataActivity, false);
                     FillProjectCollectionAsync();
                 }
 
