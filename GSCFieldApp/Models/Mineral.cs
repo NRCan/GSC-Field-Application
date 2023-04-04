@@ -138,7 +138,7 @@ namespace GSCFieldApp.Models
                 //List<string> mineralFieldList160 = new List<string>();
                 //mineralFieldList160.AddRange(mineralFieldListDefault);
                 //mineralFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //mineralFieldList[DatabaseLiterals.DBVersion160] = mineralFieldList160;
+                mineralFieldList[DatabaseLiterals.DBVersion160] = mineralFieldListDefault;
 
 
                 //Revert schema 1.6 changes. 

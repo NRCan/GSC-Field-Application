@@ -865,6 +865,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineralAlteration);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
 
+                //Tables that are either not in are can't have any data in this version
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEnvironment);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraverseLine);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraversePoint);
+
                 newVersionNumber = DatabaseLiterals.DBVersion160;
             }
 

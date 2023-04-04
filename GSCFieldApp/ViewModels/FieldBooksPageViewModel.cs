@@ -920,27 +920,27 @@ namespace GSCFieldApp.ViewModels
                         if (processedDBVersion == 1.42)
                         {
                             //Skip straight to 1.44, since 1.43 only targeted picklist values
-                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion143.ToString().Replace(".", "");
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion143.ToString().Replace(".", "") + DatabaseLiterals.DBTypeSqliteDeprecated;
                         }
                         else if (processedDBVersion == 1.43)
                         {
-                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion144.ToString().Replace(".", "");
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion144.ToString().Replace(".", "") + DatabaseLiterals.DBTypeSqliteDeprecated;
                         }
                         else if (processedDBVersion == 1.44)
                         {
-                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion150.ToString().Replace(".", "") + "0";
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion150.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqliteDeprecated;
                         }
                         else if (processedDBVersion == 1.5)
                         {
-                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion160.ToString().Replace(".", "") + "0";
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion160.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqliteDeprecated;
                         }
                         else if (processedDBVersion == 1.6)
                         {
-                            
+
                             //Current defaulting to 1.7
+                            versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         }
 
-                        versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
                         //string oldVersionDbpathToUpgrade = Path.Combine(dbFolderToUpgrade, OldVersionFileName); //in root of local state folder for now
 

@@ -150,6 +150,7 @@ namespace GSCFieldApp.Models
                 List<string> locationFieldList160 = new List<string>();
                 locationFieldList160.AddRange(locationFieldListDefault);
                 locationFieldList160.Remove(DatabaseLiterals.FieldLocationReportLink);
+                locationFieldList160.Remove(DatabaseLiterals.FieldGenericGeometry);
                 locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;
 
                 //Revert schema 1.6 changes. 

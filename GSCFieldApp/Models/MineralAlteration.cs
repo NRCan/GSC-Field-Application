@@ -97,7 +97,7 @@ namespace GSCFieldApp.Models
                 //List<string> maFieldList160 = new List<string>();
                 //maFieldList160.AddRange(maFieldListDefault);
                 //maFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //maFieldList[DatabaseLiterals.DBVersion160] = maFieldList160;
+                maFieldList[DatabaseLiterals.DBVersion160] = maFieldListDefault;
 
 
                 //Revert schema 1.6 changes. 
