@@ -966,7 +966,7 @@ namespace GSCFieldApp.ViewModels
                                 string copyPathBeforeMove = DataAccess.DbPath;
 
                                 //Legacy file type management for file naming
-                                if (processedDBVersion == DatabaseLiterals.DBVersion160)
+                                if (processedDBVersion <= DatabaseLiterals.DBVersion160)
                                 {
                                     upgradedDBPath = upgradedDBPath.Replace(DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated);
                                     copyPathBeforeMove = copyPathBeforeMove.Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
