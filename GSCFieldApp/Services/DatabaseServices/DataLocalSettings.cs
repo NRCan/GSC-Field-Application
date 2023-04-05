@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Windows.Storage;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
+using System.Diagnostics;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -108,9 +109,11 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 wantedContainer = inContainerName;
             }
+            
 
             if (currentLocalSettings.Containers[containerName].Values.ContainsKey(keyName))
             {
+                Debug.WriteLine(currentLocalSettings.Containers[containerName].Values[keyName].ToString());
                 output = currentLocalSettings.Containers[containerName].Values[keyName];
             }
 

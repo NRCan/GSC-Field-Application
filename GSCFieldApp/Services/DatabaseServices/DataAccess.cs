@@ -805,7 +805,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Variables
             string attachDBName = "dbUpgrade";
             double newVersionNumber = DatabaseLiterals.DBVersion;
-            List<Exception> exceptionList = new List<Exception>();
+            List<string> exceptionList = new List<string>();
 
             //Untouched tables to upgrade
             List<string> upgradeUntouchedTables = new List<string>() { DatabaseLiterals.TableLocation, DatabaseLiterals.TableMetadata,
@@ -911,7 +911,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 catch (Exception e)
                 {
-                    exceptionList.Add(e);
+                    exceptionList.Add(e.ToString());
 
                 }
 
@@ -923,7 +923,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 catch (Exception e)
                 {
-                    exceptionList.Add(e);
+                    exceptionList.Add(e.ToString());
 
                 }
 
@@ -943,7 +943,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     }
                     catch (Exception e)
                     {
-                        exceptionList.Add(e);
+                        exceptionList.Add("Query: " + q + "; Exception: " + e);
 
                     }
 
@@ -959,9 +959,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 string wholeStackUpgrade = string.Empty;
 
-                foreach (Exception es in exceptionList)
+                foreach (string es in exceptionList)
                 {
-                    wholeStackUpgrade = wholeStackUpgrade + "; " + es.Message + "; " + es.StackTrace;
+                    wholeStackUpgrade = wholeStackUpgrade + "; " + es;
                 }
 
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
