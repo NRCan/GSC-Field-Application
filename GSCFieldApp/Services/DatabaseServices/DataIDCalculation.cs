@@ -135,7 +135,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     IEnumerable<Metadata> metadataTable = metadataTableRaw.Cast<Metadata>(); //Cast to proper list type
                     IEnumerable<Metadata> metadatas = from m in metadataTable where m.MetaID == currentMetaID select m;
                     List<Metadata> metadatasList = metadatas.ToList();
-                    stationCount = Convert.ToInt16(metadatasList[0].StationStartNumber);
+                    int.TryParse(metadatasList[0].StationStartNumber, out stationCount);
                 }
                 else
                 {

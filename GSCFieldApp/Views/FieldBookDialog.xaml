@@ -20,8 +20,8 @@
                             EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
 
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="userInfoCancelButton" Label="Close" Icon="Clear" Width="100" Height="57" IsCompact ="True" Foreground="White" Tapped="userInfoCancelButton_TappedAsync" />
-                    <AppBarButton x:Name="userInfoSaveButton" Label="Save" Icon="Save" Width="100" Height="57" IsCompact ="True" Foreground="White" Tapped="saveUserInfo_TappedAsync" />
+                    <AppBarButton x:Name="userInfoCancelButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Width="Auto" Height="57" IsCompact ="True" Foreground="White" Tapped="userInfoCancelButton_TappedAsync" />
+                    <AppBarButton x:Name="userInfoSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Width="Auto" Height="57" IsCompact ="True" Foreground="White" Tapped="saveUserInfo_TappedAsync" />
                 </Controls:PageHeader.PrimaryCommands>
                 
             </Controls:PageHeader>

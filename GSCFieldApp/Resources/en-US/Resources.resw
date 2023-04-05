@@ -1740,4 +1740,16 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="StructureAutoSuggest.PlaceholderText" xml:space="preserve">
     <value>Type in Planar or linear</value>
   </data>
+  <data name="ConvertToGeo.Content" xml:space="preserve">
+    <value>To Geographic</value>
+  </data>
+  <data name="ConvertToUTM.Content" xml:space="preserve">
+    <value>To UTM</value>
+  </data>
+  <data name="GenericCloseLabel.Label" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="GenericSaveLabel.Label" xml:space="preserve">
+    <value>Save</value>
+  </data>
 </root>

@@ -1734,4 +1734,16 @@ Shimamura, Kaz – Conseiller</value>
   <data name="StructureAutoSuggest.PlaceholderText" xml:space="preserve">
     <value>Tapez Planar ou Linear</value>
   </data>
+  <data name="ConvertToGeo.Content" xml:space="preserve">
+    <value>vers Géographique</value>
+  </data>
+  <data name="ConvertToUTM.Content" xml:space="preserve">
+    <value>vers UTM</value>
+  </data>
+  <data name="GenericCloseLabel.Label" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="GenericSaveLabel.Label" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
 </root>
