@@ -450,8 +450,14 @@ namespace GSCFieldApp.ViewModels
             pflowModel.PFlowName = _pflowName;
             pflowModel.PFlowParentID = _pflowParentID;
             pflowModel.PFlowNotes = _pflowNote;
-            pflowModel.PFlowDip = int.Parse(_pflowDipPlunge);
-            pflowModel.PFlowAzimuth = int.Parse(_pflowAzim);
+            if (_pflowDipPlunge != "")
+            {
+                pflowModel.PFlowDip = int.Parse(_pflowDipPlunge);
+            }
+            if (_pflowAzim != "")
+            {
+                pflowModel.PFlowAzimuth = int.Parse(_pflowAzim);
+            }
 
             if (PflowMainDirection.HasValue)
             {
@@ -498,7 +504,7 @@ namespace GSCFieldApp.ViewModels
             {
                 pflowModel.PFlowNumIndic = SelectedPflowNoIndicator;
             }
-            if (SelectedPflowage != null)
+            if (SelectedPflowage != "")
             {
                 pflowModel.PFlowRelAge = int.Parse(SelectedPflowage);
             }
