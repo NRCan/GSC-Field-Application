@@ -314,8 +314,8 @@ namespace GSCFieldApp.ViewModels
                     _geolocator.StatusChanged -= Geolocal_StatusChangedAsync;
                     _geolocator.StatusChanged += Geolocal_StatusChangedAsync;
 
-                    //_geolocator.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.Default;
-                    _geolocator.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.High;
+                    _geolocator.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.Default;
+                    //_geolocator.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.High;
                        
                     break;
 
