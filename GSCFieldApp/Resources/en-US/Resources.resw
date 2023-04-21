@@ -1752,4 +1752,10 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="GenericSaveLabel.Label" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="DocumentLoadPreviousButton.Content" xml:space="preserve">
+    <value>Load Previous</value>
+  </data>
+  <data name="DocumentToNoTextbox.PlaceholderText" xml:space="preserve">
+    <value>Must be greater</value>
+  </data>
 </root>

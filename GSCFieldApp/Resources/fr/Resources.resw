@@ -157,7 +157,7 @@
     <value>Élévation</value>
   </data>
   <data name="FieldworkTableStationFieldLat.Header" xml:space="preserve">
-    <value>Lattitude</value>
+    <value>Latitude</value>
   </data>
   <data name="FieldworkTableStationFieldLong.Header" xml:space="preserve">
     <value>Longitude</value>
@@ -190,7 +190,7 @@
     <value>Carte</value>
   </data>
   <data name="MapPageLatitude.Text" xml:space="preserve">
-    <value>Lattitude</value>
+    <value>Latitude</value>
   </data>
   <data name="MapPageLongitude.Text" xml:space="preserve">
     <value>Longitude</value>
@@ -244,10 +244,10 @@
     <value>Bouton précédent dans la barre d'outil ou de tâches.</value>
   </data>
   <data name="SettingPageToggleFossil.OffContent" xml:space="preserve">
-    <value>Fossile</value>
+    <value>Fossiles</value>
   </data>
   <data name="SettingPageToggleFossil.OnContent" xml:space="preserve">
-    <value>Fossile</value>
+    <value>Fossiles</value>
   </data>
   <data name="SettingPageToggleTheme.Header" xml:space="preserve">
     <value>Couleur de fond</value>
@@ -310,7 +310,7 @@
     <value>ID</value>
   </data>
   <data name="FieldworkTableObservationLat.Text" xml:space="preserve">
-    <value>Lattitude</value>
+    <value>Latitude</value>
   </data>
   <data name="FieldworkTableObservationLong.Text" xml:space="preserve">
     <value>Longitude</value>
@@ -340,7 +340,7 @@
     <value>Matériaux du sol</value>
   </data>
   <data name="EarthDialogBedThick.Header" xml:space="preserve">
-    <value>Épaisseur de socle</value>
+    <value>Épaisseur de couches/lits</value>
   </data>
   <data name="EarthDialogDefabric.Header" xml:space="preserve">
     <value>Type de déformation</value>
@@ -421,10 +421,10 @@
     <value>Roche en place</value>
   </data>
   <data name="SettingPageToggleCommon.OffContent" xml:space="preserve">
-    <value>Communes</value>
+    <value>Communs</value>
   </data>
   <data name="SettingPageToggleCommon.OnContent" xml:space="preserve">
-    <value>Communes</value>
+    <value>Communs</value>
   </data>
   <data name="SettingPageToggleEMeasure.OffContent" xml:space="preserve">
     <value>Mesures externes</value>
@@ -457,10 +457,10 @@
     <value>Paleoflow</value>
   </data>
   <data name="SettingPageTogglePhoto.OffContent" xml:space="preserve">
-    <value>Photo</value>
+    <value>Photos</value>
   </data>
   <data name="SettingPageTogglePhoto.OnContent" xml:space="preserve">
-    <value>Photo</value>
+    <value>Photos</value>
   </data>
   <data name="SettingPageToggleSample.OffContent" xml:space="preserve">
     <value>Échantillons</value>
@@ -526,7 +526,7 @@
     <value>Minéraux</value>
   </data>
   <data name="SettingPageVocabPhoto.Content" xml:space="preserve">
-    <value>Photo</value>
+    <value>Photos</value>
   </data>
   <data name="SettingPageVocabSample.Content" xml:space="preserve">
     <value>Échantillons</value>
@@ -718,7 +718,7 @@
     <value>Azimut</value>
   </data>
   <data name="StructureDialogDip.Header" xml:space="preserve">
-    <value>Pendage/Plongé</value>
+    <value>Pendage/Plongée</value>
   </data>
   <data name="StructureDialogFabric.Header" xml:space="preserve">
     <value>Composition</value>
@@ -757,7 +757,7 @@
     <value>Détail</value>
   </data>
   <data name="ReportPageStrucDipHeader.Text" xml:space="preserve">
-    <value>Pendage/Plongé</value>
+    <value>Pendage/Plongée</value>
   </data>
   <data name="ReportPageStrucFormatHeader.Text" xml:space="preserve">
     <value>Format</value>
@@ -829,22 +829,22 @@
     <value>Direction Principale</value>
   </data>
   <data name="FossilDialogClass.Header" xml:space="preserve">
-    <value>Fossile</value>
+    <value>Fossiles</value>
   </data>
   <data name="FossilDialogHeader.Text" xml:space="preserve">
-    <value>Fossile</value>
+    <value>Fossiles</value>
   </data>
   <data name="FossilDialogNote.Header" xml:space="preserve">
     <value>Notes</value>
   </data>
   <data name="PicklistDialogThemeFossil.Text" xml:space="preserve">
-    <value>Fossile</value>
+    <value>Fossiles</value>
   </data>
   <data name="PicklistDialogThemePflow.Text" xml:space="preserve">
     <value>Paleoflow</value>
   </data>
   <data name="SettingPageVocabFossil.Content" xml:space="preserve">
-    <value>Fossile</value>
+    <value>Fossiles</value>
   </data>
   <data name="SettingPageVocabPflow.Content" xml:space="preserve">
     <value>Paleoflow</value>
@@ -853,7 +853,7 @@
     <value>Azimut</value>
   </data>
   <data name="SampleDialogDip.Header" xml:space="preserve">
-    <value>Pendage/Plongé</value>
+    <value>Pendage/Plongée</value>
   </data>
   <data name="SampleDialogFormat.Header" xml:space="preserve">
     <value>Format</value>
@@ -880,10 +880,11 @@
     <value>Élévation</value>
   </data>
   <data name="LocationDialogLatitude.Header" xml:space="preserve">
-    <value>Lattitude</value>
+    <value>Latitude</value>
   </data>
   <data name="MapPageDialogTextLocationStatus" xml:space="preserve">
-    <value>Aucun droit de positionnement.\n\n Aimeriez-vous modifier les droits?</value>
+    <value>Aucun droit de positionnement.
+Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="MinderalDialodSizeMax.Header" xml:space="preserve">
     <value>Taille Max. (mm)</value>
@@ -910,7 +911,7 @@
     <value>Notes</value>
   </data>
   <data name="MineralDialogOccur.Header" xml:space="preserve">
-    <value>Occurance</value>
+    <value>Occurence</value>
   </data>
   <data name="MineralResidualLabel.Text" xml:space="preserve">
     <value>Résiduel</value>
@@ -928,7 +929,7 @@
     <value>Pourcentage total: </value>
   </data>
   <data name="MineralDialogResidualSuffix" xml:space="preserve">
-    <value>éléments)</value>
+    <value> éléments)</value>
   </data>
   <data name="PicklistDialogThemeMineral.Text" xml:space="preserve">
     <value>Thème Minéral</value>
@@ -1126,7 +1127,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Roches en place</value>
   </data>
   <data name="SettingPageToggleCommonHeader.Content" xml:space="preserve">
-    <value>Communes</value>
+    <value>Communs</value>
   </data>
   <data name="SettingPageToggleSurficialHeader.Content" xml:space="preserve">
     <value>Dépôts meubles</value>
@@ -1510,7 +1511,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Type</value>
   </data>
   <data name="EarthDialogMineralWarning.Text" xml:space="preserve">
-    <value>Tous minéraux ajoutés ici seront disponible sous le formulaire Minéraux, comme enregistrement pour des fins d'améliorations. </value>
+    <value>Tous minéraux ajoutés ici seront disponibles sous le formulaire Minéraux, comme enregistrement pour des fins d'amélioration. </value>
   </data>
   <data name="SettingPageToggleTraverse.Header" xml:space="preserve">
     <value>Station Traverse journalière </value>
@@ -1519,7 +1520,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Non incrémenté</value>
   </data>
   <data name="SettingPageToggleTraverse.OnContent" xml:space="preserve">
-    <value>Auto incrémenté (par jour)</value>
+    <value>Auto incrémentée (par jour)</value>
   </data>
   <data name="StructureDialogAzimError.Text" xml:space="preserve">
     <value>La valeur entrée pour l'azimuth n'est pas valide.</value>
@@ -1549,7 +1550,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Sommaire de la structure</value>
   </data>
   <data name="FieldworkTableStationRelatedTo.Header" xml:space="preserve">
-    <value>En lien avec (ex: un autre station)</value>
+    <value>En lien avec (ex: une autre station)</value>
   </data>
   <data name="EarthDialogPercent.Header" xml:space="preserve">
     <value>Pourcentage</value>
@@ -1564,7 +1565,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Pourcentage total: </value>
   </data>
   <data name="EarthResidualLabelSuffix" xml:space="preserve">
-    <value>éléments)</value>
+    <value> éléments)</value>
   </data>
   <data name="EarthDialogColourGeneric.Header" xml:space="preserve">
     <value>De base</value>
@@ -1745,5 +1746,14 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="GenericSaveLabel.Label" xml:space="preserve">
     <value>Sauvegarder</value>
+  </data>
+  <data name="DocumentLoadPreviousButton.Content" xml:space="preserve">
+    <value>Charger précédent</value>
+  </data>
+  <data name="DocumentNameTextbox.Header" xml:space="preserve">
+    <value>Nom du fichier</value>
+  </data>
+  <data name="DocumentToNoTextbox.PlaceholderText" xml:space="preserve">
+    <value>Doit être plus grand que</value>
   </data>
 </root>
