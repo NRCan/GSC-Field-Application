@@ -172,6 +172,7 @@
                           ItemsSource="{x:Bind DocViewModel.RelatedIds}" 
                           SelectedValue="{x:Bind DocViewModel.SelectedRelatedID, Mode=TwoWay}" TabIndex="8"/>
 
+                        <!--These two might come back in the future-->
                         <TextBox x:Name="DocumentObjectXTextbox" x:Uid="DocumentObjectXTextbox"
                          HorizontalAlignment="Stretch"
                          Margin="0,0,10,10" 
