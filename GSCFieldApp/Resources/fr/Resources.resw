@@ -364,7 +364,7 @@
     <value>Unité Cartographique</value>
   </data>
   <data name="EarthDialogOccur.Header" xml:space="preserve">
-    <value>Occurent comme</value>
+    <value>Sous la forme de</value>
   </data>
   <data name="EarthmatGridView_Lithology.Content" xml:space="preserve">
     <value>Lithologie - Cadre et composition</value>
@@ -742,7 +742,7 @@
     <value>Relation</value>
   </data>
   <data name="StructureDialogSense.Header" xml:space="preserve">
-    <value>Sense</value>
+    <value>Sens</value>
   </data>
   <data name="StructureDialogStrain.Header" xml:space="preserve">
     <value>Déformation</value>
@@ -805,7 +805,7 @@
     <value>Pendage</value>
   </data>
   <data name="PflowDialogDir.Header" xml:space="preserve">
-    <value>Sense</value>
+    <value>Sens</value>
   </data>
   <data name="PflowDialogFeature.Header" xml:space="preserve">
     <value>Type</value>
@@ -929,7 +929,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Pourcentage total: </value>
   </data>
   <data name="MineralDialogResidualSuffix" xml:space="preserve">
-    <value> éléments)</value>
+    <value>)</value>
   </data>
   <data name="PicklistDialogThemeMineral.Text" xml:space="preserve">
     <value>Thème Minéral</value>
@@ -1565,7 +1565,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Pourcentage total: </value>
   </data>
   <data name="EarthResidualLabelSuffix" xml:space="preserve">
-    <value> éléments)</value>
+    <value>)</value>
   </data>
   <data name="EarthDialogColourGeneric.Header" xml:space="preserve">
     <value>De base</value>

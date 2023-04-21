@@ -931,7 +931,7 @@
     <value>Total Mode: </value>
   </data>
   <data name="MineralDialogResidualSuffix" xml:space="preserve">
-    <value>elements)</value>
+    <value>)</value>
   </data>
   <data name="PicklistDialogThemeMineral.Text" xml:space="preserve">
     <value>Mineral Theme</value>
@@ -1564,7 +1564,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Total Mode: </value>
   </data>
   <data name="EarthResidualLabelSuffix" xml:space="preserve">
-    <value>elements)</value>
+    <value>)</value>
   </data>
   <data name="EarthDialogColourGeneric.Header" xml:space="preserve">
     <value>Generic</value>
