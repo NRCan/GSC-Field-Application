@@ -156,18 +156,19 @@
                            Fill="{ThemeResource FieldPhotoColorBrush}" 
                                Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"/>
 
+                        <!-- #237 - Those two comboboxes have be hidden waiting for foreign key fix-->
                         <ComboBox x:Name="DocumentParentThemeCombobox" x:Uid="DocumentRelatedTableCombobox"
                               RelativePanel.AlignLeftWithPanel="True"
                               RelativePanel.Below="SeperatorLine_04"
                               Margin="0,0,0,5"
                               ItemsSource="{x:Bind DocViewModel.RelatedTable}" 
                               SelectedValue="{x:Bind DocViewModel.SelectedRelatedTable, Mode=TwoWay}"
-                              Visibility="{x:Bind DocViewModel.DocumentModeVisibility}" SelectionChanged="{x:Bind DocViewModel.DocumentParentThemeCombobox_SelectionChanged}" TabIndex="7"/>
+                              Visibility="Collapsed" SelectionChanged="{x:Bind DocViewModel.DocumentParentThemeCombobox_SelectionChanged}" TabIndex="7"/>
                         <ComboBox x:Name="DocumentParentIDCombobox" x:Uid="DocumentRelatedItemCombobox"
                               RelativePanel.Below="SeperatorLine_04"
                               Margin="10,0,0,5"
                           RelativePanel.RightOf="DocumentParentThemeCombobox"
-                          Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"
+                          Visibility="Collapsed"
                           ItemsSource="{x:Bind DocViewModel.RelatedIds}" 
                           SelectedValue="{x:Bind DocViewModel.SelectedRelatedID, Mode=TwoWay}" TabIndex="8"/>
 

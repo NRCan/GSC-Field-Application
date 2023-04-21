@@ -47,7 +47,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _relatedTable = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedRelatedTable = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _relatedIDs = new ObservableCollection<Themes.ComboBoxItem>();
-        private int _selectedRelatedID = 0;
+        private string _selectedRelatedID = string.Empty;
         private Visibility _documentModeVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _documentUpdateVisibility = Visibility.Visible; //Visibility for fields that can't be edited when the form is poped as an edit of an existing record.
         private bool _fileNameReadOnly = true;
@@ -234,10 +234,10 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> RelatedTable { get { return _relatedTable; } set { _relatedTable = value; } }
         public string SelectedRelatedTable { get { return _selectedRelatedTable; } set { _selectedRelatedTable = value; } }
         public ObservableCollection<Themes.ComboBoxItem> RelatedIds { get { return _relatedIDs; } set { _relatedIDs = value; } }
-        public int SelectedRelatedID { get { return _selectedRelatedID; } set { _selectedRelatedID = value; } }
+        public string SelectedRelatedID { get { return _selectedRelatedID; } set { _selectedRelatedID = value; } }
 
         public bool DocumentPhotoExists { get { return _documentPhotoExists; } set { _documentPhotoExists = value; } }
-        public String DocumentPhotoPath { get { return _documentPhotoPath; } set { _documentPhotoPath = value; } }
+        public string DocumentPhotoPath { get { return _documentPhotoPath; } set { _documentPhotoPath = value; } }
 
         #endregion
 
@@ -255,7 +255,7 @@ namespace GSCFieldApp.ViewModels
 
             if (stationSummaryID.GenericID != 0)
             {
-                _selectedRelatedID = stationSummaryID.GenericID; //Init with what was selected by the user in the report
+                _selectedRelatedID = stationSummaryID.GenericID.ToString(); //Init with what was selected by the user in the report
                 _selectedRelatedTable = DatabaseLiterals.TableStation;
 
                 //Calculate new document name if needed (on new document only) and set relation from report
@@ -266,7 +266,7 @@ namespace GSCFieldApp.ViewModels
             }
             else if (stationSummaryID.station != null)
             {
-                _selectedRelatedID = stationSummaryID.station.StationID; //Init with what was selected by the user in the report
+                _selectedRelatedID = stationSummaryID.station.StationID.ToString(); //Init with what was selected by the user in the report
                 _selectedRelatedTable = DatabaseLiterals.TableStation;
 
                 //Calculate new document name if needed (on new document only) and set relation from report
@@ -417,10 +417,10 @@ namespace GSCFieldApp.ViewModels
                     documentModel.DocumentType = SelectedDocType;
                 }
 
-                if (SelectedRelatedTable != null && SelectedRelatedID != 0)
+                if (SelectedRelatedTable != null && SelectedRelatedID != null && int.Parse(SelectedRelatedID) != 0)
                 {
                     documentModel.RelatedTable = SelectedRelatedTable;
-                    documentModel.RelatedID = SelectedRelatedID;
+                    documentModel.RelatedID = int.Parse(SelectedRelatedID);
                 }
                 else
                 {
@@ -764,7 +764,6 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("RelatedIds");
 
 
-
                 //Get the right station id wheter it's coming from the report or the map page as quick photo
                 int processedStationID = 0;
                 if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.GenericID != 0)
@@ -798,6 +797,10 @@ namespace GSCFieldApp.ViewModels
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
+
+                        //Select first entry
+                        _selectedRelatedID = _relatedIDs.First().itemName;
+                        RaisePropertyChanged("SelectedRelatedID");
                     }
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableEarthMat)
@@ -966,7 +969,7 @@ namespace GSCFieldApp.ViewModels
             _fileNumber = existingDataDetailDocument.document.FileNumber.ToString();
             _documentPhotoPath = existingDataDetailDocument.document.PhotoPath;
 
-            _selectedRelatedID = existingDataDetailDocument.document.RelatedID;
+            _selectedRelatedID = existingDataDetailDocument.document.RelatedID.ToString();
             //_selectedCategory = existingDataDetailDocument.document.Category;
             _selectedDocType = existingDataDetailDocument.document.DocumentType;
             _selectedRelatedTable = existingDataDetailDocument.document.RelatedTable;
