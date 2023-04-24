@@ -1723,7 +1723,7 @@ namespace GSCFieldApp.ViewModels
             {
                 ClearMapViewSettings();
             }
-            
+            SetMapView(currentMapView);
             DisplayPointAndLabelsAsync(currentMapView, forceRefresh);
         }
 
@@ -3544,7 +3544,9 @@ namespace GSCFieldApp.ViewModels
                 {
                     if (esriMap != null)
                     {
+                        
                         esriMap.Basemap.BaseLayers.Clear();
+                        esriMap = null;
                     }
                     
                 }
