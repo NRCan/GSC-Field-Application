@@ -1719,6 +1719,11 @@ namespace GSCFieldApp.ViewModels
         /// <param name="sender"></param>
         private void RefreshMap(bool forceRefresh = false)
         {
+            if (forceRefresh)
+            {
+                ClearMapViewSettings();
+            }
+            
             DisplayPointAndLabelsAsync(currentMapView, forceRefresh);
         }
 
