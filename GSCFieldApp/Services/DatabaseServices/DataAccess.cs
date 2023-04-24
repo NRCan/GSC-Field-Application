@@ -225,7 +225,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public async Task PrepNewFieldBookDatabase(string outFileNameWithExt, string inApplicationPathToFile)
         {
             //Create field project hierarchy folder in local state
-            int incrementer = 1; //Will be used to name project folders (pretty basic)
+            int incrementer = 0; //Will be used to name project folders (pretty basic)
             string fieldProjectPath = Path.Combine(ApplicationData.Current.LocalFolder.Path); //Wanted path for project data
             StorageFolder fieldFolder = await StorageFolder.GetFolderFromPathAsync(fieldProjectPath);//Current folder object to local state
 
