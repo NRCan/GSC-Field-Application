@@ -36,6 +36,7 @@ using ProjNet.Converters.WellKnownText;
 using ProjNet;
 using GeoAPI.CoordinateSystems;
 using GeoAPI.CoordinateSystems.Transformations;
+using System.Diagnostics;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -170,10 +171,6 @@ namespace GSCFieldApp.ViewModels
             if (!initMap)
             {
                 initMap = true;
-            }
-            else
-            {
-                SaveMapViewObjectToJSON(e.PropertyName);
             }
             
         }
@@ -2356,7 +2353,15 @@ namespace GSCFieldApp.ViewModels
             string JSONPath = Path.Combine(accessData.ProjectPath, "mapPageLayer.json");
             if (File.Exists(JSONPath))
             {
-                File.Delete(JSONPath);
+                try
+                {
+                    File.Delete(JSONPath);
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("Could not delete mapPageLayer.json");
+                }
+                
             }
 
             using (var jayson = new StreamWriter(JSONPath, true))
@@ -2926,6 +2931,8 @@ namespace GSCFieldApp.ViewModels
             if (inSwitch.Header != null)
             {
                 SetLayerVisibilityOrOpacity(inSwitch, inSwitch.Header.ToString());
+
+                SaveLayerRendering();
             }
 
 
@@ -2960,7 +2967,16 @@ namespace GSCFieldApp.ViewModels
                     #region TPKs
 
                     // Find the layer from the map layers and change visibility
-                    var sublayer = esriMap.AllLayers.First(x => x.Name.Contains(layerName.Split('.')[0]));
+                    Layer sublayer = null;
+                    try
+                    {
+                        sublayer = esriMap.AllLayers.First(x => x.Name.Contains(layerName.Split('.')[0]));
+                    }
+                    catch (Exception)
+                    {
+                        Debug.WriteLine("TPK not found within json");
+                    }
+
                     if (sublayer != null)
                     {
                         if (inSwitch != null)
@@ -3032,8 +3048,6 @@ namespace GSCFieldApp.ViewModels
                     #endregion
 
                 }
-
-                SaveLayerRendering();
 
             }
 
@@ -3122,7 +3136,6 @@ namespace GSCFieldApp.ViewModels
 
                     RaisePropertyChanged("FilenameValues");
 
-                    SaveLayerRendering();
                 }
             }
             catch (Exception e)
