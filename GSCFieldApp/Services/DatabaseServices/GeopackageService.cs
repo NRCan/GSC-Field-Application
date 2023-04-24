@@ -70,13 +70,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         newId = addLocation.ExecuteNonQuery();
                     }
-                      
+
 
                     //Disable mode
-                    //SQLiteCommand amphibiousCommandOff = new SQLiteCommand(@"select DisableGpkgAmphibiousMode()", db);
-                    //amphibiousCommandOff.ExecuteNonQuery();
+                    SQLiteCommand amphibiousCommandOff = new SQLiteCommand(@"select DisableGpkgAmphibiousMode()", db);
+                    amphibiousCommandOff.ExecuteNonQuery();
 
-                    
+
                     transaction.Commit();
                 }
                 
