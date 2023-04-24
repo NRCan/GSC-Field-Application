@@ -2349,12 +2349,15 @@ namespace GSCFieldApp.ViewModels
         {
             //Before saving, clean _filenameValues
             List<int> indexToRemove = new List<int>();
+            List<string> lNames = new List<string>();
             foreach (MapPageLayers mpl in _filenameValues)
             {
-                if (mpl.LayerName is null || mpl.LayerName == "")
+                if (mpl.LayerName is null || mpl.LayerName == "" || lNames.Contains(mpl.LayerName))
                 {
                     indexToRemove.Add(_filenameValues.IndexOf(mpl));
                 }
+
+                lNames.Add(mpl.LayerName);
             }
             foreach (int ids in indexToRemove)
             {
