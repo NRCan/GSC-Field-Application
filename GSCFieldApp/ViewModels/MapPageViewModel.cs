@@ -1491,13 +1491,20 @@ namespace GSCFieldApp.ViewModels
 
             noLocationDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
 
-
-            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationDialog, true).Result;
-
-            if (cdr == ContentDialogResult.Primary)
+            try
             {
-                bool result = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
+                ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationDialog, true).Result;
+
+                if (cdr == ContentDialogResult.Primary)
+                {
+                    bool result = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
+                }
             }
+            catch (Exception)
+            {
+                Debug.WriteLine("Warning dialog for location allocation failed.");
+            }
+
 
 
         }
