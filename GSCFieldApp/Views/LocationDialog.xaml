@@ -105,7 +105,7 @@
                             <TextBox x:Name="LocationAcuracy" x:Uid="LocationDialogAccuracy"
                                 HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"
                                 IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                Text ="{x:Bind locationVM.LocationAccuracy, Mode=TwoWay}" InputScope="Number" IsTabStop="False"/>
+                                Text ="{x:Bind locationVM.LocationAccuracy, Mode=TwoWay}" InputScope="Number" />
 
                             <TextBox x:Name="LocationNTS" x:Uid="LocationDialogNTS"
                                 HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20"
