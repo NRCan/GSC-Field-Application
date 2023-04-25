@@ -987,7 +987,8 @@ namespace GSCFieldApp.ViewModels
                 #region POINT SYMBOL
                 // should only be one station returned, this approach doesn't allow for multiple stations
                 MapPageStation currentStationLocation = m as MapPageStation;
-                var ptStationId = currentStationLocation.StationAlias;
+                var ptStationId = currentStationLocation.StationID;
+                var ptStationAlias = currentStationLocation.StationAlias;
                 var ptStationDate = currentStationLocation.StationVisitDate;
                 var ptStationTime = currentStationLocation.StationVisitTime;
                 var ptStationType = currentStationLocation.StationObsType;
@@ -1077,7 +1078,7 @@ namespace GSCFieldApp.ViewModels
                         OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2
                     };
                     placementPool.RemoveAt(0); //Remove taken placement from pool
-                    textSym.Text = ptStationId.ToString();
+                    textSym.Text = ptStationAlias.ToString();
                     pointLabelOverlay.Graphics.Add(new Graphic(new MapPoint(ptStationLocationLong, ptStationLocationLat, SpatialReferences.Wgs84), textSym));
                     #endregion
 
@@ -1092,7 +1093,7 @@ namespace GSCFieldApp.ViewModels
                         string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
                             " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
                             " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
-                            " WHERE st." + DatabaseLiterals.FieldStationAlias + " = '" + ptStationId + "';";
+                            " WHERE st." + DatabaseLiterals.FieldStationAlias + " = " + ptStationId + ";";
                         strucTableRows = accessData.ReadTable(structs.GetType(), structSelectionQuery);
 
                         //Variables
@@ -1169,7 +1170,7 @@ namespace GSCFieldApp.ViewModels
 
                                 //TODO make up for a different way to measure azim (not right hand rule)
                                 var Sgraphic = new Graphic(geoStructPoint, strucSym);
-                                Sgraphic.Attributes.Add("Id", sts.StructureName.ToString());
+                                Sgraphic.Attributes.Add("Id", sts.StructureID.ToString());
                                 Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
                                 Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
                                 Sgraphic.Attributes.Add("StructureClass", sts.getClassTypeDetail);
@@ -2088,19 +2089,16 @@ namespace GSCFieldApp.ViewModels
         {
             // Get select station information
             var tupleStation = queryStation(graphicID);
-            int stationId = tupleStation.Item1;
-            string stationDate = tupleStation.Item2;
-            string stationTime = tupleStation.Item3;
+            int stationId= tupleStation.Item1;
+            string stationAlias = tupleStation.Item2;
+            string stationDate = tupleStation.Item3;
+            string stationTime = tupleStation.Item4;
 
             // Get select earthmat information
             var tupleEarthmat = queryEarthmat(stationId);
             string earthmatDetail = tupleEarthmat.Item1;
             int earthmatCount = tupleEarthmat.Item2;
             List<int> earthmatidList = tupleEarthmat.Item3;
-
-            // Get select ma information
-            MineralAlteration modelMineralAlteration = new MineralAlteration();
-            int maCount = CountChild(stationId.ToString(), Dictionaries.DatabaseLiterals.FieldMineralAlterationRelID, Dictionaries.DatabaseLiterals.TableMineralAlteration, modelMineralAlteration);
 
             // Get select document information
             Document modelDocument = new Document();
@@ -2115,52 +2113,21 @@ namespace GSCFieldApp.ViewModels
                 sampleTotalCount += sampleCount;
             }
 
-            int structureTotalCount = 0;
-            foreach (int earthmatId in earthmatidList)
-            {
-                Structure modelStructure = new Structure();
-                int structureCount = CountChild(earthmatId.ToString(), Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableStructure, modelStructure);
-                structureTotalCount += structureCount;
-            }
-
-            int mineralTotalCount = 0;
-            foreach (int earthmatId in earthmatidList)
-            {
-                Mineral modelMineral = new Mineral();
-                int mineralCount = CountChild(earthmatId.ToString(), Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableMineral, modelMineral);
-                mineralTotalCount += mineralCount;
-            }
-
-            int fossilTotalCount = 0;
-            foreach (int earthmatId in earthmatidList)
-            {
-                Fossil modelFossil = new Fossil();
-                int fossilCount = CountChild(earthmatId.ToString(), Dictionaries.DatabaseLiterals.FieldEarthMatID, Dictionaries.DatabaseLiterals.TableFossil, modelFossil);
-                fossilTotalCount += fossilCount;
-            }
 
             ContentDialog tapStationDialog = new ContentDialog()
             {
                 Title = local.GetString("MapPageIdentifyStationDialogTitle"),
-                Content = String.Format("{10}  {0}  {1}" +
+                Content = String.Format("{6}  {0}  {1}" +
                 "\n" + local.GetString("EarthDialogHeader/Text") + "({2}) {3}" +
-                "\n" + local.GetString("ReportPageMineralAltNameHeader/Text") + "({4})" +
-                "\n" + local.GetString("MapPagePhotoCommand/Label") + "({5})" +
-                "\n" + local.GetString("FieldworkTableSample/Text") + "({6})" +
-                "\n" + local.GetString("FieldworkTableStructure/Text") + "({7})" +
-                "\n" + local.GetString("FieldworkTableMineral/Text") + "({8})" +
-                "\n" + local.GetString("FieldworkTableFossil/Text") + "({9})",
+                "\n" + local.GetString("FieldworkTableSample/Text") + "({4})" +
+                "\n" + local.GetString("MapPagePhotoCommand/Label") + "({5})",
                 stationDate,
                 stationTime,
                 earthmatCount.ToString(),
                 earthmatDetail,
-                maCount.ToString(),
-                documentCount.ToString(),
                 sampleTotalCount.ToString(),
-                structureTotalCount.ToString(),
-                mineralTotalCount.ToString(),
-                fossilTotalCount.ToString(),
-                graphicID),
+                documentCount.ToString(),
+                stationAlias),
                 PrimaryButtonText = local.GetString("MapPageDialogTextReport"),
                 SecondaryButtonText = local.GetString("MapPageDialogTextClose")
             };
@@ -2265,15 +2232,16 @@ namespace GSCFieldApp.ViewModels
 
             return targetPoint;
         }
-        private Tuple<int, string, string> queryStation(string id)
+        private Tuple<int, string, string, string> queryStation(string id)
         {
             Station stationModel = new Station();
             int stationId = 0;
+            string stationName = "";
             string stationDate = "";
             string stationTime = "";
 
             string stationQuerySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableStation;
-            string stationQueryWhere = " WHERE STATIONNAME " + " = '" + id + "'";
+            string stationQueryWhere = " WHERE " + DatabaseLiterals.FieldStationID + " = " + id;
             string stationFinalQuery = stationQuerySelect + stationQueryWhere;
 
             List<object> stationResults = accessData.ReadTable(stationModel.GetType(), stationFinalQuery);
@@ -2283,12 +2251,13 @@ namespace GSCFieldApp.ViewModels
                 foreach (Station station in stationTable)
                 {
                     stationId = station.StationID;
+                    stationName = station.StationAlias;
                     stationDate = station.StationVisitDate.ToString();
                     stationTime = station.StationVisitTime.ToString();
                 }
             }
 
-            return new Tuple<int, string, string>(stationId, stationDate, stationTime);
+            return new Tuple<int, string, string, string>(stationId, stationName, stationDate, stationTime);
         }
 
         private Tuple<string, int, List<int>> queryEarthmat(int id)
@@ -2297,7 +2266,7 @@ namespace GSCFieldApp.ViewModels
             string earthmatDetail = "";
 
             string earthmatQuerySelect = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableEarthMat;
-            string earthmatQueryWhere = " WHERE STATIONID " + " = " + id.ToString();
+            string earthmatQueryWhere = " WHERE " + DatabaseLiterals.FieldStationID + " = " + id.ToString();
             string earthmatQueryFinal = earthmatQuerySelect + earthmatQueryWhere;
 
             List<object> earthmatResults = accessData.ReadTable(earthmatModel.GetType(), earthmatQueryFinal);
