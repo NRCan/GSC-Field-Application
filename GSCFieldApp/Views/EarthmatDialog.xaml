@@ -354,7 +354,7 @@
                                     Text="{x:Bind ViewModel.MagSusceptibility, Converter={StaticResource StringToDouble}, Mode=TwoWay}" InputScope="Number"/>
                             <ComboBox x:Name="EarthMagQualifierCombobox" x:Uid="EarthDialogMagQualifier"
                                     ItemsSource="{x:Bind ViewModel.MagQualifier, Mode=TwoWay}"
-                                      SelectedValue="{x:Bind ViewModel.SelectedMagQualifier, Mode=OneWay}"/>
+                                      SelectedValue="{x:Bind ViewModel.SelectedMagQualifier, Mode=TwoWay}"/>
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_06" RelativePanel.Below="EarthmatGridView_Mag"
