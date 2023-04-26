@@ -2993,6 +2993,12 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             string query_select = string.Empty;
             string alias = did.CalculateAlphabeticID(true, ran.Next(1,50));
+
+            // Skip possible restricted keyword
+            if (alias == "AS")
+            {
+                alias = did.CalculateAlphabeticID(true, ran.Next(1, 50));
+            }
             string incrementChar = string.Empty;
 
             //Iterate through field name list
