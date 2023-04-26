@@ -1093,7 +1093,7 @@ namespace GSCFieldApp.ViewModels
                         string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
                             " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
                             " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
-                            " WHERE st." + DatabaseLiterals.FieldStationAlias + " = " + ptStationId + ";";
+                            " WHERE st." + DatabaseLiterals.FieldStationID + " = " + ptStationId + ";";
                         strucTableRows = accessData.ReadTable(structs.GetType(), structSelectionQuery);
 
                         //Variables
