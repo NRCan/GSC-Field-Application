@@ -566,27 +566,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             string attachQuery = "ATTACH '" + vocabFromDBPath + "' AS " + attachDBName + ";";
             queryList.Add(attachQuery);
 
-            ////Set off foreign keys
-            //string shutDownForeignConstraints = "PRAGMA foreign_keys = off;";
-            //queryList.Add(shutDownForeignConstraints);
-
-            ///Wipe new database of everything else but latest version of vocab
-            //delete from M_DICTIONARY where M_DICTIONARY.VERSION != 1.5;
-            //delete from M_DICTIONARY_MANAGER where M_DICTIONARY_MANAGER.VERSION != 1.5;
-            //string deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager +
-            //    " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerVersion + " is null or " + DatabaseLiterals.TableDictionaryManager + "." + DatabaseLiterals.FieldDictionaryManagerVersion + " < " + dbVersion.ToString() + ";";
-            string deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary +
-                " WHERE " + TableDictionary + "." + FieldDictionaryVersion + " is null or " + DatabaseLiterals.TableDictionary + "." + DatabaseLiterals.FieldDictionaryVersion + " < " + DBVersion.ToString() + ";";
-
-            if (dbVersion <= 1.44)
-            {
-                //Version fields within dictionary didn't exist prior to version 1.5
-                //deleteQuery = "DELETE FROM " + DatabaseLiterals.TableDictionaryManager + ";";
-                deleteQuery2 = "DELETE FROM " + DatabaseLiterals.TableDictionary + ";";
-            }
-
-            //queryList.Add(deleteQuery2);
-
             //Build insert queries
             #region M_DICTIONARY
 
@@ -645,92 +624,15 @@ namespace GSCFieldApp.Services.DatabaseServices
             string insertQuery_vocab = "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
             insertQuery_vocab = insertQuery_vocab.Replace("SELECT ,", "SELECT ");
             insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
-            //if (dbVersion >= 1.5)
-            //{
-            //    ////Remove possible collision between new and old dictionaries
-            //    //string deleteQuery_vocab_collision = "DELETE FROM " + DatabaseLiterals.TableDictionary + " WHERE " + DatabaseLiterals.FieldDictionaryTermID + " IN (SELECT vd." +
-            //    //    DatabaseLiterals.FieldDictionaryTermID + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as vd WHERE vd." + DatabaseLiterals.FieldDictionaryVersion +
-            //    //    " = " + DBVersion.ToString() + ");";
 
-            //    //queryList.Add(deleteQuery_vocab_collision);
-
-            //    insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryVersion + " is null or v." + FieldDictionaryVersion + " < " + DBVersion.ToString() + ") AND (v." +
-            //        FieldDictionaryTermID + " NOT IN (SELECT v2." + FieldDictionaryTermID + " FROM " + TableDictionary + " as v2)); ";
-            //}
-
-            string defaultCreatorsEditors = "'Bedrock Committee', 'GSC Field App', 'Gabriel Huot-Vézina', 'GanFeld', " +
-                "'Janet Campbell', 'Jessey Rice', 'Jessey Rice/Janet Campbell', 'Microsoft', 'Pierre Brouillette', 'Surficial Committee'";
+            string defaultCreatorsEditors = "'Bedrock Committee', 'GSC Field App', 'Gabriel Huot-Vézina', 'Microsoft default', 'GanFeld', 'Ganfeld', " +
+                "'Janet Campbell', 'Jessey Rice', 'New term', 'Jessey Rice/Janet Campbell', 'Microsoft', " + 
+                "'Pierre Brouillette', 'Surficial Committee', 'Surficial Commitee'";
             
             insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryCreator + " not in (" + defaultCreatorsEditors + 
-                ") and v." + FieldDictionaryEditor + " not in (" + defaultCreatorsEditors + ") AND (v." +
+                ") or v." + FieldDictionaryEditor + " not in (" + defaultCreatorsEditors + ") AND (v." +
                 FieldDictionaryTermID + " NOT IN (SELECT v2." + FieldDictionaryTermID + " FROM " + TableDictionary + " as v2))); ";
             queryList.Add(insertQuery_vocab);
-
-            #endregion
-
-            #region M_DICTIONARY_MANAGER
-
-            VocabularyManager modelVocabManager = new VocabularyManager();
-            List<string> vocabMFieldList = modelVocabManager.getFieldList[DBVersion];
-            string vocabm_querySelect = string.Empty;
-
-            foreach (string vocabMFields in vocabMFieldList)
-            {
-                //Get all fields except alias
-
-                if (vocabMFields != vocabMFieldList.First())
-                {
-                    if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion > 1.5)
-                    {
-
-                        vocabm_querySelect = vocabm_querySelect +
-                            ", CASE WHEN EXISTS (SELECT sql from " + attachDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDictionaryManager + "%" + DatabaseLiterals.FieldDictionaryManagerVersion +
-                            "%') THEN (vm." + DatabaseLiterals.FieldDictionaryManagerVersion + ") ELSE NULL END as " + DatabaseLiterals.FieldDictionaryManagerVersion;
-                    }
-                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion == 1.5 || vocabMFields == DatabaseLiterals.FieldDictionaryVersion && dbVersion == 1.44)
-                    {
-                        vocabm_querySelect = vocabm_querySelect +
-                            ", NULL as " + DatabaseLiterals.FieldDictionaryManagerVersion;
-                    }
-                    else if (vocabMFields == DatabaseLiterals.FieldDictionaryManagerVersion && dbVersion < 1.5)
-                    {
-                        //Do nothing, field didn't exist
-                    }
-                    else
-                    {
-                        vocabm_querySelect = vocabm_querySelect + ", vm." + vocabMFields + " as " + vocabMFields;
-                    }
-
-                }
-                else
-                {
-                    if (vocabMFields == FieldGenericRowID && dbVersion == DBVersion160)
-                    {
-                        vocabm_querySelect = " NULL as " + vocabMFields;
-                    }
-                    else if (vocabMFields == FieldGenericRowID && dbVersion < DBVersion160)
-                    {
-                        //Do nothing, skip that one, it was added in version 1.7
-                    }
-                    else
-                    {
-                        vocabm_querySelect = " vm." + vocabMFields + " as " + vocabMFields;
-                    }
-                        
-                }
-
-            }
-            vocabm_querySelect = vocabm_querySelect.Replace(", ,", "");
-
-            string insertQuery_vocabM = "INSERT INTO " + DatabaseLiterals.TableDictionaryManager + " SELECT " + vocabm_querySelect;
-            insertQuery_vocabM = insertQuery_vocabM.Replace("SELECT ,", "SELECT ");
-            insertQuery_vocabM = insertQuery_vocabM + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionaryManager + " as vm";
-            if (dbVersion >= 1.5)
-            {
-                insertQuery_vocabM = insertQuery_vocabM + " WHERE vm." + FieldDictionaryManagerVersion + " is null or vm." + FieldDictionaryManagerVersion + " < " + DBVersion.ToString() + ";";
-            }
-
-            //queryList.Add(insertQuery_vocabM);
 
             #endregion
 
