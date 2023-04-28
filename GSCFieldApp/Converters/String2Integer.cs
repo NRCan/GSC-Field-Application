@@ -17,7 +17,7 @@ namespace GSCFieldApp.Converters
         {
             int? backDouble = null;
 
-            if (value != null)
+            if (value != null && value.ToString() != string.Empty)
             {
                 backDouble = int.Parse(value.ToString());
             }
