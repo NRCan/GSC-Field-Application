@@ -245,7 +245,7 @@ namespace GSCFieldApp.ViewModels
             {
                 foreach (Structure st in strucTable)
                 {
-                    if (st.StructureID != _structID && st.StructureID != _structParentID)
+                    if (st.StructureID != _structID)
                     {
                         Themes.ComboBoxItem structItem = new Themes.ComboBoxItem
                         {
