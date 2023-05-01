@@ -369,13 +369,13 @@
   <data name="EarthmatGridView_Lithology.Content" xml:space="preserve">
     <value>Lithologie - Cadre et composition</value>
   </data>
-  <data name="EarthDialogColourF.Header" xml:space="preserve">
+  <data name="EarthDialogColourFText.Text" xml:space="preserve">
     <value>Surface fraîche</value>
   </data>
   <data name="EarthDialogColourInd.Header" xml:space="preserve">
     <value>Indexe</value>
   </data>
-  <data name="EarthDialogColourW.Header" xml:space="preserve">
+  <data name="EarthDialogColourWText.Text" xml:space="preserve">
     <value>Surface altérée</value>
   </data>
   <data name="EarthDialogContactRelated.Header" xml:space="preserve">
