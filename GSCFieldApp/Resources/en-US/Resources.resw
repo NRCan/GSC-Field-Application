@@ -1690,16 +1690,16 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Elevation (m)</value>
   </data>
   <data name="MapPageLatLongDDButton.Text" xml:space="preserve">
-    <value>DD</value>
+    <value>Degree Decimal (DD)</value>
   </data>
   <data name="MapPageLatLongDMSButton.Text" xml:space="preserve">
-    <value>DMS</value>
+    <value>Degree Minutes Seconds (DMS)</value>
   </data>
   <data name="MapPageLatLongUTM.Label" xml:space="preserve">
     <value>Coordinates</value>
   </data>
   <data name="MapPageUTMButton.Text" xml:space="preserve">
-    <value>UTM</value>
+    <value>Meters (UTM)</value>
   </data>
   <data name="EarthLithAutoSuggest.Header" xml:space="preserve">
     <value>Type</value>

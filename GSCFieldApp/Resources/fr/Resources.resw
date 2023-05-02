@@ -1685,16 +1685,16 @@ Shimamura, Kaz – Conseiller</value>
     <value>Recadrer</value>
   </data>
   <data name="MapPageLatLongDDButton.Text" xml:space="preserve">
-    <value>DD</value>
+    <value>Degrés décimaux (DD)</value>
   </data>
   <data name="MapPageLatLongDMSButton.Text" xml:space="preserve">
-    <value>DMS</value>
+    <value>Degrés minutes secondes</value>
   </data>
   <data name="MapPageLatLongUTM.Label" xml:space="preserve">
     <value>Coordonnées</value>
   </data>
   <data name="MapPageUTMButton.Text" xml:space="preserve">
-    <value>UTM</value>
+    <value>Mètres (UTM)</value>
   </data>
   <data name="EarthLithAutoSuggest.Header" xml:space="preserve">
     <value>Type</value>
