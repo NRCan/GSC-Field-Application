@@ -226,15 +226,23 @@
 
                     <!--Values-->
                     <TextBlock x:Name="structNameItem" Text="{x:Bind structure.StructureName}" HorizontalAlignment="Left"
-                               TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0"
+                               TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" 
                                FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
-                    <TextBlock x:Name="structTypeItem" Text="{x:Bind structure.StructureType}" HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                    <TextBlock x:Name="structTypeItem" Text="{x:Bind structure.StructureType}" 
+                               Visibility="{x:Bind structure.isValid, Converter={StaticResource VisibilityFromBoolConverter}}"
+                               HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
                                TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2" />
-                    <TextBlock x:Name="structDetailItem" Text="{x:Bind structure.StructureDetail}" HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                    <TextBlock x:Name="structDetailItem" Text="{x:Bind structure.StructureDetail}" 
+                               Visibility="{x:Bind structure.isValid, Converter={StaticResource VisibilityFromBoolConverter}}"
+                               HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
                                TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" />
-                    <TextBlock x:Name="structFormatItem" Text="{x:Bind structure.StructureFormat}" HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                    <TextBlock x:Name="structFormatItem" Text="{x:Bind structure.StructureFormat}" 
+                               Visibility="{x:Bind structure.isValid, Converter={StaticResource VisibilityFromBoolConverter}}"
+                               HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
                                TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" />
-                    <TextBlock x:Name="structDipItem"  HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
+                    <TextBlock x:Name="structDipItem"  HorizontalAlignment="Left"
+                               Visibility="{x:Bind structure.isValid, Converter={StaticResource VisibilityFromBoolConverter}}"
+                               Width="{Binding Width, ElementName=StructureListTemplateGrid}"
                                TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" >
                         <Run Text="{x:Bind structure.StructureAzimuth, Converter={StaticResource TextWithAzimDegreeConverter}}"/>
                         <Run Text="/"/>
