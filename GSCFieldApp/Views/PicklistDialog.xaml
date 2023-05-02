@@ -83,13 +83,16 @@
 
                         <TextBlock x:Name="picklistTermsTextbox" Margin="15,0,0,0" x:Uid="PicklistTermsTextbox" RelativePanel.Below="picklistAddTextbox"/>
                         
-                        <ListView x:Name="picklistValues" Height="300" Width="Auto" MinWidth="250" MaxWidth ="400" Margin="15,8,8,8" Style="{ThemeResource BorderedListView}"
-                              x:Uid="PicklistEditorTerms" ScrollViewer.HorizontalScrollMode="Enabled"
-                              RelativePanel.Below="picklistTermsTextbox" IsItemClickEnabled="True" ItemClick="picklistValues_ItemClick"
-                        ItemTemplate="{StaticResource PiclklistValueTemplate}"  
-                        ItemsSource="{x:Bind picklistVM.PicklistValues}" 
-                        SelectedIndex="{x:Bind picklistVM.SelectedPicklistValueIndex, Mode=TwoWay}" ContainerContentChanging="picklistValues_ContainerContentChanging" SelectionMode="Extended"  CanReorderItems="True" AllowDrop="True"
-                        SelectionChanged="{x:Bind picklistVM.picklistValues_SelectionChanged}" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                        <ListView x:Name="picklistValues" Height="300" Width="Auto" MinWidth="250" MaxWidth ="400" 
+                                Margin="15,8,8,8" Style="{ThemeResource BorderedListView}"
+                                x:Uid="PicklistEditorTerms" ScrollViewer.HorizontalScrollMode="Enabled"
+                                RelativePanel.Below="picklistTermsTextbox" IsItemClickEnabled="True" ItemClick="picklistValues_ItemClick"
+                                ItemTemplate="{StaticResource PiclklistValueTemplate}"  
+                                ItemsSource="{x:Bind picklistVM.PicklistValues}" 
+                                SelectedIndex="{x:Bind picklistVM.SelectedPicklistValueIndex, Mode=TwoWay}" 
+                                ContainerContentChanging="picklistValues_ContainerContentChanging"  CanReorderItems="True" AllowDrop="True"
+                                SelectionChanged="{x:Bind picklistVM.picklistValues_SelectionChanged}" 
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto" SelectionMode="Extended"/>
 
                         <TextBlock RelativePanel.Below="picklistValues" Margin="15,0,0,0">
                             <Run Text="" x:Uid="PicklistEditorDefaultBoldIcon" FontWeight="Bold"/>

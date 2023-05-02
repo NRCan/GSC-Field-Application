@@ -444,6 +444,8 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("AddModifyObject");
                 _picklistEditEnableDisable = true;
                 RaisePropertyChanged("PicklistEditEnableDisable");
+                _selectedPicklistValuesIndex = -1;
+                RaisePropertyChanged("SelectedPicklistValueIndex"); 
             }
         }
 
@@ -532,36 +534,45 @@ namespace GSCFieldApp.ViewModels
                 //Get current vocab in text box
                 Vocabularies currentVocab = _addModifyObject as Vocabularies;
 
-                //Refresh list view with vocab 
-                bool vocabInList = false;
-                for (int i = 0; i < _picklistValues.Count; i++)
+                if (currentVocab.Code != string.Empty)
                 {
-                    //For existing vocab in list
-                    if (_picklistValues[i].Code == currentVocab.Code)
+                    //Refresh list view with vocab 
+                    bool vocabInList = false;
+                    for (int i = 0; i < _picklistValues.Count; i++)
                     {
-                        _picklistValues[i] = currentVocab;
-                        vocabInList = true;
-                        break;
+                        //For existing vocab in list
+                        if (_picklistValues[i].Code == currentVocab.Code && _selectedPicklistValuesIndex != -1)
+                        {
+                            _picklistValues[i] = currentVocab;
+                            vocabInList = true;
+                            break;
+                        }
                     }
+
+                    //If vocab is new
+                    if (!vocabInList)
+                    {
+
+                        _picklistValues.Add(currentVocab);
+                        _picklistValueCodes.Add(currentVocab.Code);
+                        _picklistValueCodesNew.Add(currentVocab.Code);
+
+                        //Unset current code
+                        _addModifyObject = new Vocabularies();
+                        RaisePropertyChanged("AddModifyObject");
+                    }
+
+                    _picklistValues.Sort(); //Sort using a custom extension
+                    RaisePropertyChanged("PicklistValues");
+
+                    //Refresh text box 
+                    _addModifyTerm = string.Empty;
+                    _addModifyObject = new Vocabularies();
+                    RaisePropertyChanged("AddModifyTerm");
+                    RaisePropertyChanged("AddModifyObject");
                 }
 
-                //If vocab is new
-                if (!vocabInList)
-                {
 
-                    _picklistValues.Add(currentVocab);
-                    _picklistValueCodes.Add(currentVocab.Code);
-                    _picklistValueCodesNew.Add(currentVocab.Code);
-                }
-
-                _picklistValues.Sort(); //Sort using a custom extension
-                RaisePropertyChanged("PicklistValues");
-
-                //Refresh text box 
-                _addModifyTerm = string.Empty;
-                _addModifyObject = new Vocabularies();
-                RaisePropertyChanged("AddModifyTerm");
-                RaisePropertyChanged("AddModifyObject");
             }
 
 
