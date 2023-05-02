@@ -2651,11 +2651,15 @@ namespace GSCFieldApp.ViewModels
                 {
                     tpkList[sf.Name] = sf;
                 }
-                else if (fileName.Contains(DatabaseLiterals.DBTypeSqlite) && !fileName.Contains(DatabaseLiterals.DBName))
+                else if (fileName.Contains(DatabaseLiterals.DBTypeSqlite) 
+                    && !fileName.Contains(DatabaseLiterals.DBName)
+                    && !fileName.Contains(DatabaseLiterals.DBNameSuffixUpgrade))
                 {
                     sqliteList[sf.Name] = sf;
                 }
-                else if (fileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated) && !fileName.Contains(DatabaseLiterals.DBName))
+                else if (fileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated) 
+                    && !fileName.Contains(DatabaseLiterals.DBName)
+                    && !fileName.Contains(DatabaseLiterals.DBNameSuffixUpgrade))
                 {
                     sqliteList[sf.Name] = sf;
                 }

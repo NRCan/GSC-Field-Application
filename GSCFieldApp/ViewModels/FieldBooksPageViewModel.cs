@@ -847,7 +847,7 @@ namespace GSCFieldApp.ViewModels
 
                         }).AsTask();
 
-                    }
+                    } 
 
                     OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode, 
                         metItem.MetaID, wantedDB.Path, metItem.VersionSchema, metItem.ProjectName, metItem.MetadataActivity, false);
