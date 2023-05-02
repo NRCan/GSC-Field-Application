@@ -120,7 +120,7 @@ namespace GSCFieldApp.ViewModels
         private async void FillProjectCollectionAsync()
         {
             _projectCollection.Clear();
-
+            RaisePropertyChanged("ProjectCollection");
             List<string> invalidFieldBookToDelete = new List<string>();
 
             //Iterate through local state folder
