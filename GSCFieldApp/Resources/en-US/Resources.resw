@@ -1758,4 +1758,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DocumentToNoTextbox.PlaceholderText" xml:space="preserve">
     <value>Must be greater</value>
   </data>
+  <data name="MAMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

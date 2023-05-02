@@ -1756,4 +1756,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="DocumentToNoTextbox.PlaceholderText" xml:space="preserve">
     <value>Doit être plus grand que</value>
   </data>
+  <data name="MAMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
 </root>
