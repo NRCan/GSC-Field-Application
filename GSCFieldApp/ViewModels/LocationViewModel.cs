@@ -302,7 +302,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="inX"></param>
         /// <param name="inY"></param>
         /// <returns></returns>
-        public MapPoint CalculateGeographicCoordinate(int easting, int northing, SpatialReference inSR, SpatialReference outSR)
+        public MapPoint CalculateGeographicCoordinate(Double easting, Double northing, SpatialReference inSR, SpatialReference outSR)
         {
             //Variables
             MapPoint geoPoint = new MapPoint(0, 0, outSR);
@@ -441,15 +441,15 @@ namespace GSCFieldApp.ViewModels
         public async void DisplayGeoCoordinatesAsync()
         {
             //XY
-            int x_value = 0;
-            int y_value = 0;
+            Double x_value = 0;
+            Double y_value = 0;
             if (_locationEasting != string.Empty)
             {
-                x_value = int.Parse(_locationEasting);
+                x_value = Double.Parse(_locationEasting);
             }
             if (_locationNorthing != string.Empty)
             {
-                y_value = int.Parse(_locationNorthing);
+                y_value = Double.Parse(_locationNorthing);
             }
 
             //Transform
