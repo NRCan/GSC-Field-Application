@@ -839,7 +839,7 @@ namespace GSCFieldApp.ViewModels
                             ContentDialog outDatedVersionDialog = new ContentDialog()
                             {
                                 Title = local.GetString("WarningBadVersionTitle"),
-                                Content = local.GetString("WarningBadVersionContent") + " " + DatabaseLiterals.DBVersion.ToString(),
+                                Content = local.GetString("WarningBadVersionContent"),
                                 PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
                             };
                             outDatedVersionDialog.Style = (Style)Application.Current.Resources["WarningDialog"];

@@ -1327,7 +1327,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>No GPS Signal. Please wait</value>
   </data>
   <data name="WarningBadVersionContent" xml:space="preserve">
-    <value>Restored database version is outdated. Application might not run properly. Please update and restore back. --Current app uses version </value>
+    <value>Restored database version is outdated which might impact the application. Please use upgrade button.</value>
   </data>
   <data name="WarningBadVersionTitle" xml:space="preserve">
     <value>Database Version</value>
