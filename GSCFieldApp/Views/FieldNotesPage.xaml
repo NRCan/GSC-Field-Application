@@ -229,11 +229,11 @@
                                TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" 
                                FontWeight="Bold" Style="{StaticResource BaseTextBlockStyle}"/>
                     <TextBlock x:Name="structTypeItem" Text="{x:Bind structure.StructureType}" 
-                               Visibility="{x:Bind structure.isValid, Converter={StaticResource VisibilityFromBoolConverter}}"
+                               
                                HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
                                TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" Grid.ColumnSpan="2" />
                     <TextBlock x:Name="structDetailItem" Text="{x:Bind structure.StructureDetail}" 
-                               Visibility="{x:Bind structure.isValid, Converter={StaticResource VisibilityFromBoolConverter}}"
+                               
                                HorizontalAlignment="Left" Width="{Binding Width, ElementName=StructureListTemplateGrid}"
                                TextTrimming="WordEllipsis" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" />
                     <TextBlock x:Name="structFormatItem" Text="{x:Bind structure.StructureFormat}" 
