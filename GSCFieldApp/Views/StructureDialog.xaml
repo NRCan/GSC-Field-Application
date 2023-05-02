@@ -41,17 +41,20 @@
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="StructureGridView_Type" IsEnabled="False"/>
 
                             <RelativePanel>
-                            <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
-                            Click="structTypeSearch_Click">
-                                <SymbolIcon x:Name="SearchLitho" Symbol="Zoom" Margin="-17.667,-15,-17.333,-15"/>
-                            </Button>
+
                             <AutoSuggestBox x:Name="StructureAutoSuggest" x:Uid="StructureAutoSuggest"
-                                    RelativePanel.RightOf="structTypeSearch" Text="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}"
+                                    Text="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}"
                                     TextChanged="StructureAutoSuggest_TextChanged"
                                     QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
                                     Width="300" IsTabStop="True" TabIndex="1"/>
+                            <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
+                                    RelativePanel.RightOf="StructureAutoSuggest"
+                                    RelativePanel.AlignBottomWith="StructureAutoSuggest"
+                                Click="structTypeSearch_Click">
+                                <SymbolIcon x:Name="SearchLitho" Symbol="Zoom" Margin="-17.667,-15,-17.333,-15"/>
+                            </Button>
                                 <TextBox x:Name="strucType" Header="" x:Uid="StructDialogType" Width="0" Visibility="Collapsed"
-                                 RelativePanel.Below="StructureAutoSuggest" RelativePanel.RightOf="structTypeSearch"
+                                 
                                  Style="{ThemeResource TextboxMandatoryField}" FontWeight="Bold"
                                  Text ="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}" TabIndex="2" IsReadOnly="True" />
                         </RelativePanel>
