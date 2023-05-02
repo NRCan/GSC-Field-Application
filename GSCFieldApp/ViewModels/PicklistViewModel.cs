@@ -277,7 +277,7 @@ namespace GSCFieldApp.ViewModels
                 string currentStringTime = String.Format("{0:yyyy-MM-dd}", currentTime);
 
                 //Get user metaid
-                string userID = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
+                string userID = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
 
                 //Set order
                 double userOrder = 1.0;
@@ -381,7 +381,7 @@ namespace GSCFieldApp.ViewModels
             string currentStringTime = String.Format("{0:yyyy-MM-dd}", currentTime);
 
             //Get user metaid
-            string userID = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
+            string userID = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
 
 
             //Iterate through picklist
@@ -395,7 +395,7 @@ namespace GSCFieldApp.ViewModels
                 string queryWhere = " WHERE " + FieldDictionaryRelatedTo + " LIKE '" + finalValues.Code + "%'";
 
                 //Save model class
-                accessData.SaveFromQuery(queryUpdate + querySetVisibility + querySetEditor + querySetEditDate + queryWhere);
+                //accessData.SaveFromQuery(queryUpdate + querySetVisibility + querySetEditor + querySetEditDate + queryWhere);
             }
 
             return updateTask;
