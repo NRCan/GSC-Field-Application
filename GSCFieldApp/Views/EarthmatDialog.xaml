@@ -71,7 +71,7 @@
                                 <AutoSuggestBox x:Name="EarthLithAutoSuggest" x:Uid="EarthLithAutoSuggest" Header=""
                                                 TextChanged="EarthLithAutoSuggest_TextChanged" 
                                                 QuerySubmitted="EarthLithAutoSuggest_QuerySubmitted"
-                                                Width="300" IsTabStop="True" TabIndex="1" Text="{x:Bind ViewModel.GroupTypeDetail, Mode=TwoWay}"
+                                                Width="Auto" MinWidth="300" IsTabStop="True" TabIndex="1" Text="{x:Bind ViewModel.GroupTypeDetail, Mode=TwoWay}"
                                                 
                                                 Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}"/>
 

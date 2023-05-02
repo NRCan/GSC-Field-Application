@@ -46,7 +46,7 @@
                                     Text="{x:Bind strucViewModel.StructClassTypeDetail, Mode=TwoWay}"
                                     TextChanged="StructureAutoSuggest_TextChanged"
                                     QuerySubmitted="StructureAutoSuggest_QuerySubmitted"
-                                    Width="300" IsTabStop="True" TabIndex="1"/>
+                                    MinWidth="300" Width="Auto" IsTabStop="True" TabIndex="1"/>
                             <Button x:Name="structTypeSearch" Margin="0,0,10,0" Width="35" Height="30" Background="#00000000" 
                                     RelativePanel.RightOf="StructureAutoSuggest"
                                     RelativePanel.AlignBottomWith="StructureAutoSuggest"
