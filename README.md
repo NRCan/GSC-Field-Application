@@ -20,7 +20,7 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 ## Latest Version
 
-Please download the latest version (2.2) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.2).
+Please download the latest version (2.3) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.3).
 
 ## Wiki
 
@@ -28,7 +28,7 @@ The [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) has helpf
 
 ## Data Format
 
-The current application uses a SQLite data format to store all information gathered by users. In addition, a spatial extension called SpatialLite can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
+The current application uses a Geopackage data format to store all information gathered by users. In addition, the data format can be added to it and used in any GIS software like QGIS, ESRI ArcGIS or ESRI Desktop Pro.
 
 ### Development environment
 
@@ -72,7 +72,7 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 
 ## La dernière version
 
-Veuillez télécharger la dernière version (2.2) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.2).
+Veuillez télécharger la dernière version (2.3) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.3).
 
 ## Wiki
 
@@ -80,7 +80,7 @@ Le [Github Wiki](https://github.com/NRCan/GSC-Field-Application/wiki) contient u
 
 ## Format de donnée
 
-L'application actuelle utilise un format de données SQLite pour stocker toutes les informations recueillies par les utilisateurs. En outre, une extension spatiale appelée SpatialLite peut y être ajoutée et utilisée dans n'importe quel logiciel SIG comme QGIS, ESRI ArcGIS ou ESRI Desktop Pro.
+L'application actuelle utilise un format de données Geopackage pour stocker toutes les informations recueillies par les utilisateurs. En outre, ce dernier peut utilisé dans n'importe quel logiciel SIG tel que QGIS, ESRI ArcGIS ou ESRI Desktop Pro.
 
 ### Environnement de développement
 
