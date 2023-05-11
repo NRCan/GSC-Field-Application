@@ -1537,7 +1537,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Structure</value>
   </data>
   <data name="SettingPageToggleSymbolStructure.OffContent" xml:space="preserve">
-    <value>Do no symolize</value>
+    <value>Do not symbolize</value>
   </data>
   <data name="SettingPageToggleSymbolStructure.OnContent" xml:space="preserve">
     <value>Symbolize</value>

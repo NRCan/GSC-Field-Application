@@ -1538,10 +1538,10 @@ Shimamura, Kaz – Conseiller</value>
     <value>Structure</value>
   </data>
   <data name="SettingPageToggleSymbolStructure.OffContent" xml:space="preserve">
-    <value>Ne pas utiliser symbole</value>
+    <value>Ne pas symboliser</value>
   </data>
   <data name="SettingPageToggleSymbolStructure.OnContent" xml:space="preserve">
-    <value>Utiliser symbole</value>
+    <value>Utiliser un symbole</value>
   </data>
   <data name="MapPageIdentifyStationDialogTitle" xml:space="preserve">
     <value>Sommaire de la localisation</value>
