@@ -1,1 +1,0 @@
-This folder is used to manage english and french language inside the app. en-US folder will hold all the english text shown on-screen to the user and fr folder the same thing but in french. All text and strings are refered by a given id. Windows makes sure to use the proper value based on users language configuration.
