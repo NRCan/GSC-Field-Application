@@ -17,11 +17,16 @@ public static class MauiProgram
 			});
 
 		// Need to add these to actually create them on start
+		//Singleton will be created once
 		builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddSingleton<MainViewModel>();
 
+		//Transient will be created/deleted each time
+        builder.Services.AddTransient<DetailPage>();
+        builder.Services.AddTransient<DetailVieModel>();
+
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
 		return builder.Build();
