@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="456" height="456" viewBox="0 0 456 456" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="456" height="456" fill="#512BD4" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2021.5 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="300px" height="300px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 300 300"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#D2A77A}
+   ]]>
+  </style>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <path id="hammers" class="fil0" d="M23.33 76.8c24.19,-25.44 66.21,-53.78 81.71,-58.26 2.07,-0.36 2.01,2.88 3.88,6.22 -8.4,9.34 -16.06,17.01 -24.82,23.25 0.07,0.8 -2.52,3.36 -1.62,6.51 15.02,19.17 47.3,63.78 68.83,84.99 23.25,-25.18 49.02,-57.58 70.48,-86.11 -0.7,-12.96 -18.69,-19.84 -24.9,-28.55 1.44,-1.65 2.91,-4.92 4.67,-5.79 35.58,13.26 62.75,37.66 81.77,60.34l-10.02 15.78c-8.51,-1.87 -32.08,-29.36 -26.66,-23.64 -24.78,22.71 -56.26,55.16 -78.51,78.72 27.4,28.07 74.48,76.24 101.41,110.99l-24.12 17.26c-29.79,-29.29 -63.35,-65.53 -94.52,-105.56 -23.61,36.07 -52.1,66.46 -91.46,103.1l-21.1 -17.3c33.5,-45.37 58.92,-73.79 98.78,-108.76 -37.27,-43.46 -32.87,-38.37 -72.8,-78.18 -30.77,26.55 -19.18,23.48 -41,4.99z"/>
+ </g>
 </svg>
