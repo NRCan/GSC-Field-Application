@@ -14,7 +14,11 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+                fonts.AddFont("Segoe-Ui-Bold.ttf", "SegoeUiBold");
+                fonts.AddFont("Segoe-Ui-Regular.ttf", "SegoeUiRegular");
+                fonts.AddFont("Segoe-Ui-Semibold.ttf", "SegoeUiSemibold");
+                fonts.AddFont("Segoe-Ui-Semilight.ttf", "SegoeUiSemilight");
+            });
 
 		// Need to add these to actually create them on start
 		//Singleton will be created once
