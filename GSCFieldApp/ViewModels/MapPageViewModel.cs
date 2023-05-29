@@ -3071,18 +3071,14 @@ namespace GSCFieldApp.ViewModels
                     ObservableCollection<MapPageLayers> newFileList = new ObservableCollection<MapPageLayers>();
                     foreach (MapPageLayers orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
                     {
-                        if (orderedFiles.LayerName.Contains(".tpk") || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqlite) && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated) && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) )
+                        if (orderedFiles.LayerName.Contains(".tpk") || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqlite) 
+                            && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated) 
+                            && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) 
+                            && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBNameSuffixUpgrade))
                         {
                             //Build path
                             string localFilePath = Path.Combine(accessData.ProjectPath, orderedFiles.LayerName);
                             Uri localUri = new Uri(localFilePath); 
-
-                            //if (firstIteration)
-                            //{
-                            //    Layer firstLayer = layerDico.First().Value;
-                            //    AddBlanckFeature(firstLayer.SpatialReference);
-                            //    firstIteration = false;
-                            //}
 
                             if (layerDico.ContainsKey(orderedFiles.LayerName.Split('.')[0]))
                             {
@@ -3093,19 +3089,35 @@ namespace GSCFieldApp.ViewModels
                                     orderedFiles.LayerSettings.LayerVisibility = layerToAdd.IsVisible;
                                     orderedFiles.LayerSettings.LayerOpacity = layerToAdd.Opacity * 100;
 
-                                    //Make sure to push the change to the UI in case this is coming from a first app opening
-                                    newFileList.Insert(0, orderedFiles); //Save in new list because can't change something being looped
+                                    //Make sure to not add duplicate
+                                    bool foundDuplicate = false;
+                                    foreach (MapPageLayers mpl in newFileList)
+                                    {
+                                        if (mpl.LayerName == orderedFiles.LayerName)
+                                        {
+                                            foundDuplicate = true;
+                                        }
+                                    }
 
+
+                                    //Make sure to push the change to the UI in case this is coming from a first app opening
+                                    if (!foundDuplicate)
+                                    {
+                                        newFileList.Insert(0, orderedFiles); //Save in new list because can't change something being looped
+
+                                        if (orderedFiles.LayerName.Contains(".tpk"))
+                                        {
+                                            esriMap.Basemap.BaseLayers.Add(layerToAdd);
+                                        }
+
+                                    }
 
                                 }
                                 catch (Exception)
                                 {
                                 }
 
-                                if (orderedFiles.LayerName.Contains(".tpk"))
-                                {
-                                    esriMap.Basemap.BaseLayers.Add(layerToAdd);
-                                }
+
                                 
                             }
 
@@ -3117,7 +3129,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                     //Update UI
-                    if (newFileList != null && newFileList.Count != 0 && newFileList.Count == _filenameValues.Count)
+                    if (newFileList != null && newFileList.Count != 0 && newFileList.Count != _filenameValues.Count)
                     {
                         _filenameValues = newFileList;
                     }
