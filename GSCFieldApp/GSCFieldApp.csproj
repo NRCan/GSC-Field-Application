@@ -28,6 +28,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<DefaultLanguage>en</DefaultLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -35,9 +36,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</MauiSplashScreen>
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
