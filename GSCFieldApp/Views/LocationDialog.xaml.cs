@@ -182,7 +182,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LocationEasting_TextChanged(object sender, TextChangedEventArgs e)
+        private void LocationEasting_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             isEastingValid();
         }
@@ -192,7 +192,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LocationNorthing_TextChanged(object sender, TextChangedEventArgs e)
+        private void LocationNorthing_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             isNorthingValid();
         }

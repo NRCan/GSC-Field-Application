@@ -158,36 +158,6 @@ namespace GSCFieldApp.Views
         }
         #endregion
 
-        /// <summary>
-        /// Surprise!
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NoteTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox senderBox = sender as TextBox;
-            if (senderBox.Text.ToLower().Contains("mosquito"))
-            {
-                GSCFieldApp.Themes.EasterEgg mosquitoEgg = new Themes.EasterEgg();
-                mosquitoEgg.ShowMosquito(this.obsRelativePanel, 42);
-            }
-            if (senderBox.Text.ToLower().Contains("do a barrel roll"))
-            {
-                GSCFieldApp.Themes.EasterEgg barrel = new Themes.EasterEgg();
-                barrel.DoABarrelRollAsync(this.stationUserControl);
-            }
-            if (senderBox.Text.ToLower().Contains("flip me"))
-            {
-                GSCFieldApp.Themes.EasterEgg ee = new Themes.EasterEgg();
-                ee.pilf(this.stationUserControl);
-            }
-            if (senderBox.Text.ToLower().Contains("unicorn theme"))
-            {
-                GSCFieldApp.Themes.EasterEgg ut = new Themes.EasterEgg();
-                ut.UnicornThemeAsync();
-
-            }
-        }
 
         private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
         {

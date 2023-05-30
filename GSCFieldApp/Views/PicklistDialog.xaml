@@ -79,7 +79,7 @@
 
                         <TextBox x:Name="picklistAddTextbox" Margin="15" RelativePanel.Below="picklistAddParentTextbox" x:Uid="PicklistEditorUpdateTerm" IsEnabled="{x:Bind picklistVM.PicklistEditEnableDisable, Mode=TwoWay}"
                              Text ="{x:Bind picklistVM.AddModifyTerm, Mode=TwoWay}" Tag="{x:Bind picklistVM.AddModifyObject, Mode=TwoWay}" 
-                             TextChanged="{x:Bind picklistVM.picklistAddTextbox_TextChanged}"/>
+                             TextChanging="{x:Bind picklistVM.picklistAddTextbox_TextChanged}"/>
 
                         <TextBlock x:Name="picklistTermsTextbox" Margin="15,0,0,0" x:Uid="PicklistTermsTextbox" RelativePanel.Below="picklistAddTextbox"/>
                         

@@ -466,7 +466,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void picklistAddTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        public void picklistAddTextbox_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             //Cast
             TextBox senderBox = sender as TextBox;

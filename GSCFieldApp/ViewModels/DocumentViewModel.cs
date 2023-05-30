@@ -1127,7 +1127,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void DocumentFromNumberTextbox_TextChanged(object sender, TextChangedEventArgs e)
+        public void DocumentFromNumberTextbox_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             //Update file number
             TextBox senderBox = sender as TextBox;

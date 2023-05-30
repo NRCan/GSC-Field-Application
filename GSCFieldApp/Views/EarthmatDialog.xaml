@@ -117,7 +117,7 @@
                                 SelectedValue="{x:Bind ViewModel.SelectedEarthmatMU, Mode=TwoWay}" TabIndex="14"/>
 
                             <RelativePanel x:Name="EarthPercentPanel" Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}">
-                                <TextBox x:Name="EarthPercent" x:Uid="EarthDialogPercent" MinWidth="35" HorizontalAlignment="Stretch" TextChanged="{x:Bind ViewModel.EarthPercent_TextChanged}"
+                                <TextBox x:Name="EarthPercent" x:Uid="EarthDialogPercent" MinWidth="35" HorizontalAlignment="Stretch" TextChanging="{x:Bind ViewModel.EarthPercent_TextChanged}"
                                     Text="{x:Bind ViewModel.Percent, Converter={StaticResource StringToInteger}, Mode=TwoWay}" PlaceholderText="0" InputScope="Number"/>
 
                                 <TextBlock x:Name="EarthPercentDynamicLabel" x:Uid="EarthResidualLabel" Text="{x:Bind ViewModel.EarthResidualText, Mode=TwoWay}" RelativePanel.Below="EarthPercent"/>

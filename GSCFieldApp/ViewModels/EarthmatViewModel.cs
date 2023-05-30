@@ -1606,7 +1606,7 @@ namespace GSCFieldApp.ViewModels
 
         #region EVENTS
 
-        public void EarthPercent_TextChanged(object sender, TextChangedEventArgs e)
+        public void EarthPercent_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             TextBox senderBox = sender as TextBox;
             if (senderBox!= null && senderBox.Text != string.Empty)

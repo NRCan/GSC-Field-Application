@@ -265,13 +265,13 @@ namespace GSCFieldApp.Views
 
         }
 
-        public void StructureAzimuthNumBox_TextChanged(object sender, TextChangedEventArgs e)
+        public void StructureAzimuthNumBox_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             UpdateSymAng();
             
         }
 
-        private void StructureDipNumBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void StructureDipNumBox_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             TextBox s = sender as TextBox;
 

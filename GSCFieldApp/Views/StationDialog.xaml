@@ -148,7 +148,7 @@
                         </RelativePanel>
                         <TextBox Style="{ThemeResource Notes}" x:Name="NoteTextBox" x:Uid="FieldworkTableStationFieldNotes"
                             RelativePanel.Below="StationRelpanel_01"
-                            Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}" TextChanged="NoteTextBox_TextChanged" TabIndex="10" TabNavigation="Once"/>
+                            Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}" TabIndex="10" TabNavigation="Once"/>
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="SLSNoteTextbox" x:Uid="FieldworkTableStationSLSNotes"
                              RelativePanel.Below="NoteTextBox"  Visibility="{x:Bind ViewModel.WaypointVisibility, Mode=TwoWay}"
