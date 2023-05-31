@@ -45,6 +45,17 @@ namespace GSCFieldApp.Views
             this.Unloaded += LocationDialog_Unloaded;
 
             defaultBrush = this.LocationAcuracy.BorderBrush;
+
+            //#258 bringing back some old patch on save button
+            this.LocationSaveButton.GotFocus -= LocationSaveButton_GotFocus;
+            this.LocationSaveButton.GotFocus += LocationSaveButton_GotFocus;
+        }
+
+        private void LocationSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.LocationSaveButton.GotFocus -= LocationSaveButton_GotFocus;
+            locationVM.SaveDialogInfo();
+            CloseControl();
         }
 
         private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
@@ -147,8 +158,7 @@ namespace GSCFieldApp.Views
 
             if (isUIValid.Result)
             {
-                locationVM.SaveDialogInfo();
-                CloseControl();
+                this.LocationSaveButton.Focus(FocusState.Keyboard);
             }
             else
             {

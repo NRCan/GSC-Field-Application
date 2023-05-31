@@ -44,7 +44,19 @@ namespace GSCFieldApp.Views
             this.Loading += StationDataPart_Loading;
             this.Loaded += StationDataPart_Loaded;
 
+            //#258 bringing back some old patch on save button
+            this.stationSaveButton.GotFocus -= StationSaveButton_GotFocus;
+            this.stationSaveButton.GotFocus += StationSaveButton_GotFocus;
+
         }
+
+        private void StationSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.stationSaveButton.GotFocus -= StationSaveButton_GotFocus;
+            ViewModel.SaveDialogInfo();
+            CloseControl();
+        }
+
         private void StationDataPart_Loaded(object sender, RoutedEventArgs e)
         {
             //EasterEgg();
@@ -88,8 +100,7 @@ namespace GSCFieldApp.Views
 
         private void stationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.SaveDialogInfo();
-            CloseControl();
+            this.stationSaveButton.Focus(FocusState.Keyboard);
         }
 
         #endregion

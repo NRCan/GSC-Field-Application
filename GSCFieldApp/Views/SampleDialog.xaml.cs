@@ -30,6 +30,16 @@ namespace GSCFieldApp.Views
             ViewModel = new SampleViewModel(inDetailViewModel);
             this.Loading += SampleDialog_Loading;
 
+            //#258 bringing back some old patch on save button
+            this.sampleSaveButton.GotFocus -= SampleSaveButton_GotFocus;
+            this.sampleSaveButton.GotFocus += SampleSaveButton_GotFocus;
+
+        }
+
+        private void SampleSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            ViewModel.SaveDialogInfo();
+            CloseControl();
         }
 
         /// <summary>
@@ -91,8 +101,7 @@ namespace GSCFieldApp.Views
         #region SAVE
         private void sampleSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.SaveDialogInfo();
-            CloseControl();
+            this.sampleSaveButton.Focus(FocusState.Keyboard);
         }
 
 

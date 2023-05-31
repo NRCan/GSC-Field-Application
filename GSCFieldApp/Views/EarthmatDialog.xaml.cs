@@ -39,6 +39,17 @@ namespace GSCFieldApp.Views
             ViewModel = new EarthmatViewModel(inDetailViewModel);
             this.Loading += EarthmatDialog_Loading;
 
+            //#258 bringing back some old patch on save button
+            this.earthmatSaveButton.GotFocus -= EarthmatSaveButton_GotFocus;
+            this.earthmatSaveButton.GotFocus += EarthmatSaveButton_GotFocus;
+
+        }
+
+        private void EarthmatSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.earthmatSaveButton.GotFocus -= EarthmatSaveButton_GotFocus;
+            ViewModel.SaveDialogInfo();
+            CloseControl();
         }
 
         private void EarthmatDialog_Loading(FrameworkElement sender, object args)
@@ -66,8 +77,7 @@ namespace GSCFieldApp.Views
         #region SAVE
         private void earthmatSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.SaveDialogInfo();
-            CloseControl();
+            this.earthmatSaveButton.Focus(FocusState.Keyboard);
         }
 
         #endregion

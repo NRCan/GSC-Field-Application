@@ -41,7 +41,23 @@ namespace GSCFieldApp.Views
             this.Loading += DocumentDialog_Loading;
             this.Loaded += DocumentDialog_Loaded;
 
+            //#258 bringing back some old patch on save button
+            this.documentSaveButton.GotFocus -= DocumentSaveButton_GotFocus;
+            this.documentSaveButton.GotFocus += DocumentSaveButton_GotFocus;
 
+
+        }
+
+        private void DocumentSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //this.documentSaveButton.GotFocus -= DocumentSaveButton_GotFocus;
+
+            //Will save and close control only if a save can be performed.
+            bool didSave = DocViewModel.SaveDialogInfoAsync();
+            if (didSave)
+            {
+                CloseControl();
+            }
         }
 
         private void DocumentDialog_Loaded(object sender, RoutedEventArgs e)
@@ -70,12 +86,7 @@ namespace GSCFieldApp.Views
         #region SAVE
         private void documentSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            //Will save and close control only if a save can be performed.
-            bool didSave = DocViewModel.SaveDialogInfoAsync();
-            if (didSave)
-            {
-                CloseControl();
-            }
+            this.documentSaveButton.Focus(FocusState.Keyboard);
         }
 
 

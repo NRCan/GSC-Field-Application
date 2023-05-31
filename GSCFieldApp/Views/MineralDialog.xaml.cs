@@ -31,8 +31,18 @@ namespace GSCFieldApp.Views
             MineralVM = new MineralViewModel(inDetailViewModel);
             this.Loading += MineralDialog_Loading;
 
+            //#258 bringing back some old patch on save button
+            this.mineralSaveButton.GotFocus -= MineralSaveButton_GotFocus;
+            this.mineralSaveButton.GotFocus += MineralSaveButton_GotFocus;
+
         }
 
+        private void MineralSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.mineralSaveButton.GotFocus -= MineralSaveButton_GotFocus;
+            MineralVM.SaveDialogInfo();
+            CloseControl();
+        }
 
         private void MineralDialog_Loading(FrameworkElement sender, object args)
         {
@@ -80,8 +90,7 @@ namespace GSCFieldApp.Views
         #region SAVE
         private void mineralSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            MineralVM.SaveDialogInfo();
-            CloseControl();
+            this.mineralSaveButton.Focus(FocusState.Keyboard);
         }
 
         #endregion

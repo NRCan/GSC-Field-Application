@@ -44,6 +44,8 @@ namespace GSCFieldApp.Views
             this.ViewModel = new FieldBookDialogViewModel();
 
             this.Loading += UserInfoPart_Loading;
+
+            //#258 bringing back some old patch on save button
             this.userInfoSaveButton.GotFocus -= userInfoSaveButton_GotFocusAsync;
             this.userInfoSaveButton.GotFocus += userInfoSaveButton_GotFocusAsync; //bug 306
             
@@ -84,7 +86,7 @@ namespace GSCFieldApp.Views
 
         private void saveUserInfo_TappedAsync(object sender, TappedRoutedEventArgs e)
         {
-            this.userInfoSaveButton.Focus(FocusState.Programmatic);
+            this.userInfoSaveButton.Focus(FocusState.Keyboard);
         }
 
         private async void userInfoSaveButton_GotFocusAsync(object sender, RoutedEventArgs e)
