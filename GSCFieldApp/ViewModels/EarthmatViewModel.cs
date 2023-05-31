@@ -688,7 +688,7 @@ namespace GSCFieldApp.ViewModels
                     //Save only if the mineral was a new added one, prevent duplicates
                     if (mins.canRemoveItem == Windows.UI.Xaml.Visibility.Visible)
                     {
-                        listOfMinerals.Add(mins.itemValue);
+                        listOfMinerals.Add(mins.itemName);
 
                     }
 
@@ -1606,7 +1606,7 @@ namespace GSCFieldApp.ViewModels
 
         #region EVENTS
 
-        public void EarthPercent_TextChanged(object sender, TextChangedEventArgs e)
+        public void EarthPercent_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             TextBox senderBox = sender as TextBox;
             if (senderBox!= null && senderBox.Text != string.Empty)

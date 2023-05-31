@@ -44,7 +44,19 @@ namespace GSCFieldApp.Views
             this.Loading += StationDataPart_Loading;
             this.Loaded += StationDataPart_Loaded;
 
+            //#258 bringing back some old patch on save button
+            this.stationSaveButton.GotFocus -= StationSaveButton_GotFocus;
+            this.stationSaveButton.GotFocus += StationSaveButton_GotFocus;
+
         }
+
+        private void StationSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.stationSaveButton.GotFocus -= StationSaveButton_GotFocus;
+            ViewModel.SaveDialogInfo();
+            CloseControl();
+        }
+
         private void StationDataPart_Loaded(object sender, RoutedEventArgs e)
         {
             //EasterEgg();
@@ -88,8 +100,7 @@ namespace GSCFieldApp.Views
 
         private void stationSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.SaveDialogInfo();
-            CloseControl();
+            this.stationSaveButton.Focus(FocusState.Keyboard);
         }
 
         #endregion
@@ -158,36 +169,6 @@ namespace GSCFieldApp.Views
         }
         #endregion
 
-        /// <summary>
-        /// Surprise!
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NoteTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox senderBox = sender as TextBox;
-            if (senderBox.Text.ToLower().Contains("mosquito"))
-            {
-                GSCFieldApp.Themes.EasterEgg mosquitoEgg = new Themes.EasterEgg();
-                mosquitoEgg.ShowMosquito(this.obsRelativePanel, 42);
-            }
-            if (senderBox.Text.ToLower().Contains("do a barrel roll"))
-            {
-                GSCFieldApp.Themes.EasterEgg barrel = new Themes.EasterEgg();
-                barrel.DoABarrelRollAsync(this.stationUserControl);
-            }
-            if (senderBox.Text.ToLower().Contains("flip me"))
-            {
-                GSCFieldApp.Themes.EasterEgg ee = new Themes.EasterEgg();
-                ee.pilf(this.stationUserControl);
-            }
-            if (senderBox.Text.ToLower().Contains("unicorn theme"))
-            {
-                GSCFieldApp.Themes.EasterEgg ut = new Themes.EasterEgg();
-                ut.UnicornThemeAsync();
-
-            }
-        }
 
         private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
         {

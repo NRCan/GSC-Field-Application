@@ -50,7 +50,18 @@ namespace GSCFieldApp.Views
             this.Loading += StructureDialog_Loading;
 
             defaultColourBrush = this.strucType.BorderBrush;
+
+            //#258 bringing back some old patch on save button
+            this.structSaveButton.GotFocus -= StructSaveButton_GotFocus;
+            this.structSaveButton.GotFocus += StructSaveButton_GotFocus;
             
+        }
+
+        private void StructSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.structSaveButton.GotFocus -= StructSaveButton_GotFocus;
+            strucViewModel.SaveDialogInfoAsync();
+            CloseControl();
         }
 
         #region CLOSE
@@ -124,8 +135,7 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void structSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            strucViewModel.SaveDialogInfoAsync();
-            CloseControl();
+            this.structSaveButton.Focus(FocusState.Keyboard);
         }
 
         /// <summary>
@@ -265,13 +275,13 @@ namespace GSCFieldApp.Views
 
         }
 
-        public void StructureAzimuthNumBox_TextChanged(object sender, TextChangedEventArgs e)
+        public void StructureAzimuthNumBox_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             UpdateSymAng();
             
         }
 
-        private void StructureDipNumBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void StructureDipNumBox_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             TextBox s = sender as TextBox;
 

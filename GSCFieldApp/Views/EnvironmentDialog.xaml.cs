@@ -31,8 +31,17 @@ namespace GSCFieldApp.Views
 
             this.Loading += environmentDialog_Loading;
 
+            //#258 bringing back some old patch on save button
+            this.envSaveButton.GotFocus -= EnvSaveButton_GotFocus;
+            this.envSaveButton.GotFocus += EnvSaveButton_GotFocus;
+
         }
 
+        private void EnvSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            EnvViewModel.SaveDialogInfo();
+            CloseControl();
+        }
 
         private void environmentDialog_Loading(FrameworkElement sender, object args)
         {
@@ -56,8 +65,7 @@ namespace GSCFieldApp.Views
 
         private void envSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            EnvViewModel.SaveDialogInfo();
-            CloseControl();
+            this.envSaveButton.Focus(FocusState.Keyboard);
         }
 
         #endregion

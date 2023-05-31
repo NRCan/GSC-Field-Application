@@ -26,6 +26,17 @@ namespace GSCFieldApp.Views
 
             this.Loading += Paleoflow_Loading;
 
+            //#258 bringing back some old patch on save button
+            this.pflowSaveButton.GotFocus -= PflowSaveButton_GotFocus;
+            this.pflowSaveButton.GotFocus += PflowSaveButton_GotFocus;
+
+        }
+
+        private void PflowSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.pflowSaveButton.GotFocus -= PflowSaveButton_GotFocus;
+            pflowModel.SaveDialogInfo();
+            CloseControl();
         }
 
         #region CLOSE
@@ -85,8 +96,7 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void pflowSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            pflowModel.SaveDialogInfo();
-            CloseControl();
+            this.pflowSaveButton.Focus(FocusState.Keyboard);
 
         }
 

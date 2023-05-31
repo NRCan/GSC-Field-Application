@@ -69,12 +69,12 @@
                                 HorizontalAlignment="Stretch"
                                 InputScope="Number"
                                 Text ="{x:Bind strucViewModel.StructAzim, Mode=TwoWay}"
-                                TextChanged="StructureAzimuthNumBox_TextChanged" TabIndex="3"/>
+                                TextChanging="StructureAzimuthNumBox_TextChanged" TabIndex="3"/>
                             <TextBox x:Name="StructureDipNumBox" x:Uid="StructureDialogDip" Style="{ThemeResource TextboxMandatoryField}"
                                 HorizontalAlignment="Stretch"
                                 InputScope="Number"
                                 Text ="{x:Bind strucViewModel.StructDip, Mode=TwoWay}"
-                                TextChanged="StructureDipNumBox_TextChanged" TabIndex="4"     />
+                                TextChanging="StructureDipNumBox_TextChanged" TabIndex="4"     />
                             <ComboBox x:Name="StructureRelatedCombobox" x:Uid="StructureDialogRelated"
                                     ItemsSource="{x:Bind strucViewModel.StructRelated}" 
                                 SelectedValue="{x:Bind strucViewModel.SelectedStructRelated, Mode=TwoWay}"

@@ -21,6 +21,17 @@ namespace GSCFieldApp.Views
             this.InitializeComponent();
 
             this.Loading += FossilDialog_Loading;
+
+            //#258 bringing back some old patch on save button
+            this.fossilSaveButton.GotFocus -= FossilSaveButton_GotFocus;
+            this.fossilSaveButton.GotFocus += FossilSaveButton_GotFocus;
+        }
+
+        private void FossilSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.fossilSaveButton.GotFocus -= FossilSaveButton_GotFocus;
+            fossilModel.SaveDialogInfo();
+            CloseControl();
         }
 
         #region EVENTS
@@ -45,8 +56,7 @@ namespace GSCFieldApp.Views
 
         private void fossilSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            fossilModel.SaveDialogInfo();
-            CloseControl();
+            this.fossilSaveButton.Focus(FocusState.Keyboard);
 
         }
 

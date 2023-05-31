@@ -79,11 +79,15 @@
 
                             <TextBox x:Name="LocationEasting" x:Uid="LocationDialogEasting" InputScope="Number" 
                                 HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                Text ="{x:Bind locationVM.LocationEasting, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" TextChanged="LocationEasting_TextChanged" TabIndex="5"/>
+                                Text ="{x:Bind locationVM.LocationEasting, Mode=TwoWay}" 
+                                     IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" 
+                                     TextChanging="LocationEasting_TextChanged" TabIndex="5"/>
 
                             <TextBox x:Name="LocationNorthing" x:Uid="LocationDialogNorthing" Header="" InputScope="Number" 
                                 HorizontalAlignment="Stretch" Width="Auto" MinWidth="20" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                Text ="{x:Bind locationVM.LocationNorthing, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" TextChanged="LocationNorthing_TextChanged" TabIndex="2"/>
+                                Text ="{x:Bind locationVM.LocationNorthing, Mode=TwoWay}" 
+                                     IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" 
+                                     TextChanging="LocationNorthing_TextChanged" TabIndex="2"/>
 
 
                             <Button x:Name="ButtonConvertToGeographic" x:Uid="ConvertToGeo" Content="To Geographic" Margin="0,28,0,0" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"

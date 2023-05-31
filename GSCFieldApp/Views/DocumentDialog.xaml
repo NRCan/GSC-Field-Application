@@ -120,7 +120,7 @@
                                 HorizontalAlignment="Stretch" 
                                 Margin="0"  Width="20"
                                 Text ="{x:Bind DocViewModel.FileNumber, Mode=TwoWay}"
-                                InputScope="Number" TextChanged="{x:Bind DocViewModel.DocumentFromNumberTextbox_TextChanged}"/>
+                                InputScope="Number" TextChanging="{x:Bind DocViewModel.DocumentFromNumberTextbox_TextChanged}"/>
 
                                 <Rectangle x:Name="SeperatorVertical_02" Width="2" Margin="15,10,15,0" Visibility="{x:Bind DocViewModel.DocumentUpdateVisibility, Mode=TwoWay}"
                                 Fill="{ThemeResource FieldPhotoColorBrush}" />

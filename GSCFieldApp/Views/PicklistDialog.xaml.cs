@@ -87,6 +87,16 @@ namespace GSCFieldApp.Views
 
             }
 
+            //#258 bringing back some old patch on save button
+            this.picklistSaveButton.GotFocus -= PicklistSaveButton_GotFocus;
+            this.picklistSaveButton.GotFocus += PicklistSaveButton_GotFocus;
+        }
+
+        private void PicklistSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.picklistSaveButton.GotFocus -= PicklistSaveButton_GotFocus;
+            picklistVM.SaveDialogInfo();
+            CloseControl();
         }
 
         #region CLOSE
@@ -329,8 +339,7 @@ namespace GSCFieldApp.Views
         #region SAVE
         private void PicklistSaveButton_TappedAsync(object sender, TappedRoutedEventArgs e)
         {
-            picklistVM.SaveDialogInfo();
-            CloseControl();
+            this.picklistSaveButton.Focus(FocusState.Keyboard);
         }
 
         #endregion
