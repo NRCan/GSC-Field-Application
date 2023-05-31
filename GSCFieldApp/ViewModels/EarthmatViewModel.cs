@@ -688,7 +688,7 @@ namespace GSCFieldApp.ViewModels
                     //Save only if the mineral was a new added one, prevent duplicates
                     if (mins.canRemoveItem == Windows.UI.Xaml.Visibility.Visible)
                     {
-                        listOfMinerals.Add(mins.itemValue);
+                        listOfMinerals.Add(mins.itemName);
 
                     }
 
