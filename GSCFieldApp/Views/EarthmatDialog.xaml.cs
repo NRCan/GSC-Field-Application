@@ -43,7 +43,12 @@ namespace GSCFieldApp.Views
             this.earthmatSaveButton.GotFocus -= EarthmatSaveButton_GotFocus;
             this.earthmatSaveButton.GotFocus += EarthmatSaveButton_GotFocus;
 
+            //#259 give a more space to percent box
+            AddPaddingToLithoRelBox();
+
         }
+
+        #region EVENTS
 
         private void EarthmatSaveButton_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -71,9 +76,123 @@ namespace GSCFieldApp.Views
                 this.pageHeader.Text = this.pageHeader.Text + "  " + this.ViewModel.Alias;
             }
 
-            
+
         }
-      
+
+        /// <summary>
+        /// Will be triggered whenever the user has selected a value from the list
+        /// Cast the sender and add it to a proper textbox to show selected value
+        /// </summary>
+        /// <param name="sender"></param>
+        public void NewDialog_userHasSelectedAValue(object sender)
+        {
+            ListView inListView = sender as ListView;
+            Models.SemanticData inSD = inListView.SelectedValue as Models.SemanticData;
+            if (inSD != null)
+            {
+                string raw_litho_text = inSD.Title + level2Sep + inSD.Subtitle;
+                ViewModel.InitFill2ndRound(raw_litho_text);
+                this.EarthLithAutoSuggest.Text = raw_litho_text;
+            }
+
+        }
+
+        /// <summary>
+        /// Will be triggered when the cancel icon is tapped and will revert it's icon.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //Find the clicked symbol icon list view parent
+            SymbolIcon senderIcon = sender as SymbolIcon;
+            DependencyObject iconParent = VisualTreeHelper.GetParent(senderIcon);
+            while (!(iconParent is ListView))
+            {
+                iconParent = VisualTreeHelper.GetParent(iconParent);
+
+            }
+
+            //Find value associated with clicked symbol icon and remove from list view.
+            ListView parentListView = iconParent as ListView;
+            IList<object> selectedValues = parentListView.SelectedItems;
+            if (selectedValues.Count > 0)
+            {
+                foreach (object values in selectedValues)
+                {
+                    ViewModel.RemoveSelectedValue(values, parentListView.Name);
+                }
+            }
+        }
+
+        private void EarthLithAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //var search_term = EarthLithAutoSuggest.Text.ToLower();
+                //var results = Rocks.Where(i => i.StartsWith(search_term)).ToList();
+
+                var search_term = EarthLithAutoSuggest.Text.ToLower();
+                var results = Rocks.Where(i => i.ToLower().Contains(search_term)).ToList();
+
+                if (results.Count > 0)
+                    EarthLithAutoSuggest.ItemsSource = results;
+                else
+                    EarthLithAutoSuggest.ItemsSource = new string[] { "No results found" };
+            }
+
+            //Reset litho box
+            if (sender.Text == string.Empty)
+            {
+                EarthLitho.Text = string.Empty;
+                ViewModel.InitFill2ndRound(EarthLitho.Text); //Reset picklist
+            }
+
+        }
+
+        private void EarthLithAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
+            {
+                EarthLitho.Text = args.ChosenSuggestion.ToString();
+            }
+            else
+            {
+                //Reset litho box
+                EarthLitho.Text = string.Empty;
+            }
+
+            //Update list that are bound to lithology selection
+            ViewModel.InitFill2ndRound(EarthLitho.Text);
+
+        }
+
+        /// <summary>
+        /// Filter based on the user's input for minerals
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">Any event arguments</param>
+        private void EarthMineralAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Only get results when it was a user typing,
+            // otherwise assume the value got filled in by TextMemberPath
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                //Set the ItemsSource to be your filtered dataset
+                var search_term = EarthMineralAutoSuggest.Text.ToLower();
+                var results = ViewModel.EarthmatMineral.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
+
+                if (results.Count > 0)
+                    EarthMineralAutoSuggest.ItemsSource = results;
+                else
+                    EarthMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
+            }
+
+        }
+
+        #endregion
+
         #region SAVE
         private void earthmatSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -135,94 +254,8 @@ namespace GSCFieldApp.Views
 
         #endregion
 
-        /// <summary>
-        /// Will be triggered whenever the user has selected a value from the list
-        /// Cast the sender and add it to a proper textbox to show selected value
-        /// </summary>
-        /// <param name="sender"></param>
-        public void NewDialog_userHasSelectedAValue(object sender)
-        {
-            ListView inListView = sender as ListView;
-            Models.SemanticData inSD = inListView.SelectedValue as Models.SemanticData;
-            if (inSD != null)
-            {
-                string raw_litho_text = inSD.Title + level2Sep + inSD.Subtitle;
-                ViewModel.InitFill2ndRound(raw_litho_text);
-                this.EarthLithAutoSuggest.Text = raw_litho_text;
-            }
 
-        }
-
-        /// <summary>
-        /// Will be triggered when the cancel icon is tapped and will revert it's icon.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            //Find the clicked symbol icon list view parent
-            SymbolIcon senderIcon = sender as SymbolIcon;
-            DependencyObject iconParent = VisualTreeHelper.GetParent(senderIcon);
-            while (!(iconParent is ListView))
-            {
-                iconParent = VisualTreeHelper.GetParent(iconParent);
-                
-            }
-
-            //Find value associated with clicked symbol icon and remove from list view.
-            ListView parentListView = iconParent as ListView;
-            IList<object> selectedValues = parentListView.SelectedItems;
-            if (selectedValues.Count > 0)
-            {
-                foreach (object values in selectedValues)
-                {
-                    ViewModel.RemoveSelectedValue(values, parentListView.Name);
-                }
-            }
-        }
-
-        private void EarthLithAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                //var search_term = EarthLithAutoSuggest.Text.ToLower();
-                //var results = Rocks.Where(i => i.StartsWith(search_term)).ToList();
-
-                var search_term = EarthLithAutoSuggest.Text.ToLower();
-                var results = Rocks.Where(i => i.ToLower().Contains(search_term)).ToList();
-
-                if (results.Count > 0)
-                    EarthLithAutoSuggest.ItemsSource = results;
-                else
-                    EarthLithAutoSuggest.ItemsSource = new string[] { "No results found" };
-            }
-            
-            //Reset litho box
-            if (sender.Text == string.Empty)
-            {
-                EarthLitho.Text = string.Empty;
-                ViewModel.InitFill2ndRound(EarthLitho.Text); //Reset picklist
-            }
-
-        }
-
-        private void EarthLithAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
-            {
-                EarthLitho.Text = args.ChosenSuggestion.ToString();
-            }
-            else
-            {
-                //Reset litho box
-                EarthLitho.Text = string.Empty;
-            }
-
-            //Update list that are bound to lithology selection
-            ViewModel.InitFill2ndRound(EarthLitho.Text);
-
-        }
-
+        #region METHODS
         /// <summary>
         /// Build a suggestion list for current project type lith detail
         /// </summary>
@@ -258,29 +291,22 @@ namespace GSCFieldApp.Views
         }
 
         /// <summary>
-        /// Filter based on the user's input for minerals
+        /// Will add some extra padding to lithology relative box
+        /// so that in portrait mode, percent control isn't truncated.
         /// </summary>
-        /// <param name="sender">The event sender</param>
-        /// <param name="e">Any event arguments</param>
-        private void EarthMineralAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void AddPaddingToLithoRelBox()
         {
-            // Only get results when it was a user typing,
-            // otherwise assume the value got filled in by TextMemberPath
-            // or the handler for SuggestionChosen.
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (ViewModel.projectType == ScienceLiterals.ApplicationThemeBedrock)
             {
-                //Set the ItemsSource to be your filtered dataset
-                var search_term = EarthMineralAutoSuggest.Text.ToLower();
-                var results = ViewModel.EarthmatMineral.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
-
-                if (results.Count > 0)
-                    EarthMineralAutoSuggest.ItemsSource = results;
-                else
-                    EarthMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
+                Thickness lithoThick = new Thickness();
+                lithoThick.Right = 0;
+                lithoThick.Left = 0;
+                lithoThick.Top = 0;
+                lithoThick.Bottom = 85;
+                this.EarthmatGridView_Litho.Padding = lithoThick;
             }
-
         }
-
+        #endregion
 
     }
 }
