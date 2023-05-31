@@ -2,18 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GSCFieldApp.Views.FieldBooksPage"
+             xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              Title="FieldBooksPage">
     <ScrollView Orientation="Vertical">
         <FlexLayout AlignItems="Start" AlignContent="SpaceEvenly" JustifyContent="SpaceEvenly"
                     Direction="Row" Wrap="Wrap">
             <VerticalStackLayout >
-                <Grid Padding="10" BackgroundColor="{StaticResource Primary}" >
+                <Grid Padding="10" Margin="10" BackgroundColor="{StaticResource Primary}" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1"/>
                         <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -44,28 +44,21 @@
                     <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count" TextColor="White"
                                HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
+                    <Image x:Name="fieldbook_logo"
+                       Grid.Row="6" HorizontalOptions="Center" Source="logo.png"/>
 
-                    <Label HorizontalTextAlignment="Start" Text="23TEST0003" TextColor="White"
-                               FontAutoScalingEnabled="True" Margin="25,0,0,0"
-                               Grid.Column="1" Grid.Row="6">
-                    </Label>
-
-                    <Image Source="logo.png" BackgroundColor="Transparent"  
-                       Grid.Row="7" HorizontalOptions="Center"/>
-
-                    <Rectangle Grid.RowSpan="9" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+                    <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
                 </Grid>
             </VerticalStackLayout>
             <VerticalStackLayout>
 
-                <Grid Padding="10" BackgroundColor="{StaticResource Gray100}" >
+                <Grid Padding="10" Margin="10" BackgroundColor="{StaticResource Gray100}" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2"/>
                         <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -96,27 +89,20 @@
                     <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count"
                                HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-
-                    <Label  HorizontalTextAlignment="Start" Text="23TEST0003" 
-                               FontAutoScalingEnabled="True" Margin="25,0,0,0"
-                               Grid.Column="1" Grid.Row="6">
-                    </Label>
-
                     <Image Source="logo.png" BackgroundColor="Transparent"  
-                       Grid.Row="7" HorizontalOptions="Center"/>
+                       Grid.Row="6" HorizontalOptions="Center"/>
 
-                    <Rectangle Grid.RowSpan="9" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+                    <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
                 </Grid>
             </VerticalStackLayout>
             <VerticalStackLayout>
-                <Grid Padding="10" BackgroundColor="{StaticResource Gray100}">
+                <Grid Padding="10" Margin="10" BackgroundColor="{StaticResource Gray100}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2"/>
                         <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -147,16 +133,10 @@
                     <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count"
                                HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-
-                    <Label x:Name="projectStationNumber" HorizontalTextAlignment="Start" Text="23TEST0003" 
-                               FontAutoScalingEnabled="True" Margin="25,0,0,0"
-                               Grid.Column="1" Grid.Row="6">
-                    </Label>
-
                     <Image  Source="logo.png" BackgroundColor="Transparent"  
-                       Grid.Row="7" HorizontalOptions="Center"/>
+                       Grid.Row="6" HorizontalOptions="Center"/>
 
-                    <Rectangle Grid.RowSpan="9" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+                    <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
                 </Grid>
             </VerticalStackLayout>
