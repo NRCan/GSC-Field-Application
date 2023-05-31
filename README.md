@@ -13,6 +13,7 @@ The GSC Field Application only records bedrock geology data at this time, but we
 ## Requirements
 
 Windows 10 Minimum build 19041, version 2004. 
+Android 13
 
 ## Installation
 
@@ -20,7 +21,7 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 ## Latest Version
 
-Please download the latest version (2.3) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.3).
+DEV VERSION 3
 
 ## Wiki
 
@@ -32,7 +33,7 @@ The current application uses a Geopackage data format to store all information g
 
 ### Development environment
 
-Universal Windows Platform (UWP), Visual studio 2016-2023
+.net Multi-platform App UI, Visual studio 2016-2023
 
 ## Contacts
 
@@ -64,7 +65,9 @@ Le public cible est principalement les géologues et intervenants souhaitant ré
 
 ## Pré-requis
 
-Windows 10, version compilée minimale 19041, version 2004. 
+Windows 10 Minimum build 19041, version 2004. 
+Android 13
+
 
 ## Installation
 
@@ -72,7 +75,7 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 
 ## La dernière version
 
-Veuillez télécharger la dernière version (2.3) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.3).
+VERSION 3 EN DEV
 
 ## Wiki
 
@@ -84,7 +87,7 @@ L'application actuelle utilise un format de données Geopackage pour stocker tou
 
 ### Environnement de développement
 
-Plateforme Windows universelle (PWU), Visual studio 2016-2023
+.net Multi-platform App UI, Visual studio 2016-2023
 
 ### Contacts
 
