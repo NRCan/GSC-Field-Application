@@ -38,6 +38,7 @@ namespace GSCFieldApp.Views
 
         private void SampleSaveButton_GotFocus(object sender, RoutedEventArgs e)
         {
+            this.sampleSaveButton.GotFocus -= SampleSaveButton_GotFocus;
             ViewModel.SaveDialogInfo();
             CloseControl();
         }

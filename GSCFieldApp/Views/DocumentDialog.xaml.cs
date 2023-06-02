@@ -50,7 +50,7 @@ namespace GSCFieldApp.Views
 
         private void DocumentSaveButton_GotFocus(object sender, RoutedEventArgs e)
         {
-            //this.documentSaveButton.GotFocus -= DocumentSaveButton_GotFocus;
+            this.documentSaveButton.GotFocus -= DocumentSaveButton_GotFocus;
 
             //Will save and close control only if a save can be performed.
             bool didSave = DocViewModel.SaveDialogInfoAsync();
