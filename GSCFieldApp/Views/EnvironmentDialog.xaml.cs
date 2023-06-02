@@ -39,6 +39,7 @@ namespace GSCFieldApp.Views
 
         private void EnvSaveButton_GotFocus(object sender, RoutedEventArgs e)
         {
+            this.envSaveButton.GotFocus -= EnvSaveButton_GotFocus;
             EnvViewModel.SaveDialogInfo();
             CloseControl();
         }
