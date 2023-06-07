@@ -39,10 +39,10 @@
                             RelativePanel.AlignLeftWithPanel="True" 
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right"  >
+                            EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="picklistBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Width="Auto" Height="57" IsCompact ="True" Tapped="picklistBackButton_TappedAsync" />
-                    <AppBarButton x:Name="picklistSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Width="Auto" Height="57" IsCompact ="True" Tapped="PicklistSaveButton_TappedAsync" />
+                    <AppBarButton x:Name="picklistBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="picklistBackButton_TappedAsync" />
+                    <AppBarButton x:Name="picklistSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="PicklistSaveButton_TappedAsync" />
                 </Controls:PageHeader.PrimaryCommands>
 
                 <!--  secondary commands  -->

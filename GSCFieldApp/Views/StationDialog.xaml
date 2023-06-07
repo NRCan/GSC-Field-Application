@@ -34,11 +34,11 @@
             <Controls:PageHeader x:Name="pageHeader" x:Uid="FieldworkTableStation" Text ="" BackButtonVisibility="Collapsed"
                             RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldStationColorBrush}"
                             RelativePanel.AlignRightWithPanel="True"
-                            RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right">
+                            RelativePanel.AlignTopWithPanel="True"
+                            EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="stationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Height="57" IsCompact ="True" Foreground="White" Tapped="stationBackButton_Tapped" Width="Auto"/>
-                    <AppBarButton x:Name="stationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Height="57" IsCompact ="True" Foreground="White" Tapped="stationSaveButton_Tapped" Width="Auto"/>
+                    <AppBarButton x:Name="stationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="stationBackButton_Tapped" />
+                    <AppBarButton x:Name="stationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save"  Foreground="White" Tapped="stationSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
 
                 <Controls:PageHeader.SecondaryCommands>

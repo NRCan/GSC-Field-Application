@@ -22,10 +22,10 @@
                             RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldObsColorBrush}"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right" >
+                            EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="LocationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Width="Auto" Height="57" IsCompact ="True" Tapped="LocationBackButton_Tapped" />
-                    <AppBarButton x:Name="LocationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Width="Auto" Height="57" IsCompact ="True" Tapped="LocationSaveButton_Tapped"  />
+                    <AppBarButton x:Name="LocationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="LocationBackButton_Tapped" />
+                    <AppBarButton x:Name="LocationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="LocationSaveButton_Tapped"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
