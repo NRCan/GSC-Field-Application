@@ -2019,7 +2019,6 @@
                 <Setter Property="IsRightTapEnabled" Value="False" />
                 <Setter Property="IsHoldingEnabled" Value="False" />
                 <Setter Property="IsDoubleTapEnabled" Value="False" />
-
             </Style>
            
 

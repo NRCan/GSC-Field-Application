@@ -34,10 +34,10 @@
                             RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldEnvironmentColorBrush}"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" DefaultLabelPosition="Right">
+                            EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="envBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Height="57" IsCompact ="True" Foreground="White" Tapped="envBackButton_Tapped" Width="Auto"/>
-                    <AppBarButton x:Name="envSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Height="57" IsCompact ="True" Foreground="White" Tapped="envSaveButton_Tapped" Width="Auto"/>
+                    <AppBarButton x:Name="envBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="envBackButton_Tapped"/>
+                    <AppBarButton x:Name="envSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="envSaveButton_Tapped"/>
                 </Controls:PageHeader.PrimaryCommands>
 
             </Controls:PageHeader>

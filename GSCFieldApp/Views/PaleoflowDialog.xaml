@@ -14,12 +14,11 @@
                             RelativePanel.AlignLeftWithPanel="True" 
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"  
-                            DefaultLabelPosition="Right"
-                            EllipsisVisibility="Collapsed" IsOpen="True" IsSticky="True" Height="40" 
+                            EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right" 
                                  Background="{ThemeResource FieldPflowColorBrush}">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="pflowBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Width="Auto" Height="57" IsCompact ="True" Tapped="pflowBackButton_Tapped" />
-                    <AppBarButton x:Name="pflowSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Width="Auto" Height="57" IsCompact ="True" Tapped="pflowSaveButton_Tapped" />
+                    <AppBarButton x:Name="pflowBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="pflowBackButton_Tapped" />
+                    <AppBarButton x:Name="pflowSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="pflowSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
