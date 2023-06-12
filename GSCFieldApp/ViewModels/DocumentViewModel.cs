@@ -333,7 +333,7 @@ namespace GSCFieldApp.ViewModels
         /// For validation purposes.
         /// </summary>
         public void GetAllFileNumbers()
-        { 
+        {
             List<object> docTableLRaw = accessData.ReadTable(documentModel.GetType(), null);
             IEnumerable<Document> docTable = docTableLRaw.Cast<Document>(); //Cast to proper list type
             IEnumerable<string> docs = from d in docTable select d.FileNumber.ToString();
@@ -387,9 +387,9 @@ namespace GSCFieldApp.ViewModels
                 documentModel.DocumentID = _documentID;
                 documentModel.DocumentName = _documentName;
                 documentModel.Description = _description;
-                
+
                 documentModel.FileName = _fileName;
-                
+
 
                 //Variable parsing
                 if (_direction != String.Empty)
@@ -524,10 +524,11 @@ namespace GSCFieldApp.ViewModels
         public List<object> GetLastDocument()
         {
             string lastDocumentQueryFrom = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableDocument + " ";
-            string lastDocumentQueryWhere = "WHERE " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentType + " <> '' ";
+            string lastDocumentQueryWhere = "WHERE " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentDescription + " <> '' ";
+            string lastDocumentQueryWhere2 = "AND " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentDescription + " is not null ";
             string lastDocumentQueryOrderBy = "ORDER BY " + Dictionaries.DatabaseLiterals.TableDocument + "." + Dictionaries.DatabaseLiterals.FieldDocumentName + " DESC LIMIT 1";
 
-            string lastDocumentQuery = lastDocumentQueryFrom + lastDocumentQueryWhere + lastDocumentQueryOrderBy;
+            string lastDocumentQuery = lastDocumentQueryFrom + lastDocumentQueryWhere + lastDocumentQueryWhere2 + lastDocumentQueryOrderBy;
             return dataAcess.ReadTable(documentModel.GetType(), lastDocumentQuery);
         }
 
@@ -678,7 +679,7 @@ namespace GSCFieldApp.ViewModels
         public async void DeleteCapturePhoto()
         {
             // Make sure not to delete a real picture, but the current snapshot only
-            if (_documentPhotoFile!=null && !_documentPhotoPath.Contains(_documentPhotoFile.Path))
+            if (_documentPhotoFile != null && !_documentPhotoPath.Contains(_documentPhotoFile.Path))
             {
                 await _documentPhotoFile.DeleteAsync();
             }
@@ -703,7 +704,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("Category");
             RaisePropertyChanged("SelectedCategory");
 
-            
+
         }
 
         /// <summary>
@@ -805,7 +806,7 @@ namespace GSCFieldApp.ViewModels
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableEarthMat)
                     {
-                        string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
+                        string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
                         List<object> relatedEarths = dataAcess.ReadTable(eartModel.GetType(), filterEarthmats);
                         IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
                         foreach (EarthMaterial ea in earths)
@@ -839,8 +840,8 @@ namespace GSCFieldApp.ViewModels
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableSample)
                     {
-                        string filterSamplesSelectJoin = "Select * from " + DatabaseLiterals.TableSample + " join " + DatabaseLiterals.TableEarthMat; 
-                        string filterSamplesWhere =  " on " + DatabaseLiterals.TableSample + "." + DatabaseLiterals.FieldSampleEarthmatID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
+                        string filterSamplesSelectJoin = "Select * from " + DatabaseLiterals.TableSample + " join " + DatabaseLiterals.TableEarthMat;
+                        string filterSamplesWhere = " on " + DatabaseLiterals.TableSample + "." + DatabaseLiterals.FieldSampleEarthmatID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
                         List<object> relatedSamples = dataAcess.ReadTable(smModel.GetType(), filterSamplesSelectJoin + filterSamplesWhere);
                         IEnumerable<Sample> sms = relatedSamples.Cast<Sample>();
                         foreach (Sample sm in sms)
@@ -858,7 +859,7 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TablePFlow)
                     {
                         string filterPflowSelectJoin = "Select * from " + DatabaseLiterals.TablePFlow + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterPflowWhere = " on " + DatabaseLiterals.TablePFlow + "." + DatabaseLiterals.FieldPFlowParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
+                        string filterPflowWhere = " on " + DatabaseLiterals.TablePFlow + "." + DatabaseLiterals.FieldPFlowParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
                         List<object> relatedPflow = dataAcess.ReadTable(pflowModel.GetType(), filterPflowSelectJoin + filterPflowWhere);
                         IEnumerable<Paleoflow> pfs = relatedPflow.Cast<Paleoflow>();
                         foreach (Paleoflow pf in pfs)
@@ -875,7 +876,7 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableFossil)
                     {
                         string filterFossilSelectJoin = "Select * from " + DatabaseLiterals.TableFossil + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterFossilWhere = " on " + DatabaseLiterals.TableFossil + "." + DatabaseLiterals.FieldFossilParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
+                        string filterFossilWhere = " on " + DatabaseLiterals.TableFossil + "." + DatabaseLiterals.FieldFossilParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
                         List<object> relatedFossil = dataAcess.ReadTable(fossilModel.GetType(), filterFossilSelectJoin + filterFossilWhere);
                         IEnumerable<Fossil> fss = relatedFossil.Cast<Fossil>();
                         foreach (Fossil fs in fss)
@@ -892,7 +893,7 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableStructure)
                     {
                         string filterStructureSelectJoin = "Select * from " + DatabaseLiterals.TableStructure + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterStructureWhere = " on " + DatabaseLiterals.TableStructure + "." + DatabaseLiterals.FieldStructureParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
+                        string filterStructureWhere = " on " + DatabaseLiterals.TableStructure + "." + DatabaseLiterals.FieldStructureParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
                         List<object> relatedFossil = dataAcess.ReadTable(structureModel.GetType(), filterStructureSelectJoin + filterStructureWhere);
                         IEnumerable<Structure> sts = relatedFossil.Cast<Structure>();
                         foreach (Structure st in sts)
@@ -910,7 +911,7 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableMineral)
                     {
                         string filterMineralSelectJoin = "Select * from " + DatabaseLiterals.TableMineral + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralEMID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
+                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralEMID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
                         List<object> relatedMineral = dataAcess.ReadTable(mineralModel.GetType(), filterMineralSelectJoin + filterMineralWhere);
                         IEnumerable<Mineral> minerals = relatedMineral.Cast<Mineral>();
                         foreach (Mineral ms in minerals)
@@ -1113,7 +1114,7 @@ namespace GSCFieldApp.ViewModels
                     Themes.ComboBoxItem senderSelectedItem = senderBox.SelectedItem as Themes.ComboBoxItem;
 
                     _fileNumber = GetLastFileNumberPlusOne(senderSelectedItem.itemValue);
-                    
+
                     SetFileNumberAsString();
                     RaisePropertyChanged("FileNumber");
                 }
@@ -1171,7 +1172,7 @@ namespace GSCFieldApp.ViewModels
             {
                 queryWhere = "WHERE " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentType + " <> '' ";
             }
-        
+
             string queryWhere2 = "AND " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentFileNo + " <> '' ";
             string queryOrder = "ORDER BY " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentFileNo + " DESC LIMIT 1";
             string lastFileNoquery = querySelect + queryFrom + queryWhere + queryWhere2 + queryOrder;
@@ -1194,7 +1195,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         //Do nothing, it might be empty
                     }
-                    
+
                 }
             }
 
