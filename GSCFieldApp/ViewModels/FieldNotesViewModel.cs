@@ -707,6 +707,14 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void FillStationFromList()
         {
+            //Keep selection
+            string userTempSelection = string.Empty;
+            if (_reportStationIndex >= 0 && _reportStationIndex < _reportDetailedStation.Count())
+            {
+                userTempSelection = _reportDetailedStation[_reportStationIndex].GenericAliasName;
+            }
+            
+
             #region Conditional to user having selected a station
             EmptyAll();
             if (_reportDateIndex != -1)
@@ -764,7 +772,7 @@ namespace GSCFieldApp.ViewModels
                         ValidateCheck(currentStation.isValid, currentStation.StationID, currentDetailReport.MainID);
 
                         //Keep index if station id is the same as the one selected from map page by user
-                        if (currentStation.StationAlias == userSelectedStationID)
+                        if (currentStation.StationAlias == userTempSelection)
                         {
                             userSelectedStationIndex = stationTableRows.IndexOf(sts);
                         }
