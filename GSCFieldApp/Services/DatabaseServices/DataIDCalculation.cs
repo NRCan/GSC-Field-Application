@@ -142,7 +142,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Get actual last alias and extract it's number
                     string lastAlias = stations.ToList()[0].ToString();
                     List<char> lastCharacters = lastAlias.ToList();
-                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 3, 3);
+                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
                     string lastNumber = string.Empty;
                     foreach (char c in lastNumbers)
                     {
