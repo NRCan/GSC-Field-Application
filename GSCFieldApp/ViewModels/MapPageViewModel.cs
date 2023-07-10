@@ -1719,6 +1719,8 @@ namespace GSCFieldApp.ViewModels
 
             DataLocalSettings dLocalSettings = new DataLocalSettings();
             dLocalSettings.SetSettingValue("forceNoteRefresh", true);
+
+            pauseGraphicRefresh = false;
         }
 
         /// <summary>
