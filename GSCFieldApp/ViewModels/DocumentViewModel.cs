@@ -13,6 +13,7 @@ using System.Globalization;
 using System.Collections.ObjectModel;
 using Windows.Media.Capture;
 using System.Reflection;
+using Windows.UI.Core;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -143,7 +144,7 @@ namespace GSCFieldApp.ViewModels
 
                     if (_fileNumbers.Contains(indexFrom.ToString()))
                     {
-                        _fileNumberExists = true;
+                        //_fileNumberExists = true;
                         if (existingFileNumber != null)
                         {
                             existingFileNumber(this, null);
@@ -157,7 +158,7 @@ namespace GSCFieldApp.ViewModels
                     }
                     else
                     {
-                        _fileNumberExists = false;
+                        //_fileNumberExists = false;
                     }
 
                     //Make sure it's lower then File Number To value
@@ -307,7 +308,7 @@ namespace GSCFieldApp.ViewModels
         {
             var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
-            try
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 ContentDialog warningBookDialog = new ContentDialog()
                 {
@@ -315,16 +316,10 @@ namespace GSCFieldApp.ViewModels
                     Content = loadLocalization.GetString("WarningInvalidDocNumber"),
                     PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
                 };
-
                 warningBookDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                ContentDialogResult cdr = await warningBookDialog.ShowAsync();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(warningBookDialog);
-            }
-            catch (Exception)
-            {
+                await Services.ContentDialogMaker.CreateContentDialogAsync(warningBookDialog, true);
 
-            }
-
+            }).AsTask();
 
         }
 
@@ -379,116 +374,106 @@ namespace GSCFieldApp.ViewModels
         public bool SaveDialogInfoAsync()
         {
             //Validate if the file number exists or not. If yes don't save anything.
-            if (!_fileNumberExists)
+
+            Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
+
+            //Get current UI information and add to model class
+            documentModel.DocumentID = _documentID;
+            documentModel.DocumentName = _documentName;
+            documentModel.Description = _description;
+
+            documentModel.FileName = _fileName;
+
+
+            //Variable parsing
+            if (_direction != String.Empty)
             {
-                Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
+                documentModel.Direction = int.Parse(_direction);
+            }
+            if (_fileNumber != String.Empty)
+            {
+                documentModel.FileNumber = int.Parse(_fileNumber);
+            }
 
-                //Get current UI information and add to model class
-                documentModel.DocumentID = _documentID;
-                documentModel.DocumentName = _documentName;
-                documentModel.Description = _description;
+            #region COMBOBOXES
+            if (SelectedCategory != null)
+            {
+                documentModel.Category = SelectedCategory;
+            }
 
-                documentModel.FileName = _fileName;
+            if (SelectedCategory != null)
+            {
+                documentModel.Category = concat.PipeValues(_categoryValues); //process list of values so they are concatenated.
+            }
 
+            if (SelectedDocType != null)
+            {
+                documentModel.DocumentType = SelectedDocType;
+            }
 
-                //Variable parsing
-                if (_direction != String.Empty)
+            if (SelectedRelatedTable != null && SelectedRelatedID != null && int.Parse(SelectedRelatedID) != 0)
+            {
+                documentModel.RelatedTable = SelectedRelatedTable;
+                documentModel.RelatedID = int.Parse(SelectedRelatedID);
+            }
+            else
+            {
+                documentModel.RelatedTable = DatabaseLiterals.TableStation;
+                documentModel.RelatedID = selectedStationSummaryDocument.station.StationID;
+            }
+            #endregion
+
+            #region Photos
+
+            if (_documentPhotoFile != null)
+            {
+                documentModel.FileName = _documentPhotoFile.Name;
+                documentModel.DocumentType = DatabaseLiterals.documentTableFileSuffix; //Default value from embeded cameras.
+                //documentModel.FileNumber = string.Empty; //File number can be empty since embedded photo don't need renaming
+            }
+
+            #endregion
+
+            #region FILE NUMBER
+            if (_fileToNumber != string.Empty)
+            {
+                bool fromResult = int.TryParse(_fileNumber, out int fromNumber);
+
+                bool toResult = int.TryParse(_fileToNumber, out int toNumber);
+
+                if (fromResult && toResult)
                 {
-                    documentModel.Direction = int.Parse(_direction);
-                }
-                if (_fileNumber != String.Empty)
-                {
-                    documentModel.FileNumber = int.Parse(_fileNumber);
-                }
-
-                #region COMBOBOXES
-                if (SelectedCategory != null)
-                {
-                    documentModel.Category = SelectedCategory;
-                }
-
-                if (SelectedCategory != null)
-                {
-                    documentModel.Category = concat.PipeValues(_categoryValues); //process list of values so they are concatenated.
-                }
-
-                if (SelectedDocType != null)
-                {
-                    documentModel.DocumentType = SelectedDocType;
-                }
-
-                if (SelectedRelatedTable != null && SelectedRelatedID != null && int.Parse(SelectedRelatedID) != 0)
-                {
-                    documentModel.RelatedTable = SelectedRelatedTable;
-                    documentModel.RelatedID = int.Parse(SelectedRelatedID);
-                }
-                else
-                {
-                    documentModel.RelatedTable = DatabaseLiterals.TableStation;
-                    documentModel.RelatedID = selectedStationSummaryDocument.station.StationID;
-                }
-                #endregion
-
-                #region Photos
-
-                if (_documentPhotoFile != null)
-                {
-                    documentModel.FileName = _documentPhotoFile.Name;
-                    documentModel.DocumentType = DatabaseLiterals.documentTableFileSuffix; //Default value from embeded cameras.
-                    //documentModel.FileNumber = string.Empty; //File number can be empty since embedded photo don't need renaming
-                }
-
-                #endregion
-
-                #region FILE NUMBER
-                if (_fileToNumber != string.Empty)
-                {
-                    bool fromResult = int.TryParse(_fileNumber, out int fromNumber);
-
-                    bool toResult = int.TryParse(_fileToNumber, out int toNumber);
-
-                    if (fromResult && toResult)
+                    List<object> docList = new List<object>();
+                    int totalIteration = fromNumber + (toNumber - fromNumber);
+                    int iteratedFileNumber = fromNumber;
+                    int currentIteration = 1;
+                    while (iteratedFileNumber <= totalIteration)
                     {
-                        List<object> docList = new List<object>();
-                        int totalIteration = fromNumber + (toNumber - fromNumber);
-                        int iteratedFileNumber = fromNumber;
-                        int currentIteration = 1;
-                        while (iteratedFileNumber <= totalIteration)
+                        _fileNumber = iteratedFileNumber.ToString();
+
+                        Document newDoc = new Document
                         {
-                            _fileNumber = iteratedFileNumber.ToString();
+                            //DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
+                            FileNumber = iteratedFileNumber,
+                            FileName = _fileName = CalculateFileName(),
+                            DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
 
-                            Document newDoc = new Document
-                            {
-                                //DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
-                                FileNumber = iteratedFileNumber,
-                                FileName = _fileName = CalculateFileName(),
-                                DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
+                            Category = documentModel.Category,
+                            Description = documentModel.Description,
+                            Direction = documentModel.Direction,
+                            DocumentType = documentModel.DocumentType,
+                            RelatedID = documentModel.RelatedID,
+                            RelatedTable = documentModel.RelatedTable
+                        };
 
-                                Category = documentModel.Category,
-                                Description = documentModel.Description,
-                                Direction = documentModel.Direction,
-                                DocumentType = documentModel.DocumentType,
-                                RelatedID = documentModel.RelatedID,
-                                RelatedTable = documentModel.RelatedTable
-                            };
+                        docList.Add(newDoc);
+                        iteratedFileNumber++;
 
-                            docList.Add(newDoc);
-                            iteratedFileNumber++;
-
-                            currentIteration++;
-                        }
-
-                        //Save model class
-                        dataAcess.BatchSaveSQLTables(docList);
+                        currentIteration++;
                     }
-                    else
-                    {
-                        //Save model class
-                        object docObject = (object)documentModel;
-                        dataAcess.SaveFromSQLTableObject(ref docObject, doDocumentUpdate);
-                        documentModel = (Document)docObject;
-                        //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
-                    }
+
+                    //Save model class
+                    dataAcess.BatchSaveSQLTables(docList);
                 }
                 else
                 {
@@ -498,21 +483,26 @@ namespace GSCFieldApp.ViewModels
                     documentModel = (Document)docObject;
                     //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
                 }
-
-                #endregion
-
-                //Launch an event call for everyone that an earthmat has been edited.
-                if (newDocumentEdit != null)
-                {
-                    newDocumentEdit(this);
-                }
-
-                return true;
             }
             else
             {
-                return false;
+                //Save model class
+                object docObject = (object)documentModel;
+                dataAcess.SaveFromSQLTableObject(ref docObject, doDocumentUpdate);
+                documentModel = (Document)docObject;
+                //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
             }
+
+            #endregion
+
+            //Launch an event call for everyone that an earthmat has been edited.
+            if (newDocumentEdit != null)
+            {
+                newDocumentEdit(this);
+            }
+
+            return true;
+
 
         }
 
@@ -593,42 +583,48 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         private string CalculateFileName()
         {
-            _fileName = string.Empty;
-            string _noOlympusFileNumber = string.Empty;
-            RaisePropertyChanged("FileName");
-
-            //Get suffix and prefix
-            string[] splitedDoc = SelectedDocType.Split('.');
-
-            #region PHOTO NUMBERING
-            //Calculate a proper file number for photos
-            if (SelectedDocType.ToLower().Contains("jpg"))
+            if (existingDataDetailDocument!= null && existingDataDetailDocument.document.DocumentType != DatabaseLiterals.documentTableFileSuffix)
             {
-                SetFileNumberAsString();
+                _fileName = string.Empty;
+                string _noOlympusFileNumber = string.Empty;
+                RaisePropertyChanged("FileName");
 
-                //Special procedure for Olympus camera
-                if (splitedDoc[0].ToLower().Contains("p"))
+                //Get suffix and prefix
+                string[] splitedDoc = SelectedDocType.Split('.');
+
+                #region PHOTO NUMBERING
+                //Calculate a proper file number for photos
+                if (SelectedDocType.ToLower().Contains("jpg"))
                 {
-                    _noOlympusFileNumber = GetOlympusPrefix() + _fileNumber;
+                    SetFileNumberAsString();
+
+                    //Special procedure for Olympus camera
+                    if (splitedDoc[0].ToLower().Contains("p"))
+                    {
+                        _noOlympusFileNumber = GetOlympusPrefix() + _fileNumber;
+                    }
+                    else
+                    {
+                        _noOlympusFileNumber = _fileNumber;
+                    }
                 }
-                else
+                #endregion
+
+                //Calculate file name and update UI
+                if (splitedDoc.Count() == 1)
                 {
-                    _noOlympusFileNumber = _fileNumber;
+                    _fileName = _noOlympusFileNumber + "." + splitedDoc[0];
                 }
-            }
-            #endregion
+                else if (splitedDoc.Count() == 2)
+                {
+                    _fileName = splitedDoc[0] + _noOlympusFileNumber + "." + splitedDoc[1];
+                }
 
-            //Calculate file name and update UI
-            if (splitedDoc.Count() == 1)
-            {
-                _fileName = _noOlympusFileNumber + "." + splitedDoc[0];
-            }
-            else if (splitedDoc.Count() == 2)
-            {
-                _fileName = splitedDoc[0] + _noOlympusFileNumber + "." + splitedDoc[1];
+                RaisePropertyChanged("FileName");
             }
 
-            RaisePropertyChanged("FileName");
+
+
 
             return _fileName;
         }

@@ -136,9 +136,8 @@
                         </GridView>
 
                         <TextBox x:Name="DocumentNameTextbox" x:Uid="DocumentNameTextbox" Style="{ThemeResource TextboxMandatoryField}"
-                             IsReadOnly="{x:Bind DocViewModel.FileNameReadOnly, Mode=TwoWay}" RelativePanel.Below="DocumentNameAndNumbers"
+                             RelativePanel.Below="DocumentNameAndNumbers"
                              HorizontalAlignment="Stretch"
-                             MaxLength="0"
                              InputScope="Text"
                              Text ="{x:Bind DocViewModel.FileName, Mode=TwoWay}" TabIndex="6"/>
 

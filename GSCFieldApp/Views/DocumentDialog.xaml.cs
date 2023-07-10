@@ -63,6 +63,11 @@ namespace GSCFieldApp.Views
         private void DocumentDialog_Loaded(object sender, RoutedEventArgs e)
         {
             DocViewModel.hasInitialized = true;
+
+            if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableDocument && DocViewModel.doDocumentUpdate)
+            {
+                this.DocViewModel.AutoFillDialogAsync(parentViewModel);
+            }
         }
 
         /// <summary>
@@ -74,7 +79,7 @@ namespace GSCFieldApp.Views
         {
             if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableDocument && DocViewModel.doDocumentUpdate)
             {
-                this.DocViewModel.AutoFillDialogAsync(parentViewModel);
+                //this.DocViewModel.AutoFillDialogAsync(parentViewModel);
                 this.pageHeader.Text = parentViewModel.GenericAliasName;
             }
             else if (!DocViewModel.doDocumentUpdate)
