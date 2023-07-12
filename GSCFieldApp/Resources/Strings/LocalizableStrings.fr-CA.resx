@@ -123,4 +123,19 @@
   <data name="deleteButton" xml:space="preserve">
     <value>Supprimer</value>
   </data>
+  <data name="ShellFieldBooksTitle" xml:space="preserve">
+    <value>Carnet de terrain</value>
+  </data>
+  <data name="ShellFieldNotesTitle" xml:space="preserve">
+    <value>Notes de terrain</value>
+  </data>
+  <data name="ShellMapTitle" xml:space="preserve">
+    <value>Carte</value>
+  </data>
+  <data name="ShellQuickBackupTitle" xml:space="preserve">
+    <value>Sauvegarde rapide</value>
+  </data>
+  <data name="ShellSettingsTitle" xml:space="preserve">
+    <value>Configurations</value>
+  </data>
 </root>

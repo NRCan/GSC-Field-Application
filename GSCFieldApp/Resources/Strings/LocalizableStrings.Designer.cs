@@ -77,5 +77,50 @@ namespace GSCFieldApp.Resources.Strings {
                 return ResourceManager.GetString("deleteButton", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field Books.
+        /// </summary>
+        internal static string ShellFieldBooksTitle {
+            get {
+                return ResourceManager.GetString("ShellFieldBooksTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field Notes.
+        /// </summary>
+        internal static string ShellFieldNotesTitle {
+            get {
+                return ResourceManager.GetString("ShellFieldNotesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string ShellMapTitle {
+            get {
+                return ResourceManager.GetString("ShellMapTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Backup.
+        /// </summary>
+        internal static string ShellQuickBackupTitle {
+            get {
+                return ResourceManager.GetString("ShellQuickBackupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string ShellSettingsTitle {
+            get {
+                return ResourceManager.GetString("ShellSettingsTitle", resourceCulture);
+            }
+        }
     }
 }

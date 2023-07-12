@@ -3,22 +3,23 @@
     x:Class="GSCFieldApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:GSCFieldApp"
+    xmlns:app="clr-namespace:GSCFieldApp"
+    xmlns:local="clr-namespace:GSCFieldApp.Services"
     Shell.FlyoutBehavior="Flyout" >
 
     <ShellContent
             Title="GSC Field App"
-            ContentTemplate="{DataTemplate local:MainPage}"
+            ContentTemplate="{DataTemplate app:MainPage}"
             Route="MainPage" />
 
-    <MenuItem Text="Map" Command="{Binding NavigateToMapCommand}"/>
+    <MenuItem Text="{local:Localize ShellMapTitle}" Command="{Binding NavigateToMapCommand}"/>
 
-    <MenuItem Text="Field Notes" Command="{Binding NavigateToFieldNotesCommand}"/>
+    <MenuItem Text="{local:Localize ShellFieldNotesTitle}" Command="{Binding NavigateToFieldNotesCommand}"/>
 
-    <MenuItem Text="Quick Backup" Command="{Binding DoBackupCommand}" />
+    <MenuItem Text="{local:Localize ShellQuickBackupTitle}" Command="{Binding DoBackupCommand}" />
 
-    <MenuItem Text="Field Books" Command="{Binding NavigateToFieldBooksCommand}"/>
+    <MenuItem Text="{local:Localize ShellFieldBooksTitle}" Command="{Binding NavigateToFieldBooksCommand}"/>
 
-    <MenuItem Text="Settings" Command="{Binding NavigateToSettingsCommand}" />
+    <MenuItem Text="{local:Localize ShellSettingsTitle}" Command="{Binding NavigateToSettingsCommand}" />
         
 </Shell>

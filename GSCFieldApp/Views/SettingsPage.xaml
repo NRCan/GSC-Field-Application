@@ -2,12 +2,16 @@
 <TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GSCFieldApp.Views.SettingsPage"
-             xmlns:local="clr-namespace:GSCFieldApp.Views"
+             xmlns:view="clr-namespace:GSCFieldApp.Views"
              Title="Settings">
-    <local:AboutPage />
-    <!--<NavigationPage Title="Visibility"/>
+    <!--<local:AboutPage />-->
+    <NavigationPage Title="Visibility"/>
     <NavigationPage Title="Picklits"/>
     <NavigationPage Title="Other"/>
-    <NavigationPage Title="About"/>-->
-    
+    <NavigationPage Title="About">
+        <x:Arguments>
+            <view:AboutPage/>
+        </x:Arguments>
+    </NavigationPage>
+
 </TabbedPage >
