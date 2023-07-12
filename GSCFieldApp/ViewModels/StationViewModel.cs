@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Themes;
 using Windows.ApplicationModel.Contacts;
 
 namespace GSCFieldApp.ViewModels
