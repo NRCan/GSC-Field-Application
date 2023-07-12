@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GSCFieldApp.MainPage"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
              x:DataType="viewmodel:MainViewModel">
 
     <Grid RowDefinitions="100, Auto, *" ColumnDefinitions="0.75*,0.25*" Padding="10"
@@ -16,7 +17,7 @@
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
-                                <SwipeItem Text="Delete" BackgroundColor="red"
+                                <SwipeItem x:Name="DeleteButton" Text="{local:Localize deleteButton}" BackgroundColor="red"
                                            Command="{Binding Source={RelativeSource 
                                     AncestorType={x:Type viewmodel:MainViewModel}},Path=DeleteCommand}"
                                            CommandParameter="{Binding .}"/>

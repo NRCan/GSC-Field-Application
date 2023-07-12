@@ -120,4 +120,7 @@
   <data name="AboutLabelTest" xml:space="preserve">
     <value>Testage</value>
   </data>
+  <data name="deleteButton" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
 </root>
