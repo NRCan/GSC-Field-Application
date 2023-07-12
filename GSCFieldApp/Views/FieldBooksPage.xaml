@@ -25,27 +25,27 @@
 
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Details" TextColor="White"
+                    <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Miche Houle" TextColor="White"
                         HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-                    <Label Text="Geologist" 
+                    <Label Text="Activity" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="1"/>
-                    <Label Text="MetadataActivity" 
+                    <Label Text="Project" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="2"/>
-                    <Label Text="FieldworkType" 
+                    <Label Text="Bedrock/Surficial" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="3"/>
-                    <Label  Text="StartDate" 
+                    <Label  Text="2023-01-01" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="4"/>
 
-                    <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count" TextColor="White"
-                               HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
+                    <Label Grid.Column="1" Grid.Row="5" Text="Station (20)" TextColor="White" 
+                               HorizontalTextAlignment="Start" Margin="25,0,0,0"/>
 
-                    <Image x:Name="fieldbook_logo"
-                       Grid.Row="6" HorizontalOptions="Center" Source="logo.png"/>
+                    <Image x:Name="fieldbook_logo" Grid.Column="1"
+                       Grid.Row="7" HorizontalOptions="Center" Source="logo.png"/>
 
                     <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
@@ -89,8 +89,8 @@
                     <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count"
                                HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-                    <Image Source="logo.png" BackgroundColor="Transparent"  
-                       Grid.Row="6" HorizontalOptions="Center"/>
+                    <Image Grid.Column="1"
+                       Grid.Row="7" HorizontalOptions="Center" Source="logo.png"/>
 
                     <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
@@ -133,8 +133,8 @@
                     <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count"
                                HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-                    <Image  Source="logo.png" BackgroundColor="Transparent"  
-                       Grid.Row="6" HorizontalOptions="Center"/>
+                    <Image  Grid.Column="1"
+                       Grid.Row="7" HorizontalOptions="Center" Source="logo.png"/>
 
                     <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 

@@ -49,16 +49,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Resources\Images\logo.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="DetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AboutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\FieldBooksPage.xaml">
@@ -80,9 +85,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Resources\Strings\LocalizableStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>LocalizableStrings.resx</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SettingsPage.xaml.cs">
 	    <DependentUpon>SettingsPage.xaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Resources\Strings\LocalizableStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>LocalizableStrings.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Strings\LocalizableStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>LocalizableStrings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>

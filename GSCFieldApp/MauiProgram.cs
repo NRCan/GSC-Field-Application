@@ -38,6 +38,11 @@ public static class MauiProgram
         builder.Services.AddSingleton<MapPage>();
         builder.Services.AddSingleton<MapViewModel>();
 
+		builder.Services.AddSingleton<AboutPage>();
+
+		//Add localization service, making it available for all views
+		builder.Services.AddLocalization();
+
 
 #if DEBUG
         builder.Logging.AddDebug();

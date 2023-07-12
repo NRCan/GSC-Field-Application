@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.AboutPage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             Title="AboutPage">
+    <VerticalStackLayout>
+        <Grid Margin="10" HorizontalOptions="Start" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+            <Label x:Name="DisplayNameTextBlock" Text="{local:Localize AboutLabelTest}" FontSize="22" />
+
+            <!--<TextBlock x:Name="PublisherTextBlock"
+                                RelativePanel.AlignLeftWithPanel="True" TextWrapping="Wrap" RelativePanel.LeftOf="LogoImage"
+                                RelativePanel.Below="DisplayNameTextBlock"
+                                Text="{Binding Publisher}" />
+
+            <TextBlock x:Name="VersionTextBlock"
+                                RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.Below="PublisherTextBlock">
+                        <Run>Version</Run>
+                        <Run Text="{Binding Version}" />
+            </TextBlock>
+
+            <TextBlock x:Name="VersionDBTextBlock" 
+                                RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.Below="VersionTextBlock">
+                        <Run x:Uid="AboutDatabaseVersion">Version</Run>
+                        <Run Text="{Binding VersionDB}" />
+            </TextBlock>
+
+            --><!--Contact Info--><!--
+            <TextBlock x:Name="ContactTextBlock" Margin="0,12,0,12" x:Uid="AboutContactHeader"
+                                FontSize="22" RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.Below="VersionDBTextBlock"
+                                Text="" />
+
+            <TextBlock x:Name="ContactInfoTextBlock" x:Uid="AboutContactInfo"
+                                RelativePanel.AlignLeftWithPanel="True" TextWrapping="Wrap"
+                                RelativePanel.Below="ContactTextBlock"
+                                Text="" />
+
+            --><!--Project Info--><!--
+            <TextBlock x:Name="ProjectTextBlock" Margin="0,12,0,12" x:Uid="AboutProjectHeader"
+                                FontSize="22" RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.Below="ContactInfoTextBlock"
+                                Text="" />
+            <TextBlock x:Name="ProjectURLsTextBlock" 
+                                RelativePanel.AlignLeftWithPanel="True" 
+                                RelativePanel.Below="ProjectTextBlock" TextWrapping="Wrap">
+                        
+                        <Run x:Uid="AboutProjectGit"/><Hyperlink NavigateUri="https://nrcan.github.io/GSC-Field-Application/">
+                            <Run x:Uid="AboutProjectGitHyperlink"/>
+                        </Hyperlink>
+                        <Run x:Uid="AboutProjectGitHyperlinkEnd"/>
+                        <LineBreak/>
+                        <Run x:Uid="AboutProjectIssues"/><Hyperlink NavigateUri="https://github.com/NRCan/GSC-Field-Application/issues">
+                            <Run x:Uid="AboutProjectIssueHyperlink"/>
+                        </Hyperlink>
+
+            </TextBlock>
+
+            --><!--Team Info--><!--
+            <TextBlock x:Name="TeamTextBlock" Margin="0,12,0,12" x:Uid="AboutTeamHeader"
+                                FontSize="22" RelativePanel.AlignLeftWithPanel="True"
+                                RelativePanel.Below="ProjectURLsTextBlock"
+                                Text="" />
+
+            <TextBlock x:Name="TeamInfoTextBlock" x:Uid="AboutTeamInfo"
+                                RelativePanel.AlignLeftWithPanel="True" TextWrapping="Wrap"
+                                RelativePanel.Below="TeamTextBlock"
+                                Text="" Holding="TeamInfoTextBlock_Holding" />
+
+            <Image RelativePanel.AlignLeftWithPanel="True" x:Name="AboutTeamPicture"
+                            RelativePanel.AlignBottomWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignTopWithPanel="True"
+                            Visibility="Collapsed" Tapped="AboutTeamPicture_Tapped" Source="ms-appx:///Assets/Team.png"/>-->
+
+        </Grid>
+
+
+
+    </VerticalStackLayout>
+</ContentPage>
