@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GSCFieldApp.Views.AboutPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              Title="AboutPage">
     <VerticalStackLayout>
         <Grid Margin="10" HorizontalOptions="Start" >
@@ -22,7 +23,7 @@
 
             </Grid.RowDefinitions>
 
-            <Label x:Name="DisplayNameTextBlock" Text="{local:Localize AboutLabelTest}" FontSize="22" />
+            <Label x:Name="DisplayNameTextBlock" Text="Test" FontSize="22" />
 
             <!--<TextBlock x:Name="PublisherTextBlock"
                                 RelativePanel.AlignLeftWithPanel="True" TextWrapping="Wrap" RelativePanel.LeftOf="LogoImage"

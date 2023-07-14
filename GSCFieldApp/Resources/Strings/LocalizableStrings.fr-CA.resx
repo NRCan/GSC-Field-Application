@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutLabelTest" xml:space="preserve">
-    <value>Testage</value>
-  </data>
-  <data name="deleteButton" xml:space="preserve">
-    <value>Supprimer</value>
-  </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Carnet de terrain</value>
   </data>

@@ -1,6 +1,7 @@
 ﻿using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Extensions.Logging;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 
 namespace GSCFieldApp;
 
@@ -8,9 +9,13 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		var builder = MauiApp.CreateBuilder();
+        //NOTE: fix for mapsui failing on navigating to
+		//https://github.com/mono/SkiaSharp/discussions/1882
+
+        var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseSkiaSharp(true)
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -21,10 +26,6 @@ public static class MauiProgram
 		//Singleton will be created once
 		builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddSingleton<MainViewModel>();
-
-		//Transient will be created/deleted each time
-        builder.Services.AddTransient<DetailPage>();
-        builder.Services.AddTransient<DetailVieModel>();
 
 		builder.Services.AddSingleton<SettingsPage>();
 		builder.Services.AddSingleton<SettingsViewModel>();
@@ -39,9 +40,15 @@ public static class MauiProgram
         builder.Services.AddSingleton<MapViewModel>();
 
 		builder.Services.AddSingleton<AboutPage>();
+        builder.Services.AddSingleton<AboutPageViewModel>();
 
-		//Add localization service, making it available for all views
-		builder.Services.AddLocalization();
+        //Transient will be created/deleted each time
+        builder.Services.AddTransient<DetailPage>();
+        builder.Services.AddTransient<DetailVieModel>();
+
+        //Add localization service, making it available for all views
+        builder.Services.AddLocalization();
+
 
 
 #if DEBUG

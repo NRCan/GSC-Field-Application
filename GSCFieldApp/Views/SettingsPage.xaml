@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GSCFieldApp.Views.SettingsPage"
-             xmlns:view="clr-namespace:GSCFieldApp.Views"
-             Title="Settings">
-    <!--<local:AboutPage />-->
-    <NavigationPage Title="Visibility"/>
-    <NavigationPage Title="Picklits"/>
-    <NavigationPage Title="Other"/>
-    <NavigationPage Title="About">
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="GSCFieldApp.Views.SettingsPage"
+            xmlns:views="clr-namespace:GSCFieldApp.Views"
+            xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            Title="Settings">
+    <!--<NavigationPage x:Name="SettingVisibilityTab" Title="Visibility"/>
+    <NavigationPage x:Name="SettingPicklistTab" Title="Picklits"/>
+    <NavigationPage x:Name="SettingOtherTab" Title="Other"/>
+    <NavigationPage x:Name="SettingAboutTab" Title="About">
         <x:Arguments>
-            <view:AboutPage/>
+            <views:AboutPage/>
         </x:Arguments>
-    </NavigationPage>
+    </NavigationPage>-->
+
+    <!--<ContentPage.MenuBarItems>
+        <MenuBarItem Text="Visibility"/>
+        <MenuBarItem Text="Picklist"/>
+        <MenuBarItem Text="Other"/>
+        <MenuBarItem Text="About"/>
+        
+    </ContentPage.MenuBarItems>-->
+
+    <!--<TabBar>
+        <Tab Title="Visibility">
+            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
+        </Tab>
+        <Tab Title="Picklist">
+            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
+        </Tab>
+        <Tab Title="Other">
+            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
+        </Tab>
+        <Tab Title="About">
+            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
+        </Tab>
+    </TabBar>-->
+
+    <ContentPage Title="Tab 1"/>
+    <ContentPage Title="Tab 2"/>
+    <ContentPage Title="Tab 3"/>
 
 </TabbedPage >

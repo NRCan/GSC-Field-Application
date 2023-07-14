@@ -31,6 +31,14 @@
 		<DefaultLanguage>en</DefaultLanguage>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
+	  <AndroidKeyStore>False</AndroidKeyStore>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
+	  <AndroidKeyStore>False</AndroidKeyStore>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
@@ -54,9 +62,17 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+		<PackageReference Include="Mapsui" Version="4.0.0" />
+		<PackageReference Include="Mapsui.Maui" Version="4.0.0" />
+		<PackageReference Include="Mapsui.Nts" Version="4.0.0" />
+		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="SkiaSharp" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp.Views" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.3" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.3" />
 	</ItemGroup>
 
 	<ItemGroup>

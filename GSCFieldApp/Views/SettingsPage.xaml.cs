@@ -4,9 +4,9 @@ namespace GSCFieldApp.Views;
 
 public partial class SettingsPage : TabbedPage
 {
-	public SettingsPage(SettingsViewModel vm)
+	public SettingsPage()
 	{
 		InitializeComponent();
-		BindingContext = vm;
+
 	}
 }

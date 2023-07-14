@@ -61,24 +61,6 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Testing.
-        /// </summary>
-        internal static string AboutLabelTest {
-            get {
-                return ResourceManager.GetString("AboutLabelTest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete.
-        /// </summary>
-        internal static string deleteButton {
-            get {
-                return ResourceManager.GetString("deleteButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Field Books.
         /// </summary>
         internal static string ShellFieldBooksTitle {
