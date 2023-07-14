@@ -33,9 +33,6 @@ public partial class MapPage : ContentPage
 
         mapView.Map = mapControl.Map;
 
-        //var mapControl = new Mapsui.UI.Maui.MapControl();
-        //mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
-        //this.mapView = mapControl;
     }
 
 }
