@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
-    <value>Carnet de terrain</value>
+    <value>Carnets de terrain</value>
   </data>
   <data name="ShellFieldNotesTitle" xml:space="preserve">
     <value>Notes de terrain</value>

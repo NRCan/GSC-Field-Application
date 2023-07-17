@@ -5,21 +5,41 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:app="clr-namespace:GSCFieldApp"
     xmlns:local="clr-namespace:GSCFieldApp.Services"
-    Shell.FlyoutBehavior="Flyout" >
+    Shell.FlyoutBehavior="Flyout">
 
-    <ShellContent
+    <ShellContent 
             Title="GSC Field App"
             ContentTemplate="{DataTemplate app:MainPage}"
             Route="MainPage" />
 
-    <MenuItem Text="{local:Localize ShellMapTitle}" Command="{Binding NavigateToMapCommand}"/>
+    <MenuItem Text="{local:Localize ShellFieldBooksTitle}" Command="{Binding NavigateToFieldBooksCommand}">
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="&#xF125F;" FontFamily="MatDesign" Color="Black"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellFieldNotesTitle}" Command="{Binding NavigateToFieldNotesCommand}"/>
+    <MenuItem Text="{local:Localize ShellFieldNotesTitle}" Command="{Binding NavigateToFieldNotesCommand}">
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="&#xF039B;" FontFamily="MatDesign" Color="Black"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellQuickBackupTitle}" Command="{Binding DoBackupCommand}" />
+    <MenuItem Text="{local:Localize ShellMapTitle}" Command="{Binding NavigateToMapCommand}">
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="&#xF01E7;" FontFamily="MatDesign" Color="Black"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellFieldBooksTitle}" Command="{Binding NavigateToFieldBooksCommand}"/>
+    <MenuItem Text="{local:Localize ShellQuickBackupTitle}" Command="{Binding DoBackupCommand}" >
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="&#xF0818;" FontFamily="MatDesign" Color="Black"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellSettingsTitle}" Command="{Binding NavigateToSettingsCommand}" />
+    <MenuItem Text="{local:Localize ShellSettingsTitle}" Command="{Binding NavigateToSettingsCommand}" >
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="Black"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
         
 </Shell>

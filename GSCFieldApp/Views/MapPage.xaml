@@ -4,23 +4,97 @@
              x:Class="GSCFieldApp.Views.MapPage"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
-             Title="Map Page">
+             Title="Map">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
+            
+            <!--Controls header bar-->
+            <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="0" FlowDirection="RightToLeft">
+
+                <!--Manual XY-->
+                <Button Text="XY" FontSize="Title" >
+                </Button>
+
+                <!--Waypoint-->
+                <Button>
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xF023D;" FontFamily="MatDesign" />
+                    </Button.ImageSource>
+                </Button>
+
+                <!--Quick structure/pflow-->
+                <Button>
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xF183F;" FontFamily="MatDesign" />
+                    </Button.ImageSource>
+                </Button>
+
+                <!--Quick photo-->
+                <Button>
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xF0D5D;" FontFamily="MatDesign" />
+                    </Button.ImageSource>
+                </Button>
+
+                <!--Quick sample-->
+                <Button>
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xF04FD;" FontFamily="MatDesign" />
+                    </Button.ImageSource>
+                </Button>
+
+                <!--Quick station-->
+                <Button>
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xF12FC;" FontFamily="MatDesign" />
+                    </Button.ImageSource>
+                </Button>
+
+            </StackLayout> 
+            
+            
+            <!--Map Control-->
             <mapsui:MapView x:Name="mapView"
-                            Grid.Row ="0"
+                            Grid.Row ="1"
                             IsVisible="true"
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
-                            BackgroundColor="Gray" 
                             Margin="10" />
-            <Label Grid.Row="1"  x:Name="info" 
+            
+            <!--Label Bar-->
+            <Label Grid.Row="2"  x:Name="info" 
             HorizontalOptions="CenterAndExpand"
             Text="unknown" />
+            
+            <!--Controls bottom bar-->
+            <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft">
+
+                <!--Tap option -->
+                <Button Text="">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xF0A55;" FontFamily="MatDesign" />
+                    </Button.ImageSource>
+                </Button>
+
+                <!--Manage layers-->
+                <Button Text="">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xF0F59;" FontFamily="MatDesign" />
+                    </Button.ImageSource>
+                </Button>
+                <!--Add new layer-->
+                <Button Text="">
+                    <Button.ImageSource>
+                        <FontImageSource Glyph="&#xF0E4D;" FontFamily="MatDesign" />
+                    </Button.ImageSource>
+                </Button>
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 
