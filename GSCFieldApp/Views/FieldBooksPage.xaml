@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GSCFieldApp.Views.FieldBooksPage"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
-             Title="FieldBooksPage">
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             Title="{local:Localize ShellFieldBooksTitle}">
     <ScrollView Orientation="Vertical">
         <FlexLayout AlignItems="Start" AlignContent="SpaceEvenly" JustifyContent="SpaceEvenly"
                     Direction="Row" Wrap="Wrap">

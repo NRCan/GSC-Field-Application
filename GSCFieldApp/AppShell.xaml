@@ -8,7 +8,7 @@
     xmlns:local="clr-namespace:GSCFieldApp.Services"
     Shell.FlyoutBehavior="Flyout">
 
-    <ShellContent 
+    <ShellContent
             Title="GSC Field App"
             ContentTemplate="{DataTemplate views:FieldBooksPage}"
             Route="FieldBooksPage" />

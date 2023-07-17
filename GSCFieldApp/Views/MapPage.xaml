@@ -4,7 +4,8 @@
              x:Class="GSCFieldApp.Views.MapPage"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
-             Title="Map">
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             Title="{local:Localize ShellMapTitle}">
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
