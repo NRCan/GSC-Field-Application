@@ -15,12 +15,14 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 
+        #region MENU ROUTING
         //Registering some routing to other pages from app shell 
-		Routing.RegisterRoute(nameof(DetailPage), typeof(DetailPage));
+        Routing.RegisterRoute(nameof(DetailPage), typeof(DetailPage));
         Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
         Routing.RegisterRoute(nameof(FieldBooksPage), typeof(FieldBooksPage));
         Routing.RegisterRoute(nameof(FieldNotesPage), typeof(FieldNotesPage));
         Routing.RegisterRoute(nameof(MapPage), typeof(MapPage));
+
 
         //Will be used to navigate to setting page
         NavigateToSettingsCommand = new Command(async () => {
@@ -34,7 +36,8 @@ public partial class AppShell : Shell
 
         //Will be used to navigate to field books page
         NavigateToFieldNotesCommand = new Command(async () => {
-            await GoToAsync(nameof(FieldNotesPage));
+
+            await DisplayAlert("Alert", "Not yet implemented", "OK");
         });
 
         //Will be used to navigate to field books page
@@ -47,6 +50,18 @@ public partial class AppShell : Shell
         {
             await DisplayAlert("Alert", "Not yet implemented", "OK");
         });
+
+        #endregion
+
+        #region FORMS NAVIGATION
+
+        Routing.RegisterRoute(nameof(StationPage), typeof(StationPage));
+
+        //Will be used to navigate to field books page
+        NavigateToFieldBooksCommand = new Command(async () => {
+            await GoToAsync(nameof(StationPage));
+        });
+        #endregion
 
         BindingContext = this;
     }

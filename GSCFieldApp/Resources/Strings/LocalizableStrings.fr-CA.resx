@@ -132,4 +132,7 @@
   <data name="ShellSettingsTitle" xml:space="preserve">
     <value>Configurations</value>
   </data>
+  <data name="StationPageTitle" xml:space="preserve">
+    <value>Station</value>
+  </data>
 </root>

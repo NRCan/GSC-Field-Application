@@ -22,7 +22,7 @@ public partial class MapPage : ContentPage
     private CancellationTokenSource? gpsCancelation;
     private bool _updateLocation = true;
 
-    public MapPage()
+    public MapPage(MapViewModel vm)
 	{
 		InitializeComponent();
 
@@ -37,8 +37,14 @@ public partial class MapPage : ContentPage
 
         StartGPS();
 
+        BindingContext = vm;
+
     }
 
+    #region METHODS
+    /// <summary>
+    /// Will start the GPS
+    /// </summary>
     [Obsolete]
     public async void StartGPS()
     {
@@ -80,10 +86,17 @@ public partial class MapPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Will stop the GPS
+    /// </summary>
     public void StopGPS()
     {
         this.gpsCancelation?.Cancel();
     }
+
+    #endregion
+
+    #region EVENTS
 
     /// <summary>
     /// New informations from Geolocator arrived
@@ -118,6 +131,10 @@ public partial class MapPage : ContentPage
             Logger.Log(LogLevel.Error, ex.Message, ex);
         }
     }
+
+
+    #endregion
+
 
 
 }

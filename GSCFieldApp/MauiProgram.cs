@@ -47,6 +47,9 @@ public static class MauiProgram
         builder.Services.AddTransient<DetailPage>();
         builder.Services.AddTransient<DetailVieModel>();
 
+		builder.Services.AddTransient<StationPage>();
+		builder.Services.AddTransient<StationViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
 

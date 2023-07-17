@@ -104,5 +104,14 @@ namespace GSCFieldApp.Resources.Strings {
                 return ResourceManager.GetString("ShellSettingsTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Station.
+        /// </summary>
+        internal static string StationPageTitle {
+            get {
+                return ResourceManager.GetString("StationPageTitle", resourceCulture);
+            }
+        }
     }
 }
