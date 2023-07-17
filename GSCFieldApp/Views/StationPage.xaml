@@ -3,11 +3,78 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GSCFieldApp.Views.StationPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
+             Shell.BackgroundColor="{StaticResource FieldStationColor}"
              Title="{local:Localize StationPageTitle}">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView Orientation="Vertical">
+        <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap">
+
+            <!--Station Type section-->
+            <Frame Margin="5" BorderColor="{StaticResource FieldStationColor}">
+                <VerticalStackLayout>
+                    <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageTypeTitle}"/>
+
+                    <Picker Title="{local:Localize StationPageType}"/>
+                    <Picker Title="{local:Localize StationPageSource}"/>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--Outcrop section-->
+            <Frame Margin="5" BorderColor="{StaticResource FieldStationColor}">
+                <VerticalStackLayout>
+                    <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageOutcropTitle}"/>
+
+                    <VerticalStackLayout>
+                        <Label Text="{local:Localize StationPageOutcropSize}" Style="{StaticResource FieldAppEntryTitle}"/>
+                        <Entry Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
+                    </VerticalStackLayout>
+
+                    
+                    <Picker Title="{local:Localize StationPageOutcropQuality}"/>
+                    <ListView />
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--General section-->
+            <Frame Margin="5" BorderColor="{StaticResource FieldStationColor}">
+                <VerticalStackLayout>
+                    <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageGeneralTitle}"/>
+
+                    <Picker Title="{local:Localize StationPageGeneralPhysEnv}"/>
+
+                    <VerticalStackLayout>
+                        <Label Text="{local:Localize StationPageGeneralAirPhoto}" Style="{StaticResource FieldAppEntryTitle}"/>
+                        <Entry />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="{local:Localize StationPageGeneralTravNo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                        <Entry/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout>
+                        <Label Text="{local:Localize StationPageGeneralRelatedTo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                        <Entry Placeholder="{local:Localize StationPageGeneralRelatedToPlaceholder}"/>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--Notes section-->
+            <Frame Margin="5" BorderColor="{StaticResource FieldStationColor}" HorizontalOptions="FillAndExpand">
+                <VerticalStackLayout>
+                    <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize GenericNoteTitle}"/>
+
+                    <VerticalStackLayout>
+                        <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" Margin="10" MinimumHeightRequest="100"/>
+                        <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" Margin="10" MinimumHeightRequest="100"/>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+
+        </FlexLayout>
+    </ScrollView>
+   
 </ContentPage>

@@ -61,6 +61,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string GenericNoteTitle {
+            get {
+                return ResourceManager.GetString("GenericNoteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field Books.
         /// </summary>
         internal static string ShellFieldBooksTitle {
@@ -106,11 +115,146 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current station notes.
+        /// </summary>
+        internal static string StationPageCurrentNotePlaceholder {
+            get {
+                return ResourceManager.GetString("StationPageCurrentNotePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Air Photo #.
+        /// </summary>
+        internal static string StationPageGeneralAirPhoto {
+            get {
+                return ResourceManager.GetString("StationPageGeneralAirPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phys. Environment.
+        /// </summary>
+        internal static string StationPageGeneralPhysEnv {
+            get {
+                return ResourceManager.GetString("StationPageGeneralPhysEnv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Related To.
+        /// </summary>
+        internal static string StationPageGeneralRelatedTo {
+            get {
+                return ResourceManager.GetString("StationPageGeneralRelatedTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to e.g. another station alias.
+        /// </summary>
+        internal static string StationPageGeneralRelatedToPlaceholder {
+            get {
+                return ResourceManager.GetString("StationPageGeneralRelatedToPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string StationPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("StationPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Traverse #.
+        /// </summary>
+        internal static string StationPageGeneralTravNo {
+            get {
+                return ResourceManager.GetString("StationPageGeneralTravNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quality.
+        /// </summary>
+        internal static string StationPageOutcropQuality {
+            get {
+                return ResourceManager.GetString("StationPageOutcropQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        internal static string StationPageOutcropSize {
+            get {
+                return ResourceManager.GetString("StationPageOutcropSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to e.g. 10m.
+        /// </summary>
+        internal static string StationPageOutcropSizePlaceholder {
+            get {
+                return ResourceManager.GetString("StationPageOutcropSizePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outcrop.
+        /// </summary>
+        internal static string StationPageOutcropTitle {
+            get {
+                return ResourceManager.GetString("StationPageOutcropTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Since last station.
+        /// </summary>
+        internal static string StationPageSLSPlaceholder {
+            get {
+                return ResourceManager.GetString("StationPageSLSPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source.
+        /// </summary>
+        internal static string StationPageSource {
+            get {
+                return ResourceManager.GetString("StationPageSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Station.
         /// </summary>
         internal static string StationPageTitle {
             get {
                 return ResourceManager.GetString("StationPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observation.
+        /// </summary>
+        internal static string StationPageType {
+            get {
+                return ResourceManager.GetString("StationPageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string StationPageTypeTitle {
+            get {
+                return ResourceManager.GetString("StationPageTypeTitle", resourceCulture);
             }
         }
     }

@@ -6,7 +6,7 @@
 
     <Color x:Key="Primary">#710B2C</Color>
     <Color x:Key="Secondary">#D2A77A</Color>
-    <Color x:Key="Tertiary">#710b13</Color>
+    <Color x:Key="Tertiary">#9f103e</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
@@ -40,5 +40,81 @@
     <Color x:Key="Blue100Accent">#3E8EED</Color>
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
+
+    <!-- Custom FieldWork Colors -->
+    <!-- Light colors have been found with this website: https://highintegritydesign.com/tools/tinter-shader/ -->
+    <Color x:Key="FieldObservationColor" >#0067B3</Color>
+    <Color x:Key="FieldObservationColorLight" >#3485C3</Color>
+
+    <Color x:Key="FieldEarthMaterialColor">#724F2F</Color>
+    <Color x:Key="FieldEarthMaterialColorLight">#8E7359</Color>
+
+    <Color x:Key="FieldSampleColor">#EB8C10</Color>
+    <Color x:Key="FieldSampleColorLight">#EFA440</Color>
+
+    <Color x:Key="FieldStationColor">#E74856</Color>
+    <Color x:Key="FieldStationColorLight">#EB6C78</Color>
+
+    <Color x:Key="FieldPhotoColor">#881798</Color>
+    <Color x:Key="FieldPhotoColorLight">#AC5CB6</Color>
+
+    <Color x:Key="FieldStrucColor">#018574</Color>
+    <Color x:Key="FieldStrucColorLight">#339D90</Color>
+
+    <Color x:Key="FieldMineralColor">#E3008C</Color>
+    <Color x:Key="FieldMineralColorLight">#E934A4</Color>
+
+    <Color x:Key="FieldPflowColor">#00B7C3</Color>
+    <Color x:Key="FieldPflowColorLight">#34C5CF</Color>
+
+    <Color x:Key="FieldFossilColor">#767676</Color>
+    <Color x:Key="FieldFossilColorLight">#929292</Color>
+
+    <Color x:Key="FieldMineralAlterationColor">#647C64</Color>
+    <Color x:Key="FieldMineralAlterationColorLight">#849684</Color>
+
+    <Color x:Key="FieldEnvironmentColor">#99cc00</Color>
+    <Color x:Key="FieldEnvironmentColorLight">#bfff00</Color>
+
+    <Color x:Key="ReportPageInvalidBackground">Red</Color>
+
+    <!--Custom Field color brushes-->
+    <SolidColorBrush x:Key="CustomColorBrush" Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="CustomContrastColorBrush" Color="{StaticResource White}" />
+
+    <SolidColorBrush x:Key="FieldStationColorBrush" Color="{StaticResource FieldStationColor}"/>
+    <SolidColorBrush x:Key="FieldStationColorLightBrush" Color="{StaticResource FieldStationColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldObsColorBrush" Color="{StaticResource FieldObservationColor}" />
+    <SolidColorBrush x:Key="FieldObsColorLightBrush" Color="{StaticResource FieldObservationColorLight}" />
+
+    <SolidColorBrush x:Key="FieldEarthMatColorBrush" Color="{StaticResource FieldEarthMaterialColor}"/>
+    <SolidColorBrush x:Key="FieldEarthMatColorLightBrush" Color="{StaticResource FieldEarthMaterialColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldMineralColorBrush" Color="{StaticResource FieldMineralColor}"/>
+    <SolidColorBrush x:Key="FieldMineralColorLightBrush" Color="{StaticResource FieldMineralColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldSampleColorBrush" Color="{StaticResource FieldSampleColor}"/>
+    <SolidColorBrush x:Key="FieldSampleColorLigthBrush" Color="{StaticResource FieldSampleColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldPhotoColorBrush" Color="{StaticResource FieldPhotoColor}"/>
+    <SolidColorBrush x:Key="FieldPhotoColorLightBrush" Color="{StaticResource FieldPhotoColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldStructureColorBrush" Color="{StaticResource FieldStrucColor}"/>
+    <SolidColorBrush x:Key="FieldStructureColorLightBrush" Color="{StaticResource FieldStrucColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldPflowColorBrush" Color="{StaticResource FieldPflowColor}"/>
+    <SolidColorBrush x:Key="FieldPflowColorLightBrush" Color="{StaticResource FieldPflowColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldFossilColorBrush" Color="{StaticResource FieldFossilColor}"/>
+    <SolidColorBrush x:Key="FieldFossilColorLightBrush" Color="{StaticResource FieldFossilColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldMineralAlterationColorBrush" Color="{StaticResource FieldMineralAlterationColor}"/>
+    <SolidColorBrush x:Key="FieldMineralAlterationColorLightBrush" Color="{StaticResource FieldMineralAlterationColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldEnvironmentColorBrush" Color="{StaticResource FieldEnvironmentColor}"/>
+    <SolidColorBrush x:Key="FieldEnvironmentColorLightBrush" Color="{StaticResource FieldEnvironmentColorLight}"/>
+
+    <SolidColorBrush x:Key="ReportPageInvalidBackgroundBrush" Color="{StaticResource ReportPageInvalidBackground}"/>
 
 </ResourceDictionary>

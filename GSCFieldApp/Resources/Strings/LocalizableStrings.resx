@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="GenericNoteTitle" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Field Books</value>
   </data>
@@ -132,7 +135,52 @@
   <data name="ShellSettingsTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="StationPageCurrentNotePlaceholder" xml:space="preserve">
+    <value>Current station notes</value>
+  </data>
+  <data name="StationPageGeneralAirPhoto" xml:space="preserve">
+    <value>Air Photo #</value>
+  </data>
+  <data name="StationPageGeneralPhysEnv" xml:space="preserve">
+    <value>Phys. Environment</value>
+  </data>
+  <data name="StationPageGeneralRelatedTo" xml:space="preserve">
+    <value>Related To</value>
+  </data>
+  <data name="StationPageGeneralRelatedToPlaceholder" xml:space="preserve">
+    <value>e.g. another station alias</value>
+  </data>
+  <data name="StationPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="StationPageGeneralTravNo" xml:space="preserve">
+    <value>Traverse #</value>
+  </data>
+  <data name="StationPageOutcropQuality" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="StationPageOutcropSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="StationPageOutcropSizePlaceholder" xml:space="preserve">
+    <value>e.g. 10m</value>
+  </data>
+  <data name="StationPageOutcropTitle" xml:space="preserve">
+    <value>Outcrop</value>
+  </data>
+  <data name="StationPageSLSPlaceholder" xml:space="preserve">
+    <value>Since last station</value>
+  </data>
+  <data name="StationPageSource" xml:space="preserve">
+    <value>Source</value>
+  </data>
   <data name="StationPageTitle" xml:space="preserve">
     <value>Station</value>
+  </data>
+  <data name="StationPageType" xml:space="preserve">
+    <value>Observation</value>
+  </data>
+  <data name="StationPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
   </data>
 </root>
