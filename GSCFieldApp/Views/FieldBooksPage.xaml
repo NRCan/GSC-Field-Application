@@ -9,48 +9,51 @@
         <FlexLayout AlignItems="Start" AlignContent="SpaceEvenly" JustifyContent="SpaceEvenly"
                     Direction="Row" Wrap="Wrap">
             <VerticalStackLayout >
-                <Grid Padding="10" Margin="10" BackgroundColor="{StaticResource Primary}" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="200"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="100"/>
+                <Frame BackgroundColor="{StaticResource Primary}">
+                    <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="180"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="100"/>
 
-                    </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>
 
-                    <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Miche Houle" TextColor="White"
+                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Miche Houle" TextColor="White"
                         HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-                    <Label Text="Activity" 
+                        <Label Text="Activity" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="1"/>
-                    <Label Text="Project" 
+                        <Label Text="Project" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="2"/>
-                    <Label Text="Bedrock/Surficial" 
+                        <Label Text="Bedrock/Surficial" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="3"/>
-                    <Label  Text="2023-01-01" 
+                        <Label  Text="2023-01-01" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="4"/>
 
-                    <Label Grid.Column="1" Grid.Row="5" Text="Station (20)" TextColor="White" 
+                        <Label Grid.Column="1" Grid.Row="5" Text="Station (20)" TextColor="White" 
                                HorizontalTextAlignment="Start" Margin="25,0,0,0"/>
 
-                    <Image x:Name="fieldbook_logo" Grid.Column="1"
-                       Grid.Row="7" HorizontalOptions="Center" Source="logo.png"/>
+                        <Image x:Name="fieldbook_logo" Grid.Column="1"
+                       Grid.Row="7" HorizontalOptions="Center" VerticalOptions="End" Source="logo.png"/>
 
-                    <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+                        <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
-                </Grid>
+                    </Grid>
+                </Frame>
+
             </VerticalStackLayout>
             <VerticalStackLayout>
 

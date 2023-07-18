@@ -9,7 +9,7 @@
         <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap">
 
             <!--Station Type section-->
-            <Frame Margin="5" BorderColor="{StaticResource FieldStationColor}">
+            <Frame BorderColor="{StaticResource FieldStationColor}">
                 <VerticalStackLayout>
                     <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageTypeTitle}"/>
 
@@ -20,7 +20,7 @@
             </Frame>
 
             <!--Outcrop section-->
-            <Frame Margin="5" BorderColor="{StaticResource FieldStationColor}">
+            <Frame BorderColor="{StaticResource FieldStationColor}">
                 <VerticalStackLayout>
                     <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageOutcropTitle}"/>
 
@@ -29,15 +29,14 @@
                         <Entry Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
                     </VerticalStackLayout>
 
-                    
                     <Picker Title="{local:Localize StationPageOutcropQuality}"/>
-                    <ListView />
+                    <!--<ListView />-->
 
                 </VerticalStackLayout>
             </Frame>
 
             <!--General section-->
-            <Frame Margin="5" BorderColor="{StaticResource FieldStationColor}">
+            <Frame BorderColor="{StaticResource FieldStationColor}">
                 <VerticalStackLayout>
                     <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageGeneralTitle}"/>
 
@@ -62,13 +61,13 @@
             </Frame>
 
             <!--Notes section-->
-            <Frame Margin="5" BorderColor="{StaticResource FieldStationColor}" HorizontalOptions="FillAndExpand">
+            <Frame BorderColor="{StaticResource FieldStationColor}">
                 <VerticalStackLayout>
                     <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize GenericNoteTitle}"/>
 
                     <VerticalStackLayout>
-                        <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" Margin="10" MinimumHeightRequest="100"/>
-                        <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" Margin="10" MinimumHeightRequest="100"/>
+                        <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" Style="{StaticResource FieldAppEditorNotes}"/>
+                        <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" Style="{StaticResource FieldAppEditorNotes}"/>
                     </VerticalStackLayout>
 
                 </VerticalStackLayout>
