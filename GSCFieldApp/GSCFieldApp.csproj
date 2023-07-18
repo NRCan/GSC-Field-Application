@@ -68,6 +68,7 @@
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\MaterialDesignIconsDesktop.ttf" />
 	  <None Remove="Resources\Images\logo.svg" />
+	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -111,6 +112,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Models\" />
+	  <Folder Include="Services\Database\" />
 	</ItemGroup>
 
 	<ItemGroup>

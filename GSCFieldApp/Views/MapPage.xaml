@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              x:DataType="viewmodel:MapViewModel" 
+             Shell.BackgroundColor="{StaticResource Primary}"
              Title="{local:Localize ShellMapTitle}">
     <ContentPage.Content>
         <Grid >
