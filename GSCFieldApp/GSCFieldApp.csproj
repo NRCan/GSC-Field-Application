@@ -95,6 +95,9 @@
 	  <MauiXaml Update="Views\AboutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\FieldBook234Page.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\FieldBooksPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -117,6 +120,9 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>LocalizableStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\FieldBook234Page.xaml.cs">
+	    <DependentUpon>FieldBook234Page.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\StationPage.xaml.cs">
 	    <DependentUpon>StationPage.xaml</DependentUpon>

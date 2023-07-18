@@ -11,6 +11,7 @@ public partial class AppShell : Shell
     public ICommand NavigateToMapCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
     public ICommand NavigateToStationPageCommand { get; private set; }
+    public ICommand NavigateToFieldBook234PageCommand { get; private set; }
     public AppShell()
 	{
 		InitializeComponent();
@@ -26,12 +27,13 @@ public partial class AppShell : Shell
 
         //Will be used to navigate to setting page
         NavigateToSettingsCommand = new Command(async () => {
-            await GoToAsync(nameof(SettingsPage));
+            //await GoToAsync(nameof(SettingsPage));
+            await DisplayAlert("Alert", "Not yet implemented", "OK");
         });
 
         //Will be used to navigate to field books page
         NavigateToFieldBooksCommand = new Command(async () => {
-            await GoToAsync(nameof(FieldBooksPage));
+            await GoToAsync("///" + nameof(FieldBooksPage));
         });
 
         //Will be used to navigate to field books page
@@ -54,6 +56,13 @@ public partial class AppShell : Shell
         #endregion
 
         #region FORMS NAVIGATION
+
+        Routing.RegisterRoute(nameof(FieldBook234Page), typeof(FieldBook234Page));
+
+        //Will be used to navigate to field books page
+        NavigateToFieldBook234PageCommand = new Command(async () => {
+            await GoToAsync(nameof(FieldBook234Page));
+        });
 
         Routing.RegisterRoute(nameof(StationPage), typeof(StationPage));
 

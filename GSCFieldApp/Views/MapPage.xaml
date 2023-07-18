@@ -7,19 +7,18 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              x:DataType="viewmodel:MapViewModel" 
-             Shell.BackgroundColor="{StaticResource Primary}"
-             Title="{local:Localize ShellMapTitle}">
+             Title="{local:Localize ShellMapTitle}" InputTransparent="True">
     <ContentPage.Content>
-        <Grid >
+        <Grid Margin="0,-48,0,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
             
             <!--Controls header bar-->
-            <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="0" FlowDirection="RightToLeft">
+            <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Manual XY-->
                 <Button Text="XY" FontSize="Title" >

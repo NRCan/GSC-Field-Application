@@ -4,15 +4,10 @@ namespace GSCFieldApp.Views;
 
 public partial class FieldBooksPage : ContentPage
 {
-	public FieldBooksPage()
+	public FieldBooksPage(FieldBooksViewModel vm)
 	{
 		InitializeComponent();
-		BindingContext = this;
+		BindingContext = vm;
 	}
 
-    public FieldBooksPage(FieldBooksViewModel vm) : this()
-    {
-        //InitializeComponent();
-
-    }
 }
