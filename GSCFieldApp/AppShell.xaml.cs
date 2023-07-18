@@ -10,7 +10,7 @@ public partial class AppShell : Shell
     public ICommand NavigateToFieldNotesCommand { get; private set; }
     public ICommand NavigateToMapCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
-
+    public ICommand NavigateToStationPageCommand { get; private set; }
     public AppShell()
 	{
 		InitializeComponent();
@@ -58,7 +58,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(StationPage), typeof(StationPage));
 
         //Will be used to navigate to field books page
-        NavigateToFieldBooksCommand = new Command(async () => {
+        NavigateToStationPageCommand = new Command(async () => {
             await GoToAsync(nameof(StationPage));
         });
         #endregion

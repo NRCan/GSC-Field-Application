@@ -1,3 +1,4 @@
+using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.ViewModel;
 
 namespace GSCFieldApp.Views;
@@ -8,5 +9,5 @@ public partial class FieldNotesPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = vm;
-	}
+    }
 }
