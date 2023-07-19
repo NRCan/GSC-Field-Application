@@ -12,4 +12,16 @@ public partial class FieldBookPage : ContentPage
 		BindingContext = vm;
     }
 
+
+    /// <summary>
+    /// Force capital case officer code.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void FieldBookPageOfficerCode_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        Entry senderEntry = sender as Entry;
+        senderEntry.Text = senderEntry.Text.ToUpper();
+
+    }
 }

@@ -91,7 +91,7 @@
 
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry x:Name="FieldBookPageOfficerCode" Text="{local:Localize FieldBookPageOfficerCodePlaceholder}" />
+                                <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" TextChanged="FieldBookPageOfficerCode_TextChanged" />
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
