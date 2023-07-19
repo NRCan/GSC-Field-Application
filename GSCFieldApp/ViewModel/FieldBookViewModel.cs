@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GSCFieldApp.Services.DatabaseServices;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -12,7 +13,13 @@ namespace GSCFieldApp.ViewModel
     {
         public FieldBookViewModel()
         {
+            _ = ValidateDabaseExistence();
+        }
 
+        private async Task ValidateDabaseExistence()
+        {
+            DataAccess da = new DataAccess();
+            await da.ValidateDatabase();
         }
 
         [RelayCommand]

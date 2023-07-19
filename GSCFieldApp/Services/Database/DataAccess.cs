@@ -87,6 +87,14 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #region DATA MANAGEMENT METHODS (Create, Update, Read)
 
+        public async Task ValidateDatabase()
+        {
+            if (!DoesDatabaseExists())
+            {
+                await CreateDatabaseFromResource();
+            }
+        }
+
         /// <summary>
         /// Will write an embedded resource to a file with a binary writer. In case it exists, it will replace it.
         /// Will save the resource to the local folder.
@@ -96,19 +104,16 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             try
             {
-                if (!DoesDatabaseExists())
-                {
-                    //This line works for an existing file
-                    using var package = await FileSystem.OpenAppPackageFileAsync(@"GSCFieldwork.gpkg");
-                    using var inputStream = new StreamReader(package);
-                    var fileContent = inputStream.ReadToEnd();
+                //This line works for an existing file
+                using var package = await FileSystem.OpenAppPackageFileAsync(@"GSCFieldwork.gpkg");
+                using var inputStream = new StreamReader(package);
+                var fileContent = inputStream.ReadToEnd();
 
-                    using FileStream outputStream = System.IO.File.OpenWrite(PreferedDatabasePath);
-                    using StreamWriter streamWriter = new StreamWriter(outputStream);
+                using FileStream outputStream = System.IO.File.OpenWrite(PreferedDatabasePath);
+                using StreamWriter streamWriter = new StreamWriter(outputStream);
 
-                    await streamWriter.WriteAsync(fileContent);
-                }
-
+                await streamWriter.WriteAsync(fileContent);
+                
             }
             catch (Exception e)
             {
