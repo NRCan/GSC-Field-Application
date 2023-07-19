@@ -124,6 +124,42 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Geologist.
+        /// </summary>
+        internal static string FieldBookPageGeologistTitle {
+            get {
+                return ResourceManager.GetString("FieldBookPageGeologistTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Officer Code.
+        /// </summary>
+        internal static string FieldBookPageOfficerCode {
+            get {
+                return ResourceManager.GetString("FieldBookPageOfficerCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ABC.
+        /// </summary>
+        internal static string FieldBookPageOfficerCodePlaceholder {
+            get {
+                return ResourceManager.GetString("FieldBookPageOfficerCodePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        internal static string FieldBookPageOtherTitle {
+            get {
+                return ResourceManager.GetString("FieldBookPageOtherTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project.
         /// </summary>
         internal static string FieldBookPageProject {
@@ -147,6 +183,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FieldBookPageProjectTitle {
             get {
                 return ResourceManager.GetString("FieldBookPageProjectTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Station Start Number.
+        /// </summary>
+        internal static string FieldBookPageSSN {
+            get {
+                return ResourceManager.GetString("FieldBookPageSSN", resourceCulture);
             }
         }
         

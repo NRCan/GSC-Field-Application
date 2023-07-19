@@ -138,6 +138,18 @@
   <data name="FieldBookPageDescription" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="FieldBookPageGeologistTitle" xml:space="preserve">
+    <value>Géologue</value>
+  </data>
+  <data name="FieldBookPageOfficerCode" xml:space="preserve">
+    <value>Code d'officier</value>
+  </data>
+  <data name="FieldBookPageOfficerCodePlaceholder" xml:space="preserve">
+    <value>ABC</value>
+  </data>
+  <data name="FieldBookPageOtherTitle" xml:space="preserve">
+    <value>Autre</value>
+  </data>
   <data name="FieldBookPageProject" xml:space="preserve">
     <value>Projet</value>
   </data>
@@ -146,6 +158,9 @@
   </data>
   <data name="FieldBookPageProjectTitle" xml:space="preserve">
     <value>Chef de projet</value>
+  </data>
+  <data name="FieldBookPageSSN" xml:space="preserve">
+    <value># de la première station</value>
   </data>
   <data name="FieldBookPageTitle" xml:space="preserve">
     <value>Carnet de terrain</value>

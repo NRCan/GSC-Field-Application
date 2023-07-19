@@ -8,7 +8,7 @@
              Shell.BackgroundColor="{StaticResource Secondary}"
              Title="{local:Localize FieldBookPageTitle}">
     <ContentPage.Content>
-        <Grid Margin="0,-48,0,0">
+        <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
@@ -17,7 +17,7 @@
 
             <ScrollView Orientation="Vertical" Grid.Row="1">
 
-                <FlexLayout Direction="Row" Wrap="Wrap" HorizontalOptions="Center">
+                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" >
                 
                     <!--Description section-->
                     <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
@@ -65,10 +65,57 @@
                     </Frame>
                     
                     <!--Geologist section-->
+                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageGeologistTitle}"/>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+                                <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+                                <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}"/>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Frame>
                     
                     <!--Other section-->
-                    
+                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageOtherTitle}"/>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize FieldBookPageSSN}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Keyboard="Numeric" Text="1"/>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
                     <!--Notes section-->
+                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize GenericNoteTitle}"/>
+
+                            <VerticalStackLayout>
+                                <Editor Placeholder="TEst" Style="{StaticResource FieldAppEditorNotes}"/>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Frame>
                     
                 </FlexLayout>
 
