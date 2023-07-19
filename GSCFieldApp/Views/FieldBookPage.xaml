@@ -4,9 +4,14 @@
              x:Class="GSCFieldApp.Views.FieldBookPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
-             x:DataType="viemodel:StationViewModel"
+             x:DataType="viemodel:FieldBookViewModel"
              Shell.BackgroundColor="{StaticResource Secondary}"
              Title="{local:Localize FieldBookPageTitle}">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}" />
+    </Shell.BackButtonBehavior>
+    
     <ContentPage.Content>
         <Grid >
             <Grid.RowDefinitions>
@@ -86,7 +91,7 @@
 
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}"/>
+                                <Entry x:Name="FieldBookPageOfficerCode" Text="{local:Localize FieldBookPageOfficerCodePlaceholder}" />
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
@@ -111,7 +116,7 @@
                             <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize GenericNoteTitle}"/>
 
                             <VerticalStackLayout>
-                                <Editor Placeholder="TEst" Style="{StaticResource FieldAppEditorNotes}"/>
+                                <Editor Style="{StaticResource FieldAppEditorNotes}"/>
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
@@ -121,7 +126,7 @@
 
             </ScrollView>
 
-            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="2"
+            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="2" 
                     Command="{Binding SaveCommand}"/>
 
         </Grid>

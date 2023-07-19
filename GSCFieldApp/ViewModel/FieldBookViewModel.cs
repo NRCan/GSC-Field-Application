@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using GSCFieldApp.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +14,20 @@ namespace GSCFieldApp.ViewModel
         {
 
         }
+
+        [RelayCommand]
+        async Task Save()
+        {
+            //Navigate backward (../.. will navigate two pages back)"
+            await Shell.Current.GoToAsync("..");
+        }
+
+        [RelayCommand]
+        async Task Back()
+        {
+            //Navigate backward (../.. will navigate two pages back)"
+            await Shell.Current.GoToAsync("..");
+        }
+
     }
 }
