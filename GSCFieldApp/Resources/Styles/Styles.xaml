@@ -38,10 +38,9 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Margin" Value="10,10,10,20"/>
+        <Setter Property="Margin" Value="10"/>
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
         <Setter Property="HeightRequest" Value="100"/>
-        <Setter Property="WidthRequest" Value="200"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -64,7 +63,7 @@
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="14,10"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="WidthRequest" Value="100"/>
+        <Setter Property="WidthRequest" Value="110"/>
         <Setter Property="Margin" Value="10"/>
         <Setter Property="HorizontalOptions" Value="Center"/>
         <Setter Property="VerticalOptions" Value="End"/>
@@ -88,11 +87,13 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MatDesign"/>
-        <Setter Property="FontSize" Value="Medium"/>
-        <Setter Property="CornerRadius" Value="8"/>
-        <Setter Property="Padding" Value="14,10"/>
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="FontSize" Value="Large"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="HeightRequest" Value="60"/>
+        <Setter Property="WidthRequest" Value="60"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -108,6 +109,14 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Frame" x:Key="FieldAppSectionFrame">
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="WidthRequest" Value="300"/>
+    </Style>
+
     <!--TODO: Find a way to customize title style-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">
         <Setter Property="Margin" Value="10"/>
@@ -118,7 +127,7 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <!--<Setter Property="MinimumWidthRequest" Value="44"/>-->
-        <Setter Property="MinimumWidthRequest" Value="200"/>
+        <!--<Setter Property="MinimumWidthRequest" Value="200"/>-->
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -142,9 +151,8 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="MinimumHeightRequest" Value="44"/>
-        <!--<Setter Property="MinimumWidthRequest" Value="44"/>-->
-        <Setter Property="MinimumWidthRequest" Value="200"/>
+        <Setter Property="MinimumWidthRequest" Value="100"/>
+        <!--<Setter Property="WidthRequest" Value="200"/>-->
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

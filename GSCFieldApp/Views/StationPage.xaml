@@ -9,7 +9,7 @@
              Title="{local:Localize StationPageTitle}">
 
     <ContentPage.Content>
-        <Grid Margin="0,-48,0,0">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
@@ -18,10 +18,10 @@
 
             <ScrollView Orientation="Vertical" Grid.Row="1">
 
-                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Center" HorizontalOptions="Center" >
+                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" >
 
                     <!--Station Type section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}">
+                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageTypeTitle}"/>
 
@@ -32,7 +32,7 @@
                     </Frame>
 
                     <!--Outcrop section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}">
+                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageOutcropTitle}"/>
 
@@ -48,7 +48,7 @@
                     </Frame>
 
                     <!--General section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}">
+                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageGeneralTitle}"/>
 
@@ -73,7 +73,7 @@
                     </Frame>
 
                     <!--Notes section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}">
+                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize GenericNoteTitle}"/>
 
@@ -89,7 +89,7 @@
 
             </ScrollView>
 
-            <Button Text="Save" Style="{StaticResource FieldAppButonSave}" Grid.Row="2"
+            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="2"
                     Command="{Binding SaveCommand}"/>
 
         </Grid>

@@ -117,6 +117,42 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ButtonSave" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
+  <data name="FieldBookPageActivty" xml:space="preserve">
+    <value>Activité</value>
+  </data>
+  <data name="FieldBookPageActivtyPlaceholder" xml:space="preserve">
+    <value>Camp terrain 2023</value>
+  </data>
+  <data name="FieldBookPageChiefFName" xml:space="preserve">
+    <value>Prénom</value>
+  </data>
+  <data name="FieldBookPageChiefLName" xml:space="preserve">
+    <value>Nom de famille</value>
+  </data>
+  <data name="FieldBookPageChiefMName" xml:space="preserve">
+    <value>Deuxième prénom</value>
+  </data>
+  <data name="FieldBookPageDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="FieldBookPageProject" xml:space="preserve">
+    <value>Projet</value>
+  </data>
+  <data name="FieldBookPageProjectPlaceholder" xml:space="preserve">
+    <value>GEM Melville</value>
+  </data>
+  <data name="FieldBookPageProjectTitle" xml:space="preserve">
+    <value>Chef de projet</value>
+  </data>
+  <data name="FieldBookPageTitle" xml:space="preserve">
+    <value>Carnet de terrain</value>
+  </data>
+  <data name="FieldBookPageWorkType" xml:space="preserve">
+    <value>Type de travail</value>
+  </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
   </data>

@@ -9,7 +9,7 @@
              x:DataType="viewmodel:MapViewModel" 
              Title="{local:Localize ShellMapTitle}">
     <ContentPage.Content>
-        <Grid Margin="0,-48,0,0">
+        <Grid Margin="0,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
@@ -18,7 +18,7 @@
             </Grid.RowDefinitions>
             
             <!--Controls header bar-->
-            <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
+            <StackLayout BackgroundColor="{StaticResource Primary}" Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Manual XY-->
                 <Button Text="XY" Style="{StaticResource FieldAppHeaderButton}"/>

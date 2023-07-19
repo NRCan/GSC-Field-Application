@@ -61,6 +61,114 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string ButtonSave {
+            get {
+                return ResourceManager.GetString("ButtonSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activity.
+        /// </summary>
+        internal static string FieldBookPageActivty {
+            get {
+                return ResourceManager.GetString("FieldBookPageActivty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field Summer 2023.
+        /// </summary>
+        internal static string FieldBookPageActivtyPlaceholder {
+            get {
+                return ResourceManager.GetString("FieldBookPageActivtyPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Name.
+        /// </summary>
+        internal static string FieldBookPageChiefFName {
+            get {
+                return ResourceManager.GetString("FieldBookPageChiefFName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Name.
+        /// </summary>
+        internal static string FieldBookPageChiefLName {
+            get {
+                return ResourceManager.GetString("FieldBookPageChiefLName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Middle Name.
+        /// </summary>
+        internal static string FieldBookPageChiefMName {
+            get {
+                return ResourceManager.GetString("FieldBookPageChiefMName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string FieldBookPageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("FieldBookPageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project.
+        /// </summary>
+        internal static string FieldBookPageProject {
+            get {
+                return ResourceManager.GetString("FieldBookPageProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GEM Melville.
+        /// </summary>
+        internal static string FieldBookPageProjectPlaceholder {
+            get {
+                return ResourceManager.GetString("FieldBookPageProjectPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project Leader.
+        /// </summary>
+        internal static string FieldBookPageProjectTitle {
+            get {
+                return ResourceManager.GetString("FieldBookPageProjectTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field Book.
+        /// </summary>
+        internal static string FieldBookPageTitle {
+            get {
+                return ResourceManager.GetString("FieldBookPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work Type.
+        /// </summary>
+        internal static string FieldBookPageWorkType {
+            get {
+                return ResourceManager.GetString("FieldBookPageWorkType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         internal static string GenericNoteTitle {
