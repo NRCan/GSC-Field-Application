@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              x:DataType="viewmodel:MapViewModel" 
-             Title="{local:Localize ShellMapTitle}" InputTransparent="True">
+             Title="{local:Localize ShellMapTitle}">
     <ContentPage.Content>
         <Grid Margin="0,-48,0,0">
             <Grid.RowDefinitions>
@@ -21,43 +21,22 @@
             <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Manual XY-->
-                <Button Text="XY" FontSize="Title" >
-                </Button>
+                <Button Text="XY" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Waypoint-->
-                <Button>
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF023D;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Text="&#xF023D;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Quick structure/pflow-->
-                <Button>
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF183F;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Text="&#xF183F;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Quick photo-->
-                <Button>
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF0D5D;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Text="&#xF0D5D;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Quick sample-->
-                <Button>
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF04FD;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Text="&#xF04FD;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Quick station-->
-                <Button Command="{Binding AddStationCommand}">
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF12FC;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Command="{Binding AddStationCommand}" Text="&#xF12FC;" Style="{StaticResource FieldAppHeaderButton}"/>
 
             </StackLayout> 
             
@@ -76,27 +55,17 @@
             Text="unknown" />
             
             <!--Controls bottom bar-->
-            <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft">
+            <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
 
                 <!--Tap option -->
-                <Button Text="">
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF0A55;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Text="&#xF0A55;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Manage layers-->
-                <Button Text="">
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF0F59;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Text="&#xF0F59;" Style="{StaticResource FieldAppHeaderButton}"/>
+            
                 <!--Add new layer-->
-                <Button Text="">
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF0E4D;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Text="&#xF0E4D;" Style="{StaticResource FieldAppHeaderButton}"/>
+
             </StackLayout>
         </Grid>
     </ContentPage.Content>

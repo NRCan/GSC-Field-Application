@@ -11,88 +11,81 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
 
             <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Deleting a selected field book-->
-                <Button>
-                    <Button.ImageSource >
-                        <FontImageSource Glyph="&#xF0A7A;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
-
+                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}"/>
+                
                 <!--Editing a selected field book-->
-                <Button>
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF0CB6;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Adding new field book-->
-                <Button Command="{Binding AddFieldBookCommand}">
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF0415;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
+                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Opening a selected field book-->
                 <!--This feature has been dropped, but default a selected field book will be kept in memory-->
 
             </StackLayout>
 
-
-        </Grid>
-
-        <!--<ScrollView Orientation="Vertical">
-
-        <VerticalStackLayout>
-            <StackLayout Orientation="Horizontal"  HeightRequest="50" >
-
-                -->
-        <!--Deleting a selected field book-->
-        <!--
-                <Button>
-                    <Button.ImageSource >
-                        <FontImageSource Glyph="&#xF0A7A;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
-
-                -->
-        <!--Editing a selected field book-->
-        <!--
-                <Button>
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF0CB6;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
-
-                -->
-        <!--Adding new field book-->
-        <!--
-                <Button>
-                    <Button.ImageSource>
-                        <FontImageSource Glyph="&#xF0415;" FontFamily="MatDesign" />
-                    </Button.ImageSource>
-                </Button>
-                
-                -->
-        <!--Opening a selected field book-->
-        <!--This feature has been dropped, but default a selected field book will be kept in memory-->
-        <!--
-                
-            </StackLayout>
-
-            <FlexLayout AlignItems="Start" AlignContent="SpaceEvenly" JustifyContent="SpaceEvenly"
+            <ScrollView Orientation="Vertical" Grid.Row="1">
+                <FlexLayout AlignItems="Start" AlignContent="SpaceEvenly" JustifyContent="SpaceEvenly"
                     Direction="Row" Wrap="Wrap">
-                <VerticalStackLayout >
-                    <Frame BackgroundColor="{StaticResource Primary}">
-                        <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}" >
+                    <VerticalStackLayout >
+                        <Frame BackgroundColor="{StaticResource Primary}">
+                            <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition Width="180"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="100"/>
+
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Miche Houle" TextColor="White"
+                        HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
+
+                                <Label Text="Activity" 
+                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                               Grid.Column="1" Grid.Row="1"/>
+                                <Label Text="Project" 
+                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                               Grid.Column="1" Grid.Row="2"/>
+                                <Label Text="Bedrock/Surficial" 
+                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                               Grid.Column="1" Grid.Row="3"/>
+                                <Label  Text="2023-01-01" 
+                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                               Grid.Column="1" Grid.Row="4"/>
+
+                                <Label Grid.Column="1" Grid.Row="5" Text="Station (20)" TextColor="White" 
+                               HorizontalTextAlignment="Start" Margin="25,0,0,0"/>
+
+                                <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="0,20,0,0"
+                       Grid.Row="7" HorizontalOptions="Center" VerticalOptions="End" Source="logo.png"/>
+
+                                <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+
+                            </Grid>
+                        </Frame>
+
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+
+                        <Grid Padding="10" Margin="10" BackgroundColor="{StaticResource Gray100}" >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1"/>
-                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="2"/>
+                                <ColumnDefinition Width="200"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -106,126 +99,94 @@
 
                             </Grid.RowDefinitions>
 
-                            <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Miche Houle" TextColor="White"
+                            <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Details"
                         HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-                            <Label Text="Activity" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                            <Label  Text="Geologist" 
+                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
                                Grid.Column="1" Grid.Row="1"/>
-                            <Label Text="Project" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                            <Label Text="MetadataActivity" 
+                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
                                Grid.Column="1" Grid.Row="2"/>
-                            <Label Text="Bedrock/Surficial" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                            <Label Text="FieldworkType" 
+                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
                                Grid.Column="1" Grid.Row="3"/>
-                            <Label  Text="2023-01-01" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                            <Label  Text="StartDate" 
+                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
                                Grid.Column="1" Grid.Row="4"/>
 
-                            <Label Grid.Column="1" Grid.Row="5" Text="Station (20)" TextColor="White" 
-                               HorizontalTextAlignment="Start" Margin="25,0,0,0"/>
+                            <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count"
+                               HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-                            <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="0,20,0,0"
-                       Grid.Row="7" HorizontalOptions="Center" VerticalOptions="End" Source="logo.png"/>
+                            <Image Grid.Column="1"
+                       Grid.Row="7" HorizontalOptions="Center" Source="logo.png"/>
 
                             <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
                         </Grid>
-                    </Frame>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Grid Padding="10" Margin="10" BackgroundColor="{StaticResource Gray100}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2"/>
+                                <ColumnDefinition Width="200"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="100"/>
 
-                </VerticalStackLayout>
-                <VerticalStackLayout>
+                            </Grid.RowDefinitions>
 
-                    <Grid Padding="10" Margin="10" BackgroundColor="{StaticResource Gray100}" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2"/>
-                            <ColumnDefinition Width="200"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="100"/>
-
-                        </Grid.RowDefinitions>
-
-                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Details"
+                            <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Details"
                         HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-                        <Label  Text="Geologist" 
+                            <Label x:Name="projectGeologist" Text="Geologist" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
                                Grid.Column="1" Grid.Row="1"/>
-                        <Label Text="MetadataActivity" 
+                            <Label x:Name="projectTitle" Text="MetadataActivity" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
                                Grid.Column="1" Grid.Row="2"/>
-                        <Label Text="FieldworkType" 
+                            <Label x:Name="projectType" Text="FieldworkType" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
                                Grid.Column="1" Grid.Row="3"/>
-                        <Label  Text="StartDate" 
+                            <Label x:Name="projectCreateDate" Text="StartDate" 
                                HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
                                Grid.Column="1" Grid.Row="4"/>
 
-                        <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count"
+                            <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count"
                                HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
 
-                        <Image Grid.Column="1"
+                            <Image  Grid.Column="1"
                        Grid.Row="7" HorizontalOptions="Center" Source="logo.png"/>
 
-                        <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+                            <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
-                    </Grid>
-                </VerticalStackLayout>
-                <VerticalStackLayout>
-                    <Grid Padding="10" Margin="10" BackgroundColor="{StaticResource Gray100}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2"/>
-                            <ColumnDefinition Width="200"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="100"/>
+                        </Grid>
+                    </VerticalStackLayout>
 
-                        </Grid.RowDefinitions>
+                </FlexLayout>
+            </ScrollView>
 
-                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Details"
-                        HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
+            <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="2" FlowDirection="RightToLeft" BackgroundColor="{StaticResource Primary}">
 
-                        <Label x:Name="projectGeologist" Text="Geologist" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
-                               Grid.Column="1" Grid.Row="1"/>
-                        <Label x:Name="projectTitle" Text="MetadataActivity" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
-                               Grid.Column="1" Grid.Row="2"/>
-                        <Label x:Name="projectType" Text="FieldworkType" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
-                               Grid.Column="1" Grid.Row="3"/>
-                        <Label x:Name="projectCreateDate" Text="StartDate" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0"
-                               Grid.Column="1" Grid.Row="4"/>
+                <!--Update a selected field book-->
+                <Button Command="{Binding UpdateFieldBookCommand}" Text="&#xF0453;" Style="{StaticResource FieldAppHeaderButton}"/>
 
-                        <Label Grid.Column="1" Grid.Row="5" FontSize="20" Text="Station Count"
-                               HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
+                <!--Upload a selected field book-->
+                <Button Command="{Binding UploadFieldBookCommand}" Text="&#xF0E07;" Style="{StaticResource FieldAppHeaderButton}"/>
 
-                        <Image  Grid.Column="1"
-                       Grid.Row="7" HorizontalOptions="Center" Source="logo.png"/>
+                <!--Download a selected field book-->
+                <Button Command="{Binding DownloadFieldBookCommand}" Text="&#xF0B8F;" Style="{StaticResource FieldAppHeaderButton}"/>
 
-                        <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+            </StackLayout>
 
-                    </Grid>
-                </VerticalStackLayout>
+        </Grid>
 
-            </FlexLayout>
-        </VerticalStackLayout>
-    </ScrollView>-->
     </ContentPage.Content>
 </ContentPage>

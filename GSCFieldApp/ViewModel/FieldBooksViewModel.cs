@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace GSCFieldApp.ViewModel
 {
-    public partial class FieldBooksViewModel: ObservableObject
+    public partial class FieldBooksViewModel
     {
         public FieldBooksViewModel() 
         {
@@ -21,10 +22,28 @@ namespace GSCFieldApp.ViewModel
         async Task AddFieldBook()
         {
             //TEST db resource to file
-            DataAccess dataAccess = new DataAccess();
-            dataAccess.CreateDatabaseFromResource();
+            //DataAccess dataAccess = new DataAccess();
+            //dataAccess.CreateDatabaseFromResource();
 
-            await Shell.Current.GoToAsync($"{nameof(FieldBook234Page)}");
+            await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}");
+        }
+
+        [RelayCommand]
+        async Task UploadFieldBook()
+        {
+            //await DisplayAlert("Alert", "Not yet implemented", "OK");
+        }
+
+        [RelayCommand]
+        async Task DownloadFieldBook()
+        {
+            //await DisplayAlert("Alert", "Not yet implemented", "OK");
+        }
+
+        [RelayCommand]
+        async Task UpdateFieldBook()
+        {
+            //await DisplayAlert("Alert", "Not yet implemented", "OK");
         }
     }
 }

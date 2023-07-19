@@ -50,8 +50,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<StationPage>();
 		builder.Services.AddTransient<StationViewModel>();
 
-        builder.Services.AddTransient<FieldBook234Page>();
-        builder.Services.AddTransient<FieldBook234ViewModel>();
+        builder.Services.AddTransient<FieldBookPage>();
+        builder.Services.AddTransient<FieldBookViewModel>();
 
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
