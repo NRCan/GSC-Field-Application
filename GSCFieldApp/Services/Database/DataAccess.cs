@@ -105,15 +105,35 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 if (!File.Exists(outputDatabasePath))
                 {
-                    using var package = await FileSystem.OpenAppPackageFileAsync(@"GSCFieldwork.gpkg");
-                    using var inputStream = new StreamReader(package);
-                    var fileContent = inputStream.ReadToEnd();
+                    //Open stream with embeded resource
+                    using Stream package = await FileSystem.OpenAppPackageFileAsync(@"GSCFieldwork.gpkg");
 
+                    //Open empty stream for output file
                     using FileStream outputStream = System.IO.File.OpenWrite(outputDatabasePath);
-                    using StreamWriter streamWriter = new StreamWriter(outputStream);
 
-                    await streamWriter.WriteAsync(fileContent);
+                    //Need a binary write for geopackage database, else file will be corrupt with 
+                    //default stream writer/reader
+                    byte[] buffer = new byte[1024];
+                    using (BinaryWriter fileWriter = new BinaryWriter(outputStream))
+                    {
+                        using (BinaryReader fileReader = new BinaryReader(package))
+                        {
+                            //Read package by block of 1024 bytes.
+                            long readCount = 0;
+                            while (readCount < fileReader.BaseStream.Length)
+                            {
+                                int read = fileReader.Read(buffer, 0, buffer.Length);
+                                readCount += read;
+
+                                //Write
+                                fileWriter.Write(buffer, 0, read);
+                            }
+                        }
+                    }
+
                 }
+
+                return;
                 
             }
             catch (Exception e)
