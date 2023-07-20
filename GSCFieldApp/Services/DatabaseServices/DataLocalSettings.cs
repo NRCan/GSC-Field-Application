@@ -102,7 +102,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public object GetSettingValue(string keyName, string inContainerName="")
         {
             //Variable 
-            object output = null;
+            object output = "";
             string wantedContainer = containerName;
 
             if (inContainerName != string.Empty)

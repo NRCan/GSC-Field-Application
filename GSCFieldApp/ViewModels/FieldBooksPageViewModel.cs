@@ -235,26 +235,28 @@ namespace GSCFieldApp.ViewModels
             //Make sure the setting exists, with user info id
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID) != null)
             {
+                //Get some unique values
+                string currentUser = string.Empty;
+                string currentProject = string.Empty;
+                string currentActivity = string.Empty;
+
+                try
+                {
+                    currentUser = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
+                    currentProject = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName).ToString();
+                    currentActivity = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoActivityName).ToString();
+
+                }
+                catch (Exception e)
+                {
+                    //Probably missing a setting, no big deal it'll fallback on first book.
+                    Debug.WriteLine(e.Message);
+                }
+
                 //Iterate through project to find match
                 foreach (FieldBooks prjs in _projectCollection)
                 {
-                    //Get some unique values
-                    string currentUser = string.Empty;
-                    string currentProject = string.Empty;
-                    string currentActivity = string.Empty;
 
-                    try
-                    {
-                        currentUser = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
-                        currentProject = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName).ToString();
-                        currentActivity = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoActivityName).ToString();
-
-                    }
-                    catch (Exception e)
-                    {
-                        //Probably missing a setting, no big deal it'll fallback on first book.
-                        Debug.WriteLine(e.Message);
-                    }
 
                     //Get match
                     if (prjs.metadataForProject.UserCode == currentUser &&
