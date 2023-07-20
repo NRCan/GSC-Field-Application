@@ -45,9 +45,29 @@ namespace GSCFieldApp.ViewModel
             {
                 //Make sure current field book database exists
                 da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
-                await da.CreateDatabaseFromResource(da.PreferedDatabasePath);
-                await da.SaveItemAsync(Model, false);
+
+                //Validate if new entry or update
+                if (model.MetaID > 0)
+                {
+                    await da.SaveItemAsync(Model, true);
+                }
+                else
+                {
+                    //Create new field book database
+                    await da.CreateDatabaseFromResource(da.PreferedDatabasePath);
+
+                    //Fill out missing values in model
+                    SetModel();
+
+                    //Insert new record in F_METADATA
+                    await da.SaveItemAsync(Model, false);
+                }
+
+
+                //Close to be sure
                 await da.CloseConnectionAsync();
+
+                //Exit
                 await Shell.Current.GoToAsync("..");
             }
             else
@@ -70,6 +90,22 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+        /// <summary>
+        /// Will fill out missing fields for model. Default auto-calculated values
+        /// </summary>
+        private void SetModel()
+        {
+            //Make sure it's for a new field book
+            if (Model.MetaID == 0) 
+            {
+                //Get current application version
+                Model.Version = AppInfo.Current.VersionString;
+                Model.IsActive = 1;
+                Model.StartDate = String.Format("{0:d}", DateTime.Today);
+                Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
+            }
+
+        }
 
         #endregion
     }
