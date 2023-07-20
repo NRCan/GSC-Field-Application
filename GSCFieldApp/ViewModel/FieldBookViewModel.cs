@@ -100,7 +100,6 @@ namespace GSCFieldApp.ViewModel
             {
                 //Get current application version
                 Model.Version = AppInfo.Current.VersionString;
-                Model.IsActive = 1;
                 Model.StartDate = String.Format("{0:d}", DateTime.Today);
                 Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
             }

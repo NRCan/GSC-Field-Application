@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SQLite;
 using GSCFieldApp.Dictionaries;
+using System.ComponentModel;
 
 namespace GSCFieldApp.Models
 {
@@ -44,7 +45,7 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldUserInfoUCode), MaxLength(10), NotNull]
         public string UserCode { get; set; }
         [Column(DatabaseLiterals.FieldUserInfoStationStartNumber)]
-        public string StationStartNumber { get; set; }
+        public int StationStartNumber { get; set; } = 1;
         [Column(DatabaseLiterals.FieldUserInfoVersion)]
         public string Version { get; set; }
         [Column(DatabaseLiterals.FieldUserInfoVersionSchema)]
@@ -52,7 +53,7 @@ namespace GSCFieldApp.Models
 
 
         [Column(DatabaseLiterals.FieldUserIsActive)]
-        public int IsActive { get; set; }
+        public int IsActive { get; set; } = 1;
 
         [Column(DatabaseLiterals.FieldUserStartDate)]
         public string StartDate { get; set; }
