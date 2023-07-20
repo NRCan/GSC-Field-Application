@@ -7,7 +7,7 @@ using GSCFieldApp.Dictionaries;
 namespace GSCFieldApp.Models
 {
     [Table(DatabaseLiterals.TableMetadata)]
-    public class Metadata 
+    public class Metadata
     {
 
         /// <summary>
@@ -73,9 +73,10 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (UserCode != string.Empty && FieldworkType != string.Empty && MetadataActivity != string.Empty && 
-                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && 
-                    VersionSchema != string.Empty && StationStartNumber != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
+                if (UserCode != string.Empty && FieldworkType != string.Empty && MetadataActivity != string.Empty &&
+                    ProjectName != string.Empty &&
+                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty &&
+                    VersionSchema != string.Empty)
                 {
                     return true;
                 }
@@ -103,7 +104,7 @@ namespace GSCFieldApp.Models
                 {
                     return ProjectUser_LN + ", " + ProjectUser_FN;
                 }
-                
+
             }
             set { }
 
@@ -163,6 +164,58 @@ namespace GSCFieldApp.Models
 
 
                 return metadataFieldList;
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Will calculate a field book file name. Used for database copies
+        /// </summary>
+        /// <returns></returns>
+        [Ignore]
+        public string FieldBookFileName
+        {
+            get
+            {
+
+                //If project name isn't empty use that first
+                if (ProjectName != null && ProjectName != string.Empty)
+                {
+                    return ProjectName.ToString().Replace(" ", "_") + "_" + UserCode;
+                }
+                //If proejctName is empty take geologist name
+                else
+                {
+                    return Geologist.ToString().Replace(",", "_") + "_" + UserCode;
+                }
+
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Will calculate a field book file name. Used for database copies
+        /// </summary>
+        /// <returns></returns>
+        [Ignore]
+        public string FieldBookFileNameWithDate
+        {
+            get
+            {
+                //Calculate current date
+                string currentDate = String.Format("{0:yyyy_MM_dd_HH'h'mm}", DateTime.Now);
+
+                //If project name isn't empty use that first
+                if (ProjectName != null && ProjectName != string.Empty)
+                {
+                    return ProjectName.ToString().Replace(" ", "_") + "_" + currentDate + "_" + UserCode;
+                }
+                //If proejctName is empty take geologist name
+                else
+                {
+                    return Geologist.ToString().Replace(",", "_") + "_" + currentDate + "_" + UserCode;
+                }
+
             }
             set { }
         }

@@ -66,9 +66,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Services\File\FileServices.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\Fonts\MaterialDesignIconsDesktop.ttf" />
 	  <None Remove="Resources\Images\logo.svg" />
 	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Services\File\FileServices.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

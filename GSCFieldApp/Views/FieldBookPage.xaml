@@ -30,18 +30,19 @@
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize FieldBookPageDescriptionTitle}"/>
 
                             <Picker Title="{local:Localize FieldBookPageWorkType}"/>
-                            
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Placeholder="{local:Localize FieldBookPageActivtyPlaceholder}"/>
-                            </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"/>
+                                <Entry Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
+                                       Text="{Binding Model.ProjectName}"/>
                             </VerticalStackLayout>
-                            
-                            
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Placeholder="{local:Localize FieldBookPageActivtyPlaceholder}"
+                                       Text="{Binding Model.MetadataActivity}"/>
+                            </VerticalStackLayout>
+
                         </VerticalStackLayout>
                     </Frame>
                     
@@ -52,17 +53,17 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry/>
+                                <Entry Text="{Binding Model.ProjectLeader_FN}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry />
+                                <Entry Text="{Binding Model.ProjectLeader_MN}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry />
+                                <Entry Text="{Binding Model.ProjectLeader_LN}"/>
                             </VerticalStackLayout>
 
 
@@ -76,22 +77,24 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry/>
+                                <Entry Text="{Binding Model.ProjectUser_FN}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry />
+                                <Entry Text="{Binding Model.ProjectUser_MN}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry />
+                                <Entry Text="{Binding Model.ProjectUser_LN}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" TextChanged="FieldBookPageOfficerCode_TextChanged" />
+                                <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" 
+                                       Text="{Binding Model.UserCode}"
+                                       TextChanged="FieldBookPageOfficerCode_TextChanged" />
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
@@ -104,7 +107,7 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageSSN}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Keyboard="Numeric" Text="1"/>
+                                <Entry Keyboard="Numeric" Text="{Binding Model.StationStartNumber}" Placeholder="1"/>
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
@@ -116,7 +119,7 @@
                             <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize GenericNoteTitle}"/>
 
                             <VerticalStackLayout>
-                                <Editor Style="{StaticResource FieldAppEditorNotes}"/>
+                                <Editor Style="{StaticResource FieldAppEditorNotes}" Text="{Binding Model.MetadataNotes}"/>
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
@@ -127,7 +130,7 @@
             </ScrollView>
 
             <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="2" 
-                    Command="{Binding SaveCommand}"/>
+                    Command="{Binding ValidateAndSaveCommand}"/>
 
         </Grid>
     </ContentPage.Content>

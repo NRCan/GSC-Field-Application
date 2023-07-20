@@ -6,11 +6,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Models;
+using GSCFieldApp.Dictionaries;
+using ShimSkiaSharp;
 
 namespace GSCFieldApp.ViewModel
 {
     public partial class FieldBookViewModel
     {
+        #region INIT
+        DataAccess da = new DataAccess();
+        private Metadata model = new Metadata();
+
+        #endregion
+
+        #region PROPERTIES
+        public Metadata Model { get { return model; } set { model = value; } }
+
+        #endregion
+
         public FieldBookViewModel()
         {
             _ = ValidateDabaseExistence();
@@ -18,15 +32,31 @@ namespace GSCFieldApp.ViewModel
 
         private async Task ValidateDabaseExistence()
         {
-            DataAccess da = new DataAccess();
-            await da.ValidateDatabase();
+            await da.CreateDatabaseFromResource(da.DatabaseFilePath);
         }
 
+        #region RELAY COMMANDS
+
         [RelayCommand]
-        async Task Save()
+        async Task ValidateAndSave()
         {
-            //Navigate backward (../.. will navigate two pages back)"
-            await Shell.Current.GoToAsync("..");
+            //Validate if all mandatory entries have been filled.
+            if (Model.isValid || !Model.isValid)
+            {
+                //Make sure current field book database exists
+                da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+                await da.CreateDatabaseFromResource(da.PreferedDatabasePath);
+                await da.SaveItemAsync(Model, false);
+                await da.CloseConnectionAsync();
+                await Shell.Current.GoToAsync("..");
+            }
+            else
+            {
+                //Show error
+                await Shell.Current.DisplayAlert("Warning", "Some mandatory fields have not been filled.", "Ok");
+            }
+
+
         }
 
         [RelayCommand]
@@ -36,5 +66,11 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync("..");
         }
 
+        #endregion
+
+        #region METHODS
+
+
+        #endregion
     }
 }

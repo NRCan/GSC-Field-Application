@@ -70,44 +70,6 @@ namespace GSCFieldApp.Models
             set { }
         }
 
-        [Ignore] //DEPRECATED: To keep full description of the mineral, not only the code.
-        public string MineralNameHuman
-        {
-            get
-            {
-                if (MineralName != string.Empty && MineralName != null)
-                {
-                    Vocabularies voc = new Vocabularies();
-                    //Get a list of parent (title)
-                    string querySelect = "SELECT * FROM " + DatabaseLiterals.TableDictionary + " d";
-                    string queryJoin = " JOIN " + DatabaseLiterals.TableDictionaryManager + " m on d." + DatabaseLiterals.FieldDictionaryCodedTheme + " = m." + DatabaseLiterals.FieldDictionaryCodedTheme;
-                    string queryWhere = " WHERE d." + DatabaseLiterals.FieldDictionaryCode + " = '" + MineralName + "'";
-                    string queryWhere2 = " AND m." + DatabaseLiterals.FieldDictionaryManagerAssignTable + " = '" + DatabaseLiterals.TableMineral + "'";
-                    string queryWhere3 = " AND m." + DatabaseLiterals.FieldDictionaryManagerAssignField + " = '" + DatabaseLiterals.FieldMineral + "'";
-                    string finalQuery = querySelect + queryJoin + queryWhere + queryWhere2 + queryWhere3;
-
-                    DataAccess dAccess = new DataAccess();
-                    List<object> vocRaw = dAccess.ReadTable(voc.GetType(), finalQuery);
-                    IEnumerable<Vocabularies> vocTable = vocRaw.Cast<Vocabularies>();
-
-                    if (vocTable.Count() != 0)
-                    {
-                        return vocTable.First().Description;
-                    }
-                    else
-                    {
-                        return string.Empty;
-                    }
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-
-            set { }
-        }
-
         /// <summary>
         /// A list of all possible fields
         /// </summary>
