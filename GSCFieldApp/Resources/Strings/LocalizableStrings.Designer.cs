@@ -410,5 +410,14 @@ namespace GSCFieldApp.Resources.Strings {
                 return ResourceManager.GetString("StationPageTypeTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please add a new field book.
+        /// </summary>
+        internal static string WatermarkNoFieldBook {
+            get {
+                return ResourceManager.GetString("WatermarkNoFieldBook", resourceCulture);
+            }
+        }
     }
 }

@@ -33,6 +33,14 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Label" x:Key="Watermark">
+        <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+        <Setter Property="TextColor" Value="{StaticResource Gray200}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="80"/>
+    </Style>
+
     <Style TargetType="Editor" x:Key="FieldAppEditorNotes">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />

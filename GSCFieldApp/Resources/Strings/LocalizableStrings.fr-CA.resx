@@ -234,4 +234,7 @@
   <data name="StationPageTypeTitle" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="WatermarkNoFieldBook" xml:space="preserve">
+    <value>Veuillez ajouter un carnet.</value>
+  </data>
 </root>
