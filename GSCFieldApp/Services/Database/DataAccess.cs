@@ -73,24 +73,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             await DbConnection.CloseAsync();
         }
 
-        /// <summary>
-        /// Will return true of false if default database exists in the system.
-        /// </summary>
-        /// <returns>True if exists</returns>
-        public bool DoesDefaultDatabaseExists()
-        {
-            if (DatabaseFilePath == string.Empty)
-            {
-                return false;
-            }
-            else
-            {
-                return File.Exists(DatabaseFilePath);
-            }
-            
-        }
-
-
         #endregion
 
         #region DATA MANAGEMENT METHODS (Create, Update, Read)
@@ -144,6 +126,12 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         }
 
+        /// <summary>
+        /// Will save (insert or update) an item object that is a model table
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="doUpdate"></param>
+        /// <returns></returns>
         public async Task<int> SaveItemAsync(object item, bool doUpdate)
         {
 
@@ -173,47 +161,6 @@ namespace GSCFieldApp.Services.DatabaseServices
                 return 0;
             }
 
-        }
-
-        /// <summary>
-        /// Will return a list of object (rows) from a given table name.
-        /// In addition a query can be passed to filter results
-        /// </summary>
-        /// <param name="tableName">The table type object deriving from a class.</param>
-        /// <param name="query">A query to filter table name, Can handle string.empty and null</param>
-        /// <returns>A list of object that will act as rows.</returns>
-        public async Task<List<object>> ReadTableAsync(Type tableType, string query)
-        {
-            return await ReadTableFromDBConnection(tableType, query, DbConnection);
-
-        }
-
-        /// <summary>
-        /// Will return a list of object (rows) from a given table name.
-        /// In addition a query can be passed to filter results.
-        /// Can be used with any database, not the default working one.
-        /// </summary>
-        /// <param name="tableName">The table type object deriving from a class.</param>
-        /// <param name="query">A query to filter table name, Can handle string.empty and null</param>
-        /// <returns>A list of object that will act as rows.</returns>
-        public async Task<List<object>> ReadTableFromDBConnection(Type tableType, string query, SQLiteAsyncConnection inConnection)
-        {
-            //Get the proper table object to read from it
-            TableMapping tableMapTask = await inConnection.GetMappingAsync(tableType);
-
-            //Check for table existance
-            try
-            {
-                //Get table info
-                return await inConnection.QueryAsync(tableMapTask, query);
-
-            }
-            catch (Exception e)
-            {
-                Debug.Write(e.Message);
-                return null;
-            }
-        
         }
 
         #endregion

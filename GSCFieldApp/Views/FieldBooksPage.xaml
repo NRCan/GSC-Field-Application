@@ -6,8 +6,14 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              x:DataType="viewmodel:FieldBooksViewModel" 
              xmlns:model="using:GSCFieldApp.Models" 
+             xmlns:conv="using:GSCFieldApp.Converters"
              Title="{local:Localize ShellFieldBooksTitle}">
     <ContentPage.Resources>
+
+        <!--Converters-->
+        <conv:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter" x:Key="VisibilityFromBoolConverter" />
+
+        <!--Templates-->
         <DataTemplate x:Key="FieldbooksTemplate" x:DataType="model:FieldBooks">
             <VerticalStackLayout >
                 <Frame BackgroundColor="{StaticResource Gray300}">
@@ -94,8 +100,11 @@
             </StackLayout>
 
             <ScrollView Orientation="Vertical" Grid.Row="1">
-                <FlexLayout AlignItems="Start" AlignContent="SpaceEvenly" JustifyContent="SpaceEvenly"
-                    Direction="Row" Wrap="Wrap">
+                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill">
+
+                    <CollectionView ItemTemplate="{StaticResource FieldbooksTemplate}" Grid.Row="1"
+                                    ItemsSource="{Binding ProjectCollection,Mode=TwoWay}"/>
+
                     <!--<VerticalStackLayout >
                         <Frame BackgroundColor="{StaticResource Primary}">
                             <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}" >
@@ -148,9 +157,8 @@
                 </FlexLayout>
             </ScrollView>
 
-            <Label Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="1"
-
-                   Style="{StaticResource Watermark}"/>
+            <Label Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="1" Style="{StaticResource Watermark}"
+                   IsVisible="{Binding NoFieldBookWatermark, Converter={StaticResource VisibilityFromBoolConverter}}"/>
 
             <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="2" FlowDirection="RightToLeft" BackgroundColor="{StaticResource Primary}">
 
