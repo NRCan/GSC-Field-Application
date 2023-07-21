@@ -6,53 +6,49 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              x:DataType="viewmodel:FieldBooksViewModel" 
              xmlns:model="using:GSCFieldApp.Models" 
-             xmlns:conv="using:GSCFieldApp.Converters"
              Title="{local:Localize ShellFieldBooksTitle}">
     <ContentPage.Resources>
-
-        <!--Converters-->
-        <conv:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter" x:Key="VisibilityFromBoolConverter" />
 
         <!--Templates-->
         <DataTemplate x:Key="FieldbooksTemplate" x:DataType="model:FieldBooks">
             <VerticalStackLayout >
-                <Frame BackgroundColor="{StaticResource Gray300}">
-                    <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Gray300}" >
+                <Frame BackgroundColor="{StaticResource Primary}" >
+                    <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1"/>
                             <ColumnDefinition Width="180"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
                             <RowDefinition Height="100"/>
 
                         </Grid.RowDefinitions>
 
                         <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White"
-                        HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
+                            Margin="10,0,0,0"/>
 
                         <Label Text="{Binding metadataForProject.MetadataActivity}"
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                               FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="1"/>
                         <Label Text="{Binding metadataForProject.ProjectName}"
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="2"/>
                         <Label Text="{Binding metadataForProject.FieldworkType}" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="3"/>
                         <Label Text="{Binding metadataForProject.StartDate}" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                               FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="4"/>
 
                         <!--Station count total-->
                         <Label Grid.Column="1" Grid.Row="5" TextColor="White" 
-                               HorizontalTextAlignment="Start" Margin="25,0,0,0">
+                                Margin="25,0,0,0">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="Station ("/>
@@ -95,17 +91,18 @@
                 <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Opening a selected field book-->
-                <!--This feature has been dropped, but default a selected field book will be kept in memory-->
+                <!--This feature has been dropped, by default a selected field book will be kept in memory-->
 
             </StackLayout>
 
             <ScrollView Orientation="Vertical" Grid.Row="1">
-                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill">
 
-                    <CollectionView ItemTemplate="{StaticResource FieldbooksTemplate}" Grid.Row="1"
-                                    ItemsSource="{Binding ProjectCollection,Mode=TwoWay}"/>
+                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" 
+                            BindableLayout.ItemTemplate="{StaticResource FieldbooksTemplate}"
+                            BindableLayout.ItemsSource="{Binding ProjectCollection, Mode=TwoWay}"/>
 
-                    <!--<VerticalStackLayout >
+
+                <!--<VerticalStackLayout >
                         <Frame BackgroundColor="{StaticResource Primary}">
                             <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}" >
                                 <Grid.ColumnDefinitions>
@@ -153,12 +150,11 @@
 
                     </VerticalStackLayout>-->
 
-
-                </FlexLayout>
             </ScrollView>
 
-            <Label Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="1" Style="{StaticResource Watermark}"
-                   IsVisible="{Binding NoFieldBookWatermark, Converter={StaticResource VisibilityFromBoolConverter}}"/>
+
+            <Label x:Name="test" Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="1" Style="{StaticResource Watermark}"
+                   IsVisible="{Binding NoFieldBookWatermark}"/>
 
             <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="2" FlowDirection="RightToLeft" BackgroundColor="{StaticResource Primary}">
 

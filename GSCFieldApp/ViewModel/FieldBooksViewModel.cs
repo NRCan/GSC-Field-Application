@@ -140,25 +140,16 @@ namespace GSCFieldApp.ViewModel
                 
             }
 
-            ////Select the current active project, so it's highlighted in the list view
-            //ResourceLoader loadLocal = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-            //if (_projectCollection.Count == 0)
-            //{
+            //Select the current active project, so it's highlighted in the list view
+            if (_projectCollection.Count == 0)
+            {
+                _noFieldBookWatermark = true;
+            }
+            else
+            {
+                _noFieldBookWatermark = false;
 
-            //    _noFieldBookWatermark = true;
-
-            //    //Send event about missing field books.
-            //    fieldBooksUpdate?.Invoke(this, false);
-
-            //}
-            //else
-            //{
-            //    SelectActiveProject();
-            //    _noFieldBookWatermark = false;
-
-            //    //Send event about missing field books.
-            //    fieldBooksUpdate?.Invoke(this, true);
-            //}
+            }
 
         }
 
