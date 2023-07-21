@@ -99,7 +99,7 @@
 
                 <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" 
                             BindableLayout.ItemTemplate="{StaticResource FieldbooksTemplate}"
-                            BindableLayout.ItemsSource="{Binding ProjectCollection, Mode=TwoWay}"/>
+                            BindableLayout.ItemsSource="{Binding FieldbookCollection, Mode=TwoWay}"/>
 
 
                 <!--<VerticalStackLayout >

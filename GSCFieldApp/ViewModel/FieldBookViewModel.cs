@@ -18,6 +18,10 @@ namespace GSCFieldApp.ViewModel
         DataAccess da = new DataAccess();
         private Metadata model = new Metadata();
 
+        //Events
+        public static event EventHandler newFieldBookSaved; //This event is triggered when a new field book has been saved on system
+
+
         #endregion
 
         #region PROPERTIES
@@ -66,6 +70,9 @@ namespace GSCFieldApp.ViewModel
 
                 //Close to be sure
                 await da.CloseConnectionAsync();
+
+                //Send an event to refresh fieldbooks page
+                newFieldBookSaved?.Invoke(this, null);
 
                 //Exit
                 await Shell.Current.GoToAsync("..");

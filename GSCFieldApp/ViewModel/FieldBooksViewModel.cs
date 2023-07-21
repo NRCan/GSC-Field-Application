@@ -21,7 +21,7 @@ namespace GSCFieldApp.ViewModel
     {
         //UI
         private bool _noFieldBookWatermark = false;
-        public ObservableCollection<FieldBooks> _projectCollection = new ObservableCollection<FieldBooks>();
+        public ObservableCollection<FieldBooks> _fieldbookCollection = new ObservableCollection<FieldBooks>();
 
         //Data service
         private DataAccess da = new DataAccess();
@@ -31,14 +31,29 @@ namespace GSCFieldApp.ViewModel
         readonly Metadata metadataModel = new Metadata();
 
         public bool NoFieldBookWatermark { get { return _noFieldBookWatermark; } set { _noFieldBookWatermark = value; } }
-        public ObservableCollection<FieldBooks> ProjectCollection
+        public ObservableCollection<FieldBooks> FieldbookCollection
         {
-            get { return _projectCollection; }
+            get { return _fieldbookCollection; }
         }
         public FieldBooksViewModel() 
         {
             //Fill list view of projects
-            FillProjectCollectionAsync();
+            FillBookCollectionAsync();
+
+            //Detect new field book save
+            FieldBookViewModel.newFieldBookSaved -= FieldBookDialog_newFieldBookSaved;
+            FieldBookViewModel.newFieldBookSaved += FieldBookDialog_newFieldBookSaved;
+        }
+
+        /// <summary>
+        /// Will track new field books being added to local folder
+        /// Once added, a refresh will be force on the project collection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FieldBookDialog_newFieldBookSaved(object sender, EventArgs e)
+        {
+            FillBookCollectionAsync();
         }
 
         #region RELAY COMMANDS
@@ -74,9 +89,9 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will fill the project collection with information related to it
         /// </summary>
-        private async void FillProjectCollectionAsync()
+        public async void FillBookCollectionAsync()
         {
-            _projectCollection.Clear();
+            _fieldbookCollection.Clear();
 
             List<string> invalidFieldBookToDelete = new List<string>();
 
@@ -132,7 +147,7 @@ namespace GSCFieldApp.ViewModel
                         currentBook.StationLastEntered = lastStation.StationAlias;
                     }
 
-                    _projectCollection.Add(currentBook);
+                    _fieldbookCollection.Add(currentBook);
 
                     await currentConnection.CloseAsync(); 
                     
@@ -141,7 +156,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Select the current active project, so it's highlighted in the list view
-            if (_projectCollection.Count == 0)
+            if (_fieldbookCollection.Count == 0)
             {
                 _noFieldBookWatermark = true;
             }
