@@ -1085,120 +1085,128 @@ namespace GSCFieldApp.ViewModels
                     #region STRUCTURES
 
                     ///For structure symboles (planar and linear) make sure they are wanted by user but that it's within a bedrock field notebook also
-                    if (localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) != null && (bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
+                    try
                     {
-                        //Get related structures, if any
-                        List<object> strucTableRows = new List<object>();
-                        Structure structs = new Structure();
-                        string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
-                            " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
-                            " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
-                            " WHERE st." + DatabaseLiterals.FieldStationID + " = " + ptStationId + ";";
-                        strucTableRows = accessData.ReadTable(structs.GetType(), structSelectionQuery);
-
-                        //Variables
-                        if (!structureGraphicExists && strucTableRows.Count() > 0)
+                        if (localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) != null && (bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
                         {
-                            //Structure pairs tracking
-                            //Key = record ID, Value = priority number for placement
-                            Dictionary<int, int> strucPairs = new Dictionary<int, int>();
-                            int iteration = 1;
-                            foreach (Structure sts in strucTableRows)
+                            //Get related structures, if any
+                            List<object> strucTableRows = new List<object>();
+                            Structure structs = new Structure();
+                            string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
+                                " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
+                                " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
+                                " WHERE st." + DatabaseLiterals.FieldStationID + " = " + ptStationId + ";";
+                            strucTableRows = accessData.ReadTable(structs.GetType(), structSelectionQuery);
+
+                            //Variables
+                            if (!structureGraphicExists && strucTableRows.Count() > 0)
                             {
-                                //Manage pair tracking for pool placement 
-                                if (!strucPairs.ContainsKey(sts.StructureID))
+                                //Structure pairs tracking
+                                //Key = record ID, Value = priority number for placement
+                                Dictionary<int, int> strucPairs = new Dictionary<int, int>();
+                                int iteration = 1;
+                                foreach (Structure sts in strucTableRows)
                                 {
-                                    if (sts.StructureRelated != null)
+                                    //Manage pair tracking for pool placement 
+                                    if (!strucPairs.ContainsKey(sts.StructureID))
                                     {
-                                        int relatedStruc = sts.StructureRelated ?? default(int);
-                                        //Get related struc placement priority
-                                        strucPairs[sts.StructureID] = strucPairs[relatedStruc];
+                                        if (sts.StructureRelated != null)
+                                        {
+                                            int relatedStruc = sts.StructureRelated ?? default(int);
+                                            //Get related struc placement priority
+                                            strucPairs[sts.StructureID] = strucPairs[relatedStruc];
+                                        }
+                                        else
+                                        {
+                                            //Assign new priority and remove it from the pool
+                                            strucPairs[sts.StructureID] = iteration;
+                                            iteration = iteration + 1;
+                                        }
+
                                     }
-                                    else
+
+
+                                    //Set proper symbol
+                                    PictureMarkerSymbol strucSym = StrucPlaneSym.Clone() as PictureMarkerSymbol;
+                                    if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
                                     {
-                                        //Assign new priority and remove it from the pool
-                                        strucPairs[sts.StructureID] = iteration;
-                                        iteration = iteration + 1;
+                                        strucSym = StrucLinearSym.Clone() as PictureMarkerSymbol;
                                     }
+
+                                    //Set azim
+                                    double azimAngle = sts.StructureSymAng;
+                                    if (azimAngle != 0.0)
+                                    {
+                                        strucSym.Angle = azimAngle;
+                                    }
+                                    strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
+
+                                    //Set offset
+                                    Tuple<double, double> symOffset = placements.GetPositionOffsetFromPlacementPriority(strucPairs[sts.StructureID], ptStationLocationLong, ptStationLocationLat, 100.0);
+
+                                    //Create Map Point for graphic
+                                    MapPoint geoStructPoint = new MapPoint(symOffset.Item1, symOffset.Item2, SpatialReferences.Wgs84);
+
+                                    //Get if datum transformation is needed
+                                    if (epsg != 0 && epsg != 4326)
+                                    {
+                                        DatumTransformation datumTransfo = null;
+                                        SpatialReference outSR = null;
+
+                                        if ((epsg > 26900 && epsg < 27000))
+                                        {
+                                            outSR = SpatialReference.Create(4617);
+                                            datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
+                                        }
+
+                                        MapPoint proPoint = new MapPoint(ptStationLocationLong, ptStationLocationLat, outSR);
+
+                                        //Validate if transformation is needed.
+                                        if (datumTransfo != null)
+                                        {
+                                            //Replace geopoint
+                                            geoStructPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
+                                        }
+
+                                    }
+
+                                    //TODO make up for a different way to measure azim (not right hand rule)
+                                    var Sgraphic = new Graphic(geoStructPoint, strucSym);
+                                    Sgraphic.Attributes.Add("Id", sts.StructureID.ToString());
+                                    Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
+                                    Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
+                                    Sgraphic.Attributes.Add("StructureClass", sts.getClassTypeDetail);
+                                    Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
+                                    Sgraphic.Attributes.Add("Dip", sts.StructureDipPlunge.ToString());
+                                    Sgraphic.Attributes.Add("Default", isDefaultDB);
+                                    Sgraphic.Attributes.Add("tableType", DatabaseLiterals.TableStructure);
+                                    Sgraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
+                                    structureOverlay.Graphics.Add(Sgraphic);
+
+                                    //Set station symbol to transparent so we clearly see the structures instead
+                                    //StationGraphic.IsVisible = false;
 
                                 }
 
-
-                                //Set proper symbol
-                                PictureMarkerSymbol strucSym = StrucPlaneSym.Clone() as PictureMarkerSymbol;
-                                if (sts.StructureClass == DatabaseLiterals.KeywordLinear)
-                                {
-                                    strucSym = StrucLinearSym.Clone() as PictureMarkerSymbol;
-                                }
-
-                                //Set azim
-                                double azimAngle = sts.StructureSymAng;
-                                if (azimAngle != 0.0)
-                                {
-                                    strucSym.Angle = azimAngle;
-                                }
-                                strucSym.AngleAlignment = SymbolAngleAlignment.Map; //Set to map else symbol will keep same direction or mapview is rotated
-
-                                //Set offset
-                                Tuple<double, double> symOffset = placements.GetPositionOffsetFromPlacementPriority(strucPairs[sts.StructureID], ptStationLocationLong, ptStationLocationLat, 100.0);
-
-                                //Create Map Point for graphic
-                                MapPoint geoStructPoint = new MapPoint(symOffset.Item1, symOffset.Item2, SpatialReferences.Wgs84);
-
-                                //Get if datum transformation is needed
-                                if (epsg != 0 && epsg != 4326)
-                                {
-                                    DatumTransformation datumTransfo = null;
-                                    SpatialReference outSR = null;
-
-                                    if ((epsg > 26900 && epsg < 27000))
-                                    {
-                                        outSR = SpatialReference.Create(4617);
-                                        datumTransfo = TransformationCatalog.GetTransformation(outSR, SpatialReferences.Wgs84);
-                                    }
-
-                                    MapPoint proPoint = new MapPoint(ptStationLocationLong, ptStationLocationLat, outSR);
-
-                                    //Validate if transformation is needed.
-                                    if (datumTransfo != null)
-                                    {
-                                        //Replace geopoint
-                                        geoStructPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(proPoint, SpatialReferences.Wgs84, datumTransfo);
-                                    }
-
-                                }
-
-                                //TODO make up for a different way to measure azim (not right hand rule)
-                                var Sgraphic = new Graphic(geoStructPoint, strucSym);
-                                Sgraphic.Attributes.Add("Id", sts.StructureID.ToString());
-                                Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
-                                Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
-                                Sgraphic.Attributes.Add("StructureClass", sts.getClassTypeDetail);
-                                Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
-                                Sgraphic.Attributes.Add("Dip", sts.StructureDipPlunge.ToString());
-                                Sgraphic.Attributes.Add("Default", isDefaultDB);
-                                Sgraphic.Attributes.Add("tableType", DatabaseLiterals.TableStructure);
-                                Sgraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
-                                structureOverlay.Graphics.Add(Sgraphic);
-
-                                //Set station symbol to transparent so we clearly see the structures instead
-                                //StationGraphic.IsVisible = false;
 
                             }
+                            else
+                            {
 
-
+                            }
                         }
                         else
                         {
-
+                            //Set station symbol to transparent so we clearly see the structures instead
+                            StationGraphic.IsVisible = true;
+                            structureOverlay.Graphics.Clear();
                         }
                     }
-                    else
+                    catch (Exception)
                     {
-                        //Set station symbol to transparent so we clearly see the structures instead
-                        StationGraphic.IsVisible = true;
-                        structureOverlay.Graphics.Clear();
+
                     }
+
 
                     #endregion
                 }
@@ -3324,26 +3332,42 @@ namespace GSCFieldApp.ViewModels
         {
             if (localSettings.GetSettingValue(DatabaseLiterals.TableSample) != null)
             {
-                if ((bool)localSettings.GetSettingValue(DatabaseLiterals.TableSample))
+                try
+                {
+                    if ((bool)localSettings.GetSettingValue(DatabaseLiterals.TableSample))
+                    {
+                        _mapPageQuickSampleEnable = true;
+                    }
+                    else
+                    {
+                        _mapPageQuickSampleEnable = false;
+                    }
+                }
+                catch (Exception)
                 {
                     _mapPageQuickSampleEnable = true;
                 }
-                else
-                {
-                    _mapPageQuickSampleEnable = false;
-                }
+
 
             }
 
             if (localSettings.GetSettingValue(DatabaseLiterals.TableDocument) != null)
             {
-                if ((bool)localSettings.GetSettingValue(DatabaseLiterals.TableDocument))
+
+                try
+                {
+                    if ((bool)localSettings.GetSettingValue(DatabaseLiterals.TableDocument))
+                    {
+                        _mapPageQuickPhotoEnable = true;
+                    }
+                    else
+                    {
+                        _mapPageQuickPhotoEnable = false;
+                    }
+                }
+                catch (Exception)
                 {
                     _mapPageQuickPhotoEnable = true;
-                }
-                else
-                {
-                    _mapPageQuickPhotoEnable = false;
                 }
 
             }
@@ -3356,14 +3380,22 @@ namespace GSCFieldApp.ViewModels
                 {
                     if (localSettings.GetSettingValue(DatabaseLiterals.TableStructure) != null)
                     {
-                        if ((bool)localSettings.GetSettingValue(DatabaseLiterals.TableStructure))
+                        try
+                        {
+                            if ((bool)localSettings.GetSettingValue(DatabaseLiterals.TableStructure))
+                            {
+                                _mapPageQuickMeasurementEnable = true;
+                            }
+                            else
+                            {
+                                _mapPageQuickMeasurementEnable = false;
+                            }
+                        }
+                        catch (Exception)
                         {
                             _mapPageQuickMeasurementEnable = true;
                         }
-                        else
-                        {
-                            _mapPageQuickMeasurementEnable = false;
-                        }
+
                     }
 
                 }
@@ -3371,14 +3403,23 @@ namespace GSCFieldApp.ViewModels
                 {
                     if (localSettings.GetSettingValue(DatabaseLiterals.TablePFlow) != null)
                     {
-                        if ((bool)localSettings.GetSettingValue(DatabaseLiterals.TablePFlow))
+                        try
+                        {
+
+                            if ((bool)localSettings.GetSettingValue(DatabaseLiterals.TablePFlow))
+                            {
+                                _mapPageQuickMeasurementEnable = true;
+                            }
+                            else
+                            {
+                                _mapPageQuickMeasurementEnable = false;
+                            }
+                        }
+                        catch (Exception)
                         {
                             _mapPageQuickMeasurementEnable = true;
                         }
-                        else
-                        {
-                            _mapPageQuickMeasurementEnable = false;
-                        }
+
                     }
                 }
             }

@@ -489,21 +489,29 @@ namespace GSCFieldApp.ViewModels
         {
             get
             {
-                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode) != null)
+                try
                 {
-                    if ((bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode))
+                    if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode) != null)
                     {
-                        return ApplicationLiterals.KeywordDocumentHeaderFalse;
+                        if ((bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode))
+                        {
+                            return ApplicationLiterals.KeywordDocumentHeaderFalse;
+                        }
+                        else
+                        {
+                            return ApplicationLiterals.KeywordDocumentHeaderTrue;
+                        }
                     }
                     else
                     {
-                        return ApplicationLiterals.KeywordDocumentHeaderTrue;
+                        return ApplicationLiterals.KeywordDocumentHeaderFalse;
                     }
                 }
-                else
+                catch (Exception)
                 {
                     return ApplicationLiterals.KeywordDocumentHeaderFalse;
                 }
+
 
             }
             set
@@ -683,21 +691,29 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Set header text
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode) != null)
+            try
             {
-                if ((bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode))
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode) != null)
                 {
-                    _headerDocumenText = ApplicationLiterals.KeywordDocumentHeaderTrue;
+                    if ((bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode))
+                    {
+                        _headerDocumenText = ApplicationLiterals.KeywordDocumentHeaderTrue;
+                    }
+                    else
+                    {
+                        _headerDocumenText = ApplicationLiterals.KeywordDocumentHeaderFalse;
+                    }
                 }
                 else
                 {
                     _headerDocumenText = ApplicationLiterals.KeywordDocumentHeaderFalse;
                 }
             }
-            else
+            catch (Exception)
             {
                 _headerDocumenText = ApplicationLiterals.KeywordDocumentHeaderFalse;
             }
+
 
             RaisePropertyChanged("HeaderDocument");
         }
@@ -2383,50 +2399,58 @@ namespace GSCFieldApp.ViewModels
 
         public void SetHeaderExpansion()
         {
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandLocation)!=null)
+            try
             {
-                _locationHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandLocation);
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandLocation) != null)
+                {
+                    _locationHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandLocation);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandEarthmat) != null)
+                {
+                    _earthmatHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandEarthmat);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandSample) != null)
+                {
+                    _sampleHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandSample);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandStation) != null)
+                {
+                    _stationHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandStation);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandDocument) != null)
+                {
+                    _documentHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandDocument);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandStructure) != null)
+                {
+                    _structureHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandStructure);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandPflow) != null)
+                {
+                    _pflowHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandPflow);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandFossil) != null)
+                {
+                    _fossilHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandFossil);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineral) != null)
+                {
+                    _mineralHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineral);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt) != null)
+                {
+                    _mineralAltHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt);
+                }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandEnv) != null)
+                {
+                    _environmentHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandEnv);
+                }
             }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandEarthmat) != null)
+            catch (Exception)
             {
-                _earthmatHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandEarthmat);
+
             }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandSample) != null)
-            {
-                _sampleHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandSample);
-            }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandStation) != null)
-            {
-                _stationHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandStation);
-            }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandDocument) != null)
-            {
-                _documentHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandDocument);
-            }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandStructure) != null)
-            {
-                _structureHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandStructure); 
-            }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandPflow) != null)
-            {
-                _pflowHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandPflow);
-            }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandFossil) != null)
-            {
-                _fossilHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandFossil);
-            }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineral) != null)
-            {
-                _mineralHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineral);
-            }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt) != null)
-            {
-                _mineralAltHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt);
-            }
-            if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandEnv) != null)
-            {
-                _environmentHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandEnv);
-            }
+
         }
 
         /// <summary>
@@ -2568,90 +2592,98 @@ namespace GSCFieldApp.ViewModels
         /// <param name="propertyName"></param>
         public void SetHeaderVisibility(string tableName, Visibility inTableVisibility, string propertyName )
         {
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableSample) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableSample))
+            try
             {
-                _samplePanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _samplePanelVisibility = Visibility.Collapsed;
-            }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableSample) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableSample))
+                {
+                    _samplePanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _samplePanelVisibility = Visibility.Collapsed;
+                }
 
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineral) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineral))
-            {
-                _mineralPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _mineralPanelVisibility = Visibility.Collapsed;
-            }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableMineral) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineral))
+                {
+                    _mineralPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _mineralPanelVisibility = Visibility.Collapsed;
+                }
 
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration))
-            {
-                _mineralAltPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _mineralAltPanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableDocument) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableDocument))
-            {
-                _documentPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _documentPanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableStructure) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableStructure))
-            {
-                _structurePanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _structurePanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TablePFlow) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TablePFlow))
-            {
-                _pflowPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _pflowPanelVisibility = Visibility.Collapsed;
-            }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableFossil) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableFossil))
-            {
-                _fossilPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _fossilPanelVisibility = Visibility.Collapsed;
-            }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration))
+                {
+                    _mineralAltPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _mineralAltPanelVisibility = Visibility.Collapsed;
+                }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableDocument) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableDocument))
+                {
+                    _documentPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _documentPanelVisibility = Visibility.Collapsed;
+                }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableStructure) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableStructure))
+                {
+                    _structurePanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _structurePanelVisibility = Visibility.Collapsed;
+                }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TablePFlow) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TablePFlow))
+                {
+                    _pflowPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _pflowPanelVisibility = Visibility.Collapsed;
+                }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableFossil) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableFossil))
+                {
+                    _fossilPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _fossilPanelVisibility = Visibility.Collapsed;
+                }
 
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration))
-            {
-                _mineralAltPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _mineralAltPanelVisibility = Visibility.Collapsed;
-            }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration))
+                {
+                    _mineralAltPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _mineralAltPanelVisibility = Visibility.Collapsed;
+                }
 
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat))
-            {
-                _earthmatPanelVisibility = Visibility.Visible;
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat))
+                {
+                    _earthmatPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _earthmatPanelVisibility = Visibility.Collapsed;
+                }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment))
+                {
+                    _environmentPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _environmentPanelVisibility = Visibility.Collapsed;
+                }
             }
-            else
+            catch (Exception)
             {
-                _earthmatPanelVisibility = Visibility.Collapsed;
+
             }
-            if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment))
-            {
-                _environmentPanelVisibility = Visibility.Visible;
-            }
-            else
-            {
-                _environmentPanelVisibility = Visibility.Collapsed;
-            }
+ 
             RaisePropertyChanged("SamplePanelVisibility");
             RaisePropertyChanged("EarthmatPanelVisibility");
             RaisePropertyChanged("MineralPanelVisibility");

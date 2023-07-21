@@ -83,11 +83,19 @@ namespace GSCFieldApp.Views
             //field notes, from nav parameter when closing station dialog or setting when user has taken a waypoint that doesn't navigate to field notes.
             if (localSetting.GetSettingValue("forceNoteRefresh") != null)
             {
-                if ((bool)localSetting.GetSettingValue("forceNoteRefresh"))
+                try
                 {
-                    this.ViewModel.FillSummaryReportDateItems(); //Refill station based on new selected date
-                    localSetting.SetSettingValue("forceNoteRefresh", false);
+                    if ((bool)localSetting.GetSettingValue("forceNoteRefresh"))
+                    {
+                        this.ViewModel.FillSummaryReportDateItems(); //Refill station based on new selected date
+                        localSetting.SetSettingValue("forceNoteRefresh", false);
+                    }
                 }
+                catch (System.Exception)
+                {
+
+                }
+
             }
             else
             {
