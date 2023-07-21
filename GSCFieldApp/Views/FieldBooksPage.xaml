@@ -59,7 +59,7 @@
                             
                         </Label>
 
-                        <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="0,20,0,0"
+                        <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="0,0,0,0"
                        Grid.Row="7" HorizontalOptions="Center" VerticalOptions="End" Source="logo.png"/>
 
                         <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
