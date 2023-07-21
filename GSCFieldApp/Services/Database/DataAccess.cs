@@ -8,6 +8,8 @@ using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using GSCFieldApp.Dictionaries;
 using SQLite;
 using System.Diagnostics;
+using BruTile.Wmts.Generated;
+using GSCFieldApp.Themes;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 namespace GSCFieldApp.Services.DatabaseServices
@@ -81,7 +83,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will write an embedded resource to a file with a binary writer. In case it exists, it will replace it.
         /// Will save the resource to the local folder.
         /// </summary>
-        public async Task CreateDatabaseFromResource(string outputDatabasePath)
+        public async Task<bool> CreateDatabaseFromResource(string outputDatabasePath)
         {
             try
             {
@@ -115,12 +117,13 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 }
 
-                return;
+                return true;
                 
             }
             catch (Exception e)
             {
                 Debug.Write(e.Message);
+                return false;
             }
 
 
@@ -161,6 +164,161 @@ namespace GSCFieldApp.Services.DatabaseServices
                 return 0;
             }
 
+        }
+
+        /// <summary>
+        /// Will return a list containing value to fill comboboxes related to the database model
+        /// </summary>
+        /// <param name="tableName">The table name to use with with the picklist</param>
+        /// <param name="fieldName">The database table field to get vocabs from</param>
+        /// <param name="allValues">If all values, even non visible vocabs are needed</param>
+        /// <param name="extraFieldValue"> The parent field that will be used to filter vocabs</param>
+        /// <returns>A list contain resulting voca class entries</returns>
+        public async Task<List<Vocabularies>> GetPicklistValuesAsync(string tableName, string fieldName, string extraFieldValue, bool allValues)
+        {
+            //Build Not applicable vocab in case nothing is returned.
+            Vocabularies vocNA = new Vocabularies
+            {
+                Code = Dictionaries.DatabaseLiterals.picklistNACode,
+                Description = Dictionaries.DatabaseLiterals.picklistNACode
+            };
+            List<Vocabularies> vocabNA = new List<Vocabularies>();
+            vocabNA.Add(vocNA);
+
+            Vocabularies vocEmpty = new Vocabularies
+            {
+                Code = string.Empty,
+                Description = string.Empty
+            };
+            List<Vocabularies> vocabEmpty = new List<Vocabularies>();
+            vocabEmpty.Add(vocEmpty);   
+
+            //Get the current project type
+            string fieldworkType = ScienceLiterals.ApplicationThemeBedrock;
+
+            //Build query
+            string querySelect = "SELECT * FROM " + TableDictionary;
+            string queryJoin = " JOIN " + TableDictionaryManager + " ON " + TableDictionary + "." + FieldDictionaryCodedTheme + " = " + TableDictionaryManager + "." + FieldDictionaryManagerCodedTheme;
+            string queryWhere = " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerAssignTable + " = '" + tableName + "'";
+            string queryAndField = " AND " + TableDictionaryManager + "." + FieldDictionaryManagerAssignField + " = '" + fieldName + "'";
+            string queryAndVisible = " AND " + TableDictionary + "." + FieldDictionaryVisible + " = '" + boolYes + "'";
+            string queryAndWorkType = string.Empty;
+            string queryAndParent = string.Empty;
+            string queryOrdering = " ORDER BY " + TableDictionary + "." + FieldDictionaryOrder + " ASC";
+
+            if (fieldworkType != string.Empty)
+            {
+                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '" + fieldworkType + "' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '')";
+            }
+
+            if (extraFieldValue != string.Empty && extraFieldValue != null && extraFieldValue != "")
+            {
+                queryAndParent = " AND " + TableDictionary + "." + FieldDictionaryRelatedTo + " = '" + extraFieldValue + "'";
+            }
+
+            string finalQuery = querySelect + queryJoin + queryWhere + queryAndField + queryAndWorkType + queryAndParent;
+            if (!allValues)
+            {
+                finalQuery = finalQuery + queryAndVisible + queryOrdering;
+            }
+            else
+            {
+                finalQuery = finalQuery + queryOrdering;
+            }
+
+            //Get vocab records
+            SQLiteAsyncConnection currentConnection = GetConnectionFromPath(PreferedDatabasePath);
+            List<Vocabularies> vocabs = await currentConnection.QueryAsync<Vocabularies>(finalQuery);
+
+            Vocabularies voc = new Vocabularies();
+            List<Vocabularies> vocTable = new List<Vocabularies> { voc };
+            if (vocabs.Count == 0)
+            {
+                vocTable = vocabNA;
+            }
+            else
+            {
+                vocTable = vocabs;
+            }
+
+
+            return vocTable;
+        }
+
+        /// <summary>
+        /// From a given table and field name, will retrieve associated vocabulary and
+        /// output a list of combobox items. An output parameter is also available 
+        /// for default value if one is stated in the database or if N.A. is the only available choice.
+        /// This method is meant for generic list with no queries
+        /// </summary>
+        /// <param name="tableName">The table name associated with the wanted vocab.</param>
+        /// <param name="fieldName">The field name associated with the wanted vocab.</param>
+        /// <param name="defaultValue">The output default value if there is any</param>
+        /// <returns></returns>
+        public async Task<List<ComboBoxItem>> GetComboboxListWithVocabAsync(string tableName, string fieldName)
+        {
+            //Outputs
+            List<ComboBoxItem> outputVocabs = new List<ComboBoxItem>();
+
+            //Get vocab
+            DataAccess picklistAccess = new DataAccess();
+            List<Vocabularies> vocs = await picklistAccess.GetPicklistValuesAsync(tableName, fieldName, string.Empty, false);
+
+            //Fill in cbox
+            outputVocabs = GetComboboxListFromVocab(vocs);
+
+            return outputVocabs;
+        }
+
+        /// <summary>
+        /// From a given list of vocabularies items (usually coming from a more define query), will
+        /// output a list of combobox items. An output parameter is also available 
+        /// for default value if one is stated in the database or if N.A. is the only available choice.
+        /// This method is meant for generic list with no queries
+        /// </summary>
+        /// <param name="tableName">The table name associated with the wanted vocab.</param>
+        /// <param name="fieldName">The field name associated with the wanted vocab.</param>
+        /// <param name="defaultValue">The output default value if there is any</param>
+        /// <returns></returns>
+        public List<ComboBoxItem> GetComboboxListFromVocab(IEnumerable<Vocabularies> inVocab)
+        {
+            //Outputs
+            List<ComboBoxItem> outputVocabs = new List<ComboBoxItem>();
+
+            //Fill in cbox
+            foreach (Vocabularies vocabs in inVocab)
+            {
+                ComboBoxItem newItem = new ComboBoxItem();
+                newItem.defaultValue = string.Empty;
+
+                if (vocabs.Code == null)
+                {
+                    newItem.itemValue = string.Empty;
+                }
+                else
+                {
+                    newItem.itemValue = vocabs.Code;
+                }
+                if (vocabs.Description == null)
+                {
+                    newItem.itemName = string.Empty;
+                }
+                else
+                {
+                    newItem.itemName = vocabs.Description;
+                }
+
+                outputVocabs.Add(newItem);
+
+                //Select default if stated in database
+                if (vocabs.DefaultValue != null && vocabs.DefaultValue == Dictionaries.DatabaseLiterals.boolYes)
+                {
+                    newItem.defaultValue = vocabs.Code;
+                }
+
+            }
+
+            return outputVocabs;
         }
 
         #endregion

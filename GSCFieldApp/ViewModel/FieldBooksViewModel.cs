@@ -14,6 +14,8 @@ using Microsoft.Maui.Controls.PlatformConfiguration;
 using SQLite;
 using System.Resources;
 using GSCFieldApp.Dictionaries;
+using BruTile.Wmts.Generated;
+using GSCFieldApp.Themes;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -32,6 +34,7 @@ namespace GSCFieldApp.ViewModel
 
         public bool NoFieldBookWatermark { get { return _noFieldBookWatermark; } set { _noFieldBookWatermark = value; } }
         public ObservableCollection<FieldBooks> FieldbookCollection { get { return _fieldbookCollection; } set{ _fieldbookCollection = value; } }
+
         public FieldBooksViewModel() 
         {
             //Fill list view of projects
@@ -127,7 +130,7 @@ namespace GSCFieldApp.ViewModel
                     {
                         currentBook.StationNumber = stationCountResult.Count.ToString();
                     }
-                    else if (stationCountResult != null && stationCountResult.Count == 0)
+                    else if (stationCountResult != null && stationCountResult.Count == 0) 
                     {
                         currentBook.StationNumber = "0";
                     }

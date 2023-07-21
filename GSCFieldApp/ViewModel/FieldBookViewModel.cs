@@ -9,30 +9,42 @@ using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
 using ShimSkiaSharp;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace GSCFieldApp.ViewModel
 {
-    public partial class FieldBookViewModel
+    public partial class FieldBookViewModel: ObservableObject
     {
         #region INIT
+
         DataAccess da = new DataAccess();
         private Metadata model = new Metadata();
+        private List<Themes.ComboBoxItem> _projectType = new List<Themes.ComboBoxItem>();
+        private string _selectedProjectType = string.Empty;
 
         #endregion
 
         #region PROPERTIES
+        
         public Metadata Model { get { return model; } set { model = value; } }
+        public List<Themes.ComboBoxItem> ProjectType { get { return _projectType; } set { _projectType = value; } }
+        public string SelectedProjectType { get { return _selectedProjectType; } set { _selectedProjectType = value; } }
 
         #endregion
 
         public FieldBookViewModel()
         {
+            //Make sure a database exist before moving on
             _ = ValidateDabaseExistence();
         }
 
         private async Task ValidateDabaseExistence()
         {
-            await da.CreateDatabaseFromResource(da.DatabaseFilePath);
+            bool validates = await da.CreateDatabaseFromResource(da.DatabaseFilePath);
+
+            //When database exist, move on with filling some picker controls
+            if (validates) { FillProjectType(); }
         }
 
         #region RELAY COMMANDS
@@ -88,6 +100,29 @@ namespace GSCFieldApp.ViewModel
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will fill the project type combobox
+        /// </summary>
+        private async void FillProjectType()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType;
+            _projectType = await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableMetadata, fieldName);
+
+            if (_projectType != null && _projectType.Count > 0)
+            {
+                if (_projectType[0].defaultValue != string.Empty)
+                {
+                    _selectedProjectType = _projectType[0].defaultValue;
+                }
+            }
+
+            //Update UI
+            OnPropertyChanged("ProjectType");
+            OnPropertyChanged("SelectedProjectType");
+
+        }
 
         /// <summary>
         /// Will fill out missing fields for model. Default auto-calculated values
