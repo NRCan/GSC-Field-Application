@@ -121,7 +121,7 @@ namespace GSCFieldApp.Models
 
                 //Revert schema 1.6 changes. 
                 List<string> stationFieldList150 = new List<string>();
-                stationFieldList150.AddRange(stationFieldListDefault);
+                stationFieldList150.AddRange(statFieldList160);
                 stationFieldList150.Remove(DatabaseLiterals.FieldStationRelatedTo);
                 stationFieldList150.Remove(DatabaseLiterals.FieldStationObsSource);
 

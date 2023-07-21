@@ -749,6 +749,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                 queryList.Add(GetUpgradeQueryVersion1_42(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
 
+                //Tables that are either not in are can't have any data in this version
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEnvironment);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraverseLine);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraversePoint);
+
                 newVersionNumber = DatabaseLiterals.DBVersion143;
             }
             if (inDBVersion == 1.43)
@@ -756,6 +761,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                 queryList.AddRange(GetUpgradeQueryVersion1_44(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
+
+                //Tables that are either not in are can't have any data in this version
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEnvironment);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraverseLine);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraversePoint);
 
                 newVersionNumber = DatabaseLiterals.DBVersion144;
             }
@@ -769,6 +779,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableDocument);
+
+                //Tables that are either not in are can't have any data in this version
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEnvironment);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraverseLine);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraversePoint);
 
                 newVersionNumber = DatabaseLiterals.DBVersion150;
             }

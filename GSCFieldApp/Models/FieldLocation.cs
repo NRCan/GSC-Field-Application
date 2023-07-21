@@ -155,7 +155,7 @@ namespace GSCFieldApp.Models
 
                 //Revert schema 1.6 changes. 
                 List<string> locationFieldList15 = new List<string>();
-                locationFieldList15.AddRange(locationFieldListDefault);
+                locationFieldList15.AddRange(locationFieldList160);
                 locationFieldList15.Remove(DatabaseLiterals.FieldLocationNTS);
                 locationFieldList[DatabaseLiterals.DBVersion150] = locationFieldList15;
 

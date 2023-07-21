@@ -205,7 +205,7 @@ namespace GSCFieldApp.Models
 
                 //Revert schema 1.6 changes. 
                 List<string> earthmatFieldList15 = new List<string>();
-                earthmatFieldList15.AddRange(earthmatFieldListDefault);
+                earthmatFieldList15.AddRange(earthmatFieldList160);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatPercent);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMagQualifier);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaIntensity);
