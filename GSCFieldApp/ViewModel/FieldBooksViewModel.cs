@@ -31,30 +31,24 @@ namespace GSCFieldApp.ViewModel
         readonly Metadata metadataModel = new Metadata();
 
         public bool NoFieldBookWatermark { get { return _noFieldBookWatermark; } set { _noFieldBookWatermark = value; } }
-        public ObservableCollection<FieldBooks> FieldbookCollection
-        {
-            get { return _fieldbookCollection; }
-        }
+        public ObservableCollection<FieldBooks> FieldbookCollection { get { return _fieldbookCollection; } set{ _fieldbookCollection = value; } }
         public FieldBooksViewModel() 
         {
             //Fill list view of projects
             FillBookCollectionAsync();
 
             //Detect new field book save
-            FieldBookViewModel.newFieldBookSaved -= FieldBookDialog_newFieldBookSaved;
-            FieldBookViewModel.newFieldBookSaved += FieldBookDialog_newFieldBookSaved;
+            FieldBookPage.newFieldBookSaved += FieldBookDialog_newFieldBookSaved;
+
         }
 
-        /// <summary>
-        /// Will track new field books being added to local folder
-        /// Once added, a refresh will be force on the project collection
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        #region EVENTS
         private void FieldBookDialog_newFieldBookSaved(object sender, EventArgs e)
         {
             FillBookCollectionAsync();
         }
+
+        #endregion
 
         #region RELAY COMMANDS
 
@@ -154,8 +148,13 @@ namespace GSCFieldApp.ViewModel
                 }
                 
             }
+            OnPropertyChanged(nameof(FieldbookCollection));
 
-            //Select the current active project, so it's highlighted in the list view
+            WatermarkValidation();
+        }
+
+        public void WatermarkValidation()
+        {
             if (_fieldbookCollection.Count == 0)
             {
                 _noFieldBookWatermark = true;
@@ -166,8 +165,8 @@ namespace GSCFieldApp.ViewModel
 
             }
 
+            OnPropertyChanged(nameof(NoFieldBookWatermark));
         }
-
 
         #endregion
     }

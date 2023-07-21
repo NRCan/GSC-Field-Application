@@ -101,60 +101,11 @@
                             BindableLayout.ItemTemplate="{StaticResource FieldbooksTemplate}"
                             BindableLayout.ItemsSource="{Binding FieldbookCollection, Mode=TwoWay}"/>
 
-
-                <!--<VerticalStackLayout >
-                        <Frame BackgroundColor="{StaticResource Primary}">
-                            <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1"/>
-                                    <ColumnDefinition Width="180"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="100"/>
-
-                                </Grid.RowDefinitions>
-
-                                <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="Miche Houle" TextColor="White"
-                        HorizontalTextAlignment="Start" Margin="3,0,0,0"/>
-
-                                <Label Text="Activity" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
-                               Grid.Column="1" Grid.Row="1"/>
-                                <Label Text="Project" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
-                               Grid.Column="1" Grid.Row="2"/>
-                                <Label Text="Bedrock/Surficial" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
-                               Grid.Column="1" Grid.Row="3"/>
-                                <Label  Text="2023-01-01" 
-                               HorizontalTextAlignment="Start" FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
-                               Grid.Column="1" Grid.Row="4"/>
-
-                                <Label Grid.Column="1" Grid.Row="5" Text="Station (20)" TextColor="White" 
-                               HorizontalTextAlignment="Start" Margin="25,0,0,0"/>
-
-                                <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="0,20,0,0"
-                       Grid.Row="7" HorizontalOptions="Center" VerticalOptions="End" Source="logo.png"/>
-
-                                <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
-
-                            </Grid>
-                        </Frame>
-
-                    </VerticalStackLayout>-->
-
             </ScrollView>
 
 
             <Label x:Name="test" Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="1" Style="{StaticResource Watermark}"
-                   IsVisible="{Binding NoFieldBookWatermark}"/>
+                   IsVisible="{Binding NoFieldBookWatermark, Mode=TwoWay}"/>
 
             <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="2" FlowDirection="RightToLeft" BackgroundColor="{StaticResource Primary}">
 
