@@ -564,16 +564,7 @@ namespace GSCFieldApp.ViewModels
                 }
                 else
                 {
-                    try
-                    {
-                        return (bool)currentSettings.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode);
-                    }
-                    catch (Exception)
-                    {
-
-                        return true;
-                    }
-                    
+                    return (bool)currentSettings.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode);
                 }
                 
             }
