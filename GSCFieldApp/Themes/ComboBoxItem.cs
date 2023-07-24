@@ -16,6 +16,7 @@ namespace GSCFieldApp.Themes
         public string itemValue { get; set; }
         public Visibility canRemoveItem { get { return _canRemoveItem; } set { _canRemoveItem = value; } }
         public string defaultValue { get; set; }
+        public int defaultIndex { get; set; }
     }
 
     /// <summary>

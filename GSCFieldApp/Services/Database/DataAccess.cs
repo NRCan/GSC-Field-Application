@@ -314,6 +314,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 if (vocabs.DefaultValue != null && vocabs.DefaultValue == Dictionaries.DatabaseLiterals.boolYes)
                 {
                     newItem.defaultValue = vocabs.Code;
+                    newItem.defaultIndex = outputVocabs.Count - 1;
                 }
 
             }

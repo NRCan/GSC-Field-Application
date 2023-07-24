@@ -21,7 +21,7 @@ namespace GSCFieldApp.ViewModel
         DataAccess da = new DataAccess();
         private Metadata model = new Metadata();
         private List<Themes.ComboBoxItem> _projectType = new List<Themes.ComboBoxItem>();
-        private string _selectedProjectType = string.Empty;
+        private int _selectedProjectType = -1;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace GSCFieldApp.ViewModel
         
         public Metadata Model { get { return model; } set { model = value; } }
         public List<Themes.ComboBoxItem> ProjectType { get { return _projectType; } set { _projectType = value; } }
-        public string SelectedProjectType { get { return _selectedProjectType; } set { _selectedProjectType = value; } }
+        public int SelectedProjectType { get { return _selectedProjectType; } set { _selectedProjectType = value; } }
 
         #endregion
 
@@ -114,7 +114,7 @@ namespace GSCFieldApp.ViewModel
             {
                 if (_projectType[0].defaultValue != string.Empty)
                 {
-                    _selectedProjectType = _projectType[0].defaultValue;
+                    _selectedProjectType = _projectType[0].defaultIndex;
                 }
             }
 
@@ -136,6 +136,12 @@ namespace GSCFieldApp.ViewModel
                 Model.Version = AppInfo.Current.VersionString;
                 Model.StartDate = String.Format("{0:d}", DateTime.Today);
                 Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
+
+                //Process pickers
+                if (SelectedProjectType != -1)
+                {
+                    Model.FieldworkType = ProjectType[SelectedProjectType].itemValue;
+                }
             }
 
         }
