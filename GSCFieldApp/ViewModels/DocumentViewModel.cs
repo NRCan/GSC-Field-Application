@@ -344,26 +344,34 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         private void SetFieldVisibility()
         {
-
-            if (localSetting.GetSettingValue(ApplicationLiterals.KeywordDocumentMode) != null)
+            try
             {
-                if ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordDocumentMode))
+                if (localSetting.GetSettingValue(ApplicationLiterals.KeywordDocumentMode) != null)
+                {
+                    if ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordDocumentMode))
+                    {
+                        _documentModeVisibility = Visibility.Collapsed;
+                        _fileNameReadOnly = true;
+                    }
+                    else
+                    {
+                        _documentModeVisibility = Visibility.Visible;
+                        _fileNameReadOnly = false;
+                    }
+
+                }
+                else
                 {
                     _documentModeVisibility = Visibility.Collapsed;
                     _fileNameReadOnly = true;
                 }
-                else
-                {
-                    _documentModeVisibility = Visibility.Visible;
-                    _fileNameReadOnly = false;
-                }
-
             }
-            else
+            catch (Exception)
             {
                 _documentModeVisibility = Visibility.Collapsed;
                 _fileNameReadOnly = true;
             }
+
             RaisePropertyChanged("DocumentModeVisibility");
             RaisePropertyChanged("FileNameReadOnly");
         }
