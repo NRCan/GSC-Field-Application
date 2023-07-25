@@ -51,6 +51,8 @@ namespace GSCFieldApp.ViewModel
             FillBookCollectionAsync();
         }
 
+
+
         #endregion
 
         #region RELAY COMMANDS

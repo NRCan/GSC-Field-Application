@@ -26,6 +26,7 @@ public partial class MapPage : ContentPage
 	{
 		InitializeComponent();
 
+        //Initialize map control and GPS
         var mapControl = new Mapsui.UI.Maui.MapControl();
 
         var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer();
@@ -71,7 +72,7 @@ public partial class MapPage : ContentPage
                         var location = await Geolocation.GetLocationAsync(request, this.gpsCancelation.Token)
                             .ConfigureAwait(false);
                         if (location != null)
-                        {
+                        {   
                             MyLocationPositionChanged(location);
                         }
                     }).ConfigureAwait(false);
@@ -113,6 +114,9 @@ public partial class MapPage : ContentPage
 
             await Application.Current?.Dispatcher?.DispatchAsync(() =>
             {
+                MapViewModel vm = this.BindingContext as MapViewModel;
+                vm.sensorLocation = e;
+
                 mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
                 if (e.Course != null)
                 {

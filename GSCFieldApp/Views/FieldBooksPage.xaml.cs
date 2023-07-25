@@ -10,5 +10,4 @@ public partial class FieldBooksPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
-
 }

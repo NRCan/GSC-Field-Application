@@ -135,7 +135,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="item"></param>
         /// <param name="doUpdate"></param>
         /// <returns></returns>
-        public async Task<int> SaveItemAsync(object item, bool doUpdate)
+        public async Task<object> SaveItemAsync(object item, bool doUpdate)
         {
 
             // Create a new connection
@@ -148,20 +148,21 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 if (doUpdate)
                 {
-
-                    return await DbConnection.UpdateAsync(item);
+                    await DbConnection.UpdateAsync(item);
+                    return item;
 
                 }
                 else
                 {
-                    return await DbConnection.InsertAsync(item);
+                    await DbConnection.InsertAsync(item);
+                    return item;
                 }
 
             }
             catch (SQLite.SQLiteException ex)
             {
                 Console.WriteLine(ex.ToString());
-                return 0;
+                return item;
             }
 
         }

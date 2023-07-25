@@ -42,17 +42,17 @@
             
             
             <!--Map Control-->
-            <mapsui:MapView x:Name="mapView"
-                            Grid.Row ="1"
+            <mapsui:MapView x:Name="mapView" 
+                            Grid.Row ="1" 
                             IsVisible="true"
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
-                            Margin="10" />
-            
-            <!--Label Bar-->
+                            Margin="10"/>
+
+            <!--Coordinates Bar-->
             <Label Grid.Row="2"  x:Name="info" 
             HorizontalOptions="CenterAndExpand"
-            Text="unknown" />
+            Text="{Binding sensorLocation.Latitude, Mode=TwoWay}" />
             
             <!--Controls bottom bar-->
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >

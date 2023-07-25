@@ -4,6 +4,7 @@
              x:Class="GSCFieldApp.Views.FieldBooksPage"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:selectors="clr-namespace:GSCFieldApp.Themes"
              x:DataType="viewmodel:FieldBooksViewModel" 
              xmlns:model="using:GSCFieldApp.Models" 
              Title="{local:Localize ShellFieldBooksTitle}">
@@ -11,9 +12,79 @@
 
         <!--Templates-->
         <DataTemplate x:Key="FieldbooksTemplate" x:DataType="model:FieldBooks">
-            <VerticalStackLayout >
-                <Frame BackgroundColor="{StaticResource Primary}" >
-                    <Grid  Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}" >
+            <VerticalStackLayout>
+
+                <Frame BackgroundColor="{Binding FieldbookColor}" x:Name="fieldBookFrame">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding}"/>
+                    </Frame.GestureRecognizers>
+                    <Grid Margin="0,0,-10,10" BackgroundColor="{StaticResource Gray300}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="180"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="100"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="Black"
+                            Margin="10,0,0,0"/>
+
+                        <Label Text="{Binding metadataForProject.MetadataActivity}"
+                               FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="Black"
+                               Grid.Column="1" Grid.Row="1"/>
+                        <Label Text="{Binding metadataForProject.ProjectName}"
+                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="Black"
+                               Grid.Column="1" Grid.Row="2"/>
+                        <Label Text="{Binding metadataForProject.FieldworkType}" 
+                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="Black"
+                               Grid.Column="1" Grid.Row="3"/>
+                        <Label Text="{Binding metadataForProject.StartDate}" 
+                               FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="Black"
+                               Grid.Column="1" Grid.Row="4"/>
+
+                        <!--Station count total-->
+                        <Label Grid.Column="1" Grid.Row="5" TextColor="Black" 
+                                Margin="25,0,0,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Station ("/>
+                                    <Span Text="{Binding StationNumber}"/>
+                                    <Span Text=")"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                            
+                        </Label>
+
+                        <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="0,0,0,0"
+                       Grid.Row="7" HorizontalOptions="Center" VerticalOptions="End" Source="logo.png"/>
+
+                        <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+
+                    </Grid>
+                </Frame>
+
+            </VerticalStackLayout>
+        </DataTemplate>
+
+        <DataTemplate x:Key="FieldbooksSelectedTemplate" x:DataType="model:FieldBooks" >
+            <VerticalStackLayout>
+
+                <Frame BackgroundColor="{StaticResource Primary}" x:Name="fieldBookFrame">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding}"/>
+                    </Frame.GestureRecognizers>
+                    <Grid Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}">
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1"/>
                             <ColumnDefinition Width="180"/>
@@ -56,7 +127,7 @@
                                     <Span Text=")"/>
                                 </FormattedString>
                             </Label.FormattedText>
-                            
+
                         </Label>
 
                         <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="0,0,0,0"
@@ -69,6 +140,10 @@
 
             </VerticalStackLayout>
         </DataTemplate>
+
+        <selectors:FieldbookTemplateSelector x:Key="fieldbookSelector" DefaultTemplate="{StaticResource FieldbooksTemplate}"
+                                             SelectedTemplate="{StaticResource FieldbooksSelectedTemplate}"/>
+
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -98,7 +173,7 @@
             <ScrollView Orientation="Vertical" Grid.Row="1">
 
                 <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" 
-                            BindableLayout.ItemTemplate="{StaticResource FieldbooksTemplate}"
+                            BindableLayout.ItemTemplateSelector="{StaticResource fieldbookSelector}"
                             BindableLayout.ItemsSource="{Binding FieldbookCollection, Mode=TwoWay}"/>
 
             </ScrollView>

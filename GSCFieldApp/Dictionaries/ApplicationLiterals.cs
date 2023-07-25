@@ -60,7 +60,9 @@
 
         #region Local settings
 
-        public const string LocalSettingMainContainer = "GSCMain";
+        public const string LocalSettingMainContainer = "GSCMain"; //UWP
+
+        public const string preferenceDatabasePath = "DatabaseFilePath"; //MAUI
 
         #endregion
 
