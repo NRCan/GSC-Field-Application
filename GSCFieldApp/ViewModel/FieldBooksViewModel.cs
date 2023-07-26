@@ -16,6 +16,7 @@ using System.Resources;
 using GSCFieldApp.Dictionaries;
 using BruTile.Wmts.Generated;
 using GSCFieldApp.Themes;
+using NetTopologySuite.Index.HPRtree;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -24,6 +25,7 @@ namespace GSCFieldApp.ViewModel
         //UI
         private bool _noFieldBookWatermark = false;
         public ObservableCollection<FieldBooks> _fieldbookCollection = new ObservableCollection<FieldBooks>();
+        public FieldBooks _selectedFieldBook = new FieldBooks();
 
         //Data service
         private DataAccess da = new DataAccess();
@@ -34,6 +36,7 @@ namespace GSCFieldApp.ViewModel
 
         public bool NoFieldBookWatermark { get { return _noFieldBookWatermark; } set { _noFieldBookWatermark = value; } }
         public ObservableCollection<FieldBooks> FieldbookCollection { get { return _fieldbookCollection; } set{ _fieldbookCollection = value; } }
+        public FieldBooks SelectedFieldBook { get { return _selectedFieldBook; } set { _selectedFieldBook = value; } }
 
         public FieldBooksViewModel() 
         {
@@ -49,9 +52,8 @@ namespace GSCFieldApp.ViewModel
         private void FieldBookDialog_newFieldBookSaved(object sender, EventArgs e)
         {
             FillBookCollectionAsync();
+
         }
-
-
 
         #endregion
 
@@ -85,6 +87,7 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+
         /// <summary>
         /// Will fill the project collection with information related to it
         /// </summary>
@@ -99,58 +102,75 @@ namespace GSCFieldApp.ViewModel
 
             foreach (string sf in fileList)
             {
-
-                //Get the databases but not the main default one
-                if ((sf.Contains(DatabaseLiterals.DBTypeSqlite) || sf.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
-                    && !sf.Contains(DatabaseLiterals.DBName))
+                FileInfo fi = new FileInfo(sf);
+                if (fi.Length > 0) 
                 {
-
-                    //Connect to found database and retrive some information from it
-                    FieldBooks currentBook = new FieldBooks();
-                    SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(sf);
-
-                    //Get metadata records
-                    List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>().ToListAsync();
-                    foreach (Metadata m in metadataTableRows)
+                    //Get the databases but not the main default one
+                    if ((sf.Contains(DatabaseLiterals.DBTypeSqlite) || sf.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                        && !sf.Contains(DatabaseLiterals.DBName))
                     {
-                        //For metadata
-                        Metadata met = m as Metadata;
-                        currentBook.CreateDate = met.StartDate;
-                        currentBook.GeologistGeolcode = met.Geologist + "[" + met.UserCode + "]";
-                        currentBook.ProjectPath = FileSystem.Current.AppDataDirectory;
-                        currentBook.ProjectDBPath = sf;
-                        currentBook.metadataForProject = m as Metadata;
-                    }
 
-                    //For stations
-                    string stationQuerySelect = "SELECT *";
-                    string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
-                    string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationAlias + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "%'";
-                    string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
-                    List<Station> stationCountResult = await currentConnection.Table<Station>().ToListAsync();
-                    if (stationCountResult != null && stationCountResult.Count > 0)
-                    {
-                        currentBook.StationNumber = stationCountResult.Count.ToString();
-                    }
-                    else if (stationCountResult != null && stationCountResult.Count == 0) 
-                    {
-                        currentBook.StationNumber = "0";
-                    }
-                    else
-                    {
-                        currentBook.StationNumber = "?";
-                    }
-                    if (stationCountResult.Count != 0)
-                    {
-                        Station lastStation = (Station)stationCountResult[stationCountResult.Count - 1];
-                        currentBook.StationLastEntered = lastStation.StationAlias;
-                    }
+                        //Connect to found database and retrive some information from it
+                        FieldBooks currentBook = new FieldBooks();
+                        SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(sf);
 
-                    _fieldbookCollection.Add(currentBook);
+                        //Get metadata records
+                        List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
+                        foreach (Metadata m in metadataTableRows)
+                        {
+                            //For metadata
+                            Metadata met = m as Metadata;
+                            currentBook.CreateDate = met.StartDate;
+                            currentBook.GeologistGeolcode = met.Geologist + "[" + met.UserCode + "]";
+                            currentBook.ProjectPath = FileSystem.Current.AppDataDirectory;
+                            currentBook.ProjectDBPath = sf;
+                            currentBook.metadataForProject = m as Metadata;
 
-                    await currentConnection.CloseAsync(); 
-                    
+                            //Manage to select last prefered fieldbook
+                            if (currentBook.ProjectDBPath == Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty))
+                            {
+                                _selectedFieldBook = currentBook;
+                                OnPropertyChanged(nameof(SelectedFieldBook));
+                            }
+                        }
+
+                        //For stations
+                        string stationQuerySelect = "SELECT *";
+                        string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
+                        string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationAlias + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "%'";
+                        string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
+                        List<Station> stationCountResult = await currentConnection.Table<Station>().ToListAsync();
+                        if (stationCountResult != null && stationCountResult.Count > 0)
+                        {
+                            currentBook.StationNumber = stationCountResult.Count.ToString();
+                        }
+                        else if (stationCountResult != null && stationCountResult.Count == 0)
+                        {
+                            currentBook.StationNumber = "0";
+                        }
+                        else
+                        {
+                            currentBook.StationNumber = "?";
+                        }
+                        if (stationCountResult.Count != 0)
+                        {
+                            Station lastStation = (Station)stationCountResult[stationCountResult.Count - 1];
+                            currentBook.StationLastEntered = lastStation.StationAlias;
+                        }
+
+                        _fieldbookCollection.Add(currentBook);
+
+                        await currentConnection.CloseAsync();
+
+                    }
                 }
+                else 
+                {
+                    //Make sure to remove empty file
+                    //This could happen if something went wrong with a database save
+                    fi.Delete();
+                }
+
                 
             }
             OnPropertyChanged(nameof(FieldbookCollection));

@@ -44,6 +44,11 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+
+        /// <summary>
+        /// Will save the location model within prefered database
+        /// </summary>
+        /// <returns></returns>
         public async Task SetLocationModelAsync()
         {
             if (sensorLocation.Altitude.HasValue)
@@ -66,9 +71,9 @@ namespace GSCFieldApp.ViewModel
             locationModel.LocationAlias = await idCalc.CalculateLocationAliasAsync(); //Calculate new value
             locationModel.MetaID = 1; //Foreign key
 
+            //Save location model
             locationModel = await dataAccess.SaveItemAsync(locationModel, false) as FieldLocation;
 
-            Debug.WriteLine("test");
         }
 
         #endregion
