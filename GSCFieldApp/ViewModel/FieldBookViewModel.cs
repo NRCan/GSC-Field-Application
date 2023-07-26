@@ -108,6 +108,8 @@ namespace GSCFieldApp.ViewModel
         {
             //Init.
             string fieldName = Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType;
+
+            //Make sure to user default database rather then the prefered one. This one will always be there.
             _projectType = await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableMetadata, fieldName);
 
             if (_projectType != null && _projectType.Count > 0)

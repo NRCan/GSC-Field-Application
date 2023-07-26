@@ -132,7 +132,7 @@
 
                 </FlexLayout>-->
                 <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" HeightRequest="380" CanReorderItems="True" HorizontalOptions="CenterAndExpand"
-                                SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}"
+                                SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}" 
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}" SelectionMode="Single">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Horizontal" />

@@ -25,7 +25,7 @@ namespace GSCFieldApp.ViewModel
         //UI
         private bool _noFieldBookWatermark = false;
         public ObservableCollection<FieldBooks> _fieldbookCollection = new ObservableCollection<FieldBooks>();
-        public FieldBooks _selectedFieldBook = new FieldBooks();
+        public FieldBooks _selectedFieldBook;
 
         //Data service
         private DataAccess da = new DataAccess();
@@ -127,10 +127,11 @@ namespace GSCFieldApp.ViewModel
                             currentBook.metadataForProject = m as Metadata;
 
                             //Manage to select last prefered fieldbook
-                            if (currentBook.ProjectDBPath == Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty))
+                            string preferedDBPath = Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty);
+                            if (currentBook.ProjectDBPath == preferedDBPath)
                             {
                                 _selectedFieldBook = currentBook;
-                                OnPropertyChanged(nameof(SelectedFieldBook));
+
                             }
                         }
 
@@ -174,6 +175,7 @@ namespace GSCFieldApp.ViewModel
                 
             }
             OnPropertyChanged(nameof(FieldbookCollection));
+            OnPropertyChanged(nameof(SelectedFieldBook));
 
             WatermarkValidation();
         }
