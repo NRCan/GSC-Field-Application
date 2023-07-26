@@ -152,7 +152,15 @@ namespace GSCFieldApp.Views
             //MapPageViewModel.currentMapView = null;
             //mapsLoaded = false;
             //await MapPageViewModel.SetMapView(myMapView);
-
+            try
+            {
+                // Code that might throw an exception
+            }
+            catch (Exception ex)
+            {
+                // Catch and handle any exception.
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
         }
 
         private void LatLongDMSButtonClicked(object sender, RoutedEventArgs e)
