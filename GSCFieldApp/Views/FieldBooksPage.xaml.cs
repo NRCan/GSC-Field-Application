@@ -27,5 +27,9 @@ namespace GSCFieldApp.Views
 
         }
 
+        private void OnGridViewItemClicked(object sender, ItemClickEventArgs e)
+        {
+
+        }
     }
 }
