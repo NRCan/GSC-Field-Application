@@ -346,6 +346,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         /// <summary>
         /// Will generate an insert query for geopackages
+        /// NOTE: Needs to stay here else it conflicts with the spatialitesharp which doesn't use
+        /// the same libraries and throws a bunch of conflict.
         /// </summary>
         /// <param name="inClassObject"></param>
         /// <returns></returns>

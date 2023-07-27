@@ -101,7 +101,7 @@
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <Grid Margin="0,0,0,0">
+        <Grid Margin="0,-48,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
