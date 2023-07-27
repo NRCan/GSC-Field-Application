@@ -325,5 +325,126 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
+
+        #region GET METHODS (usually needs a connection object)
+        /// <summary>
+        /// Will return a table mapping object create from a type object that represent the table to map.
+        /// </summary>
+        /// <param name="tableName">The table type object from boxing a class into a type</param>
+        /// <param name="dbConnect">An existing database connection</param>
+        /// <returns>Will return an empty list if table name wasn't found in database.</returns>
+        private static async Task<TableMapping> GetATableObjectAsync(Type tableType, SQLiteAsyncConnection dbConnect)
+        {
+            //Will return a TableMapping object created from the given type. Type, deriving from the model class, should be true, else 
+            //things might fail.
+            return await dbConnect.GetMappingAsync(tableType);
+        }
+
+        #endregion
+
+        #region GEOPACKAGE
+
+        /// <summary>
+        /// Will generate an insert query for geopackages
+        /// </summary>
+        /// <param name="inClassObject"></param>
+        /// <returns></returns>
+        public async Task<string> GetGeopackageInsertQueryAsync(FieldLocation inLocation, string tableNameIfDifferent = "")
+        {
+            //Variables
+            string insertQuery = @"INSERT INTO "; //Init
+
+            //Get table mapping
+            TableMapping inMapping = await GetATableObjectAsync(inLocation.GetType(), DbConnection);
+
+            //Add table name in query
+            string inTableName = inLocation.LocationTableName;
+            if (tableNameIfDifferent != inTableName && tableNameIfDifferent != string.Empty)
+            {
+                inTableName = tableNameIfDifferent;
+            }
+            insertQuery = insertQuery + inTableName + " (" + DatabaseLiterals.FieldGenericGeometry + ",";
+
+            //Fill in the field name list of the query
+            foreach (TableMapping.Column col in inMapping.Columns)
+            {
+                Type colType = col.ColumnType;
+
+                var value = col.GetValue(inLocation);
+
+                if (value != null && col.Name != DatabaseLiterals.FieldGenericGeometry)
+                {
+                    insertQuery = insertQuery + col.Name + ",";
+                }
+
+            }
+
+            //Remove last comma
+            insertQuery = insertQuery.Remove(insertQuery.Length - 1, 1);
+
+            //Add make point sql method
+            insertQuery = insertQuery + ") VALUES (gpkgMakePoint( " + inLocation.LocationLong +
+                ", " + inLocation.LocationLat + ", " + inLocation.LocationDatum + ")";
+
+            //Finalize query with values
+            foreach (TableMapping.Column col in inMapping.Columns)
+            {
+                Type colType = col.ColumnType;
+
+                var value = col.GetValue(inLocation);
+
+                if (value != null && col.Name != DatabaseLiterals.FieldGenericGeometry)
+                {
+                    if (colType == typeof(System.String))
+                    {
+                        value = '"' + value.ToString() + '"';
+                    }
+
+                    if (col.Name == DatabaseLiterals.FieldLocationID)
+                    {
+                        value = "NULL";
+                    }
+
+                    if (col == inMapping.Columns.Last())
+                    {
+                        insertQuery = insertQuery + ", " + value + ") ";
+                    }
+                    else
+                    {
+                        insertQuery = insertQuery + ", " + value;
+                    }
+
+                }
+
+            }
+
+            return insertQuery + " returning " + DatabaseLiterals.FieldLocationID + ";";
+
+
+        }
+
+        /// <summary>
+        /// Will generate an update query for geopackages geometry field
+        /// </summary>
+        /// <param name="inClassObject"></param>
+        /// <param name="tableNameIfDifferent"></param>
+        /// <returns></returns>
+        public string GetGeopackageUpdateQuery(string tableName)
+        {
+            //Variables cast(EPSG as integer)
+            string upQuery = string.Empty; //Init
+
+            if (tableName == DatabaseLiterals.TableLocation)
+            {
+                upQuery = @"UPDATE " + tableName + " SET " + FieldGenericGeometry + " = " +
+                    " gpkgMakePoint( " + FieldLocationLongitude + ", " + FieldLocationLatitude + ", cast(" +
+                    FieldLocationDatum + " as integer));";
+            }
+
+            return upQuery;
+        }
+
+        #endregion
+
     }
 }

@@ -101,14 +101,14 @@
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <Grid Margin="0,-48,0,0">
+        <Grid Margin="0,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
 
-            <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="0" FlowDirection="RightToLeft">
+            <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Deleting a selected field book-->
                 <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}"/>
@@ -141,7 +141,7 @@
                 
             </ScrollView>
 
-            <Label x:Name="test" Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="1" Style="{StaticResource Watermark}"
+            <Label x:Name="test" Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="1" Style="{StaticResource Watermark}" HorizontalTextAlignment="Center"
                    IsVisible="{Binding NoFieldBookWatermark, Mode=TwoWay}"/>
 
             <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="2" FlowDirection="RightToLeft" BackgroundColor="{StaticResource Primary}">

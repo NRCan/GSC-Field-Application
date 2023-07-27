@@ -71,8 +71,12 @@ namespace GSCFieldApp.ViewModel
             locationModel.LocationAlias = await idCalc.CalculateLocationAliasAsync(); //Calculate new value
             locationModel.MetaID = 1; //Foreign key
 
+            //Fill in the feature location
+            GeopackageService geoService = new GeopackageService();
+            string insertQuery = await dataAccess.GetGeopackageInsertQueryAsync(locationModel);
+
             //Save location model
-            locationModel = await dataAccess.SaveItemAsync(locationModel, false) as FieldLocation;
+            locationModel.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
 
         }
 
