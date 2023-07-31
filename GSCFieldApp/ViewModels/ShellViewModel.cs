@@ -73,7 +73,15 @@ namespace GSCFieldApp.ViewModels
             string projectName = string.Empty;
             if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest) != null)
             {
-                inMemoryYoungestPhoto = (DateTimeOffset)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest);
+                try
+                {
+                    inMemoryYoungestPhoto = (DateTimeOffset)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest);
+                }
+                catch (Exception)
+                {
+                    inMemoryYoungestPhoto = DateTimeOffset.MinValue;
+                }
+                
             }
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName) != null)
             {
