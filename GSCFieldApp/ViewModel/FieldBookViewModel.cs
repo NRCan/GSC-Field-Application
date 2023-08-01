@@ -20,16 +20,14 @@ namespace GSCFieldApp.ViewModel
 
         DataAccess da = new DataAccess();
         private Metadata model = new Metadata();
-        private List<Themes.ComboBoxItem> _projectType = new List<Themes.ComboBoxItem>();
-        private int _selectedProjectType = -1;
+        private Tuple<List<Themes.ComboBoxItem>, int> _projectType = Tuple.Create(new List<Themes.ComboBoxItem>(), -1);
 
         #endregion
 
         #region PROPERTIES
         
         public Metadata Model { get { return model; } set { model = value; } }
-        public List<Themes.ComboBoxItem> ProjectType { get { return _projectType; } set { _projectType = value; } }
-        public int SelectedProjectType { get { return _selectedProjectType; } set { _selectedProjectType = value; } }
+        public Tuple<List<Themes.ComboBoxItem>, int> ProjectType { get { return _projectType; } set { _projectType = value; } }
 
         #endregion
 
@@ -112,17 +110,9 @@ namespace GSCFieldApp.ViewModel
             //Make sure to user default database rather then the prefered one. This one will always be there.
             _projectType = await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableMetadata, fieldName);
 
-            if (_projectType != null && _projectType.Count > 0)
-            {
-                if (_projectType[0].defaultValue != string.Empty)
-                {
-                    _selectedProjectType = _projectType[0].defaultIndex;
-                }
-            }
 
             //Update UI
             OnPropertyChanged("ProjectType");
-            OnPropertyChanged("SelectedProjectType");
 
         }
 
@@ -140,9 +130,9 @@ namespace GSCFieldApp.ViewModel
                 Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
 
                 //Process pickers
-                if (SelectedProjectType != -1)
+                if (ProjectType.Item2 != -1)
                 {
-                    Model.FieldworkType = ProjectType[SelectedProjectType].itemValue;
+                    Model.FieldworkType = ProjectType.Item1[ProjectType.Item2].itemValue;
                 }
             }
 

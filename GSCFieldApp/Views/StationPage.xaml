@@ -25,7 +25,10 @@
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageTypeTitle}"/>
 
-                            <Picker Title="{local:Localize StationPageType}"/>
+                            <Picker Title="{local:Localize StationPageType}"
+                                    ItemsSource="{Binding StationType.Item1}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedIndex="{Binding StationType.Item2, Mode=TwoWay}" />
                             <Picker Title="{local:Localize StationPageSource}"/>
 
                         </VerticalStackLayout>
@@ -38,7 +41,7 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StationPageOutcropSize}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
+                                <Entry Text="{Binding Model.StationOCSize, Mode=TwoWay}" Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
                             </VerticalStackLayout>
 
                             <Picker Title="{local:Localize StationPageOutcropQuality}"/>
@@ -56,17 +59,17 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StationPageGeneralAirPhoto}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry />
+                                <Entry Text="{Binding Model.StationAirNo, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StationPageGeneralTravNo}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Keyboard="Numeric" />
+                                <Entry Text="{Binding Model.StationTravNo, Mode=TwoWay}" Keyboard="Numeric" />
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StationPageGeneralRelatedTo}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Placeholder="{local:Localize StationPageGeneralRelatedToPlaceholder}"/>
+                                <Entry Text="{Binding Model.StationRelatedTo, Mode=TwoWay}" Placeholder="{local:Localize StationPageGeneralRelatedToPlaceholder}"/>
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
@@ -78,8 +81,12 @@
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize GenericNoteTitle}"/>
 
                             <VerticalStackLayout>
-                                <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" Style="{StaticResource FieldAppEditorNotes}"/>
-                                <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" Style="{StaticResource FieldAppEditorNotes}"/>
+                                <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" 
+                                        Text="{Binding Model.StationNote, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+                                <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" 
+                                        Text="{Binding Model.StationSLSNotes,Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>

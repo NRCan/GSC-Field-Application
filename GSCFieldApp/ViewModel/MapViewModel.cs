@@ -11,6 +11,8 @@ using System.ComponentModel;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System.Diagnostics;
+using GSCFieldApp.Dictionaries;
+using SQLite;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -20,12 +22,14 @@ namespace GSCFieldApp.ViewModel
         private DataAccess dataAccess = new DataAccess();
 
         private FieldLocation locationModel = new FieldLocation();
+        private Metadata metadataModel = new Metadata(); 
         private Station stationModel = new Station();
         public Location sensorLocation { get; set; }  //This is coming from the view when new location event is triggered. 
 
         public MapViewModel()
         {
-
+            //Get main metadata record
+            _ = GetMetadataAsync();
         }
 
         #region RELAY COMMANDS
@@ -33,23 +37,39 @@ namespace GSCFieldApp.ViewModel
         async Task AddStation()
         {
             await SetLocationModelAsync();
-            //await Shell.Current.GoToAsync($"{nameof(StationPage)}", 
-            //    new Dictionary<string, object> 
-            //    {
-            //        [nameof(FieldLocation)] = locationModel
-            //    }
-            //);
+
+            //Navigate to station page and keep locationmodel for relationnal link
+            await Shell.Current.GoToAsync($"{nameof(StationPage)}",
+                new Dictionary<string, object>
+                {
+                    [nameof(FieldLocation)] = locationModel,
+                    [nameof(Metadata)] = metadataModel,
+                }
+            );
         }
         #endregion
 
         #region METHODS
 
+        /// <summary>
+        /// Will retrieve first metadata record
+        /// </summary>
+        /// <returns></returns>
+        private async Task GetMetadataAsync()
+        {
+            //Get metadata record
+            SQLiteAsyncConnection currentConnection = dataAccess.GetConnectionFromPath(dataAccess.PreferedDatabasePath);
+            List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", DatabaseLiterals.TableMetadata));
+            metadataModel = mets[0];
+            await currentConnection.CloseAsync();
+
+        }
 
         /// <summary>
         /// Will save the location model within prefered database
         /// </summary>
         /// <returns></returns>
-        public async Task SetLocationModelAsync()
+        public async Task<int> SetLocationModelAsync()
         {
             if (sensorLocation.Altitude.HasValue)
             {
@@ -68,15 +88,24 @@ namespace GSCFieldApp.ViewModel
             locationModel.LocationElevationAccuracy = sensorLocation.VerticalAccuracy;
             locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault;
 
-            locationModel.LocationAlias = await idCalc.CalculateLocationAliasAsync(); //Calculate new value
-            locationModel.MetaID = 1; //Foreign key
+            //Foreign key
+            if (metadataModel.MetaID > 0)
+            {
+                locationModel.MetaID = metadataModel.MetaID; 
+            }
+            else
+            {
+                locationModel.MetaID = 1; 
+            }
+
+            locationModel.LocationAlias = await idCalc.CalculateLocationAliasAsync("", metadataModel.UserCode); //Calculate new value
 
             //Fill in the feature location
             GeopackageService geoService = new GeopackageService();
             string insertQuery = await dataAccess.GetGeopackageInsertQueryAsync(locationModel);
 
             //Save location model
-            locationModel.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
+            return locationModel.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
 
         }
 

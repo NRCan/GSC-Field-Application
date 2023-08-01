@@ -3,7 +3,7 @@ using GSCFieldApp.ViewModel;
 
 namespace GSCFieldApp.Views;
 
-[QueryProperty(nameof(FieldLocation), nameof(FieldLocation))]
+
 public partial class StationPage : ContentPage
 {
 	public StationPage(StationViewModel vm)
@@ -11,4 +11,14 @@ public partial class StationPage : ContentPage
 		InitializeComponent();
         BindingContext = vm;
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        //After binding context is setup fill pickers
+        StationViewModel vm2 = this.BindingContext as StationViewModel;
+        _ = vm2.FillPickers();
+    }
+
 }

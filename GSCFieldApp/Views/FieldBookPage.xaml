@@ -30,9 +30,9 @@
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize FieldBookPageDescriptionTitle}"/>
 
                             <Picker Title="{local:Localize FieldBookPageWorkType}" 
-                                    ItemsSource="{Binding ProjectType}" 
+                                    ItemsSource="{Binding ProjectType.Item1}" 
                                     ItemDisplayBinding="{Binding itemName}" 
-                                    SelectedIndex="{Binding SelectedProjectType, Mode=TwoWay}" />
+                                    SelectedIndex="{Binding ProjectType.Item2, Mode=TwoWay}" />
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>

@@ -174,28 +174,19 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="fieldName">The database table field to get vocabs from</param>
         /// <param name="allValues">If all values, even non visible vocabs are needed</param>
         /// <param name="extraFieldValue"> The parent field that will be used to filter vocabs</param>
+        /// <param name="fieldwork">Field book theme (bedrock, surficial)</param>
         /// <returns>A list contain resulting voca class entries</returns>
-        public async Task<List<Vocabularies>> GetPicklistValuesAsync(string tableName, string fieldName, string extraFieldValue, bool allValues)
+        public async Task<List<Vocabularies>> GetPicklistValuesAsync(string tableName, string fieldName, string extraFieldValue, 
+            bool allValues, string fieldwork = "")
         {
-            //Build Not applicable vocab in case nothing is returned.
-            Vocabularies vocNA = new Vocabularies
-            {
-                Code = Dictionaries.DatabaseLiterals.picklistNACode,
-                Description = Dictionaries.DatabaseLiterals.picklistNACode
-            };
-            List<Vocabularies> vocabNA = new List<Vocabularies>();
-            vocabNA.Add(vocNA);
-
-            Vocabularies vocEmpty = new Vocabularies
-            {
-                Code = string.Empty,
-                Description = string.Empty
-            };
-            List<Vocabularies> vocabEmpty = new List<Vocabularies>();
-            vocabEmpty.Add(vocEmpty);   
 
             //Get the current project type
-            string fieldworkType = ScienceLiterals.ApplicationThemeBedrock;
+            string fieldworkType = ScienceLiterals.ApplicationThemeBedrock; //Default
+
+            if (fieldwork != string.Empty)
+            {
+                fieldworkType = fieldwork;
+            }
 
             //Build query
             string querySelect = "SELECT * FROM " + TableDictionary;
@@ -233,15 +224,10 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             Vocabularies voc = new Vocabularies();
             List<Vocabularies> vocTable = new List<Vocabularies> { voc };
-            if (vocabs.Count == 0)
-            {
-                vocTable = vocabNA;
-            }
-            else
+            if (vocabs.Count != 0)
             {
                 vocTable = vocabs;
             }
-
 
             return vocTable;
         }
@@ -254,16 +240,16 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="tableName">The table name associated with the wanted vocab.</param>
         /// <param name="fieldName">The field name associated with the wanted vocab.</param>
-        /// <param name="defaultValue">The output default value if there is any</param>
+        /// <param name="fieldwork">The field book theme (bedrock, surficial)</param>
         /// <returns></returns>
-        public async Task<List<ComboBoxItem>> GetComboboxListWithVocabAsync(string tableName, string fieldName)
+        public async Task<Tuple<List<ComboBoxItem>,int>> GetComboboxListWithVocabAsync(string tableName, string fieldName, string fieldwork = "")
         {
             //Outputs
-            List<ComboBoxItem> outputVocabs = new List<ComboBoxItem>();
+            Tuple<List<ComboBoxItem>, int> outputVocabs = Tuple.Create(new List<ComboBoxItem>(), -1);
 
             //Get vocab
             DataAccess picklistAccess = new DataAccess();
-            List<Vocabularies> vocs = await picklistAccess.GetPicklistValuesAsync(tableName, fieldName, string.Empty, false);
+            List<Vocabularies> vocs = await picklistAccess.GetPicklistValuesAsync(tableName, fieldName, string.Empty, false, fieldwork);
 
             //Fill in cbox
             outputVocabs = GetComboboxListFromVocab(vocs);
@@ -273,24 +259,21 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         /// <summary>
         /// From a given list of vocabularies items (usually coming from a more define query), will
-        /// output a list of combobox items. An output parameter is also available 
-        /// for default value if one is stated in the database or if N.A. is the only available choice.
-        /// This method is meant for generic list with no queries
+        /// output a list of combobox items. Will also output as in the default value else -1 for no
+        /// selection
         /// </summary>
-        /// <param name="tableName">The table name associated with the wanted vocab.</param>
-        /// <param name="fieldName">The field name associated with the wanted vocab.</param>
-        /// <param name="defaultValue">The output default value if there is any</param>
+        /// <param name="inVocab">List of vocabularies that needs to be converted to picker</param>
         /// <returns></returns>
-        public List<ComboBoxItem> GetComboboxListFromVocab(IEnumerable<Vocabularies> inVocab)
+        public Tuple<List<ComboBoxItem>, int> GetComboboxListFromVocab(IEnumerable<Vocabularies> inVocab)
         {
             //Outputs
-            List<ComboBoxItem> outputVocabs = new List<ComboBoxItem>();
+            List<ComboBoxItem> outputVocabsList = new List<ComboBoxItem>();
+            int defaultValueIndex = -1;
 
             //Fill in cbox
             foreach (Vocabularies vocabs in inVocab)
             {
                 ComboBoxItem newItem = new ComboBoxItem();
-                newItem.defaultValue = string.Empty;
 
                 if (vocabs.Code == null)
                 {
@@ -309,16 +292,17 @@ namespace GSCFieldApp.Services.DatabaseServices
                     newItem.itemName = vocabs.Description;
                 }
 
-                outputVocabs.Add(newItem);
-
                 //Select default if stated in database
                 if (vocabs.DefaultValue != null && vocabs.DefaultValue == Dictionaries.DatabaseLiterals.boolYes)
                 {
-                    newItem.defaultValue = vocabs.Code;
-                    newItem.defaultIndex = outputVocabs.Count - 1;
+                    defaultValueIndex = outputVocabsList.Count;
                 }
 
+                outputVocabsList.Add(newItem);
             }
+
+            //Set
+            Tuple<List<ComboBoxItem>, int> outputVocabs = Tuple.Create(outputVocabsList, defaultValueIndex);
 
             return outputVocabs;
         }

@@ -48,7 +48,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="inStationAlias"></param>
         /// <returns></returns>
-        public async Task<string> CalculateLocationAliasAsync(string inStationAlias = "")
+        public async Task<string> CalculateLocationAliasAsync(string inStationAlias = "", string officerCode = "")
         {
             string locAlias = inStationAlias;
 
@@ -58,7 +58,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             else
             {
-                locAlias = await CalculateStationAliasAsync(DateTime.Now) + "XY";
+                locAlias = await CalculateStationAliasAsync(DateTime.Now, officerCode) + "XY";
             }
 
             return locAlias;
@@ -101,7 +101,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="currentID">The station ID to calculate the alias from</param>
         /// <param name="stationTime">The datetime object related to the station to get the year from</param>
         /// <returns></returns>
-        public async Task<string> CalculateStationAliasAsync(DateTime stationDate)
+        public async Task<string> CalculateStationAliasAsync(DateTime stationDate, string currentGeolcode = "")
         {
 
             //Querying with Linq
@@ -118,14 +118,19 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Get current year
             string currentDate = stationDate.Year.ToString();
 
-            //Get initial station start number and officer code
-            int stationCount = stats.Count();
-            string currentGeolcode = string.Empty;
-            if (stationCount == 0)
+            //Get officer code
+            if (currentGeolcode == string.Empty)
             {
                 List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", DatabaseLiterals.TableMetadata));
-                stationCount = mets[0].StationStartNumber;
-                currentGeolcode = mets[0].UserCode; 
+                currentGeolcode = mets[0].UserCode;
+            }
+
+            //Get initial station start number and officer code
+            int stationCount = stats.Count();
+            if (stationCount == 0)
+            {
+                List<Metadata> metStationCount = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", DatabaseLiterals.TableMetadata));
+                stationCount = metStationCount[0].StationStartNumber;
             }
             else
             {
@@ -143,8 +148,6 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Increment
                 stationCount = lastCharacterNumber + 1;
 
-                //Get geolcode
-                currentGeolcode = lastCharacters.GetRange(2, lastCharacters.Count() - 4).ToString();
             }
 
             //Padd current ID with 0 if needed
