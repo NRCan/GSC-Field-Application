@@ -14,14 +14,14 @@
         <!-- Concatenated Value Template -->
         <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
 
-            <Frame BorderColor="{StaticResource Gray200}" CornerRadius="8" WidthRequest="150" HorizontalOptions="Center">
-                <HorizontalStackLayout HeightRequest="25" HorizontalOptions="Center" >
-                    <Label Text="{Binding itemName}" x:Name="itemNameText"/>
+            <Frame BorderColor="{StaticResource Gray200}" CornerRadius="8" HorizontalOptions="Center" >
+                <HorizontalStackLayout HeightRequest="25" x:Name="cboxStackLayout">
+                    <Label Text="{Binding itemName}" x:Name="itemNameText" />
                     <Button x:Name="ConcatValueCheck" 
-                            HeightRequest="25" FontSize="Small" FontFamily="MatDesign"
-                            Text="&#xF0A7A;" TextColor="#FF0000" BorderColor="Transparent" 
-                            BorderWidth="0" IsVisible="{Binding canRemoveItem}"
-                            BackgroundColor="Transparent"/>
+                        HeightRequest="25" FontSize="Medium" FontFamily="MatDesign" VerticalOptions="Center" Margin="0,-12,0,0"
+                        Text="&#xF0A7A;" TextColor="#FF0000" BorderColor="Transparent" 
+                        BorderWidth="0" IsVisible="{Binding canRemoveItem}"
+                        BackgroundColor="Transparent"/>
                 </HorizontalStackLayout>
             </Frame>
 
@@ -73,9 +73,10 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                             <!--<ListView />-->
-                            <CollectionView ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                            CanReorderItems="True" HorizontalOptions="CenterAndExpand"
-                                            ItemsSource="{Binding StationOutcropQuality.cboxItems, Mode=TwoWay}" SelectionMode="Single"/>
+                            <CollectionView ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Margin="15,0,0,15" VerticalOptions="Fill"
+                                            x:Name="QualityCollectionView" VerticalScrollBarVisibility="Default" MaximumHeightRequest="250"
+                                            CanReorderItems="True" BackgroundColor="{StaticResource Gray100}"
+                                            ItemsSource="{Binding QualityCollection, Mode=TwoWay}" SelectionMode="Single"/>
 
                         </VerticalStackLayout>
                     </Frame>

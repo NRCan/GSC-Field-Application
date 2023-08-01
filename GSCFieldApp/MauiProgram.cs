@@ -14,20 +14,20 @@ public static class MauiProgram
 		//https://github.com/mono/SkiaSharp/discussions/1882
 
         var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.UseSkiaSharp(true)
-			.UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+        builder
+            .UseMauiApp<App>()
+            .UseSkiaSharp(true)
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("MaterialDesignIconsDesktop.ttf", "MatDesign");
             });
 
-		// Need to add these to actually create them on start
-		//Singleton will be created once
-		builder.Services.AddSingleton<MainPage>();
+        // Need to add these to actually create them on start
+        //Singleton will be created once
+        builder.Services.AddSingleton<MainPage>();
 		builder.Services.AddSingleton<MainViewModel>();
 
 		builder.Services.AddSingleton<SettingsPage>();
@@ -57,8 +57,6 @@ public static class MauiProgram
 
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
-
-
 
 #if DEBUG
         builder.Logging.AddDebug();

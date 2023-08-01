@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Themes;
+using System.Collections.ObjectModel;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -32,7 +33,7 @@ namespace GSCFieldApp.ViewModel
         //Concatenated
         private ComboBoxItem _selectedStationOutcropQuality = new ComboBoxItem();
         private ComboBoxItem _selectedQualityCollection = new ComboBoxItem();
-        private ComboBox _qualityCollection = new ComboBox();
+        private ObservableCollection<ComboBoxItem> _qualityCollection = new ObservableCollection<ComboBoxItem>();
 
         #endregion
 
@@ -60,21 +61,29 @@ namespace GSCFieldApp.ViewModel
             {
                 if (_selectedStationOutcropQuality != value)
                 {
-                    _qualityCollection.cboxItems.Add(value);
-                    _selectedStationOutcropQuality = value;
-                    OnPropertyChanged(nameof(QualityCollection));
+                    if (_qualityCollection != null)
+                    {
+                        if (_qualityCollection.Count > 0 && _qualityCollection[0] == null)
+                        {
+                            _qualityCollection.RemoveAt(0);
+                        }
+                        _qualityCollection.Add(value);
+                        _selectedStationOutcropQuality = value;
+                        OnPropertyChanged("QualityCollection");
+                    }
+
+
                 }
                 
             } 
         }
         public ComboBoxItem SelectedQualityCollection { get { return _selectedQualityCollection; } set { _selectedQualityCollection = value; } }
-        public ComboBox QualityCollection { get { return _qualityCollection; } set { _qualityCollection = value; } }
+        public ObservableCollection<ComboBoxItem> QualityCollection { get { return _qualityCollection; } set { _qualityCollection = value; } }
         #endregion
 
         public StationViewModel()
         {
-            _qualityCollection.cboxItems = new List<ComboBoxItem>();
-            OnPropertyChanged(nameof(QualityCollection));
+
         }
 
         #region RELAYS
