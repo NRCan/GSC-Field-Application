@@ -29,7 +29,10 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _stationSource = new ComboBox();
         private ComboBox _stationPhysEnv = new ComboBox();
 
-        //private int _selectedStationType = -1;
+        //Concatenated
+        private ComboBoxItem _selectedStationOutcropQuality = new ComboBoxItem();
+        private ComboBoxItem _selectedQualityCollection = new ComboBoxItem();
+        private ComboBox _qualityCollection = new ComboBox();
 
         #endregion
 
@@ -46,11 +49,32 @@ namespace GSCFieldApp.ViewModel
         public ComboBox StationOutcropQuality { get { return _stationOutcropQuality; } set { _stationOutcropQuality = value; } }
         public ComboBox StationSource { get { return _stationSource; } set { _stationSource = value; } }
         public ComboBox StationPhysEnv { get { return _stationPhysEnv; } set { _stationPhysEnv = value; } }
+
+        public ComboBoxItem SelectedStationOutcropQuality 
+        { 
+            get 
+            { 
+                return _selectedStationOutcropQuality; 
+            } 
+            set 
+            {
+                if (_selectedStationOutcropQuality != value)
+                {
+                    _qualityCollection.cboxItems.Add(value);
+                    _selectedStationOutcropQuality = value;
+                    OnPropertyChanged(nameof(QualityCollection));
+                }
+                
+            } 
+        }
+        public ComboBoxItem SelectedQualityCollection { get { return _selectedQualityCollection; } set { _selectedQualityCollection = value; } }
+        public ComboBox QualityCollection { get { return _qualityCollection; } set { _qualityCollection = value; } }
         #endregion
 
         public StationViewModel()
         {
-
+            _qualityCollection.cboxItems = new List<ComboBoxItem>();
+            OnPropertyChanged(nameof(QualityCollection));
         }
 
         #region RELAYS
@@ -160,6 +184,11 @@ namespace GSCFieldApp.ViewModel
             return String.Format("{0:HH:mm:ss t}", _dateGeneric); ;
         }
 
+        #endregion
+
+        #region EVENTS
+
+        
         #endregion
     }
 }

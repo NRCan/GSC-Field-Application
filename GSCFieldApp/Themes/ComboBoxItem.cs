@@ -10,11 +10,11 @@ namespace GSCFieldApp.Themes
     /// </summary>
     public class ComboBoxItem
     {
-        public Visibility _canRemoveItem = Visibility.Visible;
+        public bool _canRemoveItem = true;
 
         public string itemName { get; set; }
         public string itemValue { get; set; }
-        public Visibility canRemoveItem { get { return _canRemoveItem; } set { _canRemoveItem = value; } }
+        public bool canRemoveItem { get { return _canRemoveItem; } set { _canRemoveItem = value; } }
 
     }
 

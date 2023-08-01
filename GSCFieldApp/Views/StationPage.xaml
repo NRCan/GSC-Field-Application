@@ -4,10 +4,31 @@
              x:Class="GSCFieldApp.Views.StationPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              x:DataType="viemodel:StationViewModel"
              Shell.BackgroundColor="{StaticResource FieldStationColor}"
              Title="{local:Localize StationPageTitle}">
 
+    <ContentPage.Resources>
+
+        <!-- Concatenated Value Template -->
+        <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
+
+            <Frame BorderColor="{StaticResource Gray200}" CornerRadius="8" WidthRequest="150" HorizontalOptions="Center">
+                <HorizontalStackLayout HeightRequest="25" HorizontalOptions="Center" >
+                    <Label Text="{Binding itemName}" x:Name="itemNameText"/>
+                    <Button x:Name="ConcatValueCheck" 
+                            HeightRequest="25" FontSize="Small" FontFamily="MatDesign"
+                            Text="&#xF0A7A;" TextColor="#FF0000" BorderColor="Transparent" 
+                            BorderWidth="0" IsVisible="{Binding canRemoveItem}"
+                            BackgroundColor="Transparent"/>
+                </HorizontalStackLayout>
+            </Frame>
+
+        </DataTemplate>
+
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -38,7 +59,7 @@
                     </Frame>
 
                     <!--Outcrop section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
+                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}" HeightRequest="500">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageOutcropTitle}"/>
 
@@ -47,11 +68,14 @@
                                 <Entry Text="{Binding Model.StationOCSize, Mode=TwoWay}" Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize StationPageOutcropQuality}"
-                                    ItemsSource="{Binding StationOutcropQuality.cboxItems}" 
-                                    ItemDisplayBinding="{Binding itemName}" 
+                            <Picker Title="{local:Localize StationPageOutcropQuality}" x:Name="QualityPicker"
+                                    ItemsSource="{Binding StationOutcropQuality.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                             <!--<ListView />-->
+                            <CollectionView ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
+                                            CanReorderItems="True" HorizontalOptions="CenterAndExpand"
+                                            ItemsSource="{Binding StationOutcropQuality.cboxItems, Mode=TwoWay}" SelectionMode="Single"/>
 
                         </VerticalStackLayout>
                     </Frame>
