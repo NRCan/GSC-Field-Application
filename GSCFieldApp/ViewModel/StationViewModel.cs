@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Themes;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -23,7 +24,8 @@ namespace GSCFieldApp.ViewModel
         private Station model = new Station();
         private DateTimeOffset _dateGeneric = DateTime.Now; //Default
         public DataIDCalculation idCalculator = new DataIDCalculation();
-        private Tuple<List<Themes.ComboBoxItem>, int> _stationType = Tuple.Create(new List<Themes.ComboBoxItem>(), -1);
+        private ComboBox _stationType = new ComboBox();
+
         //private int _selectedStationType = -1;
 
         #endregion
@@ -37,8 +39,7 @@ namespace GSCFieldApp.ViewModel
         private Metadata metadata;
 
         public Station Model { get { return model; } set { model = value; } }
-        public Tuple<List<Themes.ComboBoxItem>, int> StationType { get { return _stationType; } set { _stationType = value; } }
-        //public int SelectedStationType { get { return _selectedStationType; } set { _selectedStationType = value; } }
+        public ComboBox StationType { get { return _stationType; } set { _stationType = value; } }
 
         #endregion
 
@@ -118,9 +119,9 @@ namespace GSCFieldApp.ViewModel
                 Model.StationVisitTime = CalculateStationTime(); //Calculate new value
 
                 //Process pickers
-                if (StationType.Item2 != -1)
+                if (StationType.cboxDefaultItemIndex != -1)
                 {
-                    Model.StationObsType = StationType.Item1[StationType.Item2].itemValue;
+                    Model.StationObsType = StationType.cboxItems[StationType.cboxDefaultItemIndex].itemValue;
                 }
             }
 

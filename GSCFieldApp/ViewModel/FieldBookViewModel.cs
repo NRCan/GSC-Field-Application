@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Themes;
 using ShimSkiaSharp;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
@@ -20,14 +21,14 @@ namespace GSCFieldApp.ViewModel
 
         DataAccess da = new DataAccess();
         private Metadata model = new Metadata();
-        private Tuple<List<Themes.ComboBoxItem>, int> _projectType = Tuple.Create(new List<Themes.ComboBoxItem>(), -1);
+        private ComboBox _projectType = new ComboBox();
 
         #endregion
 
         #region PROPERTIES
         
         public Metadata Model { get { return model; } set { model = value; } }
-        public Tuple<List<Themes.ComboBoxItem>, int> ProjectType { get { return _projectType; } set { _projectType = value; } }
+        public ComboBox ProjectType { get { return _projectType; } set { _projectType = value; } }
 
         #endregion
 
@@ -130,9 +131,9 @@ namespace GSCFieldApp.ViewModel
                 Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
 
                 //Process pickers
-                if (ProjectType.Item2 != -1)
+                if (ProjectType.cboxDefaultItemIndex != -1)
                 {
-                    Model.FieldworkType = ProjectType.Item1[ProjectType.Item2].itemValue;
+                    Model.FieldworkType = ProjectType.cboxItems[ProjectType.cboxDefaultItemIndex].itemValue;
                 }
             }
 

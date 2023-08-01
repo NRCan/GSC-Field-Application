@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GSCFieldApp.Themes
 {
-    public class ComboBox: ComboBoxItem
+    public class ComboBox
     {
         public List<ComboBoxItem> cboxItems { get; set; }
         public int cboxDefaultItemIndex { get; set; }

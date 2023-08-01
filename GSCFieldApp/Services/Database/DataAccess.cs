@@ -242,10 +242,10 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="fieldName">The field name associated with the wanted vocab.</param>
         /// <param name="fieldwork">The field book theme (bedrock, surficial)</param>
         /// <returns></returns>
-        public async Task<Tuple<List<ComboBoxItem>,int>> GetComboboxListWithVocabAsync(string tableName, string fieldName, string fieldwork = "")
+        public async Task<ComboBox> GetComboboxListWithVocabAsync(string tableName, string fieldName, string fieldwork = "")
         {
             //Outputs
-            Tuple<List<ComboBoxItem>, int> outputVocabs = Tuple.Create(new List<ComboBoxItem>(), -1);
+            ComboBox outputVocabs = new ComboBox();
 
             //Get vocab
             DataAccess picklistAccess = new DataAccess();
@@ -264,7 +264,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="inVocab">List of vocabularies that needs to be converted to picker</param>
         /// <returns></returns>
-        public Tuple<List<ComboBoxItem>, int> GetComboboxListFromVocab(IEnumerable<Vocabularies> inVocab)
+        public ComboBox GetComboboxListFromVocab(IEnumerable<Vocabularies> inVocab)
         {
             //Outputs
             List<ComboBoxItem> outputVocabsList = new List<ComboBoxItem>();
@@ -302,7 +302,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             //Set
-            Tuple<List<ComboBoxItem>, int> outputVocabs = Tuple.Create(outputVocabsList, defaultValueIndex);
+            ComboBox outputVocabs = new ComboBox();
+            outputVocabs.cboxItems = outputVocabsList;
+            outputVocabs.cboxDefaultItemIndex = defaultValueIndex; 
 
             return outputVocabs;
         }

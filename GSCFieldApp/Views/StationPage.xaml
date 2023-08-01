@@ -26,9 +26,9 @@
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageTypeTitle}"/>
 
                             <Picker Title="{local:Localize StationPageType}"
-                                    ItemsSource="{Binding StationType.Item1}" 
+                                    ItemsSource="{Binding StationType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
-                                    SelectedIndex="{Binding StationType.Item2, Mode=TwoWay}" />
+                                    SelectedIndex="{Binding StationType.cboxDefaultItemIndex, Mode=TwoWay}" />
                             <Picker Title="{local:Localize StationPageSource}"/>
 
                         </VerticalStackLayout>
