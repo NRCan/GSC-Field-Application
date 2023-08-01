@@ -25,6 +25,9 @@ namespace GSCFieldApp.ViewModel
         private DateTimeOffset _dateGeneric = DateTime.Now; //Default
         public DataIDCalculation idCalculator = new DataIDCalculation();
         private ComboBox _stationType = new ComboBox();
+        private ComboBox _stationOutcropQuality = new ComboBox();
+        private ComboBox _stationSource = new ComboBox();
+        private ComboBox _stationPhysEnv = new ComboBox();
 
         //private int _selectedStationType = -1;
 
@@ -40,7 +43,9 @@ namespace GSCFieldApp.ViewModel
 
         public Station Model { get { return model; } set { model = value; } }
         public ComboBox StationType { get { return _stationType; } set { _stationType = value; } }
-
+        public ComboBox StationOutcropQuality { get { return _stationOutcropQuality; } set { _stationOutcropQuality = value; } }
+        public ComboBox StationSource { get { return _stationSource; } set { _stationSource = value; } }
+        public ComboBox StationPhysEnv { get { return _stationPhysEnv; } set { _stationPhysEnv = value; } }
         #endregion
 
         public StationViewModel()
@@ -83,7 +88,15 @@ namespace GSCFieldApp.ViewModel
         {
             if (metadata != null)
             {
-                await FillStationType();
+                _stationType = await FillAPicker(DatabaseLiterals.FieldStationObsType);
+                _stationOutcropQuality = await FillAPicker(DatabaseLiterals.FieldStationOCQuality);
+                _stationSource = await FillAPicker(DatabaseLiterals.FieldStationObsSource);
+                _stationPhysEnv = await FillAPicker(DatabaseLiterals.FieldStationPhysEnv);
+
+                OnPropertyChanged(nameof(StationType));
+                OnPropertyChanged(nameof(StationOutcropQuality));
+                OnPropertyChanged(nameof(StationSource));
+                OnPropertyChanged(nameof(StationPhysEnv));
             }
             
         }
@@ -91,16 +104,10 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will fill the project type combobox
         /// </summary>
-        private async Task FillStationType()
+        private async Task<ComboBox> FillAPicker(string fieldName)
         {
-            //Init.
-            string fieldName = DatabaseLiterals.FieldStationObsType;
-
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            _stationType = await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableStation, fieldName, metadata.FieldworkType);
-
-            //Update UI
-            OnPropertyChanged("StationType");
+            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableStation, fieldName, metadata.FieldworkType);
 
         }
 
@@ -122,6 +129,18 @@ namespace GSCFieldApp.ViewModel
                 if (StationType.cboxDefaultItemIndex != -1)
                 {
                     Model.StationObsType = StationType.cboxItems[StationType.cboxDefaultItemIndex].itemValue;
+                }
+                if (StationOutcropQuality.cboxDefaultItemIndex != -1)
+                {
+                    Model.StationOCQuality = StationOutcropQuality.cboxItems[StationOutcropQuality.cboxDefaultItemIndex].itemValue;
+                }
+                if (StationSource.cboxDefaultItemIndex != -1)
+                {
+                    Model.StationObsSource = StationSource.cboxItems[StationSource.cboxDefaultItemIndex].itemValue;
+                }
+                if (StationPhysEnv.cboxDefaultItemIndex != -1)
+                {
+                    Model.StationPhysEnv = StationPhysEnv.cboxItems[StationPhysEnv.cboxDefaultItemIndex].itemValue;
                 }
             }
 

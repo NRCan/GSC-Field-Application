@@ -29,7 +29,10 @@
                                     ItemsSource="{Binding StationType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationType.cboxDefaultItemIndex, Mode=TwoWay}" />
-                            <Picker Title="{local:Localize StationPageSource}"/>
+                            <Picker Title="{local:Localize StationPageSource}"
+                                    ItemsSource="{Binding StationSource.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedIndex="{Binding StationSource.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                         </VerticalStackLayout>
                     </Frame>
@@ -44,7 +47,10 @@
                                 <Entry Text="{Binding Model.StationOCSize, Mode=TwoWay}" Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
                             </VerticalStackLayout>
 
-                            <Picker Title="{local:Localize StationPageOutcropQuality}"/>
+                            <Picker Title="{local:Localize StationPageOutcropQuality}"
+                                    ItemsSource="{Binding StationOutcropQuality.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                             <!--<ListView />-->
 
                         </VerticalStackLayout>
@@ -55,7 +61,10 @@
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageGeneralTitle}"/>
 
-                            <Picker Title="{local:Localize StationPageGeneralPhysEnv}"/>
+                            <Picker Title="{local:Localize StationPageGeneralPhysEnv}"
+                                    ItemsSource="{Binding StationPhysEnv.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedIndex="{Binding StationPhysEnv.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StationPageGeneralAirPhoto}" Style="{StaticResource FieldAppEntryTitle}"/>
