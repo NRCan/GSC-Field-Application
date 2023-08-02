@@ -103,6 +103,8 @@ namespace GSCFieldApp.ViewModel
             foreach (string sf in fileList)
             {
                 FileInfo fi = new FileInfo(sf);
+
+                //Check if file size is higher then 0
                 if (fi.Length > 0) 
                 {
                     //Get the databases but not the main default one
@@ -131,7 +133,7 @@ namespace GSCFieldApp.ViewModel
                             if (currentBook.ProjectDBPath == preferedDBPath)
                             {
                                 _selectedFieldBook = currentBook;
-
+                                OnPropertyChanged(nameof(SelectedFieldBook));
                             }
                         }
 
@@ -160,7 +162,7 @@ namespace GSCFieldApp.ViewModel
                         }
 
                         _fieldbookCollection.Add(currentBook);
-
+                        OnPropertyChanged(nameof(FieldbookCollection));
                         await currentConnection.CloseAsync();
 
                     }
@@ -174,8 +176,8 @@ namespace GSCFieldApp.ViewModel
 
                 
             }
-            OnPropertyChanged(nameof(FieldbookCollection));
-            OnPropertyChanged(nameof(SelectedFieldBook));
+            
+            
 
             WatermarkValidation();
         }

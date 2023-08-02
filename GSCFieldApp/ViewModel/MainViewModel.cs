@@ -9,7 +9,7 @@ namespace GSCFieldApp.ViewModel
     {
         public MainViewModel()
         {
-            Items = new ObservableCollection<string>();
+            //Items = new ObservableCollection<string>();
         }
 
         [ObservableProperty]
@@ -37,21 +37,21 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         void Add()
         {
-            if (string.IsNullOrWhiteSpace(Text))
-            {
-                return;
-            }
-            Items.Add(Text);
-            Text = string.Empty;
+            //if (string.IsNullOrWhiteSpace(Text))
+            //{
+            //    return;
+            //}
+            //Items.Add(Text);
+            //Text = string.Empty;
         }
 
         [RelayCommand]
         void Delete(string s)
         {
-            if (Items.Contains(s))
-            {
-                Items.Remove(s);
-            }
+            //if (Items.Contains(s))
+            //{
+            //    Items.Remove(s);
+            //}
         }
 
         [RelayCommand]

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Services.DatabaseServices;
-using SQLite;
+//using SQLite;
 using System.Data.Common;
-using System.Data.SqlClient;
+//using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using System.Transactions;
-using SpatialiteSharp;
+//using SpatialiteSharp;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -35,56 +35,56 @@ namespace GSCFieldApp.Services.DatabaseServices
         public int DoSpatialiteQueryInGeopackage(string in_query, bool doScalar = true)
         {
 
-            string dbPath = dAcccess.PreferedDatabasePath;
+            //string dbPath = dAcccess.PreferedDatabasePath;
 
             int newId = int.MinValue;
 
-            // Create a new connection
-            using (System.Data.SQLite.SQLiteConnection db = new System.Data.SQLite.SQLiteConnection())
-            {
-                db.ConnectionString = @"Data Source=" + dbPath + "; Version=3;";
-                db.Open();
+            //// Create a new connection
+            //using (System.Data.SQLite.SQLiteConnection db = new System.Data.SQLite.SQLiteConnection())
+            //{
+            //    db.ConnectionString = @"Data Source=" + dbPath + "; Version=3;";
+            //    db.Open();
 
-                //Make sure journal creation is off (anti wal and shm files)
-                //https://www.sqlite.org/wal.html
-                System.Data.SQLite.SQLiteCommand wallOffCommand = new System.Data.SQLite.SQLiteCommand(@"PRAGMA journal_mode=DELETE;", db);
-                wallOffCommand.ExecuteNonQuery();
-
-
-                using (var transaction = db.BeginTransaction())
-                {
+            //    //Make sure journal creation is off (anti wal and shm files)
+            //    //https://www.sqlite.org/wal.html
+            //    System.Data.SQLite.SQLiteCommand wallOffCommand = new System.Data.SQLite.SQLiteCommand(@"PRAGMA journal_mode=DELETE;", db);
+            //    wallOffCommand.ExecuteNonQuery();
 
 
-                    //Load spatialite extension
-                    SpatialiteLoader.Load(db);
-
-                    //Enable amphibious mode to use spatialite sql within geopackage
-                    System.Data.SQLite.SQLiteCommand amphibiousCommand = new System.Data.SQLite.SQLiteCommand(@"select EnableGpkgAmphibiousMode()", db);
-                    amphibiousCommand.ExecuteNonQuery();
-
-                    //Pass query
-                    //example: "INSERT INTO FS_LOCATION (Shape, locationid, latitude, longitude, metaid) values (MakePoint(-80.314,46.930, 4326), 'test_gab_visual_studio2', 46.930, -80.314, '7297f789-36e8-4c06-86e9-46b9ffcb1607')"
-                    System.Data.SQLite.SQLiteCommand addLocation = new System.Data.SQLite.SQLiteCommand(in_query, db);
-                    if (doScalar)
-                    {
-                        object scalar = addLocation.ExecuteScalar();
-                        newId = int.Parse(scalar.ToString());
-                    }
-                    else
-                    {
-                        newId = addLocation.ExecuteNonQuery();
-                    }
+            //    using (var transaction = db.BeginTransaction())
+            //    {
 
 
-                    //Disable mode
-                    System.Data.SQLite.SQLiteCommand amphibiousCommandOff = new System.Data.SQLite.SQLiteCommand(@"select DisableGpkgAmphibiousMode()", db);
-                    amphibiousCommandOff.ExecuteNonQuery();
+            //        //Load spatialite extension
+            //        SpatialiteLoader.Load(db);
 
-                    transaction.Commit();
-                }
+            //        //Enable amphibious mode to use spatialite sql within geopackage
+            //        System.Data.SQLite.SQLiteCommand amphibiousCommand = new System.Data.SQLite.SQLiteCommand(@"select EnableGpkgAmphibiousMode()", db);
+            //        amphibiousCommand.ExecuteNonQuery();
 
-                db.Close();
-            }
+            //        //Pass query
+            //        //example: "INSERT INTO FS_LOCATION (Shape, locationid, latitude, longitude, metaid) values (MakePoint(-80.314,46.930, 4326), 'test_gab_visual_studio2', 46.930, -80.314, '7297f789-36e8-4c06-86e9-46b9ffcb1607')"
+            //        System.Data.SQLite.SQLiteCommand addLocation = new System.Data.SQLite.SQLiteCommand(in_query, db);
+            //        if (doScalar)
+            //        {
+            //            object scalar = addLocation.ExecuteScalar();
+            //            newId = int.Parse(scalar.ToString());
+            //        }
+            //        else
+            //        {
+            //            newId = addLocation.ExecuteNonQuery();
+            //        }
+
+
+            //        //Disable mode
+            //        System.Data.SQLite.SQLiteCommand amphibiousCommandOff = new System.Data.SQLite.SQLiteCommand(@"select DisableGpkgAmphibiousMode()", db);
+            //        amphibiousCommandOff.ExecuteNonQuery();
+
+            //        transaction.Commit();
+            //    }
+
+            //    db.Close();
+            //}
 
             return newId;
         }

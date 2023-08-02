@@ -111,13 +111,13 @@
             <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Deleting a selected field book-->
-                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform True, Android=False, iOS=False}"/>
                 
                 <!--Editing a selected field book-->
-                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform True, Android=False, iOS=False}"/>
 
                 <!--Adding new field book-->
-                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform True, Android=False, iOS=False}"/>
 
                 <!--Opening a selected field book-->
                 <!--This feature has been dropped, by default a selected field book will be kept in memory-->
@@ -132,7 +132,7 @@
 
                 </FlexLayout>-->
                 <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" HeightRequest="380" CanReorderItems="True" HorizontalOptions="CenterAndExpand"
-                                SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}" 
+                                SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}"
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}" SelectionMode="Single">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Horizontal" />
@@ -154,6 +154,17 @@
 
                 <!--Download a selected field book-->
                 <Button Command="{Binding DownloadFieldBookCommand}" Text="&#xF0B8F;" Style="{StaticResource FieldAppHeaderButton}"/>
+
+                <!--Android only section-->
+                
+                <!--Deleting a selected field book-->
+                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform False, Android=True, iOS=True}"/>
+
+                <!--Editing a selected field book-->
+                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform False, Android=True, iOS=True}"/>
+
+                <!--Adding new field book-->
+                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform False, Android=True, iOS=True}"/>
 
             </StackLayout>
 
