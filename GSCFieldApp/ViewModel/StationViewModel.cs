@@ -11,6 +11,8 @@ using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Themes;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.Maui.ApplicationModel.Communication;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -22,6 +24,7 @@ namespace GSCFieldApp.ViewModel
         #region INIT
 
         DataAccess da = new DataAccess();
+        ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
         private Station model = new Station();
         private DateTimeOffset _dateGeneric = DateTime.Now; //Default
         public DataIDCalculation idCalculator = new DataIDCalculation();
@@ -32,7 +35,6 @@ namespace GSCFieldApp.ViewModel
 
         //Concatenated
         private ComboBoxItem _selectedStationOutcropQuality = new ComboBoxItem();
-        private ComboBoxItem _selectedQualityCollection = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _qualityCollection = new ObservableCollection<ComboBoxItem>();
 
         #endregion
@@ -69,7 +71,7 @@ namespace GSCFieldApp.ViewModel
                         }
                         _qualityCollection.Add(value);
                         _selectedStationOutcropQuality = value;
-                        OnPropertyChanged("QualityCollection");
+                        OnPropertyChanged(nameof(QualityCollection));
                     }
 
 
@@ -77,7 +79,6 @@ namespace GSCFieldApp.ViewModel
                 
             } 
         }
-        public ComboBoxItem SelectedQualityCollection { get { return _selectedQualityCollection; } set { _selectedQualityCollection = value; } }
         public ObservableCollection<ComboBoxItem> QualityCollection { get { return _qualityCollection; } set { _qualityCollection = value; } }
         #endregion
 
@@ -87,6 +88,23 @@ namespace GSCFieldApp.ViewModel
         }
 
         #region RELAYS
+
+
+        /// <summary>
+        /// Will delete a selected item in quality collection box.
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        async Task Delete(ComboBoxItem item)
+        {
+            if (_qualityCollection.Contains(item))
+            {
+                _qualityCollection.Remove(item);
+                OnPropertyChanged(nameof(QualityCollection));
+            }
+
+        }
+
         [RelayCommand]
         async Task Save()
         {
@@ -165,7 +183,7 @@ namespace GSCFieldApp.ViewModel
                 }
                 if (StationOutcropQuality.cboxDefaultItemIndex != -1)
                 {
-                    Model.StationOCQuality = StationOutcropQuality.cboxItems[StationOutcropQuality.cboxDefaultItemIndex].itemValue;
+                    Model.StationOCQuality = concat.PipeValues(QualityCollection); //process list of values so they are concatenated.
                 }
                 if (StationSource.cboxDefaultItemIndex != -1)
                 {

@@ -14,14 +14,18 @@
         <!-- Concatenated Value Template -->
         <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
 
+            <!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01-->
             <Frame BorderColor="{StaticResource Gray200}" CornerRadius="8" HorizontalOptions="Center" >
                 <HorizontalStackLayout HeightRequest="25" x:Name="cboxStackLayout">
                     <Label Text="{Binding itemName}" x:Name="itemNameText" />
                     <Button x:Name="ConcatValueCheck" 
                         HeightRequest="25" FontSize="Medium" FontFamily="MatDesign" VerticalOptions="Center" Margin="0,-12,0,0"
-                        Text="&#xF0A7A;" TextColor="#FF0000" BorderColor="Transparent" 
+                        Text="&#xF0A7A;" TextColor="#FF0000" BorderColor="Transparent"
                         BorderWidth="0" IsVisible="{Binding canRemoveItem}"
-                        BackgroundColor="Transparent"/>
+                        BackgroundColor="Transparent"
+                        Command="{Binding Source={RelativeSource 
+                                    AncestorType={x:Type viemodel:StationViewModel}},Path=DeleteCommand}"
+                        CommandParameter="{Binding .}"/>
                 </HorizontalStackLayout>
             </Frame>
 
@@ -73,10 +77,11 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                             <!--<ListView />-->
-                            <CollectionView ItemTemplate="{StaticResource ConcatenatedValueTemplate}" Margin="15,0,0,15" VerticalOptions="Fill"
+                            <CollectionView Margin="15,0,0,15" VerticalOptions="Fill" SelectionMode="Single"
                                             x:Name="QualityCollectionView" VerticalScrollBarVisibility="Default" MaximumHeightRequest="250"
-                                            CanReorderItems="True" BackgroundColor="{StaticResource Gray100}"
-                                            ItemsSource="{Binding QualityCollection, Mode=TwoWay}" SelectionMode="Single"/>
+                                            CanReorderItems="True" BackgroundColor="{StaticResource Gray100}" 
+                                            ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
+                                            ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
 
                         </VerticalStackLayout>
                     </Frame>
