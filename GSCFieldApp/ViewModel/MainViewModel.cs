@@ -9,7 +9,7 @@ namespace GSCFieldApp.ViewModel
     {
         public MainViewModel()
         {
-            //Items = new ObservableCollection<string>();
+            Items = new ObservableCollection<string>();
         }
 
         [ObservableProperty]
@@ -21,28 +21,28 @@ namespace GSCFieldApp.ViewModel
         ///Below is what is should have looked like before installing
         ///communityToolkit mvvm
 
-        //public string Text  
+        //public string Text
         //{
         //    get { return _text; }
-        //    set 
+        //    set
         //    {
-        //        _text = value; 
-        //        OnPropertyChanged(nameof(Text)); 
+        //        _text = value;
+        //        OnPropertyChanged(nameof(Text));
         //    }
         //}
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //void OnPropertyChanged(string name)=>
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged(string name) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         [RelayCommand]
         void Add()
         {
-            //if (string.IsNullOrWhiteSpace(Text))
-            //{
-            //    return;
-            //}
-            //Items.Add(Text);
-            //Text = string.Empty;
+            //    if (string.IsNullOrWhiteSpace(Text))
+            //    {
+            //        return;
+            //    }
+            //    Items.Add(Text);
+            //    Text = string.Empty;
         }
 
         [RelayCommand]

@@ -24,7 +24,7 @@
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">29.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">33.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
@@ -42,10 +42,38 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -88,16 +116,15 @@
 		<PackageReference Include="Mapsui.Nts" Version="4.0.0" />
 		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.5" />
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.0-preview.6.23329.11" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="mod_spatialite" Version="4.3.0.100-rc1" />
 		<PackageReference Include="SkiaSharp" Version="2.88.4-preview.89" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.4-preview.89" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.4-preview.89" />
 		<PackageReference Include="SpatialiteSharp" Version="4.2.0" />
-		<PackageReference Include="sqlite-net-pcl" Version="1.9.141-beta" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.5" />
-		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" PrivateAssets="none" />
 	</ItemGroup>
 
 	<ItemGroup>
