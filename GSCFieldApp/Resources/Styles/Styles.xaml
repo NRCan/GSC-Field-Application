@@ -125,6 +125,49 @@
         <Setter Property="WidthRequest" Value="300"/>
     </Style>
 
+    <!--Concatenated value box styles-->
+    <Style TargetType="Frame" x:Key="FieldAppConcatFrame">
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="HorizontalOptions" Value="Center"/>
+    </Style>
+    <Style TargetType="HorizontalStackLayout" x:Key="FieldAppConcatHLayout">
+        <Setter Property="HeightRequest" Value="25"/>
+    </Style>
+    <Style TargetType="Button" x:Key="FieldAppConcatDelButton">
+        <Setter Property="TextColor" Value="#FF0000" />
+            <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="MatDesign"/>
+        <Setter Property="FontSize" Value="Medium"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="Margin" Value="0,-12,0,0"/>
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="HeightRequest" Value="25"/>
+        <Setter Property="Text" Value="&#xF0A7A;"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <Style TargetType="CollectionView" x:Key="FieldAppConcatCollectionView">
+        <Setter Property="Margin" Value="15,0,0,15"/>
+        <Setter Property="VerticalOptions" Value="Fill"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
+        <Setter Property="MaximumHeightRequest" Value="250"/>
+        <Setter Property="CanReorderItems" Value="True"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray100}"/>
+    </Style>
     <!--TODO: Find a way to customize title style-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">
         <Setter Property="Margin" Value="10"/>
