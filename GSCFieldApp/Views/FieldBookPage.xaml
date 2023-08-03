@@ -22,7 +22,7 @@
 
             <ScrollView Orientation="Vertical" Grid.Row="1">
 
-                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" >
+                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Center" HorizontalOptions="Fill" JustifyContent="{OnPlatform Android=Center}">
                 
                     <!--Description section-->
                     <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
