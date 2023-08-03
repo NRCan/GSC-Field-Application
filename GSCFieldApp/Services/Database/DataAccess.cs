@@ -24,7 +24,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 #elif ANDROID
         public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqliteDeprecated;
 #else
-        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqliteDeprecated;
+        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqlite;
 #endif
         /// <summary>
         /// Default database patch in the app directory.
@@ -104,32 +104,45 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Need a binary write for geopackage database, else file will be corrupt with 
                     //default stream writer/reader
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer = new byte[16*1024];
                     using (BinaryWriter fileWriter = new BinaryWriter(outputStream))
                     {
                         using (BinaryReader fileReader = new BinaryReader(package))
                         {
-                            //Read package by block of 1024 bytes.
-                            long readCount = 0;
-                            while (readCount < fileReader.BaseStream.Length)
-                            {
-                                int read = fileReader.Read(buffer, 0, buffer.Length);
-                                readCount += read;
+                            //NOTE: On android length isn't a property so we need to count the bytes instead
+                            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/file-system-helpers?view=net-maui-7.0&tabs=android#platform-differences 
 
-                                //Write
-                                fileWriter.Write(buffer, 0, read);
+                            //Read package by block of 1024 bytes.
+                            int readCount = 0;
+                            //while (readCount < fileReader.BaseStream.Length)
+                            //{
+                            //    int read = fileReader.Read(buffer, 0, buffer.Length);
+                            //    readCount += read;
+
+                            //    //Write
+                            //    fileWriter.Write(buffer, 0, read);
+                            //}
+
+                            while ((readCount = fileReader.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                fileWriter.Write(buffer, 0, readCount);
                             }
+
                         }
                     }
 
                 }
-
+                else
+                {
+                    await Shell.Current.DisplayAlert("Info", "File already exists" + outputDatabasePath, "Ok");
+                }
                 return true;
                 
             }
             catch (Exception e)
             {
                 Debug.Write(e.Message);
+                await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
                 return false;
             }
 
