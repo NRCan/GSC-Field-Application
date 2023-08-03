@@ -11,14 +11,21 @@ using System.Diagnostics;
 using BruTile.Wmts.Generated;
 using GSCFieldApp.Themes;
 
-// Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataAccess
     {
         public static SQLiteAsyncConnection _dbConnection;
-        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqlite;
 
+        //TODO: find why on android .gpkg isn't a valid file type even though the database is sqlite.
+
+#if WINDOWS
+        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqlite;
+#elif ANDROID
+        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqliteDeprecated;
+#else
+        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqliteDeprecated;
+#endif
         /// <summary>
         /// Default database patch in the app directory.
         /// Will be saved as another name once the field book is properly filled and then created.

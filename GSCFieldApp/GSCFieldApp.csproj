@@ -98,10 +98,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Platforms\Android\Linker.xml" />
+	  <None Remove="Platforms\iOS\Linker.xml" />
 	  <None Remove="Resources\Fonts\MaterialDesignIconsDesktop.ttf" />
 	  <None Remove="Resources\Images\logo.svg" />
 	  <None Remove="Resources\Images\logo_gray.svg" />
 	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <LinkDescription Include="Platforms\Android\Linker.xml" />
+	  <LinkDescription Include="Platforms\iOS\Linker.xml" />
 	</ItemGroup>
 
 	<ItemGroup>

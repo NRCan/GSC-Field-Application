@@ -55,8 +55,13 @@ namespace GSCFieldApp.ViewModel
             if (Model.isValid || !Model.isValid)
             {
                 //Make sure current field book database exists
+#if WINDOWS
                 da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
-
+#elif ANDROID
+                da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
+#else
+                da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+#endif
                 //Validate if new entry or update
                 if (model.MetaID > 0)
                 {
@@ -96,7 +101,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync("..");
         }
 
-        #endregion
+#endregion
 
         #region METHODS
 
