@@ -168,6 +168,7 @@
         <Setter Property="CanReorderItems" Value="True"/>
         <Setter Property="BackgroundColor" Value="{StaticResource Gray100}"/>
     </Style>
+    
     <!--TODO: Find a way to customize title style-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">
         <Setter Property="Margin" Value="10"/>
