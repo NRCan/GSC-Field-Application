@@ -177,6 +177,12 @@
   <data name="ShellFieldNotesTitle" xml:space="preserve">
     <value>Notes de terrain</value>
   </data>
+  <data name="ShellFileSaveFail" xml:space="preserve">
+    <value>le fichier n'a pas été sauvegardé correctement, à la suite de cette erreur:</value>
+  </data>
+  <data name="ShellFileSaveSuccess" xml:space="preserve">
+    <value>Le fichier a été sauvegardé avec succès à cet endroit:</value>
+  </data>
   <data name="ShellMapTitle" xml:space="preserve">
     <value>Carte</value>
   </data>

@@ -1,4 +1,13 @@
-﻿using GSCFieldApp.Views;
+﻿using BruTile.Wms;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Storage;
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
+using Microsoft.Extensions.Localization;
+using Microsoft.Maui.Controls.Xaml;
+using System.Text;
 using System.Windows.Input;
 
 namespace GSCFieldApp;
@@ -10,6 +19,7 @@ public partial class AppShell : Shell
     public ICommand NavigateToFieldNotesCommand { get; private set; }
     public ICommand NavigateToMapCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
+
 
     public AppShell()
 	{
@@ -49,7 +59,7 @@ public partial class AppShell : Shell
         //Will be used to trigger a backup process
         DoBackupCommand = new Command(async () =>
         {
-            await DisplayAlert("Alert", "Not yet implemented", "OK");
+            await SaveBackupDBFile(CancellationToken.None);
         });
 
         #endregion
@@ -62,6 +72,35 @@ public partial class AppShell : Shell
         #endregion
 
         BindingContext = this;
+    }
+
+    /// <summary>
+    /// Will save prefered database
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    async Task SaveBackupDBFile(CancellationToken cancellationToken)
+    {
+        
+        //Open desired file
+        DataAccess da = new DataAccess();
+        using Stream stream = System.IO.File.OpenRead(da.PreferedDatabasePath);
+
+        //Get output name
+        string outputFileName = Path.GetFileName(da.PreferedDatabasePath).Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
+
+        //Open save dialog
+        var fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
+
+        //TODO: localize here
+        if (fileSaverResult.IsSuccessful)
+        {
+            await Toast.Make($"The file was saved successfully to location: {fileSaverResult.FilePath}").Show(cancellationToken);
+        }
+        else
+        {
+            await Toast.Make($"The file was not saved successfully with error: {fileSaverResult.Exception.Message}").Show(cancellationToken);
+        }
     }
 
 

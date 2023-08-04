@@ -241,6 +241,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file was not saved successfully with error:.
+        /// </summary>
+        internal static string ShellFileSaveFail {
+            get {
+                return ResourceManager.GetString("ShellFileSaveFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file was saved successfully to location:.
+        /// </summary>
+        internal static string ShellFileSaveSuccess {
+            get {
+                return ResourceManager.GetString("ShellFileSaveSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map.
         /// </summary>
         internal static string ShellMapTitle {
