@@ -39,7 +39,7 @@
 
             <ScrollView Orientation="Vertical" Grid.Row="1">
 
-                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" >
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
 
                     <!--Station Type section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">

@@ -114,14 +114,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                             //Read package by block of 1024 bytes.
                             int readCount = 0;
-                            //while (readCount < fileReader.BaseStream.Length)
-                            //{
-                            //    int read = fileReader.Read(buffer, 0, buffer.Length);
-                            //    readCount += read;
-
-                            //    //Write
-                            //    fileWriter.Write(buffer, 0, read);
-                            //}
 
                             while ((readCount = fileReader.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
                             {
@@ -132,10 +124,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     }
 
                 }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Info", "File already exists" + outputDatabasePath, "Ok");
-                }
+
                 return true;
                 
             }
