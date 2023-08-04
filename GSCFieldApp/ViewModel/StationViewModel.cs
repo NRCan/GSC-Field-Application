@@ -90,10 +90,9 @@ namespace GSCFieldApp.ViewModel
         #region RELAYS
 
         [RelayCommand]
-        async Task Back()
+        public async Task Back()
         {
-            //Navigate backward (../.. will navigate two pages back)"
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync($"{nameof(MapPage)}");
         }
 
         /// <summary>

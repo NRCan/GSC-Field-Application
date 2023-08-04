@@ -53,7 +53,7 @@ public partial class AppShell : Shell
 
         //Will be used to navigate to field books page
         NavigateToMapCommand = new Command(async () => {
-            await GoToAsync(nameof(MapPage));
+            await GoToAsync("/" + nameof(MapPage));
         });
 
         //Will be used to trigger a backup process

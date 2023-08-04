@@ -95,9 +95,8 @@ namespace GSCFieldApp.ViewModel
         }
 
         [RelayCommand]
-        async Task Back()
+        public async Task Back()
         {
-            //Navigate backward (../.. will navigate two pages back)"
             await Shell.Current.GoToAsync("..");
         }
 
