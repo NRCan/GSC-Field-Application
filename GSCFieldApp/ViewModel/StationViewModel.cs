@@ -89,6 +89,12 @@ namespace GSCFieldApp.ViewModel
 
         #region RELAYS
 
+        [RelayCommand]
+        async Task Back()
+        {
+            //Navigate backward (../.. will navigate two pages back)"
+            await Shell.Current.GoToAsync("..");
+        }
 
         /// <summary>
         /// Will delete a selected item in quality collection box.

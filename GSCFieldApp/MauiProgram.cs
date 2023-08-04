@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using GSCFieldApp.Services;
 using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Extensions.Logging;
@@ -57,6 +58,7 @@ public static class MauiProgram
 
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
+        builder.Services.AddTransient<MessageService>();
 
 #if DEBUG
         builder.Logging.AddDebug();

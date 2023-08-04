@@ -42,6 +42,12 @@ public partial class MapPage : ContentPage
 
     }
 
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+    }
+
     #region METHODS
     /// <summary>
     /// Will start the GPS

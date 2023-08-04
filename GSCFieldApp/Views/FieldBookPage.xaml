@@ -15,12 +15,11 @@
     <ContentPage.Content>
         <Grid >
             <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
 
-            <ScrollView Orientation="Vertical" Grid.Row="1">
+            <ScrollView Orientation="Vertical" Grid.Row="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
                 
@@ -132,7 +131,7 @@
 
             </ScrollView>
 
-            <Button x:Name="FieldBookSaveButton" Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="2"
+            <Button x:Name="FieldBookSaveButton" Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1"
                     Command="{Binding ValidateAndSaveCommand}"/>
 
         </Grid>
