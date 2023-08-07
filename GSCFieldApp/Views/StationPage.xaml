@@ -77,10 +77,10 @@
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                             <!--<ListView />-->
                             <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
-                                            x:Name="QualityCollectionView" 
-                                            ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                            ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
-
+                                        x:Name="QualityCollectionView" 
+                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
+                                        ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
+                           
                         </VerticalStackLayout>
                     </Frame>
 
