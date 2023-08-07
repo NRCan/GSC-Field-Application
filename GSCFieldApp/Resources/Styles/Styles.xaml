@@ -128,7 +128,7 @@
 
     <Style TargetType="FlexLayout" x:Key="FieldAppFormFlexLayout">
         <Setter Property="AlignItems" Value="Start" />
-        <Setter Property="JustifyContent" Value="{OnPlatform Android=Center,iOS=Center}" />
+        <Setter Property="JustifyContent" Value="{OnPlatform Start, Android=Center,iOS=Center}" />
         <Setter Property="Direction" Value="Row" />
         <Setter Property="Wrap" Value="Wrap" />
         <Setter Property="VerticalOptions" Value="Fill"/>
@@ -151,7 +151,7 @@
         <Setter Property="FontFamily" Value="MatDesign"/>
         <Setter Property="FontSize" Value="Medium"/>
         <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="Margin" Value="{OnPlatform WinUI='0,-12,0,0', Android='0,-5,0,0', iOS='0,-5,0,0' }"/>
+        <Setter Property="Margin" Value="{OnPlatform '0,-12,0,0', Android='0,-5,0,0', iOS='0,-5,0,0' }"/>
         <Setter Property="BorderWidth" Value="0" />
         <Setter Property="HeightRequest" Value="{OnPlatform 55, WinUI=25}"/>
         <Setter Property="Text" Value="&#xF0A7A;"/>
