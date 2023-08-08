@@ -13,6 +13,7 @@ using GSCFieldApp.Services.DatabaseServices;
 using System.Diagnostics;
 using GSCFieldApp.Dictionaries;
 using SQLite;
+using CommunityToolkit.Maui.Core.Extensions;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -86,7 +87,7 @@ namespace GSCFieldApp.ViewModel
             //locationModel.LocationEntryType = sensorLocation.po.PositionSource.ToString(),
             //locationModel.LocationErrorMeasureType = sensorLocation.,
             locationModel.LocationElevationAccuracy = sensorLocation.VerticalAccuracy;
-            locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault;
+            locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault.ToString();
 
             //Foreign key
             if (metadataModel.MetaID > 0)
@@ -101,14 +102,18 @@ namespace GSCFieldApp.ViewModel
             locationModel.LocationAlias = await idCalc.CalculateLocationAliasAsync("", metadataModel.UserCode); //Calculate new value
 
             //Fill in the feature location
-            GeopackageService geoService = new GeopackageService();
-            locationModel.LocationGeometry = geoService.SaveGeometry();
-            //string insertQuery = await dataAccess.GetGeopackageInsertQueryAsync(locationModel);
+            if (!locationModel.LocationLong.IsZeroOrNaN() && !locationModel.LocationLat.IsZeroOrNaN())
+            {
+                GeopackageService geoService = new GeopackageService();
+                locationModel.LocationGeometry = geoService.GetGeometry(locationModel.LocationLong, locationModel.LocationLat);
 
-            await dataAccess.SaveItemAsync(locationModel, false);
+            }
 
-            //Save location model
-            return 1;
+            //Save
+            locationModel = await dataAccess.SaveItemAsync(locationModel, false) as FieldLocation;
+
+            //Return ID
+            return locationModel.LocationID;
 
         }
 

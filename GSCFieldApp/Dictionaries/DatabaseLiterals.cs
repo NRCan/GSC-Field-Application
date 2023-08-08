@@ -381,7 +381,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordLinear = "linear";
         public const string KeywordLocation = "location";
         public const string KeywordManual = "manual";
-        public const string KeywordEPSGDefault = "4326"; //WGS 84
+        public const int KeywordEPSGDefault = 4326; //WGS 84
         public const string KeywordColourGeneric = "COLOUR_GENERIC"; //Name of the generic colour picklist within M_DICTIONNARY_MANAGER
         public const string KeywordColourIntensity = "COLOUR_INTENSITY"; //Name of the intensity colour picklist within M_DICTIONNARY_MANAGER
         public const string KeywordColourQualifier = "COLOUR_QUALIFIER"; //Name of the qualifier colour picklist within M_DICTIONNARY_MANAGER
