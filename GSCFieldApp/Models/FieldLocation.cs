@@ -16,7 +16,7 @@ namespace GSCFieldApp.Models
         public int LocationID { get; set; }
 
         [Column(DatabaseLiterals.FieldGenericGeometry)]
-        public int LocationGeometry { get; set; }
+        public byte[] LocationGeometry { get; set; }
 
         [Column(DatabaseLiterals.FieldLocationAlias)]
         public string LocationAlias { get; set; }

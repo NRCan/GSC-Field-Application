@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Services.DatabaseServices;
-//using SQLite;
-using System.Data.SQLite;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using System.Transactions;
-using SpatialiteSharp;
+using NTS = NetTopologySuite;
+using GSCFieldApp.Models;
+using NetTopologySuite.IO;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -27,69 +27,91 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         }
 
-        /// <summary>
-        /// Will perform a spatialite sql query within a geopackage
-        /// NOTE: Need to use system.data.sqlite else spatialiteloader rants about bad connection object
-        /// </summary>
-        /// <param name="in_query"></param>
-        /// <returns></returns>
-        public int DoSpatialiteQueryInGeopackage(string in_query, bool doScalar = true)
+        public byte[] SaveGeometry()
         {
+            NTS.NtsGeometryServices.Instance = new NTS.NtsGeometryServices(
+                // default CoordinateSequenceFactory
+                NTS.Geometries.Implementation.CoordinateArraySequenceFactory.Instance,
+                // default precision model
+                new NTS.Geometries.PrecisionModel(1000d),
+                // default SRID
+                4326,
+                /********************************************************************
+                 * Note: the following arguments are only valid for NTS >= v2.2
+                 ********************************************************************/
+                // Geometry overlay operation function set to use (Legacy or NG)
+                NTS.Geometries.GeometryOverlay.NG,
+                // Coordinate equality comparer to use (CoordinateEqualityComparer or PerOrdinateEqualityComparer)
+                new NTS.Geometries.CoordinateEqualityComparer()
+            );
 
-            string dbPath = dAcccess.PreferedDatabasePath;
+            // Create a geometry factory with the spatial reference id 4326
+            var gf = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
 
-            int newId = int.MinValue;
+            // Create a point at Aurich (lat=53.4837, long=7.5404)
+            NTS.Geometries.Point pntAUR = gf.CreatePoint(new NetTopologySuite.Geometries.Coordinate(7.5404, 53.4837));
 
-            // Create a new connection
-            ///TODO this causes android to stop building 'PE image does not have metadata'
-            ///once removing system.data.sqlite.core from install libs this works.
-            using (System.Data.SQLite.SQLiteConnection db = new System.Data.SQLite.SQLiteConnection())
-            {
-                db.ConnectionString = @"Data Source=" + dbPath + "; Version=3;";
-                db.Open();
+            GeoPackageGeoWriter geo = new GeoPackageGeoWriter();
+            byte[] bytePoint = geo.Write(pntAUR);
 
-                //Make sure journal creation is off (anti wal and shm files)
-                //https://www.sqlite.org/wal.html
-                System.Data.SQLite.SQLiteCommand wallOffCommand = new System.Data.SQLite.SQLiteCommand(@"PRAGMA journal_mode=DELETE;", db);
-                wallOffCommand.ExecuteNonQuery();
-
-
-                using (var transaction = db.BeginTransaction())
-                {
-
-
-                    //Load spatialite extension
-                    SpatialiteLoader.Load(db);
-
-                    //Enable amphibious mode to use spatialite sql within geopackage
-                    System.Data.SQLite.SQLiteCommand amphibiousCommand = new System.Data.SQLite.SQLiteCommand(@"select EnableGpkgAmphibiousMode()", db);
-                    amphibiousCommand.ExecuteNonQuery();
-
-                    //Pass query
-                    //example: "INSERT INTO FS_LOCATION (Shape, locationid, latitude, longitude, metaid) values (MakePoint(-80.314,46.930, 4326), 'test_gab_visual_studio2', 46.930, -80.314, '7297f789-36e8-4c06-86e9-46b9ffcb1607')"
-                    System.Data.SQLite.SQLiteCommand addLocation = new System.Data.SQLite.SQLiteCommand(in_query, db);
-                    if (doScalar)
-                    {
-                        object scalar = addLocation.ExecuteScalar();
-                        newId = int.Parse(scalar.ToString());
-                    }
-                    else
-                    {
-                        newId = addLocation.ExecuteNonQuery();
-                    }
+            return bytePoint;
 
 
-                    //Disable mode
-                    System.Data.SQLite.SQLiteCommand amphibiousCommandOff = new System.Data.SQLite.SQLiteCommand(@"select DisableGpkgAmphibiousMode()", db);
-                    amphibiousCommandOff.ExecuteNonQuery();
 
-                    transaction.Commit();
-                }
+            //GdalConfiguration.ConfigureOgr();
+            //bool isUsable = GdalConfiguration.Usable;
 
-                db.Close();
-            }
+            //Ogr.RegisterAll();
+            //var num = Ogr.GetDriverCount();
+            //for (var i = 0; i < num; i++)
+            //{
+            //    var d = Ogr.GetDriver(i);
+            //    Console.WriteLine(string.Format("OGR {0}: {1}", i, d.name));
+            //}
 
-            return newId;
+
+            //OSGeo.OGR.Driver driver = Ogr.GetDriverByName("GPKG");
+            //driver.Register();
+
+            //if (driver == null)
+            //{
+            //    Console.WriteLine("Cannot get drivers. Exiting");
+            //    System.Environment.Exit(-1);
+            //}
+
+            //Console.WriteLine("Drivers fetched");
+
+            //// Creating a shapefile
+            //OSGeo.OGR.DataSource dataSourceSH = driver.Open(dAcccess.PreferedDatabasePath, 0);
+            //if (dataSourceSH == null)
+            //{
+            //    Console.WriteLine("Cannot create datasource");
+            //    System.Environment.Exit(-1);
+            //}
+
+            //// Creating a point layer
+            //OSGeo.OGR.Layer layerSH;
+            //layerSH = dataSourceSH.GetLayerByName("F_LOCATION");
+            //if (layerSH == null)
+            //{
+            //    Console.WriteLine("Layer creation failed, exiting...");
+            //    System.Environment.Exit(-1);
+            //}
+
+            //OSGeo.OGR.Feature featureSH = new OSGeo.OGR.Feature(layerSH.GetLayerDefn());
+            //featureSH.SetField("LOCATIONIDNAME", "Test");
+
+            //// Outer Ring 
+            //// Methodology: Create a linear ring geometry, add it to a polygon geometry. Add polygon geometry to feature. Add feature to layer
+
+            //OSGeo.OGR.Feature feature = new OSGeo.OGR.Feature(layerSH.GetLayerDefn());
+            //OSGeo.OGR.Geometry geom = OSGeo.OGR.Geometry.CreateFromWkt(pntAUR.AsText());
+
+            //feature.SetGeometry(geom);
+            //int newFeat = layerSH.CreateFeature(feature);
+
+            //dataSourceSH.Dispose();
+
         }
 
     }

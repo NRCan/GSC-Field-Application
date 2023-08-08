@@ -102,10 +102,13 @@ namespace GSCFieldApp.ViewModel
 
             //Fill in the feature location
             GeopackageService geoService = new GeopackageService();
-            string insertQuery = await dataAccess.GetGeopackageInsertQueryAsync(locationModel);
+            locationModel.LocationGeometry = geoService.SaveGeometry();
+            //string insertQuery = await dataAccess.GetGeopackageInsertQueryAsync(locationModel);
+
+            await dataAccess.SaveItemAsync(locationModel, false);
 
             //Save location model
-            return locationModel.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
+            return 1;
 
         }
 
