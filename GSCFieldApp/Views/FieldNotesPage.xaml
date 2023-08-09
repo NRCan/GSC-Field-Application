@@ -32,7 +32,8 @@
 
         <VerticalStackLayout VerticalOptions="StartAndExpand">
             <Button Text="Stations" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}" />
-            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}"
+            
+            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}" 
                         Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="false"/>
             <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
