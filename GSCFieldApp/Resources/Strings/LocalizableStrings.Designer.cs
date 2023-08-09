@@ -214,6 +214,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Earth Materials.
+        /// </summary>
+        internal static string FielNotesEMHeader {
+            get {
+                return ResourceManager.GetString("FielNotesEMHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample.
+        /// </summary>
+        internal static string FielNotesSampleHeader {
+            get {
+                return ResourceManager.GetString("FielNotesSampleHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stations.
+        /// </summary>
+        internal static string FielNotesStationHeader {
+            get {
+                return ResourceManager.GetString("FielNotesStationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         internal static string GenericNoteTitle {

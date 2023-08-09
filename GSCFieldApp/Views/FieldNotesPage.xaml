@@ -33,23 +33,25 @@
         <VerticalStackLayout VerticalOptions="StartAndExpand">
             
             <!--Station records-->
-            <Button Text="Stations" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
-                    Command="{Binding HideCommand}" CommandParameter="Station"/>
+            <Button Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="station"/>
             
             <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}" 
                         Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsStationVisible,Mode=TwoWay}"/>
             <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
             <!--Earth material records-->
-            <Button Text="Earth Materials" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"/>
+            <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="earth"/>
             <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding EarthMats}"
-                        Style="{StaticResource FieldAppFormFlexLayout}"/>
+                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsEarthMatVisible,Mode=TwoWay}"/>
             <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
             <!--Sample records-->
-            <Button Text="Sample" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}" />
+            <Button Text="{local:Localize Key=FielNotesSampleHeader}" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="sample"/>
             <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Samples}"
-                        Style="{StaticResource FieldAppFormFlexLayout}"/>
+                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsSampleVisible,Mode=TwoWay}"/>
             <Label Text="{Binding Samples.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
         </VerticalStackLayout>

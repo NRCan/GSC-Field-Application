@@ -20,6 +20,12 @@ namespace GSCFieldApp.ViewModel
         private bool _isStationVisible = true;
         public bool IsStationVisible { get { return _isStationVisible; } set { _isStationVisible = value; } }
 
+        private bool _isEarthMatVisible = true;
+        public bool IsEarthMatVisible { get { return _isEarthMatVisible; } set { _isEarthMatVisible = value; } }
+
+        private bool _isSampleVisible = true;
+        public bool IsSampleVisible { get { return _isSampleVisible; } set { _isSampleVisible = value; } }
+
         public List<FieldNoteGroup> FieldNotes { get; private set; } = new List<FieldNoteGroup>();
 
         private List<FieldNote> _stations = new List<FieldNote>();
@@ -142,6 +148,18 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsStationVisible = !IsStationVisible; 
                     OnPropertyChanged(nameof(IsStationVisible));
+                }
+
+                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordEarthmat))
+                {
+                    IsEarthMatVisible = !IsEarthMatVisible;
+                    OnPropertyChanged(nameof(IsEarthMatVisible));
+                }
+
+                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordSample))
+                {
+                    IsSampleVisible = !IsSampleVisible;
+                    OnPropertyChanged(nameof(IsSampleVisible));
                 }
             }
 

@@ -168,6 +168,15 @@
   <data name="FieldBookPageWorkType" xml:space="preserve">
     <value>Type de travail</value>
   </data>
+  <data name="FielNotesEMHeader" xml:space="preserve">
+    <value>Matériaux du sol</value>
+  </data>
+  <data name="FielNotesSampleHeader" xml:space="preserve">
+    <value>Échantillons</value>
+  </data>
+  <data name="FielNotesStationHeader" xml:space="preserve">
+    <value>Stations</value>
+  </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
   </data>
