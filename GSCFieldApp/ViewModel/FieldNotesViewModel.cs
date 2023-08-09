@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GSCFieldApp.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,65 @@ namespace GSCFieldApp.ViewModel
         //public ObservableCollection<FieldNoteGroup> _fieldNotes = new ObservableCollection<FieldNoteGroup>();
         //public ObservableCollection<FieldNoteGroup> FieldNotes { get { return _fieldNotes; } set { _fieldNotes = value; } }
         public List<FieldNoteGroup> FieldNotes { get; private set; } = new List<FieldNoteGroup>();
+
+        private List<FieldNote> _stations = new List<FieldNote>();
+        public List<FieldNote> Stations
+        {
+            get
+            {
+                IEnumerable<FieldNoteGroup> s = FieldNotes.Where(p => p.Name == "Station");
+                if (s != null)
+                {
+                    return _stations = FieldNotes.Where(p => p.Name == "Station").ToList()[0];
+                }
+                else
+                {
+                    return _stations = new List<FieldNote>();
+                }
+
+            }
+            set { _stations = value; }
+        }
+        private List<FieldNote> _earthmats = new List<FieldNote>();
+        public List<FieldNote> EarthMats
+        { 
+
+            get
+            {
+                IEnumerable<FieldNoteGroup> s = FieldNotes.Where(p => p.Name == "Earth Material");
+                if (s != null)
+                {
+                    return _earthmats = FieldNotes.Where(p => p.Name == "Earth Material").ToList()[0];
+                }
+                else
+                {
+                    return _earthmats = new List<FieldNote>();
+                }
+
+            }
+            set { _earthmats = value; }
+        }
+
+        private List<FieldNote> _samples = new List<FieldNote>();
+        public List<FieldNote> Samples
+        {
+
+            get
+            {
+                IEnumerable<FieldNoteGroup> s = FieldNotes.Where(p => p.Name == "Sample");
+                if (s != null)
+                {
+                    return _earthmats = FieldNotes.Where(p => p.Name == "Sample").ToList()[0];
+                }
+                else
+                {
+                    return _earthmats = new List<FieldNote>();
+                }
+
+            }
+            set { _earthmats = value; }
+        }
+
         #endregion
 
         public FieldNotesViewModel()
@@ -58,6 +118,10 @@ namespace GSCFieldApp.ViewModel
 
                 },
             }));
+
+            FieldNotes.Add(new FieldNoteGroup("Sample", new List<FieldNote>{}));
+
         }
+
     }
 }
