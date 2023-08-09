@@ -14,6 +14,12 @@ using Microsoft.Maui.Controls;
 using Microsoft.Maui.Dispatching;
 using Microsoft.Maui.Devices.Sensors;
 using Mapsui.Widgets;
+using CommunityToolkit.Mvvm.Input;
+using BruTile.Tms;
+using BruTile;
+using SQLite;
+using BruTile.MbTiles;
+using Mapsui.Tiling.Layers;
 
 namespace GSCFieldApp.Views;
 
@@ -21,14 +27,13 @@ public partial class MapPage : ContentPage
 {
     private CancellationTokenSource? gpsCancelation;
     private bool _updateLocation = true;
+    private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
 
     public MapPage(MapViewModel vm)
 	{
 		InitializeComponent();
 
         //Initialize map control and GPS
-        var mapControl = new Mapsui.UI.Maui.MapControl();
-
         var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer();
 
         mapControl.Map.Layers.Add(tileLayer);
@@ -101,6 +106,42 @@ public partial class MapPage : ContentPage
         this.gpsCancelation?.Cancel();
     }
 
+    /// <summary>
+    /// Will open a file picker dialog with custom extension set to mbtiles
+    /// </summary>
+    /// <returns></returns>
+    public async Task<FileResult> PickLayer()
+    {
+        try
+        {
+            FilePickerFileType customFileType = new FilePickerFileType(
+                new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                        {DevicePlatform.WinUI, new [] { ".mbtiles"} },
+                        {DevicePlatform.Android, new [] { ".mbtiles"} },
+                        {DevicePlatform.iOS, new [] { ".mbtiles"} },
+                });
+
+            PickOptions options = new PickOptions();
+            options.PickerTitle = "Add Layer";
+            options.FileTypes = customFileType;
+
+            var result = await FilePicker.Default.PickAsync(options);
+            if (result != null)
+            {
+
+            }
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            // The user canceled or something went wrong
+        }
+
+        return null;
+    }
+
     #endregion
 
     #region EVENTS
@@ -142,9 +183,23 @@ public partial class MapPage : ContentPage
         }
     }
 
+    private async void AddLayerButton_Clicked(object sender, EventArgs e)
+    {
+        //Call a dialog for user to select a file
+        FileResult fr = await PickLayer();
+        if (fr != null) 
+        {
+            MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(fr.FullPath, false));
+            byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+
+            TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+            mapControl.Map.Layers.Add(newTileLayer);
+
+
+        }
+    }
+
 
     #endregion
-
-
 
 }

@@ -48,6 +48,7 @@ namespace GSCFieldApp.ViewModel
                 }
             );
         }
+
         #endregion
 
         #region METHODS
@@ -116,6 +117,8 @@ namespace GSCFieldApp.ViewModel
             return locationModel.LocationID;
 
         }
+
+
 
         #endregion
     }
