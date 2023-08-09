@@ -31,17 +31,22 @@
     <ScrollView Orientation="Vertical">
 
         <VerticalStackLayout VerticalOptions="StartAndExpand">
-            <Button Text="Stations" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}" />
+            
+            <!--Station records-->
+            <Button Text="Stations" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="Station"/>
             
             <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}" 
-                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="false"/>
+                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsStationVisible,Mode=TwoWay}"/>
             <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
+            <!--Earth material records-->
             <Button Text="Earth Materials" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"/>
             <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding EarthMats}"
                         Style="{StaticResource FieldAppFormFlexLayout}"/>
             <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
+            <!--Sample records-->
             <Button Text="Sample" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}" />
             <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Samples}"
                         Style="{StaticResource FieldAppFormFlexLayout}"/>

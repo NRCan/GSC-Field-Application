@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +16,10 @@ namespace GSCFieldApp.ViewModel
     {
         #region PROPERTIES
 
-        //public ObservableCollection<FieldNoteGroup> _fieldNotes = new ObservableCollection<FieldNoteGroup>();
-        //public ObservableCollection<FieldNoteGroup> FieldNotes { get { return _fieldNotes; } set { _fieldNotes = value; } }
+
+        private bool _isStationVisible = true;
+        public bool IsStationVisible { get { return _isStationVisible; } set { _isStationVisible = value; } }
+
         public List<FieldNoteGroup> FieldNotes { get; private set; } = new List<FieldNoteGroup>();
 
         private List<FieldNote> _stations = new List<FieldNote>();
@@ -123,5 +127,26 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        #region RELAY
+
+        /// <summary>
+        /// Will reverse whatever is set has visibility on the records after a tap on header
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        async Task Hide(string inComingName)
+        {
+            if (inComingName != null && inComingName != string.Empty)
+            {
+                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordStation))
+                {
+                    IsStationVisible = !IsStationVisible; 
+                    OnPropertyChanged(nameof(IsStationVisible));
+                }
+            }
+
+        }
+
+        #endregion
     }
 }
