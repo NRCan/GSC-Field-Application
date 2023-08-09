@@ -47,8 +47,7 @@ public partial class AppShell : Shell
 
         //Will be used to navigate to field books page
         NavigateToFieldNotesCommand = new Command(async () => {
-
-            await DisplayAlert("Alert", "Not yet implemented", "OK");
+            await GoToAsync("/" + nameof(FieldNotesPage));
         });
 
         //Will be used to navigate to field books page

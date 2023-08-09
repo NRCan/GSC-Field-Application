@@ -2,12 +2,55 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GSCFieldApp.Views.FieldNotesPage"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:models="clr-namespace:GSCFieldApp.Models"
+             x:DataType="viemodel:FieldNotesViewModel"
              Title="{local:Localize ShellFieldNotesTitle}">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <VerticalStackLayout HorizontalOptions="FillAndExpand">
+        <CollectionView ItemsSource="{Binding FieldNotes}" ItemsLayout="{OnPlatform VerticalList, Android=VerticalList}"
+                        CanReorderItems="True" HorizontalOptions="Fill" SelectionMode="Single"
+                        
+                IsGrouped="true">
+            <CollectionView.GroupHeaderTemplate > 
+                <DataTemplate x:DataType="models:FieldNoteGroup">
+
+                    <Label Text="{Binding Name}" BackgroundColor="{StaticResource Primary}" HorizontalOptions="Fill"
+                        TextColor="White"
+                        FontSize="18"
+                        FontAttributes="Bold" />
+
+
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            
+            <CollectionView.ItemTemplate >
+                <DataTemplate x:DataType="models:FieldNote" >
+                    <Frame Style="{StaticResource FieldAppNotesFrame}"
+                            >
+                        <VerticalStackLayout Margin="10" 
+>
+                            <Label
+                           Text="{Binding Display_text_1}"
+                           FontAttributes="Bold" />
+                            <Label 
+                           Text="{Binding Display_text_2}"
+                           FontAttributes="Italic"
+                           VerticalOptions="End" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.GroupFooterTemplate>
+                <DataTemplate x:DataType="models:FieldNoteGroup">
+                    <Label Text="{Binding Count, StringFormat='Total records: {0:D}'}"
+                   Margin="0,0,0,10" />
+                </DataTemplate>
+            </CollectionView.GroupFooterTemplate>
+            
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>
