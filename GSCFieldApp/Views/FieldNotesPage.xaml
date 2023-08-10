@@ -36,9 +36,9 @@
             <Button Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="station"/>
             
-            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}" 
+            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations2}" 
                         Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsStationVisible,Mode=TwoWay}"/>
-            <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+            <Label Text="{Binding Stations2.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
             <!--Earth material records-->
             <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
@@ -58,52 +58,4 @@
         
     </ScrollView>
 
-    <!--<FlexLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <CollectionView ItemsSource="{Binding FieldNotes}" BackgroundColor="AliceBlue" 
-                        CanReorderItems="True" HorizontalOptions="StartAndExpand" SelectionMode="Single" IsGrouped="true">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal"
-                           ItemSpacing="20" />
-            </CollectionView.ItemsLayout>
-
-            <CollectionView.GroupHeaderTemplate > 
-                <DataTemplate x:DataType="models:FieldNoteGroup">
-
-                    <Label Text="{Binding Name}" BackgroundColor="{StaticResource Primary}" 
-                        TextColor="White"
-                        FontSize="18"
-                        FontAttributes="Bold" />
-
-
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
-            
-            <CollectionView.ItemTemplate >
-                <DataTemplate x:DataType="models:FieldNote">
-
-                        <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="100">
-                            <VerticalStackLayout Margin="10" >
-                                <Label
-                                   Text="{Binding Display_text_1}"
-                                   FontAttributes="Bold" />
-                                <Label 
-                                   Text="{Binding Display_text_2}"
-                                   FontAttributes="Italic"
-                                   VerticalOptions="End" />
-                            </VerticalStackLayout>
-                            
-                        </Frame>
-
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-
-            <CollectionView.GroupFooterTemplate>
-                <DataTemplate x:DataType="models:FieldNoteGroup">
-                    <Label Text="{Binding Count, StringFormat='Total records: {0:D}'}"
-                   Margin="0,0,0,10" />
-                </DataTemplate>
-            </CollectionView.GroupFooterTemplate>
-            
-        </CollectionView>
-    </FlexLayout>-->
 </ContentPage>

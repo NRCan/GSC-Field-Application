@@ -10,4 +10,12 @@ public partial class FieldNotesPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
     }
+
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        FieldNotesViewModel vmi = (FieldNotesViewModel)BindingContext;
+        _ = vmi.FillFieldNotesAsync();
+    }
 }

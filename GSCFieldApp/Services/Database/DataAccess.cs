@@ -228,7 +228,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             //Get vocab records
-            SQLiteAsyncConnection currentConnection = GetConnectionFromPath(DatabaseFilePath);
+            SQLiteAsyncConnection currentConnection = GetConnectionFromPath(PreferedDatabasePath);
+
             List<Vocabularies> vocabs = await currentConnection.QueryAsync<Vocabularies>(finalQuery);
 
             Vocabularies voc = new Vocabularies();

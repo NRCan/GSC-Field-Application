@@ -2,6 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,8 +16,10 @@ namespace GSCFieldApp.ViewModel
 {
     public partial class FieldNotesViewModel : ObservableObject
     {
-        #region PROPERTIES
 
+        DataAccess da = new DataAccess();
+
+        #region PROPERTIES
 
         private bool _isStationVisible = true;
         public bool IsStationVisible { get { return _isStationVisible; } set { _isStationVisible = value; } }
@@ -86,10 +90,30 @@ namespace GSCFieldApp.ViewModel
             set { _earthmats = value; }
         }
 
+        public Dictionary<string, ObservableCollection<FieldNote>> FieldNotes2 =  new Dictionary<string, ObservableCollection<FieldNote>>();
+        private ObservableCollection<FieldNote> _stations2 = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Stations2
+        {
+            get
+            {
+                if (FieldNotes2.ContainsKey(DatabaseLiterals.TableStation))
+                {
+                    return _stations2 = FieldNotes2[DatabaseLiterals.TableStation] ;
+                }
+                else
+                {
+                    return _stations2 = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _stations2 = value; }
+        }
+
         #endregion
 
         public FieldNotesViewModel()
         {
+            FieldNotes2.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
             FieldNotes.Add(new FieldNoteGroup("Station", new List<FieldNote>
             {
                 new FieldNote
@@ -129,7 +153,12 @@ namespace GSCFieldApp.ViewModel
                 },
             }));
 
-            FieldNotes.Add(new FieldNoteGroup("Sample", new List<FieldNote>{}));
+            FieldNotes.Add(new FieldNoteGroup("Sample", new List<FieldNote> { }));
+
+            if (da.PreferedDatabasePath != string.Empty)
+            {
+                FillFieldNotesAsync();
+            }
 
         }
 
@@ -161,6 +190,61 @@ namespace GSCFieldApp.ViewModel
                     IsSampleVisible = !IsSampleVisible;
                     OnPropertyChanged(nameof(IsSampleVisible));
                 }
+            }
+
+        }
+
+        #endregion
+
+        #region METHODS
+
+        public async Task FillFieldNotesAsync()
+        {
+            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty  )
+            {
+                SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
+
+                await FillStationNotes(currentConnection);
+
+                await currentConnection.CloseAsync();
+
+                OnPropertyChanged(nameof(FieldNotes2));
+                OnPropertyChanged(nameof(Stations2));
+            }
+
+        }
+
+        public async Task FillStationNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes2.ContainsKey(DatabaseLiterals.TableStation))
+            {
+                FieldNotes2.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
+            }
+            else 
+            {
+                //Clear whatever was in there first.
+                FieldNotes2[DatabaseLiterals.TableStation].Clear();
+
+            }
+
+            //Get all stations from database
+            List<Station> stations = await inConnection.QueryAsync<Station>("SELECT * FROM " + DatabaseLiterals.TableStation + ";");
+
+            if (stations != null && stations.Count > 0)
+            {
+                
+
+                foreach (Station st in stations)
+                {
+                    FieldNotes2[DatabaseLiterals.TableStation].Add(new FieldNote
+                    {
+                        Display_text_1 = st.StationAlias,
+                        Display_text_2 = st.StationObsType,
+                        Display_text_3 = st.StationNote
+                    });
+                }
+
             }
 
         }
