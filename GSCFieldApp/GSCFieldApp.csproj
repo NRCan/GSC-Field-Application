@@ -129,7 +129,7 @@
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128" />
 
 		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Include="Resources\Images\*" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -149,12 +149,19 @@
 	  <None Remove="Resources\Fonts\MaterialDesignIconsDesktop.ttf" />
 	  <None Remove="Resources\Images\logo.svg" />
 	  <None Remove="Resources\Images\logo_gray.svg" />
+	  <None Remove="Resources\Images\point.png" />
 	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <LinkDescription Include="Platforms\Android\Linker.xml" />
 	  <LinkDescription Include="Platforms\iOS\Linker.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Raw\point.png">
+	    <CopyToOutputDirectory></CopyToOutputDirectory>
+	  </MauiImage>
 	</ItemGroup>
 
 	<ItemGroup>

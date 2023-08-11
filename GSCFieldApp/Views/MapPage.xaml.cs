@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Mapsui.Logging;
 using Mapsui.Styles;
 using Mapsui.UI.Maui;
+using Mapsui.Layers;
+using Mapsui.Projections;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Dispatching;
 using Microsoft.Maui.Devices.Sensors;
@@ -20,6 +22,12 @@ using BruTile;
 using SQLite;
 using BruTile.MbTiles;
 using Mapsui.Tiling.Layers;
+using Mapsui;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Models;
+using System.Collections;
+using GSCFieldApp.Dictionaries;
+using System.IO;
 
 namespace GSCFieldApp.Views;
 
@@ -28,6 +36,8 @@ public partial class MapPage : ContentPage
     private CancellationTokenSource? gpsCancelation;
     private bool _updateLocation = true;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
+    private DataAccess da = new DataAccess();
+    private int bitmapSymbolId = -1;
 
     public MapPage(MapViewModel vm)
 	{
@@ -44,16 +54,88 @@ public partial class MapPage : ContentPage
         StartGPS();
 
         BindingContext = vm;
-
+        this.Loaded += MapPage_Loaded;
     }
 
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    #region EVENTS
+    private async void MapPage_Loaded(object sender, EventArgs e)
     {
-        base.OnNavigatedTo(args);
-
+        await AddSymbolToRegistry();
+        MemoryLayer ml = await CreatePointLayerAsync();
+        mapControl.Map.Layers.Add(ml);
     }
+
+    /// <summary>
+    /// New informations from Geolocator arrived
+    /// </summary>        
+    /// <param name="e">Event arguments for new position</param>
+    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods")]
+    private async void MyLocationPositionChanged(Location e)
+    {
+        try
+        {
+            // check if I should update location
+            if (!_updateLocation)
+                return;
+
+            await Application.Current?.Dispatcher?.DispatchAsync(() =>
+            {
+                MapViewModel vm = this.BindingContext as MapViewModel;
+                vm.sensorLocation = e;
+
+                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
+                if (e.Course != null)
+                {
+                    mapView?.MyLocationLayer.UpdateMyDirection(e.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+                }
+
+                if (e.Speed != null)
+                {
+                    mapView?.MyLocationLayer.UpdateMySpeed(e.Speed.Value);
+                }
+
+            })!;
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(LogLevel.Error, ex.Message, ex);
+        }
+    }
+
+    private async void AddLayerButton_Clicked(object sender, EventArgs e)
+    {
+        //Call a dialog for user to select a file
+        FileResult fr = await PickLayer();
+        if (fr != null)
+        {
+            MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(fr.FullPath, false));
+            byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+
+            TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+            mapControl.Map.Layers.Add(newTileLayer);
+
+
+        }
+    }
+
+    #endregion
 
     #region METHODS
+
+    /// <summary>
+    /// Must add all image in bitmap registry for mapsui to use them as symbol styles
+    /// </summary>
+    /// <returns></returns>
+    public async Task<int> AddSymbolToRegistry()
+    {
+        using Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"point.png");
+
+        MemoryStream memoryStream = new MemoryStream();
+        pointBitmap.CopyTo(memoryStream);
+        return bitmapSymbolId = BitmapRegistry.Instance.Register(memoryStream);
+
+    }
+
     /// <summary>
     /// Will start the GPS
     /// </summary>
@@ -142,63 +224,63 @@ public partial class MapPage : ContentPage
         return null;
     }
 
-    #endregion
-
-    #region EVENTS
+    /// <summary>
+    /// Will create a new point layer for station location
+    /// </summary>
+    /// <returns></returns>
+    private async Task<MemoryLayer> CreatePointLayerAsync()
+    {
+        return new MemoryLayer
+        {
+            Name = "Points",
+            IsMapInfoLayer = true,
+            Features = await GetLocationsAsync(),
+            Style = CreateBitmapStyle()
+        };
+    }
 
     /// <summary>
-    /// New informations from Geolocator arrived
-    /// </summary>        
-    /// <param name="e">Event arguments for new position</param>
-    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods")]
-    private async void MyLocationPositionChanged(Location e)
+    /// Will query the database to retrive some basic information about location
+    /// and stations
+    /// </summary>
+    /// <returns></returns>
+    private async Task<IEnumerable<IFeature>> GetLocationsAsync()
     {
-        try
-        {
-            // check if I should update location
-            if (!_updateLocation)
-                return;
+        IEnumerable<IFeature> enumFeat = new IFeature[] { };
 
-            await Application.Current?.Dispatcher?.DispatchAsync(() =>
+        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+        {
+
+            SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
+            List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>("SELECT * FROM " + DatabaseLiterals.TableLocation);
+            foreach (FieldLocation fl in fieldLoc)
             {
-                MapViewModel vm = this.BindingContext as MapViewModel;
-                vm.sensorLocation = e;
+                IFeature feat = new PointFeature(SphericalMercator.FromLonLat(fl.LocationLong, fl.LocationLat).ToMPoint());
+                feat["name"] = fl.LocationID;
 
-                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
-                if (e.Course != null)
-                {
-                    mapView?.MyLocationLayer.UpdateMyDirection(e.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                }
+                enumFeat = enumFeat.Append(feat);
+            }
 
-                if (e.Speed != null)
-                {
-                    mapView?.MyLocationLayer.UpdateMySpeed(e.Speed.Value);
-                }
+            await currentConnection.CloseAsync();
 
-            })!;
         }
-        catch (Exception ex)
-        {
-            Logger.Log(LogLevel.Error, ex.Message, ex);
-        }
+
+        return enumFeat;
+
     }
 
-    private async void AddLayerButton_Clicked(object sender, EventArgs e)
+    /// <summary>
+    /// Will set style of stations on map
+    /// </summary>
+    /// <returns></returns>
+    private SymbolStyle CreateBitmapStyle()
     {
-        //Call a dialog for user to select a file
-        FileResult fr = await PickLayer();
-        if (fr != null) 
-        {
-            MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(fr.FullPath, false));
-            byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+        // For this sample we get the bitmap from an embedded resouce
+        // but you could get the data stream from the web or anywhere
+        // else.
 
-            TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
-            mapControl.Map.Layers.Add(newTileLayer);
-
-
-        }
+        return new SymbolStyle { BitmapId = bitmapSymbolId, SymbolScale = 0.75 };
     }
-
 
     #endregion
 
