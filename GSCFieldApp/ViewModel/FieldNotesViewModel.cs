@@ -30,134 +30,75 @@ namespace GSCFieldApp.ViewModel
         private bool _isSampleVisible = true;
         public bool IsSampleVisible { get { return _isSampleVisible; } set { _isSampleVisible = value; } }
 
-        public List<FieldNoteGroup> FieldNotes { get; private set; } = new List<FieldNoteGroup>();
-
-        private List<FieldNote> _stations = new List<FieldNote>();
-        public List<FieldNote> Stations
-        {
-            get
-            {
-                IEnumerable<FieldNoteGroup> s = FieldNotes.Where(p => p.Name == "Station");
-                if (s != null)
-                {
-                    return _stations = FieldNotes.Where(p => p.Name == "Station").ToList()[0];
-                }
-                else
-                {
-                    return _stations = new List<FieldNote>();
-                }
-
-            }
-            set { _stations = value; }
-        }
-        private List<FieldNote> _earthmats = new List<FieldNote>();
-        public List<FieldNote> EarthMats
+        private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> EarthMats
         { 
 
             get
             {
-                IEnumerable<FieldNoteGroup> s = FieldNotes.Where(p => p.Name == "Earth Material");
-                if (s != null)
+                if (FieldNotes.ContainsKey(DatabaseLiterals.TableEarthMat))
                 {
-                    return _earthmats = FieldNotes.Where(p => p.Name == "Earth Material").ToList()[0];
+                    return _earthmats = FieldNotes[DatabaseLiterals.TableEarthMat];
                 }
                 else
                 {
-                    return _earthmats = new List<FieldNote>();
+                    return _earthmats = new ObservableCollection<FieldNote>();
                 }
 
             }
             set { _earthmats = value; }
         }
 
-        private List<FieldNote> _samples = new List<FieldNote>();
-        public List<FieldNote> Samples
+        private ObservableCollection<FieldNote> _samples = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Samples
         {
 
             get
             {
-                IEnumerable<FieldNoteGroup> s = FieldNotes.Where(p => p.Name == "Sample");
-                if (s != null)
+                if (FieldNotes.ContainsKey(DatabaseLiterals.TableSample))
                 {
-                    return _earthmats = FieldNotes.Where(p => p.Name == "Sample").ToList()[0];
+                    return _samples = FieldNotes[DatabaseLiterals.TableSample];
                 }
                 else
                 {
-                    return _earthmats = new List<FieldNote>();
+                    return _samples = new ObservableCollection<FieldNote>();
                 }
 
             }
-            set { _earthmats = value; }
+            set { _samples = value; }
         }
 
-        public Dictionary<string, ObservableCollection<FieldNote>> FieldNotes2 =  new Dictionary<string, ObservableCollection<FieldNote>>();
-        private ObservableCollection<FieldNote> _stations2 = new ObservableCollection<FieldNote>();
-        public ObservableCollection<FieldNote> Stations2
+        public Dictionary<string, ObservableCollection<FieldNote>> FieldNotes =  new Dictionary<string, ObservableCollection<FieldNote>>();
+        private ObservableCollection<FieldNote> _stations = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Stations
         {
             get
             {
-                if (FieldNotes2.ContainsKey(DatabaseLiterals.TableStation))
+                if (FieldNotes.ContainsKey(DatabaseLiterals.TableStation))
                 {
-                    return _stations2 = FieldNotes2[DatabaseLiterals.TableStation] ;
+                    return _stations = FieldNotes[DatabaseLiterals.TableStation] ;
                 }
                 else
                 {
-                    return _stations2 = new ObservableCollection<FieldNote>();
+                    return _stations = new ObservableCollection<FieldNote>();
                 }
 
             }
-            set { _stations2 = value; }
+            set { _stations = value; }
         }
 
         #endregion
 
         public FieldNotesViewModel()
         {
-            FieldNotes2.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
-            FieldNotes.Add(new FieldNoteGroup("Station", new List<FieldNote>
-            {
-                new FieldNote
-                {
-                    Display_text_1 = "Outcrop",
-                    Display_text_2 = "Nice Paysage",
-
-                },
-                new FieldNote
-                {
-                    Display_text_1 = "Bosquet",
-                    Display_text_2 = "With grey rocks",
-
-                },
-
-            }));
-
-            FieldNotes.Add(new FieldNoteGroup("Earth Material", new List<FieldNote>
-            {
-                new FieldNote
-                {
-                    Display_text_1 = "Granite",
-                    Display_text_2 = "Black",
-
-                },
-                new FieldNote
-                {
-                    Display_text_1 = "Quartz",
-                    Display_text_2 = "Pink",
-
-                },
-                new FieldNote
-                {
-                    Display_text_1 = "Dolomite",
-                    Display_text_2 = "More like Dynamite",
-
-                },
-            }));
-
-            FieldNotes.Add(new FieldNoteGroup("Sample", new List<FieldNote> { }));
+            //Init notes
+            FieldNotes.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(DatabaseLiterals.TableEarthMat, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(DatabaseLiterals.TableSample, new ObservableCollection<FieldNote>());
 
             if (da.PreferedDatabasePath != string.Empty)
             {
-                FillFieldNotesAsync();
+                _ = FillFieldNotesAsync();
             }
 
         }
@@ -208,23 +149,28 @@ namespace GSCFieldApp.ViewModel
 
                 await currentConnection.CloseAsync();
 
-                OnPropertyChanged(nameof(FieldNotes2));
-                OnPropertyChanged(nameof(Stations2));
+                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Stations));
             }
 
         }
 
+        /// <summary>
+        /// Will get all database stations to fill station cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
         public async Task FillStationNotes(SQLiteAsyncConnection inConnection)
         {
             //Init a station group
-            if (!FieldNotes2.ContainsKey(DatabaseLiterals.TableStation))
+            if (!FieldNotes.ContainsKey(DatabaseLiterals.TableStation))
             {
-                FieldNotes2.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
+                FieldNotes.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
             }
             else 
             {
                 //Clear whatever was in there first.
-                FieldNotes2[DatabaseLiterals.TableStation].Clear();
+                FieldNotes[DatabaseLiterals.TableStation].Clear();
 
             }
 
@@ -237,7 +183,7 @@ namespace GSCFieldApp.ViewModel
 
                 foreach (Station st in stations)
                 {
-                    FieldNotes2[DatabaseLiterals.TableStation].Add(new FieldNote
+                    FieldNotes[DatabaseLiterals.TableStation].Add(new FieldNote
                     {
                         Display_text_1 = st.StationAlias,
                         Display_text_2 = st.StationObsType,

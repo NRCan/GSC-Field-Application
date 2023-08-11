@@ -36,9 +36,9 @@
             <Button Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="station"/>
             
-            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations2}" 
+            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}" 
                         Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsStationVisible,Mode=TwoWay}"/>
-            <Label Text="{Binding Stations2.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+            <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
             <!--Earth material records-->
             <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
