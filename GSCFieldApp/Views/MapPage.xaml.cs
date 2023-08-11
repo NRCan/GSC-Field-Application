@@ -28,6 +28,9 @@ using GSCFieldApp.Models;
 using System.Collections;
 using GSCFieldApp.Dictionaries;
 using System.IO;
+using Color = Mapsui.Styles.Color;
+using Brush = Mapsui.Styles.Brush;
+using static GSCFieldApp.Models.GraphicPlacement;
 
 namespace GSCFieldApp.Views;
 
@@ -235,7 +238,7 @@ public partial class MapPage : ContentPage
             Name = "Points",
             IsMapInfoLayer = true,
             Features = await GetLocationsAsync(),
-            Style = CreateBitmapStyle()
+            Style = CreateBitmapStyle(),
         };
     }
 
@@ -251,6 +254,13 @@ public partial class MapPage : ContentPage
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
 
+            //Get an offset placement for labels
+            GraphicPlacement gp = new GraphicPlacement();
+            List<int> placementPool = Enumerable.Range(1, 8).ToList();
+            Offset offset = new Offset();
+            offset.X = gp.GetOffsetFromPlacementPriority(placementPool[2],32,32).Item1;
+            offset.Y = gp.GetOffsetFromPlacementPriority(placementPool[2],32,32).Item2;
+
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>("SELECT * FROM " + DatabaseLiterals.TableLocation);
             foreach (FieldLocation fl in fieldLoc)
@@ -259,6 +269,16 @@ public partial class MapPage : ContentPage
                 feat["name"] = fl.LocationID;
 
                 enumFeat = enumFeat.Append(feat);
+
+                feat.Styles.Add(new LabelStyle
+                {
+                    Text = fl.LocationID.ToString(),
+                    BackColor = new Brush(Color.WhiteSmoke),
+                    HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                    //CollisionDetection = true,
+                    BorderThickness = 2,
+                    Offset = offset
+                });
             }
 
             await currentConnection.CloseAsync();
