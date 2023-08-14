@@ -202,8 +202,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
+		<!-- App icon for all other platforms -->
+		<!--NOTE: Setting a BaseSize here crashes deployment on Android-->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#710B2C" ForegroundScale="0.55"/>
+
+		<!-- App icon for Windows -->
+		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
+				  Include="Resources\AppIcon\appicon.svg" Color="#710B2C" BaseSize="300,300"/>
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128" />
