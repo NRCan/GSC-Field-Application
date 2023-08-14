@@ -95,8 +95,7 @@
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" 
-                                       Text="{Binding Model.UserCode}"
-                                       TextChanged="FieldBookPageOfficerCode_TextChanged" />
+                                       Text="{Binding Model.UserCode}" TextTransform="Uppercase"/>
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
