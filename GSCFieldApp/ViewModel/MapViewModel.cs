@@ -118,7 +118,11 @@ namespace GSCFieldApp.ViewModel
 
         }
 
-
+        public void RefreshCoordinates(Location inLocation)
+        {
+            sensorLocation = inLocation;
+            OnPropertyChanged(nameof(sensorLocation));
+        }
 
         #endregion
     }

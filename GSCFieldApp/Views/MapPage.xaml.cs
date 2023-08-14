@@ -81,10 +81,10 @@ public partial class MapPage : ContentPage
             if (!_updateLocation)
                 return;
 
-            await Application.Current?.Dispatcher?.DispatchAsync(() =>
+            await Application.Current?.Dispatcher?.DispatchAsync(async () =>
             {
                 MapViewModel vm = this.BindingContext as MapViewModel;
-                vm.sensorLocation = e;
+                vm.RefreshCoordinates(e);
 
                 mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
                 if (e.Course != null)
