@@ -42,13 +42,13 @@ public partial class MapPage : ContentPage
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
     private int bitmapSymbolId = -1;
-
+    private LayerCollection layerCollection = new LayerCollection();
     public MapPage(MapViewModel vm)
     {
         InitializeComponent();
 
         //Initialize grid background
-        mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("LightGreen").ToNative();
+        mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
 
         //Initialize map control and GPS
         var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer();
@@ -121,10 +121,11 @@ public partial class MapPage : ContentPage
             byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
 
             TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+            newTileLayer.Name = fr.FileName; 
 
             //Insert at index 1
             //Index 0 would be OSM previous 1 would be location icon.
-            mapControl.Map.Layers.Insert(1,newTileLayer);
+            mapControl.Map.Layers.Insert(1, newTileLayer);
 
 
         }
