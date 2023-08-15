@@ -22,7 +22,7 @@
         <!-- Layer Properties -->
         <DataTemplate  x:Key="MapLayersProperties" x:DataType="maplayer:ILayer">
 
-            <VerticalStackLayout>
+            <VerticalStackLayout Margin="0,0,0,5" Padding="0,0,25,0">
                 <HorizontalStackLayout>
                     <Label Text="{Binding Name}" Padding="0"/>
 
@@ -34,7 +34,7 @@
 
                 </HorizontalStackLayout>
                 
-                <Slider x:Name="opacitySlider" Value="{Binding Opacity}"/>
+                <Slider x:Name="opacitySlider" Value="{Binding Opacity}" Margin="0,-15,0,0" />
             </VerticalStackLayout>
 
 
