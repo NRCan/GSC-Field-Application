@@ -17,7 +17,7 @@
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <Grid Margin="0,0,0,0">
+        <Grid Margin="0,0,0,0" BackgroundColor="Bisque" x:Name="mapPageGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
@@ -64,6 +64,8 @@
                 <Label Text="{Binding sensorLocation.Longitude, Converter={StaticResource DD2DMS}, ConverterParameter='Longitude', Mode=OneWay}"/>
                 <Label Text="&#160;&#160;&#160;"/>
                 <Label Text="{Binding sensorLocation.Altitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
+                <Label Text="&#160;&#160;&#160;"/>
+                <Label Text="{Binding sensorLocation.Accuracy, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
             </HorizontalStackLayout>
 
 

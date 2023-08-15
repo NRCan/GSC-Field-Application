@@ -30,6 +30,7 @@ using GSCFieldApp.Dictionaries;
 using System.IO;
 using Color = Mapsui.Styles.Color;
 using Brush = Mapsui.Styles.Brush;
+using Mapsui.UI.Maui.Extensions;
 using static GSCFieldApp.Models.GraphicPlacement;
 
 namespace GSCFieldApp.Views;
@@ -43,8 +44,11 @@ public partial class MapPage : ContentPage
     private int bitmapSymbolId = -1;
 
     public MapPage(MapViewModel vm)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
+
+        //Initialize grid background
+        mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("LightGreen").ToNative();
 
         //Initialize map control and GPS
         var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer();
@@ -86,7 +90,10 @@ public partial class MapPage : ContentPage
                 MapViewModel vm = this.BindingContext as MapViewModel;
                 vm.RefreshCoordinates(e);
 
-                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
+                // mapView.MyLocationLayer.Style = await MapPage.SetAccuracyAndLocationGraphic(e.Accuracy);
+                await SetMapAccuracyColor(e.Accuracy);
+
+                 mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
                 if (e.Course != null)
                 {
                     mapView?.MyLocationLayer.UpdateMyDirection(e.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
@@ -126,6 +133,113 @@ public partial class MapPage : ContentPage
     #region METHODS
 
     /// <summary>
+    /// Method to change current location symbol.
+    /// NOTE: not doable for now https://github.com/Mapsui/Mapsui/issues/618
+    /// </summary>
+    /// <param name="accuracy"></param>
+    /// <returns></returns>
+    public static async Task<IStyle> SetAccuracyAndLocationGraphic(double? accuracy)
+    {
+
+        //Init symbols
+        Brush locationBrush = new Brush(Mapsui.Styles.Color.FromString("LightGreen"));
+        if (App.Current.Resources.TryGetValue("PositionColor", out var colorvalue))
+        {
+            //Need to cast in right color object
+            Microsoft.Maui.Graphics.Color posColor = colorvalue as Microsoft.Maui.Graphics.Color;
+            locationBrush.Color = posColor.ToMapsui();
+        }
+
+        //Parse accuracy to change color
+        if (accuracy > 20.0 && accuracy <= 40.0)
+        {
+            if (App.Current.Resources.TryGetValue("WarningColor", out var warningColorvalue))
+            {
+                //Need to cast in right color object
+                Microsoft.Maui.Graphics.Color warnColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
+                locationBrush.Color = warnColor.ToMapsui();
+            }
+
+
+        }
+        else if (accuracy > 40.0)
+        {
+            if (App.Current.Resources.TryGetValue("ErrorColor", out var errorColorvalue))
+            {
+                //Need to cast in right color object
+                Microsoft.Maui.Graphics.Color erColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+                locationBrush.Color = erColor.ToMapsui();
+
+            }
+
+        }
+        else if (accuracy == 0.0)
+        {
+            if (App.Current.Resources.TryGetValue("ErrorColor", out var errorColorvalue))
+            {
+                //Need to cast in right color object
+                Microsoft.Maui.Graphics.Color noPosColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+                locationBrush.Color = noPosColor.ToMapsui();
+
+            }
+
+        }
+
+        IStyle pointStyle = new SymbolStyle()
+        {
+            SymbolScale = 1.30,
+            Fill = new Brush(locationBrush)
+        };
+
+        return pointStyle;
+    }
+
+    /// <summary>
+    /// Method to change current location symbol.
+    /// NOTE: not doable for now https://github.com/Mapsui/Mapsui/issues/618
+    /// </summary>
+    /// <param name="accuracy"></param>
+    /// <returns></returns>
+    public async Task SetMapAccuracyColor(double? accuracy)
+    {
+
+        //Init symbols
+        if (App.Current.Resources.TryGetValue("PositionColor", out var colorvalue))
+        {
+            mapPageGrid.BackgroundColor = colorvalue as Microsoft.Maui.Graphics.Color;
+        }
+
+        //Parse accuracy to change color
+        if (accuracy > 20.0 && accuracy <= 40.0)
+        {
+            if (App.Current.Resources.TryGetValue("WarningColor", out var warningColorvalue))
+            {
+                mapPageGrid.BackgroundColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
+            }
+
+
+        }
+        else if (accuracy > 40.0)
+        {
+            if (App.Current.Resources.TryGetValue("ErrorColor", out var errorColorvalue))
+            {
+                mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+            }
+
+        }
+        else
+        {
+            if (App.Current.Resources.TryGetValue("White", out var errorColorvalue))
+            {
+                mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+            }
+
+        }
+
+    }
+
+
+    /// <summary>
     /// Must add all image in bitmap registry for mapsui to use them as symbol styles
     /// </summary>
     /// <returns></returns>
@@ -154,7 +268,7 @@ public partial class MapPage : ContentPage
             {
                 while (!gpsCancelation.IsCancellationRequested)
                 {
-                    var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+                    var request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
 #if __MAUI__ // WORKAROUND for Preview 11 will be fixed in Preview 13 https://github.com/dotnet/maui/issues/3597
                     if (Application.Current == null)
                         return;
