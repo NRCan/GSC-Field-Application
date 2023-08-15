@@ -15,7 +15,7 @@
         <conv:DD2DMSConverter x:Key="DD2DMS" />
         <conv:ElevationConverter x:Key="FormatElevation" />
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <Grid Margin="0,0,0,0" BackgroundColor="Bisque" x:Name="mapPageGrid">
             <Grid.RowDefinitions>
@@ -24,7 +24,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
-            
+
             <!--Controls header bar-->
             <StackLayout BackgroundColor="{StaticResource Primary}" Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
@@ -46,9 +46,9 @@
                 <!--Quick station-->
                 <Button Command="{Binding AddStationCommand}" Text="&#xF12FC;" Style="{StaticResource FieldAppHeaderButton}"/>
 
-            </StackLayout> 
-            
-            
+            </StackLayout>
+
+
             <!--Map Control-->
             <mapsui:MapView x:Name="mapView" 
                             Grid.Row ="1" 
@@ -70,6 +70,7 @@
 
 
             <!--Controls bottom bar-->
+
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
 
                 <!--Tap option -->
@@ -77,12 +78,11 @@
 
                 <!--Manage layers-->
                 <Button Text="&#xF0F59;" Style="{StaticResource FieldAppHeaderButton}"/>
-            
+
                 <!--Add new layer-->
                 <Button x:Name="AddLayerButton" Text="&#xF0E4D;" Style="{StaticResource FieldAppHeaderButton}" Clicked="AddLayerButton_Clicked"/>
 
             </StackLayout>
         </Grid>
     </ContentPage.Content>
-
 </ContentPage>

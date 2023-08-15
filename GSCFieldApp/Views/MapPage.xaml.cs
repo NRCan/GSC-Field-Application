@@ -90,7 +90,6 @@ public partial class MapPage : ContentPage
                 MapViewModel vm = this.BindingContext as MapViewModel;
                 vm.RefreshCoordinates(e);
 
-                // mapView.MyLocationLayer.Style = await MapPage.SetAccuracyAndLocationGraphic(e.Accuracy);
                 await SetMapAccuracyColor(e.Accuracy);
 
                  mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
@@ -122,7 +121,10 @@ public partial class MapPage : ContentPage
             byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
 
             TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
-            mapControl.Map.Layers.Add(newTileLayer);
+
+            //Insert at index 1
+            //Index 0 would be OSM previous 1 would be location icon.
+            mapControl.Map.Layers.Insert(1,newTileLayer);
 
 
         }
