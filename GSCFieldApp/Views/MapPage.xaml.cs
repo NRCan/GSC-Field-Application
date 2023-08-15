@@ -42,7 +42,7 @@ public partial class MapPage : ContentPage
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
     private int bitmapSymbolId = -1;
-    private LayerCollection layerCollection = new LayerCollection();
+
     public MapPage(MapViewModel vm)
     {
         InitializeComponent();
@@ -53,10 +53,10 @@ public partial class MapPage : ContentPage
         //Initialize map control and GPS
         var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer();
 
-        mapControl.Map.Layers.Add(tileLayer);
-        mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) { TextAlignment = Mapsui.Widgets.Alignment.Center, HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
+        mapView.Map.Layers.Add(tileLayer);
+        mapView.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) { TextAlignment = Mapsui.Widgets.Alignment.Center, HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
 
-        mapView.Map = mapControl.Map;
+        //mapView.Map = mapControl.Map;
 
         StartGPS();
 
@@ -125,10 +125,20 @@ public partial class MapPage : ContentPage
 
             //Insert at index 1
             //Index 0 would be OSM previous 1 would be location icon.
-            mapControl.Map.Layers.Insert(1, newTileLayer);
-
-
+            mapView.Map.Layers.Insert(1, newTileLayer);
+            
         }
+    }
+
+    /// <summary>
+    /// Whenever map page layer button is clicked, show or not show
+    /// frame that list all layers properties
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void ManageLayerButton_Clicked(object sender, EventArgs e)
+    {
+        MapLayerFrame.IsVisible = !MapLayerFrame.IsVisible;
     }
 
     #endregion
@@ -419,6 +429,12 @@ public partial class MapPage : ContentPage
         return new SymbolStyle { BitmapId = bitmapSymbolId, SymbolScale = 0.75 };
     }
 
+
     #endregion
 
+    private void mapView_MapClicked(object sender, MapClickedEventArgs e)
+    {
+        //Make sure to disable map layer frame
+        MapLayerFrame.IsVisible = false;
+    }
 }

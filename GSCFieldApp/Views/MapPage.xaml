@@ -22,7 +22,7 @@
         <!-- Layer Properties -->
         <DataTemplate  x:Key="MapLayersProperties" x:DataType="maplayer:ILayer">
 
-            <VerticalStackLayout Margin="0,0,0,5" Padding="0,0,25,0">
+            <VerticalStackLayout Margin="0,0,0,5" Padding="0,0,15,0" >
                 <HorizontalStackLayout>
                     <Label Text="{Binding Name}" Padding="0"/>
 
@@ -45,7 +45,7 @@
 
     <ContentPage.Content>
         
-        <Grid Margin="0,0,0,0" BackgroundColor="Bisque" x:Name="mapPageGrid">
+        <Grid Margin="0,0,0,0" x:Name="mapPageGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
@@ -78,9 +78,9 @@
 
 
             <!--Map Control-->
-            <mapsui:MapView x:Name="mapView" 
+            <mapsui:MapView x:Name="mapView"
                             Grid.Row ="1" 
-                            IsVisible="true"
+                            IsVisible="true" MapClicked="mapView_MapClicked"
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
                             Margin="10"/>
@@ -97,9 +97,12 @@
             </HorizontalStackLayout>
 
             <!--Map Layer menu-->
-            <Frame Grid.Row="1" BorderColor="{StaticResource Gray300}" HeightRequest="300" WidthRequest="350">
-                <CollectionView HorizontalOptions="Start" ItemTemplate="{StaticResource MapLayersProperties}" ItemsSource="{Binding Source={x:Reference mapView},
-                                Path=Map.Layers}" VerticalScrollBarVisibility="Default" />
+            <Frame x:Name="MapLayerFrame" Grid.Row="1" Padding="15" 
+                   BorderColor="{StaticResource Gray300}" Margin="0"
+                   HeightRequest="300" WidthRequest="350" IsVisible="False">
+                <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection"
+                                ItemTemplate="{StaticResource MapLayersProperties}" 
+                                ItemsSource="{Binding Source={x:Reference mapView}, Path=Map.Layers}" />
             </Frame>
             
 
@@ -110,7 +113,7 @@
                 <Button Text="&#xF0A55;" Style="{StaticResource FieldAppHeaderButton}"/>
 
                 <!--Manage layers-->
-                <Button Text="&#xF0F59;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button x:Name="ManageLayerButton" Text="&#xF0F59;" Style="{StaticResource FieldAppHeaderButton}" Clicked="ManageLayerButton_Clicked"/>
 
                 <!--Add new layer-->
                 <Button x:Name="AddLayerButton" Text="&#xF0E4D;" Style="{StaticResource FieldAppHeaderButton}" Clicked="AddLayerButton_Clicked"/>
