@@ -14,6 +14,7 @@ using System.Diagnostics;
 using GSCFieldApp.Dictionaries;
 using SQLite;
 using CommunityToolkit.Maui.Core.Extensions;
+using Mapsui.Layers;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -26,11 +27,16 @@ namespace GSCFieldApp.ViewModel
         private Metadata metadataModel = new Metadata(); 
         private Station stationModel = new Station();
         public Location sensorLocation { get; set; }  //This is coming from the view when new location event is triggered. 
+        public Mapsui.Map mapViewFallback = new Mapsui.Map();
+        private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>();
+
+        public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
 
         public MapViewModel()
         {
             //Get main metadata record
             _ = GetMetadataAsync();
+
         }
 
         #region RELAY COMMANDS
@@ -118,10 +124,61 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Refresh the coordinates that will be shown on the map page as labels
+        /// </summary>
+        /// <param name="inLocation"></param>
         public void RefreshCoordinates(Location inLocation)
         {
             sensorLocation = inLocation;
             OnPropertyChanged(nameof(sensorLocation));
+        }
+
+        /// <summary>
+        /// Will refresh the layer collection that is bind to 
+        /// layer button
+        /// We had to do this, since we need to get some layers out and
+        /// resort them based on map rendering ordering
+        /// </summary>
+        /// <param name="layers"></param>
+        public void RefreshLayerCollection(LayerCollection layers)
+        {
+            //To prevent layer being inserted in the wrong place, clear it before adding anything
+            _layerCollection.Clear();
+
+            //Add only wanted layers
+            foreach (ILayer layer in layers)
+            {
+                //Remove unused layers
+                if (!layer.Name.Contains("Drawables") && !layer.Name.Contains("Callouts") &&
+                    !layer.Name.Contains("Layer") && !layer.Name.Contains("Pins")) 
+                {
+                    if (!_layerCollection.Contains(layer))
+                    {
+                        _layerCollection.Add(layer);
+                    }
+                }
+            }
+
+            //Reverse ordering to mimic layer ordering on the map
+            _layerCollection = new ObservableCollection<ILayer>(ReverseObsCollection(_layerCollection));
+
+            OnPropertyChanged(nameof(layerCollection));
+        }
+
+        /// <summary>
+        /// Will reverse an observable collection
+        /// Will convert to list, reverse and send result.
+        /// </summary>
+        /// <param name="inCollection"></param>
+        /// <returns></returns>
+        public List<ILayer> ReverseObsCollection(ObservableCollection<ILayer> inCollection)
+        {
+            List<ILayer> outCollection = inCollection.ToList();
+
+            outCollection.Reverse();
+
+            return outCollection;
         }
 
         #endregion

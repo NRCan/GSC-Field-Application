@@ -102,7 +102,13 @@
                    HeightRequest="300" WidthRequest="350" IsVisible="False">
                 <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection"
                                 ItemTemplate="{StaticResource MapLayersProperties}" 
-                                ItemsSource="{Binding Source={x:Reference mapView}, Path=Map.Layers}" />
+                                ItemsSource="{Binding layerCollection,Mode=TwoWay}" />
+                
+                <!--Attempt to use directly Map.Layers, but couldn't work with a mode=twoway-->
+                <!--Had to revert to viewmodel refresh method for each click on layer button-->
+                <!--<CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection"
+                                ItemTemplate="{StaticResource MapLayersProperties}" 
+                                ItemsSource="{Binding Source={x:Reference mapView}, Path=Map.Layers, FallbackValue={Binding mapViewFallback}, TargetNullValue={Binding mapViewFallback}}" />-->
             </Frame>
             
 

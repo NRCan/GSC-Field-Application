@@ -46,6 +46,7 @@ public partial class MapPage : ContentPage
     public MapPage(MapViewModel vm)
     {
         InitializeComponent();
+        BindingContext = vm;
 
         //Initialize grid background
         mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
@@ -53,14 +54,13 @@ public partial class MapPage : ContentPage
         //Initialize map control and GPS
         var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer();
 
-        mapView.Map.Layers.Add(tileLayer);
-        mapView.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) { TextAlignment = Mapsui.Widgets.Alignment.Center, HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
+        mapControl.Map.Layers.Add(tileLayer);
+        mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) { TextAlignment = Mapsui.Widgets.Alignment.Center, HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
 
-        //mapView.Map = mapControl.Map;
+        mapView.Map = mapControl.Map;
 
         StartGPS();
 
-        BindingContext = vm;
         this.Loaded += MapPage_Loaded;
     }
 
@@ -69,7 +69,7 @@ public partial class MapPage : ContentPage
     {
         await AddSymbolToRegistry();
         MemoryLayer ml = await CreatePointLayerAsync();
-        mapControl.Map.Layers.Add(ml);
+        mapView.Map.Layers.Add(ml);
     }
 
     /// <summary>
@@ -138,7 +138,17 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void ManageLayerButton_Clicked(object sender, EventArgs e)
     {
+        //Refresh VM list of layers
+        MapViewModel vm = this.BindingContext as MapViewModel;
+        vm.RefreshLayerCollection(mapView.Map.Layers);
+
         MapLayerFrame.IsVisible = !MapLayerFrame.IsVisible;
+    }
+
+    private void mapView_MapClicked(object sender, MapClickedEventArgs e)
+    {
+        //Make sure to disable map layer frame
+        MapLayerFrame.IsVisible = false;
     }
 
     #endregion
@@ -362,7 +372,7 @@ public partial class MapPage : ContentPage
     {
         return new MemoryLayer
         {
-            Name = "Points",
+            Name = "Stations",
             IsMapInfoLayer = true,
             Features = await GetLocationsAsync(),
             Style = CreateBitmapStyle(),
@@ -432,9 +442,4 @@ public partial class MapPage : ContentPage
 
     #endregion
 
-    private void mapView_MapClicked(object sender, MapClickedEventArgs e)
-    {
-        //Make sure to disable map layer frame
-        MapLayerFrame.IsVisible = false;
-    }
 }
