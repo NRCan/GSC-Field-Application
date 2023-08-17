@@ -52,7 +52,7 @@ public partial class MapPage : ContentPage
         mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
 
         //Initialize map control and GPS
-        var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer();
+        var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer("NRCan_GSCFieldApp/3.0 Maui.net");
 
         mapControl.Map.Layers.Add(tileLayer);
         mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) { TextAlignment = Mapsui.Widgets.Alignment.Center, HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
@@ -111,6 +111,18 @@ public partial class MapPage : ContentPage
         }
     }
 
+    private void mapView_MapClicked(object sender, MapClickedEventArgs e)
+    {
+        //Make sure to disable map layer frame
+        MapLayerFrame.IsVisible = false;
+    }
+
+    #region Buttons
+    /// <summary>
+    /// Will show a filer picker to add layers in the map
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void AddLayerButton_Clicked(object sender, EventArgs e)
     {
         //Call a dialog for user to select a file
@@ -121,12 +133,12 @@ public partial class MapPage : ContentPage
             byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
 
             TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
-            newTileLayer.Name = fr.FileName; 
+            newTileLayer.Name = fr.FileName;
 
             //Insert at index 1
             //Index 0 would be OSM previous 1 would be location icon.
             mapView.Map.Layers.Insert(1, newTileLayer);
-            
+
         }
     }
 
@@ -145,11 +157,7 @@ public partial class MapPage : ContentPage
         MapLayerFrame.IsVisible = !MapLayerFrame.IsVisible;
     }
 
-    private void mapView_MapClicked(object sender, MapClickedEventArgs e)
-    {
-        //Make sure to disable map layer frame
-        MapLayerFrame.IsVisible = false;
-    }
+    #endregion
 
     #endregion
 
@@ -250,17 +258,16 @@ public partial class MapPage : ContentPage
             }
 
         }
-        else
-        {
-            if (App.Current.Resources.TryGetValue("White", out var errorColorvalue))
-            {
-                mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-            }
+        //else
+        //{
+        //    if (App.Current.Resources.TryGetValue("White", out var errorColorvalue))
+        //    {
+        //        mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+        //    }
 
-        }
+        //}
 
     }
-
 
     /// <summary>
     /// Must add all image in bitmap registry for mapsui to use them as symbol styles
@@ -292,16 +299,12 @@ public partial class MapPage : ContentPage
                 while (!gpsCancelation.IsCancellationRequested)
                 {
                     var request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
-#if __MAUI__ // WORKAROUND for Preview 11 will be fixed in Preview 13 https://github.com/dotnet/maui/issues/3597
+
                     if (Application.Current == null)
                         return;
 
                     await Application.Current.Dispatcher.DispatchAsync(async () =>
                     {
-#else
-                    await Device.InvokeOnMainThreadAsync(async () =>
-                    {
-#endif
                         var location = await Geolocation.GetLocationAsync(request, this.gpsCancelation.Token)
                             .ConfigureAwait(false);
                         if (location != null)

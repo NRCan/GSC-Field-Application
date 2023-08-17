@@ -10,7 +10,7 @@ namespace GSCFieldApp.Converters
             if (value == null)
                 return value;
 
-            return string.Format("{0} m", value);
+            return string.Format("{0:0} m", value); //Keep only one digits, more is useless.
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
