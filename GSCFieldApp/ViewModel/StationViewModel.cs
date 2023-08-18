@@ -13,19 +13,21 @@ using GSCFieldApp.Themes;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Maui.ApplicationModel.Communication;
+using System.Xml.Linq;
 
 namespace GSCFieldApp.ViewModel
 {
 
     [QueryProperty(nameof(FieldLocation), nameof(FieldLocation))]
     [QueryProperty(nameof(Metadata), nameof(Metadata))]
+    [QueryProperty(nameof(Station), nameof(Station))]
     public partial class StationViewModel : ObservableObject
     {
         #region INIT
 
         DataAccess da = new DataAccess();
         ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
-        private Station model = new Station();
+        private Station _model = new Station();
         private DateTimeOffset _dateGeneric = DateTime.Now; //Default
         public DataIDCalculation idCalculator = new DataIDCalculation();
         private ComboBox _stationType = new ComboBox();
@@ -47,7 +49,10 @@ namespace GSCFieldApp.ViewModel
         [ObservableProperty]
         private Metadata metadata;
 
-        public Station Model { get { return model; } set { model = value; } }
+        [ObservableProperty]
+        private Station _station;
+
+        public Station Model { get { return _model; } set { _model = value; } }
         public ComboBox StationType { get { return _stationType; } set { _stationType = value; } }
         public ComboBox StationOutcropQuality { get { return _stationOutcropQuality; } set { _stationOutcropQuality = value; } }
         public ComboBox StationSource { get { return _stationSource; } set { _stationSource = value; } }
@@ -80,11 +85,11 @@ namespace GSCFieldApp.ViewModel
             } 
         }
         public ObservableCollection<ComboBoxItem> QualityCollection { get { return _qualityCollection; } set { _qualityCollection = value; } }
-        #endregion
+        #endregion 
 
         public StationViewModel()
         {
-
+            
         }
 
         #region RELAYS
@@ -115,7 +120,7 @@ namespace GSCFieldApp.ViewModel
         {
 
             //Validate if new entry or update
-            if (model.StationID > 0)
+            if (_model.StationID > 0)
             {
                 await da.SaveItemAsync(Model, true);
             }
@@ -142,19 +147,17 @@ namespace GSCFieldApp.ViewModel
 
         public async Task FillPickers()
         {
-            if (metadata != null)
-            {
-                _stationType = await FillAPicker(DatabaseLiterals.FieldStationObsType);
-                _stationOutcropQuality = await FillAPicker(DatabaseLiterals.FieldStationOCQuality);
-                _stationSource = await FillAPicker(DatabaseLiterals.FieldStationObsSource);
-                _stationPhysEnv = await FillAPicker(DatabaseLiterals.FieldStationPhysEnv);
 
-                OnPropertyChanged(nameof(StationType));
-                OnPropertyChanged(nameof(StationOutcropQuality));
-                OnPropertyChanged(nameof(StationSource));
-                OnPropertyChanged(nameof(StationPhysEnv));
-            }
-            
+            _stationType = await FillAPicker(DatabaseLiterals.FieldStationObsType);
+            _stationOutcropQuality = await FillAPicker(DatabaseLiterals.FieldStationOCQuality);
+            _stationSource = await FillAPicker(DatabaseLiterals.FieldStationObsSource);
+            _stationPhysEnv = await FillAPicker(DatabaseLiterals.FieldStationPhysEnv);
+
+            OnPropertyChanged(nameof(StationType));
+            OnPropertyChanged(nameof(StationOutcropQuality));
+            OnPropertyChanged(nameof(StationSource));
+            OnPropertyChanged(nameof(StationPhysEnv));
+
         }
 
         /// <summary>
@@ -163,7 +166,7 @@ namespace GSCFieldApp.ViewModel
         private async Task<ComboBox> FillAPicker(string fieldName)
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableStation, fieldName, metadata.FieldworkType);
+            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableStation, fieldName);
 
         }
 

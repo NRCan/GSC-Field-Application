@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
+using GSCFieldApp.Views;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -139,9 +140,36 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task TapGestureRecognizer(FieldNote fieldNotes)
         {
-            await Shell.Current.DisplayAlert("Alert", "You have tapped: " + fieldNotes.Display_text_1 , "OK");
+            //Get tapped record
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+
+            //Get metadata records
+            List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationAlias == fieldNotes.Display_text_1).ToListAsync();
+
+            await currentConnection.CloseAsync();
+
+            //Navigate to station page and keep locationmodel for relationnal link
+            if (tappedStation != null && tappedStation.Count() == 1)
+            {
+                await Shell.Current.GoToAsync($"{nameof(StationPage)}",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(FieldLocation)] = null,
+                        [nameof(Metadata)] = null,
+                        [nameof(Station)] = tappedStation[0]
+                    }
+                );
+            }
+
+            //await Shell.Current.DisplayAlert("Alert", "You have tapped: " + fieldNotes.Display_text_1 , "OK");
         }
 
+        [RelayCommand]
+        public async Task SwipeGestureRecognizer(FieldNote fieldNotes)
+        {
+            await Shell.Current.DisplayAlert("Alert", "You have swipped: " + fieldNotes.Display_text_1, "OK");
+
+        }
         #endregion
 
         #region METHODS

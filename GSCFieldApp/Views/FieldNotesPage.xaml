@@ -12,22 +12,30 @@
 
         <!-- Note Cards Template -->
         <DataTemplate x:Key="FieldNoteCard" x:DataType="models:FieldNote">
+
             <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="75" WidthRequest="150">
+
                 <Frame.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Left" Command="{Binding Source={RelativeSource 
+                            AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=SwipeGestureRecognizerCommand}" 
+                                        CommandParameter="{Binding .}"/>
                     <TapGestureRecognizer Command="{Binding Source={RelativeSource 
-                                AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=TapGestureRecognizerCommand}" CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                            AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=TapGestureRecognizerCommand}" 
+                                        CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
                 </Frame.GestureRecognizers>
                 <VerticalStackLayout Margin="5" >
                     <Label
-                                Text="{Binding Display_text_1}"
-                                FontAttributes="Bold" />
+                            Text="{Binding Display_text_1}"
+                            FontAttributes="Bold" />
                     <Label 
-                                Text="{Binding Display_text_2}"
-                                FontAttributes="Italic"
-                                VerticalOptions="End" />
+                            Text="{Binding Display_text_2}"
+                            FontAttributes="Italic"
+                            VerticalOptions="End" />
                 </VerticalStackLayout>
 
             </Frame>
+
+
         </DataTemplate>
 
     </ContentPage.Resources>
@@ -40,7 +48,7 @@
             <Button Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="station"/>
             
-            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}" 
+            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}"
                         Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsStationVisible,Mode=TwoWay}"/>
             <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
