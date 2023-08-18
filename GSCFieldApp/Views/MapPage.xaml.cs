@@ -337,14 +337,19 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     public async Task<FileResult> PickLayer()
     {
+
+        
         try
         {
+            // NOTE: for Android application/mbtiles doesn't work
+            // we need to get all and filter out only mbtile selected files.
+
             FilePickerFileType customFileType = new FilePickerFileType(
                 new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
-                        {DevicePlatform.WinUI, new [] { ".mbtiles"} },
-                        {DevicePlatform.Android, new [] { ".mbtiles"} },
-                        {DevicePlatform.iOS, new [] { ".mbtiles"} },
+                        {DevicePlatform.WinUI, new [] { DatabaseLiterals.LayerTypeMBTiles} },
+                        {DevicePlatform.Android, new [] { "application/*"} },
+                        {DevicePlatform.iOS, new [] { DatabaseLiterals.LayerTypeMBTiles } },
                 });
 
             PickOptions options = new PickOptions();
@@ -354,10 +359,21 @@ public partial class MapPage : ContentPage
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
             {
-
+                if (result.FileName.Contains(DatabaseLiterals.LayerTypeMBTiles))
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
             }
 
-            return result;
+            
         }
         catch (Exception ex)
         {

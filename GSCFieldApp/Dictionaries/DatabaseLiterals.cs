@@ -330,12 +330,13 @@ namespace GSCFieldApp.Dictionaries
 
         #endregion
 
-        #region Database extension types
+        #region File extension types
         public const string DBTypeSqlite = ".gpkg"; //Version 1.7
         public const string DBTypeSqliteDeprecated = ".sqlite"; //Version < 1.7
         public const string DBTypeSqliteName = "geopackage"; //Version 1.7
         public const string DBTypeGeopackageWal = "-wal"; //Version 1.7
         public const string DBTypeGeopackageSHM = "-shm"; //Version 1.7
+        public const string LayerTypeMBTiles = ".mbtiles";
         #endregion
 
         #region Database default values for field
