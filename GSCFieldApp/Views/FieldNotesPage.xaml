@@ -13,6 +13,10 @@
         <!-- Note Cards Template -->
         <DataTemplate x:Key="FieldNoteCard" x:DataType="models:FieldNote">
             <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="75" WidthRequest="150">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource 
+                                AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=TapGestureRecognizerCommand}" CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                </Frame.GestureRecognizers>
                 <VerticalStackLayout Margin="5" >
                     <Label
                                 Text="{Binding Display_text_1}"

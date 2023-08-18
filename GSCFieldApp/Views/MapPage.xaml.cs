@@ -65,6 +65,13 @@ public partial class MapPage : ContentPage
     }
 
     #region EVENTS
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+    
+    }
+
     private async void MapPage_Loaded(object sender, EventArgs e)
     {
         await AddSymbolToRegistry();

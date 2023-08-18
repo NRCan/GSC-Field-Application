@@ -8,6 +8,8 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             BackgroundColor="{StaticResource Primary}"
+             x:Name="MapPageContent"
              x:DataType="viewmodel:MapViewModel" 
              Shell.FlyoutBehavior="Flyout"
              Title="{local:Localize ShellMapTitle}">

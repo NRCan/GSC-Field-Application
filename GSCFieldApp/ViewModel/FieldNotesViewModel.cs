@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -135,6 +136,12 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        public async Task TapGestureRecognizer(FieldNote fieldNotes)
+        {
+            await Shell.Current.DisplayAlert("Alert", "You have tapped: " + fieldNotes.Display_text_1 , "OK");
+        }
+
         #endregion
 
         #region METHODS
@@ -194,6 +201,26 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
+
+        #endregion
+
+        #region EVENTS
+
+        /// <summary>
+        /// Card/Note tap event
+        /// Will be used to pop open an edit form on selected card
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+        {
+            //Cast
+            Frame tappedFrame = sender as Frame;
+
+            //Get binding context
+            FieldNote tappedNote = (FieldNote)tappedFrame.BindingContext;
+        }
+
 
         #endregion
     }
