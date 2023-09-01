@@ -26,8 +26,8 @@
                             <ColumnDefinition Width="180"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
-                            <RowDefinition Height="55"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="50"/>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
@@ -37,7 +37,7 @@
 
                         </Grid.RowDefinitions>
 
-                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White"
+                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White" TextTransform="Uppercase"
                             Margin="10,0,0,0"/>
 
                         <Label Text="{Binding metadataForProject.MetadataActivity}" LineBreakMode="WordWrap"
