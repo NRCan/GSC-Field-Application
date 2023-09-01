@@ -26,8 +26,8 @@
                             <ColumnDefinition Width="180"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="55"/>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="25"/>
@@ -40,8 +40,8 @@
                         <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White"
                             Margin="10,0,0,0"/>
 
-                        <Label Text="{Binding metadataForProject.MetadataActivity}"
-                               FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
+                        <Label Text="{Binding metadataForProject.MetadataActivity}" LineBreakMode="WordWrap"
+                               FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
                                Grid.Column="1" Grid.Row="1"/>
                         <Label Text="{Binding metadataForProject.ProjectName}"
                                 FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
@@ -66,7 +66,7 @@
 
                         </Label>
 
-                        <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="0,0,0,0"
+                        <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="15,0,0,0"
                        Grid.Row="7" HorizontalOptions="Center" VerticalOptions="End" Source="logo.png"/>
 
                         <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
