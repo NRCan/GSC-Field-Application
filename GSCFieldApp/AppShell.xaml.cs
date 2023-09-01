@@ -42,7 +42,7 @@ public partial class AppShell : Shell
 
         //Will be used to navigate to field books page
         NavigateToFieldBooksCommand = new Command(async () => {
-            await GoToAsync("///" + nameof(FieldBooksPage));
+            await GoToAsync("/" + nameof(FieldBooksPage));
         });
 
         //Will be used to navigate to field books page

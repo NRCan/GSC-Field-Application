@@ -9,9 +9,9 @@
              Shell.BackgroundColor="{StaticResource FieldStationColor}"
              Title="{local:Localize StationPageTitle}">
 
-    <Shell.BackButtonBehavior>
+    <!--<Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
-    </Shell.BackButtonBehavior>
+    </Shell.BackButtonBehavior>-->
 
     <ContentPage.Resources>
 

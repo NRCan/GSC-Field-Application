@@ -122,7 +122,7 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_station.StationAlias != string.Empty)
+            if (_station != null &&_station.StationAlias != string.Empty)
             {
                 await da.SaveItemAsync(Model, true);
             }

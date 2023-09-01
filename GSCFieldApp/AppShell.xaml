@@ -10,8 +10,7 @@
 
     <ShellContent
             Title="GSC Field App"
-            ContentTemplate="{DataTemplate views:FieldBooksPage}"
-            Route="FieldBooksPage" />
+            ContentTemplate="{DataTemplate views:FieldBooksPage}"/>
 
     <MenuItem Text="{local:Localize ShellFieldBooksTitle}" Command="{Binding NavigateToFieldBooksCommand}">
         <MenuItem.IconImageSource>
