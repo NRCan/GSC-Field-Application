@@ -145,6 +145,67 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+        /// <summary>
+        /// Will refill the form with existing values for update/editing purposes
+        /// </summary>
+        /// <returns></returns>
+        public async Task Load()
+        {
+            if (_station != null && _station.StationAlias != string.Empty)
+            {
+                //Set model like actual record
+                _model = _station;
+
+                //Refresh
+                OnPropertyChanged(nameof(Model));
+
+                #region Pickers
+                //Select values in pickers
+                foreach (ComboBoxItem cbox in StationType.cboxItems)
+                {
+                    if (cbox.itemValue == _station.StationObsType)
+                    {
+                        StationType.cboxDefaultItemIndex = StationType.cboxItems.IndexOf(cbox);
+                        break;
+                    }
+                }
+                OnPropertyChanged(nameof(StationType));
+
+                foreach (ComboBoxItem cbox in StationSource.cboxItems)
+                {
+                    if (cbox.itemValue == _station.StationObsSource)
+                    {
+                        StationSource.cboxDefaultItemIndex = StationSource.cboxItems.IndexOf(cbox);
+                        break;
+                    }
+                }
+                OnPropertyChanged(nameof(StationSource));
+
+                foreach (ComboBoxItem cbox in StationPhysEnv.cboxItems)
+                {
+                    if (cbox.itemValue == _station.StationPhysEnv)
+                    {
+                        StationPhysEnv.cboxDefaultItemIndex = StationPhysEnv.cboxItems.IndexOf(cbox);
+                        break;
+                    }
+                }
+                OnPropertyChanged(nameof(StationPhysEnv));
+                #endregion
+
+                //Piped value field
+                List<string> qualities = concat.UnpipeString(_station.StationOCQuality);
+                _qualityCollection.Clear(); //Clear any possible values first
+                foreach (ComboBoxItem cbox in StationOutcropQuality.cboxItems)
+                {
+                    if (qualities.Contains(cbox.itemValue) && !_qualityCollection.Contains(cbox))
+                    {
+                        _qualityCollection.Add(cbox);
+                    }
+                }
+                OnPropertyChanged(nameof(QualityCollection));
+            }
+        }
+
         public async Task FillPickers()
         {
 
