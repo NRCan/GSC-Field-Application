@@ -20,8 +20,8 @@
                             AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=SwipeGestureRecognizerCommand}" 
                                         CommandParameter="{Binding .}"/>
                     <TapGestureRecognizer Command="{Binding Source={RelativeSource 
-                            AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=TapGestureRecognizerCommand}" 
-                                        CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                            AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=TapGestureRecognizer}" 
+                                        CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
                 </Frame.GestureRecognizers>
                 <VerticalStackLayout Margin="5" >
                     <Label

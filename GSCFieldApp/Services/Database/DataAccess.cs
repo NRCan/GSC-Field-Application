@@ -139,6 +139,38 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// Will delete an item object that is a model table
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="doUpdate"></param>
+        /// <returns></returns>
+        public async Task<int> DeleteItemAsync(object item)
+        {
+
+            // Create a new connection
+            try
+            {
+
+                //For debug
+                DbConnection.Tracer = new Action<string>(q => Debug.WriteLine(q));
+                DbConnection.Trace = true;
+
+
+                int numberOfRows = await DbConnection.DeleteAsync(item);
+                return numberOfRows;
+
+
+
+            }
+            catch (SQLite.SQLiteException ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return 0;
+            }
+
+        }
+
+        /// <summary>
         /// Will save (insert or update) an item object that is a model table
         /// </summary>
         /// <param name="item"></param>

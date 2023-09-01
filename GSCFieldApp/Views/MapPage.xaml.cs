@@ -198,7 +198,6 @@ public partial class MapPage : ContentPage
                 locationBrush.Color = warnColor.ToMapsui();
             }
 
-
         }
         else if (accuracy > 40.0)
         {

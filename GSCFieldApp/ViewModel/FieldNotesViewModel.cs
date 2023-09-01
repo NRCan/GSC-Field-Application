@@ -167,8 +167,27 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task SwipeGestureRecognizer(FieldNote fieldNotes)
         {
-            await Shell.Current.DisplayAlert("Alert", "You have swipped: " + fieldNotes.Display_text_1, "OK");
+            string answer = await Shell.Current.DisplayPromptAsync("Delete " + fieldNotes.Display_text_1, "Enter last two digit of current year to delete" , "DELETE", "CANCEL");
 
+            if (answer != DateTime.Now.Year.ToString().Substring(1)) 
+            {
+                if (fieldNotes.GenericTableName == DatabaseLiterals.TableStation)
+                {
+                    FieldLocation stationToDelete = new FieldLocation();
+                    stationToDelete.LocationID = fieldNotes.ParentID;
+                    int numberOfDeletedRows = await da.DeleteItemAsync(stationToDelete);
+
+                    if (numberOfDeletedRows == 1)
+                    {
+                        //Refil note page
+                        await FillFieldNotesAsync();
+
+                        //Show final messag to user
+                        await Shell.Current.DisplayAlert("Delete Completed", "Record " + fieldNotes.Display_text_1 + " has been deleted.", "OK");
+                    }
+                }
+
+            }
         }
         #endregion
 
@@ -222,7 +241,10 @@ namespace GSCFieldApp.ViewModel
                     {
                         Display_text_1 = st.StationAlias,
                         Display_text_2 = st.StationObsType,
-                        Display_text_3 = st.StationNote
+                        Display_text_3 = st.StationNote,
+                        GenericTableName = DatabaseLiterals.TableStation,
+                        GenericID = st.StationID,
+                        ParentID = st.LocationID
                     });
                 }
 
