@@ -177,6 +177,15 @@
   <data name="FielNotesStationHeader" xml:space="preserve">
     <value>Stations</value>
   </data>
+  <data name="GenericButtonCancel" xml:space="preserve">
+    <value>ANNULER</value>
+  </data>
+  <data name="GenericButtonDelete" xml:space="preserve">
+    <value>SUPPRIMER</value>
+  </data>
+  <data name="GenericButtonOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
   </data>

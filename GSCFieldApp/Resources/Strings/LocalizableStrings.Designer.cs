@@ -241,6 +241,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CANCEL.
+        /// </summary>
+        internal static string GenericButtonCancel {
+            get {
+                return ResourceManager.GetString("GenericButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE.
+        /// </summary>
+        internal static string GenericButtonDelete {
+            get {
+                return ResourceManager.GetString("GenericButtonDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string GenericButtonOk {
+            get {
+                return ResourceManager.GetString("GenericButtonOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         internal static string GenericNoteTitle {

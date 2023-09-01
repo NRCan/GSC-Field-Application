@@ -12,8 +12,4 @@ public partial class FieldBooksPage : ContentPage
 		BindingContext = vm;
 	}
 
-    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-    {
-        await DisplayAlert("test", "test", "test");
-    }
 }

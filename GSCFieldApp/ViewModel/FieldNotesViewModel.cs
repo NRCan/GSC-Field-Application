@@ -167,6 +167,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task SwipeGestureRecognizer(FieldNote fieldNotes)
         {
+            //Display a prompt with an answer to prevent butt or fat finger deleting stations.
             string answer = await Shell.Current.DisplayPromptAsync("Delete " + fieldNotes.Display_text_1, "Enter last two digit of current year to delete" , "DELETE", "CANCEL");
 
             if (answer != DateTime.Now.Year.ToString().Substring(1)) 

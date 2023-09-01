@@ -91,6 +91,7 @@ public partial class AppShell : Shell
         //Open save dialog
         var fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
 
+        //Use Toast to show card in window interface or system like notification rather then modal alert popup.
         //TODO: localize here
         if (fileSaverResult.IsSuccessful)
         {
