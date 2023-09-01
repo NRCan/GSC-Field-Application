@@ -136,7 +136,8 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(MapPage)}");
+            //await Shell.Current.GoToAsync($"{nameof(MapPage)}");
+            await Shell.Current.GoToAsync("..");
 
         }
 

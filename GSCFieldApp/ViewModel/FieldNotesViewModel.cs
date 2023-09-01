@@ -170,7 +170,7 @@ namespace GSCFieldApp.ViewModel
             //Display a prompt with an answer to prevent butt or fat finger deleting stations.
             string answer = await Shell.Current.DisplayPromptAsync("Delete " + fieldNotes.Display_text_1, "Enter last two digit of current year to delete" , "DELETE", "CANCEL");
 
-            if (answer != DateTime.Now.Year.ToString().Substring(1)) 
+            if (answer == DateTime.Now.Year.ToString().Substring(2)) 
             {
                 if (fieldNotes.GenericTableName == DatabaseLiterals.TableStation)
                 {
@@ -255,24 +255,5 @@ namespace GSCFieldApp.ViewModel
 
         #endregion
 
-        #region EVENTS
-
-        /// <summary>
-        /// Card/Note tap event
-        /// Will be used to pop open an edit form on selected card
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
-        {
-            //Cast
-            Frame tappedFrame = sender as Frame;
-
-            //Get binding context
-            FieldNote tappedNote = (FieldNote)tappedFrame.BindingContext;
-        }
-
-
-        #endregion
     }
 }
