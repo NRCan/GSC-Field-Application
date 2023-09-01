@@ -118,17 +118,16 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
+            //Fill out missing values in model
+            await SetModelAsync();
 
             //Validate if new entry or update
-            if (_model.StationID > 0)
+            if (_station.StationAlias != string.Empty)
             {
                 await da.SaveItemAsync(Model, true);
             }
             else
             {
-                //Fill out missing values in model
-                await SetModelAsync();
-
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
             }
@@ -244,24 +243,24 @@ namespace GSCFieldApp.ViewModel
                 Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
                 Model.StationVisitDate = CalculateStationDate(); //Calculate new value
                 Model.StationVisitTime = CalculateStationTime(); //Calculate new value
+            }
 
-                //Process pickers
-                if (StationType.cboxDefaultItemIndex != -1)
-                {
-                    Model.StationObsType = StationType.cboxItems[StationType.cboxDefaultItemIndex].itemValue;
-                }
-                if (StationOutcropQuality.cboxDefaultItemIndex != -1)
-                {
-                    Model.StationOCQuality = concat.PipeValues(QualityCollection); //process list of values so they are concatenated.
-                }
-                if (StationSource.cboxDefaultItemIndex != -1)
-                {
-                    Model.StationObsSource = StationSource.cboxItems[StationSource.cboxDefaultItemIndex].itemValue;
-                }
-                if (StationPhysEnv.cboxDefaultItemIndex != -1)
-                {
-                    Model.StationPhysEnv = StationPhysEnv.cboxItems[StationPhysEnv.cboxDefaultItemIndex].itemValue;
-                }
+            //Process pickers
+            if (StationType.cboxDefaultItemIndex != -1)
+            {
+                Model.StationObsType = StationType.cboxItems[StationType.cboxDefaultItemIndex].itemValue;
+            }
+            if (StationOutcropQuality.cboxDefaultItemIndex != -1)
+            {
+                Model.StationOCQuality = concat.PipeValues(QualityCollection); //process list of values so they are concatenated.
+            }
+            if (StationSource.cboxDefaultItemIndex != -1)
+            {
+                Model.StationObsSource = StationSource.cboxItems[StationSource.cboxDefaultItemIndex].itemValue;
+            }
+            if (StationPhysEnv.cboxDefaultItemIndex != -1)
+            {
+                Model.StationPhysEnv = StationPhysEnv.cboxItems[StationPhysEnv.cboxDefaultItemIndex].itemValue;
             }
 
         }
