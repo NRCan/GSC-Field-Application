@@ -66,9 +66,28 @@ public partial class MapPage : ContentPage
 
     #region EVENTS
 
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
+
+        //In case user is coming from field notes
+        //They might have deleted some stations, make sure to refresh
+ 
+        foreach (var item in mapView.Map.Layers)
+        {
+            if (item.Name == "Stations")
+            {
+                mapView.Map.Layers.Remove(item);
+
+                MemoryLayer ml = await CreatePointLayerAsync();
+                mapView.Map.Layers.Add(ml);
+                mapView.Map.RefreshData();
+                break;
+            }
+        }
+
+
+
     
     }
 
@@ -99,7 +118,9 @@ public partial class MapPage : ContentPage
 
                 await SetMapAccuracyColor(e.Accuracy);
 
-                 mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
+                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
+                mapView.RefreshGraphics();
+
                 if (e.Course != null)
                 {
                     mapView?.MyLocationLayer.UpdateMyDirection(e.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
