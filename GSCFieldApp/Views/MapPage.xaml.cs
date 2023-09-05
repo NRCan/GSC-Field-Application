@@ -445,17 +445,21 @@ public partial class MapPage : ContentPage
             offset.Y = gp.GetOffsetFromPlacementPriority(placementPool[2],32,32).Item2;
 
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-            List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>("SELECT * FROM " + DatabaseLiterals.TableLocation);
+            List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>
+                ("SELECT SUBSTR(" + DatabaseLiterals.FieldLocationAlias + ", -6, 4) as " + 
+                DatabaseLiterals.FieldLocationAlias + ", " + DatabaseLiterals.FieldLocationLongitude + 
+                ", " + DatabaseLiterals.FieldLocationLatitude + " FROM " + DatabaseLiterals.TableLocation);
+
             foreach (FieldLocation fl in fieldLoc)
             {
                 IFeature feat = new PointFeature(SphericalMercator.FromLonLat(fl.LocationLong, fl.LocationLat).ToMPoint());
-                feat["name"] = fl.LocationID;
+                feat["name"] = fl.LocationAlias;
 
                 enumFeat = enumFeat.Append(feat);
 
                 feat.Styles.Add(new LabelStyle
                 {
-                    Text = fl.LocationID.ToString(),
+                    Text = fl.LocationAlias,
                     BackColor = new Brush(Color.WhiteSmoke),
                     HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
                     //CollisionDetection = true,
