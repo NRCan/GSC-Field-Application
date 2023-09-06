@@ -40,9 +40,15 @@
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
 
-            <ScrollView Orientation="Vertical" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+            
+            <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
+
 
                     <!--Station Type section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
@@ -133,8 +139,18 @@
 
             </ScrollView>
 
-            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1"
+            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldStationColor}"
                     Command="{Binding SaveCommand}"/>
+
+
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="0" Grid.Column="1" >
+
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" ToolTipProperties.Text="Tap to add an earth material" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldEnvironmentColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldPhotoColorLight}"/>
+
+            </StackLayout>
 
         </Grid>
     </ContentPage.Content>

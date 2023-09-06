@@ -21,8 +21,8 @@
                     <!--<SwipeGestureRecognizer Direction="Left" Command="{Binding Source={RelativeSource 
                             AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=SwipeGestureRecognizerCommand}" 
                                         CommandParameter="{Binding .}"/>-->
-                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
-                                          CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
+                    <!--<TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
+                                          CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>-->
 
                 </Frame.GestureRecognizers>
                 <VerticalStackLayout Margin="7" >
@@ -30,16 +30,18 @@
                         <SwipeGestureRecognizer Direction="Left" Command="{Binding Source={RelativeSource 
                             AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=SwipeGestureRecognizerCommand}" 
                                         CommandParameter="{Binding .}"/>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
+                                          CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
                     </VerticalStackLayout.GestureRecognizers>
                     <Label
-                            Text="{Binding Display_text_1}"
+                            Text="{Binding Display_text_1}" TextColor="{StaticResource Gray400}"
                             FontSize="Default" FontAttributes="Bold"/>
                     <Label 
-                            Text="{Binding Display_text_2}" FontSize="Body" LineBreakMode="TailTruncation"
+                            Text="{Binding Display_text_2}" FontSize="Body" LineBreakMode="TailTruncation" FontAttributes="Bold"
                             VerticalOptions="End" />
                     <Label 
                             Text="{Binding Display_text_3}"
-                            FontAttributes="Italic" LineBreakMode="TailTruncation"
+                            LineBreakMode="TailTruncation"
                             VerticalOptions="End"  />
                 </VerticalStackLayout>
 
@@ -58,7 +60,7 @@
             <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="station"/>
             <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsStationVisible, Mode=TwoWay}"
-                            ItemsSource="{Binding Stations}" SelectionMode="Single">
+                            ItemsSource="{Binding Stations}" SelectionMode="Single" >
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" 
                         Span="{OnPlatform WinUI=7, Android=2, iOS=2}"/>
