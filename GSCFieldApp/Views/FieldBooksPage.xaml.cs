@@ -1,6 +1,9 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GSCFieldApp.ViewModels;
+using Esri.ArcGISRuntime.Portal;
+using System.Collections.Generic;
+using static GSCFieldApp.Views.FieldBooksPage;
 
 namespace GSCFieldApp.Views
 {
