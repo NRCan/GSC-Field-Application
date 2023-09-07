@@ -14,11 +14,10 @@
         <!--Templates-->
         <DataTemplate x:Key="FieldbooksSelectedTemplate" x:DataType="model:FieldBooks">
             <VerticalStackLayout HeightRequest="380" WidthRequest="250">
-
-                <Frame BackgroundColor="{StaticResource Primary}" x:Name="fieldBookFrame">
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding}"/>
-                    </Frame.GestureRecognizers>
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding}"/>
+                </VerticalStackLayout.GestureRecognizers>
+                <Frame BackgroundColor="{StaticResource Primary}" x:Name="fieldBookFrame" BorderColor="{StaticResource Primary}">
                     <Grid Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}">
 
                         <Grid.ColumnDefinitions>
