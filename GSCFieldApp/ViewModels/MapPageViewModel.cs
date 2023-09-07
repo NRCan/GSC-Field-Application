@@ -1735,7 +1735,7 @@ namespace GSCFieldApp.ViewModels
         /// Mainly used to refresh the map, after some data entry, example waypoint addition.
         /// </summary>
         /// <param name="sender"></param>
-        private void RefreshMap(bool forceRefresh = false)
+        public void RefreshMap(bool forceRefresh = false)
         {
             if (forceRefresh)
             {

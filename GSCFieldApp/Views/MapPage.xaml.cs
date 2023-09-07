@@ -84,10 +84,10 @@ namespace GSCFieldApp.Views
 
             //Refresh
             //SetBackgroundGrid();
+            MapPageViewModel.RefreshMap(true);
             MapPageViewModel.DisplayPointAndLabelsAsync(myMapView);
 
-
-
+            
             //DisplayLatLongGrid();
 
             //UpdateGrid();
