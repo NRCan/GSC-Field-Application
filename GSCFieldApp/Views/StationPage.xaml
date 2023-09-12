@@ -68,7 +68,10 @@
                     </Frame>
 
                     <!--Outcrop section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}" HeightRequest="500">
+                    <Frame BorderColor="{StaticResource FieldStationColor}" 
+                           Style="{StaticResource FieldAppSectionFrame}" 
+                           HeightRequest="500"
+                           IsVisible="{Binding BedrockVisibility}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageOutcropTitle}"/>
 

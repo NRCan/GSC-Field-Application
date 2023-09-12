@@ -39,6 +39,9 @@ namespace GSCFieldApp.ViewModel
         private ComboBoxItem _selectedStationOutcropQuality = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _qualityCollection = new ObservableCollection<ComboBoxItem>();
 
+        //Themes
+        private bool _bedrockVisibility = true; //Visibility for extra fields
+
         #endregion
 
         #region PROPERTIES
@@ -85,11 +88,13 @@ namespace GSCFieldApp.ViewModel
             } 
         }
         public ObservableCollection<ComboBoxItem> QualityCollection { get { return _qualityCollection; } set { _qualityCollection = value; } }
+
+        public bool BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
         #endregion 
 
         public StationViewModel()
         {
-            
+            SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
         }
 
         #region RELAYS
@@ -144,6 +149,25 @@ namespace GSCFieldApp.ViewModel
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will set visibility based on a bedrock or surficial field book
+        /// </summary>
+        public async Task SetFieldVisibility()
+        {
+            string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoPName), Dictionaries.ScienceLiterals.ApplicationThemeBedrock);
+            if (preferedTheme == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+            {
+                _bedrockVisibility = true;
+            }
+            else if (preferedTheme == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+            {
+                _bedrockVisibility = false;
+            }
+
+
+            OnPropertyChanged(nameof(BedrockVisibility));
+        }
 
         /// <summary>
         /// Will refill the form with existing values for update/editing purposes
