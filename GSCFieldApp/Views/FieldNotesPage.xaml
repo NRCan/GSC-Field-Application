@@ -63,7 +63,7 @@
                             ItemsSource="{Binding Stations}" SelectionMode="Single" >
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" 
-                        Span="{OnPlatform WinUI=7, Android=2, iOS=2}"/>
+                        Span="{OnPlatform WinUI=6, Android=2, iOS=2}"/>
                 </CollectionView.ItemsLayout>
             </CollectionView>
 
