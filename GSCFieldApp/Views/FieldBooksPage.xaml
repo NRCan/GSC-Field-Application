@@ -110,13 +110,13 @@
             <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Deleting a selected field book-->
-                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform True, Android=False, iOS=False}"/>
+                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
                 
                 <!--Editing a selected field book-->
-                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform True, Android=False, iOS=False}"/>
+                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
 
                 <!--Adding new field book-->
-                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform True, Android=False, iOS=False}"/>
+                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
 
                 <!--Opening a selected field book-->
                 <!--This feature has been dropped, by default a selected field book will be kept in memory-->
@@ -157,13 +157,13 @@
                 <!--Android only section-->
                 
                 <!--Deleting a selected field book-->
-                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform False, Android=True, iOS=True}"/>
+                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
 
                 <!--Editing a selected field book-->
-                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform False, Android=True, iOS=True}"/>
+                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
 
                 <!--Adding new field book-->
-                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform False, Android=True, iOS=True}"/>
+                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
 
             </StackLayout>
 

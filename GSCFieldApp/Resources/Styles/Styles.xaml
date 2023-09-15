@@ -171,7 +171,7 @@
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="Margin" Value="10" />
+        <Setter Property="Margin" Value="5" />
         <Setter Property="WidthRequest" Value="300"/>
     </Style>
 
@@ -186,7 +186,7 @@
 
     <Style TargetType="FlexLayout" x:Key="FieldAppFormFlexLayout">
         <Setter Property="AlignItems" Value="Start" />
-        <Setter Property="JustifyContent" Value="{OnPlatform Start, Android=Center,iOS=Center}" />
+        <Setter Property="JustifyContent" Value="{OnIdiom Start, Phone=Center,Tablet=Center}" />
         <Setter Property="Direction" Value="Row" />
         <Setter Property="Wrap" Value="Wrap" />
         <Setter Property="VerticalOptions" Value="Fill"/>
@@ -209,7 +209,7 @@
         <Setter Property="FontFamily" Value="MatDesign"/>
         <Setter Property="FontSize" Value="Medium"/>
         <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="Margin" Value="{OnPlatform '0,-12,0,0', Android='0,-5,0,0', iOS='0,-5,0,0' }"/>
+        <Setter Property="Margin" Value="{OnIdiom '0,-12,0,0', Tablet='0,-5,0,0', Phone='0,-5,0,0' }"/>
         <Setter Property="BorderWidth" Value="0" />
         <Setter Property="HeightRequest" Value="{OnPlatform 55, WinUI=25}"/>
         <Setter Property="Text" Value="&#xF0A7A;"/>
