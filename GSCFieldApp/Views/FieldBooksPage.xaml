@@ -147,7 +147,9 @@
                     IsSwipeEnabled="False" AllowDrop="False" ItemContainerStyle="{StaticResource ReportPageGridViewBookItems}"
                     ItemTemplate="{StaticResource ProjectListTemplate}"
                     ItemsSource="{x:Bind ViewModel.ProjectCollection, Mode=OneWay}" 
-                    SelectedIndex="{x:Bind ViewModel.SelectedProjectIndex, Mode=TwoWay}">
+                    SelectedIndex="{x:Bind ViewModel.SelectedProjectIndex, Mode=TwoWay}"
+                    Tapped="{x:Bind ViewModel.projectOpenButton_Tapped}">
+                    <!--ItemClick="OnGridViewItemClicked"-->
 
 
         </GridView>
