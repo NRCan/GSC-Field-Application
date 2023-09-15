@@ -6,7 +6,8 @@ namespace GSCFieldApp.Dictionaries
     public static class DatabaseLiterals
     {
         #region Database version
-        public const double DBVersion = 1.7; //Will be used to verify loaded projects.
+        public const double DBVersion = 1.8; //Will be used to verify loaded projects.
+        public const double DBVersion180 = 1.8; //Will be used to verify loaded projects.
         public const double DBVersion170 = 1.7; //Will be used to verify loaded projects.
         public const double DBVersion160 = 1.6; //Will be used to verify loaded projects.
         public const double DBVersion150 = 1.5; //Will be used to verify and upgrade loaded projects
@@ -154,6 +155,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldCurationID = "CURATIONID";
         public const string FieldSampleWarehouseLocation= "WAREHOUSE_LOCATION"; //Version 1.7
         public const string FieldSampleBucketTray = "BUCKET_OR_TRAY_NO"; //Version 1.7
+        public const string FieldSampleIsBlank = "ISBLANK"; //Version 1.8
 
         public const string FieldSampleManagementID = "SMID";
         public const string FieldDictionaryTermID = "TERMID";//Version 1.0

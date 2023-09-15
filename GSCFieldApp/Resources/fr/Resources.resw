@@ -1759,4 +1759,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="MAMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>Recherche</value>
   </data>
+  <data name="SampleDialogIsBlank.Content" xml:space="preserve">
+    <value>Est-ce un blanc?</value>
+  </data>
 </root>

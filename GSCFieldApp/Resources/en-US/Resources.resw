@@ -1761,4 +1761,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MAMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SampleDialogIsBlank.Content" xml:space="preserve">
+    <value>Is Blank?</value>
+  </data>
 </root>

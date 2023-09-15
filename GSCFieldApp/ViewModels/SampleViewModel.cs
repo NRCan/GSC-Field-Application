@@ -30,8 +30,9 @@ namespace GSCFieldApp.ViewModels
 
         private Visibility _surficialVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
-        private bool _isSampleDuplicate = false; //Wheter checkbox is checked (true) or uncheck (false)
-        private bool _isSampleDuplicateEnabled = false; //Wheter duplicate name box is enabled or disabled
+        private bool _isSampleDuplicate = false; //Whether checkbox is checked (true) or uncheck (false)
+        private bool _isSampleBlank = false; //Whether checkbox is checked or uncheck
+        private bool _isSampleDuplicateEnabled = false; //Whether duplicate name box is enabled or disabled
 
         //Local settings
         readonly DataLocalSettings localSetting = new DataLocalSettings();
@@ -85,6 +86,7 @@ namespace GSCFieldApp.ViewModels
         public string SampleDuplicateName { get { return _sampleDuplicateName; } set { _sampleDuplicateName = value; } }
 
         public bool IsSampleDuplicate { get { return _isSampleDuplicate; } set { _isSampleDuplicate = value; } }
+        public bool IsSampleBlank { get { return _isSampleBlank; } set { _isSampleBlank = value; } }
         public bool IsSampleDuplicateEnabled { get { return _isSampleDuplicateEnabled; } set { _isSampleDuplicateEnabled = value; } }
         public Visibility SurficialVisibility { get { return _surficialVisibility; } set { _surficialVisibility = value; } }
         public Visibility BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
@@ -292,6 +294,20 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("IsSampleDuplicate"); 
             }
 
+            if (existingDataDetailSample.sample.SampleBlank != String.Empty)
+            {
+                if (existingDataDetailSample.sample.SampleBlank == DatabaseLiterals.boolYes)
+                {
+                    _isSampleBlank = true;
+                    RaisePropertyChanged("IsSampleBlank");
+                }
+                else
+                {
+                    _isSampleBlank = false;
+                    RaisePropertyChanged("IsSampleBlank");
+                }
+            }
+
             //Update UI
             RaisePropertyChanged("SampleID");
             RaisePropertyChanged("SampleAlias");
@@ -346,6 +362,15 @@ namespace GSCFieldApp.ViewModels
             }
  
             sampleModel.SampleDuplicateName = _sampleDuplicateName;
+
+            if (IsSampleBlank)
+            {
+                sampleModel.SampleBlank = DatabaseLiterals.boolYes;
+            }
+            else if (!IsSampleBlank)
+            {
+                sampleModel.SampleBlank = DatabaseLiterals.boolNo;
+            }
 
             if (SelectedSampleType != null)
             {

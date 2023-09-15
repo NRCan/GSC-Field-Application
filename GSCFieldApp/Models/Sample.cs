@@ -72,6 +72,8 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleBucketTray)]
         public string SampleBucket { get; set; }
 
+        [Column(DatabaseLiterals.FieldSampleIsBlank)]
+        public string SampleBlank { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
@@ -122,9 +124,15 @@ namespace GSCFieldApp.Models
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
 
 
+                //Revert shcema 1. changes
+                List<string> sampleFieldList170 = new List<string>();
+                sampleFieldList170.AddRange(sampleFieldListDefault);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleIsBlank);
+                sampleFieldList[DatabaseLiterals.DBVersion170] = sampleFieldList170;
+
                 //Revert shcema 1.7 changes
                 List<string> sampleFieldList160 = new List<string>();
-                sampleFieldList160.AddRange(sampleFieldListDefault);
+                sampleFieldList160.AddRange(sampleFieldList170);
                 sampleFieldList160.Remove(DatabaseLiterals.FieldSampleBucketTray);
                 sampleFieldList160.Remove(DatabaseLiterals.FieldSampleWarehouseLocation);
                 sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;

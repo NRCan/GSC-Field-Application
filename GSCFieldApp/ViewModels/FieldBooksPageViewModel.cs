@@ -938,8 +938,12 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.6)
                         {
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion170.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
+                        }
+                        else if (processedDBVersion == 1.7)
+                        {
 
-                            //Current defaulting to 1.7
+                            //Current defaulting to 1.8
                             versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         }
 

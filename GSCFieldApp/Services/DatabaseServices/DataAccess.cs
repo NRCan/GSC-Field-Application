@@ -813,6 +813,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                 newVersionNumber = DatabaseLiterals.DBVersion170;
             }
 
+            if (inDBVersion == DBVersion170)
+            {
+                queryList.AddRange(GetUpgradeQueryVersion1_8(attachDBName));
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableSample);
+                newVersionNumber = DatabaseLiterals.DBVersion180;
+            }
+
             //Insert remaining tables
             foreach (string t in upgradeUntouchedTables)
             {
@@ -2509,7 +2516,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
-        /// Will output a query to update database to version 1.6
+        /// Will output a query to update database to version 1.7
         /// </summary>
         /// <returns></returns>
         public List<string> GetUpgradeQueryVersion1_7(string attachedDBName)
@@ -2595,7 +2602,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_SAMPLE
 
             Sample modelSample = new Sample();
-            List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion170];
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableSample, FieldSampleID,
@@ -2731,24 +2738,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             #endregion
 
-            //#region M_DICTIONARY
-
-            //Vocabularies modelVocab = new Vocabularies();
-            //List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
-
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabFieldList, nullFieldList, TableDictionary, null, null, attachedDBName));
-
-            //#endregion
-
-            //#region M_DICTIONARY_MANAGER
-
-            //VocabularyManager modelVocabManager = new VocabularyManager();
-            //List<string> vocabManagerFieldList = modelVocabManager.getFieldList[DBVersion];
-
-            //insertQuery_17.Add(GenerateInsertQueriesFromModel(vocabManagerFieldList, nullFieldList, TableDictionaryManager, null, null, attachedDBName));
-
-            //#endregion
-
             #region F_DOCUMENT
 
             ///Warning: We assumed that by default records will be linked with station
@@ -2771,6 +2760,57 @@ namespace GSCFieldApp.Services.DatabaseServices
             #endregion
 
             return insertQuery_17;
+        }
+
+        /// <summary>
+        /// Will output a query to update database to version 1.8
+        /// </summary>
+        /// <param name="attachedDBName"></param>
+        /// <returns></returns>
+        public List<string> GetUpgradeQueryVersion1_8(string attachedDBName)
+        {
+            ///Schema v 1.7: 
+            ///https://github.com/NRCan/GSC-Field-Application/milestone/8
+            List<string> insertQuery_18 = new List<string>();
+
+            #region F_SAMPLE
+
+            Sample modelSample = new Sample();
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+            string sample_querySelect = string.Empty;
+
+            foreach (string sampleFields in sampleFieldList)
+            {
+                //Get all fields except alias
+
+                if (sampleFields != sampleFieldList.First())
+                {
+                    if (sampleFields == DatabaseLiterals.FieldSampleIsBlank)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleHorizon;
+                    }
+                    else
+                    {
+                        sample_querySelect = sample_querySelect + ", sm." + sampleFields + " as " + sampleFields;
+                    }
+
+                }
+                else
+                {
+                    sample_querySelect = " sm." + sampleFields + " as " + sampleFields;
+                }
+
+            }
+            sample_querySelect = sample_querySelect.Replace(", ,", "");
+
+            string insertQuery_18_sample = "INSERT INTO " + DatabaseLiterals.TableSample + " SELECT " + sample_querySelect;
+            insertQuery_18_sample = insertQuery_18_sample + " FROM " + attachedDBName + "." + DatabaseLiterals.TableSample + " as sm";
+            insertQuery_18.Add(insertQuery_18_sample);
+
+            #endregion
+
+            return insertQuery_18;
         }
 
         /// <summary>
