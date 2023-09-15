@@ -42,6 +42,7 @@ namespace GSCFieldApp.ViewModels
         private Models.Colour _earthColourF = new Models.Colour();
         private Models.Contacts _earthContact = new Contacts();
 
+
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
         private Visibility _surficialVisibility = Visibility.Collapsed; //visibility for extra fields
         public string projectType = string.Empty; //Will hold project type for list parsing.
@@ -438,7 +439,7 @@ namespace GSCFieldApp.ViewModels
             _stationid = existingDataDetail.ParentID;
             _alias = existingDataDetail.earthmat.EarthMatName;
             _interpretation = existingDataDetail.earthmat.EarthMatInterp;
-            //_contactNote = existingDataDetail.earthmat.EarthMatContact;
+            _contactNote = existingDataDetail.earthmat.EarthMatContactNote;
             _colourindex = existingDataDetail.earthmat.EarthMatColourInd.ToString();
             _mag = existingDataDetail.earthmat.EarthMatMagSuscept;
             _groupTypeDetail = existingDataDetail.earthmat.getGroupTypeDetail;
@@ -601,7 +602,7 @@ namespace GSCFieldApp.ViewModels
             earthmodel.EarthMatName = _alias;
             earthmodel.EarthMatMagSuscept = _mag;
             earthmodel.EarthMatColourInd = int.Parse(_colourindex);
-            //earthmodel.EarthMatContact = _contactNote;
+            earthmodel.EarthMatContactNote = _contactNote;
             earthmodel.EarthMatInterp = _interpretation;
             earthmodel.EarthMatNotes = _notes;
             earthmodel.EarthMatPercent = _percent;

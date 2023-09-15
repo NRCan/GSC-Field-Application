@@ -82,6 +82,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatContactLow)]
         public string EarthMatContactLow { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatContactNote)]
+        public string EarthMatContactNote{ get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatInterp)]
         public string EarthMatInterp { get; set; }
 
@@ -194,9 +197,15 @@ namespace GSCFieldApp.Models
 
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
 
+                //Revert shcema 1.8 changes
+                List<string> earthmatFieldList170 = new List<string>();
+                earthmatFieldList170.AddRange(earthmatFieldListDefault);
+                earthmatFieldList170.Remove(DatabaseLiterals.FieldEarthMatContactNote);
+                earthmatFieldList[DatabaseLiterals.DBVersion170] = earthmatFieldList170;
+
                 //Revert shcema 1.7 changes
                 List<string> earthmatFieldList160 = new List<string>();
-                earthmatFieldList160.AddRange(earthmatFieldListDefault);
+                earthmatFieldList160.AddRange(earthmatFieldList170);
                 earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatSorting);
                 earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatH2O);
                 earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatOxidation);

@@ -133,6 +133,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatH2O = "H2OCONTENT"; //Version 1.7
         public const string FieldEarthMatOxidation = "OXIDATION"; //Version 1.7
         public const string FieldEarthMatClastForm = "CLASTFORM"; //Version 1.7
+        public const string FieldEarthMatContactNote = "CONTACT_NOTE"; //Version 1.8
 
         public const string FieldSampleID = "SAMPLEID"; //Version 1.0
         public const string FieldSampleName = "SAMPLEIDNAME"; //Version 1.5
