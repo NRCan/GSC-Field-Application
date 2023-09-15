@@ -381,9 +381,6 @@
   <data name="EarthDialogContactRelated.Header" xml:space="preserve">
     <value>En relation avec</value>
   </data>
-  <data name="EarthDialogContactNote.Text" xml:space="preserve">
-    <value>Description</value>
-  </data>
   <data name="EarthDialogContactType.Header" xml:space="preserve">
     <value>Type</value>
   </data>
@@ -1761,5 +1758,14 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="SampleDialogIsBlank.Content" xml:space="preserve">
     <value>Est-ce un blanc?</value>
+  </data>
+  <data name="EarthDialogContactLow.Header" xml:space="preserve">
+    <value>Contact Inférieur</value>
+  </data>
+  <data name="EarthDialogContactUp.Header" xml:space="preserve">
+    <value>Contact Supérieur</value>
+  </data>
+  <data name="EarthDialogContactRelNote.Text" xml:space="preserve">
+    <value>Description de la relation</value>
   </data>
 </root>

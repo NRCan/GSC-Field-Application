@@ -344,7 +344,7 @@
                                 </RelativePanel>
 
                                 <RelativePanel x:Name="EarthContactNotePanel" RelativePanel.RightOf="EarthContactButtonPanel">
-                                    <TextBlock x:Name="EarthContactNoteHeader" x:Uid="EarthDialogContactNote" Margin="0,0,0,-5"/>
+                                    <TextBlock x:Name="EarthContactNoteHeader" x:Uid="EarthDialogContactRelNote" Margin="0,0,0,-5"/>
                                     <ListView x:Name="EarthContactConcat"  Height="136"
                                               RelativePanel.Below="EarthContactNoteHeader"
                                               Style="{StaticResource ConcatenatedListView}"
@@ -352,6 +352,20 @@
                                                 ItemsSource="{x:Bind ViewModel.EarthmatContactNoteTypes}"/>
                                 </RelativePanel>
 
+
+                                <RelativePanel RelativePanel.Below="EarthContactNotePanel">
+                                    <ComboBox x:Name="EarthContactUpCombobox" Width="Auto" x:Uid="EarthDialogContactUp" Header="" 
+                                        ItemsSource="{x:Bind ViewModel.EarthmatCU}" 
+                                        SelectedValue="{x:Bind ViewModel.SelectedEarthmatCU, Mode=TwoWay}"/>
+
+                                    <ComboBox x:Name="EarthContactLowComboBox" Width="Auto" x:Uid="EarthDialogContactLow" Header=""
+                                        ItemsSource="{x:Bind ViewModel.EarthmatCL}" RelativePanel.RightOf="EarthContactUpCombobox"
+                                        SelectedValue="{x:Bind ViewModel.SelectedEarthmatCL, Mode=TwoWay}"/>
+
+                                    <TextBox Style="{ThemeResource Notes}" x:Name="EarthContactNoteComboBox" x:Uid="EarthDialogContactNote"
+                                        RelativePanel.Below="EarthContactUpCombobox"
+                                        Text ="{x:Bind ViewModel.ContactNote, Mode=TwoWay}"/>
+                                </RelativePanel>
 
                             </RelativePanel>
 
