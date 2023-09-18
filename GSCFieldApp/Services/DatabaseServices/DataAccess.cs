@@ -2789,7 +2789,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     if (sampleFields == DatabaseLiterals.FieldSampleIsBlank)
                     {
                         sample_querySelect = sample_querySelect +
-                            ", NULL as " + DatabaseLiterals.FieldSampleHorizon;
+                            ", NULL as " + DatabaseLiterals.FieldSampleIsBlank;
                     }
                     else
                     {
@@ -2812,6 +2812,45 @@ namespace GSCFieldApp.Services.DatabaseServices
             #endregion
 
             #region F_MINERALIZATION_ALTERATION
+
+            MineralAlteration modelMA = new MineralAlteration();
+            List<string> maFieldList = modelMA.getFieldList[DBVersion];
+            string ma_querySelect = string.Empty;
+
+            foreach (string maFields in maFieldList)
+            {
+                //Get all fields except alias
+
+                if (maFields != maFieldList.First())
+                {
+                    if (maFields == DatabaseLiterals.FieldMineralAlterationEarthmatID)
+                    {
+                        ma_querySelect = ma_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldMineralAlterationEarthmatID;
+                    }
+                    else if (maFields == DatabaseLiterals.FieldMineralAlterationStationID)
+                    {
+                        ma_querySelect = ma_querySelect +
+                            ", " + DatabaseLiterals.FieldMineralAlterationRelIDDeprecated + " as " + DatabaseLiterals.FieldMineralAlterationStationID;
+                    }
+                    else
+                    {
+                        ma_querySelect = ma_querySelect + ", ma." + maFields + " as " + maFields;
+                    }
+
+                }
+                else
+                {
+                    ma_querySelect = " ma." + maFields + " as " + maFields;
+                }
+
+            }
+            ma_querySelect = ma_querySelect.Replace(", ,", "");
+
+            string insertQuery_18_ma = "INSERT INTO " + DatabaseLiterals.TableMineralAlteration + " SELECT " + ma_querySelect;
+            insertQuery_18_ma = insertQuery_18_ma + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMineralAlteration + " as ma";
+            insertQuery_18.Add(insertQuery_18_ma);
+
             #endregion
 
             return insertQuery_18;
