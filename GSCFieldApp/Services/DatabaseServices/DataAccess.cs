@@ -817,6 +817,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_8(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableSample);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineralAlteration);
                 newVersionNumber = DatabaseLiterals.DBVersion180;
             }
 
@@ -2681,11 +2682,11 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMineralAlteration, FieldMineralAlterationID,
-                FieldMineralAlterationRelID, statView, FieldStationID));
+                FieldMineralAlterationRelIDDeprecated, statView, FieldStationID));
 
             //Get insert query 
             Tuple<string, string> primeMA= new Tuple<string, string>(FieldMineralAlterationID, ViewGenericLegacyPrimeKey);
-            Tuple<string, string> foreignMA = new Tuple<string, string>(FieldMineralAlterationRelID, ViewGenericLegacyForeignKey);
+            Tuple<string, string> foreignMA = new Tuple<string, string>(FieldMineralAlterationRelIDDeprecated, ViewGenericLegacyForeignKey);
             string MAView = ViewPrefix + TableMineralAlteration;
 
             insertQuery_17.Add(GenerateInsertQueriesFromModel(maFieldList, nullFieldList, TableMineralAlteration,
@@ -2808,6 +2809,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_18_sample = insertQuery_18_sample + " FROM " + attachedDBName + "." + DatabaseLiterals.TableSample + " as sm";
             insertQuery_18.Add(insertQuery_18_sample);
 
+            #endregion
+
+            #region F_MINERALIZATION_ALTERATION
             #endregion
 
             return insertQuery_18;

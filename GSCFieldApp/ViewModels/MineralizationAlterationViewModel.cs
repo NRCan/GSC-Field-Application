@@ -176,8 +176,7 @@ namespace GSCFieldApp.ViewModels
             mineralAltModel.MAID = _mineralAltID; //Prime key
             mineralAltModel.MAName = _mineralAltAlias;
             mineralAltModel.MANotes = _mineralAltNote;
-            mineralAltModel.MAParentTable = Dictionaries.DatabaseLiterals.TableStation;
-            mineralAltModel.MAParentID = _mineralAltParentID;
+            mineralAltModel.MAStationID = _mineralAltParentID;
 
             //process list of values so they are concatenated.
             ConcatenatedCombobox ccBox = new ConcatenatedCombobox();

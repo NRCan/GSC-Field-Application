@@ -274,11 +274,13 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldMineralAlterationModeDeprecated = "M_MODE";//Version 1.0 deprecated
         public const string FieldMineralAlterationDistrubute = "DISTRIBUTE";//Version 1.0
         public const string FieldMineralAlterationNotes = "NOTES";//Version 1.0
-        public const string FieldMineralAlterationRelTable = "RELATIONTABLE";//Version 1.0
-        public const string FieldMineralAlterationRelID = "RELATIONID";//Version 1.0
+        public const string FieldMineralAlterationRelTableDeprecated = "RELATIONTABLE";//Version 1.0 deprecated
+        public const string FieldMineralAlterationRelIDDeprecated = "RELATIONID";//Version 1.0 deprecated
         public const string FieldMineralAlterationPhase = "PHASE"; //Version 1.6
         public const string FieldMineralAlterationTexture = "TEXTSTRUC"; //Version 1.6
         public const string FieldMineralAlterationFacies = "ALTERATION_FACIES"; //Version 1.6
+        public const string FieldMineralAlterationStationID = "STATIONID"; //Version 1.8
+        public const string FieldMineralAlterationEarthmatID = "EARTHMATID"; //Version 1.8
 
         public const string FieldEnvID = "ENVIRONID"; //Version 1.6
         public const string FieldEnvName = "ENVIRONIDNAME"; //Version 1.6

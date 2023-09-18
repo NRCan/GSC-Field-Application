@@ -924,7 +924,7 @@ namespace GSCFieldApp.ViewModels
                     if (_selectedRelatedTable == DatabaseLiterals.TableMineralAlteration)
                     {
                         string filterMASelectJoin = "Select * from " + DatabaseLiterals.TableMineralAlteration + " join " + DatabaseLiterals.TableStation;
-                        string filterMAWhere = " on " + DatabaseLiterals.TableMineralAlteration + "." + DatabaseLiterals.FieldMineralAlterationRelID + " = " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = " + processedStationID;
+                        string filterMAWhere = " on " + DatabaseLiterals.TableMineralAlteration + "." + DatabaseLiterals.FieldMineralAlterationStationID + " = " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = " + processedStationID;
                         List<object> relatedMA = dataAcess.ReadTable(maModel.GetType(), filterMASelectJoin + filterMAWhere);
                         IEnumerable<MineralAlteration> mineralizationAlterations = relatedMA.Cast<MineralAlteration>();
                         foreach (MineralAlteration ma in mineralizationAlterations)

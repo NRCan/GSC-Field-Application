@@ -124,7 +124,7 @@ namespace GSCFieldApp.Models
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
 
 
-                //Revert shcema 1. changes
+                //Revert shcema 1.8 changes
                 List<string> sampleFieldList170 = new List<string>();
                 sampleFieldList170.AddRange(sampleFieldListDefault);
                 sampleFieldList170.Remove(DatabaseLiterals.FieldSampleIsBlank);

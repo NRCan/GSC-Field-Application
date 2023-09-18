@@ -1030,7 +1030,7 @@ namespace GSCFieldApp.ViewModels
                 //Querying with Linq
                 List<object> maTableRaw = dAccess.ReadTable(mineralAltModel.GetType(), null);
                 IEnumerable<MineralAlteration> maTable = maTableRaw.Cast<MineralAlteration>(); //Cast to proper list type
-                IEnumerable<MineralAlteration> maParentStations = from ma in maTable where ma.MAParentID == statID select ma;
+                IEnumerable<MineralAlteration> maParentStations = from ma in maTable where ma.MAStationID == statID select ma;
 
                 if (maParentStations.Count() != 0)
                 {
@@ -1053,7 +1053,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldMineralAlterationID,
                             GenericAliasName = currentMinealAlt.MAName,
 
-                            ParentID = currentMinealAlt.MAParentID, //TO keep the link with location table
+                            ParentID = currentMinealAlt.MAStationID, //TO keep the link with location table
                             ParentTableName = DatabaseLiterals.TableStation, //To keep the link with location table.
 
                             MainID = currentReport.ParentID
@@ -2137,7 +2137,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of minerals from parent
                 IEnumerable<int> earthFromStation = from e in earthTable join stat in stationTable on e.EarthMatStatID equals stat.StationID where stat.StationID == _reportDetailedStation[_reportStationIndex].GenericID select e.EarthMatID;
-                IEnumerable<int> mineralizationAlterationFromStation = from ma in maTable join stat in stationTable on ma.MAParentID equals stat.StationID where stat.StationID == _reportDetailedStation[_reportStationIndex].GenericID select ma.MAID;
+                IEnumerable<int> mineralizationAlterationFromStation = from ma in maTable join stat in stationTable on ma.MAStationID equals stat.StationID where stat.StationID == _reportDetailedStation[_reportStationIndex].GenericID select ma.MAID;
 
                 //Get resulting sample class from previous list of earthmat ids
                 IEnumerable<Mineral> minParent = from smp in mineralTable join e2 in earthTable on smp.MineralEMID equals e2.EarthMatID where earthFromStation.Contains(e2.EarthMatID) select smp;

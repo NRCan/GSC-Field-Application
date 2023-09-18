@@ -805,7 +805,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Querying with Linq
             List<object> maTableRaw = dAccess.ReadTable(minAlterationModel.GetType(), null);
             IEnumerable<MineralAlteration> maTable = maTableRaw.Cast<MineralAlteration>(); //Cast to proper list type
-            IEnumerable<string> maParentStations = from ma in maTable where ma.MAParentID == parentID orderby ma.MAName descending select ma.MAName;
+            IEnumerable<string> maParentStations = from ma in maTable where ma.MAStationID == parentID orderby ma.MAName descending select ma.MAName;
 
             int startingNumber = 1;
             string startingNumberStr = string.Empty;
@@ -833,7 +833,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleMAString = parentAlias + prefix + startingNumberStr;
 
                     //Find existing
-                    IEnumerable<MineralAlteration> existingMA = from ma2 in maTable where ma2.MAParentID == parentID && ma2.MAName == finaleMAString select ma2;
+                    IEnumerable<MineralAlteration> existingMA = from ma2 in maTable where ma2.MAStationID == parentID && ma2.MAName == finaleMAString select ma2;
 
                     if (existingMA.Count() == 0 || existingMA == null)
                     {
