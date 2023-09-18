@@ -43,6 +43,8 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _docType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDocType = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _category = new ObservableCollection<Themes.ComboBoxItem>();
+        private ObservableCollection<Themes.ComboBoxItem> _scaledir = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedScaleDir = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _categoryValues = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedCategory = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _relatedTable = new ObservableCollection<Themes.ComboBoxItem>();
@@ -229,6 +231,8 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> DocType { get { return _docType; } set { _docType = value; } }
         public string SelectedDocType { get { return _selectedDocType; } set { _selectedDocType = value; } }
 
+        public ObservableCollection<Themes.ComboBoxItem> ScaleDirection { get { return _scaledir; } set { _scaledir = value; } }
+        public string SelectedScaleDir { get { return _selectedScaleDir; } set { _selectedScaleDir = value; } }
         public ObservableCollection<Themes.ComboBoxItem> Category { get { return _category; } set { _category = value; } }
         public ObservableCollection<Themes.ComboBoxItem> CategoryValues { get { return _categoryValues; } set { _categoryValues = value; } }
         public string SelectedCategory { get { return _selectedCategory; } set { _selectedCategory = value; } }
@@ -291,6 +295,7 @@ namespace GSCFieldApp.ViewModels
             FillDocumentType();
             FillRelatedTable();
             FillRelatedIDs();
+            FillScaleDirections();
 
             RaisePropertyChanged("SelectedRelatedID");
             RaisePropertyChanged("SelectedRelatedTable");
@@ -400,7 +405,10 @@ namespace GSCFieldApp.ViewModels
             {
                 documentModel.Category = SelectedCategory;
             }
-
+            if (SelectedScaleDir != null)
+            {
+                documentModel.ScaleDirection = SelectedScaleDir;
+            }
             if (SelectedCategory != null)
             {
                 documentModel.Category = concat.PipeValues(_categoryValues); //process list of values so they are concatenated.
@@ -706,6 +714,23 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will fill the document type combobox
         /// </summary>
+        private void FillScaleDirections()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldDocumentScaleDirection;
+            string tableName = Dictionaries.DatabaseLiterals.TableDocument;
+            _scaledir = new ObservableCollection<Themes.ComboBoxItem>(accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedScaleDir));
+
+            //Update UI
+            RaisePropertyChanged("ScaleDirection");
+            RaisePropertyChanged("SelectedScaleDir");
+
+
+        }
+
+        /// <summary>
+        /// Will fill the document type combobox
+        /// </summary>
         private void FillDocumentType()
         {
             //Init.
@@ -970,6 +995,7 @@ namespace GSCFieldApp.ViewModels
             //_selectedCategory = existingDataDetailDocument.document.Category;
             _selectedDocType = existingDataDetailDocument.document.DocumentType;
             _selectedRelatedTable = existingDataDetailDocument.document.RelatedTable;
+            _selectedScaleDir = existingDataDetailDocument.document.ScaleDirection;
 
             //Create thumbnail if needed
             if (existingDataDetailDocument.document.PhotoFileExists)
@@ -1006,6 +1032,7 @@ namespace GSCFieldApp.ViewModels
 
             //RaisePropertyChanged("SelectedCategory");
             RaisePropertyChanged("SelectedDocType");
+            RaisePropertyChanged("SelectedScaleDir");
 
             if (_documentModeVisibility == Visibility.Visible)
             {

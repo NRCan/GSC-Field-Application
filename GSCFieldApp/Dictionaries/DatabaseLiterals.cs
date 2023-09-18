@@ -203,7 +203,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDocumentType = "DOCUMENTTYPE";//Version 1.0
         public const string FieldDocumentHyperlink = "HYPERLINK";
         public const string FieldDocumentObjLocX = "OBJECTLOCX";
-        public const string FIeldDocumentObjLocY = "OBJECTLOCY";
+        public const string FieldDocumentObjLocY = "OBJECTLOCY";
+        public const string FieldDocumentScaleDirection = "SCALE_DIRECTION"; //Version 1.8
 
         public const string FieldStructureID = "STRUCID";//Version 1.0
         public const string FieldStructureName = "STRUCIDNAME";//Version 1.5

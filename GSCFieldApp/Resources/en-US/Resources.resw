@@ -1773,4 +1773,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="EarthDialogContactRelNote.Text" xml:space="preserve">
     <value>Relation description</value>
   </data>
+  <data name="DocumentScaleDirectionCombobox.Header" xml:space="preserve">
+    <value>Scale Direction</value>
+  </data>
 </root>

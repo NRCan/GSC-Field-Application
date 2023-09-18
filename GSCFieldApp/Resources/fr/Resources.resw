@@ -1768,4 +1768,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="EarthDialogContactRelNote.Text" xml:space="preserve">
     <value>Description de la relation</value>
   </data>
+  <data name="DocumentScaleDirectionCombobox.Header" xml:space="preserve">
+    <value>Direction de l'échelle sur la photo</value>
+  </data>
 </root>

@@ -49,9 +49,11 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDocumentObjLocX)]
         public double? ObjectX { get; set; }
 
-        [Column(DatabaseLiterals.FIeldDocumentObjLocY)]
+        [Column(DatabaseLiterals.FieldDocumentObjLocY)]
         public double? ObjectY { get; set; }
 
+        [Column(DatabaseLiterals.FieldDocumentScaleDirection)]
+        public string ScaleDirection { get; set; }
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
