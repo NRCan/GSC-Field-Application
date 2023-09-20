@@ -21,6 +21,7 @@ using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Template10.Utils;
 using System.Diagnostics;
+using System.Runtime.ConstrainedExecution;
 //Added By jamel
 //using OSGeo.GDAL;
 //using OSGeo.OGR;
@@ -659,6 +660,34 @@ namespace GSCFieldApp.ViewModels
 
             }
 
+        }
+        public void DeleteButton_Click()
+        {
+
+            if (_projectCollection != null && _selectedProjectIndex != -1)
+            {
+                FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
+                int selectedId = selectedBook.metadataForProject.MetaID;
+                int bookToDelete = _projectCollection.IndexOf(_projectCollection.FirstOrDefault(item => item.metadataForProject.MetaID == selectedId));
+
+                if (bookToDelete != -1)
+                {
+                    _projectCollection.RemoveAt(bookToDelete);
+                }
+                else
+                {
+
+                }
+                    ValidateDeleteProject(this);
+
+            }
+
+        }
+
+
+        public void EditButton_Click()
+        { 
+        
         }
 
         /// <summary>
