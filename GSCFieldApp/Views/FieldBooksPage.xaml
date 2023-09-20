@@ -66,8 +66,8 @@
                     </TextBlock>
 
                     <Image x:Uid="ProjectListLogo" Height="100" Width="100" Source="ms-appx:///Assets/Square150x150Logo.scale-200.png" Grid.Row="7" HorizontalAlignment="Center"/>
-                    <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Click="{x:Bind ViewModel.DeleteButton_Click}"/>
-                    <Button x:Name="EditButton" Content="Edit" HorizontalAlignment="Right" VerticalAlignment="Center" Click="{x:Bind ViewModel.EditButton_Click}"/>
+                    <!--<Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Click="{x:Bind ViewModel.DeleteButton_Click}"/>
+                    <Button x:Name="EditButton" Content="Edit" HorizontalAlignment="Right" VerticalAlignment="Center" Click="{x:Bind ViewModel.EditButton_Click}"/> -->
                     <Rectangle Grid.RowSpan="8" Width="2 " Grid.Column="0" Margin="-5,0,0,0"  HorizontalAlignment="Left" Fill="{StaticResource GSCHammerColorBrush}"/>
 
                 </Grid>
@@ -148,8 +148,8 @@
                     IsSwipeEnabled="False" AllowDrop="False" ItemContainerStyle="{StaticResource ReportPageGridViewBookItems}"
                     ItemTemplate="{StaticResource ProjectListTemplate}"
                     ItemsSource="{x:Bind ViewModel.ProjectCollection, Mode=OneWay}" 
-                    SelectedIndex="{x:Bind ViewModel.SelectedProjectIndex, Mode=TwoWay}"
-                    Tapped="{x:Bind ViewModel.projectOpenButton_Tapped}">
+                    SelectedIndex="{x:Bind ViewModel.SelectedProjectIndex, Mode=TwoWay}">
+            <!--Tapped="{x:Bind ViewModel.projectOpenButton_Tapped}"-->
                     <!--ItemClick="OnGridViewItemClicked"-->
 
 

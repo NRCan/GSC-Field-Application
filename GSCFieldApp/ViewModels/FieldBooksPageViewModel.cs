@@ -661,34 +661,34 @@ namespace GSCFieldApp.ViewModels
             }
 
         }
-        public void DeleteButton_Click()
-        {
+        //public void DeleteButton_Click()
+        //{
 
-            if (_projectCollection != null && _selectedProjectIndex != -1)
-            {
-                FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
-                int selectedId = selectedBook.metadataForProject.MetaID;
-                int bookToDelete = _projectCollection.IndexOf(_projectCollection.FirstOrDefault(item => item.metadataForProject.MetaID == selectedId));
+            //if (_projectCollection != null && _selectedProjectIndex != -1)
+            //{
+                //FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
+                //int selectedId = selectedBook.metadataForProject.MetaID;
+                //int bookToDelete = _projectCollection.IndexOf(_projectCollection.FirstOrDefault(item => item.metadataForProject.MetaID == selectedId));
 
-                if (bookToDelete != -1)
-                {
-                    _projectCollection.RemoveAt(bookToDelete);
-                }
-                else
-                {
+                //if (bookToDelete != -1)
+                //{
+                //    _projectCollection.RemoveAt(bookToDelete);
+                //}
+                //else
+                //{
 
-                }
-                    ValidateDeleteProject(this);
+                //}
+                //    ValidateDeleteProject(this);
 
-            }
+            //}
 
-        }
+        //}
 
 
-        public void EditButton_Click()
-        { 
+        //public void EditButton_Click()
+        //{ 
         
-        }
+        //}
 
         /// <summary>
         /// This button will delete the selected project/field book from the local state folder.
