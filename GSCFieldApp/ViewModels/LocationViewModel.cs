@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class LocationViewModel: ViewModelBase
+    public class LocationViewModel : ViewModelBase
     {
         #region INITIALIZATION
 
@@ -59,7 +59,8 @@ namespace GSCFieldApp.ViewModels
 
         public string LocationAlias { get { return _locationAlias; } set { _locationAlias = value; } }
         public int LocationID { get { return _locationID; } set { _locationID = value; } }
-        public string LocationLatitude {
+        public string LocationLatitude
+        {
             get { return _locationLatitude; }
             set
             {
@@ -186,7 +187,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("LocationEasting");
             RaisePropertyChanged("LocationNorthing");
             RaisePropertyChanged("LocationNTS");
-            RaisePropertyChanged("SelectedLocationDatums"); 
+            RaisePropertyChanged("SelectedLocationDatums");
 
             doLocationUpdate = true;
         }
@@ -286,7 +287,7 @@ namespace GSCFieldApp.ViewModels
         {
             if (_readonlyFields)
             {
-                _readonlyFields = false; 
+                _readonlyFields = false;
             }
             else
             {
@@ -389,7 +390,7 @@ namespace GSCFieldApp.ViewModels
                         SpatialReference inSR = SpatialReferences.Wgs84; //Default
                         if (selectedEPGS > 26900 && selectedEPGS < 27000)
                         {
-                            inSR = SpatialReference.Create(4617); 
+                            inSR = SpatialReference.Create(4617);
                         }
 
                         MapPoint geoPoint = new MapPoint(x_value, y_value, inSR);
@@ -399,7 +400,7 @@ namespace GSCFieldApp.ViewModels
                         int y = (int)projPoint.Y;
                         int x = (int)projPoint.X;
                         _locationNorthing = y.ToString();
-                        _locationEasting= x.ToString();
+                        _locationEasting = x.ToString();
 
 
 

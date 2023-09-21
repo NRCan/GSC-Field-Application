@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GSCFieldApp.Services.DatabaseServices;
+﻿using SpatialiteSharp;
 using System.Data.SQLite;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Collections.ObjectModel;
-using SpatialiteSharp;
-using System.Transactions;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -22,7 +12,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// along with sqlite-net-pcl. 
         /// </summary>
         public GeopackageService()
-        { 
+        {
 
         }
 
@@ -79,7 +69,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     transaction.Commit();
                 }
-                
+
                 db.Close();
             }
 

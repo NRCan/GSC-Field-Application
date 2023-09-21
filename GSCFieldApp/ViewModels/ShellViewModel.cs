@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Windows.Storage;
-using Template10.Mvvm;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Services.FileServices;
+using System;
+using System.Collections.Generic;
+using Template10.Mvvm;
+using Windows.Storage;
 using Windows.UI.Xaml;
-using GSCFieldApp.Dictionaries;
+using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class ShellViewModel: ViewModelBase
+    public class ShellViewModel : ViewModelBase
     {
         //UI
         private bool _shellEnableMapCommand = true;
@@ -81,7 +81,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     inMemoryYoungestPhoto = DateTimeOffset.MinValue;
                 }
-                
+
             }
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName) != null)
             {
@@ -111,13 +111,13 @@ namespace GSCFieldApp.ViewModels
                     {
                         FilesToBackup.Add(files);
                     }
-                    
+
                 }
 
                 //Get photos
                 if (files.Name.ToLower().Contains(".jpg"))
                 {
-                    hasPhotos = true; 
+                    hasPhotos = true;
                     if (files.DateCreated >= inMemoryYoungestPhoto)
                     {
                         //Copy all photos
@@ -154,13 +154,13 @@ namespace GSCFieldApp.ViewModels
                         newList.Add(sf);
                     }
 
-                    
+
 
                 }
 
                 //Zip 
                 string outputArchivePath = await fs.AddFilesToZip(newList);
-                
+
                 //Keep youngest photo in memory
                 localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest, youngestPhoto);
 
@@ -175,10 +175,10 @@ namespace GSCFieldApp.ViewModels
                         await fsToDelete.DeleteAsync();
                         break;
                     }
-                    
+
                 }
 
-                
+
             }
             else if (FilesToBackup.Count == 1 && FilesToBackup[0].Name.Contains(DatabaseLiterals.DBTypeSqlite))
             {
@@ -201,7 +201,7 @@ namespace GSCFieldApp.ViewModels
                     endProcessDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
                     ContentDialogResult cdr = await endProcessDialog.ShowAsync();
                 }
-                
+
             }
             else if (FilesToBackup.Count == 0)
             {
@@ -220,7 +220,7 @@ namespace GSCFieldApp.ViewModels
             //Show empty backed up photo warning
             if (photoCount == 0 && hasPhotos)
             {
-                
+
                 var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
                 ContentDialog warningNoPhotoBackup = new ContentDialog()
                 {

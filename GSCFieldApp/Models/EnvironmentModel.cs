@@ -1,10 +1,8 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GSCFieldApp.Dictionaries;
-using SQLite;
 
 namespace GSCFieldApp.Models
 {
@@ -26,9 +24,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEnvAzim)]
         public int EnvAzim { get; set; }
         [Column(DatabaseLiterals.FieldEnvDrainage)]
-        public string EnvDrainage{ get; set; }
+        public string EnvDrainage { get; set; }
         [Column(DatabaseLiterals.FieldEnvPermIndicator)]
-        public string EnvPermIndicator{ get; set; }
+        public string EnvPermIndicator { get; set; }
         [Column(DatabaseLiterals.FieldEnvGroundPattern)]
         public string EnvGroundPattern { get; set; }
         [Column(DatabaseLiterals.FieldEnvGroundIce)]

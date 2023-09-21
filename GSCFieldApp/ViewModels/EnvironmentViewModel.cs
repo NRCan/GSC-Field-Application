@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Template10.Mvvm;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using System.Collections.ObjectModel;
-using GSCFieldApp.Dictionaries;
-using System.Runtime.ConstrainedExecution;
 using GSCFieldApp.Themes;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Template10.Mvvm;
+using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -46,7 +42,7 @@ namespace GSCFieldApp.ViewModels
         private string _selectedEnvironmentGroundCover = string.Empty;
 
         private ObservableCollection<Themes.ComboBoxItem> _environmentGroundIce = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedEnvironmentGroundIce= string.Empty;
+        private string _selectedEnvironmentGroundIce = string.Empty;
 
         private ObservableCollection<Themes.ComboBoxItem> _environmentGroundPattern = new ObservableCollection<Themes.ComboBoxItem>();
         private ObservableCollection<Themes.ComboBoxItem> _environmentGroundPatternValues = new ObservableCollection<Themes.ComboBoxItem>();
@@ -81,7 +77,7 @@ namespace GSCFieldApp.ViewModels
             FillGroundIce();
             FillGroundPattern();
 
-            _environmentAlias = idCalculator.CalculateEnvironmentAlias(inReportModel.station.StationID,inReportModel.station.StationAlias);
+            _environmentAlias = idCalculator.CalculateEnvironmentAlias(inReportModel.station.StationID, inReportModel.station.StationAlias);
 
         }
 
@@ -91,7 +87,7 @@ namespace GSCFieldApp.ViewModels
         public int EnvironmentID { get { return _environmentid; } set { _environmentid = value; } }
         public string Alias { get { return _environmentAlias; } set { _environmentAlias = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
-        public string Slope 
+        public string Slope
         {
             get
             {
@@ -167,7 +163,7 @@ namespace GSCFieldApp.ViewModels
 
                 if (result)
                 {
-                    
+
                     _depth = value;
                     RaisePropertyChanged("Depth");
 
@@ -189,11 +185,11 @@ namespace GSCFieldApp.ViewModels
 
         public ObservableCollection<Themes.ComboBoxItem> EnvironmentDrainage { get { return _environmentDrainage; } set { _environmentDrainage = value; } }
         public string SelectedEnvironmentDrainage { get { return _selectedEnvironmentDrainage; } set { _selectedEnvironmentDrainage = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EnvironmentPermafrost{ get { return _environmentPermafrost; } set { _environmentPermafrost = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> EnvironmentPermafrost { get { return _environmentPermafrost; } set { _environmentPermafrost = value; } }
         public string SelectedEnvironmentPermafrost { get { return _selectedEnvironmentPermafrost; } set { _selectedEnvironmentPermafrost = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EnvironmentExposureType { get { return _environmentExposureType; } set { _environmentExposureType = value; } }
         public string SelectedEnvironmentExposureType { get { return _selectedEnvironmentExposureType; } set { _selectedEnvironmentExposureType = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> EnvironmentGroundCover{ get { return _environmentGroundCover; } set { _environmentGroundCover = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> EnvironmentGroundCover { get { return _environmentGroundCover; } set { _environmentGroundCover = value; } }
         public string SelectedEnvironmentGroundCover { get { return _selectedEnvironmentGroundCover; } set { _selectedEnvironmentGroundCover = value; } }
         public ObservableCollection<Themes.ComboBoxItem> EnvironmentGroundIce { get { return _environmentGroundIce; } set { _environmentGroundIce = value; } }
         public string SelectedEnvironmentGroundIce { get { return _selectedEnvironmentGroundIce; } set { _selectedEnvironmentGroundIce = value; } }

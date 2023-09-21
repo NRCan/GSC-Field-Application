@@ -68,7 +68,7 @@ namespace GSCFieldApp.Themes
                 {
                     ExpandedChanged();
                     setExpandState(value);
-                    
+
                 }
 
             }
@@ -116,7 +116,7 @@ namespace GSCFieldApp.Themes
 
             //Single click/tap on header
             relMainPanel = (Windows.UI.Xaml.Controls.RelativePanel)GetTemplateChild("HeaderPanel");
-            if (relMainPanel!=null)
+            if (relMainPanel != null)
             {
                 relMainPanel.Tapped += (object sender, TappedRoutedEventArgs e) =>
                 {
@@ -174,13 +174,13 @@ namespace GSCFieldApp.Themes
         }
         public void setExpandState(bool state)
         {
-            if (toggleExpander!=null)
+            if (toggleExpander != null)
             {
                 toggleExpander.IsChecked = state;
                 changeVisualState(_useTransitions);
             }
-            
-            
+
+
         }
 
     }

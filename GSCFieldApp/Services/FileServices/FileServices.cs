@@ -1,16 +1,16 @@
-﻿using GSCFieldApp.Services.DatabaseServices;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services.DatabaseServices;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Controls;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.IO.Compression;
 using Windows.UI.Xaml;
-using GSCFieldApp.Dictionaries;
+using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.Services.FileServices
 {
@@ -26,7 +26,7 @@ namespace GSCFieldApp.Services.FileServices
         /// <param name="filePath"></param>
         public async void DeleteLocalStateFile(string filePath)
         {
-            if (filePath!=string.Empty)
+            if (filePath != string.Empty)
             {
                 try
                 {
@@ -61,8 +61,8 @@ namespace GSCFieldApp.Services.FileServices
                 {
 
                 }
-                    
-                
+
+
 
             }
         }
@@ -82,7 +82,7 @@ namespace GSCFieldApp.Services.FileServices
             string currentDate = String.Format("{0:yyyy_MM_dd_HH'h'mm}", DateTime.Now);
 
             //Get currennt geolcode
-            if (userCode == string.Empty && localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode)!=null)
+            if (userCode == string.Empty && localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode) != null)
             {
                 userCode = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
             }
@@ -93,7 +93,7 @@ namespace GSCFieldApp.Services.FileServices
             }
 
             //Calculate new output database name
-            outputName = projectName + "_" + currentDate + "_" + userCode ;
+            outputName = projectName + "_" + currentDate + "_" + userCode;
 
             return outputName;
 
@@ -126,7 +126,7 @@ namespace GSCFieldApp.Services.FileServices
             }
             StorageFile fileToRead = await StorageFile.GetFileFromPathAsync(currentDBPath);
 
-            if (fileToRead!=null)
+            if (fileToRead != null)
             {
                 IBuffer currentDBBuffer = await Windows.Storage.FileIO.ReadBufferAsync(fileToRead as IStorageFile);
                 byte[] currentDBByteArray = currentDBBuffer.ToArray();
@@ -183,14 +183,14 @@ namespace GSCFieldApp.Services.FileServices
                         ContentDialogResult cdr = await endProcessDialog.ShowAsync();
                     }
 
-                    
+
                 }
             }
 
             if (savefile != null && savefile.Path != null)
             {
                 outputSaveFilePath = savefile.Path;
-            } 
+            }
 
             return outputSaveFilePath;
 
@@ -308,7 +308,7 @@ namespace GSCFieldApp.Services.FileServices
                     {
                         archive.CreateEntryFromFile(f.Path, f.Name);
                     }
-                    
+
                 }
             }
 

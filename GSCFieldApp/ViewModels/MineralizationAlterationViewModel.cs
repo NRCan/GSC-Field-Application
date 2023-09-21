@@ -1,16 +1,16 @@
 ﻿using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Themes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Template10.Mvvm;
-using GSCFieldApp.Themes;
 using Windows.UI.Xaml.Controls;
-using System;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class MineralizationAlterationViewModel: ViewModelBase
+    public class MineralizationAlterationViewModel : ViewModelBase
     {
         #region INITIALIZATION
 
@@ -261,7 +261,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("MineralAltPhase");
-            RaisePropertyChanged("SelectedMineralAltPhase"); 
+            RaisePropertyChanged("SelectedMineralAltPhase");
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("MineralAltMA");
-            RaisePropertyChanged("SelectedMineralAltMA"); 
+            RaisePropertyChanged("SelectedMineralAltMA");
         }
 
         /// <summary>

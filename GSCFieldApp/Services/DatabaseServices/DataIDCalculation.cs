@@ -1,9 +1,8 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
-using Windows.ApplicationModel.Store.Preview.InstallControl;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -27,7 +26,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         public DataIDCalculation()
         {
-            
+
         }
 
         #region MODEL BASE
@@ -52,7 +51,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             string locAlias = inStationAlias;
 
-            if (inStationAlias!=string.Empty)
+            if (inStationAlias != string.Empty)
             {
                 locAlias = locAlias + "XY";
             }
@@ -197,11 +196,11 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 return String.Empty;
             }
-            
 
 
 
-            
+
+
 
         }
 
@@ -219,7 +218,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string currentMetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
 
             //Build query to get a waypoint term count
-            string querySelect= "SELECT s." + Dictionaries.DatabaseLiterals.FieldStationAlias + " ";
+            string querySelect = "SELECT s." + Dictionaries.DatabaseLiterals.FieldStationAlias + " ";
             string queryFrom = "FROM " + Dictionaries.DatabaseLiterals.TableStation + " as s ";
             string queryWhere = "WHERE " + "s." + Dictionaries.DatabaseLiterals.FieldStationObsType + " LIKE '%" + waypointVocabCode + "%' ";
             string queryOrderBy = "ORDER BY s." + Dictionaries.DatabaseLiterals.FieldStationAlias + " DESC LIMIT 1";
@@ -289,7 +288,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Detect last earthmat letter equivalent number and add 1 to it.
             if (eartmatParentStations.Count() > 0)
             {
-                string lastAlias = eartmatParentStations.ToList()[eartmatParentStations.Count() - 1].ToString(); 
+                string lastAlias = eartmatParentStations.ToList()[eartmatParentStations.Count() - 1].ToString();
                 string lastCharacter = lastAlias.ToList()[lastAlias.Length - 1].ToString();
 
                 //Find if last two are characters
@@ -392,7 +391,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleSampleString = parentAlias + newAlias;
 
                     //Find existing
-                    IEnumerable<Sample> existingSamples= from s in sampleTable where s.SampleEarthmatID == parentID && s.SampleName == finaleSampleString select s;
+                    IEnumerable<Sample> existingSamples = from s in sampleTable where s.SampleEarthmatID == parentID && s.SampleName == finaleSampleString select s;
                     if (existingSamples.Count() == 0 || existingSamples == null)
                     {
                         breaker = false;
@@ -669,7 +668,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             //Querying with Linq
             List<object> fossilTableRaw = dAccess.ReadTable(fossilModel.GetType(), null);
-            IEnumerable<Fossil>fossilTable = fossilTableRaw.Cast<Fossil>(); //Cast to proper list type
+            IEnumerable<Fossil> fossilTable = fossilTableRaw.Cast<Fossil>(); //Cast to proper list type
             IEnumerable<string> fossilParentEarth = from e in fossilTable where e.FossilParentID == parentID orderby e.FossilIDName descending select e.FossilIDName;
 
             int newID = 1; //Incrementing step
@@ -736,7 +735,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix;
 
             //Detect last sample number and add 1 to it.
-            if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) !=null)
+            if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) != null)
             {
                 string lastAlias = mineralParentEarth.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
                 string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //Sample only has two digits id in the alias
@@ -966,7 +965,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     id = alphaList[numID - 1];
                 }
-                
+
             }
             else
             {
@@ -1022,10 +1021,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             int equivalentNumber = -1;
             string iterativeString = string.Empty;
 
-            while (alphaCharacter!= iterativeString)
+            while (alphaCharacter != iterativeString)
             {
                 equivalentNumber++;
-                iterativeString = CalculateAlphabeticID(true, equivalentNumber); 
+                iterativeString = CalculateAlphabeticID(true, equivalentNumber);
             }
 
             return equivalentNumber;
@@ -1056,7 +1055,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 return Guid.NewGuid().GetHashCode();
             }
-            
+
         }
         #endregion
     }

@@ -22,7 +22,7 @@ namespace GSCFieldApp.Views
 {
     public sealed partial class StructureDialog : UserControl
     {
-        public  StructureViewModel strucViewModel { get; set; }
+        public StructureViewModel strucViewModel { get; set; }
         public FieldNotes parentViewModel { get; set; }
 
         public bool isAQuickStructure = false;
@@ -54,7 +54,7 @@ namespace GSCFieldApp.Views
             //#258 bringing back some old patch on save button
             this.structSaveButton.GotFocus -= StructSaveButton_GotFocus;
             this.structSaveButton.GotFocus += StructSaveButton_GotFocus;
-            
+
         }
 
         private void StructSaveButton_GotFocus(object sender, RoutedEventArgs e)
@@ -109,7 +109,7 @@ namespace GSCFieldApp.Views
                 this.pageHeader.Text = this.pageHeader.Text + "  " + this.strucViewModel.StructName;
             }
 
-            
+
 
         }
 
@@ -155,7 +155,7 @@ namespace GSCFieldApp.Views
         private void StructureRelatedCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            if (cb.SelectedValue != null && cb.SelectedValue.ToString() != string.Empty 
+            if (cb.SelectedValue != null && cb.SelectedValue.ToString() != string.Empty
                 && cb.SelectedValue.ToString() != DatabaseLiterals.picklistNACode)
             {
                 int strucID = int.Parse(cb.SelectedValue.ToString());
@@ -278,7 +278,7 @@ namespace GSCFieldApp.Views
         public void StructureAzimuthNumBox_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
             UpdateSymAng();
-            
+
         }
 
         private void StructureDipNumBox_TextChanged(object sender, TextBoxTextChangingEventArgs e)
@@ -476,7 +476,7 @@ namespace GSCFieldApp.Views
             {
                 //Nullify dip
                 strucViewModel.StructDip = string.Empty;
-                
+
             }
 
 

@@ -1,7 +1,7 @@
-﻿using Windows.UI.Xaml;
+﻿using GSCFieldApp.ViewModels;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using GSCFieldApp.ViewModels;
 
 // The Content Dialog item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,7 +31,7 @@ namespace GSCFieldApp.Views
             this.Loaded += ContentDialogSemanticZoom_Loaded;
         }
 
-        
+
         private void ContentDialogSemanticZoom_Loaded(object sender, RoutedEventArgs e)
         {
             var collectionGroups = Collection.View.CollectionGroups;

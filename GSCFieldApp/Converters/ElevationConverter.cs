@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Data;
 
 namespace GSCFieldApp.Converters
 {
-    public class ElevationConverter: IValueConverter
+    public class ElevationConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

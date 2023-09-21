@@ -1,15 +1,15 @@
-﻿using System;
+﻿using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
+using System;
 using System.IO;
+using System.Threading.Tasks;
+using Template10.Common;
+using Template10.Controls;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Template10.Common;
-using Template10.Controls;
-using GSCFieldApp.ViewModels;
-using System.Threading.Tasks;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Models;
-using Windows.Storage;
 
 namespace GSCFieldApp.Views
 {
@@ -48,8 +48,8 @@ namespace GSCFieldApp.Views
             //#258 bringing back some old patch on save button
             this.userInfoSaveButton.GotFocus -= userInfoSaveButton_GotFocusAsync;
             this.userInfoSaveButton.GotFocus += userInfoSaveButton_GotFocusAsync; //bug 306
-            
-            
+
+
         }
 
         private void UserInfoPart_Loading(FrameworkElement sender, object args)
@@ -80,7 +80,7 @@ namespace GSCFieldApp.Views
             sender.SelectionLength = 0;
         }
 
-        
+
 
         #region SAVE
 
@@ -146,9 +146,9 @@ namespace GSCFieldApp.Views
                 };
 
                 await mandatoryFields.ShowAsync();
-                
+
             }
-            
+
             this.userInfoSaveButton.GotFocus += userInfoSaveButton_GotFocusAsync;
         }
 
@@ -192,7 +192,7 @@ namespace GSCFieldApp.Views
                 await DeleteInitBook();
             }
 
-           
+
 
         }
 
@@ -240,12 +240,12 @@ namespace GSCFieldApp.Views
                 {
 
                 }
-                
+
                 fileStillExists = Directory.Exists(inSF.Path); ;
             }
 
             return fileStillExists;
-            
+
         }
 
 

@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Input;
 
 namespace GSCFieldApp.Views
 {
-    public sealed partial class PaleoflowDialog: UserControl
+    public sealed partial class PaleoflowDialog : UserControl
     {
         public PaleoflowViewModel pflowModel { get; set; }
         public FieldNotes pflowParentViewModel { get; set; }

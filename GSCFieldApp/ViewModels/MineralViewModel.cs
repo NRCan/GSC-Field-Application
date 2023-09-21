@@ -6,12 +6,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Template10.Mvvm;
-using Windows.Gaming.Input.ForceFeedback;
 using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class MineralViewModel: ViewModelBase
+    public class MineralViewModel : ViewModelBase
     {
         #region INITIALIZATION
 
@@ -34,7 +33,7 @@ namespace GSCFieldApp.ViewModels
 
         private readonly Dictionary<int, int> _mineralResidualModes = new Dictionary<int, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
         private readonly List<string> _minerals = new List<string>(); //Will contain a list of all minerals related to current parent earthmat. To catch duplicates
-    
+
         //UI interaction
         public bool doMineralUpdate = false;
 
@@ -143,7 +142,7 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> MineralFormHabit { get { return _mineralFormHabit; } set { _mineralFormHabit = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralFormHabitValues { get { return _mineralFormHabitValues; } set { _mineralFormHabitValues = value; } }
         public string SelectedMineralFormHabit { get { return _selectedMineralFormHabit; } set { _selectedMineralFormHabit = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> MineralOccur{ get { return _mineralOccur; } set { _mineralOccur = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> MineralOccur { get { return _mineralOccur; } set { _mineralOccur = value; } }
         public string SelectedMineralOccur { get { return _selectedMineralOccur; } set { _selectedMineralOccur = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralModeText { get { return _mineralModeText; } set { _mineralModeText = value; } }
         public string SelectedMineralModeText { get { return _selectedMineralModeText; } set { _selectedMineralModeText = value; } }
@@ -235,7 +234,7 @@ namespace GSCFieldApp.ViewModels
                 _mineralParentName = DatabaseLiterals.TableMineralAlteration;
                 _mineralMAID = existingDataDetailMineral.mineral.MineralMAID;
             }
-            
+
             _mineralAlias = existingDataDetailMineral.mineral.MineralIDName;
             _mineralName = existingDataDetailMineral.mineral.MineralName;
 
@@ -287,7 +286,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedMineralFormHabit");
             RaisePropertyChanged("SelectedMineralOccur");
             RaisePropertyChanged("SelectedMineralModeText");
-            
+
 
             doMineralUpdate = true;
         }
@@ -302,14 +301,14 @@ namespace GSCFieldApp.ViewModels
 
             //Get current class information and add to model
             mineralModel.MineralID = _mineralID; //Prime key
-            
+
             mineralModel.MineralIDName = _mineralAlias;
 
-            if (_mineralNote!= null && _mineralNote != String.Empty)
+            if (_mineralNote != null && _mineralNote != String.Empty)
             {
                 mineralModel.MineralNote = _mineralNote;
             }
-            
+
             mineralModel.MineralName = _mineralName;
 
             if (_mineralEMID != 0)
@@ -418,7 +417,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("MineralFormHabit");
-            RaisePropertyChanged("SelectedMineralFormHabit"); 
+            RaisePropertyChanged("SelectedMineralFormHabit");
         }
 
         /// <summary>
@@ -436,7 +435,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("MineralOccur");
-            RaisePropertyChanged("SelectedMineralOccur"); 
+            RaisePropertyChanged("SelectedMineralOccur");
         }
 
         #endregion
@@ -500,7 +499,7 @@ namespace GSCFieldApp.ViewModels
                         }
                     }
 
-                   
+
                 }
 
                 if (_mineralResidualModes.Count() == 0)
@@ -584,7 +583,7 @@ namespace GSCFieldApp.ViewModels
                 Themes.ComboBoxItem senderItem = senderBox.SelectedItem as Themes.ComboBoxItem;
                 CalculateResidual(senderItem.itemValue);
             }
-            
+
         }
 
         /// <summary>

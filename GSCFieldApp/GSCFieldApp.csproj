@@ -28,7 +28,7 @@
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
-    <PackageCertificateThumbprint>2BEF7CE5EC4647A64DCBB60C29D4EE6084BDFC6E</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>CBA022198618BD0066C96B0C29C90B9E29CC85A4</PackageCertificateThumbprint>
     <AppxPackageDir>C:\work data\datacollections\PublishedVersions\</AppxPackageDir>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppInstallerUpdateFrequency>100</AppInstallerUpdateFrequency>

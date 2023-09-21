@@ -11,15 +11,15 @@ namespace GSCFieldApp.Converters
             {
                 return value;
             }
-                
-            else 
+
+            else
             {
                 double inDegree = double.Parse(value.ToString());
                 inDegree = Math.Round(inDegree, 8);
                 return string.Format("{0}°", inDegree.ToString());
             }
 
-            
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

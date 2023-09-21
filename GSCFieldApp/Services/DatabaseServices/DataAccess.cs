@@ -1,22 +1,18 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using SQLite;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
-using GSCFieldApp.Models;
-using static GSCFieldApp.Dictionaries.DatabaseLiterals;
-using Windows.UI.Xaml.Controls;
-using GSCFieldApp.Dictionaries;
-using Windows.UI.Xaml;
-using SQLite;
-using Windows.UI.Core;
 using Windows.ApplicationModel.Resources;
-using System.Diagnostics;
-using SpatialiteSharp;
-using System.Reflection;
-using Esri.ArcGISRuntime.Location;
-using Esri.ArcGISRuntime.Data;
+using Windows.Storage;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 // Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 namespace GSCFieldApp.Services.DatabaseServices
@@ -271,7 +267,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="tableObject"></param>
         public void SaveFromSQLTableObject(ref object tableObject, bool doUpdate)
         {
-           SaveSQLTableObjectFromDB(ref tableObject, doUpdate, DbConnection);
+            SaveSQLTableObjectFromDB(ref tableObject, doUpdate, DbConnection);
         }
 
         /// <summary>
@@ -297,7 +293,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                         if (doUpdate)
                         {
-                            
+
                             // update - Not working version 3.13 SQLite-Net UWP
                             int sucess = inDB.Update(newTableObject);
 
@@ -312,7 +308,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                             int success = inDB.Insert(newTableObject);
                         }
 
-                        
+
                     });
 
                     inDB.Commit();
@@ -498,7 +494,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 SQLiteCommand delCommand = dbConnect.CreateCommand("PRAGMA foreign_keys=ON");
                 delCommand.ExecuteNonQuery();
                 delCommand.CommandText = "DELETE FROM " + tableName + " WHERE " + tableFieldName + " = " + recordIDToDelete + ";";
-    
+
                 delCommand.ExecuteNonQuery();
 
                 dbConnect.Close();
@@ -615,7 +611,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         vocab_querySelect = " v." + vocabFields + " as " + vocabFields;
                     }
-                    
+
                 }
 
             }
@@ -626,10 +622,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
 
             string defaultCreatorsEditors = "'Bedrock Committee', 'GSC Field App', 'Gabriel Huot-Vézina', 'Microsoft default', 'GanFeld', 'Ganfeld', " +
-                "'Janet Campbell', 'Jessey Rice', 'New term', 'Jessey Rice/Janet Campbell', 'Microsoft', " + 
+                "'Janet Campbell', 'Jessey Rice', 'New term', 'Jessey Rice/Janet Campbell', 'Microsoft', " +
                 "'Pierre Brouillette', 'Surficial Committee', 'Surficial Commitee'";
-            
-            insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryCreator + " not in (" + defaultCreatorsEditors + 
+
+            insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryCreator + " not in (" + defaultCreatorsEditors +
                 ") or v." + FieldDictionaryEditor + " not in (" + defaultCreatorsEditors + ") AND (v." +
                 FieldDictionaryTermID + " NOT IN (SELECT v2." + FieldDictionaryTermID + " FROM " + TableDictionary + " as v2))); ";
             queryList.Add(insertQuery_vocab);
@@ -2514,7 +2510,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public List<string> GetUpgradeQueryVersion1_7(string attachedDBName)
         {
-            
+
             ///Schema v 1.7: 
             ///https://github.com/NRCan/GSC-Field-Application/milestone/8
             List<string> insertQuery_17 = new List<string>();
@@ -2548,10 +2544,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                 FieldLocationMetaID, metaView, FieldUserInfoID));
 
             //Get insert query 
-            Tuple<string, string> primeLocation = new Tuple<string, string>(FieldLocationID, ViewGenericLegacyPrimeKey) ;
+            Tuple<string, string> primeLocation = new Tuple<string, string>(FieldLocationID, ViewGenericLegacyPrimeKey);
             Tuple<string, string> foreignLocation = new Tuple<string, string>(FieldUserInfoID, ViewGenericLegacyForeignKey);
 
-            insertQuery_17.Add(GenerateInsertQueriesFromModel(locationFieldList, nullFieldList, TableLocation, 
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(locationFieldList, nullFieldList, TableLocation,
                 primeLocation, foreignLocation, attachedDBName, locationView));
 
             #endregion
@@ -2623,7 +2619,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             Tuple<string, string> primeStructure = new Tuple<string, string>(FieldStructureID, ViewGenericLegacyPrimeKey);
             Tuple<string, string> foreignStructure = new Tuple<string, string>(FieldStructureParentID, ViewGenericLegacyForeignKey);
             string strucView = ViewPrefix + TableStructure;
-            insertQuery_17.Add(GenerateInsertQueriesFromModel(structureFieldList, nullFieldList, TableStructure, 
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(structureFieldList, nullFieldList, TableStructure,
                 primeStructure, foreignStructure, attachedDBName, strucView));
 
             #endregion
@@ -2638,7 +2634,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 FieldPFlowParentID, earthView, FieldPFlowParentID));
 
             //Get insert query 
-            Tuple<string, string> primePflow= new Tuple<string, string>(FieldPFlowID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> primePflow = new Tuple<string, string>(FieldPFlowID, ViewGenericLegacyPrimeKey);
             Tuple<string, string> foreignPflow = new Tuple<string, string>(FieldPFlowParentID, ViewGenericLegacyForeignKey);
             string pflowView = ViewPrefix + TablePFlow;
             insertQuery_17.Add(GenerateInsertQueriesFromModel(pflowFieldList, nullFieldList, TablePFlow,
@@ -2668,7 +2664,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_MINERALIZATION_ALTERAION
 
             ///Warning: We assumed that by default records will be linked with station
-           
+
             MineralAlteration modelMA = new MineralAlteration();
             List<string> maFieldList = modelMA.getFieldList[DBVersion];
 
@@ -2677,7 +2673,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 FieldMineralAlterationRelID, statView, FieldStationID));
 
             //Get insert query 
-            Tuple<string, string> primeMA= new Tuple<string, string>(FieldMineralAlterationID, ViewGenericLegacyPrimeKey);
+            Tuple<string, string> primeMA = new Tuple<string, string>(FieldMineralAlterationID, ViewGenericLegacyPrimeKey);
             Tuple<string, string> foreignMA = new Tuple<string, string>(FieldMineralAlterationRelID, ViewGenericLegacyForeignKey);
             string MAView = ViewPrefix + TableMineralAlteration;
 
@@ -2703,7 +2699,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             Tuple<string, string> primeMineral = new Tuple<string, string>(FieldMineralID, ViewGenericLegacyPrimeKey);
             Tuple<string, string> foreignMineral = new Tuple<string, string>(FieldMineralMAID, ViewGenericLegacyForeignKey);
             Tuple<string, string> foreignMineral2 = new Tuple<string, string>(FieldEarthMatID, ViewGenericLegacyForeignKey);
-            
+
 
             insertQuery_17.Add(GenerateInsertQueriesFromModel(mineralFieldList, nullFieldList, TableMineral,
                 primeMineral, foreignMineral, attachedDBName, MineralView));
@@ -2726,7 +2722,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             Tuple<string, string> foreignFossil = new Tuple<string, string>(FieldFossilParentID, ViewGenericLegacyForeignKey);
             string fossilView = ViewPrefix + TableFossil;
 
-            insertQuery_17.Add(GenerateInsertQueriesFromModel(fossilFieldList, nullFieldList, TableFossil, 
+            insertQuery_17.Add(GenerateInsertQueriesFromModel(fossilFieldList, nullFieldList, TableFossil,
                 primeFossil, foreignFossil, attachedDBName, fossilView));
 
             #endregion
@@ -2895,7 +2891,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             if (tableName == DatabaseLiterals.TableLocation)
             {
                 upQuery = @"UPDATE " + tableName + " SET " + FieldGenericGeometry + " = " +
-                    " gpkgMakePoint( " + FieldLocationLongitude + ", " + FieldLocationLatitude + ", cast(" + 
+                    " gpkgMakePoint( " + FieldLocationLongitude + ", " + FieldLocationLatitude + ", cast(" +
                     FieldLocationDatum + " as integer));";
             }
 
@@ -2924,7 +2920,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             Random ran = new Random();
 
             string query_select = string.Empty;
-            string alias = did.CalculateAlphabeticID(true, ran.Next(1,50));
+            string alias = did.CalculateAlphabeticID(true, ran.Next(1, 50));
 
             // Skip possible restricted keyword
             if (alias == "AS")
@@ -2963,13 +2959,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                     }
                     else
                     {
-                        query_select = query_select + incrementChar + " " + alias + "." + fields + " as " + fields; 
-                        
+                        query_select = query_select + incrementChar + " " + alias + "." + fields + " as " + fields;
+
                     }
 
                 }
 
-                
+
 
             }
 
@@ -2989,7 +2985,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     insert_query = insert_query + " FROM " + attachedDBName + "." + tableName + " as " + alias;
                 }
-                
+
             }
             else
             {
@@ -3001,7 +2997,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     insert_query = insert_query + " FROM " + tableName + " as " + alias;
                 }
-                
+
             }
 
 
@@ -3067,10 +3063,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             else
             {
-                
+
                 //Close top parent query
                 outputQueryView = outputQueryView + " FROM " + tableName + " as " + tableAlias + ";";
-   
+
             }
 
 

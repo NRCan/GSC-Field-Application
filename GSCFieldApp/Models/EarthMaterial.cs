@@ -1,9 +1,8 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SQLite;
-using GSCFieldApp.Dictionaries;
-using Newtonsoft.Json.Linq;
 
 namespace GSCFieldApp.Models
 {
@@ -32,10 +31,10 @@ namespace GSCFieldApp.Models
         public string EarthMatModComp { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMetaFacies)]
-        public string EarthMatMetaIFacies{ get; set; }
+        public string EarthMatMetaIFacies { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMetaIntensity)]
-        public string EarthMatMetaIntensity{ get; set; }
+        public string EarthMatMetaIntensity { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMapunit)]
         public string EarthMatMapunit { get; set; }
@@ -98,10 +97,10 @@ namespace GSCFieldApp.Models
         public string EarthMatOxidation { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatClastForm)]
-        public string EarthMatClastForm{ get; set; }
+        public string EarthMatClastForm { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatNotes)]
-        public string EarthMatNotes{ get; set; }
+        public string EarthMatNotes { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableStation;
@@ -176,7 +175,8 @@ namespace GSCFieldApp.Models
         [Ignore]
         public Dictionary<double, List<string>> getFieldList
         {
-            get {
+            get
+            {
                 //Create a new list of all current columns in current class. This will act as the most recent
                 //version of the class
                 Dictionary<double, List<string>> earthmatFieldList = new Dictionary<double, List<string>>();
@@ -189,7 +189,7 @@ namespace GSCFieldApp.Models
                     {
                         earthmatFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
-                    
+
                 }
 
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
@@ -264,11 +264,11 @@ namespace GSCFieldApp.Models
                         strOnlyID = strOnlyID + c;
                     }
                 }
-                return strOnlyID; 
+                return strOnlyID;
             }
-            
-            set{ }
-            
+
+            set { }
+
         }
     }
 }

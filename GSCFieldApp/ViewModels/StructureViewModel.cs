@@ -10,10 +10,10 @@ using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class StructureViewModel: ViewModelBase
+    public class StructureViewModel : ViewModelBase
     {
         #region INIT DECLARATIONS
-        
+
         public bool doStructureUpdate = false;
         private string _groupTypeDetail = string.Empty;
         public string level1Sep = Dictionaries.ApplicationLiterals.parentChildLevel1Seperator;
@@ -25,7 +25,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _structMethod = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStructMethod = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _structAttitude = new ObservableCollection<Themes.ComboBoxItem>();
-        private string _selectedStructAttitude = string.Empty; 
+        private string _selectedStructAttitude = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _structYoung = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStructYoung = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _structGen = new ObservableCollection<Themes.ComboBoxItem>();
@@ -66,7 +66,7 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
 
         public string StructDetail { get { return _structDetail; } set { _structDetail = value; } }
-        public string StructFabric{ get { return _structFabric; } set { _structFabric = value; } }
+        public string StructFabric { get { return _structFabric; } set { _structFabric = value; } }
         public string StructSense { get { return _structSense; } set { _structSense = value; } }
         public string StructNote { get { return _structNote; } set { _structNote = value; } }
         public string StructClass { get { return _structClass; } set { _structClass = value; } }
@@ -90,7 +90,7 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> StructStrain { get { return _structStrain; } set { _structStrain = value; } }
         public string SelectedStructStrain { get { return _selectedStructStrain; } set { _selectedStructStrain = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StructFlat { get { return _structFlat; } set { _structFlat = value; } }
-        public string SelectedStructFlat{ get { return _selectedStructFlat; } set { _selectedStructFlat = value; } }
+        public string SelectedStructFlat { get { return _selectedStructFlat; } set { _selectedStructFlat = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StructRelated { get { return _structRel; } set { _structRel = value; } }
         public string SelectedStructRelated { get { return _selectedStructRel; } set { _selectedStructRel = value; } }
         public string StructAzim
@@ -159,7 +159,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         _structDip = value = "0";
                     }
-                    
+
                     RaisePropertyChanged("StructDip");
                 }
 
@@ -206,7 +206,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     lithoClass = existingDataDetailStructure.structure.StructureClass;
                 }
-                
+
             }
 
 
@@ -220,7 +220,7 @@ namespace GSCFieldApp.ViewModels
             }
             else if (existingDataDetailStructure.GenericTableName == Dictionaries.DatabaseLiterals.TableStructure)
             {
-                queryWhere = queryWhere + " = " + existingDataDetailStructure.ParentID ;
+                queryWhere = queryWhere + " = " + existingDataDetailStructure.ParentID;
             }
 
             //Extra where clause to select only counterpart and not same structure types
@@ -233,7 +233,7 @@ namespace GSCFieldApp.ViewModels
                 queryWhere = queryWhere + " AND " + DatabaseLiterals.FieldStructureClass + " LIKE '%" + DatabaseLiterals.KeywordPlanar + "%'";
             }
             else
-            { 
+            {
                 //Do nothing which should select everything.
             }
 
@@ -356,7 +356,7 @@ namespace GSCFieldApp.ViewModels
             {
                 RaisePropertyChanged("SelectedStructGen");
             }
-            
+
 
             #endregion
 
@@ -523,7 +523,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _structClass = existingDataDetailStructure.structure.StructureClass.ToString();
             }
-            
+
             _strucclasstypedetail = existingDataDetailStructure.structure.getClassTypeDetail;
 
             _selectedStructFlat = existingDataDetailStructure.structure.StructureFlattening;
@@ -540,23 +540,23 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("StructID");
-            RaisePropertyChanged("StructName"); 
-            RaisePropertyChanged("StructDetail"); 
-            RaisePropertyChanged("StructAzim"); 
+            RaisePropertyChanged("StructName");
+            RaisePropertyChanged("StructDetail");
+            RaisePropertyChanged("StructAzim");
             RaisePropertyChanged("StructDip");
-            RaisePropertyChanged("StructFabric"); 
-            RaisePropertyChanged("StructNote"); 
-            RaisePropertyChanged("StructSense"); 
+            RaisePropertyChanged("StructFabric");
+            RaisePropertyChanged("StructNote");
+            RaisePropertyChanged("StructSense");
             RaisePropertyChanged("StructType");
             RaisePropertyChanged("StructParentID");
             RaisePropertyChanged("StructClassTypeDetail");
 
-            RaisePropertyChanged("SelectedStructFlat"); 
-            RaisePropertyChanged("SelectedStructMethod");  
+            RaisePropertyChanged("SelectedStructFlat");
+            RaisePropertyChanged("SelectedStructMethod");
             RaisePropertyChanged("SelectedStructStrain");
 
-            
-            AutoFillDialog2ndRound(incomingData); 
+
+            AutoFillDialog2ndRound(incomingData);
 
             doStructureUpdate = true;
         }
@@ -619,7 +619,7 @@ namespace GSCFieldApp.ViewModels
             {
                 newStructureEdit(this);
             }
-            
+
 
         }
 
@@ -686,7 +686,7 @@ namespace GSCFieldApp.ViewModels
             {
                 structureModel.StructureFlattening = SelectedStructFlat;
             }
-            if (SelectedStructRelated != null && SelectedStructRelated != string.Empty 
+            if (SelectedStructRelated != null && SelectedStructRelated != string.Empty
                 && SelectedStructRelated != DatabaseLiterals.picklistNACode)
             {
                 structureModel.StructureRelated = int.Parse(SelectedStructRelated);
@@ -740,7 +740,7 @@ namespace GSCFieldApp.ViewModels
         {
             ListView inListView = sender as ListView;
             Models.SemanticData inSD = inListView.SelectedValue as Models.SemanticData;
-            if (inSD!=null)
+            if (inSD != null)
             {
                 string userStrucClassTypeDetail = inSD.Title + level2Sep + inSD.Subtitle;
                 NewSearch_userHasSelectedAValue(userStrucClassTypeDetail);

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using GSCFieldApp.Models;
+using GSCFieldApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using Template10.Common;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using GSCFieldApp.ViewModels;
-using Windows.ApplicationModel.Resources;
-using GSCFieldApp.Models;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

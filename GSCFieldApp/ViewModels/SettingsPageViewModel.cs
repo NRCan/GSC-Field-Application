@@ -1,17 +1,17 @@
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Services.FileServices;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using GSCFieldApp.Models;
 using Windows.UI.Xaml.Controls;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Dictionaries;
-using GSCFieldApp.Services.FileServices;
-using SQLite;
-using System.IO;
-using System.Globalization;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -57,15 +57,20 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
 
         //Toggle buttons for table choice
-        public bool CommonToggle {get { return _commonToggle; }
-            set {
+        public bool CommonToggle
+        {
+            get { return _commonToggle; }
+            set
+            {
                 _commonToggle = value;
                 RaisePropertyChanged();
                 localSetting.SetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon, value);
                 ToggleCommons(value);
             }
-        } 
-        public bool BedrockToggle { get { return _bedrockToggle; }
+        }
+        public bool BedrockToggle
+        {
+            get { return _bedrockToggle; }
             set
             {
                 _bedrockToggle = value;
@@ -74,7 +79,9 @@ namespace GSCFieldApp.ViewModels
                 ToggleBedrock(value);
             }
         }
-        public bool SurficialToggle { get { return _surficialToggle; }
+        public bool SurficialToggle
+        {
+            get { return _surficialToggle; }
             set
             {
                 _surficialToggle = value;
@@ -117,7 +124,7 @@ namespace GSCFieldApp.ViewModels
         public void InitializeToggleSwitches()
         {
             #region Header toggle based on project type
-            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType)!=null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
             {
                 if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
                 {
@@ -134,7 +141,7 @@ namespace GSCFieldApp.ViewModels
             #endregion
 
             #region Header toggles
-            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon)!=null)
+            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon) != null)
             {
                 _commonToggle = (bool)localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon);
 
@@ -271,7 +278,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     ToggleEarthChilds(parentSwitchValue);
                 }
-                
+
             }
 
         }
@@ -295,7 +302,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SampleToggle");
             RaisePropertyChanged("MineralToggle");
             RaisePropertyChanged("StructureToggle");
-            RaisePropertyChanged("PflowToggle"); 
+            RaisePropertyChanged("PflowToggle");
 
         }
 
@@ -312,7 +319,7 @@ namespace GSCFieldApp.ViewModels
             FossilToggle = commonToggleValue;
             EarthToggle = commonToggleValue;
 
-            RaisePropertyChanged("EarthToggle"); 
+            RaisePropertyChanged("EarthToggle");
             RaisePropertyChanged("FossilToggle");
             RaisePropertyChanged("CommonToggle");
             RaisePropertyChanged("PhotoToggle");
@@ -366,7 +373,7 @@ namespace GSCFieldApp.ViewModels
             ContentDialog deleteBookDialog = new ContentDialog()
             {
                 Title = loadLocalization.GetString("SettingPageButtonResetTitle"),
-                Content = loadLocalization.GetString("SettingPageButtonResetMessage/Text") ,
+                Content = loadLocalization.GetString("SettingPageButtonResetMessage/Text"),
                 PrimaryButtonText = loadLocalization.GetString("Generic_ButtonYes/Content"),
                 SecondaryButtonText = loadLocalization.GetString("Generic_ButtonNo/Content")
             };
@@ -401,7 +408,7 @@ namespace GSCFieldApp.ViewModels
 
             }
         }
-        
+
         /// <summary>
         /// An hidden double click to wipe (factory reset) the app
         /// </summary>
@@ -449,7 +456,7 @@ namespace GSCFieldApp.ViewModels
                             int read = fileReader.Read(buffer, 0, buffer.Length);
                             readCount += read;
                             fileWriter.Write(buffer, 0, read);
- 
+
                         }
                     }
                 }
@@ -488,11 +495,11 @@ namespace GSCFieldApp.ViewModels
             //Get info
             Pivot senderPivot = (Pivot)sender;
             PivotItem selectedPivotItem = (PivotItem)senderPivot.Items[_selectedPivotIndex];
-            
+
             if (selectedPivotItem.Name.ToLower().Contains("picklist"))
             {
                 _loadPicklistVisibility = Visibility.Visible;
-                
+
             }
             else
             {
@@ -503,7 +510,7 @@ namespace GSCFieldApp.ViewModels
 
     }
 
-    public class PicklistPartViewModel: ViewModelBase
+    public class PicklistPartViewModel : ViewModelBase
     {
 
     }
@@ -566,7 +573,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     return (bool)currentSettings.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode);
                 }
-                
+
             }
             set
             {
@@ -620,7 +627,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     settingStructSymbolRequest(this, null);
                 }
-                
+
             }
         }
 

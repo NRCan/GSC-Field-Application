@@ -9,7 +9,7 @@ namespace GSCFieldApp.Converters
     /// A converter that takes a solidColorBrush and output it as a  Windows.UI.Xaml.Media brush, which
     /// is used for foregrounds of fonts.
     /// </summary>
-    public class MediaBrushConverter: IValueConverter
+    public class MediaBrushConverter : IValueConverter
     {
         public Brush defaultBrush = new SolidColorBrush();
 

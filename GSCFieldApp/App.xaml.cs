@@ -1,12 +1,12 @@
-using Windows.UI.Xaml;
-using System.Threading.Tasks;
-using GSCFieldApp.Services.SettingsServices;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.ApplicationModel.Activation;
+using GSCFieldApp.Services.SettingsServices;
+using System.Threading.Tasks;
 using Template10.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.ViewManagement;
+using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
 
 namespace GSCFieldApp
 {
@@ -31,10 +31,10 @@ namespace GSCFieldApp
             CacheMaxDuration = _settings.CacheMaxDuration;
             ShowShellBackButton = _settings.UseShellBackButton;
 
-            
+
 
             #endregion
-            
+
             SetESRILicence();
 
         }
@@ -51,13 +51,13 @@ namespace GSCFieldApp
         /// <returns></returns>
         public override async Task OnInitializeAsync(IActivatedEventArgs args)
         {
-            
+
             //Will enable smaller size window for desktop testing, compared to default 500x320.
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(200, 200));
 
             if (Window.Current.Content as ModalDialog == null)
             {
-                // create a new frame 
+                // create a new frame
                 var nav = NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
 
                 // create modal root

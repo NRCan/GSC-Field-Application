@@ -1,16 +1,14 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Template10.Mvvm;
-using SQLite;
-using GSCFieldApp.Dictionaries;
-using System.Globalization;
-using Windows.Foundation.Collections;
 
 namespace GSCFieldApp.Models
 {
     [Table(DatabaseLiterals.TableLocation)]
-    public class FieldLocation: BindableBase
+    public class FieldLocation : BindableBase
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -166,7 +164,7 @@ namespace GSCFieldApp.Models
                 locationFieldList144.Remove(DatabaseLiterals.FieldLocationAlias);
                 locationFieldList144.Insert(removeIndex, DatabaseLiterals.FieldLocationAliasDeprecated);
                 locationFieldList144.Insert(locationFieldList144.Count() - 2, DatabaseLiterals.FieldLocationReportLink);
-                
+
                 locationFieldList[DatabaseLiterals.DBVersion144] = locationFieldList144;
 
                 //Revert schema 1.4.4 
@@ -174,7 +172,7 @@ namespace GSCFieldApp.Models
                 locationFieldList143.AddRange(locationFieldList144);
                 int removeIndex2 = locationFieldList143.IndexOf(DatabaseLiterals.FieldLocationDatum);
                 locationFieldList143.Remove(DatabaseLiterals.FieldLocationDatum);
-                locationFieldList143.Insert(removeIndex2,DatabaseLiterals.FieldLocationDatumZone);
+                locationFieldList143.Insert(removeIndex2, DatabaseLiterals.FieldLocationDatumZone);
                 locationFieldList[DatabaseLiterals.DBVersion143] = locationFieldList143;
 
                 //Revert schema 1.4.3 changes

@@ -1,42 +1,39 @@
-﻿using System.Collections.Generic;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
-using System.Collections.ObjectModel;
-using Windows.UI.Xaml;
-using Windows.Devices.Geolocation;
-using Windows.UI.Xaml.Controls;
-using Windows.Storage;
-using Windows.UI.Core;
-using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.UI.Controls;
-using Esri.ArcGISRuntime.UI;
+﻿using Esri.ArcGISRuntime.Data;
 using Esri.ArcGISRuntime.Geometry;
+using Esri.ArcGISRuntime.Mapping;
 using Esri.ArcGISRuntime.Symbology;
-using Esri.ArcGISRuntime.Data;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Models;
+using Esri.ArcGISRuntime.UI;
+using Esri.ArcGISRuntime.UI.Controls;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using GSCFieldApp.Dictionaries;
-using Template10.Mvvm;
-using Template10.Controls;
-using Windows.ApplicationModel.Resources;
-using Windows.System;
-using Windows.UI.Xaml.Input;
-using System.Globalization;
-using Symbol = Windows.UI.Xaml.Controls.Symbol;
-using Newtonsoft.Json;
-using SQLite;
+using GSCFieldApp.Models;
 using GSCFieldApp.Services;
-
+using GSCFieldApp.Services.DatabaseServices;
+using Newtonsoft.Json;
 //Added by jamel
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
-using ProjNet.Converters.WellKnownText;
-using ProjNet;
-using GeoAPI.CoordinateSystems;
-using GeoAPI.CoordinateSystems.Transformations;
+using SQLite;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Template10.Controls;
+using Template10.Mvvm;
+using Windows.ApplicationModel.Resources;
+using Windows.Devices.Geolocation;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Symbol = Windows.UI.Xaml.Controls.Symbol;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -172,7 +169,7 @@ namespace GSCFieldApp.ViewModels
             {
                 initMap = true;
             }
-            
+
         }
 
         #endregion
@@ -313,7 +310,7 @@ namespace GSCFieldApp.ViewModels
 
                     _geolocator.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.Default;
                     //_geolocator.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.High;
-                       
+
                     break;
 
                 case GeolocationAccessStatus.Denied:
@@ -360,8 +357,8 @@ namespace GSCFieldApp.ViewModels
                         StartLocationRing();
                         ResetLocationGraphic();
                     }
-                    
-                    
+
+
                     //await Task.Delay(3000); //Let enough time to pass so GPS actually gets a proper fix
                     //await NoLocationFlightMode();
 
@@ -1818,7 +1815,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         mapScale = ApplicationLiterals.defaultMapScale;
                     }
-                    
+
 
                     //Only move if there is a coordinate
                     if (in_position.Coordinate.Point.Position.Longitude != 0 && in_position.Coordinate.Point.Position.Latitude != 0 && !pauseGraphicRefresh)
@@ -1914,7 +1911,7 @@ namespace GSCFieldApp.ViewModels
         {
             DeleteLayersAsync(false);
             RefreshMap(true);
-         
+
         }
 
         /// <summary>
@@ -2031,7 +2028,7 @@ namespace GSCFieldApp.ViewModels
                                 ShowIdentifyStructureDialog(idGraphic.Attributes["Id"].ToString(), idGraphic.Attributes["Date"].ToString(), idGraphic.Attributes["Azim"].ToString(),
                                     idGraphic.Attributes["Dip"].ToString(), idGraphic.Attributes["StructureClass"].ToString(), idGraphic.Attributes["ParentID"].ToString(), sender);
                             }
- 
+
                         }
                         else
                         {
@@ -2060,16 +2057,16 @@ namespace GSCFieldApp.ViewModels
         /// <param name="graphicID"></param>
         /// <param name="graphicDate"></param>
         /// <param name="sender"></param>
-        public async void ShowIdentifyStructureDialog(string graphicID, string graphicDate, 
+        public async void ShowIdentifyStructureDialog(string graphicID, string graphicDate,
             string azim, string dipPlunge, string stationId, string graphicClass, object sender)
         {
             ContentDialog tapStationDialog = new ContentDialog()
             {
                 Title = local.GetString("MapPageIdentifyStructureDialogTitle"),
                 Content = String.Format("{0}  {1} " +
-                "\n" + local.GetString("PflowDialogClass/Header") + "({2})" + 
+                "\n" + local.GetString("PflowDialogClass/Header") + "({2})" +
                 "\n" + local.GetString("StructureDialogAzim/Header") + "({3})" +
-                "\n" + local.GetString("StructureDialogDip/Header") + "({4})", 
+                "\n" + local.GetString("StructureDialogDip/Header") + "({4})",
                 graphicID,
                 graphicDate,
                 graphicClass,
@@ -2099,7 +2096,7 @@ namespace GSCFieldApp.ViewModels
         {
             // Get select station information
             var tupleStation = queryStation(graphicID);
-            int stationId= tupleStation.Item1;
+            int stationId = tupleStation.Item1;
             string stationAlias = tupleStation.Item2;
             string stationDate = tupleStation.Item3;
             string stationTime = tupleStation.Item4;
@@ -2355,7 +2352,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     Debug.WriteLine("Could not delete mapPageLayer.json");
                 }
-                
+
             }
 
             using (var jayson = new StreamWriter(JSONPath, true))
@@ -2661,13 +2658,13 @@ namespace GSCFieldApp.ViewModels
                 {
                     tpkList[sf.Name] = sf;
                 }
-                else if (fileName.Contains(DatabaseLiterals.DBTypeSqlite) 
+                else if (fileName.Contains(DatabaseLiterals.DBTypeSqlite)
                     && !fileName.Contains(DatabaseLiterals.DBName)
                     && !fileName.Contains(DatabaseLiterals.DBNameSuffixUpgrade))
                 {
                     sqliteList[sf.Name] = sf;
                 }
-                else if (fileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated) 
+                else if (fileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)
                     && !fileName.Contains(DatabaseLiterals.DBName)
                     && !fileName.Contains(DatabaseLiterals.DBNameSuffixUpgrade))
                 {
@@ -2743,7 +2740,7 @@ namespace GSCFieldApp.ViewModels
                         }
 
                     }
-                    else if (configs.LayerName != null && (configs.LayerName.Contains(DatabaseLiterals.DBTypeSqlite)  || configs.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)))
+                    else if (configs.LayerName != null && (configs.LayerName.Contains(DatabaseLiterals.DBTypeSqlite) || configs.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)))
                     {
                         if (sqliteList.ContainsKey(configs.LayerName))
                         {
@@ -2779,7 +2776,7 @@ namespace GSCFieldApp.ViewModels
                         LayerVisibility = true
                     };
                     mpl.LayerSettings = mpls;
-                    _filenameValues.Insert(0,mpl);
+                    _filenameValues.Insert(0, mpl);
                     RaisePropertyChanged("FilenameValues");
                     foundLayers = true;
                 }
@@ -2912,7 +2909,7 @@ namespace GSCFieldApp.ViewModels
                         currentMapView.GraphicsOverlays.Add(_overlayContainerOther[inSQLite.Name][i]);
                     }
                 }
-                    
+
                 LoadFromGivenDB(otherLocationTableRows, currentConnection, loadedOtherGraphicList, false);
 
                 #endregion
@@ -3081,14 +3078,14 @@ namespace GSCFieldApp.ViewModels
                     ObservableCollection<MapPageLayers> newFileList = new ObservableCollection<MapPageLayers>();
                     foreach (MapPageLayers orderedFiles in _filenameValues.Reverse()) //Reverse order while iteration because UI is reversed intentionnaly
                     {
-                        if (orderedFiles.LayerName.Contains(".tpk") || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqlite) 
-                            && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated) 
-                            && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) 
+                        if (orderedFiles.LayerName.Contains(".tpk") || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqlite)
+                            && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName)) || (orderedFiles.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)
+                            && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBName))
                             && !orderedFiles.LayerName.Contains(DatabaseLiterals.DBNameSuffixUpgrade))
                         {
                             //Build path
                             string localFilePath = Path.Combine(accessData.ProjectPath, orderedFiles.LayerName);
-                            Uri localUri = new Uri(localFilePath); 
+                            Uri localUri = new Uri(localFilePath);
 
                             if (layerDico.ContainsKey(orderedFiles.LayerName.Split('.')[0]))
                             {
@@ -3128,7 +3125,7 @@ namespace GSCFieldApp.ViewModels
                                 }
 
 
-                                
+
                             }
 
 
@@ -3183,7 +3180,7 @@ namespace GSCFieldApp.ViewModels
 
                 currentMapView.UpdateLayout();
             }
-            
+
 
         }
 
@@ -3582,11 +3579,11 @@ namespace GSCFieldApp.ViewModels
                 {
                     if (esriMap != null)
                     {
-                        
+
                         esriMap.Basemap.BaseLayers.Clear();
                         esriMap = null;
                     }
-                    
+
                 }
                 catch (Exception)
                 {

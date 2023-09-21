@@ -1,15 +1,15 @@
-﻿using GSCFieldApp.ViewModels;
+﻿using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Template10.Common;
+using Template10.Controls;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using GSCFieldApp.Models;
-using Windows.ApplicationModel.Resources;
-using Template10.Controls;
-using GSCFieldApp.Services.DatabaseServices;
-using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -61,7 +61,7 @@ namespace GSCFieldApp.Views
         private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
         {
             //Detect manual entry, if it's the case pop station dialog
-            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed )
+            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed)
             {
                 //Create a field note report to act like a parent
                 FieldNotes stationParent = new FieldNotes
@@ -109,7 +109,7 @@ namespace GSCFieldApp.Views
                 {
                     this.locationVM.SetReadOnlyFields(true);
                 }
-                
+
             }
             else
             {
@@ -121,7 +121,7 @@ namespace GSCFieldApp.Views
             //Get default accent color from textbox border, for validating easting northings
             SolidColorBrush defaultBorderBrush = this.LocationLat.BorderBrush as SolidColorBrush;
 
-    }
+        }
 
 
         #region CLOSE
@@ -235,7 +235,7 @@ namespace GSCFieldApp.Views
                 if ((_easting != 0 && _northing != 0) && (_long == 0 && _lat == 0) && (selectedEPGS != 4617 || selectedEPGS != 4326))
                 {
                     isValid = false;
-                }                
+                }
             }
             else
             {

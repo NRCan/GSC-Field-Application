@@ -1,16 +1,15 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Template10.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using GSCFieldApp.ViewModels;
-using GSCFieldApp.Models;
-using Template10.Common;
-using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Core;
-using GSCFieldApp.Dictionaries;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,7 +22,7 @@ namespace GSCFieldApp.Views
     {
         public EarthmatViewModel ViewModel { get; set; }
         public FieldNotes parentViewMode { get; set; }
-        
+
         public List<string> Rocks { get; private set; }
 
         private readonly DataAccess accessData = new DataAccess();
@@ -246,8 +245,8 @@ namespace GSCFieldApp.Views
                 ContentDialogResult results = await newDialog.ShowAsync();
             }
 
-            
-            
+
+
         }
 
 

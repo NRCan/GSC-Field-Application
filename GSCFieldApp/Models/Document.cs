@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using GSCFieldApp.Dictionaries;
 using SQLite;
-using GSCFieldApp.Dictionaries;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace GSCFieldApp.Models
 {
@@ -90,8 +90,8 @@ namespace GSCFieldApp.Models
                 {
                     _fieldbookPath = Path.Combine(localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString(), DocumentName + ".jpg");
                 }
-                
-                
+
+
                 return _fieldbookPath;
             }
             set { }
@@ -159,7 +159,7 @@ namespace GSCFieldApp.Models
                 documentFieldList144.AddRange(documentFieldList[DatabaseLiterals.DBVersion150]);
                 int removeIndex = documentFieldList144.IndexOf(DatabaseLiterals.FieldDocumentName);
                 documentFieldList144.Remove(DatabaseLiterals.FieldDocumentName);
-                documentFieldList144.Insert(removeIndex,DatabaseLiterals.FieldDocumentNameDeprecated);
+                documentFieldList144.Insert(removeIndex, DatabaseLiterals.FieldDocumentNameDeprecated);
                 documentFieldList[DatabaseLiterals.DBVersion144] = documentFieldList144;
 
                 return documentFieldList;

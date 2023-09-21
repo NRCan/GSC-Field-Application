@@ -1,16 +1,14 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Template10.Mvvm;
-using GSCFieldApp.Models;
-using GSCFieldApp.Services.DatabaseServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using System.Collections.ObjectModel;
-using GSCFieldApp.Dictionaries;
-using GSCFieldApp.Themes;
-using Windows.ApplicationModel.Contacts;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -68,7 +66,7 @@ namespace GSCFieldApp.ViewModels
 
             //Fill controls
             FillStationType();
-            
+
             SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
 
             //Treat station for themes.
@@ -141,14 +139,14 @@ namespace GSCFieldApp.ViewModels
         public string SlSNotes { get { return _slsnotes; } set { _slsnotes = value; } }
         public string StationOCSize { get { return _stationOCSize; } set { _stationOCSize = value; } }
 
-        public ObservableCollection<Themes.ComboBoxItem> StationTypes {get { return _stationTypes; } set { _stationTypes = value; } }
-        public string SelectedStationTypes{ get { return _selectedStationTypes; } set { _selectedStationTypes = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> StationTypes { get { return _stationTypes; } set { _stationTypes = value; } }
+        public string SelectedStationTypes { get { return _selectedStationTypes; } set { _selectedStationTypes = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> ObservationSource { get { return _observationSource; } set { _observationSource = value; } }
         public string SelectedObservationSources { get { return _selectedObservationSource; } set { _selectedObservationSource = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> StationQuality { get { return _stationQuality; } set { _stationQuality = value; } }
-        public string SelectedStationQuality{ get { return _selectedStationQuality; } set {  _selectedStationQuality = value; } }
+        public string SelectedStationQuality { get { return _selectedStationQuality; } set { _selectedStationQuality = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StationQualityValues { get { return _stationQualityValues; } set { _stationQualityValues = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StationPhysEnv { get { return _stationPhysEnv; } set { _stationPhysEnv = value; } }
         public string SelectedStationPhysEnv { get { return _selectedStationPhysEnv; } set { _selectedStationPhysEnv = value; } }
@@ -249,11 +247,11 @@ namespace GSCFieldApp.ViewModels
 
             //accessData.SaveFromSQLTableObject(StationModel, doStationUpdate);
 
-            if (newStationEdit!=null)
+            if (newStationEdit != null)
             {
                 newStationEdit(this);
             }
-            
+
         }
 
         public void AutoFillDialog(FieldNotes incomingData, bool isWaypoint)
@@ -300,7 +298,7 @@ namespace GSCFieldApp.ViewModels
                 _waypointVisibility = Visibility.Collapsed;
                 RaisePropertyChanged("WaypointVisibility");
             }
-            else 
+            else
             {
                 _waypointVisibility = Visibility.Visible;
                 RaisePropertyChanged("WaypointVisibility");
@@ -336,7 +334,7 @@ namespace GSCFieldApp.ViewModels
                         string currentDate = DateTime.Now.ToShortDateString();
                         DateTime lastStationDate = DateTime.Parse(sts.StationVisitDate);
                         DateTime currentDateDT = DateTime.Parse(currentDate);
-                        if (lastStationDate!= null && currentDateDT != null)
+                        if (lastStationDate != null && currentDateDT != null)
                         {
                             int dateComparisonResult = DateTime.Compare(lastStationDate, currentDateDT);
                             if (lastStationDate != null && dateComparisonResult < 0)
@@ -370,7 +368,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _stationPhysEnv.Add(itemPE);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("StationPhysEnv");
@@ -390,7 +388,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _stationQuality.Add(itemSQ);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("StationQuality");
@@ -552,7 +550,7 @@ namespace GSCFieldApp.ViewModels
                 Location.LocationElev = _elevation;
             }
 
-            
+
             Location.LocationAlias = _locationAlias = idCalculator.CalculateLocationAlias(_alias); //Calculate new value
             //Location.LocationID = _locationid = idCalculator.CalculateLocationID(_locationAlias); //Calculate new value
             Location.MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()); //Foreign key
@@ -563,7 +561,7 @@ namespace GSCFieldApp.ViewModels
             //Fill in the feature location
             GeopackageService geoService = new GeopackageService();
             string insertQuery = accessData.GetGeopackageInsertQuery(Location);
-            
+
             Location.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
             return Location.LocationID;
         }
@@ -589,7 +587,7 @@ namespace GSCFieldApp.ViewModels
             StationModel.StationVisitDate = _dateDate = CalculateStationDate(); //Calculate new value
             StationModel.StationVisitTime = _dateTime = CalculateStationTime();//Calculate new value
             StationModel.StationAirNo = _airno;
-            if (_stationTravNo!=string.Empty)
+            if (_stationTravNo != string.Empty)
             {
                 StationModel.StationTravNo = Convert.ToInt32(_stationTravNo);
             }

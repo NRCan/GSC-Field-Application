@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Template10.Mvvm;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Xaml.Input;
-using Windows.Storage;
-using Windows.UI.Xaml;
-using GSCFieldApp.Dictionaries;
-using Windows.UI.Xaml.Controls;
-using System.Globalization;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using Template10.Mvvm;
 using Windows.Media.Capture;
-using System.Reflection;
+using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -583,7 +582,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         private string CalculateFileName()
         {
-            if (existingDataDetailDocument!= null && existingDataDetailDocument.document.DocumentType != DatabaseLiterals.documentTableFileSuffix)
+            if (existingDataDetailDocument != null && existingDataDetailDocument.document.DocumentType != DatabaseLiterals.documentTableFileSuffix)
             {
                 _fileName = string.Empty;
                 string _noOlympusFileNumber = string.Empty;
