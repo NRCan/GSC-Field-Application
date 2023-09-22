@@ -748,6 +748,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 queryList.Add(GetUpgradeQueryVersion1_42(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
+                upgradeUntouchedTables.Add(Dictionaries.DatabaseLiterals.TableTraverseLineDeprecated);
+                upgradeUntouchedTables.Add(Dictionaries.DatabaseLiterals.TableTraversePointDeprecated);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraverseLine);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraversePoint);
 
                 //Tables that are either not in are can't have any data in this version
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEnvironment);
@@ -761,6 +765,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                 queryList.AddRange(GetUpgradeQueryVersion1_44(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
+                upgradeUntouchedTables.Add(Dictionaries.DatabaseLiterals.TableTraverseLineDeprecated);
+                upgradeUntouchedTables.Add(Dictionaries.DatabaseLiterals.TableTraversePointDeprecated);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraverseLine);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraversePoint);
 
                 //Tables that are either not in are can't have any data in this version
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEnvironment);
@@ -779,6 +787,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMetadata);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableDocument);
+                upgradeUntouchedTables.Add(Dictionaries.DatabaseLiterals.TableTraverseLineDeprecated);
+                upgradeUntouchedTables.Add(Dictionaries.DatabaseLiterals.TableTraversePointDeprecated);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraverseLine);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraversePoint);
 
                 //Tables that are either not in are can't have any data in this version
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEnvironment);
@@ -799,6 +811,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //Tables that are either not in are can't have any data in this version
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEnvironment);
+                upgradeUntouchedTables.Add(Dictionaries.DatabaseLiterals.TableTraverseLineDeprecated);
+                upgradeUntouchedTables.Add(Dictionaries.DatabaseLiterals.TableTraversePointDeprecated);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraverseLine);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableTraversePoint);
 
