@@ -106,6 +106,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatNotes)]
         public string EarthMatNotes{ get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatDrillHoleID)]
+        public string EarthMatDrillHoleID { get; set; }
+
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableStation;
 
@@ -201,6 +204,7 @@ namespace GSCFieldApp.Models
                 List<string> earthmatFieldList170 = new List<string>();
                 earthmatFieldList170.AddRange(earthmatFieldListDefault);
                 earthmatFieldList170.Remove(DatabaseLiterals.FieldEarthMatContactNote);
+                earthmatFieldList170.Remove(DatabaseLiterals.FieldEarthMatDrillHoleID);
                 earthmatFieldList[DatabaseLiterals.DBVersion170] = earthmatFieldList170;
 
                 //Revert shcema 1.7 changes

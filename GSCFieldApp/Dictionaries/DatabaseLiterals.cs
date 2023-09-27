@@ -134,6 +134,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatOxidation = "OXIDATION"; //Version 1.7
         public const string FieldEarthMatClastForm = "CLASTFORM"; //Version 1.7
         public const string FieldEarthMatContactNote = "CONTACT_NOTE"; //Version 1.8
+        public const string FieldEarthMatDrillHoleID = "DRILLHOLEID"; //Version 1.8
 
         public const string FieldSampleID = "SAMPLEID"; //Version 1.0
         public const string FieldSampleName = "SAMPLEIDNAME"; //Version 1.5
@@ -302,6 +303,24 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEnvMineralizationNote = "MINNOTE"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
         public const string FieldEnvGossan = "GOSSPRES"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
 
+        public const string FieldDrillID = "DRILLHOLEID"; //Version 1.8
+        public const string FieldDrillName = "DRILLHOLE_ORIGINAL_NAME"; //Version 1.8
+        public const string FieldDrillCompany = "COMPANY"; //Version 1.8
+        public const string FieldDrillType = "DRILLHOLE_TYPE"; //Version 1.8
+        public const string FieldDrillAzimuth = "AZIMUTH"; //Version 1.8
+        public const string FieldDrillDip = "DIP"; //Version 1.8
+        public const string FieldDrillDepth = "DH_DEPTH"; //Version 1.8
+        public const string FieldDrillUnit = "UNIT"; //Version 1.8
+        public const string FieldDrillDate = "DRILHOLE_DATE"; //Version 1.8
+        public const string FieldDrillHoleSize = "DRILLHOLE_SIZE"; //Version 1.8
+        public const string FieldDrillCoreSize = "DRILLCORE_SIZE"; //Version 1.8
+        public const string FieldDrillRelogType = "RELOG_TYPE"; //Version 1.8
+        public const string FieldDrillRelogBy = "RELOG_BY"; //Version 1.8
+        public const string FieldDrillRelogIntervals = "RELOG_INTERVALS"; //Version 1.8
+        public const string FieldDrillLog = "LOG_SUMMARY"; //Version 1.8
+        public const string FieldDrillNotes = "NOTES"; //Version 1.8
+        public const string FieldDrillLocationID = "LOCATIONID"; //Version 1.8
+
         #endregion
 
         #region Database table names
@@ -327,6 +346,7 @@ namespace GSCFieldApp.Dictionaries
         public const string TableTraversePoint = "F_TRAVERSE_POINT";//Version 1.7
         public const string TableTraverseLine = "F_TRAVERSE_LINE";//Version 1.7
         public const string TableFieldCampDeprecated = "FS_FIELDCAMP"; //Deprecated version 1.7
+        public const string TableDrillHoles = "F_DRILL_HOLE"; //Version 1.8
 
         #endregion
 
