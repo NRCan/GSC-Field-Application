@@ -1771,4 +1771,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="DocumentScaleDirectionCombobox.Header" xml:space="preserve">
     <value>Direction de l'échelle sur la photo</value>
   </data>
+  <data name="DrillLabel.Label" xml:space="preserve">
+    <value>DH</value>
+  </data>
 </root>

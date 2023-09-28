@@ -1776,4 +1776,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DocumentScaleDirectionCombobox.Header" xml:space="preserve">
     <value>Scale Direction</value>
   </data>
+  <data name="DrillLabel.Label" xml:space="preserve">
+    <value>DH</value>
+  </data>
 </root>

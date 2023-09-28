@@ -307,8 +307,12 @@ namespace GSCFieldApp.Views
         }
 
 
+
         #endregion
 
+        private void LocationDrillButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
 
+        }
     }
 }

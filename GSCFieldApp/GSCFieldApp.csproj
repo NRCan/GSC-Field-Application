@@ -230,6 +230,7 @@
     <Compile Include="Services\SettingsServices\SettingsService.cs" />
     <Compile Include="Converters\PicklistDescriptionConverter.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
+    <Compile Include="ViewModels\DrillHoleViewModel.cs" />
     <Compile Include="ViewModels\EarthmatViewModel.cs" />
     <Compile Include="ViewModels\FossilViewModel.cs" />
     <Compile Include="ViewModels\LocationViewModel.cs" />
@@ -255,6 +256,9 @@
     </Compile>
     <Compile Include="Views\DocumentDialog.xaml.cs">
       <DependentUpon>DocumentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DrillHoleDialog.xaml.cs">
+      <DependentUpon>DrillHoleDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EarthmatDialog.xaml.cs">
       <DependentUpon>EarthmatDialog.xaml</DependentUpon>
@@ -345,6 +349,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DocumentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DrillHoleDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
