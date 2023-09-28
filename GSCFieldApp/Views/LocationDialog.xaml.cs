@@ -310,9 +310,16 @@ namespace GSCFieldApp.Views
 
         #endregion
 
-        private void LocationDrillButton_Tapped(object sender, TappedRoutedEventArgs e)
+        public void LocationDrillButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            var modal = Window.Current.Content as ModalDialog;
+            var view = modal.ModalContent as Views.StationDataPart;
+            modal.ModalContent = view = new Views.StationDataPart(null, false);
+            modal.IsModal = true;
+            view.stationClosed -= modalDialogClosed;
+            view.stationClosed += modalDialogClosed;
+            DataLocalSettings dLocalSettings = new DataLocalSettings();
+            dLocalSettings.SetSettingValue("forceNoteRefresh", false);
         }
     }
 }
