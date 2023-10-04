@@ -591,9 +591,6 @@
   <data name="MapPageGPSModes.Label" xml:space="preserve">
     <value>GPS/Tap</value>
   </data>
-  <data name="MapPageDisplayInfo.Label" xml:space="preserve">
-    <value>Info</value>
-  </data>
   <data name="PicklistEditorAddParentTerm.Header" xml:space="preserve">
     <value>Parent Term</value>
   </data>
@@ -1415,9 +1412,6 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="MapPageAddMaps.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Add a layer (SQLite, TPK)</value>
-  </data>
-  <data name="MapPageDisplayInfo.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Enable/Disable Map Information</value>
   </data>
   <data name="MapPageGPSModes.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Enable/Disable GPS location inside application</value>

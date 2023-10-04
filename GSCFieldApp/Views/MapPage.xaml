@@ -108,7 +108,6 @@
 
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton x:Name="MapInfo" Label="" x:Uid="MapPageDisplayInfo" ToolTipService.ToolTip=""   Foreground="White" Icon="ViewAll" Click="MapInfoButtonClicked"/>
             <AppBarButton x:Name="GPSMode" Label="" x:Uid="MapPageGPSModes" ToolTipService.ToolTip="" Foreground="White"  VerticalAlignment="Top" Tapped="GPSMode_TappedAsync" >
                 <AppBarButton.Icon>
                     <SymbolIcon Symbol="{x:Bind MapPageViewModel.GPSModeSymbol, Mode=TwoWay}" x:Name="GPSModeIcon"/>

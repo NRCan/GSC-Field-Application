@@ -281,7 +281,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="tableObject"></param>
         public void SaveSQLTableObjectFromDB(ref object tableObject, bool doUpdate, SQLiteConnection inDB)
         {
-            //Get a copy of  table object else a ref can't be used in an anonymous method
+            //Get a copy of table object else a ref can't be used in an anonymous method
             object newTableObject = tableObject;
 
             // Create a new connection

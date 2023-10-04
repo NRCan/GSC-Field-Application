@@ -52,7 +52,7 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralGridView_01">
                             <RelativePanel>
                                 <AutoSuggestBox x:Name="MineralAutoSuggest" x:Uid="MineralAutoSuggest" QueryIcon="Find" Width="300"
-                                    TextChanged="MineralAutoSuggest_TextChanged"
+                                    TextChanged="MineralAutoSuggest_TextChanged" 
                                     QuerySubmitted="MineralAutoSuggest_QuerySubmitted" Margin="0,0,0,10" TabIndex="1" IsTabStop="True"/>
                                 <TextBox x:Name="MineralNamesTextbox" x:Uid="MineralNamesTextbox" RelativePanel.Below="MineralAutoSuggest" Style="{ThemeResource TextboxMandatoryField}"
                                      Text="{x:Bind MineralVM.MineralName, Mode=TwoWay}" TabIndex="2" IsReadOnly="True"/>

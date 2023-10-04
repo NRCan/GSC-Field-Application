@@ -125,44 +125,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MapInfoButtonClicked(object sender, RoutedEventArgs e)
-        {
-            
-            //Try and enforce whole map view redraw see #176
-            //MapPageViewModel.esriMap = null;
-            //MapPageViewModel.currentMapView = null;
-            //mapsLoaded = false;
-            //await MapPageViewModel.SetMapView(myMapView);
-            try
-            {
-                //Hide or show coordinates, accuracy, and projection info when clicked
-                MapScaleInfo.Visibility = (MapScaleInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-
-                if (localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) != null)
-                {
-                    localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
-
-                    if (myMapView.Grid != null)
-                    {
-                        myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
-                    }
-                }
-                else
-                {
-                    localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, false);
-                }
-
-                MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-                MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-
-            }
-            catch (Exception ex)
-            {
-                // Catch and handle any exception.
-                Console.WriteLine("An error occurred: " + ex.Message);
-            }
-        }
-
+        
         private void LatLongDMSButtonClicked(object sender, RoutedEventArgs e)
         {
             //Hide or show Lat Long and UTM coordinates

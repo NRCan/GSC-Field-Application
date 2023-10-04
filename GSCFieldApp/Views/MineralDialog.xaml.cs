@@ -126,13 +126,13 @@ namespace GSCFieldApp.Views
                 MineralVM.InitFill2ndRound(MineralNamesTextbox.Text); //Reset picklist
             }
         }
-
         private void MineralAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            
+
             if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
             {
                 MineralNamesTextbox.Text = args.ChosenSuggestion.ToString();
+                //sender.Text = string.Empty;
                 MineralNamesTextbox.Focus(FocusState.Programmatic); //Force focus, so viewmodel gets filled with value
             }
             else
@@ -144,6 +144,7 @@ namespace GSCFieldApp.Views
             //Update list that are bound to lithology selection
             MineralVM.InitFill2ndRound(MineralNamesTextbox.Text);
 
+            
         }
         private List<string> CreateSuggestionList()
         {

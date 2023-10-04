@@ -690,9 +690,6 @@
   <data name="ShellViewHamburgerLoad.Text" xml:space="preserve">
     <value>Ajouter des données</value>
   </data>
-  <data name="MapPageDisplayInfo.Label" xml:space="preserve">
-    <value>Info</value>
-  </data>
   <data name="LoadDataButtonProcessEndMessage.Text" xml:space="preserve">
     <value>Les données ont été transférées.</value>
   </data>
@@ -1419,9 +1416,6 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="MapPageAddMaps.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Ajouter une couche géographiques (SQLite, TPK)</value>
-  </data>
-  <data name="MapPageDisplayInfo.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Afficher/Éteindre les informations cartographiques</value>
   </data>
   <data name="MapPageGPSModes.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Activer/Désactiver le positionnement par GPS dans l'application</value>
