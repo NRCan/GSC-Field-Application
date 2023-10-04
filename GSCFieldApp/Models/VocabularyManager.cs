@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SQLite;
-using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Models
 {

@@ -1,21 +1,18 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml;
-using Template10.Mvvm;
-using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
-using GSCFieldApp.Services.DatabaseServices;
-using Windows.Storage;
-using Windows.UI.Xaml.Media;
 using Template10.Controls;
+using Template10.Mvvm;
+using Windows.Storage;
 using Windows.UI;
-using Windows.Foundation.Collections;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -71,7 +68,7 @@ namespace GSCFieldApp.ViewModels
         private FieldLocation locationModel = new FieldLocation();
         private Mineral mineralModel = new Mineral();
         private MineralAlteration mineralAltModel = new MineralAlteration();
-        private EnvironmentModel environmentModel = new EnvironmentModel();  
+        private EnvironmentModel environmentModel = new EnvironmentModel();
 
         //UI interaction
         private string deleteRequestFromTable = string.Empty;
@@ -211,7 +208,7 @@ namespace GSCFieldApp.ViewModels
 
         #region Will enable or disable expansion for tables that are below stations
 
-        public bool LocationHeaderExpansion { get { return _locationHeaderExpansion; } set { _locationHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandLocation,value); } }
+        public bool LocationHeaderExpansion { get { return _locationHeaderExpansion; } set { _locationHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandLocation, value); } }
         public bool SampleHeaderExpansion { get { return _sampleHeaderExpansion; } set { _sampleHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandSample, value); } }
         public bool StationHeaderExpansion { get { return _stationHeaderExpansion; } set { _stationHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandStation, value); } }
         public bool EarthmatHeaderExpansion { get { return _earthmatHeaderExpansion; } set { _earthmatHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeyworkdExpandEarthmat, value); } }
@@ -342,7 +339,7 @@ namespace GSCFieldApp.ViewModels
         public int ReportStationListIndex
         {
             get { return _reportStationIndex; }
-            set { _reportStationIndex = value;  }
+            set { _reportStationIndex = value; }
         } //Same thing as ReportListViewIndex, but for station list view refresh
         public int ReportEarhtmatIndex
         {
@@ -435,7 +432,7 @@ namespace GSCFieldApp.ViewModels
         public double LocationIconColorOpacity { get { return _locationIconColorOpacity; } set { _locationIconColorOpacity = value; } }
 
         public double DocumentAddIconOpacity { get { return _documentAddIconOpacity; } set { _documentAddIconOpacity = value; } }
-        public double DocumentIconOpacity { get { return _documentIconOpacity; } set { _documentIconOpacity = value; }}
+        public double DocumentIconOpacity { get { return _documentIconOpacity; } set { _documentIconOpacity = value; } }
         public double DocumentIconColorOpacity { get { return _documentIconColorOpacity; } set { _documentIconColorOpacity = value; } }
 
         public double StructureIconOpacity { get { return _structureIconOpacity; } set { _structureIconOpacity = value; } }
@@ -626,7 +623,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         visitDateWhere = visitDateWhere + "AND " + where_raw;
                     }
-                    
+
                 }
 
                 visitDateQuery = visitDateSelectFrom + visitDateWhere + visitDateOrderBy;
@@ -685,7 +682,7 @@ namespace GSCFieldApp.ViewModels
 
             //}
 
-            if (summaryDone!=null)
+            if (summaryDone != null)
             {
                 summaryDone(this);
             }
@@ -729,7 +726,7 @@ namespace GSCFieldApp.ViewModels
             {
                 userTempSelection = _reportDetailedStation[_reportStationIndex].GenericAliasName;
             }
-            
+
 
             #region Conditional to user having selected a station
             EmptyAll();
@@ -846,7 +843,7 @@ namespace GSCFieldApp.ViewModels
             _reportDetailedMineralAlt.Clear();
             _reportDetailEnvironment.Clear();
             RaisePropertyChanged("ReportDetailedLocation");
-            RaisePropertyChanged("ReportDetailedDocument"); 
+            RaisePropertyChanged("ReportDetailedDocument");
             RaisePropertyChanged("ReportDetailedEarthmat");
             RaisePropertyChanged("ReportDetailedFossil");
             RaisePropertyChanged("ReportDetailedMineral");
@@ -933,7 +930,7 @@ namespace GSCFieldApp.ViewModels
 
             #region Conditional to user having selected a station
 
-            if(_reportStationIndex != -1)
+            if (_reportStationIndex != -1)
             {
                 if (_reportDetailedEarthmat.Count() > 0)
                 {
@@ -1275,7 +1272,7 @@ namespace GSCFieldApp.ViewModels
             foreach (FieldNotes reportCollection in collectionOfSelectedItems)
             {
 
-                if (whereDefault!=string.Empty)
+                if (whereDefault != string.Empty)
                 {
                     whereDefault = whereDefault + " OR " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentName + " LIKE '" + reportCollection.GenericAliasName + "%'";
                 }
@@ -1374,7 +1371,7 @@ namespace GSCFieldApp.ViewModels
             {
                 #region Conditional to have a selected earthmat
                 foundParentOrSibling = true;
-                    
+
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
@@ -1597,7 +1594,7 @@ namespace GSCFieldApp.ViewModels
                 //Manager header color opacity (transparent if no items)
                 SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStructure);
 
-                RaisePropertyChanged("ReportDetailedStructure"); 
+                RaisePropertyChanged("ReportDetailedStructure");
 
             }
             //If the selection is already a sample, coming form an edit
@@ -1648,7 +1645,7 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("ReportDetailedStructure");
 
             }
-            
+
 
             if (!foundParentOrSibling && _reportStationIndex != -1)
             {
@@ -1703,7 +1700,7 @@ namespace GSCFieldApp.ViewModels
                 //Manager header color opacity (transparent if no items)
                 SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStructure);
 
-                RaisePropertyChanged("ReportDetailedStructure"); 
+                RaisePropertyChanged("ReportDetailedStructure");
 
 
             }
@@ -1822,7 +1819,7 @@ namespace GSCFieldApp.ViewModels
 
                 RaisePropertyChanged("ReportDetailedFossil");
             }
-            
+
 
             if (!foundParentOrSibling && _reportStationIndex != -1)
             {
@@ -1993,7 +1990,7 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("ReportDetailedPflow");
 
             }
-            
+
 
             if (!foundParentOrSibling && _reportStationIndex != -1)
             {
@@ -2198,8 +2195,8 @@ namespace GSCFieldApp.ViewModels
                 {
                     currentDetailReport.ParentID = parentID; //TO keep the link with earthmat table
                 }
-                
-                
+
+
                 currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
 
                 _reportDetailedMinerals.Add(currentDetailReport);
@@ -2293,7 +2290,7 @@ namespace GSCFieldApp.ViewModels
                 //Keep info
                 collectionToUpdate = _reportDetailedMinerals;
                 indexToPop = _reportMineralIndex;
-                collectionNameToRefresh = "ReportDetailedMineral"; 
+                collectionNameToRefresh = "ReportDetailedMineral";
             }
             if (DatabaseLiterals.TableMineralAlteration.ToLower().Contains(senderName) && _reportMineralizationAlterationIndex != -1)
             {
@@ -2366,7 +2363,7 @@ namespace GSCFieldApp.ViewModels
                             StorageFile photoToDelete = await StorageFile.GetFileFromPathAsync(noteToDelete.document.PhotoPath);
                             await photoToDelete.DeleteAsync();
                         }
-                        
+
                     }
 
                     //Delete any related photos
@@ -2590,7 +2587,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="tableName"></param>
         /// <param name="inTableVisibility"></param>
         /// <param name="propertyName"></param>
-        public void SetHeaderVisibility(string tableName, Visibility inTableVisibility, string propertyName )
+        public void SetHeaderVisibility(string tableName, Visibility inTableVisibility, string propertyName)
         {
             try
             {
@@ -2683,7 +2680,7 @@ namespace GSCFieldApp.ViewModels
             {
 
             }
- 
+
             RaisePropertyChanged("SamplePanelVisibility");
             RaisePropertyChanged("EarthmatPanelVisibility");
             RaisePropertyChanged("MineralPanelVisibility");
@@ -2954,9 +2951,9 @@ namespace GSCFieldApp.ViewModels
 
             RaisePropertyChanged("DocumentIconOpacity");
             RaisePropertyChanged("DocumentAddIconOpacity");
-            RaisePropertyChanged("DocumentAddIconColor"); 
+            RaisePropertyChanged("DocumentAddIconColor");
 
-            RaisePropertyChanged("StructureIconOpacity"); 
+            RaisePropertyChanged("StructureIconOpacity");
             RaisePropertyChanged("StructureAddIconOpacity");
             RaisePropertyChanged("StructAddIconColor");
 
@@ -3005,7 +3002,7 @@ namespace GSCFieldApp.ViewModels
 
                 if (_reportDetailedStation.Count != 0)
                 {
-                    
+
                     _stationIconColorOpacity = enableOpacity;
 
                     Color stc = new Color();
@@ -3047,7 +3044,7 @@ namespace GSCFieldApp.ViewModels
                     _locationIconColorOpacity = fullDisableOpacity;
                     _locationColor.Color = dc;
                 }
-                RaisePropertyChanged("LocationIconColorOpacity"); 
+                RaisePropertyChanged("LocationIconColorOpacity");
                 RaisePropertyChanged("LocationColor");
             }
 
@@ -3099,7 +3096,7 @@ namespace GSCFieldApp.ViewModels
                     _sampleColor.Color = dc;
                 }
                 RaisePropertyChanged("SampleIconColorOpacity");
-                RaisePropertyChanged("SampleColor"); 
+                RaisePropertyChanged("SampleColor");
             }
 
             //Document records
@@ -3408,7 +3405,7 @@ namespace GSCFieldApp.ViewModels
             {
                 PopLocation(_reportDetailedStation[ReportStationListIndex], true);
             }
-            
+
         }
 
         public void ViewModel_newLocationEdit(object sender)
@@ -3443,12 +3440,12 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void EditStation()
         {
-            
+
             if (_reportStationIndex != -1)
             {
                 PopStation(_reportDetailedStation[_reportStationIndex]);
             }
-            
+
         }
 
         #endregion
@@ -3460,7 +3457,7 @@ namespace GSCFieldApp.ViewModels
             {
                 PopEarthmat(_reportDetailedStation[_reportStationIndex], false);
             }
-            
+
         }
 
         /// <summary>
@@ -3790,7 +3787,7 @@ namespace GSCFieldApp.ViewModels
             {
                 PopMineralAlt(_reportDetailedStation[_reportStationIndex], false);
             }
-            
+
 
         }
 
@@ -4095,14 +4092,14 @@ namespace GSCFieldApp.ViewModels
                 if (selectedReport.GenericTableName == DatabaseLiterals.TableStation)
                 {
                     FillEarthmatFromStation();
-                    EmptyEarthmatChilds();      
+                    EmptyEarthmatChilds();
                     FillLocation();
                     FillDocument();
                     FillMineralAltFromStation();
                     EmptyMineralizationAlterationChilds();
                     FillMineral();
                     FillEnvironmentFromStation();
-                    
+
                 }
 
                 if (selectedReport.GenericTableName == DatabaseLiterals.TableEarthMat)
@@ -4119,7 +4116,7 @@ namespace GSCFieldApp.ViewModels
                     FillMineral();
                 }
 
-                
+
 
 
             }
@@ -4228,7 +4225,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="userStationDate"></param>
         public void SetSelectedStationFromMapPage()
         {
-            if (userSelectedStationDate!= string.Empty && userSelectedStationID != string.Empty)
+            if (userSelectedStationDate != string.Empty && userSelectedStationID != string.Empty)
             {
                 //Select proper date
                 foreach (FieldNotes dates in _reportSummaryDateItems)
@@ -4236,7 +4233,7 @@ namespace GSCFieldApp.ViewModels
                     if (dates.station.StationVisitDate == userSelectedStationDate)
                     {
                         _reportDateIndex = _reportSummaryDateItems.IndexOf(dates);
-                        
+
                         RaisePropertyChanged("ReportListViewDateIndex");
                         FillStationFromList(); //Refill station based on new selected date
                     }
@@ -4257,7 +4254,7 @@ namespace GSCFieldApp.ViewModels
             else
             {
                 //Reset selection to last item
-                 _reportStationIndex = _reportDetailedStation.Count - 1;
+                _reportStationIndex = _reportDetailedStation.Count - 1;
 
                 RaisePropertyChanged("ReportStationListIndex");
 

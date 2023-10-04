@@ -1,19 +1,18 @@
-﻿using Windows.UI.Xaml;
+﻿using GSCFieldApp.Models;
+using GSCFieldApp.ViewModels;
+using System.Collections.Generic;
+using System.ComponentModel;
+using Template10.Common;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Template10.Common;
-using GSCFieldApp.ViewModels;
-using GSCFieldApp.Models;
-using System.ComponentModel;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
-using System.Collections.Generic;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace GSCFieldApp.Views
 {
-    public sealed partial class EnvironmentDialog : UserControl 
+    public sealed partial class EnvironmentDialog : UserControl
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public FieldNotes parentEnvironmentReport;

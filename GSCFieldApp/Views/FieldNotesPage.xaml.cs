@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
+using System.ComponentModel;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using GSCFieldApp.ViewModels;
-using GSCFieldApp.Services.DatabaseServices;
 
 namespace GSCFieldApp.Views
 {
@@ -14,7 +14,7 @@ namespace GSCFieldApp.Views
 
         //Event to notify View of any changes
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-    
+
         public FieldNotesViewModel ViewModel { get; set; }
 
         //Local settings
@@ -124,7 +124,7 @@ namespace GSCFieldApp.Views
                 ViewModel.userSelectedStationDate = string.Empty;
                 ViewModel.SetSelectedStationFromMapPage();
             }
-       
+
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace GSCFieldApp.Views
             {
                 this.ViewModel.FillSummaryReportDateItems();
             }
-            
+
         }
 
         /// <summary>

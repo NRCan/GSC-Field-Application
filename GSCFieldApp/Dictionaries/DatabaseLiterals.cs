@@ -1,7 +1,4 @@
-﻿using Windows.ApplicationModel.Contacts;
-using Windows.Devices.Bluetooth.Advertisement;
-
-namespace GSCFieldApp.Dictionaries
+﻿namespace GSCFieldApp.Dictionaries
 {
     public static class DatabaseLiterals
     {
@@ -152,7 +149,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleDuplicateName = "DUPLICATENAME";//Version 1.5
         public const string FieldSampleState = "STATE";//Version 1.5
         public const string FieldCurationID = "CURATIONID";
-        public const string FieldSampleWarehouseLocation= "WAREHOUSE_LOCATION"; //Version 1.7
+        public const string FieldSampleWarehouseLocation = "WAREHOUSE_LOCATION"; //Version 1.7
         public const string FieldSampleBucketTray = "BUCKET_OR_TRAY_NO"; //Version 1.7
 
         public const string FieldSampleManagementID = "SMID";
@@ -174,7 +171,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDictionaryRemarks = "USERREMARKS";
         public const string FieldDictionarySymbol = "SYMBOL";
 
-        
+
         public const string FieldDictionaryManagerLinkID = "LINKID";//Version 1.0
         public const string FieldDictionaryManagerCodedTheme = "CODETHEME";//Version 1.0
         public const string FieldDictionaryManagerAssignTable = "ASSIGNTABLE";//Version 1.0
@@ -366,7 +363,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordStructure = "struc";
         public const string KeywordPhoto = "photo";
         public const string KeywordDocument = "document";
-        public const string KeywordMA = "alteration"; 
+        public const string KeywordMA = "alteration";
         public const string KeywordMineral = "mineral";
         public const string KeywordFossil = "fossil";
         public const string KeywordEnvironment = "environ";

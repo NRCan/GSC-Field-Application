@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Template10.Mvvm;
-using SQLite;
-using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Models
 {
@@ -74,8 +74,8 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (UserCode != string.Empty && FieldworkType != string.Empty && MetadataActivity != string.Empty && 
-                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty && 
+                if (UserCode != string.Empty && FieldworkType != string.Empty && MetadataActivity != string.Empty &&
+                    ProjectUser_FN != string.Empty && ProjectUser_LN != string.Empty && Version != string.Empty &&
                     VersionSchema != string.Empty && StationStartNumber != string.Empty && Convert.ToInt16(StationStartNumber) < 9999)
                 {
                     return true;
@@ -104,7 +104,7 @@ namespace GSCFieldApp.Models
                 {
                     return ProjectUser_LN + ", " + ProjectUser_FN;
                 }
-                
+
             }
             set { }
 

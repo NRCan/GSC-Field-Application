@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SQLite;
-using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Models
 {
@@ -136,7 +136,7 @@ namespace GSCFieldApp.Models
                 sampleFieldList144.AddRange(sampleFieldList[DatabaseLiterals.DBVersion150]);
                 int removeIndex = sampleFieldList144.IndexOf(DatabaseLiterals.FieldSampleName);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleName);
-                sampleFieldList144.Insert(removeIndex,DatabaseLiterals.FieldSampleNameDeprecated);
+                sampleFieldList144.Insert(removeIndex, DatabaseLiterals.FieldSampleNameDeprecated);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleHorizon);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleDepthMin);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleDepthMax);

@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Template10.Mvvm;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Xaml.Controls;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Template10.Mvvm;
 using Windows.UI.Xaml;
-using GSCFieldApp.Dictionaries;
+using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class SampleViewModel: ViewModelBase
+    public class SampleViewModel : ViewModelBase
     {
         #region INITIALIZATION
 
         //UI default values
-        
+
         private string _sampleAlias = string.Empty;
         private int _sampleID = 0;
         private int _sampleEartmatID = 0;
@@ -104,7 +104,7 @@ namespace GSCFieldApp.ViewModels
         public string SelectedSampleSurface { get { return _selectedSampleSurface; } set { _selectedSampleSurface = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> SampleQuality { get { return _sampleQuality; } set { _sampleQuality = value; } }
-        public string SelectedSampleQuality{ get { return _selectedSampleQuality; } set { _selectedSampleQuality = value; } }
+        public string SelectedSampleQuality { get { return _selectedSampleQuality; } set { _selectedSampleQuality = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> SampleState { get { return _sampleState; } set { _sampleState = value; } }
         public string SelectedSampleState { get { return _selectedSampleState; } set { _selectedSampleState = value; } }
@@ -289,7 +289,7 @@ namespace GSCFieldApp.ViewModels
             if (_sampleDuplicateName != String.Empty)
             {
                 _isSampleDuplicate = true;
-                RaisePropertyChanged("IsSampleDuplicate"); 
+                RaisePropertyChanged("IsSampleDuplicate");
             }
 
             //Update UI
@@ -306,7 +306,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedSampleHorizon");
             RaisePropertyChanged("SampleDepthMin");
             RaisePropertyChanged("SampleDepthMax");
-            RaisePropertyChanged("SampleDuplicateName"); 
+            RaisePropertyChanged("SampleDuplicateName");
 
             //Update list view
             UnPipePurposes(existingDataDetailSample.sample.SamplePurpose);
@@ -328,7 +328,7 @@ namespace GSCFieldApp.ViewModels
             sampleModel.SampleNotes = _sampleNote;
             sampleModel.SampleEarthmatID = _sampleEartmatID;
             sampleModel.SamplePurpose = PipePurposes(); //process list of values so they are concatenated.
-            if (_sampleAzim!= string.Empty)
+            if (_sampleAzim != string.Empty)
             {
                 sampleModel.SampleAzim = int.Parse(_sampleAzim);
             }
@@ -344,7 +344,7 @@ namespace GSCFieldApp.ViewModels
             {
                 sampleModel.SampleDepthMax = int.Parse(_sampleDepthMax);
             }
- 
+
             sampleModel.SampleDuplicateName = _sampleDuplicateName;
 
             if (SelectedSampleType != null)
@@ -402,7 +402,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("SampleType");
-            RaisePropertyChanged("SelectedSampleType"); 
+            RaisePropertyChanged("SelectedSampleType");
         }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("SampleSurface");
-            RaisePropertyChanged("SelectedSampleSurface"); 
+            RaisePropertyChanged("SelectedSampleSurface");
         }
         /// <summary>
         /// Will fill the sample type combobox
@@ -454,7 +454,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("SampleQuality");
-            RaisePropertyChanged("SelectedSampleQuality"); 
+            RaisePropertyChanged("SelectedSampleQuality");
         }
         /// <summary>
         /// Will fill the sample state combobox
@@ -504,7 +504,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _samplePurpose.Add(itemPurpose);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("SamplePurpose");
@@ -531,7 +531,7 @@ namespace GSCFieldApp.ViewModels
                     _surficialVisibility = Visibility.Visible;
                 }
             }
-            else 
+            else
             {
                 //Fallback
                 _bedrockVisibility = Visibility.Visible;
@@ -610,7 +610,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     _purposeValues.Add(newPurp);
                 }
-                
+
             }
             #endregion
             RaisePropertyChanged("PurposeValues");
@@ -662,15 +662,15 @@ namespace GSCFieldApp.ViewModels
             #region validate paleomagnetism
 
             //Validate for oriented samplem type and paleomagnetism. This should trigger view on Oriented set of inputs
-            if (_surficialVisibility == Visibility.Visible 
-                && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag 
+            if (_surficialVisibility == Visibility.Visible
+                && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag
                 && SelectedSampleType == DatabaseLiterals.sampleTypeOriented)
             {
                 _bedrockVisibility = Visibility.Visible;
                 RaisePropertyChanged("BedrockVisibility");
             }
-            else if (_surficialVisibility == Visibility.Visible 
-                && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag 
+            else if (_surficialVisibility == Visibility.Visible
+                && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag
                 || SelectedSampleType != DatabaseLiterals.sampleTypeOriented))
             {
                 _bedrockVisibility = Visibility.Collapsed;
@@ -678,9 +678,9 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Validate within purposes list
-            if (_surficialVisibility == Visibility.Visible 
+            if (_surficialVisibility == Visibility.Visible
                 && SelectedSampleType == DatabaseLiterals.sampleTypeOriented
-                && SelectedSamplePurpose == String.Empty 
+                && SelectedSamplePurpose == String.Empty
                 && PurposeValues.Count > 0)
             {
                 foreach (Themes.ComboBoxItem cbi in PurposeValues)

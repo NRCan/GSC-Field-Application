@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json.Serialization;
-using System.Reflection;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace GSCFieldApp.Services
 {

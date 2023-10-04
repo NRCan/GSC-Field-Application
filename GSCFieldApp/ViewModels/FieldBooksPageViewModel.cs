@@ -1,27 +1,25 @@
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Services.FileServices;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Template10.Mvvm;
-using Windows.Storage;
-using Windows.UI.Xaml;
-using GSCFieldApp.Models;
 using Template10.Common;
-using Windows.UI.Xaml.Controls;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Dictionaries;
-using Windows.ApplicationModel.Resources;
-using SQLite;
-using Template10.Services.NavigationService;
 using Template10.Controls;
-using System.IO;
-using GSCFieldApp.Services.FileServices;
+using Template10.Mvvm;
+using Template10.Services.NavigationService;
+using Windows.ApplicationModel.Resources;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
-using Template10.Utils;
-using System.Diagnostics;
-using System.Runtime.ConstrainedExecution;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 //Added By jamel
 //using OSGeo.GDAL;
 //using OSGeo.OGR;
@@ -135,7 +133,7 @@ namespace GSCFieldApp.ViewModels
                 foreach (StorageFile sfi in localFiles)
                 {
                     //Get the database
-                    if ((sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) || sfi.FileType.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)) 
+                    if ((sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) || sfi.FileType.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
                         && sfi.DisplayName == DatabaseLiterals.DBName)
                     {
                         FieldBooks currentDB = new FieldBooks();
@@ -364,7 +362,7 @@ namespace GSCFieldApp.ViewModels
                 DataAccess.DbPath = _projectCollection[newIndex].ProjectDBPath;
 
                 ApplicationData.Current.SignalDataChanged();
-                
+
             }
 
 
@@ -392,7 +390,7 @@ namespace GSCFieldApp.ViewModels
 
             //Refresh page
             FillProjectCollectionAsync();
-            
+
         }
 
         /// <summary>
@@ -448,8 +446,8 @@ namespace GSCFieldApp.ViewModels
         /// <param name="fieldworkType"></param>
         /// <param name="userCode"></param>
         /// <param name="metaID"></param>
-        public async void OpenFieldBook(string projectPath, string fieldworkType, 
-            string userCode, int metaID, string dbPath, string dbVersion, 
+        public async void OpenFieldBook(string projectPath, string fieldworkType,
+            string userCode, int metaID, string dbPath, string dbVersion,
             string projectName, string activityName, bool withNavigateToMap = true)
         {
             //Clear previous field book settings
@@ -533,8 +531,8 @@ namespace GSCFieldApp.ViewModels
                     FilesToBackup.Add(newFile);
 
                     //Zip and Copy
-                    
-                    await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath, 
+
+                    await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath,
                         selectedBook.metadataForProject.UserCode);
 
                     await newFile.DeleteAsync();
@@ -584,11 +582,11 @@ namespace GSCFieldApp.ViewModels
 
         //    Driver driver = Ogr.GetDriverByName("GPKG");
         //    driver.CopyDataSource(inputDataSource, outputFilename, null);
-            
+
         //    Console.WriteLine("Data copied successfully.");
         //    Console.ReadLine();
 
-          
+
         //}
 
         public void projectOpenButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -664,30 +662,30 @@ namespace GSCFieldApp.ViewModels
         //public void DeleteButton_Click()
         //{
 
-            //if (_projectCollection != null && _selectedProjectIndex != -1)
-            //{
-                //FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
-                //int selectedId = selectedBook.metadataForProject.MetaID;
-                //int bookToDelete = _projectCollection.IndexOf(_projectCollection.FirstOrDefault(item => item.metadataForProject.MetaID == selectedId));
+        //if (_projectCollection != null && _selectedProjectIndex != -1)
+        //{
+        //FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
+        //int selectedId = selectedBook.metadataForProject.MetaID;
+        //int bookToDelete = _projectCollection.IndexOf(_projectCollection.FirstOrDefault(item => item.metadataForProject.MetaID == selectedId));
 
-                //if (bookToDelete != -1)
-                //{
-                //    _projectCollection.RemoveAt(bookToDelete);
-                //}
-                //else
-                //{
+        //if (bookToDelete != -1)
+        //{
+        //    _projectCollection.RemoveAt(bookToDelete);
+        //}
+        //else
+        //{
 
-                //}
-                //    ValidateDeleteProject(this);
+        //}
+        //    ValidateDeleteProject(this);
 
-            //}
+        //}
 
         //}
 
 
         //public void EditButton_Click()
         //{ 
-        
+
         //}
 
         /// <summary>
@@ -768,7 +766,7 @@ namespace GSCFieldApp.ViewModels
             openPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
             openPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
             openPicker.FileTypeFilter.Add(".zip");
-            
+
             StorageFile inFile = await openPicker.PickSingleFileAsync();
             if (inFile != null)
             {
@@ -850,7 +848,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         await wantedDB.RenameAsync(Dictionaries.DatabaseLiterals.DBName + extension);
                     }
-                    
+
 
                     SQLiteConnection loadedDBConnection = accessData.GetConnectionFromPath(wantedDB.Path);
 
@@ -878,9 +876,9 @@ namespace GSCFieldApp.ViewModels
 
                         }).AsTask();
 
-                    } 
+                    }
 
-                    OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode, 
+                    OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode,
                         metItem.MetaID, wantedDB.Path, metItem.VersionSchema, metItem.ProjectName, metItem.MetadataActivity, false);
                     FillProjectCollectionAsync();
                 }
@@ -921,7 +919,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// 
-        
+
         public async void ProjectUpgrade_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (System.IO.Directory.Exists(accessData.ProjectPath))
@@ -943,7 +941,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         //Keep current database path before creating the new one
                         string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
-                        
+
                         //Create new fieldbook with embeded resource of legacy schema
                         string versionFileName = DatabaseLiterals.DBName;
                         //string OldVersionFileName = DatabaseLiterals.DBName;

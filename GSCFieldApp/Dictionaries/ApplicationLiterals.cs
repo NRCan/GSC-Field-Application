@@ -7,7 +7,7 @@
         //Will be use to keep track of user header expansion value in local settings.
         public const string KeyworkdExpandLocation = "expandLocation";
         public const string KeyworkdExpandStation = "expandStation";
-        public const string KeyworkdExpandEarthmat= "expandEarthmat";
+        public const string KeyworkdExpandEarthmat = "expandEarthmat";
         public const string KeyworkdExpandSample = "expandSample";
         public const string KeywordExpandDocument = "expandDocument";
         public const string KeywordExpandStructure = "expandStructure";

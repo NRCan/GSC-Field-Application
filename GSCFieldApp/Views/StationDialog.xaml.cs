@@ -1,19 +1,19 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Template10.Common;
+﻿using GSCFieldApp.Models;
 using GSCFieldApp.ViewModels;
-using GSCFieldApp.Models;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Template10.Common;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using System.Collections.Generic;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace GSCFieldApp.Views
 {
-    public sealed partial class StationDataPart : UserControl 
+    public sealed partial class StationDataPart : UserControl
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public FieldNotes parentStationReport;
@@ -35,7 +35,7 @@ namespace GSCFieldApp.Views
             this.InitializeComponent();
             this.ViewModel = new StationViewModel(isWaypoint);
 
-            if (mapPosition !=null)
+            if (mapPosition != null)
             {
                 this.ViewModel.Location = mapPosition;
             }
@@ -89,11 +89,11 @@ namespace GSCFieldApp.Views
                 {
                     this.pageHeader.Text = this.ViewModel.Alias;
                 }
-                
+
                 ViewModel.SetCurrentLocationInUI(mapPosition);
             }
 
-            
+
         }
 
 
@@ -147,7 +147,7 @@ namespace GSCFieldApp.Views
                 CloseControl();
             }
 
-            
+
         }
 
         private async void stationBackButton_Tapped(object sender, TappedRoutedEventArgs e)

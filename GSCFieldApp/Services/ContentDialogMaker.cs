@@ -22,7 +22,7 @@ namespace GSCFieldApp.Services
                     switch (Info.Status)
                     {
                         case AsyncStatus.Canceled:
-                            
+
                             break;
                         case AsyncStatus.Completed:
                             Info.Close();
@@ -53,7 +53,7 @@ namespace GSCFieldApp.Services
         }
 
         public static IAsyncOperation<ContentDialogResult> Info;
-       
+
         public static ContentDialog ActiveDialog;
     }
 }

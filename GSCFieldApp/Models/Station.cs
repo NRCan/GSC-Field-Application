@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using GSCFieldApp.Dictionaries;
-using SQLite;
 
 namespace GSCFieldApp.Models
 {
@@ -132,7 +132,7 @@ namespace GSCFieldApp.Models
                 stationFieldList144.AddRange(stationFieldListDefault);
                 int removeIndex = stationFieldList144.IndexOf(DatabaseLiterals.FieldStationAlias);
                 stationFieldList144.Remove(DatabaseLiterals.FieldStationAlias);
-                stationFieldList144.Insert(removeIndex,DatabaseLiterals.FieldStationAliasDeprecated);
+                stationFieldList144.Insert(removeIndex, DatabaseLiterals.FieldStationAliasDeprecated);
                 stationFieldList[DatabaseLiterals.DBVersion144] = stationFieldList144;
 
                 return stationFieldList;

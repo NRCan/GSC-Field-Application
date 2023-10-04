@@ -13,7 +13,7 @@ namespace GSCFieldApp.Converters
             }
             else if (value.ToString() != "")
             {
-                return value.ToString() + "*"; 
+                return value.ToString() + "*";
             }
             else
             {

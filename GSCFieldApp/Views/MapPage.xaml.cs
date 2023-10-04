@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Esri.ArcGISRuntime.Mapping;
+using Esri.ArcGISRuntime.Symbology;
+using Esri.ArcGISRuntime.UI;
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services.DatabaseServices;
+using System;
+using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using GSCFieldApp.Services.DatabaseServices;
-using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.UI;
 using Windows.UI.Xaml.Input;
-using System.Threading.Tasks;
-using Esri.ArcGISRuntime.Symbology;
-using GSCFieldApp.Dictionaries;
-using Windows.UI;
+using Windows.UI.Xaml.Navigation;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
-using Windows.ApplicationModel.Resources;
 
 namespace GSCFieldApp.Views
 {
@@ -87,7 +86,7 @@ namespace GSCFieldApp.Views
             MapPageViewModel.RefreshMap(true);
             MapPageViewModel.DisplayPointAndLabelsAsync(myMapView);
 
-            
+
             //DisplayLatLongGrid();
 
             //UpdateGrid();
@@ -112,7 +111,7 @@ namespace GSCFieldApp.Views
             {
                 MapPageViewModel.currentMapView.CancelSetViewpointOperations();
             }
-            
+
             base.OnNavigatingFrom(e);
         }
 
@@ -229,7 +228,7 @@ namespace GSCFieldApp.Views
 
         private void UpdateGrid()
         {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              if (myMapView.Grid != null && myMapView.Grid.LevelCount > 0)
+            if (myMapView.Grid != null && myMapView.Grid.LevelCount > 0)
             {
                 //Get proper color
                 Windows.UI.Color defaultColor = new Windows.UI.Color();
@@ -409,8 +408,8 @@ namespace GSCFieldApp.Views
 
             MapPageViewModel.ZoomToLayer(true);
             //myMapView.SetViewpoint
-                       
-            
+
+
         }
 
 

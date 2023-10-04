@@ -1,11 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using GSCFieldApp.Models;
+using System.Collections.ObjectModel;
 using Template10.Mvvm;
-using GSCFieldApp.Models;
 using Windows.UI.Xaml;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class ContentDialogSemanticZoomViewModel: ViewModelBase
+    public class ContentDialogSemanticZoomViewModel : ViewModelBase
     {
         private ObservableCollection<SemanticDataGroup> _Groups;
 
@@ -43,7 +43,7 @@ namespace GSCFieldApp.ViewModels
 
 
             //Build list
-            if (inAssignTable!=null && inParentFieldName!=null && inChildFieldName!=null)
+            if (inAssignTable != null && inParentFieldName != null && inChildFieldName != null)
             {
 
                 //On init for new earthmats calculate values so UI shows stuff.

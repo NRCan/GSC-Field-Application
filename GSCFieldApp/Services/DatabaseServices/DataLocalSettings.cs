@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Windows.Storage;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using Windows.Storage;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -11,14 +11,14 @@ namespace GSCFieldApp.Services.DatabaseServices
     {
         readonly ApplicationDataContainer currentLocalSettings = ApplicationData.Current.LocalSettings;
         public const string containerName = Dictionaries.ApplicationLiterals.LocalSettingMainContainer;
-        
+
         public DataLocalSettings()
         {
             if (!currentLocalSettings.Containers.ContainsKey(containerName))
             {
                 currentLocalSettings.CreateContainer(containerName, ApplicationDataCreateDisposition.Always);
             }
-            
+
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             try
             {
-                IEnumerator<KeyValuePair<string, ApplicationDataContainer >> containerList = currentLocalSettings.Containers.GetEnumerator();
+                IEnumerator<KeyValuePair<string, ApplicationDataContainer>> containerList = currentLocalSettings.Containers.GetEnumerator();
                 while (containerList.MoveNext())
                 {
                     currentLocalSettings.DeleteContainer(containerList.Current.Key);
@@ -57,7 +57,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
 
             }
-            
+
 
         }
 
@@ -99,7 +99,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="keyName"></param>
         /// <param name="inContainerName"></param>
         /// <returns></returns>
-        public object GetSettingValue(string keyName, string inContainerName="")
+        public object GetSettingValue(string keyName, string inContainerName = "")
         {
             //Variable 
             object output = "";
@@ -109,7 +109,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 wantedContainer = inContainerName;
             }
-            
+
 
             if (currentLocalSettings.Containers[containerName].Values.ContainsKey(keyName))
             {
@@ -124,7 +124,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will set a given container key with given object
         /// </summary>
         /// <param name="inFieldBookPath"></param>
-        public void SetSettingValue(string inKey, object inKeyValue, string inContainerName="")
+        public void SetSettingValue(string inKey, object inKeyValue, string inContainerName = "")
         {
             //Variables
             string updateContainer = containerName;
@@ -136,10 +136,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 currentLocalSettings.Containers[updateContainer].Values[inKey] = inKeyValue;
             }
-            
+
         }
 
-        public bool DeleteSetting(string inKey, string inContainerName="")
+        public bool DeleteSetting(string inKey, string inContainerName = "")
         {
             //Variables
             string updateContainer = containerName;
@@ -161,7 +161,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public void InitializeHeaderVisibility()
         {
             #region Header toggles
-            
+
             //Default common
             if (currentLocalSettings.Containers[containerName].Values.ContainsKey(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType))
             {

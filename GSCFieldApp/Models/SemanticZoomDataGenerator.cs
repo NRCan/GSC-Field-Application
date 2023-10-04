@@ -34,9 +34,9 @@ namespace GSCFieldApp.Models
                 //Update past table
                 lastAssignTable = inAssignTable;
             }
-                
 
-            return _data.GroupBy(d => d.Title, 
+
+            return _data.GroupBy(d => d.Title,
                 (key, items) => new SemanticDataGroup() { Name = key, Items = items.ToList() }).ToList();
         }
 
@@ -61,11 +61,11 @@ namespace GSCFieldApp.Models
 
             //Get a list of parent (title)
             Vocabularies voc = new Vocabularies();
-            
+
             string finalQueryTitle = string.Empty;
 
             string querySelect = "SELECT * FROM " + TableDictionary;
-            string queryJoin = " JOIN " + TableDictionaryManager + " ON " + TableDictionary + "." + 
+            string queryJoin = " JOIN " + TableDictionaryManager + " ON " + TableDictionary + "." +
                 FieldDictionaryCodedTheme + " = " + TableDictionaryManager + "." + FieldDictionaryManagerCodedTheme;
             string queryAssignTable = " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerAssignTable + " = '" + inAssignTable + "'";
             string queryAssignFieldChild = " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerAssignField + " = '" + inChildFieldName + "'";
@@ -85,11 +85,11 @@ namespace GSCFieldApp.Models
                 string queryProjectType = " AND " + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo +
                     " = '" + ScienceLiterals.ApplicationThemeSurficial + "'";
 
-                finalQueryTitle = querySelect + queryJoin + queryAssignTable + queryAssignFieldChild.Replace("WHERE", "AND") + 
+                finalQueryTitle = querySelect + queryJoin + queryAssignTable + queryAssignFieldChild.Replace("WHERE", "AND") +
                     queryProjectType + queryVisibility + queryOrder;
             }
-            
-            
+
+
 
             List<object> vocRaw = dAccess.ReadTable(voc.GetType(), finalQueryTitle);
             IEnumerable<Vocabularies> vocTable = vocRaw.Cast<Vocabularies>();

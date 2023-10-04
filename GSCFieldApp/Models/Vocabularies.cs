@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using GSCFieldApp.Dictionaries;
 using SQLite;
-using GSCFieldApp.Dictionaries;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GSCFieldApp.Models
 {
@@ -14,7 +14,7 @@ namespace GSCFieldApp.Models
         /// </summary>
         /// <typeparam name="Vocabularies"></typeparam>
         /// <param name="vocabCollection"></param>
-        public static void Sort<Vocabularies>(this ObservableCollection<Vocabularies> vocabCollection) where Vocabularies: IComparable<Vocabularies>
+        public static void Sort<Vocabularies>(this ObservableCollection<Vocabularies> vocabCollection) where Vocabularies : IComparable<Vocabularies>
         {
             List<Vocabularies> sorted = vocabCollection.OrderBy(x => x).ToList();
             for (int i = 0; i < sorted.Count; i++)
@@ -22,7 +22,7 @@ namespace GSCFieldApp.Models
                 vocabCollection.Move(vocabCollection.IndexOf(sorted[i]), i);
             }
         }
-    
+
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ namespace GSCFieldApp.Models
     /// changed it to vocabularies
     /// </summary>
     [Table(DatabaseLiterals.TableDictionary)]
-    public class Vocabularies: IComparable<Vocabularies>
+    public class Vocabularies : IComparable<Vocabularies>
     {
         [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID)]
         public int rowid { get; set; }

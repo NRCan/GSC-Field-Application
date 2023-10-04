@@ -13,7 +13,7 @@ namespace GSCFieldApp.Views
             Window.Current.SizeChanged += (s, e) => Resize(splashScreen);
             Resize(splashScreen);
 
-            
+
         }
 
         private void Splash_Unloaded(object sender, RoutedEventArgs e)
