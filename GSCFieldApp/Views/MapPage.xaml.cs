@@ -124,7 +124,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
+
         private void LatLongDMSButtonClicked(object sender, RoutedEventArgs e)
         {
             //Hide or show Lat Long and UTM coordinates

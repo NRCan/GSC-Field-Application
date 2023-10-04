@@ -388,7 +388,7 @@ namespace GSCFieldApp.ViewModels
             foreach (Vocabularies finalValues in _picklistValues)
             {
                 //Build query
-                string queryUpdate = "UPDATE " + TableDictionary;
+                //string queryUpdate = "UPDATE " + TableDictionary;  //Never used
                 string querySetVisibility = " SET " + FieldDictionaryVisible + " = '" + finalValues.Visibility + "', ";
                 string querySetEditor = FieldDictionaryEditor + " = '" + userID + "', ";
                 string querySetEditDate = FieldDictionaryEditorDate + " = '" + currentStringTime + "'";

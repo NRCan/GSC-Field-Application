@@ -39,7 +39,8 @@ namespace GSCFieldApp.Themes
         DependencyProperty.Register("IsExpanded", typeof(bool),
         typeof(ExpandPanel), new PropertyMetadata(false));
 
-        public static readonly DependencyProperty CornerRadiusProperty =
+        //I saw the warning so I added new.  Jamel
+        public new static readonly DependencyProperty CornerRadiusProperty =
         DependencyProperty.Register("CornerRadius", typeof(CornerRadius),
         typeof(ExpandPanel), null);
 
@@ -74,7 +75,8 @@ namespace GSCFieldApp.Themes
             }
         }
 
-        public CornerRadius CornerRadius
+        //I saw the warning so I added new.  Jamel
+        public new CornerRadius CornerRadius
         {
             get { return (CornerRadius)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }

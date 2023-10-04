@@ -55,7 +55,7 @@ namespace GSCFieldApp.ViewModels
         public string _documentPhotoPath = null;
         private bool _documentPhotoExists = false;
         private readonly List<string> _fileNumbers = new List<string>(); //All current file numbers in database
-        private bool _fileNumberExists = false; //Will be used to track if number already exists, prevent save on dialog.
+        //private bool _fileNumberExists = false; //Will be used to track if number already exists, prevent save on dialog.
 
         //DB
         public bool doDocumentUpdate = false; //New records or record update

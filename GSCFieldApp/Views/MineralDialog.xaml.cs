@@ -144,7 +144,7 @@ namespace GSCFieldApp.Views
             //Update list that are bound to lithology selection
             MineralVM.InitFill2ndRound(MineralNamesTextbox.Text);
 
-            
+
         }
         private List<string> CreateSuggestionList()
         {
