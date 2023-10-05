@@ -32,7 +32,7 @@
 
             <Controls:PageHeader x:Name="pageHeader" x:Uid="DrillDialogHeader" Text ="" BackButtonVisibility="Collapsed"
                             RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldDrillColorBrush}"
-                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True" 
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
@@ -46,8 +46,59 @@
                              EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
                              RelativePanel.AlignLeftWithPanel="True" Height="20">
             </Controls:PageHeader>
-            
+
+            <RelativePanel Style="{StaticResource ParentPanel}" x:Name="drillRelativePanel">
+                <ScrollViewer Style="{StaticResource VerticalScroll}">
+                    <RelativePanel Style="{StaticResource ChildPanel}" x:Name="drillScrollRelativePanel">
+
+                        <!--Context-->
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="DrillContextGridView" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                  RelativePanel.AlignTopWithPanel="True">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_Context" IsTabStop="False" IsEnabled="False"/>
+
+                        </GridView>
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_1"
+                           RelativePanel.Below="DrillContextGridView"
+                           Fill="{ThemeResource FieldDrillColorBrush}" />
+                        
+                        <!--Metrics-->
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="DrillMetricGridView" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                  RelativePanel.Below="MainSeparator_1">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_Metrics" IsTabStop="False" IsEnabled="False"/>
+
+                        </GridView>
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_2"
+                           RelativePanel.Below="DrillMetricGridView"
+                           Fill="{ThemeResource FieldDrillColorBrush}" />
+                        
+                        <!--Log/Relog-->
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="DrillLogGridView" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                  RelativePanel.Below="MainSeparator_2">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_Log" IsTabStop="False" IsEnabled="False"/>
+
+                        </GridView>
+
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_3"
+                           RelativePanel.Below="DrillLogGridView"
+                           Fill="{ThemeResource FieldDrillColorBrush}" />
+                        
+                        <!--General-->
+                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="DrillGeneralGridView" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                  RelativePanel.Below="MainSeparator_3">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_General" IsTabStop="False" IsEnabled="False"/>
+
+                        </GridView>
+
+                        <RelativePanel Margin="0,-60,0,0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="DrillGeneralGridView">
+
+                            <TextBox Style="{ThemeResource Notes}" x:Name="DrillNoteBox" x:Uid="DrillgNote"
+                            Text="{x:Bind drillViewModel.Notes, Mode=TwoWay}" TabIndex="15"/>
+
+                        </RelativePanel>
+                        
+                    </RelativePanel>
+                </ScrollViewer>
+            </RelativePanel>
         </RelativePanel>
-        
     </Page>
 </UserControl>

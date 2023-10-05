@@ -23,6 +23,7 @@ namespace GSCFieldApp.Views
         public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
         bool isBackButtonPressed = false;
+        bool isDrillButtonPressed = false;
 
         private readonly SolidColorBrush failBrush = new SolidColorBrush(Windows.UI.Colors.Red);
         private readonly Brush defaultBrush;
@@ -64,20 +65,33 @@ namespace GSCFieldApp.Views
             if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed )
             {
                 //Create a field note report to act like a parent
-                FieldNotes stationParent = new FieldNotes
+                FieldNotes locationParent = new FieldNotes
                 {
                     location = locationVM.locationModel,
                     GenericAliasName = locationVM.LocationAlias,
                     GenericID = locationVM.LocationID
                 };
-                stationParent.ParentTableName = Dictionaries.DatabaseLiterals.TableLocation;
+                locationParent.ParentTableName = Dictionaries.DatabaseLiterals.TableLocation;
 
-                //Create a map point
+                //Create a map point and open the right dialog
                 var modal = Window.Current.Content as ModalDialog;
-                var view = modal.ModalContent as Views.StationDataPart;
-                modal.ModalContent = view = new Views.StationDataPart(stationParent, false);
-                view.mapPosition = locationVM.locationModel;
-                view.ViewModel.newStationEdit += locationVM.NavigateToReportAsync; //Detect when the add/edit request has finished.
+
+                //For stations
+                if (!isDrillButtonPressed)
+                {
+                    var view = modal.ModalContent as Views.StationDataPart;
+                    modal.ModalContent = view = new Views.StationDataPart(locationParent, false);
+                    view.mapPosition = locationVM.locationModel;
+                    view.ViewModel.newStationEdit += locationVM.NavigateToReportAsync; //Detect when the add/edit request has finished.
+                }
+                else
+                {
+                    var view = modal.ModalContent as Views.DrillHoleDialog;
+                    modal.ModalContent = view = new Views.DrillHoleDialog(locationParent);
+                    view.mapPosition = locationVM.locationModel;
+                    modal.IsModal = true;
+                }
+
                 modal.IsModal = true;
 
                 DataLocalSettings dLocalSettings = new DataLocalSettings();
@@ -158,6 +172,16 @@ namespace GSCFieldApp.Views
 
             if (isUIValid.Result)
             {
+                //Get sender name
+                Button senderButton = sender as Button;
+                if (senderButton.Name.ToLower().Contains("drill"))
+                {
+                    isDrillButtonPressed = true;
+                }
+                else
+                {
+                    isDrillButtonPressed= false;
+                }
                 this.LocationSaveButton.Focus(FocusState.Keyboard);
             }
             else
@@ -306,20 +330,11 @@ namespace GSCFieldApp.Views
             }
         }
 
-
-
         #endregion
 
-        public void LocationDrillButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private void modalDialogClosed(object sender)
         {
-            var modal = Window.Current.Content as ModalDialog;
-            var view = modal.ModalContent as Views.StationDataPart;
-            modal.ModalContent = view = new Views.StationDataPart(null, false);
-            modal.IsModal = true;
-            view.stationClosed -= modalDialogClosed;
-            view.stationClosed += modalDialogClosed;
-            DataLocalSettings dLocalSettings = new DataLocalSettings();
-            dLocalSettings.SetSettingValue("forceNoteRefresh", false);
+            throw new NotImplementedException();
         }
     }
 }

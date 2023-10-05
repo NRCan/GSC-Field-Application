@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GSCFieldApp.Models;
+using GSCFieldApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,9 +21,25 @@ namespace GSCFieldApp.Views
 {
     public sealed partial class DrillHoleDialog : UserControl
     {
-        public DrillHoleDialog()
+        public DrillHoleViewModel drillViewModel { get; set; }
+        public FieldNotes parentDrillReport { get; set; }
+
+        public delegate void drillCloseWithoutSaveEventHandler(object sender); //A delegate for execution events
+        public event drillCloseWithoutSaveEventHandler drillClosed; //This event is triggered when a save has been done on station table.
+
+        public FieldLocation mapPosition { get; set; }
+
+        public DrillHoleDialog(FieldNotes inParentReport)
         {
-            this.InitializeComponent();
+            {
+                if (inParentReport != null)
+                {
+                    parentDrillReport = inParentReport;
+                }
+
+                this.InitializeComponent();
+                this.drillViewModel = new DrillHoleViewModel(inParentReport);
+            }
         }
 
         public void drillBackButton_Tapped(object sender, TappedRoutedEventArgs e)

@@ -17,6 +17,23 @@ namespace GSCFieldApp.ViewModels
 {
     public class DrillHoleViewModel: ViewModelBase
     {
-        public DrillHoleViewModel() { }
+        #region INITIALIZATION
+
+        public FieldNotes existingDataDetail;
+
+        //UI
+        private string _notes = string.Empty;
+
+        public DrillHoleViewModel(FieldNotes inReportModel) 
+        {
+            existingDataDetail = inReportModel;
+        }
+
+        #endregion
+
+        #region PROPERTIES
+        public string Notes { get { return _notes; } set { _notes = value; } }
+
+        #endregion
     }
 }

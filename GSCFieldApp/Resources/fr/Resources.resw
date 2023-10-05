@@ -1774,4 +1774,19 @@ Shimamura, Kaz – Conseiller</value>
   <data name="DrillLabel.Label" xml:space="preserve">
     <value>DH</value>
   </data>
+  <data name="DrillDialogHeader.Text" xml:space="preserve">
+    <value>Puit de forage</value>
+  </data>
+  <data name="DrillGridView_Context.Content" xml:space="preserve">
+    <value>Contexte</value>
+  </data>
+  <data name="DrillGridView_General.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="DrillGridView_Log.Content" xml:space="preserve">
+    <value>Journal</value>
+  </data>
+  <data name="DrillGridView_Metrics.Content" xml:space="preserve">
+    <value>Mesures</value>
+  </data>
 </root>
