@@ -2,6 +2,7 @@
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Themes;
+using GSCFieldApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1401,6 +1402,12 @@ namespace GSCFieldApp.ViewModels
             {
                 Themes.ComboBoxItem selectedMineral = args.ChosenSuggestion as Themes.ComboBoxItem;
                 AddAConcatenatedValue(selectedMineral.itemValue, senderBox.Name);
+                //EarthMineralConcat.Items.Add(selectedMineral.itemValue);
+                senderBox.Text = string.Empty;
+
+                // Close the suggestion list
+                senderBox.IsSuggestionListOpen = false;
+                senderBox.Focus(FocusState.Programmatic);
             }
 
         }

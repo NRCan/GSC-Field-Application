@@ -173,23 +173,23 @@ namespace GSCFieldApp.Views
         /// <param name="e">Any event arguments</param>
         private void EarthMineralAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            // Only get results when it was a user typing,
-            // otherwise assume the value got filled in by TextMemberPath
-            // or the handler for SuggestionChosen.
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                //Set the ItemsSource to be your filtered dataset
-                var search_term = EarthMineralAutoSuggest.Text.ToLower();
-                var results = ViewModel.EarthmatMineral.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
 
-                if (results.Count > 0)
-                    EarthMineralAutoSuggest.ItemsSource = results;
-                else
-                    EarthMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
-            }
+                // Only get results when it was a user typing,
+                // otherwise assume the value got filled in by TextMemberPath
+                // or the handler for SuggestionChosen.
+                if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && !string.IsNullOrWhiteSpace(EarthMineralAutoSuggest.Text))
+                {
+                    //Set the ItemsSource to be your filtered dataset
+                    var search_term = EarthMineralAutoSuggest.Text.ToLower();
+                    var results = ViewModel.EarthmatMineral.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
 
+                    if (results.Count > 0)
+                        EarthMineralAutoSuggest.ItemsSource = results;
+                    else
+                        EarthMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
+                }
         }
-
+        
         #endregion
 
         #region SAVE
