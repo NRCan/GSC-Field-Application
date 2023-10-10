@@ -1794,4 +1794,28 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DrillGridView_Metrics.Content" xml:space="preserve">
     <value>Metrics</value>
   </data>
+  <data name="DrillCName.Header" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="DrillgNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="DrillName.Header" xml:space="preserve">
+    <value>Original Name</value>
+  </data>
+  <data name="DrillTypeCbox.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillAzimuthNumBox.Header" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="DrillDepthNumBox.Header" xml:space="preserve">
+    <value>Depth</value>
+  </data>
+  <data name="DrillDipNumBox.Header" xml:space="preserve">
+    <value>Dip</value>
+  </data>
+  <data name="DrillUnitCbox.Header" xml:space="preserve">
+    <value>Units</value>
+  </data>
 </root>

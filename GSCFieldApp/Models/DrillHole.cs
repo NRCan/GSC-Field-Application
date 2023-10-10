@@ -24,13 +24,13 @@ namespace GSCFieldApp.Models
         public string DrillType { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillAzimuth)]
-        public string DrillAzim { get; set; }
+        public double? DrillAzim { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillDip)]
-        public string DrillDip { get; set; }
+        public double? DrillDip { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillDepth)]
-        public string DrillDepth { get; set; }
+        public double? DrillDepth { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillUnit)]
         public string DrillUnit { get; set; }
@@ -39,10 +39,10 @@ namespace GSCFieldApp.Models
         public string DrillDate { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillHoleSize)]
-        public string DrillHoleSize { get; set; }
+        public double? DrillHoleSize { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillCoreSize)]
-        public string DrillCoreSize { get; set; }
+        public double? DrillCoreSize { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillRelogType)]
         public string DrillRelogType { get; set; }

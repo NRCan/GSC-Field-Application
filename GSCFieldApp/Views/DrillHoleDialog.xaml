@@ -56,6 +56,20 @@
                                   RelativePanel.AlignTopWithPanel="True">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_Context" IsTabStop="False" IsEnabled="False"/>
 
+                            <TextBox x:Name="DrillName" x:Uid="DrillName"
+                                    Text ="{x:Bind drillViewModel.Name, Mode=TwoWay}" 
+                                    Header="" 
+                                    InputScope="Text" TabIndex="1" TabNavigation="Once"/>
+                            <TextBox x:Name="DrillCName" x:Uid="DrillCName"
+                                    Text ="{x:Bind drillViewModel.CompanyName, Mode=TwoWay}" 
+                                    Header="" 
+                                    InputScope="Text" TabIndex="2" TabNavigation="Once"/>
+
+                            <ComboBox x:Name="DrillTypeCbox" x:Uid="DrillTypeCbox"
+                              ItemsSource="{x:Bind drillViewModel.DrillType}" 
+                              SelectedValue="{x:Bind drillViewModel.SelectedDrillType, Mode=TwoWay}"
+                              MinWidth="175" TabIndex="3"/>
+
                         </GridView>
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_1"
                            RelativePanel.Below="DrillContextGridView"
@@ -66,6 +80,22 @@
                                   RelativePanel.Below="MainSeparator_1">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_Metrics" IsTabStop="False" IsEnabled="False"/>
 
+                            <TextBox x:Name="DrillAzimuthNumBox" x:Uid="DrillAzimuthNumBox"
+                                HorizontalAlignment="Stretch"
+                                InputScope="Number"
+                                Text ="{x:Bind drillViewModel.DrillAzim, Mode=TwoWay}" TabIndex="4"/>
+                            <TextBox x:Name="DrillDipNumBox" x:Uid="DrillDipNumBox"
+                                HorizontalAlignment="Stretch"
+                                InputScope="Number"
+                                Text ="{x:Bind drillViewModel.DrillDip, Mode=TwoWay}" TabIndex="5" />
+                            <TextBox x:Name="DrillDepthNumBox" x:Uid="DrillDepthNumBox"
+                                HorizontalAlignment="Stretch"
+                                InputScope="Number"
+                                Text ="{x:Bind drillViewModel.DrillDepth, Mode=TwoWay}" TabIndex="6" />
+                            <ComboBox x:Name="DrillUnitCbox" x:Uid="DrillUnitCbox"
+                              ItemsSource="{x:Bind drillViewModel.DrillUnit}" 
+                              SelectedValue="{x:Bind drillViewModel.SelectedDrillUnit, Mode=TwoWay}"
+                              MinWidth="175" TabIndex="7"/>
                         </GridView>
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_2"
                            RelativePanel.Below="DrillMetricGridView"

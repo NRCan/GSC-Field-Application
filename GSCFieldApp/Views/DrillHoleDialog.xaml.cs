@@ -56,5 +56,15 @@ namespace GSCFieldApp.Views
         {
 
         }
+
+        private void DrillDipNumBox_TextChanged(TextBox sender, TextBoxTextChangingEventArgs args)
+        {
+
+        }
+
+        private void DrillAzimuthNumBox_TextChanged(TextBox sender, TextBoxTextChangingEventArgs args)
+        {
+
+        }
     }
 }
