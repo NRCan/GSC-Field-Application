@@ -1059,5 +1059,29 @@ namespace GSCFieldApp.Services.DatabaseServices
             
         }
         #endregion
+
+        #region OTHERS
+
+        /// <summary>
+        /// Will format date according to needs
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public string FormatDate(DateTime dateTime)
+        {
+            return String.Format("{0:yyyy-MM-dd}", dateTime); ;
+        }
+
+        /// <summary>
+        /// Will format time accord to needs.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public string FormatTime(DateTime dateTime)
+        {
+            return String.Format("{0:HH:mm:ss t}", dateTime); ;
+        }
+
+        #endregion
     }
 }

@@ -184,8 +184,8 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Calculate new values for station too
-                _dateDate = CalculateStationDate(); //Calculate new value
-                _dateTime = CalculateStationTime();//Calculate new value
+                _dateDate = idCalculator.FormatDate(_dateGeneric.DateTime); //Calculate new value
+                _dateTime = idCalculator.FormatTime(_dateGeneric.DateTime);//Calculate new value
 
             }
             else //Existing station
@@ -441,19 +441,6 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
 
-        #region CALCULATIONS
-
-        public string CalculateStationDate()
-        {
-            return String.Format("{0:yyyy-MM-dd}", _dateGeneric); ;
-        }
-
-        public string CalculateStationTime()
-        {
-            return String.Format("{0:HH:mm:ss t}", _dateGeneric); ;
-        }
-
-        #endregion
 
         #region THEMES
 
@@ -586,8 +573,8 @@ namespace GSCFieldApp.ViewModels
             //StationModel.StationID = _stationid; //Prime key
             StationModel.LocationID = quickLocID; //Foreign key
             StationModel.StationAlias = _alias;
-            StationModel.StationVisitDate = _dateDate = CalculateStationDate(); //Calculate new value
-            StationModel.StationVisitTime = _dateTime = CalculateStationTime();//Calculate new value
+            StationModel.StationVisitDate = _dateDate = idCalculator.FormatDate(_dateGeneric.DateTime); //Calculate new value
+            StationModel.StationVisitTime = _dateTime = idCalculator.FormatTime(_dateGeneric.DateTime);//Calculate new value
             StationModel.StationAirNo = _airno;
             if (_stationTravNo!=string.Empty)
             {

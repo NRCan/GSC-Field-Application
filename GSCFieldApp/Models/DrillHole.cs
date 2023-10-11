@@ -60,7 +60,7 @@ namespace GSCFieldApp.Models
         public string DrillNotes { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillLocationID)]
-        public string DrillLocationID { get; set; }
+        public int DrillLocationID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableLocation;
@@ -116,7 +116,6 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
-
 
     }
 }

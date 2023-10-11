@@ -20,11 +20,15 @@ namespace GSCFieldApp.ViewModels
     {
         #region INITIALIZATION
 
+        private DrillHole dhModel = new DrillHole();
         public FieldNotes existingDataDetail;
         readonly DataAccess accessData = new DataAccess();
         readonly DataLocalSettings localSetting = new DataLocalSettings();
+        public bool doDrillHoleUpdate = false;
+        public DataIDCalculation idCalculator = new DataIDCalculation();
 
         //UI
+        private int _drillID = 0; //Meant for update purposes, not insert
         private string _notes = string.Empty;
         private string _name = string.Empty;
         private string _companyName = string.Empty;
@@ -285,6 +289,98 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("DrillLogBy");
             }
                
+        }
+
+        /// <summary>
+        /// Force a cascade delete if user get's out of drill hole dialog while in manual XY mode
+        /// </summary>
+        /// <param name="inParentModel"></param>
+        public void DeleteCascadeOnQuickDrillHole(FieldNotes inParentModel)
+        {
+            //Get the location id
+            FieldLocation locModel = new FieldLocation();
+            List<object> locTableLRaw = accessData.ReadTable(locModel.GetType(), null);
+            IEnumerable<FieldLocation> locTable = locTableLRaw.Cast<FieldLocation>(); //Cast to proper list type
+            IEnumerable<int> locs = from l in locTable where l.LocationID == inParentModel.location.LocationID select l.LocationID;
+            List<int> locationFromDH = locs.ToList();
+
+            //Delete location
+            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromDH[0]);
+        }
+
+
+        /// <summary>
+        /// On save event
+        /// </summary>
+        public void SaveDialogInfoAsync()
+        {
+            //Save the new station
+            dhModel.DrillName = _name;
+            dhModel.DrillCompany = _companyName;
+            dhModel.DrillRelogBy = _drillLogBy;
+            dhModel.DrillNotes = _notes;
+            dhModel.DrillLog = _drillLogSummary;
+
+            dhModel.DrillDate = idCalculator.FormatDate(_drillDate);
+            dhModel.DrillID = _drillID; //Prime key
+            dhModel.DrillLocationID = existingDataDetail.location.LocationID; //Foreign key
+
+            if (_drillAzim != string.Empty)
+            {
+                dhModel.DrillAzim = double.Parse(_drillAzim);
+            }
+            if (_drillDip != string.Empty)
+            {
+                dhModel.DrillDip = double.Parse(_drillDip);
+            }
+            if (_drillDepth != string.Empty)
+            {
+                dhModel.DrillDepth = double.Parse(_drillDepth);
+            }
+            
+            
+
+            //Comboboxes
+            if (SelectedDrillType != null)
+            {
+                dhModel.DrillType = SelectedDrillType;
+            }
+
+            if (SelectedDrillUnit != null)
+            {
+                dhModel.DrillUnit = SelectedDrillUnit;
+            }
+
+            if (SelectedDrillHoleSize != null)
+            {
+                dhModel.DrillHoleSize = SelectedDrillHoleSize;
+            }
+            if (SelectedDrillCoreSize != null)
+            {
+                dhModel.DrillCoreSize = SelectedDrillCoreSize;
+            }
+            if (SelectedDrillLogType != null)
+            {
+                dhModel.DrillRelogType = SelectedDrillLogType;
+            }
+            object drillObject = (object)dhModel;
+            accessData.SaveFromSQLTableObject(ref drillObject, doDrillHoleUpdate);
+            dhModel = (DrillHole)drillObject;
+
+            //if (newEnvironmentEdit != null)
+            //{
+            //    newEnvironmentEdit(this);
+            //}
+
+        }
+
+        /// <summary>
+        /// Will format drill date
+        /// </summary>
+        /// <returns></returns>
+        public string CalculateDrillDate()
+        {
+            return String.Format("{0:yyyy-MM-dd}", _drillDate);
         }
 
         #endregion

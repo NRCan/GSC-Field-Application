@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Template10.Common;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -31,40 +32,83 @@ namespace GSCFieldApp.Views
 
         public DrillHoleDialog(FieldNotes inParentReport)
         {
+            
+            if (inParentReport != null)
             {
-                if (inParentReport != null)
-                {
-                    parentDrillReport = inParentReport;
-                }
-
-                this.InitializeComponent();
-                this.drillViewModel = new DrillHoleViewModel(inParentReport);
+                parentDrillReport = inParentReport;
             }
+
+            this.InitializeComponent();
+            this.drillViewModel = new DrillHoleViewModel(inParentReport);
+
+            //#258 bringing back some old patch on save button
+            this.drillSaveButton.GotFocus -= DrillSaveButton_GotFocus;
+            this.drillSaveButton.GotFocus += DrillSaveButton_GotFocus;
+
         }
 
+        #region EVENTS
+
+        /// <summary>
+        /// On button focus, will commit a save
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DrillSaveButton_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.drillSaveButton.GotFocus -= DrillSaveButton_GotFocus;
+            drillViewModel.SaveDialogInfoAsync();
+            CloseControl();
+        }
+
+        /// <summary>
+        /// Will close the form and make sure to delete perviously added location
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void drillBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            this.drillViewModel.DeleteCascadeOnQuickDrillHole(parentDrillReport);
+            CloseControl();
         }
 
+        /// <summary>
+        /// Will save the form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void drillSaveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            //Trigger focus on save button
+            this.drillSaveButton.Focus(FocusState.Keyboard);
         }
 
-        public void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
+        private void ConcatValueCheck_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
         }
+        #endregion
 
-        private void DrillDipNumBox_TextChanged(TextBox sender, TextBoxTextChangingEventArgs args)
+        #region CLOSE
+        /// <summary>
+        /// Will close the modal dialog.
+        /// </summary>
+        public void CloseControl()
         {
 
-        }
+            //Get the current window and cast it to a DeleteDialog ModalDialog and shut it down.
+            WindowWrapper.Current().Dispatcher.Dispatch(() =>
+            {
+                var modalDHClose = Window.Current.Content as Template10.Controls.ModalDialog;
+                var viewDHClose = modalDHClose.ModalContent as DrillHoleDialog;
+                modalDHClose.ModalContent = viewDHClose;
+                modalDHClose.IsModal = false;
+            });
 
-        private void DrillAzimuthNumBox_TextChanged(TextBox sender, TextBoxTextChangingEventArgs args)
-        {
 
         }
+        #endregion
+
+
     }
 }
