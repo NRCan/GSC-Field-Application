@@ -167,6 +167,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BitmapSourceConverter.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\String2Integer.cs" />
     <Compile Include="Converters\String2Double.cs" />
     <Compile Include="Converters\TextWithDegreeConverter.cs" />

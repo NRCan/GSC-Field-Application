@@ -22,6 +22,7 @@ namespace GSCFieldApp.ViewModels
 
         public FieldNotes existingDataDetail;
         readonly DataAccess accessData = new DataAccess();
+        readonly DataLocalSettings localSetting = new DataLocalSettings();
 
         //UI
         private string _notes = string.Empty;
@@ -30,12 +31,26 @@ namespace GSCFieldApp.ViewModels
         private string _drillAzim = string.Empty; 
         private string _drillDip = string.Empty;
         private string _drillDepth = string.Empty;
+        private string _drillLogBy = string.Empty;
+        private string _drillLogIntervals = string.Empty;
+        private string _drillLogSummary = string.Empty;
+
+        private DateTime _drillDate = DateTime.Today;
 
         private ObservableCollection<Themes.ComboBoxItem> _drillType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDrillType = string.Empty;
 
         private ObservableCollection<Themes.ComboBoxItem> _drillUnit = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDrillUnit = string.Empty;
+
+        private ObservableCollection<Themes.ComboBoxItem> _drillHoleSize = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedDrillHoleSize = string.Empty;
+
+        private ObservableCollection<Themes.ComboBoxItem> _drillCoreSize = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedDrillCoreSize = string.Empty;
+
+        private ObservableCollection<Themes.ComboBoxItem> _drillLogType = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedDrillLogType = string.Empty;
 
         public DrillHoleViewModel(FieldNotes inReportModel) 
         {
@@ -44,6 +59,11 @@ namespace GSCFieldApp.ViewModels
             //Fill controls
             FillDrillTypes();
             FillDrillUnits();
+            FillDrillHoleSize();
+            FillDrillCoreSize();
+            FillDrillLogType();
+            FillLogBy();
+
         }
 
         #endregion
@@ -52,12 +72,29 @@ namespace GSCFieldApp.ViewModels
         public string Notes { get { return _notes; } set { _notes = value; } }
         public string Name { get { return _name; } set { _name = value; } }
         public string CompanyName { get { return _companyName; } set { _companyName = value; } }
+        public string DrillLogBy { get { return _drillLogBy; } set { _drillLogBy = value; } }
+        public string DrillLogIntervals { get { return _drillLogIntervals; } set { _drillLogIntervals = value; } }
+        public string DrillLogSummary { get { return _drillLogSummary; } set { _drillLogSummary = value; } }
+
+        public DateTime DrillDate { get { return _drillDate.Date; } set { _drillDate = value.Date; } }
         public ObservableCollection<Themes.ComboBoxItem> DrillType { get { return _drillType; } set { _drillType = value; } }
         public string SelectedDrillType { get { return _selectedDrillType; } set { _selectedDrillType = value; } }
         public ObservableCollection<Themes.ComboBoxItem> DrillUnit { get { return _drillUnit; } set { _drillUnit = value; } }
         public string SelectedDrillUnit { get { return _selectedDrillUnit; } set { _selectedDrillUnit = value; } }
 
+        public ObservableCollection<Themes.ComboBoxItem> DrillHoleSize { get { return _drillHoleSize; } set { _drillHoleSize = value; } }
+        public string SelectedDrillHoleSize { get { return _selectedDrillHoleSize; } set { _selectedDrillHoleSize = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> DrillCoreSize { get { return _drillCoreSize; } set { _drillCoreSize = value; } }
+        public string SelectedDrillCoreSize { get { return _selectedDrillCoreSize; } set { _selectedDrillCoreSize = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> DrillLogType { get { return _drillLogType; } set { _drillLogType = value; } }
+        public string SelectedDrillLogType { get { return _selectedDrillLogType; } set { _selectedDrillLogType = value; } }
+
+
         public string DrillDepth { get { return _drillDepth; } set { _drillDepth = value; } }
+
+
         public string DrillAzim
         {
             get
@@ -168,6 +205,87 @@ namespace GSCFieldApp.ViewModels
 
         }
 
+        /// <summary>
+        /// Will fill the drill hole size combobox
+        /// </summary>
+        private void FillDrillHoleSize()
+        {
+
+            //Fill vocab list
+            string fieldName = Dictionaries.DatabaseLiterals.FieldDrillHoleSize;
+            string tableName = Dictionaries.DatabaseLiterals.TableDrillHoles;
+            foreach (var itemST in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedDrillHoleSize))
+            {
+                _drillHoleSize.Add(itemST);
+            }
+
+            //Update UI
+            RaisePropertyChanged("DrillHoleSize");
+            RaisePropertyChanged("SelectedDrillHoleSize");
+
+        }
+
+        /// <summary>
+        /// Will fill the drill core size combobox
+        /// </summary>
+        private void FillDrillCoreSize()
+        {
+
+            //Fill vocab list
+            string fieldName = Dictionaries.DatabaseLiterals.FieldDrillCoreSize;
+            string tableName = Dictionaries.DatabaseLiterals.TableDrillHoles;
+            foreach (var itemST in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedDrillCoreSize))
+            {
+                _drillCoreSize.Add(itemST);
+            }
+
+            //Update UI
+            RaisePropertyChanged("DrillCoreSize");
+            RaisePropertyChanged("SelectedDrillCoreSize");
+
+        }
+
+        /// <summary>
+        /// Will fill the drill relog type combobox
+        /// </summary>
+        private void FillDrillLogType()
+        {
+
+            //Fill vocab list
+            string fieldName = Dictionaries.DatabaseLiterals.FieldDrillRelogType;
+            string tableName = Dictionaries.DatabaseLiterals.TableDrillHoles;
+            foreach (var itemST in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedDrillLogType))
+            {
+                _drillLogType.Add(itemST);
+            }
+
+            //Update UI
+            RaisePropertyChanged("DrillLogType");
+            RaisePropertyChanged("SelectedDrillLogType");
+
+        }
+
+        /// <summary>
+        /// Will fill log by with default value of fieldbook geologist
+        /// </summary>
+        private void FillLogBy()
+        {
+            if (localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID) != null)
+            {
+                int currentMetaID = int.Parse(localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID).ToString());
+
+                List<object> metadataTableRaw = accessData.ReadTable(existingDataDetail.metadata.GetType(), null);
+                IEnumerable<Metadata> metadataTable = metadataTableRaw.Cast<Metadata>(); //Cast to proper list type
+                IEnumerable<Metadata> metadatas = from m in metadataTable where m.MetaID == currentMetaID select m;
+                List<Metadata> metadatasList = metadatas.ToList();
+
+                _drillLogBy = metadatasList[0].Geologist;
+
+                //Update UI
+                RaisePropertyChanged("DrillLogBy");
+            }
+               
+        }
 
         #endregion
     }

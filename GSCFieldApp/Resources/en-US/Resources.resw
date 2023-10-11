@@ -1809,11 +1809,32 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DrillAzimuthNumBox.Header" xml:space="preserve">
     <value>Azimuth</value>
   </data>
+  <data name="DrillCoreSizeCbox.Header" xml:space="preserve">
+    <value>Core Size</value>
+  </data>
+  <data name="DrillDate.Header" xml:space="preserve">
+    <value>Date</value>
+  </data>
   <data name="DrillDepthNumBox.Header" xml:space="preserve">
     <value>Depth</value>
   </data>
   <data name="DrillDipNumBox.Header" xml:space="preserve">
     <value>Dip</value>
+  </data>
+  <data name="DrillHoleSizeCBox.Header" xml:space="preserve">
+    <value>Hole Size</value>
+  </data>
+  <data name="DrillLogBy.Header" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="DrilllogIntervals.Header" xml:space="preserve">
+    <value>Intervals</value>
+  </data>
+  <data name="DrillLogSummaryBox.Header" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="DrillLogTypeCbox.Header" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="DrillUnitCbox.Header" xml:space="preserve">
     <value>Units</value>

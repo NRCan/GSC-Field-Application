@@ -39,10 +39,10 @@ namespace GSCFieldApp.Models
         public string DrillDate { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillHoleSize)]
-        public double? DrillHoleSize { get; set; }
+        public string DrillHoleSize { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillCoreSize)]
-        public double? DrillCoreSize { get; set; }
+        public string DrillCoreSize { get; set; }
 
         [Column(DatabaseLiterals.FieldDrillRelogType)]
         public string DrillRelogType { get; set; }

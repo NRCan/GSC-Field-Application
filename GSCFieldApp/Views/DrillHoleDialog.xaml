@@ -9,8 +9,15 @@
     xmlns:conv="using:GSCFieldApp.Converters"
     mc:Ignorable="d">
 
+    <!--Some useful converters for showing parsed values from different type-->
+    <UserControl.Resources>
+        <conv:DateTimeConverter x:Name="DateTimeConverter" />
+    </UserControl.Resources>
+
     <Page>
         <Page.Resources>
+
+
 
             <!-- Concatenated Value Template -->
             <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
@@ -96,6 +103,19 @@
                               ItemsSource="{x:Bind drillViewModel.DrillUnit}" 
                               SelectedValue="{x:Bind drillViewModel.SelectedDrillUnit, Mode=TwoWay}"
                               MinWidth="175" TabIndex="7"/>
+                            <DatePicker x:Name="DrillDate" x:Uid="DrillDate" TabIndex="8" 
+                                        Date="{x:Bind drillViewModel.DrillDate, Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"/>
+
+                            <ComboBox x:Name="DrillHoleSizeCBox" x:Uid="DrillHoleSizeCBox"
+                              ItemsSource="{x:Bind drillViewModel.DrillHoleSize}" 
+                              SelectedValue="{x:Bind drillViewModel.SelectedDrillHoleSize, Mode=TwoWay}"
+                              MinWidth="175" TabIndex="9"/>
+                            <ComboBox x:Name="DrillCoreSizeCbox" x:Uid="DrillCoreSizeCbox"
+                              ItemsSource="{x:Bind drillViewModel.DrillCoreSize}" 
+                              SelectedValue="{x:Bind drillViewModel.SelectedDrillCoreSize, Mode=TwoWay}"
+                              MinWidth="175" TabIndex="10"/>
+                            
+                            
                         </GridView>
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_2"
                            RelativePanel.Below="DrillMetricGridView"
@@ -106,10 +126,34 @@
                                   RelativePanel.Below="MainSeparator_2">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_Log" IsTabStop="False" IsEnabled="False"/>
 
+                            <ComboBox x:Name="DrillLogTypeCbox" x:Uid="DrillLogTypeCbox"
+                              ItemsSource="{x:Bind drillViewModel.DrillLogType}" 
+                              SelectedValue="{x:Bind drillViewModel.SelectedDrillLogType, Mode=TwoWay}"
+                              MinWidth="175" TabIndex="11"/>
+
+                            <TextBox x:Name="DrillLogBy" x:Uid="DrillLogBy"
+                                    Text ="{x:Bind drillViewModel.DrillLogBy, Mode=TwoWay}" 
+                                    Header=""  
+                                    InputScope="Text" TabIndex="12" TabNavigation="Once"/>
+                            <TextBox x:Name="DrilllogIntervals" x:Uid="DrilllogIntervals"
+                                    Text ="{x:Bind drillViewModel.DrillLogIntervals, Mode=TwoWay}" 
+                                    Header="" 
+                                    InputScope="Text" TabIndex="13" TabNavigation="Once"/>
+
                         </GridView>
 
+                        <RelativePanel Margin="0,0,0,0" x:Name="DrillLogSummary"
+                                       RelativePanel.AlignLeftWithPanel="True" 
+                                       RelativePanel.AlignRightWithPanel="True" 
+                                       RelativePanel.Below="DrillLogGridView">
+
+                            <TextBox Style="{ThemeResource Notes}" x:Name="DrillLogSummaryBox" x:Uid="DrillLogSummaryBox"
+                            Text="{x:Bind drillViewModel.DrillLogSummary, Mode=TwoWay}" TabIndex="14"/>
+
+                        </RelativePanel>
+
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_3"
-                           RelativePanel.Below="DrillLogGridView"
+                           RelativePanel.Below="DrillLogSummary"
                            Fill="{ThemeResource FieldDrillColorBrush}" />
                         
                         <!--General-->
