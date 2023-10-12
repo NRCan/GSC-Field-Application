@@ -122,19 +122,56 @@
                                   RelativePanel.Below="MainSeparator_2">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_Log" IsTabStop="False" IsEnabled="False"/>
 
-                            <ComboBox x:Name="DrillLogTypeCbox" x:Uid="DrillLogTypeCbox"
+                            <RelativePanel>
+                                <ComboBox x:Name="DrillLogTypeCbox" x:Uid="DrillLogTypeCbox"
                               ItemsSource="{x:Bind drillViewModel.DrillLogType}" 
                               SelectedValue="{x:Bind drillViewModel.SelectedDrillLogType, Mode=TwoWay}"
                               MinWidth="175" TabIndex="11"/>
 
-                            <TextBox x:Name="DrillLogBy" x:Uid="DrillLogBy"
+                                <TextBox x:Name="DrillLogBy" x:Uid="DrillLogBy" RelativePanel.RightOf="DrillLogTypeCbox"
                                     Text ="{x:Bind drillViewModel.DrillLogBy, Mode=TwoWay}" 
                                     Header=""  
                                     InputScope="Text" TabIndex="12" TabNavigation="Once"/>
-                            <TextBox x:Name="DrilllogIntervals" x:Uid="DrilllogIntervals"
-                                    Text ="{x:Bind drillViewModel.DrillLogIntervals, Mode=TwoWay}" 
-                                    Header="" 
-                                    InputScope="Text" TabIndex="13" TabNavigation="Once"/>
+
+                                <!--Interval widget-->
+                                <RelativePanel RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="DrillLogTypeCbox" Margin="0,25,0,0" >
+                                    <RelativePanel x:Name="DrillIntervalSelectionPanel" >
+                                        <Border x:Name="DrillIntervalSelection" Height="165"  BorderBrush="{ThemeResource FieldDrillColorBrush}" BorderThickness="1" Padding="15,15,15,15" Margin="0,0,0,15">
+                                            <RelativePanel>
+                                                <TextBox x:Name="DrilllogIntervalsFrom" x:Uid="DrilllogIntervalsFrom"
+                                                Header="" Text="{x:Bind drillViewModel.DrillIntervalFrom, Mode=TwoWay}"
+                                                InputScope="Text" TabIndex="13" TabNavigation="Once"/>
+                                                <TextBox x:Name="DrilllogIntervalsTo" x:Uid="DrilllogIntervalsTo"
+                                                Header="" 
+                                                Text="{x:Bind drillViewModel.DrillIntervalTo, Mode=TwoWay}"
+                                                RelativePanel.Below="DrilllogIntervalsFrom"
+                                                InputScope="Text" TabIndex="14" TabNavigation="Once"/>
+
+                                            </RelativePanel>
+                                        </Border>
+
+                                    </RelativePanel>
+
+                                    <RelativePanel x:Name="DrillIntervalsButtonPanel" Padding="15,17,15,15" RelativePanel.RightOf="DrillIntervalSelectionPanel">
+                                        <Button x:Name="DrillIntervalsSelectionButton" x:Uid="SetButtons" Content="Set" Margin="10,25,0,0" 
+                                            Tapped="{x:Bind drillViewModel.DrillIntervalsSelectionButton_Tapped}"/>
+
+                                    </RelativePanel>
+
+                                    <RelativePanel x:Name="DrillIntervalsPanel" RelativePanel.RightOf="DrillIntervalsButtonPanel">
+                                        <TextBlock x:Name="DrillIntervalsHeader" x:Uid="DrillIntervalsHeader" Margin="0,0,0,-5"/>
+                                        <ListView x:Name="DrillIntervalsConcat"  Height="136"
+                                        RelativePanel.Below="DrillIntervalsHeader"
+                                        Style="{StaticResource ConcatenatedListView}"
+                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}" 
+                                        ItemsSource="{x:Bind drillViewModel.DrillLogIntervals}"/>
+                                    </RelativePanel>
+                                </RelativePanel>
+                                
+                            </RelativePanel>
+
+
+
 
                         </GridView>
 

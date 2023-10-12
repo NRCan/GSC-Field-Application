@@ -1827,7 +1827,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DrillLogBy.Header" xml:space="preserve">
     <value>By</value>
   </data>
-  <data name="DrilllogIntervals.Header" xml:space="preserve">
+  <data name="DrillIntervalsHeader.Text" xml:space="preserve">
     <value>Intervals</value>
   </data>
   <data name="DrillLogSummaryBox.Header" xml:space="preserve">
@@ -1838,5 +1838,11 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="DrillUnitCbox.Header" xml:space="preserve">
     <value>Units</value>
+  </data>
+  <data name="DrilllogIntervalsFrom.Header" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="DrilllogIntervalsTo.Header" xml:space="preserve">
+    <value>To</value>
   </data>
 </root>

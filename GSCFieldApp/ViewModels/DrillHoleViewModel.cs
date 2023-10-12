@@ -26,6 +26,8 @@ namespace GSCFieldApp.ViewModels
         readonly DataLocalSettings localSetting = new DataLocalSettings();
         public bool doDrillHoleUpdate = false;
         public DataIDCalculation idCalculator = new DataIDCalculation();
+        public Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
+
 
         //UI
         private int _drillID = 0; //Meant for update purposes, not insert
@@ -37,9 +39,10 @@ namespace GSCFieldApp.ViewModels
         private string _drillDip = string.Empty;
         private string _drillDepth = string.Empty;
         private string _drillLogBy = string.Empty;
-        private string _drillLogIntervals = string.Empty;
         private string _drillLogSummary = string.Empty;
         private string _drillDate = string.Empty;
+        private string _drillIntervalFrom = string.Empty;
+        private string _drillIntervalTo = string.Empty;  
 
         private ObservableCollection<Themes.ComboBoxItem> _drillType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDrillType = string.Empty;
@@ -56,6 +59,8 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _drillLogType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDrillLogType = string.Empty;
 
+        private ObservableCollection<Themes.ComboBoxItem> _drillLogIntervals = new ObservableCollection<Themes.ComboBoxItem>();
+
         #endregion
 
         #region PROPERTIES
@@ -63,8 +68,9 @@ namespace GSCFieldApp.ViewModels
         public string Name { get { return _name; } set { _name = value; } }
         public string CompanyName { get { return _companyName; } set { _companyName = value; } }
         public string DrillLogBy { get { return _drillLogBy; } set { _drillLogBy = value; } }
-        public string DrillLogIntervals { get { return _drillLogIntervals; } set { _drillLogIntervals = value; } }
         public string DrillLogSummary { get { return _drillLogSummary; } set { _drillLogSummary = value; } }
+        public string DrillIntervalFrom { get { return _drillIntervalFrom; } set { _drillIntervalFrom = value; } }
+        public string DrillIntervalTo { get { return _drillIntervalTo; } set { _drillIntervalTo = value; } }
 
         public string DrillDate { get { return _drillDate; } set { _drillDate = value; } }
         public ObservableCollection<Themes.ComboBoxItem> DrillType { get { return _drillType; } set { _drillType = value; } }
@@ -81,6 +87,7 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> DrillLogType { get { return _drillLogType; } set { _drillLogType = value; } }
         public string SelectedDrillLogType { get { return _selectedDrillLogType; } set { _selectedDrillLogType = value; } }
 
+        public ObservableCollection<Themes.ComboBoxItem> DrillLogIntervals { get { return _drillLogIntervals; } set { _drillLogIntervals = value; } }
 
         public string DrillDepth { get { return _drillDepth; } set { _drillDepth = value; } }
 
@@ -163,7 +170,6 @@ namespace GSCFieldApp.ViewModels
             FillDrillTypes();
             FillDrillUnits();
             FillDrillHoleSize();
-            FillDrillCoreSize();
             FillDrillLogType();
             FillLogBy();
 
@@ -241,15 +247,10 @@ namespace GSCFieldApp.ViewModels
             _drillCoreSize.Clear();
             string fieldName = Dictionaries.DatabaseLiterals.FieldDrillCoreSize;
             string tableName = Dictionaries.DatabaseLiterals.TableDrillHoles;
-            foreach (var itemST in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedDrillCoreSize))
-            {
-                _drillCoreSize.Add(itemST);
-            }
-
-            //Update UI
-            RaisePropertyChanged("DrillCoreSize");
-            RaisePropertyChanged("SelectedDrillCoreSize");
-
+            //foreach (var itemST in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedDrillCoreSize))
+            //{
+            //    _drillCoreSize.Add(itemST);
+            //}
 
             List<Vocabularies> drillCores = new List<Vocabularies>();
 
@@ -272,11 +273,15 @@ namespace GSCFieldApp.ViewModels
                 _drillCoreSize.Add(itemFeature);
             }
 
-            //If something already exists (from autofill) keep it, else autofill will update pflowclass that will trigger this method to redo list and empties user database value
-            if (existingDataDetail != null && (existingDataDetail.drillHoles.DrillCoreSize != null || existingDataDetail.drillHoles.DrillCoreSize != string.Empty))
+            //If something already exists (from autofill) keep it
+            if (existingDataDetail != null && existingDataDetail.drillHoles.DrillCoreSize != null)
             {
                 _selectedDrillCoreSize = existingDataDetail.drillHoles.DrillCoreSize;
             }
+
+            //Update UI
+            RaisePropertyChanged("DrillCoreSize");
+            RaisePropertyChanged("SelectedDrillCoreSize");
 
         }
 
@@ -344,6 +349,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void SaveDialogInfoAsync()
         {
+
             //Save the new station
             dhModel.DrillName = _name;
             dhModel.DrillIDName = _drillIDName;
@@ -369,8 +375,6 @@ namespace GSCFieldApp.ViewModels
                 dhModel.DrillDepth = double.Parse(_drillDepth);
             }
             
-            
-
             //Comboboxes
             if (SelectedDrillType != null)
             {
@@ -394,6 +398,13 @@ namespace GSCFieldApp.ViewModels
             {
                 dhModel.DrillRelogType = SelectedDrillLogType;
             }
+
+            //Concat
+            if (_drillLogIntervals != null && _drillLogIntervals.Count > 0)
+            {
+                dhModel.DrillRelogIntervals = concat.PipeValues(_drillLogIntervals);
+            }
+
             object drillObject = (object)dhModel;
             accessData.SaveFromSQLTableObject(ref drillObject, doDrillHoleUpdate);
             dhModel = (DrillHole)drillObject;
@@ -403,6 +414,50 @@ namespace GSCFieldApp.ViewModels
             //    newEnvironmentEdit(this);
             //}
 
+        }
+
+        /// <summary>
+        /// Will add to the list of intervals.
+        /// </summary>
+        public void AddAConcatenatedInterval(string valueToAdd, bool canRemove = true)
+        {
+            if (valueToAdd != null && valueToAdd != String.Empty)
+            {
+                //Create new cbox item
+                Themes.ComboBoxItem newValue = new Themes.ComboBoxItem();
+                newValue.itemValue = valueToAdd;
+                newValue.itemName = valueToAdd;
+
+                //Set visibility
+                if (canRemove)
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Visible;
+                }
+                else
+                {
+                    newValue.canRemoveItem = Windows.UI.Xaml.Visibility.Collapsed;
+                }
+
+
+                //Update collection
+                if (newValue.itemName != null && newValue.itemName != string.Empty && newValue.itemName != Dictionaries.DatabaseLiterals.picklistNADescription)
+                {
+                    bool foundValue = false;
+                    foreach (Themes.ComboBoxItem existingItems in _drillLogIntervals)
+                    {
+                        if (valueToAdd == existingItems.itemName)
+                        {
+                            foundValue = true;
+                        }
+                    }
+                    if (!foundValue)
+                    {
+                        _drillLogIntervals.Add(newValue);
+                        RaisePropertyChanged("DrillLogIntervals");
+                    }
+
+                }
+            }
         }
 
         #endregion
@@ -417,6 +472,25 @@ namespace GSCFieldApp.ViewModels
         public void DrillHoleSizeCBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FillDrillCoreSize();
+        }
+
+        /// <summary>
+        /// Will add a new contact object into contact list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void DrillIntervalsSelectionButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (_drillIntervalFrom != null && _drillIntervalFrom != String.Empty &&
+                _drillIntervalTo != null && _drillIntervalTo != String.Empty)
+            {
+                string newInterval = _drillIntervalFrom + DatabaseLiterals.KeywordConcatCharacter2nd + _drillIntervalTo;
+
+                AddAConcatenatedInterval(newInterval);
+            }
+
+
+
         }
 
         #endregion
