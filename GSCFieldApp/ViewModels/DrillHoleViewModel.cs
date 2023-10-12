@@ -29,6 +29,7 @@ namespace GSCFieldApp.ViewModels
 
         //UI
         private int _drillID = 0; //Meant for update purposes, not insert
+        private string _drillIDName = string.Empty;
         private string _notes = string.Empty;
         private string _name = string.Empty;
         private string _companyName = string.Empty;
@@ -38,8 +39,7 @@ namespace GSCFieldApp.ViewModels
         private string _drillLogBy = string.Empty;
         private string _drillLogIntervals = string.Empty;
         private string _drillLogSummary = string.Empty;
-
-        private DateTime _drillDate = DateTime.Today;
+        private string _drillDate = string.Empty;
 
         private ObservableCollection<Themes.ComboBoxItem> _drillType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDrillType = string.Empty;
@@ -56,20 +56,6 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _drillLogType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDrillLogType = string.Empty;
 
-        public DrillHoleViewModel(FieldNotes inReportModel) 
-        {
-            existingDataDetail = inReportModel;
-
-            //Fill controls
-            FillDrillTypes();
-            FillDrillUnits();
-            FillDrillHoleSize();
-            FillDrillCoreSize();
-            FillDrillLogType();
-            FillLogBy();
-
-        }
-
         #endregion
 
         #region PROPERTIES
@@ -80,7 +66,7 @@ namespace GSCFieldApp.ViewModels
         public string DrillLogIntervals { get { return _drillLogIntervals; } set { _drillLogIntervals = value; } }
         public string DrillLogSummary { get { return _drillLogSummary; } set { _drillLogSummary = value; } }
 
-        public DateTime DrillDate { get { return _drillDate.Date; } set { _drillDate = value.Date; } }
+        public string DrillDate { get { return _drillDate; } set { _drillDate = value; } }
         public ObservableCollection<Themes.ComboBoxItem> DrillType { get { return _drillType; } set { _drillType = value; } }
         public string SelectedDrillType { get { return _selectedDrillType; } set { _selectedDrillType = value; } }
         public ObservableCollection<Themes.ComboBoxItem> DrillUnit { get { return _drillUnit; } set { _drillUnit = value; } }
@@ -167,6 +153,22 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
 
+        public DrillHoleViewModel(FieldNotes inReportModel)
+        {
+            existingDataDetail = inReportModel;
+
+            _drillIDName = idCalculator.CalculateDrillAlias(DateTime.Today);
+
+            //Fill controls
+            FillDrillTypes();
+            FillDrillUnits();
+            FillDrillHoleSize();
+            FillDrillCoreSize();
+            FillDrillLogType();
+            FillLogBy();
+
+        }
+
         #region METHODS
 
         /// <summary>
@@ -236,6 +238,7 @@ namespace GSCFieldApp.ViewModels
         {
 
             //Fill vocab list
+            _drillCoreSize.Clear();
             string fieldName = Dictionaries.DatabaseLiterals.FieldDrillCoreSize;
             string tableName = Dictionaries.DatabaseLiterals.TableDrillHoles;
             foreach (var itemST in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedDrillCoreSize))
@@ -246,6 +249,34 @@ namespace GSCFieldApp.ViewModels
             //Update UI
             RaisePropertyChanged("DrillCoreSize");
             RaisePropertyChanged("SelectedDrillCoreSize");
+
+
+            List<Vocabularies> drillCores = new List<Vocabularies>();
+
+            if (_selectedDrillHoleSize != null && _selectedDrillHoleSize != string.Empty && _selectedDrillHoleSize != " " && _selectedDrillHoleSize != "")
+            {
+                drillCores = accessData.GetPicklistValuesFromParent(tableName, fieldName, _selectedDrillHoleSize, false).ToList();
+            }
+            else
+            {
+                drillCores = accessData.GetPicklistValuesFromParent(tableName, fieldName, "x", false).ToList(); //Make the query crash and return N.A. if nothing is available in lithotype
+            }
+
+            //Fill in cbox
+            if (_selectedDrillCoreSize == null)
+            {
+                _selectedDrillCoreSize = string.Empty;
+            }
+            foreach (var itemFeature in accessData.GetComboboxListFromVocab(drillCores, out _selectedDrillCoreSize))
+            {
+                _drillCoreSize.Add(itemFeature);
+            }
+
+            //If something already exists (from autofill) keep it, else autofill will update pflowclass that will trigger this method to redo list and empties user database value
+            if (existingDataDetail != null && (existingDataDetail.drillHoles.DrillCoreSize != null || existingDataDetail.drillHoles.DrillCoreSize != string.Empty))
+            {
+                _selectedDrillCoreSize = existingDataDetail.drillHoles.DrillCoreSize;
+            }
 
         }
 
@@ -308,7 +339,6 @@ namespace GSCFieldApp.ViewModels
             accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromDH[0]);
         }
 
-
         /// <summary>
         /// On save event
         /// </summary>
@@ -316,12 +346,13 @@ namespace GSCFieldApp.ViewModels
         {
             //Save the new station
             dhModel.DrillName = _name;
+            dhModel.DrillIDName = _drillIDName;
             dhModel.DrillCompany = _companyName;
             dhModel.DrillRelogBy = _drillLogBy;
             dhModel.DrillNotes = _notes;
             dhModel.DrillLog = _drillLogSummary;
 
-            dhModel.DrillDate = idCalculator.FormatDate(_drillDate);
+            dhModel.DrillDate = _drillDate;
             dhModel.DrillID = _drillID; //Prime key
             dhModel.DrillLocationID = existingDataDetail.location.LocationID; //Foreign key
 
@@ -374,13 +405,18 @@ namespace GSCFieldApp.ViewModels
 
         }
 
+        #endregion
+
+        #region EVENTS
         /// <summary>
-        /// Will format drill date
+        /// Will be triggered whenever user selects a new hole size value. This will
+        /// refill the core size pickist
         /// </summary>
-        /// <returns></returns>
-        public string CalculateDrillDate()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void DrillHoleSizeCBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            return String.Format("{0:yyyy-MM-dd}", _drillDate);
+            FillDrillCoreSize();
         }
 
         #endregion

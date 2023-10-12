@@ -14,6 +14,9 @@ namespace GSCFieldApp.Models
         [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldDrillID)]
         public int DrillID { get; set; }
 
+        [Column(DatabaseLiterals.FieldDrillIDName)]
+        public string DrillIDName { get; set; }
+
         [Column(DatabaseLiterals.FieldDrillName)]
         public string DrillName { get; set; }
 

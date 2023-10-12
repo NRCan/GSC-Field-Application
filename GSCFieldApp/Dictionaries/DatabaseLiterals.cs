@@ -304,6 +304,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEnvGossan = "GOSSPRES"; //Origins in Ganfeld, not implemented here, gossan and mineralization have their own form.
 
         public const string FieldDrillID = "DRILLHOLEID"; //Version 1.8
+        public const string FieldDrillIDName = "DRILLHOLEIDNAME"; //Version 1.8
         public const string FieldDrillName = "DRILLHOLE_ORIGINAL_NAME"; //Version 1.8
         public const string FieldDrillCompany = "COMPANY"; //Version 1.8
         public const string FieldDrillType = "DRILLHOLE_TYPE"; //Version 1.8

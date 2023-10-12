@@ -9,11 +9,6 @@
     xmlns:conv="using:GSCFieldApp.Converters"
     mc:Ignorable="d">
 
-    <!--Some useful converters for showing parsed values from different type-->
-    <UserControl.Resources>
-        <conv:DateTimeConverter x:Name="DateTimeConverter" />
-    </UserControl.Resources>
-
     <Page>
         <Page.Resources>
 
@@ -103,11 +98,12 @@
                               ItemsSource="{x:Bind drillViewModel.DrillUnit}" 
                               SelectedValue="{x:Bind drillViewModel.SelectedDrillUnit, Mode=TwoWay}"
                               MinWidth="175" TabIndex="7"/>
-                            <DatePicker x:Name="DrillDate" x:Uid="DrillDate" TabIndex="8" 
-                                        Date="{x:Bind drillViewModel.DrillDate, Mode=TwoWay,Converter={StaticResource DateTimeConverter}}"/>
+                            <TextBox x:Name="DrillDate" x:Uid="DrillDate"
+                                    Text ="{x:Bind drillViewModel.DrillDate, Mode=TwoWay}" TabIndex="8"
+                                    Header="" InputScope="Text" TabNavigation="Once"/>
 
                             <ComboBox x:Name="DrillHoleSizeCBox" x:Uid="DrillHoleSizeCBox"
-                              ItemsSource="{x:Bind drillViewModel.DrillHoleSize}" 
+                              ItemsSource="{x:Bind drillViewModel.DrillHoleSize}" SelectionChanged="{x:Bind drillViewModel.DrillHoleSizeCBox_SelectionChanged}"
                               SelectedValue="{x:Bind drillViewModel.SelectedDrillHoleSize, Mode=TwoWay}"
                               MinWidth="175" TabIndex="9"/>
                             <ComboBox x:Name="DrillCoreSizeCbox" x:Uid="DrillCoreSizeCbox"

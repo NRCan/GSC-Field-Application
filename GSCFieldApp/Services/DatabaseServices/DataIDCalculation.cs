@@ -23,6 +23,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         readonly Metadata metadataModel = new Metadata();
         readonly MineralAlteration minAlterationModel = new MineralAlteration();
         readonly EnvironmentModel envModel = new EnvironmentModel();
+        readonly DrillHole drillModel = new DrillHole();
         readonly DataAccess dAccess = new DataAccess();
 
         public DataIDCalculation()
@@ -264,6 +265,109 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return finaleWaypointString;
 
+        }
+
+        #endregion
+
+        #region DRILL HOLE
+
+        /// <summary>
+        /// Will calculate a station alias name from a given station ID. Results: 16BEB001 (Year-Year-Geolcode-three digit number)
+        /// </summary>
+        /// <param name="currentID">The station ID to calculate the alias from</param>
+        /// <param name="stationTime">The datetime object related to the station to get the year from</param>
+        /// <returns></returns>
+        public string CalculateDrillAlias(DateTime fieldbookDate)
+        {
+
+            //Get current geolcode
+            string currentGeolcode = localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoUCode).ToString();
+            if (localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID) != null)
+            {
+                int currentMetaID = int.Parse(localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID).ToString());
+
+                //Querying with Linq
+                string drillQuerySelect = "SELECT *";
+                string drillQueryFrom = " FROM " + DatabaseLiterals.TableDrillHoles;
+
+                string drillQueryFinal = drillQuerySelect + drillQueryFrom;
+
+                List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), string.Empty);
+                List<object> drillTableRaw = dAccess.ReadTable(drillModel.GetType(), drillQueryFinal);
+
+                IEnumerable<DrillHole> drillTable = drillTableRaw.Cast<DrillHole>(); //Cast to proper list type
+                IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
+                IEnumerable<string> drills = from d in drillTable join l in locationTable on d.DrillID equals l.LocationID where l.MetaID == currentMetaID orderby d.DrillIDName descending select d.DrillIDName;
+
+                //Get current year
+                string currentDate = currentDate = fieldbookDate.Year.ToString();
+
+                //Get initial station start number if needed
+                int drillCount = drills.Count();
+                if (drillCount == 0)
+                {
+                    drillCount = 1;
+                }
+                else
+                {
+                    //Get actual last alias and extract it's number
+                    string lastAlias = drills.ToList()[0].ToString();
+                    List<char> lastCharacters = lastAlias.ToList();
+                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
+                    string lastNumber = string.Empty;
+                    foreach (char c in lastNumbers)
+                    {
+                        //Rebuild number
+                        lastNumber = lastNumber + c;
+                    }
+                    int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+                    //Increment
+                    drillCount = lastCharacterNumber + 1;
+                }
+
+                //Padd current ID with 0 if needed
+
+                string outputStringID = string.Empty;
+                bool breaker = true;
+                string finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
+                while (breaker)
+                {
+                    if (drillCount < 10)
+                    {
+                        outputStringID = "000" + drillCount.ToString();
+                    }
+                    else if (drillCount >= 10 && drillCount < 100)
+                    {
+                        outputStringID = "00" + drillCount.ToString();
+                    }
+                    else if (drillCount >= 100 && drillCount < 1000)
+                    {
+                        outputStringID = "0" + drillCount.ToString();
+                    }
+                    else
+                    {
+                        outputStringID = drillCount.ToString();
+                    }
+
+                    finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID;
+
+                    IEnumerable<DrillHole> existinStations = from d in drillTable join l in locationTable on d.DrillLocationID equals l.LocationID where l.MetaID == currentMetaID && d.DrillIDName == finalDrillString select d;
+
+                    if (existinStations.Count() == 0 || existinStations == null)
+                    {
+                        breaker = false;
+                    }
+
+                    drillCount++;
+                }
+
+                return finalDrillString;
+            }
+            else
+            {
+                return String.Empty;
+            }
         }
 
         #endregion
