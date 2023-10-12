@@ -173,11 +173,16 @@ namespace GSCFieldApp.Views
         /// <param name="e">Any event arguments</param>
         private void EarthMineralAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (EarthMineralAutoSuggest.Text == string.Empty)
+            {
+                EarthMineralAutoSuggest.IsSuggestionListOpen = false;
+                //EarthMineralAutoSuggest.Focus(FocusState.Programmatic);
+            }
 
-                // Only get results when it was a user typing,
-                // otherwise assume the value got filled in by TextMemberPath
-                // or the handler for SuggestionChosen.
-                if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput && !string.IsNullOrWhiteSpace(EarthMineralAutoSuggest.Text))
+            // Only get results when it was a user typing,
+            // otherwise assume the value got filled in by TextMemberPath
+            // or the handler for SuggestionChosen.
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
                 {
                     //Set the ItemsSource to be your filtered dataset
                     var search_term = EarthMineralAutoSuggest.Text.ToLower();
@@ -187,7 +192,14 @@ namespace GSCFieldApp.Views
                         EarthMineralAutoSuggest.ItemsSource = results;
                     else
                         EarthMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
+
+                    //if (!string.IsNullOrWhiteSpace(EarthMineralAutoSuggest.Text))
+                    //{
+                    //EarthMineralAutoSuggest.IsSuggestionListOpen = false;
+                    //EarthMineralAutoSuggest.Focus(FocusState.Programmatic);
+                    //}
                 }
+
         }
         
         #endregion
