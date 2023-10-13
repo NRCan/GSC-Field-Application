@@ -280,6 +280,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         public string CalculateDrillAlias(DateTime fieldbookDate)
         {
 
+            string prefix = DatabaseLiterals.TableDrillHolePrefix;
+
             //Get current geolcode
             string currentGeolcode = localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoUCode).ToString();
             if (localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID) != null)
@@ -330,7 +332,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 string outputStringID = string.Empty;
                 bool breaker = true;
-                string finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
+                string finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + prefix + outputStringID; //Ex: 16BEBDH001
                 while (breaker)
                 {
                     if (drillCount < 10)
@@ -350,7 +352,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         outputStringID = drillCount.ToString();
                     }
 
-                    finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID;
+                    finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + prefix + outputStringID;
 
                     IEnumerable<DrillHole> existinStations = from d in drillTable join l in locationTable on d.DrillLocationID equals l.LocationID where l.MetaID == currentMetaID && d.DrillIDName == finalDrillString select d;
 

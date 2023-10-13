@@ -429,10 +429,12 @@ namespace GSCFieldApp.Dictionaries
         #endregion
 
         #region Database Alias name prefixes
+
         public const string TableMineralAliasPrefix = "M";
         public const string TableDocumentAliasPrefix = "P";
         public const string TableMineralAlterationPrefix = "X";
         public const string TableEnvironmentPrefix = "E";
+        public const string TableDrillHolePrefix = "DH";
 
         #endregion
 
