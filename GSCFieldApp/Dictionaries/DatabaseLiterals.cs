@@ -388,6 +388,7 @@ namespace GSCFieldApp.Dictionaries
 
         #region Database keyword
         public const string KeywordStation = "station";
+        public const string KeywordDrill= "drill";
         public const string KeywordEarthmat = "earth";
         public const string KeywordSample = "sample";
         public const string KeywordStructure = "struc";

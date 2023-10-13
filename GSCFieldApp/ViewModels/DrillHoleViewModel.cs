@@ -28,6 +28,9 @@ namespace GSCFieldApp.ViewModels
         public DataIDCalculation idCalculator = new DataIDCalculation();
         public Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
 
+        //Events and delegate
+        public delegate void drillEditEventHandler(object sender); //A delegate for execution events
+        public event drillEditEventHandler newDrillEdit; //This event is triggered when a save has been done on station table.
 
         //UI
         private int _drillID = 0; //Meant for update purposes, not insert

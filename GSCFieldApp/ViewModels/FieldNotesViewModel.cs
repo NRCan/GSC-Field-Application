@@ -36,7 +36,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<FieldNotes> _reportSummaryDateItems = new ObservableCollection<FieldNotes>();
         public ObservableCollection<FieldNotes> _reportDetailedStation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
         private ObservableCollection<FieldNotes> _reportDetailedEarthmat = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailSample = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
+        private ObservableCollection<FieldNotes> _reportDetailedSample = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
         private ObservableCollection<FieldNotes> _reportDetailedDocument = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
         private ObservableCollection<FieldNotes> _reportDetailedStructure = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
         private ObservableCollection<FieldNotes> _reportDetailedPflow = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
@@ -44,7 +44,8 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<FieldNotes> _reportDetailedLocation = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
         private ObservableCollection<FieldNotes> _reportDetailedMinerals = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
         private ObservableCollection<FieldNotes> _reportDetailedMineralAlt = new ObservableCollection<FieldNotes>(); //Will be use for right panel.
-        private ObservableCollection<FieldNotes> _reportDetailEnvironment = new ObservableCollection<FieldNotes>(); //WIll be used for right panel
+        private ObservableCollection<FieldNotes> _reportDetailedEnvironment = new ObservableCollection<FieldNotes>(); //WIll be used for right panel
+        private ObservableCollection<FieldNotes> _reportDetailedDrill = new ObservableCollection<FieldNotes>(); //WIll be used for right panel
 
         public FieldNotes selectedSummaryDateItem = new FieldNotes();
         public int _reportDateIndex = -1;
@@ -59,6 +60,7 @@ namespace GSCFieldApp.ViewModels
         public int _reportMineralIndex = -1;
         public int _reportMineralizationAlterationIndex = -1;
         public int _reportEnvironmentIndex = -1;
+        public int _reportDrillIndex = -1;
 
         //Some model inits
         private Station stationModel = new Station();
@@ -71,7 +73,8 @@ namespace GSCFieldApp.ViewModels
         private FieldLocation locationModel = new FieldLocation();
         private Mineral mineralModel = new Mineral();
         private MineralAlteration mineralAltModel = new MineralAlteration();
-        private EnvironmentModel environmentModel = new EnvironmentModel();  
+        private EnvironmentModel environmentModel = new EnvironmentModel();
+        private DrillHole drillModel = new DrillHole();
 
         //UI interaction
         private string deleteRequestFromTable = string.Empty;
@@ -88,6 +91,7 @@ namespace GSCFieldApp.ViewModels
         private bool _mineralHeaderExpansion = true;
         private bool _mineralAltHeaderExpansion = true;
         private bool _environmentHeaderExpansion = true;
+        private bool _drillHeaderExpansion = true;
 
         private Visibility _samplePanelVisibility = Visibility.Visible;
         private Visibility _earthmatPanelVisibility = Visibility.Visible;
@@ -98,7 +102,7 @@ namespace GSCFieldApp.ViewModels
         private Visibility _structurePanelVisibility = Visibility.Visible;
         private Visibility _pflowPanelVisibility = Visibility.Visible;
         private Visibility _fossilPanelVisibility = Visibility.Visible;
-
+        private Visibility _drillPanelVisibility = Visibility.Visible;
 
         private const double disableOpacity = 0.25;
         private const double enableOpacity = 1;
@@ -113,7 +117,7 @@ namespace GSCFieldApp.ViewModels
         private int mineralRecordCount = 0;
         private int mineralAltRecordCount = 0;
         private int environmentRecordCound = 0;
-
+        private int drillRecordCound = 0;
 
         //UI Text
         private string _headerDocumenText = ApplicationLiterals.KeywordDocumentHeaderFalse;
@@ -140,6 +144,8 @@ namespace GSCFieldApp.ViewModels
         private double _fossilAddIconOpacity = disableOpacity;
         private double _environmentIconOpacity = disableOpacity;
         private double _environmentAddIconOpacity = disableOpacity;
+        private double _drillIconOpacity = disableOpacity;
+        private double _drillAddIconOpacity = disableOpacity;
 
         //UI headers vertical colored bar
         private double _earthmatIconColorOpacity = enableOpacity;
@@ -153,6 +159,7 @@ namespace GSCFieldApp.ViewModels
         private double _locationIconColorOpacity = enableOpacity;
         private double _mineralAltIconColorOpacity = enableOpacity;
         private double _environmentIconColorOpacity = enableOpacity;
+        private double _drillIconColorOpacity = enableOpacity;
 
         //UI headers enable/disable colors
         private readonly string resourceNameDisableColor = "DisableColor";
@@ -167,6 +174,7 @@ namespace GSCFieldApp.ViewModels
         private readonly string resourcenameFieldLocationColor = "FieldObservationColor";
         private readonly string resourcenameFieldMineralAltColor = "FieldMineralAlterationColor";
         private readonly string resourcenameFieldEnvironmentColor = "FieldEnvironmentColor";
+        private readonly string resourcenameFieldDrillColor = "FieldDrillColor";
 
         private SolidColorBrush _earthmatColor = new SolidColorBrush();
         private SolidColorBrush _sampleColor = new SolidColorBrush();
@@ -179,6 +187,7 @@ namespace GSCFieldApp.ViewModels
         private SolidColorBrush _locationColor = new SolidColorBrush();
         private SolidColorBrush _mineralAltColor = new SolidColorBrush();
         private SolidColorBrush _envColor = new SolidColorBrush();
+        private SolidColorBrush _drillColor = new SolidColorBrush();
 
         private SolidColorBrush _locationAddIconColor = new SolidColorBrush();
         private SolidColorBrush _earthmatAddIconColor = new SolidColorBrush();
@@ -192,6 +201,8 @@ namespace GSCFieldApp.ViewModels
         private SolidColorBrush _mineralAltAddIconColor = new SolidColorBrush();
         private SolidColorBrush _environmentIconColor = new SolidColorBrush();
         private SolidColorBrush _environmentAddIconColor = new SolidColorBrush();
+        private SolidColorBrush _drillIconColor = new SolidColorBrush();
+        private SolidColorBrush _drillAddIconColor = new SolidColorBrush();
 
         //Map page
         public string userSelectedStationID = string.Empty;
@@ -221,7 +232,8 @@ namespace GSCFieldApp.ViewModels
         public bool FossilHeaderExpansion { get { return _fossilHeaderExpansion; } set { _fossilHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandFossil, value); } }
         public bool MineralHeaderExpansion { get { return _mineralHeaderExpansion; } set { _mineralHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineral, value); } }
         public bool MineralAltHeaderExpansion { get { return _mineralAltHeaderExpansion; } set { _mineralAltHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt, value); } }
-        public bool EnvironmentHeaderExpander { get { return _earthmatHeaderExpansion; } set { _earthmatHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt, value); } }
+        public bool EnvironmentHeaderExpander { get { return _environmentHeaderExpansion; } set { _environmentHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandMineralAlt, value); } }
+        public bool DrillHeaderExpander { get { return _drillHeaderExpansion; } set { _drillHeaderExpansion = value; localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandDrill, value); } }
 
         #endregion
 
@@ -265,7 +277,7 @@ namespace GSCFieldApp.ViewModels
         {
             get
             {
-                return _reportDetailSample;
+                return _reportDetailedSample;
             }
         }
 
@@ -321,11 +333,19 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
-        /// A property that will hold all the selected report item details for mineral table.
+        /// A property that will hold all the selected report item details for environment table.
         /// </summary>
         public ObservableCollection<FieldNotes> ReportDetailEnvironment
         {
-            get { return _reportDetailEnvironment; }
+            get { return _reportDetailedEnvironment; }
+        }
+
+        /// <summary>
+        /// A property that will hold all the selected report item details for drill hole table.
+        /// </summary>
+        public ObservableCollection<FieldNotes> ReportDetailedDrill
+        {
+            get { return _reportDetailedDrill; }
         }
         #endregion
 
@@ -395,6 +415,11 @@ namespace GSCFieldApp.ViewModels
             set { _reportEnvironmentIndex = value; }
         } //Same thing as ReportListViewIndex, but for station list view refresh
 
+        public int ReportDrillIndex
+        {
+            get { return _reportDrillIndex; }
+            set { _reportDrillIndex = value; }
+        } //Same thing as ReportListViewIndex, but for drill holes list view refresh
 
         #endregion
 
@@ -408,6 +433,7 @@ namespace GSCFieldApp.ViewModels
         public Visibility StructurePanelVisibility { get { return _structurePanelVisibility; } set { _structurePanelVisibility = value; } }
         public Visibility PFlowPanelVisibility { get { return _pflowPanelVisibility; } set { _pflowPanelVisibility = value; } }
         public Visibility FossilPanelVisibility { get { return _fossilPanelVisibility; } set { _fossilPanelVisibility = value; } }
+        public Visibility DrillPanelVisibility { get { return _drillPanelVisibility; } set { _drillPanelVisibility = value; } }
         #endregion
 
         #region Opacity/Color (icons)
@@ -454,7 +480,9 @@ namespace GSCFieldApp.ViewModels
         public double EnvironmentAddIconOpacity { get { return _environmentAddIconOpacity; } set { _environmentAddIconOpacity = value; } }
         public double EnvironmentIconColorOpacity { get { return _environmentIconColorOpacity; } set { _environmentIconColorOpacity = value; } }
 
-
+        public double DrillIconOpacity { get { return _drillIconOpacity; } set { _drillIconOpacity = value; } }
+        public double DrillAddIconOpacity { get { return _drillAddIconOpacity; } set { _drillAddIconOpacity = value; } }
+        public double DrillIconColorOpacity { get { return _drillIconColorOpacity; } set { _drillIconColorOpacity = value; } }
         #endregion
 
         #region Header colors
@@ -479,6 +507,10 @@ namespace GSCFieldApp.ViewModels
         public SolidColorBrush MineralAltAddIconColor { get { return _mineralAltAddIconColor; } set { _mineralAltAddIconColor = value; } }
         public SolidColorBrush EnvironmentColor { get { return _envColor; } set { _envColor = value; } }
         public SolidColorBrush EnvironmentAddIconColor { get { return _environmentAddIconColor; } set { _environmentAddIconColor = value; } }
+
+        public SolidColorBrush DrillColor { get { return _drillColor; } set { _drillColor = value; } }
+        public SolidColorBrush DrillAddIconColor { get { return _drillAddIconColor; } set { _drillAddIconColor = value; } }
+
 
         #endregion
 
@@ -531,7 +563,7 @@ namespace GSCFieldApp.ViewModels
             _reportSummaryDateItems = new ObservableCollection<FieldNotes>(); //For split view pane
             _reportDetailedStation = new ObservableCollection<FieldNotes>(); //For split view content
             _reportDetailedEarthmat = new ObservableCollection<FieldNotes>();
-            _reportDetailSample = new ObservableCollection<FieldNotes>(); //For split view content
+            _reportDetailedSample = new ObservableCollection<FieldNotes>(); //For split view content
             _reportDetailedDocument = new ObservableCollection<FieldNotes>(); //For split view content
             _reportDetailedStructure = new ObservableCollection<FieldNotes>();
             _reportDetailedFossil = new ObservableCollection<FieldNotes>();
@@ -539,7 +571,8 @@ namespace GSCFieldApp.ViewModels
             _reportDetailedMinerals = new ObservableCollection<FieldNotes>();
             _reportDetailedLocation = new ObservableCollection<FieldNotes>();
             _reportDetailedMineralAlt = new ObservableCollection<FieldNotes>();
-            _reportDetailEnvironment = new ObservableCollection<FieldNotes>();
+            _reportDetailedEnvironment = new ObservableCollection<FieldNotes>();
+            _reportDetailedDrill = new ObservableCollection<FieldNotes>();
 
             //ReportListViewIndex = -1;
             //ReportStationListIndex = -1;
@@ -555,7 +588,7 @@ namespace GSCFieldApp.ViewModels
             _reportMineralIndex = -1;
             _reportMineralizationAlterationIndex = -1;
             _reportEnvironmentIndex = -1;
-
+            _reportDrillIndex = -1;
 
             SetHeaderColorOpacity(DatabaseLiterals.TableStation);
             SetHeaderColorOpacity(DatabaseLiterals.TableEarthMat);
@@ -568,6 +601,7 @@ namespace GSCFieldApp.ViewModels
             SetHeaderColorOpacity(DatabaseLiterals.TableDocument);
             SetHeaderColorOpacity(DatabaseLiterals.TableStructure);
             SetHeaderColorOpacity(DatabaseLiterals.TableEnvironment);
+            SetHeaderColorOpacity(DatabaseLiterals.TableDrillHoles);
 
             //Detect new field book selection
             FieldBooksPageViewModel.newFieldBookSelected += FieldBooksPageViewModel_newFieldBookSelected;
@@ -829,6 +863,108 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
+        /// Will fill the report detail item property with the current selected detail item in memory
+        /// </summary>
+        public void FillDrill()
+        {
+            //Keep selection
+            string userTempSelection = string.Empty;
+            if (_reportDrillIndex >= 0 && _reportDrillIndex < _reportDetailedDrill.Count())
+            {
+                userTempSelection = _reportDetailedDrill[_reportDrillIndex].GenericAliasName;
+            }
+
+
+            #region Conditional to user having selected a station
+            //EmptyAll();
+
+            //Variables
+            int userSelectedDrillIndex = -1;
+
+            //Get a list of related station from selected traverse date.
+            DrillHole drills = new DrillHole();
+            string drillSelectionQuery = "SELECT * FROM " + DatabaseLiterals.TableDrillHoles;
+            List<object> drillTableRows = dAccess.ReadTable(drills.GetType(), drillSelectionQuery);
+
+
+            _reportDetailedDrill.Clear();
+
+            if (drillTableRows.Count != 0)
+            {
+                foreach (object dr in drillTableRows)
+                {
+                    //Cast
+                    DrillHole currentDrill = dr as DrillHole;
+
+                    //Fill the report item detail
+                    FieldNotes currentDetailReport = new FieldNotes
+                    {
+                        drillHoles = currentDrill,
+
+                        GenericID = currentDrill.DrillID,
+                        GenericTableName = DatabaseLiterals.TableDrillHoles,
+                        GenericFieldID = DatabaseLiterals.FieldDrillID,
+                        GenericAliasName = currentDrill.DrillIDName,
+
+                        ParentID = currentDrill.DrillLocationID, //TO keep the link with location table
+                        ParentTableName = DatabaseLiterals.TableLocation, //To keep the link with location table.
+
+                        MainID = currentDrill.DrillLocationID
+                    };
+
+                    //Fill with location
+                    FieldLocation locs = new FieldLocation();
+                    string locationSelectionQuery = "SELECT * FROM " + DatabaseLiterals.TableLocation + " WHERE " + DatabaseLiterals.FieldLocationID + " = '" + currentDrill.DrillLocationID + "'";
+                    List<object> locationTableRows = dAccess.ReadTable(locs.GetType(), locationSelectionQuery);
+
+                    foreach (object lcs in locationTableRows)
+                    {
+                        FieldLocation currentLocation = lcs as FieldLocation;
+
+                        currentDetailReport.location = currentLocation;
+                    }
+
+                    ReportDetailedDrill.Add(currentDetailReport);
+
+                    //Refresh summary
+                    ValidateCheck(currentDrill.isValid, currentDrill.DrillID, currentDetailReport.MainID);
+
+                    //Keep index if station id is the same as the one selected from map page by user
+                    if (currentDrill.DrillIDName == userTempSelection)
+                    {
+                        userSelectedDrillIndex = drillTableRows.IndexOf(dr);
+                    }
+
+                }
+            }
+
+            //Manager header opacity
+            drillRecordCound = drillTableRows.Count;
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
+
+            //Set selected index
+            if ((_reportDrillIndex != drillTableRows.Count - 1) || (userSelectedDrillIndex != -1))
+            {
+                if (userSelectedDrillIndex == -1)
+                {
+                    _reportDrillIndex = drillTableRows.Count - 1;
+                }
+                else
+                {
+                    _reportDrillIndex = userSelectedDrillIndex;
+                }
+                RaisePropertyChanged("ReportDrillListIndex");
+
+            }
+
+            SetHeaderColorOpacity(DatabaseLiterals.TableDrillHoles);
+
+
+            #endregion
+        }
+
+        /// <summary>
         /// Will reset all headers to default.
         /// </summary>
         public void EmptyAll()
@@ -842,9 +978,10 @@ namespace GSCFieldApp.ViewModels
             _reportDetailedPflow.Clear();
             _reportDetailedStation.Clear();
             _reportDetailedStructure.Clear();
-            _reportDetailSample.Clear();
+            _reportDetailedSample.Clear();
             _reportDetailedMineralAlt.Clear();
-            _reportDetailEnvironment.Clear();
+            _reportDetailedEnvironment.Clear();
+            _reportDetailedDrill.Clear();
             RaisePropertyChanged("ReportDetailedLocation");
             RaisePropertyChanged("ReportDetailedDocument"); 
             RaisePropertyChanged("ReportDetailedEarthmat");
@@ -856,6 +993,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("ReportDetailedStructure");
             RaisePropertyChanged("ReportDetailedMineralAlt");
             RaisePropertyChanged("ReportDetailEnvironment");
+            RaisePropertyChanged("ReportDetailDrill");
 
             //Reset opacity of header
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
@@ -869,6 +1007,7 @@ namespace GSCFieldApp.ViewModels
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStation);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEnvironment);
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
         }
 
         /// <summary>
@@ -877,6 +1016,23 @@ namespace GSCFieldApp.ViewModels
         public void EmptyStationChilds()
         {
             FillSummaryReportDateItems();
+        }
+
+        /// <summary>
+        /// Will reset all headers to default for station childs
+        /// </summary>
+        public void EmptyDrillChilds()
+        {
+            //Clear date from headers
+            _reportDetailedDrill.Clear();
+
+            RaisePropertyChanged("ReportDetailedDrill");
+
+            //Reset opacity of header
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
+
+            EmptyEarthmatChilds();
+
         }
 
         /// <summary>
@@ -890,7 +1046,7 @@ namespace GSCFieldApp.ViewModels
             _reportDetailedMinerals.Clear();
             _reportDetailedPflow.Clear();
             _reportDetailedStructure.Clear();
-            _reportDetailSample.Clear();
+            _reportDetailedSample.Clear();
 
             RaisePropertyChanged("ReportDetailedFossil");
             RaisePropertyChanged("ReportDetailedMineral");
@@ -1011,6 +1167,91 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will fill the report detail item property with the current selected station item 
         /// </summary>
+        public void FillEarthmatFromDrill()
+        {
+            //Making sure to reset properly
+            EmptyEarthmatChilds();
+
+            #region Conditional to user having selected a station
+
+            if (_reportDrillIndex != -1 && _reportDetailedDrill.Count > 0)
+            {
+                if (_reportDetailedEarthmat.Count() > 0)
+                {
+                    _reportDetailedEarthmat.Clear();
+                }
+
+                //Keep selection
+                FieldNotes currentReport = _reportDetailedDrill[_reportDrillIndex];
+
+                //Get parent id
+                int drillID = currentReport.GenericID;
+
+                //Get a list of related earthmat from selected station
+                //Querying with Linq
+                List<object> earthmatTableRaw = dAccess.ReadTable(earthModel.GetType(), null);
+                IEnumerable<EarthMaterial> earthmatTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
+                IEnumerable<EarthMaterial> eartmatParentDrills = from e in earthmatTable where e.EarthMatDrillHoleID == drillID select e;
+
+                if (eartmatParentDrills.Count() != 0)
+                {
+                    foreach (EarthMaterial earths in eartmatParentDrills)
+                    {
+                        //Cast
+                        EarthMaterial currentEarth = earths as EarthMaterial;
+
+                        //Fill the report item detail
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            drillHoles = currentReport.drillHoles,
+
+                            earthmat = currentEarth,
+
+                            GenericID = currentEarth.EarthMatID,
+                            GenericTableName = DatabaseLiterals.TableEarthMat,
+                            GenericFieldID = DatabaseLiterals.FieldEarthMatID,
+                            GenericAliasName = currentEarth.EarthMatName,
+
+                            ParentID = currentEarth.EarthMatDrillHoleID, //TO keep the link with location table
+                            ParentTableName = DatabaseLiterals.TableDrillHoles, //To keep the link with location table.
+
+                            MainID = currentReport.ParentID
+                        };
+
+                        _reportDetailedEarthmat.Add(currentDetailReport);
+
+                        //Refresh summary
+                        ValidateCheck(currentEarth.isValid, currentEarth.EarthMatID, currentDetailReport.MainID);
+
+                    }
+                }
+
+                RaisePropertyChanged("ReportDetailedEarthmat");
+
+                //Manager header color opacity (transparent if no items)
+                earthmatRecordCount = eartmatParentDrills.Count();
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
+
+            }
+            else
+            {
+                if (_reportDetailedEarthmat.Count() > 0)
+                {
+                    _reportDetailedEarthmat.Clear();
+                    SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
+                    RaisePropertyChanged("ReportDetailedEarthmat");
+                }
+            }
+
+            #endregion
+
+
+
+        }
+
+        /// <summary>
+        /// Will fill the report detail item property with the current selected station item 
+        /// </summary>
         public void FillMineralAltFromStation()
         {
             _reportDetailedMineralAlt.Clear();
@@ -1087,7 +1328,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void FillEnvironmentFromStation()
         {
-            _reportDetailEnvironment.Clear();
+            _reportDetailedEnvironment.Clear();
 
             #region Conditional to user having selected a station
 
@@ -1133,7 +1374,7 @@ namespace GSCFieldApp.ViewModels
                             MainID = currentReport.ParentID
                         };
 
-                        _reportDetailEnvironment.Add(currentDetailReport);
+                        _reportDetailedEnvironment.Add(currentDetailReport);
 
                         //Refresh summary
                         ValidateCheck(currentEnv.isValid, currentEnv.EnvID, currentDetailReport.MainID);
@@ -1210,6 +1451,49 @@ namespace GSCFieldApp.ViewModels
 
             }
 
+            if (_reportDrillIndex != -1 && _reportDetailedDrill.Count > 0)
+            {
+                //Keep selection
+                FieldNotes currentReport = _reportDetailedDrill[_reportDrillIndex];
+
+                //Get parent id
+                int locID = currentReport.drillHoles.DrillLocationID;
+
+                //Get a list of related earthmat from selected station
+                //Querying with Linq
+                List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), null);
+                IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
+                IEnumerable<FieldLocation> locationResult = from l in locationTable where l.LocationID == locID select l;
+
+                if (locationResult.Count() != 0)
+                {
+
+
+                    foreach (FieldLocation locs in locationResult)
+                    {
+                        //Cast
+                        FieldLocation currentLocation = locs as FieldLocation;
+
+                        //Fill the report item detail
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            location = currentLocation,
+
+                            GenericID = currentLocation.LocationID,
+                            GenericTableName = DatabaseLiterals.TableLocation,
+                            GenericFieldID = DatabaseLiterals.FieldLocationID,
+                            GenericAliasName = currentLocation.LocationAlias,
+
+                            MainID = currentLocation.LocationID
+                        };
+
+                        _reportDetailedLocation.Add(currentDetailReport);
+
+                    }
+
+                }
+            }
+
             #endregion
 
             RaisePropertyChanged("ReportDetailedLocation");
@@ -1241,7 +1525,7 @@ namespace GSCFieldApp.ViewModels
             }
             if (_reportSampleIndex != -1)
             {
-                collectionOfSelectedItems.Add(_reportDetailSample[_reportSampleIndex]);
+                collectionOfSelectedItems.Add(_reportDetailedSample[_reportSampleIndex]);
             }
             if (_reportDocumentIndex != -1)
             {
@@ -1361,7 +1645,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void FillSample()
         {
-            _reportDetailSample.Clear();
+            _reportDetailedSample.Clear();
 
             //Variables
             List<object> sampleTableRaw = dAccess.ReadTable(sampleModel.GetType(), null);
@@ -1429,7 +1713,7 @@ namespace GSCFieldApp.ViewModels
 
                 //Get a list of related samples from selected earthmat
                 //Querying with Linq
-                IEnumerable<Sample> sampleParent = from e in sampleTable where e.SampleEarthmatID == _reportDetailSample[_reportSampleIndex].ParentID select e;
+                IEnumerable<Sample> sampleParent = from e in sampleTable where e.SampleEarthmatID == _reportDetailedSample[_reportSampleIndex].ParentID select e;
 
                 if (sampleParent.Count() != 0)
                 {
@@ -1445,7 +1729,7 @@ namespace GSCFieldApp.ViewModels
                             GenericFieldID = DatabaseLiterals.FieldSampleID,
                             GenericAliasName = spl.SampleName,
 
-                            ParentID = _reportDetailSample[_reportSampleIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
+                            ParentID = _reportDetailedSample[_reportSampleIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
                             ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
 
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
@@ -1508,7 +1792,7 @@ namespace GSCFieldApp.ViewModels
                             MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID
                         };
 
-                        _reportDetailSample.Add(currentDetailReport);
+                        _reportDetailedSample.Add(currentDetailReport);
 
                         //Refresh summary
                         ValidateCheck(spl.isValid, spl.SampleID, currentDetailReport.MainID);
@@ -1528,7 +1812,7 @@ namespace GSCFieldApp.ViewModels
 
             if (sampleRecordCount == 0)
             {
-                _reportDetailSample.Clear();
+                _reportDetailedSample.Clear();
             }
 
             RaisePropertyChanged("ReportDetailedSample");
@@ -2237,11 +2521,11 @@ namespace GSCFieldApp.ViewModels
             }
             if (DatabaseLiterals.TableSample.ToLower().Contains(senderName) && _reportSampleIndex != -1)
             {
-                noteToDelete = _reportDetailSample[_reportSampleIndex];
+                noteToDelete = _reportDetailedSample[_reportSampleIndex];
                 deleteRequestFromTable = DatabaseLiterals.TableSample;
 
                 //Keep info
-                collectionToUpdate = _reportDetailSample;
+                collectionToUpdate = _reportDetailedSample;
                 indexToPop = _reportSampleIndex;
                 collectionNameToRefresh = "ReportDetailedSample";
             }
@@ -2307,11 +2591,11 @@ namespace GSCFieldApp.ViewModels
             }
             if (DatabaseLiterals.TableEnvironment.ToLower().Contains(senderName) && _reportEnvironmentIndex != -1)
             {
-                noteToDelete = _reportDetailEnvironment[_reportEnvironmentIndex];
+                noteToDelete = _reportDetailedEnvironment[_reportEnvironmentIndex];
                 deleteRequestFromTable = DatabaseLiterals.TableEnvironment;
 
                 //Keep info
-                collectionToUpdate = _reportDetailEnvironment;
+                collectionToUpdate = _reportDetailedEnvironment;
                 indexToPop = _reportEnvironmentIndex;
                 collectionNameToRefresh = "ReportDetailEnvironment";
             }
@@ -2326,7 +2610,17 @@ namespace GSCFieldApp.ViewModels
                 collectionNameToRefresh = "ReportDetailedStation";
 
             }
+            if (DatabaseLiterals.TableDrillHoles.ToLower().Contains(senderName) && _reportDrillIndex != -1)
+            {
+                noteToDelete = _reportDetailedDrill[_reportDrillIndex];
+                deleteRequestFromTable = DatabaseLiterals.TableDrillHoles;
 
+                //Keep info
+                collectionToUpdate = _reportDetailedDrill;
+                indexToPop = _reportDrillIndex;
+                collectionNameToRefresh = "ReportDetailedDrill";
+
+            }
             if (noteToDelete != null)
             {
                 var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
@@ -2357,7 +2651,11 @@ namespace GSCFieldApp.ViewModels
                         //Delete location too
                         dAccess.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, noteToDelete.station.LocationID);
                     }
-
+                    if (deleteTableName == DatabaseLiterals.TableDrillHoles)
+                    {
+                        //Delete location too
+                        dAccess.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, noteToDelete.drillHoles.DrillLocationID);
+                    }
                     if (deleteTableName == DatabaseLiterals.TableDocument)
                     {
                         //Delete associated photo, if it exists too
@@ -2382,6 +2680,10 @@ namespace GSCFieldApp.ViewModels
                     else if (collectionNameToRefresh == "ReportDetailedStation")
                     {
                         EmptyStationChilds();
+                    }
+                    else if (collectionNameToRefresh == "ReportDetailedDrill")
+                    {
+                        EmptyDrillChilds();
                     }
                     else if (collectionNameToRefresh == "ReportDetailedMineralAlt")
                     {
@@ -2445,6 +2747,10 @@ namespace GSCFieldApp.ViewModels
                 {
                     _environmentHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandEnv);
                 }
+                if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandDrill) != null)
+                {
+                    _drillHeaderExpansion = (bool)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordExpandDrill);
+                }
             }
             catch (Exception)
             {
@@ -2464,7 +2770,7 @@ namespace GSCFieldApp.ViewModels
             }
             else
             {
-                _reportDetailSample.Clear();
+                _reportDetailedSample.Clear();
             }
         }
 
@@ -2555,6 +2861,17 @@ namespace GSCFieldApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Will fill the fossil report if it is expanded
+        /// </summary>
+        public void DrillExpandPanel_ExpandedChanged()
+        {
+            if (_environmentHeaderExpansion && pageLoading)
+            {
+                FillDrill();
+            }
+        }
+
         #endregion
 
         #region VISIBILITY MANAGEMENT
@@ -2574,7 +2891,9 @@ namespace GSCFieldApp.ViewModels
                 new Tuple<string, Visibility, string>(DatabaseLiterals.TablePFlow, _pflowPanelVisibility, "PFlowPanelVisibility"),
                 new Tuple<string, Visibility, string>(DatabaseLiterals.TableEnvironment, _environmentPanelVisibility, "EnvironmentPanelVisibility"),
                 new Tuple<string, Visibility, string>(DatabaseLiterals.TableMineral, _mineralPanelVisibility, "MineralPanelVisibility"),
-                new Tuple<string, Visibility, string>(DatabaseLiterals.TableMineralAlteration, _mineralAltPanelVisibility, "MineralAltPanelVisibility"),};
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableMineralAlteration, _mineralAltPanelVisibility, "MineralAltPanelVisibility"),
+                new Tuple<string, Visibility, string>(DatabaseLiterals.TableDrillHoles, _drillPanelVisibility, "DrillPanelVisibility"),
+            };
 
             foreach (Tuple<string, Visibility, string> tables in tableAsHeaders)
             {
@@ -2678,6 +2997,14 @@ namespace GSCFieldApp.ViewModels
                 {
                     _environmentPanelVisibility = Visibility.Collapsed;
                 }
+                if (localSetting.GetSettingValue(DatabaseLiterals.TableDrillHoles) != null && (bool)localSetting.GetSettingValue(DatabaseLiterals.TableDrillHoles))
+                {
+                    _drillPanelVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _drillPanelVisibility = Visibility.Collapsed;
+                }
             }
             catch (Exception)
             {
@@ -2693,7 +3020,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("FossilPanelVisibility");
             RaisePropertyChanged("MineralAltPanelVisibility");
             RaisePropertyChanged("EnvironmentPanelVisibility");
-
+            RaisePropertyChanged("DrillPanelVisibility");
         }
 
         #endregion
@@ -2717,10 +3044,12 @@ namespace GSCFieldApp.ViewModels
             bool hasMineralAlt = false;
             bool hasStationLocation = false;
             bool hasEnvironment = false;
+            bool hasDrillLocation = false;
             bool isWaypoint = false;
 
             //Default
             _stationIconOpacity = enableOpacity;
+            _drillIconOpacity = enableOpacity;
 
             _earthmatAddIconOpacity = enableOpacity; //Enable child of station
             _earthmatAddIconColor.Color = GetTableColor(DatabaseLiterals.TableEarthMat);
@@ -2838,6 +3167,28 @@ namespace GSCFieldApp.ViewModels
                 }
 
             }
+
+            if (_reportDrillIndex != -1)
+            {
+                if (_reportDetailedDrill.Count > 0)
+                {
+                    _drillIconOpacity = enableOpacity;
+                    _earthmatAddIconOpacity = enableOpacity;
+                    hasDrillLocation = true;
+
+                    if (_reportDetailedDrill[_reportDrillIndex].GenericAliasName != null)
+                    {
+                        isWaypoint = true;
+                    }
+                    else
+                    {
+                        isWaypoint = false;
+                    }
+                }
+
+            }
+
+
             if (_reportEnvironmentIndex != -1)
             {
                 _environmentIconOpacity = enableOpacity;
@@ -2866,6 +3217,16 @@ namespace GSCFieldApp.ViewModels
                     isWaypoint = false;
                 }
             }
+
+            // Enable add icons for children, special case here if there is only one station
+            if (_reportDetailedDrill.Count > 0 && _reportDetailedDrill.Count == 1)
+            {
+                _drillIconOpacity = enableOpacity;
+                _earthmatAddIconOpacity = enableOpacity;
+
+                hasDrillLocation = true;
+            }
+
 
             #region Disable icons if no record are found or parent is gone missing
             if (!hasSamples)
@@ -2919,6 +3280,11 @@ namespace GSCFieldApp.ViewModels
                 _documentAddIconOpacity = disableOpacity;
                 _environmentAddIconOpacity = disableOpacity;
             }
+            if (!hasDrillLocation || _reportDetailedDrill.Count == 0)
+            {
+                _drillIconOpacity = disableOpacity;
+                _earthmatAddIconOpacity = disableOpacity;
+            }
             if (!hasMineralAlt)
             {
                 _mineralAltIconOpacity = disableOpacity;
@@ -2943,6 +3309,7 @@ namespace GSCFieldApp.ViewModels
             #region UPDATE UI
             RaisePropertyChanged("StationIconOpacity");
             RaisePropertyChanged("LocationIconOpacity");
+            RaisePropertyChanged("DrillIconOpacity");
 
             RaisePropertyChanged("EarthmatIconOpacity");
             RaisePropertyChanged("EarthmatAddIconOpacity");
@@ -3025,11 +3392,51 @@ namespace GSCFieldApp.ViewModels
                 RaisePropertyChanged("StationColor");
             }
 
+            //For drill records
+            if (tableToUpdateHeader == Dictionaries.DatabaseLiterals.TableDrillHoles)
+            {
+
+                if (_reportDetailedDrill.Count != 0)
+                {
+
+                    _drillIconColorOpacity = enableOpacity;
+
+                    Color stc = new Color();
+                    if (Application.Current.Resources[resourcenameFieldDrillColor] != null)
+                    {
+                        stc = (Color)Application.Current.Resources[resourcenameFieldDrillColor];
+                    }
+
+                    _drillColor.Color = stc;
+                }
+                else
+                {
+                    _drillIconColorOpacity = fullDisableOpacity;
+                    _drillColor.Color = dc;
+                }
+                RaisePropertyChanged("DrillIconColorOpacity");
+                RaisePropertyChanged("DrillColor");
+            }
+
+
             //For location records
             if (tableToUpdateHeader == Dictionaries.DatabaseLiterals.TableLocation)
             {
 
                 if (_reportDetailedStation.Count != 0)
+                {
+
+                    _locationIconColorOpacity = enableOpacity;
+
+                    Color lc = new Color();
+                    if (Application.Current.Resources[resourcenameFieldLocationColor] != null)
+                    {
+                        lc = (Color)Application.Current.Resources[resourcenameFieldLocationColor];
+                    }
+
+                    _locationColor.Color = lc;
+                }
+                if (_reportDetailedDrill.Count != 0)
                 {
 
                     _locationIconColorOpacity = enableOpacity;
@@ -3081,7 +3488,7 @@ namespace GSCFieldApp.ViewModels
             if (tableToUpdateHeader == Dictionaries.DatabaseLiterals.TableSample)
             {
 
-                if (_reportDetailSample.Count != 0)
+                if (_reportDetailedSample.Count != 0)
                 {
                     _sampleIconColorOpacity = enableOpacity;
 
@@ -3243,7 +3650,7 @@ namespace GSCFieldApp.ViewModels
             //environment records
             if (tableToUpdateHeader == Dictionaries.DatabaseLiterals.TableEnvironment)
             {
-                if (_reportDetailEnvironment.Count != 0)
+                if (_reportDetailedEnvironment.Count != 0)
                 {
                     _environmentIconColorOpacity = enableOpacity;
                     Color mc = new Color();
@@ -3285,6 +3692,13 @@ namespace GSCFieldApp.ViewModels
                         stc = (Color)Application.Current.Resources[resourcenameFieldStationColor];
                     }
                     return stc;
+                case DatabaseLiterals.TableDrillHoles:
+                    Color drc = new Color();
+                    if (Application.Current.Resources[resourcenameFieldDrillColor] != null)
+                    {
+                        drc = (Color)Application.Current.Resources[resourcenameFieldDrillColor];
+                    }
+                    return drc;
                 case Dictionaries.DatabaseLiterals.TableEarthMat:
                     Color ec = new Color();
                     if (Application.Current.Resources[resourcenameFieldEarthmatColor] != null)
@@ -3453,6 +3867,41 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
 
+        #region DRILL HOLES EVENTS
+        public void DrillEditIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            EditDrill();
+        }
+
+        /// <summary>
+        /// Whenever a station have been edited or added, this event will be triggered and will force a refresh on stations
+        /// </summary>
+        /// <param name="sender"></param>
+        public void ViewModel_newDrillEdit(object sender)
+        {
+            FillDrill();
+        }
+
+        public void ReportDrillList_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        {
+            EditDrill();
+        }
+
+        /// <summary>
+        /// Will pop and fill station dialog with existing values
+        /// </summary>
+        public void EditDrill()
+        {
+
+            if (_reportDrillIndex != -1)
+            {
+                PopDrill(_reportDetailedDrill[_reportDrillIndex]);
+            }
+
+        }
+
+        #endregion
+
         #region EARTHMAT EVENTS
         public void EarthMatAddIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
@@ -3550,7 +3999,7 @@ namespace GSCFieldApp.ViewModels
 
             if (_reportSampleIndex != -1)
             {
-                PopSample(_reportDetailSample[_reportSampleIndex], true);
+                PopSample(_reportDetailedSample[_reportSampleIndex], true);
             }
         }
         #endregion
@@ -3851,7 +4300,7 @@ namespace GSCFieldApp.ViewModels
         {
             if (_reportEnvironmentIndex != -1)
             {
-                PopEnvironment(_reportDetailEnvironment[_reportEnvironmentIndex], true);
+                PopEnvironment(_reportDetailedEnvironment[_reportEnvironmentIndex], true);
             }
         }
 
@@ -4024,6 +4473,21 @@ namespace GSCFieldApp.ViewModels
             modelEnvironment.IsModal = true;
         }
 
+        /// <summary>
+        /// From a given report, will open a station dialog
+        /// </summary>
+        /// <param name="stationReport"></param>
+        public void PopDrill(FieldNotes drillReport)
+        {
+            var modal = Window.Current.Content as ModalDialog;
+            var view = modal.ModalContent as Views.DrillHoleDialog;
+            view = new Views.DrillHoleDialog(drillReport);
+            view.drillViewModel.newDrillEdit += ViewModel_newDrillEdit; //Detect whenever a save is commited on the database.
+            //view.Tag = ReportDetailedStation;
+            modal.ModalContent = view;
+            modal.IsModal = true;
+        }
+
         #endregion
 
         #region OTHER EVENTS
@@ -4067,7 +4531,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     FieldNotes selectedReport = inDetailListViewDate.SelectedItem as FieldNotes;
                     FillStationFromList(); //Initiate date stations list
-
+                    FillDrill(); 
                     // Force grid view control to scroll to selected item else it doesn't work by default.
                     inDetailListViewDate.ScrollIntoView(inDetailListViewDate.SelectedItem, ScrollIntoViewAlignment.Leading);
                     inDetailListViewDate.UpdateLayout();
@@ -4119,6 +4583,13 @@ namespace GSCFieldApp.ViewModels
                     FillMineral();
                 }
 
+                if (selectedReport.GenericTableName == DatabaseLiterals.TableDrillHoles)
+                {
+                    FillEarthmatFromDrill();
+                    EmptyEarthmatChilds();
+                    FillLocation();
+                    EmptyMineralizationAlterationChilds();
+                }
                 
 
 
@@ -4151,7 +4622,9 @@ namespace GSCFieldApp.ViewModels
             FieldNotes currentClickedReport = e.ClickedItem as FieldNotes;
 
             //Detect already selected item
-            if (e.ClickedItem == currentSender.SelectedItem && !currentSender.Name.ToLower().Contains(DatabaseLiterals.KeywordStation))
+            if (e.ClickedItem == currentSender.SelectedItem && 
+                (!currentSender.Name.ToLower().Contains(DatabaseLiterals.KeywordStation) ||
+                 !currentSender.Name.ToLower().Contains(DatabaseLiterals.KeywordDrill)))
             {
                 await Task.Delay(100);
                 currentSender.SelectedItem = null;

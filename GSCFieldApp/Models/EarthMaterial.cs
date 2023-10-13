@@ -107,7 +107,7 @@ namespace GSCFieldApp.Models
         public string EarthMatNotes{ get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatDrillHoleID)]
-        public string EarthMatDrillHoleID { get; set; }
+        public int EarthMatDrillHoleID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableStation;

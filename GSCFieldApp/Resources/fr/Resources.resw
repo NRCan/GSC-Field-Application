@@ -1840,4 +1840,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="DrilllogIntervalsTo.Header" xml:space="preserve">
     <value>Jusqu'à</value>
   </data>
+  <data name="FieldworkTableDrill.Text" xml:space="preserve">
+    <value>Forages</value>
+  </data>
 </root>
