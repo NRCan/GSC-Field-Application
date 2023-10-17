@@ -649,7 +649,7 @@
 
                 <!--Field Drill Holes-->
                 <Grid x:Name="DrillPanel" RelativePanel.Below="StationPanel"
-                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignLeftWithPanel="True" Visibility="{x:Bind ViewModel.DrillPanelVisibility, Mode=TwoWay}"
                             RelativePanel.AlignRightWithPanel="True" Margin="0,10, 0,0" >
 
 

@@ -1848,4 +1848,10 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="FieldworkTableDrill.Text" xml:space="preserve">
     <value>Drill Holes</value>
   </data>
+  <data name="SettingPageToggleDrill.OffContent" xml:space="preserve">
+    <value>Drill Holes</value>
+  </data>
+  <data name="SettingPageToggleDrill.OnContent" xml:space="preserve">
+    <value>Drill Holes</value>
+  </data>
 </root>

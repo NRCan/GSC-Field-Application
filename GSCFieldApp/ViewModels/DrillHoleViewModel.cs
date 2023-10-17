@@ -68,7 +68,8 @@ namespace GSCFieldApp.ViewModels
 
         #region PROPERTIES
         public string Notes { get { return _notes; } set { _notes = value; } }
-        public string Name { get { return _name; } set { _name = value; } }
+        public string OriginalName { get { return _name; } set { _name = value; } }
+        public string DrillIDName { get { return _drillIDName; } set { _drillIDName = value; } }
         public string CompanyName { get { return _companyName; } set { _companyName = value; } }
         public string DrillLogBy { get { return _drillLogBy; } set { _drillLogBy = value; } }
         public string DrillLogSummary { get { return _drillLogSummary; } set { _drillLogSummary = value; } }
@@ -179,6 +180,61 @@ namespace GSCFieldApp.ViewModels
         }
 
         #region METHODS
+
+        /// <summary>
+        /// Will refill UI
+        /// </summary>
+        /// <param name="incomingData"></param>
+        public void AutoFillDialog(FieldNotes incomingData)
+        {
+            existingDataDetail = incomingData;
+
+            _name = existingDataDetail.drillHoles.DrillName;
+            _drillIDName = existingDataDetail.drillHoles.DrillIDName;
+            _companyName = existingDataDetail.drillHoles.DrillCompany;
+            _drillLogBy = existingDataDetail.drillHoles.DrillRelogBy;
+            _notes = existingDataDetail.drillHoles.DrillNotes;
+            _drillLogSummary = existingDataDetail.drillHoles.DrillLog;
+            _drillDate = existingDataDetail.drillHoles.DrillDate;
+            _drillID = existingDataDetail.drillHoles.DrillID;
+            _drillAzim = existingDataDetail.drillHoles.DrillAzim.ToString();
+            _drillDip = existingDataDetail.drillHoles.DrillDip.ToString();
+            _drillDepth = existingDataDetail.drillHoles.DrillDepth.ToString();
+
+            RaisePropertyChanged("OriginalName");
+            RaisePropertyChanged("DrillIDName");
+            RaisePropertyChanged("CompanyName"); 
+            RaisePropertyChanged("DrillLogBy"); 
+            RaisePropertyChanged("Notes");
+            RaisePropertyChanged("DrillLogSummary");
+            RaisePropertyChanged("DrillDate");
+            RaisePropertyChanged("DrillAzim");
+            RaisePropertyChanged("DrillDip");
+            RaisePropertyChanged("DrillDepth");
+
+            _selectedDrillCoreSize = existingDataDetail.drillHoles.DrillCoreSize;
+            _selectedDrillHoleSize = existingDataDetail.drillHoles.DrillHoleSize;
+            _selectedDrillUnit = existingDataDetail.drillHoles.DrillUnit;
+            _selectedDrillType = existingDataDetail.drillHoles.DrillType;
+            _selectedDrillLogType = existingDataDetail.drillHoles.DrillRelogType;
+
+            RaisePropertyChanged("SelectedDrillCoreSize");
+            RaisePropertyChanged("SelectedDrillHoleSize");
+            RaisePropertyChanged("SelectedDrillUnit");
+            RaisePropertyChanged("SelectedDrillType"); 
+            RaisePropertyChanged("SelectedDrillLogType");
+
+            //Update list view
+            ConcatenatedCombobox ccBox = new ConcatenatedCombobox();
+            foreach (string d in ccBox.UnpipeString(existingDataDetail.drillHoles.DrillRelogIntervals))
+            {
+                AddAConcatenatedInterval(d);
+            }
+
+            doDrillHoleUpdate = true;
+
+        }
+
 
         /// <summary>
         /// Will fill the drill hole types combobox
@@ -412,10 +468,10 @@ namespace GSCFieldApp.ViewModels
             accessData.SaveFromSQLTableObject(ref drillObject, doDrillHoleUpdate);
             dhModel = (DrillHole)drillObject;
 
-            //if (newEnvironmentEdit != null)
-            //{
-            //    newEnvironmentEdit(this);
-            //}
+            if (newDrillEdit != null)
+            {
+                newDrillEdit(this);
+            }
 
         }
 

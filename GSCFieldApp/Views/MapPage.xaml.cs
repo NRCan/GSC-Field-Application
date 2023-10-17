@@ -140,11 +140,11 @@ namespace GSCFieldApp.Views
 
                 if (localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) != null)
                 {
-                    localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
+                    localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, (localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
 
                     if (myMapView.Grid != null)
                     {
-                        myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
+                        myMapView.Grid.IsVisible = (localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
                     }
                 }
                 else
@@ -241,7 +241,7 @@ namespace GSCFieldApp.Views
             gridLatLong.LabelOffset = 50;
             if (localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) != null)
             {
-                gridLatLong.IsVisible = (bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid);
+                gridLatLong.IsVisible = localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordMapViewGrid);
             }
             else
             {

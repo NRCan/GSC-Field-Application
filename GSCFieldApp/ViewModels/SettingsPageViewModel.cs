@@ -12,6 +12,7 @@ using GSCFieldApp.Services.FileServices;
 using SQLite;
 using System.IO;
 using System.Globalization;
+using Windows.Foundation.Collections;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -35,6 +36,7 @@ namespace GSCFieldApp.ViewModels
         public bool _StructureToggle = true;
         public bool _fossilToggle = true;
         public bool _mineralToggle = true;
+        public bool _drillToggle = true;
 
         public bool _environmentToggle = false;
         public bool _soilProfileToggle = false;
@@ -95,6 +97,8 @@ namespace GSCFieldApp.ViewModels
         public bool SoilProfileToggle { get { return _soilProfileToggle; } set { _soilProfileToggle = value; RaisePropertyChanged(); localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.TableSoilProfile, value); } }
         public bool PflowToggle { get { return _pflowToggle; } set { _pflowToggle = value; RaisePropertyChanged(); localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.TablePFlow, value); } }
 
+        public bool DrillToggle { get { return _drillToggle; } set { _drillToggle = value; RaisePropertyChanged(); localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.TableDrillHoles, value); } }
+
         //Other
         public Visibility LoadPicklistVisibility { get { return _loadPicklistVisibility; } set { _loadPicklistVisibility = value; } }
         public int SelectedPivotIndex { get { return _selectedPivotIndex; } set { _selectedPivotIndex = value; } }
@@ -136,7 +140,7 @@ namespace GSCFieldApp.ViewModels
             #region Header toggles
             if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon)!=null)
             {
-                _commonToggle = (bool)localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon);
+                _commonToggle = localSetting.GetBoolSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon);
 
             }
             else
@@ -152,7 +156,7 @@ namespace GSCFieldApp.ViewModels
 
             if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock) != null)
             {
-                _bedrockToggle = (bool)localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock);
+                _bedrockToggle = localSetting.GetBoolSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock);
             }
             else
             {
@@ -162,7 +166,7 @@ namespace GSCFieldApp.ViewModels
 
             if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial) != null)
             {
-                _surficialToggle = (bool)localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial);
+                _surficialToggle = localSetting.GetBoolSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial);
             }
             else
             {
@@ -176,45 +180,49 @@ namespace GSCFieldApp.ViewModels
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableSample) != null)
             {
-                SampleToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableSample);
+                SampleToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableSample);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableMineral) != null)
             {
-                MineralToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineral);
+                MineralToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableMineral);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null)
             {
-                MAToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration);
+                MAToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableMineralAlteration);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableDocument) != null)
             {
-                PhotoToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableDocument);
+                PhotoToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableDocument);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableStructure) != null)
             {
-                StructureToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableStructure);
+                StructureToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableStructure);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TablePFlow) != null)
             {
-                PflowToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TablePFlow);
+                PflowToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TablePFlow);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableFossil) != null)
             {
-                _fossilToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableFossil);
+                _fossilToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableFossil);
             }
             if (localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat) != null)
             {
-                _earthToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat);
+                _earthToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableEarthMat);
             }
             if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null)
             {
-                _environmentToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment);
+                _environmentToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableEnvironment);
+            }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableDrillHoles) != null)
+            {
+                _drillToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableDrillHoles);
             }
             //else
             //{
@@ -230,6 +238,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("PflowToggle");
             RaisePropertyChanged("MAToggle");
             RaisePropertyChanged("EnvironmentToggle");
+            RaisePropertyChanged("DrillToggle");
             #endregion
 
         }
@@ -331,11 +340,13 @@ namespace GSCFieldApp.ViewModels
             MAToggle = bedrockToggleValue;
             StructureToggle = bedrockToggleValue;
             MineralToggle = bedrockToggleValue;
+            DrillToggle = bedrockToggleValue;
 
             RaisePropertyChanged("BedrockToggle");
             RaisePropertyChanged("MAToggle");
             RaisePropertyChanged("StructureToggle");
             RaisePropertyChanged("MineralToggle");
+            RaisePropertyChanged("DrillToggle");
 
         }
 

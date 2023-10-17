@@ -40,11 +40,31 @@ namespace GSCFieldApp.Views
 
             this.InitializeComponent();
             this.drillViewModel = new DrillHoleViewModel(inParentReport);
+            this.Loading += DrillHoleDialog_Loading;
 
             //#258 bringing back some old patch on save button
             this.drillSaveButton.GotFocus -= DrillSaveButton_GotFocus;
             this.drillSaveButton.GotFocus += DrillSaveButton_GotFocus;
 
+            
+        }
+
+        private void DrillHoleDialog_Loading(FrameworkElement sender, object args)
+        {
+            //Fill automatically the earthmat dialog if an edit is asked by the user.
+            if (parentDrillReport.GenericTableName == Dictionaries.DatabaseLiterals.TableDrillHoles && drillViewModel.doDrillHoleUpdate)
+            {
+                this.drillViewModel.AutoFillDialog(parentDrillReport);
+                this.pageHeader.Text = this.pageHeader.Text + "  " + parentDrillReport.GenericAliasName;
+            }
+            else if (!drillViewModel.doDrillHoleUpdate)
+            {
+                this.pageHeader.Text = this.pageHeader.Text + "  " + this.drillViewModel.DrillIDName;
+            }
+            else
+            {
+                this.pageHeader.Text = this.pageHeader.Text + "  " + this.drillViewModel.DrillIDName;
+            }
         }
 
         #region EVENTS
@@ -68,7 +88,12 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         public void drillBackButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            this.drillViewModel.DeleteCascadeOnQuickDrillHole(parentDrillReport);
+            //Prevent delete on back button when in edit mode
+            if (!this.drillViewModel.doDrillHoleUpdate)
+            {
+                this.drillViewModel.DeleteCascadeOnQuickDrillHole(parentDrillReport);
+            }
+            
             CloseControl();
         }
 

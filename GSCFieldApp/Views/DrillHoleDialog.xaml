@@ -59,7 +59,7 @@
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="DrillGridView_Context" IsTabStop="False" IsEnabled="False"/>
 
                             <TextBox x:Name="DrillName" x:Uid="DrillName"
-                                    Text ="{x:Bind drillViewModel.Name, Mode=TwoWay}" 
+                                    Text ="{x:Bind drillViewModel.OriginalName, Mode=TwoWay}" 
                                     Header="" 
                                     InputScope="Text" TabIndex="1" TabNavigation="Once"/>
                             <TextBox x:Name="DrillCName" x:Uid="DrillCName"

@@ -1843,4 +1843,10 @@ Shimamura, Kaz – Conseiller</value>
   <data name="FieldworkTableDrill.Text" xml:space="preserve">
     <value>Forages</value>
   </data>
+  <data name="SettingPageToggleDrill.OffContent" xml:space="preserve">
+    <value>Forages</value>
+  </data>
+  <data name="SettingPageToggleDrill.OnContent" xml:space="preserve">
+    <value>Forages</value>
+  </data>
 </root>

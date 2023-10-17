@@ -121,6 +121,42 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// Will return a container key value 
+        /// </summary>
+        /// <param name="keyName"></param>
+        /// <param name="inContainerName"></param>
+        /// <returns></returns>
+        public bool GetBoolSettingValue(string keyName, string inContainerName = "")
+        {
+            //Variable 
+            bool output = true;
+            string wantedContainer = containerName;
+
+            if (inContainerName != string.Empty)
+            {
+                wantedContainer = inContainerName;
+            }
+
+
+            if (currentLocalSettings.Containers[containerName].Values.ContainsKey(keyName))
+            {
+                Debug.WriteLine(currentLocalSettings.Containers[containerName].Values[keyName].ToString());
+                try
+                {
+                    output = (bool)currentLocalSettings.Containers[containerName].Values[keyName];
+                }
+                catch (Exception)
+                {
+                    output = true;
+                }
+                
+            }
+
+            return output;
+        }
+
+
+        /// <summary>
         /// Will set a given container key with given object
         /// </summary>
         /// <param name="inFieldBookPath"></param>
@@ -183,7 +219,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableMineralAlteration] = true;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableStructure] = true;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableMineral] = true;
-
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableDrillHoles] = true;
                 }
                 else
                 {
@@ -191,6 +227,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableMineralAlteration] = false;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableStructure] = false;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableMineral] = false;
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableDrillHoles] = false;
                 }
 
 

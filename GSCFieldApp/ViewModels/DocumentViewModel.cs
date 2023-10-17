@@ -352,7 +352,7 @@ namespace GSCFieldApp.ViewModels
 
             if (localSetting.GetSettingValue(ApplicationLiterals.KeywordDocumentMode) != null)
             {
-                if ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordDocumentMode))
+                if (localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordDocumentMode))
                 {
                     _documentModeVisibility = Visibility.Collapsed;
                     _fileNameReadOnly = true;
