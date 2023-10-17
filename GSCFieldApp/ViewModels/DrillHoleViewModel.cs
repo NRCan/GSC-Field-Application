@@ -519,6 +519,19 @@ namespace GSCFieldApp.ViewModels
             }
         }
 
+        /// <summary>
+        /// Will remove a value from concat box
+        /// </summary>
+        /// <param name="inInterval"></param>
+        public void RemoveSelectedValue(object inInterval, string parentListViewName)
+        {
+            Themes.ComboBoxItem oldValue = inInterval as Themes.ComboBoxItem;
+
+            _drillLogIntervals.Remove(oldValue);
+            RaisePropertyChanged("DrillLogIntervals");
+
+        }
+
         #endregion
 
         #region EVENTS
