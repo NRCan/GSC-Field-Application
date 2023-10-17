@@ -197,12 +197,12 @@ namespace GSCFieldApp.ViewModels
 
             double.TryParse(_locationLongitude, out double _long);
             double.TryParse(_locationLatitude, out double _lat);
-            int.TryParse(_locationEasting, out int _easting);
-            int.TryParse(_locationNorthing, out int _northing);
+            double.TryParse(_locationEasting, out double _easting);
+            double.TryParse(_locationNorthing, out double _northing);
             double.TryParse(_locationAccuracy, out double _accu);
 
             //Detect a projected system
-            double.TryParse(SelectedLocationDatums.ToString(), out double selectedEPGS);
+            int.TryParse(SelectedLocationDatums.ToString(), out int selectedEPGS);
 
             //Make sure that everything has been filled
             if ((_long == 0 || _lat == 0) && (_easting != 0 || _northing != 0))
@@ -210,7 +210,7 @@ namespace GSCFieldApp.ViewModels
 
 
                 //Detect Datum difference
-                SpatialReference inSR = SpatialReference.Create((int)selectedEPGS);
+                SpatialReference inSR = SpatialReference.Create(selectedEPGS);
                 SpatialReference outSR = SpatialReferences.Wgs84; //Default
                 if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
                 {
