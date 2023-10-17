@@ -441,7 +441,6 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
 
-
         #region THEMES
 
         public void TransformToWaypointTheme()
