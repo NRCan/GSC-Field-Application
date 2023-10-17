@@ -1,4 +1,5 @@
 ﻿using Esri.ArcGISRuntime.Geometry;
+using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System;
@@ -257,10 +258,26 @@ namespace GSCFieldApp.ViewModels
 
 
             //Save model class
-            object locObject = (object)locationModel;
-            accessData.SaveFromSQLTableObject(ref locObject, doLocationUpdate);
-            locationModel = (FieldLocation)locObject;
-            //accessData.SaveFromSQLTableObject(locationModel, doLocationUpdate);
+            GeopackageService geoService = new GeopackageService();
+
+            if (doLocationUpdate)
+            {
+                object locObject = (object)locationModel;
+                accessData.SaveFromSQLTableObject(ref locObject, doLocationUpdate);
+                locationModel = (FieldLocation)locObject;
+
+                //Extra step to make sure geometry is good
+                string updateQuery = accessData.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                geoService.DoSpatialiteQueryInGeopackage(updateQuery);
+            }
+            else
+            {
+                string insertQuery = accessData.GetGeopackageInsertQuery(locationModel);
+                locationModel.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
+            }
+
+
+
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newLocationEdit != null)

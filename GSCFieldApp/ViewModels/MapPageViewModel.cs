@@ -968,6 +968,7 @@ namespace GSCFieldApp.ViewModels
             string selectMetadata = "SELECT * FROM " + DatabaseLiterals.TableMetadata + " fm ";
             string joinLocation = "JOIN " + DatabaseLiterals.TableLocation + " fl on fm." + DatabaseLiterals.FieldUserInfoID + " = fl." + DatabaseLiterals.FieldLocationMetaID + " ";
             string joinStation = "JOIN " + DatabaseLiterals.TableStation + " fs on fl." + DatabaseLiterals.FieldLocationID + " = fs." + DatabaseLiterals.FieldStationObsID + " ";
+            string joinDrill = "JOIN " + DatabaseLiterals.TableDrillHoles + " fd on fl." + DatabaseLiterals.FieldLocationID + " = fd." + DatabaseLiterals.FieldDrillLocationID + " ";
             string whereMetadata = string.Empty;
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID) != null)
             {
@@ -975,7 +976,7 @@ namespace GSCFieldApp.ViewModels
             }
             MapPageStation mps = new MapPageStation();
             List<object> mpsRows = new List<object>();
-            mpsRows = accessData.ReadTable(mps.GetType(), selectMetadata + joinLocation + joinStation + whereMetadata);
+            mpsRows = accessData.ReadTable(mps.GetType(), selectMetadata + joinLocation + joinStation + joinDrill + whereMetadata);
 
             // Get latitude, longitude and station id and add to graphics overlay
             foreach (object m in mpsRows)
