@@ -194,7 +194,19 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void LocationEasting_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
-            isEastingValid();
+            TextBox textBox = (TextBox)sender;
+            string input = textBox.Text;
+
+            if (decimal.TryParse(input, out decimal result))
+            {
+                // If value entered is a decimal number.
+            }
+            else
+            {
+                // The value entered is not a decimal number.
+                isEastingValid();
+            }
+            //isEastingValid();
         }
 
         /// <summary>
@@ -204,7 +216,19 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void LocationNorthing_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
-            isNorthingValid();
+            TextBox textBox = (TextBox)sender;
+            string input = textBox.Text;
+
+            if (decimal.TryParse(input, out decimal result))
+            {
+                // If value entered is a decimal number.
+            }
+            else
+            {
+                // The value entered is not a decimal number.
+                isNorthingValid();
+            }
+            //isNorthingValid();
         }
 
         #endregion
@@ -260,9 +284,9 @@ namespace GSCFieldApp.Views
             if (result)
             {
                 // Source: https://www.maptools.com/tutorials/utm/details
-                if (east < 834000 && east > 160000)
+                if (east < 834000.000000 && east > 160000.000000)
                 {
-                    this.LocationEasting.Text = east.ToString();
+                    this.LocationEasting.Text = east.ToString();   //Allows the value to be saved in database, but you cannot add decimal
                     this.LocationEasting.BorderBrush = defaultBrush;
                 }
                 else
@@ -280,18 +304,21 @@ namespace GSCFieldApp.Views
         }
 
         /// <summary>
-        /// Will make sure the entered easting coordinate has the right amount of digits
+        /// Will make sure the entered northing coordinate has the right amount of digits
         /// </summary>
         public void isNorthingValid()
         {
             bool result = double.TryParse(this.LocationNorthing.Text, out double north);
+            //string input = this.LocationNorthing.Text;
 
+            //if (double.TryParse(input, out double north))
+            //{
             if (result)
             {
                 // Source: https://www.maptools.com/tutorials/utm/details
-                if (north < 10000000 && north > 0)
+                if (north < 10000000.000000 && north > 0.000000)
                 {
-                    this.LocationNorthing.Text = north.ToString();
+                    this.LocationNorthing.Text = north.ToString(); //Allows the value to be saved in database, but you cannot add decimal
                     this.LocationNorthing.BorderBrush = defaultBrush;
                 }
                 else
@@ -307,8 +334,9 @@ namespace GSCFieldApp.Views
         }
 
 
-        #endregion
 
+
+        #endregion
 
     }
 }

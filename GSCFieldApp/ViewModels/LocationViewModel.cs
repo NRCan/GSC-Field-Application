@@ -115,16 +115,12 @@ namespace GSCFieldApp.ViewModels
         }
 
         public string LocationElevation { get { return _locationElevation; } set { _locationElevation = value; } }
-
         public string LocationNorthing { get { return _locationNorthing; } set { _locationNorthing = value; } }
         public string LocationEasting { get { return _locationEasting; } set { _locationEasting = value; } }
-
         public string LocationAccuracy { get { return _locationAccuracy; } set { _locationAccuracy = value; } }
         public string LocationNTS { get { return _locationNTS; } set { _locationNTS = value; } }
         public bool ReadOnlyFields { get { return _readonlyFields; } set { _readonlyFields = value; } }
-
         public string LocationNotes { get { return _locationNotes; } set { _locationNotes = value; } }
-
         public ObservableCollection<Themes.ComboBoxItem> LocationDatums { get { return _locationDatums; } set { _locationDatums = value; } }
         public string SelectedLocationDatums { get { return _selectedLocationDatums; } set { _selectedLocationDatums = value; } }
         #endregion

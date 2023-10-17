@@ -24,6 +24,7 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldLocationEasting)]
         public double? LocationEasting { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationNorthing)]
         public double? LocationNorthing { get; set; }
 
