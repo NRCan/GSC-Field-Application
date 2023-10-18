@@ -1786,6 +1786,9 @@ namespace GSCFieldApp.ViewModels
         {
             //Force a redraw of all locations
             RefreshMap(false);
+
+            //Navigate to report
+            NavigateToReport(sender);
         }
 
         private void EsriMap_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
