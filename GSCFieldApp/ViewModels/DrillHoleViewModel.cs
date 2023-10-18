@@ -31,6 +31,7 @@ namespace GSCFieldApp.ViewModels
         //Events and delegate
         public delegate void drillEditEventHandler(object sender); //A delegate for execution events
         public event drillEditEventHandler newDrillEdit; //This event is triggered when a save has been done on station table.
+        public static event EventHandler DrillUpdateEventHandler; //This even is triggered when user has change coordinate so map page needs a refresh.
 
         //UI
         private int _drillID = 0; //Meant for update purposes, not insert
@@ -471,6 +472,13 @@ namespace GSCFieldApp.ViewModels
             if (newDrillEdit != null)
             {
                 newDrillEdit(this);
+            }
+
+            //Trigger event for map page
+            EventHandler updateRequest = DrillUpdateEventHandler;
+            if (updateRequest != null)
+            {
+                updateRequest(this, null);
             }
 
         }
