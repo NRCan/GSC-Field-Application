@@ -138,13 +138,10 @@ namespace GSCFieldApp.ViewModels
         }
         public string SlSNotes { get { return _slsnotes; } set { _slsnotes = value; } }
         public string StationOCSize { get { return _stationOCSize; } set { _stationOCSize = value; } }
-
         public ObservableCollection<Themes.ComboBoxItem> StationTypes { get { return _stationTypes; } set { _stationTypes = value; } }
         public string SelectedStationTypes { get { return _selectedStationTypes; } set { _selectedStationTypes = value; } }
-
         public ObservableCollection<Themes.ComboBoxItem> ObservationSource { get { return _observationSource; } set { _observationSource = value; } }
         public string SelectedObservationSources { get { return _selectedObservationSource; } set { _selectedObservationSource = value; } }
-
         public ObservableCollection<Themes.ComboBoxItem> StationQuality { get { return _stationQuality; } set { _stationQuality = value; } }
         public string SelectedStationQuality { get { return _selectedStationQuality; } set { _selectedStationQuality = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StationQualityValues { get { return _stationQualityValues; } set { _stationQualityValues = value; } }

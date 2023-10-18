@@ -207,8 +207,6 @@ namespace GSCFieldApp.ViewModels
             //Make sure that everything has been filled
             if ((_long == 0 || _lat == 0) && (_easting != 0 || _northing != 0))
             {
-
-
                 //Detect Datum difference
                 SpatialReference inSR = SpatialReference.Create(selectedEPGS);
                 SpatialReference outSR = SpatialReferences.Wgs84; //Default
