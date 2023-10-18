@@ -938,11 +938,6 @@ namespace GSCFieldApp.ViewModels
                 }
             }
 
-            //Manager header opacity
-            drillRecordCound = drillTableRows.Count;
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
-
             //Set selected index
             if ((_reportDrillIndex != drillTableRows.Count - 1) || (userSelectedDrillIndex != -1))
             {
@@ -958,7 +953,10 @@ namespace GSCFieldApp.ViewModels
 
             }
 
-            SetHeaderColorOpacity(DatabaseLiterals.TableDrillHoles);
+            //Manager header opacity
+            drillRecordCound = drillTableRows.Count;
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
 
 
             #endregion
@@ -3423,20 +3421,7 @@ namespace GSCFieldApp.ViewModels
             if (tableToUpdateHeader == Dictionaries.DatabaseLiterals.TableLocation)
             {
 
-                if (_reportDetailedStation.Count != 0)
-                {
-
-                    _locationIconColorOpacity = enableOpacity;
-
-                    Color lc = new Color();
-                    if (Application.Current.Resources[resourcenameFieldLocationColor] != null)
-                    {
-                        lc = (Color)Application.Current.Resources[resourcenameFieldLocationColor];
-                    }
-
-                    _locationColor.Color = lc;
-                }
-                if (_reportDetailedDrill.Count != 0)
+                if (_reportDetailedStation.Count != 0 || _reportDetailedDrill.Count != 0)
                 {
 
                     _locationIconColorOpacity = enableOpacity;
