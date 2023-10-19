@@ -21,7 +21,8 @@ namespace GSCFieldApp.ViewModels
         private readonly Mineral mineralModel = new Mineral();
         private string _alias = string.Empty; //Default
         private int _earthmatid = 0; //Default
-        private int _stationid = 0; //Detault
+        private int? _stationid = null; //Detault
+        private int? _drillID = null; //Detault
         private string _colourindex = "0";//Detault
         private int? _percent; //Default
         private string _contactNote = string.Empty;//Detault
@@ -143,7 +144,8 @@ namespace GSCFieldApp.ViewModels
         public Visibility SurficialVisibility { get { return _surficialVisibility; } set { _surficialVisibility = value; } }
         public EarthMaterial EarthModel { get { return earthmodel; } set { earthmodel = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
-        public int StationID { get { return _stationid; } set { _stationid = value; } }
+        public int? StationID { get { return _stationid; } set { _stationid = value; } }
+        public int? DrillID { get { return _drillID; } set { _drillID = value; } }
         public int EarthmatID { get { return _earthmatid; } set { _earthmatid = value; } }
         public double? MagSusceptibility
         {
@@ -336,10 +338,15 @@ namespace GSCFieldApp.ViewModels
             //On init for new earthmats calculate values so UI shows stuff.
             _earthmatid = idCalculator.CalculateEarthmatID();
 
-            if (inDetailModel!= null) //detail model could be null if a quick earthmat is asked
+            if (inDetailModel!= null && inDetailModel.GenericTableName == DatabaseLiterals.TableStation) //detail model could be null if a quick earthmat is asked
             {
                 _stationid = inDetailModel.GenericID;
                 _alias = idCalculator.CalculateEarthmatnAlias(_stationid, inDetailModel.GenericAliasName);
+            }
+            else if (inDetailModel != null && inDetailModel.GenericTableName == DatabaseLiterals.TableDrillHoles)
+            {
+                _drillID = inDetailModel.GenericID;
+                _alias = idCalculator.CalculateEarthmatnAlias(_drillID, inDetailModel.GenericAliasName);
             }
 
             //Will enable/disable some fields based on bedrock or surficial usage
@@ -436,7 +443,7 @@ namespace GSCFieldApp.ViewModels
 
             //Set
             _earthmatid = existingDataDetail.earthmat.EarthMatID;
-            _stationid = existingDataDetail.ParentID;
+            
             _alias = existingDataDetail.earthmat.EarthMatName;
             _interpretation = existingDataDetail.earthmat.EarthMatInterp;
             _contactNote = existingDataDetail.earthmat.EarthMatContactNote;
@@ -452,6 +459,16 @@ namespace GSCFieldApp.ViewModels
             _earthColourW = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourW);
             _earthColourF = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourF);
             //_earthContact = new Contacts().fromString(existingDataDetail.earthmat.EarthMatContact);
+
+            //Deal with annoying parents
+            if (existingDataDetail.ParentTableName == DatabaseLiterals.TableStation)
+            {
+                _stationid = existingDataDetail.ParentID;
+            }
+            else if (existingDataDetail.ParentTableName == DatabaseLiterals.TableDrillHoles)
+            {
+                _drillID = existingDataDetail.ParentID;
+            }
 
             //Update list view
             UnPipeValues(existingDataDetail.earthmat.EarthMatDefabric, Dictionaries.DatabaseLiterals.FieldEarthMatDefabric);
@@ -599,6 +616,7 @@ namespace GSCFieldApp.ViewModels
             //Get current class information and add to model
             earthmodel.EarthMatID = _earthmatid; //Prime key
             earthmodel.EarthMatStatID = _stationid; //Foreign key
+            earthmodel.EarthMatDrillHoleID = _drillID; //Foreign key
             earthmodel.EarthMatName = _alias;
             earthmodel.EarthMatMagSuscept = _mag;
             earthmodel.EarthMatColourInd = int.Parse(_colourindex);

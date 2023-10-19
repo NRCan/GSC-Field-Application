@@ -455,21 +455,27 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateEarthmatnAlias(int parentID, string parentAlias)
+        public string CalculateEarthmatnAlias(int? parentID, string parentAlias)
         {
 
             //Querying with Linq
             List<object> earthmatTableRaw = dAccess.ReadTable(earthmatModel.GetType(), null);
             IEnumerable<EarthMaterial> earthmatTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
-            IEnumerable<string> eartmatParentStations = from e in earthmatTable where e.EarthMatStatID == parentID select e.EarthMatName;
+            IEnumerable<string> eartmatParents = from e in earthmatTable where e.EarthMatStatID == parentID select e.EarthMatName;
+
+            if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+            {
+                eartmatParents = from e in earthmatTable where e.EarthMatDrillHoleID == parentID select e.EarthMatName;
+            }
+
 
             int startingNumber = 1;
             string finaleEarthmatString = parentAlias;
 
             //Detect last earthmat letter equivalent number and add 1 to it.
-            if (eartmatParentStations.Count() > 0)
+            if (eartmatParents.Count() > 0)
             {
-                string lastAlias = eartmatParentStations.ToList()[eartmatParentStations.Count() - 1].ToString(); 
+                string lastAlias = eartmatParents.ToList()[eartmatParents.Count() - 1].ToString(); 
                 string lastCharacter = lastAlias.ToList()[lastAlias.Length - 1].ToString();
 
                 //Find if last two are characters
@@ -500,6 +506,11 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Find existing
                     IEnumerable<EarthMaterial> existingEarth = from s in earthmatTable where s.EarthMatStatID == parentID && s.EarthMatName == finaleEarthmatString select s;
+
+                    if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+                    {
+                        existingEarth = from e in earthmatTable where e.EarthMatDrillHoleID == parentID && e.EarthMatName == finaleEarthmatString select e;
+                    }
 
                     if (existingEarth.Count() == 0 || existingEarth == null)
                     {

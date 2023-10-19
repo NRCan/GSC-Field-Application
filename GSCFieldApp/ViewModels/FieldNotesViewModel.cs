@@ -1130,13 +1130,19 @@ namespace GSCFieldApp.ViewModels
                             GenericTableName = DatabaseLiterals.TableEarthMat,
                             GenericFieldID = DatabaseLiterals.FieldEarthMatID,
                             GenericAliasName = currentEarth.EarthMatName,
-
-                            ParentID = currentEarth.EarthMatStatID, //TO keep the link with location table
-                            ParentTableName = DatabaseLiterals.TableStation, //To keep the link with location table.
-
                             MainID = currentReport.ParentID
                         };
 
+                        if (currentEarth.EarthMatStatID != null)
+                        {
+                            currentDetailReport.ParentID = (int)currentEarth.EarthMatStatID; //TO keep the link with location table
+                            currentDetailReport.ParentTableName = DatabaseLiterals.TableStation;//To keep the link with location table.
+                        }
+                        else if (currentEarth.EarthMatDrillHoleID != null)
+                        {
+                            currentDetailReport.ParentID = (int)currentEarth.EarthMatDrillHoleID; //TO keep the link with location table
+                            currentDetailReport.ParentTableName = DatabaseLiterals.TableDrillHoles;//To keep the link with location table.
+                        }
                         _reportDetailedEarthmat.Add(currentDetailReport);
 
                         //Refresh summary
@@ -1215,12 +1221,20 @@ namespace GSCFieldApp.ViewModels
                             GenericTableName = DatabaseLiterals.TableEarthMat,
                             GenericFieldID = DatabaseLiterals.FieldEarthMatID,
                             GenericAliasName = currentEarth.EarthMatName,
-
-                            ParentID = currentEarth.EarthMatDrillHoleID, //TO keep the link with location table
-                            ParentTableName = DatabaseLiterals.TableDrillHoles, //To keep the link with location table.
-
                             MainID = currentReport.ParentID
                         };
+
+                        if (currentEarth.EarthMatStatID != null)
+                        {
+
+                            currentDetailReport.ParentID = (int)currentEarth.EarthMatStatID; //TO keep the link with location table
+                            currentDetailReport.ParentTableName = DatabaseLiterals.TableStation; //To keep the link with location table.
+                        }
+                        else if (currentEarth.EarthMatDrillHoleID != null)
+                        {
+                            currentDetailReport.ParentID = (int)currentEarth.EarthMatDrillHoleID; //TO keep the link with location table
+                            currentDetailReport.ParentTableName = DatabaseLiterals.TableDrillHoles; //To keep the link with location table.
+                        }
 
                         _reportDetailedEarthmat.Add(currentDetailReport);
 
@@ -1407,7 +1421,7 @@ namespace GSCFieldApp.ViewModels
         public void FillLocation()
         {
             _reportDetailedLocation.Clear();
-
+            RaisePropertyChanged("ReportDetailedLocation");
             #region Conditional to user having selected a station
 
             if (_reportStationIndex != -1)
@@ -2770,7 +2784,14 @@ namespace GSCFieldApp.ViewModels
         {
             if (_earthmatHeaderExpansion && pageLoading)
             {
-                FillEarthmatFromStation();
+                if (_reportDrillIndex != -1)
+                {
+                    FillEarthmatFromDrill(); 
+                }
+                if (_reportStationIndex != -1)
+                {
+                    FillEarthmatFromStation();
+                }
             }
             else
             {
@@ -3179,15 +3200,6 @@ namespace GSCFieldApp.ViewModels
                     _drillIconOpacity = enableOpacity;
                     _earthmatAddIconOpacity = enableOpacity;
                     hasDrillLocation = true;
-
-                    if (_reportDetailedDrill[_reportDrillIndex].GenericAliasName != null)
-                    {
-                        isWaypoint = true;
-                    }
-                    else
-                    {
-                        isWaypoint = false;
-                    }
                 }
 
             }
@@ -3280,6 +3292,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _stationIconOpacity = disableOpacity;
                 _earthmatAddIconOpacity = disableOpacity;
+                _earthmatAddIconColor.Color = GetTableColor(string.Empty);
                 _mineralAltAddIconOpacity = disableOpacity;
                 _documentAddIconOpacity = disableOpacity;
                 _environmentAddIconOpacity = disableOpacity;
@@ -3287,7 +3300,12 @@ namespace GSCFieldApp.ViewModels
             if (!hasDrillLocation || _reportDetailedDrill.Count == 0)
             {
                 _drillIconOpacity = disableOpacity;
-                _earthmatAddIconOpacity = disableOpacity;
+
+                if (!hasStationLocation)
+                {
+                    _earthmatAddIconOpacity = disableOpacity;
+                    _earthmatAddIconColor.Color = GetTableColor(string.Empty);
+                }
             }
             if (!hasMineralAlt)
             {
@@ -3309,6 +3327,13 @@ namespace GSCFieldApp.ViewModels
             }
 
             #endregion
+
+            if (_reportStationIndex == -1 && _reportDrillIndex == -1)
+            {
+                _earthmatAddIconOpacity = disableOpacity;
+                _earthmatAddIconColor.Color = GetTableColor(string.Empty);
+                EmptyStationChilds();
+            }
 
             #region UPDATE UI
             RaisePropertyChanged("StationIconOpacity");
@@ -3897,9 +3922,13 @@ namespace GSCFieldApp.ViewModels
         #region EARTHMAT EVENTS
         public void EarthMatAddIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            if (!_reportDetailedStation[_reportStationIndex].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
+            if (_reportStationIndex != -1 && !_reportDetailedStation[_reportStationIndex].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
             {
                 PopEarthmat(_reportDetailedStation[_reportStationIndex], false);
+            }
+            else if (_reportDrillIndex != -1)
+            {
+                PopEarthmat(_reportDetailedDrill[_reportDrillIndex], false);
             }
             
         }
@@ -3910,7 +3939,15 @@ namespace GSCFieldApp.ViewModels
         /// <param name="sender"></param>
         public void ViewModel_newEarthmatEdit(object sender)
         {
-            FillEarthmatFromStation();
+            if (_reportStationIndex != -1)
+            {
+                FillEarthmatFromStation();
+            }
+
+            if (_reportDrillIndex != -1)
+            {
+                FillEarthmatFromDrill();
+            }
 
             //Select last
             try
@@ -4559,6 +4596,10 @@ namespace GSCFieldApp.ViewModels
                     EmptyMineralizationAlterationChilds();
                     FillMineral();
                     FillEnvironmentFromStation();
+
+                    //Unselect drills
+                    _reportDrillIndex = -1;
+                    RaisePropertyChanged("ReportDrillIndex"); 
                     
                 }
 
@@ -4578,10 +4619,15 @@ namespace GSCFieldApp.ViewModels
 
                 if (selectedReport.GenericTableName == DatabaseLiterals.TableDrillHoles)
                 {
+                    //Unselect stations
+                    _reportStationIndex = -1;
+                    RaisePropertyChanged("ReportStationListIndex");
+
                     FillEarthmatFromDrill();
                     EmptyEarthmatChilds();
                     FillLocation();
                     EmptyMineralizationAlterationChilds();
+
                 }
                 
 
@@ -4726,6 +4772,10 @@ namespace GSCFieldApp.ViewModels
                  _reportStationIndex = _reportDetailedStation.Count - 1;
 
                 RaisePropertyChanged("ReportStationListIndex");
+
+                //Unselect drills
+                _reportDrillIndex = -1;
+                RaisePropertyChanged("ReportDrillIndex"); 
 
             }
 
