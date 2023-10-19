@@ -207,6 +207,7 @@ namespace GSCFieldApp.ViewModels
         //Map page
         public string userSelectedStationID = string.Empty;
         public string userSelectedStationDate = string.Empty;
+        public string userSelectedDrillID = string.Empty;
 
         //Events and delegate
         public delegate void summaryFinishLoadedEventHandler(object sender); //A delegate for execution events
@@ -766,7 +767,7 @@ namespace GSCFieldApp.ViewModels
             
 
             #region Conditional to user having selected a station
-            EmptyAll();
+            EmptyAll(false);
             if (_reportDateIndex != -1)
             {
                 //Variables
@@ -857,7 +858,7 @@ namespace GSCFieldApp.ViewModels
             else
             {
                 stationLocationRowCount = 0;
-                EmptyAll();
+                EmptyAll(false);
             }
             #endregion
         }
@@ -965,7 +966,7 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will reset all headers to default.
         /// </summary>
-        public void EmptyAll()
+        public void EmptyAll(bool evenDrill = true)
         {
             //Clear date from headers
             _reportDetailedLocation.Clear();
@@ -979,7 +980,7 @@ namespace GSCFieldApp.ViewModels
             _reportDetailedSample.Clear();
             _reportDetailedMineralAlt.Clear();
             _reportDetailedEnvironment.Clear();
-            _reportDetailedDrill.Clear();
+            
             RaisePropertyChanged("ReportDetailedLocation");
             RaisePropertyChanged("ReportDetailedDocument"); 
             RaisePropertyChanged("ReportDetailedEarthmat");
@@ -991,8 +992,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("ReportDetailedStructure");
             RaisePropertyChanged("ReportDetailedMineralAlt");
             RaisePropertyChanged("ReportDetailEnvironment");
-            RaisePropertyChanged("ReportDetailDrill");
-
+            
             //Reset opacity of header
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableSample);
@@ -1005,7 +1005,13 @@ namespace GSCFieldApp.ViewModels
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStation);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEnvironment);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
+           
+            if (evenDrill)
+            {
+                _reportDetailedDrill.Clear();
+                RaisePropertyChanged("ReportDetailDrill");
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
+            }
         }
 
         /// <summary>
@@ -3798,14 +3804,15 @@ namespace GSCFieldApp.ViewModels
         {
             EditLocation();
         }
+
         /// <summary>
         /// Will pop and fill station dialog with existing values
         /// </summary>
         public void EditLocation()
         {
-            if (ReportStationListIndex != -1)
+            if (ReportLocationIndex != -1)
             {
-                PopLocation(_reportDetailedStation[ReportStationListIndex], true);
+                PopLocation(_reportDetailedLocation[ReportLocationIndex], true);
             }
             
         }
@@ -4720,6 +4727,12 @@ namespace GSCFieldApp.ViewModels
 
                 RaisePropertyChanged("ReportStationListIndex");
 
+            }
+
+            //Force a refresh on drill if needed
+            if (userSelectedDrillID != string.Empty)
+            {
+                FillDrill();
             }
         }
 

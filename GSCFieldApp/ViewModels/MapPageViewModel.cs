@@ -62,7 +62,7 @@ namespace GSCFieldApp.ViewModels
         private object _selectedLayer;
         public object selectedStationID = string.Empty; //Will be used to show report page on user identified station.
         public object selectedStationDate = string.Empty;  //Will be used to show report page on user identified station.
-
+        public object selectedDrillID = string.Empty; //Will be used to show report page on last entered drill record
 
         //Model and strings
         private readonly DataAccess accessData = new DataAccess();
@@ -1761,7 +1761,7 @@ namespace GSCFieldApp.ViewModels
         private void NavigateToReport(object sender)
         {
             //Navigate to the report page.
-            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate });
+            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate, selectedDrillID });
         }
 
         /// <summary>
@@ -1782,12 +1782,14 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DrillHoleViewModel_DrillUpdateEventHandler(object sender, EventArgs e)
+        private void DrillHoleViewModel_DrillUpdateEventHandler(object sender, string drillID)
         {
             //Force a redraw of all locations
             RefreshMap(false);
 
             //Navigate to report
+            selectedDrillID = drillID;
+
             NavigateToReport(sender);
         }
 

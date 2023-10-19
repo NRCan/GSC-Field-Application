@@ -114,7 +114,7 @@ namespace GSCFieldApp.Views
             isBackButtonPressed = false;
 
             //Fill automatically the earthmat dialog if an edit is asked by the user.
-            if (parentViewModel.ParentTableName == Dictionaries.DatabaseLiterals.TableLocation && locationVM.doLocationUpdate)
+            if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableLocation && locationVM.doLocationUpdate)
             {
                 this.locationVM.AutoFillDialog(parentViewModel);
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;

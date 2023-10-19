@@ -59,8 +59,87 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             else
             {
-                locAlias = CalculateStationAlias(DateTime.Now) + "XY";
+
+                //Get current geolcode
+                string currentGeolcode = localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoUCode).ToString();
+                if (localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID) != null)
+                {
+                    int currentMetaID = int.Parse(localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID).ToString());
+
+                    //Querying with Linq
+                    string locQuerySelect = "SELECT *";
+                    string locQueryFrom = " FROM " + DatabaseLiterals.TableLocation;
+
+                    string locQueryFinal = locQuerySelect + locQueryFrom;
+
+                    List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), locQueryFinal);
+                    IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
+                    IEnumerable<string> locations = from l in locationTable where l.MetaID == currentMetaID orderby l.LocationAlias descending select l.LocationAlias;
+
+                    //Get current year
+                    string currentDate = currentDate = DateTime.Now.Year.ToString();
+
+                    //Get initial station start number if needed
+                    int locationCount = locations.Count();
+                    int lastCharacterNumber = 0;
+
+                    //Get actual last alias and extract it's number
+                    if (locationCount > 0)
+                    {
+                        string lastAlias = locations.ToList()[0].ToString();
+                        List<char> lastCharacters = lastAlias.ToList();
+                        List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 6, 4);
+                        string lastNumber = string.Empty;
+                        foreach (char c in lastNumbers)
+                        {
+                            //Rebuild number
+                            lastNumber = lastNumber + c;
+                        }
+                        lastCharacterNumber = Convert.ToInt32(lastNumber);
+                    }
+
+                    //Increment
+                    locationCount = lastCharacterNumber + 1;
+                    
+                    //Padd current ID with 0 if needed
+                    string outputStringID = string.Empty;
+                    bool breaker = true;
+                    locAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + "XY"; //Ex: 16BEB001
+                    while (breaker)
+                    {
+                        if (locationCount < 10)
+                        {
+                            outputStringID = "000" + locationCount.ToString();
+                        }
+                        else if (locationCount >= 10 && locationCount < 100)
+                        {
+                            outputStringID = "00" + locationCount.ToString();
+                        }
+                        else if (locationCount >= 100 && locationCount < 1000)
+                        {
+                            outputStringID = "0" + locationCount.ToString();
+                        }
+                        else
+                        {
+                            outputStringID = locationCount.ToString();
+                        }
+
+                        locAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + "XY";
+
+                        IEnumerable<string> existinLocations = from l in locationTable where l.MetaID == currentMetaID && l.LocationAlias == locAlias orderby l.LocationAlias descending select l.LocationAlias;
+
+                        if (existinLocations.Count() == 0 || existinLocations == null)
+                        {
+                            breaker = false;
+                        }
+
+                        locationCount++;
+                    }
+
+                }
+
             }
+
 
             return locAlias;
         }
@@ -198,12 +277,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 return String.Empty;
             }
-            
-
-
-
-            
-
+           
         }
 
         /// <summary>

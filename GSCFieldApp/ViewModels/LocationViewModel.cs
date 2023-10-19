@@ -267,8 +267,12 @@ namespace GSCFieldApp.ViewModels
                 locationModel = (FieldLocation)locObject;
 
                 //Extra step to make sure geometry is good
-                string updateQuery = accessData.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
-                geoService.DoSpatialiteQueryInGeopackage(updateQuery);
+                if (locationModel.isManualEntry)
+                {
+                    string updateQuery = accessData.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                    geoService.DoSpatialiteQueryInGeopackage(updateQuery, false);
+                }
+
             }
             else
             {

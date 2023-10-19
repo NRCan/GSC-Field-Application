@@ -62,6 +62,8 @@ namespace GSCFieldApp.Views
                         JsonArray stationInfoArray = stationValues.GetArray();
                         ViewModel.userSelectedStationDate = stationInfoArray.GetStringAt(1);
                         ViewModel.userSelectedStationID = stationInfoArray.GetStringAt(0);
+                        ViewModel.userSelectedDrillID = stationInfoArray.GetStringAt(2);
+
                         navFromMapPage = true;
 
                         this.ViewModel.summaryDone -= ViewModel_summaryDone;
