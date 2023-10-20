@@ -139,6 +139,7 @@ namespace GSCFieldApp.Views
             if (navFromMapPage || this.ViewModel.ReportDateItems.Count == 0)
             {
                 this.ViewModel.FillSummaryReportDateItems();
+                this.ViewModel.FillDrill();
             }
             
         }

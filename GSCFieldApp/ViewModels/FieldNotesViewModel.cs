@@ -894,9 +894,17 @@ namespace GSCFieldApp.ViewModels
             string drillSelectionQuery = "SELECT * FROM " + DatabaseLiterals.TableDrillHoles;
             List<object> drillTableRows = dAccess.ReadTable(drills.GetType(), drillSelectionQuery);
 
+            try
+            {
+                _reportDetailedDrill.Clear();
+                RaisePropertyChanged("ReportDrillListIndex");
+            }
+            catch (Exception)
+            {
 
-            _reportDetailedDrill.Clear();
-            RaisePropertyChanged("ReportDrillListIndex");
+            }
+            
+            
             if (drillTableRows.Count != 0)
             {
                 foreach (object dr in drillTableRows)
@@ -965,7 +973,7 @@ namespace GSCFieldApp.ViewModels
             drillRecordCound = drillTableRows.Count;
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
             SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
-
+            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
 
             #endregion
         }
@@ -1687,7 +1695,7 @@ namespace GSCFieldApp.ViewModels
             //For other cases
             bool foundParentOrSibling = false;
 
-            if (_reportEarthmatIndex != -1 && _reportStationIndex != -1)
+            if (_reportEarthmatIndex != -1)
             {
                 #region Conditional to have a selected earthmat
                 foundParentOrSibling = true;
@@ -1712,10 +1720,18 @@ namespace GSCFieldApp.ViewModels
                             GenericAliasName = spl.SampleName,
 
                             ParentID = _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, //TO keep the link with earthmat table
-                            ParentTableName = DatabaseLiterals.TableEarthMat, //To keep the link with location table.
+                            ParentTableName = DatabaseLiterals.TableEarthMat //To keep the link with location table.
 
-                            MainID = _reportDetailedStation[_reportStationIndex].station.LocationID
                         };
+
+                        if (_reportStationIndex != -1)
+                        {
+                            currentDetailReport.MainID = _reportDetailedStation[_reportStationIndex].station.LocationID;
+                        }
+                        else if (_reportDrillIndex != -1)
+                        {
+                            currentDetailReport.MainID = _reportDetailedDrill[_reportDrillIndex].drillHoles.DrillLocationID;
+                        }
 
                         ReportDetailedSample.Add(currentDetailReport);
 
@@ -3213,6 +3229,8 @@ namespace GSCFieldApp.ViewModels
                 if (_reportDetailedDrill.Count > 0)
                 {
                     _drillIconOpacity = enableOpacity;
+                    _earthmatIconOpacity = enableOpacity;
+                    _earthmatAddIconOpacity = enableOpacity;
                     _earthmatAddIconOpacity = enableOpacity;
                     hasDrillLocation = true;
                 }
@@ -3303,7 +3321,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _documentIconOpacity = disableOpacity;
             }
-            if (!hasStationLocation || _reportDetailedStation.Count == 0)
+            if (!hasStationLocation && !hasDrillLocation)
             {
                 _stationIconOpacity = disableOpacity;
                 _earthmatAddIconOpacity = disableOpacity;
