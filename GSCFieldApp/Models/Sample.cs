@@ -75,6 +75,21 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleIsBlank)]
         public string SampleBlank { get; set; }
 
+        [Column(DatabaseLiterals.FieldSampleCoreFrom)]
+        public double? SampleCoreFrom { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleCoreTo)]
+        public double? SampleCoreTo { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleCoreLength)]
+        public double? SampleCoreLength { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleCoreSize)]
+        public string SampleCoreSize { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampledBy)]
+        public string SampleBy { get; set; }
+
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
 
@@ -128,6 +143,11 @@ namespace GSCFieldApp.Models
                 List<string> sampleFieldList170 = new List<string>();
                 sampleFieldList170.AddRange(sampleFieldListDefault);
                 sampleFieldList170.Remove(DatabaseLiterals.FieldSampleIsBlank);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreFrom);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreTo);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreSize);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampledBy);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreLength);
                 sampleFieldList[DatabaseLiterals.DBVersion170] = sampleFieldList170;
 
                 //Revert shcema 1.7 changes

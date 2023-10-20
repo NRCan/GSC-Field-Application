@@ -779,8 +779,15 @@ namespace GSCFieldApp.ViewModels
                 //string stationSelectionQuery = "SELECT * FROM " + DatabaseLiterals.TableStation + " WHERE " + DatabaseLiterals.FieldStationVisitDate + " = '" + _reportSummaryDateItems[_reportDateIndex].station.StationVisitDate + "' ORDER BY " + DatabaseLiterals.FieldStationAlias;
                 List<object> stationTableRows = dAccess.ReadTable(stations.GetType(), stationSelectionQuery);
 
+                try
+                {
+                    _reportDetailedStation.Clear();
+                }
+                catch (Exception)
+                {
 
-                _reportDetailedStation.Clear();
+                }
+                
 
                 if (stationTableRows.Count != 0)
                 {
@@ -968,50 +975,58 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void EmptyAll(bool evenDrill = true)
         {
-            //Clear date from headers
-            _reportDetailedLocation.Clear();
-            _reportDetailedDocument.Clear();
-            _reportDetailedEarthmat.Clear();
-            _reportDetailedFossil.Clear();
-            _reportDetailedMinerals.Clear();
-            _reportDetailedPflow.Clear();
-            _reportDetailedStation.Clear();
-            _reportDetailedStructure.Clear();
-            _reportDetailedSample.Clear();
-            _reportDetailedMineralAlt.Clear();
-            _reportDetailedEnvironment.Clear();
-            
-            RaisePropertyChanged("ReportDetailedLocation");
-            RaisePropertyChanged("ReportDetailedDocument"); 
-            RaisePropertyChanged("ReportDetailedEarthmat");
-            RaisePropertyChanged("ReportDetailedFossil");
-            RaisePropertyChanged("ReportDetailedMineral");
-            RaisePropertyChanged("ReportDetailedPflow");
-            RaisePropertyChanged("ReportDetailedSample");
-            RaisePropertyChanged("ReportDetailedStation");
-            RaisePropertyChanged("ReportDetailedStructure");
-            RaisePropertyChanged("ReportDetailedMineralAlt");
-            RaisePropertyChanged("ReportDetailEnvironment");
-            
-            //Reset opacity of header
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableSample);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStructure);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TablePFlow);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineral);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableFossil);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDocument);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineralAlteration);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStation);
-            SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEnvironment);
-           
-            if (evenDrill)
+            try
             {
-                _reportDetailedDrill.Clear();
-                RaisePropertyChanged("ReportDetailDrill");
-                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
+                //Clear date from headers
+                _reportDetailedLocation.Clear();
+                _reportDetailedDocument.Clear();
+                _reportDetailedEarthmat.Clear();
+                _reportDetailedFossil.Clear();
+                _reportDetailedMinerals.Clear();
+                _reportDetailedPflow.Clear();
+                _reportDetailedStation.Clear();
+                _reportDetailedStructure.Clear();
+                _reportDetailedSample.Clear();
+                _reportDetailedMineralAlt.Clear();
+                _reportDetailedEnvironment.Clear();
+
+                RaisePropertyChanged("ReportDetailedLocation");
+                RaisePropertyChanged("ReportDetailedDocument");
+                RaisePropertyChanged("ReportDetailedEarthmat");
+                RaisePropertyChanged("ReportDetailedFossil");
+                RaisePropertyChanged("ReportDetailedMineral");
+                RaisePropertyChanged("ReportDetailedPflow");
+                RaisePropertyChanged("ReportDetailedSample");
+                RaisePropertyChanged("ReportDetailedStation");
+                RaisePropertyChanged("ReportDetailedStructure");
+                RaisePropertyChanged("ReportDetailedMineralAlt");
+                RaisePropertyChanged("ReportDetailEnvironment");
+
+                //Reset opacity of header
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEarthMat);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableSample);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStructure);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TablePFlow);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineral);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableFossil);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDocument);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableLocation);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableStation);
+                SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableEnvironment);
+
+                if (evenDrill)
+                {
+                    _reportDetailedDrill.Clear();
+                    RaisePropertyChanged("ReportDetailDrill");
+                    SetHeaderColorOpacity(Dictionaries.DatabaseLiterals.TableDrillHoles);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+
         }
 
         /// <summary>

@@ -83,7 +83,7 @@ namespace GSCFieldApp.Models
             else
             {
                 string queryProjectType = " AND " + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo +
-                    " = '" + ScienceLiterals.ApplicationThemeSurficial + "'";
+                    " = '" + DatabaseLiterals.ApplicationThemeSurficial + "'";
 
                 finalQueryTitle = querySelect + queryJoin + queryAssignTable + queryAssignFieldChild.Replace("WHERE", "AND") + 
                     queryProjectType + queryVisibility + queryOrder;

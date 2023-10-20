@@ -1849,4 +1849,22 @@ Shimamura, Kaz – Conseiller</value>
   <data name="SettingPageToggleDrill.OnContent" xml:space="preserve">
     <value>Forages</value>
   </data>
+  <data name="SampleBy.Header" xml:space="preserve">
+    <value>Échantillonné par</value>
+  </data>
+  <data name="SampleCorePortion.Header" xml:space="preserve">
+    <value>Proportion (en quart)</value>
+  </data>
+  <data name="SampleFrom.Header" xml:space="preserve">
+    <value>À partir de</value>
+  </data>
+  <data name="SampleGridView_Core.Content" xml:space="preserve">
+    <value>Carotte</value>
+  </data>
+  <data name="SampleLength.Header" xml:space="preserve">
+    <value>Longueur</value>
+  </data>
+  <data name="SampleTo.Header" xml:space="preserve">
+    <value>Jusqu'à</value>
+  </data>
 </root>

@@ -1599,7 +1599,10 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (fieldworkType != string.Empty)
             {
-                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '" + fieldworkType + "' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '')";
+                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '" + 
+                    fieldworkType + "' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '' " +
+                    "OR " + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + " like '%' || (substr('" + fieldworkType + "', 0, instr('" +
+                    fieldworkType + "', '" + DatabaseLiterals.KeywordConcatCharacter2nd + "'))) || '%'" + ")";
             }
 
             if (extraFieldValue != string.Empty && extraFieldValue != null && extraFieldValue != "")

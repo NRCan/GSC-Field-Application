@@ -63,7 +63,7 @@ namespace GSCFieldApp.ViewModels
             set {
                 _commonToggle = value;
                 RaisePropertyChanged();
-                localSetting.SetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon, value);
+                localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeCommon, value);
                 ToggleCommons(value);
             }
         } 
@@ -72,7 +72,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _bedrockToggle = value;
                 RaisePropertyChanged();
-                localSetting.SetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock, value);
+                localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock, value);
                 ToggleBedrock(value);
             }
         }
@@ -81,7 +81,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _surficialToggle = value;
                 RaisePropertyChanged();
-                localSetting.SetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial, value);
+                localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial, value);
                 ToggleSurficial(value);
             }
         }
@@ -123,12 +123,12 @@ namespace GSCFieldApp.ViewModels
             #region Header toggle based on project type
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType)!=null)
             {
-                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     _bedrockToggle = true;
                     _surficialToggle = false;
                 }
-                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     _surficialToggle = true;
                     _bedrockToggle = false;
@@ -138,9 +138,9 @@ namespace GSCFieldApp.ViewModels
             #endregion
 
             #region Header toggles
-            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon)!=null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeCommon)!=null)
             {
-                _commonToggle = localSetting.GetBoolSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon);
+                _commonToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeCommon);
 
             }
             else
@@ -148,30 +148,39 @@ namespace GSCFieldApp.ViewModels
                 _commonToggle = true;
 
                 //Apply default
-                Switch_ChildSwitched(Dictionaries.ScienceLiterals.ApplicationThemeCommon, _commonToggle);
+                Switch_ChildSwitched(Dictionaries.DatabaseLiterals.ApplicationThemeCommon, _commonToggle);
 
                 //Make sure fossil is by default not toggled on.
                 _fossilToggle = false;
             }
 
-            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock) != null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock) != null)
             {
-                _bedrockToggle = localSetting.GetBoolSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock);
+                _bedrockToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock);
             }
             else
             {
                 _bedrockToggle = true;
-                Switch_ChildSwitched(Dictionaries.ScienceLiterals.ApplicationThemeBedrock, _bedrockToggle);
+                Switch_ChildSwitched(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock, _bedrockToggle);
             }
 
-            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial) != null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial) != null)
             {
-                _surficialToggle = localSetting.GetBoolSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial);
+                _surficialToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial);
             }
             else
             {
                 _surficialToggle = true;
-                Switch_ChildSwitched(Dictionaries.ScienceLiterals.ApplicationThemeSurficial, _surficialToggle);
+                Switch_ChildSwitched(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial, _surficialToggle);
+            }
+
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeDrillHole) != null)
+            {
+                _drillToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeDrillHole);
+            }
+            else
+            {
+                _drillToggle = true;
             }
 
             #endregion
@@ -262,15 +271,15 @@ namespace GSCFieldApp.ViewModels
         private void Switch_ChildSwitched(string parentName, bool parentSwitchValue)
         {
 
-            if (parentName.Contains(Dictionaries.ScienceLiterals.ApplicationThemeCommon))
+            if (parentName.Contains(Dictionaries.DatabaseLiterals.ApplicationThemeCommon))
             {
                 ToggleCommons(parentSwitchValue);
             }
-            else if (parentName.Contains(Dictionaries.ScienceLiterals.ApplicationThemeBedrock))
+            else if (parentName.Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
             {
                 ToggleBedrock(parentSwitchValue);
             }
-            else if (parentName.Contains(Dictionaries.ScienceLiterals.ApplicationThemeSurficial))
+            else if (parentName.Contains(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial))
             {
                 ToggleSurficial(parentSwitchValue);
             }

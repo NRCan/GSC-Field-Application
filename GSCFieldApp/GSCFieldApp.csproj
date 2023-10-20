@@ -187,7 +187,6 @@
     <Compile Include="Converters\VisibilityFromReverseBoolConverter.cs" />
     <Compile Include="Converters\WidthFromVisibility.cs" />
     <Compile Include="Dictionaries\DatabaseLiterals.cs" />
-    <Compile Include="Dictionaries\ScienceLiterals.cs" />
     <Compile Include="Dictionaries\ApplicationLiterals.cs" />
     <Compile Include="ESRIRuntimeLicence.cs" />
     <Compile Include="Models\Contacts.cs" />

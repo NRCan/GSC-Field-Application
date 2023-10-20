@@ -1854,4 +1854,22 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="SettingPageToggleDrill.OnContent" xml:space="preserve">
     <value>Drill Holes</value>
   </data>
+  <data name="SampleBy.Header" xml:space="preserve">
+    <value>Sampled by</value>
+  </data>
+  <data name="SampleCorePortion.Header" xml:space="preserve">
+    <value>Size (in quarters)</value>
+  </data>
+  <data name="SampleFrom.Header" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="SampleGridView_Core.Content" xml:space="preserve">
+    <value>Core</value>
+  </data>
+  <data name="SampleLength.Header" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="SampleTo.Header" xml:space="preserve">
+    <value>To</value>
+  </data>
 </root>

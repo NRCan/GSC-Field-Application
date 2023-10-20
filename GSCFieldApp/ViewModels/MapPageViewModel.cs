@@ -1404,7 +1404,7 @@ namespace GSCFieldApp.ViewModels
                     string projectType = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString();
                     if (projectType != null)
                     {
-                        if (projectType == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                        if (projectType == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                         {
                             GotoPflowDialog(inLocation);
                         }
@@ -3410,7 +3410,7 @@ namespace GSCFieldApp.ViewModels
             //Based on project type
             if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
             {
-                if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     if (localSettings.GetSettingValue(DatabaseLiterals.TableStructure) != null)
                     {
@@ -3433,7 +3433,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                 }
-                else if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     if (localSettings.GetSettingValue(DatabaseLiterals.TablePFlow) != null)
                     {

@@ -158,6 +158,11 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleWarehouseLocation= "WAREHOUSE_LOCATION"; //Version 1.7
         public const string FieldSampleBucketTray = "BUCKET_OR_TRAY_NO"; //Version 1.7
         public const string FieldSampleIsBlank = "ISBLANK"; //Version 1.8
+        public const string FieldSampleCoreFrom= "CORE_FROM";//Version 1.8
+        public const string FieldSampleCoreTo= "CORE_TO"; //Version 1.8
+        public const string FieldSampleCoreLength = "CORE_LENGTH"; //Version 1.8
+        public const string FieldSampleCoreSize = "CORE_SAMPLE_SIZE"; //Version 1.8
+        public const string FieldSampledBy = "SAMPLED_BY"; //Version 1.8
 
         public const string FieldSampleManagementID = "SMID";
         public const string FieldDictionaryTermID = "TERMID";//Version 1.0
@@ -436,6 +441,14 @@ namespace GSCFieldApp.Dictionaries
         public const string TableEnvironmentPrefix = "E";
         public const string TableDrillHolePrefix = "DH";
 
+        #endregion
+
+        #region Application Themes
+        public const string ApplicationThemeBedrock = "bedrock";
+        public const string ApplicationThemeSurficial = "surficial";
+        public const string ApplicationThemeForestry = "forestry";
+        public const string ApplicationThemeCommon = "common";
+        public const string ApplicationThemeDrillHole = "bedrock - drill hole";
         #endregion
 
     }

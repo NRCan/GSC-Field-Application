@@ -409,12 +409,12 @@ namespace GSCFieldApp.ViewModels
                 //Keep value in variables
                 projectType = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString();
 
-                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     _bedrockVisibility = Visibility.Visible;
                     _surficialVisibility = Visibility.Collapsed;
                 }
-                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     _bedrockVisibility = Visibility.Collapsed;
                     _surficialVisibility = Visibility.Visible;
@@ -425,7 +425,7 @@ namespace GSCFieldApp.ViewModels
                 //Fallback
                 _bedrockVisibility = Visibility.Visible;
                 _surficialVisibility = Visibility.Collapsed;
-                projectType = ScienceLiterals.ApplicationThemeBedrock;
+                projectType = DatabaseLiterals.ApplicationThemeBedrock;
             }
 
             RaisePropertyChanged("BedrockVisibility");
