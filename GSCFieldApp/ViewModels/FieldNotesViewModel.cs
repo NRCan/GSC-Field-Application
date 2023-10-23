@@ -824,7 +824,15 @@ namespace GSCFieldApp.ViewModels
                             currentDetailReport.location = currentLocation;
                         }
 
-                        ReportDetailedStation.Add(currentDetailReport);
+                        try
+                        {
+                            ReportDetailedStation.Add(currentDetailReport);
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                        
 
                         //Refresh summary
                         ValidateCheck(currentStation.isValid, currentStation.StationID, currentDetailReport.MainID);
@@ -1560,10 +1568,6 @@ namespace GSCFieldApp.ViewModels
             string queryFrom = "SELECT * FROM " + DatabaseLiterals.TableDocument;
             string whereDefault = string.Empty;
 
-            if (_reportEarthmatIndex != -1)
-            {
-                collectionOfSelectedItems.Add(_reportDetailedEarthmat[_reportEarthmatIndex]);
-            }
             if (_reportSampleIndex != -1)
             {
                 collectionOfSelectedItems.Add(_reportDetailedSample[_reportSampleIndex]);
@@ -1572,31 +1576,14 @@ namespace GSCFieldApp.ViewModels
             {
                 collectionOfSelectedItems.Add(_reportDetailedDocument[_reportDocumentIndex]);
             }
-            if (_reportStructureIndex != -1)
-            {
-                collectionOfSelectedItems.Add(_reportDetailedStructure[_reportStructureIndex]);
-            }
-            if (_reportPflowIndex != -1)
-            {
-                collectionOfSelectedItems.Add(_reportDetailedPflow[_reportPflowIndex]);
-            }
-            if (_reportFossilIndex != -1)
-            {
-                collectionOfSelectedItems.Add(_reportDetailedFossil[_reportFossilIndex]);
-            }
-            if (_reportMineralIndex != -1)
-            {
-                collectionOfSelectedItems.Add(_reportDetailedMinerals[_reportMineralIndex]);
-            }
-            if (_reportMineralizationAlterationIndex != -1)
-            {
-                collectionOfSelectedItems.Add(_reportDetailedMineralAlt[_reportMineralizationAlterationIndex]);
-            }
             if (_reportStationIndex != -1)
             {
                 collectionOfSelectedItems.Add(_reportDetailedStation[_reportStationIndex]);
             }
-
+            if (_reportDrillIndex != -1)
+            {
+                collectionOfSelectedItems.Add(_reportDetailedDrill[_reportDrillIndex]);
+            }
             foreach (FieldNotes reportCollection in collectionOfSelectedItems)
             {
 
@@ -1643,12 +1630,20 @@ namespace GSCFieldApp.ViewModels
                             GenericTableName = DatabaseLiterals.TableDocument,
                             GenericFieldID = DatabaseLiterals.FieldDocumentID,
                             GenericAliasName = currentDocuments.DocumentName,
-
-                            ParentID = currentDocuments.RelatedID, //TO keep the link with location table
-                            ParentTableName = currentDocuments.RelatedTable, //To keep the link with location table.
-
                             MainID = _reportDetailedStation[_reportStationIndex].station.LocationID
                         };
+
+                        if (currentDocuments.StationID != null)
+                        {
+                            currentDetailReport.ParentID = (int)currentDocuments.StationID; //TO keep the link with location table
+                            currentDetailReport.ParentTableName = DatabaseLiterals.TableStation; //To keep the link with location table.
+                        }
+
+                        if (currentDocuments.SampleID != null)
+                        {
+                            currentDetailReport.ParentID = (int)currentDocuments.SampleID; //TO keep the link with location table
+                            currentDetailReport.ParentTableName = DatabaseLiterals.TableSample; //To keep the link with location table.
+                        }
 
                         _reportDetailedDocument.Add(currentDetailReport);
 
@@ -1667,7 +1662,50 @@ namespace GSCFieldApp.ViewModels
                         }
                     }
                 }
+                else if (_reportDrillIndex != -1)
+                {
+                    foreach (Document docs in documents)
+                    {
 
+                        //Cast
+                        Document currentDocuments = docs as Document;
+
+                        //Fill the report item detail
+                        FieldNotes currentDetailReport = new FieldNotes
+                        {
+                            drillHoles = _reportDetailedDrill[_reportDrillIndex].drillHoles,
+
+                            document = currentDocuments,
+
+                            GenericID = currentDocuments.DocumentID,
+                            GenericTableName = DatabaseLiterals.TableDocument,
+                            GenericFieldID = DatabaseLiterals.FieldDocumentID,
+                            GenericAliasName = currentDocuments.DocumentName,
+                            MainID = _reportDetailedDrill[_reportDrillIndex].drillHoles.DrillLocationID
+                        };
+
+                        if (currentDocuments.DrillHoleID != null)
+                        {
+                            currentDetailReport.ParentID = (int)currentDocuments.DrillHoleID; //TO keep the link with location table
+                            currentDetailReport.ParentTableName = DatabaseLiterals.TableDrillHoles; //To keep the link with location table.
+                        }
+                        _reportDetailedDocument.Add(currentDetailReport);
+
+                        //Refresh summary
+                        ValidateCheck(currentDocuments.isValid, currentDocuments.DocumentID, currentDetailReport.MainID);
+
+                        //Stop possible overflow
+                        if (_reportDetailedDocument.Count > 500)
+                        {
+                            //Add a dummy item
+                            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                            FieldNotes maxReached = new FieldNotes();
+                            maxReached.document.DocumentName = loadLocalization.GetString("WarningMaxReached");
+                            _reportDetailedDocument.Add(maxReached);
+                            break;
+                        }
+                    }
+                }
             }
 
             //Manager header color opacity (transparent if no items)
@@ -2717,7 +2755,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                     //Delete any related photos
-                    dAccess.DeleteRecord(Dictionaries.DatabaseLiterals.TableDocument, Dictionaries.DatabaseLiterals.FieldDocumentRelatedID, deleteFieldValue);
+                    dAccess.DeleteRecord(Dictionaries.DatabaseLiterals.TableDocument, Dictionaries.DatabaseLiterals.FieldDocumentStationID, deleteFieldValue);
 
                     //Refresh item pane (left)
                     collectionToUpdate.RemoveAt(indexToPop);
@@ -4069,7 +4107,15 @@ namespace GSCFieldApp.ViewModels
         #region DOCUMENT/PHOTO EVENTS
         public void DocumentAddIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            PopDocument(_reportDetailedStation[_reportStationIndex], false);
+            if (_reportStationIndex != -1)
+            {
+                PopDocument(_reportDetailedStation[_reportStationIndex], false);
+            }
+            else if (_reportDrillIndex != -1)
+            {
+                PopDocument(_reportDetailedDrill[_reportDrillIndex], false);
+            }
+            
         }
 
         public void ViewModel_newDocumentEdit(object sender)
@@ -4495,7 +4541,14 @@ namespace GSCFieldApp.ViewModels
         {
             var modalDocument = Window.Current.Content as ModalDialog;
             var viewDocument = modalDocument.ModalContent as Views.DocumentDialog;
-            viewDocument = new Views.DocumentDialog(locationReport, _reportDetailedStation[ReportStationListIndex], false);
+            if (locationReport.GenericTableName == DatabaseLiterals.TableStation)
+            {
+                viewDocument = new Views.DocumentDialog(locationReport, _reportDetailedStation[_reportStationIndex], false);
+            }
+            else if (locationReport.GenericTableName == DatabaseLiterals.TableDrillHoles)
+            {
+                viewDocument = new Views.DocumentDialog(locationReport, _reportDetailedDrill[_reportDrillIndex], false);
+            }
             viewDocument.DocViewModel.doDocumentUpdate = doUpdate;
             viewDocument.DocViewModel.newDocumentEdit += ViewModel_newDocumentEdit; //Detect whenever a save is commited on the database
             modalDocument.ModalContent = viewDocument;
@@ -4660,6 +4713,7 @@ namespace GSCFieldApp.ViewModels
                     EmptyEarthmatChilds();
                     FillLocation();
                     EmptyMineralizationAlterationChilds();
+                    FillDocument();
 
                 }
                 

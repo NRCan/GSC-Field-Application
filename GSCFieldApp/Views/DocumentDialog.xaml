@@ -154,26 +154,26 @@
                             </Image.Source>
                         </Image>
 
-                        <!--<Rectangle Style="{StaticResource Horizontal}" x:Name="SeperatorLine_04"
-                           RelativePanel.Below="DocumentNameTextbox" RelativePanel.AlignLeftWithPanel="True"
-                           Fill="{ThemeResource FieldPhotoColorBrush}" 
-                               Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"/>-->
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="SeperatorLine_04"
+                            RelativePanel.Below="DocumentNameTextbox" RelativePanel.AlignLeftWithPanel="True"
+                            Fill="{ThemeResource FieldPhotoColorBrush}" 
+                            Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"/>
 
-                        <!-- #237 - Those two comboboxes have be hidden waiting for foreign key fix-->
-                        <!--<ComboBox x:Name="DocumentParentThemeCombobox" x:Uid="DocumentRelatedTableCombobox"
-                              RelativePanel.AlignLeftWithPanel="True"
-                              RelativePanel.Below="SeperatorLine_04"
-                              Margin="0,0,0,5"
-                              ItemsSource="{x:Bind DocViewModel.RelatedTable}" 
-                              SelectedValue="{x:Bind DocViewModel.SelectedRelatedTable, Mode=TwoWay}"
-                              Visibility="Collapsed" SelectionChanged="{x:Bind DocViewModel.DocumentParentThemeCombobox_SelectionChanged}" TabIndex="7"/>
+
+                        <ComboBox x:Name="DocumentParentThemeCombobox" x:Uid="DocumentRelatedTableCombobox"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.Below="SeperatorLine_04"
+                            Margin="0,0,0,5"
+                            ItemsSource="{x:Bind DocViewModel.RelatedTable}" 
+                            SelectedValue="{x:Bind DocViewModel.SelectedRelatedTable, Mode=TwoWay}"
+                            Visibility="{x:Bind DocViewModel.DocumentModeVisibility}" SelectionChanged="{x:Bind DocViewModel.DocumentParentThemeCombobox_SelectionChanged}" TabIndex="7"/>
                         <ComboBox x:Name="DocumentParentIDCombobox" x:Uid="DocumentRelatedItemCombobox"
-                              RelativePanel.Below="SeperatorLine_04"
-                              Margin="10,0,0,5"
-                          RelativePanel.RightOf="DocumentParentThemeCombobox"
-                          Visibility="Collapsed"
-                          ItemsSource="{x:Bind DocViewModel.RelatedIds}" 
-                          SelectedValue="{x:Bind DocViewModel.SelectedRelatedID, Mode=TwoWay}" TabIndex="8"/>-->
+                            RelativePanel.Below="SeperatorLine_04"
+                            Margin="10,0,0,5"
+                            RelativePanel.RightOf="DocumentParentThemeCombobox"
+                            Visibility="{x:Bind DocViewModel.DocumentModeVisibility}"
+                            ItemsSource="{x:Bind DocViewModel.RelatedIds}" 
+                            SelectedValue="{x:Bind DocViewModel.SelectedRelatedID, Mode=TwoWay}" TabIndex="8"/>
 
                         <!--These two might come back in the future-->
                         <!--<TextBox x:Name="DocumentObjectXTextbox" x:Uid="DocumentObjectXTextbox"

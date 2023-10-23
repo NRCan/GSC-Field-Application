@@ -2146,7 +2146,7 @@ namespace GSCFieldApp.ViewModels
 
             // Get select document information
             Document modelDocument = new Document();
-            int documentCount = CountChild(stationId.ToString(), Dictionaries.DatabaseLiterals.FieldDocumentRelatedID, Dictionaries.DatabaseLiterals.TableDocument, modelDocument);
+            int documentCount = CountChild(stationId.ToString(), Dictionaries.DatabaseLiterals.FieldDocumentStationID, Dictionaries.DatabaseLiterals.TableDocument, modelDocument);
 
             // getting the count for the children sample, mineral, fossil, structure 
             int sampleTotalCount = 0;

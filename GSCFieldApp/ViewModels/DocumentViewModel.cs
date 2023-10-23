@@ -32,6 +32,7 @@ namespace GSCFieldApp.ViewModels
         private readonly Structure structureModel = new Structure();
         private readonly Mineral mineralModel = new Mineral();
         private readonly MineralAlteration maModel = new MineralAlteration();
+        private readonly DrillHole dhModel = new DrillHole();
         private readonly DataAccess dataAcess = new DataAccess();
         private string _description = string.Empty; //Default
         private int _documentID = 0;  //Default
@@ -419,16 +420,35 @@ namespace GSCFieldApp.ViewModels
                 documentModel.DocumentType = SelectedDocType;
             }
 
-            if (SelectedRelatedTable != null && SelectedRelatedID != null && int.Parse(SelectedRelatedID) != 0)
+            if (_documentModeVisibility == Visibility.Visible && SelectedRelatedTable != null && SelectedRelatedID != null && int.Parse(SelectedRelatedID) != 0)
             {
-                documentModel.RelatedTable = SelectedRelatedTable;
-                documentModel.RelatedID = int.Parse(SelectedRelatedID);
+                if (SelectedRelatedTable == DatabaseLiterals.TableDrillHoles)
+                {
+                    documentModel.DrillHoleID = int.Parse(SelectedRelatedID);
+                }
+                else if (SelectedRelatedTable == DatabaseLiterals.TableSample)
+                {
+                    documentModel.SampleID = int.Parse(SelectedRelatedID);
+                }
+                else if (SelectedRelatedTable == DatabaseLiterals.TableStation)
+                {
+                    documentModel.StationID = selectedStationSummaryDocument.station.StationID;
+                }
+
             }
             else
             {
-                documentModel.RelatedTable = DatabaseLiterals.TableStation;
-                documentModel.RelatedID = selectedStationSummaryDocument.station.StationID;
+                //Fallback to field note selection
+                if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation)
+                {
+                    documentModel.StationID = selectedStationSummaryDocument.station.StationID;
+                }
+                else if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableDrillHoles)
+                {
+                    documentModel.DrillHoleID = selectedStationSummaryDocument.drillHoles.DrillID;
+                }                
             }
+
             #endregion
 
             #region Photos
@@ -470,8 +490,9 @@ namespace GSCFieldApp.ViewModels
                             Description = documentModel.Description,
                             Direction = documentModel.Direction,
                             DocumentType = documentModel.DocumentType,
-                            RelatedID = documentModel.RelatedID,
-                            RelatedTable = documentModel.RelatedTable
+                            StationID = documentModel.StationID,
+                            SampleID = documentModel.SampleID,
+                            DrillHoleID = documentModel.DrillHoleID
                         };
 
                         docList.Add(newDoc);
@@ -760,7 +781,7 @@ namespace GSCFieldApp.ViewModels
             if (_documentModeVisibility == Visibility.Visible)
             {
                 //Init.
-                string fieldName = Dictionaries.DatabaseLiterals.FieldDocumentRelatedtable;
+                string fieldName = Dictionaries.DatabaseLiterals.FieldDocumentRelatedtableDeprecated;
                 string tableName = Dictionaries.DatabaseLiterals.TableDocument;
                 _relatedTable = new ObservableCollection<Themes.ComboBoxItem>(accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedRelatedTable));
 
@@ -787,18 +808,22 @@ namespace GSCFieldApp.ViewModels
 
 
                 //Get the right station id wheter it's coming from the report or the map page as quick photo
-                int processedStationID = 0;
+                int processedID = 0;
                 if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.GenericID != 0)
                 {
-                    processedStationID = selectedStationSummaryDocument.GenericID;
+                    processedID = selectedStationSummaryDocument.GenericID;
                 }
                 else if (selectedStationSummaryDocument.ParentTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.ParentID != 0)
                 {
-                    processedStationID = selectedStationSummaryDocument.ParentID;
+                    processedID = selectedStationSummaryDocument.ParentID;
+                }
+                else if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableDrillHoles || selectedStationSummaryDocument.GenericID != 0)
+                {
+                    processedID = selectedStationSummaryDocument.GenericID;
                 }
                 if (selectedStationSummaryDocument.station.StationID != 0 && selectedStationSummaryDocument.station.StationID != 0)
                 {
-                    processedStationID = selectedStationSummaryDocument.station.StationID;
+                    processedID = selectedStationSummaryDocument.station.StationID;
                 }
 
                 if (_selectedRelatedTable != null && _selectedRelatedTable != string.Empty)
@@ -806,7 +831,7 @@ namespace GSCFieldApp.ViewModels
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableStation)
                     {
-                        string filterStations = "Select * from " + DatabaseLiterals.TableStation + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = " + processedStationID;
+                        string filterStations = "Select * from " + DatabaseLiterals.TableStation;
                         List<object> relatedStations = dataAcess.ReadTable(stationModel.GetType(), filterStations);
                         IEnumerable<Station> statTables = relatedStations.Cast<Station>();
                         foreach (Station sts in statTables)
@@ -821,48 +846,14 @@ namespace GSCFieldApp.ViewModels
                         RaisePropertyChanged("RelatedIds");
 
                         //Select first entry
-                        _selectedRelatedID = _relatedIDs.First().itemName;
+                        _selectedRelatedID = _relatedIDs.First().itemValue;
                         RaisePropertyChanged("SelectedRelatedID");
-                    }
-
-                    if (_selectedRelatedTable == DatabaseLiterals.TableEarthMat)
-                    {
-                        string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
-                        List<object> relatedEarths = dataAcess.ReadTable(eartModel.GetType(), filterEarthmats);
-                        IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
-                        foreach (EarthMaterial ea in earths)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = ea.EarthMatID.ToString(),
-                                itemName = ea.EarthMatName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
-
-                    if (_selectedRelatedTable == DatabaseLiterals.TableLocation)
-                    {
-                        string filterLocations = "Select * from " + DatabaseLiterals.TableLocation + " where " + DatabaseLiterals.TableLocation + "." + DatabaseLiterals.FieldLocationID + " = " + selectedStationSummaryDocument.ParentID;
-                        List<object> relatedLocations = dataAcess.ReadTable(locationModel.GetType(), filterLocations);
-                        IEnumerable<FieldLocation> locs = relatedLocations.Cast<FieldLocation>();
-                        foreach (FieldLocation lc in locs)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = lc.LocationID.ToString(),
-                                itemName = lc.LocationID.ToString() //Alias isn't filled.
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
                     }
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableSample)
                     {
                         string filterSamplesSelectJoin = "Select * from " + DatabaseLiterals.TableSample + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterSamplesWhere = " on " + DatabaseLiterals.TableSample + "." + DatabaseLiterals.FieldSampleEarthmatID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
+                        string filterSamplesWhere = " on " + DatabaseLiterals.TableSample + "." + DatabaseLiterals.FieldSampleEarthmatID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedID;
                         List<object> relatedSamples = dataAcess.ReadTable(smModel.GetType(), filterSamplesSelectJoin + filterSamplesWhere);
                         IEnumerable<Sample> sms = relatedSamples.Cast<Sample>();
                         foreach (Sample sm in sms)
@@ -877,92 +868,24 @@ namespace GSCFieldApp.ViewModels
                         RaisePropertyChanged("RelatedIds");
                     }
 
-                    if (_selectedRelatedTable == DatabaseLiterals.TablePFlow)
+
+                    if (_selectedRelatedTable == DatabaseLiterals.TableDrillHoles)
                     {
-                        string filterPflowSelectJoin = "Select * from " + DatabaseLiterals.TablePFlow + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterPflowWhere = " on " + DatabaseLiterals.TablePFlow + "." + DatabaseLiterals.FieldPFlowParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
-                        List<object> relatedPflow = dataAcess.ReadTable(pflowModel.GetType(), filterPflowSelectJoin + filterPflowWhere);
-                        IEnumerable<Paleoflow> pfs = relatedPflow.Cast<Paleoflow>();
-                        foreach (Paleoflow pf in pfs)
+                        string filterDHsSelectJoin = "Select * from " + DatabaseLiterals.TableDrillHoles;
+                        List<object> dh = dataAcess.ReadTable(dhModel.GetType(), filterDHsSelectJoin);
+                        IEnumerable<DrillHole> sms = dh.Cast<DrillHole>();
+                        foreach (DrillHole sm in sms)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = pf.PFlowID.ToString(),
-                                itemName = pf.PFlowName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
-                    if (_selectedRelatedTable == DatabaseLiterals.TableFossil)
-                    {
-                        string filterFossilSelectJoin = "Select * from " + DatabaseLiterals.TableFossil + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterFossilWhere = " on " + DatabaseLiterals.TableFossil + "." + DatabaseLiterals.FieldFossilParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
-                        List<object> relatedFossil = dataAcess.ReadTable(fossilModel.GetType(), filterFossilSelectJoin + filterFossilWhere);
-                        IEnumerable<Fossil> fss = relatedFossil.Cast<Fossil>();
-                        foreach (Fossil fs in fss)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = fs.FossilID.ToString(),
-                                itemName = fs.FossilIDName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
-                    if (_selectedRelatedTable == DatabaseLiterals.TableStructure)
-                    {
-                        string filterStructureSelectJoin = "Select * from " + DatabaseLiterals.TableStructure + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterStructureWhere = " on " + DatabaseLiterals.TableStructure + "." + DatabaseLiterals.FieldStructureParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
-                        List<object> relatedFossil = dataAcess.ReadTable(structureModel.GetType(), filterStructureSelectJoin + filterStructureWhere);
-                        IEnumerable<Structure> sts = relatedFossil.Cast<Structure>();
-                        foreach (Structure st in sts)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = st.StructureID.ToString(),
-                                itemName = st.StructureName
+                                itemValue = sm.DrillID.ToString(),
+                                itemName = sm.DrillIDName
                             };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
                     }
 
-                    if (_selectedRelatedTable == DatabaseLiterals.TableMineral)
-                    {
-                        string filterMineralSelectJoin = "Select * from " + DatabaseLiterals.TableMineral + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralEMID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
-                        List<object> relatedMineral = dataAcess.ReadTable(mineralModel.GetType(), filterMineralSelectJoin + filterMineralWhere);
-                        IEnumerable<Mineral> minerals = relatedMineral.Cast<Mineral>();
-                        foreach (Mineral ms in minerals)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = ms.MineralID.ToString(),
-                                itemName = ms.MineralIDName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
-                    if (_selectedRelatedTable == DatabaseLiterals.TableMineralAlteration)
-                    {
-                        string filterMASelectJoin = "Select * from " + DatabaseLiterals.TableMineralAlteration + " join " + DatabaseLiterals.TableStation;
-                        string filterMAWhere = " on " + DatabaseLiterals.TableMineralAlteration + "." + DatabaseLiterals.FieldMineralAlterationStationID + " = " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = " + processedStationID;
-                        List<object> relatedMA = dataAcess.ReadTable(maModel.GetType(), filterMASelectJoin + filterMAWhere);
-                        IEnumerable<MineralAlteration> mineralizationAlterations = relatedMA.Cast<MineralAlteration>();
-                        foreach (MineralAlteration ma in mineralizationAlterations)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = ma.MAID.ToString(),
-                                itemName = ma.MAName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
                 }
 
                 RaisePropertyChanged("SelectedRelatedID");
@@ -991,12 +914,29 @@ namespace GSCFieldApp.ViewModels
             _fileNumber = existingDataDetailDocument.document.FileNumber.ToString();
             _documentPhotoPath = existingDataDetailDocument.document.PhotoPath;
 
-            _selectedRelatedID = existingDataDetailDocument.document.RelatedID.ToString();
+            
             //_selectedCategory = existingDataDetailDocument.document.Category;
             _selectedDocType = existingDataDetailDocument.document.DocumentType;
-            _selectedRelatedTable = existingDataDetailDocument.document.RelatedTable;
+            
             _selectedScaleDir = existingDataDetailDocument.document.ScaleDirection;
 
+            if (existingDataDetailDocument.document.StationID != null && existingDataDetailDocument.document.StationID.ToString() != string.Empty)
+            {
+                _selectedRelatedID = existingDataDetailDocument.document.StationID.ToString();
+                _selectedRelatedTable = DatabaseLiterals.TableStation;
+            }
+
+            if (existingDataDetailDocument.document.SampleID != null && existingDataDetailDocument.document.SampleID.ToString() != string.Empty)
+            {
+                _selectedRelatedID = existingDataDetailDocument.document.SampleID.ToString();
+                _selectedRelatedTable = DatabaseLiterals.TableSample;
+            }
+
+            if (existingDataDetailDocument.document.DrillHoleID != null && existingDataDetailDocument.document.DrillHoleID.ToString() != string.Empty)
+            {
+                _selectedRelatedID = existingDataDetailDocument.document.DrillHoleID.ToString();
+                _selectedRelatedTable = DatabaseLiterals.TableDrillHoles;
+            }
             //Create thumbnail if needed
             if (existingDataDetailDocument.document.PhotoFileExists)
             {

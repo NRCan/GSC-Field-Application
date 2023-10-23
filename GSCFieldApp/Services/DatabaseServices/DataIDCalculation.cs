@@ -633,7 +633,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Querying with Linq
             List<object> doctableRaw = dAccess.ReadTable(docModel.GetType(), null);
             IEnumerable<Document> docTable = doctableRaw.Cast<Document>(); //Cast to proper list type
-            IEnumerable<string> docParent = from d in docTable where d.RelatedID == parentID orderby d.DocumentName descending select d.DocumentName;
+            IEnumerable<string> docParent = from d in docTable where d.StationID == parentID orderby d.DocumentName descending select d.DocumentName;
+
+            if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+            {
+                docParent = from d in docTable where d.DrillHoleID == parentID orderby d.DocumentName descending select d.DocumentName;
+            }
 
             string newAlias = string.Empty;
             string finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix;
@@ -641,9 +646,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Detect last sample number and add 1 to it.
             if (docParent.Count() > 0)
             {
-                int lastNumber = docParent.ToList().Count(); //Select first element since the list has been sorted in descending order
-                //string lastNumberString = lastAlias.Substring(lastAlias.Length - 3); //Document only has three digits id in the alias
-                int newNumber = lastNumber + startingDocNumber;
+                string lastAlias = docParent.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
+                string lastNumberString = lastAlias.Substring(lastAlias.Length - 3); //Document only has three digits id in the alias
+                int newNumber = Convert.ToInt16(lastNumberString) + startingDocNumber;
+
                 bool breaker = true;
                 while (breaker)
                 {
@@ -664,7 +670,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
 
                     //Find existing
-                    IEnumerable<Document> existingDocument = from s in docTable where s.RelatedID == parentID && s.DocumentName == finaleDocumentString select s;
+                    IEnumerable<Document> existingDocument = from s in docTable where s.StationID == parentID && s.DocumentName == finaleDocumentString select s;
+
+                    if (parentAlias == DatabaseLiterals.TableDrillHoles)
+                    {
+                        existingDocument = from s in docTable where s.DrillHoleID == parentID && s.DocumentName == finaleDocumentString select s;
+                    }
+
                     if (existingDocument.Count() == 0 || existingDocument == null)
                     {
                         breaker = false;

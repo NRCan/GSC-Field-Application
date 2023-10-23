@@ -204,13 +204,16 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDocumentFileName = "FILENAME";//Version 1.0
         public const string FieldDocumentDirection = "DIRECTION";//Version 1.0
         public const string FieldDocumentDescription = "DESCRIPTION";//Version 1.0
-        public const string FieldDocumentRelatedID = "RELATIONID";//Version 1.0
-        public const string FieldDocumentRelatedtable = "RELATIONTABLE"; //Version 1.0
+        public const string FieldDocumentRelatedIDDeprecated = "RELATIONID";//Version 1.0, version 1.8
+        public const string FieldDocumentRelatedtableDeprecated = "RELATIONTABLE"; //Version 1.0, version 1.8
         public const string FieldDocumentType = "DOCUMENTTYPE";//Version 1.0
         public const string FieldDocumentHyperlink = "HYPERLINK";
         public const string FieldDocumentObjLocX = "OBJECTLOCX";
         public const string FieldDocumentObjLocY = "OBJECTLOCY";
         public const string FieldDocumentScaleDirection = "SCALE_DIRECTION"; //Version 1.8
+        public const string FieldDocumentStationID = "STATIONID"; //Version 1.8
+        public const string FieldDocumentSampleID = "SAMPLEID"; //Version 1.8
+        public const string FieldDOcumentDrillHoleID = "DRILLHOLEID"; //Version 1.8
 
         public const string FieldStructureID = "STRUCID";//Version 1.0
         public const string FieldStructureName = "STRUCIDNAME";//Version 1.5

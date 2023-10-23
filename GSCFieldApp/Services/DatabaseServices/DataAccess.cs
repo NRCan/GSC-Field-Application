@@ -2765,11 +2765,11 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableDocument, FieldDocumentID,
-                FieldDocumentRelatedID, statView, FieldStationID));
+                FieldDocumentRelatedIDDeprecated, statView, FieldStationID));
 
             //Get insert query 
             Tuple<string, string> primeDoc = new Tuple<string, string>(FieldDocumentID, ViewGenericLegacyPrimeKey);
-            Tuple<string, string> foreignDoc = new Tuple<string, string>(FieldDocumentRelatedID, ViewGenericLegacyForeignKey);
+            Tuple<string, string> foreignDoc = new Tuple<string, string>(FieldDocumentRelatedIDDeprecated, ViewGenericLegacyForeignKey);
             string docView = ViewPrefix + TableDocument;
 
             insertQuery_17.Add(GenerateInsertQueriesFromModel(documentFieldList, nullFieldList, TableDocument,
