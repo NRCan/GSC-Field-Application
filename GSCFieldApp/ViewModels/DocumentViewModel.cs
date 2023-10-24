@@ -434,6 +434,10 @@ namespace GSCFieldApp.ViewModels
                 {
                     documentModel.StationID = selectedStationSummaryDocument.station.StationID;
                 }
+                else if (SelectedRelatedTable == DatabaseLiterals.TableEarthMat)
+                {
+                    documentModel.EarthmatID = int.Parse(SelectedRelatedID);
+                }
 
             }
             else
@@ -492,7 +496,8 @@ namespace GSCFieldApp.ViewModels
                             DocumentType = documentModel.DocumentType,
                             StationID = documentModel.StationID,
                             SampleID = documentModel.SampleID,
-                            DrillHoleID = documentModel.DrillHoleID
+                            DrillHoleID = documentModel.DrillHoleID,
+                            EarthmatID = documentModel.EarthmatID
                         };
 
                         docList.Add(newDoc);
@@ -850,6 +855,27 @@ namespace GSCFieldApp.ViewModels
                         RaisePropertyChanged("SelectedRelatedID");
                     }
 
+                    if (_selectedRelatedTable == DatabaseLiterals.TableEarthMat)
+                    {
+                        string filterEM = "Select * from " + DatabaseLiterals.TableEarthMat;
+                        List<object> relatedEM = dataAcess.ReadTable(eartModel.GetType(), filterEM);
+                        IEnumerable<EarthMaterial> emTables = relatedEM.Cast<EarthMaterial>();
+                        foreach (EarthMaterial ems in emTables)
+                        {
+                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
+                            {
+                                itemValue = ems.EarthMatID.ToString(),
+                                itemName = ems.EarthMatName.ToString(),
+                            };
+                            _relatedIDs.Add(newItem);
+                        }
+                        RaisePropertyChanged("RelatedIds");
+
+                        //Select first entry
+                        _selectedRelatedID = _relatedIDs.First().itemValue;
+                        RaisePropertyChanged("SelectedRelatedID");
+                    }
+
                     if (_selectedRelatedTable == DatabaseLiterals.TableSample)
                     {
                         string filterSamplesSelectJoin = "Select * from " + DatabaseLiterals.TableSample + " join " + DatabaseLiterals.TableEarthMat;
@@ -930,6 +956,12 @@ namespace GSCFieldApp.ViewModels
             {
                 _selectedRelatedID = existingDataDetailDocument.document.SampleID.ToString();
                 _selectedRelatedTable = DatabaseLiterals.TableSample;
+            }
+
+            if (existingDataDetailDocument.document.EarthmatID != null && existingDataDetailDocument.document.EarthmatID.ToString() != string.Empty)
+            {
+                _selectedRelatedID = existingDataDetailDocument.document.EarthmatID.ToString();
+                _selectedRelatedTable = DatabaseLiterals.TableEarthMat;
             }
 
             if (existingDataDetailDocument.document.DrillHoleID != null && existingDataDetailDocument.document.DrillHoleID.ToString() != string.Empty)

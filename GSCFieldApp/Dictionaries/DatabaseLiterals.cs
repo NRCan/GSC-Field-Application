@@ -214,7 +214,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDocumentScaleDirection = "SCALE_DIRECTION"; //Version 1.8
         public const string FieldDocumentStationID = "STATIONID"; //Version 1.8
         public const string FieldDocumentSampleID = "SAMPLEID"; //Version 1.8
-        public const string FieldDOcumentDrillHoleID = "DRILLHOLEID"; //Version 1.8
+        public const string FieldDocumentDrillHoleID = "DRILLHOLEID"; //Version 1.8
+        public const string FieldDocumentEarthMatID = "EARTHMATID"; //Version 1.8
 
         public const string FieldStructureID = "STRUCID";//Version 1.0
         public const string FieldStructureName = "STRUCIDNAME";//Version 1.5

@@ -55,8 +55,11 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDocumentSampleID)]
         public int? SampleID { get; set; }
 
-        [Column(DatabaseLiterals.FieldDOcumentDrillHoleID)]
+        [Column(DatabaseLiterals.FieldDocumentDrillHoleID)]
         public int? DrillHoleID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentEarthMatID)]
+        public int? EarthmatID { get; set; }
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
         /// Ignore attribute will tell sql not to try to write this field inside the database.
@@ -157,8 +160,9 @@ namespace GSCFieldApp.Models
                 documentFieldList170.Insert(removeIndex170 + 2, DatabaseLiterals.FieldDocumentRelatedIDDeprecated);
                 documentFieldList170.Remove(DatabaseLiterals.FieldDocumentSampleID);
                 documentFieldList170.Remove(DatabaseLiterals.FieldDocumentStationID);
-                documentFieldList170.Remove(DatabaseLiterals.FieldDOcumentDrillHoleID);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentDrillHoleID);
                 documentFieldList170.Remove(DatabaseLiterals.FieldDocumentScaleDirection);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentEarthMatID);
                 documentFieldList[DatabaseLiterals.DBVersion170] = documentFieldList170;
 
                 //Revert shcema 1.7 changes

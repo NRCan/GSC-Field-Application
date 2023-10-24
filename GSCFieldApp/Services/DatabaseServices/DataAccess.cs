@@ -2923,10 +2923,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                         document_querySelect = document_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldDocumentSampleID;
                     }
-                    else if (docFields == DatabaseLiterals.FieldDOcumentDrillHoleID)
+                    else if (docFields == DatabaseLiterals.FieldDocumentDrillHoleID)
                     {
                         document_querySelect = document_querySelect +
-                            ", NULL as " + DatabaseLiterals.FieldDOcumentDrillHoleID;
+                            ", NULL as " + DatabaseLiterals.FieldDocumentDrillHoleID;
                     }
                     else if (docFields == DatabaseLiterals.FieldDocumentStationID)
                     {
@@ -2937,6 +2937,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                     {
                         document_querySelect = document_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldDocumentScaleDirection;
+                    }
+                    else if (docFields == DatabaseLiterals.FieldDocumentEarthMatID)
+                    {
+                        document_querySelect = document_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldDocumentEarthMatID;
                     }
                     else
                     {
