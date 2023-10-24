@@ -1451,8 +1451,16 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public void FillLocation()
         {
-            _reportDetailedLocation.Clear();
-            RaisePropertyChanged("ReportDetailedLocation");
+            try
+            {
+                _reportDetailedLocation.Clear();
+                RaisePropertyChanged("ReportDetailedLocation");
+            }
+            catch (Exception)
+            {
+
+            }
+
             #region Conditional to user having selected a station
 
             if (_reportStationIndex != -1)

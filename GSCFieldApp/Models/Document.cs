@@ -158,6 +158,7 @@ namespace GSCFieldApp.Models
                 documentFieldList170.Remove(DatabaseLiterals.FieldDocumentSampleID);
                 documentFieldList170.Remove(DatabaseLiterals.FieldDocumentStationID);
                 documentFieldList170.Remove(DatabaseLiterals.FieldDOcumentDrillHoleID);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentScaleDirection);
                 documentFieldList[DatabaseLiterals.DBVersion170] = documentFieldList170;
 
                 //Revert shcema 1.7 changes

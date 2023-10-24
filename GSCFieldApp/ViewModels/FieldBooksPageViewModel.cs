@@ -21,6 +21,7 @@ using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Template10.Utils;
 using System.Diagnostics;
+using Esri.ArcGISRuntime.Geometry;
 //Added By jamel
 //using OSGeo.GDAL;
 //using OSGeo.OGR;
@@ -996,6 +997,46 @@ namespace GSCFieldApp.ViewModels
                                     //Force an update on geometry field
                                     string updateGeometryQuery = dAccess.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
                                     GeopackageService packService = new GeopackageService();
+                                    packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
+                                }
+
+                                //Another last op on geometry, to make sure they're all in WGS84
+                                if (processedDBVersion == 1.8)
+                                {
+                                    GeopackageService packService = new GeopackageService();
+
+                                    FieldLocation fl = new FieldLocation();
+                                    List<object> flsObject = dAccess.ReadTable(fl.GetType(), null);
+                                    IEnumerable<FieldLocation> flTable = flsObject.Cast<FieldLocation>();
+                                    foreach (FieldLocation fls in flTable)
+                                    {
+                                        if (fls.LocationEPSGProj != "4326")
+                                        {
+                                            try
+                                            {
+                                                double easting = (double)fls.LocationEasting;
+                                                double northing = (double)fls.LocationNorthing;
+                                                int inEPSG = int.Parse(fls.LocationEPSGProj);
+
+                                                SpatialReference inSR = SpatialReference.Create(inEPSG);
+
+                                                MapPoint newPoint = packService.CalculateGeographicCoordinate(easting, northing, inSR);
+                                                fls.LocationLat = newPoint.Y;
+                                                fls.LocationLong = newPoint.X;
+                                                fls.LocationNotes = "Gab was here";
+                                            }
+                                            catch (Exception)
+                                            {
+
+                                            }
+                                        }
+                                    }
+                                    List<object> newObj = flTable.Cast<object>().ToList(); 
+                                    dAccess.BatchSaveSQLTables(newObj, true);
+
+                                    //Force an update on geometry field
+                                    string updateGeometryQuery = dAccess.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                                    
                                     packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
                                 }
 

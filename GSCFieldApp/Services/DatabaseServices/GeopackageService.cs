@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using SpatialiteSharp;
 using System.Transactions;
+using Esri.ArcGISRuntime.Geometry;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -85,6 +86,46 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return newId;
         }
+
+        /// <summary>
+        /// Will transform input coordinate into WGS84 values
+        /// </summary>
+        /// <param name="easting"></param>
+        /// <param name="northing"></param>
+        /// <param name="inSR"></param>
+        /// <param name="outSR"></param>
+        /// <returns></returns>
+        public MapPoint CalculateGeographicCoordinate(Double easting, Double northing, SpatialReference inSR, int outSpatialRef = 4326)
+        {
+            //Variables
+            MapPoint geoPoint = new MapPoint(0, 0, outSpatialRef);
+
+            //Transform
+            if (easting != 0.0 && northing != 0.0)
+            {
+
+                DatumTransformation datumTransfo = null;  
+                SpatialReference outSR = SpatialReference.Create(outSpatialRef);
+                datumTransfo = TransformationCatalog.GetTransformation(inSR, outSR);
+                
+                MapPoint point = new MapPoint(easting, northing, inSR);
+
+                //Validate if transformation is needed.
+                if (datumTransfo != null)
+                {
+                    geoPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(point, outSR, datumTransfo);
+                }
+                else
+                {
+                    geoPoint = (MapPoint)Esri.ArcGISRuntime.Geometry.GeometryEngine.Project(point, outSR);
+                }
+
+            }
+
+            return geoPoint;
+
+        }
+
 
     }
 }

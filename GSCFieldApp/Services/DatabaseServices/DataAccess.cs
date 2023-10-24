@@ -335,7 +335,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// 
         /// </summary>
         /// <param name="tableObject"></param>
-        public List<object> BatchSaveSQLTables(List<object> tableObjects)
+        public List<object> BatchSaveSQLTables(List<object> tableObjects, bool doUpdates = false)
         {
             // Create a new connection
             using (DbConnection)
@@ -345,7 +345,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     foreach (object t in tableObjects)
                     {
-                        int sucess = DbConnection.Insert(t);
+                        if (doUpdates)
+                        {
+                            int sucess = DbConnection.Update(t);
+                        }
+                        else
+                        {
+                            int sucess = DbConnection.Insert(t);
+                        }
+                        
                     }
                 });
                 DbConnection.Commit();
@@ -832,6 +840,9 @@ namespace GSCFieldApp.Services.DatabaseServices
                 queryList.AddRange(GetUpgradeQueryVersion1_8(attachDBName));
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableSample);
                 upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableMineralAlteration);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableLocation);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableDocument);
+                upgradeUntouchedTables.Remove(Dictionaries.DatabaseLiterals.TableEarthMat);
                 newVersionNumber = DatabaseLiterals.DBVersion180;
             }
 
@@ -2808,6 +2819,31 @@ namespace GSCFieldApp.Services.DatabaseServices
                         sample_querySelect = sample_querySelect +
                             ", NULL as " + DatabaseLiterals.FieldSampleIsBlank;
                     }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleCoreFrom)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleCoreFrom;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleCoreTo)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleCoreTo;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleCoreLength)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleCoreLength;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampleCoreSize)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleCoreSize;
+                    }
+                    else if (sampleFields == DatabaseLiterals.FieldSampledBy)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampledBy;
+                    }
                     else
                     {
                         sample_querySelect = sample_querySelect + ", sm." + sampleFields + " as " + sampleFields;
@@ -2868,6 +2904,145 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_18_ma = insertQuery_18_ma + " FROM " + attachedDBName + "." + DatabaseLiterals.TableMineralAlteration + " as ma";
             insertQuery_18.Add(insertQuery_18_ma);
 
+            #endregion
+
+            #region F_DOCUMENT
+
+            Document modelDocument = new Document();
+            List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
+            string document_querySelect = string.Empty;
+
+            foreach (string docFields in documentFieldList)
+            {
+                //Get all fields except alias
+
+                if (docFields != documentFieldList.First())
+                {
+                    if (docFields == DatabaseLiterals.FieldDocumentSampleID)
+                    {
+                        document_querySelect = document_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldDocumentSampleID;
+                    }
+                    else if (docFields == DatabaseLiterals.FieldDOcumentDrillHoleID)
+                    {
+                        document_querySelect = document_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldDOcumentDrillHoleID;
+                    }
+                    else if (docFields == DatabaseLiterals.FieldDocumentStationID)
+                    {
+                        document_querySelect = document_querySelect +
+                            ", " + DatabaseLiterals.FieldDocumentRelatedIDDeprecated + " as " + DatabaseLiterals.FieldDocumentStationID;
+                    }
+                    else if (docFields == DatabaseLiterals.FieldDocumentScaleDirection)
+                    {
+                        document_querySelect = document_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldDocumentScaleDirection;
+                    }
+                    else
+                    {
+                        document_querySelect = document_querySelect + ", d." + docFields + " as " + docFields;
+                    }
+
+                }
+                else
+                {
+                    document_querySelect = " d." + docFields + " as " + docFields;
+                }
+
+            }
+            document_querySelect = document_querySelect.Replace(", ,", "");
+
+            string insertQuery_18_doc = "INSERT INTO " + DatabaseLiterals.TableDocument + " SELECT " + document_querySelect;
+            insertQuery_18_doc = insertQuery_18_doc + " FROM " + attachedDBName + "." + DatabaseLiterals.TableDocument + " as d";
+            insertQuery_18.Add(insertQuery_18_doc);
+
+            #endregion
+
+            #region F_LOCATION
+
+            FieldLocation modelLocation = new FieldLocation();
+            List<string> locationFieldList = modelLocation.getFieldList[DBVersion];
+            string location_querySelect = string.Empty;
+
+            foreach (string locFields in locationFieldList)
+            {
+                //Get all fields except alias
+
+                if (locFields != locationFieldList.First())
+                {
+                    if (locFields == DatabaseLiterals.FieldLocationEPSGProj)
+                    {
+                        //If something other then 4326 is found, copy it to this new field, else keep null, it's already in the good format
+                        location_querySelect = location_querySelect +
+                        ", (CASE WHEN(l." + DatabaseLiterals.FieldLocationDatum + " NOT LIKE '%4326%') THEN(l." + DatabaseLiterals.FieldLocationDatum + ") ELSE(NULL" +
+                            ") END) as " + DatabaseLiterals.FieldLocationEPSGProj;
+                    }
+                    else if (locFields == DatabaseLiterals.FieldLocationDatum)
+                    {
+                        //Enforce default EPSG
+                        location_querySelect = location_querySelect +
+                        ", '4326' as " + DatabaseLiterals.FieldLocationDatum;
+                    }
+                    else
+                    {
+                        location_querySelect = location_querySelect + ", l." + locFields + " as " + locFields;
+                    }
+
+                }
+                else
+                {
+                    location_querySelect = " l." + locFields + " as " + locFields;
+                }
+
+            }
+            location_querySelect = location_querySelect.Replace(", ,", "");
+
+            string insertQuery_18_location = "INSERT INTO " + DatabaseLiterals.TableLocation + " SELECT " + location_querySelect;
+            insertQuery_18_location = insertQuery_18_location + " FROM " + attachedDBName + "." + DatabaseLiterals.TableLocation + " as l";
+            insertQuery_18.Add(insertQuery_18_location);
+
+            #endregion
+
+            #region F_EARTH_MATERIAL
+            EarthMaterial modelEarth = new EarthMaterial();
+            List<string> earthFieldList = modelEarth.getFieldList[DBVersion];
+            string earth_querySelect = string.Empty;
+
+            foreach (string earthFields in earthFieldList)
+            {
+                //Get all fields except alias
+
+                if (earthFields != earthFieldList.First())
+                {
+                    if (earthFields == DatabaseLiterals.FieldEarthMatDrillHoleID)
+                    {
+
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatDrillHoleID;
+                    }
+                    else if (earthFields == DatabaseLiterals.FieldEarthMatContactNote)
+                    {
+
+                        earth_querySelect = earth_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatContactNote;
+                    }
+                    else
+                    {
+                        earth_querySelect = earth_querySelect + ", et." + earthFields + " as " + earthFields;
+                    }
+
+                }
+                else
+                {
+                    earth_querySelect = " et." + earthFields + " as " + earthFields;
+                }
+
+            }
+            earth_querySelect = earth_querySelect.Replace(", ,", "");
+
+            string insertQuery_18_earth = "INSERT INTO " + DatabaseLiterals.TableEarthMat + " SELECT " + earth_querySelect;
+            insertQuery_18_earth = insertQuery_18_earth + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat + " as et";
+            insertQuery_18.Add(insertQuery_18_earth);
             #endregion
 
             return insertQuery_18;
