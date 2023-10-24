@@ -331,6 +331,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDrillLog = "LOG_SUMMARY"; //Version 1.8
         public const string FieldDrillNotes = "NOTES"; //Version 1.8
         public const string FieldDrillLocationID = "LOCATIONID"; //Version 1.8
+        public const string FieldDrillRelatedTo = "RELATEDTO"; //Version 1.8
 
         #endregion
 

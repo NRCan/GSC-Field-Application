@@ -37,6 +37,7 @@ namespace GSCFieldApp.ViewModels
         private int _drillID = 0; //Meant for update purposes, not insert
         private string _drillIDName = string.Empty;
         private string _notes = string.Empty;
+        private string _relatedTo = string.Empty;
         private string _name = string.Empty;
         private string _companyName = string.Empty;
         private string _drillAzim = string.Empty; 
@@ -69,6 +70,9 @@ namespace GSCFieldApp.ViewModels
 
         #region PROPERTIES
         public string Notes { get { return _notes; } set { _notes = value; } }
+
+        public string RelatedTo { get { return _relatedTo; } set { _relatedTo = value; } }
+
         public string OriginalName { get { return _name; } set { _name = value; } }
         public string DrillIDName { get { return _drillIDName; } set { _drillIDName = value; } }
         public string CompanyName { get { return _companyName; } set { _companyName = value; } }
@@ -201,6 +205,7 @@ namespace GSCFieldApp.ViewModels
             _drillAzim = existingDataDetail.drillHoles.DrillAzim.ToString();
             _drillDip = existingDataDetail.drillHoles.DrillDip.ToString();
             _drillDepth = existingDataDetail.drillHoles.DrillDepth.ToString();
+            _relatedTo = existingDataDetail.drillHoles.DrillRelatedTo.ToString();
 
             RaisePropertyChanged("OriginalName");
             RaisePropertyChanged("DrillIDName");
@@ -212,6 +217,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("DrillAzim");
             RaisePropertyChanged("DrillDip");
             RaisePropertyChanged("DrillDepth");
+            RaisePropertyChanged("RelatedTo");
 
             _selectedDrillCoreSize = existingDataDetail.drillHoles.DrillCoreSize;
             _selectedDrillHoleSize = existingDataDetail.drillHoles.DrillHoleSize;
@@ -417,6 +423,7 @@ namespace GSCFieldApp.ViewModels
             dhModel.DrillRelogBy = _drillLogBy;
             dhModel.DrillNotes = _notes;
             dhModel.DrillLog = _drillLogSummary;
+            dhModel.DrillRelatedTo = _relatedTo;
 
             dhModel.DrillDate = _drillDate;
             dhModel.DrillID = _drillID; //Prime key

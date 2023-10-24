@@ -198,8 +198,11 @@
 
                         <RelativePanel Margin="0,-60,0,0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="DrillGeneralGridView">
 
-                            <TextBox Style="{ThemeResource Notes}" x:Name="DrillNoteBox" x:Uid="DrillgNote"
-                            Text="{x:Bind drillViewModel.Notes, Mode=TwoWay}" TabIndex="15"/>
+                            <TextBox x:Name="DrillRelatedBox" x:Uid="DrillRelatedTo"
+                            Text="{x:Bind drillViewModel.RelatedTo, Mode=TwoWay}" TabIndex="15"/>
+
+                            <TextBox Style="{ThemeResource Notes}" x:Name="DrillNoteBox" x:Uid="DrillgNote" RelativePanel.Below="DrillRelatedBox"
+                            Text="{x:Bind drillViewModel.Notes, Mode=TwoWay}" TabIndex="16"/>
 
                         </RelativePanel>
                         

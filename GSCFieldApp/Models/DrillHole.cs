@@ -59,6 +59,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDrillLog)]
         public string DrillLog { get; set; }
 
+        [Column(DatabaseLiterals.FieldDrillRelatedTo)]
+        public string DrillRelatedTo { get; set; }
+
         [Column(DatabaseLiterals.FieldDrillNotes)]
         public string DrillNotes { get; set; }
 

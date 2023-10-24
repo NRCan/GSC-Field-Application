@@ -1872,4 +1872,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="SampleTo.Header" xml:space="preserve">
     <value>To</value>
   </data>
+  <data name="DrillRelatedTo.Header" xml:space="preserve">
+    <value>Related To</value>
+  </data>
 </root>

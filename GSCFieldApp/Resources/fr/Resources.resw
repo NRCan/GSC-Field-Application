@@ -1867,4 +1867,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="SampleTo.Header" xml:space="preserve">
     <value>Jusqu'à</value>
   </data>
+  <data name="DrillRelatedTo.Header" xml:space="preserve">
+    <value>En lien avec (ex: une station)</value>
+  </data>
 </root>
