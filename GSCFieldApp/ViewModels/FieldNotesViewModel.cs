@@ -947,8 +947,15 @@ namespace GSCFieldApp.ViewModels
 
                         currentDetailReport.location = currentLocation;
                     }
+                    try
+                    {
+                        _reportDetailedDrill.Add(currentDetailReport);
+                        RaisePropertyChanged("ReportDetailedDrill");
+                    }
+                    catch (Exception)
+                    {
 
-                    ReportDetailedDrill.Add(currentDetailReport);
+                    }
 
                     //Refresh summary
                     ValidateCheck(currentDrill.isValid, currentDrill.DrillID, currentDetailReport.MainID);

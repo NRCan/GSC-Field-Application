@@ -389,7 +389,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Get actual last alias and extract it's number
                     string lastAlias = drills.ToList()[0].ToString();
                     List<char> lastCharacters = lastAlias.ToList();
-                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
+                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 6, 4);
                     string lastNumber = string.Empty;
                     foreach (char c in lastNumbers)
                     {
@@ -406,7 +406,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 string outputStringID = string.Empty;
                 bool breaker = true;
-                string finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + prefix + outputStringID; //Ex: 16BEBDH001
+                string finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + prefix; //Ex: 16BEB001DH
                 while (breaker)
                 {
                     if (drillCount < 10)
@@ -426,7 +426,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         outputStringID = drillCount.ToString();
                     }
 
-                    finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + prefix + outputStringID;
+                    finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + prefix;
 
                     IEnumerable<DrillHole> existinStations = from d in drillTable join l in locationTable on d.DrillLocationID equals l.LocationID where l.MetaID == currentMetaID && d.DrillIDName == finalDrillString select d;
 
