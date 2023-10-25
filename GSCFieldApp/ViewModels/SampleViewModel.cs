@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using GSCFieldApp.Dictionaries;
+using Newtonsoft.Json.Linq;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -106,7 +107,7 @@ namespace GSCFieldApp.ViewModels
 
                 if (result)
                 {
-                    _sampleAzim = value;
+                    _sampleCoreFrom = value;
                 }
                 else
                 {
@@ -669,6 +670,7 @@ namespace GSCFieldApp.ViewModels
         }
         #endregion
 
+        #region METHODS
         /// <summary>
         /// Will set visibility based on a bedrock or surficial field book
         /// </summary>
@@ -868,6 +870,8 @@ namespace GSCFieldApp.ViewModels
 
             #endregion
         }
+
+        #endregion
 
         #region EVENTS
 

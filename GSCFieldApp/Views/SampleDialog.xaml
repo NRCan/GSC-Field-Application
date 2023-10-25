@@ -111,9 +111,11 @@
 
                                 <TextBox x:Name="SampleBy" x:Uid="SampleBy" Text ="{x:Bind ViewModel.SampledBy, Mode=TwoWay}" TabIndex="8"/>
 
-                                <TextBox x:Name="SampleFrom" x:Uid="SampleFrom" InputScope="Number" Text ="{x:Bind ViewModel.SampleCoreFrom, Mode=TwoWay}" TabIndex="9"/>
+                                <TextBox x:Name="SampleFrom" x:Uid="SampleFrom" InputScope="Number" Text ="{x:Bind ViewModel.SampleCoreFrom, Mode=TwoWay}" TabIndex="9"
+                                         TextChanged="SampleFrom_TextChanged"/>
 
-                                <TextBox x:Name="SampleLength" x:Uid="SampleLength" InputScope="Number" Text ="{x:Bind ViewModel.SampleCoreLength, Mode=TwoWay}" TabIndex="10"/>
+                                <TextBox x:Name="SampleLength" x:Uid="SampleLength" InputScope="Number" Text ="{x:Bind ViewModel.SampleCoreLength, Mode=TwoWay}" TabIndex="10"
+                                         TextChanged="SampleLength_TextChanged"/>
 
                                 <TextBox x:Name="SampleTo" x:Uid="SampleTo" InputScope="Number" Text ="{x:Bind ViewModel.SampleCoreTo, Mode=TwoWay}" TabIndex="11"/>
 
