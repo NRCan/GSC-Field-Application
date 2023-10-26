@@ -90,7 +90,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="inSR"></param>
         /// <param name="outSR"></param>
         /// <returns></returns>
-        public MapPoint CalculateGeographicCoordinate(Double easting, Double northing, SpatialReference inSR, int outSpatialRef = 4326)
+        public MapPoint CalculateGeographicCoordinate(double easting, double northing, SpatialReference inSR, int outSpatialRef = 4326)
         {
             //Variables
             MapPoint geoPoint = new MapPoint(0, 0, outSpatialRef);

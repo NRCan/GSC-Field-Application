@@ -151,7 +151,7 @@ namespace GSCFieldApp.ViewModels
             #endregion
 
             #region Header toggles
-            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon) != null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeCommon) != null)
             {
                 _commonToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeCommon);
 

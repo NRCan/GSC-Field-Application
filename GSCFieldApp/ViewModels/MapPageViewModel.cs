@@ -166,15 +166,6 @@ namespace GSCFieldApp.ViewModels
 
         }
 
-        private void EsriMap_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (!initMap)
-            {
-                initMap = true;
-            }
-
-        }
-
         #endregion
 
         #region PROPERTIES
