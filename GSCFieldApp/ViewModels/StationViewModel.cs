@@ -179,8 +179,8 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Calculate new values for station too
-                _dateDate = CalculateStationDate(); //Calculate new value
-                _dateTime = CalculateStationTime();//Calculate new value
+                _dateDate = idCalculator.FormatDate(_dateGeneric.DateTime); //Calculate new value
+                _dateTime = idCalculator.FormatTime(_dateGeneric.DateTime);//Calculate new value
 
             }
             else //Existing station
@@ -326,7 +326,7 @@ namespace GSCFieldApp.ViewModels
                     _stationTravNo = sts.StationTravNo.ToString();
 
                     //Make check on date if newer, increment traverse no. if wanted by user
-                    if (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) != null && (bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo))
+                    if (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) != null && localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordStationTraverseNo))
                     {
                         string currentDate = DateTime.Now.ToShortDateString();
                         DateTime lastStationDate = DateTime.Parse(sts.StationVisitDate);
@@ -436,20 +436,6 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
 
-        #region CALCULATIONS
-
-        public string CalculateStationDate()
-        {
-            return String.Format("{0:yyyy-MM-dd}", _dateGeneric); ;
-        }
-
-        public string CalculateStationTime()
-        {
-            return String.Format("{0:HH:mm:ss t}", _dateGeneric); ;
-        }
-
-        #endregion
-
         #region THEMES
 
         public void TransformToWaypointTheme()
@@ -493,11 +479,11 @@ namespace GSCFieldApp.ViewModels
         {
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
             {
-                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     _bedrockVisibility = Visibility.Visible;
                 }
-                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     _bedrockVisibility = Visibility.Collapsed;
                 }
@@ -581,8 +567,8 @@ namespace GSCFieldApp.ViewModels
             //StationModel.StationID = _stationid; //Prime key
             StationModel.LocationID = quickLocID; //Foreign key
             StationModel.StationAlias = _alias;
-            StationModel.StationVisitDate = _dateDate = CalculateStationDate(); //Calculate new value
-            StationModel.StationVisitTime = _dateTime = CalculateStationTime();//Calculate new value
+            StationModel.StationVisitDate = _dateDate = idCalculator.FormatDate(_dateGeneric.DateTime); //Calculate new value
+            StationModel.StationVisitTime = _dateTime = idCalculator.FormatTime(_dateGeneric.DateTime);//Calculate new value
             StationModel.StationAirNo = _airno;
             if (_stationTravNo != string.Empty)
             {

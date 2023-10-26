@@ -129,7 +129,7 @@ namespace GSCFieldApp.Models
 
                 //Revert schema 1.5 changes. 
                 List<string> stationFieldList144 = new List<string>();
-                stationFieldList144.AddRange(stationFieldListDefault);
+                stationFieldList144.AddRange(stationFieldList150);
                 int removeIndex = stationFieldList144.IndexOf(DatabaseLiterals.FieldStationAlias);
                 stationFieldList144.Remove(DatabaseLiterals.FieldStationAlias);
                 stationFieldList144.Insert(removeIndex, DatabaseLiterals.FieldStationAliasDeprecated);

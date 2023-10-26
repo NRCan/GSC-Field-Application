@@ -125,6 +125,43 @@ namespace GSCFieldApp.Views
             }
         }
 
+        private void SampleLength_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox senderBox = sender as TextBox;
+            if (senderBox.Text != null && senderBox.Text != string.Empty)
+            {
+                CalculateTo();
+            }
+        }
 
+        /// <summary>
+        /// Will recalculate the To value based on From or Length values
+        /// </summary>
+        private void CalculateTo()
+        {
+            //Recalculate new To value
+            bool resultFrom = double.TryParse(this.SampleFrom.Text, out double doubleFrom);
+            bool resultLength = double.TryParse(this.SampleLength.Text, out double doubleLength);
+
+            if (resultFrom && resultLength)
+            {
+                this.SampleTo.Text = (doubleFrom + doubleLength).ToString();
+            }
+            else
+            {
+                this.SampleTo.Text = "0";
+            }
+
+            this.ViewModel.SampleCoreTo = this.SampleTo.Text;
+        }
+
+        private void SampleFrom_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox senderBox = sender as TextBox;
+            if (senderBox.Text != null && senderBox.Text != string.Empty)
+            {
+                CalculateTo();
+            }
+        }
     }
 }

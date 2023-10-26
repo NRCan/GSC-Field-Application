@@ -53,6 +53,9 @@
     <Color x:Key="FieldEnvironmentColor">#99cc00</Color>
     <Color x:Key="FieldEnvironmentColorLight">#bfff00</Color>
 
+    <Color x:Key="FieldDrillColor">#439ee2</Color>
+    <Color x:Key="FieldDrillColorLight">#8EC4ED</Color>
+    
     <Color x:Key="ReportPageInvalidBackground">Red</Color>
     <!---->
   
@@ -103,6 +106,9 @@
 
     <SolidColorBrush x:Key="FieldEnvironmentColorBrush" Color="{StaticResource FieldEnvironmentColor}"/>
     <SolidColorBrush x:Key="FieldEnvironmentColorLightBrush" Color="{StaticResource FieldEnvironmentColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldDrillColorBrush" Color="{StaticResource FieldDrillColor}"/>
+    <SolidColorBrush x:Key="FieldDrillColorLightBrush" Color="{StaticResource FieldDrillColorLight}"/>
 
     <SolidColorBrush x:Key="ReportPageInvalidBackgroundBrush" Color="{StaticResource ReportPageInvalidBackground}"/>
     
@@ -871,6 +877,53 @@
         </Setter>
     </Style>
 
+    <Style TargetType="GridViewItem" x:Key="ReportPageGridViewDrillItems">
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="TabNavigation" Value="Local"/>
+        <Setter Property="IsHoldingEnabled" Value="True"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+        <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewItem">
+
+                    <ListViewItemPresenter
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        SelectionCheckMarkVisualEnabled="True"
+                        CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                        DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                        FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                        FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                        PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" 
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        ContentMargin="{TemplateBinding Padding}"
+                        CheckMode="Inline"            
+                        PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                        SelectedBackground="{ThemeResource FieldDrillColorLightBrush}"
+                        SelectedForeground="Black"
+                        SelectedPointerOverBackground="{ThemeResource FieldDrillColorLightBrush}"
+                        PressedBackground="{ThemeResource FieldDrillColorLightBrush}"
+                        SelectedPressedBackground="{ThemeResource FieldDrillColorBrush}"/>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style TargetType="GridViewItem" x:Key="ReportPageGridViewEarthmatItems">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -1233,6 +1286,51 @@
         </Setter>
     </Style>
 
+    <Style TargetType="GridViewItem" x:Key="ReportPageGridViewEDrillItems">
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="TabNavigation" Value="Local"/>
+        <Setter Property="IsHoldingEnabled" Value="True"/>
+        <Setter Property="Padding" Value="0,0,0,0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+        <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewItem">
+                    <ListViewItemPresenter
+                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                        SelectionCheckMarkVisualEnabled="True"
+                        CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+                        DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+                        DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+                        FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+                        FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                        PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+                        PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" 
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+                        ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        ContentMargin="{TemplateBinding Padding}"
+                        CheckMode="Inline"            
+                        PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                        SelectedBackground="{ThemeResource FieldDrillColorLightBrush}"
+                        SelectedForeground="Black"
+                        SelectedPointerOverBackground="{ThemeResource FieldDrillColorLightBrush}"
+                        PressedBackground="{ThemeResource FieldDrillColorLightBrush}"
+                        SelectedPressedBackground="{ThemeResource FieldDrillColorBrush}"/>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="GridViewItem" x:Key="ReportPageGridViewDocumentItems">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -1335,7 +1433,19 @@
         <Setter Property="Padding" Value="0,8,12,0"/>
         <Setter Property="MinHeight" Value="{ThemeResource GridViewHeaderItemMinHeight}"/>
     </Style>
-    
+
+    <Style TargetType="DatePicker" >
+        <Setter Property="Margin" Value="0,0,10,0"/>
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Margin="0,0,0,4"  Text="{Binding}" TextWrapping="WrapWholeWords" IsTextSelectionEnabled="False"></TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
     <Style TargetType="ComboBox" x:Key="ComboboxMandatoryField">
         <Setter Property="Margin" Value="0,0,10,0"/>
         <Setter Property="MinWidth" Value="100"/>

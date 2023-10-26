@@ -381,9 +381,6 @@
   <data name="EarthDialogContactRelated.Header" xml:space="preserve">
     <value>En relation avec</value>
   </data>
-  <data name="EarthDialogContactNote.Text" xml:space="preserve">
-    <value>Description</value>
-  </data>
   <data name="EarthDialogContactType.Header" xml:space="preserve">
     <value>Type</value>
   </data>
@@ -1752,5 +1749,119 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="MAMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>Recherche</value>
+  </data>
+  <data name="SampleDialogIsBlank.Content" xml:space="preserve">
+    <value>Est-ce un blanc?</value>
+  </data>
+  <data name="EarthDialogContactLow.Header" xml:space="preserve">
+    <value>Contact Inférieur</value>
+  </data>
+  <data name="EarthDialogContactUp.Header" xml:space="preserve">
+    <value>Contact Supérieur</value>
+  </data>
+  <data name="EarthDialogContactRelNote.Text" xml:space="preserve">
+    <value>Description de la relation</value>
+  </data>
+  <data name="DocumentScaleDirectionCombobox.Header" xml:space="preserve">
+    <value>Direction de l'échelle sur la photo</value>
+  </data>
+  <data name="DrillLabel.Label" xml:space="preserve">
+    <value>DH</value>
+  </data>
+  <data name="DrillDialogHeader.Text" xml:space="preserve">
+    <value>Puit de forage</value>
+  </data>
+  <data name="DrillGridView_Context.Content" xml:space="preserve">
+    <value>Contexte</value>
+  </data>
+  <data name="DrillGridView_General.Content" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="DrillGridView_Log.Content" xml:space="preserve">
+    <value>Journal</value>
+  </data>
+  <data name="DrillGridView_Metrics.Content" xml:space="preserve">
+    <value>Mesures</value>
+  </data>
+  <data name="DrillCName.Header" xml:space="preserve">
+    <value>Entreprise</value>
+  </data>
+  <data name="DrillgNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="DrillName.Header" xml:space="preserve">
+    <value>Nom d'origine</value>
+  </data>
+  <data name="DrillTypeCbox.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillAzimuthNumBox.Header" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="DrillCoreSizeCbox.Header" xml:space="preserve">
+    <value>Taille de la carotte</value>
+  </data>
+  <data name="DrillDate.Header" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DrillDepthNumBox.Header" xml:space="preserve">
+    <value>Profondeur</value>
+  </data>
+  <data name="DrillDipNumBox.Header" xml:space="preserve">
+    <value>Pendage</value>
+  </data>
+  <data name="DrillHoleSizeCBox.Header" xml:space="preserve">
+    <value>Taille du trou</value>
+  </data>
+  <data name="DrillLogBy.Header" xml:space="preserve">
+    <value>Par</value>
+  </data>
+  <data name="DrillIntervalsHeader.Text" xml:space="preserve">
+    <value>Intervalles</value>
+  </data>
+  <data name="DrillLogSummaryBox.Header" xml:space="preserve">
+    <value>Sommaire</value>
+  </data>
+  <data name="DrillLogTypeCbox.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillUnitCbox.Header" xml:space="preserve">
+    <value>Unité de mesure</value>
+  </data>
+  <data name="DrilllogIntervalsFrom.Header" xml:space="preserve">
+    <value>À partir de</value>
+  </data>
+  <data name="DrilllogIntervalsTo.Header" xml:space="preserve">
+    <value>Jusqu'à</value>
+  </data>
+  <data name="FieldworkTableDrill.Text" xml:space="preserve">
+    <value>Forages</value>
+  </data>
+  <data name="SettingPageToggleDrill.OffContent" xml:space="preserve">
+    <value>Forages</value>
+  </data>
+  <data name="SettingPageToggleDrill.OnContent" xml:space="preserve">
+    <value>Forages</value>
+  </data>
+  <data name="SampleBy.Header" xml:space="preserve">
+    <value>Échantillonné par</value>
+  </data>
+  <data name="SampleCorePortion.Header" xml:space="preserve">
+    <value>Proportion (en quart)</value>
+  </data>
+  <data name="SampleFrom.Header" xml:space="preserve">
+    <value>À partir de</value>
+  </data>
+  <data name="SampleGridView_Core.Content" xml:space="preserve">
+    <value>Carotte</value>
+  </data>
+  <data name="SampleLength.Header" xml:space="preserve">
+    <value>Longueur</value>
+  </data>
+  <data name="SampleTo.Header" xml:space="preserve">
+    <value>Jusqu'à</value>
+  </data>
+  <data name="DrillRelatedTo.Header" xml:space="preserve">
+    <value>En lien avec (ex: une station)</value>
   </data>
 </root>

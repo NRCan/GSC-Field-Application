@@ -1,8 +1,10 @@
 ﻿using Esri.ArcGISRuntime.Geometry;
+using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using Template10.Common;
 using Template10.Mvvm;
@@ -170,7 +172,13 @@ namespace GSCFieldApp.ViewModels
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
             _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
             _locationNTS = existingDataDetailLocation.location.locationNTS;
-            _selectedLocationDatums = existingDataDetailLocation.location.LocationDatum;
+            
+
+            //Check for manual XY projections
+            if (existingDataDetailLocation.location.LocationEPSGProj != null && existingDataDetailLocation.location.LocationEPSGProj != string.Empty)
+            {
+                _selectedLocationDatums = existingDataDetailLocation.location.LocationEPSGProj;
+            }
 
             //Update UI
             RaisePropertyChanged("LocationID");
@@ -207,12 +215,17 @@ namespace GSCFieldApp.ViewModels
             //Make sure that everything has been filled
             if ((_long == 0 || _lat == 0) && (_easting != 0 || _northing != 0))
             {
+
                 //Detect Datum difference
                 SpatialReference inSR = SpatialReference.Create(selectedEPGS);
                 SpatialReference outSR = SpatialReferences.Wgs84; //Default
                 if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
                 {
-                    outSR = SpatialReference.Create(4617);
+                    //Commented out, by default it'll always be wgs84 in lat/long #299
+                    //outSR = SpatialReference.Create(4617);
+
+                    locationModel.LocationEPSGProj = selectedEPGS.ToString();
+                    locationModel.LocationDatum = DatabaseLiterals.KeywordEPSGDefault;
                 }
 
                 MapPoint geoSave = CalculateGeographicCoordinate(_easting, _northing, inSR, outSR);
@@ -235,13 +248,18 @@ namespace GSCFieldApp.ViewModels
             locationModel.LocationNotes = LocationNotes;
             locationModel.LocationErrorMeasure = _accu;
             locationModel.locationNTS = _locationNTS;
-            locationModel.LocationEasting = _easting;
-            locationModel.LocationNorthing = _northing;
-
 
             if (SelectedLocationDatums != null)
             {
-                locationModel.LocationDatum = SelectedLocationDatums;
+                if (selectedEPGS != 4326 && selectedEPGS != 4617)
+                {
+                    //Keep new projection EPSG
+                    locationModel.LocationEPSGProj = selectedEPGS.ToString();
+                    locationModel.LocationEasting = _easting;
+                    locationModel.LocationNorthing = _northing;
+                }
+
+                locationModel.LocationDatum = DatabaseLiterals.KeywordEPSGDefault;
             }
 
             if (entryType != null)
@@ -251,10 +269,27 @@ namespace GSCFieldApp.ViewModels
 
 
             //Save model class
-            object locObject = (object)locationModel;
-            accessData.SaveFromSQLTableObject(ref locObject, doLocationUpdate);
-            locationModel = (FieldLocation)locObject;
-            //accessData.SaveFromSQLTableObject(locationModel, doLocationUpdate);
+            GeopackageService geoService = new GeopackageService();
+
+            if (doLocationUpdate)
+            {
+                object locObject = (object)locationModel;
+                accessData.SaveFromSQLTableObject(ref locObject, doLocationUpdate);
+                locationModel = (FieldLocation)locObject;
+
+                //Extra step to make sure geometry is good
+                string updateQuery = accessData.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                geoService.DoSpatialiteQueryInGeopackage(updateQuery, false);
+
+            }
+            else
+            {
+                string insertQuery = accessData.GetGeopackageInsertQuery(locationModel);
+                locationModel.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
+            }
+
+
+
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newLocationEdit != null)

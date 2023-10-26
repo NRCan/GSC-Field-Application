@@ -71,13 +71,20 @@
                                 ItemTemplate="{StaticResource PurposeValueTemplate}" 
                                 ItemsSource="{x:Bind ViewModel.PurposeValues}" IsTabStop="True" TabIndex="3"/>
 
-                                <CheckBox x:Name="isSampleDuplicate" x:Uid="SampleDialogIsDuplicate" Visibility="{x:Bind ViewModel.SurficialVisibility}"
+                                <CheckBox x:Name="isSampleBlank" x:Uid="SampleDialogIsBlank" Visibility="{x:Bind ViewModel.SurficialVisibility}" Margin="0,0,10,0"
+                                          IsChecked="{x:Bind ViewModel.IsSampleBlank, Mode=TwoWay}" RelativePanel.Below="samplePurposesValues" TabIndex="4"/>
+                                
+                                <CheckBox x:Name="isSampleDuplicate" x:Uid="SampleDialogIsDuplicate" Visibility="{x:Bind ViewModel.SurficialVisibility}" Margin="0,0,10,0"
                                           Checked="{x:Bind ViewModel.isSampleDuplicate_Checked}" Unchecked="{x:Bind ViewModel.isSampleDuplicate_Unchecked}"
-                                          IsChecked="{x:Bind ViewModel.IsSampleDuplicate, Mode=TwoWay}" RelativePanel.Below="samplePurposesValues" TabIndex="4"/>
+                                          IsChecked="{x:Bind ViewModel.IsSampleDuplicate, Mode=TwoWay}"
+                                          RelativePanel.RightOf="isSampleBlank"
+                                          RelativePanel.Below="samplePurposesValues" TabIndex="5"/>
 
                                 <TextBox x:Name="SampleDuplicateName" IsEnabled="{x:Bind ViewModel.IsSampleDuplicateEnabled, Mode=TwoWay}" x:Uid="SampleDialogDuplicateName" 
-                                         RelativePanel.RightOf="isSampleDuplicate" RelativePanel.Below="samplePurposesValues" Header="" Visibility="{x:Bind ViewModel.SurficialVisibility}"
-                                        Text ="{x:Bind ViewModel.SampleDuplicateName, Mode=TwoWay}" TabIndex="5"/>
+                                         RelativePanel.RightOf="isSampleDuplicate" RelativePanel.AlignBottomWith="isSampleDuplicate" Header="" Visibility="{x:Bind ViewModel.SurficialVisibility}"
+                                        Text ="{x:Bind ViewModel.SampleDuplicateName, Mode=TwoWay}" TabIndex="6"/>
+
+
 
                             </RelativePanel>
 
@@ -87,8 +94,42 @@
                            RelativePanel.Below="SampleGridView_00" 
                            Fill="{ThemeResource FieldSampleColorBrush}" />
 
-                        <RelativePanel x:Name="SampleGridview_01" RelativePanel.Below="MainSeparator_01" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                        <RelativePanel x:Name="SampleGridview_core" Visibility="{x:Bind ViewModel.DrillholeVisibility, Mode=TwoWay}"
+                                       RelativePanel.Below="MainSeparator_01" 
+                                       RelativePanel.AlignLeftWithPanel="True" 
+                                       RelativePanel.AlignRightWithPanel="True">
+
+                            <!--Bedrock  Drill Holes-->
+                            <GridView Style="{StaticResource NonselectableGridView}" x:Name="SampleGridView_Core" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                                 RelativePanel.AlignTopWithPanel="True">
+                                <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="SampleGridView_Core" IsEnabled="False"/>
+
+                                <ComboBox x:Name="SampleCorePortion" x:Uid="SampleCorePortion"
+                                Header="" 
+                                ItemsSource="{x:Bind ViewModel.SampleCoreSize}" 
+                                SelectedValue="{x:Bind ViewModel.SelectedSampleCoreSize, Mode=TwoWay}" TabIndex="7"/>
+
+                                <TextBox x:Name="SampleBy" x:Uid="SampleBy" Text ="{x:Bind ViewModel.SampledBy, Mode=TwoWay}" TabIndex="8"/>
+
+                                <TextBox x:Name="SampleFrom" x:Uid="SampleFrom" InputScope="Number" Text ="{x:Bind ViewModel.SampleCoreFrom, Mode=TwoWay}" TabIndex="9"
+                                         TextChanged="SampleFrom_TextChanged"/>
+
+                                <TextBox x:Name="SampleLength" x:Uid="SampleLength" InputScope="Number" Text ="{x:Bind ViewModel.SampleCoreLength, Mode=TwoWay}" TabIndex="10"
+                                         TextChanged="SampleLength_TextChanged"/>
+
+                                <TextBox x:Name="SampleTo" x:Uid="SampleTo" InputScope="Number" Text ="{x:Bind ViewModel.SampleCoreTo, Mode=TwoWay}" TabIndex="11"/>
+
+                            </GridView>
+
+                        </RelativePanel>
+
+                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_core" Visibility="{x:Bind ViewModel.DrillholeVisibility, Mode=TwoWay}"
+                           RelativePanel.Below="SampleGridview_core" 
+                           Fill="{ThemeResource FieldSampleColorBrush}" />
+
+                        <RelativePanel x:Name="SampleGridview_01" RelativePanel.Below="MainSeparator_core" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
                             
+                            <!--Bedrock-->
                             <GridView Style="{StaticResource NonselectableGridView}" x:Name="SampleGridView_02" HorizontalContentAlignment="Stretch" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
                                       Visibility="{x:Bind ViewModel.BedrockVisibility, Mode=TwoWay}" RelativePanel.AlignTopWithPanel="True">
                                 <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="SampleGridView_Orient" IsEnabled="False"/>
@@ -96,19 +137,20 @@
                                 <ComboBox x:Name="SampleFormatComboBox" x:Uid="SampleDialogFormat"
                                 Header="" 
                                 ItemsSource="{x:Bind ViewModel.SampleFormat}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedSampleFormat, Mode=TwoWay}" TabIndex="6"/>
+                                SelectedValue="{x:Bind ViewModel.SelectedSampleFormat, Mode=TwoWay}" TabIndex="12"/>
 
-                                <TextBox x:Name="SampleAzimuthNumBox" x:Uid="SampleDialogAzim" InputScope="Number" Text ="{x:Bind ViewModel.SampleAzim, Mode=TwoWay}" TabIndex="7"/>
+                                <TextBox x:Name="SampleAzimuthNumBox" x:Uid="SampleDialogAzim" InputScope="Number" Text ="{x:Bind ViewModel.SampleAzim, Mode=TwoWay}" TabIndex="13"/>
 
-                                <TextBox x:Name="SampleDipNumBox" x:Uid="SampleDialogDip" InputScope="Number" Text ="{x:Bind ViewModel.SampleDip, Mode=TwoWay}" TabIndex="8"/>
+                                <TextBox x:Name="SampleDipNumBox" x:Uid="SampleDialogDip" InputScope="Number" Text ="{x:Bind ViewModel.SampleDip, Mode=TwoWay}" TabIndex="14"/>
 
                                 <ComboBox x:Name="SampleSurfaceComboBox" x:Uid="SampleDialogSurface"
                                 Header=""
                                 ItemsSource="{x:Bind ViewModel.SampleSurface}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedSampleSurface, Mode=TwoWay}" TabIndex="9"/>
+                                SelectedValue="{x:Bind ViewModel.SelectedSampleSurface, Mode=TwoWay}" TabIndex="15"/>
 
                             </GridView>
 
+                            <!--Surficial-->
                             <GridView Style="{StaticResource NonselectableGridView}" x:Name="SampleGridView_03"  
                                       Visibility="{x:Bind ViewModel.SurficialVisibility, Mode=TwoWay}" RelativePanel.Below="SampleGridView_02">
                                 <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="SampleGridView_State" IsEnabled="False"/>
@@ -116,26 +158,26 @@
                                 <ComboBox x:Name="SampleQualityComboBox" x:Uid="SampleDialogQuality"
                                 Header="" 
                                 ItemsSource="{x:Bind ViewModel.SampleQuality}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedSampleQuality, Mode=TwoWay}" TabIndex="10"/>
+                                SelectedValue="{x:Bind ViewModel.SelectedSampleQuality, Mode=TwoWay}" TabIndex="17"/>
 
                                 <ComboBox x:Name="SampleStateComboBox" x:Uid="SampleDialogState" 
                                 Header="" 
                                 ItemsSource="{x:Bind ViewModel.SampleState}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedSampleState, Mode=TwoWay}" UseLayoutRounding="True" TabIndex="11"/>
+                                SelectedValue="{x:Bind ViewModel.SelectedSampleState, Mode=TwoWay}" UseLayoutRounding="True" TabIndex="18"/>
 
 
                                 <ComboBox x:Name="SampleHorizonComboBox" x:Uid="SampleDialogHorizon" 
                                 Header="" 
                                 ItemsSource="{x:Bind ViewModel.SampleHorizon}" 
-                                SelectedValue="{x:Bind ViewModel.SelectedSampleHorizon, Mode=TwoWay}" TabIndex="12"/>
+                                SelectedValue="{x:Bind ViewModel.SelectedSampleHorizon, Mode=TwoWay}" TabIndex="19"/>
 
                                 <TextBox x:Name="SampleDepthMinNumBox" x:Uid="SampleDialogDepthMin" 
                                 InputScope="Number"
-                                Text ="{x:Bind ViewModel.SampleDepthMin, Mode=TwoWay}" TabIndex="13"/>
+                                Text ="{x:Bind ViewModel.SampleDepthMin, Mode=TwoWay}" TabIndex="20"/>
 
                                 <TextBox x:Name="SampleDepthMaxNumBox" x:Uid="SampleDialogDepthMax"
                                 InputScope="Digits"
-                                Text ="{x:Bind ViewModel.SampleDepthMax, Mode=TwoWay}" TabIndex="14"/>
+                                Text ="{x:Bind ViewModel.SampleDepthMax, Mode=TwoWay}" TabIndex="21"/>
 
                             </GridView>
 
@@ -152,7 +194,7 @@
                         <RelativePanel Margin="0,-60,0,0" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="SampleGridView_04">
 
                             <TextBox Style="{ThemeResource Notes}" x:Name="SampleNoteComboBox" x:Uid="SampleDialogNote"
-                            Text="{x:Bind ViewModel.SampleNote, Mode=TwoWay}" TabIndex="15"/>
+                            Text="{x:Bind ViewModel.SampleNote, Mode=TwoWay}" TabIndex="22"/>
 
                         </RelativePanel>
                            

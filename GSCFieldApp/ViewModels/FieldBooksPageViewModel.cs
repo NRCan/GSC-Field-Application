@@ -18,6 +18,9 @@ using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
+using Template10.Utils;
+using System.Diagnostics;
+using Esri.ArcGISRuntime.Geometry;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 //Added By jamel
@@ -659,34 +662,6 @@ namespace GSCFieldApp.ViewModels
             }
 
         }
-        //public void DeleteButton_Click()
-        //{
-
-        //if (_projectCollection != null && _selectedProjectIndex != -1)
-        //{
-        //FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
-        //int selectedId = selectedBook.metadataForProject.MetaID;
-        //int bookToDelete = _projectCollection.IndexOf(_projectCollection.FirstOrDefault(item => item.metadataForProject.MetaID == selectedId));
-
-        //if (bookToDelete != -1)
-        //{
-        //    _projectCollection.RemoveAt(bookToDelete);
-        //}
-        //else
-        //{
-
-        //}
-        //    ValidateDeleteProject(this);
-
-        //}
-
-        //}
-
-
-        //public void EditButton_Click()
-        //{ 
-
-        //}
 
         /// <summary>
         /// This button will delete the selected project/field book from the local state folder.
@@ -965,8 +940,12 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.6)
                         {
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion170.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
+                        }
+                        else if (processedDBVersion == 1.7)
+                        {
 
-                            //Current defaulting to 1.7
+                            //Current defaulting to 1.8
                             versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
                         }
 
@@ -1019,6 +998,46 @@ namespace GSCFieldApp.ViewModels
                                     //Force an update on geometry field
                                     string updateGeometryQuery = dAccess.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
                                     GeopackageService packService = new GeopackageService();
+                                    packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
+                                }
+
+                                //Another last op on geometry, to make sure they're all in WGS84
+                                if (processedDBVersion == 1.8)
+                                {
+                                    GeopackageService packService = new GeopackageService();
+
+                                    FieldLocation fl = new FieldLocation();
+                                    List<object> flsObject = dAccess.ReadTable(fl.GetType(), null);
+                                    IEnumerable<FieldLocation> flTable = flsObject.Cast<FieldLocation>();
+                                    foreach (FieldLocation fls in flTable)
+                                    {
+                                        if (fls.LocationEPSGProj != "4326")
+                                        {
+                                            try
+                                            {
+                                                double easting = (double)fls.LocationEasting;
+                                                double northing = (double)fls.LocationNorthing;
+                                                int inEPSG = int.Parse(fls.LocationEPSGProj);
+
+                                                SpatialReference inSR = SpatialReference.Create(inEPSG);
+
+                                                MapPoint newPoint = packService.CalculateGeographicCoordinate(easting, northing, inSR);
+                                                fls.LocationLat = newPoint.Y;
+                                                fls.LocationLong = newPoint.X;
+                                                fls.LocationNotes = "Gab was here";
+                                            }
+                                            catch (Exception)
+                                            {
+
+                                            }
+                                        }
+                                    }
+                                    List<object> newObj = flTable.Cast<object>().ToList(); 
+                                    dAccess.BatchSaveSQLTables(newObj, true);
+
+                                    //Force an update on geometry field
+                                    string updateGeometryQuery = dAccess.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                                    
                                     packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
                                 }
 
