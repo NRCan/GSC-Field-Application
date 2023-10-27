@@ -99,8 +99,8 @@ namespace GSCFieldApp.Models
                 maFieldList170.AddRange(maFieldListDefault);
                 maFieldList170.Remove(DatabaseLiterals.FieldMineralAlterationEarthmatID);
                 maFieldList170.Remove(DatabaseLiterals.FieldMineralAlterationStationID);
-                maFieldList170.Remove(DatabaseLiterals.FieldMineralAlterationRelIDDeprecated);
-                maFieldList170.Remove(DatabaseLiterals.FieldMineralAlterationRelTableDeprecated);
+                maFieldList170.Add(DatabaseLiterals.FieldMineralAlterationRelTableDeprecated);
+                maFieldList170.Add(DatabaseLiterals.FieldMineralAlterationRelIDDeprecated);
                 maFieldList[DatabaseLiterals.DBVersion170] = maFieldList170;
 
                 //Revert shcema 1.7 changes

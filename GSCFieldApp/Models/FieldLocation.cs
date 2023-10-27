@@ -156,7 +156,7 @@ namespace GSCFieldApp.Models
 
                 //Revert shcema 1.7 changes
                 List<string> locationFieldList160 = new List<string>();
-                locationFieldList160.AddRange(locationFieldListDefault);
+                locationFieldList160.AddRange(locationFieldList170);
                 locationFieldList160.Remove(DatabaseLiterals.FieldLocationReportLink);
                 locationFieldList160.Remove(DatabaseLiterals.FieldGenericGeometry);
                 locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;

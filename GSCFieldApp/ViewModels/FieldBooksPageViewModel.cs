@@ -903,7 +903,15 @@ namespace GSCFieldApp.ViewModels
                 //New field books or empty ones shouldn't be upgraded
                 if (accessData.CanUpgrade())
                 {
+
+                    //Set progress ring
+                    _progressRingActive = true;
+                    _progressRingVisibility = true;
+                    RaisePropertyChanged("ProgressRingActive");
+                    RaisePropertyChanged("ProgressRingVisibility");
+
                     DataAccess dAccess = new DataAccess();
+
                     FileServices fService = new FileServices();
 
                     //Get local storage folder
@@ -914,12 +922,13 @@ namespace GSCFieldApp.ViewModels
 
                     while (processedDBVersion < DatabaseLiterals.DBVersion)
                     {
+                        string currentDBPath = DataAccess.DbPath;
+
                         //Keep current database path before creating the new one
                         string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
 
                         //Create new fieldbook with embeded resource of legacy schema
                         string versionFileName = DatabaseLiterals.DBName;
-                        //string OldVersionFileName = DatabaseLiterals.DBName;
 
                         if (processedDBVersion == 1.42)
                         {
@@ -944,9 +953,9 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.7)
                         {
-
                             //Current defaulting to 1.8
                             versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
+
                         }
 
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
@@ -964,6 +973,7 @@ namespace GSCFieldApp.ViewModels
 
                             //Upgrade other tables
                             Task upgradeSchema = accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection, processedDBVersion);
+                            upgradeDBConnection.Close();
 
                             if (upgradeSchema.IsCompleted && upgradeSchema.Status != TaskStatus.Faulted)
                             {
@@ -971,7 +981,7 @@ namespace GSCFieldApp.ViewModels
                                 string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString().Replace(".", ""));
 
                                 string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName) + DatabaseLiterals.DBTypeSqlite;
-                                string copyPathBeforeMove = DataAccess.DbPath;
+                                string copyPathBeforeMove = currentDBPath;
 
                                 //Legacy file type management for file naming
                                 if (processedDBVersion <= DatabaseLiterals.DBVersion160)
@@ -981,7 +991,9 @@ namespace GSCFieldApp.ViewModels
                                 }
 
                                 //Move
-                                File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                                File.Move(currentDBPath, upgradedDBPath); //Rename temp one to it's previous name
 
                                 //Copy upgraded version
                                 File.Move(dbpathToUpgrade, copyPathBeforeMove);
@@ -1024,7 +1036,6 @@ namespace GSCFieldApp.ViewModels
                                                 MapPoint newPoint = packService.CalculateGeographicCoordinate(easting, northing, inSR);
                                                 fls.LocationLat = newPoint.Y;
                                                 fls.LocationLong = newPoint.X;
-                                                fls.LocationNotes = "Gab was here";
                                             }
                                             catch (Exception)
                                             {
@@ -1041,41 +1052,55 @@ namespace GSCFieldApp.ViewModels
                                     packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
                                 }
 
-                                //Show end message
-                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                //Show end message if last upgrade in list
+                                if (processedDBVersion == DatabaseLiterals.DBVersion180)
                                 {
-                                    ContentDialog upgradedDBDialog = new ContentDialog()
+                                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                                     {
-                                        Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
-                                        Content = loadLocalization.GetString("FieldBookUpgradeContent"),
-                                        PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
-                                    };
-                                    upgradedDBDialog.Closed += upgradedDBDialog_Closed;
-                                    await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
+                                        ContentDialog upgradedDBDialog = new ContentDialog()
+                                        {
+                                            Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
+                                            Content = loadLocalization.GetString("FieldBookUpgradeContent"),
+                                            PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
+                                        };
+                                        upgradedDBDialog.Closed += upgradedDBDialog_Closed;
+                                        await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
 
-                                }).AsTask();
+                                    }).AsTask();
+                                }
+
                             }
                             else
                             {
-                                //Show error message
-                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                if (upgradeSchema.Exception != null)
                                 {
-                                    ContentDialog deleteBookDialog = new ContentDialog()
+                                    //Show error message
+                                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                                     {
-                                        Title = "DB Error",
-                                        Content = upgradeSchema.Exception.Message,
-                                        PrimaryButtonText = "Bugger"
-                                    };
-                                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
+                                        ContentDialog deleteBookDialog = new ContentDialog()
+                                        {
+                                            Title = "DB Error",
+                                            Content = upgradeSchema.Exception.Message,
+                                            PrimaryButtonText = "Bugger"
+                                        };
+                                        deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                                        await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
 
-                                }).AsTask();
+                                    }).AsTask();
+                                }
+
                             }
 
                         }
 
 
                     }
+
+                    //Unset progress ring
+                    _progressRingActive = false;
+                    _progressRingVisibility = false;
+                    RaisePropertyChanged("ProgressRingActive");
+                    RaisePropertyChanged("ProgressRingVisibility");
                 }
                 else
                 {

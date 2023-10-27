@@ -607,18 +607,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 else
                 {
-                    if (vocabFields == FieldGenericRowID && dbVersion == DBVersion160)
+                    if (vocabFields == FieldGenericRowID && dbVersion >= DBVersion160)
                     {
-                        vocab_querySelect = " NULL as " + vocabFields;
+                        vocab_querySelect = " NULL as " + vocabFields; //Don't insert the ids back
                     }
                     else if (vocabFields == FieldGenericRowID && dbVersion < DBVersion160)
                     {
                         //Do nothing, skip that one, it was added in version 1.7
                     }
-                    else
-                    {
-                        vocab_querySelect = " v." + vocabFields + " as " + vocabFields;
-                    }
+
 
                 }
 
@@ -746,6 +743,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Shut down foreign keys constraints, else some loading might throws errors
             string shutDownForeignConstraints = "PRAGMA foreign_keys = off";
 
+            //Open foreign keys contraints, else delete won't happen properly
+            string openForeignConstraints = "PRAGMA foreign_keys = on";
+
             //Get special queries
             //NOTE: tables field inserts must be in same order and same number as db table
             if (inDBVersion <= 1.42)
@@ -827,8 +827,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_7(attachDBName));
                 upgradeUntouchedTables.Clear();
-                //upgradeUntouchedTables.Add(DatabaseLiterals.TableDictionary);
                 newVersionNumber = DatabaseLiterals.DBVersion170;
+                queryList.Add(openForeignConstraints); //Open at last, foreign keys so last query of delete works
             }
 
             if (inDBVersion == DBVersion170)
@@ -2572,7 +2572,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_LOCATION
 
             FieldLocation modelLocation = new FieldLocation();
-            List<string> locationFieldList = modelLocation.getFieldList[DBVersion];
+            List<string> locationFieldList = modelLocation.getFieldList[DBVersion170];
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             string locationView = ViewPrefix + TableLocation;
@@ -2609,7 +2609,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             #region F_EARTHMAT
 
             EarthMaterial modelEM = new EarthMaterial();
-            List<string> earthmatFieldList = modelEM.getFieldList[DBVersion];
+            List<string> earthmatFieldList = modelEM.getFieldList[DBVersion170];
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableEarthMat, FieldEarthMatID,
@@ -2702,7 +2702,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             ///Warning: We assumed that by default records will be linked with station
 
             MineralAlteration modelMA = new MineralAlteration();
-            List<string> maFieldList = modelMA.getFieldList[DBVersion];
+            List<string> maFieldList = modelMA.getFieldList[DBVersion170];
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableMineralAlteration, FieldMineralAlterationID,
@@ -2768,7 +2768,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             ///Warning: We assumed that by default records will be linked with station
 
             Document modelDocument = new Document();
-            List<string> documentFieldList = modelDocument.getFieldList[DBVersion];
+            List<string> documentFieldList = modelDocument.getFieldList[DBVersion170];
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableDocument, FieldDocumentID,
@@ -2781,6 +2781,15 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             insertQuery_17.Add(GenerateInsertQueriesFromModel(documentFieldList, nullFieldList, TableDocument,
                 primeDoc, foreignDoc, attachedDBName, docView));
+
+            #endregion
+
+            #region CLEANING
+
+            //Since inserts have been applied in new database, there'll be some duplicate rows
+            //make sure to remove those old rows before continuing.
+            string deletQuery = "DELETE FROM " + DatabaseLiterals.TableMetadata + " as fm WHERE length(fm." + FieldUserInfoID + ") = 36;"; 
+            insertQuery_17.Add(deletQuery);
 
             #endregion
 
