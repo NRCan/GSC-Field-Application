@@ -93,8 +93,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         {
                             //Rebuild number
                             lastNumber = lastNumber + c;
-                        }
-                        lastCharacterNumber = Convert.ToInt32(lastNumber);
+                        }                    
                     }
 
                     //Increment

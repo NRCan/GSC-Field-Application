@@ -33,7 +33,7 @@ namespace GSCFieldApp.ViewModels
         private string _stationOCSize = string.Empty;
         private string _stationTravNo = string.Empty;
         private string _stationRelatedTo = string.Empty; //sqlite v 1.6
-
+        private bool _isWaypoint = false;
 
         private ObservableCollection<Themes.ComboBoxItem> _stationTypes = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStationTypes = string.Empty;
@@ -63,6 +63,7 @@ namespace GSCFieldApp.ViewModels
 
         public StationViewModel(bool isWayPoint)
         {
+            _isWaypoint = isWayPoint;
 
             //Fill controls
             FillStationType();
@@ -424,7 +425,18 @@ namespace GSCFieldApp.ViewModels
             string tableName = Dictionaries.DatabaseLiterals.TableStation;
             foreach (var itemST in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedStationTypes))
             {
-                _stationTypes.Add(itemST);
+                //Add all values except waypoint
+                if (!_isWaypoint && itemST.itemValue != DatabaseLiterals.KeywordStationWaypoint)
+                {
+                    _stationTypes.Add(itemST);
+                }
+
+                //Add all values if waypoint
+                if (_isWaypoint)
+                {
+                    _stationTypes.Add(itemST);
+
+                }
             }
 
             //Update UI
