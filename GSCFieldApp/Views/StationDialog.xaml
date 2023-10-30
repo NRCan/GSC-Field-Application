@@ -66,7 +66,7 @@
 
                                 <ComboBox x:Name="StationObsTypeCombox" x:Uid="FieldworkTableStationOCType" Style="{ThemeResource ComboboxMandatoryField}"
                           Header="" 
-                          ItemsSource="{x:Bind ViewModel.StationTypes}" 
+                          ItemsSource="{x:Bind ViewModel.StationTypes}" SelectionChanged="StationObsTypeCombox_SelectionChanged"
                           SelectedValue="{x:Bind ViewModel.SelectedStationTypes, Mode=TwoWay}"
                           RelativePanel.AlignLeftWithPanel="True" 
                             MinWidth="175" TabIndex="1"/>
