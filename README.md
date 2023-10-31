@@ -8,7 +8,7 @@ The application mainly presents a GIS map page with access to specialized forms.
 
 Target users are geologist that would like an easy to use, validation, standardize and consult field geological information for later office and analysis use. This application is intented for regional geology for data gathering or cartography.
 
-The GSC Field Application only records bedrock geology data at this time, but we will be extending it to include surficial data in the near future.
+The GSC Field Application supports bedrock geology, drill holes and surficial geology.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 ## Latest Version
 
-Please download the latest version (2.3) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.3).
+Please download the latest version (2.4) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.4).
 
 ## Wiki
 
@@ -55,7 +55,7 @@ ______________________
 
 ([English](#Geological-Survey-Canada-Field-Application))
 
-Projet initié par la Commission géologique du Canada, cette application permet de récolter et décrire les données in-situ concernant la géologie du socle rocheux et sommairement des dépôts de surface. À l'aide de GPS embarqué, il est possible de conserver et visualiser la localisation des informations se rapportant à la géologie. 
+Projet initié par la Commission géologique du Canada, cette application permet de récolter et décrire les données in-situ concernant la géologie du socle rocheux, des carottes de forage et des dépôts de surface. À l'aide de GPS embarqué, il est possible de conserver et visualiser la localisation des informations se rapportant à la géologie. 
 
 Le format de style Carnet de Terrain permet de transférer les données SIG, des métadonnées tel que le nom de projet, le géologue ainsi que le nom de l'activité d'un appareil à un autre. Que ce soit une tablette, un ordinateur portatif ou autre. L'application est plutôt orienté vers la cartographie régionale de la géologie.
 
@@ -72,7 +72,7 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 
 ## La dernière version
 
-Veuillez télécharger la dernière version (2.3) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.3).
+Veuillez télécharger la dernière version (2.4) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.4).
 
 ## Wiki
 
