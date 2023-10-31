@@ -18,6 +18,9 @@ using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
+using Template10.Utils;
+using System.Diagnostics;
+using Esri.ArcGISRuntime.Geometry;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 //Added By jamel
@@ -659,34 +662,6 @@ namespace GSCFieldApp.ViewModels
             }
 
         }
-        //public void DeleteButton_Click()
-        //{
-
-        //if (_projectCollection != null && _selectedProjectIndex != -1)
-        //{
-        //FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
-        //int selectedId = selectedBook.metadataForProject.MetaID;
-        //int bookToDelete = _projectCollection.IndexOf(_projectCollection.FirstOrDefault(item => item.metadataForProject.MetaID == selectedId));
-
-        //if (bookToDelete != -1)
-        //{
-        //    _projectCollection.RemoveAt(bookToDelete);
-        //}
-        //else
-        //{
-
-        //}
-        //    ValidateDeleteProject(this);
-
-        //}
-
-        //}
-
-
-        //public void EditButton_Click()
-        //{ 
-
-        //}
 
         /// <summary>
         /// This button will delete the selected project/field book from the local state folder.
@@ -928,7 +903,15 @@ namespace GSCFieldApp.ViewModels
                 //New field books or empty ones shouldn't be upgraded
                 if (accessData.CanUpgrade())
                 {
+
+                    //Set progress ring
+                    _progressRingActive = true;
+                    _progressRingVisibility = true;
+                    RaisePropertyChanged("ProgressRingActive");
+                    RaisePropertyChanged("ProgressRingVisibility");
+
                     DataAccess dAccess = new DataAccess();
+
                     FileServices fService = new FileServices();
 
                     //Get local storage folder
@@ -939,12 +922,13 @@ namespace GSCFieldApp.ViewModels
 
                     while (processedDBVersion < DatabaseLiterals.DBVersion)
                     {
+                        string currentDBPath = DataAccess.DbPath;
+
                         //Keep current database path before creating the new one
                         string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
 
                         //Create new fieldbook with embeded resource of legacy schema
                         string versionFileName = DatabaseLiterals.DBName;
-                        //string OldVersionFileName = DatabaseLiterals.DBName;
 
                         if (processedDBVersion == 1.42)
                         {
@@ -965,9 +949,13 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.6)
                         {
-
-                            //Current defaulting to 1.7
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion170.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
+                        }
+                        else if (processedDBVersion == 1.7)
+                        {
+                            //Current defaulting to 1.8
                             versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
+
                         }
 
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
@@ -985,6 +973,7 @@ namespace GSCFieldApp.ViewModels
 
                             //Upgrade other tables
                             Task upgradeSchema = accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection, processedDBVersion);
+                            upgradeDBConnection.Close();
 
                             if (upgradeSchema.IsCompleted && upgradeSchema.Status != TaskStatus.Faulted)
                             {
@@ -992,7 +981,7 @@ namespace GSCFieldApp.ViewModels
                                 string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString().Replace(".", ""));
 
                                 string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName) + DatabaseLiterals.DBTypeSqlite;
-                                string copyPathBeforeMove = DataAccess.DbPath;
+                                string copyPathBeforeMove = currentDBPath;
 
                                 //Legacy file type management for file naming
                                 if (processedDBVersion <= DatabaseLiterals.DBVersion160)
@@ -1002,7 +991,9 @@ namespace GSCFieldApp.ViewModels
                                 }
 
                                 //Move
-                                File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                                File.Move(currentDBPath, upgradedDBPath); //Rename temp one to it's previous name
 
                                 //Copy upgraded version
                                 File.Move(dbpathToUpgrade, copyPathBeforeMove);
@@ -1022,41 +1013,94 @@ namespace GSCFieldApp.ViewModels
                                     packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
                                 }
 
-                                //Show end message
-                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                //Another last op on geometry, to make sure they're all in WGS84
+                                if (processedDBVersion == 1.8)
                                 {
-                                    ContentDialog upgradedDBDialog = new ContentDialog()
-                                    {
-                                        Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
-                                        Content = loadLocalization.GetString("FieldBookUpgradeContent"),
-                                        PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
-                                    };
-                                    upgradedDBDialog.Closed += upgradedDBDialog_Closed;
-                                    await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
+                                    GeopackageService packService = new GeopackageService();
 
-                                }).AsTask();
+                                    FieldLocation fl = new FieldLocation();
+                                    List<object> flsObject = dAccess.ReadTable(fl.GetType(), null);
+                                    IEnumerable<FieldLocation> flTable = flsObject.Cast<FieldLocation>();
+                                    foreach (FieldLocation fls in flTable)
+                                    {
+                                        if (fls.LocationEPSGProj != "4326")
+                                        {
+                                            try
+                                            {
+                                                double easting = (double)fls.LocationEasting;
+                                                double northing = (double)fls.LocationNorthing;
+                                                int inEPSG = int.Parse(fls.LocationEPSGProj);
+
+                                                SpatialReference inSR = SpatialReference.Create(inEPSG);
+
+                                                MapPoint newPoint = packService.CalculateGeographicCoordinate(easting, northing, inSR);
+                                                fls.LocationLat = newPoint.Y;
+                                                fls.LocationLong = newPoint.X;
+                                            }
+                                            catch (Exception)
+                                            {
+
+                                            }
+                                        }
+                                    }
+                                    List<object> newObj = flTable.Cast<object>().ToList(); 
+                                    dAccess.BatchSaveSQLTables(newObj, true);
+
+                                    //Force an update on geometry field
+                                    string updateGeometryQuery = dAccess.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                                    
+                                    packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
+                                }
+
+                                //Show end message if last upgrade in list
+                                if (processedDBVersion == DatabaseLiterals.DBVersion180)
+                                {
+                                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                    {
+                                        ContentDialog upgradedDBDialog = new ContentDialog()
+                                        {
+                                            Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
+                                            Content = loadLocalization.GetString("FieldBookUpgradeContent"),
+                                            PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
+                                        };
+                                        upgradedDBDialog.Closed += upgradedDBDialog_Closed;
+                                        await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
+
+                                    }).AsTask();
+                                }
+
                             }
                             else
                             {
-                                //Show error message
-                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                if (upgradeSchema.Exception != null)
                                 {
-                                    ContentDialog deleteBookDialog = new ContentDialog()
+                                    //Show error message
+                                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                                     {
-                                        Title = "DB Error",
-                                        Content = upgradeSchema.Exception.Message,
-                                        PrimaryButtonText = "Bugger"
-                                    };
-                                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
+                                        ContentDialog deleteBookDialog = new ContentDialog()
+                                        {
+                                            Title = "DB Error",
+                                            Content = upgradeSchema.Exception.Message,
+                                            PrimaryButtonText = "Bugger"
+                                        };
+                                        deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                                        await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
 
-                                }).AsTask();
+                                    }).AsTask();
+                                }
+
                             }
 
                         }
 
 
                     }
+
+                    //Unset progress ring
+                    _progressRingActive = false;
+                    _progressRingVisibility = false;
+                    RaisePropertyChanged("ProgressRingActive");
+                    RaisePropertyChanged("ProgressRingVisibility");
                 }
                 else
                 {

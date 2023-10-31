@@ -28,6 +28,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationNorthing)]
         public double? LocationNorthing { get; set; }
 
+        [Column(DatabaseLiterals.FieldLocationEPSGProj)]
+        public string LocationEPSGProj{ get; set; }
+
         [Column(DatabaseLiterals.FieldLocationLatitude)]
         public double LocationLat { get; set; }
 
@@ -145,9 +148,15 @@ namespace GSCFieldApp.Models
 
                 locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
 
+                //Revert shcema 1.8 changes
+                List<string> locationFieldList170 = new List<string>();
+                locationFieldList170.AddRange(locationFieldListDefault);
+                locationFieldList170.Remove(DatabaseLiterals.FieldLocationEPSGProj);
+                locationFieldList[DatabaseLiterals.DBVersion170] = locationFieldList170;
+
                 //Revert shcema 1.7 changes
                 List<string> locationFieldList160 = new List<string>();
-                locationFieldList160.AddRange(locationFieldListDefault);
+                locationFieldList160.AddRange(locationFieldList170);
                 locationFieldList160.Remove(DatabaseLiterals.FieldLocationReportLink);
                 locationFieldList160.Remove(DatabaseLiterals.FieldGenericGeometry);
                 locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;

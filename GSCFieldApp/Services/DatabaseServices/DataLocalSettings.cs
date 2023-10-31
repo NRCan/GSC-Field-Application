@@ -121,6 +121,42 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// Will return a container key value 
+        /// </summary>
+        /// <param name="keyName"></param>
+        /// <param name="inContainerName"></param>
+        /// <returns></returns>
+        public bool GetBoolSettingValue(string keyName, string inContainerName = "")
+        {
+            //Variable 
+            bool output = true;
+            string wantedContainer = containerName;
+
+            if (inContainerName != string.Empty)
+            {
+                wantedContainer = inContainerName;
+            }
+
+
+            if (currentLocalSettings.Containers[containerName].Values.ContainsKey(keyName))
+            {
+                Debug.WriteLine(currentLocalSettings.Containers[containerName].Values[keyName].ToString());
+                try
+                {
+                    output = (bool)currentLocalSettings.Containers[containerName].Values[keyName];
+                }
+                catch (Exception)
+                {
+                    output = true;
+                }
+                
+            }
+
+            return output;
+        }
+
+
+        /// <summary>
         /// Will set a given container key with given object
         /// </summary>
         /// <param name="inFieldBookPath"></param>
@@ -165,7 +201,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Default common
             if (currentLocalSettings.Containers[containerName].Values.ContainsKey(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType))
             {
-                currentLocalSettings.Containers[containerName].Values[Dictionaries.ScienceLiterals.ApplicationThemeCommon] = true;
+                currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.ApplicationThemeCommon] = true;
                 currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableDocument] = true;
                 currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableExternalMeasure] = true;
                 currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableSample] = true;
@@ -176,29 +212,30 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //For bedrock projects only
                 object fieldWorkType = currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType];
-                if (fieldWorkType != null && fieldWorkType.ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (fieldWorkType != null && fieldWorkType.ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
 
-                    currentLocalSettings.Containers[containerName].Values[Dictionaries.ScienceLiterals.ApplicationThemeBedrock] = true;
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.ApplicationThemeBedrock] = true;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableMineralAlteration] = true;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableStructure] = true;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableMineral] = true;
-
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableDrillHoles] = true;
                 }
                 else
                 {
-                    currentLocalSettings.Containers[containerName].Values[Dictionaries.ScienceLiterals.ApplicationThemeBedrock] = false;
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.ApplicationThemeBedrock] = false;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableMineralAlteration] = false;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableStructure] = false;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableMineral] = false;
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableDrillHoles] = false;
                 }
 
 
 
                 //For surficial projects only
-                if (fieldWorkType != null && fieldWorkType.ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                if (fieldWorkType != null && fieldWorkType.ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
-                    currentLocalSettings.Containers[containerName].Values[Dictionaries.ScienceLiterals.ApplicationThemeSurficial] = true;
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.ApplicationThemeSurficial] = true;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableEnvironment] = true;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableSoilProfile] = true;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TablePFlow] = true;
@@ -206,10 +243,19 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 else
                 {
-                    currentLocalSettings.Containers[containerName].Values[Dictionaries.ScienceLiterals.ApplicationThemeSurficial] = false;
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.ApplicationThemeSurficial] = false;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableEnvironment] = false;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableSoilProfile] = false;
                     currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TablePFlow] = false;
+                }
+
+                if (fieldWorkType != null && fieldWorkType.ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeDrillHole))
+                {
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableDrillHoles] = true;
+                }
+                else
+                {
+                    currentLocalSettings.Containers[containerName].Values[Dictionaries.DatabaseLiterals.TableDrillHoles] = false;
                 }
             }
             #endregion

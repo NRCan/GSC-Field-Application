@@ -10,8 +10,8 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableStation)]
     public class MapPageStation
     {
-        [PrimaryKey, Column(DatabaseLiterals.FieldStationID)]
-        public string StationID { get; set; }
+        [Column(DatabaseLiterals.FieldStationID)]
+        public int? StationID { get; set; }
 
         [Column(DatabaseLiterals.FieldStationAlias)]
         public string StationAlias { get; set; }
@@ -36,5 +36,14 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldLocationDatum)]
         public string LocationDatum { get; set; }
+
+        [Column(DatabaseLiterals.FieldDrillID)]
+        public int? DrillID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDrillIDName)]
+        public string DrillIDName { get; set; }
+
+        [Column(DatabaseLiterals.FieldDrillName)]
+        public string DrillName { get; set; }
     }
 }

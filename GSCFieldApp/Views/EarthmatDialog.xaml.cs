@@ -244,13 +244,13 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private async void EarthLithoSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.projectType == ScienceLiterals.ApplicationThemeBedrock)
+            if (ViewModel.projectType.Contains(DatabaseLiterals.ApplicationThemeBedrock))
             {
                 ContentDialogSemanticZoom newDialog = new ContentDialogSemanticZoom(DatabaseLiterals.TableEarthMat, DatabaseLiterals.FieldEarthMatLithgroup, DatabaseLiterals.FieldEarthMatLithdetail);
                 newDialog.userHasSelectedAValue += NewDialog_userHasSelectedAValue;
                 ContentDialogResult results = await newDialog.ShowAsync();
             }
-            else if (ViewModel.projectType == ScienceLiterals.ApplicationThemeSurficial)
+            else if (ViewModel.projectType == DatabaseLiterals.ApplicationThemeSurficial)
             {
                 ContentDialogSemanticZoom newDialog = new ContentDialogSemanticZoom(DatabaseLiterals.TableEarthMat, string.Empty, DatabaseLiterals.FieldEarthMatLithdetail);
                 newDialog.userHasSelectedAValue += NewDialog_userHasSelectedAValue;
@@ -307,7 +307,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         private void AddPaddingToLithoRelBox()
         {
-            if (ViewModel.projectType == ScienceLiterals.ApplicationThemeBedrock)
+            if (ViewModel.projectType.Contains(DatabaseLiterals.ApplicationThemeBedrock))
             {
                 Thickness lithoThick = new Thickness();
                 lithoThick.Right = 0;

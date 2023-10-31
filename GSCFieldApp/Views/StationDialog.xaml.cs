@@ -1,4 +1,5 @@
-﻿using GSCFieldApp.Models;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
 using GSCFieldApp.ViewModels;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -74,7 +75,7 @@ namespace GSCFieldApp.Views
                 }
                 else
                 {
-                    this.pageHeader.Text = this.pageHeader.Text + "  " + parentStationReport.station.StationAlias; //Set to selected item not calculated one.
+                    this.pageHeader.Text = parentStationReport.station.StationAlias; //Set to selected item not calculated one.
                 }
                 this.ViewModel.AutoFillDialog(parentStationReport, _isWaypoint);
 
@@ -83,11 +84,11 @@ namespace GSCFieldApp.Views
             {
                 if (!_isWaypoint)
                 {
-                    this.pageHeader.Text = this.pageHeader.Text + "  " + this.ViewModel.Alias;
+                    this.pageHeader.Text = this.ViewModel.Alias;
                 }
                 else
                 {
-                    this.pageHeader.Text = this.ViewModel.Alias;
+                    this.pageHeader.Text = this.ViewModel.WaypointAlias;
                 }
 
                 ViewModel.SetCurrentLocationInUI(mapPosition);
@@ -218,6 +219,29 @@ namespace GSCFieldApp.Views
                 ut.UnicornThemeAsync();
 
             }
+        }
+
+        private void StationObsTypeCombox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isWaypoint || this.ViewModel.IsWaypoint || this.StationObsTypeCombox.SelectedValue.ToString() == DatabaseLiterals.KeywordStationWaypoint)
+            {
+                if (parentStationReport != null && parentStationReport.station.StationID != 0)
+                {
+                    this.pageHeader.Text = parentStationReport.station.StationAlias;
+                }
+                else
+                {
+                    this.ViewModel.TransformToWaypointTheme();
+                    this.pageHeader.Text = this.ViewModel.WaypointAlias;
+                }
+
+                 
+            }
+            else
+            {
+                this.pageHeader.Text = this.ViewModel.Alias;
+            }
+            
         }
     }
 }

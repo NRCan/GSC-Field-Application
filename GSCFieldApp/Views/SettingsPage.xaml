@@ -103,6 +103,9 @@
 
                                 <ToggleSwitch x:Name="StructureToggleSwitch" x:Uid="SettingPageToggleStruc" IsOn="{x:Bind ViewModel.StructureToggle, Mode=TwoWay}"
                                                 OffContent="" OnContent=""/>
+                                
+                                <ToggleSwitch x:Name="DrillToggleSwitch" x:Uid="SettingPageToggleDrill" 
+                                          IsOn="{x:Bind ViewModel.DrillToggle, Mode=TwoWay}" OffContent="" OnContent="" />
 
                             </GridView>
 

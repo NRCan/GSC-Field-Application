@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -21,6 +22,7 @@ namespace GSCFieldApp.ViewModels
         private double _longitude = 0.0; //Default
         private double _elevation = 0.0;//Default
         private string _alias = string.Empty; //Default
+        private string _waypointAlias = string.Empty; 
         private int _stationid = 0; //Default
         private int _locationid = 0; //Default
         private string _locationAlias = string.Empty; //Default
@@ -33,7 +35,7 @@ namespace GSCFieldApp.ViewModels
         private string _stationOCSize = string.Empty;
         private string _stationTravNo = string.Empty;
         private string _stationRelatedTo = string.Empty; //sqlite v 1.6
-
+        private bool _isWaypoint = false;
 
         private ObservableCollection<Themes.ComboBoxItem> _stationTypes = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedStationTypes = string.Empty;
@@ -63,6 +65,7 @@ namespace GSCFieldApp.ViewModels
 
         public StationViewModel(bool isWayPoint)
         {
+            _alias = idCalculator.CalculateStationAlias(DateTime.Now);
 
             //Fill controls
             FillStationType();
@@ -76,7 +79,7 @@ namespace GSCFieldApp.ViewModels
             }
             else
             {
-                _alias = idCalculator.CalculateStationAlias(DateTime.Now);
+                
                 FillStationQuality();
                 FillStationPhysEnv();
                 FillAirPhotoNo_TraverseNo();
@@ -88,6 +91,7 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
+        public bool IsWaypoint { get { return _isWaypoint; } set { _isWaypoint = value; } }
         public Visibility BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
         public Visibility WaypointVisibility { get { return _waypointVisibility; } set { _waypointVisibility = value; } }
         public string Latitude { get { return _latitude.ToString(); } set { _latitude = Convert.ToDouble(value); } }
@@ -99,6 +103,7 @@ namespace GSCFieldApp.ViewModels
         public Station StationModel { get { return model; } set { model = value; } }
         public FieldLocation Location { get { return _location; } set { _location = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
+        public string WaypointAlias { get { return _waypointAlias; } set { _waypointAlias = value; } }
         public int StationID { get { return _stationid; } set { _stationid = value; } }
         public int LocationID { get { return _locationid; } set { _locationid = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
@@ -179,8 +184,8 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Calculate new values for station too
-                _dateDate = CalculateStationDate(); //Calculate new value
-                _dateTime = CalculateStationTime();//Calculate new value
+                _dateDate = idCalculator.FormatDate(_dateGeneric.DateTime); //Calculate new value
+                _dateTime = idCalculator.FormatTime(_dateGeneric.DateTime);//Calculate new value
 
             }
             else //Existing station
@@ -206,7 +211,7 @@ namespace GSCFieldApp.ViewModels
             //Save the new station
             StationModel.StationID = StationID; //Prime key
             StationModel.LocationID = LocationID; //Foreign key
-            StationModel.StationAlias = Alias;
+            
             StationModel.StationVisitDate = DDate;
             StationModel.StationVisitTime = DTime;
             StationModel.StationNote = Notes;
@@ -214,6 +219,20 @@ namespace GSCFieldApp.ViewModels
             StationModel.StationRelatedTo = RelatedTo;
             StationModel.StationSLSNotes = SlSNotes;
             StationModel.StationOCSize = StationOCSize;
+
+            if (IsWaypoint || _selectedStationTypes == DatabaseLiterals.KeywordStationWaypoint)
+            {
+                if (WaypointAlias == string.Empty)
+                {
+                    _waypointAlias = idCalculator.CalculateStationWaypointAlias(DatabaseLiterals.KeywordStationWaypoint, DatabaseLiterals.KeywordStationWaypoint);
+                    RaisePropertyChanged("WaypointAlias");
+                }
+                StationModel.StationAlias = _waypointAlias;
+            }
+            else
+            {
+                StationModel.StationAlias = Alias;
+            }
 
             if (TraverseNo != null && TraverseNo != string.Empty)
             {
@@ -293,7 +312,11 @@ namespace GSCFieldApp.ViewModels
             if (_selectedStationTypes == DatabaseLiterals.KeywordStationWaypoint || isWaypoint)
             {
                 _waypointVisibility = Visibility.Collapsed;
+                _waypointAlias = existingDataDetail.station.StationAlias;
+                _isWaypoint = true;
                 RaisePropertyChanged("WaypointVisibility");
+                RaisePropertyChanged("IsWaypoint");
+                RaisePropertyChanged("WaypointAlias"); 
             }
             else
             {
@@ -326,7 +349,7 @@ namespace GSCFieldApp.ViewModels
                     _stationTravNo = sts.StationTravNo.ToString();
 
                     //Make check on date if newer, increment traverse no. if wanted by user
-                    if (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) != null && (bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo))
+                    if (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) != null && localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordStationTraverseNo))
                     {
                         string currentDate = DateTime.Now.ToShortDateString();
                         DateTime lastStationDate = DateTime.Parse(sts.StationVisitDate);
@@ -436,24 +459,13 @@ namespace GSCFieldApp.ViewModels
 
         #endregion
 
-        #region CALCULATIONS
-
-        public string CalculateStationDate()
-        {
-            return String.Format("{0:yyyy-MM-dd}", _dateGeneric); ;
-        }
-
-        public string CalculateStationTime()
-        {
-            return String.Format("{0:HH:mm:ss t}", _dateGeneric); ;
-        }
-
-        #endregion
-
         #region THEMES
 
         public void TransformToWaypointTheme()
         {
+            _isWaypoint = true;
+            RaisePropertyChanged("IsWaypoint");
+
             //Get waypoint picklists value
             string waypointCode = string.Empty;
             string waypointName = string.Empty;
@@ -467,7 +479,8 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Calculate alias
-            _alias = idCalculator.CalculateStationWaypointAlias(waypointCode, waypointName);
+            _waypointAlias = idCalculator.CalculateStationWaypointAlias(waypointCode, waypointName);
+            RaisePropertyChanged("WaypointAlias");
 
             //Select obs type
             foreach (Themes.ComboBoxItem sTypes in _stationTypes)
@@ -493,11 +506,11 @@ namespace GSCFieldApp.ViewModels
         {
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
             {
-                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     _bedrockVisibility = Visibility.Visible;
                 }
-                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     _bedrockVisibility = Visibility.Collapsed;
                 }
@@ -581,8 +594,8 @@ namespace GSCFieldApp.ViewModels
             //StationModel.StationID = _stationid; //Prime key
             StationModel.LocationID = quickLocID; //Foreign key
             StationModel.StationAlias = _alias;
-            StationModel.StationVisitDate = _dateDate = CalculateStationDate(); //Calculate new value
-            StationModel.StationVisitTime = _dateTime = CalculateStationTime();//Calculate new value
+            StationModel.StationVisitDate = _dateDate = idCalculator.FormatDate(_dateGeneric.DateTime); //Calculate new value
+            StationModel.StationVisitTime = _dateTime = idCalculator.FormatTime(_dateGeneric.DateTime);//Calculate new value
             StationModel.StationAirNo = _airno;
             if (_stationTravNo != string.Empty)
             {

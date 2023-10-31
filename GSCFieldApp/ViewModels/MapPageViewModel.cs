@@ -59,7 +59,7 @@ namespace GSCFieldApp.ViewModels
         private object _selectedLayer;
         public object selectedStationID = string.Empty; //Will be used to show report page on user identified station.
         public object selectedStationDate = string.Empty;  //Will be used to show report page on user identified station.
-
+        public object selectedDrillID = string.Empty; //Will be used to show report page on last entered drill record
 
         //Model and strings
         private readonly DataAccess accessData = new DataAccess();
@@ -155,20 +155,14 @@ namespace GSCFieldApp.ViewModels
             //Detect location edits
             LocationViewModel.LocationUpdateEventHandler += LocationViewModel_LocationUpdateEventHandler;
 
+            //Detect new drill cores being added
+            DrillHoleViewModel.DrillUpdateEventHandler += DrillHoleViewModel_DrillUpdateEventHandler; 
+
             //Set some configs
             SetQuickButtonEnable();
 
             //Fill vocab 
             FillLocationVocab();
-
-        }
-
-        private void EsriMap_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (!initMap)
-            {
-                initMap = true;
-            }
 
         }
 
@@ -962,17 +956,18 @@ namespace GSCFieldApp.ViewModels
 
             #region ADD
 
-            string selectMetadata = "SELECT * FROM " + DatabaseLiterals.TableMetadata + " fm ";
-            string joinLocation = "JOIN " + DatabaseLiterals.TableLocation + " fl on fm." + DatabaseLiterals.FieldUserInfoID + " = fl." + DatabaseLiterals.FieldLocationMetaID + " ";
-            string joinStation = "JOIN " + DatabaseLiterals.TableStation + " fs on fl." + DatabaseLiterals.FieldLocationID + " = fs." + DatabaseLiterals.FieldStationObsID + " ";
+            string selectMetadata = "SELECT * FROM " + DatabaseLiterals.TableLocation + " fl ";
+            string joinLocation = "JOIN " + DatabaseLiterals.TableMetadata + " fm on fm." + DatabaseLiterals.FieldUserInfoID + " = fl." + DatabaseLiterals.FieldLocationMetaID + " ";
+            string joinStation = "LEFT JOIN " + DatabaseLiterals.TableStation + " fs on fs." + DatabaseLiterals.FieldStationObsID + " = fl." + DatabaseLiterals.FieldLocationID + " ";
+            string joinDrill = "LEFT JOIN " + DatabaseLiterals.TableDrillHoles + " fd on fd." + DatabaseLiterals.FieldDrillLocationID + " = fl." + DatabaseLiterals.FieldLocationID + " ";
             string whereMetadata = string.Empty;
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID) != null)
             {
-                whereMetadata = " WHERE fm." + DatabaseLiterals.FieldUserInfoID + " = '" + localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString() + "'";
+                whereMetadata = " WHERE fm." + DatabaseLiterals.FieldUserInfoID + " = " + localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
             }
             MapPageStation mps = new MapPageStation();
             List<object> mpsRows = new List<object>();
-            mpsRows = accessData.ReadTable(mps.GetType(), selectMetadata + joinLocation + joinStation + whereMetadata);
+            mpsRows = accessData.ReadTable(mps.GetType(), selectMetadata + joinLocation + joinStation + joinDrill + whereMetadata);
 
             // Get latitude, longitude and station id and add to graphics overlay
             foreach (object m in mpsRows)
@@ -984,16 +979,26 @@ namespace GSCFieldApp.ViewModels
                 #region POINT SYMBOL
                 // should only be one station returned, this approach doesn't allow for multiple stations
                 MapPageStation currentStationLocation = m as MapPageStation;
-                var ptStationId = currentStationLocation.StationID;
-                var ptStationAlias = currentStationLocation.StationAlias;
-                var ptStationDate = currentStationLocation.StationVisitDate;
-                var ptStationTime = currentStationLocation.StationVisitTime;
+                var pID = currentStationLocation.StationID;
+                var pAlias = currentStationLocation.StationAlias;
+                var pDate = currentStationLocation.StationVisitDate;
+                var pTime = currentStationLocation.StationVisitTime;
                 var ptStationType = currentStationLocation.StationObsType;
                 var ptStationLocationID = currentStationLocation.LocationID;
                 var ptStationLocationLat = currentStationLocation.LocationLat;
                 var ptStationLocationLong = currentStationLocation.LocationLong;
                 var ptStationLocationEPSG = currentStationLocation.LocationDatum;
+                var pTableType = DatabaseLiterals.TableStation;
 
+                //Find if it's a drill core rather then a station
+                if (pID == null && currentStationLocation.DrillID != null)
+                {
+                    pID = currentStationLocation.DrillID;
+                    pAlias = currentStationLocation.DrillIDName;
+                    pTableType = DatabaseLiterals.TableDrillHoles;
+                    pDate = string.Empty;
+                    pTime = string.Empty;
+                }
 
                 //Find if station was already loaded
                 if (graphicList.ContainsKey(currentStationLocation.LocationID))
@@ -1003,7 +1008,7 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Add new graphic station and it's related label if needed
-                if (!stationGraphicExists && ptStationId != null && ptStationId != string.Empty)
+                if (!stationGraphicExists && pID != null)
                 {
                     //Tracking available offset placement 
                     List<int> placementPool = Enumerable.Range(1, 8).ToList();
@@ -1039,10 +1044,10 @@ namespace GSCFieldApp.ViewModels
                     }
 
                     var StationGraphic = new Graphic(geoPoint, pointSym);
-                    StationGraphic.Attributes.Add("Id", ptStationId.ToString());
-                    StationGraphic.Attributes.Add("Date", ptStationDate.ToString());
-                    StationGraphic.Attributes.Add("Time", ptStationTime.ToString());
-                    StationGraphic.Attributes.Add("tableType", DatabaseLiterals.TableStation);
+                    StationGraphic.Attributes.Add("Id", pID.ToString());
+                    StationGraphic.Attributes.Add("Date", pDate.ToString());
+                    StationGraphic.Attributes.Add("Time", pTime.ToString());
+                    StationGraphic.Attributes.Add("tableType", pTableType);
                     StationGraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
                     if (ptStationType != null)
                     {
@@ -1075,7 +1080,7 @@ namespace GSCFieldApp.ViewModels
                         OffsetY = placements.GetOffsetFromPlacementPriority(placementPool[0]).Item2
                     };
                     placementPool.RemoveAt(0); //Remove taken placement from pool
-                    textSym.Text = ptStationAlias.ToString();
+                    textSym.Text = pAlias.ToString();
                     pointLabelOverlay.Graphics.Add(new Graphic(new MapPoint(ptStationLocationLong, ptStationLocationLat, SpatialReferences.Wgs84), textSym));
                     #endregion
 
@@ -1084,7 +1089,10 @@ namespace GSCFieldApp.ViewModels
                     ///For structure symboles (planar and linear) make sure they are wanted by user but that it's within a bedrock field notebook also
                     try
                     {
-                        if (localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) != null && (bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) && _mapPageQuickMeasurementEnable)
+                        if (pTableType == DatabaseLiterals.TableStation && 
+                            localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) != null && 
+                            (bool)localSettings.GetSettingValue(ApplicationLiterals.KeyworkStructureSymbols) 
+                            && _mapPageQuickMeasurementEnable)
                         {
                             //Get related structures, if any
                             List<object> strucTableRows = new List<object>();
@@ -1092,7 +1100,7 @@ namespace GSCFieldApp.ViewModels
                             string structSelectionQuery = "SELECT s.* FROM " + DatabaseLiterals.TableStructure + " s" +
                                 " JOIN " + DatabaseLiterals.TableEarthMat + " e on e." + DatabaseLiterals.FieldStructureParentID + " = s." + DatabaseLiterals.FieldEarthMatID +
                                 " JOIN " + DatabaseLiterals.TableStation + " st on st." + DatabaseLiterals.FieldStationID + " = e." + DatabaseLiterals.FieldEarthMatStatID +
-                                " WHERE st." + DatabaseLiterals.FieldStationID + " = " + ptStationId + ";";
+                                " WHERE st." + DatabaseLiterals.FieldStationID + " = " + pID + ";";
                             strucTableRows = accessData.ReadTable(structs.GetType(), structSelectionQuery);
 
                             //Variables
@@ -1170,7 +1178,7 @@ namespace GSCFieldApp.ViewModels
                                     //TODO make up for a different way to measure azim (not right hand rule)
                                     var Sgraphic = new Graphic(geoStructPoint, strucSym);
                                     Sgraphic.Attributes.Add("Id", sts.StructureID.ToString());
-                                    Sgraphic.Attributes.Add("Date", ptStationDate.ToString());
+                                    Sgraphic.Attributes.Add("Date", pDate.ToString());
                                     Sgraphic.Attributes.Add("ParentID", sts.StructureParentID);
                                     Sgraphic.Attributes.Add("StructureClass", sts.getClassTypeDetail);
                                     Sgraphic.Attributes.Add("Azim", sts.StructureAzimuth.ToString());
@@ -1392,7 +1400,7 @@ namespace GSCFieldApp.ViewModels
                     string projectType = localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString();
                     if (projectType != null)
                     {
-                        if (projectType == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                        if (projectType == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                         {
                             GotoPflowDialog(inLocation);
                         }
@@ -1749,7 +1757,7 @@ namespace GSCFieldApp.ViewModels
         private void NavigateToReport(object sender)
         {
             //Navigate to the report page.
-            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate });
+            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate, selectedDrillID });
         }
 
         /// <summary>
@@ -1764,6 +1772,31 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region EVENTS
+
+        /// <summary>
+        /// Will detect any new drill cores and will force a refresh on map screen to show its location
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DrillHoleViewModel_DrillUpdateEventHandler(object sender, string drillID)
+        {
+            //Force a redraw of all locations
+            RefreshMap(false);
+
+            //Navigate to report
+            selectedDrillID = drillID;
+
+            NavigateToReport(sender);
+        }
+
+        private void EsriMap_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (!initMap)
+            {
+                initMap = true;
+            }
+
+        }
 
         /// <summary>
         /// Event triggered when user has edited locaation coordinate. Needs a force refresh on points.
@@ -2109,7 +2142,7 @@ namespace GSCFieldApp.ViewModels
 
             // Get select document information
             Document modelDocument = new Document();
-            int documentCount = CountChild(stationId.ToString(), Dictionaries.DatabaseLiterals.FieldDocumentRelatedID, Dictionaries.DatabaseLiterals.TableDocument, modelDocument);
+            int documentCount = CountChild(stationId.ToString(), Dictionaries.DatabaseLiterals.FieldDocumentStationID, Dictionaries.DatabaseLiterals.TableDocument, modelDocument);
 
             // getting the count for the children sample, mineral, fossil, structure 
             int sampleTotalCount = 0;
@@ -3373,7 +3406,7 @@ namespace GSCFieldApp.ViewModels
             //Based on project type
             if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
             {
-                if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     if (localSettings.GetSettingValue(DatabaseLiterals.TableStructure) != null)
                     {
@@ -3396,7 +3429,7 @@ namespace GSCFieldApp.ViewModels
                     }
 
                 }
-                else if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSettings.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     if (localSettings.GetSettingValue(DatabaseLiterals.TablePFlow) != null)
                     {

@@ -22,7 +22,8 @@ namespace GSCFieldApp.ViewModels
         private readonly Mineral mineralModel = new Mineral();
         private string _alias = string.Empty; //Default
         private int _earthmatid = 0; //Default
-        private int _stationid = 0; //Detault
+        private int? _stationid = null; //Detault
+        private int? _drillID = null; //Detault
         private string _colourindex = "0";//Detault
         private int? _percent; //Default
         private string _contactNote = string.Empty;//Detault
@@ -42,6 +43,7 @@ namespace GSCFieldApp.ViewModels
         private Models.Colour _earthColourW = new Models.Colour();
         private Models.Colour _earthColourF = new Models.Colour();
         private Models.Contacts _earthContact = new Contacts();
+
 
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
         private Visibility _surficialVisibility = Visibility.Collapsed; //visibility for extra fields
@@ -113,6 +115,12 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _earthmatMagQualifier = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatMagQualifier = string.Empty;
 
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatCU = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatCU = string.Empty;
+
+        private ObservableCollection<Themes.ComboBoxItem> _earthmatCL = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedEarthmatCL = string.Empty;
+
         //Surficial version 1.7 new fields
         private ObservableCollection<Themes.ComboBoxItem> _earthmatSorting = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedEarthmatSorting = string.Empty;
@@ -137,7 +145,8 @@ namespace GSCFieldApp.ViewModels
         public Visibility SurficialVisibility { get { return _surficialVisibility; } set { _surficialVisibility = value; } }
         public EarthMaterial EarthModel { get { return earthmodel; } set { earthmodel = value; } }
         public string Alias { get { return _alias; } set { _alias = value; } }
-        public int StationID { get { return _stationid; } set { _stationid = value; } }
+        public int? StationID { get { return _stationid; } set { _stationid = value; } }
+        public int? DrillID { get { return _drillID; } set { _drillID = value; } }
         public int EarthmatID { get { return _earthmatid; } set { _earthmatid = value; } }
         public double? MagSusceptibility
         {
@@ -206,6 +215,11 @@ namespace GSCFieldApp.ViewModels
         public Models.Colour EarthColourF { get { return _earthColourF; } set { _earthColourF = value; } }
         public Models.Colour EarthColourW { get { return _earthColourW; } set { _earthColourW = value; } }
         public Models.Contacts EartContact { get { return _earthContact; } set { _earthContact = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatCU { get { return _earthmatCU; } set { _earthmatCU = value; } }
+        public string SelectedEarthmatCU { get { if (_selectedEarthmatCU == null) { return string.Empty; } else { return _selectedEarthmatCU; } } set { _selectedEarthmatCU = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> EarthmatCL { get { return _earthmatCL; } set { _earthmatCL = value; } }
+        public string SelectedEarthmatCL { get { if (_selectedEarthmatCL == null) { return string.Empty; } else { return _selectedEarthmatCL; } } set { _selectedEarthmatCL = value; } }
+
         public int? Percent
         {
             get
@@ -326,10 +340,15 @@ namespace GSCFieldApp.ViewModels
             //On init for new earthmats calculate values so UI shows stuff.
             _earthmatid = idCalculator.CalculateEarthmatID();
 
-            if (inDetailModel != null) //detail model could be null if a quick earthmat is asked
+            if (inDetailModel!= null && inDetailModel.GenericTableName == DatabaseLiterals.TableStation) //detail model could be null if a quick earthmat is asked
             {
                 _stationid = inDetailModel.GenericID;
                 _alias = idCalculator.CalculateEarthmatnAlias(_stationid, inDetailModel.GenericAliasName);
+            }
+            else if (inDetailModel != null && inDetailModel.GenericTableName == DatabaseLiterals.TableDrillHoles)
+            {
+                _drillID = inDetailModel.GenericID;
+                _alias = idCalculator.CalculateEarthmatnAlias(_drillID, inDetailModel.GenericAliasName);
             }
 
             //Will enable/disable some fields based on bedrock or surficial usage
@@ -340,7 +359,9 @@ namespace GSCFieldApp.ViewModels
                 //Fill some first order comboboxes
                 FillDefFabric();
                 FillBedthick();
+                FillContactTypes();
                 FillContactU();
+                FillContactL();
 
                 FillRelatedEarthmat();
                 FillMineral();
@@ -390,12 +411,12 @@ namespace GSCFieldApp.ViewModels
                 //Keep value in variables
                 projectType = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString();
 
-                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     _bedrockVisibility = Visibility.Visible;
                     _surficialVisibility = Visibility.Collapsed;
                 }
-                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     _bedrockVisibility = Visibility.Collapsed;
                     _surficialVisibility = Visibility.Visible;
@@ -406,7 +427,7 @@ namespace GSCFieldApp.ViewModels
                 //Fallback
                 _bedrockVisibility = Visibility.Visible;
                 _surficialVisibility = Visibility.Collapsed;
-                projectType = ScienceLiterals.ApplicationThemeBedrock;
+                projectType = DatabaseLiterals.ApplicationThemeBedrock;
             }
 
             RaisePropertyChanged("BedrockVisibility");
@@ -424,10 +445,10 @@ namespace GSCFieldApp.ViewModels
 
             //Set
             _earthmatid = existingDataDetail.earthmat.EarthMatID;
-            _stationid = existingDataDetail.ParentID;
+            
             _alias = existingDataDetail.earthmat.EarthMatName;
             _interpretation = existingDataDetail.earthmat.EarthMatInterp;
-            //_contactNote = existingDataDetail.earthmat.EarthMatContact;
+            _contactNote = existingDataDetail.earthmat.EarthMatContactNote;
             _colourindex = existingDataDetail.earthmat.EarthMatColourInd.ToString();
             _mag = existingDataDetail.earthmat.EarthMatMagSuscept;
             _groupTypeDetail = existingDataDetail.earthmat.getGroupTypeDetail;
@@ -441,6 +462,16 @@ namespace GSCFieldApp.ViewModels
             _earthColourF = new Colour().fromString(existingDataDetail.earthmat.EarthMatColourF);
             //_earthContact = new Contacts().fromString(existingDataDetail.earthmat.EarthMatContact);
 
+            //Deal with annoying parents
+            if (existingDataDetail.ParentTableName == DatabaseLiterals.TableStation)
+            {
+                _stationid = existingDataDetail.ParentID;
+            }
+            else if (existingDataDetail.ParentTableName == DatabaseLiterals.TableDrillHoles)
+            {
+                _drillID = existingDataDetail.ParentID;
+            }
+
             //Update list view
             UnPipeValues(existingDataDetail.earthmat.EarthMatDefabric, Dictionaries.DatabaseLiterals.FieldEarthMatDefabric);
             UnPipeValues(existingDataDetail.earthmat.EarthMatBedthick, Dictionaries.DatabaseLiterals.FieldEarthMatBedthick);
@@ -451,6 +482,8 @@ namespace GSCFieldApp.ViewModels
             _selectedEarthmatMagQualifier = existingDataDetail.earthmat.EarthMatMagQualifier;
             _selectedEarthmatMI = existingDataDetail.earthmat.EarthMatMetaIntensity;
             _selectedEarthmatMF = existingDataDetail.earthmat.EarthMatMetaIFacies;
+            _selectedEarthmatCU = existingDataDetail.earthmat.EarthMatContactUp;
+            _selectedEarthmatCL = existingDataDetail.earthmat.EarthMatContactLow;
 
             //Update UI
             RaisePropertyChanged("EarthmatID");
@@ -486,7 +519,14 @@ namespace GSCFieldApp.ViewModels
             {
                 RaisePropertyChanged("SelectedEarthmatMF");
             }
-
+            if (_selectedEarthmatCL != null)
+            {
+                RaisePropertyChanged("SelectedEarthmatCL");
+            }
+            if (_selectedEarthmatCU != null)
+            {
+                RaisePropertyChanged("SelectedEarthmatCU");
+            }
             //Surficial
             if (_surficialVisibility == Visibility.Visible)
             {
@@ -578,10 +618,11 @@ namespace GSCFieldApp.ViewModels
             //Get current class information and add to model
             earthmodel.EarthMatID = _earthmatid; //Prime key
             earthmodel.EarthMatStatID = _stationid; //Foreign key
+            earthmodel.EarthMatDrillHoleID = _drillID; //Foreign key
             earthmodel.EarthMatName = _alias;
             earthmodel.EarthMatMagSuscept = _mag;
             earthmodel.EarthMatColourInd = int.Parse(_colourindex);
-            //earthmodel.EarthMatContact = _contactNote;
+            earthmodel.EarthMatContactNote = _contactNote;
             earthmodel.EarthMatInterp = _interpretation;
             earthmodel.EarthMatNotes = _notes;
             earthmodel.EarthMatPercent = _percent;
@@ -634,7 +675,14 @@ namespace GSCFieldApp.ViewModels
             {
                 earthmodel.EarthMatClastForm = _selectedEarthmatClast;
             }
-
+            if (SelectedEarthmatCL != null)
+            {
+                earthmodel.EarthMatContactLow = SelectedEarthmatCL;
+            }
+            if (SelectedEarthmatCU != null)
+            {
+                earthmodel.EarthMatContactUp = SelectedEarthmatCU;
+            }
             if (_groupTypeDetail != string.Empty)
             {
                 //Get group
@@ -728,6 +776,47 @@ namespace GSCFieldApp.ViewModels
             FillModTextureStructure();
             FillGrSize();
             FillOccur();
+        }
+
+        /// <summary>
+        /// Will fill the material contact combobox
+        /// </summary>
+        public void FillContactU()
+        {
+
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatContactUp;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemCU in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatCU))
+            {
+                _earthmatCU.Add(itemCU);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("EarthmatCU");
+            RaisePropertyChanged("SelectedEarthmatCU");
+
+        }
+        /// <summary>
+        /// Will fill the material contact combobox
+        /// </summary>
+        public void FillContactL()
+        {
+
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldEarthMatContactLow;
+            string tableName = Dictionaries.DatabaseLiterals.TableEarthMat;
+            foreach (var itemCL in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedEarthmatCL))
+            {
+                _earthmatCL.Add(itemCL);
+            }
+
+
+            //Update UI
+            RaisePropertyChanged("EarthmatCL");
+            RaisePropertyChanged("SelectedEarthmatCL");
+
         }
 
         private void FillMineral()
@@ -1095,7 +1184,7 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will fill the material contact combobox
         /// </summary>
-        public void FillContactU()
+        public void FillContactTypes()
         {
 
             //Init.

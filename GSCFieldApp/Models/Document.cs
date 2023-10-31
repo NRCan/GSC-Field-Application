@@ -40,19 +40,26 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDocumentHyperlink)]
         public string Hyperlink { get; set; }
 
-        [Column(DatabaseLiterals.FieldDocumentRelatedtable)]
-        public string RelatedTable { get; set; }
-
-        [Column(DatabaseLiterals.FieldDocumentRelatedID)]
-        public int RelatedID { get; set; }
-
         [Column(DatabaseLiterals.FieldDocumentObjLocX)]
         public double? ObjectX { get; set; }
 
-        [Column(DatabaseLiterals.FIeldDocumentObjLocY)]
+        [Column(DatabaseLiterals.FieldDocumentObjLocY)]
         public double? ObjectY { get; set; }
 
+        [Column(DatabaseLiterals.FieldDocumentScaleDirection)]
+        public string ScaleDirection { get; set; }
 
+        [Column(DatabaseLiterals.FieldDocumentStationID)]
+        public int? StationID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentSampleID)]
+        public int? SampleID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentDrillHoleID)]
+        public int? DrillHoleID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentEarthMatID)]
+        public int? EarthmatID { get; set; }
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
         /// Ignore attribute will tell sql not to try to write this field inside the database.
@@ -145,6 +152,19 @@ namespace GSCFieldApp.Models
 
                 documentFieldList[DatabaseLiterals.DBVersion] = documentFieldListDefault;
 
+                //Revert shcema 1.8 changes
+                List<string> documentFieldList170 = new List<string>();
+                documentFieldList170.AddRange(documentFieldListDefault);
+                int removeIndex170 = documentFieldListDefault.IndexOf(DatabaseLiterals.FieldDocumentHyperlink);
+                documentFieldList170.Insert(removeIndex170 + 1, DatabaseLiterals.FieldDocumentRelatedtableDeprecated);
+                documentFieldList170.Insert(removeIndex170 + 2, DatabaseLiterals.FieldDocumentRelatedIDDeprecated);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentSampleID);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentStationID);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentDrillHoleID);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentScaleDirection);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentEarthMatID);
+                documentFieldList[DatabaseLiterals.DBVersion170] = documentFieldList170;
+
                 //Revert shcema 1.7 changes
                 //List<string> documentFieldList160 = new List<string>();
                 //documentFieldList160.AddRange(documentFieldListDefault);
@@ -152,7 +172,7 @@ namespace GSCFieldApp.Models
                 //documentFieldList[DatabaseLiterals.DBVersion160] = documentFieldList160;
 
                 //Noting has change in 1.6
-                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldListDefault;
+                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldList170;
 
                 //Revert schema 1.5 changes. 
                 List<string> documentFieldList144 = new List<string>();
