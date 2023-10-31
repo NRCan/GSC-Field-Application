@@ -81,10 +81,8 @@ namespace GSCFieldApp.ViewModels
         public string SelectedStructMethod { get { return _selectedStructMethod; } set { _selectedStructMethod = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StructAttitude { get { return _structAttitude; } set { _structAttitude = value; } }
         public string SelectedStructAttitude { get { return _selectedStructAttitude; } set { _selectedStructAttitude = value; } }
-
         public ObservableCollection<Themes.ComboBoxItem> StructYoung { get { return _structYoung; } set { _structYoung = value; } }
         public string SelectedStructYoung { get { return _selectedStructYoung; } set { _selectedStructYoung = value; } }
-
         public ObservableCollection<Themes.ComboBoxItem> StructGen { get { return _structGen; } set { _structGen = value; } }
         public string SelectedStructGen { get { return _selectedStructGen; } set { _selectedStructGen = value; } }
         public ObservableCollection<Themes.ComboBoxItem> StructStrain { get { return _structStrain; } set { _structStrain = value; } }
@@ -101,20 +99,9 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                bool result = int.TryParse(value, out int index);
-
-                if (result)
+                if (int.TryParse(value, out int index) && index >= 0 && index < 360)
                 {
-                    if (index >= 0 && index < 360)
-                    {
-                        _structAzim = value;
-                    }
-                    else
-                    {
-                        _structAzim = value = "0";
-                        RaisePropertyChanged("StructAzim");
-                    }
-
+                    _structAzim = value;
                 }
                 else
                 {
@@ -134,35 +121,19 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                bool result = int.TryParse(value, out int index);
-
-                if (result)
+                if (int.TryParse(value, out int index) && index >= 0 && index <= 90)
                 {
-                    if (index >= 0 && index <= 90)
-                    {
-                        _structDip = value;
-                    }
-                    else
-                    {
-                        _structDip = value = "0";
-                        RaisePropertyChanged("StructDip");
-                    }
-
+                    _structDip = value;
+                }
+                else if (value == DatabaseLiterals.structurePlanarAttitudeTrend || string.IsNullOrEmpty(value))
+                {
+                    _structDip = string.Empty;
                 }
                 else
                 {
-                    if (value == DatabaseLiterals.structurePlanarAttitudeTrend || value == string.Empty)
-                    {
-                        _structDip = value = "";
-                    }
-                    else
-                    {
-                        _structDip = value = "0";
-                    }
-
-                    RaisePropertyChanged("StructDip");
+                    _structDip = "0";
                 }
-
+                RaisePropertyChanged("StructDip");
 
             }
         }
