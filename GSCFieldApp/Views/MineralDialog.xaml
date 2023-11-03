@@ -5,12 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Controls="using:Template10.Controls" xmlns:themes="using:GSCFieldApp.Themes"
+    xmlns:converters="using:GSCFieldApp.Converters"
     mc:Ignorable="d">
 
     <!-- data entry -->
     <Page>
 
         <Page.Resources>
+
+            <!--Converters-->
+            <converters:MediaBrushConverter x:Name="MediaBrushConverter"/>
 
             <!-- Concatenated Value Template -->
             <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
@@ -65,14 +69,16 @@
 
                         </GridView>
 
-                        <TextBlock x:Name="ModeDynamicLabel" x:Uid="MineralResidualLabel" Text="{x:Bind MineralVM.MineralResidualText, Mode=TwoWay}" RelativePanel.Below="MineralGridView_01"/>
+                        <TextBlock x:Name="ModeDynamicLabel" x:Uid="MineralResidualLabel" Text="{x:Bind MineralVM.MineralResidualText, Mode=TwoWay}" 
+                                   RelativePanel.Below="MineralGridView_01" 
+                                   Foreground="{x:Bind MineralVM.ResidualTextForeground, Mode=OneWay}"/>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01"
                            RelativePanel.Below="ModeDynamicLabel"
                            Fill="{ThemeResource FieldMineralColorBrush}" />
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralGridView_02" RelativePanel.Below="MainSeparator_01">
-                            
+
                             <ComboBox x:Name="MineralColourComboBox" x:Uid="MineralDialogColour"
                                 Header="" 
                                 ItemsSource="{x:Bind MineralVM.MineralColour}" 
@@ -114,7 +120,7 @@
                                 Header="" 
                                 ItemsSource="{x:Bind MineralVM.MineralOccur}" 
                                 SelectedValue="{x:Bind MineralVM.SelectedMineralOccur, Mode=TwoWay}" TabIndex="9"/>
-                            
+
                         </GridView>
 
 

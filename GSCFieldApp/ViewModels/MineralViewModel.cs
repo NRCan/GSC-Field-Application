@@ -6,7 +6,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Template10.Mvvm;
+using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -31,8 +34,10 @@ namespace GSCFieldApp.ViewModels
         private int? _mineralMAID = null;
         private int? _mineralEMID = null;
 
-        private readonly Dictionary<int, int> _mineralResidualModes = new Dictionary<int, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
+        private readonly List<int> _mineralResidualModes = new List<int>(); //Will contain mineral Id and it's mode, for residual mode calculation
         private readonly List<string> _minerals = new List<string>(); //Will contain a list of all minerals related to current parent earthmat. To catch duplicates
+        private readonly string resourcenameErrorColor = "ErrorColor";
+        private readonly string resourcenameBlackColor = "DefaultForegroundColor";
 
         //UI interaction
         public bool doMineralUpdate = false;
@@ -46,7 +51,7 @@ namespace GSCFieldApp.ViewModels
         private string _selectedMineralOccur = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _mineralModeText = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedMineralModeText = string.Empty;
-
+        private SolidColorBrush _residualTextForeground = new SolidColorBrush();
         //Model init
         private Mineral mineralModel = new Mineral();
         public DataIDCalculation mineralIDCalculator = new DataIDCalculation();
@@ -60,7 +65,7 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
-
+        public SolidColorBrush ResidualTextForeground { get { return _residualTextForeground; } set { _residualTextForeground = value; } }
         public Mineral MineralModel { get { return mineralModel; } set { mineralModel = value; } }
         public string MineralAlias { get { return _mineralAlias; } set { _mineralAlias = value; } }
         public string MineralNote { get { return _mineralNote; } set { _mineralNote = value; } }
@@ -150,6 +155,15 @@ namespace GSCFieldApp.ViewModels
 
         public MineralViewModel(FieldNotes inReportModel, bool forQuick = false)
         {
+            Color stc = new Color();
+
+            if (Application.Current.Resources[resourcenameBlackColor] != null)
+            {
+                stc = (Color)Application.Current.Resources[resourcenameBlackColor];
+            }
+
+            _residualTextForeground.Color = stc;
+            RaisePropertyChanged("ResidualTextForeground"); 
 
             //On init for new samples calculates values for default UI form
             if (inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableEarthMat || inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
@@ -443,6 +457,8 @@ namespace GSCFieldApp.ViewModels
         #region CALCULATE
         public void CalculateResidual(string newMode = "")
         {
+            _mineralResidualModes.Clear();
+
             // Language localization using Resource.resw
             var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
             string Prefix = loadLocalization.GetString("MineralDialogResidualPrefix");
@@ -466,7 +482,7 @@ namespace GSCFieldApp.ViewModels
             }
             IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID select e;
 
-            if (_mineralResidualModes.Count == 0 && (mineralParentEarth.Count() != 0 || mineralParentEarth != null))
+            if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
             {
                 foreach (Mineral mns in mineralParentEarth)
                 {
@@ -476,27 +492,7 @@ namespace GSCFieldApp.ViewModels
 
                     if (currentModeParsed)
                     {
-                        if (mns.MineralID == existingDataDetailMineral.GenericID)
-                        {
-                            if (newMode != string.Empty)
-                            {
-                                currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                            }
-
-                            if (currentModeParsed)
-                            {
-                                _mineralResidualModes[mns.MineralID] = currentPercentage;
-                            }
-
-                        }
-                        else
-                        {
-                            if (currentModeParsed)
-                            {
-                                _mineralResidualModes[mns.MineralID] = currentPercentage;
-                            }
-
-                        }
+                        _mineralResidualModes.Add(currentPercentage);
                     }
 
 
@@ -505,25 +501,58 @@ namespace GSCFieldApp.ViewModels
                 if (_mineralResidualModes.Count() == 0)
                 {
                     bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
-                    _mineralResidualModes[existingDataDetailMineral.GenericID] = currentPercentage;
+                    if (currentModeParsed)
+                    {
+                        _mineralResidualModes.Add(currentPercentage);
+                    }
+                    
                 }
 
             }
-            else
+
+            if (newMode != string.Empty)
             {
-                bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
-                _mineralResidualModes[existingDataDetailMineral.GenericID] = currentPercentage;
+                bool newModeParsed = int.TryParse(newMode, out int newPercentage);
+                if (newModeParsed)
+                {
+                    _mineralResidualModes.Add(newPercentage);
+                }
+                
             }
 
 
             //Calculate total percentage
             int _mineralResidualMode = 0;
-            foreach (KeyValuePair<int, int> modes in _mineralResidualModes)
+            foreach (int modes in _mineralResidualModes)
             {
-                _mineralResidualMode = _mineralResidualMode + modes.Value;
+                _mineralResidualMode = _mineralResidualMode + modes;
             }
             _mineralResidualText = Prefix + _mineralResidualMode.ToString() + MiddleFix + _mineralResidualModes.Count().ToString() + Suffix;
             RaisePropertyChanged("MineralResidualText");
+
+            //Validate over percentage
+            Color stc = new Color();
+            if (_mineralResidualMode > 100)
+            {
+                
+                if (Application.Current.Resources[resourcenameErrorColor] != null)
+                {
+                    stc = (Color)Application.Current.Resources[resourcenameErrorColor];
+                }
+
+                _residualTextForeground.Color = stc;
+            }
+            else
+            {
+                if (Application.Current.Resources[resourcenameBlackColor] != null)
+                {
+                    stc = (Color)Application.Current.Resources[resourcenameBlackColor];
+                }
+
+                _residualTextForeground.Color = stc;
+            }
+
+            RaisePropertyChanged("ResidualTextForeground");
 
         }
         #endregion

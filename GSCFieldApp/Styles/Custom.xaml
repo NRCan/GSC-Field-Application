@@ -68,6 +68,7 @@
     <Color x:Key="ErrorColor">#E74856</Color>
     <Color x:Key="WarningColor">#FFB900</Color>
     <Color x:Key="PositionColor">#88D184</Color>
+    <Color x:Key="DefaultForegroundColor">#000000</Color>
     <!--<Color x:Key="GSCHammerColor">#fbc551</Color>-->
     <!----> 
     
