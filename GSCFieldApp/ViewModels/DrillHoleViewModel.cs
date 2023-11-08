@@ -205,7 +205,7 @@ namespace GSCFieldApp.ViewModels
             _drillAzim = existingDataDetail.drillHoles.DrillAzim.ToString();
             _drillDip = existingDataDetail.drillHoles.DrillDip.ToString();
             _drillDepth = existingDataDetail.drillHoles.DrillDepth.ToString();
-            _relatedTo = existingDataDetail.drillHoles.DrillRelatedTo.ToString();
+            _relatedTo = existingDataDetail.drillHoles.DrillRelatedTo;
 
             RaisePropertyChanged("OriginalName");
             RaisePropertyChanged("DrillIDName");
