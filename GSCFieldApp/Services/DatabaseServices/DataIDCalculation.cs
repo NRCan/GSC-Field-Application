@@ -179,7 +179,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="currentID">The station ID to calculate the alias from</param>
         /// <param name="stationTime">The datetime object related to the station to get the year from</param>
         /// <returns></returns>
-        public string CalculateStationAlias(DateTime stationDate)
+        public string CalculateStationAlias(DateTime stationDate, bool followDrillAlias = true)
         {
 
             //Get current geolcode
@@ -219,22 +219,32 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     //Get actual last alias and extract it's number
                     string lastAlias = stations.ToList()[0].ToString();
-                    List<char> lastCharacters = lastAlias.ToList();
-                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
-                    string lastNumber = string.Empty;
-                    foreach (char c in lastNumbers)
-                    {
-                        //Rebuild number
-                        lastNumber = lastNumber + c;
-                    }
-                    int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+                    //Get last station number
+                    int StationNo = ExtractStationNoFromAlias(lastAlias);
 
                     //Increment
-                    stationCount = lastCharacterNumber + 1;
+                    stationCount = StationNo + 1;
+                }
+
+                //Get last drill number if needed
+                if (followDrillAlias)
+                {
+                    //Fake a drill alias
+                    string drillAlias = CalculateDrillAlias(stationDate, false);
+
+                    //Get drill no
+                    int drillNo = ExtractDrillNoFromAlias(drillAlias);
+
+                    //Verify if fake drill no is higher then actual station no
+                    if (stationCount < drillNo)
+                    {
+                        //If lower, then take drill no instead of station one so they both follow each other
+                        stationCount = drillNo;
+                    }
                 }
 
                 //Padd current ID with 0 if needed
-
                 string outputStringID = string.Empty;
                 bool breaker = true;
                 string finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
@@ -276,6 +286,27 @@ namespace GSCFieldApp.Services.DatabaseServices
                 return String.Empty;
             }
            
+        }
+
+        /// <summary>
+        /// Will extract the drill hole number from a given alias
+        /// </summary>
+        /// <param name="drillAlias"></param>
+        /// <returns></returns>
+        public int ExtractStationNoFromAlias(string stationAlias)
+        {
+            //Get actual last alias and extract it's number
+            List<char> lastCharacters = stationAlias.ToList();
+            List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
+            string lastNumber = string.Empty;
+            foreach (char c in lastNumbers)
+            {
+                //Rebuild number
+                lastNumber = lastNumber + c;
+            }
+            int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+            return lastCharacterNumber;
         }
 
         /// <summary>
@@ -349,7 +380,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="currentID">The station ID to calculate the alias from</param>
         /// <param name="stationTime">The datetime object related to the station to get the year from</param>
         /// <returns></returns>
-        public string CalculateDrillAlias(DateTime fieldbookDate)
+        public string CalculateDrillAlias(DateTime fieldbookDate, bool followStationAlias = true)
         {
 
             string prefix = DatabaseLiterals.TableDrillHolePrefix;
@@ -384,24 +415,31 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 else
                 {
-                    //Get actual last alias and extract it's number
-                    string lastAlias = drills.ToList()[0].ToString();
-                    List<char> lastCharacters = lastAlias.ToList();
-                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 6, 4);
-                    string lastNumber = string.Empty;
-                    foreach (char c in lastNumbers)
-                    {
-                        //Rebuild number
-                        lastNumber = lastNumber + c;
-                    }
-                    int lastCharacterNumber = Convert.ToInt32(lastNumber);
+                    string LastDrillAlias = drills.ToList()[0].ToString();
+                    int drillNo = ExtractDrillNoFromAlias(LastDrillAlias);
 
                     //Increment
-                    drillCount = lastCharacterNumber + 1;
+                    drillCount = drillNo + 1;
+                }
+
+                //Get last station number if needed
+                if (followStationAlias)
+                {
+                    //Fake a station alias
+                    string stationAlias = CalculateStationAlias(fieldbookDate, false);
+
+                    //Get station no
+                    int stationNo = ExtractStationNoFromAlias(stationAlias);
+
+                    //Verify if fake station no is higher then actual drill no
+                    if (drillCount < stationNo)
+                    {
+                        //If lower, then take station no instead of drill one so they both follow each other
+                        drillCount = stationNo;
+                    }
                 }
 
                 //Padd current ID with 0 if needed
-
                 string outputStringID = string.Empty;
                 bool breaker = true;
                 string finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + prefix; //Ex: 16BEB001DH
@@ -442,6 +480,27 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 return String.Empty;
             }
+        }
+
+        /// <summary>
+        /// Will extract the drill hole number from a given alias
+        /// </summary>
+        /// <param name="drillAlias"></param>
+        /// <returns></returns>
+        public int ExtractDrillNoFromAlias(string drillAlias)
+        {
+            //Get actual last alias and extract it's number
+            List<char> lastCharacters = drillAlias.ToList();
+            List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 6, 4);
+            string lastNumber = string.Empty;
+            foreach (char c in lastNumbers)
+            {
+                //Rebuild number
+                lastNumber = lastNumber + c;
+            }
+            int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+            return lastCharacterNumber;
         }
 
         #endregion
