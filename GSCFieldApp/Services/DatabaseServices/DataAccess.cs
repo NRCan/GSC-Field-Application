@@ -56,7 +56,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //For multiple project management
                     object _fieldbookPath = localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject);
-                    if (_fieldbookPath != null)
+                    if (_fieldbookPath != null && Directory.Exists(_fieldbookPath.ToString()))
                     {
                         _dbPath = Path.Combine(_fieldbookPath.ToString(), _dbName);
                     }
