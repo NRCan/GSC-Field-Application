@@ -1208,10 +1208,16 @@ namespace GSCFieldApp.ViewModels
         {
             if (existingDataDetail != null && existingDataDetail.station != null)
             {
-                //Init.
-                string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = '" + existingDataDetail.station.StationID + "'";
-                List<object> relatedEarths = accessData.ReadTable(earthmodel.GetType(), filterEarthmats);
-                IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
+
+                //Querying with Linq
+                List<object> earthmatTableRaw = accessData.ReadTable(earthmodel.GetType(), null);
+                IEnumerable<EarthMaterial> earthmatTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
+                IEnumerable<EarthMaterial> earths = from e in earthmatTable where e.EarthMatStatID == existingDataDetail.GenericID select e;
+
+                if (existingDataDetail.GenericTableName == DatabaseLiterals.TableDrillHoles)
+                {
+                    earths = from e in earthmatTable where e.EarthMatDrillHoleID == existingDataDetail.GenericID select e;
+                }
 
                 foreach (EarthMaterial ea in earths)
                 {
