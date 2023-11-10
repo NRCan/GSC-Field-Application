@@ -3,6 +3,7 @@ using GSCFieldApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.UI.Xaml.Documents;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -514,6 +515,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string CalculateEarthmatnAlias(int? parentID, string parentAlias)
         {
+            //Variables
+            bool isDrillHole = false;
 
             //Querying with Linq
             List<object> earthmatTableRaw = dAccess.ReadTable(earthmatModel.GetType(), null);
@@ -523,6 +526,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
             {
                 eartmatParents = from e in earthmatTable where e.EarthMatDrillHoleID == parentID select e.EarthMatName;
+                isDrillHole = true;
             }
 
 
@@ -537,12 +541,17 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //Find if last two are characters
                 string secondLastCharacter = lastAlias.ToList()[lastAlias.Length - 2].ToString();
-                int secondLastInteger = -1;
-                if (!int.TryParse(secondLastCharacter, out secondLastInteger))
+                if (!isDrillHole && secondLastCharacter != "H")
                 {
-                    //Should be something like AB, AC, etc.
-                    lastCharacter = secondLastCharacter + lastCharacter;
+                    int secondLastInteger = -1;
+                    if (!int.TryParse(secondLastCharacter, out secondLastInteger))
+                    {
+                        //Should be something like AB, AC, etc.
+                        lastCharacter = secondLastCharacter + lastCharacter;
+                    }
                 }
+                
+
                 int lastCharacterNumber = CalculateNumberFromAlpha(lastCharacter);
 
                 //Find a non existing name
