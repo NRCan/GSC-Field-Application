@@ -10,6 +10,7 @@
 
     <UserControl.Resources>
         <converters:ReverseBoolConverter x:Name="ReverseBoolConverter" />
+        <converters:VisibilityFromReverseBoolConverter x:Name="VisibilityFromReverseBoolConverter" />
     </UserControl.Resources>
 
     <!-- data entry -->
@@ -26,7 +27,8 @@
                 <Controls:PageHeader.PrimaryCommands>
                     <AppBarButton x:Name="LocationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="LocationBackButton_Tapped" />
                     <AppBarButton x:Name="LocationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="LocationSaveButton_Tapped"  />
-                    <AppBarButton x:Name="LocationDrillButton" x:Uid="DrillLabel" Label="Save" Icon="Add" Foreground="White" Tapped="LocationSaveButton_Tapped"  />
+                    <AppBarButton x:Name="LocationDrillButton" x:Uid="DrillLabel" Label="Save" Icon="Add" Foreground="White" Tapped="LocationSaveButton_Tapped" 
+                                  Visibility="{x:Bind locationVM.DoLocationUpdate, Mode=TwoWay, Converter={StaticResource VisibilityFromReverseBoolConverter}}"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>

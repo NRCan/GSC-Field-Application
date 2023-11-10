@@ -4463,7 +4463,7 @@ namespace GSCFieldApp.ViewModels
             var modalLocation = Window.Current.Content as ModalDialog;
             var viewLocation = modalLocation.ModalContent as Views.LocationDialog;
             viewLocation = new Views.LocationDialog(locationReport);
-            viewLocation.locationVM.doLocationUpdate = doUpdate;
+            viewLocation.locationVM.DoLocationUpdate = doUpdate;
             viewLocation.locationVM.newLocationEdit += ViewModel_newLocationEdit;
             modalLocation.ModalContent = viewLocation;
             modalLocation.IsModal = true;

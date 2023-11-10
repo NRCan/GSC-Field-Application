@@ -62,7 +62,7 @@ namespace GSCFieldApp.Views
         private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
         {
             //Detect manual entry, if it's the case pop station dialog
-            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed)
+            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.DoLocationUpdate == false && !isBackButtonPressed)
             {
                 //Create a field note report to act like a parent
                 FieldNotes locationParent = new FieldNotes
@@ -114,7 +114,7 @@ namespace GSCFieldApp.Views
             isBackButtonPressed = false;
 
             //Fill automatically the earthmat dialog if an edit is asked by the user.
-            if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableLocation && locationVM.doLocationUpdate)
+            if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableLocation && locationVM.DoLocationUpdate)
             {
                 this.locationVM.AutoFillDialog(parentViewModel);
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;

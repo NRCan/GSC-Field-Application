@@ -38,7 +38,7 @@ namespace GSCFieldApp.ViewModels
         private string _selectedLocationDatums = string.Empty;
 
         //UI interaction
-        public bool doLocationUpdate = false;
+        private bool _doLocationUpdate = false;
         public string entryType = null;
 
 
@@ -115,7 +115,6 @@ namespace GSCFieldApp.ViewModels
                 }
             }
         }
-
         public string LocationElevation { get { return _locationElevation; } set { _locationElevation = value; } }
         public string LocationNorthing { get { return _locationNorthing; } set { _locationNorthing = value; } }
         public string LocationEasting { get { return _locationEasting; } set { _locationEasting = value; } }
@@ -125,6 +124,8 @@ namespace GSCFieldApp.ViewModels
         public string LocationNotes { get { return _locationNotes; } set { _locationNotes = value; } }
         public ObservableCollection<Themes.ComboBoxItem> LocationDatums { get { return _locationDatums; } set { _locationDatums = value; } }
         public string SelectedLocationDatums { get { return _selectedLocationDatums; } set { _selectedLocationDatums = value; } }
+
+        public bool DoLocationUpdate { get { return _doLocationUpdate; } set { _doLocationUpdate = value; } }
         #endregion
 
         public LocationViewModel(FieldNotes inReport)
@@ -193,7 +194,8 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("LocationNTS");
             RaisePropertyChanged("SelectedLocationDatums");
 
-            doLocationUpdate = true;
+            _doLocationUpdate = true;
+            RaisePropertyChanged("DoLocationUpdate");
         }
 
         /// <summary>
@@ -271,10 +273,10 @@ namespace GSCFieldApp.ViewModels
             //Save model class
             GeopackageService geoService = new GeopackageService();
 
-            if (doLocationUpdate)
+            if (_doLocationUpdate)
             {
                 object locObject = (object)locationModel;
-                accessData.SaveFromSQLTableObject(ref locObject, doLocationUpdate);
+                accessData.SaveFromSQLTableObject(ref locObject, _doLocationUpdate);
                 locationModel = (FieldLocation)locObject;
 
                 //Extra step to make sure geometry is good
@@ -299,7 +301,7 @@ namespace GSCFieldApp.ViewModels
 
             //Trigger event for map page
             EventHandler updateRequest = LocationUpdateEventHandler;
-            if (updateRequest != null && doLocationUpdate)
+            if (updateRequest != null && _doLocationUpdate)
             {
                 updateRequest(this, null);
             }

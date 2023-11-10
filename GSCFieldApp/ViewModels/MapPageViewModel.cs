@@ -1480,7 +1480,7 @@ namespace GSCFieldApp.ViewModels
                 location = locationEmptyEntry
             };
             modal.ModalContent = view = new Views.LocationDialog(newLocationFieldNotes);
-            view.locationVM.doLocationUpdate = false;
+            view.locationVM.DoLocationUpdate = false;
             view.locationVM.newLocationEdit -= NavigationToStationDialog;
             view.locationVM.newLocationEdit += NavigationToStationDialog; //Detect when the add/edit request has finished.
             modal.IsModal = true;
