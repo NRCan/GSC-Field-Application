@@ -97,6 +97,8 @@ namespace GSCFieldApp.ViewModels
         public bool initializingGPS = false;
         public bool _mapRingLabelAcquiringGPSVisibility = false;
         public Symbol _GPSModeSymbol = Symbol.Target;
+        private int _gpsRefreshRate = 750; //In milliseconds
+        private bool _gpsHighAccuracyCheck = true; //Wheter high or default accuracy is checked
 
         //Map Graphics
         private readonly SimpleMarkerSymbol _posSym = new SimpleMarkerSymbol();
@@ -171,6 +173,31 @@ namespace GSCFieldApp.ViewModels
 
         #region PROPERTIES
 
+        public bool GpsHighAccuracyCheck
+        {
+            get
+            {
+                return _gpsHighAccuracyCheck;
+            }
+            set
+            {
+                _gpsHighAccuracyCheck = value;
+                _geolocator = new Geolocator { ReportInterval = (uint)_gpsRefreshRate, DesiredAccuracy = 0 };
+            }
+        }
+
+        public int GpsRefreshRate 
+        { 
+            get 
+            { 
+                return _gpsRefreshRate; 
+            } 
+            set 
+            { 
+                _gpsRefreshRate = value; 
+                _geolocator = new Geolocator { ReportInterval = (uint)value }; 
+            } 
+        }
         public Dictionary<string, Dictionary<string, string>> _layerRendering { get; set; }
         //public Dictionary<string, Tuple<string, bool, double>> _layerRenderingConfiguration { get; set; } //Will be used to show layer in proper order, visibility and opacity based on previous setting on app opening.
 
@@ -295,7 +322,7 @@ namespace GSCFieldApp.ViewModels
                     currentMapView.Tapped -= myMapView_AddByTap;
 
                     // If DesiredAccuracy or DesiredAccuracyInMeters are not set (or value is 0), DesiredAccuracy.Default is used.
-                    _geolocator = new Geolocator { ReportInterval = 750 };
+                    _geolocator = new Geolocator { ReportInterval = (uint)GpsRefreshRate };
 
                     // Subscribe to the StatusChanged event to get updates of location status changes.
                     _geolocator.PositionChanged -= OnPositionChanged;
