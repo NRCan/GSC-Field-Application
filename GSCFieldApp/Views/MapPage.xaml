@@ -202,8 +202,8 @@
                 <Slider x:Name="RefreshRateSlider" Minimum="1" Maximum="1000" StepFrequency="10" TickFrequency="50" Value="{x:Bind MapPageViewModel.GpsRefreshRate, Mode=TwoWay}" Header="GPS refresh rate (milliseconds)" SnapsTo="Ticks" />
             </Border>
 
-            <Border Name="MapRefreshAccuracyToggle" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,0,35">
-                <AppBarToggleButton IsChecked="True" x:Name="RefreshAccuracyToggle"/>
+            <Border Name="MapRefreshAccuracyToggle" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-60,45">
+                <ToggleSwitch IsOn="{x:Bind MapPageViewModel.GpsHighAccuracyCheck, Mode=TwoWay}" x:Name="RefreshAccuracyToggle" Header="High Accuracy" />
             </Border>
 
         </Grid>

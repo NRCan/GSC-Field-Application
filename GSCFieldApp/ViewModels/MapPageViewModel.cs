@@ -182,7 +182,15 @@ namespace GSCFieldApp.ViewModels
             set
             {
                 _gpsHighAccuracyCheck = value;
-                _geolocator = new Geolocator { ReportInterval = (uint)_gpsRefreshRate, DesiredAccuracy = 0 };
+                if (value)
+                {
+                    _geolocator = new Geolocator { ReportInterval = (uint)_gpsRefreshRate, DesiredAccuracy = PositionAccuracy.Default };
+                }
+                else
+                {
+                    _geolocator = new Geolocator { ReportInterval = (uint)_gpsRefreshRate, DesiredAccuracy = PositionAccuracy.High };
+                }
+                
             }
         }
 
