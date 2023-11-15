@@ -78,6 +78,7 @@ namespace GSCFieldApp.ViewModels
         private bool _mapPageQuickPhotoEnable = true;
         private bool _mapPageQuickMeasurementEnable = true;
         public string clickedQuickButton = string.Empty; //Will be used to track what user wants to tap option
+        
 
         //Progress ring
         private bool _progressRingActive = false;
@@ -99,6 +100,8 @@ namespace GSCFieldApp.ViewModels
         public Symbol _GPSModeSymbol = Symbol.Target;
         private int _gpsRefreshRate = 750; //In milliseconds
         private bool _gpsHighAccuracyCheck = true; //Wheter high or default accuracy is checked
+        private string _gpsLogFilePath = string.Empty;
+        private StreamWriter _gpsLogWriter;
 
         //Map Graphics
         private readonly SimpleMarkerSymbol _posSym = new SimpleMarkerSymbol();
@@ -130,10 +133,11 @@ namespace GSCFieldApp.ViewModels
 
         public MapPageViewModel()
         {
+            _gpsLogFilePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "gpsLogFile.txt");
+            //_gpsLogWriter = new StreamWriter(_gpsLogFilePath);
 
             //Init
             lastTakenLocation = new Tuple<double, double>(0, 0);
-
             _OverlayStation = new GraphicsOverlay();
             _OverlayStationLabel = new GraphicsOverlay();
             _overlayContainerOther = new Dictionary<string, List<GraphicsOverlay>>();
@@ -1858,6 +1862,8 @@ namespace GSCFieldApp.ViewModels
             });
         }
 
+
+
         /// <summary>
         /// Whenever user location changes update UI with graphics
         /// </summary>
@@ -1865,6 +1871,15 @@ namespace GSCFieldApp.ViewModels
         /// <param name="args"></param>
         public async void Geolocal_Update(Geoposition in_position)
         {
+            string gpsLogs = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "," + 
+                in_position.Coordinate.Point.Position.Longitude + "," + 
+                in_position.Coordinate.Point.Position.Latitude + "," + 
+                in_position.Coordinate.Accuracy + "(m)," +
+                _gpsHighAccuracyCheck.ToString() + "," + 
+                _gpsRefreshRate.ToString() + "(mS)\n";
+
+            File.AppendAllText(_gpsLogFilePath, gpsLogs);
+
             try
             {
                 if (!userHasTurnedGPSOff)
