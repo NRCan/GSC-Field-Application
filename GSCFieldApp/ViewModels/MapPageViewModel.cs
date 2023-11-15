@@ -1871,7 +1871,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="args"></param>
         public async void Geolocal_Update(Geoposition in_position)
         {
-            string gpsLogs = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "," + 
+            string gpsLogs = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff") + "," + 
                 in_position.Coordinate.Point.Position.Longitude + "," + 
                 in_position.Coordinate.Point.Position.Latitude + "," + 
                 in_position.Coordinate.Accuracy + "(m)," +
