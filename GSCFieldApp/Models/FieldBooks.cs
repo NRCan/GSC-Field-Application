@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services.DatabaseServices;
 using NetTopologySuite.IO;
 
@@ -37,7 +38,11 @@ namespace GSCFieldApp.Models
         [RelayCommand]
         public void Tap()
         {
+            //Keep path
             da.PreferedDatabasePath = ProjectDBPath;
+
+            //Keep theme
+            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoPName), metadataForProject.FieldworkType);
         }
     }
 }

@@ -43,16 +43,21 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task AddStation()
         {
-            await SetLocationModelAsync();
+            if (sensorLocation != null)
+            {
+                await SetLocationModelAsync();
 
-            //Navigate to station page and keep locationmodel for relationnal link
-            await Shell.Current.GoToAsync($"{nameof(StationPage)}",
-                new Dictionary<string, object>
-                {
-                    [nameof(FieldLocation)] = locationModel,
-                    [nameof(Metadata)] = metadataModel,
-                }
-            );
+                //Navigate to station page and keep locationmodel for relationnal link
+                await Shell.Current.GoToAsync($"{nameof(StationPage)}",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(FieldLocation)] = locationModel,
+                        [nameof(Metadata)] = metadataModel,
+                        [nameof(Station)] = null,
+                    }
+                );
+            }
+
         }
 
         #endregion
@@ -79,6 +84,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task<int> SetLocationModelAsync()
         {
+
             if (sensorLocation.Altitude.HasValue)
             {
                 locationModel.LocationElev = (double)sensorLocation.Altitude;
@@ -99,11 +105,11 @@ namespace GSCFieldApp.ViewModel
             //Foreign key
             if (metadataModel.MetaID > 0)
             {
-                locationModel.MetaID = metadataModel.MetaID; 
+                locationModel.MetaID = metadataModel.MetaID;
             }
             else
             {
-                locationModel.MetaID = 1; 
+                locationModel.MetaID = 1;
             }
 
             locationModel.LocationAlias = await idCalc.CalculateLocationAliasAsync("", metadataModel.UserCode); //Calculate new value
@@ -121,7 +127,7 @@ namespace GSCFieldApp.ViewModel
 
             //Return ID
             return locationModel.LocationID;
-
+            
         }
 
         /// <summary>
