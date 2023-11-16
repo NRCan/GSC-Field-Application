@@ -204,11 +204,10 @@
 	<ItemGroup>
 		<!-- App icon for all other platforms -->
 		<!--NOTE: Setting a BaseSize here crashes deployment on Android-->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#710B2C" ForegroundScale="0.55"/>
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#710B2C" ForegroundScale="0.55" />
 
 		<!-- App icon for Windows -->
-		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'"
-				  Include="Resources\AppIcon\appicon.svg" Color="#710B2C" BaseSize="300,300"/>
+		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" Include="Resources\AppIcon\appicon.svg" Color="#710B2C" BaseSize="300,300" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128" />
@@ -255,24 +254,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="BruTile" Version="5.0.4" />
-		<PackageReference Include="BruTile.MbTiles" Version="5.0.4" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-		<PackageReference Include="Mapsui" Version="4.0.0" />
+		<PackageReference Include="BruTile" Version="5.0.6" />
+		<PackageReference Include="BruTile.MbTiles" Version="5.0.6" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="Mapsui" Version="4.1.1" />
 		<PackageReference Include="Mapsui.Maui" Version="4.0.0" />
-		<PackageReference Include="Mapsui.Nts" Version="4.0.0" />
+		<PackageReference Include="Mapsui.Nts" Version="4.1.0-preview.1" />
 		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="NetTopologySuite" Version="2.5.0" />
 		<PackageReference Include="NetTopologySuite.IO.GeoPackage" Version="2.0.0" />
-		<PackageReference Include="SkiaSharp" Version="2.88.4-preview.89" />
-		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.4-preview.89" />
-		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.4-preview.89" />
+		<PackageReference Include="SkiaSharp" Version="2.88.6" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.6" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.6" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.5" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
 	</ItemGroup>
 
 	<ItemGroup>
