@@ -202,6 +202,8 @@
         <!--<Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />-->
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Margin" Value="0,0,0,8" />
     </Style>
     <Style TargetType="HorizontalStackLayout" x:Key="FieldAppConcatHLayout">
         <Setter Property="HeightRequest" Value="25"/>
@@ -212,7 +214,7 @@
         <Setter Property="FontFamily" Value="MatDesign"/>
         <Setter Property="FontSize" Value="Medium"/>
         <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="Margin" Value="{OnIdiom '0,-12,0,0', Tablet='0,-5,0,0', Phone='0,-5,0,0' }"/>
+        <Setter Property="Margin" Value="{OnIdiom '0,-10,0,0', Tablet='0,-10,0,0', Phone='0,-10,0,0' }"/>
         <Setter Property="BorderWidth" Value="0" />
         <Setter Property="HeightRequest" Value="{OnPlatform 55, WinUI=25}"/>
         <Setter Property="Text" Value="&#xF0A7A;"/>
