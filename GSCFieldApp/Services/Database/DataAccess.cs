@@ -123,6 +123,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                         }
                     }
 
+                    //Keep database path as default
+                    PreferedDatabasePath = outputDatabasePath;
                 }
 
                 return true;
@@ -222,7 +224,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
 
             //Get the current project type
-            string fieldworkType = ScienceLiterals.ApplicationThemeBedrock; //Default
+            string fieldworkType = DatabaseLiterals.ApplicationThemeBedrock; //Default
 
             if (fieldwork != string.Empty)
             {

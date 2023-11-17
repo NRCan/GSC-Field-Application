@@ -16,7 +16,7 @@ namespace GSCFieldApp.Models
         public string EarthMatName { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatStatID)]
-        public int EarthMatStatID { get; set; }
+        public int? EarthMatStatID { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatLithgroup)]
         public string EarthMatLithgroup { get; set; }
@@ -31,10 +31,10 @@ namespace GSCFieldApp.Models
         public string EarthMatModComp { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMetaFacies)]
-        public string EarthMatMetaIFacies{ get; set; }
+        public string EarthMatMetaIFacies { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMetaIntensity)]
-        public string EarthMatMetaIntensity{ get; set; }
+        public string EarthMatMetaIntensity { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatMapunit)]
         public string EarthMatMapunit { get; set; }
@@ -81,6 +81,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatContactLow)]
         public string EarthMatContactLow { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatContactNote)]
+        public string EarthMatContactNote { get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatInterp)]
         public string EarthMatInterp { get; set; }
 
@@ -97,10 +100,13 @@ namespace GSCFieldApp.Models
         public string EarthMatOxidation { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatClastForm)]
-        public string EarthMatClastForm{ get; set; }
+        public string EarthMatClastForm { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatNotes)]
-        public string EarthMatNotes{ get; set; }
+        public string EarthMatNotes { get; set; }
+
+        [Column(DatabaseLiterals.FieldEarthMatDrillHoleID)]
+        public int? EarthMatDrillHoleID { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableStation;
@@ -175,7 +181,8 @@ namespace GSCFieldApp.Models
         [Ignore]
         public Dictionary<double, List<string>> getFieldList
         {
-            get {
+            get
+            {
                 //Create a new list of all current columns in current class. This will act as the most recent
                 //version of the class
                 Dictionary<double, List<string>> earthmatFieldList = new Dictionary<double, List<string>>();
@@ -188,14 +195,21 @@ namespace GSCFieldApp.Models
                     {
                         earthmatFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
-                    
+
                 }
 
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
 
+                //Revert shcema 1.8 changes
+                List<string> earthmatFieldList170 = new List<string>();
+                earthmatFieldList170.AddRange(earthmatFieldListDefault);
+                earthmatFieldList170.Remove(DatabaseLiterals.FieldEarthMatContactNote);
+                earthmatFieldList170.Remove(DatabaseLiterals.FieldEarthMatDrillHoleID);
+                earthmatFieldList[DatabaseLiterals.DBVersion170] = earthmatFieldList170;
+
                 //Revert shcema 1.7 changes
                 List<string> earthmatFieldList160 = new List<string>();
-                earthmatFieldList160.AddRange(earthmatFieldListDefault);
+                earthmatFieldList160.AddRange(earthmatFieldList170);
                 earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatSorting);
                 earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatH2O);
                 earthmatFieldList160.Remove(DatabaseLiterals.FieldEarthMatOxidation);
@@ -204,7 +218,7 @@ namespace GSCFieldApp.Models
 
                 //Revert schema 1.6 changes. 
                 List<string> earthmatFieldList15 = new List<string>();
-                earthmatFieldList15.AddRange(earthmatFieldListDefault);
+                earthmatFieldList15.AddRange(earthmatFieldList160);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatPercent);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMagQualifier);
                 earthmatFieldList15.Remove(DatabaseLiterals.FieldEarthMatMetaIntensity);
@@ -263,11 +277,11 @@ namespace GSCFieldApp.Models
                         strOnlyID = strOnlyID + c;
                     }
                 }
-                return strOnlyID; 
+                return strOnlyID;
             }
-            
-            set{ }
-            
+
+            set { }
+
         }
     }
 }
