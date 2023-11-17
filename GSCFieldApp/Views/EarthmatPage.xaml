@@ -27,7 +27,87 @@
             
             <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
 
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
+
+
+                    <!--Lithologies-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageLithoTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--Lithologie modifiers-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageLithoModTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--Mineralogy-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMineralogyTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--Colours-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageColourTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--Metamorphic facies-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMetaFaciesTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--Contact-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageContactTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--Magnetism-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMagTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--Interpretation-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageInterpretationTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--General-->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageGeneralTitle}"/>
+
+                        </VerticalStackLayout>
+                    </Frame>
+
+                </FlexLayout>
+
             </ScrollView>
+
+            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldEarthMaterialColor}"
+                    Command="{Binding SaveCommand}"/>
 
         </Grid>
     </ContentPage.Content>

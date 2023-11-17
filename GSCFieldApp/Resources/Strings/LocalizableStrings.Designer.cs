@@ -70,6 +70,87 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colour.
+        /// </summary>
+        internal static string EarthmatPageColourTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact.
+        /// </summary>
+        internal static string EarthmatPageContactTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string EarthmatPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interpretation.
+        /// </summary>
+        internal static string EarthmatPageInterpretationTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageInterpretationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lithologic Modifiers.
+        /// </summary>
+        internal static string EarthmatPageLithoModTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoModTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lithology - Setting and composition.
+        /// </summary>
+        internal static string EarthmatPageLithoTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Magnetism.
+        /// </summary>
+        internal static string EarthmatPageMagTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageMagTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metamorphic Facies.
+        /// </summary>
+        internal static string EarthmatPageMetaFaciesTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageMetaFaciesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineralogy.
+        /// </summary>
+        internal static string EarthmatPageMineralogyTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageMineralogyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Earth Material.
         /// </summary>
         internal static string EarthmatPageTitle {

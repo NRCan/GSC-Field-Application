@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,14 @@ namespace GSCFieldApp.ViewModel
     public partial class EarthmatViewModel : ObservableObject
     {
         public EarthmatViewModel() { }
+
+        #region RELAY COMMANDS
+        [RelayCommand]
+        async Task Save()
+        {
+
+        }
+
+        #endregion
     }
 }

@@ -120,6 +120,33 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Sauvegarder</value>
   </data>
+  <data name="EarthmatPageColourTitle" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="EarthmatPageContactTitle" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="EarthmatPageGeneralTitle" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="EarthmatPageInterpretationTitle" xml:space="preserve">
+    <value>Interprétation</value>
+  </data>
+  <data name="EarthmatPageLithoModTitle" xml:space="preserve">
+    <value>Modificateur de lithologie</value>
+  </data>
+  <data name="EarthmatPageLithoTitle" xml:space="preserve">
+    <value>Lithologie - Cadre et composition</value>
+  </data>
+  <data name="EarthmatPageMagTitle" xml:space="preserve">
+    <value>Magnétisme</value>
+  </data>
+  <data name="EarthmatPageMetaFaciesTitle" xml:space="preserve">
+    <value>Faciès métamorphique</value>
+  </data>
+  <data name="EarthmatPageMineralogyTitle" xml:space="preserve">
+    <value>Minéralogie</value>
+  </data>
   <data name="EarthmatPageTitle" xml:space="preserve">
     <value>Matériaux du sol</value>
   </data>
