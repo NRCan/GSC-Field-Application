@@ -109,7 +109,7 @@
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideGeneralCommand}" CommandParameter="StationGeneralVisibility" NumberOfTapsRequired="2"/>
+                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="StationGeneralVisibility" NumberOfTapsRequired="2"/>
                         </Frame.GestureRecognizers>
 
                         <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
@@ -145,7 +145,7 @@
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideNotesCommand}" CommandParameter="StationNotesVisibility" NumberOfTapsRequired="2"/>
+                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="StationNotesVisibility" NumberOfTapsRequired="2"/>
                         </Frame.GestureRecognizers>
 
                         <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
