@@ -34,7 +34,6 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _stationOutcropQuality = new ComboBox();
         private ComboBox _stationSource = new ComboBox();
         private ComboBox _stationPhysEnv = new ComboBox();
-        private bool _stationTypeIsVisible = true;
 
         //Concatenated
         private ComboBoxItem _selectedStationOutcropQuality = new ComboBoxItem();
@@ -61,6 +60,21 @@ namespace GSCFieldApp.ViewModel
         {
             get { return Preferences.Get(nameof(StationTypeVisibility), true); }
             set { Preferences.Set(nameof(StationTypeVisibility), value); }
+        }
+        public bool StationOutcropVisibility
+        {
+            get { return Preferences.Get(nameof(StationOutcropVisibility), true); }
+            set { Preferences.Set(nameof(StationOutcropVisibility), value); }
+        }
+        public bool StationGeneralVisibility
+        {
+            get { return Preferences.Get(nameof(StationGeneralVisibility), true); }
+            set { Preferences.Set(nameof(StationGeneralVisibility), value); }
+        }
+        public bool StationNotesVisibility
+        {
+            get { return Preferences.Get(nameof(StationNotesVisibility), true); }
+            set { Preferences.Set(nameof(StationNotesVisibility), value); }
         }
         public Station Model { get { return _model; } set { _model = value; } }
         public ComboBox StationType { get { return _stationType; } set { _stationType = value; } }
@@ -115,8 +129,36 @@ namespace GSCFieldApp.ViewModel
             //Change
             OnPropertyChanged(nameof(StationTypeVisibility));
 
-            //Keep in pref
+        }
 
+        [RelayCommand]
+        public async Task HideOutcrop()
+        {
+            // Reverse
+            StationOutcropVisibility = StationOutcropVisibility ? false : true;
+
+            //Change
+            OnPropertyChanged(nameof(StationOutcropVisibility));
+        }
+
+        [RelayCommand]
+        public async Task HideGeneral()
+        {
+            // Reverse
+            StationGeneralVisibility = StationGeneralVisibility ? false : true;
+
+            //Change
+            OnPropertyChanged(nameof(StationGeneralVisibility));
+        }
+
+        [RelayCommand]
+        public async Task HideNotes()
+        {
+            // Reverse
+            StationNotesVisibility = StationNotesVisibility ? false : true;
+
+            //Change
+            OnPropertyChanged(nameof(StationNotesVisibility));
         }
 
         [RelayCommand]

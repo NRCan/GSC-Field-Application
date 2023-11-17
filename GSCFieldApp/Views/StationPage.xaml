@@ -76,63 +76,82 @@
                     <!--Outcrop section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" 
                            Style="{StaticResource FieldAppSectionFrame}" 
-                           HeightRequest="500"
+                           
                            IsVisible="{Binding BedrockVisibility}">
-                        <VerticalStackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding HideOutcropCommand}" NumberOfTapsRequired="2"/>
+                        </Frame.GestureRecognizers>
+                        
+                        <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageOutcropTitle}"/>
+                            <VerticalStackLayout IsVisible="{Binding StationOutcropVisibility}">
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize StationPageOutcropSize}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding Model.StationOCSize, Mode=TwoWay}" Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
+                                </VerticalStackLayout>
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize StationPageOutcropSize}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.StationOCSize, Mode=TwoWay}" Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
-                            </VerticalStackLayout>
-
-                            <Picker Title="{local:Localize StationPageOutcropQuality}" x:Name="QualityPicker"
+                                <Picker Title="{local:Localize StationPageOutcropQuality}" x:Name="QualityPicker"
                                     ItemsSource="{Binding StationOutcropQuality.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
-                            <!--<ListView />-->
-                            <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
+                                <!--<ListView />-->
+                                <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
                                         x:Name="QualityCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
                                         ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
                            
                         </VerticalStackLayout>
                     </Frame>
 
                     <!--General section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
+                        
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding HideGeneralCommand}" NumberOfTapsRequired="2"/>
+                        </Frame.GestureRecognizers>
+
+                        <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageGeneralTitle}"/>
 
-                            <Picker Title="{local:Localize StationPageGeneralPhysEnv}"
+                            <VerticalStackLayout IsVisible="{Binding StationGeneralVisibility}">
+                                <Picker Title="{local:Localize StationPageGeneralPhysEnv}"
                                     ItemsSource="{Binding StationPhysEnv.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationPhysEnv.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize StationPageGeneralAirPhoto}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.StationAirNo, Mode=TwoWay}"/>
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize StationPageGeneralAirPhoto}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding Model.StationAirNo, Mode=TwoWay}"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize StationPageGeneralTravNo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding Model.StationTravNo, Mode=TwoWay}" Keyboard="Numeric" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize StationPageGeneralRelatedTo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding Model.StationRelatedTo, Mode=TwoWay}" Placeholder="{local:Localize StationPageGeneralRelatedToPlaceholder}"/>
+                                </VerticalStackLayout>
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize StationPageGeneralTravNo}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.StationTravNo, Mode=TwoWay}" Keyboard="Numeric" />
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize StationPageGeneralRelatedTo}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.StationRelatedTo, Mode=TwoWay}" Placeholder="{local:Localize StationPageGeneralRelatedToPlaceholder}"/>
-                            </VerticalStackLayout>
 
                         </VerticalStackLayout>
                     </Frame>
 
                     <!--Notes section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
+                        
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding HideNotesCommand}" NumberOfTapsRequired="2"/>
+                        </Frame.GestureRecognizers>
+
+                        <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize GenericNoteTitle}"/>
 
-                            <VerticalStackLayout>
+                            <VerticalStackLayout IsVisible="{Binding StationNotesVisibility}">
                                 <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" 
                                         Text="{Binding Model.StationNote, Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
