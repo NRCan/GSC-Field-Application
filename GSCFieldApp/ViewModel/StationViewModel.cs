@@ -14,6 +14,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Maui.ApplicationModel.Communication;
 using System.Xml.Linq;
+using ExCSS;
+using System.Reflection;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -121,44 +123,22 @@ namespace GSCFieldApp.ViewModel
         #region RELAYS
 
         [RelayCommand]
-        public async Task HideType()
+        public async Task Hide(string visibilityObjectName )
         {
-            // Reverse
-            StationTypeVisibility = StationTypeVisibility ? false : true;
+            //Use reflection to parse incoming block to hide
+            PropertyInfo? prop = typeof(StationViewModel).GetProperty( visibilityObjectName );
 
-            //Change
-            OnPropertyChanged(nameof(StationTypeVisibility));
+            if (prop != null)
+            {
+                bool propBool = (bool)prop.GetValue(this);
 
-        }
+                // Reverse
+                propBool = propBool ? false : true;
 
-        [RelayCommand]
-        public async Task HideOutcrop()
-        {
-            // Reverse
-            StationOutcropVisibility = StationOutcropVisibility ? false : true;
+                prop.SetValue(this, propBool);
+                OnPropertyChanged(visibilityObjectName);
+            }
 
-            //Change
-            OnPropertyChanged(nameof(StationOutcropVisibility));
-        }
-
-        [RelayCommand]
-        public async Task HideGeneral()
-        {
-            // Reverse
-            StationGeneralVisibility = StationGeneralVisibility ? false : true;
-
-            //Change
-            OnPropertyChanged(nameof(StationGeneralVisibility));
-        }
-
-        [RelayCommand]
-        public async Task HideNotes()
-        {
-            // Reverse
-            StationNotesVisibility = StationNotesVisibility ? false : true;
-
-            //Change
-            OnPropertyChanged(nameof(StationNotesVisibility));
         }
 
         [RelayCommand]

@@ -20,7 +20,7 @@
 
             <!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01-->
             <Frame Style="{StaticResource FieldAppConcatFrame}" >
-                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}">
+                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}" >
                     <Label Text="{Binding itemName}" x:Name="itemNameText" />
                     <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
                         Command="{Binding Source={RelativeSource 
@@ -53,7 +53,7 @@
                     <!--Station Type section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideTypeCommand}" NumberOfTapsRequired="2"/>
+                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="StationTypeVisibility" NumberOfTapsRequired="2"/>
                         </Frame.GestureRecognizers>
                         <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
                             <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize StationPageTypeTitle}"/>
@@ -79,12 +79,12 @@
                            
                            IsVisible="{Binding BedrockVisibility}">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideOutcropCommand}" NumberOfTapsRequired="2"/>
+                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="StationOutcropVisibility" NumberOfTapsRequired="2"/>
                         </Frame.GestureRecognizers>
                         
                         <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageOutcropTitle}"/>
-                            <VerticalStackLayout IsVisible="{Binding StationOutcropVisibility}">
+                            <VerticalStackLayout IsVisible="{Binding StationOutcropVisibility}" >
                                 <VerticalStackLayout>
                                     <Label Text="{local:Localize StationPageOutcropSize}" Style="{StaticResource FieldAppEntryTitle}"/>
                                     <Entry Text="{Binding Model.StationOCSize, Mode=TwoWay}" Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
@@ -95,7 +95,7 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                                 <!--<ListView />-->
-                                <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
+                                <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" HeightRequest="500" 
                                         x:Name="QualityCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
                                         ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
@@ -109,7 +109,7 @@
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideGeneralCommand}" NumberOfTapsRequired="2"/>
+                            <TapGestureRecognizer Command="{Binding HideGeneralCommand}" CommandParameter="StationGeneralVisibility" NumberOfTapsRequired="2"/>
                         </Frame.GestureRecognizers>
 
                         <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
@@ -145,7 +145,7 @@
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
                         
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideNotesCommand}" NumberOfTapsRequired="2"/>
+                            <TapGestureRecognizer Command="{Binding HideNotesCommand}" CommandParameter="StationNotesVisibility" NumberOfTapsRequired="2"/>
                         </Frame.GestureRecognizers>
 
                         <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
