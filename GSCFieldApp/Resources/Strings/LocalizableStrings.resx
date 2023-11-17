@@ -120,6 +120,9 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="EarthmatPageTitle" xml:space="preserve">
+    <value>Earth Material</value>
+  </data>
   <data name="FieldBookPageActivty" xml:space="preserve">
     <value>Activity</value>
   </data>

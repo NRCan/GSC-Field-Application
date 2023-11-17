@@ -70,6 +70,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Earth Material.
+        /// </summary>
+        internal static string EarthmatPageTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activity.
         /// </summary>
         internal static string FieldBookPageActivty {
