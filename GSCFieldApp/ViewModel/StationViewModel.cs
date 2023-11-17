@@ -34,6 +34,7 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _stationOutcropQuality = new ComboBox();
         private ComboBox _stationSource = new ComboBox();
         private ComboBox _stationPhysEnv = new ComboBox();
+        private bool _stationTypeIsVisible = true;
 
         //Concatenated
         private ComboBoxItem _selectedStationOutcropQuality = new ComboBoxItem();
@@ -55,6 +56,12 @@ namespace GSCFieldApp.ViewModel
         [ObservableProperty]
         private Station _station;
 
+
+        public bool StationTypeVisibility 
+        {
+            get { return Preferences.Get(nameof(StationTypeVisibility), true); }
+            set { Preferences.Set(nameof(StationTypeVisibility), value); }
+        }
         public Station Model { get { return _model; } set { _model = value; } }
         public ComboBox StationType { get { return _stationType; } set { _stationType = value; } }
         public ComboBox StationOutcropQuality { get { return _stationOutcropQuality; } set { _stationOutcropQuality = value; } }
@@ -98,6 +105,19 @@ namespace GSCFieldApp.ViewModel
         }
 
         #region RELAYS
+
+        [RelayCommand]
+        public async Task HideType()
+        {
+            // Reverse
+            StationTypeVisibility = StationTypeVisibility ? false : true;
+
+            //Change
+            OnPropertyChanged(nameof(StationTypeVisibility));
+
+            //Keep in pref
+
+        }
 
         [RelayCommand]
         public async Task Back()

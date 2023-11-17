@@ -9,8 +9,7 @@
         <Setter Property="FontSize" Value="Title"/>
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Margin" Value="0,0,0,4"/>
-        <Setter Property="Padding" Value="10"/>
+
     </Style>
 
     <Style TargetType="Label" x:Key="FieldAppEntryTitle">
@@ -171,7 +170,7 @@
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="Margin" Value="5" />
+        <Setter Property="Margin" Value="2" />
         <Setter Property="WidthRequest" Value="300"/>
     </Style>
 
@@ -191,6 +190,10 @@
         <Setter Property="Wrap" Value="Wrap" />
         <Setter Property="VerticalOptions" Value="Fill"/>
         <Setter Property="HorizontalOptions" Value="Fill"/>
+    </Style>
+
+    <Style TargetType="VerticalStackLayout" x:Key="FieldAppExpandLayout">
+        <Setter Property="Margin" Value="0,0,0,2"/>
     </Style>
     
     <!--Concatenated value box styles-->

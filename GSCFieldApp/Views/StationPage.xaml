@@ -52,17 +52,23 @@
 
                     <!--Station Type section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageTypeTitle}"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding HideTypeCommand}" NumberOfTapsRequired="2"/>
+                        </Frame.GestureRecognizers>
+                        <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
+                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize StationPageTypeTitle}"/>
 
-                            <Picker Title="{local:Localize StationPageType}"
+                            <VerticalStackLayout IsVisible="{Binding StationTypeVisibility}">
+                                <Picker Title="{local:Localize StationPageType}"
                                     ItemsSource="{Binding StationType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationType.cboxDefaultItemIndex, Mode=TwoWay}" />
-                            <Picker Title="{local:Localize StationPageSource}"
+                                <Picker Title="{local:Localize StationPageSource}"
                                     ItemsSource="{Binding StationSource.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationSource.cboxDefaultItemIndex, Mode=TwoWay}" />
+                            </VerticalStackLayout>
+
 
                         </VerticalStackLayout>
                     </Frame>
