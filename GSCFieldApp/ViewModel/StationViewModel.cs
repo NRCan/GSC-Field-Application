@@ -146,6 +146,33 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        async Task AddEarthmat()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (_station != null && _station.StationAlias != string.Empty)
+            {
+                await da.SaveItemAsync(Model, true);
+            }
+            else
+            {
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+            }
+
+            //Close to be sure
+            await da.CloseConnectionAsync();
+
+            //Navigate to child
+            await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}");
+
+        }
+    
+
+
         #endregion
 
         #region METHODS
