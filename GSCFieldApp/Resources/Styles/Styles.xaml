@@ -232,13 +232,14 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
+        
     <Style TargetType="CollectionView" x:Key="FieldAppConcatCollectionView">
         <Setter Property="Margin" Value="15,0,0,15"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="VerticalOptions" Value="Fill"/>
         <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
-        <Setter Property="MaximumHeightRequest" Value="250"/>
+        <Setter Property="HeightRequest" Value="250"/>
         <Setter Property="CanReorderItems" Value="True"/>
     </Style>
     
