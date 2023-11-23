@@ -96,7 +96,7 @@
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                                 <!--<ListView />-->
                                 <Frame BorderColor="LightGray">
-                                    <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" Margin="-10"
+                                    <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
                                         x:Name="QualityCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
                                         ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
@@ -155,9 +155,11 @@
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize GenericNoteTitle}"/>
 
                             <VerticalStackLayout IsVisible="{Binding StationNotesVisibility}">
+                                <Label Text="{local:Localize StationPageNotesCurrent}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" 
                                         Text="{Binding Model.StationNote, Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
+                                <Label Text="{local:Localize StationPageNotesSLS}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" 
                                         Text="{Binding Model.StationSLSNotes,Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>

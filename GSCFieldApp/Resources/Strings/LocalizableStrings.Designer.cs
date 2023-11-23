@@ -493,6 +493,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current.
+        /// </summary>
+        internal static string StationPageNotesCurrent {
+            get {
+                return ResourceManager.GetString("StationPageNotesCurrent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Since Last Station.
+        /// </summary>
+        internal static string StationPageNotesSLS {
+            get {
+                return ResourceManager.GetString("StationPageNotesSLS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quality.
         /// </summary>
         internal static string StationPageOutcropQuality {

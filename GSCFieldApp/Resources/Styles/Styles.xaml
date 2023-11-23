@@ -203,7 +203,7 @@
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="HorizontalOptions" Value="Center"/>
         <Setter Property="Padding" Value="8" />
-        <Setter Property="Margin" Value="0,0,0,8" />
+        <Setter Property="Margin" Value="0,0,8,8" />
     </Style>
     <Style TargetType="HorizontalStackLayout" x:Key="FieldAppConcatHLayout">
         <Setter Property="HeightRequest" Value="25"/>
@@ -232,9 +232,11 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-        
+    <Style TargetType="Frame" x:Key="FieldAppConcatOuterFrame">
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+    </Style>
     <Style TargetType="CollectionView" x:Key="FieldAppConcatCollectionView">
-        <Setter Property="Margin" Value="0"/>
+        <!--<Setter Property="Margin" Value="0"/>-->
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="VerticalOptions" Value="Fill"/>
         <Setter Property="SelectionMode" Value="Single"/>

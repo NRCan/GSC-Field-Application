@@ -261,6 +261,12 @@
   <data name="StationPageGeneralTravNo" xml:space="preserve">
     <value>Traverse #</value>
   </data>
+  <data name="StationPageNotesCurrent" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="StationPageNotesSLS" xml:space="preserve">
+    <value>Since Last Station</value>
+  </data>
   <data name="StationPageOutcropQuality" xml:space="preserve">
     <value>Quality</value>
   </data>
