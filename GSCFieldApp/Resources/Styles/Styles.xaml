@@ -45,7 +45,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="10,0"/>
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
         <Setter Property="HeightRequest" Value="100"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -234,12 +234,12 @@
     </Style>
         
     <Style TargetType="CollectionView" x:Key="FieldAppConcatCollectionView">
-        <Setter Property="Margin" Value="15,0,0,15"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="VerticalOptions" Value="Fill"/>
         <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
-        <Setter Property="HeightRequest" Value="250"/>
+        <Setter Property="HeightRequest" Value="150"/>
         <Setter Property="CanReorderItems" Value="True"/>
     </Style>
     
