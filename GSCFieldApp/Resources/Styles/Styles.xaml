@@ -205,9 +205,11 @@
         <Setter Property="Padding" Value="8" />
         <Setter Property="Margin" Value="0,0,8,8" />
     </Style>
+    
     <Style TargetType="HorizontalStackLayout" x:Key="FieldAppConcatHLayout">
         <Setter Property="HeightRequest" Value="25"/>
     </Style>
+    
     <Style TargetType="Button" x:Key="FieldAppConcatDelButton">
         <Setter Property="TextColor" Value="#FF0000" />
         <Setter Property="BackgroundColor" Value="Transparent" />
@@ -232,9 +234,11 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
+    
     <Style TargetType="Frame" x:Key="FieldAppConcatOuterFrame">
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
     </Style>
+    
     <Style TargetType="CollectionView" x:Key="FieldAppConcatCollectionView">
         <!--<Setter Property="Margin" Value="0"/>-->
         <Setter Property="BackgroundColor" Value="Transparent"/>
@@ -243,6 +247,16 @@
         <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
         <Setter Property="HeightRequest" Value="150"/>
         <Setter Property="CanReorderItems" Value="True"/>
+    </Style>
+
+    <Style TargetType="ListView" x:Key="FieldAppSearchCollectionView">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="VerticalOptions" Value="Fill"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
+        <Setter Property="HeightRequest" Value="120"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="RowHeight" Value="30"/>
     </Style>
     
     <!--TODO: Find a way to customize title style-->

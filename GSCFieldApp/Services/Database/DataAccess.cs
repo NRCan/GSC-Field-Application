@@ -292,8 +292,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             ComboBox outputVocabs = new ComboBox();
 
             //Get vocab
-            DataAccess picklistAccess = new DataAccess();
-            List<Vocabularies> vocs = await picklistAccess.GetPicklistValuesAsync(tableName, fieldName, string.Empty, false, fieldwork);
+            List<Vocabularies> vocs = await GetPicklistValuesAsync(tableName, fieldName, string.Empty, false, fieldwork);
 
             //Fill in cbox
             outputVocabs = GetComboboxListFromVocab(vocs);

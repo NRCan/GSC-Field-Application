@@ -126,17 +126,26 @@
   <data name="EarthmatPageContactTitle" xml:space="preserve">
     <value>Contact</value>
   </data>
+  <data name="EarthmatPageDetailSearchPlaceholder" xml:space="preserve">
+    <value>Type in rock type ie. basalt</value>
+  </data>
   <data name="EarthmatPageGeneralTitle" xml:space="preserve">
     <value>General</value>
   </data>
   <data name="EarthmatPageInterpretationTitle" xml:space="preserve">
     <value>Interpretation</value>
   </data>
+  <data name="EarthmatPageLithoDetail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
   <data name="EarthmatPageLithoModTitle" xml:space="preserve">
     <value>Lithologic Modifiers</value>
   </data>
   <data name="EarthmatPageLithoTitle" xml:space="preserve">
     <value>Lithology - Setting and composition</value>
+  </data>
+  <data name="EarthmatPageLithoType" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="EarthmatPageMagTitle" xml:space="preserve">
     <value>Magnetism</value>
@@ -146,6 +155,9 @@
   </data>
   <data name="EarthmatPageMineralogyTitle" xml:space="preserve">
     <value>Mineralogy</value>
+  </data>
+  <data name="EarthmatPageSearchPlaceholder" xml:space="preserve">
+    <value>Type in rock group ie. metamorphic</value>
   </data>
   <data name="EarthmatPageTitle" xml:space="preserve">
     <value>Earth Material</value>

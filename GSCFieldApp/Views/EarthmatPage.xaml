@@ -13,6 +13,10 @@
         <BackButtonBehavior Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
     </Shell.BackButtonBehavior>-->
 
+    <ContentPage.Resources>
+
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
@@ -32,9 +36,41 @@
 
                     <!--Lithologies-->
                     <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="EMLithoVisibility" NumberOfTapsRequired="2"/>
+                        </Frame.GestureRecognizers>
+
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageLithoTitle}"/>
 
+                            <VerticalStackLayout IsVisible="{Binding EMLithoVisibility}" >
+                                <VerticalStackLayout>
+                                    
+                                    <!-- Group type search bar (approx. 65 items) -->
+                                    <Label Text="{local:Localize EarthmatPageLithoType}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <SearchBar Placeholder="{local:Localize EarthmatPageSearchPlaceholder}"
+                                        x:Name="lithoGroupSearchBar" Text="{Binding SelectedLithoGroup, Mode=TwoWay}"
+                                        SearchCommand="{Binding PerformGroupSearchCommand}"
+                                        SearchCommandParameter="{Binding Text, Source={x:Reference lithoGroupSearchBar}}"/>
+                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoGroupListVisible}"
+                                        x:Name="lihthoGroupSearchResults" ItemSelected="lihthoGroupSearchResults_ItemSelected"
+                                        ItemsSource="{Binding LihthoGroupSearchResults, Mode=TwoWay}"/>
+
+                                    <!-- Detail search bar (approx >450 items) -->
+                                    <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"
+                                        x:Name="lithoSearchBar" Text="{Binding SelectedLithoDetail, Mode=TwoWay}"
+                                        SearchCommand="{Binding PerformDetailSearchCommand}"
+                                        SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
+                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible}"
+                                        x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
+                                        ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}"/>
+
+                                </VerticalStackLayout>
+
+                            </VerticalStackLayout>
+                            
                         </VerticalStackLayout>
                     </Frame>
 

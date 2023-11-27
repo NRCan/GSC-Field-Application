@@ -88,6 +88,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type in rock type ie. basalt.
+        /// </summary>
+        internal static string EarthmatPageDetailSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("EarthmatPageDetailSearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         internal static string EarthmatPageGeneralTitle {
@@ -106,6 +115,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detail.
+        /// </summary>
+        internal static string EarthmatPageLithoDetail {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lithologic Modifiers.
         /// </summary>
         internal static string EarthmatPageLithoModTitle {
@@ -120,6 +138,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string EarthmatPageLithoTitle {
             get {
                 return ResourceManager.GetString("EarthmatPageLithoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string EarthmatPageLithoType {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoType", resourceCulture);
             }
         }
         
@@ -147,6 +174,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string EarthmatPageMineralogyTitle {
             get {
                 return ResourceManager.GetString("EarthmatPageMineralogyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type in rock group ie. metamorphic.
+        /// </summary>
+        internal static string EarthmatPageSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("EarthmatPageSearchPlaceholder", resourceCulture);
             }
         }
         
