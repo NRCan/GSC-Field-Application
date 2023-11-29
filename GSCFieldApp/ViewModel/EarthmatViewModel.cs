@@ -29,6 +29,8 @@ namespace GSCFieldApp.ViewModel
         private string _selectedLithoGroup = string.Empty;
         private string _selectedLithoDetail = string.Empty;
         
+        private List<Lithology> lithologies = new List<Lithology>();
+
         #endregion
 
         public bool EMLithoVisibility
@@ -188,6 +190,12 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+        /// <summary>
+        /// Will fill the detail search list values
+        /// </summary>
+        /// <param name="in_vocab"></param>
+        /// <param name="in_projectType"></param>
+        /// <returns></returns>
         private async Task FillLithoSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
@@ -201,12 +209,27 @@ namespace GSCFieldApp.ViewModel
                 {
                     _lihthoSearchResults.Add(tmp.Code.ToString());
                 }
+
+                IEnumerable<Lithology> existingDetails = lithologies.Where(l => l.GroupTypeCode == tmp.RelatedTo.ToString());
+                if (existingDetails != null && existingDetails.Count() > 0)
+                {
+                    LithologyDetail detail = new LithologyDetail();
+                    detail.DetailCode = tmp.Code.ToString();
+                    existingDetails.First().lithologyDetails.Add(detail);
+
+                }
             }
 
             LihthoDetailSearchResults = _lihthoSearchResults;
 
         }
 
+        /// <summary>
+        /// Will fill the group search list values
+        /// </summary>
+        /// <param name="in_vocab"></param>
+        /// <param name="in_projectType"></param>
+        /// <returns></returns>
         private async Task FillLithoGroupSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
@@ -219,6 +242,13 @@ namespace GSCFieldApp.ViewModel
                 if (!_lihthoSearchResults.Contains(tmp.Code.ToString()))
                 {
                     _lihthoSearchResults.Add(tmp.Code.ToString());
+
+                    IEnumerable<Lithology> existingGroupType = lithologies.Where(l => l.GroupTypeCode == tmp.Code.ToString());
+                    if (existingGroupType == null || existingGroupType.Count() == 0)
+                    {
+                        lithologies.Add(new Lithology(tmp.Code.ToString()));
+                    }
+
                 }
             }
 
@@ -235,6 +265,69 @@ namespace GSCFieldApp.ViewModel
 
             await FillLithoGroupSearchListAsync(vocab, currentProjectType);
             await FillLithoSearchListAsync(vocab, currentProjectType);
+        }
+
+
+        /// <summary>
+        /// Will force a filtered down list of lithology details based
+        /// on user selected group
+        /// </summary>
+        /// <param name="groupName"></param>
+        public void RefineDetailListFromGroup(string groupName)
+        {
+            //Reset list
+            _lihthoDetailSearchResults = new List<string>();
+
+            //Get proper lith group
+            IEnumerable<Lithology> existingGroupType = lithologies.Where(l => l.GroupTypeCode == groupName);
+            if (existingGroupType != null && existingGroupType.Count() == 1)
+            {
+                foreach (LithologyDetail lDetail in existingGroupType.FirstOrDefault().lithologyDetails)
+                {
+                    if (!_lihthoDetailSearchResults.Contains(lDetail.DetailCode))
+                    {
+                        _lihthoDetailSearchResults.Add(lDetail.DetailCode);
+                    }
+                }
+            }
+
+
+            LihthoDetailSearchResults = _lihthoDetailSearchResults;
+
+            isLithoDetailListVisible = true;
+        }
+
+        /// <summary>
+        /// Will force a filtered down list of lithology group/types based
+        /// on user selected detail (usually 1 value)
+        /// </summary>
+        /// <param name="groupName"></param>
+        public void RefineGroupListFromDetail(string detailName)
+        {
+            //Reset list
+            _lihthoGroupSearchResults = new List<string>();
+
+            //Get proper lith group
+            foreach (Lithology lith in lithologies)
+            {
+
+                foreach (LithologyDetail lDetail in lith.lithologyDetails)
+                {
+                    if (lDetail.DetailCode == detailName)
+                    {
+                        if (!_lihthoGroupSearchResults.Contains(lith.GroupTypeCode))
+                        {
+                            _lihthoGroupSearchResults.Add(lith.GroupTypeCode);
+                        }
+                    }
+
+                }
+
+            }
+
+            LihthoGroupSearchResults = _lihthoGroupSearchResults;
+
+            isLithoGroupListVisible = true;
         }
 
         #endregion
