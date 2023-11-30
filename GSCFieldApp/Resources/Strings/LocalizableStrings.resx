@@ -162,6 +162,24 @@
   <data name="EarthmatPageTitle" xml:space="preserve">
     <value>Earth Material</value>
   </data>
+  <data name="EarthmatTooltipAddFossil" xml:space="preserve">
+    <value>Tap to add a new fossil</value>
+  </data>
+  <data name="EarthmatTooltipAddMA" xml:space="preserve">
+    <value>Tap to add a new mineralization/alteration</value>
+  </data>
+  <data name="EarthmatTooltipAddMineral" xml:space="preserve">
+    <value>Tap to add a new mineral</value>
+  </data>
+  <data name="EarthmatTooltipAddPaleoflow" xml:space="preserve">
+    <value>Tap to add a new paleoflow</value>
+  </data>
+  <data name="EarthmatTooltipAddSample" xml:space="preserve">
+    <value>Tap to add a new sample</value>
+  </data>
+  <data name="EarthmatTooltipAddStruc" xml:space="preserve">
+    <value>Tap to add a new structure</value>
+  </data>
   <data name="FieldBookPageActivty" xml:space="preserve">
     <value>Activity</value>
   </data>
@@ -305,6 +323,18 @@
   </data>
   <data name="StationPageTypeTitle" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="StationTooltipAddEM" xml:space="preserve">
+    <value>Tap to add a new earth material</value>
+  </data>
+  <data name="StationTooltipAddEnv" xml:space="preserve">
+    <value>Tap to add a new environment</value>
+  </data>
+  <data name="StationTooltipAddMA" xml:space="preserve">
+    <value>Tap to add a new mineralization/alteration</value>
+  </data>
+  <data name="StationTooltipAddPhoto" xml:space="preserve">
+    <value>Tap to add one or many photos</value>
   </data>
   <data name="WatermarkNoFieldBook" xml:space="preserve">
     <value>Please add a new field book</value>

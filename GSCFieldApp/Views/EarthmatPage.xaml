@@ -148,14 +148,29 @@
             <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="0" Grid.Column="1" >
 
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" 
+                        WidthRequest="40" ToolTipProperties.Text="{local:Localize EarthmatTooltipAddSample}"
                         Margin="0,10,0,10" 
                         BackgroundColor="{StaticResource FieldSampleColorLight}"/>
-                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldStrucColorLight}"/>
-                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
-                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldMineralColorLight}"/>
-                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldPflowColorLight}"/>
-                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldFossilColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize EarthmatTooltipAddStruc}"
+                        BackgroundColor="{StaticResource FieldStrucColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize EarthmatTooltipAddMA}"
+                        BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize EarthmatTooltipAddMineral}"
+                        BackgroundColor="{StaticResource FieldMineralColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize EarthmatTooltipAddPaleoflow}"
+                        BackgroundColor="{StaticResource FieldPflowColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize EarthmatTooltipAddFossil}"
+                        BackgroundColor="{StaticResource FieldFossilColorLight}"/>
             </StackLayout>
 
         </Grid>

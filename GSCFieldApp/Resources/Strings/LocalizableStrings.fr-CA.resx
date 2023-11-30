@@ -162,6 +162,24 @@
   <data name="EarthmatPageTitle" xml:space="preserve">
     <value>Matériaux du sol</value>
   </data>
+  <data name="EarthmatTooltipAddFossil" xml:space="preserve">
+    <value>Ajoutez un nouveau fossil</value>
+  </data>
+  <data name="EarthmatTooltipAddMA" xml:space="preserve">
+    <value>Ajoutez une nouvelle minélisation/altération</value>
+  </data>
+  <data name="EarthmatTooltipAddMineral" xml:space="preserve">
+    <value>Ajoutez un nouveau minéral</value>
+  </data>
+  <data name="EarthmatTooltipAddPaleoflow" xml:space="preserve">
+    <value>Ajoutez un nouveau flot paléologique</value>
+  </data>
+  <data name="EarthmatTooltipAddSample" xml:space="preserve">
+    <value>Ajoutez un nouvel échantillon</value>
+  </data>
+  <data name="EarthmatTooltipAddStruc" xml:space="preserve">
+    <value>Ajoutez une nouvelle structure</value>
+  </data>
   <data name="FieldBookPageActivty" xml:space="preserve">
     <value>Activité</value>
   </data>
@@ -305,6 +323,18 @@
   </data>
   <data name="StationPageTypeTitle" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="StationTooltipAddEM" xml:space="preserve">
+    <value>Ajoutez un nouveau matériaux du sol</value>
+  </data>
+  <data name="StationTooltipAddEnv" xml:space="preserve">
+    <value>Ajoutez un nouvel environnement</value>
+  </data>
+  <data name="StationTooltipAddMA" xml:space="preserve">
+    <value>Ajoutez une nouvelle minélisation/altération</value>
+  </data>
+  <data name="StationTooltipAddPhoto" xml:space="preserve">
+    <value>Ajoutez une ou plusieurs photo</value>
   </data>
   <data name="WatermarkNoFieldBook" xml:space="preserve">
     <value>Veuillez ajouter un carnet.</value>

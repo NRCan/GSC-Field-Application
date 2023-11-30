@@ -196,6 +196,60 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new fossil.
+        /// </summary>
+        internal static string EarthmatTooltipAddFossil {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddFossil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new mineralization/alteration.
+        /// </summary>
+        internal static string EarthmatTooltipAddMA {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddMA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new mineral.
+        /// </summary>
+        internal static string EarthmatTooltipAddMineral {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddMineral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new paleoflow.
+        /// </summary>
+        internal static string EarthmatTooltipAddPaleoflow {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddPaleoflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new sample.
+        /// </summary>
+        internal static string EarthmatTooltipAddSample {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new structure.
+        /// </summary>
+        internal static string EarthmatTooltipAddStruc {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddStruc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activity.
         /// </summary>
         internal static string FieldBookPageActivty {
@@ -624,6 +678,42 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string StationPageTypeTitle {
             get {
                 return ResourceManager.GetString("StationPageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new earth material.
+        /// </summary>
+        internal static string StationTooltipAddEM {
+            get {
+                return ResourceManager.GetString("StationTooltipAddEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new environment.
+        /// </summary>
+        internal static string StationTooltipAddEnv {
+            get {
+                return ResourceManager.GetString("StationTooltipAddEnv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new mineralization/alteration.
+        /// </summary>
+        internal static string StationTooltipAddMA {
+            get {
+                return ResourceManager.GetString("StationTooltipAddMA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add one or many photos.
+        /// </summary>
+        internal static string StationTooltipAddPhoto {
+            get {
+                return ResourceManager.GetString("StationTooltipAddPhoto", resourceCulture);
             }
         }
         
