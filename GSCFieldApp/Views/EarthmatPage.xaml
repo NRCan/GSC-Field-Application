@@ -53,7 +53,7 @@
                                         x:Name="lithoGroupSearchBar" Text="{Binding SelectedLithoGroup, Mode=TwoWay}"
                                         SearchCommand="{Binding PerformGroupSearchCommand}"
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoGroupSearchBar}}"/>
-                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoGroupListVisible}"
+                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}"
                                         x:Name="lihthoGroupSearchResults" ItemSelected="lihthoGroupSearchResults_ItemSelected"
                                         ItemsSource="{Binding LihthoGroupSearchResults, Mode=TwoWay}"/>
 
@@ -63,7 +63,7 @@
                                         x:Name="lithoSearchBar" Text="{Binding SelectedLithoDetail, Mode=TwoWay}"
                                         SearchCommand="{Binding PerformDetailSearchCommand}"
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
-                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible}"
+                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" 
                                         x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
                                         ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}"/>
 

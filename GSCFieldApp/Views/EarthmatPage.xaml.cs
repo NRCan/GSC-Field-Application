@@ -34,6 +34,7 @@ public partial class EarthmatPage : ContentPage
                 EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
                 vm2.RefineDetailListFromGroup(listView.SelectedItem.ToString());
                 vm2.SelectedLithoGroup = listView.SelectedItem.ToString();
+                vm2.SelectedLithoDetail = string.Empty;
                 vm2.isLithoGroupListVisible = false;
 
             }

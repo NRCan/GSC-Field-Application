@@ -127,7 +127,7 @@
     <value>Contact</value>
   </data>
   <data name="EarthmatPageDetailSearchPlaceholder" xml:space="preserve">
-    <value>Type in rock type ie. basalt</value>
+    <value>Type detail ie. basalt</value>
   </data>
   <data name="EarthmatPageGeneralTitle" xml:space="preserve">
     <value>General</value>
@@ -157,7 +157,7 @@
     <value>Mineralogy</value>
   </data>
   <data name="EarthmatPageSearchPlaceholder" xml:space="preserve">
-    <value>Type in rock group ie. metamorphic</value>
+    <value>Type group ie. metamorphic</value>
   </data>
   <data name="EarthmatPageTitle" xml:space="preserve">
     <value>Earth Material</value>

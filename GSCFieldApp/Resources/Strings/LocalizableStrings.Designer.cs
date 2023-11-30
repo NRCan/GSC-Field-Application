@@ -88,7 +88,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type in rock type ie. basalt.
+        ///   Looks up a localized string similar to Type detail ie. basalt.
         /// </summary>
         internal static string EarthmatPageDetailSearchPlaceholder {
             get {
@@ -178,7 +178,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type in rock group ie. metamorphic.
+        ///   Looks up a localized string similar to Type group ie. metamorphic.
         /// </summary>
         internal static string EarthmatPageSearchPlaceholder {
             get {

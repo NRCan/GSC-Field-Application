@@ -127,7 +127,7 @@
     <value>Contact</value>
   </data>
   <data name="EarthmatPageDetailSearchPlaceholder" xml:space="preserve">
-    <value>Tapez une lithologie ie. basalt</value>
+    <value>Tapez ex:. basalt</value>
   </data>
   <data name="EarthmatPageGeneralTitle" xml:space="preserve">
     <value>Général</value>
@@ -157,7 +157,7 @@
     <value>Minéralogie</value>
   </data>
   <data name="EarthmatPageSearchPlaceholder" xml:space="preserve">
-    <value>Tapez un groupe i.e. métamorphique</value>
+    <value>Tapez ex. métamorphique</value>
   </data>
   <data name="EarthmatPageTitle" xml:space="preserve">
     <value>Matériaux du sol</value>
