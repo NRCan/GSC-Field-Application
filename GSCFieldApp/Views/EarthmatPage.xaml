@@ -145,6 +145,19 @@
             <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldEarthMaterialColor}"
                     Command="{Binding SaveCommand}"/>
 
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="0" Grid.Column="1" >
+
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" 
+                        Margin="0,10,0,10" 
+                        BackgroundColor="{StaticResource FieldSampleColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldStrucColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldMineralColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldPflowColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" WidthRequest="40" Margin="0,10,0,10" BackgroundColor="{StaticResource FieldFossilColorLight}"/>
+            </StackLayout>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>
