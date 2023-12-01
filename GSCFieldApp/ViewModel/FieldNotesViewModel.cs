@@ -143,23 +143,46 @@ namespace GSCFieldApp.ViewModel
             //Get tapped record
             SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
-            //Get metadata records
-            List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationAlias == fieldNotes.Display_text_1).ToListAsync();
-
-            await currentConnection.CloseAsync();
-
-            //Navigate to station page and keep locationmodel for relationnal link
-            if (tappedStation != null && tappedStation.Count() == 1)
+            //Get desire form on screen from tapped table name
+            if (fieldNotes.GenericTableName == DatabaseLiterals.TableStation)
             {
-                await Shell.Current.GoToAsync($"{nameof(StationPage)}",
-                    new Dictionary<string, object>
-                    {
-                        [nameof(FieldLocation)] = null,
-                        [nameof(Metadata)] = null,
-                        [nameof(Station)] = tappedStation[0]
-                    }
-                );
+                List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationAlias == fieldNotes.Display_text_1).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedStation != null && tappedStation.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(StationPage)}",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(FieldLocation)] = null,
+                            [nameof(Metadata)] = null,
+                            [nameof(Station)] = tappedStation[0]
+                        }
+                    );
+                }
             }
+
+            if (fieldNotes.GenericTableName == DatabaseLiterals.TableEarthMat)
+            {
+                List<EarthMaterial> tappedEM = await currentConnection.Table<EarthMaterial>().Where(i => i.EarthMatName == fieldNotes.Display_text_1).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedEM != null && tappedEM.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(EarthMaterial)] = tappedEM[0],
+                            [nameof(Station)] = null
+                        }
+                    );
+                }
+            }
+
 
             //await Shell.Current.DisplayAlert("Alert", "You have tapped: " + fieldNotes.Display_text_1 , "OK");
         }
@@ -201,6 +224,7 @@ namespace GSCFieldApp.ViewModel
                 SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
 
                 await FillStationNotes(currentConnection);
+                await FillEMNotes(currentConnection);
 
                 await currentConnection.CloseAsync();
 
@@ -252,6 +276,57 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
+
+        /// <summary>
+        /// Will get all database earthats to fill earth mat cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillEMNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(DatabaseLiterals.TableEarthMat))
+            {
+                FieldNotes.Add(DatabaseLiterals.TableEarthMat, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[DatabaseLiterals.TableEarthMat].Clear();
+
+            }
+
+            //Get all stations from database
+            List<EarthMaterial> ems = await inConnection.Table<EarthMaterial>().ToListAsync();
+
+            if (ems != null && ems.Count > 0)
+            {
+                foreach (EarthMaterial st in ems)
+                {
+                    int parentID = -1;
+                    if (st.EarthMatStatID != null)
+                    {
+                        parentID = (int)st.EarthMatStatID;
+                    }
+                    if (st.EarthMatDrillHoleID != null)
+                    {
+                        parentID = (int)st.EarthMatDrillHoleID;
+                    }
+                    FieldNotes[DatabaseLiterals.TableEarthMat].Add(new FieldNote
+                    {
+                        Display_text_1 = st.EarthMatName,
+                        Display_text_2 = st.EarthMatLithdetail,
+                        Display_text_3 = st.EarthMatLithgroup,
+                        GenericTableName = DatabaseLiterals.TableEarthMat,
+                        GenericID = st.EarthMatID,
+                        ParentID = parentID
+                    });
+                }
+
+            }
+
+        }
+
 
         #endregion
 

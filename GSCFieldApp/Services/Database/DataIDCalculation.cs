@@ -250,10 +250,18 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public async Task<string> CalculateEarthmatAliasAsync(int parentID, string parentAlias)
         {
+            //Variables
+            bool isDrillHole = false;
 
             //Querying with Linq
             SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
             List<EarthMaterial> eartmatParentStations = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatStatID == parentID).ToListAsync();
+
+            if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+            {
+                eartmatParentStations = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatDrillHoleID == parentID).ToListAsync();
+                isDrillHole = true;
+            }
 
             int startingNumber = 1;
             string finaleEarthmatString = parentAlias;
@@ -266,11 +274,14 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //Find if last two are characters
                 string secondLastCharacter = lastAlias.ToList()[lastAlias.Length - 2].ToString();
-                int secondLastInteger = -1;
-                if (!int.TryParse(secondLastCharacter, out secondLastInteger))
+                if (!isDrillHole && secondLastCharacter != "H")
                 {
-                    //Should be something like AB, AC, etc.
-                    lastCharacter = secondLastCharacter + lastCharacter;
+                    int secondLastInteger = -1;
+                    if (!int.TryParse(secondLastCharacter, out secondLastInteger))
+                    {
+                        //Should be something like AB, AC, etc.
+                        lastCharacter = secondLastCharacter + lastCharacter;
+                    }
                 }
                 int lastCharacterNumber = CalculateNumberFromAlpha(lastCharacter);
 
@@ -292,6 +303,10 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Find existing
                     List<EarthMaterial> existingEarth = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatStatID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
+                    if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+                    {
+                        existingEarth = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatDrillHoleID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
+                    }
 
                     if (existingEarth.Count() == 0 || existingEarth == null)
                     {

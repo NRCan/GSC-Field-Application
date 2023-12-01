@@ -75,8 +75,17 @@
             <!--Earth material records-->
             <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="earth"/>
-            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding EarthMats}"
-                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsEarthMatVisible,Mode=TwoWay}"/>
+            <!--<FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding EarthMats}"
+                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsEarthMatVisible,Mode=TwoWay}"/>-->
+
+            <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}"
+                            ItemsSource="{Binding EarthMats}" SelectionMode="Single" >
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" 
+                        Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+
             <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
             <!--Sample records-->

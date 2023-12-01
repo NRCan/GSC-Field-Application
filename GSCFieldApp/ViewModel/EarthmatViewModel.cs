@@ -465,6 +465,35 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will refill the form with existing values for update/editing purposes
+        /// </summary>
+        /// <returns></returns>
+        public async Task Load()
+        {
+            if (Earthmat != null && Earthmat.EarthMatName != string.Empty)
+            {
+                //Set model like actual record
+                _model = Earthmat;
+
+                //Refresh
+                OnPropertyChanged(nameof(Model));
+
+
+                //Piped value field
+                List<string> qualifiers = concat.UnpipeString(Earthmat.EarthMatModComp);
+                _qualifierCollection.Clear(); //Clear any possible values first
+                foreach (ComboBoxItem cbox in EarthLithQualifier.cboxItems)
+                {
+                    if (qualifiers.Contains(cbox.itemValue) && !_qualifierCollection.Contains(cbox))
+                    {
+                        _qualifierCollection.Add(cbox);
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithQualifierCollection));
+            }
+        }
+
         #endregion
 
 
