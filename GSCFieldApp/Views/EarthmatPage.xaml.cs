@@ -18,11 +18,17 @@ public partial class EarthmatPage : ContentPage
 
         //After binding context is setup fill pickers
         EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
-        //await vm2.FillPickers();
+        await vm2.FillPickers();
         //await vm2.SetFieldVisibility();
         //await vm2.Load(); //In case it is coming from an existing record in field notes
     }
 
+
+    /// <summary>
+    /// When a group item is selected, refine values in lith details
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void lihthoGroupSearchResults_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         //Cast
@@ -41,6 +47,12 @@ public partial class EarthmatPage : ContentPage
         }
     }
 
+
+    /// <summary>
+    /// When a lith detail is selected refine values in lith group/type
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void lihthoSearchResults_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         //Cast

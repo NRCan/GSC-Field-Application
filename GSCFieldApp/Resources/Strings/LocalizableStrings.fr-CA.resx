@@ -147,6 +147,9 @@
   <data name="EarthmatPageLithoType" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="EarthmatPageLithQualifier" xml:space="preserve">
+    <value>Qualificatif structurel</value>
+  </data>
   <data name="EarthmatPageMagTitle" xml:space="preserve">
     <value>Magnétisme</value>
   </data>

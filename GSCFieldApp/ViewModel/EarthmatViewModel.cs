@@ -3,9 +3,13 @@ using CommunityToolkit.Mvvm.Input;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Themes;
+using GSCFieldApp.Views;
+using Microsoft.Maui.ApplicationModel.Communication;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,12 +17,18 @@ using System.Threading.Tasks;
 
 namespace GSCFieldApp.ViewModel
 {
+    [QueryProperty(nameof(EarthMaterial), nameof(EarthMaterial))]
+    [QueryProperty(nameof(Station), nameof(Station))]
     public partial class EarthmatViewModel : ObservableObject
     {
         #region INIT
 
         DataAccess da = new DataAccess();
         SQLiteAsyncConnection currentConnection;
+
+        private EarthMaterial _model = new EarthMaterial();
+        public DataIDCalculation idCalculator = new DataIDCalculation();
+        ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
 
         private bool _isLithoGroupListVisible = false;
         private bool _isLithoDetailListVisible = false;
@@ -28,15 +38,32 @@ namespace GSCFieldApp.ViewModel
         private IEnumerable<Vocabularies> _litho_group_vocab; //Default list to keep in order to not redo the query each time
         private string _selectedLithoGroup = string.Empty;
         private string _selectedLithoDetail = string.Empty;
-        
+        private ComboBox _earthLithQualifier = new ComboBox();
+        private ComboBoxItem _selectedEarthLithQualifier = new ComboBoxItem();
+        private ObservableCollection<ComboBoxItem> _qualifierCollection = new ObservableCollection<ComboBoxItem>();
+
         private List<Lithology> lithologies = new List<Lithology>();
 
         #endregion
 
+        #region PROPERTIES
+
+        [ObservableProperty]
+        private EarthMaterial _earthmat;
+
+        [ObservableProperty]
+        private Station _station;
+
+        public EarthMaterial Model { get { return _model; } set { _model = value; } }
         public bool EMLithoVisibility
         {
             get { return Preferences.Get(nameof(EMLithoVisibility), true); }
             set { Preferences.Set(nameof(EMLithoVisibility), value); }
+        }
+        public bool EarthLithQualifierVisibility
+        {
+            get { return Preferences.Get(nameof(EarthLithQualifierVisibility), true); }
+            set { Preferences.Set(nameof(EarthLithQualifierVisibility), value); }
         }
 
         public string SelectedLithoGroup 
@@ -94,6 +121,38 @@ namespace GSCFieldApp.ViewModel
         public bool isLithoGroupListVisible { get { return _isLithoGroupListVisible; }  set { _isLithoGroupListVisible = value; OnPropertyChanged(nameof(isLithoGroupListVisible)); } }
         public bool isLithoDetailListVisible { get { return _isLithoDetailListVisible; } set { _isLithoDetailListVisible = value; OnPropertyChanged(nameof(isLithoDetailListVisible)); } }
 
+        public ComboBox EarthLithQualifier { get { return _earthLithQualifier; } set { _earthLithQualifier = value; } }
+        public ComboBoxItem SelectedEarthLithQualifier
+        {
+            get
+            {
+                return _selectedEarthLithQualifier;
+            }
+            set
+            {
+                if (_selectedEarthLithQualifier != value)
+                {
+                    if (_qualifierCollection != null)
+                    {
+                        if (_qualifierCollection.Count > 0 && _qualifierCollection[0] == null)
+                        {
+                            _qualifierCollection.RemoveAt(0);
+                        }
+                        _qualifierCollection.Add(value);
+                        _selectedEarthLithQualifier = value;
+                        OnPropertyChanged(nameof(EarthLithQualifierCollection));
+                    }
+
+
+                }
+
+            }
+        }
+        public ObservableCollection<ComboBoxItem> EarthLithQualifierCollection { get { return _qualifierCollection; } set { _qualifierCollection = value; } }
+
+
+
+        #endregion
         public EarthmatViewModel() 
         {
             currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
@@ -105,6 +164,39 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (Earthmat != null && Earthmat.EarthMatName != string.Empty)
+            {
+                await da.SaveItemAsync(Model, true);
+            }
+            else
+            {
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+            }
+
+            //Close to be sure
+            await da.CloseConnectionAsync();
+
+            //Exit
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}");
+        }
+
+        /// <summary>
+        /// Will delete a selected item in quality collection box.
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        async Task Delete(ComboBoxItem item)
+        {
+            if (_qualifierCollection.Contains(item))
+            {
+                _qualifierCollection.Remove(item);
+                OnPropertyChanged(nameof(EarthLithQualifierCollection));
+            }
 
         }
 
@@ -255,7 +347,6 @@ namespace GSCFieldApp.ViewModel
             LihthoDetailSearchResults = _lihthoSearchResults;
 
         }
-
         private async Task FillSearchListAsync()
         {
             //Prepare vocabulary
@@ -266,7 +357,6 @@ namespace GSCFieldApp.ViewModel
             await FillLithoGroupSearchListAsync(vocab, currentProjectType);
             await FillLithoSearchListAsync(vocab, currentProjectType);
         }
-
 
         /// <summary>
         /// Will force a filtered down list of lithology details based
@@ -328,6 +418,51 @@ namespace GSCFieldApp.ViewModel
             LihthoGroupSearchResults = _lihthoGroupSearchResults;
 
             isLithoGroupListVisible = true;
+        }
+
+        /// <summary>
+        /// Will fill all picker controls
+        /// </summary>
+        /// <returns></returns>
+        public async Task FillPickers()
+        {
+
+            _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp);
+
+            OnPropertyChanged(nameof(EarthLithQualifier));
+
+
+        }
+
+        /// <summary>
+        /// Will fill a needed picker control with vocabulary
+        /// </summary>
+        private async Task<ComboBox> FillAPicker(string fieldName)
+        {
+            //Make sure to user default database rather then the prefered one. This one will always be there.
+            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName);
+
+        }
+
+        /// <summary>
+        /// Will fill out missing fields for model. Default auto-calculated values
+        /// </summary>
+        private async Task SetModelAsync()
+        {
+            //Make sure it's for a new field book
+            if (Model.EarthMatID == 0)
+            {
+                //Get current application version
+                Model.EarthMatStatID = Station.StationID;
+                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(Station.StationID, Station.StationAlias);
+            }
+
+            //Process pickers
+            if (EarthLithQualifierCollection.Count > 0)
+            {
+                Model.EarthMatModComp = concat.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
+            }
+
         }
 
         #endregion

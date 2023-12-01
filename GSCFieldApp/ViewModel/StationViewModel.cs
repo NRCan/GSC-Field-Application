@@ -209,8 +209,13 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}");
-
+            await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}",
+                new Dictionary<string, object>
+                {
+                    [nameof(EarthMaterial)] = null,
+                    [nameof(Station)] = Model
+                }
+            );
         }
     
 

@@ -241,86 +241,76 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-        //#region EARTHMAT
-        ///// <summary>
-        ///// Will calculate an earthmat alias from a given parent id and parent alias.
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <returns></returns>
-        //public string CalculateEarthmatnAlias(int parentID, string parentAlias)
-        //{
+        #region EARTHMAT
+        /// <summary>
+        /// Will calculate an earthmat alias from a given parent id and parent alias.
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public async Task<string> CalculateEarthmatAliasAsync(int parentID, string parentAlias)
+        {
 
-        //    //Querying with Linq
-        //    List<object> earthmatTableRaw = dAccess.ReadTable(earthmatModel.GetType(), null);
-        //    IEnumerable<EarthMaterial> earthmatTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
-        //    IEnumerable<string> eartmatParentStations = from e in earthmatTable where e.EarthMatStatID == parentID select e.EarthMatName;
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<EarthMaterial> eartmatParentStations = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatStatID == parentID).ToListAsync();
 
-        //    int startingNumber = 1;
-        //    string finaleEarthmatString = parentAlias;
+            int startingNumber = 1;
+            string finaleEarthmatString = parentAlias;
 
-        //    //Detect last earthmat letter equivalent number and add 1 to it.
-        //    if (eartmatParentStations.Count() > 0)
-        //    {
-        //        string lastAlias = eartmatParentStations.ToList()[eartmatParentStations.Count() - 1].ToString(); 
-        //        string lastCharacter = lastAlias.ToList()[lastAlias.Length - 1].ToString();
+            //Detect last earthmat letter equivalent number and add 1 to it.
+            if (eartmatParentStations.Count() > 0)
+            {
+                string lastAlias = eartmatParentStations.ToList()[eartmatParentStations.Count() - 1].EarthMatName.ToString();
+                string lastCharacter = lastAlias.ToList()[lastAlias.Length - 1].ToString();
 
-        //        //Find if last two are characters
-        //        string secondLastCharacter = lastAlias.ToList()[lastAlias.Length - 2].ToString();
-        //        int secondLastInteger = -1;
-        //        if (!int.TryParse(secondLastCharacter, out secondLastInteger))
-        //        {
-        //            //Should be something like AB, AC, etc.
-        //            lastCharacter = secondLastCharacter + lastCharacter;
-        //        }
-        //        int lastCharacterNumber = CalculateNumberFromAlpha(lastCharacter);
+                //Find if last two are characters
+                string secondLastCharacter = lastAlias.ToList()[lastAlias.Length - 2].ToString();
+                int secondLastInteger = -1;
+                if (!int.TryParse(secondLastCharacter, out secondLastInteger))
+                {
+                    //Should be something like AB, AC, etc.
+                    lastCharacter = secondLastCharacter + lastCharacter;
+                }
+                int lastCharacterNumber = CalculateNumberFromAlpha(lastCharacter);
 
-        //        //Find a non existing name
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Build name
-        //            if (lastCharacterNumber == 0)
-        //            {
-        //                startingNumber = lastCharacterNumber + 2;
-        //            }
-        //            else
-        //            {
-        //                startingNumber = lastCharacterNumber + 1;
-        //            }
-        //            string rawAlphaID = CalculateAlphabeticID(true, startingNumber);
-        //            finaleEarthmatString = parentAlias + rawAlphaID;
+                //Find a non existing name
+                bool breaker = true;
+                while (breaker)
+                {
+                    //Build name
+                    if (lastCharacterNumber == 0)
+                    {
+                        startingNumber = lastCharacterNumber + 2;
+                    }
+                    else
+                    {
+                        startingNumber = lastCharacterNumber + 1;
+                    }
+                    string rawAlphaID = CalculateAlphabeticID(true, startingNumber);
+                    finaleEarthmatString = parentAlias + rawAlphaID;
 
-        //            //Find existing
-        //            IEnumerable<EarthMaterial> existingEarth = from s in earthmatTable where s.EarthMatStatID == parentID && s.EarthMatName == finaleEarthmatString select s;
+                    //Find existing
+                    List<EarthMaterial> existingEarth = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatStatID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
 
-        //            if (existingEarth.Count() == 0 || existingEarth == null)
-        //            {
-        //                breaker = false;
-        //            }
+                    if (existingEarth.Count() == 0 || existingEarth == null)
+                    {
+                        breaker = false;
+                    }
 
-        //            startingNumber++;
+                    startingNumber++;
 
-        //        }
-        //    }
-        //    else
-        //    {
-        //        finaleEarthmatString = parentAlias + CalculateAlphabeticID(true, 1); ;
-        //    }
+                }
+            }
+            else
+            {
+                finaleEarthmatString = parentAlias + CalculateAlphabeticID(true, 1); ;
+            }
 
-        //    return finaleEarthmatString;
-        //}
+            return finaleEarthmatString;
+        }
 
-        ///// <summary>
-        ///// Will calculate a generic ID from earth material table based on the highest current stored id.
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculateEarthmatID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
-
-        //#endregion
+        #endregion
 
         //#region SAMPLE
         ///// <summary>

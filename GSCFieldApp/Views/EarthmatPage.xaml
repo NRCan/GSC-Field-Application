@@ -15,6 +15,22 @@
 
     <ContentPage.Resources>
 
+        <!-- Concatenated Value Template -->
+        <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
+
+            <!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01-->
+            <Frame Style="{StaticResource FieldAppConcatFrame}" >
+                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}" >
+                    <Label Text="{Binding itemName}" x:Name="itemNameText" />
+                    <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
+                        Command="{Binding Source={RelativeSource 
+                                AncestorType={x:Type viemodel:EarthmatViewModel}},Path=DeleteCommand}"
+                        CommandParameter="{Binding .}"/>
+                </HorizontalStackLayout>
+            </Frame>
+
+        </DataTemplate>
+
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -76,9 +92,28 @@
 
                     <!--Lithologie modifiers-->
                     <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                        
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="EarthLithQualifierVisibility" NumberOfTapsRequired="2"/>
+                        </Frame.GestureRecognizers>
+                        
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageLithoModTitle}"/>
 
+                            <VerticalStackLayout IsVisible="{Binding EarthLithQualifierVisibility}">
+                                <Picker Title="{local:Localize EarthmatPageLithQualifier}" x:Name="QualifierPicker"
+                                    ItemsSource="{Binding EarthLithQualifier.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithQualifier}"
+                                    SelectedIndex="{Binding EarthLithQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
+                                <!--<ListView />-->
+                                <Frame BorderColor="LightGray">
+                                    <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
+                                        x:Name="QualifierCollectionView" 
+                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
+                                        ItemsSource="{Binding EarthLithQualifierCollection, Mode=TwoWay}"/>
+                                </Frame>
+                            </VerticalStackLayout>
+                            
                         </VerticalStackLayout>
                     </Frame>
 

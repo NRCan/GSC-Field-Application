@@ -151,6 +151,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Qualifier.
+        /// </summary>
+        internal static string EarthmatPageLithQualifier {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithQualifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Magnetism.
         /// </summary>
         internal static string EarthmatPageMagTitle {
