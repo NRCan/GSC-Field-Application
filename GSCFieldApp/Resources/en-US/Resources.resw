@@ -1810,7 +1810,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Date</value>
   </data>
   <data name="DrillDepthNumBox.Header" xml:space="preserve">
-    <value>Depth</value>
+    <value>Length</value>
   </data>
   <data name="DrillDipNumBox.Header" xml:space="preserve">
     <value>Dip</value>
@@ -1868,5 +1868,8 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="DrillRelatedTo.Header" xml:space="preserve">
     <value>Related To</value>
+  </data>
+  <data name="DrillRelogDate.Header" xml:space="preserve">
+    <value>Date</value>
   </data>
 </root>

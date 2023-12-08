@@ -1805,7 +1805,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Date</value>
   </data>
   <data name="DrillDepthNumBox.Header" xml:space="preserve">
-    <value>Profondeur</value>
+    <value>Longueur</value>
   </data>
   <data name="DrillDipNumBox.Header" xml:space="preserve">
     <value>Pendage</value>
@@ -1863,5 +1863,8 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="DrillRelatedTo.Header" xml:space="preserve">
     <value>En lien avec (ex: une station)</value>
+  </data>
+  <data name="DrillRelogDate.Header" xml:space="preserve">
+    <value>Date</value>
   </data>
 </root>

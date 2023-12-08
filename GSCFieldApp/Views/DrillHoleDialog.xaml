@@ -133,8 +133,13 @@
                                     Header=""  
                                     InputScope="Text" TabIndex="12" TabNavigation="Once"/>
 
+                                <TextBox x:Name="DrillRelogDate" x:Uid="DrillRelogDate" RelativePanel.RightOf="DrillLogBy"
+                                    Text ="{x:Bind drillViewModel.DrillRelogDate, Mode=TwoWay}" TabIndex="13"
+                                    Header="" InputScope="Text" TabNavigation="Once"/>
+
+
                                 <!--Interval widget-->
-                                <RelativePanel RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="DrillLogTypeCbox" Margin="0,25,0,0" >
+                                <RelativePanel RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="DrillRelogDate" Margin="0,25,0,0" >
                                     <RelativePanel x:Name="DrillIntervalSelectionPanel" >
                                         <Border x:Name="DrillIntervalSelection" Height="165"  BorderBrush="{ThemeResource FieldDrillColorBrush}" BorderThickness="1" Padding="15,15,15,15" Margin="0,0,0,15">
                                             <RelativePanel>
