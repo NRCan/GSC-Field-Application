@@ -14,7 +14,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Maui.ApplicationModel.Communication;
 using System.Xml.Linq;
-using ExCSS;
 using System.Reflection;
 
 namespace GSCFieldApp.ViewModel
@@ -212,7 +211,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}",
                 new Dictionary<string, object>
                 {
-                    [nameof(EarthMaterial)] = null,
+                    [nameof(Earthmaterial)] = null,
                     [nameof(Station)] = Model
                 }
             );

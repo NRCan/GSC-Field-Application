@@ -1,23 +1,25 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GSCFieldApp.Dictionaries;
-using GSCFieldApp.Models;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Themes;
 using GSCFieldApp.Views;
-using Microsoft.Maui.ApplicationModel.Communication;
-using SQLite;
+using GSCFieldApp.Services.DatabaseServices;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using GSCFieldApp.Models;
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Themes;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.Maui.ApplicationModel.Communication;
+using System.Xml.Linq;
+using System.Reflection;
+using SQLite;
 
 namespace GSCFieldApp.ViewModel
 {
-    [QueryProperty(nameof(EarthMaterial), nameof(EarthMaterial))]
+    [QueryProperty(nameof(Earthmaterial), nameof(Earthmaterial))]
     [QueryProperty(nameof(Station), nameof(Station))]
     public partial class EarthmatViewModel : ObservableObject
     {
@@ -26,7 +28,7 @@ namespace GSCFieldApp.ViewModel
         DataAccess da = new DataAccess();
         SQLiteAsyncConnection currentConnection;
 
-        private EarthMaterial _model = new EarthMaterial();
+        private Earthmaterial _model = new Earthmaterial();
         public DataIDCalculation idCalculator = new DataIDCalculation();
         ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
 
@@ -37,7 +39,6 @@ namespace GSCFieldApp.ViewModel
         private IEnumerable<Vocabularies> _litho_detail_vocab; //Default list to keep in order to not redo the query each time
         private IEnumerable<Vocabularies> _litho_group_vocab; //Default list to keep in order to not redo the query each time
         private string _selectedLithoGroup = string.Empty;
-        private string _selectedLithoDetail = string.Empty;
         private ComboBox _earthLithQualifier = new ComboBox();
         private ComboBoxItem _selectedEarthLithQualifier = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _qualifierCollection = new ObservableCollection<ComboBoxItem>();
@@ -49,12 +50,12 @@ namespace GSCFieldApp.ViewModel
         #region PROPERTIES
 
         [ObservableProperty]
-        private EarthMaterial _earthmat;
+        private Earthmaterial _earthmaterial;
 
         [ObservableProperty]
         private Station _station;
 
-        public EarthMaterial Model { get { return _model; } set { _model = value; } }
+        public Earthmaterial Model { get { return _model; } set { _model = value; } }
         public bool EMLithoVisibility
         {
             get { return Preferences.Get(nameof(EMLithoVisibility), true); }
@@ -76,19 +77,6 @@ namespace GSCFieldApp.ViewModel
             {
                 _selectedLithoGroup = value;
                 OnPropertyChanged(nameof(SelectedLithoGroup));
-            }
-        }
-
-        public string SelectedLithoDetail
-        {
-            get
-            {
-                return _selectedLithoDetail;
-            }
-            set
-            {
-                _selectedLithoDetail = value;
-                OnPropertyChanged(nameof(SelectedLithoDetail));
             }
         }
 
@@ -168,7 +156,7 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (Earthmat != null && Earthmat.EarthMatName != string.Empty)
+            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty)
             {
                 await da.SaveItemAsync(Model, true);
             }
@@ -453,8 +441,8 @@ namespace GSCFieldApp.ViewModel
             if (Model.EarthMatID == 0)
             {
                 //Get current application version
-                Model.EarthMatStatID = Station.StationID;
-                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(Station.StationID, Station.StationAlias);
+                Model.EarthMatStatID = _station.StationID;
+                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_station.StationID, _station.StationAlias);
             }
 
             //Process pickers
@@ -471,17 +459,17 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task Load()
         {
-            if (Earthmat != null && Earthmat.EarthMatName != string.Empty)
+            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty)
             {
                 //Set model like actual record
-                _model = Earthmat;
+                _model = _earthmaterial;
 
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
 
                 //Piped value field
-                List<string> qualifiers = concat.UnpipeString(Earthmat.EarthMatModComp);
+                List<string> qualifiers = concat.UnpipeString(_earthmaterial.EarthMatModComp);
                 _qualifierCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EarthLithQualifier.cboxItems)
                 {
@@ -495,7 +483,6 @@ namespace GSCFieldApp.ViewModel
         }
 
         #endregion
-
 
     }
 }

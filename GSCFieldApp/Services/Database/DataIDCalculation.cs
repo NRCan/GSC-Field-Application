@@ -12,7 +12,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         readonly FieldLocation locationModel = new FieldLocation();
         readonly Station stationModel = new Station();
-        readonly EarthMaterial earthmatModel = new EarthMaterial();
+        readonly Earthmaterial earthmatModel = new Earthmaterial();
         readonly Sample sampleModel = new Sample();
         readonly Vocabularies vocabModel = new Vocabularies();
         readonly Document docModel = new Document();
@@ -255,11 +255,11 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //Querying with Linq
             SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-            List<EarthMaterial> eartmatParentStations = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatStatID == parentID).ToListAsync();
+            List<Earthmaterial> eartmatParentStations = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatStatID == parentID).ToListAsync();
 
             if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
             {
-                eartmatParentStations = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatDrillHoleID == parentID).ToListAsync();
+                eartmatParentStations = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatDrillHoleID == parentID).ToListAsync();
                 isDrillHole = true;
             }
 
@@ -302,10 +302,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleEarthmatString = parentAlias + rawAlphaID;
 
                     //Find existing
-                    List<EarthMaterial> existingEarth = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatStatID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
+                    List<Earthmaterial> existingEarth = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatStatID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
                     if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
                     {
-                        existingEarth = await currentConnection.Table<EarthMaterial>().Where(e => e.EarthMatDrillHoleID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
+                        existingEarth = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatDrillHoleID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
                     }
 
                     if (existingEarth.Count() == 0 || existingEarth == null)

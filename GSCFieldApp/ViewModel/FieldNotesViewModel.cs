@@ -165,8 +165,8 @@ namespace GSCFieldApp.ViewModel
             }
 
             if (fieldNotes.GenericTableName == DatabaseLiterals.TableEarthMat)
-            {
-                List<EarthMaterial> tappedEM = await currentConnection.Table<EarthMaterial>().Where(i => i.EarthMatName == fieldNotes.Display_text_1).ToListAsync();
+            { 
+                List<Earthmaterial> tappedEM = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatName == fieldNotes.Display_text_1).ToListAsync();
 
                 await currentConnection.CloseAsync();
 
@@ -176,8 +176,8 @@ namespace GSCFieldApp.ViewModel
                     await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}",
                         new Dictionary<string, object>
                         {
-                            [nameof(EarthMaterial)] = tappedEM[0],
-                            [nameof(Station)] = null
+                            [nameof(Earthmaterial)] = (Earthmaterial)tappedEM[0],
+                            [nameof(Station)] = null,
                         }
                     );
                 }
@@ -297,11 +297,11 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Get all stations from database
-            List<EarthMaterial> ems = await inConnection.Table<EarthMaterial>().ToListAsync();
+            List<Earthmaterial> ems = await inConnection.Table<Earthmaterial>().ToListAsync();
 
             if (ems != null && ems.Count > 0)
             {
-                foreach (EarthMaterial st in ems)
+                foreach (Earthmaterial st in ems)
                 {
                     int parentID = -1;
                     if (st.EarthMatStatID != null)

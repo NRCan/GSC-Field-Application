@@ -69,17 +69,18 @@
                                         x:Name="lithoGroupSearchBar" Text="{Binding SelectedLithoGroup, Mode=TwoWay}"
                                         SearchCommand="{Binding PerformGroupSearchCommand}"
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoGroupSearchBar}}"/>
-                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}"
+                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" 
                                         x:Name="lihthoGroupSearchResults" ItemSelected="lihthoGroupSearchResults_ItemSelected"
                                         ItemsSource="{Binding LihthoGroupSearchResults, Mode=TwoWay}"/>
 
                                     <!-- Detail search bar (approx >450 items) -->
                                     <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitle}"/>
                                     <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"
-                                        x:Name="lithoSearchBar" Text="{Binding SelectedLithoDetail, Mode=TwoWay}"
-                                        SearchCommand="{Binding PerformDetailSearchCommand}"
+                                        x:Name="lithoSearchBar" Text="{Binding Model.EarthMatLithdetail, Mode=TwoWay }"
+                                        SearchCommand="{Binding PerformDetailSearchCommand}" 
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
                                     <ListView Style="{StaticResource FieldAppSearchCollectionView}" 
+                                              
                                         x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
                                         ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}"/>
 

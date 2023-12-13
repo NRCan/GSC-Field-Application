@@ -7,7 +7,7 @@ using GSCFieldApp.Dictionaries;
 namespace GSCFieldApp.Models
 {
     [Table(DatabaseLiterals.TableEarthMat)]
-    public class EarthMaterial
+    public class Earthmaterial
     {
         [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldEarthMatID)]
         public int EarthMatID { get; set; }

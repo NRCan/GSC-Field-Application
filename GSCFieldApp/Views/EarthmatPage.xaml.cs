@@ -40,7 +40,7 @@ public partial class EarthmatPage : ContentPage
                 EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
                 vm2.RefineDetailListFromGroup(listView.SelectedItem.ToString());
                 vm2.SelectedLithoGroup = listView.SelectedItem.ToString();
-                vm2.SelectedLithoDetail = string.Empty;
+                lithoSearchBar.Text = string.Empty;
                 vm2.isLithoGroupListVisible = false;
 
             }
@@ -63,7 +63,7 @@ public partial class EarthmatPage : ContentPage
             {
                 EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
                 vm2.RefineGroupListFromDetail(listView.SelectedItem.ToString());
-                vm2.SelectedLithoDetail = listView.SelectedItem.ToString();
+                lithoSearchBar.Text = listView.SelectedItem.ToString();
                 vm2.isLithoDetailListVisible = false;
 
             }
