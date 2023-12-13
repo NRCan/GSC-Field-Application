@@ -27,6 +27,7 @@ using Template10.Controls;
 using Template10.Mvvm;
 using Windows.ApplicationModel.Resources;
 using Windows.Devices.Geolocation;
+using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -125,6 +126,8 @@ namespace GSCFieldApp.ViewModels
 
         //Testing
         private bool initMap = false;
+
+        private ConnectionProfile connectionProfile;
 
         public MapPageViewModel()
         {
@@ -356,6 +359,8 @@ namespace GSCFieldApp.ViewModels
 
                     //await Task.Delay(3000); //Let enough time to pass so GPS actually gets a proper fix
                     //await NoLocationFlightMode();
+                    connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+                    CheckAirplaneMode();
 
                     //try
                     //{
@@ -1527,6 +1532,19 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// When no location is available probably due to flight mode. Display this message.
         /// </summary>
+
+        private async void CheckAirplaneMode()
+        {
+            var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+
+            if (connectionProfile == null)
+            {
+                // Possible airplane mode
+                var messageDialog = new Windows.UI.Popups.MessageDialog("Airplane Mode or No Network Connection Found");
+                messageDialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
+                await messageDialog.ShowAsync();
+            }
+        }
         public async Task NoLocationFlightMode()
         {
             // Language localization using Resource.resw

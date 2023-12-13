@@ -28,8 +28,11 @@ namespace GSCFieldApp.Views
         public Map esriMap;
         public bool mapsLoaded = false;
         //private DispatcherTimer timer;
+
         readonly DataLocalSettings localSetting = new DataLocalSettings();
-        private ConnectionProfile connectionProfile;
+        //This put in the view model
+        //private ConnectionProfile connectionProfile;
+
         //UI headers enable/disable colors
         private readonly string resourceNameGridColor = "MapViewGridColor";
 
@@ -48,9 +51,9 @@ namespace GSCFieldApp.Views
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             //Window.Current.Activated += CurrentWindow_Activated;
 
-            // Subscribe to the NetworkStatusChanged event
-            connectionProfile = NetworkInformation.GetInternetConnectionProfile();
-            CheckAirplaneMode();
+            // These were put in the view model
+            //connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+            //CheckAirplaneMode();
 
 
             this.Loaded -= MapPage_Loaded;
@@ -354,18 +357,18 @@ namespace GSCFieldApp.Views
             }
 
         }
-        private async void CheckAirplaneMode()
-        {
-            var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+        //private async void CheckAirplaneMode()
+        //{
+            //var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
 
-            if (connectionProfile == null)
-            {
+            //if (connectionProfile == null)
+            //{
                 // Possible airplane mode
-                var messageDialog = new Windows.UI.Popups.MessageDialog("Airplane Mode or No Network Connection Found");
-                messageDialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
-                await messageDialog.ShowAsync();
-            }
-        }
+                //var messageDialog = new Windows.UI.Popups.MessageDialog("Airplane Mode or No Network Connection Found");
+                //messageDialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
+                //await messageDialog.ShowAsync();
+            //}
+        //}
 
         #endregion
 
