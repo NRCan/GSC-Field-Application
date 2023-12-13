@@ -130,6 +130,15 @@ namespace GSCFieldApp.Views
                 }
             }
         }
+        private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            if (args.NewDate != null)
+            {
+                DateTimeOffset selectedDate = args.NewDate.Value;
+                //Format the date to month, then day, then year.
+                DrillDate.Text = selectedDate.ToString("MM/dd/yyyy");
+            }
+        }
         #endregion
 
         #region CLOSE
