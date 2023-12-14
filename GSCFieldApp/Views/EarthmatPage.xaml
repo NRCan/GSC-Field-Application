@@ -66,7 +66,7 @@
                                     <!-- Group type search bar (approx. 65 items) -->
                                     <Label Text="{local:Localize EarthmatPageLithoType}" Style="{StaticResource FieldAppEntryTitle}"/>
                                     <SearchBar Placeholder="{local:Localize EarthmatPageSearchPlaceholder}"
-                                        x:Name="lithoGroupSearchBar" Text="{Binding SelectedLithoGroup, Mode=TwoWay}"
+                                        x:Name="lithoGroupSearchBar" Text="{Binding Model.GroupType, Mode=TwoWay}"
                                         SearchCommand="{Binding PerformGroupSearchCommand}"
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoGroupSearchBar}}"/>
                                     <ListView Style="{StaticResource FieldAppSearchCollectionView}" 

@@ -16,6 +16,7 @@ using Microsoft.Maui.ApplicationModel.Communication;
 using System.Xml.Linq;
 using System.Reflection;
 using SQLite;
+using System.Text.RegularExpressions;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -38,7 +39,7 @@ namespace GSCFieldApp.ViewModel
         private List<string> _lihthoGroupSearchResults = new List<string>();
         private IEnumerable<Vocabularies> _litho_detail_vocab; //Default list to keep in order to not redo the query each time
         private IEnumerable<Vocabularies> _litho_group_vocab; //Default list to keep in order to not redo the query each time
-        private string _selectedLithoGroup = string.Empty;
+        //private string _selectedLithoGroup = string.Empty;
         private ComboBox _earthLithQualifier = new ComboBox();
         private ComboBoxItem _selectedEarthLithQualifier = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _qualifierCollection = new ObservableCollection<ComboBoxItem>();
@@ -67,18 +68,18 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(EarthLithQualifierVisibility), value); }
         }
 
-        public string SelectedLithoGroup 
-        {
-            get
-            {
-                return _selectedLithoGroup;
-            }
-            set
-            {
-                _selectedLithoGroup = value;
-                OnPropertyChanged(nameof(SelectedLithoGroup));
-            }
-        }
+        //public string SelectedLithoGroup 
+        //{
+        //    get
+        //    {
+        //        return _selectedLithoGroup;
+        //    }
+        //    set
+        //    {
+        //        _selectedLithoGroup = value;
+        //        OnPropertyChanged(nameof(SelectedLithoGroup));
+        //    }
+        //}
 
         public List<string> LihthoDetailSearchResults
         {
@@ -414,21 +415,32 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
+            
+        }
 
-            _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp);
+        /// <summary>
+        /// Will fill all picker controls
+        /// </summary>
+        /// <returns></returns>
+        public async Task Fill2ndRoundPickers()
+        {
+            //second round pickers
+            if (_model.GroupType != string.Empty)
+            {
+                _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.GroupType);
 
-            OnPropertyChanged(nameof(EarthLithQualifier));
-
+                OnPropertyChanged(nameof(EarthLithQualifier));
+            }
 
         }
 
         /// <summary>
         /// Will fill a needed picker control with vocabulary
         /// </summary>
-        private async Task<ComboBox> FillAPicker(string fieldName)
+        private async Task<ComboBox> FillAPicker(string fieldName, string extraField = "")
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName);
+            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName, extraField);
 
         }
 
@@ -469,6 +481,21 @@ namespace GSCFieldApp.ViewModel
 
 
                 //Piped value field
+                await Fill2ndRoundPickers();
+                await Load2nRound();
+
+            }
+        }
+
+        /// <summary>
+        /// Will make sure to load the second round of piclist
+        /// that depends on the user selected litho group
+        /// </summary>
+        /// <returns></returns>
+        public async Task Load2nRound()
+        {
+            if (_model.GroupType != string.Empty)
+            {
                 List<string> qualifiers = concat.UnpipeString(_earthmaterial.EarthMatModComp);
                 _qualifierCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EarthLithQualifier.cboxItems)
@@ -480,6 +507,7 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithQualifierCollection));
             }
+
         }
 
         #endregion

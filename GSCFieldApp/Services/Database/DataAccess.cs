@@ -286,13 +286,13 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="fieldName">The field name associated with the wanted vocab.</param>
         /// <param name="fieldwork">The field book theme (bedrock, surficial)</param>
         /// <returns></returns>
-        public async Task<ComboBox> GetComboboxListWithVocabAsync(string tableName, string fieldName, string fieldwork = "")
+        public async Task<ComboBox> GetComboboxListWithVocabAsync(string tableName, string fieldName, string extraFieldValue = "", string fieldwork = "")
         {
             //Outputs
             ComboBox outputVocabs = new ComboBox();
 
             //Get vocab
-            List<Vocabularies> vocs = await GetPicklistValuesAsync(tableName, fieldName, string.Empty, false, fieldwork);
+            List<Vocabularies> vocs = await GetPicklistValuesAsync(tableName, fieldName, extraFieldValue, false, fieldwork);
 
             //Fill in cbox
             outputVocabs = GetComboboxListFromVocab(vocs);

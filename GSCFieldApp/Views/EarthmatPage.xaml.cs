@@ -29,7 +29,7 @@ public partial class EarthmatPage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void lihthoGroupSearchResults_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    private async void lihthoGroupSearchResults_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         //Cast
         ListView listView = sender as ListView;
@@ -39,9 +39,10 @@ public partial class EarthmatPage : ContentPage
             {
                 EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
                 vm2.RefineDetailListFromGroup(listView.SelectedItem.ToString());
-                vm2.SelectedLithoGroup = listView.SelectedItem.ToString();
+                vm2.Model.GroupType = listView.SelectedItem.ToString();
                 lithoSearchBar.Text = string.Empty;
                 vm2.isLithoGroupListVisible = false;
+                await vm2.Fill2ndRoundPickers();
 
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SQLite;
 using GSCFieldApp.Dictionaries;
+using System.Text.RegularExpressions;
 
 namespace GSCFieldApp.Models
 {
@@ -283,5 +284,23 @@ namespace GSCFieldApp.Models
             set { }
 
         }
+
+        /// <summary>
+        /// A property that merges litho group and litho type
+        /// </summary>
+        public string GroupType
+        {
+            get
+            {
+                return this.EarthMatLithgroup + ApplicationLiterals.parentChildLevel1Seperator + this.EarthMatLithtype;
+            }
+
+            set 
+            { 
+                this.EarthMatLithgroup = Regex.Split(value, ApplicationLiterals.parentChildLevel1Seperator)[0];
+                this.EarthMatLithtype = Regex.Split(value, ApplicationLiterals.parentChildLevel1Seperator)[1];
+            }
+        }
+
     }
 }
