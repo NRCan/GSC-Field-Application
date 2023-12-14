@@ -20,7 +20,7 @@
 
         //Will be used to keep track of user photo or document model for document dialog
         public const string KeywordDocumentMode = "documentMode";
-        public const string KeywordDocumentHeaderTrue = "File";
+        public const string KeywordDocumentHeaderTrue = "Photo"; //Need to Fix this later
         public const string KeywordDocumentHeaderFalse = "Photo";
 
         //Will be used to keep track of user station travers incrementation option

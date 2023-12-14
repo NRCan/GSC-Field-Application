@@ -1,4 +1,5 @@
-﻿using GSCFieldApp.Services.DatabaseServices;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.ViewModels;
 using System.ComponentModel;
 using Windows.Data.Json;
@@ -165,7 +166,19 @@ namespace GSCFieldApp.Views
         {
             ViewModel.pageLoading = false;
         }
+        private void UpdateTextBlockBasedOnToggle()
+        {
+            bool isExtendedPhotoMode = SettingsService.GetPhotoModeSetting();
 
+            if (isExtendedPhotoMode)
+            {
+                textBlock_FieldDocument.Text = ApplicationLiterals.KeywordDocumentHeaderTrue;
+            }
+            else
+            {
+                textBlock_FieldDocument.Text = ApplicationLiterals.KeywordDocumentHeaderFalse;
+            }
+        }
     }
 
 }
