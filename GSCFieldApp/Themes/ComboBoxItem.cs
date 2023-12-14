@@ -38,14 +38,18 @@ namespace GSCFieldApp.Themes
             //Iterate through values
             foreach (Themes.ComboBoxItem cboxItems in inCollection)
             {
-                if (output == string.Empty)
+                if (cboxItems != null)
                 {
-                    output = cboxItems.itemValue;
+                    if (output == string.Empty)
+                    {
+                        output = cboxItems.itemValue;
+                    }
+                    else
+                    {
+                        output = output + Dictionaries.DatabaseLiterals.KeywordConcatCharacter + cboxItems.itemValue;
+                    }
                 }
-                else
-                {
-                    output = output + Dictionaries.DatabaseLiterals.KeywordConcatCharacter + cboxItems.itemValue;
-                }
+
             }
 
             return output;

@@ -354,6 +354,10 @@ namespace GSCFieldApp.ViewModel
         /// <param name="groupName"></param>
         public void RefineDetailListFromGroup(string groupName)
         {
+            //Set group search bar
+            _model.GroupType = groupName;
+            OnPropertyChanged(nameof(Model));
+
             //Reset list
             _lihthoDetailSearchResults = new List<string>();
 
@@ -374,6 +378,8 @@ namespace GSCFieldApp.ViewModel
             LihthoDetailSearchResults = _lihthoDetailSearchResults;
 
             isLithoDetailListVisible = true;
+
+            
         }
 
         /// <summary>
@@ -427,7 +433,7 @@ namespace GSCFieldApp.ViewModel
             //second round pickers
             if (_model.GroupType != string.Empty)
             {
-                _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.GroupType);
+                _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup);
 
                 OnPropertyChanged(nameof(EarthLithQualifier));
             }

@@ -288,17 +288,29 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// A property that merges litho group and litho type
         /// </summary>
+        [Ignore]
         public string GroupType
         {
             get
             {
-                return this.EarthMatLithgroup + ApplicationLiterals.parentChildLevel1Seperator + this.EarthMatLithtype;
+                if (EarthMatLithgroup != null && EarthMatLithgroup != string.Empty && EarthMatLithtype != null && EarthMatLithtype != string.Empty)
+                {
+                    return this.EarthMatLithgroup + ApplicationLiterals.parentChildLevel1Seperator + this.EarthMatLithtype;
+                }
+                else
+                {
+                    return string.Empty;
+                }
             }
 
             set 
-            { 
-                this.EarthMatLithgroup = Regex.Split(value, ApplicationLiterals.parentChildLevel1Seperator)[0];
-                this.EarthMatLithtype = Regex.Split(value, ApplicationLiterals.parentChildLevel1Seperator)[1];
+            {
+                if (value.Contains(ApplicationLiterals.parentChildLevel1Seperator))
+                {
+                    this.EarthMatLithgroup = Regex.Split(value, ApplicationLiterals.parentChildLevel1Seperator)[0];
+                    this.EarthMatLithtype = Regex.Split(value, ApplicationLiterals.parentChildLevel1Seperator)[1];
+                }
+
             }
         }
 

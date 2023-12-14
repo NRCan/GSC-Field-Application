@@ -39,8 +39,12 @@ public partial class EarthmatPage : ContentPage
             {
                 EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
                 vm2.RefineDetailListFromGroup(listView.SelectedItem.ToString());
-                vm2.Model.GroupType = listView.SelectedItem.ToString();
-                lithoSearchBar.Text = string.Empty;
+
+                //In theory we should reset detail value, but it gets annoying when clicking detail
+                //Then clicking group type then reclicking detail because it disapeared
+
+                //lithoSearchBar.Text = string.Empty; //Reset detail search bar because list will be refreshed with new values
+
                 vm2.isLithoGroupListVisible = false;
                 await vm2.Fill2ndRoundPickers();
 
