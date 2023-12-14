@@ -166,19 +166,7 @@ namespace GSCFieldApp.Views
         {
             ViewModel.pageLoading = false;
         }
-        private void UpdateTextBlockBasedOnToggle()
-        {
-            bool isExtendedPhotoMode = SettingsService.GetPhotoModeSetting();
-
-            if (isExtendedPhotoMode)
-            {
-                textBlock_FieldDocument.Text = ApplicationLiterals.KeywordDocumentHeaderTrue;
-            }
-            else
-            {
-                textBlock_FieldDocument.Text = ApplicationLiterals.KeywordDocumentHeaderFalse;
-            }
-        }
+       
     }
 
 }
