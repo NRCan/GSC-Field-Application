@@ -63,16 +63,12 @@
                             <VerticalStackLayout IsVisible="{Binding EMLithoVisibility}" >
                                 <VerticalStackLayout>
                                     
-                                    <!-- Group type search bar (approx. 65 items) -->
-                                    <Label Text="{local:Localize EarthmatPageLithoType}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                    <SearchBar Placeholder="{local:Localize EarthmatPageSearchPlaceholder}"
-                                        x:Name="lithoGroupSearchBar" Text="{Binding Model.GroupType, Mode=TwoWay}"
-                                        SearchCommand="{Binding PerformGroupSearchCommand}"
-                                        SearchCommandParameter="{Binding Text, Source={x:Reference lithoGroupSearchBar}}"/>
-                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" 
-                                        x:Name="lihthoGroupSearchResults" ItemSelected="lihthoGroupSearchResults_ItemSelected"
-                                        ItemsSource="{Binding LihthoGroupSearchResults, Mode=TwoWay}"/>
-
+                                    <!-- Group type picker (approx. 65 items) -->
+                                    <Picker Title="{local:Localize EarthmatPageLithoType}" x:Name="LithoGroupPicker"
+                                    ItemsSource="{Binding EarthLithoGroup.cboxItems}" SelectedIndexChanged="LithoGroupPicker_SelectedIndexChanged"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithoGroup}"
+                                    SelectedIndex="{Binding EarthLithoGroup.cboxDefaultItemIndex, Mode=TwoWay}" />
+                                    
                                     <!-- Detail search bar (approx >450 items) -->
                                     <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitle}"/>
                                     <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"

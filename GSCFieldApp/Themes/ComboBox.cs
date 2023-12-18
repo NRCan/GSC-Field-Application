@@ -8,9 +8,16 @@ namespace GSCFieldApp.Themes
 {
     public class ComboBox
     {
-        public List<ComboBoxItem> cboxItems { get; set; }
+        public List<ComboBoxItem> cboxItems 
+        { 
+            get; 
+            set; 
+        }
         public int cboxDefaultItemIndex { get; set; }
 
-        public ComboBox() { }
+        public ComboBox() 
+        { 
+            cboxItems = new List<ComboBoxItem>();
+        }
     }
 }

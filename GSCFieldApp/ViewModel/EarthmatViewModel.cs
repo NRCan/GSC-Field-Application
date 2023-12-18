@@ -36,12 +36,13 @@ namespace GSCFieldApp.ViewModel
         private bool _isLithoGroupListVisible = false;
         private bool _isLithoDetailListVisible = false;
         private List<string> _lihthoDetailSearchResults = new List<string>();
-        private List<string> _lihthoGroupSearchResults = new List<string>();
         private IEnumerable<Vocabularies> _litho_detail_vocab; //Default list to keep in order to not redo the query each time
         private IEnumerable<Vocabularies> _litho_group_vocab; //Default list to keep in order to not redo the query each time
         //private string _selectedLithoGroup = string.Empty;
         private ComboBox _earthLithQualifier = new ComboBox();
+        private ComboBox _earthLithoGroup = new ComboBox();
         private ComboBoxItem _selectedEarthLithQualifier = new ComboBoxItem();
+        private ComboBoxItem _selectedEarthLithGroup = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _qualifierCollection = new ObservableCollection<ComboBoxItem>();
 
         private List<Lithology> lithologies = new List<Lithology>();
@@ -68,18 +69,18 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(EarthLithQualifierVisibility), value); }
         }
 
-        //public string SelectedLithoGroup 
-        //{
-        //    get
-        //    {
-        //        return _selectedLithoGroup;
-        //    }
-        //    set
-        //    {
-        //        _selectedLithoGroup = value;
-        //        OnPropertyChanged(nameof(SelectedLithoGroup));
-        //    }
-        //}
+        public ComboBoxItem SelectedEarthLithoGroup
+        {
+            get
+            {
+                return _selectedEarthLithGroup;
+            }
+            set
+            {
+                _selectedEarthLithGroup = value;
+                OnPropertyChanged(nameof(SelectedEarthLithoGroup));
+            }
+        }
 
         public List<string> LihthoDetailSearchResults
         {
@@ -94,22 +95,9 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
-        public List<string> LihthoGroupSearchResults
-        {
-            get
-            {
-                return _lihthoGroupSearchResults;
-            }
-            set
-            {
-                _lihthoGroupSearchResults = value;
-                OnPropertyChanged(nameof(LihthoGroupSearchResults));
-            }
-        }
-
-        public bool isLithoGroupListVisible { get { return _isLithoGroupListVisible; }  set { _isLithoGroupListVisible = value; OnPropertyChanged(nameof(isLithoGroupListVisible)); } }
         public bool isLithoDetailListVisible { get { return _isLithoDetailListVisible; } set { _isLithoDetailListVisible = value; OnPropertyChanged(nameof(isLithoDetailListVisible)); } }
 
+        public ComboBox EarthLithoGroup { get { return _earthLithoGroup; } set { _earthLithoGroup = value; } }
         public ComboBox EarthLithQualifier { get { return _earthLithQualifier; } set { _earthLithQualifier = value; } }
         public ComboBoxItem SelectedEarthLithQualifier
         {
@@ -137,7 +125,7 @@ namespace GSCFieldApp.ViewModel
 
             }
         }
-        public ObservableCollection<ComboBoxItem> EarthLithQualifierCollection { get { return _qualifierCollection; } set { _qualifierCollection = value; } }
+        public ObservableCollection<ComboBoxItem> EarthLithQualifierCollection { get { return _qualifierCollection; } set { _qualifierCollection = value; OnPropertyChanged(nameof(EarthLithQualifierCollection)); } }
 
 
 
@@ -184,7 +172,7 @@ namespace GSCFieldApp.ViewModel
             if (_qualifierCollection.Contains(item))
             {
                 _qualifierCollection.Remove(item);
-                OnPropertyChanged(nameof(EarthLithQualifierCollection));
+                //OnPropertyChanged(nameof(EarthLithQualifierCollection));
             }
 
         }
@@ -235,36 +223,12 @@ namespace GSCFieldApp.ViewModel
                 isLithoDetailListVisible = false;
             }
 
-        }
-
-        [RelayCommand]
-        public async Task PerformGroupSearch(string searchText)
-        {
-
-            var search_term = searchText.ToLower();
-            var results = _litho_group_vocab.Where(i => i.Code.ToLower().Contains(search_term)).ToList();
-
-            if (results.Count > 0)
+            //Force refill of whole group list if user reset all details
+            if (searchText == string.Empty)
             {
-                _lihthoGroupSearchResults = new List<string>();
-                foreach (Vocabularies tmp in results)
-                {
-                    if (!_lihthoGroupSearchResults.Contains(tmp.Code.ToString()))
-                    {
-                        _lihthoGroupSearchResults.Add(tmp.Code.ToString());
-                    }
-                }
-
-                LihthoGroupSearchResults = _lihthoGroupSearchResults;
-
-                isLithoGroupListVisible = true;
+                RefineGroupListFromDetail(string.Empty);
             }
-            else
-            {
-                isLithoGroupListVisible = false;
-            }
-
-
+            
         }
 
         #endregion
@@ -336,6 +300,11 @@ namespace GSCFieldApp.ViewModel
             LihthoDetailSearchResults = _lihthoSearchResults;
 
         }
+
+        /// <summary>
+        /// Will initialize some preset list of lithologies
+        /// </summary>
+        /// <returns></returns>
         private async Task FillSearchListAsync()
         {
             //Prepare vocabulary
@@ -352,17 +321,17 @@ namespace GSCFieldApp.ViewModel
         /// on user selected group
         /// </summary>
         /// <param name="groupName"></param>
-        public void RefineDetailListFromGroup(string groupName)
+        public void RefineDetailListFromGroup(ComboBoxItem groupName)
         {
             //Set group search bar
-            _model.GroupType = groupName;
+            _model.GroupType = groupName.itemValue;
             OnPropertyChanged(nameof(Model));
 
             //Reset list
             _lihthoDetailSearchResults = new List<string>();
 
             //Get proper lith group
-            IEnumerable<Lithology> existingGroupType = lithologies.Where(l => l.GroupTypeCode == groupName);
+            IEnumerable<Lithology> existingGroupType = lithologies.Where(l => l.GroupTypeCode == groupName.itemValue);
             if (existingGroupType != null && existingGroupType.Count() == 1)
             {
                 foreach (LithologyDetail lDetail in existingGroupType.FirstOrDefault().lithologyDetails)
@@ -390,29 +359,57 @@ namespace GSCFieldApp.ViewModel
         public void RefineGroupListFromDetail(string detailName)
         {
             //Reset list
-            _lihthoGroupSearchResults = new List<string>();
+            _earthLithoGroup = new ComboBox();
 
             //Get proper lith group
             foreach (Lithology lith in lithologies)
             {
+                //Prep new item
+                ComboBoxItem cbi = new ComboBoxItem();
+                cbi.itemValue = lith.GroupTypeCode;
+                cbi.itemName = lith.GroupTypeCode;
 
-                foreach (LithologyDetail lDetail in lith.lithologyDetails)
+                if (detailName != string.Empty)
                 {
-                    if (lDetail.DetailCode == detailName)
+                    foreach (LithologyDetail lDetail in lith.lithologyDetails)
                     {
-                        if (!_lihthoGroupSearchResults.Contains(lith.GroupTypeCode))
+                        if (lDetail.DetailCode == detailName)
                         {
-                            _lihthoGroupSearchResults.Add(lith.GroupTypeCode);
+                            if (!_earthLithoGroup.cboxItems.Contains(cbi))
+                            {
+                                _earthLithoGroup.cboxItems.Add(cbi);
+                            }
                         }
-                    }
 
+                    }
                 }
+                else
+                {
+                    //Force addition of all items back to group picker
+
+                    if (!_earthLithoGroup.cboxItems.Contains(cbi))
+                    {
+                        _earthLithoGroup.cboxItems.Add(cbi);
+                    }
+                }
+
 
             }
 
-            LihthoGroupSearchResults = _lihthoGroupSearchResults;
+            //Set default value if only is found
+            if (_earthLithoGroup.cboxItems.Count() == 1)
+            {
+                _earthLithoGroup.cboxDefaultItemIndex = 0;
+            }
+            else
+            {
+                _earthLithoGroup.cboxDefaultItemIndex = -1;
+            }
 
-            isLithoGroupListVisible = true;
+            //Refresh
+            EarthLithoGroup = _earthLithoGroup;
+            OnPropertyChanged(nameof(EarthLithoGroup));
+
         }
 
         /// <summary>
@@ -421,7 +418,9 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
-            
+            _earthLithoGroup = await FillAPicker(DatabaseLiterals.FieldEarthMatLithgroup);
+
+            OnPropertyChanged(nameof(EarthLithoGroup));
         }
 
         /// <summary>
@@ -485,6 +484,19 @@ namespace GSCFieldApp.ViewModel
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
+                #region Pickers
+                //Select values in pickers
+                foreach (ComboBoxItem cbox in EarthLithoGroup.cboxItems)
+                {
+                    if (cbox.itemValue == _model.GroupType)
+                    {
+                        EarthLithoGroup.cboxDefaultItemIndex = EarthLithoGroup.cboxItems.IndexOf(cbox);
+                        break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithoGroup));
+
+                #endregion
 
                 //Piped value field
                 await Fill2ndRoundPickers();
