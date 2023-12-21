@@ -858,12 +858,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             string detachQuery = "DETACH DATABASE " + attachDBName + "; ";
 
             //Build vacuum query
-            string vacuumQuery = "VACUUM;";
+            //string vacuumQuery = "VACUUM;";
 
             using (SQLiteConnection dbConnect = DbConnection)
             {
 
-                queryList.Add(vacuumQuery);
+                //queryList.Add(vacuumQuery);
 
                 //Attach
                 try
@@ -2424,6 +2424,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                         mineral2_querySelect = mineral2_querySelect +
                             ", m." + DatabaseLiterals.FieldMineralAlterationModeDeprecated + " as " + DatabaseLiterals.FieldMineralMode;
                     }
+                    else if (minFields2 == DatabaseLiterals.FieldMineralMAID)
+                    {
+                        mineral2_querySelect = mineral2_querySelect +
+                            ", m." + minFields2 + " as " + minFields2;
+                    }
                     else
                     {
                         mineral2_querySelect = mineral2_querySelect + ", NULL as " + minFields2;
@@ -2433,7 +2438,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 else
                 {
                     //Get a proper new GUID
-                    mineral2_querySelect = "'" + idCal.CalculateMineralID() + "'" + " as " + minFields2;
+                    mineral2_querySelect = "m." + DatabaseLiterals.FieldMineralAlterationName + " as " + minFields2;
                 }
 
             }
@@ -3329,8 +3334,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Rare case when a second view is needed for multiple relationship
             if (viewName != String.Empty)
             {
-                outputQueryView = "CREATE VIEW " + attachedDBName + "." + viewName + " as SELECT " + tableAlias + ".*, ROW_NUMBER() OVER(ORDER BY f." +
-                primeKey + ") as " + ViewGenericLegacyPrimeKey;
+                outputQueryView = "CREATE VIEW " + attachedDBName + "." + viewName + " as SELECT " + tableAlias + ".*, (ROW_NUMBER() OVER(ORDER BY f." +
+                primeKey + ")) + (SELECT COUNT(*) FROM " + ViewPrefix + tableName + ") as " + ViewGenericLegacyPrimeKey;
             }
 
             if (relatedView != string.Empty)
