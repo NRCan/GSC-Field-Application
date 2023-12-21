@@ -10,6 +10,7 @@ using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
 using Newtonsoft.Json;
 //Added by jamel
 using ProjNet.CoordinateSystems;
@@ -31,6 +32,7 @@ using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -1544,6 +1546,7 @@ namespace GSCFieldApp.ViewModels
                 messageDialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
                 await messageDialog.ShowAsync();
             }
+            //Windows.UI.Popups.MessageDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
         }
         public async Task NoLocationFlightMode()
         {
