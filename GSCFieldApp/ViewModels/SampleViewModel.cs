@@ -375,7 +375,7 @@ namespace GSCFieldApp.ViewModels
             _sampleDepthMin = existingDataDetailSample.sample.SampleDepthMin.ToString();
             _sampleDepthMax = existingDataDetailSample.sample.SampleDepthMax.ToString();
             _sampleDuplicateName = existingDataDetailSample.sample.SampleDuplicateName;
-            _sampledBy = existingDataDetailSample.sample.SampleBy.ToString(); ;
+            _sampledBy = existingDataDetailSample.sample.SampleBy;
             _sampleCoreFrom = existingDataDetailSample.sample.SampleCoreFrom.ToString();
             _sampleCoreLength = existingDataDetailSample.sample.SampleCoreLength.ToString();
             _sampleCoreTo = existingDataDetailSample.sample.SampleCoreTo.ToString();
