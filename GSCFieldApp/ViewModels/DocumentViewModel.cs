@@ -699,7 +699,11 @@ namespace GSCFieldApp.ViewModels
             List<int> locationFromStat = stats.ToList();
 
             //Delete location
-            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
+            if (locationFromStat.Count > 0)
+            {
+                accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
+            }
+            
         }
 
         /// <summary>
