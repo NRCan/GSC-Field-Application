@@ -25,7 +25,7 @@ namespace GSCFieldApp.ViewModel
     public partial class EarthmatViewModel : ObservableObject
     {
         #region INIT
-
+        public FieldThemes FieldThemes { get; set; }
         DataAccess da = new DataAccess();
         SQLiteAsyncConnection currentConnection;
 
@@ -35,14 +35,20 @@ namespace GSCFieldApp.ViewModel
 
         private bool _isLithoGroupListVisible = false;
         private bool _isLithoDetailListVisible = false;
+
         private List<string> _lihthoDetailSearchResults = new List<string>();
+
         private IEnumerable<Vocabularies> _litho_detail_vocab; //Default list to keep in order to not redo the query each time
         private IEnumerable<Vocabularies> _litho_group_vocab; //Default list to keep in order to not redo the query each time
-        //private string _selectedLithoGroup = string.Empty;
+
         private ComboBox _earthLithQualifier = new ComboBox();
         private ComboBox _earthLithoGroup = new ComboBox();
+        private ComboBox _earthLithOccurAs = new ComboBox();
+        private ComboBox _earthLithMapUnit = new ComboBox();
+
         private ComboBoxItem _selectedEarthLithQualifier = new ComboBoxItem();
         private ComboBoxItem _selectedEarthLithGroup = new ComboBoxItem();
+
         private ObservableCollection<ComboBoxItem> _qualifierCollection = new ObservableCollection<ComboBoxItem>();
 
         private List<Lithology> lithologies = new List<Lithology>();
@@ -63,10 +69,10 @@ namespace GSCFieldApp.ViewModel
             get { return Preferences.Get(nameof(EMLithoVisibility), true); }
             set { Preferences.Set(nameof(EMLithoVisibility), value); }
         }
-        public bool EarthLithQualifierVisibility
+        public bool EarthLithModifierVisibility
         {
-            get { return Preferences.Get(nameof(EarthLithQualifierVisibility), true); }
-            set { Preferences.Set(nameof(EarthLithQualifierVisibility), value); }
+            get { return Preferences.Get(nameof(EarthLithModifierVisibility), true); }
+            set { Preferences.Set(nameof(EarthLithModifierVisibility), value); }
         }
 
         public ComboBoxItem SelectedEarthLithoGroup
@@ -99,6 +105,9 @@ namespace GSCFieldApp.ViewModel
 
         public ComboBox EarthLithoGroup { get { return _earthLithoGroup; } set { _earthLithoGroup = value; } }
         public ComboBox EarthLithQualifier { get { return _earthLithQualifier; } set { _earthLithQualifier = value; } }
+        public ComboBox EarthLithOccurAs { get { return _earthLithOccurAs; } set { _earthLithOccurAs = value; } }
+        public ComboBox EarthLithMapUnit { get { return _earthLithMapUnit; } set { _earthLithMapUnit = value; } }
+
         public ComboBoxItem SelectedEarthLithQualifier
         {
             get
@@ -133,6 +142,8 @@ namespace GSCFieldApp.ViewModel
         public EarthmatViewModel() 
         {
             currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+
+            FieldThemes = new FieldThemes();
 
             FillSearchListAsync();
         }
@@ -172,7 +183,6 @@ namespace GSCFieldApp.ViewModel
             if (_qualifierCollection.Contains(item))
             {
                 _qualifierCollection.Remove(item);
-                //OnPropertyChanged(nameof(EarthLithQualifierCollection));
             }
 
         }
@@ -419,8 +429,9 @@ namespace GSCFieldApp.ViewModel
         public async Task FillPickers()
         {
             _earthLithoGroup = await FillAPicker(DatabaseLiterals.FieldEarthMatLithgroup);
-
+            _earthLithMapUnit = await FillAPicker(DatabaseLiterals.FieldEarthMatMapunit);
             OnPropertyChanged(nameof(EarthLithoGroup));
+            
         }
 
         /// <summary>
@@ -433,8 +444,10 @@ namespace GSCFieldApp.ViewModel
             if (_model.GroupType != string.Empty)
             {
                 _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup);
+                _earthLithOccurAs = await FillAPicker(DatabaseLiterals.FieldEarthMatOccurs, _model.EarthMatLithgroup);
 
                 OnPropertyChanged(nameof(EarthLithQualifier));
+                OnPropertyChanged(nameof(EarthLithOccurAs));
             }
 
         }
@@ -467,7 +480,14 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.EarthMatModComp = concat.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
             }
-
+            if (EarthLithOccurAs.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatOccurs = EarthLithOccurAs.cboxItems[EarthLithOccurAs.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithMapUnit.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatMapunit = EarthLithMapUnit.cboxItems[EarthLithMapUnit.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
         }
 
         /// <summary>
@@ -496,6 +516,14 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithoGroup));
 
+                foreach (ComboBoxItem cbox in EarthLithMapUnit.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatMapunit)
+                    {
+                        EarthLithMapUnit.cboxDefaultItemIndex = EarthLithMapUnit.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithMapUnit));
                 #endregion
 
                 //Piped value field
@@ -524,6 +552,15 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(EarthLithQualifierCollection));
+
+                foreach (ComboBoxItem cbox in EarthLithOccurAs.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatOccurs)
+                    {
+                        EarthLithOccurAs.cboxDefaultItemIndex = EarthLithOccurAs.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithOccurAs));
             }
 
         }

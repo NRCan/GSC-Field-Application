@@ -82,6 +82,38 @@
 
                                 </VerticalStackLayout>
 
+                                <VerticalStackLayout>
+                                    <Picker Title="{local:Localize EarthmatPageLithQualifier}" x:Name="QualifierPicker"
+                                    ItemsSource="{Binding EarthLithQualifier.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithQualifier}"
+                                    SelectedIndex="{Binding EarthLithQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
+                                    <!--<ListView />-->
+                                    <Frame BorderColor="LightGray">
+                                        <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
+                                        x:Name="QualifierCollectionView" 
+                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
+                                        ItemsSource="{Binding EarthLithQualifierCollection, Mode=TwoWay}"/>
+                                    </Frame>
+                                </VerticalStackLayout>
+
+                                <Picker Title="{local:Localize EarthmatPageLithOccurAs}" x:Name="OccurAsPicker"
+                                    ItemsSource="{Binding EarthLithOccurAs.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithOccurAs.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <Picker Title="{local:Localize EarthmatPageLithMapUnit}" x:Name="MapUnitPicker"
+                                    ItemsSource="{Binding EarthLithMapUnit.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithMapUnit.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <VerticalStackLayout x:Name="EarthPercentPanel" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+                                    <Label Text="{local:Localize EarthmatPageLithPercent}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry x:Name="EarthPercent" />
+
+                                    <Label Text="Test"/>
+
+                                </VerticalStackLayout>
+                                
                             </VerticalStackLayout>
                             
                         </VerticalStackLayout>
@@ -91,25 +123,13 @@
                     <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
                         
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="EarthLithQualifierVisibility" NumberOfTapsRequired="2"/>
+                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="EarthLithModifierVisibility" NumberOfTapsRequired="2"/>
                         </Frame.GestureRecognizers>
                         
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageLithoModTitle}"/>
 
-                            <VerticalStackLayout IsVisible="{Binding EarthLithQualifierVisibility}">
-                                <Picker Title="{local:Localize EarthmatPageLithQualifier}" x:Name="QualifierPicker"
-                                    ItemsSource="{Binding EarthLithQualifier.cboxItems}"
-                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithQualifier}"
-                                    SelectedIndex="{Binding EarthLithQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
-                                <!--<ListView />-->
-                                <Frame BorderColor="LightGray">
-                                    <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
-                                        x:Name="QualifierCollectionView" 
-                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                        ItemsSource="{Binding EarthLithQualifierCollection, Mode=TwoWay}"/>
-                                </Frame>
-                            </VerticalStackLayout>
+                            <VerticalStackLayout IsVisible="{Binding EarthLithModifierVisibility}"></VerticalStackLayout>
                             
                         </VerticalStackLayout>
                     </Frame>

@@ -115,6 +115,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map Unit.
+        /// </summary>
+        internal static string EarthmatPageLithMapUnit {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithMapUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occurs as.
+        /// </summary>
+        internal static string EarthmatPageLithOccurAs {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithOccurAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detail.
         /// </summary>
         internal static string EarthmatPageLithoDetail {
@@ -147,6 +165,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string EarthmatPageLithoType {
             get {
                 return ResourceManager.GetString("EarthmatPageLithoType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percent.
+        /// </summary>
+        internal static string EarthmatPageLithPercent {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithPercent", resourceCulture);
             }
         }
         

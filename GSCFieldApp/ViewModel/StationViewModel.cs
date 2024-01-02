@@ -25,7 +25,7 @@ namespace GSCFieldApp.ViewModel
     public partial class StationViewModel : ObservableObject
     {
         #region INIT
-
+        public FieldThemes FieldThemes { get; set; }
         DataAccess da = new DataAccess();
         ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
         private Station _model = new Station();
@@ -41,7 +41,7 @@ namespace GSCFieldApp.ViewModel
         private ObservableCollection<ComboBoxItem> _qualityCollection = new ObservableCollection<ComboBoxItem>();
 
         //Themes
-        private bool _bedrockVisibility = true; //Visibility for extra fields
+        //private bool _bedrockVisibility = true; //Visibility for extra fields
 
         #endregion
 
@@ -111,12 +111,14 @@ namespace GSCFieldApp.ViewModel
         }
         public ObservableCollection<ComboBoxItem> QualityCollection { get { return _qualityCollection; } set { _qualityCollection = value; } }
 
-        public bool BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
+        //public bool BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
         #endregion 
 
         public StationViewModel()
         {
-            SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
+            FieldThemes = new FieldThemes();
+
+            //SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
         }
 
         #region RELAYS
@@ -223,25 +225,25 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
-        /// <summary>
-        /// Will set visibility based on a bedrock or surficial field book
-        /// </summary>
-        public async Task SetFieldVisibility()
-        {
-            //Prefered theme should be saved on field book selected. Defaults to bedrock.
-            string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoPName), DatabaseLiterals.ApplicationThemeBedrock);
-            if (preferedTheme == DatabaseLiterals.ApplicationThemeBedrock)
-            {
-                _bedrockVisibility = true;
-            }
-            else if (preferedTheme == DatabaseLiterals.ApplicationThemeSurficial)
-            {
-                _bedrockVisibility = false;
-            }
+        ///// <summary>
+        ///// Will set visibility based on a bedrock or surficial field book
+        ///// </summary>
+        //public async Task SetFieldVisibility()
+        //{
+        //    //Prefered theme should be saved on field book selected. Defaults to bedrock.
+        //    string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoPName), DatabaseLiterals.ApplicationThemeBedrock);
+        //    if (preferedTheme == DatabaseLiterals.ApplicationThemeBedrock)
+        //    {
+        //        _bedrockVisibility = true;
+        //    }
+        //    else if (preferedTheme == DatabaseLiterals.ApplicationThemeSurficial)
+        //    {
+        //        _bedrockVisibility = false;
+        //    }
 
 
-            OnPropertyChanged(nameof(BedrockVisibility));
-        }
+        //    OnPropertyChanged(nameof(BedrockVisibility));
+        //}
 
         /// <summary>
         /// Will refill the form with existing values for update/editing purposes

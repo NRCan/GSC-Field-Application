@@ -135,6 +135,12 @@
   <data name="EarthmatPageInterpretationTitle" xml:space="preserve">
     <value>Interprétation</value>
   </data>
+  <data name="EarthmatPageLithMapUnit" xml:space="preserve">
+    <value>Unité Cartographique</value>
+  </data>
+  <data name="EarthmatPageLithOccurAs" xml:space="preserve">
+    <value>Sous la forme de</value>
+  </data>
   <data name="EarthmatPageLithoDetail" xml:space="preserve">
     <value>Détail</value>
   </data>
@@ -146,6 +152,9 @@
   </data>
   <data name="EarthmatPageLithoType" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="EarthmatPageLithPercent" xml:space="preserve">
+    <value>Pourcentage</value>
   </data>
   <data name="EarthmatPageLithQualifier" xml:space="preserve">
     <value>Qualificatif structurel</value>

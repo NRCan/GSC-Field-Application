@@ -19,7 +19,7 @@ public partial class StationPage : ContentPage
         //After binding context is setup fill pickers
         StationViewModel vm2 = this.BindingContext as StationViewModel;
         await vm2.FillPickers();
-        await vm2.SetFieldVisibility();
+        //await vm2.SetFieldVisibility();
         await vm2.Load(); //In case it is coming from an existing record in field notes
     }
 

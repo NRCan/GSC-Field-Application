@@ -76,8 +76,7 @@
                     <!--Outcrop section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" 
                            Style="{StaticResource FieldAppSectionFrame}" 
-                           
-                           IsVisible="{Binding BedrockVisibility}">
+                           IsVisible="{Binding FieldThemes.BedrockVisibility}">
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="StationOutcropVisibility" NumberOfTapsRequired="2"/>
                         </Frame.GestureRecognizers>
