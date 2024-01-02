@@ -351,6 +351,12 @@
   <data name="StationTooltipAddPhoto" xml:space="preserve">
     <value>Tap to add one or many photos</value>
   </data>
+  <data name="ToastSaveBackup" xml:space="preserve">
+    <value>The file was saved successfully to location: {0}</value>
+  </data>
+  <data name="ToastSaveBackupFailed" xml:space="preserve">
+    <value>The file was not saved successfully with error: {0}</value>
+  </data>
   <data name="WatermarkNoFieldBook" xml:space="preserve">
     <value>Please add a new field book</value>
   </data>

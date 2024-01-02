@@ -20,6 +20,8 @@ public partial class AppShell : Shell
     public ICommand NavigateToMapCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
 
+    public LocalizationResourceManager LocalizationResourceManager
+        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
     public AppShell()
 	{
@@ -93,14 +95,16 @@ public partial class AppShell : Shell
         var fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
 
         //Use Toast to show card in window interface or system like notification rather then modal alert popup.
-        //TODO: localize here
         if (fileSaverResult.IsSuccessful)
         {
-            await Toast.Make($"The file was saved successfully to location: {fileSaverResult.FilePath}").Show(cancellationToken);
+            string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
+
+            await Toast.Make(toastText).Show(cancellationToken);
         }
         else
         {
-            await Toast.Make($"The file was not saved successfully with error: {fileSaverResult.Exception.Message}").Show(cancellationToken);
+            string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
+            await Toast.Make(toastText).Show(cancellationToken);
         }
     }
 

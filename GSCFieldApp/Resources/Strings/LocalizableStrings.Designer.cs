@@ -763,6 +763,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file was saved successfully to location: {0}.
+        /// </summary>
+        internal static string ToastSaveBackup {
+            get {
+                return ResourceManager.GetString("ToastSaveBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file was not saved successfully with error: {0}.
+        /// </summary>
+        internal static string ToastSaveBackupFailed {
+            get {
+                return ResourceManager.GetString("ToastSaveBackupFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please add a new field book.
         /// </summary>
         internal static string WatermarkNoFieldBook {

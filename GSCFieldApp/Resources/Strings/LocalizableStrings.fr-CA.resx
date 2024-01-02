@@ -351,6 +351,12 @@
   <data name="StationTooltipAddPhoto" xml:space="preserve">
     <value>Ajoutez une ou plusieurs photo</value>
   </data>
+  <data name="ToastSaveBackup" xml:space="preserve">
+    <value>Le fichier a été sauvegardé avec succès ici: {0}</value>
+  </data>
+  <data name="ToastSaveBackupFailed" xml:space="preserve">
+    <value>La sauvegarde a rencontré une erreur: {0}</value>
+  </data>
   <data name="WatermarkNoFieldBook" xml:space="preserve">
     <value>Veuillez ajouter un carnet.</value>
   </data>
