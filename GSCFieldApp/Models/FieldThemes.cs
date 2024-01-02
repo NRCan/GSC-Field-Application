@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace GSCFieldApp.Models
 {
+    /// <summary>
+    /// A class to hide or make visible some controls based on
+    /// which type of field book user has created or selected
+    /// </summary>
     public partial class FieldThemes: ObservableObject
     {
         //Themes

@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using System.Reflection;
 using SQLite;
 using System.Text.RegularExpressions;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -25,6 +26,10 @@ namespace GSCFieldApp.ViewModel
     public partial class EarthmatViewModel : ObservableObject
     {
         #region INIT
+
+        public LocalizationResourceManager LocalizationResourceManager
+        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
         public FieldThemes FieldThemes { get; set; }
         DataAccess da = new DataAccess();
         SQLiteAsyncConnection currentConnection;
@@ -52,6 +57,8 @@ namespace GSCFieldApp.ViewModel
         private ObservableCollection<ComboBoxItem> _qualifierCollection = new ObservableCollection<ComboBoxItem>();
 
         private List<Lithology> lithologies = new List<Lithology>();
+
+        private string _earthResidualText = string.Empty;
 
         #endregion
 
@@ -136,7 +143,7 @@ namespace GSCFieldApp.ViewModel
         }
         public ObservableCollection<ComboBoxItem> EarthLithQualifierCollection { get { return _qualifierCollection; } set { _qualifierCollection = value; OnPropertyChanged(nameof(EarthLithQualifierCollection)); } }
 
-
+        public string EarthResidualText { get { return _earthResidualText; } set { _earthResidualText = value; } }
 
         #endregion
         public EarthmatViewModel() 
@@ -146,6 +153,8 @@ namespace GSCFieldApp.ViewModel
             FieldThemes = new FieldThemes();
 
             FillSearchListAsync();
+
+            //CalculateResidual();
         }
 
         #region RELAY COMMANDS
@@ -565,6 +574,58 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        #endregion
+
+        #region CALCULATE
+
+        /// <summary>
+        /// Will calculate the total amount of percentage
+        /// from all related station or drill holes child of
+        /// same parent
+        /// </summary>
+        /// <param name="newMode"></param>
+        public async void CalculateResidual(string newMode = "")
+        {
+            if (_earthmaterial != null)
+            {
+                //Find proper parent id (request could come from a mineral or an earthmat selection)
+                int? parentID = 0;
+                List<Earthmaterial> ems = new List<Earthmaterial>();
+                if (_earthmaterial.ParentName == Dictionaries.DatabaseLiterals.TableStation)
+                {
+                    ems = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatStatID == Earthmaterial.EarthMatStatID && i.EarthMatID != _earthmaterial.EarthMatID).ToListAsync();
+                }
+                else
+                {
+                    ems = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatStatID == Earthmaterial.EarthMatDrillHoleID && i.EarthMatID != _earthmaterial.EarthMatID).ToListAsync();
+                }
+
+                if (ems != null && ems.Count > 0)
+                {
+                    int currentPercentage = 0;
+
+                    if (newMode != string.Empty)
+                    {
+                        int.TryParse(newMode, out currentPercentage);
+                    }
+                    foreach (Earthmaterial em in ems)
+                    {
+                        if (em.EarthMatPercent != null)
+                        {
+                            currentPercentage = currentPercentage + (int)em.EarthMatPercent;
+                        }
+
+                    }
+
+                    _earthResidualText = String.Format(LocalizationResourceManager["EarthmatPageResidualLabel"].ToString(), currentPercentage, (ems.Count() + 1).ToString());
+                    OnPropertyChanged(nameof(EarthResidualText));
+                }
+            }
+
+
+
+
+        }
         #endregion
 
     }

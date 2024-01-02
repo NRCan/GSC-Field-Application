@@ -214,6 +214,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total: {0}% ({1}).
+        /// </summary>
+        internal static string EarthmatPageResidualLabel {
+            get {
+                return ResourceManager.GetString("EarthmatPageResidualLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type group ie. metamorphic.
         /// </summary>
         internal static string EarthmatPageSearchPlaceholder {

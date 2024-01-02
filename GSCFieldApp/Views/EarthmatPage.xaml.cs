@@ -65,4 +65,15 @@ public partial class EarthmatPage : ContentPage
 
         }
     }
+
+    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        //Cast and call method to calculate residual of all earth mat
+        Entry senderBox = sender as Entry;
+        if (senderBox != null && senderBox.Text != string.Empty)
+        {
+            EarthmatViewModel vm = this.BindingContext as EarthmatViewModel;
+            vm.CalculateResidual(senderBox.Text);
+        }
+    }
 }

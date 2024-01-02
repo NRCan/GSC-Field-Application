@@ -35,7 +35,7 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
+                                <Entry x:Name="ProjectName" x:Uid="proejctname" Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
                                        Text="{Binding Model.ProjectName}"/>
                             </VerticalStackLayout>
 

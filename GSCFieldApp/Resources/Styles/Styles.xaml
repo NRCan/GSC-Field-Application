@@ -258,7 +258,32 @@
         <Setter Property="Margin" Value="10"/>
         <Setter Property="RowHeight" Value="30"/>
     </Style>
-    
+
+    <Style TargetType="Entry" x:Key="FieldAppNumBox">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Keyboard" Value="Numeric"/>
+        <Setter Property="Placeholder" Value="0"/>
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <!--TODO Find why setting widht justsify centering of control-->
+        <!--<Setter Property="MaximumWidthRequest" Value="35"/>-->
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
     <!--TODO: Find a way to customize title style-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">
         <Setter Property="Margin" Value="10"/>
@@ -293,8 +318,8 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="MinimumWidthRequest" Value="100"/>
-        <!--<Setter Property="WidthRequest" Value="200"/>-->
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="WidthRequest" Value="240"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

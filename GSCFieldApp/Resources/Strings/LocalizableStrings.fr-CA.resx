@@ -168,6 +168,9 @@
   <data name="EarthmatPageMineralogyTitle" xml:space="preserve">
     <value>Minéralogie</value>
   </data>
+  <data name="EarthmatPageResidualLabel" xml:space="preserve">
+    <value>Total: {0}% ({1})</value>
+  </data>
   <data name="EarthmatPageSearchPlaceholder" xml:space="preserve">
     <value>Tapez ex. métamorphique</value>
   </data>
