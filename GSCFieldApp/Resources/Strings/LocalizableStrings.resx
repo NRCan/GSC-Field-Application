@@ -120,6 +120,9 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="EarthmatPageClast" xml:space="preserve">
+    <value>Clast Form</value>
+  </data>
   <data name="EarthmatPageColourTitle" xml:space="preserve">
     <value>Colour</value>
   </data>
@@ -171,14 +174,23 @@
   <data name="EarthmatPageMineralogyTitle" xml:space="preserve">
     <value>Mineralogy</value>
   </data>
+  <data name="EarthmatPageOxidation" xml:space="preserve">
+    <value>Oxidation</value>
+  </data>
   <data name="EarthmatPageResidualLabel" xml:space="preserve">
     <value>Total: {0}% ({1})</value>
   </data>
   <data name="EarthmatPageSearchPlaceholder" xml:space="preserve">
     <value>Type group ie. metamorphic</value>
   </data>
+  <data name="EarthmatPageSorting" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
   <data name="EarthmatPageTitle" xml:space="preserve">
     <value>Earth Material</value>
+  </data>
+  <data name="EarthmatPageWater" xml:space="preserve">
+    <value>H2O Content</value>
   </data>
   <data name="EarthmatTooltipAddFossil" xml:space="preserve">
     <value>Tap to add a new fossil</value>

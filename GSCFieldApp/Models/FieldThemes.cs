@@ -16,8 +16,10 @@ namespace GSCFieldApp.Models
     {
         //Themes
         private bool _bedrockVisibility = true; //Visibility for extra fields
+        private bool _surficialVisibility = true; //Visibility for extra fields
 
         public bool BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
+        public bool SurficialVisibility { get { return _surficialVisibility; } set { _surficialVisibility = value; } }
 
         public FieldThemes() { SetFieldVisibility(); }
 
@@ -31,14 +33,17 @@ namespace GSCFieldApp.Models
             if (preferedTheme == DatabaseLiterals.ApplicationThemeBedrock)
             {
                 _bedrockVisibility = true;
+                _surficialVisibility = false;
             }
             else if (preferedTheme == DatabaseLiterals.ApplicationThemeSurficial)
             {
                 _bedrockVisibility = false;
+                _surficialVisibility = true;
             }
 
 
             OnPropertyChanged(nameof(BedrockVisibility));
+            OnPropertyChanged(nameof(SurficialVisibility));
         }
     }
 }

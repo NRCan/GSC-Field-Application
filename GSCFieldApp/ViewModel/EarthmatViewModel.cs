@@ -38,6 +38,8 @@ namespace GSCFieldApp.ViewModel
         public DataIDCalculation idCalculator = new DataIDCalculation();
         ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
 
+        private string currentProjectType = DatabaseLiterals.ApplicationThemeBedrock; //default in case failing
+
         private bool _isLithoGroupListVisible = false;
         private bool _isLithoDetailListVisible = false;
 
@@ -50,6 +52,10 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _earthLithoGroup = new ComboBox();
         private ComboBox _earthLithOccurAs = new ComboBox();
         private ComboBox _earthLithMapUnit = new ComboBox();
+        private ComboBox _earthLithSorting = new ComboBox();
+        private ComboBox _earthLithWater = new ComboBox();
+        private ComboBox _earthLithOxidation = new ComboBox();
+        private ComboBox _earthLithClast = new ComboBox();
 
         private ComboBox _earthLithTextureStruct = new ComboBox();
 
@@ -118,6 +124,10 @@ namespace GSCFieldApp.ViewModel
         public ComboBox EarthLithQualifier { get { return _earthLithQualifier; } set { _earthLithQualifier = value; } }
         public ComboBox EarthLithOccurAs { get { return _earthLithOccurAs; } set { _earthLithOccurAs = value; } }
         public ComboBox EarthLithMapUnit { get { return _earthLithMapUnit; } set { _earthLithMapUnit = value; } }
+        public ComboBox EarthLithSorting { get { return _earthLithSorting; } set { _earthLithSorting = value; } }
+        public ComboBox EarthLithWater { get { return _earthLithWater; } set { _earthLithWater = value; } }
+        public ComboBox EarthLithOxidation { get { return _earthLithOxidation; } set { _earthLithOxidation = value; } }
+        public ComboBox EarthLithClast { get { return _earthLithClast; } set { _earthLithClast = value; } }
 
         public ComboBox EarthLithTextureStruct { get { return _earthLithTextureStruct; } set { _earthLithTextureStruct = value; } }
 
@@ -363,7 +373,7 @@ namespace GSCFieldApp.ViewModel
             //Prepare vocabulary
             List<Vocabularies> vocab = await currentConnection.Table<Vocabularies>().Where(vis => vis.Visibility == DatabaseLiterals.boolYes).ToListAsync();
             List<Metadata> meta = await currentConnection.Table<Metadata>().Where(metadata => metadata.MetaID == 1).ToListAsync();
-            string currentProjectType = meta.First().FieldworkType.ToString();
+            currentProjectType = meta.First().FieldworkType.ToString();
 
             await FillLithoGroupSearchListAsync(vocab, currentProjectType);
             await FillLithoSearchListAsync(vocab, currentProjectType);
@@ -472,9 +482,25 @@ namespace GSCFieldApp.ViewModel
         public async Task FillPickers()
         {
             _earthLithoGroup = await FillAPicker(DatabaseLiterals.FieldEarthMatLithgroup);
-            _earthLithMapUnit = await FillAPicker(DatabaseLiterals.FieldEarthMatMapunit);
+            _earthLithMapUnit = await FillAPicker(DatabaseLiterals.FieldEarthMatMapunit, "", currentProjectType);
+            _earthLithSorting = await FillAPicker(DatabaseLiterals.FieldEarthMatSorting, "", currentProjectType);
+            _earthLithWater = await FillAPicker(DatabaseLiterals.FieldEarthMatH2O, "", currentProjectType);
+            _earthLithOxidation = await FillAPicker(DatabaseLiterals.FieldEarthMatOxidation, "", currentProjectType);
+            _earthLithClast = await FillAPicker(DatabaseLiterals.FieldEarthMatClastForm, "", currentProjectType);
+
             OnPropertyChanged(nameof(EarthLithoGroup));
-            
+            OnPropertyChanged(nameof(EarthLithMapUnit));
+            OnPropertyChanged(nameof(EarthLithSorting));
+            OnPropertyChanged(nameof(EarthLithWater));
+            OnPropertyChanged(nameof(EarthLithOxidation));
+            OnPropertyChanged(nameof(EarthLithClast));
+
+            //There is one picker that needs a parent in bedrock, but doesn't in surficial
+            if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
+            {
+                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup, currentProjectType);
+                OnPropertyChanged(nameof(EarthLithTextureStruct));
+            }
         }
 
         /// <summary>
@@ -486,9 +512,9 @@ namespace GSCFieldApp.ViewModel
             //second round pickers
             if (_model.GroupType != string.Empty)
             {
-                _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup);
+                _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup, currentProjectType);
                 _earthLithOccurAs = await FillAPicker(DatabaseLiterals.FieldEarthMatOccurs, _model.EarthMatLithgroup);
-                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
+                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup, currentProjectType);
                 OnPropertyChanged(nameof(EarthLithQualifier));
                 OnPropertyChanged(nameof(EarthLithOccurAs));
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
@@ -499,10 +525,10 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will fill a needed picker control with vocabulary
         /// </summary>
-        private async Task<ComboBox> FillAPicker(string fieldName, string extraField = "")
+        private async Task<ComboBox> FillAPicker(string fieldName, string extraField = "", string fieldWork = "")
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName, extraField);
+            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName, extraField, fieldWork);
 
         }
 
@@ -528,13 +554,29 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.EarthMatModTextStruc = concat.PipeValues(EarthLithTextStrucCollection); //process list of values so they are concatenated.
             }
-            if (EarthLithOccurAs.cboxDefaultItemIndex != -1)
+            if (EarthLithOccurAs.cboxItems.Count() > 0 && EarthLithOccurAs.cboxDefaultItemIndex != -1)
             {
                 Model.EarthMatOccurs = EarthLithOccurAs.cboxItems[EarthLithOccurAs.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
             }
-            if (EarthLithMapUnit.cboxDefaultItemIndex != -1)
+            if (EarthLithMapUnit.cboxItems.Count() > 0 &&  EarthLithMapUnit.cboxDefaultItemIndex != -1)
             {
                 Model.EarthMatMapunit = EarthLithMapUnit.cboxItems[EarthLithMapUnit.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithSorting.cboxItems.Count() > 0 &&  EarthLithSorting.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatSorting = EarthLithSorting.cboxItems[EarthLithSorting.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithWater.cboxItems.Count() > 0 &&  EarthLithWater.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatH2O = EarthLithWater.cboxItems[EarthLithWater.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithOxidation.cboxItems.Count() > 0 &&  EarthLithOxidation.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatOxidation = EarthLithOxidation.cboxItems[EarthLithOxidation.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithClast.cboxItems.Count() > 0 &&  EarthLithClast.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatClastForm = EarthLithClast.cboxItems[EarthLithClast.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
             }
         }
 
@@ -572,7 +614,59 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(EarthLithMapUnit));
+
+                foreach (ComboBoxItem cbox in EarthLithSorting.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatSorting)
+                    {
+                        EarthLithSorting.cboxDefaultItemIndex = EarthLithSorting.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithSorting));
+
+                foreach (ComboBoxItem cbox in EarthLithWater.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatH2O)
+                    {
+                        EarthLithWater.cboxDefaultItemIndex = EarthLithWater.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithWater));
+
+                foreach (ComboBoxItem cbox in EarthLithOxidation.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatOxidation)
+                    {
+                        EarthLithOxidation.cboxDefaultItemIndex = EarthLithOxidation.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithOxidation));
+
+                foreach (ComboBoxItem cbox in EarthLithClast.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatClastForm)
+                    {
+                        EarthLithClast.cboxDefaultItemIndex = EarthLithClast.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithClast));
+
                 #endregion
+
+                if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
+                {
+                    List<string> textStrucs = concat.UnpipeString(_earthmaterial.EarthMatModTextStruc);
+                    _textStructCollection.Clear(); //Clear any possible values first
+                    foreach (ComboBoxItem cbox in EarthLithTextureStruct.cboxItems)
+                    {
+                        if (textStrucs.Contains(cbox.itemValue) && !_textStructCollection.Contains(cbox))
+                        {
+                            _textStructCollection.Add(cbox);
+                        }
+                    }
+                    OnPropertyChanged(nameof(EarthLithTextStrucCollection));
+
+                }
 
                 //Piped value field
                 await Fill2ndRoundPickers();

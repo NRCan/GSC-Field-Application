@@ -64,7 +64,7 @@
                                 <VerticalStackLayout>
                                     
                                     <!-- Group type picker (approx. 65 items) -->
-                                    <Picker Title="{local:Localize EarthmatPageLithoType}" x:Name="LithoGroupPicker"
+                                    <Picker Title="{local:Localize EarthmatPageLithoType}" x:Name="LithoGroupPicker" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                     ItemsSource="{Binding EarthLithoGroup.cboxItems}" SelectedIndexChanged="LithoGroupPicker_SelectedIndexChanged"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithoGroup}"
                                     SelectedIndex="{Binding EarthLithoGroup.cboxDefaultItemIndex, Mode=TwoWay}" />
@@ -82,7 +82,7 @@
 
                                 </VerticalStackLayout>
 
-                                <VerticalStackLayout>
+                                <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
                                     <Picker Title="{local:Localize EarthmatPageLithQualifier}" x:Name="QualifierPicker"
                                     ItemsSource="{Binding EarthLithQualifier.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithQualifier}"
@@ -97,7 +97,7 @@
                                 </VerticalStackLayout>
 
                                 <Picker Title="{local:Localize EarthmatPageLithOccurAs}" x:Name="OccurAsPicker"
-                                    ItemsSource="{Binding EarthLithOccurAs.cboxItems}"
+                                    ItemsSource="{Binding EarthLithOccurAs.cboxItems}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithOccurAs.cboxDefaultItemIndex, Mode=TwoWay}" />
 
@@ -117,7 +117,29 @@
                                     
 
                                 </VerticalStackLayout>
-                                
+
+                                <!--Surficial controls-->
+
+                                <Picker Title="{local:Localize EarthmatPageSorting}" x:Name="SortingPicker"
+                                    ItemsSource="{Binding EarthLithSorting.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                    SelectedIndex="{Binding EarthLithSorting.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <Picker Title="{local:Localize EarthmatPageWater}" x:Name="H2oPicker"
+                                    ItemsSource="{Binding EarthLithWater.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                    SelectedIndex="{Binding EarthLithWater.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <Picker Title="{local:Localize EarthmatPageOxidation}" x:Name="OxidationPicker"
+                                    ItemsSource="{Binding EarthLithOxidation.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                    SelectedIndex="{Binding EarthLithOxidation.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <Picker Title="{local:Localize EarthmatPageClast}" x:Name="ClastPicker"
+                                    ItemsSource="{Binding EarthLithClast.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                    SelectedIndex="{Binding EarthLithClast.cboxDefaultItemIndex, Mode=TwoWay}" />
+
                             </VerticalStackLayout>
                             
                         </VerticalStackLayout>
@@ -156,7 +178,7 @@
                     </Frame>
 
                     <!--Mineralogy-->
-                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMineralogyTitle}"/>
 
@@ -172,7 +194,7 @@
                     </Frame>
 
                     <!--Metamorphic facies-->
-                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMetaFaciesTitle}"/>
 
@@ -180,7 +202,7 @@
                     </Frame>
 
                     <!--Contact-->
-                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageContactTitle}"/>
 
@@ -188,7 +210,7 @@
                     </Frame>
 
                     <!--Magnetism-->
-                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppSectionFrame}">
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMagTitle}"/>
 
@@ -225,15 +247,15 @@
                         Margin="0,10,0,10" 
                         BackgroundColor="{StaticResource FieldSampleColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10" 
+                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddStruc}"
                         BackgroundColor="{StaticResource FieldStrucColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10" 
+                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddMA}"
                         BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10" 
+                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddMineral}"
                         BackgroundColor="{StaticResource FieldMineralColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
@@ -241,7 +263,7 @@
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddPaleoflow}"
                         BackgroundColor="{StaticResource FieldPflowColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10" 
+                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddFossil}"
                         BackgroundColor="{StaticResource FieldFossilColorLight}"/>
             </StackLayout>

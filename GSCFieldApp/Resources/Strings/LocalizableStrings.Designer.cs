@@ -70,6 +70,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clast Form.
+        /// </summary>
+        internal static string EarthmatPageClast {
+            get {
+                return ResourceManager.GetString("EarthmatPageClast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Colour.
         /// </summary>
         internal static string EarthmatPageColourTitle {
@@ -223,6 +232,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oxidation.
+        /// </summary>
+        internal static string EarthmatPageOxidation {
+            get {
+                return ResourceManager.GetString("EarthmatPageOxidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total: {0}% ({1}).
         /// </summary>
         internal static string EarthmatPageResidualLabel {
@@ -241,11 +259,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorting.
+        /// </summary>
+        internal static string EarthmatPageSorting {
+            get {
+                return ResourceManager.GetString("EarthmatPageSorting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Earth Material.
         /// </summary>
         internal static string EarthmatPageTitle {
             get {
                 return ResourceManager.GetString("EarthmatPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H2O Content.
+        /// </summary>
+        internal static string EarthmatPageWater {
+            get {
+                return ResourceManager.GetString("EarthmatPageWater", resourceCulture);
             }
         }
         
