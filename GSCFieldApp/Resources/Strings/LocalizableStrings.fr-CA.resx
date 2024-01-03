@@ -142,7 +142,7 @@
     <value>Épaisseur de couches/lits</value>
   </data>
   <data name="EarthmatPageLithDefFab" xml:space="preserve">
-    <value>Deformation Fabric</value>
+    <value>Type de déformation</value>
   </data>
   <data name="EarthmatPageLithGrainSize" xml:space="preserve">
     <value>Granulométrie</value>
@@ -177,8 +177,14 @@
   <data name="EarthmatPageMagTitle" xml:space="preserve">
     <value>Magnétisme</value>
   </data>
+  <data name="EarthmatPageMetaFacies" xml:space="preserve">
+    <value>Faciès</value>
+  </data>
   <data name="EarthmatPageMetaFaciesTitle" xml:space="preserve">
     <value>Faciès métamorphique</value>
+  </data>
+  <data name="EarthmatPageMetaInt" xml:space="preserve">
+    <value>Intensité</value>
   </data>
   <data name="EarthmatPageMineralogyTitle" xml:space="preserve">
     <value>Minéralogie</value>

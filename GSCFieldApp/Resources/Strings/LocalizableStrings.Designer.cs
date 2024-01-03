@@ -241,11 +241,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Facies.
+        /// </summary>
+        internal static string EarthmatPageMetaFacies {
+            get {
+                return ResourceManager.GetString("EarthmatPageMetaFacies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Metamorphic Facies.
         /// </summary>
         internal static string EarthmatPageMetaFaciesTitle {
             get {
                 return ResourceManager.GetString("EarthmatPageMetaFaciesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intensity.
+        /// </summary>
+        internal static string EarthmatPageMetaInt {
+            get {
+                return ResourceManager.GetString("EarthmatPageMetaInt", resourceCulture);
             }
         }
         

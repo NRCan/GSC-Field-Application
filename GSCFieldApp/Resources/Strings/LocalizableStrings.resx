@@ -177,8 +177,14 @@
   <data name="EarthmatPageMagTitle" xml:space="preserve">
     <value>Magnetism</value>
   </data>
+  <data name="EarthmatPageMetaFacies" xml:space="preserve">
+    <value>Facies</value>
+  </data>
   <data name="EarthmatPageMetaFaciesTitle" xml:space="preserve">
     <value>Metamorphic Facies</value>
+  </data>
+  <data name="EarthmatPageMetaInt" xml:space="preserve">
+    <value>Intensity</value>
   </data>
   <data name="EarthmatPageMineralogyTitle" xml:space="preserve">
     <value>Mineralogy</value>

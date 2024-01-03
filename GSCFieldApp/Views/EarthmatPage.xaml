@@ -219,7 +219,10 @@
                     </Frame>
 
                     <!--Mineralogy-->
-                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}" Style="{StaticResource FieldAppSectionFrame}">
+                    <!--NOTE: since there is litteraly a mineral button on the side of the form
+                        this whole control will remain disable while in dev. The need seeems less
+                        less important -->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="false" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMineralogyTitle}"/>
 
@@ -238,6 +241,16 @@
                     <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMetaFaciesTitle}"/>
+
+                            <Picker Title="{local:Localize EarthmatPageMetaFacies}" x:Name="MetaFaciesPicker"
+                                    ItemsSource="{Binding EarthLithMetaFacies.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithMetaFacies.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EarthmatPageMetaInt}" x:Name="MetaFaciesIntensityPicker"
+                                    ItemsSource="{Binding EarthLithMetaInt.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithMetaInt.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                         </VerticalStackLayout>
                     </Frame>

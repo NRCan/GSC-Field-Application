@@ -62,6 +62,8 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _earthLithWater = new ComboBox();
         private ComboBox _earthLithOxidation = new ComboBox();
         private ComboBox _earthLithClast = new ComboBox();
+        private ComboBox _earthLithMetaFacies = new ComboBox();
+        private ComboBox _earthLithMetaInt = new ComboBox();
 
         private ComboBoxItem _selectedEarthLithGroup = new ComboBoxItem();
 
@@ -145,6 +147,8 @@ namespace GSCFieldApp.ViewModel
         public ComboBox EarthLithWater { get { return _earthLithWater; } set { _earthLithWater = value; } }
         public ComboBox EarthLithOxidation { get { return _earthLithOxidation; } set { _earthLithOxidation = value; } }
         public ComboBox EarthLithClast { get { return _earthLithClast; } set { _earthLithClast = value; } }
+        public ComboBox EarthLithMetaFacies { get { return _earthLithMetaFacies; } set { _earthLithMetaFacies = value; } }
+        public ComboBox EarthLithMetaInt { get { return _earthLithMetaInt; } set { _earthLithMetaInt = value; } }
 
         public ComboBox EarthLithTextureStruct { get { return _earthLithTextureStruct; } set { _earthLithTextureStruct = value; } }
         public ComboBox EarthLithGrainSize { get { return _earthLithGrainSize; } set { _earthLithGrainSize = value; } }
@@ -588,6 +592,8 @@ namespace GSCFieldApp.ViewModel
             _earthLithClast = await FillAPicker(DatabaseLiterals.FieldEarthMatClastForm, "", currentProjectType);
             _earthLithBedThick = await FillAPicker(DatabaseLiterals.FieldEarthMatBedthick, "", currentProjectType);
             _earthLithDefFab = await FillAPicker(DatabaseLiterals.FieldEarthMatDefabric, "", currentProjectType);
+            _earthLithMetaFacies = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaFacies);
+            _earthLithMetaInt = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaIntensity);
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
@@ -597,6 +603,8 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(EarthLithClast));
             OnPropertyChanged(nameof(EarthLithBedThick));
             OnPropertyChanged(nameof(EarthLithDefFab));
+            OnPropertyChanged(nameof(EarthLithMetaFacies));
+            OnPropertyChanged(nameof(EarthLithMetaInt));
 
             //There is one picker that needs a parent in bedrock, but doesn't in surficial
             if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
@@ -695,6 +703,14 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.EarthMatClastForm = EarthLithClast.cboxItems[EarthLithClast.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
             }
+            if (EarthLithMetaFacies.cboxItems.Count() > 0 && EarthLithMetaFacies.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatMetaIFacies = EarthLithMetaFacies.cboxItems[EarthLithMetaFacies.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithMetaInt.cboxItems.Count() > 0 && EarthLithMetaInt.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatMetaIntensity = EarthLithMetaInt.cboxItems[EarthLithMetaInt.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
         }
 
         /// <summary>
@@ -790,6 +806,23 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithDefFabCollection));
 
+                foreach (ComboBoxItem cbox in EarthLithMetaFacies.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatMetaIFacies)
+                    {
+                        EarthLithMetaFacies.cboxDefaultItemIndex = EarthLithMetaFacies.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithMetaFacies));
+
+                foreach (ComboBoxItem cbox in EarthLithMetaInt.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatMetaIntensity)
+                    {
+                        EarthLithMetaInt.cboxDefaultItemIndex = EarthLithMetaInt.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithMetaInt));
                 #endregion
 
                 if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
