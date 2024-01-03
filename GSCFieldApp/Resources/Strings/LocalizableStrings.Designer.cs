@@ -232,6 +232,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Qualifier.
+        /// </summary>
+        internal static string EarthmatPageMagQualifier {
+            get {
+                return ResourceManager.GetString("EarthmatPageMagQualifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Susceptibility (10-3 SI).
+        /// </summary>
+        internal static string EarthmatPageMagSusc {
+            get {
+                return ResourceManager.GetString("EarthmatPageMagSusc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Magnetism.
         /// </summary>
         internal static string EarthmatPageMagTitle {
