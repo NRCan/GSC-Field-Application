@@ -130,7 +130,7 @@
 
             </ScrollView>
 
-            <Button x:Name="FieldBookSaveButton" Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1"
+            <Button x:Name="FieldBookSaveButton" Text="{local:Localize ButtonSave}" BackgroundColor="{StaticResource Secondary}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1"
                     Command="{Binding ValidateAndSaveCommand}"/>
 
         </Grid>
