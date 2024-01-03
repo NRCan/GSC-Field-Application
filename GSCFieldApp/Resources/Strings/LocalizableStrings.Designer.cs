@@ -187,6 +187,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Texture/Structure.
+        /// </summary>
+        internal static string EarthmatPageLithTextStruc {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithTextStruc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Magnetism.
         /// </summary>
         internal static string EarthmatPageMagTitle {

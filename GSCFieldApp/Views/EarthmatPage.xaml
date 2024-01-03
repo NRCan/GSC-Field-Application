@@ -133,7 +133,24 @@
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageLithoModTitle}"/>
 
-                            <VerticalStackLayout IsVisible="{Binding EarthLithModifierVisibility}"></VerticalStackLayout>
+                            <VerticalStackLayout IsVisible="{Binding EarthLithModifierVisibility}">
+
+                                <VerticalStackLayout>
+                                    <Picker Title="{local:Localize EarthmatPageLithTextStruc}" x:Name="TextStructurePicker"
+                                    ItemsSource="{Binding EarthLithTextureStruct.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithTextureStructure}"
+                                    SelectedIndex="{Binding EarthLithTextureStruct.cboxDefaultItemIndex, Mode=TwoWay}" />
+                                    <!--<ListView />-->
+                                    <Frame BorderColor="LightGray">
+                                        <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
+                                        x:Name="TextureStructureCollectionView" 
+                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
+                                        ItemsSource="{Binding EarthLithTextStrucCollection, Mode=TwoWay}"/>
+                                    </Frame>
+                                </VerticalStackLayout>
+
+
+                            </VerticalStackLayout>
                             
                         </VerticalStackLayout>
                     </Frame>

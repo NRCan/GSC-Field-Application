@@ -51,10 +51,14 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _earthLithOccurAs = new ComboBox();
         private ComboBox _earthLithMapUnit = new ComboBox();
 
+        private ComboBox _earthLithTextureStruct = new ComboBox();
+
         private ComboBoxItem _selectedEarthLithQualifier = new ComboBoxItem();
+        private ComboBoxItem _selectedEarthLithTextStruc = new ComboBoxItem();
         private ComboBoxItem _selectedEarthLithGroup = new ComboBoxItem();
 
         private ObservableCollection<ComboBoxItem> _qualifierCollection = new ObservableCollection<ComboBoxItem>();
+        private ObservableCollection<ComboBoxItem> _textStructCollection = new ObservableCollection<ComboBoxItem>();
 
         private List<Lithology> lithologies = new List<Lithology>();
 
@@ -115,6 +119,8 @@ namespace GSCFieldApp.ViewModel
         public ComboBox EarthLithOccurAs { get { return _earthLithOccurAs; } set { _earthLithOccurAs = value; } }
         public ComboBox EarthLithMapUnit { get { return _earthLithMapUnit; } set { _earthLithMapUnit = value; } }
 
+        public ComboBox EarthLithTextureStruct { get { return _earthLithTextureStruct; } set { _earthLithTextureStruct = value; } }
+
         public ComboBoxItem SelectedEarthLithQualifier
         {
             get
@@ -141,7 +147,36 @@ namespace GSCFieldApp.ViewModel
 
             }
         }
+
+        public ComboBoxItem SelectedEarthLithTextureStructure
+        {
+            get
+            {
+                return _selectedEarthLithTextStruc;
+            }
+            set
+            {
+                if (_selectedEarthLithTextStruc != value)
+                {
+                    if (_textStructCollection != null)
+                    {
+                        if (_textStructCollection.Count > 0 && _textStructCollection[0] == null)
+                        {
+                            _textStructCollection.RemoveAt(0);
+                        }
+                        _textStructCollection.Add(value);
+                        _selectedEarthLithTextStruc = value;
+                        OnPropertyChanged(nameof(EarthLithTextStrucCollection));
+                    }
+
+
+                }
+
+            }
+        }
+
         public ObservableCollection<ComboBoxItem> EarthLithQualifierCollection { get { return _qualifierCollection; } set { _qualifierCollection = value; OnPropertyChanged(nameof(EarthLithQualifierCollection)); } }
+        public ObservableCollection<ComboBoxItem> EarthLithTextStrucCollection { get { return _textStructCollection; } set { _textStructCollection = value; OnPropertyChanged(nameof(EarthLithTextStrucCollection)); } }
 
         public string EarthResidualText { get { return _earthResidualText; } set { _earthResidualText = value; } }
 
@@ -154,7 +189,6 @@ namespace GSCFieldApp.ViewModel
 
             FillSearchListAsync();
 
-            //CalculateResidual();
         }
 
         #region RELAY COMMANDS
@@ -454,9 +488,10 @@ namespace GSCFieldApp.ViewModel
             {
                 _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup);
                 _earthLithOccurAs = await FillAPicker(DatabaseLiterals.FieldEarthMatOccurs, _model.EarthMatLithgroup);
-
+                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
                 OnPropertyChanged(nameof(EarthLithQualifier));
                 OnPropertyChanged(nameof(EarthLithOccurAs));
+                OnPropertyChanged(nameof(EarthLithTextureStruct));
             }
 
         }
@@ -488,6 +523,10 @@ namespace GSCFieldApp.ViewModel
             if (EarthLithQualifierCollection.Count > 0)
             {
                 Model.EarthMatModComp = concat.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
+            }
+            if (EarthLithTextStrucCollection.Count > 0)
+            {
+                Model.EarthMatModTextStruc = concat.PipeValues(EarthLithTextStrucCollection); //process list of values so they are concatenated.
             }
             if (EarthLithOccurAs.cboxDefaultItemIndex != -1)
             {
@@ -570,6 +609,17 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(EarthLithOccurAs));
+
+                List<string> textStrucs = concat.UnpipeString(_earthmaterial.EarthMatModTextStruc);
+                _textStructCollection.Clear(); //Clear any possible values first
+                foreach (ComboBoxItem cbox in EarthLithTextureStruct.cboxItems)
+                {
+                    if (textStrucs.Contains(cbox.itemValue) && !_textStructCollection.Contains(cbox))
+                    {
+                        _textStructCollection.Add(cbox);
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithTextStrucCollection));
             }
 
         }

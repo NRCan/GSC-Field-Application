@@ -159,6 +159,9 @@
   <data name="EarthmatPageLithQualifier" xml:space="preserve">
     <value>Qualificatif structurel</value>
   </data>
+  <data name="EarthmatPageLithTextStruc" xml:space="preserve">
+    <value>Texture/Structure</value>
+  </data>
   <data name="EarthmatPageMagTitle" xml:space="preserve">
     <value>Magnétisme</value>
   </data>
