@@ -70,6 +70,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interpretation.
+        /// </summary>
+        internal static string EarthmatInterpNotes {
+            get {
+                return ResourceManager.GetString("EarthmatInterpNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clast Form.
         /// </summary>
         internal static string EarthmatPageClast {
@@ -84,6 +93,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string EarthmatPageColourTitle {
             get {
                 return ResourceManager.GetString("EarthmatPageColourTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confidence.
+        /// </summary>
+        internal static string EarthmatPageConfidence {
+            get {
+                return ResourceManager.GetString("EarthmatPageConfidence", resourceCulture);
             }
         }
         

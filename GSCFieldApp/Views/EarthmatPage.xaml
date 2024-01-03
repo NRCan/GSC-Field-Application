@@ -288,6 +288,19 @@
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageInterpretationTitle}"/>
 
+                            <Picker Title="{local:Localize EarthmatPageConfidence}" x:Name="ConfidencePicker"
+                                ItemsSource="{Binding EarthLithConfidence.cboxItems}"
+                                ItemDisplayBinding="{Binding itemName}"
+                                SelectedIndex="{Binding EarthLithConfidence.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout x:Name="EarthInterpretationNotes">
+
+                                <Label Text="{local:Localize EarthmatInterpNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.EarthMatInterp, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
                         </VerticalStackLayout>
                     </Frame>
 

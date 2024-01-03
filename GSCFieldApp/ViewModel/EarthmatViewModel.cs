@@ -65,6 +65,7 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _earthLithMetaFacies = new ComboBox();
         private ComboBox _earthLithMetaInt = new ComboBox();
         private ComboBox _earthLithMagQualifier = new ComboBox();
+        private ComboBox _earthLithConfidence = new ComboBox();
 
         private ComboBoxItem _selectedEarthLithGroup = new ComboBoxItem();
 
@@ -151,6 +152,7 @@ namespace GSCFieldApp.ViewModel
         public ComboBox EarthLithMetaFacies { get { return _earthLithMetaFacies; } set { _earthLithMetaFacies = value; } }
         public ComboBox EarthLithMetaInt { get { return _earthLithMetaInt; } set { _earthLithMetaInt = value; } }
         public ComboBox EarthLithMagQualifier { get { return _earthLithMagQualifier; } set { _earthLithMagQualifier = value; } }
+        public ComboBox EarthLithConfidence { get { return _earthLithConfidence; } set { _earthLithConfidence = value; } }
         public ComboBox EarthLithTextureStruct { get { return _earthLithTextureStruct; } set { _earthLithTextureStruct = value; } }
         public ComboBox EarthLithGrainSize { get { return _earthLithGrainSize; } set { _earthLithGrainSize = value; } }
         public ComboBox EarthLithBedThick { get { return _earthLithBedThick; } set { _earthLithBedThick = value; } }
@@ -596,6 +598,7 @@ namespace GSCFieldApp.ViewModel
             _earthLithMetaFacies = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaFacies);
             _earthLithMetaInt = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaIntensity);
             _earthLithMagQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatMagQualifier);
+            _earthLithConfidence = await FillAPicker(DatabaseLiterals.FieldEarthMatInterpConf);
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
@@ -608,6 +611,7 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(EarthLithMetaFacies));
             OnPropertyChanged(nameof(EarthLithMetaInt));
             OnPropertyChanged(nameof(EarthLithMagQualifier));
+            OnPropertyChanged(nameof(EarthLithConfidence));
 
             //There is one picker that needs a parent in bedrock, but doesn't in surficial
             if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
@@ -717,6 +721,10 @@ namespace GSCFieldApp.ViewModel
             if (EarthLithMagQualifier.cboxItems.Count() > 0 && EarthLithMagQualifier.cboxDefaultItemIndex != -1)
             {
                 Model.EarthMatMagQualifier = EarthLithMagQualifier.cboxItems[EarthLithMagQualifier.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithConfidence.cboxItems.Count() > 0 && EarthLithConfidence.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatInterpConf = EarthLithConfidence.cboxItems[EarthLithConfidence.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
             }
         }
 
@@ -839,6 +847,15 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(EarthLithMagQualifier));
+
+                foreach (ComboBoxItem cbox in EarthLithConfidence.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatInterpConf)
+                    {
+                        EarthLithConfidence.cboxDefaultItemIndex = EarthLithConfidence.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithConfidence));
 
                 #endregion
 

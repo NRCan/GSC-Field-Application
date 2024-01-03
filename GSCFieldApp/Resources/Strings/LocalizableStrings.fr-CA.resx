@@ -120,11 +120,17 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Sauvegarder</value>
   </data>
+  <data name="EarthmatInterpNotes" xml:space="preserve">
+    <value>Interprétation</value>
+  </data>
   <data name="EarthmatPageClast" xml:space="preserve">
     <value>Forme clastique</value>
   </data>
   <data name="EarthmatPageColourTitle" xml:space="preserve">
     <value>Couleur</value>
+  </data>
+  <data name="EarthmatPageConfidence" xml:space="preserve">
+    <value>Confidence</value>
   </data>
   <data name="EarthmatPageContactTitle" xml:space="preserve">
     <value>Contact</value>
