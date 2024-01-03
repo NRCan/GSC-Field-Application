@@ -79,6 +79,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string EarthmatNotes {
+            get {
+                return ResourceManager.GetString("EarthmatNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clast Form.
         /// </summary>
         internal static string EarthmatPageClast {

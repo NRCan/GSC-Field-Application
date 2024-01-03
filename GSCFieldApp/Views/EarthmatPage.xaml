@@ -309,6 +309,14 @@
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageGeneralTitle}"/>
 
+                            <VerticalStackLayout x:Name="EarthNotes">
+
+                                <Label Text="{local:Localize EarthmatNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.EarthMatNotes, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
                         </VerticalStackLayout>
                     </Frame>
 

@@ -123,6 +123,9 @@
   <data name="EarthmatInterpNotes" xml:space="preserve">
     <value>Interpretation</value>
   </data>
+  <data name="EarthmatNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="EarthmatPageClast" xml:space="preserve">
     <value>Clast Form</value>
   </data>
