@@ -124,6 +124,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bedding Thickness.
+        /// </summary>
+        internal static string EarthmatPageLithBedThick {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithBedThick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deformation Fabric.
+        /// </summary>
+        internal static string EarthmatPageLithDefFab {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithDefFab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grain/Crystal Size.
+        /// </summary>
+        internal static string EarthmatPageLithGrainSize {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithGrainSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map Unit.
         /// </summary>
         internal static string EarthmatPageLithMapUnit {

@@ -138,6 +138,15 @@
   <data name="EarthmatPageInterpretationTitle" xml:space="preserve">
     <value>Interprétation</value>
   </data>
+  <data name="EarthmatPageLithBedThick" xml:space="preserve">
+    <value>Épaisseur de couches/lits</value>
+  </data>
+  <data name="EarthmatPageLithDefFab" xml:space="preserve">
+    <value>Deformation Fabric</value>
+  </data>
+  <data name="EarthmatPageLithGrainSize" xml:space="preserve">
+    <value>Granulométrie</value>
+  </data>
   <data name="EarthmatPageLithMapUnit" xml:space="preserve">
     <value>Unité Cartographique</value>
   </data>
