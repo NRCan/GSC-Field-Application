@@ -255,7 +255,9 @@
 
                                 <HorizontalStackLayout>
                                     <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetFreshColourCommand}" />
-                                    <Entry  FontSize="Caption" Text="{Binding Model.EarthMatColourF, Mode=TwoWay}" Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
+                                    <Entry  FontSize="Caption" Text="{Binding Model.EarthMatColourF, Mode=TwoWay}" 
+                                            MaximumWidthRequest="197" WidthRequest="197"
+                                            Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
                                 </HorizontalStackLayout>
                                 
                             </VerticalStackLayout>
@@ -267,6 +269,7 @@
                                 <HorizontalStackLayout>
                                     <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetWeatheredColourCommand}"/>
                                     <Entry FontSize="Caption" Text="{Binding Model.EarthMatColourW, Mode=TwoWay}" 
+                                           MaximumWidthRequest="197" WidthRequest="197"
                                            Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
                                 </HorizontalStackLayout>
 
@@ -305,9 +308,62 @@
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageContactTitle}"/>
 
+                            <Picker Title="{local:Localize EarthmatPageContactUpper}" x:Name="ContactUpperPicker"
+                                    ItemsSource="{Binding EarthLithContactUpper.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithContactUpper.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EarthmatPageContactLower}" x:Name="ContactLowerPicker"
+                                    ItemsSource="{Binding EarthLithContactLower.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithContactLower.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout x:Name="EarthContactNotes">
+
+                                <Label Text="{local:Localize EarthmatContactNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.EarthMatContactNote, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+             
                         </VerticalStackLayout>
                     </Frame>
 
+                    <!--Contact relation to other EM -->
+                    <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}" Style="{StaticResource FieldAppSectionFrame}">
+                        
+                        <VerticalStackLayout >
+
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageContactRelTitle}"/>
+
+                            <Picker Title="{local:Localize EarthmatPageContactType}" x:Name="ContactTypePicker"
+                                    ItemsSource="{Binding EarthLithContactType.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithContactType.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EarthmatPageContactRelatedAlias}" x:Name="ContactRelatedAliasPicker"
+                                    ItemsSource="{Binding EarthLithContactRelatedAlias.cboxItems, Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithContactRelatedAlias.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout x:Name="EarthRelationDescription">
+
+                                <HorizontalStackLayout >
+                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetContactCommand}"/>
+
+                                    <Frame BorderColor="LightGray" MaximumWidthRequest="197" WidthRequest="197">
+                                        <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
+                                        x:Name="ContactRelationCollectionView"
+                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
+                                        ItemsSource="{Binding EarthLithContactRelationCollection, Mode=TwoWay}"/>
+                                    </Frame>
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+
+                    </Frame>
+                    
                     <!--Magnetism-->
                     <Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>

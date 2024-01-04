@@ -88,6 +88,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string EarthmatContactNotes {
+            get {
+                return ResourceManager.GetString("EarthmatContactNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interpretation.
         /// </summary>
         internal static string EarthmatInterpNotes {
@@ -187,11 +196,56 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lower.
+        /// </summary>
+        internal static string EarthmatPageContactLower {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Related to.
+        /// </summary>
+        internal static string EarthmatPageContactRelatedAlias {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactRelatedAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact relations.
+        /// </summary>
+        internal static string EarthmatPageContactRelTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactRelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact.
         /// </summary>
         internal static string EarthmatPageContactTitle {
             get {
                 return ResourceManager.GetString("EarthmatPageContactTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string EarthmatPageContactType {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upper.
+        /// </summary>
+        internal static string EarthmatPageContactUpper {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactUpper", resourceCulture);
             }
         }
         
@@ -399,6 +453,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string EarthmatPageOxidation {
             get {
                 return ResourceManager.GetString("EarthmatPageOxidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relation description.
+        /// </summary>
+        internal static string EarthmatPageRelationDescription {
+            get {
+                return ResourceManager.GetString("EarthmatPageRelationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type + Related To.
+        /// </summary>
+        internal static string EarthmatPageRelationDescriptionPlaceholder {
+            get {
+                return ResourceManager.GetString("EarthmatPageRelationDescriptionPlaceholder", resourceCulture);
             }
         }
         

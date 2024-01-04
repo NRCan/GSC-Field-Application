@@ -126,6 +126,9 @@
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Indexe</value>
   </data>
+  <data name="EarthmatContactNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="EarthmatInterpNotes" xml:space="preserve">
     <value>Interprétation</value>
   </data>
@@ -159,8 +162,23 @@
   <data name="EarthmatPageConfidence" xml:space="preserve">
     <value>Confidence</value>
   </data>
+  <data name="EarthmatPageContactLower" xml:space="preserve">
+    <value>Contact Inférieur</value>
+  </data>
+  <data name="EarthmatPageContactRelatedAlias" xml:space="preserve">
+    <value>En relation avec</value>
+  </data>
+  <data name="EarthmatPageContactRelTitle" xml:space="preserve">
+    <value>Relations entre contacts</value>
+  </data>
   <data name="EarthmatPageContactTitle" xml:space="preserve">
     <value>Contact</value>
+  </data>
+  <data name="EarthmatPageContactType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="EarthmatPageContactUpper" xml:space="preserve">
+    <value>Contact Supérieur</value>
   </data>
   <data name="EarthmatPageDetailSearchPlaceholder" xml:space="preserve">
     <value>Tapez ex:. basalt</value>
@@ -230,6 +248,12 @@
   </data>
   <data name="EarthmatPageOxidation" xml:space="preserve">
     <value>Oxydation</value>
+  </data>
+  <data name="EarthmatPageRelationDescription" xml:space="preserve">
+    <value>Description de la relation</value>
+  </data>
+  <data name="EarthmatPageRelationDescriptionPlaceholder" xml:space="preserve">
+    <value>Type + Relation</value>
   </data>
   <data name="EarthmatPageResidualLabel" xml:space="preserve">
     <value>Total: {0}% ({1})</value>

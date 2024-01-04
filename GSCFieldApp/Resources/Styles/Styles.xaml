@@ -334,7 +334,7 @@
 
     <Style TargetType="Rectangle" x:Key="HorizontalBar">
         <Setter Property="Height" Value="1"/>
-        <Setter Property="Margin" Value="20,10,20,20"/>
+        <!--<Setter Property="Margin" Value="20,10,20,20"/>-->
     </Style>
 
     <!--Modified default-->

@@ -18,6 +18,7 @@ using System.Reflection;
 using SQLite;
 using System.Text.RegularExpressions;
 using GSCFieldApp.Services;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -69,11 +70,16 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _earthLithColourGeneric = new ComboBox();
         private ComboBox _earthLithColourIntensity = new ComboBox();
         private ComboBox _earthLithColourQualifier = new ComboBox();
+        private ComboBox _earthLithContactUpper = new ComboBox();
+        private ComboBox _earthLithContactLower = new ComboBox();
+        private ComboBox _earthLithContactType = new ComboBox();
+        private ComboBox _earthLithContactRelatedAlias = new ComboBox();
 
         private ComboBoxItem _selectedEarthLithGroup = new ComboBoxItem();
 
         private Models.Colour _earthColourW = new Models.Colour();
         private Models.Colour _earthColourF = new Models.Colour();
+        private Models.Contacts _earthContact = new Models.Contacts();
 
         //Concatenated fields
         private ComboBox _earthLithTextureStruct = new ComboBox();
@@ -93,7 +99,7 @@ namespace GSCFieldApp.ViewModel
         private ObservableCollection<ComboBoxItem> _grainSizeCollection = new ObservableCollection<ComboBoxItem>();
         private ObservableCollection<ComboBoxItem> _bedThickCollection = new ObservableCollection<ComboBoxItem>();
         private ObservableCollection<ComboBoxItem> _defFabCollection = new ObservableCollection<ComboBoxItem>();
-
+        private ObservableCollection<ComboBoxItem> _contactRelationCollection = new ObservableCollection<ComboBoxItem>();
 
         #endregion
 
@@ -166,6 +172,10 @@ namespace GSCFieldApp.ViewModel
         public ComboBox EarthLithColourGeneric { get { return _earthLithColourGeneric; } set { _earthLithColourGeneric = value; } }
         public ComboBox EarthLithColourIntensity { get { return _earthLithColourIntensity; } set { _earthLithColourIntensity = value; } }
         public ComboBox EarthLithColourQualifier { get { return _earthLithColourQualifier; } set { _earthLithColourQualifier = value; } }
+        public ComboBox EarthLithContactUpper { get { return _earthLithContactUpper; } set { _earthLithContactUpper = value; } }
+        public ComboBox EarthLithContactLower { get { return _earthLithContactLower; } set { _earthLithContactLower = value; } }
+        public ComboBox EarthLithContactType { get { return _earthLithContactType; } set { _earthLithContactType = value; } }
+        public ComboBox EarthLithContactRelatedAlias { get { return _earthLithContactRelatedAlias; } set { _earthLithContactRelatedAlias = value; } }
 
         public ComboBoxItem SelectedEarthLithQualifier
         {
@@ -303,6 +313,7 @@ namespace GSCFieldApp.ViewModel
         public ObservableCollection<ComboBoxItem> EarthLithGrainSizeCollection { get { return _grainSizeCollection; } set { _grainSizeCollection = value; OnPropertyChanged(nameof(EarthLithGrainSizeCollection)); } }
         public ObservableCollection<ComboBoxItem> EarthLithBedThickCollection { get { return _bedThickCollection; } set { _bedThickCollection = value; OnPropertyChanged(nameof(EarthLithBedThickCollection)); } }
         public ObservableCollection<ComboBoxItem> EarthLithDefFabCollection { get { return _defFabCollection; } set { _defFabCollection = value; OnPropertyChanged(nameof(EarthLithDefFabCollection)); } }
+        public ObservableCollection<ComboBoxItem> EarthLithContactRelationCollection { get { return _contactRelationCollection; } set { _contactRelationCollection = value; OnPropertyChanged(nameof(EarthLithContactRelationCollection)); } }
 
         public string EarthResidualText { get { return _earthResidualText; } set { _earthResidualText = value; } }
 
@@ -450,6 +461,29 @@ namespace GSCFieldApp.ViewModel
             }
             Model.EarthMatColourW = _earthColourW.ToString();
             OnPropertyChanged(nameof(Model));
+        }
+
+        [RelayCommand]
+        public async Task SetContact()
+        {
+            if (_earthLithContactType.cboxItems.Count() > 0 && _earthLithContactType.cboxDefaultItemIndex != -1 &&
+                _earthLithContactRelatedAlias.cboxItems.Count() > 0 && _earthLithContactType.cboxDefaultItemIndex != -1)
+            {
+                //Build proper string from selected values
+                _earthContact.type = _earthLithContactType.cboxItems[_earthLithContactType.cboxDefaultItemIndex].itemValue;
+                Earthmaterial em = new Earthmaterial();
+                em.EarthMatName = _earthLithContactRelatedAlias.cboxItems[_earthLithContactRelatedAlias.cboxDefaultItemIndex].itemValue;
+                _earthContact.relatedEarthMaterialID = em.GetIDLetter;
+
+                //Add 
+                ComboBoxItem newContact = new ComboBoxItem();
+                newContact.itemName = _earthContact.ToString();
+                newContact.itemValue = _earthContact.ToString();
+                newContact.canRemoveItem = true;
+                _contactRelationCollection.Add(newContact);
+            }
+
+            OnPropertyChanged(nameof(EarthLithContactRelationCollection));
         }
 
         #endregion
@@ -654,6 +688,9 @@ namespace GSCFieldApp.ViewModel
             _earthLithColourGeneric = await FillAPicker(DatabaseLiterals.KeywordColourGeneric);
             _earthLithColourIntensity = await FillAPicker(DatabaseLiterals.KeywordColourIntensity);
             _earthLithColourQualifier = await FillAPicker(DatabaseLiterals.KeywordColourQualifier);
+            _earthLithContactUpper = await FillAPicker(DatabaseLiterals.FieldEarthMatContactUp);
+            _earthLithContactLower = await FillAPicker(DatabaseLiterals.FieldEarthMatContactLow);
+            _earthLithContactType = await FillAPicker(DatabaseLiterals.FieldEarthMatContactUp);
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
@@ -670,12 +707,22 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(EarthLithColourGeneric));
             OnPropertyChanged(nameof(EarthLithColourIntensity));
             OnPropertyChanged(nameof(EarthLithColourQualifier));
+            OnPropertyChanged(nameof(EarthLithContactUpper));
+            OnPropertyChanged(nameof(EarthLithContactLower));
+            OnPropertyChanged(nameof(EarthLithContactType));
 
             //There is one picker that needs a parent in bedrock, but doesn't in surficial
             if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
             {
                 _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup, currentProjectType);
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
+            }
+
+            //There is one picker that needs all brotha's and sista's listing
+            if (currentProjectType == DatabaseLiterals.ApplicationThemeBedrock)
+            {
+                _earthLithContactRelatedAlias = await FillRelatedEarthmatAsync();
+                OnPropertyChanged(nameof(EarthLithContactRelatedAlias));
             }
         }
 
@@ -707,6 +754,56 @@ namespace GSCFieldApp.ViewModel
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
             return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName, extraField, fieldWork);
+
+        }
+
+        /// <summary>
+        /// Will fill with all other earthmaterial associated with parent station/drill hole
+        /// </summary>
+        public async Task<ComboBox> FillRelatedEarthmatAsync()
+        {
+            ComboBox relatedCbx = new ComboBox();
+            relatedCbx.cboxDefaultItemIndex = -1;
+
+            if (_earthmaterial != null || _station != null)
+            {
+                //Find proper parent id (request could come from a mineral or an earthmat selection)
+                List<Earthmaterial> ems = new List<Earthmaterial>();
+                if (_earthmaterial != null)
+                {
+                    if (_earthmaterial.ParentName == Dictionaries.DatabaseLiterals.TableStation)
+                    {
+                        ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == Earthmaterial.EarthMatStatID || i.EarthMatID <= 1) && (i.EarthMatID != _earthmaterial.EarthMatID)).ToListAsync();
+                    }
+                    else
+                    {
+                        ems = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatDrillHoleID == Earthmaterial.EarthMatDrillHoleID || i.EarthMatID != _earthmaterial.EarthMatID).ToListAsync();
+                    }
+                }
+                else
+                {
+                    if (_station != null)
+                    {
+                        ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == _station.StationID)).ToListAsync();
+                    }
+                }
+
+                if (ems != null && ems.Count > 0)
+                {
+
+                    foreach (Earthmaterial em in ems)
+                    {
+                        Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
+                        newItem.itemValue = em.EarthMatName;
+                        newItem.itemName = em.EarthMatName;
+                        relatedCbx.cboxItems.Add(newItem);
+                    }
+
+                    relatedCbx.cboxDefaultItemIndex = -1;
+                }
+            }
+
+            return relatedCbx;
 
         }
 
@@ -783,6 +880,18 @@ namespace GSCFieldApp.ViewModel
             if (EarthLithConfidence.cboxItems.Count() > 0 && EarthLithConfidence.cboxDefaultItemIndex != -1)
             {
                 Model.EarthMatInterpConf = EarthLithConfidence.cboxItems[EarthLithConfidence.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithContactUpper.cboxItems.Count() > 0 && EarthLithContactUpper.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatContactUp = EarthLithContactUpper.cboxItems[EarthLithContactUpper.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithContactLower.cboxItems.Count() > 0 && EarthLithContactLower.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatContactLow = EarthLithContactLower.cboxItems[EarthLithContactLower.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
+            }
+            if (EarthLithContactRelationCollection.Count > 0)
+            {
+                Model.EarthMatContact = concat.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
             }
         }
 
@@ -914,6 +1023,36 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(EarthLithConfidence));
+
+                foreach (ComboBoxItem cbox in EarthLithContactUpper.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatContactUp)
+                    {
+                        EarthLithContactUpper.cboxDefaultItemIndex = EarthLithContactUpper.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithContactUpper));
+
+                foreach (ComboBoxItem cbox in EarthLithContactLower.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatContactLow)
+                    {
+                        EarthLithContactLower.cboxDefaultItemIndex = EarthLithContactLower.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithContactLower));
+
+                List<string> ecs = concat.UnpipeString(_earthmaterial.EarthMatContact);
+                _contactRelationCollection.Clear(); //Clear any possible values first
+                foreach (string ec in ecs)
+                {
+                    ComboBoxItem new_ec = new ComboBoxItem();
+                    new_ec.itemValue = ec;
+                    new_ec.itemName = ec;
+                    new_ec.canRemoveItem = true;
+                    _contactRelationCollection.Add(new_ec);
+                }
+                OnPropertyChanged(nameof(EarthLithBedThickCollection));
 
                 #endregion
 
