@@ -269,8 +269,6 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-
-
     <!-- -->
 
     <Style TargetType="ListView" x:Key="FieldAppSearchCollectionView">
@@ -332,6 +330,11 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+    </Style>
+
+    <Style TargetType="Rectangle" x:Key="HorizontalBar">
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="Margin" Value="20,10,20,20"/>
     </Style>
 
     <!--Modified default-->

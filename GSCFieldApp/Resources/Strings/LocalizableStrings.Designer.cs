@@ -70,6 +70,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set.
+        /// </summary>
+        internal static string ButtonSet {
+            get {
+                return ResourceManager.GetString("ButtonSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index.
+        /// </summary>
+        internal static string EarthmatColourIndex {
+            get {
+                return ResourceManager.GetString("EarthmatColourIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interpretation.
         /// </summary>
         internal static string EarthmatInterpNotes {
@@ -97,11 +115,65 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fresh.
+        /// </summary>
+        internal static string EarthmatPageColourFresh {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourFresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generic.
+        /// </summary>
+        internal static string EarthmatPageColourGeneric {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intensity.
+        /// </summary>
+        internal static string EarthmatPageColourIntensity {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourIntensity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generic + Intensity + Qualifier.
+        /// </summary>
+        internal static string EarthmatPageColourPlaceholder {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Qualifier.
+        /// </summary>
+        internal static string EarthmatPageColourQualifier {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourQualifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Colour.
         /// </summary>
         internal static string EarthmatPageColourTitle {
             get {
                 return ResourceManager.GetString("EarthmatPageColourTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weathered.
+        /// </summary>
+        internal static string EarthmatPageColourWeathered {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourWeathered", resourceCulture);
             }
         }
         

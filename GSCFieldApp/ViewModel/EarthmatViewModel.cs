@@ -66,8 +66,14 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _earthLithMetaInt = new ComboBox();
         private ComboBox _earthLithMagQualifier = new ComboBox();
         private ComboBox _earthLithConfidence = new ComboBox();
+        private ComboBox _earthLithColourGeneric = new ComboBox();
+        private ComboBox _earthLithColourIntensity = new ComboBox();
+        private ComboBox _earthLithColourQualifier = new ComboBox();
 
         private ComboBoxItem _selectedEarthLithGroup = new ComboBoxItem();
+
+        private Models.Colour _earthColourW = new Models.Colour();
+        private Models.Colour _earthColourF = new Models.Colour();
 
         //Concatenated fields
         private ComboBox _earthLithTextureStruct = new ComboBox();
@@ -157,6 +163,10 @@ namespace GSCFieldApp.ViewModel
         public ComboBox EarthLithGrainSize { get { return _earthLithGrainSize; } set { _earthLithGrainSize = value; } }
         public ComboBox EarthLithBedThick { get { return _earthLithBedThick; } set { _earthLithBedThick = value; } }
         public ComboBox EarthLithDefFab { get { return _earthLithDefFab; } set { _earthLithDefFab = value; } }
+        public ComboBox EarthLithColourGeneric { get { return _earthLithColourGeneric; } set { _earthLithColourGeneric = value; } }
+        public ComboBox EarthLithColourIntensity { get { return _earthLithColourIntensity; } set { _earthLithColourIntensity = value; } }
+        public ComboBox EarthLithColourQualifier { get { return _earthLithColourQualifier; } set { _earthLithColourQualifier = value; } }
+
         public ComboBoxItem SelectedEarthLithQualifier
         {
             get
@@ -400,6 +410,48 @@ namespace GSCFieldApp.ViewModel
             
         }
 
+        [RelayCommand]
+        public async Task SetFreshColour()
+        {
+            if (_earthLithColourGeneric.cboxItems.Count() > 0 && _earthLithColourGeneric.cboxDefaultItemIndex != -1)
+            {
+                _earthColourF.generic = _earthLithColourGeneric.cboxItems[_earthLithColourGeneric.cboxDefaultItemIndex].itemValue; 
+            }
+
+            if (_earthLithColourIntensity.cboxItems.Count() > 0 && _earthLithColourIntensity.cboxDefaultItemIndex != -1)
+            {
+                _earthColourF.intensity = _earthLithColourIntensity.cboxItems[_earthLithColourIntensity.cboxDefaultItemIndex].itemValue; 
+            }
+
+            if (_earthLithColourQualifier.cboxItems.Count() > 0 && _earthLithColourQualifier.cboxDefaultItemIndex != -1)
+            {
+                _earthColourF.qualifier = _earthLithColourQualifier.cboxItems[_earthLithColourQualifier.cboxDefaultItemIndex].itemValue; 
+            }
+            Model.EarthMatColourF = _earthColourF.ToString();
+            OnPropertyChanged(nameof(Model));
+        }
+
+        [RelayCommand]
+        public async Task SetWeatheredColour()
+        {
+            if (_earthLithColourGeneric.cboxItems.Count() > 0 && _earthLithColourGeneric.cboxDefaultItemIndex != -1)
+            {
+                _earthColourW.generic = _earthLithColourGeneric.cboxItems[_earthLithColourGeneric.cboxDefaultItemIndex].itemValue;
+            }
+
+            if (_earthLithColourIntensity.cboxItems.Count() > 0 && _earthLithColourIntensity.cboxDefaultItemIndex != -1)
+            {
+                _earthColourW.intensity = _earthLithColourIntensity.cboxItems[_earthLithColourIntensity.cboxDefaultItemIndex].itemValue;
+            }
+
+            if (_earthLithColourQualifier.cboxItems.Count() > 0 && _earthLithColourQualifier.cboxDefaultItemIndex != -1)
+            {
+                _earthColourW.qualifier = _earthLithColourQualifier.cboxItems[_earthLithColourQualifier.cboxDefaultItemIndex].itemValue;
+            }
+            Model.EarthMatColourW = _earthColourW.ToString();
+            OnPropertyChanged(nameof(Model));
+        }
+
         #endregion
 
         #region METHODS
@@ -599,6 +651,9 @@ namespace GSCFieldApp.ViewModel
             _earthLithMetaInt = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaIntensity);
             _earthLithMagQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatMagQualifier);
             _earthLithConfidence = await FillAPicker(DatabaseLiterals.FieldEarthMatInterpConf);
+            _earthLithColourGeneric = await FillAPicker(DatabaseLiterals.KeywordColourGeneric);
+            _earthLithColourIntensity = await FillAPicker(DatabaseLiterals.KeywordColourIntensity);
+            _earthLithColourQualifier = await FillAPicker(DatabaseLiterals.KeywordColourQualifier);
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
@@ -612,6 +667,9 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(EarthLithMetaInt));
             OnPropertyChanged(nameof(EarthLithMagQualifier));
             OnPropertyChanged(nameof(EarthLithConfidence));
+            OnPropertyChanged(nameof(EarthLithColourGeneric));
+            OnPropertyChanged(nameof(EarthLithColourIntensity));
+            OnPropertyChanged(nameof(EarthLithColourQualifier));
 
             //There is one picker that needs a parent in bedrock, but doesn't in surficial
             if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)

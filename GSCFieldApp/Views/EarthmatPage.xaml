@@ -234,6 +234,51 @@
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageColourTitle}"/>
 
+                            <Picker Title="{local:Localize EarthmatPageColourGeneric}" x:Name="ColourGenericPicker"
+                                    ItemsSource="{Binding EarthLithColourGeneric.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithColourGeneric.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EarthmatPageColourIntensity}" x:Name="ColourIntensityPicker"
+                                    ItemsSource="{Binding EarthLithColourIntensity.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithColourIntensity.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EarthmatPageColourQualifier}" x:Name="ColourQualifierPicker"
+                                    ItemsSource="{Binding EarthLithColourQualifier.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding EarthLithColourQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout x:Name="EarthFreshColour">
+
+                                <Label Text="{local:Localize EarthmatPageColourFresh}" Style="{StaticResource FieldAppEntryTitle}"/>
+
+                                <HorizontalStackLayout>
+                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetFreshColourCommand}" />
+                                    <Entry  FontSize="Caption" Text="{Binding Model.EarthMatColourF, Mode=TwoWay}" Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
+                                </HorizontalStackLayout>
+                                
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout x:Name="EarthWeatheredColour">
+
+                                <Label Text="{local:Localize EarthmatPageColourWeathered}" Style="{StaticResource FieldAppEntryTitle}"/>
+
+                                <HorizontalStackLayout>
+                                    <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetWeatheredColourCommand}"/>
+                                    <Entry FontSize="Caption" Text="{Binding Model.EarthMatColourW, Mode=TwoWay}" 
+                                           Placeholder="{local:Localize EarthmatPageColourPlaceholder}"/>
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout x:Name="EarthColourIndex">
+
+                                <Label Text="{local:Localize EarthmatColourIndex}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.EarthMatColourInd, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+
                         </VerticalStackLayout>
                     </Frame>
 

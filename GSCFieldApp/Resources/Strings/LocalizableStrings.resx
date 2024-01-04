@@ -120,6 +120,12 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="ButtonSet" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="EarthmatColourIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
   <data name="EarthmatInterpNotes" xml:space="preserve">
     <value>Interpretation</value>
   </data>
@@ -129,8 +135,26 @@
   <data name="EarthmatPageClast" xml:space="preserve">
     <value>Clast Form</value>
   </data>
+  <data name="EarthmatPageColourFresh" xml:space="preserve">
+    <value>Fresh</value>
+  </data>
+  <data name="EarthmatPageColourGeneric" xml:space="preserve">
+    <value>Generic</value>
+  </data>
+  <data name="EarthmatPageColourIntensity" xml:space="preserve">
+    <value>Intensity</value>
+  </data>
+  <data name="EarthmatPageColourPlaceholder" xml:space="preserve">
+    <value>Generic + Intensity + Qualifier</value>
+  </data>
+  <data name="EarthmatPageColourQualifier" xml:space="preserve">
+    <value>Qualifier</value>
+  </data>
   <data name="EarthmatPageColourTitle" xml:space="preserve">
     <value>Colour</value>
+  </data>
+  <data name="EarthmatPageColourWeathered" xml:space="preserve">
+    <value>Weathered</value>
   </data>
   <data name="EarthmatPageConfidence" xml:space="preserve">
     <value>Confidence</value>
