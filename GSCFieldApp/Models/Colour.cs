@@ -41,7 +41,7 @@ namespace GSCFieldApp.Models
 
             foreach (string c in colours)
             {
-                if (colours.IndexOf(c) == 0)
+                if(colourString == string.Empty)
                 {
                     colourString = c;
                 }
