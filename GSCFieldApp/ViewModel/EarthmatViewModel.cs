@@ -365,6 +365,32 @@ namespace GSCFieldApp.ViewModel
                 _qualifierCollection.Remove(item);
             }
 
+            if (_bedThickCollection.Contains(item))
+            {
+                _bedThickCollection.Remove(item);
+            }
+
+            if (_contactRelationCollection.Contains(item))
+            {
+                _contactRelationCollection.Remove(item);
+            }
+
+            if (_grainSizeCollection.Contains(item))
+            {
+                _grainSizeCollection.Remove(item);
+            }
+
+            if (_defFabCollection.Contains(item))
+            {
+                _defFabCollection.Remove(item);
+            }
+
+            if (_textStructCollection.Contains(item))
+            {
+                _textStructCollection.Remove(item);
+            }
+
+
         }
 
         [RelayCommand]
