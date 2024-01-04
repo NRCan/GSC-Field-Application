@@ -446,7 +446,7 @@ public partial class MapPage : ContentPage
 
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>
-                ("SELECT SUBSTR(" + DatabaseLiterals.FieldLocationAlias + ", -6, 4) as " + 
+                ("SELECT LTRIM(SUBSTR(" + DatabaseLiterals.FieldLocationAlias + ", -6, 4), '0') as " + 
                 DatabaseLiterals.FieldLocationAlias + ", " + DatabaseLiterals.FieldLocationLongitude + 
                 ", " + DatabaseLiterals.FieldLocationLatitude + " FROM " + DatabaseLiterals.TableLocation);
 
