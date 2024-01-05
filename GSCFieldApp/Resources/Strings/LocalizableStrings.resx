@@ -123,6 +123,15 @@
   <data name="ButtonSet" xml:space="preserve">
     <value>Set</value>
   </data>
+  <data name="DisplayAlertGPS" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="DisplayAlertGPSDenied" xml:space="preserve">
+    <value>Location access denied</value>
+  </data>
+  <data name="DisplayAlertGPSMessage" xml:space="preserve">
+    <value>Access to location service is currently disabled. Would you like to fix the problem?</value>
+  </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Index</value>
   </data>
@@ -351,8 +360,14 @@
   <data name="GenericButtonDelete" xml:space="preserve">
     <value>DELETE</value>
   </data>
+  <data name="GenericButtonNo" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="GenericButtonOk" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="GenericButtonYes" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>

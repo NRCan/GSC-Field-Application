@@ -32,6 +32,7 @@ using Color = Mapsui.Styles.Color;
 using Brush = Mapsui.Styles.Brush;
 using Mapsui.UI.Maui.Extensions;
 using static GSCFieldApp.Models.GraphicPlacement;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.Views;
 
@@ -42,6 +43,10 @@ public partial class MapPage : ContentPage
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
     private int bitmapSymbolId = -1;
+    private bool _isGPSOn = true;
+
+    public LocalizationResourceManager LocalizationResourceManager
+    => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
     public MapPage(MapViewModel vm)
     {
@@ -59,7 +64,7 @@ public partial class MapPage : ContentPage
 
         mapView.Map = mapControl.Map;
 
-        StartGPS();
+        //StartGPS();
 
         this.Loaded += MapPage_Loaded;
     }
@@ -86,13 +91,17 @@ public partial class MapPage : ContentPage
             }
         }
 
-
-
-    
+        //Manage GPS
+        if (!_isGPSOn)
+        {
+            StartGPS();
+        }
     }
 
     private async void MapPage_Loaded(object sender, EventArgs e)
     {
+
+        //Manage symbol and layers
         await AddSymbolToRegistry();
         MemoryLayer ml = await CreatePointLayerAsync();
         mapView.Map.Layers.Add(ml);
@@ -135,7 +144,8 @@ public partial class MapPage : ContentPage
         }
         catch (Exception ex)
         {
-            Logger.Log(LogLevel.Error, ex.Message, ex);
+            await DisplayAlert("Alert", ex.Message, "OK");
+            //Logger.Log(LogLevel.Error, ex.Message, ex);
         }
     }
 
@@ -183,6 +193,23 @@ public partial class MapPage : ContentPage
         vm.RefreshLayerCollection(mapView.Map.Layers);
 
         MapLayerFrame.IsVisible = !MapLayerFrame.IsVisible;
+    }
+
+    /// <summary>
+    /// Will enable/disable GPS. When disabled user can tap on screen to create stations
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void GPSMode_Clicked(object sender, EventArgs e)
+    {
+        if (_isGPSOn)
+        {
+            StopGPS();
+        }
+        else
+        {
+            StartGPS();
+        }
     }
 
     #endregion
@@ -314,10 +341,12 @@ public partial class MapPage : ContentPage
     /// Will start the GPS
     /// </summary>
     [Obsolete]
-    public async void StartGPS()
+    public async Task StartGPS()
     {
+
         try
         {
+
             this.gpsCancelation?.Dispose();
             this.gpsCancelation = new CancellationTokenSource();
 
@@ -335,7 +364,9 @@ public partial class MapPage : ContentPage
                         var location = await Geolocation.GetLocationAsync(request, this.gpsCancelation.Token)
                             .ConfigureAwait(false);
                         if (location != null)
-                        {   
+                        {
+                            _isGPSOn = true;
+                            
                             MyLocationPositionChanged(location);
                         }
                     }).ConfigureAwait(false);
@@ -346,7 +377,32 @@ public partial class MapPage : ContentPage
         }
         catch (Exception e)
         {
-            Mapsui.Logging.Logger.Log(LogLevel.Error, e.Message, e);
+            _isGPSOn = false;
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                //Manage restricted access to other problems
+                if (e.Message.ToLower().Contains("denied"))
+                {
+                    //Tell user app doesn't have access to location
+                    bool answer = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                        LocalizationResourceManager["DisplayAlertGPSMessage"].ToString(),
+                        LocalizationResourceManager["GenericButtonYes"].ToString(),
+                        LocalizationResourceManager["GenericButtonNo"].ToString());
+
+                    if (answer == true)
+                    {
+                        AppInfo.Current.ShowSettingsUI();
+                    }
+                }
+                else
+                {
+                    //Generic error message regarding GPS
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPS"].ToString(), e.Message,
+                                            LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+
+            });
         }
     }
 
@@ -356,6 +412,7 @@ public partial class MapPage : ContentPage
     public void StopGPS()
     {
         this.gpsCancelation?.Cancel();
+        _isGPSOn = false;
     }
 
     /// <summary>
@@ -488,6 +545,7 @@ public partial class MapPage : ContentPage
 
         return new SymbolStyle { BitmapId = bitmapSymbolId, SymbolScale = 0.75 };
     }
+
 
 
     #endregion

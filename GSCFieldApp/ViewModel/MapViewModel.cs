@@ -20,6 +20,7 @@ namespace GSCFieldApp.ViewModel
 {
     public partial class MapViewModel: ObservableObject
     {
+        #region INIT
         private DataIDCalculation idCalc = new DataIDCalculation();
         private DataAccess dataAccess = new DataAccess();
 
@@ -30,8 +31,13 @@ namespace GSCFieldApp.ViewModel
         public Mapsui.Map mapViewFallback = new Mapsui.Map();
         private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>();
 
-        public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
+        private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
 
+        #endregion
+        #region PROPERTIES
+        public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
+        public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
+        #endregion
         public MapViewModel()
         {
             //Get main metadata record
@@ -186,6 +192,27 @@ namespace GSCFieldApp.ViewModel
 
             return outCollection;
         }
+
+        /// <summary>
+        /// Will force a set on the GPS mode button symbol
+        /// When GPS is on it will display the gps symbol,
+        /// when off it will show the hand symbol meaning
+        /// user can do tap entries.
+        /// </summary>
+        /// <param name="isGPSOn"></param>
+        public void SetGPSButtonSymbol(bool isGPSOn)
+        {
+            if (isGPSOn)
+            {
+                _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
+            }
+            else 
+            {
+                _gpsModeButtonSymbol = ApplicationLiterals.gpsModeTap;
+            }
+            OnPropertyChanged(nameof(GPSModeButtonSymbol));
+        }
+
 
         #endregion
     }

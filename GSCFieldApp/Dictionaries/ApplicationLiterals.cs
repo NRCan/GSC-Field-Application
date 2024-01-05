@@ -74,5 +74,12 @@
         public const double structureSymbolsImageHeight = 101; //Will be use for symbol placement 
         public const double structureSymbolsImageWidth = 101; //Will be use for symbol placement
         #endregion
+
+        #region Text Symbols
+
+        public const string gpsModeTap = "&#xF0A55;";
+        public const string gpsModeGPS = "&#xF01A4;";
+
+        #endregion
     }
 }

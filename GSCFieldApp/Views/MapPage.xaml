@@ -117,7 +117,7 @@
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
 
                 <!--Tap option -->
-                <Button Text="&#xF0A55;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button x:Name="GPSMode" Text="&#xF01A4;" Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"/>
 
                 <!--Manage layers-->
                 <Button x:Name="ManageLayerButton" Text="&#xF0F59;" Style="{StaticResource FieldAppHeaderButton}" Clicked="ManageLayerButton_Clicked"/>

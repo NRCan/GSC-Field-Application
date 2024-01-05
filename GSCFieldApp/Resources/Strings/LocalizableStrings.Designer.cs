@@ -79,6 +79,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        internal static string DisplayAlertGPS {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location access denied.
+        /// </summary>
+        internal static string DisplayAlertGPSDenied {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access to location service is currently disabled. Would you like to fix the problem?.
+        /// </summary>
+        internal static string DisplayAlertGPSMessage {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Index.
         /// </summary>
         internal static string EarthmatColourIndex {
@@ -763,11 +790,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string GenericButtonNo {
+            get {
+                return ResourceManager.GetString("GenericButtonNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         internal static string GenericButtonOk {
             get {
                 return ResourceManager.GetString("GenericButtonOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string GenericButtonYes {
+            get {
+                return ResourceManager.GetString("GenericButtonYes", resourceCulture);
             }
         }
         
