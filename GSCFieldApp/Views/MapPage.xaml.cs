@@ -33,6 +33,9 @@ using Brush = Mapsui.Styles.Brush;
 using Mapsui.UI.Maui.Extensions;
 using static GSCFieldApp.Models.GraphicPlacement;
 using GSCFieldApp.Services;
+using BruTile.Predefined;
+using Mapsui.Extensions.Cache;
+using BruTile.Web;
 
 namespace GSCFieldApp.Views;
 
@@ -57,11 +60,13 @@ public partial class MapPage : ContentPage
         //Initialize grid background
         mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
 
-        //Initialize map control and GPS
-        var tileLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer("NRCan_GSCFieldApp/3.0 Maui.net");
+        //Setting map page background default data
+        SetOpenStreetMap();
 
-        mapControl.Map.Layers.Add(tileLayer);
-        mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) { TextAlignment = Mapsui.Widgets.Alignment.Center, HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
+        mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) 
+        { TextAlignment = Mapsui.Widgets.Alignment.Center, 
+            HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, 
+            VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
 
         mapView.Map = mapControl.Map;
 
@@ -99,7 +104,6 @@ public partial class MapPage : ContentPage
 
     private async void MapPage_Loaded(object sender, EventArgs e)
     {
-
         //Manage symbol and layers
         await AddSymbolToRegistry();
         MemoryLayer ml = await CreatePointLayerAsync();
@@ -207,6 +211,8 @@ public partial class MapPage : ContentPage
 
             //TODO find a working way of changing button symbol
             //tried in map view model like in version 2 Couldn't make it work
+            //this.GPSMode.Text = "&#xF023D;";
+            //this.GPSMode.FontFamily = "MatDesign";
         }
         else
         {
@@ -219,6 +225,29 @@ public partial class MapPage : ContentPage
     #endregion
 
     #region METHODS
+
+    /// <summary>
+    /// Will call open street map tile layers
+    /// And will also set up a persistant cache mode so user can
+    /// go offline and still navigate through open street map
+    /// </summary>
+    /// <param name="withCache"></param>
+    public void SetOpenStreetMap(bool withCache = true)
+    {
+        if (withCache)
+        {
+            var persistentCache = new SqlitePersistentCache("NRCan_GSCFieldApp");
+            HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, "NRCan_GSCFieldApp/3.0 Maui.net", persistentCache: persistentCache);
+            TileLayer osmLayer = new TileLayer(source);
+            mapControl.Map.Layers.Add(osmLayer);
+        }
+        else
+        {
+            TileLayer osmLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer("NRCan_GSCFieldApp/3.0 Maui.net");
+            mapControl.Map.Layers.Add(osmLayer);
+        }
+
+    }
 
     /// <summary>
     /// Method to change current location symbol.
@@ -400,10 +429,6 @@ public partial class MapPage : ContentPage
 
             });
         }
-        //finally 
-        //{
-        //    _isCheckingGeolocation = false;
-        //}
     }
 
     /// <summary>
