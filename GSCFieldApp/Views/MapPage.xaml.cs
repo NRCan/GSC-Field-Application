@@ -38,12 +38,13 @@ namespace GSCFieldApp.Views;
 
 public partial class MapPage : ContentPage
 {
-    private CancellationTokenSource? gpsCancelation;
+    //private CancellationTokenSource? gpsCancelation;
+    private CancellationTokenSource _cancelTokenSource;
     private bool _updateLocation = true;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
     private int bitmapSymbolId = -1;
-    private bool _isGPSOn = true;
+    private bool _isCheckingGeolocation = false;
 
     public LocalizationResourceManager LocalizationResourceManager
     => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -63,8 +64,6 @@ public partial class MapPage : ContentPage
         mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) { TextAlignment = Mapsui.Widgets.Alignment.Center, HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
 
         mapView.Map = mapControl.Map;
-
-        //StartGPS();
 
         this.Loaded += MapPage_Loaded;
     }
@@ -92,7 +91,7 @@ public partial class MapPage : ContentPage
         }
 
         //Manage GPS
-        if (!_isGPSOn)
+        if (!_isCheckingGeolocation)
         {
             StartGPS();
         }
@@ -202,9 +201,12 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void GPSMode_Clicked(object sender, EventArgs e)
     {
-        if (_isGPSOn)
+        if (_isCheckingGeolocation)
         {
-            StopGPS();
+            StopGPSAsync();
+
+            //TODO find a working way of changing button symbol
+            //tried in map view model like in version 2 Couldn't make it work
         }
         else
         {
@@ -312,6 +314,13 @@ public partial class MapPage : ContentPage
             }
 
         }
+        else if (accuracy == -99)
+        {
+            if (App.Current.Resources.TryGetValue("Gray400", out var errorColorvalue))
+            {
+                mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+            }
+        }
         //else
         //{
         //    if (App.Current.Resources.TryGetValue("White", out var errorColorvalue))
@@ -340,44 +349,31 @@ public partial class MapPage : ContentPage
     /// <summary>
     /// Will start the GPS
     /// </summary>
-    [Obsolete]
     public async Task StartGPS()
     {
+        _isCheckingGeolocation = true;
 
         try
         {
 
-            this.gpsCancelation?.Dispose();
-            this.gpsCancelation = new CancellationTokenSource();
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
 
-            await Task.Run(async () =>
+            if (Application.Current == null)
+                return;
+
+            _cancelTokenSource = new CancellationTokenSource();
+
+            var location = await Geolocation.GetLocationAsync(request, _cancelTokenSource.Token)
+                .ConfigureAwait(false);
+            if (location != null)
             {
-                while (!gpsCancelation.IsCancellationRequested)
-                {
-                    var request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
+                MyLocationPositionChanged(location);
+            }
 
-                    if (Application.Current == null)
-                        return;
 
-                    await Application.Current.Dispatcher.DispatchAsync(async () =>
-                    {
-                        var location = await Geolocation.GetLocationAsync(request, this.gpsCancelation.Token)
-                            .ConfigureAwait(false);
-                        if (location != null)
-                        {
-                            _isGPSOn = true;
-                            
-                            MyLocationPositionChanged(location);
-                        }
-                    }).ConfigureAwait(false);
-
-                    await Task.Delay(200).ConfigureAwait(false);
-                }
-            }, gpsCancelation.Token).ConfigureAwait(false);
         }
         catch (Exception e)
         {
-            _isGPSOn = false;
 
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
@@ -404,15 +400,24 @@ public partial class MapPage : ContentPage
 
             });
         }
+        //finally 
+        //{
+        //    _isCheckingGeolocation = false;
+        //}
     }
 
     /// <summary>
     /// Will stop the GPS
     /// </summary>
-    public void StopGPS()
+    public async Task StopGPSAsync()
     {
-        this.gpsCancelation?.Cancel();
-        _isGPSOn = false;
+        if (_isCheckingGeolocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
+        {
+            await SetMapAccuracyColor(-99);
+            _isCheckingGeolocation = false;
+            _cancelTokenSource.Cancel();
+        }
+            
     }
 
     /// <summary>
