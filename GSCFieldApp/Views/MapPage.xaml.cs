@@ -36,6 +36,7 @@ using GSCFieldApp.Services;
 using BruTile.Predefined;
 using Mapsui.Extensions.Cache;
 using BruTile.Web;
+using BruTile.Wmsc;
 
 namespace GSCFieldApp.Views;
 
@@ -62,6 +63,8 @@ public partial class MapPage : ContentPage
 
         //Setting map page background default data
         SetOpenStreetMap();
+        SetWheelerMap();
+        SetGravMap();
 
         mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) 
         { TextAlignment = Mapsui.Widgets.Alignment.Center, 
@@ -69,6 +72,7 @@ public partial class MapPage : ContentPage
             VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
 
         mapView.Map = mapControl.Map;
+
 
         this.Loaded += MapPage_Loaded;
     }
@@ -245,6 +249,68 @@ public partial class MapPage : ContentPage
         {
             TileLayer osmLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer("NRCan_GSCFieldApp/3.0 Maui.net");
             mapControl.Map.Layers.Add(osmLayer);
+        }
+
+    }
+
+    /// <summary>
+    /// Will call Canada 3D WMS service to retrieve Wheeler map
+    /// And will also set up a persistant cache mode so user can
+    /// go offline and still navigate through it
+    /// </summary>
+    /// <param name="withCache"></param>
+    public void SetWheelerMap(int layerIndex = 1, bool withCache = false)
+    {
+        const string url = "https://canada3d-geo.azurewebsites.net/canada3d/wms?version=1.1.0";
+        GlobalSphericalMercator schema = new GlobalSphericalMercator { Format = "image/png" };
+        WmscRequest request = new WmscRequest(new Uri(url), schema, new[] { "wheeler_3978" }.ToList(), Array.Empty<string>().ToList());
+
+        if (withCache)
+        {
+            var persistentCache = new SqlitePersistentCache("NRCan_GSCFieldAppWheeler");
+            HttpTileProvider provider = new HttpTileProvider(request, persistentCache);
+            TileSource t = new TileSource(provider, schema);
+            TileLayer tl = new TileLayer(t);
+            mapControl.Map.Layers.Insert(layerIndex, tl);
+        }
+        else
+        {
+
+            HttpTileProvider provider = new HttpTileProvider(request);
+            TileSource t = new TileSource(provider, schema);
+            TileLayer tl = new TileLayer(t);
+            mapControl.Map.Layers.Insert(layerIndex, tl);
+        }
+
+    }
+
+    /// <summary>
+    /// Will call Canada 3D WMS service to retrieve Wheeler map
+    /// And will also set up a persistant cache mode so user can
+    /// go offline and still navigate through it
+    /// </summary>
+    /// <param name="withCache"></param>
+    public void SetGravMap(int layerIndex = 2, bool withCache = false)
+    {
+        const string url = "https://canada3d-geo.azurewebsites.net/ows?version=1.3.0";
+        GlobalSphericalMercator schema = new GlobalSphericalMercator { Format = "image/png" };
+        WmscRequest request = new WmscRequest(new Uri(url), schema, new[] { "c3d_geophys:Canada_Mag_Res_1000m_8bits_pal" }.ToList(), Array.Empty<string>().ToList());
+
+        if (withCache)
+        {
+            var persistentCache = new SqlitePersistentCache("NRCan_GSCFieldAppGrav");
+            HttpTileProvider provider = new HttpTileProvider(request, persistentCache);
+            TileSource t = new TileSource(provider, schema);
+            TileLayer tl = new TileLayer(t);
+            mapControl.Map.Layers.Insert(layerIndex, tl);
+        }
+        else
+        {
+
+            HttpTileProvider provider = new HttpTileProvider(request);
+            TileSource t = new TileSource(provider, schema);
+            TileLayer tl = new TileLayer(t);
+            mapControl.Map.Layers.Insert(layerIndex, tl);
         }
 
     }
