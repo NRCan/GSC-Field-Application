@@ -32,11 +32,13 @@ namespace GSCFieldApp.ViewModel
         private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>();
 
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
+        private bool _isWaiting = false;
 
         #endregion
         #region PROPERTIES
         public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
+        public bool IsWaiting { get { return _isWaiting; } set { _isWaiting = value; } }
         #endregion
         public MapViewModel()
         {
@@ -70,6 +72,12 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+
+        public void SetWaitingCursor()
+        {
+            _isWaiting = !_isWaiting;
+            OnPropertyChanged(nameof(IsWaiting));
+        }
         /// <summary>
         /// Will retrieve first metadata record
         /// </summary>

@@ -37,6 +37,7 @@ using BruTile.Predefined;
 using Mapsui.Extensions.Cache;
 using BruTile.Web;
 using BruTile.Wmsc;
+using Mapsui.Animations;
 
 namespace GSCFieldApp.Views;
 
@@ -61,18 +62,19 @@ public partial class MapPage : ContentPage
         //Initialize grid background
         mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
 
+        mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
+        {
+            TextAlignment = Mapsui.Widgets.Alignment.Center,
+            HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
+            VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
+        });
+
         //Setting map page background default data
         SetOpenStreetMap();
-        SetWheelerMap();
-        SetGravMap();
-
-        mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map) 
-        { TextAlignment = Mapsui.Widgets.Alignment.Center, 
-            HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left, 
-            VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom });
+        //SetWheelerMap();
+        //SetGravMap();
 
         mapView.Map = mapControl.Map;
-
 
         this.Loaded += MapPage_Loaded;
     }
@@ -85,7 +87,7 @@ public partial class MapPage : ContentPage
 
         //In case user is coming from field notes
         //They might have deleted some stations, make sure to refresh
- 
+
         foreach (var item in mapView.Map.Layers)
         {
             if (item.Name == "Stations")
@@ -95,6 +97,10 @@ public partial class MapPage : ContentPage
                 MemoryLayer ml = await CreatePointLayerAsync();
                 mapView.Map.Layers.Add(ml);
                 mapView.Map.RefreshData();
+
+                //Zoom to extent of those poins
+                SetExtent(ml);
+
                 break;
             }
         }
@@ -102,16 +108,33 @@ public partial class MapPage : ContentPage
         //Manage GPS
         if (!_isCheckingGeolocation)
         {
-            StartGPS();
+            await StartGPS();
         }
+
     }
 
+    /// <summary>
+    /// Once the map is loaded, make a quick check on 
+    /// field data locations, in case something has been deleted while
+    /// user was away in the notes
+    /// Make sure to zoom back to the field data location extent.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void MapPage_Loaded(object sender, EventArgs e)
     {
+
+        MapViewModel mvm = this.BindingContext as MapViewModel;
+        mvm.SetWaitingCursor();
+
         //Manage symbol and layers
         await AddSymbolToRegistry();
         MemoryLayer ml = await CreatePointLayerAsync();
         mapView.Map.Layers.Add(ml);
+
+        //Zoom to initial extent of the layer
+        SetExtent(ml);
+
     }
 
     /// <summary>
@@ -229,6 +252,32 @@ public partial class MapPage : ContentPage
     #endregion
 
     #region METHODS
+
+    /// <summary>
+    /// Will zoom to the extent of the incoming memory layer
+    /// </summary>
+    /// <param name="inMemoryLayer"></param>
+    public void SetExtent(MemoryLayer inMemoryLayer)
+    {
+        if (inMemoryLayer.Extent != null)
+        {
+            // Extend a bit more the rectangle
+            var fieldDataExtent = new MRect(inMemoryLayer.Extent.MinX,
+                inMemoryLayer.Extent.MinY,
+                inMemoryLayer.Extent.MaxX,
+                inMemoryLayer.Extent.MaxY).Grow(2500);
+
+            mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
+        }
+        else
+        {
+            // Extend a bit more the rectangle
+            var fieldDataExtent = new MRect(-139.649,45.144, -56.288, 72.378).Grow(25000);
+            mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
+        }
+
+
+    }
 
     /// <summary>
     /// Will call open street map tile layers
