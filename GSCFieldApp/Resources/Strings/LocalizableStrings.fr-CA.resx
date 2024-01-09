@@ -373,6 +373,45 @@ Aimeriez-vous modifier les droits?</value>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
   </data>
+  <data name="MapPageAddData" xml:space="preserve">
+    <value>Ajouter une nouvelle couche de données.</value>
+  </data>
+  <data name="MapPageAddPhoto" xml:space="preserve">
+    <value>Ajouter une nouvelle photo.</value>
+  </data>
+  <data name="MapPageAddSample" xml:space="preserve">
+    <value>Ajouter un nouvel échantillon.</value>
+  </data>
+  <data name="MapPageAddStation" xml:space="preserve">
+    <value>Ajouter une nouvelle station.</value>
+  </data>
+  <data name="MapPageAddStruc" xml:space="preserve">
+    <value>Ajouter une nouvelle structure ou paléoflow.</value>
+  </data>
+  <data name="MapPageAddWaypoint" xml:space="preserve">
+    <value>Ajouter un point d'intérêt.</value>
+  </data>
+  <data name="MapPageAddWaypointDialogMessage" xml:space="preserve">
+    <value>Veuillez écrire l'adresse complète du service WMS à ajouter.</value>
+  </data>
+  <data name="MapPageAddWaypointDialogPlaceholder" xml:space="preserve">
+    <value>https://canada3d-geo.azurewebsites.net/canada3d/wms?version=1.1.0</value>
+  </data>
+  <data name="MapPageAddWaypointDialogTitle" xml:space="preserve">
+    <value>Ajouter une couche WMS</value>
+  </data>
+  <data name="MapPageAddWMS" xml:space="preserve">
+    <value>Ajouter une adresse web d'un service de cartographique (WMS).</value>
+  </data>
+  <data name="MapPageAddXY" xml:space="preserve">
+    <value>Ajouter manuellement une coordonnées XY ou Lat/Long.</value>
+  </data>
+  <data name="MapPageGPSMode" xml:space="preserve">
+    <value>Éteindre/Allumer le GPS.</value>
+  </data>
+  <data name="MapPageLayer" xml:space="preserve">
+    <value>Menu de toutes les couches présentation accessible dans la carte.</value>
+  </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Carnets de terrain</value>
   </data>

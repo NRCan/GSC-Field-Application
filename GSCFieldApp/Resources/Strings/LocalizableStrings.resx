@@ -372,6 +372,45 @@
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
   </data>
+  <data name="MapPageAddData" xml:space="preserve">
+    <value>Tap to add a new layer.</value>
+  </data>
+  <data name="MapPageAddPhoto" xml:space="preserve">
+    <value>Tap to add a quick photo record.</value>
+  </data>
+  <data name="MapPageAddSample" xml:space="preserve">
+    <value>Tap to add a quick sample record.</value>
+  </data>
+  <data name="MapPageAddStation" xml:space="preserve">
+    <value>Tap to add a station record.</value>
+  </data>
+  <data name="MapPageAddStruc" xml:space="preserve">
+    <value>Tap to add a quick structure/pflow record.</value>
+  </data>
+  <data name="MapPageAddWaypoint" xml:space="preserve">
+    <value>Tap to add a waypoint.</value>
+  </data>
+  <data name="MapPageAddWaypointDialogMessage" xml:space="preserve">
+    <value>Please enter the WMS web link including the layer to be added.</value>
+  </data>
+  <data name="MapPageAddWaypointDialogPlaceholder" xml:space="preserve">
+    <value>https://canada3d-geo.azurewebsites.net/canada3d/wms?version=1.1.0</value>
+  </data>
+  <data name="MapPageAddWaypointDialogTitle" xml:space="preserve">
+    <value>Add WMS </value>
+  </data>
+  <data name="MapPageAddWMS" xml:space="preserve">
+    <value>Tap to add an URL of an online Web Mapping Server (WMS).</value>
+  </data>
+  <data name="MapPageAddXY" xml:space="preserve">
+    <value>Tap to manually create a location record from XY or lat/long.</value>
+  </data>
+  <data name="MapPageGPSMode" xml:space="preserve">
+    <value>Tap to turn on/off GPS.</value>
+  </data>
+  <data name="MapPageLayer" xml:space="preserve">
+    <value>Tap to see a list of all loaded layers and more options.</value>
+  </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Field Books</value>
   </data>

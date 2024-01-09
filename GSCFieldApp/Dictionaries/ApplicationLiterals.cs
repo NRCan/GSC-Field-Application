@@ -81,5 +81,12 @@
         public const string gpsModeGPS = "&#xF01A4;";
 
         #endregion
+
+        #region GIS
+
+        public const string keywordWMS = "NRCan_GSCFieldApp"; //Will be used for WMS caching prefix and token generation
+        public const string keywordWMSLayers = "&layers="; //Will be used to get wms layer names in the URL
+
+        #endregion
     }
 }

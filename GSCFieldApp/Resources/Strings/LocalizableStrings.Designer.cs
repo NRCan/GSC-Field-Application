@@ -826,6 +826,123 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new layer..
+        /// </summary>
+        internal static string MapPageAddData {
+            get {
+                return ResourceManager.GetString("MapPageAddData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a quick photo record..
+        /// </summary>
+        internal static string MapPageAddPhoto {
+            get {
+                return ResourceManager.GetString("MapPageAddPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a quick sample record..
+        /// </summary>
+        internal static string MapPageAddSample {
+            get {
+                return ResourceManager.GetString("MapPageAddSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a station record..
+        /// </summary>
+        internal static string MapPageAddStation {
+            get {
+                return ResourceManager.GetString("MapPageAddStation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a quick structure/pflow record..
+        /// </summary>
+        internal static string MapPageAddStruc {
+            get {
+                return ResourceManager.GetString("MapPageAddStruc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a waypoint..
+        /// </summary>
+        internal static string MapPageAddWaypoint {
+            get {
+                return ResourceManager.GetString("MapPageAddWaypoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the WMS web link including the layer to be added..
+        /// </summary>
+        internal static string MapPageAddWaypointDialogMessage {
+            get {
+                return ResourceManager.GetString("MapPageAddWaypointDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://canada3d-geo.azurewebsites.net/canada3d/wms?version=1.1.0.
+        /// </summary>
+        internal static string MapPageAddWaypointDialogPlaceholder {
+            get {
+                return ResourceManager.GetString("MapPageAddWaypointDialogPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add WMS .
+        /// </summary>
+        internal static string MapPageAddWaypointDialogTitle {
+            get {
+                return ResourceManager.GetString("MapPageAddWaypointDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add an URL of an online Web Mapping Server (WMS)..
+        /// </summary>
+        internal static string MapPageAddWMS {
+            get {
+                return ResourceManager.GetString("MapPageAddWMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to manually create a location record from XY or lat/long..
+        /// </summary>
+        internal static string MapPageAddXY {
+            get {
+                return ResourceManager.GetString("MapPageAddXY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to turn on/off GPS..
+        /// </summary>
+        internal static string MapPageGPSMode {
+            get {
+                return ResourceManager.GetString("MapPageGPSMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to see a list of all loaded layers and more options..
+        /// </summary>
+        internal static string MapPageLayer {
+            get {
+                return ResourceManager.GetString("MapPageLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field Books.
         /// </summary>
         internal static string ShellFieldBooksTitle {

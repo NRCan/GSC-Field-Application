@@ -63,22 +63,28 @@
             <StackLayout BackgroundColor="{StaticResource Primary}" Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Manual XY-->
-                <Button Text="XY" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Text="XY" Style="{StaticResource FieldAppHeaderButton}"
+                        ToolTipProperties.Text="{local:Localize MapPageAddXY}"/>
 
                 <!--Waypoint-->
-                <Button Text="&#xF023D;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Text="&#xF023D;" Style="{StaticResource FieldAppHeaderButton}"
+                        ToolTipProperties.Text="{local:Localize MapPageAddWaypoint}"/>
 
                 <!--Quick structure/pflow-->
-                <Button Text="&#xF183F;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Text="&#xF183F;" Style="{StaticResource FieldAppHeaderButton}"
+                        ToolTipProperties.Text="{local:Localize MapPageAddStruc}"/>
 
                 <!--Quick photo-->
-                <Button Text="&#xF0D5D;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Text="&#xF0D5D;" Style="{StaticResource FieldAppHeaderButton}"
+                        ToolTipProperties.Text="{local:Localize MapPageAddPhoto}"/>
 
                 <!--Quick sample-->
-                <Button Text="&#xF04FD;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Text="&#xF04FD;" Style="{StaticResource FieldAppHeaderButton}"
+                        ToolTipProperties.Text="{local:Localize MapPageAddSample}"/>
 
                 <!--Quick station-->
-                <Button Command="{Binding AddStationCommand}" Text="&#xF12FC;" Style="{StaticResource FieldAppHeaderButton}"/>
+                <Button Command="{Binding AddStationCommand}" Text="&#xF12FC;" 
+                        Style="{StaticResource FieldAppHeaderButton}" ToolTipProperties.Text="{local:Localize MapPageAddStation}"/>
 
             </StackLayout>
 
@@ -122,13 +128,24 @@
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
 
                 <!--Tap option -->
-                <Button x:Name="GPSMode" Text="&#xF01A4;" Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"/>
+                <Button x:Name="GPSMode" Text="&#xF01A4;" 
+                        ToolTipProperties.Text="{local:Localize MapPageGPSMode}"
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"/>
 
                 <!--Manage layers-->
-                <Button x:Name="ManageLayerButton" Text="&#xF0F59;" Style="{StaticResource FieldAppHeaderButton}" Clicked="ManageLayerButton_Clicked"/>
+                <Button x:Name="ManageLayerButton" Text="&#xF0F59;" 
+                        ToolTipProperties.Text="{local:Localize MapPageLayer}"
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="ManageLayerButton_Clicked"/>
 
                 <!--Add new layer-->
-                <Button x:Name="AddLayerButton" Text="&#xF0E4D;" Style="{StaticResource FieldAppHeaderButton}" Clicked="AddLayerButton_Clicked"/>
+                <Button x:Name="AddLayerButton" Text="&#xF0E4D;" 
+                        ToolTipProperties.Text="{local:Localize MapPageAddData}"
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="AddLayerButton_Clicked"/>
+
+                <!--Add WMS option -->
+                <Button x:Name="AddWMS" Text="&#xF1406;" 
+                        ToolTipProperties.Text="{local:Localize MapPageAddWMS}"
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="AddWMS_Clicked"/>
 
             </StackLayout>
         </Grid>
