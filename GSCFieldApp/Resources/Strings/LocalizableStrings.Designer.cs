@@ -916,6 +916,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entered URL failed to fetch a layer. Please make sure the URL contains the layer name and is preceded by &quot;&amp;layers=&quot;..
+        /// </summary>
+        internal static string MapPageAddWMSFailMessage {
+            get {
+                return ResourceManager.GetString("MapPageAddWMSFailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WMS Failure.
+        /// </summary>
+        internal static string MapPageAddWMSFailTitle {
+            get {
+                return ResourceManager.GetString("MapPageAddWMSFailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to manually create a location record from XY or lat/long..
         /// </summary>
         internal static string MapPageAddXY {

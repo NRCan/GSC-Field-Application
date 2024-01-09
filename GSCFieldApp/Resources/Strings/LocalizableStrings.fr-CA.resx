@@ -403,6 +403,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageAddWMS" xml:space="preserve">
     <value>Ajouter une adresse web d'un service de cartographique (WMS).</value>
   </data>
+  <data name="MapPageAddWMSFailMessage" xml:space="preserve">
+    <value>L'adresse URL du service WMS a échoué à trouver une couche de données. Veuillez-vous assurer que celui-ci possède bien le nom de la dite couche et que cette dernière est précédé par "&amp;layers=".</value>
+  </data>
+  <data name="MapPageAddWMSFailTitle" xml:space="preserve">
+    <value>WMS Ajout impossible</value>
+  </data>
   <data name="MapPageAddXY" xml:space="preserve">
     <value>Ajouter manuellement une coordonnées XY ou Lat/Long.</value>
   </data>

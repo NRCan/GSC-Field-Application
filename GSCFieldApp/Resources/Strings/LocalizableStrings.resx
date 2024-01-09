@@ -402,6 +402,12 @@
   <data name="MapPageAddWMS" xml:space="preserve">
     <value>Tap to add an URL of an online Web Mapping Server (WMS).</value>
   </data>
+  <data name="MapPageAddWMSFailMessage" xml:space="preserve">
+    <value>Entered URL failed to fetch a layer. Please make sure the URL contains the layer name and is preceded by "&amp;layers=".</value>
+  </data>
+  <data name="MapPageAddWMSFailTitle" xml:space="preserve">
+    <value>WMS Failure</value>
+  </data>
   <data name="MapPageAddXY" xml:space="preserve">
     <value>Tap to manually create a location record from XY or lat/long.</value>
   </data>

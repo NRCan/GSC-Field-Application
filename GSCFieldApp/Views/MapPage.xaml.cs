@@ -79,6 +79,11 @@ public partial class MapPage : ContentPage
         this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
     }
 
+    /// <summary>
+    /// Will be triggered whenever a layer has been added. 
+    /// This will make sure to close the waiting cursor
+    /// </summary>
+    /// <param name="layer"></param>
     private void Layers_LayerAdded(ILayer layer)
     {
         //Make sure to disable the waiting cursor
@@ -299,12 +304,8 @@ public partial class MapPage : ContentPage
 
         if (wms_url != string.Empty)
         {
-
-            MapViewModel vm = this.BindingContext as MapViewModel;
-            vm.SetWaitingCursor(true);
-
             //Insert
-            AddAWMS(wms_url);
+            await AddAWMSAsync(wms_url);
         }
     }
 
@@ -322,7 +323,7 @@ public partial class MapPage : ContentPage
     {
         if (inMemoryLayer.Extent != null)
         {
-            // Extend a bit more the rectangle
+            // Extend a bit more the rectangle by 2.5km
             var fieldDataExtent = new MRect(inMemoryLayer.Extent.MinX,
                 inMemoryLayer.Extent.MinY,
                 inMemoryLayer.Extent.MaxX,
@@ -332,7 +333,7 @@ public partial class MapPage : ContentPage
         }
         else
         {
-            // Extend a bit more the rectangle
+            // Fit to Canada with a 25km buffer
             var fieldDataExtent = new MRect(-139.649,45.144, -56.288, 72.378).Grow(25000);
             mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
         }
@@ -371,36 +372,55 @@ public partial class MapPage : ContentPage
     /// <param name="wmsURL"></param>
     /// <param name="layerIndex"></param>
     /// <param name="withCache"></param>
-    public void AddAWMS(string wmsURL, bool withCache = true)
+    public async Task AddAWMSAsync(string wmsURL, bool withCache = true)
     {
+        MapViewModel vm = this.BindingContext as MapViewModel;
+        vm.SetWaitingCursor(true);
+
         string fullURL = wmsURL;
-        string partialURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers)[0];
-        string layerNameFromURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers)[1].Split("&")[0]; //Make sure to only keep layer name
-        GlobalSphericalMercator schema = new GlobalSphericalMercator { Format = "image/png" };
-        WmscRequest request = new WmscRequest(new Uri(partialURL), schema, new[] { layerNameFromURL }.ToList(), Array.Empty<string>().ToList());
+        string[] splitURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers);
+        string partialURL = splitURL[0];
 
-        if (withCache)
+        //Make sure a layer is added to the URL before continuing
+        if (splitURL.Count() > 1 && splitURL[1].Contains("&"))
         {
-            SqlitePersistentCache wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerNameFromURL.Replace(':', '_'));
-            HttpTileProvider provider = new HttpTileProvider(request, wmsCache);
-            TileSource t = new TileSource(provider, schema);
-            TileLayer tl = new TileLayer(t);
-            tl.Name = layerNameFromURL;
+            string layerNameFromURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers)[1].Split("&")[0]; //Make sure to only keep layer name
+            GlobalSphericalMercator schema = new GlobalSphericalMercator { Format = "image/png" };
+            WmscRequest request = new WmscRequest(new Uri(partialURL), schema, new[] { layerNameFromURL }.ToList(), Array.Empty<string>().ToList());
 
-            //Insert at right location in collection
-            InsertLayerAtRightPlace(tl);
+            if (withCache)
+            {
+                SqlitePersistentCache wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerNameFromURL.Replace(':', '_'));
+                HttpTileProvider provider = new HttpTileProvider(request, wmsCache);
+                TileSource t = new TileSource(provider, schema);
+                TileLayer tl = new TileLayer(t);
+                tl.Name = layerNameFromURL;
+
+                //Insert at right location in collection
+                InsertLayerAtRightPlace(tl);
+            }
+            else
+            {
+
+                HttpTileProvider provider = new HttpTileProvider(request);
+                TileSource t = new TileSource(provider, schema);
+                TileLayer tl = new TileLayer(t);
+                tl.Name = layerNameFromURL;
+
+                //Insert at right location in collection
+                InsertLayerAtRightPlace(tl);
+            }
         }
         else
         {
+            //Tell user app doesn't have access to location
+            await Shell.Current.DisplayAlert(LocalizationResourceManager["MapPageAddWMSFailTitle"].ToString(),
+                LocalizationResourceManager["MapPageAddWMSFailMessage"].ToString(),
+                LocalizationResourceManager["GenericButtonOk"].ToString());
 
-            HttpTileProvider provider = new HttpTileProvider(request);
-            TileSource t = new TileSource(provider, schema);
-            TileLayer tl = new TileLayer(t);
-            tl.Name = layerNameFromURL;
-
-            //Insert at right location in collection
-            InsertLayerAtRightPlace(tl);
+            vm.SetWaitingCursor(false);
         }
+
 
     }
 
