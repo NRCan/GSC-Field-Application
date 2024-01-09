@@ -55,10 +55,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
-
-            <!--TODO Can't seem to make this work-->
-            <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" Color="{StaticResource Primary}" Grid.Row="1"/>
-            
+ 
             <!--Controls header bar-->
             <StackLayout BackgroundColor="{StaticResource Primary}" Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
@@ -148,6 +145,10 @@
                         Style="{StaticResource FieldAppHeaderButton}" Clicked="AddWMS_Clicked"/>
 
             </StackLayout>
+
+            <!--TODO Can't seem to make this work-->
+            <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" Color="{StaticResource Primary}" Grid.Row="1"/>
+            
         </Grid>
     </ContentPage.Content>
 </ContentPage>

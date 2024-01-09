@@ -73,9 +73,9 @@ namespace GSCFieldApp.ViewModel
         #region METHODS
 
 
-        public void SetWaitingCursor()
+        public void SetWaitingCursor(bool isRunning)
         {
-            _isWaiting = !_isWaiting;
+            _isWaiting = isRunning;
             OnPropertyChanged(nameof(IsWaiting));
         }
         /// <summary>

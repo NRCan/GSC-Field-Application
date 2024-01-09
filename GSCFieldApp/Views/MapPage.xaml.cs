@@ -38,6 +38,7 @@ using Mapsui.Extensions.Cache;
 using BruTile.Web;
 using BruTile.Wmsc;
 using Mapsui.Animations;
+using BruTile.Wms;
 
 namespace GSCFieldApp.Views;
 
@@ -71,12 +72,41 @@ public partial class MapPage : ContentPage
 
         //Setting map page background default data
         SetOpenStreetMap();
-        //SetWheelerMap(1,true);
-        //SetGravMap();
 
         mapView.Map = mapControl.Map;
 
         this.Loaded += MapPage_Loaded;
+        this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
+    }
+
+    private void Layers_LayerAdded(ILayer layer)
+    {
+        //Make sure to disable the waiting cursor
+        MapViewModel mvm = this.BindingContext as MapViewModel;
+        mvm.SetWaitingCursor(false);
+    }
+
+    /// <summary>
+    /// Will insert a given layer right before the drawable
+    /// layers so it's always on top of previously added background map 
+    /// data but always under the lines and points.
+    /// </summary>
+    /// <param name="in_layer"></param>
+    private void InsertLayerAtRightPlace(ILayer in_layer)
+    {
+        //Insert at right location in collection
+        List<ILayer> layerList = mapControl.Map.Layers.ToList();
+        foreach (ILayer layer in layerList)
+        {
+            //Insert before the layer names drawables, WMS always should be beneath lines and points
+            if (layer.Name.Contains("Drawables"))
+            {
+                int rightIndex = layerList.IndexOf(layer);
+                mapView.Map.Layers.Insert(rightIndex, in_layer);
+                break;
+            }
+
+        }
     }
 
     #region EVENTS
@@ -125,7 +155,7 @@ public partial class MapPage : ContentPage
     {
 
         MapViewModel mvm = this.BindingContext as MapViewModel;
-        mvm.SetWaitingCursor();
+        mvm.SetWaitingCursor(true);
 
         //Manage symbol and layers
         await AddSymbolToRegistry();
@@ -134,6 +164,8 @@ public partial class MapPage : ContentPage
 
         //Zoom to initial extent of the layer
         SetExtent(ml);
+
+        mvm.SetWaitingCursor(false);
 
     }
 
@@ -172,7 +204,7 @@ public partial class MapPage : ContentPage
 
             })!;
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             await DisplayAlert("Alert", ex.Message, "OK");
             //Logger.Log(LogLevel.Error, ex.Message, ex);
@@ -193,6 +225,9 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void AddLayerButton_Clicked(object sender, EventArgs e)
     {
+        MapViewModel mvm = this.BindingContext as MapViewModel;
+        mvm.SetWaitingCursor(true);
+
         //Call a dialog for user to select a file
         FileResult fr = await PickLayer();
         if (fr != null)
@@ -203,11 +238,11 @@ public partial class MapPage : ContentPage
             TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
             newTileLayer.Name = fr.FileName;
 
-            //Insert at index 1
-            //Index 0 would be OSM previous 1 would be location icon.
-            mapView.Map.Layers.Insert(1, newTileLayer);
+            //Insert at right location in collection
+            InsertLayerAtRightPlace(newTileLayer);
 
         }
+
     }
 
     /// <summary>
@@ -255,6 +290,7 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void AddWMS_Clicked(object sender, EventArgs e)
     {
+
         string wms_url = await DisplayPromptAsync(LocalizationResourceManager["MapPageAddWaypointDialogTitle"].ToString(),
             LocalizationResourceManager["MapPageAddWaypointDialogMessage"].ToString(),
             LocalizationResourceManager["GenericButtonOk"].ToString(),
@@ -263,6 +299,11 @@ public partial class MapPage : ContentPage
 
         if (wms_url != string.Empty)
         {
+
+            MapViewModel vm = this.BindingContext as MapViewModel;
+            vm.SetWaitingCursor(true);
+
+            //Insert
             AddAWMS(wms_url);
         }
     }
@@ -312,12 +353,14 @@ public partial class MapPage : ContentPage
             var persistentCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + "_OSM");
             HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, ApplicationLiterals.keywordWMS + "/3.0 Maui.net", persistentCache: persistentCache);
             TileLayer osmLayer = new TileLayer(source);
-            mapControl.Map.Layers.Add(osmLayer);
+            osmLayer.Name = "Open Street Map";
+            mapControl.Map.Layers.Insert(0, osmLayer);
         }
         else
         {
             TileLayer osmLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer(ApplicationLiterals.keywordWMS + "/3.0 Maui.net");
-            mapControl.Map.Layers.Add(osmLayer);
+            osmLayer.Name = "Open Street Map";
+            mapControl.Map.Layers.Insert(0, osmLayer);
         }
 
     }
@@ -328,7 +371,7 @@ public partial class MapPage : ContentPage
     /// <param name="wmsURL"></param>
     /// <param name="layerIndex"></param>
     /// <param name="withCache"></param>
-    public void AddAWMS(string wmsURL, int layerIndex = 1, bool withCache = true)
+    public void AddAWMS(string wmsURL, bool withCache = true)
     {
         string fullURL = wmsURL;
         string partialURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers)[0];
@@ -342,7 +385,10 @@ public partial class MapPage : ContentPage
             HttpTileProvider provider = new HttpTileProvider(request, wmsCache);
             TileSource t = new TileSource(provider, schema);
             TileLayer tl = new TileLayer(t);
-            mapControl.Map.Layers.Insert(layerIndex, tl);
+            tl.Name = layerNameFromURL;
+
+            //Insert at right location in collection
+            InsertLayerAtRightPlace(tl);
         }
         else
         {
@@ -350,7 +396,10 @@ public partial class MapPage : ContentPage
             HttpTileProvider provider = new HttpTileProvider(request);
             TileSource t = new TileSource(provider, schema);
             TileLayer tl = new TileLayer(t);
-            mapControl.Map.Layers.Insert(layerIndex, tl);
+            tl.Name = layerNameFromURL;
+
+            //Insert at right location in collection
+            InsertLayerAtRightPlace(tl);
         }
 
     }
@@ -507,7 +556,7 @@ public partial class MapPage : ContentPage
 
 
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
 
             await MainThread.InvokeOnMainThreadAsync(async () =>
@@ -595,7 +644,7 @@ public partial class MapPage : ContentPage
 
             
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             // The user canceled or something went wrong
         }
@@ -681,7 +730,6 @@ public partial class MapPage : ContentPage
 
         return new SymbolStyle { BitmapId = bitmapSymbolId, SymbolScale = 0.75 };
     }
-
 
 
     #endregion
