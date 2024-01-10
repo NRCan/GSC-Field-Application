@@ -39,6 +39,7 @@ using BruTile.Web;
 using BruTile.Wmsc;
 using Mapsui.Animations;
 using BruTile.Wms;
+using System.Collections.ObjectModel;
 
 namespace GSCFieldApp.Views;
 
@@ -89,6 +90,20 @@ public partial class MapPage : ContentPage
         //Make sure to disable the waiting cursor
         MapViewModel mvm = this.BindingContext as MapViewModel;
         mvm.SetWaitingCursor(false);
+
+        //Make sure to save current settings locally if not default layers
+        try
+        {
+            if (layer.Name.ToLower() != "stations" && !layer.Name.ToLower().Contains("street map"))
+            {
+                mvm.SaveLayerRendering(layer);
+            }
+            
+        }
+        catch (System.Exception e)
+        {
+            DisplayAlert("Alert", e.Message, "OK");
+        }
     }
 
     /// <summary>
@@ -170,6 +185,9 @@ public partial class MapPage : ContentPage
         //Zoom to initial extent of the layer
         SetExtent(ml);
 
+        //Reload user datasets
+        await LoadPreferedLayers();
+
         mvm.SetWaitingCursor(false);
 
     }
@@ -237,14 +255,7 @@ public partial class MapPage : ContentPage
         FileResult fr = await PickLayer();
         if (fr != null)
         {
-            MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(fr.FullPath, false));
-            byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
-
-            TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
-            newTileLayer.Name = fr.FileName;
-
-            //Insert at right location in collection
-            InsertLayerAtRightPlace(newTileLayer);
+            await AddAMBTile(fr.FullPath);
 
         }
 
@@ -315,6 +326,49 @@ public partial class MapPage : ContentPage
 
     #region METHODS
 
+    public async Task LoadPreferedLayers()
+    { 
+        //Get prefered layers
+        MapViewModel mvm = this.BindingContext as MapViewModel;
+        Collection<MapPageLayer> prefLayers = await mvm.GetLayerRendering();
+
+        //Iterate through mapPageLayers object and reload each of time
+        if (prefLayers != null)
+        {
+            foreach (MapPageLayer mpl in prefLayers)
+            {
+                if (mpl.LayerName.ToLower() != "stations")
+                {
+                    if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
+                    {
+                        await AddAMBTile(mpl.LayerPathOrURL);
+                    }
+                    else if (mpl.LayerType == MapPageLayer.LayerTypes.wms)
+                    {
+                        await AddAWMSAsync(mpl.LayerPathOrURL);
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Will add an mbtile file to map page from incoming file path
+    /// </summary>
+    /// <param name="mbTilePath"></param>
+    /// <returns></returns>
+    public async Task AddAMBTile(string mbTilePath)
+    {
+        MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
+        byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+
+        TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+        newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
+        newTileLayer.Tag = mbTilePath;
+        //Insert at right location in collection
+        InsertLayerAtRightPlace(newTileLayer);
+    }
+
     /// <summary>
     /// Will zoom to the extent of the incoming memory layer
     /// </summary>
@@ -382,7 +436,7 @@ public partial class MapPage : ContentPage
         string partialURL = splitURL[0];
 
         //Make sure a layer is added to the URL before continuing
-        if (splitURL.Count() > 1 && splitURL[1].Contains("&"))
+        if (splitURL.Count() > 1)
         {
             string layerNameFromURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers)[1].Split("&")[0]; //Make sure to only keep layer name
             GlobalSphericalMercator schema = new GlobalSphericalMercator { Format = "image/png" };
@@ -395,6 +449,7 @@ public partial class MapPage : ContentPage
                 TileSource t = new TileSource(provider, schema);
                 TileLayer tl = new TileLayer(t);
                 tl.Name = layerNameFromURL;
+                tl.Tag = fullURL;
 
                 //Insert at right location in collection
                 InsertLayerAtRightPlace(tl);
@@ -406,6 +461,7 @@ public partial class MapPage : ContentPage
                 TileSource t = new TileSource(provider, schema);
                 TileLayer tl = new TileLayer(t);
                 tl.Name = layerNameFromURL;
+                tl.Tag = fullURL;
 
                 //Insert at right location in collection
                 InsertLayerAtRightPlace(tl);

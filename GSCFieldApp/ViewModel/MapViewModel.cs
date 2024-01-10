@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 using GSCFieldApp.Views;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -30,6 +31,7 @@ namespace GSCFieldApp.ViewModel
         public Location sensorLocation { get; set; }  //This is coming from the view when new location event is triggered. 
         public Mapsui.Map mapViewFallback = new Mapsui.Map();
         private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>();
+        private Collection<MapPageLayer> _customLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
 
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
         private bool _isWaiting = false;
@@ -37,6 +39,7 @@ namespace GSCFieldApp.ViewModel
         #endregion
         #region PROPERTIES
         public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
+        private Collection<MapPageLayer> CayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
         public bool IsWaiting { get { return _isWaiting; } set { _isWaiting = value; } }
         #endregion
@@ -72,7 +75,71 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+        /// <summary>
+        /// Will save the current layer settings into a JSON file inside the local folder
+        /// </summary>
+        /// <param name="inLayer">Optiontal layer to add before saving to json</param>
+        public async void SaveLayerRendering(ILayer inLayer = null)
+        {
+            //If layer is passed as arg, update layer collection before saving.
+            if (inLayer != null)
+            {
+                MapPageLayerBuilder mplb = new MapPageLayerBuilder();
+                _customLayerCollection.Add(mplb.GetMapPageLayer(inLayer));
+            }
 
+            //Build path to json file that will have same name as currently used field book
+            string JSONPath = dataAccess.PreferedDatabasePath.Split('.')[0] + ".json";
+
+            //Write to json file locally
+            //if (!File.Exists(JSONPath))
+            //{
+                
+            //    await using FileStream fStream = File.Create(JSONPath);
+            //    await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
+            //}
+            //else
+            //{
+            //    await using FileStream fStream = File.OpenWrite(JSONPath);
+            //    await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
+            //}
+
+            await using FileStream fStream = File.OpenWrite(JSONPath);
+            await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
+
+        }
+
+
+        /// <summary>
+        /// Will get current field book layer settings from a jSON file inside the local folder
+        /// </summary>
+        public async Task<Collection<MapPageLayer>> GetLayerRendering()
+        {
+            Collection<MapPageLayer>? preferedLayers = null;
+
+            //Build path to json file that will have same name as currently used field book
+            string JSONPath = dataAccess.PreferedDatabasePath.Split('.')[0] + ".json";
+
+            //Make sure to remove existing file
+            if (File.Exists(JSONPath))
+            {
+                using FileStream openStream = File.OpenRead(JSONPath);
+
+                // Enable support
+                var options = new JsonSerializerOptions { IncludeFields = true };
+
+                preferedLayers = await JsonSerializer.DeserializeAsync<Collection<MapPageLayer>>(openStream, options);
+            }
+
+            return preferedLayers;
+
+        }
+
+
+        /// <summary>
+        /// Enable / disable waiting cursor on map page
+        /// </summary>
+        /// <param name="isRunning"></param>
         public void SetWaitingCursor(bool isRunning)
         {
             _isWaiting = isRunning;
@@ -165,6 +232,9 @@ namespace GSCFieldApp.ViewModel
         {
             //To prevent layer being inserted in the wrong place, clear it before adding anything
             _layerCollection.Clear();
+            _customLayerCollection.Clear();
+
+            int index = 0;
 
             //Add only wanted layers
             foreach (ILayer layer in layers)
@@ -176,14 +246,24 @@ namespace GSCFieldApp.ViewModel
                     if (!_layerCollection.Contains(layer))
                     {
                         _layerCollection.Add(layer);
+
+                        if (!layer.Name.Contains("Stations") && !layer.Name.Contains("Open Street Map"))
+                        {
+                            MapPageLayerBuilder mplb = new MapPageLayerBuilder();
+                            _customLayerCollection.Add(mplb.GetMapPageLayer(layer, index));
+                        }
+                        
                     }
                 }
+
+                index++;
             }
 
             //Reverse ordering to mimic layer ordering on the map
             _layerCollection = new ObservableCollection<ILayer>(ReverseObsCollection(_layerCollection));
 
             OnPropertyChanged(nameof(layerCollection));
+
         }
 
         /// <summary>
