@@ -89,20 +89,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Build path to json file that will have same name as currently used field book
-            string JSONPath = dataAccess.PreferedDatabasePath.Split('.')[0] + ".json";
-
-            //Write to json file locally
-            //if (!File.Exists(JSONPath))
-            //{
-                
-            //    await using FileStream fStream = File.Create(JSONPath);
-            //    await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
-            //}
-            //else
-            //{
-            //    await using FileStream fStream = File.OpenWrite(JSONPath);
-            //    await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
-            //}
+            string JSONPath = GetPreferedLayerJsonPath();
 
             await using FileStream fStream = File.OpenWrite(JSONPath);
             await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
@@ -118,7 +105,7 @@ namespace GSCFieldApp.ViewModel
             Collection<MapPageLayer>? preferedLayers = null;
 
             //Build path to json file that will have same name as currently used field book
-            string JSONPath = dataAccess.PreferedDatabasePath.Split('.')[0] + ".json";
+            string JSONPath = GetPreferedLayerJsonPath();
 
             //Make sure to remove existing file
             if (File.Exists(JSONPath))
@@ -135,6 +122,15 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+
+        /// <summary>
+        /// Will return the json file path for storing prefered layers
+        /// </summary>
+        /// <returns></returns>
+        public string GetPreferedLayerJsonPath()
+        { 
+            return Path.Combine(Path.GetDirectoryName(dataAccess.PreferedDatabasePath), Path.GetFileNameWithoutExtension(dataAccess.PreferedDatabasePath)) + ".json";
+        }
 
         /// <summary>
         /// Enable / disable waiting cursor on map page

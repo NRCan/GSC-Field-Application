@@ -147,7 +147,9 @@
             </StackLayout>
 
             <!--TODO Can't seem to make this work-->
-            <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" Color="{StaticResource Primary}" Grid.Row="1"/>
+            <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" 
+                               MaximumWidthRequest="50"
+                               Color="{StaticResource Primary}" Grid.Row="1"/>
             
         </Grid>
     </ContentPage.Content>
