@@ -1834,10 +1834,10 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Units</value>
   </data>
   <data name="DrilllogIntervalsFrom.Header" xml:space="preserve">
-    <value>From</value>
+    <value>From (cm)</value>
   </data>
   <data name="DrilllogIntervalsTo.Header" xml:space="preserve">
-    <value>To</value>
+    <value>To (cm)</value>
   </data>
   <data name="FieldworkTableDrill.Text" xml:space="preserve">
     <value>Drill Holes</value>
