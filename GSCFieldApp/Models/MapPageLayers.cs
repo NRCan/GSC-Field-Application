@@ -54,7 +54,7 @@ namespace GSCFieldApp.Models
                     {
                         mpl.LayerType = MapPageLayer.LayerTypes.mbtiles;
                     }
-                    else if (isTileLayer != null && mpl.LayerPathOrURL.Contains("wms"))
+                    else if (isTileLayer != null && (mpl.LayerPathOrURL.Contains("wms") || mpl.LayerPathOrURL.Contains("ows")))
                     {
                         mpl.LayerType = MapPageLayer.LayerTypes.wms;
                     }

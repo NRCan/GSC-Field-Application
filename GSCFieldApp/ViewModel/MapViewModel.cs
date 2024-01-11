@@ -85,13 +85,28 @@ namespace GSCFieldApp.ViewModel
             if (inLayer != null)
             {
                 MapPageLayerBuilder mplb = new MapPageLayerBuilder();
-                _customLayerCollection.Add(mplb.GetMapPageLayer(inLayer));
+
+                //Make sure layer isn't already in collection
+                bool foundLayer = false;
+                foreach (MapPageLayer mpls in _customLayerCollection)
+                {
+                    if (mpls.LayerName == inLayer.Name)
+                    {
+                        foundLayer = true; break;
+                    }
+                }
+
+                if (!foundLayer)
+                {
+                    _customLayerCollection.Add(mplb.GetMapPageLayer(inLayer));
+                }
+                
             }
 
             //Build path to json file that will have same name as currently used field book
             string JSONPath = GetPreferedLayerJsonPath();
 
-            await using FileStream fStream = File.OpenWrite(JSONPath);
+            await using FileStream fStream = File.Create(JSONPath);
             await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
 
         }
