@@ -151,12 +151,12 @@ namespace GSCFieldApp.ViewModels
                         {
                             existingFileNumber(this, null);
                         }
-                        while (_fileNumbers.Contains(indexFrom.ToString()))
-                        {
-                            indexFrom++;
-                        }
-                        _fileNumber = value = indexFrom.ToString();
-                        RaisePropertyChanged("FileNumber");
+                        //while (_fileNumbers.Contains(indexFrom.ToString()))
+                        //{
+                        //    indexFrom++;
+                        //}
+                        //_fileNumber = value = indexFrom.ToString();
+                        //RaisePropertyChanged("FileNumber");
                     }
                     else
                     {
@@ -280,10 +280,10 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Init file number to last found in database (not necessarily the highest value)
-            List<object> lastDocuments = GetLastDocument();
+            List<object> lastDocuments = GetLastDocument(false);
             if (lastDocuments.Count() == 1)
             {
-                lastDocument = GetLastDocument()[0] as Document;
+                lastDocument = lastDocuments[0] as Document;
 
                 _fileNumber = GetLastFileNumberPlusOne(lastDocument.DocumentType);
             }
@@ -544,11 +544,18 @@ namespace GSCFieldApp.ViewModels
         /// which is incremential
         /// </summary>
         /// <returns></returns>
-        public List<object> GetLastDocument()
+        public List<object> GetLastDocument(bool noEmptyDescription = true)
         {
             string lastDocumentQueryFrom = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableDocument + " ";
             string lastDocumentQueryWhere = "WHERE " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentDescription + " <> '' ";
             string lastDocumentQueryWhere2 = "AND " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentDescription + " is not null ";
+
+            if (!noEmptyDescription)
+            {
+                lastDocumentQueryWhere = string.Empty;
+                lastDocumentQueryWhere2 = string.Empty; 
+            }
+
             string lastDocumentQueryOrderBy = "ORDER BY " + Dictionaries.DatabaseLiterals.TableDocument + "." + Dictionaries.DatabaseLiterals.FieldDocumentName + " DESC LIMIT 1";
 
             string lastDocumentQuery = lastDocumentQueryFrom + lastDocumentQueryWhere + lastDocumentQueryWhere2 + lastDocumentQueryOrderBy;
