@@ -1867,4 +1867,10 @@ Shimamura, Kaz – Conseiller</value>
   <data name="DrillRelogDate.Header" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="SampleDialogDuplicateReminderContent" xml:space="preserve">
+    <value>Ceci est un rappel de prendre un blanc ou un duplicate. </value>
+  </data>
+  <data name="SampleDialogDuplicateReminderTitle" xml:space="preserve">
+    <value>C'est l'heure des duplicats!</value>
+  </data>
 </root>

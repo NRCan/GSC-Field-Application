@@ -1872,4 +1872,10 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DrillRelogDate.Header" xml:space="preserve">
     <value>Date</value>
   </data>
+  <data name="SampleDialogDuplicateReminderContent" xml:space="preserve">
+    <value>This is a reminder to take a blank or a duplicate sample.</value>
+  </data>
+  <data name="SampleDialogDuplicateReminderTitle" xml:space="preserve">
+    <value>Duplicate time!</value>
+  </data>
 </root>

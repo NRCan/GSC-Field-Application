@@ -674,6 +674,30 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will show a quick reminder to take a duplicate for
+        /// surficial geologist every 15 samples.
+        /// </summary>
+        public bool DuplicateReminder()
+        {
+            bool shouldShowReminder = false;
+
+            if (_surficialVisibility == Visibility.Visible)
+            {
+                Sample sampleModel = new Sample();
+                int sampleCount = accessData.GetTableCount(sampleModel.GetType());
+
+                if (sampleCount % 15 == 0 && sampleCount != 0)
+                {
+                    shouldShowReminder = true;
+                }
+            }
+
+            return shouldShowReminder;
+
+        }
+
         /// <summary>
         /// Will set visibility based on a bedrock or surficial field book
         /// </summary>
