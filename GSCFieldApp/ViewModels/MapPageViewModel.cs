@@ -1054,7 +1054,11 @@ namespace GSCFieldApp.ViewModels
                     var StationGraphic = new Graphic(geoPoint, pointSym);
                     StationGraphic.Attributes.Add("Id", pID.ToString());
                     StationGraphic.Attributes.Add("Date", pDate.ToString());
-                    StationGraphic.Attributes.Add("Time", pTime.ToString());
+                    if (pTime != null)
+                    {
+                        StationGraphic.Attributes.Add("Time", pTime.ToString());
+                    }
+                    
                     StationGraphic.Attributes.Add("tableType", pTableType);
                     StationGraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
                     if (ptStationType != null)
