@@ -18,7 +18,7 @@
         <!-- UI data Converters-->
         <conv:DD2DMSConverter x:Key="DD2DMS" />
         <conv:ElevationConverter x:Key="FormatElevation" />
-
+        <conv:VisibilityFromILayer x:Key="layerButtonVisibility"/>
 
         <!-- Layer Properties -->
         <DataTemplate  x:Key="MapLayersProperties" x:DataType="maplayer:ILayer">
@@ -30,7 +30,8 @@
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
                     <Switch x:Name="mapFileName" IsToggled="{Binding Enabled}"/>
-                    <Button x:Name="mapDeleteLayer" Style="{StaticResource FieldAppSymbolButton}" Text="&#xF0A7A;" Clicked="mapDeleteLayer_Clicked" />
+                    <Button x:Name="mapDeleteLayer" Style="{StaticResource FieldAppSymbolButton}" Text="&#xF0A7A;" Clicked="mapDeleteLayer_Clicked" 
+                            IsVisible="{Binding Name, Converter={StaticResource layerButtonVisibility}}"/>
                     <Button x:Name="mapZoomToLayer" Style="{StaticResource FieldAppSymbolButton}" Text="&#xF1874;"/>
 
                 </HorizontalStackLayout>
