@@ -30,8 +30,8 @@
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
                     <Switch x:Name="mapFileName" IsToggled="{Binding Enabled}"/>
-                    <Button Style="{StaticResource FieldAppSymbolButton}" Text="&#xF0A7A;"/>
-                    <Button Style="{StaticResource FieldAppSymbolButton}" Text="&#xF1874;"/>
+                    <Button x:Name="mapDeleteLayer" Style="{StaticResource FieldAppSymbolButton}" Text="&#xF0A7A;" Clicked="mapDeleteLayer_Clicked" />
+                    <Button x:Name="mapZoomToLayer" Style="{StaticResource FieldAppSymbolButton}" Text="&#xF1874;"/>
 
                 </HorizontalStackLayout>
                 
@@ -110,7 +110,7 @@
                    BorderColor="{StaticResource Gray300}" Margin="0"
                    HeightRequest="300" WidthRequest="350" IsVisible="False">
                 <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection"
-                                ItemTemplate="{StaticResource MapLayersProperties}" 
+                                ItemTemplate="{StaticResource MapLayersProperties}" SelectedItem="{Binding SelectedMenuLayer, Mode=TwoWay}"
                                 ItemsSource="{Binding layerCollection,Mode=TwoWay}" />
                 
                 <!--Attempt to use directly Map.Layers, but couldn't work with a mode=twoway-->

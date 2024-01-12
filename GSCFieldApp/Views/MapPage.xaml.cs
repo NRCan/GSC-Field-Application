@@ -80,6 +80,22 @@ public partial class MapPage : ContentPage
 
         this.Loaded += MapPage_Loaded;
         this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
+        this.mapControl.Map.Layers.LayerRemoved += Layers_LayerRemoved;
+    }
+
+    #region EVENTS
+
+    /// <summary>
+    /// Make sure to refresh prefered layer json file when 
+    /// one is removed.
+    /// </summary>
+    /// <param name="layer"></param>
+    private void Layers_LayerRemoved(ILayer layer)
+    {
+        MapViewModel mvm = this.BindingContext as MapViewModel;
+        mvm.RefreshLayerCollection(mapControl.Map.Layers);
+        mvm.SaveLayerRendering();
+
     }
 
     /// <summary>
@@ -100,39 +116,13 @@ public partial class MapPage : ContentPage
             {
                 mvm.SaveLayerRendering(layer);
             }
-            
+
         }
         catch (System.Exception e)
         {
             DisplayAlert("Alert", e.Message, "OK");
         }
     }
-
-    /// <summary>
-    /// Will insert a given layer right before the drawable
-    /// layers so it's always on top of previously added background map 
-    /// data but always under the lines and points.
-    /// </summary>
-    /// <param name="in_layer"></param>
-    private void InsertLayerAtRightPlace(ILayer in_layer)
-    {
-        //Insert at right location in collection
-        List<ILayer> layerList = mapControl.Map.Layers.ToList();
-        foreach (ILayer layer in layerList)
-        {
-
-            //Insert before the layer names drawables, WMS always should be beneath lines and points
-            if (layer.Name.Contains("Drawables"))
-            {
-                int rightIndex = layerList.IndexOf(layer);
-                mapView.Map.Layers.Insert(rightIndex, in_layer);
-                break;
-            }
-
-        }
-    }
-
-    #region EVENTS
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
@@ -259,6 +249,23 @@ public partial class MapPage : ContentPage
     }
 
     #region Buttons
+
+    /// <summary>
+    /// Will remove the selected layer from the map
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void mapDeleteLayer_Clicked(object sender, EventArgs e)
+    {
+        Button deleteButton = sender as Button;
+        ILayer layerToDelete = deleteButton.BindingContext as ILayer;
+
+        if (layerToDelete != null)
+        {
+            mapControl.Map.Layers.Remove(layerToDelete);
+        }
+    }
+
     /// <summary>
     /// Will show a filer picker to add layers in the map
     /// </summary>
@@ -344,6 +351,29 @@ public partial class MapPage : ContentPage
 
     #region METHODS
 
+    /// <summary>
+    /// Will insert a given layer right before the drawable
+    /// layers so it's always on top of previously added background map 
+    /// data but always under the lines and points.
+    /// </summary>
+    /// <param name="in_layer"></param>
+    private void InsertLayerAtRightPlace(ILayer in_layer)
+    {
+        //Insert at right location in collection
+        List<ILayer> layerList = mapControl.Map.Layers.ToList();
+        foreach (ILayer layer in layerList)
+        {
+
+            //Insert before the layer names drawables, WMS always should be beneath lines and points
+            if (layer.Name.Contains("Drawables"))
+            {
+                int rightIndex = layerList.IndexOf(layer);
+                mapView.Map.Layers.Insert(rightIndex, in_layer);
+                break;
+            }
+
+        }
+    }
 
     /// <summary>
     /// Will try to do a get feature info from a WMS service
@@ -868,5 +898,4 @@ public partial class MapPage : ContentPage
 
 
     #endregion
-
 }
