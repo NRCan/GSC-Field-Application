@@ -259,7 +259,7 @@ namespace GSCFieldApp.ViewModel
                     {
                         _layerCollection.Add(layer);
 
-                        if (!layer.Name.Contains("Stations") && !layer.Name.Contains("Open Street Map"))
+                        if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM)
                         {
                             MapPageLayerBuilder mplb = new MapPageLayerBuilder();
                             _customLayerCollection.Add(mplb.GetMapPageLayer(layer, index));

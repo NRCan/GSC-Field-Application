@@ -112,7 +112,7 @@ public partial class MapPage : ContentPage
         //Make sure to save current settings locally if not default layers
         try
         {
-            if (layer.Name.ToLower() != "stations" && !layer.Name.ToLower().Contains("street map"))
+            if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM)
             {
                 mvm.SaveLayerRendering(layer);
             }
@@ -133,7 +133,7 @@ public partial class MapPage : ContentPage
 
         foreach (var item in mapView.Map.Layers)
         {
-            if (item.Name == "Stations")
+            if (item.Name == ApplicationLiterals.aliasStations)
             {
                 mapView.Map.Layers.Remove(item);
 
@@ -423,7 +423,7 @@ public partial class MapPage : ContentPage
         {
             foreach (MapPageLayer mpl in prefLayers)
             {
-                if (mpl.LayerName.ToLower() != "stations")
+                if (mpl.LayerName != ApplicationLiterals.aliasStations)
                 {
                     if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
                     {
@@ -494,13 +494,13 @@ public partial class MapPage : ContentPage
             var persistentCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + "_OSM");
             HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, ApplicationLiterals.keywordWMS + "/3.0 Maui.net", persistentCache: persistentCache);
             TileLayer osmLayer = new TileLayer(source);
-            osmLayer.Name = "Open Street Map";
+            osmLayer.Name = ApplicationLiterals.aliasOSM;
             mapControl.Map.Layers.Insert(0, osmLayer);
         }
         else
         {
             TileLayer osmLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer(ApplicationLiterals.keywordWMS + "/3.0 Maui.net");
-            osmLayer.Name = "Open Street Map";
+            osmLayer.Name = ApplicationLiterals.aliasOSM;
             mapControl.Map.Layers.Insert(0, osmLayer);
         }
 
@@ -825,7 +825,7 @@ public partial class MapPage : ContentPage
     {
         return new MemoryLayer
         {
-            Name = "Stations",
+            Name = ApplicationLiterals.aliasStations,
             IsMapInfoLayer = true,
             Features = await GetLocationsAsync(),
             Style = CreateBitmapStyle(),
