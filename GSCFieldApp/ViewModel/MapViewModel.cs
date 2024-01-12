@@ -32,7 +32,6 @@ namespace GSCFieldApp.ViewModel
         public Mapsui.Map mapViewFallback = new Mapsui.Map();
         private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>();
         private Collection<MapPageLayer> _customLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
-        private ILayer _selectedMenuLayer = null;
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
         private bool _isWaiting = false;
 
@@ -42,7 +41,7 @@ namespace GSCFieldApp.ViewModel
         private Collection<MapPageLayer> CayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
         public bool IsWaiting { get { return _isWaiting; } set { _isWaiting = value; } }
-        public ILayer SelectedMenuLayer { get { return _selectedMenuLayer; } set { _selectedMenuLayer = value; } }
+
         #endregion
         public MapViewModel()
         {
@@ -243,6 +242,8 @@ namespace GSCFieldApp.ViewModel
         public void RefreshLayerCollection(LayerCollection layers)
         {
             //To prevent layer being inserted in the wrong place, clear it before adding anything
+            Collection<ILayer> refreshCollection = new Collection<ILayer>();
+
             _layerCollection.Clear();
             _customLayerCollection.Clear();
 
@@ -274,7 +275,11 @@ namespace GSCFieldApp.ViewModel
             //Reverse ordering to mimic layer ordering on the map
             _layerCollection = new ObservableCollection<ILayer>(ReverseObsCollection(_layerCollection));
 
-            OnPropertyChanged(nameof(layerCollection));
+            if (_layerCollection.Count() > 0)
+            {
+                OnPropertyChanged(nameof(layerCollection));
+            }
+            
 
         }
 

@@ -251,6 +251,37 @@ public partial class MapPage : ContentPage
     #region Buttons
 
     /// <summary>
+    /// Will zoom to selected layer from layer menu
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void mapZoomToLayer_Clicked(object sender, EventArgs e)
+    {
+        Button zoomToButton = sender as Button;
+        ILayer zoomToLayer = zoomToButton.BindingContext as ILayer;
+
+        if (zoomToLayer != null)
+        {
+            string pathToLayer = string.Empty;
+            if (zoomToLayer.Tag != null)
+            {
+                pathToLayer = zoomToLayer.Tag.ToString();
+            }
+            
+            if (zoomToLayer.Name != ApplicationLiterals.aliasOSM && !pathToLayer.Contains("wms") && !pathToLayer.Contains("ows"))
+            {
+                SetExtent(zoomToLayer);
+            }
+            else
+            {
+                //Set to default extent, which is Canada
+                SetExtent();
+            }
+            
+        }
+    }
+
+    /// <summary>
     /// Will remove the selected layer from the map
     /// </summary>
     /// <param name="sender"></param>
@@ -412,6 +443,10 @@ public partial class MapPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// On init will reload user prefered layers from saved JSON file
+    /// </summary>
+    /// <returns></returns>
     public async Task LoadPreferedLayers()
     { 
         //Get prefered layers
@@ -459,22 +494,22 @@ public partial class MapPage : ContentPage
     /// Will zoom to the extent of the incoming memory layer
     /// </summary>
     /// <param name="inMemoryLayer"></param>
-    public void SetExtent(MemoryLayer inMemoryLayer)
+    public void SetExtent(ILayer inLayer = null)
     {
-        if (inMemoryLayer.Extent != null)
+        if (inLayer != null && inLayer.Extent != null)
         {
             // Extend a bit more the rectangle by 2.5km
-            var fieldDataExtent = new MRect(inMemoryLayer.Extent.MinX,
-                inMemoryLayer.Extent.MinY,
-                inMemoryLayer.Extent.MaxX,
-                inMemoryLayer.Extent.MaxY).Grow(2500);
+            var fieldDataExtent = new MRect(inLayer.Extent.MinX,
+                inLayer.Extent.MinY,
+                inLayer.Extent.MaxX,
+                inLayer.Extent.MaxY).Grow(2500);
 
             mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
         }
         else
         {
             // Fit to Canada with a 25km buffer
-            var fieldDataExtent = new MRect(-139.649,45.144, -56.288, 72.378).Grow(25000);
+            var fieldDataExtent = new MRect(-15658662, 5533994, -5231695, 11534073).Grow(25000);
             mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
         }
 
@@ -898,4 +933,5 @@ public partial class MapPage : ContentPage
 
 
     #endregion
+
 }
