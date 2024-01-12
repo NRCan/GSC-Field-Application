@@ -40,6 +40,8 @@ using BruTile.Wmsc;
 using Mapsui.Animations;
 using BruTile.Wms;
 using System.Collections.ObjectModel;
+using Microsoft.Maui.Animations;
+using Mapsui.Providers.Wms;
 
 namespace GSCFieldApp.Views;
 
@@ -118,6 +120,7 @@ public partial class MapPage : ContentPage
         List<ILayer> layerList = mapControl.Map.Layers.ToList();
         foreach (ILayer layer in layerList)
         {
+
             //Insert before the layer names drawables, WMS always should be beneath lines and points
             if (layer.Name.Contains("Drawables"))
             {
@@ -238,6 +241,21 @@ public partial class MapPage : ContentPage
     {
         //Make sure to disable map layer frame
         MapLayerFrame.IsVisible = false;
+
+        //NOT WORKING --> Get feature info
+        //GetWMSFeatureInfo(e.Point);
+
+    }
+
+    /// <summary>
+    /// Whenever a get feature info is finished on a WMS layer
+    /// Show results on screen
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="featureInfo"></param>
+    private void Gfi_IdentifyFinished(object sender, FeatureInfo featureInfo)
+    {
+        DisplayAlert("test", featureInfo.FeatureInfos.ToString(), "OK");
     }
 
     #region Buttons
@@ -325,6 +343,44 @@ public partial class MapPage : ContentPage
     #endregion
 
     #region METHODS
+
+
+    /// <summary>
+    /// Will try to do a get feature info from a WMS service
+    /// TODO find why it doesn't work and why x and y are int rather then doubles
+    /// </summary>
+    public void GetWMSFeatureInfo(Position inMouseClickPosition)
+    {
+        //Detect if top layer is wms
+        List<ILayer> layerList = mapControl.Map.Layers.ToList();
+        foreach (ILayer layer in layerList)
+        {
+
+            //Insert before the layer names drawables, WMS always should be beneath lines and points
+            if (layer.Name.Contains("Drawables"))
+            {
+                //Get top layer
+                ILayer topLayer = layerList[layerList.IndexOf(layer) - 1];
+                string topLayerTag = topLayer.Tag.ToString();
+                if (topLayerTag.Contains("wms") && topLayerTag.Contains("version"))
+                {
+                    //Get wms version
+                    string wmsVersion = topLayerTag.Split("wms?version=")[1].Split("&")[0];
+                    if (wmsVersion != string.Empty)
+                    { 
+
+                        GetFeatureInfo gfi = new GetFeatureInfo();
+                        gfi.Request(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
+                            mapControl.Map.Extent.MinY, mapControl.Map.Extent.MaxX, mapControl.Map.Extent.MaxY, (int)inMouseClickPosition.Longitude, (int)inMouseClickPosition.Latitude,
+                            (int)mapControl.Width, (int)mapControl.Height);
+                        gfi.IdentifyFinished += Gfi_IdentifyFinished;
+                    }
+                }
+                break;
+            }
+
+        }
+    }
 
     public async Task LoadPreferedLayers()
     { 
@@ -453,6 +509,7 @@ public partial class MapPage : ContentPage
                     tl.Name = layerNameFromURL;
                     tl.Tag = fullURL;
 
+                    
                     //Insert at right location in collection
                     InsertLayerAtRightPlace(tl);
                 }
