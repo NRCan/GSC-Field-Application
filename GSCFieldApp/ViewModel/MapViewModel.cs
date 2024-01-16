@@ -36,6 +36,7 @@ namespace GSCFieldApp.ViewModel
         private bool _isWaiting = false;
 
         #endregion
+
         #region PROPERTIES
         public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
         private Collection<MapPageLayer> CayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }

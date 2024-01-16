@@ -17,6 +17,7 @@ using GSCFieldApp.Dictionaries;
 using BruTile.Wmts.Generated;
 using GSCFieldApp.Themes;
 using NetTopologySuite.Index.HPRtree;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -26,6 +27,10 @@ namespace GSCFieldApp.ViewModel
         private bool _noFieldBookWatermark = false;
         public ObservableCollection<FieldBooks> _fieldbookCollection = new ObservableCollection<FieldBooks>();
         public FieldBooks _selectedFieldBook;
+
+        //Localization
+        public LocalizationResourceManager LocalizationResourceManager
+            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
         //Data service
         private DataAccess da = new DataAccess();
@@ -60,6 +65,12 @@ namespace GSCFieldApp.ViewModel
         #region RELAY COMMANDS
 
         [RelayCommand]
+        async Task DeleteFieldBook()
+        {
+            await DeleteFieldBook(SelectedFieldBook);
+        }
+
+        [RelayCommand]
         async Task AddFieldBook()
         {
             await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}");
@@ -83,10 +94,55 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
         }
 
+        [RelayCommand]
+        public async Task SwipeGestureRecognizer(FieldBooks fieldBook)
+        {
+            await DeleteFieldBook(fieldBook);
+        }
         #endregion
 
         #region METHODS
 
+        public async Task DeleteFieldBook(FieldBooks fieldBook)
+        {
+            bool deleteDialogResult = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldbookPageDeleteTitle"].ToString(),
+                LocalizationResourceManager["FieldbookPageDeleteMessage"].ToString(),
+                LocalizationResourceManager["GenericButtonYes"].ToString(),
+                LocalizationResourceManager["GenericButtonNo"].ToString());
+
+            if (deleteDialogResult)
+            {
+                //Make extra validation if user wants to backup his data
+                ValidateDeleteProject(fieldBook);
+            }
+        }
+
+        /// <summary>
+        /// Will ask user if a field book backup is needed then will proceed with deleting
+        /// the selected field book.
+        /// </summary>
+        /// <param name="sender"></param>
+        public async void ValidateDeleteProject(FieldBooks fieldBook)
+        {
+
+            bool backupDialogResult = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldbookPageBackupTitle"].ToString(),
+            LocalizationResourceManager["FieldbookPageBackupMessage"].ToString(),
+            LocalizationResourceManager["GenericButtonYes"].ToString(),
+            LocalizationResourceManager["GenericButtonNo"].ToString());
+
+            if (backupDialogResult)
+            {
+                //Backup
+
+                //Delete
+
+            }
+            else
+            {
+                //Delete
+            }
+
+        }
 
         /// <summary>
         /// Will fill the project collection with information related to it

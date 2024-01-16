@@ -16,6 +16,13 @@
             <VerticalStackLayout HeightRequest="380" WidthRequest="250">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding}"/>
+
+                    <!--Doesn't work great under Android, a bit clunky to actually make it work-->
+                    <!--Using delete button is recommanded--> 
+                    <SwipeGestureRecognizer Direction="Left" Command="{Binding Source={RelativeSource 
+                        AncestorType={x:Type viewmodel:FieldBooksViewModel}},Path=SwipeGestureRecognizerCommand}" 
+                                    CommandParameter="{Binding .}"/>
+
                 </VerticalStackLayout.GestureRecognizers>
                 <Frame BackgroundColor="{StaticResource Primary}" x:Name="fieldBookFrame" BorderColor="{StaticResource Primary}">
                     <Grid Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}">
@@ -110,7 +117,7 @@
             <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
                 <!--Deleting a selected field book-->
-                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
+                <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
                 
                 <!--Editing a selected field book-->
                 <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
@@ -131,11 +138,12 @@
 
                 </FlexLayout>-->
                 <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" 
-                                CanReorderItems="True" HorizontalOptions="CenterAndExpand"
+                                CanReorderItems="False" HorizontalOptions="CenterAndExpand"
                                 SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}" 
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}" 
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
                                 HeightRequest="{OnPlatform WinUI=380}" WidthRequest="{OnPlatform Android=380}">
+
                 </CollectionView>
                 
             </ScrollView>
@@ -157,7 +165,7 @@
                 <!--Android only section-->
                 
                 <!--Deleting a selected field book-->
-                <Button Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
+                <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
 
                 <!--Editing a selected field book-->
                 <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>

@@ -303,6 +303,12 @@
   <data name="FieldBookPageActivtyPlaceholder" xml:space="preserve">
     <value>Field Summer 2023</value>
   </data>
+  <data name="FieldbookPageBackupMessage" xml:space="preserve">
+    <value>Would you like to do a backup of selected field book?</value>
+  </data>
+  <data name="FieldbookPageBackupTitle" xml:space="preserve">
+    <value>Backup Field Book</value>
+  </data>
   <data name="FieldBookPageChiefFName" xml:space="preserve">
     <value>First Name</value>
   </data>
@@ -311,6 +317,12 @@
   </data>
   <data name="FieldBookPageChiefMName" xml:space="preserve">
     <value>Middle Name</value>
+  </data>
+  <data name="FieldbookPageDeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to remove selected field book from device?</value>
+  </data>
+  <data name="FieldbookPageDeleteTitle" xml:space="preserve">
+    <value>Delete Field Book</value>
   </data>
   <data name="FieldBookPageDescriptionTitle" xml:space="preserve">
     <value>Description</value>

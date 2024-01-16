@@ -619,6 +619,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Would you like to do a backup of selected field book?.
+        /// </summary>
+        internal static string FieldbookPageBackupMessage {
+            get {
+                return ResourceManager.GetString("FieldbookPageBackupMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup Field Book.
+        /// </summary>
+        internal static string FieldbookPageBackupTitle {
+            get {
+                return ResourceManager.GetString("FieldbookPageBackupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First Name.
         /// </summary>
         internal static string FieldBookPageChiefFName {
@@ -642,6 +660,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FieldBookPageChiefMName {
             get {
                 return ResourceManager.GetString("FieldBookPageChiefMName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove selected field book from device?.
+        /// </summary>
+        internal static string FieldbookPageDeleteMessage {
+            get {
+                return ResourceManager.GetString("FieldbookPageDeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Field Book.
+        /// </summary>
+        internal static string FieldbookPageDeleteTitle {
+            get {
+                return ResourceManager.GetString("FieldbookPageDeleteTitle", resourceCulture);
             }
         }
         

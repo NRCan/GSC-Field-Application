@@ -304,6 +304,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FieldBookPageActivtyPlaceholder" xml:space="preserve">
     <value>Camp terrain 2023</value>
   </data>
+  <data name="FieldbookPageBackupMessage" xml:space="preserve">
+    <value>Aimeriez-vous effectuer une sauvegarde du carnet de notes présentement sélectionné?</value>
+  </data>
+  <data name="FieldbookPageBackupTitle" xml:space="preserve">
+    <value>Sauvegarde du carnet</value>
+  </data>
   <data name="FieldBookPageChiefFName" xml:space="preserve">
     <value>Prénom</value>
   </data>
@@ -312,6 +318,12 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="FieldBookPageChiefMName" xml:space="preserve">
     <value>Deuxième prénom</value>
+  </data>
+  <data name="FieldbookPageDeleteMessage" xml:space="preserve">
+    <value>Êtes-vous certain de vouloir supprimer le carnet de note sélectionné de l'appareil?</value>
+  </data>
+  <data name="FieldbookPageDeleteTitle" xml:space="preserve">
+    <value>Supprimer le carnet</value>
   </data>
   <data name="FieldBookPageDescription" xml:space="preserve">
     <value>Description</value>
