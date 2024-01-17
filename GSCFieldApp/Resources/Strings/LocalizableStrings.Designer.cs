@@ -700,6 +700,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Some mandatory fields have not been filled..
+        /// </summary>
+        internal static string FieldBookPageFailedToSave {
+            get {
+                return ResourceManager.GetString("FieldBookPageFailedToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string FieldBookPageFailedToSaveTitle {
+            get {
+                return ResourceManager.GetString("FieldBookPageFailedToSaveTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Geologist.
         /// </summary>
         internal static string FieldBookPageGeologistTitle {

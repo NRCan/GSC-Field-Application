@@ -110,6 +110,22 @@ namespace GSCFieldApp.ViewModel
         {
             await PrepareDeleteFieldBook(fieldBook);
         }
+
+        [RelayCommand]
+        public async Task EditFieldBook()
+        {
+            //Navigate to fieldbook page and send along the metadata
+            if (_selectedFieldBook != null)
+            {
+                await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Metadata)] = _selectedFieldBook.metadataForProject,
+                    }
+                );
+            }
+        }
+
         #endregion
 
         #region METHODS
@@ -253,8 +269,12 @@ namespace GSCFieldApp.ViewModel
                             currentBook.StationLastEntered = lastStation.StationAlias;
                         }
 
-                        _fieldbookCollection.Add(currentBook);
-                        OnPropertyChanged(nameof(FieldbookCollection));
+                        if (!_fieldbookCollection.Contains(currentBook))
+                        {
+                            _fieldbookCollection.Add(currentBook);
+                            OnPropertyChanged(nameof(FieldbookCollection));
+                        }
+
                         await currentConnection.CloseAsync();
 
                     }
@@ -269,8 +289,6 @@ namespace GSCFieldApp.ViewModel
                 
             }
             
-            
-
             WatermarkValidation();
         }
 

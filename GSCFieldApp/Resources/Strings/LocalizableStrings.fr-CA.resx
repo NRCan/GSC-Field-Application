@@ -331,6 +331,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FieldBookPageDescription" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="FieldBookPageFailedToSave" xml:space="preserve">
+    <value>Certains champs obligatoire n'ont pas été remplis.</value>
+  </data>
+  <data name="FieldBookPageFailedToSaveTitle" xml:space="preserve">
+    <value>Attention</value>
+  </data>
   <data name="FieldBookPageGeologistTitle" xml:space="preserve">
     <value>Géologue</value>
   </data>

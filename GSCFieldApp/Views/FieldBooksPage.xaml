@@ -17,6 +17,8 @@
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding}"/>
 
+                    <TapGestureRecognizer Command="{Binding DoubleTapCommand}" CommandParameter="{Binding}" NumberOfTapsRequired="2"/>
+                    
                     <!--Doesn't work great under Android, a bit clunky to actually make it work-->
                     <!--Using delete button is recommanded--> 
                     <SwipeGestureRecognizer Direction="Left" Command="{Binding Source={RelativeSource 
@@ -120,7 +122,7 @@
                 <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
                 
                 <!--Editing a selected field book-->
-                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
+                <Button Command="{Binding EditFieldBookCommand}" Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
 
                 <!--Adding new field book-->
                 <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
@@ -168,7 +170,7 @@
                 <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
 
                 <!--Editing a selected field book-->
-                <Button Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
+                <Button Command="{Binding EditFieldBookCommand}" Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
 
                 <!--Adding new field book-->
                 <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>

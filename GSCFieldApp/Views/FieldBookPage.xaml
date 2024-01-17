@@ -95,7 +95,8 @@
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" 
-                                       Text="{Binding Model.UserCode}" TextTransform="Uppercase"/>
+                                       Text="{Binding Model.UserCode}" TextTransform="Uppercase"
+                                       IsEnabled="{Binding CanWrite, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>
@@ -108,7 +109,8 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageSSN}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Keyboard="Numeric" Text="{Binding Model.StationStartNumber}" Placeholder="1"/>
+                                <Entry Keyboard="Numeric" Text="{Binding Model.StationStartNumber}" Placeholder="1"
+                                       IsEnabled="{Binding CanWrite, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>

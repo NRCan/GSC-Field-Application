@@ -12,24 +12,35 @@ using GSCFieldApp.Themes;
 using ShimSkiaSharp;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using Microsoft.Maui.ApplicationModel.Communication;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.ViewModel
 {
+    [QueryProperty(nameof(Metadata), nameof(Metadata))]
     public partial class FieldBookViewModel: ObservableObject
     {
         #region INIT
 
         DataAccess da = new DataAccess();
-        private Metadata model = new Metadata();
+        private Metadata _model = new Metadata();
         private ComboBox _projectType = new ComboBox();
+        private bool _canWrite = true;
+
+        //Localization
+        public LocalizationResourceManager LocalizationResourceManager
+            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
         #endregion
 
         #region PROPERTIES
-        
-        public Metadata Model { get { return model; } set { model = value; } }
-        public ComboBox ProjectType { get { return _projectType; } set { _projectType = value; } }
 
+        [ObservableProperty]
+        private Metadata metadata;
+
+        public Metadata Model { get { return _model; } set { _model = value; } }
+        public ComboBox ProjectType { get { return _projectType; } set { _projectType = value; } }
+        public bool CanWrite { get { return _canWrite; } set { _canWrite = value; } }
         #endregion
 
         public FieldBookViewModel()
@@ -63,8 +74,11 @@ namespace GSCFieldApp.ViewModel
                 da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
 #endif
                 //Validate if new entry or update
-                if (model.MetaID > 0)
+                if (_model.MetaID > 0)
                 {
+                    //Fill out missing values in model
+                    SetModel();
+
                     await da.SaveItemAsync(Model, true);
                 }
                 else
@@ -88,7 +102,9 @@ namespace GSCFieldApp.ViewModel
             else
             {
                 //Show error
-                await Shell.Current.DisplayAlert("Warning", "Some mandatory fields have not been filled.", "Ok");
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBookPageFailedToSaveTitle"].ToString(),
+                    LocalizationResourceManager["FieldBookPageFailedToSave"].ToString(), 
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
             }
 
 
@@ -100,9 +116,38 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync("..");
         }
 
-#endregion
+        #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will refill the form with existing values for update/editing purposes
+        /// </summary>
+        /// <returns></returns>
+        public async Task Load()
+        {
+            if (metadata != null && metadata.isValid)
+            {
+                //Disable some key fields
+                _canWrite = false;
+                OnPropertyChanged(nameof(CanWrite));
+
+                //Set model like actual record
+                _model = metadata;
+                OnPropertyChanged(nameof(Model));
+
+                //Select values in pickers
+                foreach (ComboBoxItem cbox in ProjectType.cboxItems)
+                {
+                    if (cbox.itemValue == _model.FieldworkType)
+                    {
+                        ProjectType.cboxDefaultItemIndex = ProjectType.cboxItems.IndexOf(cbox);
+                        break;
+                    }
+                }
+                OnPropertyChanged(nameof(ProjectType));
+            }
+        }
 
         /// <summary>
         /// Will fill the project type combobox
@@ -133,12 +178,12 @@ namespace GSCFieldApp.ViewModel
                 Model.Version = AppInfo.Current.VersionString;
                 Model.StartDate = String.Format("{0:d}", DateTime.Today);
                 Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
+            }
 
-                //Process pickers
-                if (ProjectType.cboxDefaultItemIndex != -1)
-                {
-                    Model.FieldworkType = ProjectType.cboxItems[ProjectType.cboxDefaultItemIndex].itemValue;
-                }
+            //Process pickers
+            if (ProjectType.cboxDefaultItemIndex != -1)
+            {
+                Model.FieldworkType = ProjectType.cboxItems[ProjectType.cboxDefaultItemIndex].itemValue;
             }
 
         }

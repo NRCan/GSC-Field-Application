@@ -14,18 +14,16 @@ public partial class FieldBookPage : ContentPage
 		BindingContext = vm;
     }
 
-    ///// <summary>
-    ///// Detect when the save button is clicked and send an event
-    ///// </summary>
-    ///// <param name="sender"></param>
-    ///// <param name="e"></param>
-    //private void FieldBookSaveButton_Clicked(object sender, EventArgs e)
-    //{
-    //    newFieldBookSaved?.Invoke(this, null);
-    //}
-
     protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
     {
         newFieldBookSaved?.Invoke(this, null);
+    }
+
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+        
+        FieldBookViewModel vm = (FieldBookViewModel)BindingContext;
+        await vm.Load();
     }
 }

@@ -330,6 +330,12 @@
   <data name="FieldBookPageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="FieldBookPageFailedToSave" xml:space="preserve">
+    <value>Some mandatory fields have not been filled.</value>
+  </data>
+  <data name="FieldBookPageFailedToSaveTitle" xml:space="preserve">
+    <value>Warning</value>
+  </data>
   <data name="FieldBookPageGeologistTitle" xml:space="preserve">
     <value>Geologist</value>
   </data>
