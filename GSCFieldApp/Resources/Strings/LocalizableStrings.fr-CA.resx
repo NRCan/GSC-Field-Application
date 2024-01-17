@@ -298,6 +298,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="EarthmatTooltipAddStruc" xml:space="preserve">
     <value>Ajoutez une nouvelle structure</value>
   </data>
+  <data name="FieldBookBackupGeneric" xml:space="preserve">
+    <value>Sauvegarde</value>
+  </data>
   <data name="FieldBookPageActivty" xml:space="preserve">
     <value>Activité</value>
   </data>
@@ -516,6 +519,12 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="StationTooltipAddPhoto" xml:space="preserve">
     <value>Ajoutez une ou plusieurs photo</value>
+  </data>
+  <data name="ToastFieldBookBackup" xml:space="preserve">
+    <value>Le carnet a été sauvegardé avec succès ici: {0}</value>
+  </data>
+  <data name="ToastFieldBookBackupFailed" xml:space="preserve">
+    <value>La sauvegarde du carnet a rencontré une erreur: {0}</value>
   </data>
   <data name="ToastSaveBackup" xml:space="preserve">
     <value>Le fichier a été sauvegardé avec succès ici: {0}</value>

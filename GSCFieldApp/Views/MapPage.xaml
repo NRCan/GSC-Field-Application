@@ -148,10 +148,9 @@
 
             </StackLayout>
 
-            <!--TODO Can't seem to make this work-->
+            <!--Waiting indication-->
             <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" 
-                               MaximumWidthRequest="50"
-                               Color="{StaticResource Primary}" Grid.Row="1"/>
+                               Style="{StaticResource FieldAppActivityIndicator}" Grid.Row="1"/>
             
         </Grid>
     </ContentPage.Content>

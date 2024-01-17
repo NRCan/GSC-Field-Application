@@ -601,6 +601,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        internal static string FieldBookBackupGeneric {
+            get {
+                return ResourceManager.GetString("FieldBookBackupGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activity.
         /// </summary>
         internal static string FieldBookPageActivty {
@@ -1254,6 +1263,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string StationTooltipAddPhoto {
             get {
                 return ResourceManager.GetString("StationTooltipAddPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field book was successfully saved to: {0}.
+        /// </summary>
+        internal static string ToastFieldBookBackup {
+            get {
+                return ResourceManager.GetString("ToastFieldBookBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field book was not saved successfully and shows error: {0}.
+        /// </summary>
+        internal static string ToastFieldBookBackupFailed {
+            get {
+                return ResourceManager.GetString("ToastFieldBookBackupFailed", resourceCulture);
             }
         }
         

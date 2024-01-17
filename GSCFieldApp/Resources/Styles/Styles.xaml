@@ -195,7 +195,12 @@
     <Style TargetType="VerticalStackLayout" x:Key="FieldAppExpandLayout">
         <Setter Property="Margin" Value="0,0,0,2"/>
     </Style>
-    
+
+    <Style TargetType="ActivityIndicator" x:Key="FieldAppActivityIndicator">
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="MaximumWidthRequest" Value="50"/>
+    </Style>
+
     <!--Concatenated value box styles-->
     <Style TargetType="Frame" x:Key="FieldAppConcatFrame">
         <Setter Property="HasShadow" Value="False" />

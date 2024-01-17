@@ -276,7 +276,6 @@
 
 	<ItemGroup>
 	  <Compile Remove="Models\FieldAppLocation.cs" />
-	  <Compile Remove="Services\File\FileServices.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -302,7 +301,6 @@
 
 	<ItemGroup>
 	  <None Include="Models\FieldAppLocation.cs" />
-	  <None Include="Services\File\FileServices.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

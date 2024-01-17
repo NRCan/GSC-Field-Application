@@ -18,6 +18,9 @@ using BruTile.Wmts.Generated;
 using GSCFieldApp.Themes;
 using NetTopologySuite.Index.HPRtree;
 using GSCFieldApp.Services;
+using System.IO.Compression;
+using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Maui.Alerts;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -27,6 +30,7 @@ namespace GSCFieldApp.ViewModel
         private bool _noFieldBookWatermark = false;
         public ObservableCollection<FieldBooks> _fieldbookCollection = new ObservableCollection<FieldBooks>();
         public FieldBooks _selectedFieldBook;
+        private bool _isWaiting = false; //Waiting indicator
 
         //Localization
         public LocalizationResourceManager LocalizationResourceManager
@@ -39,9 +43,14 @@ namespace GSCFieldApp.ViewModel
         readonly Station stationModel = new Station();
         readonly Metadata metadataModel = new Metadata();
 
+        #region Properties
+
         public bool NoFieldBookWatermark { get { return _noFieldBookWatermark; } set { _noFieldBookWatermark = value; } }
         public ObservableCollection<FieldBooks> FieldbookCollection { get { return _fieldbookCollection; } set{ _fieldbookCollection = value; } }
         public FieldBooks SelectedFieldBook { get { return _selectedFieldBook; } set { _selectedFieldBook = value; } }
+        public bool IsWaiting { get { return _isWaiting; } set { _isWaiting = value; } }
+
+        #endregion
 
         public FieldBooksViewModel() 
         {
@@ -67,7 +76,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task DeleteFieldBook()
         {
-            await DeleteFieldBook(SelectedFieldBook);
+            await PrepareDeleteFieldBook(SelectedFieldBook);
         }
 
         [RelayCommand]
@@ -85,7 +94,9 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task DownloadFieldBook()
         {
-            await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
+            //Backup
+            AppFileServices appFileServices = new AppFileServices();
+            await appFileServices.BackupFieldBook();
         }
 
         [RelayCommand]
@@ -97,13 +108,29 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task SwipeGestureRecognizer(FieldBooks fieldBook)
         {
-            await DeleteFieldBook(fieldBook);
+            await PrepareDeleteFieldBook(fieldBook);
         }
         #endregion
 
         #region METHODS
 
-        public async Task DeleteFieldBook(FieldBooks fieldBook)
+        /// <summary>
+        /// Enable / disable waiting cursor on map page
+        /// </summary>
+        /// <param name="isRunning"></param>
+        public void SetWaitingCursor(bool isRunning)
+        {
+            _isWaiting = isRunning;
+            OnPropertyChanged(nameof(IsWaiting));
+        }
+
+        /// <summary>
+        /// Main method to start deleting a field book by making user
+        /// really wants to delete it then will ask if a backup is needed.
+        /// </summary>
+        /// <param name="fieldBook"></param>
+        /// <returns></returns>
+        public async Task PrepareDeleteFieldBook(FieldBooks fieldBook)
         {
             bool deleteDialogResult = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldbookPageDeleteTitle"].ToString(),
                 LocalizationResourceManager["FieldbookPageDeleteMessage"].ToString(),
@@ -132,14 +159,23 @@ namespace GSCFieldApp.ViewModel
 
             if (backupDialogResult)
             {
+                //Set progress ring
+                SetWaitingCursor(true);
+
                 //Backup
+                AppFileServices appFileServices = new AppFileServices();
+                await appFileServices.BackupFieldBook();
 
                 //Delete
+                DeleteUserFieldBook();
 
+                //Unset progress ring
+                SetWaitingCursor(false);
             }
             else
             {
                 //Delete
+                DeleteUserFieldBook();
             }
 
         }
@@ -251,6 +287,31 @@ namespace GSCFieldApp.ViewModel
             }
 
             OnPropertyChanged(nameof(NoFieldBookWatermark));
+        }
+
+        /// <summary>
+        /// Will delete prefered field book and associated files
+        /// </summary>
+        public void DeleteUserFieldBook()
+        {
+            string userLocalFolder = Path.GetDirectoryName(da.PreferedDatabasePath);
+            string userDBName = Path.GetFileNameWithoutExtension(da.PreferedDatabasePath);
+
+            string[] file = Directory.GetFiles(userLocalFolder, userDBName + "*");
+
+            foreach (string f in file)
+            {
+                if (File.Exists(f))
+                {
+                    File.Delete(f); 
+                }
+            }
+
+            //Refresh
+            FillBookCollectionAsync();
+
+            //Reset prefered database
+            da.PreferedDatabasePath = da.DatabaseFilePath;
         }
 
         #endregion
