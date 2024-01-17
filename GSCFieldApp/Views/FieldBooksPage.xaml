@@ -7,7 +7,7 @@
              xmlns:selectors="clr-namespace:GSCFieldApp.Themes"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="viewmodel:FieldBooksViewModel" 
-             xmlns:model="using:GSCFieldApp.Models" 
+             xmlns:model="using:GSCFieldApp.Models"
              Title="{local:Localize ShellFieldBooksTitle}">
     <ContentPage.Resources>
 

@@ -3,16 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
 using GSCFieldApp.Views;
+using SQLite;
+using System.Collections.ObjectModel;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -31,6 +24,9 @@ namespace GSCFieldApp.ViewModel
 
         private bool _isSampleVisible = true;
         public bool IsSampleVisible { get { return _isSampleVisible; } set { _isSampleVisible = value; } }
+
+        private bool _isDateVisible = true;
+        public bool IsDateVisible { get { return _isDateVisible; } set { _isDateVisible = value; } }
 
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
@@ -89,6 +85,17 @@ namespace GSCFieldApp.ViewModel
             set { _stations = value; }
         }
 
+        private ObservableCollection<FieldNote> _dates = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Dates
+        {
+            get
+            {
+                return _dates;
+
+            }
+            set { _stations = value; }
+        }
+
         #endregion
 
         public FieldNotesViewModel()
@@ -132,6 +139,12 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsSampleVisible = !IsSampleVisible;
                     OnPropertyChanged(nameof(IsSampleVisible));
+                }
+
+                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordDates))
+                {
+                    IsDateVisible = !IsDateVisible;
+                    OnPropertyChanged(nameof(IsDateVisible));
                 }
             }
 
@@ -223,6 +236,7 @@ namespace GSCFieldApp.ViewModel
             {
                 SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
 
+                await FillTraverseDates(currentConnection);
                 await FillStationNotes(currentConnection);
                 await FillEMNotes(currentConnection);
 
@@ -232,6 +246,43 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(Stations));
             }
 
+        }
+
+        public async Task FillTraverseDates(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(DatabaseLiterals.KeywordDates))
+            {
+                FieldNotes.Add(DatabaseLiterals.KeywordDates, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[DatabaseLiterals.KeywordDates].Clear();
+
+            }
+
+            //Build query to get unique dates from stations and drill holes
+            string queryDates = "SELECT distinct(" + DatabaseLiterals.FieldStationVisitDate + ") FROM " + DatabaseLiterals.TableStation + " union ";
+            string queryDates2 = "SELECT distinct(" + DatabaseLiterals.FieldDrillRelogDate + ") FROM " + DatabaseLiterals.TableDrillHoles + ";";
+            string queryDatesTotal = queryDates + queryDates2;
+
+            ////Get all stations from database
+            //List<Station> stations = await inConnection.QueryAsync<Station>(queryDatesTotal);
+
+            //if (stations != null && stations.Count > 0)
+            //{
+
+
+            //    foreach (Station st in stations)
+            //    {
+            //        FieldNotes[DatabaseLiterals.TableStation].Add(new FieldNote
+            //        {
+            //            Display_text_1 = st.StationAlias,
+            //        });
+            //    }
+
+            //}
         }
 
         /// <summary>

@@ -9,9 +9,9 @@
              Shell.BackgroundColor="{StaticResource FieldEarthMaterialColor}"
              Title="{local:Localize EarthmatPageTitle}">
 
-    <!--<Shell.BackButtonBehavior>
+    <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
-    </Shell.BackButtonBehavior>-->
+    </Shell.BackButtonBehavior>
 
     <ContentPage.Resources>
 

@@ -330,6 +330,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDrillNotes = "NOTES"; //Version 1.8
         public const string FieldDrillLocationID = "LOCATIONID"; //Version 1.8
         public const string FieldDrillRelatedTo = "RELATEDTO"; //Version 1.8
+        public const string FieldDrillRelogDate = "RELOG_DATE"; //Version 1.8
 
         #endregion
 
@@ -421,6 +422,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordLinear = "linear";
         public const string KeywordLocation = "location";
         public const string KeywordManual = "manual";
+        public const string KeywordDates = "dates"; //Used to enable/disable traverse date header in field notes
         public const int KeywordEPSGDefault = 4326; //WGS 84
         public const string KeywordColourGeneric = "COLOUR_GENERIC"; //Name of the generic colour picklist within M_DICTIONNARY_MANAGER
         public const string KeywordColourIntensity = "COLOUR_INTENSITY"; //Name of the intensity colour picklist within M_DICTIONNARY_MANAGER

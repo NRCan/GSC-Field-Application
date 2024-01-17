@@ -145,7 +145,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            await Shell.Current.GoToAsync($"{nameof(MapPage)}");
+            await Shell.Current.GoToAsync("..");
         }
 
         /// <summary>

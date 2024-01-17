@@ -13,6 +13,10 @@
              x:DataType="viewmodel:MapViewModel" 
              Title="{local:Localize ShellMapTitle}">
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+
     <ContentPage.Resources>
         
         <!-- UI data Converters-->

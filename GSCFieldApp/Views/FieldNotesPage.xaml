@@ -7,7 +7,11 @@
              xmlns:models="clr-namespace:GSCFieldApp.Models"
              x:DataType="viemodel:FieldNotesViewModel"
              Title="{local:Localize ShellFieldNotesTitle}">
-
+    
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+    
     <ContentPage.Resources>
 
         <!-- Note Cards Template -->
@@ -52,51 +56,71 @@
 
     </ContentPage.Resources>
 
-    <ScrollView Orientation="Vertical">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
 
-        <VerticalStackLayout VerticalOptions="StartAndExpand">
+            <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+
+                <VerticalStackLayout VerticalOptions="StartAndExpand">
+
+                    <!--Station records-->
+                    <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="station"/>
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsStationVisible, Mode=TwoWay}"
+                            ItemsSource="{Binding Stations}" SelectionMode="Single" >
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" 
+                        Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
+                        </CollectionView.ItemsLayout>
+                    </CollectionView>
+
+                    <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+
+                    <!--Earth material records-->
+                    <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="earth"/>
+
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}"
+                            ItemsSource="{Binding EarthMats}" SelectionMode="Single" >
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" 
+                        Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
+                        </CollectionView.ItemsLayout>
+                    </CollectionView>
+
+                    <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+
+                    <!--Sample records-->
+                    <Button Text="{local:Localize Key=FielNotesSampleHeader}" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="sample"/>
+                    <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Samples}"
+                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsSampleVisible,Mode=TwoWay}"/>
+                    <Label Text="{Binding Samples.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+
+                </VerticalStackLayout>
+
+            </ScrollView>
 
             <!--Station records-->
-            <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
-                    Command="{Binding HideCommand}" CommandParameter="station"/>
-            <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsStationVisible, Mode=TwoWay}"
-                            ItemsSource="{Binding Stations}" SelectionMode="Single" >
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" 
+            <VerticalStackLayout Grid.Row="1">
+                <Button x:Name="FieldNoteDatesHeader" Text="Traverse Dates" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                    Command="{Binding HideCommand}" CommandParameter="dates"/>
+                <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsDateVisible, Mode=TwoWay}"
+                            ItemsSource="{Binding Dates}" SelectionMode="Single" >
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" 
                         Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
-                </CollectionView.ItemsLayout>
-            </CollectionView>
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+            </VerticalStackLayout>
 
+        </Grid>
 
-            <!--<FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Stations}"
-                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsStationVisible,Mode=TwoWay}"/>-->
-            <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
-
-            <!--Earth material records-->
-            <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
-                    Command="{Binding HideCommand}" CommandParameter="earth"/>
-            <!--<FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding EarthMats}"
-                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsEarthMatVisible,Mode=TwoWay}"/>-->
-
-            <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}"
-                            ItemsSource="{Binding EarthMats}" SelectionMode="Single" >
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" 
-                        Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
-                </CollectionView.ItemsLayout>
-            </CollectionView>
-
-            <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
-
-            <!--Sample records-->
-            <Button Text="{local:Localize Key=FielNotesSampleHeader}" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
-                    Command="{Binding HideCommand}" CommandParameter="sample"/>
-            <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Samples}"
-                        Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsSampleVisible,Mode=TwoWay}"/>
-            <Label Text="{Binding Samples.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
-
-        </VerticalStackLayout>
-
-    </ScrollView>
+    </ContentPage.Content>
+    
 
 </ContentPage>

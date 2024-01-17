@@ -329,6 +329,13 @@ namespace GSCFieldApp.ViewModel
         }
 
         #region RELAY COMMANDS
+
+        [RelayCommand]
+        public async Task Back()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
         [RelayCommand]
         async Task Save()
         {
@@ -389,8 +396,6 @@ namespace GSCFieldApp.ViewModel
             {
                 _textStructCollection.Remove(item);
             }
-
-
         }
 
         [RelayCommand]
