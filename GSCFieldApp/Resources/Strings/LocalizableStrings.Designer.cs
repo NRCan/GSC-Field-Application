@@ -808,6 +808,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing date.
+        /// </summary>
+        internal static string FieldNotesEmptyDate {
+            get {
+                return ResourceManager.GetString("FieldNotesEmptyDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Earth Materials.
         /// </summary>
         internal static string FielNotesEMHeader {

@@ -37,20 +37,36 @@
                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
                     </VerticalStackLayout.GestureRecognizers>
-                    <Label
-                            Text="{Binding Display_text_1}" TextColor="{StaticResource Gray400}"
+                    <Label HorizontalTextAlignment="Center"
+                            Text="{Binding Display_text_1}" TextColor="{StaticResource Gray400}" 
                             FontSize="Default" FontAttributes="Bold"/>
-                    <Label 
+                    <Label HorizontalTextAlignment="Center"
                             Text="{Binding Display_text_2}" FontSize="Body" LineBreakMode="TailTruncation" FontAttributes="Bold"
                             VerticalOptions="End" />
-                    <Label 
+                    <Label HorizontalTextAlignment="Center"
                             Text="{Binding Display_text_3}"
                             LineBreakMode="TailTruncation"
                             VerticalOptions="End"  />
                 </VerticalStackLayout>
 
             </Frame>
+            
+        </DataTemplate>
 
+        <DataTemplate x:Key="FieldNoteTraversesCard">
+
+            <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="45" WidthRequest="205">
+                <Frame.GestureRecognizers>
+
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapDateGestureRecognizerCommand}"
+                                          CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+
+                </Frame.GestureRecognizers>
+                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                    Text="{Binding}" TextColor="{StaticResource Gray600}"
+                    FontSize="Small" FontAttributes="Bold"/>
+
+            </Frame>
 
         </DataTemplate>
 
@@ -60,7 +76,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="120"/>
             </Grid.RowDefinitions>
 
             <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
@@ -69,7 +85,7 @@
 
                     <!--Station records-->
                     <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
-                    Command="{Binding HideCommand}" CommandParameter="station"/>
+                        Command="{Binding HideCommand}" CommandParameter="station"/>
                     <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsStationVisible, Mode=TwoWay}"
                             ItemsSource="{Binding Stations}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
@@ -105,18 +121,23 @@
 
             </ScrollView>
 
-            <!--Station records-->
-            <VerticalStackLayout Grid.Row="1">
-                <Button x:Name="FieldNoteDatesHeader" Text="Traverse Dates" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
+            <!--Date records-->
+
+            <VerticalStackLayout Grid.Row="1" Grid.Column="0">
+                    <Button x:Name="FieldNoteDatesHeader" Text="Traverse Dates" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="dates"/>
-                <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsDateVisible, Mode=TwoWay}"
-                            ItemsSource="{Binding Dates}" SelectionMode="Single" >
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" 
-                        Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
-                    </CollectionView.ItemsLayout>
-                </CollectionView>
-            </VerticalStackLayout>
+                    <ScrollView Orientation="Horizontal" >
+                        <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" FlowDirection="RightToLeft" HorizontalOptions="CenterAndExpand"
+                                ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" MaximumHeightRequest="100">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Horizontal"/>
+                        </CollectionView.ItemsLayout>
+                    </CollectionView>
+                    </ScrollView>
+
+                </VerticalStackLayout>
+
+
 
         </Grid>
 

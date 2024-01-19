@@ -30,6 +30,7 @@
         public string Display_text_3 { get; set; }
         public string IconFontText { get; set; }
 
+        public string Date { get; set; }
         #endregion
 
         public FieldNote()

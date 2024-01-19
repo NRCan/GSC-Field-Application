@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
+using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Views;
 using SQLite;
@@ -11,6 +12,9 @@ namespace GSCFieldApp.ViewModel
 {
     public partial class FieldNotesViewModel : ObservableObject
     {
+        //Localization
+        public LocalizationResourceManager LocalizationResourceManager
+            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
         DataAccess da = new DataAccess();
 
@@ -24,9 +28,6 @@ namespace GSCFieldApp.ViewModel
 
         private bool _isSampleVisible = true;
         public bool IsSampleVisible { get { return _isSampleVisible; } set { _isSampleVisible = value; } }
-
-        private bool _isDateVisible = true;
-        public bool IsDateVisible { get { return _isDateVisible; } set { _isDateVisible = value; } }
 
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
@@ -85,15 +86,11 @@ namespace GSCFieldApp.ViewModel
             set { _stations = value; }
         }
 
-        private ObservableCollection<FieldNote> _dates = new ObservableCollection<FieldNote>();
-        public ObservableCollection<FieldNote> Dates
+        private ObservableCollection<string> _dates = new ObservableCollection<string>();
+        public ObservableCollection<string> Dates
         {
-            get
-            {
-                return _dates;
-
-            }
-            set { _stations = value; }
+            get { return _dates; }
+            set { _dates = value; }
         }
 
         #endregion
@@ -104,15 +101,19 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
             FieldNotes.Add(DatabaseLiterals.TableEarthMat, new ObservableCollection<FieldNote>());
             FieldNotes.Add(DatabaseLiterals.TableSample, new ObservableCollection<FieldNote>());
-
-            if (da.PreferedDatabasePath != string.Empty)
-            {
-                _ = FillFieldNotesAsync();
-            }
+            _dates = new ObservableCollection<string>();
 
         }
 
         #region RELAY
+
+        [RelayCommand]
+        async Task TapDateGestureRecognizer(string incomingDate)
+        {
+            //Filter out record based on selected date
+            _stations = _stations.Where(i => i.Date == incomingDate) as ObservableCollection<FieldNote>;
+            OnPropertyChanged(nameof(Stations));
+        }
 
         /// <summary>
         /// Will reverse whatever is set has visibility on the records after a tap on header
@@ -141,11 +142,6 @@ namespace GSCFieldApp.ViewModel
                     OnPropertyChanged(nameof(IsSampleVisible));
                 }
 
-                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordDates))
-                {
-                    IsDateVisible = !IsDateVisible;
-                    OnPropertyChanged(nameof(IsDateVisible));
-                }
             }
 
         }
@@ -243,46 +239,66 @@ namespace GSCFieldApp.ViewModel
                 await currentConnection.CloseAsync();
 
                 OnPropertyChanged(nameof(FieldNotes));
-                OnPropertyChanged(nameof(Stations));
+                OnPropertyChanged(nameof(Dates));
             }
 
         }
 
         public async Task FillTraverseDates(SQLiteAsyncConnection inConnection)
         {
-            //Init a station group
-            if (!FieldNotes.ContainsKey(DatabaseLiterals.KeywordDates))
+
+            //Clear whatever was in there first.
+            _dates.Clear();
+
+            //Get all dates from key tables
+            List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1}", 
+                DatabaseLiterals.FieldStationVisitDate, DatabaseLiterals.TableStation));
+            List<DrillHole> drills = await inConnection.QueryAsync<DrillHole>(string.Format("select distinct({0}) from {1}",
+                DatabaseLiterals.FieldDrillRelogDate, DatabaseLiterals.TableDrillHoles));
+
+            //Get all dates from database
+            if (stats != null && stats.Count > 0)
             {
-                FieldNotes.Add(DatabaseLiterals.KeywordDates, new ObservableCollection<FieldNote>());
+                foreach (Station st in stats)
+                {
+                    string sDate = LocalizationResourceManager["FieldNotesEmptyDate"].ToString();
+
+                    if (st.StationVisitDate != null && st.StationVisitDate != string.Empty)
+                    {
+                        sDate = st.StationVisitDate;
+                    }
+
+                    if (!_dates.Contains(sDate))
+                    {
+                        _dates.Add(sDate);
+                    }
+
+                }
             }
-            else
+
+            if (drills != null && drills.Count > 0)
             {
-                //Clear whatever was in there first.
-                FieldNotes[DatabaseLiterals.KeywordDates].Clear();
+                foreach (DrillHole dr in drills)
+                {
 
+                    string dDate = LocalizationResourceManager["FieldNotesEmptyDate"].ToString();
+
+                    if (dr.DrillRelogDate != null && dr.DrillRelogDate != string.Empty)
+                    {
+                        dDate = dr.DrillRelogDate;
+                    }
+
+                    if (!_dates.Contains(dDate))
+                    {
+                        _dates.Add(dDate);
+                    }
+
+                }
             }
 
-            //Build query to get unique dates from stations and drill holes
-            string queryDates = "SELECT distinct(" + DatabaseLiterals.FieldStationVisitDate + ") FROM " + DatabaseLiterals.TableStation + " union ";
-            string queryDates2 = "SELECT distinct(" + DatabaseLiterals.FieldDrillRelogDate + ") FROM " + DatabaseLiterals.TableDrillHoles + ";";
-            string queryDatesTotal = queryDates + queryDates2;
+            _dates.Sort();
 
-            ////Get all stations from database
-            //List<Station> stations = await inConnection.QueryAsync<Station>(queryDatesTotal);
-
-            //if (stations != null && stations.Count > 0)
-            //{
-
-
-            //    foreach (Station st in stations)
-            //    {
-            //        FieldNotes[DatabaseLiterals.TableStation].Add(new FieldNote
-            //        {
-            //            Display_text_1 = st.StationAlias,
-            //        });
-            //    }
-
-            //}
+            //OnPropertyChanged(nameof(Dates));
         }
 
         /// <summary>
@@ -320,7 +336,8 @@ namespace GSCFieldApp.ViewModel
                         Display_text_3 = st.StationNote,
                         GenericTableName = DatabaseLiterals.TableStation,
                         GenericID = st.StationID,
-                        ParentID = st.LocationID
+                        ParentID = st.LocationID,
+                        Date = st.StationVisitDate
                     });
                 }
 

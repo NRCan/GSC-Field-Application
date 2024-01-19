@@ -366,6 +366,9 @@
   <data name="FieldBookPageWorkType" xml:space="preserve">
     <value>Work Type</value>
   </data>
+  <data name="FieldNotesEmptyDate" xml:space="preserve">
+    <value>Missing date</value>
+  </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Earth Materials</value>
   </data>

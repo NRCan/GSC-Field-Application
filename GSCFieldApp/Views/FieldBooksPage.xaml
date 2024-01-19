@@ -9,6 +9,11 @@
              x:DataType="viewmodel:FieldBooksViewModel" 
              xmlns:model="using:GSCFieldApp.Models"
              Title="{local:Localize ShellFieldBooksTitle}">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False"/>
+    </Shell.BackButtonBehavior>
+    
     <ContentPage.Resources>
 
         <!--Templates-->
