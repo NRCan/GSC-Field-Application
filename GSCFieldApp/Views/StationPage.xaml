@@ -94,7 +94,7 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                                 <!--<ListView />-->
-                                <Frame BorderColor="LightGray">
+                                <Frame Style="{StaticResource FieldAppConcatMainFrame}">
                                     <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
                                         x:Name="QualityCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"

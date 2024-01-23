@@ -111,7 +111,7 @@ namespace GSCFieldApp.ViewModel
         async Task TapDateGestureRecognizer(string incomingDate)
         {
             //Filter out record based on selected date
-            _stations = _stations.Where(i => i.Date == incomingDate) as ObservableCollection<FieldNote>;
+            _stations = FieldNotes[DatabaseLiterals.TableStation].Where(i => i.Date == incomingDate) as ObservableCollection<FieldNote>;
             OnPropertyChanged(nameof(Stations));
         }
 

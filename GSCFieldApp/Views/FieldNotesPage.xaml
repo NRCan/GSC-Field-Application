@@ -87,7 +87,7 @@
                     <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="station"/>
                     <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsStationVisible, Mode=TwoWay}"
-                            ItemsSource="{Binding Stations}" SelectionMode="Single" >
+                            ItemsSource="{Binding Stations, Mode=TwoWay}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" 
                         Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>

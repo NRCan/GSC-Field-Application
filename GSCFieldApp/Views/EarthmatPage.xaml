@@ -88,7 +88,7 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithQualifier}"
                                     SelectedIndex="{Binding EarthLithQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
                                     <!--<ListView />-->
-                                    <Frame BorderColor="LightGray">
+                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
                                         <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
                                         x:Name="QualifierCollectionView"
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
@@ -163,7 +163,7 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithTextureStructure}"
                                     SelectedIndex="{Binding EarthLithTextureStruct.cboxDefaultItemIndex, Mode=TwoWay}" />
                                     <!--<ListView />-->
-                                    <Frame BorderColor="LightGray">
+                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
                                         <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
                                         x:Name="TextureStructureCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
@@ -177,7 +177,7 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithGrainSize}"
                                     SelectedIndex="{Binding EarthLithGrainSize.cboxDefaultItemIndex, Mode=TwoWay}" />
                                     <!--<ListView />-->
-                                    <Frame BorderColor="LightGray">
+                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
                                         <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
                                         x:Name="GrainSizeCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
@@ -191,7 +191,7 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithBedThick}"
                                     SelectedIndex="{Binding EarthLithBedThick.cboxDefaultItemIndex, Mode=TwoWay}" />
                                     <!--<ListView />-->
-                                    <Frame BorderColor="LightGray">
+                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
                                         <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
                                         x:Name="BedThickCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
@@ -205,7 +205,7 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithDefFab}"
                                     SelectedIndex="{Binding EarthLithDefFab.cboxDefaultItemIndex, Mode=TwoWay}" />
                                     <!--<ListView />-->
-                                    <Frame BorderColor="LightGray">
+                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
                                         <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
                                         x:Name="DefFabCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
@@ -351,7 +351,7 @@
                                 <HorizontalStackLayout >
                                     <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetContactCommand}"/>
 
-                                    <Frame BorderColor="LightGray" MaximumWidthRequest="197" WidthRequest="197">
+                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}" MaximumWidthRequest="197" WidthRequest="197">
                                         <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
                                         x:Name="ContactRelationCollectionView"
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
