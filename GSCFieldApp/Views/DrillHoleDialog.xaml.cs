@@ -137,6 +137,7 @@ namespace GSCFieldApp.Views
                 DateTimeOffset selectedDate = args.NewDate.Value;
                 //Format the date to month, then day, then year.
                 DrillDate.Text = selectedDate.ToString("MM/dd/yyyy");
+                DrillDate.Focus(FocusState.Keyboard);
             }
         }
         #endregion

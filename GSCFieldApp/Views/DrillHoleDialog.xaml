@@ -101,7 +101,7 @@
                             <StackPanel>
                             <TextBox x:Name="DrillDate" x:Uid="DrillDate"
                                     Text ="{x:Bind drillViewModel.DrillDate, Mode=TwoWay}" TabIndex="8"
-                                    Header="" InputScope="Text" TabNavigation="Once"/>
+                                    Header="" InputScope="Text" TabNavigation="Once" Width="122"/>
                             <CalendarDatePicker x:Name="CalendarDatePickerControl" DateChanged="CalendarDatePicker_DateChanged"/>
                             </StackPanel>
                             <ComboBox x:Name="DrillHoleSizeCBox" x:Uid="DrillHoleSizeCBox"
