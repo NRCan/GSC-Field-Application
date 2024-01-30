@@ -468,11 +468,11 @@ namespace GSCFieldApp.ViewModels
             }
             if (_sampleDepthMin != string.Empty)
             {
-                sampleModel.SampleDepthMin = int.Parse(_sampleDepthMin);
+                sampleModel.SampleDepthMin = double.Parse(_sampleDepthMin);
             }
             if (_sampleDepthMax != string.Empty)
             {
-                sampleModel.SampleDepthMax = int.Parse(_sampleDepthMax);
+                sampleModel.SampleDepthMax = double.Parse(_sampleDepthMax);
             }
 
             sampleModel.SampleDuplicateName = _sampleDuplicateName;

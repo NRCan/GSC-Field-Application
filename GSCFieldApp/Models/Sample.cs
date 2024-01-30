@@ -52,10 +52,10 @@ namespace GSCFieldApp.Models
         public string SampleHorizon { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMin)]
-        public int SampleDepthMin { get; set; }
+        public double? SampleDepthMin { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMax)]
-        public int SampleDepthMax { get; set; }
+        public double? SampleDepthMax { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDuplicate)]
         public int SampleDuplicate { get; set; }
