@@ -632,7 +632,7 @@
                         </theme:ExpandPanel.ToolContent>
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:Name="ReportStationList" MaxHeight="330" Style="{StaticResource ReportPageGridView}"
+                            <GridView x:Name="ReportStationList" MaxHeight="340" Style="{StaticResource ReportPageGridView}"
                                 ItemClick="{x:Bind ViewModel.Report_ItemClick}"    
                                 SelectedIndex="{x:Bind ViewModel.ReportStationListIndex, Mode=TwoWay}"
                                 ItemTemplate="{StaticResource ReportStationTemplate}"
