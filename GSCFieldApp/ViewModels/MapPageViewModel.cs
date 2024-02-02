@@ -1463,8 +1463,7 @@ namespace GSCFieldApp.ViewModels
             var view = modal.ModalContent as Views.StationDataPart;
             modal.ModalContent = view = new Views.StationDataPart(null, false);
             view.mapPosition = stationMapPoint;
-            view.ViewModel.newStationEdit -= NavigateToReport;
-            view.ViewModel.newStationEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
             view.stationClosed -= modalDialogClosed;
             view.stationClosed += modalDialogClosed;
@@ -1670,8 +1669,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.SampleDialog;
             modal.ModalContent = view = new Views.SampleDialog(quickEarthmat, true);
-            view.ViewModel.newSampleEdit -= NavigateToReport;
-            view.ViewModel.newSampleEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
 
             view.sampClosed -= modalDialogClosed;
@@ -1688,8 +1686,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.StructureDialog;
             modal.ModalContent = view = new Views.StructureDialog(quickEarthmat, true);
-            view.strucViewModel.newStructureEdit -= NavigateToReport;
-            view.strucViewModel.newStructureEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
             view.strucClosed -= modalDialogClosed;
             view.strucClosed += modalDialogClosed;
@@ -1710,8 +1707,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.PaleoflowDialog;
             modal.ModalContent = view = new Views.PaleoflowDialog(quickEarthmat);
-            view.pflowModel.newPflowEdit -= NavigateToReport;
-            view.pflowModel.newPflowEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
 
             view.pflowClosed -= modalDialogClosed;
@@ -1733,8 +1729,7 @@ namespace GSCFieldApp.ViewModels
             ModalDialog modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.DocumentDialog;
             modal.ModalContent = view = new Views.DocumentDialog(quickStation, quickStation, true);
-            view.DocViewModel.newDocumentEdit -= NavigateToReport;
-            view.DocViewModel.newDocumentEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
 
             view.documentClosed -= modalDialogClosed;
@@ -1774,16 +1769,6 @@ namespace GSCFieldApp.ViewModels
             }
             SetMapView(currentMapView);
             DisplayPointAndLabelsAsync(currentMapView, forceRefresh);
-        }
-
-        /// <summary>
-        /// Mainly used when user needs to navigate to the field note page after a certain steps has been taken
-        /// </summary>
-        /// <param name="sender"></param>
-        private void NavigateToReport(object sender)
-        {
-            //Navigate to the report page.
-            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate, selectedDrillID });
         }
 
         /// <summary>
