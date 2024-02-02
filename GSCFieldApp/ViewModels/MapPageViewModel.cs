@@ -1758,6 +1758,17 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
+        /// Mainly used when user needs to navigate to the field note page after a certain steps has been taken
+        /// </summary>
+        /// <param name="sender"></param>
+        private void NavigateToReport(object sender)
+        {
+            //Navigate to the report page.
+            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate, selectedDrillID });
+        }
+
+
+        /// <summary>
         /// Mainly used to refresh the map, after some data entry, example waypoint addition.
         /// </summary>
         /// <param name="sender"></param>
