@@ -78,7 +78,7 @@
                                     <ListView Style="{StaticResource FieldAppSearchCollectionView}" 
                                               
                                         x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
-                                        ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}"/>
+                                        ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
 
                                 </VerticalStackLayout>
 

@@ -290,7 +290,7 @@
         <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
         <Setter Property="HeightRequest" Value="120"/>
         <Setter Property="Margin" Value="10"/>
-        <Setter Property="RowHeight" Value="30"/>
+        <Setter Property="RowHeight" Value="45"/>
     </Style>
 
     <Style TargetType="Entry" x:Key="FieldAppNumBox">
