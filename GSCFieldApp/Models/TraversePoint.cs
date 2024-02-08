@@ -1,5 +1,4 @@
-﻿using CoreImage;
-using GSCFieldApp.Dictionaries;
+﻿using GSCFieldApp.Dictionaries;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -57,10 +56,10 @@ namespace GSCFieldApp.Models
         public string TravYDMS { get; set; }
 
         [Column(DatabaseLiterals.FieldTravPointXDD)]
-        public double? TravXDD { get; set; }
+        public double TravXDD { get; set; }
 
         [Column(DatabaseLiterals.FieldTravPointYDD)]
-        public double? TravYDD { get; set; }
+        public double TravYDD { get; set; }
 
         [Column(DatabaseLiterals.FieldTravPointNM)]
         public double? TravNM { get; set; }

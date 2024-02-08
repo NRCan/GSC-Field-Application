@@ -54,8 +54,9 @@ public partial class MapPage : ContentPage
     private DataAccess da = new DataAccess();
     private int bitmapSymbolId = -1;
     private bool _isCheckingGeolocation = false;
+    private enum defaultLayerList { station, travPoint }
 
-    public LocalizationResourceManager LocalizationResourceManager
+public LocalizationResourceManager LocalizationResourceManager
     => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
     public MapPage(MapViewModel vm)
@@ -136,13 +137,20 @@ public partial class MapPage : ContentPage
             if (item.Name == ApplicationLiterals.aliasStations)
             {
                 mapView.Map.Layers.Remove(item);
+                List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
+                if (memLayers != null && memLayers.Count > 0)
+                {
+                    foreach (MemoryLayer ml in memLayers)
+                    {
+                        mapView.Map.Layers.Add(ml);
+                    }
 
-                MemoryLayer ml = await CreatePointLayerAsync();
-                mapView.Map.Layers.Add(ml);
-                mapView.Map.RefreshData();
+                    mapView.Map.RefreshData();
 
-                //Zoom to extent of those poins
-                SetExtent(ml);
+                    //Zoom to extent of stations
+                    SetExtent(memLayers[0]);
+                }
+
 
                 break;
             }
@@ -172,11 +180,18 @@ public partial class MapPage : ContentPage
 
         //Manage symbol and layers
         await AddSymbolToRegistry();
-        MemoryLayer ml = await CreatePointLayerAsync();
-        mapView.Map.Layers.Add(ml);
+        List<MemoryLayer> mls = await CreateDefaultLayersAsync();
+        if (mls != null && mls.Count() > 0)
+        {
+            foreach (MemoryLayer ml in mls)
+            {
+                mapView.Map.Layers.Add(ml);
+            }
 
-        //Zoom to initial extent of the layer
-        SetExtent(ml);
+            //Zoom to initial extent of the station layer
+            SetExtent(mls[0]);
+
+        }
 
         //Reload user datasets
         await LoadPreferedLayers();
@@ -480,14 +495,18 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     public async Task AddAMBTile(string mbTilePath)
     {
-        MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
-        byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+        if (mbTilePath != null && mbTilePath != string.Empty)
+        {
+            MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
+            byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
 
-        TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
-        newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
-        newTileLayer.Tag = mbTilePath;
-        //Insert at right location in collection
-        InsertLayerAtRightPlace(newTileLayer);
+            TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+            newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
+            newTileLayer.Tag = mbTilePath;
+            //Insert at right location in collection
+            InsertLayerAtRightPlace(newTileLayer);
+        }
+
     }
 
     /// <summary>
@@ -856,15 +875,23 @@ public partial class MapPage : ContentPage
     /// Will create a new point layer for station location
     /// </summary>
     /// <returns></returns>
-    private async Task<MemoryLayer> CreatePointLayerAsync()
+    private async Task<List<MemoryLayer>> CreateDefaultLayersAsync()
     {
-        return new MemoryLayer
+        List<MemoryLayer> defaultLayers = new List<MemoryLayer>();
+
+        foreach (int i in Enum.GetValues(typeof(defaultLayerList)))
         {
-            Name = ApplicationLiterals.aliasStations,
-            IsMapInfoLayer = true,
-            Features = await GetLocationsAsync(),
-            Style = CreateBitmapStyle(),
-        };
+            defaultLayers.Add(new MemoryLayer
+            {
+                Name = Enum.GetName(typeof(defaultLayerList),i),
+                IsMapInfoLayer = true,
+                Features = await GetLocationsAsync((defaultLayerList)i),
+                Style = CreateBitmapStyle(),
+            });
+        }
+
+
+        return defaultLayers;
     }
 
     /// <summary>
@@ -872,7 +899,7 @@ public partial class MapPage : ContentPage
     /// and stations
     /// </summary>
     /// <returns></returns>
-    private async Task<IEnumerable<IFeature>> GetLocationsAsync()
+    private async Task<IEnumerable<IFeature>> GetLocationsAsync(defaultLayerList inLayer)
     {
         IEnumerable<IFeature> enumFeat = new IFeature[] { };
 
@@ -886,10 +913,48 @@ public partial class MapPage : ContentPage
             offset.X = gp.GetOffsetFromPlacementPriority(placementPool[2],32,32).Item1;
             offset.Y = gp.GetOffsetFromPlacementPriority(placementPool[2],32,32).Item2;
 
+            switch(inLayer) 
+            {
+                case defaultLayerList.station:
+
+                    enumFeat = await GetStationLocationsAsync(offset);
+                    break;
+
+                case defaultLayerList.travPoint:
+
+                    enumFeat = await GetPointTraversesAsync(offset);
+                    break;
+
+                default:
+                    enumFeat = await GetStationLocationsAsync(offset);
+
+                    break;
+
+            }
+
+        }
+
+        return enumFeat;
+
+    }
+
+
+    /// <summary>
+    /// Will query the database to retrive some basic information about location
+    /// and stations
+    /// </summary>
+    /// <returns></returns>
+    private async Task<IEnumerable<IFeature>> GetStationLocationsAsync(Offset offset)
+    {
+        IEnumerable<IFeature> enumFeat = new IFeature[] { };
+
+        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+        {
+
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>
-                ("SELECT LTRIM(SUBSTR(" + DatabaseLiterals.FieldLocationAlias + ", -6, 4), '0') as " + 
-                DatabaseLiterals.FieldLocationAlias + ", " + DatabaseLiterals.FieldLocationLongitude + 
+                ("SELECT LTRIM(SUBSTR(" + DatabaseLiterals.FieldLocationAlias + ", -6, 4), '0') as " +
+                DatabaseLiterals.FieldLocationAlias + ", " + DatabaseLiterals.FieldLocationLongitude +
                 ", " + DatabaseLiterals.FieldLocationLatitude + " FROM " + DatabaseLiterals.TableLocation);
 
             foreach (FieldLocation fl in fieldLoc)
@@ -918,42 +983,35 @@ public partial class MapPage : ContentPage
 
     }
 
+
     /// <summary>
     /// Will query the database to retrive some basic information about location
     /// and stations
     /// </summary>
     /// <returns></returns>
-    private async Task<IEnumerable<IFeature>> GetPointTraversesAsync()
+    private async Task<IEnumerable<IFeature>> GetPointTraversesAsync(Offset offset)
     {
         IEnumerable<IFeature> enumFeat = new IFeature[] { };
 
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
 
-            //Get an offset placement for labels
-            GraphicPlacement gp = new GraphicPlacement();
-            List<int> placementPool = Enumerable.Range(1, 8).ToList();
-            Offset offset = new Offset();
-            offset.X = gp.GetOffsetFromPlacementPriority(placementPool[2], 32, 32).Item1;
-            offset.Y = gp.GetOffsetFromPlacementPriority(placementPool[2], 32, 32).Item2;
-
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-            List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>
-                ("SELECT LTRIM(SUBSTR(" + DatabaseLiterals.FieldLocationAlias + ", -6, 4), '0') as " +
-                DatabaseLiterals.FieldLocationAlias + ", " + DatabaseLiterals.FieldLocationLongitude +
-                ", " + DatabaseLiterals.FieldLocationLatitude + " FROM " + DatabaseLiterals.TableLocation);
+            List<TraversePoint> fieldTravPoint = await currentConnection.QueryAsync<TraversePoint>
+                ("SELECT " + DatabaseLiterals.FieldTravPointLabel + ", " + DatabaseLiterals.FieldTravPointXDD +
+                ", " + DatabaseLiterals.FieldTravPointYDD + " FROM " + DatabaseLiterals.TableTraversePoint);
 
-            foreach (FieldLocation fl in fieldLoc)
+            foreach (TraversePoint tp in fieldTravPoint)
             {
-                IFeature feat = new PointFeature(SphericalMercator.FromLonLat(fl.LocationLong, fl.LocationLat).ToMPoint());
-                feat["name"] = fl.LocationAlias;
+                IFeature feat = new PointFeature(SphericalMercator.FromLonLat(tp.TravXDD, tp.TravYDD).ToMPoint());
+                feat["name"] = tp.TravLabel;
 
                 enumFeat = enumFeat.Append(feat);
 
                 feat.Styles.Add(new LabelStyle
                 {
-                    Text = fl.LocationAlias,
-                    BackColor = new Brush(Color.WhiteSmoke),
+                    Text = tp.TravLabel,
+                    BackColor = new Brush(Color.LightGoldenRodYellow),
                     HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
                     //CollisionDetection = true,
                     BorderThickness = 2,
