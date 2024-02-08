@@ -4553,19 +4553,31 @@ namespace GSCFieldApp.ViewModels
         {
             var modalDocument = Window.Current.Content as ModalDialog;
             var viewDocument = modalDocument.ModalContent as Views.DocumentDialog;
-            if (locationReport.GenericTableName == DatabaseLiterals.TableStation)
+
+            if (locationReport.ParentTableName == DatabaseLiterals.TableStation)
             {
                 viewDocument = new Views.DocumentDialog(locationReport, _reportDetailedStation[_reportStationIndex], false);
             }
-            else if (locationReport.GenericTableName == DatabaseLiterals.TableDrillHoles)
+            else if (locationReport.ParentTableName == DatabaseLiterals.TableDrillHoles)
             {
                 viewDocument = new Views.DocumentDialog(locationReport, _reportDetailedDrill[_reportDrillIndex], false);
             }
-            viewDocument.DocViewModel.doDocumentUpdate = doUpdate;
-            viewDocument.DocViewModel.newDocumentEdit += ViewModel_newDocumentEdit; //Detect whenever a save is commited on the database
-            modalDocument.ModalContent = viewDocument;
-            modalDocument.IsModal = true;
-
+            else
+            {
+                if (_reportStationIndex != -1)
+                {
+                    viewDocument = new Views.DocumentDialog(locationReport, _reportDetailedStation[_reportStationIndex], false);
+                }
+                
+            }
+            if (viewDocument != null)
+            {
+                viewDocument.DocViewModel.doDocumentUpdate = doUpdate;
+                viewDocument.DocViewModel.newDocumentEdit += ViewModel_newDocumentEdit; //Detect whenever a save is commited on the database
+                modalDocument.ModalContent = viewDocument;
+                modalDocument.IsModal = true;
+            }
+            
         }
 
         /// <summary>

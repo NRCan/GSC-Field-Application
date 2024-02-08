@@ -278,7 +278,8 @@ namespace GSCFieldApp.Views
             string vocQueryJoin = "JOIN " + DatabaseLiterals.TableDictionaryManager + " as mdm ON md." +
                 DatabaseLiterals.FieldDictionaryCodedTheme + " = mdm." + DatabaseLiterals.FieldDictionaryManagerCodedTheme + " ";
             string vocQueryWhere = "WHERE " + DatabaseLiterals.FieldDictionaryManagerAssignField + " = 'LITHDETAIL' ";
-            string vocQueryWhereAnd = "AND mdm." + DatabaseLiterals.FieldDictionaryManagerSpecificTo + " = '" + ViewModel.projectType + "' ";
+            string vocQueryWhereAnd = "AND mdm." + DatabaseLiterals.FieldDictionaryManagerSpecificTo + " like '%' || (substr('" + ViewModel.projectType + "', 0, instr('" +
+                    ViewModel.projectType + "', '" + DatabaseLiterals.KeywordConcatCharacter2nd + "'))) || '%'";
             string vocQueryVisibility = " AND md." + DatabaseLiterals.FieldDictionaryVisible + " = '" + DatabaseLiterals.boolYes + "'";
             string vocFinalQuery = vocQuerySelect + vocQueryJoin + vocQueryWhere + vocQueryWhereAnd + vocQueryVisibility;
 

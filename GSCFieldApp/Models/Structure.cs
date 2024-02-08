@@ -59,7 +59,7 @@ namespace GSCFieldApp.Models
         public int StructureAzimuth { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureDip)]
-        public int StructureDipPlunge { get; set; }
+        public int? StructureDipPlunge { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureSymAng)]
         public int StructureSymAng
@@ -281,8 +281,8 @@ namespace GSCFieldApp.Models
                     && StructureClass != string.Empty)
                 {
                     //Init variables
-                    int dipPlanar = int.MinValue;
-                    int dipLinear = int.MinValue;
+                    int? dipPlanar = null;
+                    int? dipLinear = null;
 
                     //Get related structure azim
                     if (relatedStructure == null)

@@ -10,6 +10,7 @@ using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
 using Newtonsoft.Json;
 //Added by jamel
 using ProjNet.CoordinateSystems;
@@ -27,9 +28,11 @@ using Template10.Controls;
 using Template10.Mvvm;
 using Windows.ApplicationModel.Resources;
 using Windows.Devices.Geolocation;
+using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -130,6 +133,8 @@ namespace GSCFieldApp.ViewModels
 
         //Testing
         private bool initMap = false;
+
+        private ConnectionProfile connectionProfile;
 
         public MapPageViewModel()
         {
@@ -395,6 +400,8 @@ namespace GSCFieldApp.ViewModels
 
                     //await Task.Delay(3000); //Let enough time to pass so GPS actually gets a proper fix
                     //await NoLocationFlightMode();
+                    connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+                    CheckAirplaneMode();
 
                     //try
                     //{
@@ -1086,7 +1093,11 @@ namespace GSCFieldApp.ViewModels
                     var StationGraphic = new Graphic(geoPoint, pointSym);
                     StationGraphic.Attributes.Add("Id", pID.ToString());
                     StationGraphic.Attributes.Add("Date", pDate.ToString());
-                    StationGraphic.Attributes.Add("Time", pTime.ToString());
+                    if (pTime != null)
+                    {
+                        StationGraphic.Attributes.Add("Time", pTime.ToString());
+                    }
+                    
                     StationGraphic.Attributes.Add("tableType", pTableType);
                     StationGraphic.Attributes.Add(Dictionaries.DatabaseLiterals.FieldLocationID, ptStationLocationID.ToString());
                     if (ptStationType != null)
@@ -1491,8 +1502,7 @@ namespace GSCFieldApp.ViewModels
             var view = modal.ModalContent as Views.StationDataPart;
             modal.ModalContent = view = new Views.StationDataPart(null, false);
             view.mapPosition = stationMapPoint;
-            view.ViewModel.newStationEdit -= NavigateToReport;
-            view.ViewModel.newStationEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
             view.stationClosed -= modalDialogClosed;
             view.stationClosed += modalDialogClosed;
@@ -1566,6 +1576,20 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// When no location is available probably due to flight mode. Display this message.
         /// </summary>
+
+        private async void CheckAirplaneMode()
+        {
+            var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+
+            if (connectionProfile == null)
+            {
+                // Possible airplane mode
+                var messageDialog = new Windows.UI.Popups.MessageDialog("Airplane Mode or No Network Connection Found");
+                messageDialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
+                await messageDialog.ShowAsync();
+            }
+            //Windows.UI.Popups.MessageDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+        }
         public async Task NoLocationFlightMode()
         {
             // Language localization using Resource.resw
@@ -1684,8 +1708,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.SampleDialog;
             modal.ModalContent = view = new Views.SampleDialog(quickEarthmat, true);
-            view.ViewModel.newSampleEdit -= NavigateToReport;
-            view.ViewModel.newSampleEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
 
             view.sampClosed -= modalDialogClosed;
@@ -1702,8 +1725,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.StructureDialog;
             modal.ModalContent = view = new Views.StructureDialog(quickEarthmat, true);
-            view.strucViewModel.newStructureEdit -= NavigateToReport;
-            view.strucViewModel.newStructureEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
             view.strucClosed -= modalDialogClosed;
             view.strucClosed += modalDialogClosed;
@@ -1724,8 +1746,7 @@ namespace GSCFieldApp.ViewModels
             var modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.PaleoflowDialog;
             modal.ModalContent = view = new Views.PaleoflowDialog(quickEarthmat);
-            view.pflowModel.newPflowEdit -= NavigateToReport;
-            view.pflowModel.newPflowEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
 
             view.pflowClosed -= modalDialogClosed;
@@ -1747,8 +1768,7 @@ namespace GSCFieldApp.ViewModels
             ModalDialog modal = Window.Current.Content as ModalDialog;
             var view = modal.ModalContent as Views.DocumentDialog;
             modal.ModalContent = view = new Views.DocumentDialog(quickStation, quickStation, true);
-            view.DocViewModel.newDocumentEdit -= NavigateToReport;
-            view.DocViewModel.newDocumentEdit += NavigateToReport; //Detect when the add/edit request has finished.
+
             modal.IsModal = true;
 
             view.documentClosed -= modalDialogClosed;
@@ -1777,6 +1797,17 @@ namespace GSCFieldApp.ViewModels
         }
 
         /// <summary>
+        /// Mainly used when user needs to navigate to the field note page after a certain steps has been taken
+        /// </summary>
+        /// <param name="sender"></param>
+        private void NavigateToReport(object sender)
+        {
+            //Navigate to the report page.
+            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate, selectedDrillID });
+        }
+
+
+        /// <summary>
         /// Mainly used to refresh the map, after some data entry, example waypoint addition.
         /// </summary>
         /// <param name="sender"></param>
@@ -1788,16 +1819,6 @@ namespace GSCFieldApp.ViewModels
             }
             SetMapView(currentMapView);
             DisplayPointAndLabelsAsync(currentMapView, forceRefresh);
-        }
-
-        /// <summary>
-        /// Mainly used when user needs to navigate to the field note page after a certain steps has been taken
-        /// </summary>
-        /// <param name="sender"></param>
-        private void NavigateToReport(object sender)
-        {
-            //Navigate to the report page.
-            NavigationService.Navigate(typeof(Views.FieldNotesPage), new[] { selectedStationID, selectedStationDate, selectedDrillID });
         }
 
         /// <summary>

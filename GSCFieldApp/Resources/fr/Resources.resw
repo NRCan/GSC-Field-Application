@@ -1805,7 +1805,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Date</value>
   </data>
   <data name="DrillDepthNumBox.Header" xml:space="preserve">
-    <value>Profondeur</value>
+    <value>Longueur</value>
   </data>
   <data name="DrillDipNumBox.Header" xml:space="preserve">
     <value>Pendage</value>
@@ -1829,10 +1829,10 @@ Shimamura, Kaz – Conseiller</value>
     <value>Unité de mesure</value>
   </data>
   <data name="DrilllogIntervalsFrom.Header" xml:space="preserve">
-    <value>À partir de</value>
+    <value>À partir de (cm)</value>
   </data>
   <data name="DrilllogIntervalsTo.Header" xml:space="preserve">
-    <value>Jusqu'à</value>
+    <value>Jusqu'à (cm)</value>
   </data>
   <data name="FieldworkTableDrill.Text" xml:space="preserve">
     <value>Forages</value>
@@ -1863,5 +1863,14 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="DrillRelatedTo.Header" xml:space="preserve">
     <value>En lien avec (ex: une station)</value>
+  </data>
+  <data name="DrillRelogDate.Header" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="SampleDialogDuplicateReminderContent" xml:space="preserve">
+    <value>Ceci est un rappel de prendre un blanc ou un duplicate. </value>
+  </data>
+  <data name="SampleDialogDuplicateReminderTitle" xml:space="preserve">
+    <value>C'est l'heure des duplicats!</value>
   </data>
 </root>

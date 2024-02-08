@@ -375,7 +375,7 @@ namespace GSCFieldApp.ViewModels
             _sampleDepthMin = existingDataDetailSample.sample.SampleDepthMin.ToString();
             _sampleDepthMax = existingDataDetailSample.sample.SampleDepthMax.ToString();
             _sampleDuplicateName = existingDataDetailSample.sample.SampleDuplicateName;
-            _sampledBy = existingDataDetailSample.sample.SampleBy.ToString(); ;
+            _sampledBy = existingDataDetailSample.sample.SampleBy;
             _sampleCoreFrom = existingDataDetailSample.sample.SampleCoreFrom.ToString();
             _sampleCoreLength = existingDataDetailSample.sample.SampleCoreLength.ToString();
             _sampleCoreTo = existingDataDetailSample.sample.SampleCoreTo.ToString();
@@ -468,11 +468,11 @@ namespace GSCFieldApp.ViewModels
             }
             if (_sampleDepthMin != string.Empty)
             {
-                sampleModel.SampleDepthMin = int.Parse(_sampleDepthMin);
+                sampleModel.SampleDepthMin = double.Parse(_sampleDepthMin);
             }
             if (_sampleDepthMax != string.Empty)
             {
-                sampleModel.SampleDepthMax = int.Parse(_sampleDepthMax);
+                sampleModel.SampleDepthMax = double.Parse(_sampleDepthMax);
             }
 
             sampleModel.SampleDuplicateName = _sampleDuplicateName;
@@ -674,6 +674,30 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will show a quick reminder to take a duplicate for
+        /// surficial geologist every 15 samples.
+        /// </summary>
+        public bool DuplicateReminder()
+        {
+            bool shouldShowReminder = false;
+
+            if (_surficialVisibility == Visibility.Visible)
+            {
+                Sample sampleModel = new Sample();
+                int sampleCount = accessData.GetTableCount(sampleModel.GetType());
+
+                if (sampleCount % 15 == 0 && sampleCount != 0)
+                {
+                    shouldShowReminder = true;
+                }
+            }
+
+            return shouldShowReminder;
+
+        }
+
         /// <summary>
         /// Will set visibility based on a bedrock or surficial field book
         /// </summary>

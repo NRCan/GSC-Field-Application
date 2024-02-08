@@ -2,6 +2,7 @@ using System;
 using Template10.Common;
 using Template10.Utils;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.Services.SettingsServices
 {

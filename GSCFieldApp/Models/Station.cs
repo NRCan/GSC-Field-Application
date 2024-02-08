@@ -114,7 +114,7 @@ namespace GSCFieldApp.Models
                 //Revert shcema 1.7 changes
                 List<string> statFieldList160 = new List<string>();
                 statFieldList160.AddRange(stationFieldListDefault);
-                int insertIndex = stationFieldListDefault.IndexOf(DatabaseLiterals.FieldStationObsID) - 1;
+                int insertIndex = stationFieldListDefault.IndexOf(DatabaseLiterals.FieldStationAirPhotoNumber) + 1;
                 statFieldList160.Insert(insertIndex, DatabaseLiterals.FieldStationReportLinkDeprecated);
                 stationFieldList[DatabaseLiterals.DBVersion160] = statFieldList160;
 

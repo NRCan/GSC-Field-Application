@@ -44,6 +44,7 @@ namespace GSCFieldApp.ViewModels
         private string _drillDip = string.Empty;
         private string _drillDepth = string.Empty;
         private string _drillLogBy = string.Empty;
+        private string _drillReLogDate = string.Empty;
         private string _drillLogSummary = string.Empty;
         private string _drillDate = string.Empty;
         private string _drillIntervalFrom = string.Empty;
@@ -76,6 +77,7 @@ namespace GSCFieldApp.ViewModels
         public string OriginalName { get { return _name; } set { _name = value; } }
         public string DrillIDName { get { return _drillIDName; } set { _drillIDName = value; } }
         public string CompanyName { get { return _companyName; } set { _companyName = value; } }
+        public string DrillRelogDate { get { return _drillReLogDate; } set { _drillReLogDate = value; } }
         public string DrillLogBy { get { return _drillLogBy; } set { _drillLogBy = value; } }
         public string DrillLogSummary { get { return _drillLogSummary; } set { _drillLogSummary = value; } }
         public string DrillIntervalFrom { get { return _drillIntervalFrom; } set { _drillIntervalFrom = value; } }
@@ -109,11 +111,11 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                bool result = int.TryParse(value, out int index);
+                bool result = double.TryParse(value, out double index);
 
                 if (result)
                 {
-                    if (index >= 0 && index < 360)
+                    if (index >= 0.0 && index < 360.0)
                     {
                         _drillAzim = value;
                     }
@@ -142,11 +144,11 @@ namespace GSCFieldApp.ViewModels
             }
             set
             {
-                bool result = int.TryParse(value, out int index);
+                bool result = double.TryParse(value, out double index);
 
                 if (result)
                 {
-                    if (index >= 0 && index < 90)
+                    if (index >= -90 && index < 90)
                     {
                         _drillDip = value;
                     }
@@ -201,6 +203,7 @@ namespace GSCFieldApp.ViewModels
             _notes = existingDataDetail.drillHoles.DrillNotes;
             _drillLogSummary = existingDataDetail.drillHoles.DrillLog;
             _drillDate = existingDataDetail.drillHoles.DrillDate;
+            _drillReLogDate = existingDataDetail.drillHoles.DrillRelogDate;
             _drillID = existingDataDetail.drillHoles.DrillID;
             _drillAzim = existingDataDetail.drillHoles.DrillAzim.ToString();
             _drillDip = existingDataDetail.drillHoles.DrillDip.ToString();
@@ -210,7 +213,8 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("OriginalName");
             RaisePropertyChanged("DrillIDName");
             RaisePropertyChanged("CompanyName"); 
-            RaisePropertyChanged("DrillLogBy"); 
+            RaisePropertyChanged("DrillLogBy");
+            RaisePropertyChanged("DrillRelogDate");
             RaisePropertyChanged("Notes");
             RaisePropertyChanged("DrillLogSummary");
             RaisePropertyChanged("DrillDate");
@@ -424,6 +428,7 @@ namespace GSCFieldApp.ViewModels
             dhModel.DrillNotes = _notes;
             dhModel.DrillLog = _drillLogSummary;
             dhModel.DrillRelatedTo = _relatedTo;
+            dhModel.DrillRelogDate = _drillReLogDate;
 
             dhModel.DrillDate = _drillDate;
             dhModel.DrillID = _drillID; //Prime key

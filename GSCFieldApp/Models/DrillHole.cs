@@ -56,6 +56,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDrillRelogIntervals)]
         public string DrillRelogIntervals { get; set; }
 
+        [Column(DatabaseLiterals.FieldDrillRelogDate)]
+        public string DrillRelogDate { get; set; }
+
         [Column(DatabaseLiterals.FieldDrillLog)]
         public string DrillLog { get; set; }
 
