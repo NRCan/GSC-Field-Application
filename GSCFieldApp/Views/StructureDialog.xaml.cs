@@ -301,7 +301,7 @@ namespace GSCFieldApp.Views
                 //Structure result = accessData.GetRelatedStructure(strucID);
 
                 int primaryDip = System.Convert.ToInt32(sAngle);
-                int relatedDip = strucViewModel.structureModel.relatedStructure.StructureDipPlunge;
+                int? relatedDip = strucViewModel.structureModel.relatedStructure.StructureDipPlunge;
 
                 if (strucViewModel.structureModel.StructureClass == Dictionaries.DatabaseLiterals.KeywordLinear)
                 {
