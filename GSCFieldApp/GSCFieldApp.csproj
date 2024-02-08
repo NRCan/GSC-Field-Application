@@ -39,6 +39,10 @@
 		<AppInstallerUri>C:\work data\datacollections\PublishedVersions</AppInstallerUri>
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<Platforms>AnyCPU;x64;ARM64;ARM32</Platforms>
+		<Title>GSC Field App</Title>
+		<PackageProjectUrl>https://github.com/NRCan/GSC-Field-Application</PackageProjectUrl>
+		<FileVersion>3.0.0.1</FileVersion>
+		<AssemblyVersion>3.0.0.1</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
