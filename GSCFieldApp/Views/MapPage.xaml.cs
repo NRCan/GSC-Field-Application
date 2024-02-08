@@ -919,6 +919,58 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
+    /// Will query the database to retrive some basic information about location
+    /// and stations
+    /// </summary>
+    /// <returns></returns>
+    private async Task<IEnumerable<IFeature>> GetPointTraversesAsync()
+    {
+        IEnumerable<IFeature> enumFeat = new IFeature[] { };
+
+        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+        {
+
+            //Get an offset placement for labels
+            GraphicPlacement gp = new GraphicPlacement();
+            List<int> placementPool = Enumerable.Range(1, 8).ToList();
+            Offset offset = new Offset();
+            offset.X = gp.GetOffsetFromPlacementPriority(placementPool[2], 32, 32).Item1;
+            offset.Y = gp.GetOffsetFromPlacementPriority(placementPool[2], 32, 32).Item2;
+
+            SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
+            List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>
+                ("SELECT LTRIM(SUBSTR(" + DatabaseLiterals.FieldLocationAlias + ", -6, 4), '0') as " +
+                DatabaseLiterals.FieldLocationAlias + ", " + DatabaseLiterals.FieldLocationLongitude +
+                ", " + DatabaseLiterals.FieldLocationLatitude + " FROM " + DatabaseLiterals.TableLocation);
+
+            foreach (FieldLocation fl in fieldLoc)
+            {
+                IFeature feat = new PointFeature(SphericalMercator.FromLonLat(fl.LocationLong, fl.LocationLat).ToMPoint());
+                feat["name"] = fl.LocationAlias;
+
+                enumFeat = enumFeat.Append(feat);
+
+                feat.Styles.Add(new LabelStyle
+                {
+                    Text = fl.LocationAlias,
+                    BackColor = new Brush(Color.WhiteSmoke),
+                    HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                    //CollisionDetection = true,
+                    BorderThickness = 2,
+                    Offset = offset
+                });
+            }
+
+            await currentConnection.CloseAsync();
+
+        }
+
+        return enumFeat;
+
+    }
+
+
+    /// <summary>
     /// Will set style of stations on map
     /// </summary>
     /// <returns></returns>

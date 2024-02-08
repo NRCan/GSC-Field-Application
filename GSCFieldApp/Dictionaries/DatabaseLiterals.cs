@@ -332,6 +332,29 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDrillRelatedTo = "RELATEDTO"; //Version 1.8
         public const string FieldDrillRelogDate = "RELOG_DATE"; //Version 1.8
 
+        public const string FieldTravPointID = "TRAV_ID"; //Version 1.7
+        public const string FieldTravPointGeometry = "geometry"; //Version 1.7
+        public const string FieldTravPointDate= "TRAV_DATE"; //Version 1.7
+        public const string FieldTravPointPilot = "PILOT"; //Version 1.7
+        public const string FieldTravPointOrderFlight= "ORDER_FLIGHT"; //Version 1.7
+        public const string FieldTravPointOrderVisit = "ORDER_VISIT"; //Version 1.7
+        public const string FieldTravPointGeologist = "GEOLOGIST"; //Version 1.7
+        public const string FieldTravPointPartner = "PARTNER"; //Version 1.7
+        public const string FieldTravPointPlannedBy = "PLANNED_BY"; //Version 1.7
+        public const string FieldTravPointLabel = "LABEL"; //Version 1.7
+        public const string FieldTravPointNotes = "NOTES"; //Version 1.7
+        public const string FieldTravPointXUTM = "X_UTM"; //Version 1.7
+        public const string FieldTravPointYUTM = "Y_UTM"; //Version 1.7
+        public const string FieldTravPointXDMS = "X_DMS"; //Version 1.7
+        public const string FieldTravPointYDMS = "Y_DMS"; //Version 1.7
+        public const string FieldTravPointXDD = "X_DD"; //Version 1.7
+        public const string FieldTravPointYDD = "Y_DD"; //Version 1.7
+        public const string FieldTravPointNM = "NM"; //Version 1.7
+        public const string FieldTravPointNMCamp = "NM_TO_CAMP"; //Version 1.7
+        public const string FieldTravPointNTS = "NTS"; //Version 1.7
+        public const string FieldTravPointAirPhoto = "AIR_PHOTO"; //Version 1.7
+        public const string FieldTravPointMagDeclination = "MAG_DECLIN"; //Version 1.7
+
         #endregion
 
         #region Database table names
