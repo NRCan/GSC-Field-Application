@@ -42,6 +42,7 @@ using BruTile.Wms;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.Animations;
 using Mapsui.Providers.Wms;
+using NTS = NetTopologySuite;
 
 namespace GSCFieldApp.Views;
 
@@ -52,6 +53,7 @@ public partial class MapPage : ContentPage
     private bool _updateLocation = true;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
+    private GeopackageService geopackService = new GeopackageService();
     private int bitmapSymbolId = -1;
     private bool _isCheckingGeolocation = false;
     private enum defaultLayerList { station, travPoint }
@@ -1005,6 +1007,7 @@ public LocalizationResourceManager LocalizationResourceManager
             {
                 IFeature feat = new PointFeature(SphericalMercator.FromLonLat(tp.TravXDD, tp.TravYDD).ToMPoint());
                 feat["name"] = tp.TravLabel;
+
 
                 enumFeat = enumFeat.Append(feat);
 

@@ -211,7 +211,7 @@ namespace GSCFieldApp.ViewModel
             if (!locationModel.LocationLong.IsZeroOrNaN() && !locationModel.LocationLat.IsZeroOrNaN())
             {
                 GeopackageService geoService = new GeopackageService();
-                locationModel.LocationGeometry = geoService.GetGeometry(locationModel.LocationLong, locationModel.LocationLat);
+                locationModel.LocationGeometry = geoService.CreateByteGeometry(locationModel.LocationLong, locationModel.LocationLat);
 
             }
 

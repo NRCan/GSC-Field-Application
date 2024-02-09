@@ -354,7 +354,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-
         #region GET METHODS (usually needs a connection object)
         /// <summary>
         /// Will return a table mapping object create from a type object that represent the table to map.
