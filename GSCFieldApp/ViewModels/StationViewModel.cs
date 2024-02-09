@@ -63,9 +63,17 @@ namespace GSCFieldApp.ViewModels
         readonly DataLocalSettings localSetting = new DataLocalSettings();
         readonly DataAccess accessData = new DataAccess();
 
-        public StationViewModel(bool isWayPoint)
+        public StationViewModel(bool isWayPoint, string specialAlias = "")
         {
-            _alias = idCalculator.CalculateStationAlias(DateTime.Now);
+            if (specialAlias != string.Empty)
+            {
+                _alias = specialAlias;
+            }
+            else
+            {
+                _alias = idCalculator.CalculateStationAlias(DateTime.Now);
+            }
+            
 
             //Fill controls
             FillStationType();
@@ -533,7 +541,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="inLocation"></param>
         /// <returns>Location ID</returns>
-        public int QuickLocation(FieldLocation inLocation)
+        public int QuickLocation(FieldLocation inLocation, string specialAlias = "")
         {
 
             //Set location
@@ -560,8 +568,15 @@ namespace GSCFieldApp.ViewModels
                 Location.LocationElev = _elevation;
             }
 
-
-            Location.LocationAlias = _locationAlias = idCalculator.CalculateLocationAlias(_alias); //Calculate new value
+            if (specialAlias != string.Empty)
+            {
+                Location.LocationAlias = specialAlias; //Calculate new value
+            }
+            else
+            {
+                Location.LocationAlias = _locationAlias = idCalculator.CalculateLocationAlias(_alias); //Calculate new value
+            }
+            
             //Location.LocationID = _locationid = idCalculator.CalculateLocationID(_locationAlias); //Calculate new value
             Location.MetaID = int.Parse(localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString()); //Foreign key
 
@@ -582,18 +597,26 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="inPosition"></param>
         /// <returns>A detail report class</returns>
-        public FieldNotes QuickStation(FieldLocation inPosition)
+        public FieldNotes QuickStation(FieldLocation inPosition, string specialAlias = "")
         {
             //Create a quick location first
-            int quickLocID = QuickLocation(inPosition);
+            int quickLocID = QuickLocation(inPosition, specialAlias);
 
-            //Calculate air and traverse #
-            FillAirPhotoNo_TraverseNo();
+
 
             //Save the new station
             //StationModel.StationID = _stationid; //Prime key
             StationModel.LocationID = quickLocID; //Foreign key
-            StationModel.StationAlias = _alias;
+            if (specialAlias != string.Empty)
+            {
+                StationModel.StationAlias = specialAlias;
+            }
+            else
+            {
+                //Calculate air and traverse #
+                FillAirPhotoNo_TraverseNo();
+                StationModel.StationAlias = _alias;
+            }
             StationModel.StationVisitDate = _dateDate = idCalculator.FormatDate(_dateGeneric.DateTime); //Calculate new value
             StationModel.StationVisitTime = _dateTime = idCalculator.FormatTime(_dateGeneric.DateTime);//Calculate new value
             StationModel.StationAirNo = _airno;

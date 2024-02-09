@@ -37,7 +37,15 @@ namespace GSCFieldApp.Services.DatabaseServices
                 localSetting = new DataLocalSettings();
             }
 
-            local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+            try
+            {
+                local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+            }
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         #region DB MANAGEMENT METHODS

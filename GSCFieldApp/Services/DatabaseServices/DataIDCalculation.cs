@@ -194,7 +194,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                 string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
                 string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "'";
                 string stationQueryWhere2 = " OR " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " IS NULL";
-                string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere + stationQueryWhere2;
+                string stationQueryWhere3 = " AND " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationAlias + " NOT LIKE '%rack%'";
+                string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere + stationQueryWhere2 + stationQueryWhere3;
 
                 List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), string.Empty);
                 List<object> stationTableRaw = dAccess.ReadTable(stationModel.GetType(), stationQueryFinal);
