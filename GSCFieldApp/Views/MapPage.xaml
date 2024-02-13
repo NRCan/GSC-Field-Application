@@ -199,11 +199,11 @@
                 <esriToolkit:ScaleLine MapView="{x:Bind myMapView}" HorizontalAlignment="Center" Height="28" Margin="0,20,0,0" VerticalAlignment="Top"/>
             </Border>
 
-            <Border Name="MapRefreshRateSlider" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="70" Width="500" Margin="0,0,0,35">
+            <Border Name="MapRefreshRateSlider" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="70" Width="350" Margin="0,0,0,35">
                 <Slider x:Name="RefreshRateSlider" Minimum="1" Maximum="1000" StepFrequency="10" TickFrequency="50" Value="{x:Bind MapPageViewModel.GpsRefreshRate, Mode=TwoWay}" Header="GPS refresh rate (milliseconds)" SnapsTo="Ticks" />
             </Border>
 
-            <RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-60,45">
+            <RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-60,90">
                 <Border Name="MapRefreshAccuracyToggle" RelativePanel.AlignLeftWithPanel="True" >
                     <ToggleSwitch IsOn="{x:Bind MapPageViewModel.GpsHighAccuracyCheck, Mode=TwoWay}" x:Name="RefreshAccuracyToggle" Header="High Accuracy" />
                 </Border>
