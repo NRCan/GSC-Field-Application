@@ -77,7 +77,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="geomBytes">The byte array to transform into a point object</param>
         /// <returns></returns>
-        public NTS.Geometries.Point GetGeometryFromByte(byte[] geomBytes, bool transformToWGS84 = true)
+        public NTS.Geometries.Point GetGeometryFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault)
         {
             NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
 
@@ -90,7 +90,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 outPoint = geom as NTS.Geometries.Point;
             }
 
-            if (transformToWGS84 && outPoint != null)
+            if (srid != DatabaseLiterals.KeywordEPSGDefault && outPoint != null)
             {
                 //Create a coord factory for incoming traverses
                 CoordinateSystemFactory csFact = new CoordinateSystemFactory();

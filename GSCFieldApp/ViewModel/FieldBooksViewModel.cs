@@ -88,7 +88,15 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task UploadFieldBook()
         {
-            await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
+            //Upload
+            AppFileServices appFileServices = new AppFileServices();
+            string uploadFB = await appFileServices.UploadFieldBook();
+
+            //Refresh list
+            if (uploadFB.Contains(DatabaseLiterals.DBTypeSqlite))
+            {
+                FillBookCollectionAsync();
+            }
         }
 
         [RelayCommand]

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GSCFieldApp.Services
@@ -118,6 +119,50 @@ namespace GSCFieldApp.Services
 
         }
 
+        /// <summary>
+        /// Will upload a given field book
+        /// TODO: Add zip loading option
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> UploadFieldBook()
+        {
+
+            //Variables
+            DataAccess da = new DataAccess();
+            string userLocalFolder = Path.GetDirectoryName(da.PreferedDatabasePath);
+            string copiedFieldBookPath = userLocalFolder;
+
+            //Custom file picker for fieldbooks
+            FilePickerFileType customFileType = new FilePickerFileType(
+                new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                                    {DevicePlatform.WinUI, new [] { DatabaseLiterals.DBTypeSqlite} },
+                                    {DevicePlatform.Android, new [] { "application/*"} },
+                                    {DevicePlatform.iOS, new [] { DatabaseLiterals.DBTypeSqlite } },
+                });
+
+            PickOptions options = new PickOptions();
+            options.PickerTitle = "Upload Field Book";
+            options.FileTypes = customFileType;
+
+            var result = await FilePicker.Default.PickAsync(options);
+            if (result != null)
+            {
+                if (result.FileName.Contains(DatabaseLiterals.DBTypeSqlite))
+                {
+                    //Copy to local state
+                    copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, result.FileName);
+                    using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
+                    using (Stream incomingFieldBookStream = System.IO.File.OpenRead(result.FullPath))
+                    await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
+
+                }
+
+            }
+
+            return copiedFieldBookPath;
+
+        }
 
     }
 }
