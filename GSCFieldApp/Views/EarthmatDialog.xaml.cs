@@ -163,7 +163,11 @@ namespace GSCFieldApp.Views
             }
 
             //Update list that are bound to lithology selection
-            ViewModel.InitFill2ndRound(EarthLitho.Text);
+            if (parentViewMode.GenericTableName != DatabaseLiterals.TableEarthMat && !ViewModel.doEarthUpdate)
+            {
+                ViewModel.InitFill2ndRound(EarthLitho.Text);
+            }
+            
 
         }
 
