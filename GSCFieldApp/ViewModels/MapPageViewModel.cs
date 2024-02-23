@@ -183,60 +183,60 @@ namespace GSCFieldApp.ViewModels
             //Fill vocab 
             FillLocationVocab();
 
-            //Helicopter testing
-            ActivateTrackerChanged += MapPageViewModel_ActivateTrackerChanged;
-            newTrackerChanged += MapPageViewModel_newTrackerChanged;
+            ////Helicopter testing
+            //ActivateTrackerChanged += MapPageViewModel_ActivateTrackerChanged;
+            //newTrackerChanged += MapPageViewModel_newTrackerChanged;
         }
 
-        private void MapPageViewModel_newTrackerChanged(object sender)
-        {
-            DisplayPointAndLabelsAsync(currentMapView);
-        }
+        //private void MapPageViewModel_newTrackerChanged(object sender)
+        //{
+        //    DisplayPointAndLabelsAsync(currentMapView);
+        //}
 
-        private void MapPageViewModel_ActivateTrackerChanged(object sender)
-        {
-            ActivateTracker();
-        }
+        //private void MapPageViewModel_ActivateTrackerChanged(object sender)
+        //{
+        //    ActivateTracker();
+        //}
 
         #endregion
 
         #region PROPERTIES
 
-        public bool ActivateTrackerCheck
-        {
-            get
-            {
-                return _activateTracker;
-            }
-            set
-            {
-                _activateTracker = value;
+        //public bool ActivateTrackerCheck
+        //{
+        //    get
+        //    {
+        //        return _activateTracker;
+        //    }
+        //    set
+        //    {
+        //        _activateTracker = value;
 
-                if (ActivateTrackerChanged != null)
-                    ActivateTrackerChanged(this);
-            }
-        }
+        //        if (ActivateTrackerChanged != null)
+        //            ActivateTrackerChanged(this);
+        //    }
+        //}
 
-        public bool GpsHighAccuracyCheck
-        {
-            get
-            {
-                return _gpsHighAccuracyCheck;
-            }
-            set
-            {
-                _gpsHighAccuracyCheck = value;
-                if (value)
-                {
-                    _geolocator = new Geolocator { ReportInterval = (uint)_gpsRefreshRate, DesiredAccuracy = PositionAccuracy.Default };
-                }
-                else
-                {
-                    _geolocator = new Geolocator { ReportInterval = (uint)_gpsRefreshRate, DesiredAccuracy = PositionAccuracy.High };
-                }
+        //public bool GpsHighAccuracyCheck
+        //{
+        //    get
+        //    {
+        //        return _gpsHighAccuracyCheck;
+        //    }
+        //    set
+        //    {
+        //        _gpsHighAccuracyCheck = value;
+        //        if (value)
+        //        {
+        //            _geolocator = new Geolocator { ReportInterval = (uint)_gpsRefreshRate, DesiredAccuracy = PositionAccuracy.Default };
+        //        }
+        //        else
+        //        {
+        //            _geolocator = new Geolocator { ReportInterval = (uint)_gpsRefreshRate, DesiredAccuracy = PositionAccuracy.High };
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
         public int GpsRefreshRate 
         { 
@@ -431,20 +431,11 @@ namespace GSCFieldApp.ViewModels
                         ResetLocationGraphic();
                     }
 
-
-                    //await Task.Delay(3000); //Let enough time to pass so GPS actually gets a proper fix
-                    //await NoLocationFlightMode();
-                    connectionProfile = NetworkInformation.GetInternetConnectionProfile();
-                    CheckAirplaneMode();
-
-                    //try
-                    //{
-                    //    await SetGPS();
-                    //}
-                    //catch (Exception)
-                    //{
-
-                    //}
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        await CheckAirplaneMode();
+                        StopLocationRing();
+                    }).AsTask();
 
 
                     break;
@@ -1311,16 +1302,35 @@ namespace GSCFieldApp.ViewModels
         /// When no location is available probably due to flight mode. Display this message.
         /// </summary>
 
-        private async void CheckAirplaneMode()
+        private async Task CheckAirplaneMode()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
 
             if (connectionProfile == null)
             {
-                // Possible airplane mode
-                var messageDialog = new Windows.UI.Popups.MessageDialog("Airplane Mode or No Network Connection Found");
-                messageDialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
-                await messageDialog.ShowAsync();
+
+
+                ContentDialog noLocationFlightModeDialog = new ContentDialog()
+                {
+                    Title = "No Data",
+                    Content = "Airplane Mode or No Network Connection Found",
+                    PrimaryButtonText = "OK",
+                };
+
+                noLocationFlightModeDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+
+
+                try
+                {
+                    ContentDialogResult flightModeResult = await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationFlightModeDialog, false).Result;
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("Warning dialog for location allocation failed.");
+                }
+
+
+
             }
             //Windows.UI.Popups.MessageDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
         }

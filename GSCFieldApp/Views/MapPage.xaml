@@ -203,7 +203,7 @@
                 <Slider x:Name="RefreshRateSlider" Minimum="1" Maximum="1000" StepFrequency="10" TickFrequency="50" Value="{x:Bind MapPageViewModel.GpsRefreshRate, Mode=TwoWay}" Header="GPS refresh rate (milliseconds)" SnapsTo="Ticks" />
             </Border>
 
-            <RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-60,90">
+            <!--<RelativePanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-60,90">
                 <Border Name="MapRefreshAccuracyToggle" RelativePanel.AlignLeftWithPanel="True" >
                     <ToggleSwitch IsOn="{x:Bind MapPageViewModel.GpsHighAccuracyCheck, Mode=TwoWay}" x:Name="RefreshAccuracyToggle" Header="High Accuracy" />
                 </Border>
@@ -211,7 +211,7 @@
                 <Border Name="MapActivateTrackerToggle" RelativePanel.RightOf="MapRefreshAccuracyToggle">
                     <ToggleSwitch IsOn="{x:Bind MapPageViewModel.ActivateTrackerCheck, Mode=TwoWay}" x:Name="ActivateTrackerToggle" Header="10s Tracker" />
                 </Border>
-            </RelativePanel>
+            </RelativePanel>-->
             
 
 
