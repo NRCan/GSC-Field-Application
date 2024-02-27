@@ -1538,18 +1538,37 @@ namespace GSCFieldApp.ViewModels
         /// When no location is available probably due to flight mode. Display this message.
         /// </summary>
 
-        private async void CheckAirplaneMode()
+        private async Task CheckAirplaneMode()
         {
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
 
             if (connectionProfile == null)
             {
-                // Possible airplane mode
-                var messageDialog = new Windows.UI.Popups.MessageDialog("Airplane Mode or No Network Connection Found");
-                messageDialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
-                await messageDialog.ShowAsync();
+
+
+                ContentDialog noLocationFlightModeDialog = new ContentDialog()
+                {
+                    Title = "No Data",
+                    Content = "Airplane Mode or No Network Connection Found",
+                    PrimaryButtonText = "OK",
+                };
+
+                noLocationFlightModeDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+
+
+                try
+                {
+                    ContentDialogResult flightModeResult = await Services.ContentDialogMaker.CreateContentDialogAsync(noLocationFlightModeDialog, false).Result;
+                }
+                catch (Exception)
+                {
+                    Debug.WriteLine("Warning dialog for location allocation failed.");
+                }
+
+
+
             }
-            //Windows.UI.Popups.MessageDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+
         }
         public async Task NoLocationFlightMode()
         {
