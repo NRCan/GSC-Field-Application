@@ -359,19 +359,19 @@ namespace GSCFieldApp.ViewModels
                     }
 
 
-                    //await Task.Delay(3000); //Let enough time to pass so GPS actually gets a proper fix
-                    //await NoLocationFlightMode();
-                    connectionProfile = NetworkInformation.GetInternetConnectionProfile();
-                    CheckAirplaneMode();
+                    try
+                    {
+                        await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                        {
+                            await CheckAirplaneMode();
+                        }).AsTask();
 
-                    //try
-                    //{
-                    //    await SetGPS();
-                    //}
-                    //catch (Exception)
-                    //{
 
-                    //}
+                    }
+                    catch (Exception)
+                    {
+
+                    }
 
 
                     break;
