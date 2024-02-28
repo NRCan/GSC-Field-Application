@@ -126,12 +126,16 @@ namespace GSCFieldApp.ViewModel
             //Make sure to remove existing file
             if (File.Exists(JSONPath))
             {
-                using FileStream openStream = File.OpenRead(JSONPath);
+                using (FileStream openStream = File.OpenRead(JSONPath))
+                {
+                    // Enable support
+                    var options = new JsonSerializerOptions { IncludeFields = true };
 
-                // Enable support
-                var options = new JsonSerializerOptions { IncludeFields = true };
+                    preferedLayers = await JsonSerializer.DeserializeAsync<Collection<MapPageLayer>>(openStream, options);
 
-                preferedLayers = await JsonSerializer.DeserializeAsync<Collection<MapPageLayer>>(openStream, options);
+                    openStream.Close();
+                }
+
             }
 
             return preferedLayers;

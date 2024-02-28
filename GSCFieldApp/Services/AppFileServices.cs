@@ -49,6 +49,8 @@ namespace GSCFieldApp.Services
                 string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
                 await Toast.Make(toastText).Show(cancellationToken);
             }
+
+            stream.Close();
         }
 
         /// <summary>
@@ -88,6 +90,7 @@ namespace GSCFieldApp.Services
                         using (var stream = entry.Open())
                         {
                             fs.CopyTo(stream);
+                            fs.Close();
                         }
                     }
 
@@ -114,7 +117,7 @@ namespace GSCFieldApp.Services
 
             //Clean up uncessary files and dir
             File.Delete(fieldBookZipPath);
-
+            localStream.Close();
             return;
 
         }
