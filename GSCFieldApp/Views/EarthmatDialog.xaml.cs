@@ -140,19 +140,32 @@ namespace GSCFieldApp.Views
                     EarthLithAutoSuggest.ItemsSource = new string[] { "No results found" };
             }
 
-            //Reset litho box
-            if (sender.Text == string.Empty)
-            {
-                EarthLitho.Text = string.Empty;
-                ViewModel.InitFill2ndRound(EarthLitho.Text); //Reset picklist
-            }
+            ////Reset litho box
+            //if (sender.Text == string.Empty)
+            //{
+            //    EarthLitho.Text = string.Empty;
+            //    ViewModel.InitFill2ndRound(EarthLitho.Text); //Reset picklist
+            //}
 
         }
 
         private void EarthLithAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
+
+
+            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found")
             {
+
+                //Update list that are bound to lithology selection
+                if (!args.ChosenSuggestion.ToString().Contains(EarthLitho.Text.Split(';')[0]) || EarthLitho.Text == string.Empty)
+                {
+                    ViewModel.InitFill2ndRound(args.ChosenSuggestion.ToString());
+                }
+                //else if (!ViewModel.doEarthUpdate)
+                //{
+                //    ViewModel.InitFill2ndRound(args.ChosenSuggestion.ToString());
+                //}
+
                 EarthLitho.Text = args.ChosenSuggestion.ToString();
             }
             else
@@ -160,13 +173,6 @@ namespace GSCFieldApp.Views
                 //Reset litho box
                 EarthLitho.Text = string.Empty;
             }
-
-            //Update list that are bound to lithology selection
-            if (parentViewMode.GenericTableName != DatabaseLiterals.TableEarthMat && !ViewModel.doEarthUpdate)
-            {
-                ViewModel.InitFill2ndRound(EarthLitho.Text);
-            }
-            
 
         }
 
