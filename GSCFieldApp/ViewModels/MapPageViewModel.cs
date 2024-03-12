@@ -571,7 +571,16 @@ namespace GSCFieldApp.ViewModels
             {
                 foreach (Graphic gr in _OverlayStation.Graphics)
                 {
-                    loadedGraphicList[gr.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString()] = gr;
+                    if (gr.Attributes.ContainsKey(Dictionaries.DatabaseLiterals.FieldLocationID))
+                    {
+                        string gr_attr = gr.Attributes[Dictionaries.DatabaseLiterals.FieldLocationID].ToString();
+                        if (loadedGraphicList.ContainsKey(gr_attr))
+                        {
+                            loadedGraphicList[gr_attr] = gr;
+                        }
+                        
+                    }
+                    
                 }
 
             }
@@ -1475,6 +1484,7 @@ namespace GSCFieldApp.ViewModels
         {
             //Unpaused graphic refresh 
             pauseGraphicRefresh = false;
+            RefreshMap(pauseGraphicRefresh);
         }
 
         /// <summary>
