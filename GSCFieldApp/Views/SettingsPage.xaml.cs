@@ -80,6 +80,10 @@ namespace GSCFieldApp.Views
             {
                 picklistSelectedTheme = Dictionaries.DatabaseLiterals.KeywordEnvironment;
             }
+            else if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordDrill))
+            {
+                picklistSelectedTheme = Dictionaries.DatabaseLiterals.KeywordDrill;
+            }
             OpenPicklistDialog(picklistSelectedTheme);
 
         }

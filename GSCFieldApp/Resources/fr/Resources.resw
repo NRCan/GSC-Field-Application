@@ -1873,4 +1873,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="SampleDialogDuplicateReminderTitle" xml:space="preserve">
     <value>C'est l'heure des duplicats!</value>
   </data>
+  <data name="SettingPageVocabDrill.Content" xml:space="preserve">
+    <value>Forages</value>
+  </data>
 </root>

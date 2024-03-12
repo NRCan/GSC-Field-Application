@@ -191,6 +191,11 @@
                                 </Button.Background>
                             </Button>
 
+                            <Button x:Name="DrillThemeList" FontWeight="Bold" x:Uid="SettingPageVocabDrill" Height="100" Width="100" Margin="5" Tapped="ThemeList_Tapped">
+                                <Button.Background>
+                                    <SolidColorBrush Color="{ThemeResource FieldDrillColor}"/>
+                                </Button.Background>
+                            </Button>
 
                         </GridView>
 

@@ -1878,4 +1878,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="SampleDialogDuplicateReminderTitle" xml:space="preserve">
     <value>Duplicate time!</value>
   </data>
+  <data name="SettingPageVocabDrill.Content" xml:space="preserve">
+    <value>Drill</value>
+  </data>
 </root>
