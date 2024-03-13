@@ -100,9 +100,10 @@
                               MinWidth="175" TabIndex="7"/>
                             <StackPanel>
                             <TextBox x:Name="DrillDate" x:Uid="DrillDate"
-                                    Text ="{x:Bind drillViewModel.DrillDate, Mode=TwoWay}" TabIndex="8"
-                                    Header="" InputScope="Text" TabNavigation="Once" Width="122"/>
-                            <CalendarDatePicker x:Name="CalendarDatePickerControl" DateChanged="CalendarDatePicker_DateChanged"/>
+                                    Text ="{x:Bind drillViewModel.DrillDate, Mode=TwoWay}" TabIndex="8" Width="{Binding ElementName=CalendarDatePickerControl, Path=ActualWidth}"
+                                    Header="" InputScope="Text" TabNavigation="Once" />
+                                <CalendarDatePicker x:Name="CalendarDatePickerControl" Margin="0,3,0,0"
+                                                    DateChanged="CalendarDatePicker_DateChanged" DateFormat="{}{year.full}-{month.integer}-{day.integer}"/>
                             </StackPanel>
                             <ComboBox x:Name="DrillHoleSizeCBox" x:Uid="DrillHoleSizeCBox"
                               ItemsSource="{x:Bind drillViewModel.DrillHoleSize}" SelectionChanged="{x:Bind drillViewModel.DrillHoleSizeCBox_SelectionChanged}"
