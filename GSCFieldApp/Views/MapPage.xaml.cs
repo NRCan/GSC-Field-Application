@@ -14,7 +14,6 @@ using Mapsui.Layers;
 using Mapsui.Projections;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Dispatching;
-using Microsoft.Maui.Devices.Sensors;
 using Mapsui.Widgets;
 using CommunityToolkit.Mvvm.Input;
 using BruTile.Tms;
@@ -760,8 +759,8 @@ public LocalizationResourceManager LocalizationResourceManager
 
         try
         {
-
-            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
+            
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromMilliseconds(500));
 
             if (Application.Current == null)
                 return;
@@ -772,6 +771,7 @@ public LocalizationResourceManager LocalizationResourceManager
                 .ConfigureAwait(false);
             if (location != null)
             {
+
                 MyLocationPositionChanged(location);
             }
 
