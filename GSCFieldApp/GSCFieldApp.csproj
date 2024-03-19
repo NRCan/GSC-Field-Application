@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-maccatalyst;net7.0-ios;net7.0-android33.0</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net8.0-maccatalyst;net8.0-ios;net8.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
@@ -45,7 +45,7 @@
 		<AssemblyVersion>3.0.0.1</AssemblyVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
@@ -59,7 +59,7 @@
 	  <EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|ARM32'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|ARM32'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
@@ -73,7 +73,7 @@
 	  <EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|ARM64'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
@@ -87,7 +87,7 @@
 	  <EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|x64'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
@@ -101,7 +101,7 @@
 	  <EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
@@ -116,7 +116,7 @@
 	  <EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|ARM32'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|ARM32'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
@@ -131,7 +131,7 @@
 	  <EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|ARM64'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
@@ -146,7 +146,7 @@
 	  <EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|x64'">
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
@@ -161,109 +161,109 @@
 	  <EnableLLVM>True</EnableLLVM>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|ARM32'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|ARM32'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|ARM64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|x64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|ARM32'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|ARM32'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|ARM64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|x64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|ARM32'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|ARM32'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|ARM64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-maccatalyst|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|x64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|ARM32'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|ARM32'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|ARM64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-maccatalyst|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|x64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|ARM32'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|ARM32'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|ARM64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows10.0.19041.0|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|x64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|ARM32'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|ARM32'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|ARM64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|ARM64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows10.0.19041.0|x64'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|x64'">
 	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App icon for all other platforms -->
 		<!--NOTE: Setting a BaseSize here crashes deployment on Android-->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#710B2C" ForegroundScale="0.55" />
+		<MauiIcon Update="Resources\AppIcon\appicon.svg" Color="#710B2C" ForegroundScale="0.55" />
 
 		<!-- App icon for Windows -->
-		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" Include="Resources\AppIcon\appicon.svg" Color="#710B2C" BaseSize="300,300" />
+		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" Update="Resources\AppIcon\appicon.svg" Color="#710B2C" BaseSize="300,300" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128" />
