@@ -265,7 +265,8 @@ namespace GSCFieldApp.ViewModel
                     {
                         _layerCollection.Add(layer);
 
-                        if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM)
+                        if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
+                            layer.Name != ApplicationLiterals.aliasTraversePoint)
                         {
                             MapPageLayerBuilder mplb = new MapPageLayerBuilder();
                             _customLayerCollection.Add(mplb.GetMapPageLayer(layer, index));

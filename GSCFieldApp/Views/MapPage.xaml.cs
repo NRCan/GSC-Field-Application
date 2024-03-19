@@ -55,7 +55,7 @@ public partial class MapPage : ContentPage
     private GeopackageService geopackService = new GeopackageService();
     private int bitmapSymbolId = -1;
     private bool _isCheckingGeolocation = false;
-    private enum defaultLayerList { station, travPoint }
+    private enum defaultLayerList { Stations, Traverses }
 
 public LocalizationResourceManager LocalizationResourceManager
     => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -114,7 +114,8 @@ public LocalizationResourceManager LocalizationResourceManager
         //Make sure to save current settings locally if not default layers
         try
         {
-            if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM)
+            if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
+                layer.Name != ApplicationLiterals.aliasTraversePoint)
             {
                 mvm.SaveLayerRendering(layer);
             }
@@ -917,12 +918,12 @@ public LocalizationResourceManager LocalizationResourceManager
 
             switch(inLayer) 
             {
-                case defaultLayerList.station:
+                case defaultLayerList.Stations:
 
                     enumFeat = await GetStationLocationsAsync(offset);
                     break;
 
-                case defaultLayerList.travPoint:
+                case defaultLayerList.Traverses:
 
                     enumFeat = await GetPointTraversesAsync(offset);
                     break;
