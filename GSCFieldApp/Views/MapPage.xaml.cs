@@ -42,6 +42,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Maui.Animations;
 using Mapsui.Providers.Wms;
 using NTS = NetTopologySuite;
+using Microsoft.Maui.Devices.Sensors;
 
 namespace GSCFieldApp.Views;
 
@@ -760,21 +761,22 @@ public LocalizationResourceManager LocalizationResourceManager
 
         try
         {
-            
-            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromMilliseconds(500));
+            Geolocation.LocationChanged += Geolocation_LocationChanged;
+            GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Best, TimeSpan.FromMilliseconds(500));
+            var success = await Geolocation.StartListeningForegroundAsync(request);
 
             if (Application.Current == null)
                 return;
 
-            _cancelTokenSource = new CancellationTokenSource();
+            //_cancelTokenSource = new CancellationTokenSource();
 
-            var location = await Geolocation.GetLocationAsync(request, _cancelTokenSource.Token)
-                .ConfigureAwait(false);
-            if (location != null)
-            {
+            //var location = await Geolocation.GetLocationAsync(request, _cancelTokenSource.Token)
+            //    .ConfigureAwait(false);
+            //if (location != null)
+            //{
 
-                MyLocationPositionChanged(location);
-            }
+            //    MyLocationPositionChanged(location);
+            //}
 
 
         }
@@ -805,6 +807,44 @@ public LocalizationResourceManager LocalizationResourceManager
                 }
 
             });
+        }
+    }
+
+    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods")]
+    private async void Geolocation_LocationChanged(object sender, GeolocationLocationChangedEventArgs e)
+    {
+        try
+        {
+            // check if I should update location
+            if (!_updateLocation)
+                return;
+
+            await Application.Current?.Dispatcher?.DispatchAsync(async () =>
+            {
+                MapViewModel vm = this.BindingContext as MapViewModel;
+                vm.RefreshCoordinates(e.Location);
+
+                await SetMapAccuracyColor(e.Location.Accuracy);
+
+                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Location.Latitude, e.Location.Longitude));
+                mapView.RefreshGraphics();
+
+                if (e.Location.Course != null)
+                {
+                    mapView?.MyLocationLayer.UpdateMyDirection(e.Location.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+                }
+
+                if (e.Location.Speed != null)
+                {
+                    mapView?.MyLocationLayer.UpdateMySpeed(e.Location.Speed.Value);
+                }
+
+            })!;
+        }
+        catch (System.Exception ex)
+        {
+            await DisplayAlert("Alert", ex.Message, "OK");
+            //Logger.Log(LogLevel.Error, ex.Message, ex);
         }
     }
 
