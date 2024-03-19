@@ -884,13 +884,29 @@ public LocalizationResourceManager LocalizationResourceManager
 
         foreach (int i in Enum.GetValues(typeof(defaultLayerList)))
         {
-            defaultLayers.Add(new MemoryLayer
+            //Make sure some features have records
+            bool addOrNot = true; //Will be used to get traverses out of the way if empty
+            IEnumerable<IFeature> dFeats = await GetLocationsAsync((defaultLayerList)i);
+
+            if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasTraversePoint)
             {
-                Name = Enum.GetName(typeof(defaultLayerList),i),
-                IsMapInfoLayer = true,
-                Features = await GetLocationsAsync((defaultLayerList)i),
-                Style = CreateBitmapStyle(),
-            });
+                if (dFeats.Count() == 0)
+                {
+                    addOrNot = false;
+                }
+            }
+
+            if (addOrNot)
+            {
+                defaultLayers.Add(new MemoryLayer
+                {
+                    Name = Enum.GetName(typeof(defaultLayerList), i),
+                    IsMapInfoLayer = true,
+                    Features = dFeats,
+                    Style = CreateBitmapStyle(),
+                });
+            }
+
         }
 
 
