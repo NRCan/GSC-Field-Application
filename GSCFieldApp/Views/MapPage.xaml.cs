@@ -764,19 +764,10 @@ public LocalizationResourceManager LocalizationResourceManager
             Geolocation.LocationChanged += Geolocation_LocationChanged;
             GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Best, TimeSpan.FromMilliseconds(500));
             var success = await Geolocation.StartListeningForegroundAsync(request);
-
-            if (Application.Current == null)
-                return;
-
-            //_cancelTokenSource = new CancellationTokenSource();
-
-            //var location = await Geolocation.GetLocationAsync(request, _cancelTokenSource.Token)
-            //    .ConfigureAwait(false);
-            //if (location != null)
-            //{
-
-            //    MyLocationPositionChanged(location);
-            //}
+            
+            string status = success
+                    ? "Started listening for foreground location updates"
+                    : "Couldn't start listening";
 
 
         }
@@ -810,16 +801,12 @@ public LocalizationResourceManager LocalizationResourceManager
         }
     }
 
-    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods")]
     private async void Geolocation_LocationChanged(object sender, GeolocationLocationChangedEventArgs e)
     {
         try
         {
             // check if I should update location
             if (!_updateLocation)
-                return;
-
-            await Application.Current?.Dispatcher?.DispatchAsync(async () =>
             {
                 MapViewModel vm = this.BindingContext as MapViewModel;
                 vm.RefreshCoordinates(e.Location);
@@ -838,8 +825,12 @@ public LocalizationResourceManager LocalizationResourceManager
                 {
                     mapView?.MyLocationLayer.UpdateMySpeed(e.Location.Speed.Value);
                 }
-
-            })!;
+            }
+            else 
+            {
+                return;
+            }
+                
         }
         catch (System.Exception ex)
         {
@@ -856,8 +847,19 @@ public LocalizationResourceManager LocalizationResourceManager
         if (_isCheckingGeolocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
         {
             await SetMapAccuracyColor(-99);
-            _isCheckingGeolocation = false;
-            _cancelTokenSource.Cancel();
+            //_isCheckingGeolocation = false;
+            //_cancelTokenSource.Cancel();
+
+            try
+            {
+                Geolocation.LocationChanged -= Geolocation_LocationChanged;
+                Geolocation.StopListeningForeground();
+                string status = "Stopped listening for foreground location updates";
+            }
+            catch (System.Exception ex)
+            {
+                // Unable to stop listening for location changes
+            }
         }
             
     }
