@@ -1604,12 +1604,17 @@ namespace GSCFieldApp.Services.DatabaseServices
             string queryAndParent = string.Empty;
             string queryOrdering = " ORDER BY " + TableDictionary + "." + FieldDictionaryOrder + " ASC";
 
-            if (fieldworkType != string.Empty)
+            if (fieldworkType != string.Empty && fieldworkType.Contains(DatabaseLiterals.KeywordConcatCharacter2nd))
             {
                 queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '" + 
                     fieldworkType + "' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '' " +
                     "OR " + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + " like '%' || (substr('" + fieldworkType + "', 0, instr('" +
                     fieldworkType + "', '" + DatabaseLiterals.KeywordConcatCharacter2nd + "'))) || '%'" + ")";
+            }
+            else
+            {
+                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '" +
+                    fieldworkType + "' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '')";
             }
 
             if (extraFieldValue != string.Empty && extraFieldValue != null && extraFieldValue != "")
