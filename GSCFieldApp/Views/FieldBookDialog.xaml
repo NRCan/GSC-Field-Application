@@ -20,7 +20,7 @@
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
 
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="userInfoCancelButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="userInfoCancelButton_TappedAsync" />
+                    <AppBarButton x:Name="userInfoCancelButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="userInfoCancelButton_TappedAsync" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="userInfoSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="saveUserInfo_TappedAsync" />
                 </Controls:PageHeader.PrimaryCommands>
                 

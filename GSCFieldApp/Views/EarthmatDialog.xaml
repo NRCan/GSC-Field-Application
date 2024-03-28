@@ -46,7 +46,7 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="earthmatBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White"  Tapped="earthmatBackButton_Tapped" />
+                    <AppBarButton x:Name="earthmatBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White"  Tapped="earthmatBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="earthmatSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="earthmatSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>

@@ -33,7 +33,7 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="mineralAltBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="mineralAltBackButton_Tapped"  />
+                    <AppBarButton x:Name="mineralAltBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="mineralAltBackButton_Tapped" Style="{StaticResource AppBarButtonClose}" />
                     <AppBarButton x:Name="mineralAltSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="mineralAltSaveButton_Tapped"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>

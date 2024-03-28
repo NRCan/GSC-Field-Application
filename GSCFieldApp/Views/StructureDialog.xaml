@@ -22,7 +22,7 @@
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right"
                                  Background="{ThemeResource FieldStructureColorBrush}">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="structBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="structBackButton_Tapped" />
+                    <AppBarButton x:Name="structBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="structBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="structSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="structSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>

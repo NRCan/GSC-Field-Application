@@ -25,7 +25,7 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="LocationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="LocationBackButton_Tapped" />
+                    <AppBarButton x:Name="LocationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="LocationBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="LocationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="LocationSaveButton_Tapped"  />
                     <AppBarButton x:Name="LocationDrillButton" x:Uid="DrillLabel" Label="Save" Icon="Add" Foreground="White" Tapped="LocationSaveButton_Tapped" 
                                   Visibility="{x:Bind locationVM.DoLocationUpdate, Mode=TwoWay, Converter={StaticResource VisibilityFromReverseBoolConverter}}"  />

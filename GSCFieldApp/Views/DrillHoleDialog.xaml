@@ -38,7 +38,7 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right" >
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="drillBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White"  Tapped="drillBackButton_Tapped" />
+                    <AppBarButton x:Name="drillBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White"  Tapped="drillBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="drillSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="drillSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>

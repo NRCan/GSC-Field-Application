@@ -47,7 +47,7 @@
                 <Controls:PageHeader.PrimaryCommands>
                     <AppBarButton x:Name="documentPhotoButton" Icon="Camera" Label="Camera" Foreground="White" Tapped="documentPhotoButton_Tapped" x:Uid="DocumentDialogSnapshot"/>
                     <AppBarSeparator Foreground="White"/>
-                    <AppBarButton x:Name="documentBackButton" Icon="Clear" x:Uid="GenericCloseLabel" Label ="Close" Foreground="White" Tapped="documentBackButton_Tapped" />
+                    <AppBarButton x:Name="documentBackButton" Icon="Clear" x:Uid="GenericCloseLabel" Label ="Close" Foreground="White" Tapped="documentBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="documentSaveButton" Icon="Save"  x:Uid="GenericSaveLabel" Label ="Save" Foreground="White" Tapped="documentSaveButton_Tapped" />
                     
                 </Controls:PageHeader.PrimaryCommands>

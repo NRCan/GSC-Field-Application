@@ -16,7 +16,7 @@
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right"
                             Background="{ThemeResource FieldFossilColorBrush}">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="fossilBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="fossilBackButton_Tapped" />
+                    <AppBarButton x:Name="fossilBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="fossilBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="fossilSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="fossilSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>

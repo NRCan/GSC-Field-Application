@@ -121,6 +121,10 @@
     <TextBox x:Key="FieldTextbox" Margin="0,0,10,0" MinWidth="100" Width="Auto"></TextBox>
     <TextBox x:Key="FieldCombobox" Margin="0,0,10,0" MinWidth="100" Width="Auto"></TextBox>
 
+    <Style TargetType="AppBarButton" x:Key="AppBarButtonClose">
+        <Setter Property="Margin" Value="0,0,15,0"/>
+    </Style>
+    
     <!-- W10 Build 1809 AppBarButton.flyout chevron collapse TEMP mod-->
     <Style TargetType="AppBarButton" x:Key="AppBarHiddenChevron">
         <Setter Property="Background" Value="{ThemeResource AppBarButtonBackground}" />
