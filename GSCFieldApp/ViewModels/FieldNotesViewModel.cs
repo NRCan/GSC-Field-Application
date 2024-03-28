@@ -4569,7 +4569,11 @@ namespace GSCFieldApp.ViewModels
                 {
                     viewDocument = new Views.DocumentDialog(locationReport, _reportDetailedStation[_reportStationIndex], false);
                 }
-                
+                if (_reportDrillIndex != -1)
+                {
+                    viewDocument = new Views.DocumentDialog(locationReport, _reportDetailedDrill[_reportDrillIndex], false);
+                }
+
             }
             if (viewDocument != null)
             {
