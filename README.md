@@ -32,13 +32,13 @@ The current application uses a Geopackage data format to store all information g
 
 ### Development environment
 
-Universal Windows Platform (UWP), Visual studio 2016-2023
+Universal Windows Platform (UWP), Visual studio 2016-2024
 
 ## Contacts
 
-Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
+Gabriel Huot-Vézina: gabriel.huot-vezina@nrcan-rncan.gc.ca
 
-Étienne Girard: etienne.girard@canada.ca
+Étienne Girard: etienne.girard@nrcan-rncan.gc.ca
 
 ### How to Contribute
 
@@ -86,13 +86,13 @@ L'application actuelle utilise un format de données Geopackage pour stocker tou
 
 ### Environnement de développement
 
-Plateforme Windows universelle (PWU), Visual studio 2016-2023
+Plateforme Windows universelle (PWU), Visual studio 2016-2024
 
 ### Contacts
 
-Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
+Gabriel Huot-Vézina: gabriel.huot-vezina@nrcan-rncan.gc.ca
 
-Étienne Girard: etienne.girard@canada.ca
+Étienne Girard: etienne.girard@nrcan-rncan.gc.ca
 
 ### Comment contribuer
 
