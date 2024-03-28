@@ -3,6 +3,7 @@ using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace GSCFieldApp.ViewModels
 
         //UI interaction
         private bool _doLocationUpdate = false;
+        private bool _isDrillHoleFieldBook = false;
         public string entryType = null;
 
 
@@ -126,6 +128,7 @@ namespace GSCFieldApp.ViewModels
         public string SelectedLocationDatums { get { return _selectedLocationDatums; } set { _selectedLocationDatums = value; } }
 
         public bool DoLocationUpdate { get { return _doLocationUpdate; } set { _doLocationUpdate = value; } }
+        public bool IsDrillHoleFieldBook { get { return _isDrillHoleFieldBook; } set { _isDrillHoleFieldBook = value; } }
         #endregion
 
         public LocationViewModel(FieldNotes inReport)
@@ -135,6 +138,33 @@ namespace GSCFieldApp.ViewModels
             _locationAlias = idCalculator.CalculateLocationAlias();
 
             FillDatum();
+
+            //Check field book type to change new drill hole button
+            CheckFieldBookType();
+        }
+
+        /// <summary>
+        /// Method to detect field book type which will then set
+        /// visible or not the add drill hole button in the header bar
+        /// </summary>
+        private void CheckFieldBookType()
+        {
+            string fieldworkType = string.Empty;
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
+            {
+                fieldworkType = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString();
+            }
+
+            if (fieldworkType != string.Empty && fieldworkType.Contains(DatabaseLiterals.KeywordDrill))
+            {
+                _isDrillHoleFieldBook = true;
+            }
+            else
+            {
+                _isDrillHoleFieldBook = false;
+            }
+
+            RaisePropertyChanged("IsDrillHoleFieldBook");
         }
 
         private void FillDatum()
