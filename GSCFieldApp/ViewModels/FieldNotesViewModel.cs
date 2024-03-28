@@ -1178,6 +1178,7 @@ namespace GSCFieldApp.ViewModels
                             currentDetailReport.ParentID = (int)currentEarth.EarthMatDrillHoleID; //TO keep the link with location table
                             currentDetailReport.ParentTableName = DatabaseLiterals.TableDrillHoles;//To keep the link with location table.
                         }
+
                         _reportDetailedEarthmat.Add(currentDetailReport);
 
                         //Refresh summary
