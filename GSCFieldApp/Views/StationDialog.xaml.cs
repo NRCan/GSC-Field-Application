@@ -223,7 +223,8 @@ namespace GSCFieldApp.Views
 
         private void StationObsTypeCombox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_isWaypoint || this.ViewModel.IsWaypoint || this.StationObsTypeCombox.SelectedValue.ToString() == DatabaseLiterals.KeywordStationWaypoint)
+            if (_isWaypoint || this.ViewModel.IsWaypoint || 
+                (this.StationObsTypeCombox.SelectedIndex != -1 && this.StationObsTypeCombox.SelectedValue.ToString() == DatabaseLiterals.KeywordStationWaypoint))
             {
                 if (parentStationReport != null && parentStationReport.station.StationID != 0)
                 {
