@@ -34,7 +34,9 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <uap:Capability Name="removableStorage" />
+    <uap:Capability Name="picturesLibrary"/>
     <DeviceCapability Name="location" />
     <DeviceCapability Name="serialcommunication"/>
+    <DeviceCapability Name="webcam"/>
   </Capabilities>
 </Package>
