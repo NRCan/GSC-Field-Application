@@ -1593,7 +1593,7 @@ namespace GSCFieldApp.ViewModels
             {
                 collectionOfSelectedItems.Add(_reportDetailedStation[_reportStationIndex]);
             }
-            if (_reportDrillIndex != -1)
+            if (_reportDrillIndex != -1 && _reportDetailedDrill.Count() > _reportDrillIndex)
             {
                 collectionOfSelectedItems.Add(_reportDetailedDrill[_reportDrillIndex]);
             }
