@@ -1,6 +1,7 @@
 ﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -2453,7 +2454,7 @@ namespace GSCFieldApp.ViewModels
             //For other cases
             //bool foundParentOrSibling = false;
 
-            if (_reportEarthmatIndex != -1 && _reportStationIndex != -1)
+            if (_reportEarthmatIndex != -1 && (_reportStationIndex != -1 || _reportDrillIndex != -1))
             {
                 #region Conditional to have a selected earthmat
                 //foundParentOrSibling = true;
@@ -2463,7 +2464,14 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == _reportDetailedEarthmat[_reportEarthmatIndex].GenericID select e;
                 if (mineralParentEarth.Count() != 0)
                 {
-                    FillMineralFromParent(mineralParentEarth, _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID);
+                    if (_reportStationIndex != -1)
+                    {
+                        FillMineralFromParent(mineralParentEarth, _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, DatabaseLiterals.TableStation);
+                    }
+                    else if (_reportDrillIndex != -1)
+                    {
+                        FillMineralFromParent(mineralParentEarth, _reportDetailedEarthmat[_reportEarthmatIndex].earthmat.EarthMatID, DatabaseLiterals.TableDrillHoles);
+                    }
 
                     //Manage header opacity
                     mineralRecordCount = mineralParentEarth.Count();
@@ -2479,7 +2487,7 @@ namespace GSCFieldApp.ViewModels
 
             }
 
-            if (_reportMineralizationAlterationIndex != -1 && _reportStationIndex != -1)
+            if (_reportMineralizationAlterationIndex != -1 && (_reportStationIndex != -1 || _reportDrillIndex != -1))
             {
                 #region Conditional to have a selected mineralization alteration
                 //foundParentOrSibling = true;
@@ -2489,7 +2497,16 @@ namespace GSCFieldApp.ViewModels
                 IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralMAID == _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].GenericID select e;
                 if (mineralParentEarth.Count() != 0)
                 {
-                    FillMineralFromParent(mineralParentEarth, _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID);
+                    if (_reportStationIndex != -1)
+                    {
+                        FillMineralFromParent(mineralParentEarth, _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID,
+                            DatabaseLiterals.TableStation);
+                    }
+                    else if (_reportDrillIndex != -1)
+                    {
+                        FillMineralFromParent(mineralParentEarth, _reportDetailedMineralAlt[_reportMineralizationAlterationIndex].mineralAlteration.MAID,
+                                                    DatabaseLiterals.TableDrillHoles);
+                    }
 
                     //Manage header opacity
                     mineralRecordCount = mineralParentEarth.Count();
@@ -2530,7 +2547,7 @@ namespace GSCFieldApp.ViewModels
                 if (minParent.Count() != 0 || minParentMA.Count() != 0)
                 {
                     minParent = minParent.Concat<Mineral>(minParentMA);
-                    FillMineralFromParent(minParent, _reportDetailedStation[_reportStationIndex].GenericID);
+                    FillMineralFromParent(minParent, _reportDetailedStation[_reportStationIndex].GenericID, DatabaseLiterals.TableStation);
                 }
 
                 //Manage header opacity
@@ -2553,7 +2570,7 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         /// <param name="parentCollection"></param>
         /// <param name="parentID"></param>
-        private void FillMineralFromParent(IEnumerable<Mineral> parentCollection, int parentID)
+        private void FillMineralFromParent(IEnumerable<Mineral> parentCollection, int parentID, string parentTableName)
         {
             foreach (Mineral m in parentCollection)
             {
@@ -2583,8 +2600,15 @@ namespace GSCFieldApp.ViewModels
                     currentDetailReport.ParentID = parentID; //TO keep the link with earthmat table
                 }
 
-
-                currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                if (parentTableName == DatabaseLiterals.TableStation)
+                {
+                    currentDetailReport.MainID = _reportDetailedStation[ReportStationListIndex].station.LocationID;
+                }
+                else if (parentTableName == DatabaseLiterals.TableDrillHoles)
+                {
+                    currentDetailReport.MainID = _reportDetailedDrill[ReportDrillIndex].drillHoles.DrillLocationID;
+                }
+                
 
                 _reportDetailedMinerals.Add(currentDetailReport);
 
