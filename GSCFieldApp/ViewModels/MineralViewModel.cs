@@ -471,55 +471,78 @@ namespace GSCFieldApp.ViewModels
             //Get a list of related mineral from selected earthmat
             int parentID = existingDataDetailMineral.ParentID;
 
-            //Find proper parent id (request could come from a mineral or an earthmat selection or a minerlization alteration)
-            if (existingDataDetailMineral.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
-            {
-                parentID = existingDataDetailMineral.GenericID;
-            }
-            else if (existingDataDetailMineral.ParentTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
-            {
-                parentID = existingDataDetailMineral.mineral.MineralMAID ?? default(int);
-            }
-            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID select e;
 
-            if (mineralParentEarth.Count() != 0 || mineralParentEarth != null)
+            //Filter with proper parents
+            IEnumerable<Mineral> mineralParent = from e in mineralTable where e.MineralEMID == parentID select e;
+            if (existingDataDetailMineral.ParentTableName == DatabaseLiterals.TableMineralAlteration)
             {
-                foreach (Mineral mns in mineralParentEarth)
+                mineralParent = from e in mineralTable where e.MineralMAID == parentID select e;
+            }
+            else if (existingDataDetailMineral.GenericTableName == DatabaseLiterals.TableMineralAlteration)
+            {
+                mineralParent = from e in mineralTable where e.MineralMAID == existingDataDetailMineral.GenericID select e;
+            }
+            else if (existingDataDetailMineral.GenericTableName == DatabaseLiterals.TableEarthMat)
+            {
+                mineralParent = from e in mineralTable where e.MineralEMID == existingDataDetailMineral.GenericID select e;
+            }
+
+            if (_mineralResidualModes.Count == 0 && (mineralParent.Count() != 0 || mineralParent != null))
+            {
+                foreach (Mineral mns in mineralParent)
                 {
-                    _minerals.Add(mns.MineralName);
+                    // _minerals.Add(ets.EarthMatID);
 
-                    bool currentModeParsed = int.TryParse(mns.MineralMode, out int currentPercentage);
-
-                    if (currentModeParsed)
+                    int currentPercentage = 0;
+                    if (mns.MineralMode != null)
                     {
-                        _mineralResidualModes.Add(currentPercentage);
+                        int.TryParse(mns.MineralMode, out currentPercentage);
                     }
+                    ;
+                    bool currentPercentParsed = true;
+                    if (mns.MineralID == existingDataDetailMineral.GenericID)
+                    {
+                        if (newMode != string.Empty)
+                        {
+                            currentPercentParsed = int.TryParse(newMode, out currentPercentage);
+                        }
 
+                        if (currentPercentParsed && currentPercentage != 0)
+                        {
+                            _mineralResidualModes.Add(currentPercentage);
+                        }
 
+                    }
+                    else
+                    {
+                        if (currentPercentParsed && currentPercentage != 0)
+                        {
+                            _mineralResidualModes.Add(currentPercentage);
+                        }
+                    }
                 }
 
-                if (_mineralResidualModes.Count() == 0)
-                {
-                    bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
-                    if (currentModeParsed)
-                    {
-                        _mineralResidualModes.Add(currentPercentage);
-                    }
-                    
-                }
+                //if (_mineralResidualModes.Count() == 0)
+                //{
+                //    int currentPercentage = 0;
+                //    bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                //    _mineralResidualModes.Add(currentPercentage);
+                //}
 
+            }
+            else
+            {
+                int currentPercentage = 0;
+                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                _mineralResidualModes.Add(currentPercentage);
             }
 
             if (newMode != string.Empty)
             {
-                bool newModeParsed = int.TryParse(newMode, out int newPercentage);
-                if (newModeParsed)
-                {
-                    _mineralResidualModes.Add(newPercentage);
-                }
-                
+                int currentPercentage = 0;
+                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                _mineralResidualModes.Add(currentPercentage);
             }
-
 
             //Calculate total percentage
             int _mineralResidualMode = 0;
