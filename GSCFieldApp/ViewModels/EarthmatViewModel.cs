@@ -1783,19 +1783,28 @@ namespace GSCFieldApp.ViewModels
             List<object> earthmatTableRaw = accessData.ReadTable(earthmodel.GetType(), null);
             IEnumerable<EarthMaterial> earthTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
 
-            //Get a list of related mineral from selected earthmat
+            //Get a list of earth material siblings
             int parentID = existingDataDetail.ParentID;
 
-            //Find proper parent id (request could come from a mineral or an earthmat selection)
-            if (existingDataDetail.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
+            //Filter with proper parents
+            IEnumerable<EarthMaterial> earthParent = from e in earthTable where e.EarthMatStatID == parentID select e;
+            if (existingDataDetail.ParentTableName == DatabaseLiterals.TableDrillHoles)
             {
-                parentID = existingDataDetail.ParentID;
+                earthParent = from e in earthTable where e.EarthMatDrillHoleID == parentID select e;
             }
-            IEnumerable<EarthMaterial> earthParentStation = from e in earthTable where e.EarthMatStatID == parentID select e;
-
-            if (_earthResidualPercent.Count == 0 && (earthParentStation.Count() != 0 || earthParentStation != null))
+            else if (existingDataDetail.GenericTableName == DatabaseLiterals.TableDrillHoles)
             {
-                foreach (EarthMaterial ets in earthParentStation)
+                earthParent = from e in earthTable where e.EarthMatDrillHoleID == existingDataDetail.GenericID select e;
+            }
+            else if (existingDataDetail.GenericTableName == DatabaseLiterals.TableStation)
+            {
+                earthParent = from e in earthTable where e.EarthMatStatID == existingDataDetail.GenericID select e;
+            }
+            
+
+            if (_earthResidualPercent.Count == 0 && (earthParent.Count() != 0 || earthParent != null))
+            {
+                foreach (EarthMaterial ets in earthParent)
                 {
                     // _minerals.Add(ets.EarthMatID);
 
