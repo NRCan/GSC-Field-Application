@@ -154,7 +154,7 @@ namespace GSCFieldApp.Models
                 //Revert schema 1.4.4 
                 List<string> metadataFieldList143 = new List<string>();
                 metadataFieldList143.AddRange(metadataFieldList144);
-                metadataFieldList143.Remove(DatabaseLiterals.FieldUserInfoEPSG);
+                metadataFieldList143.Insert(7,DatabaseLiterals.FieldUserInfoEPSG);
                 metadataFieldList[DatabaseLiterals.DBVersion143] = metadataFieldList143;
 
                 //Revert schema 1.4.3 changes
