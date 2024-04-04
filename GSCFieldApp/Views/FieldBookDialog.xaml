@@ -46,7 +46,7 @@
                                       Style="{ThemeResource ComboboxMandatoryField}"
                               Header=""
                               ItemsSource="{x:Bind ViewModel.ProjectType}"
-                              SelectedValue="{x:Bind ViewModel.SelectedProjectType, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.Enability, Mode=TwoWay}"
+                              SelectedValue="{x:Bind ViewModel.SelectedProjectType, Mode=TwoWay}"
                               PlaceholderText=""/>
 
                             <TextBox x:Name="ActivityNameTextBox" x:Uid="UserInfoDialogAName" RelativePanel.RightOf="ProjectTypeComboBox" RelativePanel.AlignHorizontalCenterWith="ProjectTypeComboBox"
