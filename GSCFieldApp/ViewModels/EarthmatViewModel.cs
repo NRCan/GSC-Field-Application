@@ -1218,6 +1218,11 @@ namespace GSCFieldApp.ViewModels
                 {
                     earths = from e in earthmatTable where e.EarthMatDrillHoleID == existingDataDetail.GenericID select e;
                 }
+                else if (existingDataDetail.GenericTableName == DatabaseLiterals.TableEarthMat)
+                {
+                    earths = from e in earthmatTable where (e.EarthMatStatID == existingDataDetail.ParentID) &&
+                             (e.EarthMatID != existingDataDetail.GenericID) select e;
+                }
 
                 foreach (EarthMaterial ea in earths)
                 {
