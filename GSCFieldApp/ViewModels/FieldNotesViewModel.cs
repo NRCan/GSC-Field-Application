@@ -4380,7 +4380,7 @@ namespace GSCFieldApp.ViewModels
 
         public void MineralAltAddIcon_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            if (!_reportDetailedStation[_reportStationIndex].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
+            if (_reportStationIndex != -1 && !_reportDetailedStation[_reportStationIndex].GenericAliasName.Contains(Dictionaries.DatabaseLiterals.KeywordStationWaypoint))
             {
                 PopMineralAlt(_reportDetailedStation[_reportStationIndex], false);
             }
