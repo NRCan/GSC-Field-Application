@@ -3,6 +3,7 @@ using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Services.FileServices;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Template10.Mvvm;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -145,8 +146,13 @@ namespace GSCFieldApp.ViewModels
                 {
                     if (sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite)
                     {
-                        StorageFile newFile = await sf.CopyAsync(fieldBook, newName);
-                        newList.Add(newFile);
+                        //Colision prevention
+                        if (!File.Exists(newName))
+                        {
+                            StorageFile newFile = await sf.CopyAsync(fieldBook, newName);
+                            newList.Add(newFile);
+                        }
+
 
                     }
                     else
