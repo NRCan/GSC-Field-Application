@@ -978,7 +978,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     _reportDrillIndex = userSelectedDrillIndex;
                 }
-                RaisePropertyChanged("ReportDrillListIndex");
+                RaisePropertyChanged("ReportDrillIndex");
 
             }
 
