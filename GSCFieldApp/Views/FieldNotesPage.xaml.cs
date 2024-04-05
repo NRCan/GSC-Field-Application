@@ -117,13 +117,7 @@ namespace GSCFieldApp.Views
                 ViewModel.SetSelectedStationFromMapPage();
                 navFromMapPage = false;
             }
-            else
-            {
-                //Reset selection
-                ViewModel.userSelectedStationID = string.Empty;
-                ViewModel.userSelectedStationDate = string.Empty;
-                ViewModel.SetSelectedStationFromMapPage();
-            }
+
 
         }
 

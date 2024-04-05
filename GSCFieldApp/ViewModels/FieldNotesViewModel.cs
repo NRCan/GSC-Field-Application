@@ -698,25 +698,7 @@ namespace GSCFieldApp.ViewModels
                 }
 
             }
-            else
-            {
 
-                //Force reset of data selected index in case user has selected one, took a new station and navigates back to the notes.
-                if (ReportDateItems.Count > 0)
-                {
-
-                    ReportListViewDateIndex = 0;
-                    RaisePropertyChanged("ReportListViewDateIndex");
-                }
-
-                //Refills stations
-                FillStationFromList();
-            }
-            ////To validate if a reset is needed because it's a new field book
-            //else if (stationDateTableRows != null && stationDateTableRows.Count == 0 && )
-            //{
-
-            //}
 
             if (summaryDone != null)
             {
@@ -4897,7 +4879,7 @@ namespace GSCFieldApp.ViewModels
                 //Set station ID, waiting to be selected when station header is filled with records
                 foreach (FieldNotes stations in _reportDetailedStation)
                 {
-                    if (stations.station.StationAlias == userSelectedStationID)
+                    if (stations.station.StationID.ToString() == userSelectedStationID)
                     {
                         _reportStationIndex = _reportDetailedStation.IndexOf(stations);
 
