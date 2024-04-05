@@ -23,6 +23,7 @@ using System.Diagnostics;
 using Esri.ArcGISRuntime.Geometry;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using GSCFieldApp.Views;
 //Added By jamel
 //using OSGeo.GDAL;
 //using OSGeo.OGR;
@@ -485,71 +486,101 @@ namespace GSCFieldApp.ViewModels
         /// <returns></returns>
         public async Task BackupFieldBook()
         {
-            //Set progress ring
-            _progressRingActive = true;
-            _progressRingVisibility = true;
-            RaisePropertyChanged("ProgressRingActive");
-            RaisePropertyChanged("ProgressRingVisibility");
 
-            //Variables
-            List<StorageFile> FilesToBackup = new List<StorageFile>();
-            FileServices fs = new FileServices();
-
-            //Iterate through field book folder files
-            //Make sure something is selected and that user is not trying to delete the only project left
-            if (_projectCollection != null && _selectedProjectIndex != -1)
+            ContentDialog longProcessDialog = new ContentDialog()
             {
-                FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
-                StorageFolder fieldBook = await StorageFolder.GetFolderFromPathAsync(selectedBook.ProjectPath);
+                Title = loadLocalization.GetString("SaveDBDialogTitle"),
+                Content = loadLocalization.GetString("SaveDBDialogLongProcessContent"),
+                PrimaryButtonText = loadLocalization.GetString("MapPageDialogTextYes"),
+                SecondaryButtonText = loadLocalization.GetString("MapPageDialogTextNo"),
+            };
+            longProcessDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
 
-                //Get a list of files from field book
-                IReadOnlyList<StorageFile> fieldBookPhotosRO = await fieldBook.GetFilesAsync();
+            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(longProcessDialog, true).Result;
 
-                //calculate new name for output database in the archive
-                string uCode = currentLocalSettings.Containers[ApplicationLiterals.LocalSettingMainContainer].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode].ToString();
-                FileServices fService = new FileServices();
-                string newName = fService.CalculateDBCopyName(uCode) + DatabaseLiterals.DBTypeSqlite;
-                StorageFile databaseToRename = null;
+            if (cdr == ContentDialogResult.Primary)
+            {
+                //Set progress ring
+                _progressRingActive = true;
+                _progressRingVisibility = true;
+                RaisePropertyChanged("ProgressRingActive");
+                RaisePropertyChanged("ProgressRingVisibility");
 
-                //Build list of files to add to archive
-                foreach (StorageFile files in fieldBookPhotosRO)
+                //Variables
+                List<StorageFile> FilesToBackup = new List<StorageFile>();
+                FileServices fs = new FileServices();
+
+                //Iterate through field book folder files
+                //Make sure something is selected and that user is not trying to delete the only project left
+                if (_projectCollection != null && _selectedProjectIndex != -1)
                 {
-                    //Get databases
-                    if (files.Name.ToLower().Contains(DatabaseLiterals.DBTypeSqlite) && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
-                    {
+                    FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
+                    StorageFolder fieldBook = await StorageFolder.GetFolderFromPathAsync(selectedBook.ProjectPath);
 
-                        databaseToRename = files;
-                    }
-                    else if (!files.Name.Contains("zip"))
+                    //Get a list of files from field book
+                    IReadOnlyList<StorageFile> fieldBookPhotosRO = await fieldBook.GetFilesAsync();
+
+                    //calculate new name for output database in the archive
+                    string uCode = currentLocalSettings.Containers[ApplicationLiterals.LocalSettingMainContainer].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode].ToString();
+                    FileServices fService = new FileServices();
+                    string newName = fService.CalculateDBCopyName(uCode) + DatabaseLiterals.DBTypeSqlite;
+                    StorageFile databaseToRename = null;
+
+                    //Build list of files to add to archive
+                    foreach (StorageFile files in fieldBookPhotosRO)
                     {
-                        FilesToBackup.Add(files);
+                        //Get databases
+                        if (files.Name.ToLower().Contains(DatabaseLiterals.DBTypeSqlite) && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
+                        {
+
+                            databaseToRename = files;
+                        }
+                        else if (!files.Name.Contains("zip"))
+                        {
+                            FilesToBackup.Add(files);
+                        }
+
                     }
+
+                    //Copy and rename database
+                    if (databaseToRename != null)
+                    {
+                        var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+
+                        StorageFile newFile = await databaseToRename.CopyAsync(fieldBook, newName);
+                        FilesToBackup.Add(newFile);
+
+                        //Zip and Copy
+                        string outputZipFilePath = await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath,
+                            selectedBook.metadataForProject.UserCode);
+
+                        //Show end message
+                        if (outputZipFilePath != string.Empty)
+                        {
+                            ContentDialog endProcessDialog = new ContentDialog()
+                            {
+                                Title = loadLocalization.GetString("SaveDBDialogTitle"),
+                                Content = loadLocalization.GetString("SaveDBDialogContent") + "\n" + outputZipFilePath,
+                                PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
+                            };
+
+                            ContentDialogResult endCD = await endProcessDialog.ShowAsync();
+                        }
+
+
+                        await newFile.DeleteAsync();
+                    }
+
+
 
                 }
 
-                //Copy and rename database
-                if (databaseToRename != null)
-                {
-                    StorageFile newFile = await databaseToRename.CopyAsync(fieldBook, newName);
-                    FilesToBackup.Add(newFile);
-
-                    //Zip and Copy
-
-                    await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath,
-                        selectedBook.metadataForProject.UserCode);
-
-                    await newFile.DeleteAsync();
-                }
-
-
-
+                //Unset progress ring
+                _progressRingActive = false;
+                _progressRingVisibility = false;
+                RaisePropertyChanged("ProgressRingActive");
+                RaisePropertyChanged("ProgressRingVisibility");
             }
-
-            //Unset progress ring
-            _progressRingActive = false;
-            _progressRingVisibility = false;
-            RaisePropertyChanged("ProgressRingActive");
-            RaisePropertyChanged("ProgressRingVisibility");
 
             return;
 

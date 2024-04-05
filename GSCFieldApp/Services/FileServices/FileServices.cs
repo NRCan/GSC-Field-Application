@@ -2,6 +2,7 @@
 using GSCFieldApp.Services.DatabaseServices;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -209,9 +210,7 @@ namespace GSCFieldApp.Services.FileServices
                 fieldbookpath = localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString();
             }
 
-            //Add photos to a zip file
-            string photoZipFilePath = await AddFilesToZip(photos, fieldbookpath, currentUserCode);
-            StorageFile arhiveToRead = await StorageFile.GetFileFromPathAsync(photoZipFilePath);
+            string zipFile = CalculateDBCopyName(currentUserCode) + ".zip";
 
             //Variables
             string outputZipPhotoFilePath = string.Empty;
@@ -223,51 +222,20 @@ namespace GSCFieldApp.Services.FileServices
             };
             fSavePicker.FileTypeChoices.Add("zip", new List<string>() { ".zip" });
             fSavePicker.DefaultFileExtension = ".zip";
-            fSavePicker.SuggestedFileName = prefix + arhiveToRead.Name.Split('.')[0];
+            fSavePicker.SuggestedFileName = prefix + zipFile.Split('.')[0];
 
             //Get users selected save files
             StorageFile saveArchiveFile = await fSavePicker.PickSaveFileAsync(); //This will save an empty file at the location user has selected
-
-            if (arhiveToRead != null)
+            if (zipFile != null)
             {
-                IBuffer currentArchiveBuffer = await Windows.Storage.FileIO.ReadBufferAsync(arhiveToRead as IStorageFile);
-                byte[] currentArchiveByteArray = currentArchiveBuffer.ToArray();
 
                 if (saveArchiveFile != null)
                 {
-                    //Lock the file
-                    Windows.Storage.CachedFileManager.DeferUpdates(saveArchiveFile);
+                    //Delete empty shell file else zip will fail
+                    await saveArchiveFile.DeleteAsync();
 
                     //Save
-                    await Windows.Storage.FileIO.WriteBytesAsync(saveArchiveFile, currentArchiveByteArray);
-                    Windows.Storage.Provider.FileUpdateStatus status = await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(saveArchiveFile);
-                    if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
-                    {
-                        //Show end message
-                        var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                        ContentDialog endProcessDialog = new ContentDialog()
-                        {
-                            Title = loadLocalization.GetString("SaveDBDialogTitle"),
-                            Content = loadLocalization.GetString("SaveDBDialogContent") + "\n" + saveArchiveFile.Path.ToString(),
-                            PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
-                        };
-
-                        ContentDialogResult cdr = await endProcessDialog.ShowAsync();
-                    }
-                    else
-                    {
-                        //Show error message
-                        var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                        ContentDialog endProcessDialog = new ContentDialog()
-                        {
-                            Title = loadLocalization.GetString("SaveDBDialogTitle"),
-                            Content = loadLocalization.GetString("SaveDBDialogContentError"),
-                            PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
-                        };
-
-                        ContentDialogResult cdr = await endProcessDialog.ShowAsync();
-                    }
-
+                    ZipFile.CreateFromDirectory(fieldbookpath, saveArchiveFile.Path);
 
                 }
             }
@@ -276,9 +244,6 @@ namespace GSCFieldApp.Services.FileServices
             {
                 outputZipPhotoFilePath = saveArchiveFile.Path;
             }
-
-            //Delete original archive
-            await arhiveToRead.DeleteAsync();
 
             return outputZipPhotoFilePath;
         }

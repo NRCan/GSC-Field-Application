@@ -1881,4 +1881,7 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="SettingPageVocabDrill.Content" xml:space="preserve">
     <value>Drill</value>
   </data>
+  <data name="SaveDBDialogLongProcessContent" xml:space="preserve">
+    <value>This process could take a long time if many .tpk are to be found within field book. Would you still like to continue?</value>
+  </data>
 </root>

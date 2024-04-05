@@ -1876,4 +1876,7 @@ Shimamura, Kaz – Conseiller</value>
   <data name="SettingPageVocabDrill.Content" xml:space="preserve">
     <value>Forages</value>
   </data>
+  <data name="SaveDBDialogLongProcessContent" xml:space="preserve">
+    <value>Cette option pourrait prendre un long moment en fonction du nombre de fichier .tpk. Souhaitez-vous tout de même continuer?</value>
+  </data>
 </root>
