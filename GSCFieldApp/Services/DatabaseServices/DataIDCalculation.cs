@@ -541,7 +541,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //Find if last two are characters
                 string secondLastCharacter = lastAlias.ToList()[lastAlias.Length - 2].ToString();
-                if (!isDrillHole && secondLastCharacter != "H")
+                string thirdLastCharacter = lastAlias.ToList()[lastAlias.Length - 3].ToString() + secondLastCharacter;
+                if (thirdLastCharacter != "DH")
                 {
                     int secondLastInteger = -1;
                     if (!int.TryParse(secondLastCharacter, out secondLastInteger))
