@@ -523,7 +523,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             IEnumerable<EarthMaterial> earthmatTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
             IEnumerable<string> eartmatParents = from e in earthmatTable where e.EarthMatStatID == parentID select e.EarthMatName;
 
-            if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+            if (parentAlias.EndsWith(DatabaseLiterals.TableDrillHolePrefix))
             {
                 eartmatParents = from e in earthmatTable where e.EarthMatDrillHoleID == parentID select e.EarthMatName;
                 isDrillHole = true;
