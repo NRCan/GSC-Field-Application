@@ -547,8 +547,8 @@ namespace GSCFieldApp.ViewModels
                     {
                         var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
-                        StorageFile newFile = await databaseToRename.CopyAsync(fieldBook, newName);
-                        FilesToBackup.Add(newFile);
+                        //StorageFile newFile = await databaseToRename.CopyAsync(fieldBook, newName);
+                        //FilesToBackup.Add(newFile);
 
                         //Zip and Copy
                         string outputZipFilePath = await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath,
@@ -568,7 +568,7 @@ namespace GSCFieldApp.ViewModels
                         }
 
 
-                        await newFile.DeleteAsync();
+                        //await newFile.DeleteAsync();
                     }
 
 
