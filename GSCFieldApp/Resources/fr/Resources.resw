@@ -1067,7 +1067,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Nom du projet</value>
   </data>
   <data name="UserDialogNewDataContent" xml:space="preserve">
-    <value>Aimeriez-vous ajouter des données en lecture seule (.tpk, .sqlite) au nouveau carnet de terrain?</value>
+    <value>Aimeriez-vous ajouter des données en lecture seule (.tpk) au nouveau carnet de terrain?</value>
   </data>
   <data name="UserDialogNewDataTitle" xml:space="preserve">
     <value>Données </value>
@@ -1878,5 +1878,14 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="SaveDBDialogLongProcessContent" xml:space="preserve">
     <value>Cette option pourrait prendre un long moment en fonction du nombre de fichier .tpk. Souhaitez-vous tout de même continuer?</value>
+  </data>
+  <data name="SettingLoadPicklistProcessWarningMessage.Text" xml:space="preserve">
+    <value>Veuillez-vous assurer que la liste importée provient d'un carnet à jour. Sinon, utiliser le bouton "Mettre-à-jour" dans la page des carnets de notes</value>
+  </data>
+  <data name="SettingLoadPicklistProcessWarningMessageOk" xml:space="preserve">
+    <value>Importer</value>
+  </data>
+  <data name="UpgradeErrorMetadataContent" xml:space="preserve">
+    <value>La table de métadonnée est manquante ou vide. L'opération ne pourra continuer.</value>
   </data>
 </root>

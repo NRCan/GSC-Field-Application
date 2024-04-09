@@ -19,6 +19,7 @@ using SQLite;
 using System.IO;
 using System.Globalization;
 using Windows.Foundation.Collections;
+using GSCFieldApp.Views;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -452,61 +453,80 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         public async void settingLoadPicklistButton_TappedAsync(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            //Get local storage folder
-            StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
-            //Create a file picker for sqlite 
-            var filesPicker = new Windows.Storage.Pickers.FileOpenPicker
+            //Show info message - stating incoming vocab should be in same version as field book
+            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+            ContentDialog importWarningDialog = new ContentDialog()
             {
-                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                Title = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageTitle"),
+                Content = loadLocalization.GetString("SettingLoadPicklistProcessWarningMessage/Text"),
+                PrimaryButtonText = loadLocalization.GetString("SettingLoadPicklistProcessWarningMessageOk"),
+                CloseButtonText = loadLocalization.GetString("MapPageDialogTextCancel")
             };
-            filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
-            filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
+            importWarningDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+            await Services.ContentDialogMaker.CreateContentDialogAsync(importWarningDialog, true);
 
-            //Get users selected files
-            StorageFile f = await filesPicker.PickSingleFileAsync();
-            if (f != null)
+            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(importWarningDialog, true).Result;
+
+            if (cdr == ContentDialogResult.Primary)
             {
-                // Create or overwrite file target file in local app data folder
-                StorageFile fileToWrite = await localFolder.CreateFileAsync(f.Name, CreationCollisionOption.ReplaceExisting);
+                //Get local storage folder
+                StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
-                //Copy else code won't be able to read it
-                byte[] buffer = new byte[1024];
-                using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
+                //Create a file picker for sqlite 
+                var filesPicker = new Windows.Storage.Pickers.FileOpenPicker
                 {
-                    using (BinaryReader fileReader = new BinaryReader(await f.OpenStreamForReadAsync()))
-                    {
-                        long readCount = 0;
-                        while (readCount < fileReader.BaseStream.Length)
-                        {
-                            int read = fileReader.Read(buffer, 0, buffer.Length);
-                            readCount += read;
-                            fileWriter.Write(buffer, 0, read);
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                };
+                filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
+                filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
 
+                //Get users selected files
+                StorageFile f = await filesPicker.PickSingleFileAsync();
+                if (f != null)
+                {
+                    // Create or overwrite file target file in local app data folder
+                    StorageFile fileToWrite = await localFolder.CreateFileAsync(f.Name, CreationCollisionOption.ReplaceExisting);
+
+                    //Copy else code won't be able to read it
+                    byte[] buffer = new byte[1024];
+                    using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
+                    {
+                        using (BinaryReader fileReader = new BinaryReader(await f.OpenStreamForReadAsync()))
+                        {
+                            long readCount = 0;
+                            while (readCount < fileReader.BaseStream.Length)
+                            {
+                                int read = fileReader.Read(buffer, 0, buffer.Length);
+                                readCount += read;
+                                fileWriter.Write(buffer, 0, read);
+
+                            }
                         }
                     }
+
+                    //Connect to working database
+                    SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
+
+                    //Swap vocab
+                    accessData.DoSwapVocab(fileToWrite.Path, workingDBConnection);
+
+
+                    //Show end message
+                    ContentDialog importEndDialog = new ContentDialog()
+                    {
+                        Title = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageTitle"),
+                        Content = loadLocalization.GetString("SettingLoadPicklistProcessEndMessage/Text"),
+                        PrimaryButtonText = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageOk")
+                    };
+
+                    await importEndDialog.ShowAsync();
+
+                    FileServices fs = new FileServices();
+                    fs.DeleteLocalStateFile(fileToWrite.Path);
                 }
 
-                //Connect to working database
-                SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
-
-                //Swap vocab
-                accessData.DoSwapVocab(fileToWrite.Path, workingDBConnection);
-
-
-                //Show end message
-                var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                ContentDialog addedLayerDialog = new ContentDialog()
-                {
-                    Title = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageTitle"),
-                    Content = loadLocalization.GetString("SettingLoadPicklistProcessEndMessage/Text"),
-                    PrimaryButtonText = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageOk")
-                };
-
-                ContentDialogResult cdr = await addedLayerDialog.ShowAsync();
-
-                FileServices fs = new FileServices();
-                fs.DeleteLocalStateFile(fileToWrite.Path);
+ 
 
             }
         }

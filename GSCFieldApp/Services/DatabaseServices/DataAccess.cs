@@ -626,13 +626,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             insertQuery_vocab = insertQuery_vocab.Replace("SELECT ,", "SELECT ");
             insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
 
-            string defaultCreatorsEditors = "'Bedrock Committee', 'GSC Field App', 'Gabriel Huot-Vézina', 'Microsoft default', 'GanFeld', 'Ganfeld', " +
-                "'Janet Campbell', 'Jessey Rice', 'New term', 'Jessey Rice/Janet Campbell', 'Microsoft', " +
-                "'Pierre Brouillette', 'Surficial Committee', 'Surficial Commitee'";
-
-            insertQuery_vocab = insertQuery_vocab + " WHERE (v." + FieldDictionaryCreator + " not in (" + defaultCreatorsEditors +
-                ") or v." + FieldDictionaryEditor + " not in (" + defaultCreatorsEditors + ") AND (v." +
-                FieldDictionaryTermID + " NOT IN (SELECT v2." + FieldDictionaryTermID + " FROM " + TableDictionary + " as v2))); ";
+            insertQuery_vocab = insertQuery_vocab + " WHERE v." + FieldDictionaryCreator + " not in (select distinct(md." +
+                FieldDictionaryCreator + ") from " + TableDictionary + " as md);";
             queryList.Add(insertQuery_vocab);
 
             #endregion
@@ -642,7 +637,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             queryList.Add(detachQuery);
 
             //Build vacuum query
-            string vacuumQuery = "VACUUM";
+            string vacuumQuery = "VACUUM;";
             queryList.Add(vacuumQuery);
 
             //Commit queries
@@ -958,7 +953,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Check #2 DB version must be older then current
             double d_mVersions = GetDBVersion();
 
-            if (locationCount > 0 && d_mVersions != DatabaseLiterals.DBVersion && d_mVersions != 0.0 && d_mVersions < DatabaseLiterals.DBVersion)
+            if (d_mVersions != DatabaseLiterals.DBVersion && d_mVersions != 0.0 && d_mVersions < DatabaseLiterals.DBVersion)
             {
                 canUpgrade = true;
             }

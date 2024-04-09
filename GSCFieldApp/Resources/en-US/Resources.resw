@@ -1069,7 +1069,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Name</value>
   </data>
   <data name="UserDialogNewDataContent" xml:space="preserve">
-    <value>Would you like to add read-only data (.tpk, .sqlite) to the new field note book?</value>
+    <value>Would you like to add read-only data (.tpk) to the new field note book?</value>
   </data>
   <data name="UserDialogNewDataTitle" xml:space="preserve">
     <value>Add Data</value>
@@ -1883,5 +1883,14 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="SaveDBDialogLongProcessContent" xml:space="preserve">
     <value>This process could take a long time if many .tpk are to be found within field book. Would you still like to continue?</value>
+  </data>
+  <data name="SettingLoadPicklistProcessWarningMessage.Text" xml:space="preserve">
+    <value>Make sure incoming picklist are from the same version as current fieldbook. Use 'Upgrade' button from Field Book page to do so.</value>
+  </data>
+  <data name="SettingLoadPicklistProcessWarningMessageOk" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="UpgradeErrorMetadataContent" xml:space="preserve">
+    <value>No metadata table was found within the incoming database. Can't upgrade.</value>
   </data>
 </root>
