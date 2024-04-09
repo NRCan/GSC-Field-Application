@@ -372,7 +372,7 @@ namespace GSCFieldApp.ViewModels
                     {
 
                     }
-
+                    await Task.Delay(5000);
 
                     break;
 
@@ -2443,41 +2443,6 @@ namespace GSCFieldApp.ViewModels
                 {
                     sqliteList[sf.Name] = sf;
                 }
-                else if (fileName.Contains(".mmpk"))
-                {
-                    ///Deprecated MobileMapPackage.IsDirectReadSupportedAsync by ESRI, commented out for now
-                    //MobileMapPackage mobileMapPackage;
-                    //bool isDirectReadSupported = await MobileMapPackage.IsDirectReadSupportedAsync(sf.Path);
-                    //if (isDirectReadSupported)
-                    //{
-                    //    mobileMapPackage = await MobileMapPackage.OpenAsync(sf.Path);
-                    //}
-                    //else
-                    //{
-                    //    await MobileMapPackage.UnpackAsync(sf.Path, accessData.ProjectPath);
-                    //    mobileMapPackage = await MobileMapPackage.OpenAsync(accessData.ProjectPath);
-                    //}
-
-                    //if (mobileMapPackage.Maps.Count > 0)
-                    //{
-                    //    Map mymap = mobileMapPackage.Maps.First();
-                    //    currentMapView.Map = mymap;
-                    //    //currentMapView.UpdateLayout();
-
-                    //    foreach (Layer item in currentMapView.Map.AllLayers)
-                    //    {
-                    //        MapPageLayers im = new MapPageLayers();
-                    //        im.LayerName = item.Name;
-                    //        MapPageLayerSetting mpls = new MapPageLayerSetting();
-                    //        mpls.LayerOpacity = item.Opacity * 100;
-                    //        mpls.LayerVisibility = item.IsVisible;
-                    //        im.LayerSettings = mpls;
-                    //        _filenameValues.Add(im);
-                    //        RaisePropertyChanged("FilenameValues");
-                    //    }
-                    //}
-                }
-
             }
 
             #endregion
@@ -2513,18 +2478,6 @@ namespace GSCFieldApp.ViewModels
                         }
 
                     }
-                    else if (configs.LayerName != null && (configs.LayerName.Contains(DatabaseLiterals.DBTypeSqlite) || configs.LayerName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)))
-                    {
-                        if (sqliteList.ContainsKey(configs.LayerName))
-                        {
-                            bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out bool sqlVisibility);
-                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out double sqlSliderSettingOpacity);
-                            AddDataTypeSQLite(sqliteList[configs.LayerName], sqlVisibility, sqlSliderSettingOpacity / 100.0);
-                            sqliteList.Remove(configs.LayerName);
-                            foundLayers = true;
-                        }
-                    }
-
                 }
             }
 
@@ -2554,27 +2507,6 @@ namespace GSCFieldApp.ViewModels
                     foundLayers = true;
                 }
             }
-            if (sqliteList.Count > 0)
-            {
-                foreach (KeyValuePair<string, StorageFile> remainingSqlite in sqliteList)
-                {
-                    AddDataTypeSQLite(remainingSqlite.Value, true, 1);
-                    MapPageLayers mpl = new MapPageLayers
-                    {
-                        LayerName = remainingSqlite.Key
-                    };
-                    MapPageLayerSetting mpls = new MapPageLayerSetting
-                    {
-                        LayerOpacity = 100,
-                        LayerVisibility = true
-                    };
-                    mpl.LayerSettings = mpls;
-                    _filenameValues.Insert(0, mpl);
-                    RaisePropertyChanged("FilenameValues");
-                    foundLayers = true;
-                }
-            }
-
 
             //If nothing is found ask user to load data
             if (!foundLayers)
@@ -2779,10 +2711,12 @@ namespace GSCFieldApp.ViewModels
 
                     #region OVERLAYS
                     // Find the layer from the map layers and change visibility
-                    if (_overlayContainerOther.ContainsKey(layerName))
+                    if (_overlayContainerOther.ContainsKey(layerName) &&
+                            _overlayContainerOther[layerName].Count() > 0)
                     {
                         if (inSwitch != null)
                         {
+
                             _overlayContainerOther[layerName][0].IsVisible = inSwitch.IsOn;
                             _overlayContainerOther[layerName][1].IsVisible = inSwitch.IsOn;
                         }
@@ -3000,9 +2934,7 @@ namespace GSCFieldApp.ViewModels
                     SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
                 };
                 filesPicker.FileTypeFilter.Add(".tpk");
-                filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
-                filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
-                filesPicker.FileTypeFilter.Add(".mmpk");
+
                 //Get users selected files
                 IReadOnlyList<StorageFile> files = await filesPicker.PickMultipleFilesAsync();
                 if (files.Count > 0)
