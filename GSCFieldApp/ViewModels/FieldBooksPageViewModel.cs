@@ -810,11 +810,6 @@ namespace GSCFieldApp.ViewModels
                     isRestoreFromZip = true;
                 }
 
-                //if (inFile.FileType.Contains("SQLite"))
-                //{
-                //    ConvertSQLiteToGeoPackage(inFile.Name, fieldProjectPath + "/" + inFile.Name + ".gpkg");
-                //}
-
                 //Connect to the new database
                 IReadOnlyList<StorageFile> storageFiles = await newFieldBookFolder.GetFilesAsync();
                 StorageFile wantedDB = null;
@@ -861,32 +856,49 @@ namespace GSCFieldApp.ViewModels
                     //Fill in current setting and change field book.
                     IEnumerable<object> metadata_raw = accessData.ReadTableFromDBConnection(metadataModel.GetType(), string.Empty, loadedDBConnection);
                     IEnumerable<Metadata> metadataTable = metadata_raw.Cast<Metadata>();
-                    Metadata metItem = metadataTable.First() as Metadata;
 
-                    //Display a warning for version validation
-                    if (metItem.VersionSchema != DatabaseLiterals.DBVersion.ToString())
+                    if (metadataTable != null && metadataTable.Count() > 0)
                     {
-                        // Language localization using Resource.resw
-                        var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                        Metadata metItem = metadataTable.First() as Metadata;
 
-                        await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                        //Display a warning for version validation
+                        if (metItem.VersionSchema != DatabaseLiterals.DBVersion.ToString())
                         {
-                            ContentDialog outDatedVersionDialog = new ContentDialog()
-                            {
-                                Title = local.GetString("WarningBadVersionTitle"),
-                                Content = local.GetString("WarningBadVersionContent"),
-                                PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
-                            };
-                            outDatedVersionDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                            await Services.ContentDialogMaker.CreateContentDialogAsync(outDatedVersionDialog, false);
+                            // Language localization using Resource.resw
+                            var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
-                        }).AsTask();
+                            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                            {
+                                ContentDialog outDatedVersionDialog = new ContentDialog()
+                                {
+                                    Title = local.GetString("WarningBadVersionTitle"),
+                                    Content = local.GetString("WarningBadVersionContent"),
+                                    PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
+                                };
+                                outDatedVersionDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                                await Services.ContentDialogMaker.CreateContentDialogAsync(outDatedVersionDialog, false);
+
+                            }).AsTask();
+
+                        }
+
+                        OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode,
+                            metItem.MetaID, wantedDB.Path, metItem.VersionSchema, metItem.ProjectName, metItem.MetadataActivity, false);
+                        FillProjectCollectionAsync();
+                    }
+                    else
+                    {
+                        ContentDialog missingMetadataDialog = new ContentDialog()
+                        {
+                            Title = loadLocalization.GetString("Generic_MessageErrorTitle"),
+                            Content = loadLocalization.GetString("UpgradeErrorMetadataContent"),
+                            CloseButtonText = loadLocalization.GetString("GenericCloseLabel/Label"),
+                        };
+                        missingMetadataDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                        ContentDialogResult cdr = await missingMetadataDialog.ShowAsync();
 
                     }
 
-                    OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode,
-                        metItem.MetaID, wantedDB.Path, metItem.VersionSchema, metItem.ProjectName, metItem.MetadataActivity, false);
-                    FillProjectCollectionAsync();
                 }
 
 
