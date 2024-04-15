@@ -17,6 +17,7 @@ namespace GSCFieldApp.ViewModels
         private bool _shellEnableMapCommand = true;
         private bool _shellEnableNoteCommand = true;
         private bool _shellEnableBackupCommand = true;
+        private bool _shellRingActive = false;
 
         //Delegates and events
 
@@ -29,6 +30,12 @@ namespace GSCFieldApp.ViewModels
         public bool ShellEnableMapCommand { get { return _shellEnableMapCommand; } set { _shellEnableMapCommand = value; } }
         public bool ShellEnableNoteCommand { get { return _shellEnableNoteCommand; } set { _shellEnableNoteCommand = value; } }
         public bool ShellEnableBackupCommand { get { return _shellEnableBackupCommand; } set { _shellEnableBackupCommand = value; } }
+
+        public bool ShellRingActive
+        {
+            get { return _shellRingActive; }
+            set { _shellRingActive = value; }
+        }
 
         //Init.
         public ShellViewModel()
@@ -64,6 +71,9 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public async void QuickBackupAsync()
         {
+            _shellRingActive = true;
+            RaisePropertyChanged("ShellRingActive");
+
             //Variables
             List<StorageFile> FilesToBackup = new List<StorageFile>();
             FileServices fs = new FileServices();
@@ -165,25 +175,16 @@ namespace GSCFieldApp.ViewModels
                 }
 
                 //Zip 
-                string outputArchivePath = await fs.AddFilesToZip(newList);
+                string outputArchivePath = await fs.AddFilesToFolder(newList);
 
                 //Keep youngest photo in memory
                 localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest, youngestPhoto);
 
                 //Copy
-                await fs.SaveArchiveCopy(newList, "", "");
+                await fs.SaveArchiveCopy(outputArchivePath, "", "");
 
                 //Delete renamed copy
-                foreach (StorageFile fsToDelete in newList)
-                {
-                    if (fsToDelete.Name.Contains(newName))
-                    {
-                        await fsToDelete.DeleteAsync();
-                        break;
-                    }
-
-                }
-
+                Directory.Delete(outputArchivePath,true);
 
             }
             else if (FilesToBackup.Count == 1 && FilesToBackup[0].Name.Contains(DatabaseLiterals.DBTypeSqlite))
@@ -238,6 +239,8 @@ namespace GSCFieldApp.ViewModels
                 ContentDialogResult cdr = await warningNoPhotoBackup.ShowAsync();
             }
 
+            _shellRingActive = false;
+            RaisePropertyChanged("ShellRingActive");
         }
 
         public void RestoreAsync()

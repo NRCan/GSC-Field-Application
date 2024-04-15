@@ -551,7 +551,7 @@ namespace GSCFieldApp.ViewModels
                         //FilesToBackup.Add(newFile);
 
                         //Zip and Copy
-                        string outputZipFilePath = await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath,
+                        string outputZipFilePath = await fs.SaveArchiveCopy(selectedBook.ProjectPath,
                             selectedBook.metadataForProject.UserCode);
 
                         //Show end message

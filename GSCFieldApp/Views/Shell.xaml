@@ -5,13 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:views="using:GSCFieldApp.Views"
+      xmlns:conv="using:GSCFieldApp.Converters"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       mc:Ignorable="d">
 
+    <Page.Resources>
+        <conv:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter"/>
+    </Page.Resources>
+    
     <Grid x:Name="RootGrid">
-
-
-
         <Controls:HamburgerMenu x:Name="MyHamburgerMenu">
 
             <Controls:HamburgerMenu.PrimaryButtons>
@@ -83,7 +85,9 @@
             </Controls:HamburgerMenu.SecondaryButtons>
         </Controls:HamburgerMenu>
 
-        <ProgressRing x:Name="ShellProgressRingShell" IsActive="false" Width="130" Height="50" Visibility="Collapsed" Margin="0,0,0,150" Padding="0"/>
+        <ProgressRing x:Name="ShellProgressRingShell"  Width="130" Height="50" Margin="0,0,0,150" Padding="0"
+                      IsActive="{x:Bind SViewModel.ShellRingActive, Mode=TwoWay}"  VerticalAlignment="Center"
+                      Visibility="{x:Bind SViewModel.ShellRingActive, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"/>
     </Grid>
 
 </Page>

@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -200,10 +201,11 @@ namespace GSCFieldApp.Services.FileServices
         /// <summary>
         /// Will save a list of photos from local state folder to user selected output folder from a save picker dialog
         /// </summary>
-        /// <param name="photos"></param>
+        /// <param name="fieldbookpath">Path to field copy to archive</param>
         /// <param name="currentUserCode"></param>
+        /// <param name="prefix">Some prefix needed in the archive name</param>
         /// <returns></returns>
-        public async Task<string> SaveArchiveCopy(List<StorageFile> photos, string fieldbookpath = "", string currentUserCode = "", string prefix = "")
+        public async Task<string> SaveArchiveCopy(string fieldbookpath = "", string currentUserCode = "", string prefix = "")
         {
             if (fieldbookpath == string.Empty)
             {
@@ -228,22 +230,33 @@ namespace GSCFieldApp.Services.FileServices
             StorageFile saveArchiveFile = await fSavePicker.PickSaveFileAsync(); //This will save an empty file at the location user has selected
             if (zipFile != null)
             {
-
                 if (saveArchiveFile != null)
                 {
+                    if (saveArchiveFile != null && saveArchiveFile.Path != null)
+                    {
+                        outputZipPhotoFilePath = saveArchiveFile.Path;
+                    }
+
                     //Delete empty shell file else zip will fail
-                    await saveArchiveFile.DeleteAsync();
+                    await saveArchiveFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
 
                     //Save
-                    ZipFile.CreateFromDirectory(fieldbookpath, saveArchiveFile.Path);
+                    ZipFile.CreateFromDirectory(fieldbookpath, outputZipPhotoFilePath);
 
+                    //Show end message
+                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                    ContentDialog endProcessDialog = new ContentDialog()
+                    {
+                        Title = loadLocalization.GetString("SaveDBDialogTitle"),
+                        Content = loadLocalization.GetString("SaveDBDialogContent") + "\n" + outputZipPhotoFilePath.ToString(),
+                        PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
+                    };
+
+                    ContentDialogResult cdr = await endProcessDialog.ShowAsync();
                 }
             }
 
-            if (saveArchiveFile != null && saveArchiveFile.Path != null)
-            {
-                outputZipPhotoFilePath = saveArchiveFile.Path;
-            }
+            
 
             return outputZipPhotoFilePath;
         }
@@ -278,6 +291,40 @@ namespace GSCFieldApp.Services.FileServices
             }
 
             return Task.FromResult(zipFile);
+        }
+
+        /// <summary>
+        /// Will copy a set of files into a new directory/folder
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="fieldbookpath"></param>
+        /// <param name="currentUserCode"></param>
+        /// <returns></returns>
+        public async Task<string> AddFilesToFolder(List<StorageFile> files, string fieldbookpath = "", string currentUserCode = "")
+        {
+            //Make a copy of the photo inside the field book folder only if it doesn't already exists
+            if (fieldbookpath == string.Empty)
+            {
+                fieldbookpath = localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString();
+            }
+
+            //Create directory
+            string newFolderPath = Path.Combine(fieldbookpath, CalculateDBCopyName(currentUserCode));
+            if (!Directory.Exists(newFolderPath))
+            {
+                Directory.CreateDirectory(newFolderPath);
+
+            }
+
+            StorageFolder sF = await StorageFolder.GetFolderFromPathAsync(newFolderPath);
+
+            //Copy files
+            foreach (StorageFile f in files)
+            {
+                await f.CopyAsync(sF);
+            }
+
+            return newFolderPath;
         }
 
         /// <summary>
