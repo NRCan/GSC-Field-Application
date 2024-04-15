@@ -1,3 +1,4 @@
+using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.ViewModels;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -6,6 +7,7 @@ namespace GSCFieldApp.Views
 {
     public sealed partial class FieldBooksPage : Page
     {
+        DataAccess da = new DataAccess();
 
         public FieldBooksPageViewModel ProjectViewModel { get; set; }
 
@@ -31,5 +33,6 @@ namespace GSCFieldApp.Views
         {
 
         }
+
     }
 }

@@ -24,12 +24,11 @@ using Esri.ArcGISRuntime.Geometry;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Views;
-//Added By jamel
-//using OSGeo.GDAL;
-//using OSGeo.OGR;
-//using Driver = OSGeo.OGR.Driver;
-//using OSGeo.OSR;
-
+using Windows.UI.Xaml.Shapes;
+using System.Data;
+using System.Security.Cryptography;
+using System.Xml.Linq;
+using Path = System.IO.Path;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -450,24 +449,10 @@ namespace GSCFieldApp.ViewModels
         /// <param name="fieldworkType"></param>
         /// <param name="userCode"></param>
         /// <param name="metaID"></param>
-        public async void OpenFieldBook(string projectPath, string fieldworkType,
-            string userCode, int metaID, string dbPath, string dbVersion,
-            string projectName, string activityName, bool withNavigateToMap = true)
+        public async void OpenFieldBook(FieldBooks fieldBook, bool withNavigateToMap = true)
         {
-            //Clear previous field book settings
-            localSetting.WipeUserMapSettings();
-
-            //Update settings with new selected project
-            localSetting.SetSettingValue(ApplicationLiterals.KeywordFieldProject, projectPath);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoFWorkType, fieldworkType);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoUCode, userCode);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoID, metaID);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoVersionSchema, dbVersion);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoPName, projectName);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoActivityName, activityName);
-
-            ApplicationData.Current.SignalDataChanged();
-            DataAccess.DbPath = dbPath;
+            //Save in local setting
+            SetFieldBook(fieldBook);
 
             //Navigate to map page
             if (withNavigateToMap)
@@ -586,61 +571,64 @@ namespace GSCFieldApp.ViewModels
 
         }
 
+        /// <summary>
+        /// Will set in the local setting the input fieldbook
+        /// </summary>
+        /// <param name="fieldBook"></param>
+        public void SetFieldBook(FieldBooks fieldBook)
+        {
+            //Clear previous field book settings
+            localSetting.WipeUserMapSettings();
+
+            //Update settings with new selected project
+            localSetting.SetSettingValue(ApplicationLiterals.KeywordFieldProject, fieldBook.ProjectPath);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoFWorkType, fieldBook.metadataForProject.FieldworkType);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoUCode, fieldBook.metadataForProject.UserCode);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoID, fieldBook.metadataForProject.MetaID);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoVersionSchema, fieldBook.metadataForProject.VersionSchema);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoPName, fieldBook.metadataForProject.ProjectName);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoActivityName, fieldBook.metadataForProject.MetadataActivity);
+
+            ApplicationData.Current.SignalDataChanged();
+            DataAccess.DbPath = fieldBook.ProjectDBPath;
+        }
+
         #endregion
 
         #region EVENTS
 
         /// <summary>
-        /// When a user wants to open an existing field book, change settings and navigate to map.
+        /// Event detected on project/field book selection change
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// 
+        public void ProjectList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_selectedProjectIndex != -1)
+            {
+                SetFieldBook(_projectCollection[_selectedProjectIndex]);
+            }
+        }
 
-        //Added by jamel
-        //public static void ConvertSQLiteToGeoPackage(string inputFilename, string outputFilename)
-        //{
-        //    Gdal.AllRegister();
-        //    Ogr.RegisterAll();
-
-        //    DataSource inputDataSource = Ogr.Open(inputFilename, 0);
-        //    if (inputDataSource == null)
-        //    {
-        //        Console.WriteLine($"Failed to open {inputFilename}.");
-        //        return;
-        //    }
-
-        //    // Get the input driver and create the output data source
-        //    //Driver inputDriver = inputDataSource.GetDriver();
-        //    //DataSource outputDataSource = inputDriver.CopyDataSource(inputDataSource, outputFilename, null);
-
-        //    Driver driver = Ogr.GetDriverByName("GPKG");
-        //    driver.CopyDataSource(inputDataSource, outputFilename, null);
-
-        //    Console.WriteLine("Data copied successfully.");
-        //    Console.ReadLine();
-
-
-        //}
-
+        /// <summary>
+        /// User clicked open field book event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void projectOpenButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            string pPath = _projectCollection[_selectedProjectIndex].ProjectPath;
-            string wType = _projectCollection[_selectedProjectIndex].metadataForProject.FieldworkType;
-            string uCode = _projectCollection[_selectedProjectIndex].metadataForProject.UserCode;
-            int mID = _projectCollection[_selectedProjectIndex].metadataForProject.MetaID;
-            string dbP = _projectCollection[_selectedProjectIndex].ProjectDBPath;
-            string dbVersion = _projectCollection[_selectedProjectIndex].metadataForProject.VersionSchema;
-            string aName = _projectCollection[_selectedProjectIndex].metadataForProject.MetadataActivity;
-            string pName = _projectCollection[_selectedProjectIndex].metadataForProject.ProjectName;
-            OpenFieldBook(pPath, wType, uCode, mID, dbP, dbVersion, pName, aName);
-
-            //Send call to refresh other pages
-            EventHandler<string> newFieldBookRequest = newFieldBookSelected;
-            if (newFieldBookRequest != null)
+            if (_selectedProjectIndex != -1)
             {
-                newFieldBookRequest(this, null);
+                OpenFieldBook(_projectCollection[_selectedProjectIndex]);
+
+                //Send call to refresh other pages
+                EventHandler<string> newFieldBookRequest = newFieldBookSelected;
+                if (newFieldBookRequest != null)
+                {
+                    newFieldBookRequest(this, null);
+                }
             }
+
         }
 
         /// <summary>
@@ -881,9 +869,12 @@ namespace GSCFieldApp.ViewModels
                             }).AsTask();
 
                         }
+                        FieldBooks restFieldBook = new FieldBooks();
+                        restFieldBook.ProjectPath = fieldProjectPath;
+                        restFieldBook.metadataForProject = metItem;
 
-                        OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode,
-                            metItem.MetaID, wantedDB.Path, metItem.VersionSchema, metItem.ProjectName, metItem.MetadataActivity, false);
+                        SetFieldBook(restFieldBook);
+
                         FillProjectCollectionAsync();
                     }
                     else

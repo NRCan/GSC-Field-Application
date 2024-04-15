@@ -183,8 +183,18 @@ namespace GSCFieldApp.ViewModels
                 //Copy
                 await fs.SaveArchiveCopy(outputArchivePath, "", "");
 
-                //Delete renamed copy
+                //Delete renamed copy and directory
                 Directory.Delete(outputArchivePath,true);
+
+                foreach (StorageFile fsToDelete in newList)
+                {
+                    if (fsToDelete.Name.Contains(newName))
+                    {
+                        await fsToDelete.DeleteAsync();
+                        break;
+                    }
+
+                }
 
             }
             else if (FilesToBackup.Count == 1 && FilesToBackup[0].Name.Contains(DatabaseLiterals.DBTypeSqlite))
