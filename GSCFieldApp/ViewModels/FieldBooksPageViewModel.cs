@@ -532,32 +532,11 @@ namespace GSCFieldApp.ViewModels
                     {
                         var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
-                        //StorageFile newFile = await databaseToRename.CopyAsync(fieldBook, newName);
-                        //FilesToBackup.Add(newFile);
-
                         //Zip and Copy
                         string outputZipFilePath = await fs.SaveArchiveCopy(selectedBook.ProjectPath,
                             selectedBook.metadataForProject.UserCode);
 
-                        //Show end message
-                        if (outputZipFilePath != string.Empty)
-                        {
-                            ContentDialog endProcessDialog = new ContentDialog()
-                            {
-                                Title = loadLocalization.GetString("SaveDBDialogTitle"),
-                                Content = loadLocalization.GetString("SaveDBDialogContent") + "\n" + outputZipFilePath,
-                                PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
-                            };
-
-                            ContentDialogResult endCD = await endProcessDialog.ShowAsync();
-                        }
-
-
-                        //await newFile.DeleteAsync();
                     }
-
-
-
                 }
 
                 //Unset progress ring
