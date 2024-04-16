@@ -2998,6 +2998,14 @@ namespace GSCFieldApp.Services.DatabaseServices
                         location_querySelect = location_querySelect +
                         ", '4326' as " + DatabaseLiterals.FieldLocationDatum;
                     }
+                    else if (locFields == DatabaseLiterals.FieldLocationTimestamp)
+                    {
+                        //Initiate timestamp with station visit date
+                        location_querySelect = location_querySelect +
+                        ", (CASE WHEN(s." + DatabaseLiterals.FieldStationVisitDate +
+                        " IS NOT NULL) THEN(s." + DatabaseLiterals.FieldStationVisitDate + "|| ' ' ||" + 
+                        DatabaseLiterals.FieldStationVisitTime + ") ELSE(NULL) END) as " + DatabaseLiterals.FieldLocationTimestamp;
+                    }
                     else
                     {
                         location_querySelect = location_querySelect + ", l." + locFields + " as " + locFields;
@@ -3013,7 +3021,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             location_querySelect = location_querySelect.Replace(", ,", "");
 
             string insertQuery_18_location = "INSERT INTO " + DatabaseLiterals.TableLocation + " SELECT " + location_querySelect;
-            insertQuery_18_location = insertQuery_18_location + " FROM " + attachedDBName + "." + DatabaseLiterals.TableLocation + " as l";
+            string insertQuery_18_locationJOin = " JOIN dbUpgrade." + DatabaseLiterals.TableStation + " as s on s." + FieldLocationID + " = l." + FieldStationObsID;
+            insertQuery_18_location = insertQuery_18_location + " FROM " + attachedDBName + "." + DatabaseLiterals.TableLocation + " as l" + insertQuery_18_locationJOin;
+            
             insertQuery_18.Add(insertQuery_18_location);
 
             #endregion
