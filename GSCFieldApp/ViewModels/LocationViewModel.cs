@@ -37,6 +37,7 @@ namespace GSCFieldApp.ViewModels
         private string _locationNotes = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _locationDatums = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedLocationDatums = string.Empty;
+        private string _locationtimestamp = string.Empty;
 
         //UI interaction
         private bool _doLocationUpdate = false;
@@ -129,6 +130,7 @@ namespace GSCFieldApp.ViewModels
 
         public bool DoLocationUpdate { get { return _doLocationUpdate; } set { _doLocationUpdate = value; } }
         public bool IsDrillHoleFieldBook { get { return _isDrillHoleFieldBook; } set { _isDrillHoleFieldBook = value; } }
+        public string LocationTimestamp { get { return _locationtimestamp; } set { _locationtimestamp = value; } }
         #endregion
 
         public LocationViewModel(FieldNotes inReport)
@@ -203,7 +205,7 @@ namespace GSCFieldApp.ViewModels
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
             _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
             _locationNTS = existingDataDetailLocation.location.locationNTS;
-            
+            _locationtimestamp = existingDataDetailLocation.location.LocationTimestamp.ToString();
 
             //Check for manual XY projections
             if (existingDataDetailLocation.location.LocationEPSGProj != null && existingDataDetailLocation.location.LocationEPSGProj != string.Empty)
@@ -234,7 +236,6 @@ namespace GSCFieldApp.ViewModels
         public void SaveDialogInfo()
         {
             //Parse coordinate pairs
-
             double.TryParse(_locationLongitude, out double _long);
             double.TryParse(_locationLatitude, out double _lat);
             double.TryParse(_locationEasting, out double _easting);
@@ -281,6 +282,17 @@ namespace GSCFieldApp.ViewModels
             locationModel.LocationErrorMeasure = _accu;
             locationModel.locationNTS = _locationNTS;
 
+            // Timestamp only if not in update mode
+            if (!_doLocationUpdate)
+            {
+                locationModel.LocationTimestamp = idCalculator.FormatFullDate(DateTime.Now);
+            }
+            else
+            {
+                locationModel.LocationTimestamp = _locationtimestamp;
+            }
+
+            
             if (SelectedLocationDatums != null)
             {
                 if (selectedEPGS != 4326 && selectedEPGS != 4617)

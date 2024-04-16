@@ -70,6 +70,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldLocationReportLink)]
         public string LocationReportLink { get; set; }
 
+        [Column(DatabaseLiterals.FieldLocationTimestamp)]
+        public string LocationTimestamp { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationMetaID)]
         public int MetaID { get; set; }
 
@@ -152,6 +155,7 @@ namespace GSCFieldApp.Models
                 List<string> locationFieldList170 = new List<string>();
                 locationFieldList170.AddRange(locationFieldListDefault);
                 locationFieldList170.Remove(DatabaseLiterals.FieldLocationEPSGProj);
+                locationFieldList170.Remove(DatabaseLiterals.FieldLocationTimestamp);
                 locationFieldList[DatabaseLiterals.DBVersion170] = locationFieldList170;
 
                 //Revert shcema 1.7 changes

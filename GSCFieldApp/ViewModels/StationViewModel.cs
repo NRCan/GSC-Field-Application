@@ -553,6 +553,7 @@ namespace GSCFieldApp.ViewModels
                 Location.LocationLong = inLocation.LocationLong;
                 Location.LocationElev = inLocation.LocationElev;
                 Location.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault;
+                Location.LocationTimestamp = idCalculator.FormatFullDate(DateTime.Now);
 
             }
             else
