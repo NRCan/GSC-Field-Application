@@ -1,16 +1,18 @@
-﻿using GSCFieldApp.Services.DatabaseServices;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services.DatabaseServices;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Controls;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.IO.Compression;
 using Windows.UI.Xaml;
-using GSCFieldApp.Dictionaries;
+using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.Services.FileServices
 {
@@ -26,7 +28,7 @@ namespace GSCFieldApp.Services.FileServices
         /// <param name="filePath"></param>
         public async void DeleteLocalStateFile(string filePath)
         {
-            if (filePath!=string.Empty)
+            if (filePath != string.Empty)
             {
                 try
                 {
@@ -61,8 +63,8 @@ namespace GSCFieldApp.Services.FileServices
                 {
 
                 }
-                    
-                
+
+
 
             }
         }
@@ -82,7 +84,7 @@ namespace GSCFieldApp.Services.FileServices
             string currentDate = String.Format("{0:yyyy_MM_dd_HH'h'mm}", DateTime.Now);
 
             //Get currennt geolcode
-            if (userCode == string.Empty && localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode)!=null)
+            if (userCode == string.Empty && localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode) != null)
             {
                 userCode = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
             }
@@ -93,7 +95,7 @@ namespace GSCFieldApp.Services.FileServices
             }
 
             //Calculate new output database name
-            outputName = projectName + "_" + currentDate + "_" + userCode ;
+            outputName = projectName + "_" + currentDate + "_" + userCode;
 
             return outputName;
 
@@ -126,7 +128,7 @@ namespace GSCFieldApp.Services.FileServices
             }
             StorageFile fileToRead = await StorageFile.GetFileFromPathAsync(currentDBPath);
 
-            if (fileToRead!=null)
+            if (fileToRead != null)
             {
                 IBuffer currentDBBuffer = await Windows.Storage.FileIO.ReadBufferAsync(fileToRead as IStorageFile);
                 byte[] currentDBByteArray = currentDBBuffer.ToArray();
@@ -183,14 +185,14 @@ namespace GSCFieldApp.Services.FileServices
                         ContentDialogResult cdr = await endProcessDialog.ShowAsync();
                     }
 
-                    
+
                 }
             }
 
             if (savefile != null && savefile.Path != null)
             {
                 outputSaveFilePath = savefile.Path;
-            } 
+            }
 
             return outputSaveFilePath;
 
@@ -199,19 +201,18 @@ namespace GSCFieldApp.Services.FileServices
         /// <summary>
         /// Will save a list of photos from local state folder to user selected output folder from a save picker dialog
         /// </summary>
-        /// <param name="photos"></param>
+        /// <param name="fieldbookpath">Path to field copy to archive</param>
         /// <param name="currentUserCode"></param>
+        /// <param name="prefix">Some prefix needed in the archive name</param>
         /// <returns></returns>
-        public async Task<string> SaveArchiveCopy(List<StorageFile> photos, string fieldbookpath = "", string currentUserCode = "", string prefix = "")
+        public async Task<string> SaveArchiveCopy(string fieldbookpath = "", string currentUserCode = "", string prefix = "")
         {
             if (fieldbookpath == string.Empty)
             {
                 fieldbookpath = localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString();
             }
 
-            //Add photos to a zip file
-            string photoZipFilePath = await AddFilesToZip(photos, fieldbookpath, currentUserCode);
-            StorageFile arhiveToRead = await StorageFile.GetFileFromPathAsync(photoZipFilePath);
+            string zipFile = CalculateDBCopyName(currentUserCode) + ".zip";
 
             //Variables
             string outputZipPhotoFilePath = string.Empty;
@@ -223,62 +224,39 @@ namespace GSCFieldApp.Services.FileServices
             };
             fSavePicker.FileTypeChoices.Add("zip", new List<string>() { ".zip" });
             fSavePicker.DefaultFileExtension = ".zip";
-            fSavePicker.SuggestedFileName = prefix + arhiveToRead.Name.Split('.')[0];
+            fSavePicker.SuggestedFileName = prefix + zipFile.Split('.')[0];
 
             //Get users selected save files
             StorageFile saveArchiveFile = await fSavePicker.PickSaveFileAsync(); //This will save an empty file at the location user has selected
-
-            if (arhiveToRead != null)
+            if (zipFile != null)
             {
-                IBuffer currentArchiveBuffer = await Windows.Storage.FileIO.ReadBufferAsync(arhiveToRead as IStorageFile);
-                byte[] currentArchiveByteArray = currentArchiveBuffer.ToArray();
-
                 if (saveArchiveFile != null)
                 {
-                    //Lock the file
-                    Windows.Storage.CachedFileManager.DeferUpdates(saveArchiveFile);
+                    if (saveArchiveFile != null && saveArchiveFile.Path != null)
+                    {
+                        outputZipPhotoFilePath = saveArchiveFile.Path;
+                    }
+
+                    //Delete empty shell file else zip will fail
+                    await saveArchiveFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
 
                     //Save
-                    await Windows.Storage.FileIO.WriteBytesAsync(saveArchiveFile, currentArchiveByteArray);
-                    Windows.Storage.Provider.FileUpdateStatus status = await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(saveArchiveFile);
-                    if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+                    ZipFile.CreateFromDirectory(fieldbookpath, outputZipPhotoFilePath);
+
+                    //Show end message
+                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                    ContentDialog endProcessDialog = new ContentDialog()
                     {
-                        //Show end message
-                        var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                        ContentDialog endProcessDialog = new ContentDialog()
-                        {
-                            Title = loadLocalization.GetString("SaveDBDialogTitle"),
-                            Content = loadLocalization.GetString("SaveDBDialogContent") + "\n" + saveArchiveFile.Path.ToString(),
-                            PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
-                        };
+                        Title = loadLocalization.GetString("SaveDBDialogTitle"),
+                        Content = loadLocalization.GetString("SaveDBDialogContent") + "\n" + outputZipPhotoFilePath.ToString(),
+                        PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
+                    };
 
-                        ContentDialogResult cdr = await endProcessDialog.ShowAsync();
-                    }
-                    else
-                    {
-                        //Show error message
-                        var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                        ContentDialog endProcessDialog = new ContentDialog()
-                        {
-                            Title = loadLocalization.GetString("SaveDBDialogTitle"),
-                            Content = loadLocalization.GetString("SaveDBDialogContentError"),
-                            PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
-                        };
-
-                        ContentDialogResult cdr = await endProcessDialog.ShowAsync();
-                    }
-
-
+                    ContentDialogResult cdr = await endProcessDialog.ShowAsync();
                 }
             }
 
-            if (saveArchiveFile != null && saveArchiveFile.Path != null)
-            {
-                outputZipPhotoFilePath = saveArchiveFile.Path;
-            }
-
-            //Delete original archive
-            await arhiveToRead.DeleteAsync();
+            
 
             return outputZipPhotoFilePath;
         }
@@ -308,11 +286,45 @@ namespace GSCFieldApp.Services.FileServices
                     {
                         archive.CreateEntryFromFile(f.Path, f.Name);
                     }
-                    
+
                 }
             }
 
             return Task.FromResult(zipFile);
+        }
+
+        /// <summary>
+        /// Will copy a set of files into a new directory/folder
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="fieldbookpath"></param>
+        /// <param name="currentUserCode"></param>
+        /// <returns></returns>
+        public async Task<string> AddFilesToFolder(List<StorageFile> files, string fieldbookpath = "", string currentUserCode = "")
+        {
+            //Make a copy of the photo inside the field book folder only if it doesn't already exists
+            if (fieldbookpath == string.Empty)
+            {
+                fieldbookpath = localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString();
+            }
+
+            //Create directory
+            string newFolderPath = Path.Combine(fieldbookpath, CalculateDBCopyName(currentUserCode));
+            if (!Directory.Exists(newFolderPath))
+            {
+                Directory.CreateDirectory(newFolderPath);
+
+            }
+
+            StorageFolder sF = await StorageFolder.GetFolderFromPathAsync(newFolderPath);
+
+            //Copy files
+            foreach (StorageFile f in files)
+            {
+                await f.CopyAsync(sF);
+            }
+
+            return newFolderPath;
         }
 
         /// <summary>

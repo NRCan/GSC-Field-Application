@@ -8,7 +8,7 @@ The application mainly presents a GIS map page with access to specialized forms.
 
 Target users are geologist that would like an easy to use, validation, standardize and consult field geological information for later office and analysis use. This application is intented for regional geology for data gathering or cartography.
 
-The GSC Field Application only records bedrock geology data at this time, but we will be extending it to include surficial data in the near future.
+The GSC Field Application supports bedrock geology, drill holes and surficial geology.
 
 ## Requirements
 
@@ -20,7 +20,7 @@ The application is side-loaded onto any Windows 10 PC that meets the build requi
 
 ## Latest Version
 
-Please download the latest version (2.3) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.3).
+Please download the latest version (2.4) from the [Release page](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.4).
 
 ## Wiki
 
@@ -32,13 +32,13 @@ The current application uses a Geopackage data format to store all information g
 
 ### Development environment
 
-Universal Windows Platform (UWP), Visual studio 2016-2023
+Universal Windows Platform (UWP), Visual studio 2016-2024
 
 ## Contacts
 
-Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
+Gabriel Huot-Vézina: gabriel.huot-vezina@nrcan-rncan.gc.ca
 
-Étienne Girard: etienne.girard@canada.ca
+Étienne Girard: etienne.girard@nrcan-rncan.gc.ca
 
 ### How to Contribute
 
@@ -49,13 +49,15 @@ Unless otherwise noted, the source code of this project is covered under Crown C
 
 The Canada wordmark and related graphics associated with this distribution are protected under trademark law and copyright law. No permission is granted to use them outside the parameters of the Government of Canada's corporate identity program. For more information, see [Federal identity requirements](https://www.canada.ca/en/treasury-board-secretariat/topics/government-communications/federal-identity-requirements.html).
 
+#### Natural Resources Canada, Geological Survey of Canada
+##### © His Majesty the King in Right of Canada as represented by the Minister of Natural Resources, 2024.
 ______________________
 
 # Application de notes terrain de la Commission géologique du Canada
 
 ([English](#Geological-Survey-Canada-Field-Application))
 
-Projet initié par la Commission géologique du Canada, cette application permet de récolter et décrire les données in-situ concernant la géologie du socle rocheux et sommairement des dépôts de surface. À l'aide de GPS embarqué, il est possible de conserver et visualiser la localisation des informations se rapportant à la géologie. 
+Projet initié par la Commission géologique du Canada, cette application permet de récolter et décrire les données in-situ concernant la géologie du socle rocheux, des carottes de forage et des dépôts de surface. À l'aide de GPS embarqué, il est possible de conserver et visualiser la localisation des informations se rapportant à la géologie. 
 
 Le format de style Carnet de Terrain permet de transférer les données SIG, des métadonnées tel que le nom de projet, le géologue ainsi que le nom de l'activité d'un appareil à un autre. Que ce soit une tablette, un ordinateur portatif ou autre. L'application est plutôt orienté vers la cartographie régionale de la géologie.
 
@@ -72,7 +74,7 @@ L'application doit être installé manuellement sur toute plateforme Windows 10 
 
 ## La dernière version
 
-Veuillez télécharger la dernière version (2.3) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.3).
+Veuillez télécharger la dernière version (2.4) depuis la [page des versions](https://github.com/NRCan/GSC-Field-Application/releases/tag/2.4).
 
 ## Wiki
 
@@ -84,13 +86,13 @@ L'application actuelle utilise un format de données Geopackage pour stocker tou
 
 ### Environnement de développement
 
-Plateforme Windows universelle (PWU), Visual studio 2016-2023
+Plateforme Windows universelle (PWU), Visual studio 2016-2024
 
 ### Contacts
 
-Gabriel Huot-Vézina: gabriel.huot-vezina@canada.ca
+Gabriel Huot-Vézina: gabriel.huot-vezina@nrcan-rncan.gc.ca
 
-Étienne Girard: etienne.girard@canada.ca
+Étienne Girard: etienne.girard@nrcan-rncan.gc.ca
 
 ### Comment contribuer
 
@@ -101,3 +103,6 @@ Voir [CONTRIBUTING.md](CONTRIBUTING.md)
 Sauf indication contraire, le code source de ce projet est protégé par le droit d'auteur de la Couronne du gouvernement du Canada et distribué sous la [licence MIT](LICENSE.txt).
 
 Le mot-symbole « Canada » et les éléments graphiques connexes liés à cette distribution sont protégés en vertu des lois portant sur les marques de commerce et le droit d'auteur. Aucune autorisation n'est accordée pour leur utilisation à l'extérieur des paramètres du programme de coordination de l'image de marque du gouvernement du Canada. Pour obtenir davantage de renseignements à ce sujet, veuillez consulter les [Exigences pour l'image de marque](https://www.canada.ca/fr/secretariat-conseil-tresor/sujets/communications-gouvernementales/exigences-image-marque.html).
+
+#### Ressources naturelles Canada, Commission géologique du Canada.
+##### © Sa Majesté le Roi du Chef tu Canada représenté par le ministre des Ressources naturelles, 2024.

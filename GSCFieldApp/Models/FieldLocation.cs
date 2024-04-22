@@ -1,16 +1,14 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Template10.Mvvm;
-using SQLite;
-using GSCFieldApp.Dictionaries;
-using System.Globalization;
-using Windows.Foundation.Collections;
 
 namespace GSCFieldApp.Models
 {
     [Table(DatabaseLiterals.TableLocation)]
-    public class FieldLocation: BindableBase
+    public class FieldLocation : BindableBase
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -26,8 +24,12 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldLocationEasting)]
         public double? LocationEasting { get; set; }
+
         [Column(DatabaseLiterals.FieldLocationNorthing)]
         public double? LocationNorthing { get; set; }
+
+        [Column(DatabaseLiterals.FieldLocationEPSGProj)]
+        public string LocationEPSGProj{ get; set; }
 
         [Column(DatabaseLiterals.FieldLocationLatitude)]
         public double LocationLat { get; set; }
@@ -67,6 +69,9 @@ namespace GSCFieldApp.Models
 
         [Column(DatabaseLiterals.FieldLocationReportLink)]
         public string LocationReportLink { get; set; }
+
+        [Column(DatabaseLiterals.FieldLocationTimestamp)]
+        public string LocationTimestamp { get; set; }
 
         [Column(DatabaseLiterals.FieldLocationMetaID)]
         public int MetaID { get; set; }
@@ -146,16 +151,23 @@ namespace GSCFieldApp.Models
 
                 locationFieldList[DatabaseLiterals.DBVersion] = locationFieldListDefault;
 
+                //Revert shcema 1.8 changes
+                List<string> locationFieldList170 = new List<string>();
+                locationFieldList170.AddRange(locationFieldListDefault);
+                locationFieldList170.Remove(DatabaseLiterals.FieldLocationEPSGProj);
+                locationFieldList170.Remove(DatabaseLiterals.FieldLocationTimestamp);
+                locationFieldList[DatabaseLiterals.DBVersion170] = locationFieldList170;
+
                 //Revert shcema 1.7 changes
                 List<string> locationFieldList160 = new List<string>();
-                locationFieldList160.AddRange(locationFieldListDefault);
+                locationFieldList160.AddRange(locationFieldList170);
                 locationFieldList160.Remove(DatabaseLiterals.FieldLocationReportLink);
                 locationFieldList160.Remove(DatabaseLiterals.FieldGenericGeometry);
                 locationFieldList[DatabaseLiterals.DBVersion160] = locationFieldList160;
 
                 //Revert schema 1.6 changes. 
                 List<string> locationFieldList15 = new List<string>();
-                locationFieldList15.AddRange(locationFieldListDefault);
+                locationFieldList15.AddRange(locationFieldList160);
                 locationFieldList15.Remove(DatabaseLiterals.FieldLocationNTS);
                 locationFieldList[DatabaseLiterals.DBVersion150] = locationFieldList15;
 
@@ -166,7 +178,7 @@ namespace GSCFieldApp.Models
                 locationFieldList144.Remove(DatabaseLiterals.FieldLocationAlias);
                 locationFieldList144.Insert(removeIndex, DatabaseLiterals.FieldLocationAliasDeprecated);
                 locationFieldList144.Insert(locationFieldList144.Count() - 2, DatabaseLiterals.FieldLocationReportLink);
-                
+
                 locationFieldList[DatabaseLiterals.DBVersion144] = locationFieldList144;
 
                 //Revert schema 1.4.4 
@@ -174,7 +186,7 @@ namespace GSCFieldApp.Models
                 locationFieldList143.AddRange(locationFieldList144);
                 int removeIndex2 = locationFieldList143.IndexOf(DatabaseLiterals.FieldLocationDatum);
                 locationFieldList143.Remove(DatabaseLiterals.FieldLocationDatum);
-                locationFieldList143.Insert(removeIndex2,DatabaseLiterals.FieldLocationDatumZone);
+                locationFieldList143.Insert(removeIndex2, DatabaseLiterals.FieldLocationDatumZone);
                 locationFieldList[DatabaseLiterals.DBVersion143] = locationFieldList143;
 
                 //Revert schema 1.4.3 changes

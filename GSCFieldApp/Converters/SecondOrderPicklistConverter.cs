@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Data;
 
 namespace GSCFieldApp.Converters
 {
-    public class SecondOrderPicklistConverter:IValueConverter
+    public class SecondOrderPicklistConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

@@ -1,7 +1,5 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
-using System.Diagnostics;
-using System.Globalization;
 
 namespace GSCFieldApp.Converters
 {

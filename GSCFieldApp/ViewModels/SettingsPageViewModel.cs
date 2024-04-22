@@ -1,10 +1,16 @@
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Services.FileServices;
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using Template10.Mvvm;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using GSCFieldApp.Models;
 using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Dictionaries;
@@ -12,6 +18,8 @@ using GSCFieldApp.Services.FileServices;
 using SQLite;
 using System.IO;
 using System.Globalization;
+using Windows.Foundation.Collections;
+using GSCFieldApp.Views;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -35,6 +43,7 @@ namespace GSCFieldApp.ViewModels
         public bool _StructureToggle = true;
         public bool _fossilToggle = true;
         public bool _mineralToggle = true;
+        public bool _drillToggle = true;
 
         public bool _environmentToggle = false;
         public bool _soilProfileToggle = false;
@@ -57,29 +66,36 @@ namespace GSCFieldApp.ViewModels
         #region PROPERTIES
 
         //Toggle buttons for table choice
-        public bool CommonToggle {get { return _commonToggle; }
-            set {
+        public bool CommonToggle
+        {
+            get { return _commonToggle; }
+            set
+            {
                 _commonToggle = value;
                 RaisePropertyChanged();
-                localSetting.SetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon, value);
+                localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeCommon, value);
                 ToggleCommons(value);
             }
-        } 
-        public bool BedrockToggle { get { return _bedrockToggle; }
+        }
+        public bool BedrockToggle
+        {
+            get { return _bedrockToggle; }
             set
             {
                 _bedrockToggle = value;
                 RaisePropertyChanged();
-                localSetting.SetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock, value);
+                localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock, value);
                 ToggleBedrock(value);
             }
         }
-        public bool SurficialToggle { get { return _surficialToggle; }
+        public bool SurficialToggle
+        {
+            get { return _surficialToggle; }
             set
             {
                 _surficialToggle = value;
                 RaisePropertyChanged();
-                localSetting.SetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial, value);
+                localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial, value);
                 ToggleSurficial(value);
             }
         }
@@ -94,6 +110,8 @@ namespace GSCFieldApp.ViewModels
         public bool EnvironmentToggle { get { return _environmentToggle; } set { _environmentToggle = value; RaisePropertyChanged(); localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.TableEnvironment, value); } }
         public bool SoilProfileToggle { get { return _soilProfileToggle; } set { _soilProfileToggle = value; RaisePropertyChanged(); localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.TableSoilProfile, value); } }
         public bool PflowToggle { get { return _pflowToggle; } set { _pflowToggle = value; RaisePropertyChanged(); localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.TablePFlow, value); } }
+
+        public bool DrillToggle { get { return _drillToggle; } set { _drillToggle = value; RaisePropertyChanged(); localSetting.SetSettingValue(Dictionaries.DatabaseLiterals.TableDrillHoles, value); } }
 
         //Other
         public Visibility LoadPicklistVisibility { get { return _loadPicklistVisibility; } set { _loadPicklistVisibility = value; } }
@@ -117,14 +135,14 @@ namespace GSCFieldApp.ViewModels
         public void InitializeToggleSwitches()
         {
             #region Header toggle based on project type
-            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType)!=null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
             {
-                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     _bedrockToggle = true;
                     _surficialToggle = false;
                 }
-                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     _surficialToggle = true;
                     _bedrockToggle = false;
@@ -134,9 +152,9 @@ namespace GSCFieldApp.ViewModels
             #endregion
 
             #region Header toggles
-            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon)!=null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeCommon) != null)
             {
-                _commonToggle = (bool)localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeCommon);
+                _commonToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeCommon);
 
             }
             else
@@ -144,30 +162,39 @@ namespace GSCFieldApp.ViewModels
                 _commonToggle = true;
 
                 //Apply default
-                Switch_ChildSwitched(Dictionaries.ScienceLiterals.ApplicationThemeCommon, _commonToggle);
+                Switch_ChildSwitched(Dictionaries.DatabaseLiterals.ApplicationThemeCommon, _commonToggle);
 
                 //Make sure fossil is by default not toggled on.
                 _fossilToggle = false;
             }
 
-            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock) != null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock) != null)
             {
-                _bedrockToggle = (bool)localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeBedrock);
+                _bedrockToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock);
             }
             else
             {
                 _bedrockToggle = true;
-                Switch_ChildSwitched(Dictionaries.ScienceLiterals.ApplicationThemeBedrock, _bedrockToggle);
+                Switch_ChildSwitched(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock, _bedrockToggle);
             }
 
-            if (localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial) != null)
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial) != null)
             {
-                _surficialToggle = (bool)localSetting.GetSettingValue(Dictionaries.ScienceLiterals.ApplicationThemeSurficial);
+                _surficialToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial);
             }
             else
             {
                 _surficialToggle = true;
-                Switch_ChildSwitched(Dictionaries.ScienceLiterals.ApplicationThemeSurficial, _surficialToggle);
+                Switch_ChildSwitched(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial, _surficialToggle);
+            }
+
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeDrillHole) != null)
+            {
+                _drillToggle = localSetting.GetBoolSettingValue(Dictionaries.DatabaseLiterals.ApplicationThemeDrillHole);
+            }
+            else
+            {
+                _drillToggle = true;
             }
 
             #endregion
@@ -176,45 +203,49 @@ namespace GSCFieldApp.ViewModels
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableSample) != null)
             {
-                SampleToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableSample);
+                SampleToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableSample);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableMineral) != null)
             {
-                MineralToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineral);
+                MineralToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableMineral);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration) != null)
             {
-                MAToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableMineralAlteration);
+                MAToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableMineralAlteration);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableDocument) != null)
             {
-                PhotoToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableDocument);
+                PhotoToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableDocument);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableStructure) != null)
             {
-                StructureToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableStructure);
+                StructureToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableStructure);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TablePFlow) != null)
             {
-                PflowToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TablePFlow);
+                PflowToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TablePFlow);
             }
 
             if (localSetting.GetSettingValue(DatabaseLiterals.TableFossil) != null)
             {
-                _fossilToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableFossil);
+                _fossilToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableFossil);
             }
             if (localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat) != null)
             {
-                _earthToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEarthMat);
+                _earthToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableEarthMat);
             }
             if (localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment) != null)
             {
-                _environmentToggle = (bool)localSetting.GetSettingValue(DatabaseLiterals.TableEnvironment);
+                _environmentToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableEnvironment);
+            }
+            if (localSetting.GetSettingValue(DatabaseLiterals.TableDrillHoles) != null)
+            {
+                _drillToggle = localSetting.GetBoolSettingValue(DatabaseLiterals.TableDrillHoles);
             }
             //else
             //{
@@ -230,6 +261,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("PflowToggle");
             RaisePropertyChanged("MAToggle");
             RaisePropertyChanged("EnvironmentToggle");
+            RaisePropertyChanged("DrillToggle");
             #endregion
 
         }
@@ -253,15 +285,15 @@ namespace GSCFieldApp.ViewModels
         private void Switch_ChildSwitched(string parentName, bool parentSwitchValue)
         {
 
-            if (parentName.Contains(Dictionaries.ScienceLiterals.ApplicationThemeCommon))
+            if (parentName.Contains(Dictionaries.DatabaseLiterals.ApplicationThemeCommon))
             {
                 ToggleCommons(parentSwitchValue);
             }
-            else if (parentName.Contains(Dictionaries.ScienceLiterals.ApplicationThemeBedrock))
+            else if (parentName.Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
             {
                 ToggleBedrock(parentSwitchValue);
             }
-            else if (parentName.Contains(Dictionaries.ScienceLiterals.ApplicationThemeSurficial))
+            else if (parentName.Contains(Dictionaries.DatabaseLiterals.ApplicationThemeSurficial))
             {
                 ToggleSurficial(parentSwitchValue);
             }
@@ -271,7 +303,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     ToggleEarthChilds(parentSwitchValue);
                 }
-                
+
             }
 
         }
@@ -295,7 +327,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SampleToggle");
             RaisePropertyChanged("MineralToggle");
             RaisePropertyChanged("StructureToggle");
-            RaisePropertyChanged("PflowToggle"); 
+            RaisePropertyChanged("PflowToggle");
 
         }
 
@@ -312,7 +344,7 @@ namespace GSCFieldApp.ViewModels
             FossilToggle = commonToggleValue;
             EarthToggle = commonToggleValue;
 
-            RaisePropertyChanged("EarthToggle"); 
+            RaisePropertyChanged("EarthToggle");
             RaisePropertyChanged("FossilToggle");
             RaisePropertyChanged("CommonToggle");
             RaisePropertyChanged("PhotoToggle");
@@ -331,11 +363,13 @@ namespace GSCFieldApp.ViewModels
             MAToggle = bedrockToggleValue;
             StructureToggle = bedrockToggleValue;
             MineralToggle = bedrockToggleValue;
+            DrillToggle = bedrockToggleValue;
 
             RaisePropertyChanged("BedrockToggle");
             RaisePropertyChanged("MAToggle");
             RaisePropertyChanged("StructureToggle");
             RaisePropertyChanged("MineralToggle");
+            RaisePropertyChanged("DrillToggle");
 
         }
 
@@ -366,7 +400,7 @@ namespace GSCFieldApp.ViewModels
             ContentDialog deleteBookDialog = new ContentDialog()
             {
                 Title = loadLocalization.GetString("SettingPageButtonResetTitle"),
-                Content = loadLocalization.GetString("SettingPageButtonResetMessage/Text") ,
+                Content = loadLocalization.GetString("SettingPageButtonResetMessage/Text"),
                 PrimaryButtonText = loadLocalization.GetString("Generic_ButtonYes/Content"),
                 SecondaryButtonText = loadLocalization.GetString("Generic_ButtonNo/Content")
             };
@@ -401,7 +435,7 @@ namespace GSCFieldApp.ViewModels
 
             }
         }
-        
+
         /// <summary>
         /// An hidden double click to wipe (factory reset) the app
         /// </summary>
@@ -419,61 +453,80 @@ namespace GSCFieldApp.ViewModels
         /// <param name="e"></param>
         public async void settingLoadPicklistButton_TappedAsync(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            //Get local storage folder
-            StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
-            //Create a file picker for sqlite 
-            var filesPicker = new Windows.Storage.Pickers.FileOpenPicker
+            //Show info message - stating incoming vocab should be in same version as field book
+            var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+            ContentDialog importWarningDialog = new ContentDialog()
             {
-                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                Title = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageTitle"),
+                Content = loadLocalization.GetString("SettingLoadPicklistProcessWarningMessage/Text"),
+                PrimaryButtonText = loadLocalization.GetString("SettingLoadPicklistProcessWarningMessageOk"),
+                CloseButtonText = loadLocalization.GetString("MapPageDialogTextCancel")
             };
-            filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
-            filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
+            importWarningDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+            await Services.ContentDialogMaker.CreateContentDialogAsync(importWarningDialog, true);
 
-            //Get users selected files
-            StorageFile f = await filesPicker.PickSingleFileAsync();
-            if (f != null)
+            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(importWarningDialog, true).Result;
+
+            if (cdr == ContentDialogResult.Primary)
             {
-                // Create or overwrite file target file in local app data folder
-                StorageFile fileToWrite = await localFolder.CreateFileAsync(f.Name, CreationCollisionOption.ReplaceExisting);
+                //Get local storage folder
+                StorageFolder localFolder = await StorageFolder.GetFolderFromPathAsync(accessData.ProjectPath);
 
-                //Copy else code won't be able to read it
-                byte[] buffer = new byte[1024];
-                using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
+                //Create a file picker for sqlite 
+                var filesPicker = new Windows.Storage.Pickers.FileOpenPicker
                 {
-                    using (BinaryReader fileReader = new BinaryReader(await f.OpenStreamForReadAsync()))
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                };
+                filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
+                filesPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
+
+                //Get users selected files
+                StorageFile f = await filesPicker.PickSingleFileAsync();
+                if (f != null)
+                {
+                    // Create or overwrite file target file in local app data folder
+                    StorageFile fileToWrite = await localFolder.CreateFileAsync(f.Name, CreationCollisionOption.ReplaceExisting);
+
+                    //Copy else code won't be able to read it
+                    byte[] buffer = new byte[1024];
+                    using (BinaryWriter fileWriter = new BinaryWriter(await fileToWrite.OpenStreamForWriteAsync()))
                     {
-                        long readCount = 0;
-                        while (readCount < fileReader.BaseStream.Length)
+                        using (BinaryReader fileReader = new BinaryReader(await f.OpenStreamForReadAsync()))
                         {
-                            int read = fileReader.Read(buffer, 0, buffer.Length);
-                            readCount += read;
-                            fileWriter.Write(buffer, 0, read);
- 
+                            long readCount = 0;
+                            while (readCount < fileReader.BaseStream.Length)
+                            {
+                                int read = fileReader.Read(buffer, 0, buffer.Length);
+                                readCount += read;
+                                fileWriter.Write(buffer, 0, read);
+
+                            }
                         }
                     }
+
+                    //Connect to working database
+                    SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
+
+                    //Swap vocab
+                    accessData.DoSwapVocab(fileToWrite.Path, workingDBConnection);
+
+
+                    //Show end message
+                    ContentDialog importEndDialog = new ContentDialog()
+                    {
+                        Title = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageTitle"),
+                        Content = loadLocalization.GetString("SettingLoadPicklistProcessEndMessage/Text"),
+                        PrimaryButtonText = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageOk")
+                    };
+
+                    await importEndDialog.ShowAsync();
+
+                    FileServices fs = new FileServices();
+                    fs.DeleteLocalStateFile(fileToWrite.Path);
                 }
 
-                //Connect to working database
-                SQLiteConnection workingDBConnection = accessData.GetConnectionFromPath(DataAccess.DbPath);
-
-                //Swap vocab
-                accessData.DoSwapVocab(fileToWrite.Path, workingDBConnection);
-
-
-                //Show end message
-                var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                ContentDialog addedLayerDialog = new ContentDialog()
-                {
-                    Title = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageTitle"),
-                    Content = loadLocalization.GetString("SettingLoadPicklistProcessEndMessage/Text"),
-                    PrimaryButtonText = loadLocalization.GetString("SettingLoadPicklistProcessEndMessageOk")
-                };
-
-                ContentDialogResult cdr = await addedLayerDialog.ShowAsync();
-
-                FileServices fs = new FileServices();
-                fs.DeleteLocalStateFile(fileToWrite.Path);
+ 
 
             }
         }
@@ -488,11 +541,11 @@ namespace GSCFieldApp.ViewModels
             //Get info
             Pivot senderPivot = (Pivot)sender;
             PivotItem selectedPivotItem = (PivotItem)senderPivot.Items[_selectedPivotIndex];
-            
+
             if (selectedPivotItem.Name.ToLower().Contains("picklist"))
             {
                 _loadPicklistVisibility = Visibility.Visible;
-                
+
             }
             else
             {
@@ -503,7 +556,7 @@ namespace GSCFieldApp.ViewModels
 
     }
 
-    public class PicklistPartViewModel: ViewModelBase
+    public class PicklistPartViewModel : ViewModelBase
     {
 
     }
@@ -564,7 +617,16 @@ namespace GSCFieldApp.ViewModels
                 }
                 else
                 {
-                    return (bool)currentSettings.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode);
+                    try
+                    {
+                        return (bool)currentSettings.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordDocumentMode);
+                    }
+                    catch (Exception)
+                    {
+
+                        return true;
+                    }
+                    
                 }
                 
             }
@@ -620,7 +682,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     settingStructSymbolRequest(this, null);
                 }
-                
+
             }
         }
 

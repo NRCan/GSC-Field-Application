@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SQLite;
-using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Models
 {
@@ -52,10 +52,10 @@ namespace GSCFieldApp.Models
         public string SampleHorizon { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMin)]
-        public int SampleDepthMin { get; set; }
+        public double? SampleDepthMin { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDepthMax)]
-        public int SampleDepthMax { get; set; }
+        public double? SampleDepthMax { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleDuplicate)]
         public int SampleDuplicate { get; set; }
@@ -72,6 +72,23 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleBucketTray)]
         public string SampleBucket { get; set; }
 
+        [Column(DatabaseLiterals.FieldSampleIsBlank)]
+        public string SampleBlank { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleCoreFrom)]
+        public double? SampleCoreFrom { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleCoreTo)]
+        public double? SampleCoreTo { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleCoreLength)]
+        public double? SampleCoreLength { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampleCoreSize)]
+        public string SampleCoreSize { get; set; }
+
+        [Column(DatabaseLiterals.FieldSampledBy)]
+        public string SampleBy { get; set; }
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
@@ -122,9 +139,20 @@ namespace GSCFieldApp.Models
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
 
 
+                //Revert shcema 1.8 changes
+                List<string> sampleFieldList170 = new List<string>();
+                sampleFieldList170.AddRange(sampleFieldListDefault);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleIsBlank);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreFrom);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreTo);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreSize);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampledBy);
+                sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreLength);
+                sampleFieldList[DatabaseLiterals.DBVersion170] = sampleFieldList170;
+
                 //Revert shcema 1.7 changes
                 List<string> sampleFieldList160 = new List<string>();
-                sampleFieldList160.AddRange(sampleFieldListDefault);
+                sampleFieldList160.AddRange(sampleFieldList170);
                 sampleFieldList160.Remove(DatabaseLiterals.FieldSampleBucketTray);
                 sampleFieldList160.Remove(DatabaseLiterals.FieldSampleWarehouseLocation);
                 sampleFieldList[DatabaseLiterals.DBVersion160] = sampleFieldList160;
@@ -136,7 +164,7 @@ namespace GSCFieldApp.Models
                 sampleFieldList144.AddRange(sampleFieldList[DatabaseLiterals.DBVersion150]);
                 int removeIndex = sampleFieldList144.IndexOf(DatabaseLiterals.FieldSampleName);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleName);
-                sampleFieldList144.Insert(removeIndex,DatabaseLiterals.FieldSampleNameDeprecated);
+                sampleFieldList144.Insert(removeIndex, DatabaseLiterals.FieldSampleNameDeprecated);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleHorizon);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleDepthMin);
                 sampleFieldList144.Remove(DatabaseLiterals.FieldSampleDepthMax);

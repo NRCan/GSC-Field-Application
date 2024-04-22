@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Data;
 
 namespace GSCFieldApp.Converters
 {
-    public class VisibilityFromReverseBoolConverter: IValueConverter
+    public class VisibilityFromReverseBoolConverter : IValueConverter
     {
 
         public VisibilityFromReverseBoolConverter()

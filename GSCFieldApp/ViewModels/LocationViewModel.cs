@@ -1,8 +1,11 @@
 ﻿using Esri.ArcGISRuntime.Geometry;
+using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using Template10.Common;
 using Template10.Mvvm;
@@ -14,7 +17,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class LocationViewModel: ViewModelBase
+    public class LocationViewModel : ViewModelBase
     {
         #region INITIALIZATION
 
@@ -34,9 +37,11 @@ namespace GSCFieldApp.ViewModels
         private string _locationNotes = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _locationDatums = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedLocationDatums = string.Empty;
+        private string _locationtimestamp = string.Empty;
 
         //UI interaction
-        public bool doLocationUpdate = false;
+        private bool _doLocationUpdate = false;
+        private bool _isDrillHoleFieldBook = false;
         public string entryType = null;
 
 
@@ -59,7 +64,8 @@ namespace GSCFieldApp.ViewModels
 
         public string LocationAlias { get { return _locationAlias; } set { _locationAlias = value; } }
         public int LocationID { get { return _locationID; } set { _locationID = value; } }
-        public string LocationLatitude {
+        public string LocationLatitude
+        {
             get { return _locationLatitude; }
             set
             {
@@ -112,20 +118,19 @@ namespace GSCFieldApp.ViewModels
                 }
             }
         }
-
         public string LocationElevation { get { return _locationElevation; } set { _locationElevation = value; } }
-
         public string LocationNorthing { get { return _locationNorthing; } set { _locationNorthing = value; } }
         public string LocationEasting { get { return _locationEasting; } set { _locationEasting = value; } }
-
         public string LocationAccuracy { get { return _locationAccuracy; } set { _locationAccuracy = value; } }
         public string LocationNTS { get { return _locationNTS; } set { _locationNTS = value; } }
         public bool ReadOnlyFields { get { return _readonlyFields; } set { _readonlyFields = value; } }
-
         public string LocationNotes { get { return _locationNotes; } set { _locationNotes = value; } }
-
         public ObservableCollection<Themes.ComboBoxItem> LocationDatums { get { return _locationDatums; } set { _locationDatums = value; } }
         public string SelectedLocationDatums { get { return _selectedLocationDatums; } set { _selectedLocationDatums = value; } }
+
+        public bool DoLocationUpdate { get { return _doLocationUpdate; } set { _doLocationUpdate = value; } }
+        public bool IsDrillHoleFieldBook { get { return _isDrillHoleFieldBook; } set { _isDrillHoleFieldBook = value; } }
+        public string LocationTimestamp { get { return _locationtimestamp; } set { _locationtimestamp = value; } }
         #endregion
 
         public LocationViewModel(FieldNotes inReport)
@@ -135,6 +140,33 @@ namespace GSCFieldApp.ViewModels
             _locationAlias = idCalculator.CalculateLocationAlias();
 
             FillDatum();
+
+            //Check field book type to change new drill hole button
+            CheckFieldBookType();
+        }
+
+        /// <summary>
+        /// Method to detect field book type which will then set
+        /// visible or not the add drill hole button in the header bar
+        /// </summary>
+        private void CheckFieldBookType()
+        {
+            string fieldworkType = string.Empty;
+            if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
+            {
+                fieldworkType = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString();
+            }
+
+            if (fieldworkType != string.Empty && fieldworkType.Contains(DatabaseLiterals.KeywordDrill))
+            {
+                _isDrillHoleFieldBook = true;
+            }
+            else
+            {
+                _isDrillHoleFieldBook = false;
+            }
+
+            RaisePropertyChanged("IsDrillHoleFieldBook");
         }
 
         private void FillDatum()
@@ -173,7 +205,13 @@ namespace GSCFieldApp.ViewModels
             _locationEasting = existingDataDetailLocation.location.LocationEasting.ToString();
             _locationNorthing = existingDataDetailLocation.location.LocationNorthing.ToString();
             _locationNTS = existingDataDetailLocation.location.locationNTS;
-            _selectedLocationDatums = existingDataDetailLocation.location.LocationDatum;
+            _locationtimestamp = existingDataDetailLocation.location.LocationTimestamp.ToString();
+
+            //Check for manual XY projections
+            if (existingDataDetailLocation.location.LocationEPSGProj != null && existingDataDetailLocation.location.LocationEPSGProj != string.Empty)
+            {
+                _selectedLocationDatums = existingDataDetailLocation.location.LocationEPSGProj;
+            }
 
             //Update UI
             RaisePropertyChanged("LocationID");
@@ -186,9 +224,10 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("LocationEasting");
             RaisePropertyChanged("LocationNorthing");
             RaisePropertyChanged("LocationNTS");
-            RaisePropertyChanged("SelectedLocationDatums"); 
+            RaisePropertyChanged("SelectedLocationDatums");
 
-            doLocationUpdate = true;
+            _doLocationUpdate = true;
+            RaisePropertyChanged("DoLocationUpdate");
         }
 
         /// <summary>
@@ -197,11 +236,10 @@ namespace GSCFieldApp.ViewModels
         public void SaveDialogInfo()
         {
             //Parse coordinate pairs
-
             double.TryParse(_locationLongitude, out double _long);
             double.TryParse(_locationLatitude, out double _lat);
-            int.TryParse(_locationEasting, out int _easting);
-            int.TryParse(_locationNorthing, out int _northing);
+            double.TryParse(_locationEasting, out double _easting);
+            double.TryParse(_locationNorthing, out double _northing);
             double.TryParse(_locationAccuracy, out double _accu);
 
             //Detect a projected system
@@ -211,14 +249,16 @@ namespace GSCFieldApp.ViewModels
             if ((_long == 0 || _lat == 0) && (_easting != 0 || _northing != 0))
             {
 
-
-
                 //Detect Datum difference
                 SpatialReference inSR = SpatialReference.Create(selectedEPGS);
                 SpatialReference outSR = SpatialReferences.Wgs84; //Default
                 if ((selectedEPGS > 26900 && selectedEPGS < 27000) || selectedEPGS == 4617)
                 {
-                    outSR = SpatialReference.Create(4617);
+                    //Commented out, by default it'll always be wgs84 in lat/long #299
+                    //outSR = SpatialReference.Create(4617);
+
+                    locationModel.LocationEPSGProj = selectedEPGS.ToString();
+                    locationModel.LocationDatum = DatabaseLiterals.KeywordEPSGDefault;
                 }
 
                 MapPoint geoSave = CalculateGeographicCoordinate(_easting, _northing, inSR, outSR);
@@ -241,13 +281,29 @@ namespace GSCFieldApp.ViewModels
             locationModel.LocationNotes = LocationNotes;
             locationModel.LocationErrorMeasure = _accu;
             locationModel.locationNTS = _locationNTS;
-            locationModel.LocationEasting = _easting;
-            locationModel.LocationNorthing = _northing;
 
+            // Timestamp only if not in update mode
+            if (!_doLocationUpdate)
+            {
+                locationModel.LocationTimestamp = idCalculator.FormatFullDate(DateTime.Now);
+            }
+            else
+            {
+                locationModel.LocationTimestamp = _locationtimestamp;
+            }
 
+            
             if (SelectedLocationDatums != null)
             {
-                locationModel.LocationDatum = SelectedLocationDatums;
+                if (selectedEPGS != 4326 && selectedEPGS != 4617)
+                {
+                    //Keep new projection EPSG
+                    locationModel.LocationEPSGProj = selectedEPGS.ToString();
+                    locationModel.LocationEasting = _easting;
+                    locationModel.LocationNorthing = _northing;
+                }
+
+                locationModel.LocationDatum = DatabaseLiterals.KeywordEPSGDefault;
             }
 
             if (entryType != null)
@@ -257,10 +313,27 @@ namespace GSCFieldApp.ViewModels
 
 
             //Save model class
-            object locObject = (object)locationModel;
-            accessData.SaveFromSQLTableObject(ref locObject, doLocationUpdate);
-            locationModel = (FieldLocation)locObject;
-            //accessData.SaveFromSQLTableObject(locationModel, doLocationUpdate);
+            GeopackageService geoService = new GeopackageService();
+
+            if (_doLocationUpdate)
+            {
+                object locObject = (object)locationModel;
+                accessData.SaveFromSQLTableObject(ref locObject, _doLocationUpdate);
+                locationModel = (FieldLocation)locObject;
+
+                //Extra step to make sure geometry is good
+                string updateQuery = accessData.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                geoService.DoSpatialiteQueryInGeopackage(updateQuery, false);
+
+            }
+            else
+            {
+                string insertQuery = accessData.GetGeopackageInsertQuery(locationModel);
+                locationModel.LocationID = geoService.DoSpatialiteQueryInGeopackage(insertQuery);
+            }
+
+
+
 
             //Launch an event call for everyone that an earthmat has been edited.
             if (newLocationEdit != null)
@@ -270,7 +343,7 @@ namespace GSCFieldApp.ViewModels
 
             //Trigger event for map page
             EventHandler updateRequest = LocationUpdateEventHandler;
-            if (updateRequest != null && doLocationUpdate)
+            if (updateRequest != null && _doLocationUpdate)
             {
                 updateRequest(this, null);
             }
@@ -286,7 +359,7 @@ namespace GSCFieldApp.ViewModels
         {
             if (_readonlyFields)
             {
-                _readonlyFields = false; 
+                _readonlyFields = false;
             }
             else
             {
@@ -389,7 +462,7 @@ namespace GSCFieldApp.ViewModels
                         SpatialReference inSR = SpatialReferences.Wgs84; //Default
                         if (selectedEPGS > 26900 && selectedEPGS < 27000)
                         {
-                            inSR = SpatialReference.Create(4617); 
+                            inSR = SpatialReference.Create(4617);
                         }
 
                         MapPoint geoPoint = new MapPoint(x_value, y_value, inSR);
@@ -399,7 +472,7 @@ namespace GSCFieldApp.ViewModels
                         int y = (int)projPoint.Y;
                         int x = (int)projPoint.X;
                         _locationNorthing = y.ToString();
-                        _locationEasting= x.ToString();
+                        _locationEasting = x.ToString();
 
 
 

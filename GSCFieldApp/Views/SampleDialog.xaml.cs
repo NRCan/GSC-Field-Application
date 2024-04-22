@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using GSCFieldApp.Models;
+using GSCFieldApp.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Template10.Common;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using GSCFieldApp.ViewModels;
-using GSCFieldApp.Models;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -28,7 +31,7 @@ namespace GSCFieldApp.Views
             this.InitializeComponent();
 
             ViewModel = new SampleViewModel(inDetailViewModel);
-            this.Loading += SampleDialog_Loading;
+            this.Loading += SampleDialog_LoadingAsync;
 
             //#258 bringing back some old patch on save button
             this.sampleSaveButton.GotFocus -= SampleSaveButton_GotFocus;
@@ -48,7 +51,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void SampleDialog_Loading(FrameworkElement sender, object args)
+        private async void SampleDialog_LoadingAsync(FrameworkElement sender, object args)
         {
             //Fill automatically the earthmat dialog if an edit is asked by the user.
             if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableSample && ViewModel.doSampleUpdate)
@@ -59,6 +62,27 @@ namespace GSCFieldApp.Views
             else if (!ViewModel.doSampleUpdate)
             {
                 this.pageHeader.Text = this.pageHeader.Text + "  " + this.ViewModel.SampleAlias;
+
+                //Display alert to take a blank or a duplicate for surficial geologist
+                if (this.ViewModel.DuplicateReminder())
+                {
+                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        ContentDialog reminderDialog = new ContentDialog()
+                        {
+                            Title = loadLocalization.GetString("SampleDialogDuplicateReminderTitle"),
+                            Content = loadLocalization.GetString("SampleDialogDuplicateReminderContent"),
+                            PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
+                        };
+                        reminderDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                        await Services.ContentDialogMaker.CreateContentDialogAsync(reminderDialog, false);
+
+                    }).AsTask();
+
+                }
+
             }
 
         }
@@ -93,7 +117,7 @@ namespace GSCFieldApp.Views
             {
                 ViewModel.DeleteCascadeOnQuickSample(parentViewModel);
             }
-            
+
             CloseControl();
         }
 
@@ -125,6 +149,43 @@ namespace GSCFieldApp.Views
             }
         }
 
+        private void SampleLength_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox senderBox = sender as TextBox;
+            if (senderBox.Text != null && senderBox.Text != string.Empty)
+            {
+                CalculateTo();
+            }
+        }
 
+        /// <summary>
+        /// Will recalculate the To value based on From or Length values
+        /// </summary>
+        private void CalculateTo()
+        {
+            //Recalculate new To value
+            bool resultFrom = double.TryParse(this.SampleFrom.Text, out double doubleFrom);
+            bool resultLength = double.TryParse(this.SampleLength.Text, out double doubleLength);
+
+            if (resultFrom && resultLength)
+            {
+                this.SampleTo.Text = (doubleFrom + doubleLength).ToString();
+            }
+            else
+            {
+                this.SampleTo.Text = "0";
+            }
+
+            this.ViewModel.SampleCoreTo = this.SampleTo.Text;
+        }
+
+        private void SampleFrom_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox senderBox = sender as TextBox;
+            if (senderBox.Text != null && senderBox.Text != string.Empty)
+            {
+                CalculateTo();
+            }
+        }
     }
 }

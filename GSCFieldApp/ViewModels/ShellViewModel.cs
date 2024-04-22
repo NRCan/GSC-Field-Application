@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using Windows.Storage;
-using Template10.Mvvm;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Xaml.Controls;
 using GSCFieldApp.Services.FileServices;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Template10.Mvvm;
+using Windows.Storage;
 using Windows.UI.Xaml;
-using GSCFieldApp.Dictionaries;
+using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class ShellViewModel: ViewModelBase
+    public class ShellViewModel : ViewModelBase
     {
         //UI
         private bool _shellEnableMapCommand = true;
         private bool _shellEnableNoteCommand = true;
         private bool _shellEnableBackupCommand = true;
+        private bool _shellRingActive = false;
 
         //Delegates and events
 
@@ -28,6 +30,12 @@ namespace GSCFieldApp.ViewModels
         public bool ShellEnableMapCommand { get { return _shellEnableMapCommand; } set { _shellEnableMapCommand = value; } }
         public bool ShellEnableNoteCommand { get { return _shellEnableNoteCommand; } set { _shellEnableNoteCommand = value; } }
         public bool ShellEnableBackupCommand { get { return _shellEnableBackupCommand; } set { _shellEnableBackupCommand = value; } }
+
+        public bool ShellRingActive
+        {
+            get { return _shellRingActive; }
+            set { _shellRingActive = value; }
+        }
 
         //Init.
         public ShellViewModel()
@@ -63,6 +71,9 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         public async void QuickBackupAsync()
         {
+            _shellRingActive = true;
+            RaisePropertyChanged("ShellRingActive");
+
             //Variables
             List<StorageFile> FilesToBackup = new List<StorageFile>();
             FileServices fs = new FileServices();
@@ -73,7 +84,15 @@ namespace GSCFieldApp.ViewModels
             string projectName = string.Empty;
             if (localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest) != null)
             {
-                inMemoryYoungestPhoto = (DateTimeOffset)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest);
+                try
+                {
+                    inMemoryYoungestPhoto = (DateTimeOffset)localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest);
+                }
+                catch (Exception)
+                {
+                    inMemoryYoungestPhoto = DateTimeOffset.MinValue;
+                }
+
             }
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName) != null)
             {
@@ -103,13 +122,13 @@ namespace GSCFieldApp.ViewModels
                     {
                         FilesToBackup.Add(files);
                     }
-                    
+
                 }
 
                 //Get photos
                 if (files.Name.ToLower().Contains(".jpg"))
                 {
-                    hasPhotos = true; 
+                    hasPhotos = true;
                     if (files.DateCreated >= inMemoryYoungestPhoto)
                     {
                         //Copy all photos
@@ -137,8 +156,13 @@ namespace GSCFieldApp.ViewModels
                 {
                     if (sf.Name == Dictionaries.DatabaseLiterals.DBName + Dictionaries.DatabaseLiterals.DBTypeSqlite)
                     {
-                        StorageFile newFile = await sf.CopyAsync(fieldBook, newName);
-                        newList.Add(newFile);
+                        //Colision prevention
+                        if (!File.Exists(newName))
+                        {
+                            StorageFile newFile = await sf.CopyAsync(fieldBook, newName);
+                            newList.Add(newFile);
+                        }
+
 
                     }
                     else
@@ -146,20 +170,22 @@ namespace GSCFieldApp.ViewModels
                         newList.Add(sf);
                     }
 
-                    
+
 
                 }
 
                 //Zip 
-                string outputArchivePath = await fs.AddFilesToZip(newList);
-                
+                string outputArchivePath = await fs.AddFilesToFolder(newList);
+
                 //Keep youngest photo in memory
                 localSetting.SetSettingValue(Dictionaries.ApplicationLiterals.KeywordBackupPhotoYoungest, youngestPhoto);
 
                 //Copy
-                await fs.SaveArchiveCopy(newList, "", "");
+                await fs.SaveArchiveCopy(outputArchivePath, "", "");
 
-                //Delete renamed copy
+                //Delete renamed copy and directory
+                Directory.Delete(outputArchivePath,true);
+
                 foreach (StorageFile fsToDelete in newList)
                 {
                     if (fsToDelete.Name.Contains(newName))
@@ -167,10 +193,9 @@ namespace GSCFieldApp.ViewModels
                         await fsToDelete.DeleteAsync();
                         break;
                     }
-                    
+
                 }
 
-                
             }
             else if (FilesToBackup.Count == 1 && FilesToBackup[0].Name.Contains(DatabaseLiterals.DBTypeSqlite))
             {
@@ -193,7 +218,7 @@ namespace GSCFieldApp.ViewModels
                     endProcessDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
                     ContentDialogResult cdr = await endProcessDialog.ShowAsync();
                 }
-                
+
             }
             else if (FilesToBackup.Count == 0)
             {
@@ -212,7 +237,7 @@ namespace GSCFieldApp.ViewModels
             //Show empty backed up photo warning
             if (photoCount == 0 && hasPhotos)
             {
-                
+
                 var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
                 ContentDialog warningNoPhotoBackup = new ContentDialog()
                 {
@@ -224,6 +249,8 @@ namespace GSCFieldApp.ViewModels
                 ContentDialogResult cdr = await warningNoPhotoBackup.ShowAsync();
             }
 
+            _shellRingActive = false;
+            RaisePropertyChanged("ShellRingActive");
         }
 
         public void RestoreAsync()

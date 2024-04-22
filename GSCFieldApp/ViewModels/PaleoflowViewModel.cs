@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class PaleoflowViewModel: ViewModelBase
+    public class PaleoflowViewModel : ViewModelBase
     {
         #region INIT DECLARATIONS
 
@@ -36,7 +36,7 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _pflowRelative = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedPflowRelative = string.Empty;
 
-        public string _pflowNote= string.Empty;//Default
+        public string _pflowNote = string.Empty;//Default
         public string _pflowDipPlunge = string.Empty;
         public string _pflowAzim = string.Empty;
         public bool? _pflowMainDirection = false;
@@ -183,10 +183,10 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowClass.Add(itemClass);
             }
-            
+
 
             //Update UI
-            RaisePropertyChanged("PflowClass"); 
+            RaisePropertyChanged("PflowClass");
             RaisePropertyChanged("SelectedPflowClass");
 
         }
@@ -200,7 +200,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowDir.Add(itemDirection);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("PflowDir");
@@ -228,7 +228,7 @@ namespace GSCFieldApp.ViewModels
             {
                 pflowF = accessData.GetPicklistValuesFromParent(tableName, fieldName, "x", false).ToList(); //Make the query crash and return N.A. if nothing is available in lithotype
             }
-  
+
             //Fill in cbox
             if (_selectedPflowFeature == null)
             {
@@ -263,7 +263,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowConfidence.Add(itemConfidence);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("PflowConfidence");
@@ -279,11 +279,11 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowBedSurface.Add(itemBedrockSurface);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("PflowBedSurface");
-            RaisePropertyChanged("SelectedPflowBedSurface"); 
+            RaisePropertyChanged("SelectedPflowBedSurface");
 
         }
 
@@ -296,7 +296,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowDefined.Add(itemDefinition);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("PflowDefined");
@@ -313,7 +313,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowNoIndicator.Add(itemIndiNumber);
             }
-           
+
 
             //Update UI
             RaisePropertyChanged("PflowNoIndicator");
@@ -329,7 +329,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowAge.Add(itemRelativeAge);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("PflowAge");
@@ -346,7 +346,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowMethod.Add(itemMethod);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("PflowMethod");
@@ -363,7 +363,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowRelative.Add(itemRelation);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("PflowRelative");
@@ -400,7 +400,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _pflowMainDirection = false;
             }
-            
+
 
             _selectedPflowClass = existingDataDetailPflow.paleoflow.PFlowClass;
             _selectedPflowDir = existingDataDetailPflow.paleoflow.PFlowSense;
@@ -414,10 +414,10 @@ namespace GSCFieldApp.ViewModels
             _selectedPflowFeature = existingDataDetailPflow.paleoflow.PFlowFeature;
 
             //Update UI
-            RaisePropertyChanged("PflowID"); 
-            RaisePropertyChanged("PflowAge"); 
-            RaisePropertyChanged("PflowParentID"); 
-            RaisePropertyChanged("PflowAzim"); 
+            RaisePropertyChanged("PflowID");
+            RaisePropertyChanged("PflowAge");
+            RaisePropertyChanged("PflowParentID");
+            RaisePropertyChanged("PflowAzim");
             RaisePropertyChanged("PflowNote");
             RaisePropertyChanged("PflowDip");
             RaisePropertyChanged("PflowName");
@@ -427,14 +427,14 @@ namespace GSCFieldApp.ViewModels
 
             RaisePropertyChanged("SelectedPflowClass");
             RaisePropertyChanged("SelectedPflowDir");
-            RaisePropertyChanged("SelectedPflowFeature"); 
-            RaisePropertyChanged("SelectedPflowConfidence"); 
-            RaisePropertyChanged("SelectedPflowBedSurface"); 
-            RaisePropertyChanged("SelectedPflowDefined"); 
-            RaisePropertyChanged("SelectedPflowNoIndicator"); 
-            RaisePropertyChanged("SelectedPflowage"); 
-            RaisePropertyChanged("SelectedPflowMethod"); 
-            RaisePropertyChanged("SelectedPflowRelative"); 
+            RaisePropertyChanged("SelectedPflowFeature");
+            RaisePropertyChanged("SelectedPflowConfidence");
+            RaisePropertyChanged("SelectedPflowBedSurface");
+            RaisePropertyChanged("SelectedPflowDefined");
+            RaisePropertyChanged("SelectedPflowNoIndicator");
+            RaisePropertyChanged("SelectedPflowage");
+            RaisePropertyChanged("SelectedPflowMethod");
+            RaisePropertyChanged("SelectedPflowRelative");
 
 
             doPflowUpdate = true;
@@ -469,7 +469,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     pflowModel.PFlowMainDir = Dictionaries.DatabaseLiterals.boolNo;
                 }
-                
+
             }
             else
             {

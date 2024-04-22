@@ -500,6 +500,46 @@
 
         </DataTemplate>
 
+        <!-- Drill holes List Template-->
+        <DataTemplate x:Key="ReportDrillTemplate" x:DataType="model:FieldNotes">
+            <RelativePanel BorderBrush="{ThemeResource FieldDrillColorLightBrush}" BorderThickness="0.5" >
+
+                <Grid Style="{ThemeResource ReportPageTemplateGrid}" x:Name="DrillListTemplateGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition MaxHeight="20"/>
+                    </Grid.RowDefinitions>
+
+                    <RelativePanel Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <!--Validity background check-->
+                        <FontIcon Glyph="&#xE73C;"
+                                Foreground="Red" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True"
+                                Visibility="{x:Bind drillHoles.isValid, Converter={StaticResource VisibilityConverter}}"/>
+                    </RelativePanel>
+
+                    <!--Values-->
+                    <TextBlock x:Name="drillAliasItem" Text="{x:Bind drillHoles.DrillIDName}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                               FontWeight="Bold"  Style="{StaticResource BaseTextBlockStyle}"/>
+
+                    <TextBlock x:Name="drillOriginalNameItem" Text="{x:Bind drillHoles.DrillName}" Width="{Binding Width, ElementName=DrillListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="WordEllipsis" Grid.ColumnSpan="2" 
+                               Grid.Column="0" Grid.Row="1" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="drillTypeItem" Text="{x:Bind drillHoles.DrillType}" Width="{Binding Width, ElementName=DrillListTemplateGrid}"
+                               HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Grid.ColumnSpan="2" MaxHeight="20"
+                               Grid.Column="0" Grid.Row="2"/>
+
+                </Grid>
+
+            </RelativePanel>
+
+        </DataTemplate>
+
     </Page.Resources>
     <RelativePanel>
         <!--Page Header-->
@@ -592,7 +632,7 @@
                         </theme:ExpandPanel.ToolContent>
                         <theme:ExpandPanel.Content>
 
-                            <GridView x:Name="ReportStationList"  Style="{StaticResource ReportPageGridView}"
+                            <GridView x:Name="ReportStationList" MaxHeight="340" Style="{StaticResource ReportPageGridView}"
                                 ItemClick="{x:Bind ViewModel.Report_ItemClick}"    
                                 SelectedIndex="{x:Bind ViewModel.ReportStationListIndex, Mode=TwoWay}"
                                 ItemTemplate="{StaticResource ReportStationTemplate}"
@@ -607,8 +647,62 @@
 
                 </Grid>
 
+                <!--Field Drill Holes-->
+                <Grid x:Name="DrillPanel" RelativePanel.Below="StationPanel"
+                            RelativePanel.AlignLeftWithPanel="True" Visibility="{x:Bind ViewModel.DrillPanelVisibility, Mode=TwoWay}"
+                            RelativePanel.AlignRightWithPanel="True" Margin="0,10, 0,0" >
+
+
+                    <theme:ExpandPanel x:Name="DrillExpandPanel" IsExpanded="{x:Bind ViewModel.DrillHeaderExpander, Mode=TwoWay}">
+                        <theme:ExpandPanel.HeaderBorderBrush>
+                            <SolidColorBrush Color="{x:Bind ViewModel.DrillColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}"/>
+                        </theme:ExpandPanel.HeaderBorderBrush>
+                        <theme:ExpandPanel.HeaderContent>
+                            <RelativePanel>
+                                <Rectangle x:Name="DrillBackground" Height="45" Width="5" RelativePanel.AlignLeftWithPanel="True">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{x:Bind ViewModel.DrillColor, Converter={StaticResource SolidColorBrushConverter}, Mode=TwoWay}" Opacity="{x:Bind ViewModel.DrillIconColorOpacity, Mode=TwoWay}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <TextBlock x:Name="textBlock_FieldDrill" x:Uid="FieldworkTableDrill" 
+                                            TextTrimming="CharacterEllipsis" Foreground="{x:Bind ViewModel.DrillColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}"
+                                            VerticalAlignment="Top" Height="40" Width="Auto" FontWeight="Bold"
+                                            Margin="16,0,0,0" RelativePanel.AlignLeftWithPanel="True"
+                                            Style="{StaticResource SubtitleTextBlockStyle}" IsTextScaleFactorEnabled="False">
+                                </TextBlock>
+                            </RelativePanel>
+                        </theme:ExpandPanel.HeaderContent>
+                        <theme:ExpandPanel.ToolContent>
+                            <RelativePanel>
+                                <SymbolIcon x:Name="DrillEditIcon" Foreground="{x:Bind ViewModel.DrillColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Edit" Opacity="{x:Bind ViewModel.DrillIconOpacity, Mode=TwoWay}"
+                                                    RelativePanel.LeftOf="DrillDeleteIcon"
+                                                    Margin="8" Tapped="{x:Bind ViewModel.DrillEditIcon_Tapped}" />
+                                <SymbolIcon x:Name="DrillDeleteIcon" Foreground="{x:Bind ViewModel.DrillColor, Converter={StaticResource MediaBrushConverter}, Mode=TwoWay}" Symbol="Delete" Opacity="{x:Bind ViewModel.DrillIconOpacity, Mode=TwoWay}"
+                                                    RelativePanel.AlignRightWithPanel="True" 
+                                                    Margin="8" 
+                                                    Tapped="{x:Bind ViewModel.DeleteIcon_TappedAsync}"/>
+                            </RelativePanel>
+                        </theme:ExpandPanel.ToolContent>
+                        <theme:ExpandPanel.Content>
+
+                            <GridView x:Name="ReportDrillList"  Style="{StaticResource ReportPageGridView}"
+                                ItemClick="{x:Bind ViewModel.Report_ItemClick}"    
+                                SelectedIndex="{x:Bind ViewModel.ReportDrillIndex, Mode=TwoWay}"
+                                ItemTemplate="{StaticResource ReportDrillTemplate}"
+                                ItemsSource="{x:Bind ViewModel.ReportDetailedDrill, Mode=OneWay}" 
+                                SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}" 
+                                DoubleTapped="{x:Bind ViewModel.ReportDrillList_DoubleTapped}" 
+                                ItemContainerStyle="{StaticResource ReportPageGridViewDrillItems}">
+                            </GridView>
+
+                        </theme:ExpandPanel.Content>
+                    </theme:ExpandPanel>
+
+                </Grid>
+
                 <!--Field Earth Material-->
-                <Grid x:Name="EarthmatPanel" RelativePanel.Below="StationPanel"
+                <Grid x:Name="EarthmatPanel" RelativePanel.Below="DrillPanel"
                             RelativePanel.AlignLeftWithPanel="True" Visibility="{x:Bind ViewModel.EarthmatPanelVisibility, Mode=TwoWay}"
                             RelativePanel.AlignRightWithPanel="True">
                     <theme:ExpandPanel x:Name="EarthMatExpandPanel"  IsExpanded="{x:Bind ViewModel.EarthmatHeaderExpansion, Mode=TwoWay}"
@@ -1173,7 +1267,7 @@
                                     AllowDrop="False" DoubleTapped="{x:Bind ViewModel.ReportLocationList_DoubleTapped}"
                                     IsItemClickEnabled="True" ItemClick="{x:Bind ViewModel.Report_ItemClick}"
                                     ItemTemplate="{StaticResource ReportLocationTemplate}" 
-                                      SelectedIndex="{x:Bind ViewModel.ReportDocumentIndex, Mode=TwoWay}"
+                                      SelectedIndex="{x:Bind ViewModel.ReportLocationIndex, Mode=TwoWay}"
                                     ItemsSource="{x:Bind ViewModel.ReportDetailedLocation, Mode=OneWay}"
                                       SelectionChanged="{x:Bind ViewModel.ReportDetail_SelectionChanged}"
                                       ItemContainerStyle="{ThemeResource ReportPageGridViewLocationItems}">

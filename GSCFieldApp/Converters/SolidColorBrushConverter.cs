@@ -9,7 +9,7 @@ namespace GSCFieldApp.Converters
     /// A converter that takes a solidcolorbrush and outputs a solidcolorbrush, 
     /// with a default if value is null. Used for control colors.
     /// </summary>
-    public class SolidColorBrushConverter: IValueConverter
+    public class SolidColorBrushConverter : IValueConverter
     {
         readonly SolidColorBrush defaultBrush = new SolidColorBrush();
 

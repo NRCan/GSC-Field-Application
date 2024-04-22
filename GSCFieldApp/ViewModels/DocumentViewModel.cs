@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Template10.Mvvm;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Xaml.Input;
-using Windows.Storage;
-using Windows.UI.Xaml;
-using GSCFieldApp.Dictionaries;
-using Windows.UI.Xaml.Controls;
-using System.Globalization;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using Template10.Mvvm;
 using Windows.Media.Capture;
-using System.Reflection;
+using Windows.Storage;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -31,6 +31,7 @@ namespace GSCFieldApp.ViewModels
         private readonly Structure structureModel = new Structure();
         private readonly Mineral mineralModel = new Mineral();
         private readonly MineralAlteration maModel = new MineralAlteration();
+        private readonly DrillHole dhModel = new DrillHole();
         private readonly DataAccess dataAcess = new DataAccess();
         private string _description = string.Empty; //Default
         private int _documentID = 0;  //Default
@@ -42,6 +43,8 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _docType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedDocType = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _category = new ObservableCollection<Themes.ComboBoxItem>();
+        private ObservableCollection<Themes.ComboBoxItem> _scaledir = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedScaleDir = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _categoryValues = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedCategory = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _relatedTable = new ObservableCollection<Themes.ComboBoxItem>();
@@ -55,7 +58,7 @@ namespace GSCFieldApp.ViewModels
         public string _documentPhotoPath = null;
         private bool _documentPhotoExists = false;
         private readonly List<string> _fileNumbers = new List<string>(); //All current file numbers in database
-        private bool _fileNumberExists = false; //Will be used to track if number already exists, prevent save on dialog.
+        //private bool _fileNumberExists = false; //Will be used to track if number already exists, prevent save on dialog.
 
         //DB
         public bool doDocumentUpdate = false; //New records or record update
@@ -143,21 +146,21 @@ namespace GSCFieldApp.ViewModels
 
                     if (_fileNumbers.Contains(indexFrom.ToString()))
                     {
-                        _fileNumberExists = true;
+                        //_fileNumberExists = true;
                         if (existingFileNumber != null)
                         {
                             existingFileNumber(this, null);
                         }
-                        while (_fileNumbers.Contains(indexFrom.ToString()))
-                        {
-                            indexFrom++;
-                        }
-                        _fileNumber = value = indexFrom.ToString();
-                        RaisePropertyChanged("FileNumber");
+                        //while (_fileNumbers.Contains(indexFrom.ToString()))
+                        //{
+                        //    indexFrom++;
+                        //}
+                        //_fileNumber = value = indexFrom.ToString();
+                        //RaisePropertyChanged("FileNumber");
                     }
                     else
                     {
-                        _fileNumberExists = false;
+                        //_fileNumberExists = false;
                     }
 
                     //Make sure it's lower then File Number To value
@@ -228,6 +231,8 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> DocType { get { return _docType; } set { _docType = value; } }
         public string SelectedDocType { get { return _selectedDocType; } set { _selectedDocType = value; } }
 
+        public ObservableCollection<Themes.ComboBoxItem> ScaleDirection { get { return _scaledir; } set { _scaledir = value; } }
+        public string SelectedScaleDir { get { return _selectedScaleDir; } set { _selectedScaleDir = value; } }
         public ObservableCollection<Themes.ComboBoxItem> Category { get { return _category; } set { _category = value; } }
         public ObservableCollection<Themes.ComboBoxItem> CategoryValues { get { return _categoryValues; } set { _categoryValues = value; } }
         public string SelectedCategory { get { return _selectedCategory; } set { _selectedCategory = value; } }
@@ -275,10 +280,10 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Init file number to last found in database (not necessarily the highest value)
-            List<object> lastDocuments = GetLastDocument();
+            List<object> lastDocuments = GetLastDocument(false);
             if (lastDocuments.Count() == 1)
             {
-                lastDocument = GetLastDocument()[0] as Document;
+                lastDocument = lastDocuments[0] as Document;
 
                 _fileNumber = GetLastFileNumberPlusOne(lastDocument.DocumentType);
             }
@@ -290,6 +295,7 @@ namespace GSCFieldApp.ViewModels
             FillDocumentType();
             FillRelatedTable();
             FillRelatedIDs();
+            FillScaleDirections();
 
             RaisePropertyChanged("SelectedRelatedID");
             RaisePropertyChanged("SelectedRelatedTable");
@@ -307,7 +313,7 @@ namespace GSCFieldApp.ViewModels
         {
             var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
-            try
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 ContentDialog warningBookDialog = new ContentDialog()
                 {
@@ -315,16 +321,10 @@ namespace GSCFieldApp.ViewModels
                     Content = loadLocalization.GetString("WarningInvalidDocNumber"),
                     PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
                 };
-
                 warningBookDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                ContentDialogResult cdr = await warningBookDialog.ShowAsync();
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(warningBookDialog);
-            }
-            catch (Exception)
-            {
+                await Services.ContentDialogMaker.CreateContentDialogAsync(warningBookDialog, true);
 
-            }
-
+            }).AsTask();
 
         }
 
@@ -333,7 +333,7 @@ namespace GSCFieldApp.ViewModels
         /// For validation purposes.
         /// </summary>
         public void GetAllFileNumbers()
-        { 
+        {
             List<object> docTableLRaw = accessData.ReadTable(documentModel.GetType(), null);
             IEnumerable<Document> docTable = docTableLRaw.Cast<Document>(); //Cast to proper list type
             IEnumerable<string> docs = from d in docTable select d.FileNumber.ToString();
@@ -352,7 +352,7 @@ namespace GSCFieldApp.ViewModels
 
             if (localSetting.GetSettingValue(ApplicationLiterals.KeywordDocumentMode) != null)
             {
-                if ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordDocumentMode))
+                if (localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordDocumentMode))
                 {
                     _documentModeVisibility = Visibility.Collapsed;
                     _fileNameReadOnly = true;
@@ -379,116 +379,134 @@ namespace GSCFieldApp.ViewModels
         public bool SaveDialogInfoAsync()
         {
             //Validate if the file number exists or not. If yes don't save anything.
-            if (!_fileNumberExists)
+
+            Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
+
+            //Get current UI information and add to model class
+            documentModel.DocumentID = _documentID;
+            documentModel.DocumentName = _documentName;
+            documentModel.Description = _description;
+
+            documentModel.FileName = _fileName;
+
+
+            //Variable parsing
+            if (_direction != String.Empty)
             {
-                Themes.ConcatenatedCombobox concat = new Themes.ConcatenatedCombobox();
+                documentModel.Direction = int.Parse(_direction);
+            }
+            if (_fileNumber != String.Empty)
+            {
+                documentModel.FileNumber = int.Parse(_fileNumber);
+            }
 
-                //Get current UI information and add to model class
-                documentModel.DocumentID = _documentID;
-                documentModel.DocumentName = _documentName;
-                documentModel.Description = _description;
-                
-                documentModel.FileName = _fileName;
-                
+            #region COMBOBOXES
+            if (SelectedCategory != null)
+            {
+                documentModel.Category = SelectedCategory;
+            }
+            if (SelectedScaleDir != null)
+            {
+                documentModel.ScaleDirection = SelectedScaleDir;
+            }
+            if (SelectedCategory != null)
+            {
+                documentModel.Category = concat.PipeValues(_categoryValues); //process list of values so they are concatenated.
+            }
 
-                //Variable parsing
-                if (_direction != String.Empty)
+            if (SelectedDocType != null)
+            {
+                documentModel.DocumentType = SelectedDocType;
+            }
+
+            if (_documentModeVisibility == Visibility.Visible && SelectedRelatedTable != null && SelectedRelatedID != null && int.Parse(SelectedRelatedID) != 0)
+            {
+                if (SelectedRelatedTable == DatabaseLiterals.TableDrillHoles)
                 {
-                    documentModel.Direction = int.Parse(_direction);
+                    documentModel.DrillHoleID = int.Parse(SelectedRelatedID);
                 }
-                if (_fileNumber != String.Empty)
+                else if (SelectedRelatedTable == DatabaseLiterals.TableSample)
                 {
-                    documentModel.FileNumber = int.Parse(_fileNumber);
+                    documentModel.SampleID = int.Parse(SelectedRelatedID);
                 }
-
-                #region COMBOBOXES
-                if (SelectedCategory != null)
+                else if (SelectedRelatedTable == DatabaseLiterals.TableStation)
                 {
-                    documentModel.Category = SelectedCategory;
+                    documentModel.StationID = selectedStationSummaryDocument.station.StationID;
                 }
-
-                if (SelectedCategory != null)
+                else if (SelectedRelatedTable == DatabaseLiterals.TableEarthMat)
                 {
-                    documentModel.Category = concat.PipeValues(_categoryValues); //process list of values so they are concatenated.
-                }
-
-                if (SelectedDocType != null)
-                {
-                    documentModel.DocumentType = SelectedDocType;
-                }
-
-                if (SelectedRelatedTable != null && SelectedRelatedID != null && int.Parse(SelectedRelatedID) != 0)
-                {
-                    documentModel.RelatedTable = SelectedRelatedTable;
-                    documentModel.RelatedID = int.Parse(SelectedRelatedID);
-                }
-                else
-                {
-                    documentModel.RelatedTable = DatabaseLiterals.TableStation;
-                    documentModel.RelatedID = selectedStationSummaryDocument.station.StationID;
-                }
-                #endregion
-
-                #region Photos
-
-                if (_documentPhotoFile != null)
-                {
-                    documentModel.FileName = _documentPhotoFile.Name;
-                    documentModel.DocumentType = DatabaseLiterals.documentTableFileSuffix; //Default value from embeded cameras.
-                    //documentModel.FileNumber = string.Empty; //File number can be empty since embedded photo don't need renaming
+                    documentModel.EarthmatID = int.Parse(SelectedRelatedID);
                 }
 
-                #endregion
-
-                #region FILE NUMBER
-                if (_fileToNumber != string.Empty)
+            }
+            else
+            {
+                //Fallback to field note selection
+                if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation)
                 {
-                    bool fromResult = int.TryParse(_fileNumber, out int fromNumber);
+                    documentModel.StationID = selectedStationSummaryDocument.station.StationID;
+                }
+                else if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableDrillHoles)
+                {
+                    documentModel.DrillHoleID = selectedStationSummaryDocument.drillHoles.DrillID;
+                }                
+            }
 
-                    bool toResult = int.TryParse(_fileToNumber, out int toNumber);
+            #endregion
 
-                    if (fromResult && toResult)
+            #region Photos
+
+            if (_documentPhotoFile != null)
+            {
+                documentModel.FileName = _documentPhotoFile.Name;
+                documentModel.DocumentType = DatabaseLiterals.documentTableFileSuffix; //Default value from embeded cameras.
+                //documentModel.FileNumber = string.Empty; //File number can be empty since embedded photo don't need renaming
+            }
+
+            #endregion
+
+            #region FILE NUMBER
+            if (_fileToNumber != string.Empty)
+            {
+                bool fromResult = int.TryParse(_fileNumber, out int fromNumber);
+
+                bool toResult = int.TryParse(_fileToNumber, out int toNumber);
+
+                if (fromResult && toResult)
+                {
+                    List<object> docList = new List<object>();
+                    int totalIteration = fromNumber + (toNumber - fromNumber);
+                    int iteratedFileNumber = fromNumber;
+                    int currentIteration = 1;
+                    while (iteratedFileNumber <= totalIteration)
                     {
-                        List<object> docList = new List<object>();
-                        int totalIteration = fromNumber + (toNumber - fromNumber);
-                        int iteratedFileNumber = fromNumber;
-                        int currentIteration = 1;
-                        while (iteratedFileNumber <= totalIteration)
+                        _fileNumber = iteratedFileNumber.ToString();
+
+                        Document newDoc = new Document
                         {
-                            _fileNumber = iteratedFileNumber.ToString();
+                            //DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
+                            FileNumber = iteratedFileNumber,
+                            FileName = _fileName = CalculateFileName(),
+                            DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
 
-                            Document newDoc = new Document
-                            {
-                                //DocumentID = _documentID = idCalculatorDoc.CalculateDocumentID(),
-                                FileNumber = iteratedFileNumber,
-                                FileName = _fileName = CalculateFileName(),
-                                DocumentName = _documentName = idCalculatorDoc.CalculateDocumentAlias(selectedStationSummaryDocument.GenericID, selectedStationSummaryDocument.GenericAliasName, currentIteration),
+                            Category = documentModel.Category,
+                            Description = documentModel.Description,
+                            Direction = documentModel.Direction,
+                            DocumentType = documentModel.DocumentType,
+                            StationID = documentModel.StationID,
+                            SampleID = documentModel.SampleID,
+                            DrillHoleID = documentModel.DrillHoleID,
+                            EarthmatID = documentModel.EarthmatID
+                        };
 
-                                Category = documentModel.Category,
-                                Description = documentModel.Description,
-                                Direction = documentModel.Direction,
-                                DocumentType = documentModel.DocumentType,
-                                RelatedID = documentModel.RelatedID,
-                                RelatedTable = documentModel.RelatedTable
-                            };
+                        docList.Add(newDoc);
+                        iteratedFileNumber++;
 
-                            docList.Add(newDoc);
-                            iteratedFileNumber++;
-
-                            currentIteration++;
-                        }
-
-                        //Save model class
-                        dataAcess.BatchSaveSQLTables(docList);
+                        currentIteration++;
                     }
-                    else
-                    {
-                        //Save model class
-                        object docObject = (object)documentModel;
-                        dataAcess.SaveFromSQLTableObject(ref docObject, doDocumentUpdate);
-                        documentModel = (Document)docObject;
-                        //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
-                    }
+
+                    //Save model class
+                    dataAcess.BatchSaveSQLTables(docList);
                 }
                 else
                 {
@@ -498,21 +516,26 @@ namespace GSCFieldApp.ViewModels
                     documentModel = (Document)docObject;
                     //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
                 }
-
-                #endregion
-
-                //Launch an event call for everyone that an earthmat has been edited.
-                if (newDocumentEdit != null)
-                {
-                    newDocumentEdit(this);
-                }
-
-                return true;
             }
             else
             {
-                return false;
+                //Save model class
+                object docObject = (object)documentModel;
+                dataAcess.SaveFromSQLTableObject(ref docObject, doDocumentUpdate);
+                documentModel = (Document)docObject;
+                //dataAcess.SaveFromSQLTableObject(documentModel, doDocumentUpdate);
             }
+
+            #endregion
+
+            //Launch an event call for everyone that an earthmat has been edited.
+            if (newDocumentEdit != null)
+            {
+                newDocumentEdit(this);
+            }
+
+            return true;
+
 
         }
 
@@ -521,13 +544,21 @@ namespace GSCFieldApp.ViewModels
         /// which is incremential
         /// </summary>
         /// <returns></returns>
-        public List<object> GetLastDocument()
+        public List<object> GetLastDocument(bool noEmptyDescription = true)
         {
             string lastDocumentQueryFrom = "SELECT * FROM " + Dictionaries.DatabaseLiterals.TableDocument + " ";
-            string lastDocumentQueryWhere = "WHERE " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentType + " <> '' ";
+            string lastDocumentQueryWhere = "WHERE " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentDescription + " <> '' ";
+            string lastDocumentQueryWhere2 = "AND " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentDescription + " is not null ";
+
+            if (!noEmptyDescription)
+            {
+                lastDocumentQueryWhere = string.Empty;
+                lastDocumentQueryWhere2 = string.Empty; 
+            }
+
             string lastDocumentQueryOrderBy = "ORDER BY " + Dictionaries.DatabaseLiterals.TableDocument + "." + Dictionaries.DatabaseLiterals.FieldDocumentName + " DESC LIMIT 1";
 
-            string lastDocumentQuery = lastDocumentQueryFrom + lastDocumentQueryWhere + lastDocumentQueryOrderBy;
+            string lastDocumentQuery = lastDocumentQueryFrom + lastDocumentQueryWhere + lastDocumentQueryWhere2 + lastDocumentQueryOrderBy;
             return dataAcess.ReadTable(documentModel.GetType(), lastDocumentQuery);
         }
 
@@ -592,42 +623,48 @@ namespace GSCFieldApp.ViewModels
         /// </summary>
         private string CalculateFileName()
         {
-            _fileName = string.Empty;
-            string _noOlympusFileNumber = string.Empty;
-            RaisePropertyChanged("FileName");
-
-            //Get suffix and prefix
-            string[] splitedDoc = SelectedDocType.Split('.');
-
-            #region PHOTO NUMBERING
-            //Calculate a proper file number for photos
-            if (SelectedDocType.ToLower().Contains("jpg"))
+            if (existingDataDetailDocument != null && existingDataDetailDocument.document.DocumentType != DatabaseLiterals.documentTableFileSuffix)
             {
-                SetFileNumberAsString();
+                _fileName = string.Empty;
+                string _noOlympusFileNumber = string.Empty;
+                RaisePropertyChanged("FileName");
 
-                //Special procedure for Olympus camera
-                if (splitedDoc[0].ToLower().Contains("p"))
+                //Get suffix and prefix
+                string[] splitedDoc = SelectedDocType.Split('.');
+
+                #region PHOTO NUMBERING
+                //Calculate a proper file number for photos
+                if (SelectedDocType.ToLower().Contains("jpg"))
                 {
-                    _noOlympusFileNumber = GetOlympusPrefix() + _fileNumber;
+                    SetFileNumberAsString();
+
+                    //Special procedure for Olympus camera
+                    if (splitedDoc[0].ToLower().Contains("p"))
+                    {
+                        _noOlympusFileNumber = GetOlympusPrefix() + _fileNumber;
+                    }
+                    else
+                    {
+                        _noOlympusFileNumber = _fileNumber;
+                    }
                 }
-                else
+                #endregion
+
+                //Calculate file name and update UI
+                if (splitedDoc.Count() == 1)
                 {
-                    _noOlympusFileNumber = _fileNumber;
+                    _fileName = _noOlympusFileNumber + "." + splitedDoc[0];
                 }
-            }
-            #endregion
+                else if (splitedDoc.Count() == 2)
+                {
+                    _fileName = splitedDoc[0] + _noOlympusFileNumber + "." + splitedDoc[1];
+                }
 
-            //Calculate file name and update UI
-            if (splitedDoc.Count() == 1)
-            {
-                _fileName = _noOlympusFileNumber + "." + splitedDoc[0];
-            }
-            else if (splitedDoc.Count() == 2)
-            {
-                _fileName = splitedDoc[0] + _noOlympusFileNumber + "." + splitedDoc[1];
+                RaisePropertyChanged("FileName");
             }
 
-            RaisePropertyChanged("FileName");
+
+
 
             return _fileName;
         }
@@ -669,7 +706,11 @@ namespace GSCFieldApp.ViewModels
             List<int> locationFromStat = stats.ToList();
 
             //Delete location
-            accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
+            if (locationFromStat.Count > 0)
+            {
+                accessData.DeleteRecord(Dictionaries.DatabaseLiterals.TableLocation, Dictionaries.DatabaseLiterals.FieldLocationID, locationFromStat[0]);
+            }
+            
         }
 
         /// <summary>
@@ -678,7 +719,7 @@ namespace GSCFieldApp.ViewModels
         public async void DeleteCapturePhoto()
         {
             // Make sure not to delete a real picture, but the current snapshot only
-            if (_documentPhotoFile!=null && !_documentPhotoPath.Contains(_documentPhotoFile.Path))
+            if (_documentPhotoFile != null && !_documentPhotoPath.Contains(_documentPhotoFile.Path))
             {
                 await _documentPhotoFile.DeleteAsync();
             }
@@ -703,7 +744,24 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("Category");
             RaisePropertyChanged("SelectedCategory");
 
-            
+
+        }
+
+        /// <summary>
+        /// Will fill the document type combobox
+        /// </summary>
+        private void FillScaleDirections()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldDocumentScaleDirection;
+            string tableName = Dictionaries.DatabaseLiterals.TableDocument;
+            _scaledir = new ObservableCollection<Themes.ComboBoxItem>(accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedScaleDir));
+
+            //Update UI
+            RaisePropertyChanged("ScaleDirection");
+            RaisePropertyChanged("SelectedScaleDir");
+
+
         }
 
         /// <summary>
@@ -738,7 +796,7 @@ namespace GSCFieldApp.ViewModels
             if (_documentModeVisibility == Visibility.Visible)
             {
                 //Init.
-                string fieldName = Dictionaries.DatabaseLiterals.FieldDocumentRelatedtable;
+                string fieldName = Dictionaries.DatabaseLiterals.FieldDocumentRelatedtableDeprecated;
                 string tableName = Dictionaries.DatabaseLiterals.TableDocument;
                 _relatedTable = new ObservableCollection<Themes.ComboBoxItem>(accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedRelatedTable));
 
@@ -765,18 +823,22 @@ namespace GSCFieldApp.ViewModels
 
 
                 //Get the right station id wheter it's coming from the report or the map page as quick photo
-                int processedStationID = 0;
+                int processedID = 0;
                 if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.GenericID != 0)
                 {
-                    processedStationID = selectedStationSummaryDocument.GenericID;
+                    processedID = selectedStationSummaryDocument.GenericID;
                 }
                 else if (selectedStationSummaryDocument.ParentTableName == DatabaseLiterals.TableStation || selectedStationSummaryDocument.ParentID != 0)
                 {
-                    processedStationID = selectedStationSummaryDocument.ParentID;
+                    processedID = selectedStationSummaryDocument.ParentID;
+                }
+                else if (selectedStationSummaryDocument.GenericTableName == DatabaseLiterals.TableDrillHoles || selectedStationSummaryDocument.GenericID != 0)
+                {
+                    processedID = selectedStationSummaryDocument.GenericID;
                 }
                 if (selectedStationSummaryDocument.station.StationID != 0 && selectedStationSummaryDocument.station.StationID != 0)
                 {
-                    processedStationID = selectedStationSummaryDocument.station.StationID;
+                    processedID = selectedStationSummaryDocument.station.StationID;
                 }
 
                 if (_selectedRelatedTable != null && _selectedRelatedTable != string.Empty)
@@ -784,7 +846,7 @@ namespace GSCFieldApp.ViewModels
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableStation)
                     {
-                        string filterStations = "Select * from " + DatabaseLiterals.TableStation + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = " + processedStationID;
+                        string filterStations = "Select * from " + DatabaseLiterals.TableStation;
                         List<object> relatedStations = dataAcess.ReadTable(stationModel.GetType(), filterStations);
                         IEnumerable<Station> statTables = relatedStations.Cast<Station>();
                         foreach (Station sts in statTables)
@@ -799,48 +861,35 @@ namespace GSCFieldApp.ViewModels
                         RaisePropertyChanged("RelatedIds");
 
                         //Select first entry
-                        _selectedRelatedID = _relatedIDs.First().itemName;
+                        _selectedRelatedID = _relatedIDs.First().itemValue;
                         RaisePropertyChanged("SelectedRelatedID");
                     }
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableEarthMat)
                     {
-                        string filterEarthmats = "Select * from " + DatabaseLiterals.TableEarthMat + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
-                        List<object> relatedEarths = dataAcess.ReadTable(eartModel.GetType(), filterEarthmats);
-                        IEnumerable<EarthMaterial> earths = relatedEarths.Cast<EarthMaterial>();
-                        foreach (EarthMaterial ea in earths)
+                        string filterEM = "Select * from " + DatabaseLiterals.TableEarthMat;
+                        List<object> relatedEM = dataAcess.ReadTable(eartModel.GetType(), filterEM);
+                        IEnumerable<EarthMaterial> emTables = relatedEM.Cast<EarthMaterial>();
+                        foreach (EarthMaterial ems in emTables)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = ea.EarthMatID.ToString(),
-                                itemName = ea.EarthMatName
+                                itemValue = ems.EarthMatID.ToString(),
+                                itemName = ems.EarthMatName.ToString(),
                             };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
-                    }
 
-                    if (_selectedRelatedTable == DatabaseLiterals.TableLocation)
-                    {
-                        string filterLocations = "Select * from " + DatabaseLiterals.TableLocation + " where " + DatabaseLiterals.TableLocation + "." + DatabaseLiterals.FieldLocationID + " = " + selectedStationSummaryDocument.ParentID;
-                        List<object> relatedLocations = dataAcess.ReadTable(locationModel.GetType(), filterLocations);
-                        IEnumerable<FieldLocation> locs = relatedLocations.Cast<FieldLocation>();
-                        foreach (FieldLocation lc in locs)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = lc.LocationID.ToString(),
-                                itemName = lc.LocationID.ToString() //Alias isn't filled.
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
+                        //Select first entry
+                        _selectedRelatedID = _relatedIDs.First().itemValue;
+                        RaisePropertyChanged("SelectedRelatedID");
                     }
 
                     if (_selectedRelatedTable == DatabaseLiterals.TableSample)
                     {
-                        string filterSamplesSelectJoin = "Select * from " + DatabaseLiterals.TableSample + " join " + DatabaseLiterals.TableEarthMat; 
-                        string filterSamplesWhere =  " on " + DatabaseLiterals.TableSample + "." + DatabaseLiterals.FieldSampleEarthmatID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID;
+                        string filterSamplesSelectJoin = "Select * from " + DatabaseLiterals.TableSample + " join " + DatabaseLiterals.TableEarthMat;
+                        string filterSamplesWhere = " on " + DatabaseLiterals.TableSample + "." + DatabaseLiterals.FieldSampleEarthmatID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedID;
                         List<object> relatedSamples = dataAcess.ReadTable(smModel.GetType(), filterSamplesSelectJoin + filterSamplesWhere);
                         IEnumerable<Sample> sms = relatedSamples.Cast<Sample>();
                         foreach (Sample sm in sms)
@@ -855,92 +904,24 @@ namespace GSCFieldApp.ViewModels
                         RaisePropertyChanged("RelatedIds");
                     }
 
-                    if (_selectedRelatedTable == DatabaseLiterals.TablePFlow)
+
+                    if (_selectedRelatedTable == DatabaseLiterals.TableDrillHoles)
                     {
-                        string filterPflowSelectJoin = "Select * from " + DatabaseLiterals.TablePFlow + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterPflowWhere = " on " + DatabaseLiterals.TablePFlow + "." + DatabaseLiterals.FieldPFlowParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
-                        List<object> relatedPflow = dataAcess.ReadTable(pflowModel.GetType(), filterPflowSelectJoin + filterPflowWhere);
-                        IEnumerable<Paleoflow> pfs = relatedPflow.Cast<Paleoflow>();
-                        foreach (Paleoflow pf in pfs)
+                        string filterDHsSelectJoin = "Select * from " + DatabaseLiterals.TableDrillHoles;
+                        List<object> dh = dataAcess.ReadTable(dhModel.GetType(), filterDHsSelectJoin);
+                        IEnumerable<DrillHole> sms = dh.Cast<DrillHole>();
+                        foreach (DrillHole sm in sms)
                         {
                             Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
                             {
-                                itemValue = pf.PFlowID.ToString(),
-                                itemName = pf.PFlowName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
-                    if (_selectedRelatedTable == DatabaseLiterals.TableFossil)
-                    {
-                        string filterFossilSelectJoin = "Select * from " + DatabaseLiterals.TableFossil + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterFossilWhere = " on " + DatabaseLiterals.TableFossil + "." + DatabaseLiterals.FieldFossilParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
-                        List<object> relatedFossil = dataAcess.ReadTable(fossilModel.GetType(), filterFossilSelectJoin + filterFossilWhere);
-                        IEnumerable<Fossil> fss = relatedFossil.Cast<Fossil>();
-                        foreach (Fossil fs in fss)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = fs.FossilID.ToString(),
-                                itemName = fs.FossilIDName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
-                    if (_selectedRelatedTable == DatabaseLiterals.TableStructure)
-                    {
-                        string filterStructureSelectJoin = "Select * from " + DatabaseLiterals.TableStructure + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterStructureWhere = " on " + DatabaseLiterals.TableStructure + "." + DatabaseLiterals.FieldStructureParentID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
-                        List<object> relatedFossil = dataAcess.ReadTable(structureModel.GetType(), filterStructureSelectJoin + filterStructureWhere);
-                        IEnumerable<Structure> sts = relatedFossil.Cast<Structure>();
-                        foreach (Structure st in sts)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = st.StructureID.ToString(),
-                                itemName = st.StructureName
+                                itemValue = sm.DrillID.ToString(),
+                                itemName = sm.DrillIDName
                             };
                             _relatedIDs.Add(newItem);
                         }
                         RaisePropertyChanged("RelatedIds");
                     }
 
-                    if (_selectedRelatedTable == DatabaseLiterals.TableMineral)
-                    {
-                        string filterMineralSelectJoin = "Select * from " + DatabaseLiterals.TableMineral + " join " + DatabaseLiterals.TableEarthMat;
-                        string filterMineralWhere = " on " + DatabaseLiterals.TableMineral + "." + DatabaseLiterals.FieldMineralEMID + " = " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatID + " where " + DatabaseLiterals.TableEarthMat + "." + DatabaseLiterals.FieldEarthMatStatID + " = " + processedStationID ;
-                        List<object> relatedMineral = dataAcess.ReadTable(mineralModel.GetType(), filterMineralSelectJoin + filterMineralWhere);
-                        IEnumerable<Mineral> minerals = relatedMineral.Cast<Mineral>();
-                        foreach (Mineral ms in minerals)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = ms.MineralID.ToString(),
-                                itemName = ms.MineralIDName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
-                    if (_selectedRelatedTable == DatabaseLiterals.TableMineralAlteration)
-                    {
-                        string filterMASelectJoin = "Select * from " + DatabaseLiterals.TableMineralAlteration + " join " + DatabaseLiterals.TableStation;
-                        string filterMAWhere = " on " + DatabaseLiterals.TableMineralAlteration + "." + DatabaseLiterals.FieldMineralAlterationRelID + " = " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " where " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationID + " = " + processedStationID;
-                        List<object> relatedMA = dataAcess.ReadTable(maModel.GetType(), filterMASelectJoin + filterMAWhere);
-                        IEnumerable<MineralAlteration> mineralizationAlterations = relatedMA.Cast<MineralAlteration>();
-                        foreach (MineralAlteration ma in mineralizationAlterations)
-                        {
-                            Themes.ComboBoxItem newItem = new Themes.ComboBoxItem
-                            {
-                                itemValue = ma.MAID.ToString(),
-                                itemName = ma.MAName
-                            };
-                            _relatedIDs.Add(newItem);
-                        }
-                        RaisePropertyChanged("RelatedIds");
-                    }
                 }
 
                 RaisePropertyChanged("SelectedRelatedID");
@@ -969,11 +950,35 @@ namespace GSCFieldApp.ViewModels
             _fileNumber = existingDataDetailDocument.document.FileNumber.ToString();
             _documentPhotoPath = existingDataDetailDocument.document.PhotoPath;
 
-            _selectedRelatedID = existingDataDetailDocument.document.RelatedID.ToString();
+            
             //_selectedCategory = existingDataDetailDocument.document.Category;
             _selectedDocType = existingDataDetailDocument.document.DocumentType;
-            _selectedRelatedTable = existingDataDetailDocument.document.RelatedTable;
+            
+            _selectedScaleDir = existingDataDetailDocument.document.ScaleDirection;
 
+            if (existingDataDetailDocument.document.StationID != null && existingDataDetailDocument.document.StationID.ToString() != string.Empty)
+            {
+                _selectedRelatedID = existingDataDetailDocument.document.StationID.ToString();
+                _selectedRelatedTable = DatabaseLiterals.TableStation;
+            }
+
+            if (existingDataDetailDocument.document.SampleID != null && existingDataDetailDocument.document.SampleID.ToString() != string.Empty)
+            {
+                _selectedRelatedID = existingDataDetailDocument.document.SampleID.ToString();
+                _selectedRelatedTable = DatabaseLiterals.TableSample;
+            }
+
+            if (existingDataDetailDocument.document.EarthmatID != null && existingDataDetailDocument.document.EarthmatID.ToString() != string.Empty)
+            {
+                _selectedRelatedID = existingDataDetailDocument.document.EarthmatID.ToString();
+                _selectedRelatedTable = DatabaseLiterals.TableEarthMat;
+            }
+
+            if (existingDataDetailDocument.document.DrillHoleID != null && existingDataDetailDocument.document.DrillHoleID.ToString() != string.Empty)
+            {
+                _selectedRelatedID = existingDataDetailDocument.document.DrillHoleID.ToString();
+                _selectedRelatedTable = DatabaseLiterals.TableDrillHoles;
+            }
             //Create thumbnail if needed
             if (existingDataDetailDocument.document.PhotoFileExists)
             {
@@ -1009,6 +1014,7 @@ namespace GSCFieldApp.ViewModels
 
             //RaisePropertyChanged("SelectedCategory");
             RaisePropertyChanged("SelectedDocType");
+            RaisePropertyChanged("SelectedScaleDir");
 
             if (_documentModeVisibility == Visibility.Visible)
             {
@@ -1113,7 +1119,7 @@ namespace GSCFieldApp.ViewModels
                     Themes.ComboBoxItem senderSelectedItem = senderBox.SelectedItem as Themes.ComboBoxItem;
 
                     _fileNumber = GetLastFileNumberPlusOne(senderSelectedItem.itemValue);
-                    
+
                     SetFileNumberAsString();
                     RaisePropertyChanged("FileNumber");
                 }
@@ -1132,7 +1138,7 @@ namespace GSCFieldApp.ViewModels
             //Update file number
             TextBox senderBox = sender as TextBox;
             _fileNumber = senderBox.Text;
-            if (_fileNumber != string.Empty && !doDocumentUpdate)
+            if (_fileNumber != string.Empty)
             {
                 CalculateFileName();
             }
@@ -1171,7 +1177,7 @@ namespace GSCFieldApp.ViewModels
             {
                 queryWhere = "WHERE " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentType + " <> '' ";
             }
-        
+
             string queryWhere2 = "AND " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentFileNo + " <> '' ";
             string queryOrder = "ORDER BY " + DatabaseLiterals.TableDocument + "." + DatabaseLiterals.FieldDocumentFileNo + " DESC LIMIT 1";
             string lastFileNoquery = querySelect + queryFrom + queryWhere + queryWhere2 + queryOrder;
@@ -1194,7 +1200,7 @@ namespace GSCFieldApp.ViewModels
                     {
                         //Do nothing, it might be empty
                     }
-                    
+
                 }
             }
 

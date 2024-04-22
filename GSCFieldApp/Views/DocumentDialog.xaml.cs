@@ -1,15 +1,15 @@
-﻿using System;
+﻿using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using Template10.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using GSCFieldApp.ViewModels;
-using GSCFieldApp.Models;
-using Template10.Common;
-using Windows.UI.Xaml.Media.Imaging;
-using GSCFieldApp.Services.DatabaseServices;
 using Windows.UI.Xaml.Media;
-using System.Collections.Generic;
+using Windows.UI.Xaml.Media.Imaging;
 
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -63,6 +63,11 @@ namespace GSCFieldApp.Views
         private void DocumentDialog_Loaded(object sender, RoutedEventArgs e)
         {
             DocViewModel.hasInitialized = true;
+
+            if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableDocument && DocViewModel.doDocumentUpdate)
+            {
+                this.DocViewModel.AutoFillDialogAsync(parentViewModel);
+            }
         }
 
         /// <summary>
@@ -74,7 +79,7 @@ namespace GSCFieldApp.Views
         {
             if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableDocument && DocViewModel.doDocumentUpdate)
             {
-                this.DocViewModel.AutoFillDialogAsync(parentViewModel);
+                //this.DocViewModel.AutoFillDialogAsync(parentViewModel);
                 this.pageHeader.Text = parentViewModel.GenericAliasName;
             }
             else if (!DocViewModel.doDocumentUpdate)

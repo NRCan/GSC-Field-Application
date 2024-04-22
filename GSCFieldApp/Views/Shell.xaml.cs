@@ -1,10 +1,12 @@
+using GSCFieldApp.ViewModels;
+using System;
+using System.Threading.Tasks;
 using Template10.Common;
 using Template10.Controls;
 using Template10.Services.NavigationService;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using GSCFieldApp.ViewModels;
-using System.Threading.Tasks;
 
 
 namespace GSCFieldApp.Views
@@ -26,10 +28,19 @@ namespace GSCFieldApp.Views
 
         private async void Shell_LoadedAsync(object sender, RoutedEventArgs e)
         {
-            //Navigate to map page
-            INavigationService navService = BootStrapper.Current.NavigationService;
-            navService.Navigate(typeof(Views.FieldBooksPage));
-            await Task.CompletedTask;
+            try
+            {
+                // Navigate to map page
+                INavigationService navService = BootStrapper.Current.NavigationService;
+                navService.Navigate(typeof(Views.FieldBooksPage));
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                // Show an error message using MessageDialog
+                var dialog = new MessageDialog("An error occurred: " + ex.Message, "Error");
+                await dialog.ShowAsync();
+            }
         }
 
         public Shell(INavigationService navigationService) : this()

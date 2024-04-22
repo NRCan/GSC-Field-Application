@@ -381,9 +381,6 @@
   <data name="EarthDialogContactRelated.Header" xml:space="preserve">
     <value>Related to</value>
   </data>
-  <data name="EarthDialogContactNote.Text" xml:space="preserve">
-    <value>Description</value>
-  </data>
   <data name="EarthDialogContactType.Header" xml:space="preserve">
     <value>Type</value>
   </data>
@@ -590,9 +587,6 @@
   </data>
   <data name="MapPageGPSModes.Label" xml:space="preserve">
     <value>GPS/Tap</value>
-  </data>
-  <data name="MapPageDisplayInfo.Label" xml:space="preserve">
-    <value>Info</value>
   </data>
   <data name="PicklistEditorAddParentTerm.Header" xml:space="preserve">
     <value>Parent Term</value>
@@ -1075,7 +1069,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Name</value>
   </data>
   <data name="UserDialogNewDataContent" xml:space="preserve">
-    <value>Would you like to add read-only data (.tpk, .sqlite) to the new field note book?</value>
+    <value>Would you like to add read-only data (.tpk) to the new field note book?</value>
   </data>
   <data name="UserDialogNewDataTitle" xml:space="preserve">
     <value>Add Data</value>
@@ -1415,9 +1409,6 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="MapPageAddMaps.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Add a layer (SQLite, TPK)</value>
-  </data>
-  <data name="MapPageDisplayInfo.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Enable/Disable Map Information</value>
   </data>
   <data name="MapPageGPSModes.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Enable/Disable GPS location inside application</value>
@@ -1760,5 +1751,146 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="MAMineralAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SampleDialogIsBlank.Content" xml:space="preserve">
+    <value>Is Blank?</value>
+  </data>
+  <data name="EarthDialogContactLow.Header" xml:space="preserve">
+    <value>Lower</value>
+  </data>
+  <data name="EarthDialogContactNote.Header" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="EarthDialogContactUp.Header" xml:space="preserve">
+    <value>Upper</value>
+  </data>
+  <data name="EarthDialogContactRelNote.Text" xml:space="preserve">
+    <value>Relation description</value>
+  </data>
+  <data name="DocumentScaleDirectionCombobox.Header" xml:space="preserve">
+    <value>Scale Direction</value>
+  </data>
+  <data name="DrillLabel.Label" xml:space="preserve">
+    <value>DH</value>
+  </data>
+  <data name="DrillDialogHeader.Text" xml:space="preserve">
+    <value>Drill Hole</value>
+  </data>
+  <data name="DrillGridView_Context.Content" xml:space="preserve">
+    <value>Context</value>
+  </data>
+  <data name="DrillGridView_General.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="DrillGridView_Log.Content" xml:space="preserve">
+    <value>Log/Relog</value>
+  </data>
+  <data name="DrillGridView_Metrics.Content" xml:space="preserve">
+    <value>Metrics</value>
+  </data>
+  <data name="DrillCName.Header" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="DrillgNote.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="DrillName.Header" xml:space="preserve">
+    <value>Original Name</value>
+  </data>
+  <data name="DrillTypeCbox.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillAzimuthNumBox.Header" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="DrillCoreSizeCbox.Header" xml:space="preserve">
+    <value>Core Size</value>
+  </data>
+  <data name="DrillDate.Header" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DrillDepthNumBox.Header" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="DrillDipNumBox.Header" xml:space="preserve">
+    <value>Dip</value>
+  </data>
+  <data name="DrillHoleSizeCBox.Header" xml:space="preserve">
+    <value>Hole Size</value>
+  </data>
+  <data name="DrillLogBy.Header" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="DrillIntervalsHeader.Text" xml:space="preserve">
+    <value>Intervals</value>
+  </data>
+  <data name="DrillLogSummaryBox.Header" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="DrillLogTypeCbox.Header" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillUnitCbox.Header" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="DrilllogIntervalsFrom.Header" xml:space="preserve">
+    <value>From (cm)</value>
+  </data>
+  <data name="DrilllogIntervalsTo.Header" xml:space="preserve">
+    <value>To (cm)</value>
+  </data>
+  <data name="FieldworkTableDrill.Text" xml:space="preserve">
+    <value>Drill Holes</value>
+  </data>
+  <data name="SettingPageToggleDrill.OffContent" xml:space="preserve">
+    <value>Drill Holes</value>
+  </data>
+  <data name="SettingPageToggleDrill.OnContent" xml:space="preserve">
+    <value>Drill Holes</value>
+  </data>
+  <data name="SampleBy.Header" xml:space="preserve">
+    <value>Sampled by</value>
+  </data>
+  <data name="SampleCorePortion.Header" xml:space="preserve">
+    <value>Size (in quarters)</value>
+  </data>
+  <data name="SampleFrom.Header" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="SampleGridView_Core.Content" xml:space="preserve">
+    <value>Core</value>
+  </data>
+  <data name="SampleLength.Header" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="SampleTo.Header" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="DrillRelatedTo.Header" xml:space="preserve">
+    <value>Related To</value>
+  </data>
+  <data name="DrillRelogDate.Header" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="SampleDialogDuplicateReminderContent" xml:space="preserve">
+    <value>This is a reminder to take a blank or a duplicate sample.</value>
+  </data>
+  <data name="SampleDialogDuplicateReminderTitle" xml:space="preserve">
+    <value>Duplicate time!</value>
+  </data>
+  <data name="SettingPageVocabDrill.Content" xml:space="preserve">
+    <value>Drill</value>
+  </data>
+  <data name="SaveDBDialogLongProcessContent" xml:space="preserve">
+    <value>This process could take a long time if many .tpk are to be found within field book. Would you still like to continue?</value>
+  </data>
+  <data name="SettingLoadPicklistProcessWarningMessage.Text" xml:space="preserve">
+    <value>Make sure incoming picklist are from the same version as current fieldbook. Use 'Upgrade' button from Field Book page to do so.</value>
+  </data>
+  <data name="SettingLoadPicklistProcessWarningMessageOk" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="UpgradeErrorMetadataContent" xml:space="preserve">
+    <value>No metadata table was found within the incoming database. Can't upgrade.</value>
   </data>
 </root>

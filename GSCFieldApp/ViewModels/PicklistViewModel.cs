@@ -357,7 +357,7 @@ namespace GSCFieldApp.ViewModels
             //Rebuild semantic data
             if (withParent)
             {
-                Models.SemanticDataGenerator.GetGroupedData(true, Dictionaries.DatabaseLiterals.TableEarthMat, 
+                Models.SemanticDataGenerator.GetGroupedData(true, Dictionaries.DatabaseLiterals.TableEarthMat,
                     Dictionaries.DatabaseLiterals.FieldEarthMatLithgroup, Dictionaries.DatabaseLiterals.FieldEarthMatLithdetail);
             }
             else
@@ -365,7 +365,7 @@ namespace GSCFieldApp.ViewModels
                 Models.SemanticDataGenerator.GetGroupedData(true, Dictionaries.DatabaseLiterals.TableEarthMat,
                     string.Empty, Dictionaries.DatabaseLiterals.FieldEarthMatLithdetail);
             }
-            
+
         }
 
         /// <summary>
@@ -388,7 +388,7 @@ namespace GSCFieldApp.ViewModels
             foreach (Vocabularies finalValues in _picklistValues)
             {
                 //Build query
-                string queryUpdate = "UPDATE " + TableDictionary;
+                //string queryUpdate = "UPDATE " + TableDictionary;  //Never used
                 string querySetVisibility = " SET " + FieldDictionaryVisible + " = '" + finalValues.Visibility + "', ";
                 string querySetEditor = FieldDictionaryEditor + " = '" + userID + "', ";
                 string querySetEditDate = FieldDictionaryEditorDate + " = '" + currentStringTime + "'";
@@ -445,7 +445,7 @@ namespace GSCFieldApp.ViewModels
                 _picklistEditEnableDisable = true;
                 RaisePropertyChanged("PicklistEditEnableDisable");
                 _selectedPicklistValuesIndex = -1;
-                RaisePropertyChanged("SelectedPicklistValueIndex"); 
+                RaisePropertyChanged("SelectedPicklistValueIndex");
             }
         }
 

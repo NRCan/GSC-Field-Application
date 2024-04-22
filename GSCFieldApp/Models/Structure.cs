@@ -59,7 +59,7 @@ namespace GSCFieldApp.Models
         public int StructureAzimuth { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureDip)]
-        public int StructureDipPlunge { get; set; }
+        public int? StructureDipPlunge { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureSymAng)]
         public int StructureSymAng
@@ -132,7 +132,7 @@ namespace GSCFieldApp.Models
                     {
                         return false;
                     }
-                    
+
                 }
             }
             set { }
@@ -224,7 +224,7 @@ namespace GSCFieldApp.Models
                     {
                         azimuthLinear = StructureAzimuth;
                     }
-                    else if (relatedStructure != null && 
+                    else if (relatedStructure != null &&
                         relatedStructure.StructureClass != null &&
                         relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear))
                     {
@@ -281,8 +281,8 @@ namespace GSCFieldApp.Models
                     && StructureClass != string.Empty)
                 {
                     //Init variables
-                    int dipPlanar = int.MinValue;
-                    int dipLinear = int.MinValue;
+                    int? dipPlanar = null;
+                    int? dipLinear = null;
 
                     //Get related structure azim
                     if (relatedStructure == null)
@@ -377,7 +377,7 @@ namespace GSCFieldApp.Models
                 }
 
                 structureFieldList[DatabaseLiterals.DBVersion] = structureFieldListDefault;
-                
+
 
                 //Revert shcema 1.7 changes
                 //List<string> strucFieldList160 = new List<string>();
@@ -392,7 +392,7 @@ namespace GSCFieldApp.Models
                 structureFieldList144.AddRange(structureFieldListDefault);
                 int removeIndex = structureFieldList144.IndexOf(DatabaseLiterals.FieldStructureName);
                 structureFieldList144.Remove(DatabaseLiterals.FieldStructureName);
-                structureFieldList144.Insert(removeIndex,DatabaseLiterals.FieldStructureNameDeprecated);
+                structureFieldList144.Insert(removeIndex, DatabaseLiterals.FieldStructureNameDeprecated);
                 structureFieldList[DatabaseLiterals.DBVersion144] = structureFieldList144;
 
                 return structureFieldList;

@@ -5,7 +5,7 @@ using Template10.Mvvm;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class FossilViewModel: ViewModelBase
+    public class FossilViewModel : ViewModelBase
     {
         #region INIT DECLARATIONS
 

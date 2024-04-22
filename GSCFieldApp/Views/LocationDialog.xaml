@@ -10,6 +10,7 @@
 
     <UserControl.Resources>
         <converters:ReverseBoolConverter x:Name="ReverseBoolConverter" />
+        <converters:VisibilityFromBoolConverter x:Name="VisibilityFromBoolConverter" />
     </UserControl.Resources>
 
     <!-- data entry -->
@@ -24,8 +25,10 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="LocationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="LocationBackButton_Tapped" />
+                    <AppBarButton x:Name="LocationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="LocationBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="LocationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="LocationSaveButton_Tapped"  />
+                    <AppBarButton x:Name="LocationDrillButton" x:Uid="DrillLabel" Label="Save" Icon="Add" Foreground="White" Tapped="LocationSaveButton_Tapped" 
+                                  Visibility="{x:Bind locationVM.IsDrillHoleFieldBook, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
@@ -77,18 +80,17 @@
                                     x:Name="LocationGridView_02" RelativePanel.Below="MainSeparator_01">
                             <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Projected"/>
 
-                            <TextBox x:Name="LocationEasting" x:Uid="LocationDialogEasting" InputScope="Number" 
-                                HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                            <TextBox x:Name="LocationEasting" x:Uid="LocationDialogEasting" InputScope="NumberFullWidth" 
+                                HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="30" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
                                 Text ="{x:Bind locationVM.LocationEasting, Mode=TwoWay}" 
                                      IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" 
                                      TextChanging="LocationEasting_TextChanged" TabIndex="5"/>
 
-                            <TextBox x:Name="LocationNorthing" x:Uid="LocationDialogNorthing" Header="" InputScope="Number" 
-                                HorizontalAlignment="Stretch" Width="Auto" MinWidth="20" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                            <TextBox x:Name="LocationNorthing" x:Uid="LocationDialogNorthing" Header="" InputScope="NumberFullWidth" 
+                                HorizontalAlignment="Stretch" Width="Auto" MinWidth="30" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
                                 Text ="{x:Bind locationVM.LocationNorthing, Mode=TwoWay}" 
                                      IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" 
-                                     TextChanging="LocationNorthing_TextChanged" TabIndex="2"/>
-
+                                     TextChanging="LocationNorthing_TextChanged" TabIndex="6"/>
 
                             <Button x:Name="ButtonConvertToGeographic" x:Uid="ConvertToGeo" Content="To Geographic" Margin="0,28,0,0" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
                             Tapped="ButtonConvertToGeographic_Tapped" TabIndex="7"/>

@@ -19,7 +19,7 @@ namespace GSCFieldApp.Models
         public string PFlowClass { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowSense)]
-        public string PFlowSense{ get; set; }
+        public string PFlowSense { get; set; }
 
         [Column(DatabaseLiterals.FieldPFlowFeature)]
         public string PFlowFeature { get; set; }

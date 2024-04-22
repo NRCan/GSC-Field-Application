@@ -6,7 +6,7 @@ namespace GSCFieldApp.Converters
 {
     class PicklistDefaultValueConverter : IValueConverter
     {
-        
+
         public PicklistDefaultValueConverter()
         {
 

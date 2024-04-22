@@ -1,8 +1,8 @@
 using System.Collections.Generic;
+using Template10.Controls;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml;
-using Template10.Controls;
 
 
 namespace GSCFieldApp.Views
@@ -24,7 +24,7 @@ namespace GSCFieldApp.Views
             //this.Loaded += SettingsPage_Loaded; ; //Set the toggle switches in the customize tab
 
         }
- 
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var index = int.Parse(_SerializationService.Deserialize(e.Parameter?.ToString()).ToString());
@@ -79,6 +79,10 @@ namespace GSCFieldApp.Views
             else if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordEnvironment))
             {
                 picklistSelectedTheme = Dictionaries.DatabaseLiterals.KeywordEnvironment;
+            }
+            else if (senderButton.Name.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordDrill))
+            {
+                picklistSelectedTheme = Dictionaries.DatabaseLiterals.KeywordDrill;
             }
             OpenPicklistDialog(picklistSelectedTheme);
 

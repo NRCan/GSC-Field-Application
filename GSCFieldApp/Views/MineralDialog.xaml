@@ -5,12 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Controls="using:Template10.Controls" xmlns:themes="using:GSCFieldApp.Themes"
+    xmlns:converters="using:GSCFieldApp.Converters"
     mc:Ignorable="d">
 
     <!-- data entry -->
     <Page>
 
         <Page.Resources>
+
+            <!--Converters-->
+            <converters:MediaBrushConverter x:Name="MediaBrushConverter"/>
 
             <!-- Concatenated Value Template -->
             <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
@@ -35,7 +39,7 @@
                             RelativePanel.AlignTopWithPanel="True"  
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="mineralBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="mineralBackButton_Tapped"  />
+                    <AppBarButton x:Name="mineralBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="mineralBackButton_Tapped" Style="{StaticResource AppBarButtonClose}" />
                     <AppBarButton x:Name="mineralSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="mineralSaveButton_Tapped"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
@@ -52,7 +56,7 @@
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralGridView_01">
                             <RelativePanel>
                                 <AutoSuggestBox x:Name="MineralAutoSuggest" x:Uid="MineralAutoSuggest" QueryIcon="Find" Width="300"
-                                    TextChanged="MineralAutoSuggest_TextChanged"
+                                    TextChanged="MineralAutoSuggest_TextChanged" 
                                     QuerySubmitted="MineralAutoSuggest_QuerySubmitted" Margin="0,0,0,10" TabIndex="1" IsTabStop="True"/>
                                 <TextBox x:Name="MineralNamesTextbox" x:Uid="MineralNamesTextbox" RelativePanel.Below="MineralAutoSuggest" Style="{ThemeResource TextboxMandatoryField}"
                                      Text="{x:Bind MineralVM.MineralName, Mode=TwoWay}" TabIndex="2" IsReadOnly="True"/>
@@ -65,14 +69,16 @@
 
                         </GridView>
 
-                        <TextBlock x:Name="ModeDynamicLabel" x:Uid="MineralResidualLabel" Text="{x:Bind MineralVM.MineralResidualText, Mode=TwoWay}" RelativePanel.Below="MineralGridView_01"/>
+                        <TextBlock x:Name="ModeDynamicLabel" x:Uid="MineralResidualLabel" Text="{x:Bind MineralVM.MineralResidualText, Mode=TwoWay}" 
+                                   RelativePanel.Below="MineralGridView_01" 
+                                   Foreground="{x:Bind MineralVM.ResidualTextForeground, Mode=OneWay}"/>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01"
                            RelativePanel.Below="ModeDynamicLabel"
                            Fill="{ThemeResource FieldMineralColorBrush}" />
 
                         <GridView Style="{StaticResource NonselectableGridView}" x:Name="MineralGridView_02" RelativePanel.Below="MainSeparator_01">
-                            
+
                             <ComboBox x:Name="MineralColourComboBox" x:Uid="MineralDialogColour"
                                 Header="" 
                                 ItemsSource="{x:Bind MineralVM.MineralColour}" 
@@ -114,7 +120,7 @@
                                 Header="" 
                                 ItemsSource="{x:Bind MineralVM.MineralOccur}" 
                                 SelectedValue="{x:Bind MineralVM.SelectedMineralOccur, Mode=TwoWay}" TabIndex="9"/>
-                            
+
                         </GridView>
 
 

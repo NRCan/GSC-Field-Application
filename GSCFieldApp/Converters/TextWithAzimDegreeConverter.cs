@@ -19,7 +19,7 @@ namespace GSCFieldApp.Converters
                 return string.Format("{0}°", value);
             }
 
-            
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

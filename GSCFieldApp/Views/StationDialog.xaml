@@ -37,7 +37,7 @@
                             RelativePanel.AlignTopWithPanel="True"
                             EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="stationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="stationBackButton_Tapped" />
+                    <AppBarButton x:Name="stationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="stationBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
                     <AppBarButton x:Name="stationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save"  Foreground="White" Tapped="stationSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
 
@@ -66,7 +66,7 @@
 
                                 <ComboBox x:Name="StationObsTypeCombox" x:Uid="FieldworkTableStationOCType" Style="{ThemeResource ComboboxMandatoryField}"
                           Header="" 
-                          ItemsSource="{x:Bind ViewModel.StationTypes}" 
+                          ItemsSource="{x:Bind ViewModel.StationTypes}" SelectionChanged="StationObsTypeCombox_SelectionChanged"
                           SelectedValue="{x:Bind ViewModel.SelectedStationTypes, Mode=TwoWay}"
                           RelativePanel.AlignLeftWithPanel="True" 
                             MinWidth="175" TabIndex="1"/>
@@ -147,7 +147,7 @@
 
                         </RelativePanel>
                         <TextBox Style="{ThemeResource Notes}" x:Name="NoteTextBox" x:Uid="FieldworkTableStationFieldNotes"
-                            RelativePanel.Below="StationRelpanel_01"
+                            RelativePanel.Below="StationRelpanel_01" TextChanged="NoteTextBox_TextChanged"
                             Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}" TabIndex="10" TabNavigation="Once"/>
 
                         <TextBox Style="{ThemeResource Notes}" x:Name="SLSNoteTextbox" x:Uid="FieldworkTableStationSLSNotes"

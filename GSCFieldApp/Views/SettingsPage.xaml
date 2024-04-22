@@ -103,6 +103,9 @@
 
                                 <ToggleSwitch x:Name="StructureToggleSwitch" x:Uid="SettingPageToggleStruc" IsOn="{x:Bind ViewModel.StructureToggle, Mode=TwoWay}"
                                                 OffContent="" OnContent=""/>
+                                
+                                <ToggleSwitch x:Name="DrillToggleSwitch" x:Uid="SettingPageToggleDrill" 
+                                          IsOn="{x:Bind ViewModel.DrillToggle, Mode=TwoWay}" OffContent="" OnContent="" />
 
                             </GridView>
 
@@ -188,6 +191,11 @@
                                 </Button.Background>
                             </Button>
 
+                            <Button x:Name="DrillThemeList" FontWeight="Bold" x:Uid="SettingPageVocabDrill" Height="100" Width="100" Margin="5" Tapped="ThemeList_Tapped">
+                                <Button.Background>
+                                    <SolidColorBrush Color="{ThemeResource FieldDrillColor}"/>
+                                </Button.Background>
+                            </Button>
 
                         </GridView>
 

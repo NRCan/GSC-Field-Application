@@ -1,16 +1,15 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Template10.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using GSCFieldApp.ViewModels;
-using GSCFieldApp.Models;
-using Template10.Common;
-using GSCFieldApp.Services.DatabaseServices;
-using Windows.UI.Core;
-using GSCFieldApp.Dictionaries;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,7 +22,7 @@ namespace GSCFieldApp.Views
     {
         public EarthmatViewModel ViewModel { get; set; }
         public FieldNotes parentViewMode { get; set; }
-        
+
         public List<string> Rocks { get; private set; }
 
         private readonly DataAccess accessData = new DataAccess();
@@ -141,19 +140,32 @@ namespace GSCFieldApp.Views
                     EarthLithAutoSuggest.ItemsSource = new string[] { "No results found" };
             }
 
-            //Reset litho box
-            if (sender.Text == string.Empty)
-            {
-                EarthLitho.Text = string.Empty;
-                ViewModel.InitFill2ndRound(EarthLitho.Text); //Reset picklist
-            }
+            ////Reset litho box
+            //if (sender.Text == string.Empty)
+            //{
+            //    EarthLitho.Text = string.Empty;
+            //    ViewModel.InitFill2ndRound(EarthLitho.Text); //Reset picklist
+            //}
 
         }
 
         private void EarthLithAutoSuggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found" && sender.Text != string.Empty)
+
+
+            if (args.ChosenSuggestion != null && args.ChosenSuggestion.ToString() != "No results found")
             {
+
+                //Update list that are bound to lithology selection
+                if (!args.ChosenSuggestion.ToString().Contains(EarthLitho.Text.Split(';')[0]) || EarthLitho.Text == string.Empty)
+                {
+                    ViewModel.InitFill2ndRound(args.ChosenSuggestion.ToString());
+                }
+                //else if (!ViewModel.doEarthUpdate)
+                //{
+                //    ViewModel.InitFill2ndRound(args.ChosenSuggestion.ToString());
+                //}
+
                 EarthLitho.Text = args.ChosenSuggestion.ToString();
             }
             else
@@ -161,9 +173,6 @@ namespace GSCFieldApp.Views
                 //Reset litho box
                 EarthLitho.Text = string.Empty;
             }
-
-            //Update list that are bound to lithology selection
-            ViewModel.InitFill2ndRound(EarthLitho.Text);
 
         }
 
@@ -174,23 +183,35 @@ namespace GSCFieldApp.Views
         /// <param name="e">Any event arguments</param>
         private void EarthMineralAutoSuggest_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (EarthMineralAutoSuggest.Text == string.Empty)
+            {
+                EarthMineralAutoSuggest.IsSuggestionListOpen = false;
+                //EarthMineralAutoSuggest.Focus(FocusState.Programmatic);
+            }
+
             // Only get results when it was a user typing,
             // otherwise assume the value got filled in by TextMemberPath
             // or the handler for SuggestionChosen.
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                //Set the ItemsSource to be your filtered dataset
-                var search_term = EarthMineralAutoSuggest.Text.ToLower();
-                var results = ViewModel.EarthmatMineral.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
+                {
+                    //Set the ItemsSource to be your filtered dataset
+                    var search_term = EarthMineralAutoSuggest.Text.ToLower();
+                    var results = ViewModel.EarthmatMineral.Where(i => i.itemName.ToLower().Contains(search_term)).ToList(); //Take existing mineral list from VM
 
-                if (results.Count > 0)
-                    EarthMineralAutoSuggest.ItemsSource = results;
-                else
-                    EarthMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
-            }
+                    if (results.Count > 0)
+                        EarthMineralAutoSuggest.ItemsSource = results;
+                    else
+                        EarthMineralAutoSuggest.ItemsSource = new string[] { "No results found" };
+
+                    //if (!string.IsNullOrWhiteSpace(EarthMineralAutoSuggest.Text))
+                    //{
+                    //EarthMineralAutoSuggest.IsSuggestionListOpen = false;
+                    //EarthMineralAutoSuggest.Focus(FocusState.Programmatic);
+                    //}
+                }
 
         }
-
+        
         #endregion
 
         #region SAVE
@@ -233,21 +254,21 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private async void EarthLithoSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.projectType == ScienceLiterals.ApplicationThemeBedrock)
+            if (ViewModel.projectType.Contains(DatabaseLiterals.ApplicationThemeBedrock))
             {
                 ContentDialogSemanticZoom newDialog = new ContentDialogSemanticZoom(DatabaseLiterals.TableEarthMat, DatabaseLiterals.FieldEarthMatLithgroup, DatabaseLiterals.FieldEarthMatLithdetail);
                 newDialog.userHasSelectedAValue += NewDialog_userHasSelectedAValue;
                 ContentDialogResult results = await newDialog.ShowAsync();
             }
-            else if (ViewModel.projectType == ScienceLiterals.ApplicationThemeSurficial)
+            else if (ViewModel.projectType == DatabaseLiterals.ApplicationThemeSurficial)
             {
                 ContentDialogSemanticZoom newDialog = new ContentDialogSemanticZoom(DatabaseLiterals.TableEarthMat, string.Empty, DatabaseLiterals.FieldEarthMatLithdetail);
                 newDialog.userHasSelectedAValue += NewDialog_userHasSelectedAValue;
                 ContentDialogResult results = await newDialog.ShowAsync();
             }
 
-            
-            
+
+
         }
 
 
@@ -267,7 +288,8 @@ namespace GSCFieldApp.Views
             string vocQueryJoin = "JOIN " + DatabaseLiterals.TableDictionaryManager + " as mdm ON md." +
                 DatabaseLiterals.FieldDictionaryCodedTheme + " = mdm." + DatabaseLiterals.FieldDictionaryManagerCodedTheme + " ";
             string vocQueryWhere = "WHERE " + DatabaseLiterals.FieldDictionaryManagerAssignField + " = 'LITHDETAIL' ";
-            string vocQueryWhereAnd = "AND mdm." + DatabaseLiterals.FieldDictionaryManagerSpecificTo + " = '" + ViewModel.projectType + "' ";
+            string vocQueryWhereAnd = "AND mdm." + DatabaseLiterals.FieldDictionaryManagerSpecificTo + " like '%' || (substr('" + ViewModel.projectType + "', 0, instr('" +
+                    ViewModel.projectType + "', '" + DatabaseLiterals.KeywordConcatCharacter2nd + "'))) || '%'";
             string vocQueryVisibility = " AND md." + DatabaseLiterals.FieldDictionaryVisible + " = '" + DatabaseLiterals.boolYes + "'";
             string vocFinalQuery = vocQuerySelect + vocQueryJoin + vocQueryWhere + vocQueryWhereAnd + vocQueryVisibility;
 
@@ -296,7 +318,7 @@ namespace GSCFieldApp.Views
         /// </summary>
         private void AddPaddingToLithoRelBox()
         {
-            if (ViewModel.projectType == ScienceLiterals.ApplicationThemeBedrock)
+            if (ViewModel.projectType.Contains(DatabaseLiterals.ApplicationThemeBedrock))
             {
                 Thickness lithoThick = new Thickness();
                 lithoThick.Right = 0;

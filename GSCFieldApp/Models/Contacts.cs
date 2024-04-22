@@ -1,9 +1,6 @@
 ﻿using GSCFieldApp.Dictionaries;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GSCFieldApp.Models
 {
@@ -39,7 +36,7 @@ namespace GSCFieldApp.Models
 
 
             foreach (string c in contacts)
-            { 
+            {
                 if (contacts.IndexOf(c) == 0)
                 {
                     contactDefinition = c;
@@ -66,7 +63,7 @@ namespace GSCFieldApp.Models
             //Vars
             Contacts outputContact = new Contacts();
 
-            if (inContactString != null )
+            if (inContactString != null)
             {
 
                 List<string> splittedContact = inContactString.Split(DatabaseLiterals.KeywordConcatCharacter2nd).ToList();

@@ -48,7 +48,7 @@ namespace GSCFieldApp.Themes
                         {
                             lastItemHeight = child.DesiredSize.Height;
                         }
-                        
+
                         child.Arrange(newpos);
                         x += child.DesiredSize.Width;
                     }
@@ -81,7 +81,7 @@ namespace GSCFieldApp.Themes
                         lastItemHeight = child.DesiredSize.Height;
                     }
 
-                    
+
                     child.Arrange(newpos);
                     x += child.DesiredSize.Width;
                 }
@@ -142,7 +142,7 @@ namespace GSCFieldApp.Themes
                 {
                     child.Measure(new Size(availableSize.Width, availableSize.Width));
                 }
-                
+
 
                 //Keep child width and height and add to list
                 double currentWidth = child.DesiredSize.Width;
@@ -186,7 +186,7 @@ namespace GSCFieldApp.Themes
                     {
                         //If not wider, replace last item with a sum of last item and current width (so it makes the theorical row width)
                         lastWidth = processedWidthList.Last();
-                        processedWidthList.RemoveAt(processedWidthList.Count -1);
+                        processedWidthList.RemoveAt(processedWidthList.Count - 1);
                         processedWidthList.Add(lastWidth + currentWidth);
                     }
 
@@ -205,7 +205,7 @@ namespace GSCFieldApp.Themes
                 var desiredheight = child.DesiredSize.Height;
                 if (desiredheight > _maxHeight)
                     _maxHeight = desiredheight;
-                
+
             }
 
             //Find larger row
@@ -221,7 +221,7 @@ namespace GSCFieldApp.Themes
             double rows = processedWidthList.Count;
 
             //Set size and height to maximum item height if there is only one row
-            Size newSize = new Size(finalWidth, (_maxHeight * rows) + headerHeight );
+            Size newSize = new Size(finalWidth, (_maxHeight * rows) + headerHeight);
 
             //If there is more then one row set height as the sum of height for all rows.
             if (rows > 1 && !hasHeader)

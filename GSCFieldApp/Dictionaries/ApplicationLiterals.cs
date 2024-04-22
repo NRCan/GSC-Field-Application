@@ -7,7 +7,7 @@
         //Will be use to keep track of user header expansion value in local settings.
         public const string KeyworkdExpandLocation = "expandLocation";
         public const string KeyworkdExpandStation = "expandStation";
-        public const string KeyworkdExpandEarthmat= "expandEarthmat";
+        public const string KeyworkdExpandEarthmat = "expandEarthmat";
         public const string KeyworkdExpandSample = "expandSample";
         public const string KeywordExpandDocument = "expandDocument";
         public const string KeywordExpandStructure = "expandStructure";
@@ -16,10 +16,11 @@
         public const string KeywordExpandMineral = "expandMineral";
         public const string KeywordExpandMineralAlt = "expandMineralAlteration";
         public const string KeywordExpandEnv = "expandEnvironment";
+        public const string KeywordExpandDrill = "expandDrill";
 
         //Will be used to keep track of user photo or document model for document dialog
         public const string KeywordDocumentMode = "documentMode";
-        public const string KeywordDocumentHeaderTrue = "File";
+        public const string KeywordDocumentHeaderTrue = "Photo"; //Need to Fix this later
         public const string KeywordDocumentHeaderFalse = "Photo";
 
         //Will be used to keep track of user station travers incrementation option

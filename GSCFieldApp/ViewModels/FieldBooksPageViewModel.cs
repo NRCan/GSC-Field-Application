@@ -1,32 +1,34 @@
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Services.FileServices;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Template10.Mvvm;
-using Windows.Storage;
-using Windows.UI.Xaml;
-using GSCFieldApp.Models;
 using Template10.Common;
-using Windows.UI.Xaml.Controls;
-using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Dictionaries;
-using Windows.ApplicationModel.Resources;
-using SQLite;
-using Template10.Services.NavigationService;
 using Template10.Controls;
-using System.IO;
-using GSCFieldApp.Services.FileServices;
+using Template10.Mvvm;
+using Template10.Services.NavigationService;
+using Windows.ApplicationModel.Resources;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Core;
 using Template10.Utils;
 using System.Diagnostics;
-//Added By jamel
-//using OSGeo.GDAL;
-//using OSGeo.OGR;
-//using Driver = OSGeo.OGR.Driver;
-//using OSGeo.OSR;
-
+using Esri.ArcGISRuntime.Geometry;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using GSCFieldApp.Views;
+using Windows.UI.Xaml.Shapes;
+using System.Data;
+using System.Security.Cryptography;
+using System.Xml.Linq;
+using Path = System.IO.Path;
 
 namespace GSCFieldApp.ViewModels
 {
@@ -134,7 +136,7 @@ namespace GSCFieldApp.ViewModels
                 foreach (StorageFile sfi in localFiles)
                 {
                     //Get the database
-                    if ((sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) || sfi.FileType.Contains(DatabaseLiterals.DBTypeSqliteDeprecated)) 
+                    if ((sfi.FileType.Contains(DatabaseLiterals.DBTypeSqlite) || sfi.FileType.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
                         && sfi.DisplayName == DatabaseLiterals.DBName)
                     {
                         FieldBooks currentDB = new FieldBooks();
@@ -235,26 +237,28 @@ namespace GSCFieldApp.ViewModels
             //Make sure the setting exists, with user info id
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID) != null)
             {
+                //Get some unique values
+                string currentUser = string.Empty;
+                string currentProject = string.Empty;
+                string currentActivity = string.Empty;
+
+                try
+                {
+                    currentUser = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
+                    currentProject = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName).ToString();
+                    currentActivity = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoActivityName).ToString();
+
+                }
+                catch (Exception e)
+                {
+                    //Probably missing a setting, no big deal it'll fallback on first book.
+                    Debug.WriteLine(e.Message);
+                }
+
                 //Iterate through project to find match
                 foreach (FieldBooks prjs in _projectCollection)
                 {
-                    //Get some unique values
-                    string currentUser = string.Empty;
-                    string currentProject = string.Empty;
-                    string currentActivity = string.Empty;
 
-                    try
-                    {
-                        currentUser = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
-                        currentProject = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoPName).ToString();
-                        currentActivity = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoActivityName).ToString();
-
-                    }
-                    catch (Exception e)
-                    {
-                        //Probably missing a setting, no big deal it'll fallback on first book.
-                        Debug.WriteLine(e.Message);
-                    }
 
                     //Get match
                     if (prjs.metadataForProject.UserCode == currentUser &&
@@ -361,7 +365,7 @@ namespace GSCFieldApp.ViewModels
                 DataAccess.DbPath = _projectCollection[newIndex].ProjectDBPath;
 
                 ApplicationData.Current.SignalDataChanged();
-                
+
             }
 
 
@@ -389,7 +393,7 @@ namespace GSCFieldApp.ViewModels
 
             //Refresh page
             FillProjectCollectionAsync();
-            
+
         }
 
         /// <summary>
@@ -445,24 +449,10 @@ namespace GSCFieldApp.ViewModels
         /// <param name="fieldworkType"></param>
         /// <param name="userCode"></param>
         /// <param name="metaID"></param>
-        public async void OpenFieldBook(string projectPath, string fieldworkType, 
-            string userCode, int metaID, string dbPath, string dbVersion, 
-            string projectName, string activityName, bool withNavigateToMap = true)
+        public async void OpenFieldBook(FieldBooks fieldBook, bool withNavigateToMap = true)
         {
-            //Clear previous field book settings
-            localSetting.WipeUserMapSettings();
-
-            //Update settings with new selected project
-            localSetting.SetSettingValue(ApplicationLiterals.KeywordFieldProject, projectPath);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoFWorkType, fieldworkType);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoUCode, userCode);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoID, metaID);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoVersionSchema, dbVersion);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoPName, projectName);
-            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoActivityName, activityName);
-
-            ApplicationData.Current.SignalDataChanged();
-            DataAccess.DbPath = dbPath;
+            //Save in local setting
+            SetFieldBook(fieldBook);
 
             //Navigate to map page
             if (withNavigateToMap)
@@ -481,74 +471,105 @@ namespace GSCFieldApp.ViewModels
         /// <returns></returns>
         public async Task BackupFieldBook()
         {
-            //Set progress ring
-            _progressRingActive = true;
-            _progressRingVisibility = true;
-            RaisePropertyChanged("ProgressRingActive");
-            RaisePropertyChanged("ProgressRingVisibility");
 
-            //Variables
-            List<StorageFile> FilesToBackup = new List<StorageFile>();
-            FileServices fs = new FileServices();
-
-            //Iterate through field book folder files
-            //Make sure something is selected and that user is not trying to delete the only project left
-            if (_projectCollection != null && _selectedProjectIndex != -1)
+            ContentDialog longProcessDialog = new ContentDialog()
             {
-                FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
-                StorageFolder fieldBook = await StorageFolder.GetFolderFromPathAsync(selectedBook.ProjectPath);
+                Title = loadLocalization.GetString("SaveDBDialogTitle"),
+                Content = loadLocalization.GetString("SaveDBDialogLongProcessContent"),
+                PrimaryButtonText = loadLocalization.GetString("MapPageDialogTextYes"),
+                SecondaryButtonText = loadLocalization.GetString("MapPageDialogTextNo"),
+            };
+            longProcessDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
 
-                //Get a list of files from field book
-                IReadOnlyList<StorageFile> fieldBookPhotosRO = await fieldBook.GetFilesAsync();
+            ContentDialogResult cdr = await Services.ContentDialogMaker.CreateContentDialogAsync(longProcessDialog, true).Result;
 
-                //calculate new name for output database in the archive
-                string uCode = currentLocalSettings.Containers[ApplicationLiterals.LocalSettingMainContainer].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode].ToString();
-                FileServices fService = new FileServices();
-                string newName = fService.CalculateDBCopyName(uCode) + DatabaseLiterals.DBTypeSqlite;
-                StorageFile databaseToRename = null;
+            if (cdr == ContentDialogResult.Primary)
+            {
+                //Set progress ring
+                _progressRingActive = true;
+                _progressRingVisibility = true;
+                RaisePropertyChanged("ProgressRingActive");
+                RaisePropertyChanged("ProgressRingVisibility");
 
-                //Build list of files to add to archive
-                foreach (StorageFile files in fieldBookPhotosRO)
+                //Variables
+                List<StorageFile> FilesToBackup = new List<StorageFile>();
+                FileServices fs = new FileServices();
+
+                //Iterate through field book folder files
+                //Make sure something is selected and that user is not trying to delete the only project left
+                if (_projectCollection != null && _selectedProjectIndex != -1)
                 {
-                    //Get databases
-                    if (files.Name.ToLower().Contains(DatabaseLiterals.DBTypeSqlite) && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
-                    {
+                    FieldBooks selectedBook = _projectCollection[_selectedProjectIndex];
+                    StorageFolder fieldBook = await StorageFolder.GetFolderFromPathAsync(selectedBook.ProjectPath);
 
-                        databaseToRename = files;
-                    }
-                    else if (!files.Name.Contains("zip"))
+                    //Get a list of files from field book
+                    IReadOnlyList<StorageFile> fieldBookPhotosRO = await fieldBook.GetFilesAsync();
+
+                    //calculate new name for output database in the archive
+                    string uCode = currentLocalSettings.Containers[ApplicationLiterals.LocalSettingMainContainer].Values[Dictionaries.DatabaseLiterals.FieldUserInfoUCode].ToString();
+                    FileServices fService = new FileServices();
+                    string newName = fService.CalculateDBCopyName(uCode) + DatabaseLiterals.DBTypeSqlite;
+                    StorageFile databaseToRename = null;
+
+                    //Build list of files to add to archive
+                    foreach (StorageFile files in fieldBookPhotosRO)
                     {
-                        FilesToBackup.Add(files);
+                        //Get databases
+                        if (files.Name.ToLower().Contains(DatabaseLiterals.DBTypeSqlite) && files.Name.Contains(Dictionaries.DatabaseLiterals.DBName))
+                        {
+
+                            databaseToRename = files;
+                        }
+                        else if (!files.Name.Contains("zip"))
+                        {
+                            FilesToBackup.Add(files);
+                        }
+
                     }
 
+                    //Copy and rename database
+                    if (databaseToRename != null)
+                    {
+                        var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+
+                        //Zip and Copy
+                        string outputZipFilePath = await fs.SaveArchiveCopy(selectedBook.ProjectPath,
+                            selectedBook.metadataForProject.UserCode);
+
+                    }
                 }
 
-                //Copy and rename database
-                if (databaseToRename != null)
-                {
-                    StorageFile newFile = await databaseToRename.CopyAsync(fieldBook, newName);
-                    FilesToBackup.Add(newFile);
-
-                    //Zip and Copy
-                    
-                    await fs.SaveArchiveCopy(FilesToBackup, selectedBook.ProjectPath, 
-                        selectedBook.metadataForProject.UserCode);
-
-                    await newFile.DeleteAsync();
-                }
-
-
-
+                //Unset progress ring
+                _progressRingActive = false;
+                _progressRingVisibility = false;
+                RaisePropertyChanged("ProgressRingActive");
+                RaisePropertyChanged("ProgressRingVisibility");
             }
-
-            //Unset progress ring
-            _progressRingActive = false;
-            _progressRingVisibility = false;
-            RaisePropertyChanged("ProgressRingActive");
-            RaisePropertyChanged("ProgressRingVisibility");
 
             return;
 
+        }
+
+        /// <summary>
+        /// Will set in the local setting the input fieldbook
+        /// </summary>
+        /// <param name="fieldBook"></param>
+        public void SetFieldBook(FieldBooks fieldBook)
+        {
+            //Clear previous field book settings
+            localSetting.WipeUserMapSettings();
+
+            //Update settings with new selected project
+            localSetting.SetSettingValue(ApplicationLiterals.KeywordFieldProject, fieldBook.ProjectPath);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoFWorkType, fieldBook.metadataForProject.FieldworkType);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoUCode, fieldBook.metadataForProject.UserCode);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoID, fieldBook.metadataForProject.MetaID);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoVersionSchema, fieldBook.metadataForProject.VersionSchema);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoPName, fieldBook.metadataForProject.ProjectName);
+            localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoActivityName, fieldBook.metadataForProject.MetadataActivity);
+
+            ApplicationData.Current.SignalDataChanged();
+            DataAccess.DbPath = fieldBook.ProjectDBPath;
         }
 
         #endregion
@@ -556,56 +577,37 @@ namespace GSCFieldApp.ViewModels
         #region EVENTS
 
         /// <summary>
-        /// When a user wants to open an existing field book, change settings and navigate to map.
+        /// Event detected on project/field book selection change
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// 
+        public void ProjectList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_selectedProjectIndex != -1)
+            {
+                SetFieldBook(_projectCollection[_selectedProjectIndex]);
+            }
+        }
 
-        //Added by jamel
-        //public static void ConvertSQLiteToGeoPackage(string inputFilename, string outputFilename)
-        //{
-        //    Gdal.AllRegister();
-        //    Ogr.RegisterAll();
-
-        //    DataSource inputDataSource = Ogr.Open(inputFilename, 0);
-        //    if (inputDataSource == null)
-        //    {
-        //        Console.WriteLine($"Failed to open {inputFilename}.");
-        //        return;
-        //    }
-
-        //    // Get the input driver and create the output data source
-        //    //Driver inputDriver = inputDataSource.GetDriver();
-        //    //DataSource outputDataSource = inputDriver.CopyDataSource(inputDataSource, outputFilename, null);
-
-        //    Driver driver = Ogr.GetDriverByName("GPKG");
-        //    driver.CopyDataSource(inputDataSource, outputFilename, null);
-            
-        //    Console.WriteLine("Data copied successfully.");
-        //    Console.ReadLine();
-
-          
-        //}
-
+        /// <summary>
+        /// User clicked open field book event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void projectOpenButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            string pPath = _projectCollection[_selectedProjectIndex].ProjectPath;
-            string wType = _projectCollection[_selectedProjectIndex].metadataForProject.FieldworkType;
-            string uCode = _projectCollection[_selectedProjectIndex].metadataForProject.UserCode;
-            int mID = _projectCollection[_selectedProjectIndex].metadataForProject.MetaID;
-            string dbP = _projectCollection[_selectedProjectIndex].ProjectDBPath;
-            string dbVersion = _projectCollection[_selectedProjectIndex].metadataForProject.VersionSchema;
-            string aName = _projectCollection[_selectedProjectIndex].metadataForProject.MetadataActivity;
-            string pName = _projectCollection[_selectedProjectIndex].metadataForProject.ProjectName;
-            OpenFieldBook(pPath, wType, uCode, mID, dbP, dbVersion, pName, aName);
-
-            //Send call to refresh other pages
-            EventHandler<string> newFieldBookRequest = newFieldBookSelected;
-            if (newFieldBookRequest != null)
+            if (_selectedProjectIndex != -1)
             {
-                newFieldBookRequest(this, null);
+                OpenFieldBook(_projectCollection[_selectedProjectIndex]);
+
+                //Send call to refresh other pages
+                EventHandler<string> newFieldBookRequest = newFieldBookSelected;
+                if (newFieldBookRequest != null)
+                {
+                    newFieldBookRequest(this, null);
+                }
             }
+
         }
 
         /// <summary>
@@ -737,7 +739,7 @@ namespace GSCFieldApp.ViewModels
             openPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqlite);
             openPicker.FileTypeFilter.Add(DatabaseLiterals.DBTypeSqliteDeprecated);
             openPicker.FileTypeFilter.Add(".zip");
-            
+
             StorageFile inFile = await openPicker.PickSingleFileAsync();
             if (inFile != null)
             {
@@ -774,11 +776,6 @@ namespace GSCFieldApp.ViewModels
                     await fileService.GetFilesFromZip(fieldProjectPath, inFile);
                     isRestoreFromZip = true;
                 }
-
-                //if (inFile.FileType.Contains("SQLite"))
-                //{
-                //    ConvertSQLiteToGeoPackage(inFile.Name, fieldProjectPath + "/" + inFile.Name + ".gpkg");
-                //}
 
                 //Connect to the new database
                 IReadOnlyList<StorageFile> storageFiles = await newFieldBookFolder.GetFilesAsync();
@@ -819,39 +816,59 @@ namespace GSCFieldApp.ViewModels
                     {
                         await wantedDB.RenameAsync(Dictionaries.DatabaseLiterals.DBName + extension);
                     }
-                    
+
 
                     SQLiteConnection loadedDBConnection = accessData.GetConnectionFromPath(wantedDB.Path);
 
                     //Fill in current setting and change field book.
                     IEnumerable<object> metadata_raw = accessData.ReadTableFromDBConnection(metadataModel.GetType(), string.Empty, loadedDBConnection);
                     IEnumerable<Metadata> metadataTable = metadata_raw.Cast<Metadata>();
-                    Metadata metItem = metadataTable.First() as Metadata;
 
-                    //Display a warning for version validation
-                    if (metItem.VersionSchema != DatabaseLiterals.DBVersion.ToString())
+                    if (metadataTable != null && metadataTable.Count() > 0)
                     {
-                        // Language localization using Resource.resw
-                        var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                        Metadata metItem = metadataTable.First() as Metadata;
 
-                        await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                        //Display a warning for version validation
+                        if (metItem.VersionSchema != DatabaseLiterals.DBVersion.ToString())
                         {
-                            ContentDialog outDatedVersionDialog = new ContentDialog()
+                            // Language localization using Resource.resw
+                            var local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+
+                            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                             {
-                                Title = local.GetString("WarningBadVersionTitle"),
-                                Content = local.GetString("WarningBadVersionContent"),
-                                PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
-                            };
-                            outDatedVersionDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
-                            await Services.ContentDialogMaker.CreateContentDialogAsync(outDatedVersionDialog, false);
+                                ContentDialog outDatedVersionDialog = new ContentDialog()
+                                {
+                                    Title = local.GetString("WarningBadVersionTitle"),
+                                    Content = local.GetString("WarningBadVersionContent"),
+                                    PrimaryButtonText = local.GetString("GenericDialog_ButtonOK")
+                                };
+                                outDatedVersionDialog.Style = (Style)Application.Current.Resources["WarningDialog"];
+                                await Services.ContentDialogMaker.CreateContentDialogAsync(outDatedVersionDialog, false);
 
-                        }).AsTask();
+                            }).AsTask();
 
-                    } 
+                        }
+                        FieldBooks restFieldBook = new FieldBooks();
+                        restFieldBook.ProjectPath = fieldProjectPath;
+                        restFieldBook.metadataForProject = metItem;
 
-                    OpenFieldBook(fieldProjectPath, metItem.FieldworkType, metItem.UserCode, 
-                        metItem.MetaID, wantedDB.Path, metItem.VersionSchema, metItem.ProjectName, metItem.MetadataActivity, false);
-                    FillProjectCollectionAsync();
+                        SetFieldBook(restFieldBook);
+
+                        FillProjectCollectionAsync();
+                    }
+                    else
+                    {
+                        ContentDialog missingMetadataDialog = new ContentDialog()
+                        {
+                            Title = loadLocalization.GetString("Generic_MessageErrorTitle"),
+                            Content = loadLocalization.GetString("UpgradeErrorMetadataContent"),
+                            CloseButtonText = loadLocalization.GetString("GenericCloseLabel/Label"),
+                        };
+                        missingMetadataDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                        ContentDialogResult cdr = await missingMetadataDialog.ShowAsync();
+
+                    }
+
                 }
 
 
@@ -890,7 +907,7 @@ namespace GSCFieldApp.ViewModels
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// 
-        
+
         public async void ProjectUpgrade_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (System.IO.Directory.Exists(accessData.ProjectPath))
@@ -899,7 +916,15 @@ namespace GSCFieldApp.ViewModels
                 //New field books or empty ones shouldn't be upgraded
                 if (accessData.CanUpgrade())
                 {
+
+                    //Set progress ring
+                    _progressRingActive = true;
+                    _progressRingVisibility = true;
+                    RaisePropertyChanged("ProgressRingActive");
+                    RaisePropertyChanged("ProgressRingVisibility");
+
                     DataAccess dAccess = new DataAccess();
+
                     FileServices fService = new FileServices();
 
                     //Get local storage folder
@@ -910,12 +935,13 @@ namespace GSCFieldApp.ViewModels
 
                     while (processedDBVersion < DatabaseLiterals.DBVersion)
                     {
+                        string currentDBPath = DataAccess.DbPath;
+
                         //Keep current database path before creating the new one
                         string dbFolderToUpgrade = Path.GetDirectoryName(localFolder.Path);
-                        
+
                         //Create new fieldbook with embeded resource of legacy schema
                         string versionFileName = DatabaseLiterals.DBName;
-                        //string OldVersionFileName = DatabaseLiterals.DBName;
 
                         if (processedDBVersion == 1.42)
                         {
@@ -936,9 +962,13 @@ namespace GSCFieldApp.ViewModels
                         }
                         else if (processedDBVersion == 1.6)
                         {
-
-                            //Current defaulting to 1.7
+                            versionFileName = versionFileName + "_v" + DatabaseLiterals.DBVersion170.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
+                        }
+                        else if (processedDBVersion == 1.7)
+                        {
+                            //Current defaulting to 1.8
                             versionFileName = versionFileName + DatabaseLiterals.DBTypeSqlite;
+
                         }
 
                         string dbpathToUpgrade = Path.Combine(dbFolderToUpgrade, versionFileName); //in root of local state folder for now
@@ -956,6 +986,7 @@ namespace GSCFieldApp.ViewModels
 
                             //Upgrade other tables
                             Task upgradeSchema = accessData.DoUpgradeSchema(DataAccess.DbPath, upgradeDBConnection, processedDBVersion);
+                            upgradeDBConnection.Close();
 
                             if (upgradeSchema.IsCompleted && upgradeSchema.Status != TaskStatus.Faulted)
                             {
@@ -963,7 +994,7 @@ namespace GSCFieldApp.ViewModels
                                 string upgradedDBName = fService.CalculateDBCopyName(Dictionaries.DatabaseLiterals.DBNameSuffixUpgrade + processedDBVersion.ToString().Replace(".", ""));
 
                                 string upgradedDBPath = Path.Combine(Path.GetDirectoryName(DataAccess.DbPath), upgradedDBName) + DatabaseLiterals.DBTypeSqlite;
-                                string copyPathBeforeMove = DataAccess.DbPath;
+                                string copyPathBeforeMove = currentDBPath;
 
                                 //Legacy file type management for file naming
                                 if (processedDBVersion <= DatabaseLiterals.DBVersion160)
@@ -973,7 +1004,9 @@ namespace GSCFieldApp.ViewModels
                                 }
 
                                 //Move
-                                File.Move(DataAccess.DbPath, upgradedDBPath); //Rename temp one to it's previous name
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                                File.Move(currentDBPath, upgradedDBPath); //Rename temp one to it's previous name
 
                                 //Copy upgraded version
                                 File.Move(dbpathToUpgrade, copyPathBeforeMove);
@@ -993,41 +1026,94 @@ namespace GSCFieldApp.ViewModels
                                     packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
                                 }
 
-                                //Show end message
-                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                //Another last op on geometry, to make sure they're all in WGS84
+                                if (processedDBVersion == 1.8)
                                 {
-                                    ContentDialog upgradedDBDialog = new ContentDialog()
-                                    {
-                                        Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
-                                        Content = loadLocalization.GetString("FieldBookUpgradeContent"),
-                                        PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
-                                    };
-                                    upgradedDBDialog.Closed += upgradedDBDialog_Closed;
-                                    await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
+                                    GeopackageService packService = new GeopackageService();
 
-                                }).AsTask();
+                                    FieldLocation fl = new FieldLocation();
+                                    List<object> flsObject = dAccess.ReadTable(fl.GetType(), null);
+                                    IEnumerable<FieldLocation> flTable = flsObject.Cast<FieldLocation>();
+                                    foreach (FieldLocation fls in flTable)
+                                    {
+                                        if (fls.LocationEPSGProj != "4326")
+                                        {
+                                            try
+                                            {
+                                                double easting = (double)fls.LocationEasting;
+                                                double northing = (double)fls.LocationNorthing;
+                                                int inEPSG = int.Parse(fls.LocationEPSGProj);
+
+                                                SpatialReference inSR = SpatialReference.Create(inEPSG);
+
+                                                MapPoint newPoint = packService.CalculateGeographicCoordinate(easting, northing, inSR);
+                                                fls.LocationLat = newPoint.Y;
+                                                fls.LocationLong = newPoint.X;
+                                            }
+                                            catch (Exception)
+                                            {
+
+                                            }
+                                        }
+                                    }
+                                    List<object> newObj = flTable.Cast<object>().ToList(); 
+                                    dAccess.BatchSaveSQLTables(newObj, true);
+
+                                    //Force an update on geometry field
+                                    string updateGeometryQuery = dAccess.GetGeopackageUpdateQuery(DatabaseLiterals.TableLocation);
+                                    
+                                    packService.DoSpatialiteQueryInGeopackage(updateGeometryQuery, false);
+                                }
+
+                                //Show end message if last upgrade in list
+                                if (processedDBVersion == DatabaseLiterals.DBVersion180)
+                                {
+                                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                    {
+                                        ContentDialog upgradedDBDialog = new ContentDialog()
+                                        {
+                                            Title = loadLocalization.GetString("FieldBookUpgradeTitle"),
+                                            Content = loadLocalization.GetString("FieldBookUpgradeContent"),
+                                            PrimaryButtonText = loadLocalization.GetString("GenericDialog_ButtonOK")
+                                        };
+                                        upgradedDBDialog.Closed += upgradedDBDialog_Closed;
+                                        await Services.ContentDialogMaker.CreateContentDialogAsync(upgradedDBDialog, false);
+
+                                    }).AsTask();
+                                }
+
                             }
                             else
                             {
-                                //Show error message
-                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                if (upgradeSchema.Exception != null)
                                 {
-                                    ContentDialog deleteBookDialog = new ContentDialog()
+                                    //Show error message
+                                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                                     {
-                                        Title = "DB Error",
-                                        Content = upgradeSchema.Exception.Message,
-                                        PrimaryButtonText = "Bugger"
-                                    };
-                                    deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
-                                    await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
+                                        ContentDialog deleteBookDialog = new ContentDialog()
+                                        {
+                                            Title = "DB Error",
+                                            Content = upgradeSchema.Exception.Message,
+                                            PrimaryButtonText = "Bugger"
+                                        };
+                                        deleteBookDialog.Style = (Style)Application.Current.Resources["DeleteDialog"];
+                                        await Services.ContentDialogMaker.CreateContentDialogAsync(deleteBookDialog, false);
 
-                                }).AsTask();
+                                    }).AsTask();
+                                }
+
                             }
 
                         }
 
 
                     }
+
+                    //Unset progress ring
+                    _progressRingActive = false;
+                    _progressRingVisibility = false;
+                    RaisePropertyChanged("ProgressRingActive");
+                    RaisePropertyChanged("ProgressRingVisibility");
                 }
                 else
                 {

@@ -37,11 +37,12 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldMineralAlterationNotes)]
         public string MANotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationRelTable)]
-        public string MAParentTable { get; set; }
+        [Column(DatabaseLiterals.FieldMineralAlterationEarthmatID)]
+        public int? MAEarthmatID { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationRelID)]
-        public int MAParentID { get; set; }
+        [Column(DatabaseLiterals.FieldMineralAlterationStationID)]
+        public int MAStationID { get; set; }
+
 
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableStation;
@@ -93,16 +94,25 @@ namespace GSCFieldApp.Models
 
                 maFieldList[DatabaseLiterals.DBVersion] = maFieldListDefault;
 
+                //Revert schema 1.8 changes
+                List<string> maFieldList170 = new List<string>();
+                maFieldList170.AddRange(maFieldListDefault);
+                maFieldList170.Remove(DatabaseLiterals.FieldMineralAlterationEarthmatID);
+                maFieldList170.Remove(DatabaseLiterals.FieldMineralAlterationStationID);
+                maFieldList170.Add(DatabaseLiterals.FieldMineralAlterationRelTableDeprecated);
+                maFieldList170.Add(DatabaseLiterals.FieldMineralAlterationRelIDDeprecated);
+                maFieldList[DatabaseLiterals.DBVersion170] = maFieldList170;
+
                 //Revert shcema 1.7 changes
                 //List<string> maFieldList160 = new List<string>();
                 //maFieldList160.AddRange(maFieldListDefault);
                 //maFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                maFieldList[DatabaseLiterals.DBVersion160] = maFieldListDefault;
+                maFieldList[DatabaseLiterals.DBVersion160] = maFieldList170;
 
 
                 //Revert schema 1.6 changes. 
                 List<string> maFieldList150 = new List<string>();
-                maFieldList150.AddRange(maFieldListDefault);
+                maFieldList150.AddRange(maFieldList170);
 
                 int unitIndex = maFieldList150.IndexOf(DatabaseLiterals.FieldMineralAlterationUnit);
                 maFieldList150.Insert(unitIndex + 1, DatabaseLiterals.FieldMineralAlterationMineralDeprecated);

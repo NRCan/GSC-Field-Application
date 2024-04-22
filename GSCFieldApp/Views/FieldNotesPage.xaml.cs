@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
+using System.ComponentModel;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using GSCFieldApp.ViewModels;
-using GSCFieldApp.Services.DatabaseServices;
 
 namespace GSCFieldApp.Views
 {
@@ -14,7 +15,7 @@ namespace GSCFieldApp.Views
 
         //Event to notify View of any changes
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
-    
+
         public FieldNotesViewModel ViewModel { get; set; }
 
         //Local settings
@@ -62,6 +63,8 @@ namespace GSCFieldApp.Views
                         JsonArray stationInfoArray = stationValues.GetArray();
                         ViewModel.userSelectedStationDate = stationInfoArray.GetStringAt(1);
                         ViewModel.userSelectedStationID = stationInfoArray.GetStringAt(0);
+                        ViewModel.userSelectedDrillID = stationInfoArray.GetStringAt(2);
+
                         navFromMapPage = true;
 
                         this.ViewModel.summaryDone -= ViewModel_summaryDone;
@@ -83,11 +86,16 @@ namespace GSCFieldApp.Views
             //field notes, from nav parameter when closing station dialog or setting when user has taken a waypoint that doesn't navigate to field notes.
             if (localSetting.GetSettingValue("forceNoteRefresh") != null)
             {
-                if ((bool)localSetting.GetSettingValue("forceNoteRefresh"))
+                try
                 {
                     this.ViewModel.FillSummaryReportDateItems(); //Refill station based on new selected date
                     localSetting.SetSettingValue("forceNoteRefresh", false);
                 }
+                catch (System.Exception)
+                {
+
+                }
+
             }
             else
             {
@@ -109,14 +117,8 @@ namespace GSCFieldApp.Views
                 ViewModel.SetSelectedStationFromMapPage();
                 navFromMapPage = false;
             }
-            else
-            {
-                //Reset selection
-                ViewModel.userSelectedStationID = string.Empty;
-                ViewModel.userSelectedStationDate = string.Empty;
-                ViewModel.SetSelectedStationFromMapPage();
-            }
-       
+
+
         }
 
         /// <summary>
@@ -129,8 +131,9 @@ namespace GSCFieldApp.Views
             if (navFromMapPage || this.ViewModel.ReportDateItems.Count == 0)
             {
                 this.ViewModel.FillSummaryReportDateItems();
+                this.ViewModel.FillDrill();
             }
-            
+
         }
 
         /// <summary>
@@ -154,7 +157,7 @@ namespace GSCFieldApp.Views
         {
             ViewModel.pageLoading = false;
         }
-
+       
     }
 
 }

@@ -1,19 +1,20 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Template10.Common;
-using GSCFieldApp.ViewModels;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
+using GSCFieldApp.ViewModels;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Template10.Common;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using System.Collections.Generic;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace GSCFieldApp.Views
 {
-    public sealed partial class StationDataPart : UserControl 
+    public sealed partial class StationDataPart : UserControl
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public FieldNotes parentStationReport;
@@ -35,7 +36,7 @@ namespace GSCFieldApp.Views
             this.InitializeComponent();
             this.ViewModel = new StationViewModel(isWaypoint);
 
-            if (mapPosition !=null)
+            if (mapPosition != null)
             {
                 this.ViewModel.Location = mapPosition;
             }
@@ -59,7 +60,8 @@ namespace GSCFieldApp.Views
 
         private void StationDataPart_Loaded(object sender, RoutedEventArgs e)
         {
-            //EasterEgg();
+            GSCFieldApp.Themes.EasterEgg mosquitoEgg = new Themes.EasterEgg();
+            mosquitoEgg.ShowMosquito(this.obsRelativePanel, 0);
         }
         private void StationDataPart_Loading(FrameworkElement sender, object args)
         {
@@ -73,7 +75,7 @@ namespace GSCFieldApp.Views
                 }
                 else
                 {
-                    this.pageHeader.Text = this.pageHeader.Text + "  " + parentStationReport.station.StationAlias; //Set to selected item not calculated one.
+                    this.pageHeader.Text = parentStationReport.station.StationAlias; //Set to selected item not calculated one.
                 }
                 this.ViewModel.AutoFillDialog(parentStationReport, _isWaypoint);
 
@@ -82,17 +84,17 @@ namespace GSCFieldApp.Views
             {
                 if (!_isWaypoint)
                 {
-                    this.pageHeader.Text = this.pageHeader.Text + "  " + this.ViewModel.Alias;
+                    this.pageHeader.Text = this.ViewModel.Alias;
                 }
                 else
                 {
-                    this.pageHeader.Text = this.ViewModel.Alias;
+                    this.pageHeader.Text = this.ViewModel.WaypointAlias;
                 }
-                
+
                 ViewModel.SetCurrentLocationInUI(mapPosition);
             }
 
-            
+
         }
 
 
@@ -146,7 +148,7 @@ namespace GSCFieldApp.Views
                 CloseControl();
             }
 
-            
+
         }
 
         private async void stationBackButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -191,6 +193,56 @@ namespace GSCFieldApp.Views
                     ViewModel.RemoveSelectedValue(values, parentListView.Name);
                 }
             }
+        }
+
+        private void NoteTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox senderBox = sender as TextBox;
+            if (senderBox.Text.ToLower().Contains("mosquito"))
+            {
+                GSCFieldApp.Themes.EasterEgg mosquitoEgg = new Themes.EasterEgg();
+                mosquitoEgg.ShowMosquito(this.obsRelativePanel, 42);
+            }
+            if (senderBox.Text.ToLower().Contains("do a barrel roll"))
+            {
+                GSCFieldApp.Themes.EasterEgg barrel = new Themes.EasterEgg();
+                barrel.DoABarrelRollAsync(this.stationUserControl);
+            }
+            if (senderBox.Text.ToLower().Contains("flip me"))
+            {
+                GSCFieldApp.Themes.EasterEgg ee = new Themes.EasterEgg();
+                ee.pilf(this.stationUserControl);
+            }
+            if (senderBox.Text.ToLower().Contains("unicorn theme"))
+            {
+                GSCFieldApp.Themes.EasterEgg ut = new Themes.EasterEgg();
+                ut.UnicornThemeAsync();
+
+            }
+        }
+
+        private void StationObsTypeCombox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_isWaypoint || this.ViewModel.IsWaypoint || 
+                (this.StationObsTypeCombox.SelectedIndex != -1 && this.StationObsTypeCombox.SelectedValue.ToString() == DatabaseLiterals.KeywordStationWaypoint))
+            {
+                if (parentStationReport != null && parentStationReport.station.StationID != 0)
+                {
+                    this.pageHeader.Text = parentStationReport.station.StationAlias;
+                }
+                else
+                {
+                    this.ViewModel.TransformToWaypointTheme();
+                    this.pageHeader.Text = this.ViewModel.WaypointAlias;
+                }
+
+                 
+            }
+            else
+            {
+                this.pageHeader.Text = this.ViewModel.Alias;
+            }
+            
         }
     }
 }

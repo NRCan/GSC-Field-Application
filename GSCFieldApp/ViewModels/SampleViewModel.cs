@@ -1,22 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Template10.Mvvm;
+﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using Template10.Mvvm;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using GSCFieldApp.Dictionaries;
+using Newtonsoft.Json.Linq;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class SampleViewModel: ViewModelBase
+    public class SampleViewModel : ViewModelBase
     {
         #region INITIALIZATION
 
         //UI default values
-        
+
         private string _sampleAlias = string.Empty;
         private int _sampleID = 0;
         private int _sampleEartmatID = 0;
@@ -27,11 +31,17 @@ namespace GSCFieldApp.ViewModels
         private string _sampleDepthMin = string.Empty; //Default
         private string _sampleDepthMax = string.Empty; //Default
         private string _sampleDuplicateName = string.Empty; //Default
+        private string _sampleCoreLength = string.Empty; //Default
+        private string _sampledBy = string.Empty; //Default
+        private string _sampleCoreFrom = string.Empty; //Default
+        private string _sampleCoreTo = string.Empty; //Default
 
         private Visibility _surficialVisibility = Visibility.Collapsed; //Visibility for extra fields
         private Visibility _bedrockVisibility = Visibility.Visible; //Visibility for extra fields
-        private bool _isSampleDuplicate = false; //Wheter checkbox is checked (true) or uncheck (false)
-        private bool _isSampleDuplicateEnabled = false; //Wheter duplicate name box is enabled or disabled
+        private Visibility _drillholeVisibility = Visibility.Collapsed; //Visibility for extra fields
+        private bool _isSampleDuplicate = false; //Whether checkbox is checked (true) or uncheck (false)
+        private bool _isSampleBlank = false; //Whether checkbox is checked or uncheck
+        private bool _isSampleDuplicateEnabled = false; //Whether duplicate name box is enabled or disabled
 
         //Local settings
         readonly DataLocalSettings localSetting = new DataLocalSettings();
@@ -62,6 +72,9 @@ namespace GSCFieldApp.ViewModels
         private ObservableCollection<Themes.ComboBoxItem> _sampleHorizon = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedSampleHorizon = string.Empty;
 
+        private ObservableCollection<Themes.ComboBoxItem> _sampleCoreSize = new ObservableCollection<Themes.ComboBoxItem>();
+        private string _selectedSampleCoreSize = string.Empty;
+
         //Model init
         private Sample sampleModel = new Sample();
         public DataIDCalculation sampleIDCalculator = new DataIDCalculation();
@@ -83,12 +96,84 @@ namespace GSCFieldApp.ViewModels
         public int SampleID { get { return _sampleID; } set { _sampleID = value; } }
         public int SampleEarthmatID { get { return _sampleEartmatID; } set { _sampleEartmatID = value; } }
         public string SampleDuplicateName { get { return _sampleDuplicateName; } set { _sampleDuplicateName = value; } }
+        public string SampledBy { get { return _sampledBy; } set { _sampledBy = value; } }
+        public string SampleCoreFrom 
+        {
+
+            get
+            {
+                return _sampleCoreFrom;
+            }
+            set
+            {
+                bool result = double.TryParse(value, out double index);
+
+                if (result)
+                {
+                    _sampleCoreFrom = value;
+                }
+                else
+                {
+                    _sampleCoreFrom = value = "0";
+                    RaisePropertyChanged("SampleCoreFrom");
+                }
+
+
+            }
+        }
+        public string SampleCoreLength 
+        {
+            get
+            {
+                return _sampleCoreLength;
+            }
+            set
+            {
+                bool result = double.TryParse(value, out double index);
+
+                if (result)
+                {
+                    _sampleCoreLength = value;
+                }
+                else
+                {
+                    _sampleCoreLength = value = "0";
+                    RaisePropertyChanged("SampleCoreLength");
+                }
+
+
+            }
+        }
+        public string SampleCoreTo 
+        {
+            get
+            {
+                return _sampleCoreTo;
+            }
+            set
+            {
+                bool result = double.TryParse(value, out double index);
+
+                if (result)
+                {
+                    _sampleCoreTo = value;
+                }
+                else
+                {
+                    _sampleCoreTo = value = "0";
+                    RaisePropertyChanged("SampleCoreTo");
+                }
+
+
+            }
+        }
 
         public bool IsSampleDuplicate { get { return _isSampleDuplicate; } set { _isSampleDuplicate = value; } }
+        public bool IsSampleBlank { get { return _isSampleBlank; } set { _isSampleBlank = value; } }
         public bool IsSampleDuplicateEnabled { get { return _isSampleDuplicateEnabled; } set { _isSampleDuplicateEnabled = value; } }
         public Visibility SurficialVisibility { get { return _surficialVisibility; } set { _surficialVisibility = value; } }
         public Visibility BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
-
+        public Visibility DrillholeVisibility { get { return _drillholeVisibility; } set { _drillholeVisibility = value; } }
         public ObservableCollection<Themes.ComboBoxItem> SampleType { get { return _sampleType; } set { _sampleType = value; } }
         public string SelectedSampleType { get { return _selectedSampleType; } set { _selectedSampleType = value; } }
 
@@ -104,12 +189,16 @@ namespace GSCFieldApp.ViewModels
         public string SelectedSampleSurface { get { return _selectedSampleSurface; } set { _selectedSampleSurface = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> SampleQuality { get { return _sampleQuality; } set { _sampleQuality = value; } }
-        public string SelectedSampleQuality{ get { return _selectedSampleQuality; } set { _selectedSampleQuality = value; } }
+        public string SelectedSampleQuality { get { return _selectedSampleQuality; } set { _selectedSampleQuality = value; } }
 
         public ObservableCollection<Themes.ComboBoxItem> SampleState { get { return _sampleState; } set { _sampleState = value; } }
         public string SelectedSampleState { get { return _selectedSampleState; } set { _selectedSampleState = value; } }
         public ObservableCollection<Themes.ComboBoxItem> SampleHorizon { get { return _sampleHorizon; } set { _sampleHorizon = value; } }
         public string SelectedSampleHorizon { get { return _selectedSampleHorizon; } set { _selectedSampleHorizon = value; } }
+
+        public ObservableCollection<Themes.ComboBoxItem> SampleCoreSize { get { return _sampleCoreSize; } set { _sampleCoreSize = value; } }
+        public string SelectedSampleCoreSize { get { return _selectedSampleCoreSize; } set { _selectedSampleCoreSize = value; } }
+
         public string SampleAzim
         {
             get
@@ -256,6 +345,7 @@ namespace GSCFieldApp.ViewModels
             FillQuality();
             FillState();
             FillHorizon();
+            FillCoreSizes();
 
             SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
         }
@@ -285,11 +375,30 @@ namespace GSCFieldApp.ViewModels
             _sampleDepthMin = existingDataDetailSample.sample.SampleDepthMin.ToString();
             _sampleDepthMax = existingDataDetailSample.sample.SampleDepthMax.ToString();
             _sampleDuplicateName = existingDataDetailSample.sample.SampleDuplicateName;
+            _sampledBy = existingDataDetailSample.sample.SampleBy;
+            _sampleCoreFrom = existingDataDetailSample.sample.SampleCoreFrom.ToString();
+            _sampleCoreLength = existingDataDetailSample.sample.SampleCoreLength.ToString();
+            _sampleCoreTo = existingDataDetailSample.sample.SampleCoreTo.ToString();
+            _selectedSampleCoreSize = existingDataDetailSample.sample.SampleCoreSize;
 
             if (_sampleDuplicateName != String.Empty)
             {
                 _isSampleDuplicate = true;
-                RaisePropertyChanged("IsSampleDuplicate"); 
+                RaisePropertyChanged("IsSampleDuplicate");
+            }
+
+            if (existingDataDetailSample.sample.SampleBlank != String.Empty)
+            {
+                if (existingDataDetailSample.sample.SampleBlank == DatabaseLiterals.boolYes)
+                {
+                    _isSampleBlank = true;
+                    RaisePropertyChanged("IsSampleBlank");
+                }
+                else
+                {
+                    _isSampleBlank = false;
+                    RaisePropertyChanged("IsSampleBlank");
+                }
             }
 
             //Update UI
@@ -306,7 +415,13 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedSampleHorizon");
             RaisePropertyChanged("SampleDepthMin");
             RaisePropertyChanged("SampleDepthMax");
-            RaisePropertyChanged("SampleDuplicateName"); 
+            RaisePropertyChanged("SampleDuplicateName");
+
+            RaisePropertyChanged("SelectedSampleCoreSize");
+            RaisePropertyChanged("SampledBy"); 
+            RaisePropertyChanged("SampleCoreFrom"); 
+            RaisePropertyChanged("SampleCoreLength"); 
+            RaisePropertyChanged("SampleCoreTo"); 
 
             //Update list view
             UnPipePurposes(existingDataDetailSample.sample.SamplePurpose);
@@ -327,8 +442,23 @@ namespace GSCFieldApp.ViewModels
             sampleModel.SampleName = _sampleAlias; //Foreign key
             sampleModel.SampleNotes = _sampleNote;
             sampleModel.SampleEarthmatID = _sampleEartmatID;
+            sampleModel.SampleBy = _sampledBy;
+
+            if (_sampleCoreFrom != string.Empty)
+            {
+                sampleModel.SampleCoreFrom = double.Parse(_sampleCoreFrom);
+            }
+            if (_sampleCoreLength != string.Empty)
+            {
+                sampleModel.SampleCoreLength = double.Parse(_sampleCoreLength);
+            }
+            if (_sampleCoreTo != string.Empty)
+            {
+                sampleModel.SampleCoreTo = double.Parse(_sampleCoreTo);
+            }
+
             sampleModel.SamplePurpose = PipePurposes(); //process list of values so they are concatenated.
-            if (_sampleAzim!= string.Empty)
+            if (_sampleAzim != string.Empty)
             {
                 sampleModel.SampleAzim = int.Parse(_sampleAzim);
             }
@@ -338,14 +468,23 @@ namespace GSCFieldApp.ViewModels
             }
             if (_sampleDepthMin != string.Empty)
             {
-                sampleModel.SampleDepthMin = int.Parse(_sampleDepthMin);
+                sampleModel.SampleDepthMin = double.Parse(_sampleDepthMin);
             }
             if (_sampleDepthMax != string.Empty)
             {
-                sampleModel.SampleDepthMax = int.Parse(_sampleDepthMax);
+                sampleModel.SampleDepthMax = double.Parse(_sampleDepthMax);
             }
- 
+
             sampleModel.SampleDuplicateName = _sampleDuplicateName;
+
+            if (IsSampleBlank)
+            {
+                sampleModel.SampleBlank = DatabaseLiterals.boolYes;
+            }
+            else if (!IsSampleBlank)
+            {
+                sampleModel.SampleBlank = DatabaseLiterals.boolNo;
+            }
 
             if (SelectedSampleType != null)
             {
@@ -371,7 +510,10 @@ namespace GSCFieldApp.ViewModels
             {
                 sampleModel.SampleHorizon = SelectedSampleHorizon;
             }
-
+            if (SelectedSampleCoreSize != null)
+            {
+                sampleModel.SampleCoreSize = SelectedSampleCoreSize;
+            }
             //Save model class
             object sampleObject = (object)sampleModel;
             accessData.SaveFromSQLTableObject(ref sampleObject, doSampleUpdate);
@@ -390,6 +532,24 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will fill the sample type combobox
         /// </summary>
+        private void FillCoreSizes()
+        {
+            //Init.
+            string fieldName = Dictionaries.DatabaseLiterals.FieldSampleCoreSize;
+            string tableName = Dictionaries.DatabaseLiterals.TableSample;
+            foreach (var itemType in accessData.GetComboboxListWithVocab(tableName, fieldName, out _selectedSampleCoreSize))
+            {
+                _sampleCoreSize.Add(itemType);
+            }
+
+            //Update UI
+            RaisePropertyChanged("SampleCoreSize");
+            RaisePropertyChanged("SelectedSampleCoreSize");
+        }
+
+        /// <summary>
+        /// Will fill the sample type combobox
+        /// </summary>
         private void FillSampleType()
         {
             //Init.
@@ -402,7 +562,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("SampleType");
-            RaisePropertyChanged("SelectedSampleType"); 
+            RaisePropertyChanged("SelectedSampleType");
         }
 
         /// <summary>
@@ -420,7 +580,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("SampleSurface");
-            RaisePropertyChanged("SelectedSampleSurface"); 
+            RaisePropertyChanged("SelectedSampleSurface");
         }
         /// <summary>
         /// Will fill the sample type combobox
@@ -454,7 +614,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("SampleQuality");
-            RaisePropertyChanged("SelectedSampleQuality"); 
+            RaisePropertyChanged("SelectedSampleQuality");
         }
         /// <summary>
         /// Will fill the sample state combobox
@@ -504,7 +664,7 @@ namespace GSCFieldApp.ViewModels
             {
                 _samplePurpose.Add(itemPurpose);
             }
-            
+
 
             //Update UI
             RaisePropertyChanged("SamplePurpose");
@@ -513,6 +673,31 @@ namespace GSCFieldApp.ViewModels
         }
         #endregion
 
+        #region METHODS
+
+        /// <summary>
+        /// Will show a quick reminder to take a duplicate for
+        /// surficial geologist every 15 samples.
+        /// </summary>
+        public bool DuplicateReminder()
+        {
+            bool shouldShowReminder = false;
+
+            if (_surficialVisibility == Visibility.Visible)
+            {
+                Sample sampleModel = new Sample();
+                int sampleCount = accessData.GetTableCount(sampleModel.GetType());
+
+                if (sampleCount % 15 == 0 && sampleCount != 0)
+                {
+                    shouldShowReminder = true;
+                }
+            }
+
+            return shouldShowReminder;
+
+        }
+
         /// <summary>
         /// Will set visibility based on a bedrock or surficial field book
         /// </summary>
@@ -520,26 +705,36 @@ namespace GSCFieldApp.ViewModels
         {
             if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType) != null)
             {
-                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeBedrock)
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString().Contains(Dictionaries.DatabaseLiterals.ApplicationThemeBedrock))
                 {
                     _bedrockVisibility = Visibility.Visible;
                     _surficialVisibility = Visibility.Collapsed;
                 }
-                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.ScienceLiterals.ApplicationThemeSurficial)
+                else if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeSurficial)
                 {
                     _bedrockVisibility = Visibility.Collapsed;
                     _surficialVisibility = Visibility.Visible;
                 }
+                if (localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType).ToString() == Dictionaries.DatabaseLiterals.ApplicationThemeDrillHole)
+                {
+                    _drillholeVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    _drillholeVisibility = Visibility.Collapsed;
+                }
             }
-            else 
+            else
             {
                 //Fallback
                 _bedrockVisibility = Visibility.Visible;
                 _surficialVisibility = Visibility.Collapsed;
+                _drillholeVisibility = Visibility.Collapsed;
             }
 
             RaisePropertyChanged("BedrockVisibility");
             RaisePropertyChanged("SurficialVisibility");
+            RaisePropertyChanged("DrillholeVisibility");
         }
 
         /// <summary>
@@ -610,7 +805,7 @@ namespace GSCFieldApp.ViewModels
                 {
                     _purposeValues.Add(newPurp);
                 }
-                
+
             }
             #endregion
             RaisePropertyChanged("PurposeValues");
@@ -662,15 +857,15 @@ namespace GSCFieldApp.ViewModels
             #region validate paleomagnetism
 
             //Validate for oriented samplem type and paleomagnetism. This should trigger view on Oriented set of inputs
-            if (_surficialVisibility == Visibility.Visible 
-                && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag 
+            if (_surficialVisibility == Visibility.Visible
+                && SelectedSamplePurpose == DatabaseLiterals.samplePurposePaleomag
                 && SelectedSampleType == DatabaseLiterals.sampleTypeOriented)
             {
                 _bedrockVisibility = Visibility.Visible;
                 RaisePropertyChanged("BedrockVisibility");
             }
-            else if (_surficialVisibility == Visibility.Visible 
-                && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag 
+            else if (_surficialVisibility == Visibility.Visible
+                && (SelectedSamplePurpose != DatabaseLiterals.samplePurposePaleomag
                 || SelectedSampleType != DatabaseLiterals.sampleTypeOriented))
             {
                 _bedrockVisibility = Visibility.Collapsed;
@@ -678,9 +873,9 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Validate within purposes list
-            if (_surficialVisibility == Visibility.Visible 
+            if (_surficialVisibility == Visibility.Visible
                 && SelectedSampleType == DatabaseLiterals.sampleTypeOriented
-                && SelectedSamplePurpose == String.Empty 
+                && SelectedSamplePurpose == String.Empty
                 && PurposeValues.Count > 0)
             {
                 foreach (Themes.ComboBoxItem cbi in PurposeValues)
@@ -702,6 +897,8 @@ namespace GSCFieldApp.ViewModels
 
             #endregion
         }
+
+        #endregion
 
         #region EVENTS
 

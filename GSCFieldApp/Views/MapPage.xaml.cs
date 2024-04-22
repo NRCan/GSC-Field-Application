@@ -1,17 +1,23 @@
-﻿using System;
+﻿using Esri.ArcGISRuntime.Mapping;
+using Esri.ArcGISRuntime.Symbology;
+using Esri.ArcGISRuntime.UI;
+using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services.DatabaseServices;
+using System;
+using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using GSCFieldApp.Services.DatabaseServices;
-using Esri.ArcGISRuntime.Mapping;
-using Esri.ArcGISRuntime.UI;
 using Windows.UI.Xaml.Input;
-using System.Threading.Tasks;
-using Esri.ArcGISRuntime.Symbology;
-using GSCFieldApp.Dictionaries;
-using Windows.UI;
+using Windows.UI.Xaml.Navigation;
 using Symbol = Windows.UI.Xaml.Controls.Symbol;
-using Windows.ApplicationModel.Resources;
+using Windows.Networking.Connectivity;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Core;
+using Windows.UI.Popups;
+using System.Linq;
+using Windows.Devices.Enumeration;
 
 namespace GSCFieldApp.Views
 {
@@ -21,7 +27,11 @@ namespace GSCFieldApp.Views
         #region INIT
         public Map esriMap;
         public bool mapsLoaded = false;
+        //private DispatcherTimer timer;
+
         readonly DataLocalSettings localSetting = new DataLocalSettings();
+        //This put in the view model
+        //private ConnectionProfile connectionProfile;
 
         //UI headers enable/disable colors
         private readonly string resourceNameGridColor = "MapViewGridColor";
@@ -39,6 +49,12 @@ namespace GSCFieldApp.Views
 
             this.InitializeComponent();
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            //Window.Current.Activated += CurrentWindow_Activated;
+
+            // These were put in the view model
+            //connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+            //CheckAirplaneMode();
+
 
             this.Loaded -= MapPage_Loaded;
             this.Loaded += MapPage_Loaded;
@@ -84,8 +100,8 @@ namespace GSCFieldApp.Views
 
             //Refresh
             //SetBackgroundGrid();
+            MapPageViewModel.RefreshMap(true);
             MapPageViewModel.DisplayPointAndLabelsAsync(myMapView);
-
 
 
             //DisplayLatLongGrid();
@@ -112,7 +128,7 @@ namespace GSCFieldApp.Views
             {
                 MapPageViewModel.currentMapView.CancelSetViewpointOperations();
             }
-            
+
             base.OnNavigatingFrom(e);
         }
 
@@ -127,32 +143,40 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void MapInfoButtonClicked(object sender, RoutedEventArgs e)
         {
-            //Hide or show coordinates, accuracy, and projection info when clicked
-            MapScaleInfo.Visibility = (MapScaleInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-
-            if (localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) != null)
-            {
-                localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
-
-                if (myMapView.Grid != null)
-                {
-                    myMapView.Grid.IsVisible = ((bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
-                }
-            }
-            else
-            {
-                localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, false);
-            }
             
-            MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-            MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
-
             //Try and enforce whole map view redraw see #176
             //MapPageViewModel.esriMap = null;
             //MapPageViewModel.currentMapView = null;
             //mapsLoaded = false;
             //await MapPageViewModel.SetMapView(myMapView);
+            try
+            {
+                //Hide or show coordinates, accuracy, and projection info when clicked
+                MapScaleInfo.Visibility = (MapScaleInfo.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
 
+                if (localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) != null)
+                {
+                    localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, (localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordMapViewGrid) == true ? false : true));
+
+                    if (myMapView.Grid != null)
+                    {
+                        myMapView.Grid.IsVisible = (localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordMapViewGrid) == false ? false : true);
+                    }
+                }
+                else
+                {
+                    localSetting.SetSettingValue(ApplicationLiterals.KeywordMapViewGrid, false);
+                }
+
+                MapCoordinateInfo2.Visibility = (MapCoordinateInfo2.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+                MapCoordinateInfo3.Visibility = (MapCoordinateInfo3.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible);
+
+            }
+            catch (Exception ex)
+            {
+                // Catch and handle any exception.
+                Console.WriteLine("An error occurred: " + ex.Message);
+            }
         }
 
         private void LatLongDMSButtonClicked(object sender, RoutedEventArgs e)
@@ -233,7 +257,7 @@ namespace GSCFieldApp.Views
             gridLatLong.LabelOffset = 50;
             if (localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid) != null)
             {
-                gridLatLong.IsVisible = (bool)localSetting.GetSettingValue(ApplicationLiterals.KeywordMapViewGrid);
+                gridLatLong.IsVisible = localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordMapViewGrid);
             }
             else
             {
@@ -258,7 +282,7 @@ namespace GSCFieldApp.Views
 
         private void UpdateGrid()
         {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              if (myMapView.Grid != null && myMapView.Grid.LevelCount > 0)
+            if (myMapView.Grid != null && myMapView.Grid.LevelCount > 0)
             {
                 //Get proper color
                 Windows.UI.Color defaultColor = new Windows.UI.Color();
@@ -333,9 +357,18 @@ namespace GSCFieldApp.Views
             }
 
         }
+        //private async void CheckAirplaneMode()
+        //{
+            //var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
 
-
-
+            //if (connectionProfile == null)
+            //{
+                // Possible airplane mode
+                //var messageDialog = new Windows.UI.Popups.MessageDialog("Airplane Mode or No Network Connection Found");
+                //messageDialog.Commands.Add(new Windows.UI.Popups.UICommand("OK"));
+                //await messageDialog.ShowAsync();
+            //}
+        //}
 
         #endregion
 
@@ -438,8 +471,8 @@ namespace GSCFieldApp.Views
 
             MapPageViewModel.ZoomToLayer(true);
             //myMapView.SetViewpoint
-                       
-            
+
+
         }
 
 

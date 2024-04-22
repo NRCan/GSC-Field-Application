@@ -13,7 +13,7 @@
 
         public Models.Station station { get; set; }
 
-        public Models.Metadata metadata { get; set; } 
+        public Models.Metadata metadata { get; set; }
 
         public Models.EarthMaterial earthmat { get; set; }
 
@@ -31,6 +31,8 @@
         public Models.MineralAlteration mineralAlteration { get; set; }
 
         public Models.EnvironmentModel environment { get; set; }
+
+        public Models.DrillHole drillHoles { get; set; }
 
         //Define here are the properties that can be used for edit and delete operation
         public int GenericID { get; set; }
@@ -55,7 +57,7 @@
             {
                 return _isValid;
             }
-            set { _isValid = value;}
+            set { _isValid = value; }
         }
 
         #endregion
@@ -63,17 +65,18 @@
         public FieldNotes()
         {
             location = new Models.FieldLocation(); //Init as a new class
-            station = new Models.Station(); 
-            metadata = new Models.Metadata(); 
-            earthmat = new Models.EarthMaterial(); 
-            sample = new Models.Sample(); 
-            document = new Models.Document(); 
+            station = new Models.Station();
+            metadata = new Models.Metadata();
+            earthmat = new Models.EarthMaterial();
+            sample = new Models.Sample();
+            document = new Models.Document();
             structure = new Models.Structure();
             paleoflow = new Models.Paleoflow();
             fossil = new Models.Fossil();
             mineral = new Models.Mineral();
             mineralAlteration = new Models.MineralAlteration();
             environment = new Models.EnvironmentModel();
+            drillHoles = new DrillHole();
         }
 
         public bool Validate()

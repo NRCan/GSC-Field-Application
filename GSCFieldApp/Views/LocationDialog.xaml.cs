@@ -1,15 +1,15 @@
-﻿using GSCFieldApp.ViewModels;
+﻿using GSCFieldApp.Models;
+using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Template10.Common;
+using Template10.Controls;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using GSCFieldApp.Models;
-using Windows.ApplicationModel.Resources;
-using Template10.Controls;
-using GSCFieldApp.Services.DatabaseServices;
-using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -23,6 +23,7 @@ namespace GSCFieldApp.Views
         public ResourceLoader local = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
 
         bool isBackButtonPressed = false;
+        bool isDrillButtonPressed = false;
 
         private readonly SolidColorBrush failBrush = new SolidColorBrush(Windows.UI.Colors.Red);
         private readonly Brush defaultBrush;
@@ -61,23 +62,36 @@ namespace GSCFieldApp.Views
         private void LocationDialog_Unloaded(object sender, RoutedEventArgs e)
         {
             //Detect manual entry, if it's the case pop station dialog
-            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.doLocationUpdate == false && !isBackButtonPressed )
+            if (locationVM.entryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual && locationVM.DoLocationUpdate == false && !isBackButtonPressed)
             {
                 //Create a field note report to act like a parent
-                FieldNotes stationParent = new FieldNotes
+                FieldNotes locationParent = new FieldNotes
                 {
                     location = locationVM.locationModel,
                     GenericAliasName = locationVM.LocationAlias,
                     GenericID = locationVM.LocationID
                 };
-                stationParent.ParentTableName = Dictionaries.DatabaseLiterals.TableLocation;
+                locationParent.ParentTableName = Dictionaries.DatabaseLiterals.TableLocation;
 
-                //Create a map point
+                //Create a map point and open the right dialog
                 var modal = Window.Current.Content as ModalDialog;
-                var view = modal.ModalContent as Views.StationDataPart;
-                modal.ModalContent = view = new Views.StationDataPart(stationParent, false);
-                view.mapPosition = locationVM.locationModel;
-                view.ViewModel.newStationEdit += locationVM.NavigateToReportAsync; //Detect when the add/edit request has finished.
+
+                //For stations
+                if (!isDrillButtonPressed)
+                {
+                    var view = modal.ModalContent as Views.StationDataPart;
+                    modal.ModalContent = view = new Views.StationDataPart(locationParent, false);
+                    view.mapPosition = locationVM.locationModel;
+                    view.ViewModel.newStationEdit += locationVM.NavigateToReportAsync; //Detect when the add/edit request has finished.
+                }
+                else
+                {
+                    var view = modal.ModalContent as Views.DrillHoleDialog;
+                    modal.ModalContent = view = new Views.DrillHoleDialog(locationParent);
+                    view.mapPosition = locationVM.locationModel;
+                    modal.IsModal = true;
+                }
+
                 modal.IsModal = true;
 
                 DataLocalSettings dLocalSettings = new DataLocalSettings();
@@ -100,7 +114,7 @@ namespace GSCFieldApp.Views
             isBackButtonPressed = false;
 
             //Fill automatically the earthmat dialog if an edit is asked by the user.
-            if (parentViewModel.ParentTableName == Dictionaries.DatabaseLiterals.TableLocation && locationVM.doLocationUpdate)
+            if (parentViewModel.GenericTableName == Dictionaries.DatabaseLiterals.TableLocation && locationVM.DoLocationUpdate)
             {
                 this.locationVM.AutoFillDialog(parentViewModel);
                 this.pageHeader.Text = this.pageHeader.Text + "  " + parentViewModel.location.LocationAlias;
@@ -109,7 +123,7 @@ namespace GSCFieldApp.Views
                 {
                     this.locationVM.SetReadOnlyFields(true);
                 }
-                
+
             }
             else
             {
@@ -121,7 +135,7 @@ namespace GSCFieldApp.Views
             //Get default accent color from textbox border, for validating easting northings
             SolidColorBrush defaultBorderBrush = this.LocationLat.BorderBrush as SolidColorBrush;
 
-    }
+        }
 
 
         #region CLOSE
@@ -158,6 +172,16 @@ namespace GSCFieldApp.Views
 
             if (isUIValid.Result)
             {
+                //Get sender name
+                Button senderButton = sender as Button;
+                if (senderButton.Name.ToLower().Contains("drill"))
+                {
+                    isDrillButtonPressed = true;
+                }
+                else
+                {
+                    isDrillButtonPressed= false;
+                }
                 this.LocationSaveButton.Focus(FocusState.Keyboard);
             }
             else
@@ -194,7 +218,19 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void LocationEasting_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
-            isEastingValid();
+            TextBox textBox = (TextBox)sender;
+            string input = textBox.Text;
+
+            if (decimal.TryParse(input, out decimal result))
+            {
+                // If value entered is a decimal number.
+            }
+            else
+            {
+                // The value entered is not a decimal number.
+                isEastingValid();
+            }
+            //isEastingValid();
         }
 
         /// <summary>
@@ -204,7 +240,19 @@ namespace GSCFieldApp.Views
         /// <param name="e"></param>
         private void LocationNorthing_TextChanged(object sender, TextBoxTextChangingEventArgs e)
         {
-            isNorthingValid();
+            TextBox textBox = (TextBox)sender;
+            string input = textBox.Text;
+
+            if (decimal.TryParse(input, out decimal result))
+            {
+                // If value entered is a decimal number.
+            }
+            else
+            {
+                // The value entered is not a decimal number.
+                isNorthingValid();
+            }
+            //isNorthingValid();
         }
 
         #endregion
@@ -235,7 +283,7 @@ namespace GSCFieldApp.Views
                 if ((_easting != 0 && _northing != 0) && (_long == 0 && _lat == 0) && (selectedEPGS != 4617 || selectedEPGS != 4326))
                 {
                     isValid = false;
-                }                
+                }
             }
             else
             {
@@ -260,9 +308,9 @@ namespace GSCFieldApp.Views
             if (result)
             {
                 // Source: https://www.maptools.com/tutorials/utm/details
-                if (east < 834000 && east > 160000)
+                if (east < 834000.000000 && east > 160000.000000)
                 {
-                    this.LocationEasting.Text = east.ToString();
+                    this.LocationEasting.Text = east.ToString();   //Allows the value to be saved in database, but you cannot add decimal
                     this.LocationEasting.BorderBrush = defaultBrush;
                 }
                 else
@@ -280,18 +328,21 @@ namespace GSCFieldApp.Views
         }
 
         /// <summary>
-        /// Will make sure the entered easting coordinate has the right amount of digits
+        /// Will make sure the entered northing coordinate has the right amount of digits
         /// </summary>
         public void isNorthingValid()
         {
             bool result = double.TryParse(this.LocationNorthing.Text, out double north);
+            //string input = this.LocationNorthing.Text;
 
+            //if (double.TryParse(input, out double north))
+            //{
             if (result)
             {
                 // Source: https://www.maptools.com/tutorials/utm/details
-                if (north < 10000000 && north > 0)
+                if (north < 10000000.000000 && north > 0.000000)
                 {
-                    this.LocationNorthing.Text = north.ToString();
+                    this.LocationNorthing.Text = north.ToString(); //Allows the value to be saved in database, but you cannot add decimal
                     this.LocationNorthing.BorderBrush = defaultBrush;
                 }
                 else
@@ -306,9 +357,7 @@ namespace GSCFieldApp.Views
             }
         }
 
-
         #endregion
-
 
     }
 }

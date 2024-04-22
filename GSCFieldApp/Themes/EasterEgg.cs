@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI;
 
 namespace GSCFieldApp.Themes
 {
@@ -21,10 +21,10 @@ namespace GSCFieldApp.Themes
             Random random = new Random(DateTime.Now.Millisecond * DateTime.Now.Year / (DateTime.Now.Second + 1));
             if (r == 0)
             {
-                r = random.Next(0, 1000);
+                r = random.Next(0, 100);
             }
 
-            int mosquitoCount = random.Next(1, 15);
+            int mosquitoCount = random.Next(1, 3);
 
             if (r >= 40 && r <= 44)
             {
@@ -163,7 +163,7 @@ namespace GSCFieldApp.Themes
                 return null;
             }
 
-            
+
         }
 
         /// <summary>

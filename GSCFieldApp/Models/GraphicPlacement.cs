@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Esri.ArcGISRuntime.Geometry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Esri.ArcGISRuntime.Geometry;
 
 namespace GSCFieldApp.Models
 {
@@ -39,7 +39,7 @@ namespace GSCFieldApp.Models
         /// Some default offsets to start with
         /// </summary>
         public PlacementsStruct PlacementOffsets
-        { 
+        {
             get
             {
                 _placementOffsets.north = new Tuple<double, double>(0, 10.0);
@@ -207,7 +207,7 @@ namespace GSCFieldApp.Models
             {
                 return defaultAzimuthPlacement[3];
             }
-        
+
         }
         /// <summary>
         /// From a given placement enumeration value, will return it's associated priority

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
-using Windows.ApplicationModel.Store.Preview.InstallControl;
+using Windows.UI.Xaml.Documents;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -23,11 +23,12 @@ namespace GSCFieldApp.Services.DatabaseServices
         readonly Metadata metadataModel = new Metadata();
         readonly MineralAlteration minAlterationModel = new MineralAlteration();
         readonly EnvironmentModel envModel = new EnvironmentModel();
+        readonly DrillHole drillModel = new DrillHole();
         readonly DataAccess dAccess = new DataAccess();
 
         public DataIDCalculation()
         {
-            
+
         }
 
         #region MODEL BASE
@@ -52,14 +53,92 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             string locAlias = inStationAlias;
 
-            if (inStationAlias!=string.Empty)
+            if (inStationAlias != string.Empty)
             {
                 locAlias = locAlias + "XY";
             }
             else
             {
-                locAlias = CalculateStationAlias(DateTime.Now) + "XY";
+
+                //Get current geolcode
+                string currentGeolcode = localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoUCode).ToString();
+                if (localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID) != null)
+                {
+                    int currentMetaID = int.Parse(localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID).ToString());
+
+                    //Querying with Linq
+                    string locQuerySelect = "SELECT *";
+                    string locQueryFrom = " FROM " + DatabaseLiterals.TableLocation;
+
+                    string locQueryFinal = locQuerySelect + locQueryFrom;
+
+                    List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), locQueryFinal);
+                    IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
+                    IEnumerable<string> locations = from l in locationTable where l.MetaID == currentMetaID orderby l.LocationAlias descending select l.LocationAlias;
+
+                    //Get current year
+                    string currentDate = currentDate = DateTime.Now.Year.ToString();
+
+                    //Get initial station start number if needed
+                    int locationCount = locations.Count();
+                    int lastCharacterNumber = 0;
+
+                    //Get actual last alias and extract it's number
+                    if (locationCount > 0)
+                    {
+                        string lastAlias = locations.ToList()[0].ToString();
+                        List<char> lastCharacters = lastAlias.ToList();
+                        List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 6, 4);
+                        string lastNumber = string.Empty;
+                        foreach (char c in lastNumbers)
+                        {
+                            //Rebuild number
+                            lastNumber = lastNumber + c;
+                        }                    
+                    }
+
+                    //Increment
+                    locationCount = lastCharacterNumber + 1;
+                    
+                    //Padd current ID with 0 if needed
+                    string outputStringID = string.Empty;
+                    bool breaker = true;
+                    locAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + "XY"; //Ex: 16BEB001
+                    while (breaker)
+                    {
+                        if (locationCount < 10)
+                        {
+                            outputStringID = "000" + locationCount.ToString();
+                        }
+                        else if (locationCount >= 10 && locationCount < 100)
+                        {
+                            outputStringID = "00" + locationCount.ToString();
+                        }
+                        else if (locationCount >= 100 && locationCount < 1000)
+                        {
+                            outputStringID = "0" + locationCount.ToString();
+                        }
+                        else
+                        {
+                            outputStringID = locationCount.ToString();
+                        }
+
+                        locAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + "XY";
+
+                        IEnumerable<string> existinLocations = from l in locationTable where l.MetaID == currentMetaID && l.LocationAlias == locAlias orderby l.LocationAlias descending select l.LocationAlias;
+
+                        if (existinLocations.Count() == 0 || existinLocations == null)
+                        {
+                            breaker = false;
+                        }
+
+                        locationCount++;
+                    }
+
+                }
+
             }
+
 
             return locAlias;
         }
@@ -101,7 +180,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="currentID">The station ID to calculate the alias from</param>
         /// <param name="stationTime">The datetime object related to the station to get the year from</param>
         /// <returns></returns>
-        public string CalculateStationAlias(DateTime stationDate)
+        public string CalculateStationAlias(DateTime stationDate, bool followDrillAlias = true)
         {
 
             //Get current geolcode
@@ -141,22 +220,32 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     //Get actual last alias and extract it's number
                     string lastAlias = stations.ToList()[0].ToString();
-                    List<char> lastCharacters = lastAlias.ToList();
-                    List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 3, 3);
-                    string lastNumber = string.Empty;
-                    foreach (char c in lastNumbers)
-                    {
-                        //Rebuild number
-                        lastNumber = lastNumber + c;
-                    }
-                    int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+                    //Get last station number
+                    int StationNo = ExtractStationNoFromAlias(lastAlias);
 
                     //Increment
-                    stationCount = lastCharacterNumber + 1;
+                    stationCount = StationNo + 1;
+                }
+
+                //Get last drill number if needed
+                if (followDrillAlias)
+                {
+                    //Fake a drill alias
+                    string drillAlias = CalculateDrillAlias(stationDate, false);
+
+                    //Get drill no
+                    int drillNo = ExtractDrillNoFromAlias(drillAlias);
+
+                    //Verify if fake drill no is higher then actual station no
+                    if (stationCount < drillNo)
+                    {
+                        //If lower, then take drill no instead of station one so they both follow each other
+                        stationCount = drillNo;
+                    }
                 }
 
                 //Padd current ID with 0 if needed
-
                 string outputStringID = string.Empty;
                 bool breaker = true;
                 string finaleStationString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
@@ -197,12 +286,28 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 return String.Empty;
             }
-            
+           
+        }
 
+        /// <summary>
+        /// Will extract the drill hole number from a given alias
+        /// </summary>
+        /// <param name="drillAlias"></param>
+        /// <returns></returns>
+        public int ExtractStationNoFromAlias(string stationAlias)
+        {
+            //Get actual last alias and extract it's number
+            List<char> lastCharacters = stationAlias.ToList();
+            List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
+            string lastNumber = string.Empty;
+            foreach (char c in lastNumbers)
+            {
+                //Rebuild number
+                lastNumber = lastNumber + c;
+            }
+            int lastCharacterNumber = Convert.ToInt32(lastNumber);
 
-
-            
-
+            return lastCharacterNumber;
         }
 
         /// <summary>
@@ -219,7 +324,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string currentMetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
 
             //Build query to get a waypoint term count
-            string querySelect= "SELECT s." + Dictionaries.DatabaseLiterals.FieldStationAlias + " ";
+            string querySelect = "SELECT s." + Dictionaries.DatabaseLiterals.FieldStationAlias + " ";
             string queryFrom = "FROM " + Dictionaries.DatabaseLiterals.TableStation + " as s ";
             string queryWhere = "WHERE " + "s." + Dictionaries.DatabaseLiterals.FieldStationObsType + " LIKE '%" + waypointVocabCode + "%' ";
             string queryOrderBy = "ORDER BY s." + Dictionaries.DatabaseLiterals.FieldStationAlias + " DESC LIMIT 1";
@@ -268,6 +373,139 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
+        #region DRILL HOLE
+
+        /// <summary>
+        /// Will calculate a station alias name from a given station ID. Results: 16BEB001 (Year-Year-Geolcode-three digit number)
+        /// </summary>
+        /// <param name="currentID">The station ID to calculate the alias from</param>
+        /// <param name="stationTime">The datetime object related to the station to get the year from</param>
+        /// <returns></returns>
+        public string CalculateDrillAlias(DateTime fieldbookDate, bool followStationAlias = true)
+        {
+
+            string prefix = DatabaseLiterals.TableDrillHolePrefix;
+
+            //Get current geolcode
+            string currentGeolcode = localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoUCode).ToString();
+            if (localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID) != null)
+            {
+                int currentMetaID = int.Parse(localSetting.GetSettingValue(DatabaseLiterals.FieldUserInfoID).ToString());
+
+                //Querying with Linq
+                string drillQuerySelect = "SELECT *";
+                string drillQueryFrom = " FROM " + DatabaseLiterals.TableDrillHoles;
+
+                string drillQueryFinal = drillQuerySelect + drillQueryFrom;
+
+                List<object> locationTableRaw = dAccess.ReadTable(locationModel.GetType(), string.Empty);
+                List<object> drillTableRaw = dAccess.ReadTable(drillModel.GetType(), drillQueryFinal);
+
+                IEnumerable<DrillHole> drillTable = drillTableRaw.Cast<DrillHole>(); //Cast to proper list type
+                IEnumerable<FieldLocation> locationTable = locationTableRaw.Cast<FieldLocation>(); //Cast to proper list type
+                IEnumerable<string> drills = from d in drillTable join l in locationTable on d.DrillID equals l.LocationID where l.MetaID == currentMetaID orderby d.DrillIDName descending select d.DrillIDName;
+
+                //Get current year
+                string currentDate = currentDate = fieldbookDate.Year.ToString();
+
+                //Get initial station start number if needed
+                int drillCount = drills.Count();
+                if (drillCount == 0)
+                {
+                    drillCount = 1;
+                }
+                else
+                {
+                    string LastDrillAlias = drills.ToList()[0].ToString();
+                    int drillNo = ExtractDrillNoFromAlias(LastDrillAlias);
+
+                    //Increment
+                    drillCount = drillNo + 1;
+                }
+
+                //Get last station number if needed
+                if (followStationAlias)
+                {
+                    //Fake a station alias
+                    string stationAlias = CalculateStationAlias(fieldbookDate, false);
+
+                    //Get station no
+                    int stationNo = ExtractStationNoFromAlias(stationAlias);
+
+                    //Verify if fake station no is higher then actual drill no
+                    if (drillCount < stationNo)
+                    {
+                        //If lower, then take station no instead of drill one so they both follow each other
+                        drillCount = stationNo;
+                    }
+                }
+
+                //Padd current ID with 0 if needed
+                string outputStringID = string.Empty;
+                bool breaker = true;
+                string finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + prefix; //Ex: 16BEB001DH
+                while (breaker)
+                {
+                    if (drillCount < 10)
+                    {
+                        outputStringID = "000" + drillCount.ToString();
+                    }
+                    else if (drillCount >= 10 && drillCount < 100)
+                    {
+                        outputStringID = "00" + drillCount.ToString();
+                    }
+                    else if (drillCount >= 100 && drillCount < 1000)
+                    {
+                        outputStringID = "0" + drillCount.ToString();
+                    }
+                    else
+                    {
+                        outputStringID = drillCount.ToString();
+                    }
+
+                    finalDrillString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID + prefix;
+
+                    IEnumerable<DrillHole> existinStations = from d in drillTable join l in locationTable on d.DrillLocationID equals l.LocationID where l.MetaID == currentMetaID && d.DrillIDName == finalDrillString select d;
+
+                    if (existinStations.Count() == 0 || existinStations == null)
+                    {
+                        breaker = false;
+                    }
+
+                    drillCount++;
+                }
+
+                return finalDrillString;
+            }
+            else
+            {
+                return String.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Will extract the drill hole number from a given alias
+        /// </summary>
+        /// <param name="drillAlias"></param>
+        /// <returns></returns>
+        public int ExtractDrillNoFromAlias(string drillAlias)
+        {
+            //Get actual last alias and extract it's number
+            List<char> lastCharacters = drillAlias.ToList();
+            List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 6, 4);
+            string lastNumber = string.Empty;
+            foreach (char c in lastNumbers)
+            {
+                //Rebuild number
+                lastNumber = lastNumber + c;
+            }
+            int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+            return lastCharacterNumber;
+        }
+
+        #endregion
+
         #region EARTHMAT
         /// <summary>
         /// Will calculate an earthmat alias from a given parent id and parent alias.
@@ -275,31 +513,46 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public string CalculateEarthmatnAlias(int parentID, string parentAlias)
+        public string CalculateEarthmatnAlias(int? parentID, string parentAlias)
         {
+            //Variables
+            bool isDrillHole = false;
 
             //Querying with Linq
             List<object> earthmatTableRaw = dAccess.ReadTable(earthmatModel.GetType(), null);
             IEnumerable<EarthMaterial> earthmatTable = earthmatTableRaw.Cast<EarthMaterial>(); //Cast to proper list type
-            IEnumerable<string> eartmatParentStations = from e in earthmatTable where e.EarthMatStatID == parentID select e.EarthMatName;
+            IEnumerable<string> eartmatParents = from e in earthmatTable where e.EarthMatStatID == parentID select e.EarthMatName;
+
+            if (parentAlias.EndsWith(DatabaseLiterals.TableDrillHolePrefix))
+            {
+                eartmatParents = from e in earthmatTable where e.EarthMatDrillHoleID == parentID select e.EarthMatName;
+                isDrillHole = true;
+            }
+
 
             int startingNumber = 1;
             string finaleEarthmatString = parentAlias;
 
             //Detect last earthmat letter equivalent number and add 1 to it.
-            if (eartmatParentStations.Count() > 0)
+            if (eartmatParents.Count() > 0)
             {
-                string lastAlias = eartmatParentStations.ToList()[eartmatParentStations.Count() - 1].ToString(); 
+                string lastAlias = eartmatParents.ToList()[eartmatParents.Count() - 1].ToString(); 
                 string lastCharacter = lastAlias.ToList()[lastAlias.Length - 1].ToString();
 
                 //Find if last two are characters
                 string secondLastCharacter = lastAlias.ToList()[lastAlias.Length - 2].ToString();
-                int secondLastInteger = -1;
-                if (!int.TryParse(secondLastCharacter, out secondLastInteger))
+                string thirdLastCharacter = lastAlias.ToList()[lastAlias.Length - 3].ToString() + secondLastCharacter;
+                if (thirdLastCharacter != "DH")
                 {
-                    //Should be something like AB, AC, etc.
-                    lastCharacter = secondLastCharacter + lastCharacter;
+                    int secondLastInteger = -1;
+                    if (!int.TryParse(secondLastCharacter, out secondLastInteger))
+                    {
+                        //Should be something like AB, AC, etc.
+                        lastCharacter = secondLastCharacter + lastCharacter;
+                    }
                 }
+                
+
                 int lastCharacterNumber = CalculateNumberFromAlpha(lastCharacter);
 
                 //Find a non existing name
@@ -320,6 +573,11 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Find existing
                     IEnumerable<EarthMaterial> existingEarth = from s in earthmatTable where s.EarthMatStatID == parentID && s.EarthMatName == finaleEarthmatString select s;
+
+                    if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+                    {
+                        existingEarth = from e in earthmatTable where e.EarthMatDrillHoleID == parentID && e.EarthMatName == finaleEarthmatString select e;
+                    }
 
                     if (existingEarth.Count() == 0 || existingEarth == null)
                     {
@@ -392,7 +650,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleSampleString = parentAlias + newAlias;
 
                     //Find existing
-                    IEnumerable<Sample> existingSamples= from s in sampleTable where s.SampleEarthmatID == parentID && s.SampleName == finaleSampleString select s;
+                    IEnumerable<Sample> existingSamples = from s in sampleTable where s.SampleEarthmatID == parentID && s.SampleName == finaleSampleString select s;
                     if (existingSamples.Count() == 0 || existingSamples == null)
                     {
                         breaker = false;
@@ -442,7 +700,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Querying with Linq
             List<object> doctableRaw = dAccess.ReadTable(docModel.GetType(), null);
             IEnumerable<Document> docTable = doctableRaw.Cast<Document>(); //Cast to proper list type
-            IEnumerable<string> docParent = from d in docTable where d.RelatedID == parentID orderby d.DocumentName descending select d.DocumentName;
+            IEnumerable<string> docParent = from d in docTable where d.StationID == parentID orderby d.DocumentName descending select d.DocumentName;
+
+            if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+            {
+                docParent = from d in docTable where d.DrillHoleID == parentID orderby d.DocumentName descending select d.DocumentName;
+            }
 
             string newAlias = string.Empty;
             string finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix;
@@ -450,9 +713,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Detect last sample number and add 1 to it.
             if (docParent.Count() > 0)
             {
-                int lastNumber = docParent.ToList().Count(); //Select first element since the list has been sorted in descending order
-                //string lastNumberString = lastAlias.Substring(lastAlias.Length - 3); //Document only has three digits id in the alias
-                int newNumber = lastNumber + startingDocNumber;
+                string lastAlias = docParent.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
+                string lastNumberString = lastAlias.Substring(lastAlias.Length - 3); //Document only has three digits id in the alias
+                int newNumber = Convert.ToInt16(lastNumberString) + startingDocNumber;
+
                 bool breaker = true;
                 while (breaker)
                 {
@@ -473,7 +737,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
 
                     //Find existing
-                    IEnumerable<Document> existingDocument = from s in docTable where s.RelatedID == parentID && s.DocumentName == finaleDocumentString select s;
+                    IEnumerable<Document> existingDocument = from s in docTable where s.StationID == parentID && s.DocumentName == finaleDocumentString select s;
+
+                    if (parentAlias == DatabaseLiterals.TableDrillHoles)
+                    {
+                        existingDocument = from s in docTable where s.DrillHoleID == parentID && s.DocumentName == finaleDocumentString select s;
+                    }
+
                     if (existingDocument.Count() == 0 || existingDocument == null)
                     {
                         breaker = false;
@@ -669,7 +939,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             //Querying with Linq
             List<object> fossilTableRaw = dAccess.ReadTable(fossilModel.GetType(), null);
-            IEnumerable<Fossil>fossilTable = fossilTableRaw.Cast<Fossil>(); //Cast to proper list type
+            IEnumerable<Fossil> fossilTable = fossilTableRaw.Cast<Fossil>(); //Cast to proper list type
             IEnumerable<string> fossilParentEarth = from e in fossilTable where e.FossilParentID == parentID orderby e.FossilIDName descending select e.FossilIDName;
 
             int newID = 1; //Incrementing step
@@ -736,7 +1006,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             string finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix;
 
             //Detect last sample number and add 1 to it.
-            if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) !=null)
+            if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) != null)
             {
                 string lastAlias = mineralParentEarth.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
                 string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //Sample only has two digits id in the alias
@@ -805,7 +1075,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Querying with Linq
             List<object> maTableRaw = dAccess.ReadTable(minAlterationModel.GetType(), null);
             IEnumerable<MineralAlteration> maTable = maTableRaw.Cast<MineralAlteration>(); //Cast to proper list type
-            IEnumerable<string> maParentStations = from ma in maTable where ma.MAParentID == parentID orderby ma.MAName descending select ma.MAName;
+            IEnumerable<string> maParentStations = from ma in maTable where ma.MAStationID == parentID orderby ma.MAName descending select ma.MAName;
 
             int startingNumber = 1;
             string startingNumberStr = string.Empty;
@@ -833,7 +1103,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleMAString = parentAlias + prefix + startingNumberStr;
 
                     //Find existing
-                    IEnumerable<MineralAlteration> existingMA = from ma2 in maTable where ma2.MAParentID == parentID && ma2.MAName == finaleMAString select ma2;
+                    IEnumerable<MineralAlteration> existingMA = from ma2 in maTable where ma2.MAStationID == parentID && ma2.MAName == finaleMAString select ma2;
 
                     if (existingMA.Count() == 0 || existingMA == null)
                     {
@@ -966,7 +1236,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     id = alphaList[numID - 1];
                 }
-                
+
             }
             else
             {
@@ -1022,10 +1292,10 @@ namespace GSCFieldApp.Services.DatabaseServices
             int equivalentNumber = -1;
             string iterativeString = string.Empty;
 
-            while (alphaCharacter!= iterativeString)
+            while (alphaCharacter != iterativeString)
             {
                 equivalentNumber++;
-                iterativeString = CalculateAlphabeticID(true, equivalentNumber); 
+                iterativeString = CalculateAlphabeticID(true, equivalentNumber);
             }
 
             return equivalentNumber;
@@ -1058,6 +1328,40 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             
         }
+        #endregion
+
+        #region OTHERS
+
+        /// <summary>
+        /// Will format date according to needs
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public string FormatDate(DateTime dateTime)
+        {
+            return String.Format("{0:yyyy-MM-dd}", dateTime); ;
+        }
+
+        /// <summary>
+        /// Will format time accord to needs.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public string FormatTime(DateTime dateTime)
+        {
+            return String.Format("{0:HH:mm:ss t}", dateTime); ;
+        }
+
+        /// <summary>
+        /// Will format time with all values for a full time stamp
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public string FormatFullDate(DateTime dateTime)
+        {
+            return String.Format("{0:yyyy-MM-dd HH:mm:ss}", dateTime); ;
+        }
+
         #endregion
     }
 }

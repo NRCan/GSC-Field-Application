@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Template10.Mvvm;
-using Windows.Gaming.Input.ForceFeedback;
+using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace GSCFieldApp.ViewModels
 {
-    public class MineralViewModel: ViewModelBase
+    public class MineralViewModel : ViewModelBase
     {
         #region INITIALIZATION
 
@@ -32,9 +34,11 @@ namespace GSCFieldApp.ViewModels
         private int? _mineralMAID = null;
         private int? _mineralEMID = null;
 
-        private readonly Dictionary<int, int> _mineralResidualModes = new Dictionary<int, int>(); //Will contain mineral Id and it's mode, for residual mode calculation
+        private readonly List<int> _mineralResidualModes = new List<int>(); //Will contain mineral Id and it's mode, for residual mode calculation
         private readonly List<string> _minerals = new List<string>(); //Will contain a list of all minerals related to current parent earthmat. To catch duplicates
-    
+        private readonly string resourcenameErrorColor = "ErrorColor";
+        private readonly string resourcenameBlackColor = "DefaultForegroundColor";
+
         //UI interaction
         public bool doMineralUpdate = false;
 
@@ -47,7 +51,7 @@ namespace GSCFieldApp.ViewModels
         private string _selectedMineralOccur = string.Empty;
         private ObservableCollection<Themes.ComboBoxItem> _mineralModeText = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedMineralModeText = string.Empty;
-
+        private SolidColorBrush _residualTextForeground = new SolidColorBrush();
         //Model init
         private Mineral mineralModel = new Mineral();
         public DataIDCalculation mineralIDCalculator = new DataIDCalculation();
@@ -61,7 +65,7 @@ namespace GSCFieldApp.ViewModels
         #endregion
 
         #region PROPERTIES
-
+        public SolidColorBrush ResidualTextForeground { get { return _residualTextForeground; } set { _residualTextForeground = value; } }
         public Mineral MineralModel { get { return mineralModel; } set { mineralModel = value; } }
         public string MineralAlias { get { return _mineralAlias; } set { _mineralAlias = value; } }
         public string MineralNote { get { return _mineralNote; } set { _mineralNote = value; } }
@@ -143,7 +147,7 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<Themes.ComboBoxItem> MineralFormHabit { get { return _mineralFormHabit; } set { _mineralFormHabit = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralFormHabitValues { get { return _mineralFormHabitValues; } set { _mineralFormHabitValues = value; } }
         public string SelectedMineralFormHabit { get { return _selectedMineralFormHabit; } set { _selectedMineralFormHabit = value; } }
-        public ObservableCollection<Themes.ComboBoxItem> MineralOccur{ get { return _mineralOccur; } set { _mineralOccur = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> MineralOccur { get { return _mineralOccur; } set { _mineralOccur = value; } }
         public string SelectedMineralOccur { get { return _selectedMineralOccur; } set { _selectedMineralOccur = value; } }
         public ObservableCollection<Themes.ComboBoxItem> MineralModeText { get { return _mineralModeText; } set { _mineralModeText = value; } }
         public string SelectedMineralModeText { get { return _selectedMineralModeText; } set { _selectedMineralModeText = value; } }
@@ -151,6 +155,15 @@ namespace GSCFieldApp.ViewModels
 
         public MineralViewModel(FieldNotes inReportModel, bool forQuick = false)
         {
+            Color stc = new Color();
+
+            if (Application.Current.Resources[resourcenameBlackColor] != null)
+            {
+                stc = (Color)Application.Current.Resources[resourcenameBlackColor];
+            }
+
+            _residualTextForeground.Color = stc;
+            RaisePropertyChanged("ResidualTextForeground"); 
 
             //On init for new samples calculates values for default UI form
             if (inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableEarthMat || inReportModel.GenericTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
@@ -235,7 +248,7 @@ namespace GSCFieldApp.ViewModels
                 _mineralParentName = DatabaseLiterals.TableMineralAlteration;
                 _mineralMAID = existingDataDetailMineral.mineral.MineralMAID;
             }
-            
+
             _mineralAlias = existingDataDetailMineral.mineral.MineralIDName;
             _mineralName = existingDataDetailMineral.mineral.MineralName;
 
@@ -287,7 +300,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("SelectedMineralFormHabit");
             RaisePropertyChanged("SelectedMineralOccur");
             RaisePropertyChanged("SelectedMineralModeText");
-            
+
 
             doMineralUpdate = true;
         }
@@ -302,14 +315,14 @@ namespace GSCFieldApp.ViewModels
 
             //Get current class information and add to model
             mineralModel.MineralID = _mineralID; //Prime key
-            
+
             mineralModel.MineralIDName = _mineralAlias;
 
-            if (_mineralNote!= null && _mineralNote != String.Empty)
+            if (_mineralNote != null && _mineralNote != String.Empty)
             {
                 mineralModel.MineralNote = _mineralNote;
             }
-            
+
             mineralModel.MineralName = _mineralName;
 
             if (_mineralEMID != 0)
@@ -418,7 +431,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("MineralFormHabit");
-            RaisePropertyChanged("SelectedMineralFormHabit"); 
+            RaisePropertyChanged("SelectedMineralFormHabit");
         }
 
         /// <summary>
@@ -436,7 +449,7 @@ namespace GSCFieldApp.ViewModels
 
             //Update UI
             RaisePropertyChanged("MineralOccur");
-            RaisePropertyChanged("SelectedMineralOccur"); 
+            RaisePropertyChanged("SelectedMineralOccur");
         }
 
         #endregion
@@ -444,6 +457,8 @@ namespace GSCFieldApp.ViewModels
         #region CALCULATE
         public void CalculateResidual(string newMode = "")
         {
+            _mineralResidualModes.Clear();
+
             // Language localization using Resource.resw
             var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
             string Prefix = loadLocalization.GetString("MineralDialogResidualPrefix");
@@ -456,75 +471,111 @@ namespace GSCFieldApp.ViewModels
             //Get a list of related mineral from selected earthmat
             int parentID = existingDataDetailMineral.ParentID;
 
-            //Find proper parent id (request could come from a mineral or an earthmat selection or a minerlization alteration)
-            if (existingDataDetailMineral.ParentTableName == Dictionaries.DatabaseLiterals.TableStation)
-            {
-                parentID = existingDataDetailMineral.GenericID;
-            }
-            else if (existingDataDetailMineral.ParentTableName == Dictionaries.DatabaseLiterals.TableMineralAlteration)
-            {
-                parentID = existingDataDetailMineral.mineral.MineralMAID ?? default(int);
-            }
-            IEnumerable<Mineral> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID select e;
 
-            if (_mineralResidualModes.Count == 0 && (mineralParentEarth.Count() != 0 || mineralParentEarth != null))
+            //Filter with proper parents
+            IEnumerable<Mineral> mineralParent = from e in mineralTable where e.MineralEMID == parentID select e;
+            if (existingDataDetailMineral.ParentTableName == DatabaseLiterals.TableMineralAlteration)
             {
-                foreach (Mineral mns in mineralParentEarth)
+                mineralParent = from e in mineralTable where e.MineralMAID == parentID select e;
+            }
+            else if (existingDataDetailMineral.GenericTableName == DatabaseLiterals.TableMineralAlteration)
+            {
+                mineralParent = from e in mineralTable where e.MineralMAID == existingDataDetailMineral.GenericID select e;
+            }
+            else if (existingDataDetailMineral.GenericTableName == DatabaseLiterals.TableEarthMat)
+            {
+                mineralParent = from e in mineralTable where e.MineralEMID == existingDataDetailMineral.GenericID select e;
+            }
+
+            if (_mineralResidualModes.Count == 0 && (mineralParent.Count() != 0 || mineralParent != null))
+            {
+                foreach (Mineral mns in mineralParent)
                 {
-                    _minerals.Add(mns.MineralName);
+                    // _minerals.Add(ets.EarthMatID);
 
-                    bool currentModeParsed = int.TryParse(mns.MineralMode, out int currentPercentage);
-
-                    if (currentModeParsed)
+                    int currentPercentage = 0;
+                    if (mns.MineralMode != null)
                     {
-                        if (mns.MineralID == existingDataDetailMineral.GenericID)
+                        int.TryParse(mns.MineralMode, out currentPercentage);
+                    }
+                    ;
+                    bool currentPercentParsed = true;
+                    if (mns.MineralID == existingDataDetailMineral.GenericID)
+                    {
+                        if (newMode != string.Empty)
                         {
-                            if (newMode != string.Empty)
-                            {
-                                currentModeParsed = int.TryParse(newMode, out currentPercentage);
-                            }
-
-                            if (currentModeParsed)
-                            {
-                                _mineralResidualModes[mns.MineralID] = currentPercentage;
-                            }
-
+                            currentPercentParsed = int.TryParse(newMode, out currentPercentage);
                         }
-                        else
-                        {
-                            if (currentModeParsed)
-                            {
-                                _mineralResidualModes[mns.MineralID] = currentPercentage;
-                            }
 
+                        if (currentPercentParsed && currentPercentage != 0)
+                        {
+                            _mineralResidualModes.Add(currentPercentage);
+                        }
+
+                    }
+                    else
+                    {
+                        if (currentPercentParsed && currentPercentage != 0)
+                        {
+                            _mineralResidualModes.Add(currentPercentage);
                         }
                     }
-
-                   
                 }
 
-                if (_mineralResidualModes.Count() == 0)
-                {
-                    bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
-                    _mineralResidualModes[existingDataDetailMineral.GenericID] = currentPercentage;
-                }
+                //if (_mineralResidualModes.Count() == 0)
+                //{
+                //    int currentPercentage = 0;
+                //    bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                //    _mineralResidualModes.Add(currentPercentage);
+                //}
 
             }
             else
             {
-                bool currentModeParsed = int.TryParse(newMode, out int currentPercentage);
-                _mineralResidualModes[existingDataDetailMineral.GenericID] = currentPercentage;
+                int currentPercentage = 0;
+                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                _mineralResidualModes.Add(currentPercentage);
             }
 
+            if (newMode != string.Empty)
+            {
+                int currentPercentage = 0;
+                bool currentModeParsed = int.TryParse(newMode, out currentPercentage);
+                _mineralResidualModes.Add(currentPercentage);
+            }
 
             //Calculate total percentage
             int _mineralResidualMode = 0;
-            foreach (KeyValuePair<int, int> modes in _mineralResidualModes)
+            foreach (int modes in _mineralResidualModes)
             {
-                _mineralResidualMode = _mineralResidualMode + modes.Value;
+                _mineralResidualMode = _mineralResidualMode + modes;
             }
             _mineralResidualText = Prefix + _mineralResidualMode.ToString() + MiddleFix + _mineralResidualModes.Count().ToString() + Suffix;
             RaisePropertyChanged("MineralResidualText");
+
+            //Validate over percentage
+            Color stc = new Color();
+            if (_mineralResidualMode > 100)
+            {
+                
+                if (Application.Current.Resources[resourcenameErrorColor] != null)
+                {
+                    stc = (Color)Application.Current.Resources[resourcenameErrorColor];
+                }
+
+                _residualTextForeground.Color = stc;
+            }
+            else
+            {
+                if (Application.Current.Resources[resourcenameBlackColor] != null)
+                {
+                    stc = (Color)Application.Current.Resources[resourcenameBlackColor];
+                }
+
+                _residualTextForeground.Color = stc;
+            }
+
+            RaisePropertyChanged("ResidualTextForeground");
 
         }
         #endregion
@@ -584,7 +635,7 @@ namespace GSCFieldApp.ViewModels
                 Themes.ComboBoxItem senderItem = senderBox.SelectedItem as Themes.ComboBoxItem;
                 CalculateResidual(senderItem.itemValue);
             }
-            
+
         }
 
         /// <summary>

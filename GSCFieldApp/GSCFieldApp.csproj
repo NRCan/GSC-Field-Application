@@ -148,6 +148,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="GSCFieldApp_TemporaryKey.pfx" />
+    <Content Include="ModelResources\GSCFieldwork_v170.gpkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="ModelResources\Readme.md" />
     <None Include="Models\Readme.md" />
     <None Include="project.json" />
@@ -167,6 +170,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BitmapSourceConverter.cs" />
+    <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\String2Integer.cs" />
     <Compile Include="Converters\String2Double.cs" />
     <Compile Include="Converters\TextWithDegreeConverter.cs" />
@@ -186,12 +190,12 @@
     <Compile Include="Converters\VisibilityFromReverseBoolConverter.cs" />
     <Compile Include="Converters\WidthFromVisibility.cs" />
     <Compile Include="Dictionaries\DatabaseLiterals.cs" />
-    <Compile Include="Dictionaries\ScienceLiterals.cs" />
     <Compile Include="Dictionaries\ApplicationLiterals.cs" />
     <Compile Include="ESRIRuntimeLicence.cs" />
     <Compile Include="Models\Contacts.cs" />
     <Compile Include="Models\Colour.cs" />
     <Compile Include="Models\DD2DMS.cs" />
+    <Compile Include="Models\DrillHole.cs" />
     <Compile Include="Models\EnvironmentModel.cs" />
     <Compile Include="Models\GraphicPlacement.cs" />
     <Compile Include="Models\MapPageLayers.cs" />
@@ -229,6 +233,7 @@
     <Compile Include="Services\SettingsServices\SettingsService.cs" />
     <Compile Include="Converters\PicklistDescriptionConverter.cs" />
     <Compile Include="ViewModels\DocumentViewModel.cs" />
+    <Compile Include="ViewModels\DrillHoleViewModel.cs" />
     <Compile Include="ViewModels\EarthmatViewModel.cs" />
     <Compile Include="ViewModels\FossilViewModel.cs" />
     <Compile Include="ViewModels\LocationViewModel.cs" />
@@ -254,6 +259,9 @@
     </Compile>
     <Compile Include="Views\DocumentDialog.xaml.cs">
       <DependentUpon>DocumentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DrillHoleDialog.xaml.cs">
+      <DependentUpon>DrillHoleDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EarthmatDialog.xaml.cs">
       <DependentUpon>EarthmatDialog.xaml</DependentUpon>
@@ -344,6 +352,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DocumentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DrillHoleDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -453,6 +465,12 @@
     </PackageReference>
     <PackageReference Include="Template10">
       <Version>1.1.13-preview-20161207</Version>
+    </PackageReference>
+    <PackageReference Include="xunit.extensibility.core">
+      <Version>2.5.3</Version>
+    </PackageReference>
+    <PackageReference Include="xunit.extensibility.execution">
+      <Version>2.5.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
