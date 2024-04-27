@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Provider;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -207,58 +209,141 @@ namespace GSCFieldApp.Services.FileServices
         /// <returns></returns>
         public async Task<string> SaveArchiveCopy(string fieldbookpath = "", string currentUserCode = "", string prefix = "")
         {
-            if (fieldbookpath == string.Empty)
+            try
             {
-                fieldbookpath = localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString();
-            }
-
-            string zipFile = CalculateDBCopyName(currentUserCode) + ".zip";
-
-            //Variables
-            string outputZipPhotoFilePath = string.Empty;
-
-            //Create a file save picker for sqlite
-            var fSavePicker = new Windows.Storage.Pickers.FileSavePicker
-            {
-                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
-            };
-            fSavePicker.FileTypeChoices.Add("zip", new List<string>() { ".zip" });
-            fSavePicker.DefaultFileExtension = ".zip";
-            fSavePicker.SuggestedFileName = prefix + zipFile.Split('.')[0];
-
-            //Get users selected save files
-            StorageFile saveArchiveFile = await fSavePicker.PickSaveFileAsync(); //This will save an empty file at the location user has selected
-            if (zipFile != null)
-            {
-                if (saveArchiveFile != null)
+                if (fieldbookpath == string.Empty)
                 {
-                    if (saveArchiveFile != null && saveArchiveFile.Path != null)
-                    {
-                        outputZipPhotoFilePath = saveArchiveFile.Path;
-                    }
-
-                    //Delete empty shell file else zip will fail
-                    await saveArchiveFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-
-                    //Save
-                    ZipFile.CreateFromDirectory(fieldbookpath, outputZipPhotoFilePath);
-
-                    //Show end message
-                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
-                    ContentDialog endProcessDialog = new ContentDialog()
-                    {
-                        Title = loadLocalization.GetString("SaveDBDialogTitle"),
-                        Content = loadLocalization.GetString("SaveDBDialogContent") + "\n" + outputZipPhotoFilePath.ToString(),
-                        PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
-                    };
-
-                    ContentDialogResult cdr = await endProcessDialog.ShowAsync();
+                    fieldbookpath = localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString();
                 }
+
+                string zipFile = CalculateDBCopyName(currentUserCode) + ".zip";
+
+                //Variables
+                string outputZipPhotoFilePath = string.Empty;
+
+                //Create a file save picker for sqlite
+                var fSavePicker = new Windows.Storage.Pickers.FileSavePicker
+                {
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                };
+                fSavePicker.FileTypeChoices.Add("zip", new List<string>() { ".zip" });
+                fSavePicker.DefaultFileExtension = ".zip";
+                fSavePicker.SuggestedFileName = prefix + zipFile.Split('.')[0];
+
+                //Get users selected save files
+                StorageFile saveArchiveFile = await fSavePicker.PickSaveFileAsync();
+
+                //This will save an empty file at the location user has selected
+                if (zipFile != null)
+                {
+                    string tempDir = Directory.GetParent(fieldbookpath).ToString();
+                    string tempZip = Path.Combine(tempDir, zipFile);
+                    ZipFile.CreateFromDirectory(fieldbookpath, tempZip);
+
+                    if (saveArchiveFile != null)
+                    {
+                        //if (saveArchiveFile != null && saveArchiveFile.Path != null)
+                        //{
+                        //    outputZipPhotoFilePath = saveArchiveFile.Path.ToString();
+                        //}
+
+                        //// write to file
+                        //await FileIO.WriteTextAsync(saveArchiveFile, saveArchiveFile.Name);
+                        //// Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                        //// Completing updates may require Windows to ask for user input.
+                        //FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(saveArchiveFile);
+                        //if (status == FileUpdateStatus.Complete)
+                        //{
+                        //    //Save
+                        //    string tempDir = Directory.GetParent(fieldbookpath).ToString();
+                        //    string tempZip = Path.Combine(tempDir, zipFile);
+                        //    ZipFile.CreateFromDirectory(fieldbookpath, tempZip);
+
+                        //    //Copy and clean
+                        //    File.Copy(tempZip, "D:\\test.zip", true);
+                        //    File.Delete(tempZip);
+
+                        //}
+
+                        StorageFile arhiveToRead = await StorageFile.GetFileFromPathAsync(tempZip);
+                        if (arhiveToRead != null)
+                        {
+                            //IBuffer currentArchiveBuffer = await Windows.Storage.FileIO.ReadBufferAsync(arhiveToRead as IStorageFile);
+                            //byte[] currentArchiveByteArray = currentArchiveBuffer.ToArray();
+                            
+                            const int ChunkSize = 1024 * 1024 * 16; // process in chunks of 4MB:
+                            
+                            if (saveArchiveFile != null)
+                            {
+                                outputZipPhotoFilePath = saveArchiveFile.Path;
+
+                                //Lock the file
+                                Windows.Storage.CachedFileManager.DeferUpdates(saveArchiveFile);
+
+                                //Save
+                                using (BinaryWriter fileWriter = new BinaryWriter(await saveArchiveFile.OpenStreamForWriteAsync()))
+                                {
+                                    using (BinaryReader fileReader = new BinaryReader(await arhiveToRead.OpenStreamForReadAsync()))
+                                    {
+                                        byte[] buffer = new byte[ChunkSize];
+                                        Int64 readCount = 0;
+                                        while (readCount < fileReader.BaseStream.Length)
+                                        {
+                                            int read = fileReader.Read(buffer, 0, buffer.Length);
+                                            readCount += read;
+                                            fileWriter.Write(buffer, 0, read);
+                                            fileWriter.Flush();
+                                            
+                                        }
+                                    }
+                                }
+
+                                Windows.Storage.Provider.FileUpdateStatus status = await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(saveArchiveFile);
+                                if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+                                {
+
+                                    //Show end message
+                                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                                    ContentDialog endProcessDialog = new ContentDialog()
+                                    {
+                                        Title = loadLocalization.GetString("SaveDBDialogTitle"),
+                                        Content = loadLocalization.GetString("SaveDBDialogContent") + "\n" + outputZipPhotoFilePath.ToString(),
+                                        PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
+                                    };
+
+                                    ContentDialogResult cdr = await endProcessDialog.ShowAsync();
+                                }
+                                else
+                                {
+                                    //Show error message
+                                    var loadLocalization = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
+                                    ContentDialog endProcessDialog = new ContentDialog()
+                                    {
+                                        Title = loadLocalization.GetString("SaveDBDialogTitle"),
+                                        Content = loadLocalization.GetString("SaveDBDialogContentError"),
+                                        PrimaryButtonText = loadLocalization.GetString("LoadDataButtonProcessEndMessageOk")
+                                    };
+
+                                    ContentDialogResult cdr = await endProcessDialog.ShowAsync();
+                                }
+
+
+                            }
+                        }
+
+                    }
+                }
+
+                return outputZipPhotoFilePath;
+
             }
+            catch (Exception e)
+            {
+                new ErrorLogToFile(e).WriteToFile();
 
-            
-
-            return outputZipPhotoFilePath;
+                return "";
+            }
+ 
         }
 
         /// <summary>
