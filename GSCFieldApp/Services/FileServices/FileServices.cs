@@ -242,28 +242,6 @@ namespace GSCFieldApp.Services.FileServices
 
                     if (saveArchiveFile != null)
                     {
-                        //if (saveArchiveFile != null && saveArchiveFile.Path != null)
-                        //{
-                        //    outputZipPhotoFilePath = saveArchiveFile.Path.ToString();
-                        //}
-
-                        //// write to file
-                        //await FileIO.WriteTextAsync(saveArchiveFile, saveArchiveFile.Name);
-                        //// Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
-                        //// Completing updates may require Windows to ask for user input.
-                        //FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(saveArchiveFile);
-                        //if (status == FileUpdateStatus.Complete)
-                        //{
-                        //    //Save
-                        //    string tempDir = Directory.GetParent(fieldbookpath).ToString();
-                        //    string tempZip = Path.Combine(tempDir, zipFile);
-                        //    ZipFile.CreateFromDirectory(fieldbookpath, tempZip);
-
-                        //    //Copy and clean
-                        //    File.Copy(tempZip, "D:\\test.zip", true);
-                        //    File.Delete(tempZip);
-
-                        //}
 
                         StorageFile arhiveToRead = await StorageFile.GetFileFromPathAsync(tempZip);
                         if (arhiveToRead != null)
