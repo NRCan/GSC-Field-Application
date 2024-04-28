@@ -361,16 +361,19 @@ namespace GSCFieldApp.ViewModels
 
                     try
                     {
-                        await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                        //Pop airplane mode warning only if user has GPS enabled within map page
+                        if (!userHasTurnedGPSOff)
                         {
-                            await CheckAirplaneMode();
-                        }).AsTask();
-
+                            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                            {
+                                await CheckAirplaneMode();
+                            }).AsTask();
+                        }
 
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-
+                        new ErrorLogToFile(e).WriteToFile();
                     }
                     await Task.Delay(5000);
 
