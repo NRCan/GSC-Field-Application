@@ -118,8 +118,6 @@ namespace GSCFieldApp.Views
                 ViewModel.SetSelectedStationFromMapPage();
                 navFromMapPage = false;
             }
-
-
         }
 
         /// <summary>
@@ -132,6 +130,11 @@ namespace GSCFieldApp.Views
             if (navFromMapPage || this.ViewModel.ReportDateItems.Count == 0)
             {
                 this.ViewModel.FillSummaryReportDateItems();
+                this.ViewModel.FillDrill();
+            }
+            else
+            {
+                this.ViewModel.FillStationFromList();
                 this.ViewModel.FillDrill();
             }
 
