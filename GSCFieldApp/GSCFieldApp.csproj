@@ -8,6 +8,7 @@
 		<OutputType>Exe</OutputType>
 		<RootNamespace>GSCFieldApp</RootNamespace>
 		<UseMaui>true</UseMaui>
+		<UseMauiEssentials>true</UseMauiEssentials>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
@@ -31,7 +32,7 @@
 		<DefaultLanguage>en</DefaultLanguage>
 		<GenerateAppInstallerFile>True</GenerateAppInstallerFile>
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-		<PackageCertificateThumbprint>14CF0ECF911C8A37CF0E2EF4F8E06F25425B80C1</PackageCertificateThumbprint>
+		<PackageCertificateThumbprint>C0079599675A235D4F2C81071D93246CB90E461D</PackageCertificateThumbprint>
 		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
@@ -310,7 +311,9 @@
 	<ItemGroup>
 		<PackageReference Include="BruTile" Version="5.0.6" />
 		<PackageReference Include="BruTile.MbTiles" Version="5.0.6" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="GeoAPI.CoordinateSystems" Version="2.0.0-nuget005" />
 		<PackageReference Include="HarfBuzzSharp" Version="8.3.0-preview.2.1" />
@@ -322,6 +325,7 @@
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.0-preview.2.24128.4" />
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.0-preview.2.24128.4" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0-preview.2.24128.5" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.21" />
 		<PackageReference Include="NetTopologySuite" Version="2.5.0" />
 		<PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="4.0.0" />
 		<PackageReference Include="NetTopologySuite.IO.GeoPackage" Version="2.0.0" />
@@ -388,12 +392,6 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>LocalizableStrings.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.0-preview.2.10293" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="9.0.0-preview.2.10293" />
 	</ItemGroup>
 
 </Project>

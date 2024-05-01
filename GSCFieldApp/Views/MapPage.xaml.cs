@@ -1,22 +1,10 @@
 using GSCFieldApp.ViewModel;
-using Mapsui.Rendering.Skia;
 using Mapsui.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Mapsui.Logging;
 using Mapsui.Styles;
 using Mapsui.UI.Maui;
 using Mapsui.Layers;
 using Mapsui.Projections;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Dispatching;
-using Mapsui.Widgets;
-using CommunityToolkit.Mvvm.Input;
-using BruTile.Tms;
 using BruTile;
 using SQLite;
 using BruTile.MbTiles;
@@ -24,25 +12,17 @@ using Mapsui.Tiling.Layers;
 using Mapsui;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Models;
-using System.Collections;
 using GSCFieldApp.Dictionaries;
-using System.IO;
 using Color = Mapsui.Styles.Color;
 using Brush = Mapsui.Styles.Brush;
 using Mapsui.UI.Maui.Extensions;
-using static GSCFieldApp.Models.GraphicPlacement;
 using GSCFieldApp.Services;
 using BruTile.Predefined;
 using Mapsui.Extensions.Cache;
 using BruTile.Web;
 using BruTile.Wmsc;
-using Mapsui.Animations;
-using BruTile.Wms;
 using System.Collections.ObjectModel;
-using Microsoft.Maui.Animations;
 using Mapsui.Providers.Wms;
-using NTS = NetTopologySuite;
-using Microsoft.Maui.Devices.Sensors;
 
 namespace GSCFieldApp.Views;
 
@@ -762,7 +742,8 @@ public LocalizationResourceManager LocalizationResourceManager
         try
         {
             Geolocation.LocationChanged += Geolocation_LocationChanged;
-            GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Best, TimeSpan.FromMilliseconds(500));
+            GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.High, TimeSpan.FromMilliseconds(750));
+
             var success = await Geolocation.StartListeningForegroundAsync(request);
             
             string status = success
@@ -806,12 +787,12 @@ public LocalizationResourceManager LocalizationResourceManager
         try
         {
             // check if I should update location
-            if (!_updateLocation)
+            if (_updateLocation)
             {
                 MapViewModel vm = this.BindingContext as MapViewModel;
                 vm.RefreshCoordinates(e.Location);
 
-                await SetMapAccuracyColor(e.Location.Accuracy);
+                //await SetMapAccuracyColor(e.Location.Accuracy);
 
                 mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Location.Latitude, e.Location.Longitude));
                 mapView.RefreshGraphics();
@@ -844,10 +825,10 @@ public LocalizationResourceManager LocalizationResourceManager
     /// </summary>
     public async Task StopGPSAsync()
     {
-        if (_isCheckingGeolocation && _cancelTokenSource != null && _cancelTokenSource.IsCancellationRequested == false)
+        if (_isCheckingGeolocation)
         {
             await SetMapAccuracyColor(-99);
-            //_isCheckingGeolocation = false;
+            _isCheckingGeolocation = false;
             //_cancelTokenSource.Cancel();
 
             try
