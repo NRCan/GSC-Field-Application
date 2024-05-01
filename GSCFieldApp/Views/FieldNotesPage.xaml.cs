@@ -1,4 +1,5 @@
 ﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.ViewModels;
 using System.ComponentModel;
@@ -91,9 +92,9 @@ namespace GSCFieldApp.Views
                     this.ViewModel.FillSummaryReportDateItems(); //Refill station based on new selected date
                     localSetting.SetSettingValue("forceNoteRefresh", false);
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
-
+                    new ErrorLogToFile(ex).WriteToFile();
                 }
 
             }
@@ -117,8 +118,6 @@ namespace GSCFieldApp.Views
                 ViewModel.SetSelectedStationFromMapPage();
                 navFromMapPage = false;
             }
-
-
         }
 
         /// <summary>
@@ -131,6 +130,11 @@ namespace GSCFieldApp.Views
             if (navFromMapPage || this.ViewModel.ReportDateItems.Count == 0)
             {
                 this.ViewModel.FillSummaryReportDateItems();
+                this.ViewModel.FillDrill();
+            }
+            else
+            {
+                this.ViewModel.FillStationFromList();
                 this.ViewModel.FillDrill();
             }
 

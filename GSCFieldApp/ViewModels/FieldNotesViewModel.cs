@@ -3420,9 +3420,16 @@ namespace GSCFieldApp.ViewModels
 
             if (_reportStationIndex == -1 && _reportDrillIndex == -1)
             {
-                _earthmatAddIconOpacity = disableOpacity;
-                _earthmatAddIconColor.Color = GetTableColor(string.Empty);
-                EmptyStationChilds();
+                //Prevent from launching multiple times
+                if (_earthmatAddIconOpacity != disableOpacity)
+                {
+                    _earthmatAddIconOpacity = disableOpacity;
+                    _earthmatAddIconColor.Color = GetTableColor(string.Empty);
+
+                    EmptyStationChilds();
+                    
+                }
+                
             }
 
             #region UPDATE UI

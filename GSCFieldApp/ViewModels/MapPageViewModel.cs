@@ -352,27 +352,34 @@ namespace GSCFieldApp.ViewModels
                 case PositionStatus.NoData:
                     //// Location platform could not obtain location data.
 
-                    if (!_progressRingActive)
+                    if (!userHasTurnedGPSOff)
                     {
-                        StartLocationRing();
-                        ResetLocationGraphic();
-                    }
-
-
-                    try
-                    {
-                        await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                        if (!_progressRingActive)
                         {
-                            await CheckAirplaneMode();
-                        }).AsTask();
+                            StartLocationRing();
+                            ResetLocationGraphic();
+                        }
 
 
+                        try
+                        {
+                            //Pop airplane mode warning only if user has GPS enabled within map page
+                            if (!userHasTurnedGPSOff)
+                            {
+                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                                {
+                                    await CheckAirplaneMode();
+                                }).AsTask();
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorLogToFile(e).WriteToFile();
+                        }
+                        await Task.Delay(5000);
                     }
-                    catch (Exception)
-                    {
-
-                    }
-                    await Task.Delay(5000);
+  
 
                     break;
 
