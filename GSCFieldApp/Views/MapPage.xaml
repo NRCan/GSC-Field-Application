@@ -108,7 +108,7 @@
                 <Label Text="{Binding sensorLocation.Longitude, Converter={StaticResource DD2DMS}, ConverterParameter='Longitude', Mode=OneWay}"/>
                 <Label Text="&#160;&#160;&#160;"/>
                 <Label Text="{Binding sensorLocation.Altitude, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
-                <Label Text="&#160;&#160;&#160;"/>
+                <Label Text="&#160;&#160;&#160;&#160;"/>
                 <Label Text="{Binding sensorLocation.Accuracy, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
             </HorizontalStackLayout>
 
