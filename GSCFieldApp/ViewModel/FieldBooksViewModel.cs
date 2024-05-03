@@ -291,7 +291,15 @@ namespace GSCFieldApp.ViewModel
                 {
                     //Make sure to remove empty file
                     //This could happen if something went wrong with a database save
-                    fi.Delete();
+                    try
+                    {
+                        fi.Delete();
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                    
                 }
 
                 

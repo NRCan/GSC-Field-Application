@@ -15,9 +15,6 @@ namespace GSCFieldApp;
 public partial class AppShell : Shell
 {
     public ICommand NavigateToSettingsCommand { get; private set; }
-    public ICommand NavigateToFieldBooksCommand { get; private set; }
-    public ICommand NavigateToFieldNotesCommand { get; private set; }
-    public ICommand NavigateToMapCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
 
     public AppShell()
@@ -37,21 +34,6 @@ public partial class AppShell : Shell
         NavigateToSettingsCommand = new Command(async () => {
             //await GoToAsync(nameof(SettingsPage));
             await DisplayAlert("Alert", "Not yet implemented", "OK");
-        });
-
-        //Will be used to navigate to field books page
-        NavigateToFieldBooksCommand = new Command(async () => {
-            await GoToAsync("/" + nameof(FieldBooksPage));
-        });
-
-        //Will be used to navigate to field books page
-        NavigateToFieldNotesCommand = new Command(async () => {
-            await GoToAsync("/" + nameof(FieldNotesPage));
-        });
-
-        //Will be used to navigate to field books page
-        NavigateToMapCommand = new Command(async () => {
-            await GoToAsync("/" + nameof(MapPage));
         });
 
         //Will be used to trigger a backup process

@@ -12,23 +12,26 @@
             Title="GSC Field App" FlyoutItemIsVisible="True" 
             ContentTemplate="{DataTemplate views:FieldBooksPage}"/>
 
-    <MenuItem Text="{local:Localize ShellFieldBooksTitle}" Command="{Binding NavigateToFieldBooksCommand}">
-        <MenuItem.IconImageSource>
+    <FlyoutItem Title="{local:Localize ShellFieldBooksTitle}">
+        <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF125F;" FontFamily="MatDesign" Color="Black"/>
-        </MenuItem.IconImageSource>
-    </MenuItem>
+        </FlyoutItem.FlyoutIcon>
+        <ShellContent ContentTemplate="{DataTemplate views:FieldBooksPage}"/>
+    </FlyoutItem>
 
-    <MenuItem Text="{local:Localize ShellFieldNotesTitle}" Command="{Binding NavigateToFieldNotesCommand}">
-        <MenuItem.IconImageSource>
+    <FlyoutItem Title="{local:Localize ShellFieldNotesTitle}">
+        <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF039B;" FontFamily="MatDesign" Color="Black"/>
-        </MenuItem.IconImageSource>
-    </MenuItem>
+        </FlyoutItem.FlyoutIcon>
+        <ShellContent ContentTemplate="{DataTemplate views:FieldNotesPage}"/>
+    </FlyoutItem>
 
-    <MenuItem Text="{local:Localize ShellMapTitle}" Command="{Binding NavigateToMapCommand}">
-        <MenuItem.IconImageSource>
+    <FlyoutItem Title="{local:Localize ShellMapTitle}">
+        <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF01E7;" FontFamily="MatDesign" Color="Black"/>
-        </MenuItem.IconImageSource>
-    </MenuItem>
+        </FlyoutItem.FlyoutIcon>
+        <ShellContent ContentTemplate="{DataTemplate views:MapPage}"/>
+    </FlyoutItem>
 
     <MenuItem Text="{local:Localize ShellQuickBackupTitle}" Command="{Binding DoBackupCommand}" >
         <MenuItem.IconImageSource>
@@ -41,5 +44,5 @@
             <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="Black"/>
         </MenuItem.IconImageSource>
     </MenuItem>
-        
+
 </Shell>
