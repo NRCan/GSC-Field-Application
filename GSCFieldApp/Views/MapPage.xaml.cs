@@ -183,48 +183,6 @@ public LocalizationResourceManager LocalizationResourceManager
 
     }
 
-    /// <summary>
-    /// New informations from Geolocator arrived
-    /// </summary>        
-    /// <param name="e">Event arguments for new position</param>
-    [SuppressMessage("Usage", "VSTHRD100:Avoid async void methods")]
-    private async void MyLocationPositionChanged(Location e)
-    {
-        try
-        {
-            // check if I should update location
-            if (!_updateLocation)
-                return;
-
-            await Application.Current?.Dispatcher?.DispatchAsync(async () =>
-            {
-                MapViewModel vm = this.BindingContext as MapViewModel;
-                vm.RefreshCoordinates(e);
-
-                await SetMapAccuracyColor(e.Accuracy);
-
-                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Latitude, e.Longitude));
-                mapView.RefreshGraphics();
-
-                if (e.Course != null)
-                {
-                    mapView?.MyLocationLayer.UpdateMyDirection(e.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                }
-
-                if (e.Speed != null)
-                {
-                    mapView?.MyLocationLayer.UpdateMySpeed(e.Speed.Value);
-                }
-
-            })!;
-        }
-        catch (System.Exception ex)
-        {
-            await DisplayAlert("Alert", ex.Message, "OK");
-            //Logger.Log(LogLevel.Error, ex.Message, ex);
-        }
-    }
-
     private void mapView_MapClicked(object sender, MapClickedEventArgs e)
     {
         //Make sure to disable map layer frame
