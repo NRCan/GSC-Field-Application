@@ -48,6 +48,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldLocationReportLink = "REPORT_LINK"; //Version < 1.5; back in version 1.7 stolen from station
         public const string FieldLocationNTS = "NTS"; //Version 1.6
         public const string FieldLocationEPSGProj = "EPSG_PROJ"; //Version 1.8
+        public const string FieldLocationTimestamp = "LOCATIONTIMESTAMP"; //Version 1.8
 
         public const string FieldUserInfoID = "METAID";//Version 1.0
         public const string FieldUserInfoUCode = "GEOLCODE";//Version 1.0
