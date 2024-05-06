@@ -349,7 +349,7 @@
 		<PackageReference Include="BruTile.MbTiles" Version="5.0.6" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="GeoAPI.CoordinateSystems" Version="2.0.0-nuget005" />
 		<PackageReference Include="HarfBuzzSharp" Version="8.3.0-preview.2.1" />

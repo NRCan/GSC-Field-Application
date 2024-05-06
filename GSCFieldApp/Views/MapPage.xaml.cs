@@ -23,6 +23,7 @@ using BruTile.Web;
 using BruTile.Wmsc;
 using System.Collections.ObjectModel;
 using Mapsui.Providers.Wms;
+using Microsoft.Maui.Devices.Sensors;
 
 namespace GSCFieldApp.Views;
 
@@ -30,7 +31,6 @@ public partial class MapPage : ContentPage
 {
     //private CancellationTokenSource? gpsCancelation;
     private CancellationTokenSource _cancelTokenSource;
-    private bool _updateLocation = true;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
     private GeopackageService geopackService = new GeopackageService();
@@ -691,119 +691,6 @@ public LocalizationResourceManager LocalizationResourceManager
     }
 
     /// <summary>
-    /// Will start the GPS
-    /// </summary>
-    public async Task StartGPS()
-    {
-        _isCheckingGeolocation = true;
-
-        try
-        {
-            Geolocation.LocationChanged += Geolocation_LocationChanged;
-            GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.High, TimeSpan.FromMilliseconds(750));
-
-            var success = await Geolocation.StartListeningForegroundAsync(request);
-            
-            string status = success
-                    ? "Started listening for foreground location updates"
-                    : "Couldn't start listening";
-
-
-        }
-        catch (System.Exception e)
-        {
-
-            await MainThread.InvokeOnMainThreadAsync(async () =>
-            {
-                //Manage restricted access to other problems
-                if (e.Message.ToLower().Contains("denied"))
-                {
-                    //Tell user app doesn't have access to location
-                    bool answer = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        LocalizationResourceManager["DisplayAlertGPSMessage"].ToString(),
-                        LocalizationResourceManager["GenericButtonYes"].ToString(),
-                        LocalizationResourceManager["GenericButtonNo"].ToString());
-
-                    if (answer == true)
-                    {
-                        AppInfo.Current.ShowSettingsUI();
-                    }
-                }
-                else
-                {
-                    //Generic error message regarding GPS
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPS"].ToString(), e.Message,
-                                            LocalizationResourceManager["GenericButtonOk"].ToString());
-                }
-
-            });
-        }
-    }
-
-    private async void Geolocation_LocationChanged(object sender, GeolocationLocationChangedEventArgs e)
-    {
-        try
-        {
-            // check if I should update location
-            if (_updateLocation)
-            {
-                MapViewModel vm = this.BindingContext as MapViewModel;
-                vm.RefreshCoordinates(e.Location);
-
-                //await SetMapAccuracyColor(e.Location.Accuracy);
-
-                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Location.Latitude, e.Location.Longitude));
-                mapView.RefreshGraphics();
-
-                if (e.Location.Course != null)
-                {
-                    mapView?.MyLocationLayer.UpdateMyDirection(e.Location.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
-                }
-
-                if (e.Location.Speed != null)
-                {
-                    mapView?.MyLocationLayer.UpdateMySpeed(e.Location.Speed.Value);
-                }
-            }
-            else 
-            {
-                return;
-            }
-                
-        }
-        catch (System.Exception ex)
-        {
-            await DisplayAlert("Alert", ex.Message, "OK");
-            //Logger.Log(LogLevel.Error, ex.Message, ex);
-        }
-    }
-
-    /// <summary>
-    /// Will stop the GPS
-    /// </summary>
-    public async Task StopGPSAsync()
-    {
-        if (_isCheckingGeolocation)
-        {
-            await SetMapAccuracyColor(-99);
-            _isCheckingGeolocation = false;
-            //_cancelTokenSource.Cancel();
-
-            try
-            {
-                Geolocation.LocationChanged -= Geolocation_LocationChanged;
-                Geolocation.StopListeningForeground();
-                string status = "Stopped listening for foreground location updates";
-            }
-            catch (System.Exception ex)
-            {
-                // Unable to stop listening for location changes
-            }
-        }
-            
-    }
-
-    /// <summary>
     /// Will open a file picker dialog with custom extension set to mbtiles
     /// </summary>
     /// <returns></returns>
@@ -1042,6 +929,178 @@ public LocalizationResourceManager LocalizationResourceManager
         return new SymbolStyle { BitmapId = bitmapSymbolId, SymbolScale = 0.75 };
     }
 
+
+    #endregion
+
+    #region GPS
+
+    /// <summary>
+    /// Will start the GPS
+    /// </summary>
+    public async Task StartGPS()
+    {
+        _isCheckingGeolocation = true;
+
+        try
+        {
+            CancellationToken cancellationToken = CancellationToken.None;
+
+            PermissionStatus permissionStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
+
+            if (permissionStatus == PermissionStatus.Granted)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(1));
+                CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
+                bool success = await Geolocation.StartListeningForegroundAsync(request);
+                string status = success
+                    ? "Started listening for foreground location updates"
+                    : "Couldn't start listening";
+
+                if (success)
+                {
+                    //Force location change event
+                    await BackgroundTimer(TimeSpan.FromSeconds(1));
+
+                    //Temp this isn't triggered
+                    Geolocation.LocationChanged += Geolocation_LocationChanged;
+                    
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                //Manage restricted access to other problems
+                if (e.Message.ToLower().Contains("denied"))
+                {
+                    //Tell user app doesn't have access to location
+                    bool answer = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                        LocalizationResourceManager["DisplayAlertGPSMessage"].ToString(),
+                        LocalizationResourceManager["GenericButtonYes"].ToString(),
+                        LocalizationResourceManager["GenericButtonNo"].ToString());
+
+                    if (answer == true)
+                    {
+                        AppInfo.Current.ShowSettingsUI();
+                    }
+                }
+                else
+                {
+                    //Generic error message regarding GPS
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPS"].ToString(), e.Message,
+                                            LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+
+            });
+        }
+    }
+
+    /// <summary>
+    /// Will stop the GPS
+    /// </summary>
+    public async Task StopGPSAsync()
+    {
+        if (_isCheckingGeolocation)
+        {
+            await SetMapAccuracyColor(-99);
+            _isCheckingGeolocation = false;
+            //_cancelTokenSource.Cancel();
+
+            try
+            {
+                Geolocation.LocationChanged -= Geolocation_LocationChanged;
+                Geolocation.StopListeningForeground();
+                await SetMapAccuracyColor(-99);
+                string status = "Stopped listening for foreground location updates";
+
+            }
+            catch (System.Exception ex)
+            {
+                // Unable to stop listening for location changes
+            }
+        }
+
+    }
+
+
+    /// <summary>
+    /// TEMP method to force refresh of location each seconds
+    /// TODO: Make sure this is still needed
+    /// </summary>
+    /// <param name="timeSpan"></param>
+    /// <param name="action"></param>
+    /// <returns></returns>
+    public async Task BackgroundTimer(TimeSpan timeSpan)
+    {
+        var periodicTimer = new PeriodicTimer(timeSpan);
+        while (await periodicTimer.WaitForNextTickAsync() && _isCheckingGeolocation)
+        {
+            Location location = await Geolocation.GetLocationAsync();
+            await UpdateLocationOnMap(location);
+        }
+    }
+
+    /// <summary>
+    /// An event occuring when a user locatin has changed
+    /// TODO; this should be working but isn't for now 
+    /// https://github.com/dotnet/maui/pull/21919
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void Geolocation_LocationChanged(object sender, GeolocationLocationChangedEventArgs e)
+    {
+        try
+        {
+            // check if I should update location
+            if (_isCheckingGeolocation)
+            {
+                UpdateLocationOnMap(e.Location);
+            }
+            else
+            {
+                return;
+            }
+
+        }
+        catch (System.Exception ex)
+        {
+            await DisplayAlert("Alert", ex.Message, "OK");
+        }
+    }
+
+    /// <summary>
+    /// Method that will actually refresh the map object with latest location info
+    /// </summary>
+    /// <param name="inLocation"></param>
+    /// <returns></returns>
+    public async Task UpdateLocationOnMap(Location inLocation)
+    {
+        MapViewModel vm = this.BindingContext as MapViewModel;
+        vm.RefreshCoordinates(inLocation);
+
+        await SetMapAccuracyColor(inLocation.Accuracy);
+
+        mapView?.MyLocationLayer.UpdateMyLocation(new Position(inLocation.Latitude, inLocation.Longitude));
+        mapView.RefreshGraphics();
+        //mapView.MyLocationFollow = true;
+
+        if (inLocation.Course != null)
+        {
+            mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+        }
+
+        if (inLocation.Speed != null)
+        {
+            mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
+        }
+    }
 
     #endregion
 
