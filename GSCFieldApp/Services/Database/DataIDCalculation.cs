@@ -1036,6 +1036,17 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             
         }
+
+        /// <summary>
+        /// Will format time with all values for a full time stamp
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public string FormatFullDate(DateTime dateTime)
+        {
+            return String.Format("{0:yyyy-MM-dd HH:mm:ss}", dateTime);
+        }
+
         #endregion
     }
 }

@@ -331,7 +331,7 @@ namespace GSCFieldApp.ViewModel
                 {
                     FieldNotes[DatabaseLiterals.TableStation].Add(new FieldNote
                     {
-                        Display_text_1 = st.StationAlias,
+                        Display_text_1 = st.StationAliasLight,
                         Display_text_2 = st.StationObsType,
                         Display_text_3 = st.StationNote,
                         GenericTableName = DatabaseLiterals.TableStation,
@@ -342,6 +342,8 @@ namespace GSCFieldApp.ViewModel
                 }
 
             }
+
+            OnPropertyChanged(nameof(FieldNotes)); 
 
         }
 

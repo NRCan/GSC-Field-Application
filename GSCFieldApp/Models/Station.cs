@@ -140,5 +140,32 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        [Ignore]
+        public string StationAliasLight
+        {
+            get 
+            {
+                if (StationAlias != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(StationAlias.Substring(StationAlias.Length - 4), out aliasNumber);
+
+                    if (aliasNumber > 0) 
+                    {
+                        return aliasNumber.ToString();
+                    }
+                    else
+                    {
+                        return DatabaseLiterals.picklistNACode;
+                    }
+                     
+                }
+                else
+                {
+                    return DatabaseLiterals.picklistNACode;
+                }
+            }
+            set { }
+        }
     }
 }

@@ -74,6 +74,19 @@ namespace GSCFieldApp.ViewModel
         #region RELAY COMMANDS
 
         [RelayCommand]
+        Task FieldBookChanged()
+        {
+            string preferedDBPath = Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty);
+
+            if (_selectedFieldBook != null && _selectedFieldBook.ProjectDBPath != preferedDBPath)
+            {
+                da.PreferedDatabasePath = _selectedFieldBook.ProjectDBPath;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        [RelayCommand]
         async Task DeleteFieldBook()
         {
             await PrepareDeleteFieldBook(SelectedFieldBook);
@@ -349,5 +362,6 @@ namespace GSCFieldApp.ViewModel
         }
 
         #endregion
+
     }
 }

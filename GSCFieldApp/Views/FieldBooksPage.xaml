@@ -144,9 +144,9 @@
                             BindableLayout.ItemsSource="{Binding FieldbookCollection, Mode=TwoWay}">
 
                 </FlexLayout>-->
-                <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" 
+                <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" SelectionChangedCommand="{Binding FieldBookChangedCommand}"
                                 CanReorderItems="False" HorizontalOptions="CenterAndExpand"
-                                SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}" 
+                                SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}"
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}" 
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
                                 HeightRequest="{OnPlatform WinUI=380}" WidthRequest="{OnPlatform Android=380}">

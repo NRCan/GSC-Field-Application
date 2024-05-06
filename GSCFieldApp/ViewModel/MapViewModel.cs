@@ -198,7 +198,7 @@ namespace GSCFieldApp.ViewModel
             //locationModel.LocationErrorMeasureType = sensorLocation.,
             locationModel.LocationElevationAccuracy = sensorLocation.VerticalAccuracy;
             locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault.ToString();
-
+            locationModel.LocationTimestamp = idCalc.FormatFullDate(DateTime.Now);
             //Foreign key
             if (metadataModel.MetaID > 0)
             {
