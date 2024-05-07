@@ -202,6 +202,17 @@
         <Setter Property="MaximumWidthRequest" Value="50"/>
     </Style>
 
+    <Style TargetType="ListView" x:Key="FieldAppNotesMobileListView">
+        <Setter Property="IsVisible" Value="{OnIdiom Desktop=False, Phone=True}"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="MaximumHeightRequest" Value="275"/>
+    </Style>
+
+    <Style TargetType="CollectionView" x:Key="FieldAppNotesTabletCollectionView">
+        <Setter Property="IsVisible" Value="{OnIdiom Desktop=True, Phone=False, Tablet=True}"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+    </Style>
+
     <!--Concatenated value box styles-->
     <Style TargetType="Frame" x:Key="FieldAppConcatFrame">
         <Setter Property="HasShadow" Value="False" />

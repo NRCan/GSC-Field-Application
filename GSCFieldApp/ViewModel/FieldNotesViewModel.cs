@@ -295,7 +295,7 @@ namespace GSCFieldApp.ViewModel
 
             _dates.Sort();
 
-            //OnPropertyChanged(nameof(Dates));
+            OnPropertyChanged(nameof(Dates));
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Get all stations from database
-            List<Station> stations = await inConnection.QueryAsync<Station>("SELECT * FROM " + DatabaseLiterals.TableStation + ";");
+            List<Station> stations = await inConnection.Table<Station>().OrderBy(s => s.StationAlias).ToListAsync();
 
             if (stations != null && stations.Count > 0)
             {
@@ -363,8 +363,8 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            //Get all stations from database
-            List<Earthmaterial> ems = await inConnection.Table<Earthmaterial>().ToListAsync();
+            //Get all em from database
+            List<Earthmaterial> ems = await inConnection.Table<Earthmaterial>().OrderBy(x=>x.EarthMatName).ToListAsync();
 
             if (ems != null && ems.Count > 0)
             {

@@ -369,6 +369,9 @@
   <data name="FieldNotesEmptyDate" xml:space="preserve">
     <value>Missing date</value>
   </data>
+  <data name="FielNotesDateHeader" xml:space="preserve">
+    <value>Traverse Dates</value>
+  </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Earth Materials</value>
   </data>

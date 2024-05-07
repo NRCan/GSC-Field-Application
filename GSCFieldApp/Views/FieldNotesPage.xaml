@@ -14,7 +14,7 @@
     
     <ContentPage.Resources>
 
-        <!-- Note Cards Template -->
+        <!-- Note Cards Templates -->
         <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
 
             <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="75" WidthRequest="175">
@@ -52,6 +52,7 @@
             
         </DataTemplate>
 
+        
         <DataTemplate x:Key="FieldNoteCardMobile" x:DataType="models:FieldNote">
 
             <TextCell Detail="{Binding Display_text_3}" TextColor="{AppThemeBinding Light={StaticResource Black}, Dark= {StaticResource White}}"
@@ -70,9 +71,10 @@
             
         </DataTemplate>
 
+        <!--Note traverse cards-->
         <DataTemplate x:Key="FieldNoteTraversesCard">
 
-            <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="45" WidthRequest="205">
+            <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="45" WidthRequest="175">
                 <Frame.GestureRecognizers>
 
                     <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapDateGestureRecognizerCommand}"
@@ -104,17 +106,16 @@
                     <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="station"/>
                     <VerticalStackLayout IsVisible="{Binding IsStationVisible, Mode=TwoWay}">
-                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" IsVisible="{OnIdiom Desktop=True, Phone=False, Tablet=True}"
-                            ItemsSource="{Binding Stations, Mode=TwoWay}" SelectionMode="Single" >
+                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                                        Style="{StaticResource FieldAppNotesTabletCollectionView}"
+                                        ItemsSource="{Binding Stations, Mode=TwoWay}" >
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" 
-                        Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
                             </CollectionView.ItemsLayout>
                         </CollectionView>
-                        <ListView IsVisible="{OnIdiom Desktop=False, Phone=True}" ItemsSource="{Binding Stations, Mode=TwoWay}" SelectionMode="Single"
-                                  ItemTemplate="{StaticResource FieldNoteCardMobile}" />
-
-
+                        <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}"
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}"/>
                     </VerticalStackLayout>
 
 
@@ -125,16 +126,18 @@
                     Command="{Binding HideCommand}" CommandParameter="earth"/>
 
                     <VerticalStackLayout IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}">
-                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" IsVisible="{OnIdiom Desktop=True, Phone=False, Tablet=True}"
-                            ItemsSource="{Binding EarthMats}" SelectionMode="Single" >
+                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                                        Style="{StaticResource FieldAppNotesTabletCollectionView}"
+                                        ItemsSource="{Binding EarthMats}"  >
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" 
-                        Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
+                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
                             </CollectionView.ItemsLayout>
                         </CollectionView>
 
-                        <ListView IsVisible="{OnIdiom Desktop=False, Phone=True}" ItemsSource="{Binding EarthMats, Mode=TwoWay}" SelectionMode="Single"
-                                  ItemTemplate="{StaticResource FieldNoteCardMobile}"/>
+                        <ListView ItemsSource="{Binding EarthMats, Mode=TwoWay}"
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}"
+                                  Style="{StaticResource FieldAppNotesMobileListView}"/>
                     </VerticalStackLayout>
                     
 
@@ -155,20 +158,17 @@
             <!--Date records-->
 
             <VerticalStackLayout Grid.Row="1" Grid.Column="0">
-                    <Button x:Name="FieldNoteDatesHeader" Text="Traverse Dates" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                <Button x:Name="FieldNoteDatesHeader" Text="{local:Localize Key=FielNotesDateHeader}" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="dates"/>
-                    <ScrollView Orientation="Horizontal" >
-                        <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" FlowDirection="RightToLeft" HorizontalOptions="CenterAndExpand"
-                                ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" MaximumHeightRequest="100">
+                <ScrollView Orientation="Horizontal" >
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center"
+                            ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Horizontal"/>
+                            <GridItemsLayout Orientation="Horizontal" />
                         </CollectionView.ItemsLayout>
                     </CollectionView>
-                    </ScrollView>
-
-                </VerticalStackLayout>
-
-
+                </ScrollView>
+            </VerticalStackLayout>
 
         </Grid>
 

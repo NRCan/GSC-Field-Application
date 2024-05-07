@@ -817,6 +817,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Traverse Dates.
+        /// </summary>
+        internal static string FielNotesDateHeader {
+            get {
+                return ResourceManager.GetString("FielNotesDateHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Earth Materials.
         /// </summary>
         internal static string FielNotesEMHeader {
