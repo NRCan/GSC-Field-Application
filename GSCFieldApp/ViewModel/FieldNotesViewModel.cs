@@ -384,7 +384,7 @@ namespace GSCFieldApp.ViewModel
                     }
                     FieldNotes[DatabaseLiterals.TableEarthMat].Add(new FieldNote
                     {
-                        Display_text_1 = st.EarthMatName,
+                        Display_text_1 = st.EarthmatAliasLight,
                         Display_text_2 = st.EarthMatLithdetail,
                         Display_text_3 = st.EarthMatLithgroup,
                         GenericTableName = DatabaseLiterals.TableEarthMat,

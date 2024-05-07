@@ -15,7 +15,7 @@
     <ContentPage.Resources>
 
         <!-- Note Cards Template -->
-        <DataTemplate x:Key="FieldNoteCard" x:DataType="models:FieldNote">
+        <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
 
             <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="75" WidthRequest="175">
                 <Frame.GestureRecognizers>
@@ -52,9 +52,9 @@
             
         </DataTemplate>
 
-        <DataTemplate x:Key="FieldNoteCardList" x:DataType="models:FieldNote">
+        <DataTemplate x:Key="FieldNoteCardMobile" x:DataType="models:FieldNote">
 
-            <TextCell Detail="{Binding Display_text_3}" TextColor="{StaticResource FieldStationColor}"
+            <TextCell Detail="{Binding Display_text_3}"
                       DetailColor="{StaticResource Gray400}">
                 <TextCell.Text>
                     <MultiBinding StringFormat="{}{0}: {1}">
@@ -102,7 +102,7 @@
                     <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="station"/>
                     <VerticalStackLayout IsVisible="{Binding IsStationVisible, Mode=TwoWay}">
-                        <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{OnIdiom Desktop=True, Phone=False, Tablet=True}"
+                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" IsVisible="{OnIdiom Desktop=True, Phone=False, Tablet=True}"
                             ItemsSource="{Binding Stations, Mode=TwoWay}" SelectionMode="Single" >
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" 
@@ -110,7 +110,7 @@
                             </CollectionView.ItemsLayout>
                         </CollectionView>
                         <ListView IsVisible="{OnIdiom Desktop=False, Phone=True}" ItemsSource="{Binding Stations, Mode=TwoWay}" SelectionMode="Single"
-                                  ItemTemplate="{StaticResource FieldNoteCardList}" >
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}" >
 
                         </ListView>
                     </VerticalStackLayout>
@@ -122,7 +122,7 @@
                     <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="earth"/>
 
-                    <CollectionView ItemTemplate="{StaticResource FieldNoteCard}" IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}"
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}"
                             ItemsSource="{Binding EarthMats}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" 
@@ -135,7 +135,7 @@
                     <!--Sample records-->
                     <Button Text="{local:Localize Key=FielNotesSampleHeader}" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="sample"/>
-                    <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCard}" BindableLayout.ItemsSource="{Binding Samples}"
+                    <FlexLayout BindableLayout.ItemTemplate="{StaticResource FieldNoteCardTablet}" BindableLayout.ItemsSource="{Binding Samples}"
                         Style="{StaticResource FieldAppFormFlexLayout}" IsVisible="{Binding IsSampleVisible,Mode=TwoWay}"/>
                     <Label Text="{Binding Samples.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 

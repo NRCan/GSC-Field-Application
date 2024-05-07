@@ -140,6 +140,9 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
         [Ignore]
         public string StationAliasLight
         {

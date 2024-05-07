@@ -314,5 +314,27 @@ namespace GSCFieldApp.Models
             }
         }
 
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string EarthmatAliasLight
+        {
+            get
+            {
+                if (EarthMatName != string.Empty && GetIDLetter != string.Empty)
+                {
+
+                    return GetIDLetter;
+
+                }
+                else
+                {
+                    return DatabaseLiterals.picklistNACode;
+                }
+            }
+            set { }
+        }
     }
 }
