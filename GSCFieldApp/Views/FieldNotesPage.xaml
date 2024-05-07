@@ -55,7 +55,10 @@
         <DataTemplate x:Key="FieldNoteCardMobile" x:DataType="models:FieldNote">
 
             <TextCell Detail="{Binding Display_text_3}" TextColor="{AppThemeBinding Light={StaticResource Black}, Dark= {StaticResource White}}"
-                      DetailColor="{AppThemeBinding Light={StaticResource Gray400}, Dark= {StaticResource Gray300}}">
+                      DetailColor="{AppThemeBinding Light={StaticResource Gray400}, Dark= {StaticResource Gray300}}"
+                      Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
+                      CommandParameter="{Binding .}">
+
                 <TextCell.Text>
                     <MultiBinding StringFormat="{}{0}: {1}">
                         <Binding Path="Display_text_1" />
@@ -64,9 +67,8 @@
                 </TextCell.Text>
 
             </TextCell>
-
+            
         </DataTemplate>
-
 
         <DataTemplate x:Key="FieldNoteTraversesCard">
 
@@ -132,7 +134,7 @@
                         </CollectionView>
 
                         <ListView IsVisible="{OnIdiom Desktop=False, Phone=True}" ItemsSource="{Binding EarthMats, Mode=TwoWay}" SelectionMode="Single"
-                                  ItemTemplate="{StaticResource FieldNoteCardMobile}" />
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}"/>
                     </VerticalStackLayout>
                     
 

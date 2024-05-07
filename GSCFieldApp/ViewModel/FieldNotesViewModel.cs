@@ -155,7 +155,7 @@ namespace GSCFieldApp.ViewModel
             //Get desire form on screen from tapped table name
             if (fieldNotes.GenericTableName == DatabaseLiterals.TableStation)
             {
-                List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationAlias == fieldNotes.Display_text_1).ToListAsync();
+                List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationID == fieldNotes.GenericID).ToListAsync();
 
                 await currentConnection.CloseAsync();
 
@@ -174,8 +174,8 @@ namespace GSCFieldApp.ViewModel
             }
 
             if (fieldNotes.GenericTableName == DatabaseLiterals.TableEarthMat)
-            { 
-                List<Earthmaterial> tappedEM = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatName == fieldNotes.Display_text_1).ToListAsync();
+            {
+                List<Earthmaterial> tappedEM = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatID == fieldNotes.GenericID).ToListAsync();
 
                 await currentConnection.CloseAsync();
 
@@ -191,9 +191,6 @@ namespace GSCFieldApp.ViewModel
                     );
                 }
             }
-
-
-            //await Shell.Current.DisplayAlert("Alert", "You have tapped: " + fieldNotes.Display_text_1 , "OK");
         }
 
         [RelayCommand]
