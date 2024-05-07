@@ -205,8 +205,8 @@
     <!--Concatenated value box styles-->
     <Style TargetType="Frame" x:Key="FieldAppConcatFrame">
         <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
-        <Setter Property="CornerRadius" Value="8" />
+        <!--<Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />-->
+        <!--<Setter Property="CornerRadius" Value="8" />-->
         <Setter Property="HorizontalOptions" Value="Start"/>
         <Setter Property="Padding" Value="8" />
         <Setter Property="Margin" Value="0,0,0,8" />
@@ -224,16 +224,17 @@
     </Style>
     
     <Style TargetType="Button" x:Key="FieldAppConcatDelButton">
-        <Setter Property="TextColor" Value="#FF0000" />
+        <Setter Property="TextColor" Value="{StaticResource Gray400}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="MatDesign"/>
-        <Setter Property="FontSize" Value="Medium"/>
-        <Setter Property="VerticalOptions" Value="Start"/>
-        <Setter Property="HorizontalOptions" Value="Start"/>
-        <Setter Property="Margin" Value="{OnIdiom '0,-10,0,0', Tablet='0,-10,0,0', Phone='0,-10,0,0' }"/>
+        <!--<Setter Property="FontFamily" Value="MatDesign"/>-->
+        <!--<Setter Property="FontSize" Value="Medium"/>-->
+        <!--<Setter Property="VerticalOptions" Value="Start"/>-->
+        <!--<Setter Property="HorizontalOptions" Value="Start"/>-->
+        <!--<Setter Property="Margin" Value="{OnIdiom '0,-10,0,0', Tablet='0,-10,0,0', Phone='0,-10,0,0' }"/>-->
         <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="HeightRequest" Value="{OnPlatform 55, WinUI=25}"/>
-        <Setter Property="Text" Value="&#xF0A7A;"/>
+        <Setter Property="Padding" Value="0"/>
+        <!--<Setter Property="HeightRequest" Value="{OnPlatform 55, WinUI=25}"/>-->
+        <Setter Property="Text" Value="X"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

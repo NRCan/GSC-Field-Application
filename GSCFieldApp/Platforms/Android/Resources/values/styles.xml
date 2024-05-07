@@ -12,6 +12,12 @@
         -->
         <item name="android:windowSplashScreenBackground">@color/maui_splash_color</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/maui_splash</item>
+
     </style>
+
+	<style name="Maui.MainTheme.NoActionBar" parent="Maui.MainTheme">
+		<!--https://github.com/xamarin/Xamarin.Forms/issues/4447#issuecomment-537051191-->
+		<item name="android:colorActivatedHighlight">@android:color/transparent</item>
+	</style>
 
 </resources>

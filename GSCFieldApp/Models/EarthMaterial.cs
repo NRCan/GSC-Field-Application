@@ -325,8 +325,12 @@ namespace GSCFieldApp.Models
             {
                 if (EarthMatName != string.Empty && GetIDLetter != string.Empty)
                 {
+                    string lightAlias = GetIDLetter;
+                    int aliasCharNo = lightAlias.ToCharArray().Count();
+                    string prefixAlias = EarthMatName.Remove(EarthMatName.Length - aliasCharNo);
+                    prefixAlias = prefixAlias.Substring(prefixAlias.Length - 4).TrimStart('0');
+                    return prefixAlias + lightAlias;
 
-                    return GetIDLetter;
 
                 }
                 else

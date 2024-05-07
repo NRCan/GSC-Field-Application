@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ButtonSave" xml:space="preserve">
-    <value>Sauvegarder</value>
+    <value>Sauver</value>
   </data>
   <data name="ButtonSet" xml:space="preserve">
-    <value>Appliquer</value>
+    <value>+</value>
   </data>
   <data name="DisplayAlertGPS" xml:space="preserve">
     <value>Position</value>

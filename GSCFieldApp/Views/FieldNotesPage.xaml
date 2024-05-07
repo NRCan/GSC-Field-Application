@@ -54,8 +54,8 @@
 
         <DataTemplate x:Key="FieldNoteCardMobile" x:DataType="models:FieldNote">
 
-            <TextCell Detail="{Binding Display_text_3}"
-                      DetailColor="{StaticResource Gray400}">
+            <TextCell Detail="{Binding Display_text_3}" TextColor="{AppThemeBinding Light={StaticResource Black}, Dark= {StaticResource White}}"
+                      DetailColor="{AppThemeBinding Light={StaticResource Gray400}, Dark= {StaticResource Gray300}}">
                 <TextCell.Text>
                     <MultiBinding StringFormat="{}{0}: {1}">
                         <Binding Path="Display_text_1" />
@@ -110,9 +110,9 @@
                             </CollectionView.ItemsLayout>
                         </CollectionView>
                         <ListView IsVisible="{OnIdiom Desktop=False, Phone=True}" ItemsSource="{Binding Stations, Mode=TwoWay}" SelectionMode="Single"
-                                  ItemTemplate="{StaticResource FieldNoteCardMobile}" >
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}" />
 
-                        </ListView>
+
                     </VerticalStackLayout>
 
 
@@ -122,13 +122,20 @@
                     <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="earth"/>
 
-                    <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}"
+                    <VerticalStackLayout IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}">
+                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" IsVisible="{OnIdiom Desktop=True, Phone=False, Tablet=True}"
                             ItemsSource="{Binding EarthMats}" SelectionMode="Single" >
-                        <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical" 
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" 
                         Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
-                        </CollectionView.ItemsLayout>
-                    </CollectionView>
+                            </CollectionView.ItemsLayout>
+                        </CollectionView>
+
+                        <ListView IsVisible="{OnIdiom Desktop=False, Phone=True}" ItemsSource="{Binding EarthMats, Mode=TwoWay}" SelectionMode="Single"
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}" />
+                    </VerticalStackLayout>
+                    
+
 
                     <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 

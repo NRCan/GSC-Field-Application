@@ -374,6 +374,7 @@ namespace GSCFieldApp.ViewModel
                 foreach (Earthmaterial st in ems)
                 {
                     int parentID = -1;
+                    string parentLightAlias = string.Empty;
                     if (st.EarthMatStatID != null)
                     {
                         parentID = (int)st.EarthMatStatID;
@@ -384,6 +385,7 @@ namespace GSCFieldApp.ViewModel
                     }
                     FieldNotes[DatabaseLiterals.TableEarthMat].Add(new FieldNote
                     {
+                        
                         Display_text_1 = st.EarthmatAliasLight,
                         Display_text_2 = st.EarthMatLithdetail,
                         Display_text_3 = st.EarthMatLithgroup,
