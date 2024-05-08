@@ -16,7 +16,15 @@ namespace GSCFieldApp.ViewModel
         public LocalizationResourceManager LocalizationResourceManager
             => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
+        //Database
         DataAccess da = new DataAccess();
+
+        //Database schema
+        private enum Tables { station, em, sample } //Will be used as dictionary key or other
+
+        //Records
+        private Dictionary<Tables, ObservableCollection<FieldNote>> FieldNotes = new Dictionary<Tables, ObservableCollection<FieldNote>>();
+        private Dictionary<Tables, ObservableCollection<FieldNote>> FieldNotesAll = new Dictionary<Tables, ObservableCollection<FieldNote>>(); //Safe variable for refiltering datasets
 
         #region PROPERTIES
 
@@ -35,9 +43,9 @@ namespace GSCFieldApp.ViewModel
 
             get
             {
-                if (FieldNotes.ContainsKey(DatabaseLiterals.TableEarthMat))
+                if (FieldNotes.ContainsKey(Tables.em))
                 {
-                    return _earthmats = FieldNotes[DatabaseLiterals.TableEarthMat];
+                    return _earthmats = FieldNotes[Tables.em];
                 }
                 else
                 {
@@ -54,9 +62,9 @@ namespace GSCFieldApp.ViewModel
 
             get
             {
-                if (FieldNotes.ContainsKey(DatabaseLiterals.TableSample))
+                if (FieldNotes.ContainsKey(Tables.sample))
                 {
-                    return _samples = FieldNotes[DatabaseLiterals.TableSample];
+                    return _samples = FieldNotes[Tables.sample];
                 }
                 else
                 {
@@ -67,15 +75,14 @@ namespace GSCFieldApp.ViewModel
             set { _samples = value; }
         }
 
-        public Dictionary<string, ObservableCollection<FieldNote>> FieldNotes =  new Dictionary<string, ObservableCollection<FieldNote>>();
         private ObservableCollection<FieldNote> _stations = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> Stations
         {
             get
             {
-                if (FieldNotes.ContainsKey(DatabaseLiterals.TableStation))
+                if (FieldNotes.ContainsKey(Tables.station))
                 {
-                    return _stations = FieldNotes[DatabaseLiterals.TableStation] ;
+                    return _stations = FieldNotes[Tables.station] ;
                 }
                 else
                 {
@@ -98,21 +105,43 @@ namespace GSCFieldApp.ViewModel
         public FieldNotesViewModel()
         {
             //Init notes
-            FieldNotes.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
-            FieldNotes.Add(DatabaseLiterals.TableEarthMat, new ObservableCollection<FieldNote>());
-            FieldNotes.Add(DatabaseLiterals.TableSample, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(Tables.station, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(Tables.em, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(Tables.sample, new ObservableCollection<FieldNote>());
             _dates = new ObservableCollection<string>();
 
         }
 
         #region RELAY
 
+        /// <summary>
+        /// Will filter down all records based on user selected date
+        /// </summary>
+        /// <param name="incomingDate"></param>
+        /// <returns></returns>
         [RelayCommand]
         async Task TapDateGestureRecognizer(string incomingDate)
         {
-            //Filter out record based on selected date
-            _stations = FieldNotes[DatabaseLiterals.TableStation].Where(i => i.Date == incomingDate) as ObservableCollection<FieldNote>;
-            OnPropertyChanged(nameof(Stations));
+            //Start with station
+            if (FieldNotesAll.ContainsKey(Tables.station))
+            {
+                FieldNotes[Tables.station] = new ObservableCollection<FieldNote>(FieldNotesAll[Tables.station].Where(x => x.Date == incomingDate).ToList());
+                OnPropertyChanged(nameof(Stations));
+                //Children
+                if (FieldNotesAll.ContainsKey(Tables.em))
+                {
+                    List<int> stationIds = new List<int>();
+                    foreach (FieldNote sids in FieldNotes[Tables.station])
+                    {
+                        stationIds.Add(sids.GenericID);
+                    }
+                    
+                    FieldNotes[Tables.em] = new ObservableCollection<FieldNote>(FieldNotesAll[Tables.em].Where(x => stationIds.Contains(x.ParentID)).ToList());
+                    OnPropertyChanged(nameof(EarthMats));
+                }
+            }
+
+            
         }
 
         /// <summary>
@@ -122,6 +151,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Hide(string inComingName)
         {
+            //Important note, tapping the header of dates will refill ALL records, kind of a refresh
             if (inComingName != null && inComingName != string.Empty)
             {
                 if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordStation))
@@ -142,10 +172,26 @@ namespace GSCFieldApp.ViewModel
                     OnPropertyChanged(nameof(IsSampleVisible));
                 }
 
+                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordDates))
+                {
+                    foreach (KeyValuePair<Tables, ObservableCollection<FieldNote>> item in FieldNotesAll)
+                    {
+                        FieldNotes[item.Key] = item.Value;
+                    }
+
+                    OnPropertyChanged(nameof(Stations));
+                    OnPropertyChanged(nameof(EarthMats));
+                }
+
             }
 
         }
 
+        /// <summary>
+        /// Will open an edit form of tapped field note card/item
+        /// </summary>
+        /// <param name="fieldNotes"></param>
+        /// <returns></returns>
         [RelayCommand]
         public async Task TapGestureRecognizer(FieldNote fieldNotes)
         {
@@ -193,6 +239,11 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Will initiate a delete sequence from the tapped field note card/item
+        /// </summary>
+        /// <param name="fieldNotes"></param>
+        /// <returns></returns>
         [RelayCommand]
         public async Task SwipeGestureRecognizer(FieldNote fieldNotes)
         {
@@ -223,9 +274,13 @@ namespace GSCFieldApp.ViewModel
 
         #region METHODS
 
+        /// <summary>
+        /// Will initiate a fill of all records in the database
+        /// </summary>
+        /// <returns></returns>
         public async Task FillFieldNotesAsync()
         {
-            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty  )
+            if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
             {
                 SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
 
@@ -237,10 +292,18 @@ namespace GSCFieldApp.ViewModel
 
                 OnPropertyChanged(nameof(FieldNotes));
                 OnPropertyChanged(nameof(Dates));
+
+                //Make a copy in case user wants to refilter values
+                FieldNotesAll = new Dictionary<Tables, ObservableCollection<FieldNote>>(FieldNotes);
             }
 
         }
 
+        /// <summary>
+        /// Will fill the traverse date section of the notes
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
         public async Task FillTraverseDates(SQLiteAsyncConnection inConnection)
         {
 
@@ -306,14 +369,14 @@ namespace GSCFieldApp.ViewModel
         public async Task FillStationNotes(SQLiteAsyncConnection inConnection)
         {
             //Init a station group
-            if (!FieldNotes.ContainsKey(DatabaseLiterals.TableStation))
+            if (!FieldNotes.ContainsKey(Tables.station))
             {
-                FieldNotes.Add(DatabaseLiterals.TableStation, new ObservableCollection<FieldNote>());
+                FieldNotes.Add(Tables.station, new ObservableCollection<FieldNote>());
             }
             else 
             {
                 //Clear whatever was in there first.
-                FieldNotes[DatabaseLiterals.TableStation].Clear();
+                FieldNotes[Tables.station].Clear();
 
             }
 
@@ -326,7 +389,7 @@ namespace GSCFieldApp.ViewModel
 
                 foreach (Station st in stations)
                 {
-                    FieldNotes[DatabaseLiterals.TableStation].Add(new FieldNote
+                    FieldNotes[Tables.station].Add(new FieldNote
                     {
                         Display_text_1 = st.StationAliasLight,
                         Display_text_2 = st.StationObsType,
@@ -352,14 +415,14 @@ namespace GSCFieldApp.ViewModel
         public async Task FillEMNotes(SQLiteAsyncConnection inConnection)
         {
             //Init a station group
-            if (!FieldNotes.ContainsKey(DatabaseLiterals.TableEarthMat))
+            if (!FieldNotes.ContainsKey(Tables.em))
             {
-                FieldNotes.Add(DatabaseLiterals.TableEarthMat, new ObservableCollection<FieldNote>());
+                FieldNotes.Add(Tables.em, new ObservableCollection<FieldNote>());
             }
             else
             {
                 //Clear whatever was in there first.
-                FieldNotes[DatabaseLiterals.TableEarthMat].Clear();
+                FieldNotes[Tables.em].Clear();
 
             }
 
@@ -380,7 +443,7 @@ namespace GSCFieldApp.ViewModel
                     {
                         parentID = (int)st.EarthMatDrillHoleID;
                     }
-                    FieldNotes[DatabaseLiterals.TableEarthMat].Add(new FieldNote
+                    FieldNotes[Tables.em].Add(new FieldNote
                     {
                         
                         Display_text_1 = st.EarthmatAliasLight,
