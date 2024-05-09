@@ -7,7 +7,7 @@
              xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              x:DataType="viemodel:StationViewModel"
              Shell.BackgroundColor="{StaticResource FieldStationColor}"
-             Title="{local:Localize StationPageTitle}">
+             Title="{local:Localize StationPageTitle}" >
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
@@ -34,6 +34,7 @@
     </ContentPage.Resources>
     
     <ContentPage.Content>
+        
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -44,11 +45,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
-            
+
             <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
-
 
                     <!--Station Type section-->
                     <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
