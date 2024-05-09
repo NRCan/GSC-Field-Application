@@ -15,6 +15,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.Maui.ApplicationModel.Communication;
 using System.Xml.Linq;
 using System.Reflection;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -145,7 +146,8 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            await Shell.Current.GoToAsync("..");
+            //Android when navigating back, ham menu disapears if / isn't added to path
+            await Shell.Current.GoToAsync("../");
         }
 
         /// <summary>

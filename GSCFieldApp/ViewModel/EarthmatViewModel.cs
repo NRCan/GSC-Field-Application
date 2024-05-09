@@ -333,7 +333,8 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            await Shell.Current.GoToAsync("..");
+            //Android when navigating back, ham menu disapears if / isn't added to path
+            await Shell.Current.GoToAsync("../");
         }
 
         [RelayCommand]

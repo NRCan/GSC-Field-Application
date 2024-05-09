@@ -10,7 +10,7 @@
              Title="{local:Localize StationPageTitle}">
 
     <Shell.BackButtonBehavior>
-        <BackButtonBehavior Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
     </Shell.BackButtonBehavior>
 
     <ContentPage.Resources>

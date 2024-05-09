@@ -23,7 +23,7 @@ namespace GSCFieldApp.ViewModel
         private enum Tables { station, em, sample } //Will be used as dictionary key or other
 
         //Records
-        private Dictionary<Tables, ObservableCollection<FieldNote>> FieldNotes = new Dictionary<Tables, ObservableCollection<FieldNote>>();
+        private Dictionary<Tables, ObservableCollection<FieldNote>> FieldNotes = new Dictionary<Tables, ObservableCollection<FieldNote>>(); //Used to populate records in each headers
         private Dictionary<Tables, ObservableCollection<FieldNote>> FieldNotesAll = new Dictionary<Tables, ObservableCollection<FieldNote>>(); //Safe variable for refiltering datasets
 
         #region PROPERTIES
@@ -122,26 +122,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task TapDateGestureRecognizer(string incomingDate)
         {
-            //Start with station
-            if (FieldNotesAll.ContainsKey(Tables.station))
-            {
-                FieldNotes[Tables.station] = new ObservableCollection<FieldNote>(FieldNotesAll[Tables.station].Where(x => x.Date == incomingDate).ToList());
-                OnPropertyChanged(nameof(Stations));
-                //Children
-                if (FieldNotesAll.ContainsKey(Tables.em))
-                {
-                    List<int> stationIds = new List<int>();
-                    foreach (FieldNote sids in FieldNotes[Tables.station])
-                    {
-                        stationIds.Add(sids.GenericID);
-                    }
-                    
-                    FieldNotes[Tables.em] = new ObservableCollection<FieldNote>(FieldNotesAll[Tables.em].Where(x => stationIds.Contains(x.ParentID)).ToList());
-                    OnPropertyChanged(nameof(EarthMats));
-                }
-            }
-
-            
+            await FilterRecordsOnDate(incomingDate);
         }
 
         /// <summary>
@@ -295,6 +276,14 @@ namespace GSCFieldApp.ViewModel
 
                 //Make a copy in case user wants to refilter values
                 FieldNotesAll = new Dictionary<Tables, ObservableCollection<FieldNote>>(FieldNotes);
+
+                //Filter out latest date
+                //TODO uncomment if really needed
+                //if (Dates != null && Dates.Count > 0)
+                //{
+                //    await FilterRecordsOnDate(Dates.First());
+                //}
+                
             }
 
         }
@@ -311,9 +300,9 @@ namespace GSCFieldApp.ViewModel
             _dates.Clear();
 
             //Get all dates from key tables
-            List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1}", 
+            List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1} order by {0} desc", 
                 DatabaseLiterals.FieldStationVisitDate, DatabaseLiterals.TableStation));
-            List<DrillHole> drills = await inConnection.QueryAsync<DrillHole>(string.Format("select distinct({0}) from {1}",
+            List<DrillHole> drills = await inConnection.QueryAsync<DrillHole>(string.Format("select distinct({0}) from {1} order by {0} desc",
                 DatabaseLiterals.FieldDrillRelogDate, DatabaseLiterals.TableDrillHoles));
 
             //Get all dates from database
@@ -355,8 +344,6 @@ namespace GSCFieldApp.ViewModel
 
                 }
             }
-
-            _dates.Sort();
 
             OnPropertyChanged(nameof(Dates));
         }
@@ -459,6 +446,37 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// A method that will filter out all records in field note page
+        /// based on a desire date
+        /// </summary>
+        /// <param name="inDate"></param>
+        /// <returns></returns>
+        public async Task FilterRecordsOnDate(string inDate)
+        {
+            if (inDate != string.Empty)
+            {
+                //Start with station
+                if (FieldNotesAll.ContainsKey(Tables.station))
+                {
+                    FieldNotes[Tables.station] = new ObservableCollection<FieldNote>(FieldNotesAll[Tables.station].Where(x => x.Date == inDate).ToList());
+                    OnPropertyChanged(nameof(Stations));
+                    //Children
+                    if (FieldNotesAll.ContainsKey(Tables.em))
+                    {
+                        List<int> stationIds = new List<int>();
+                        foreach (FieldNote sids in FieldNotes[Tables.station])
+                        {
+                            stationIds.Add(sids.GenericID);
+                        }
+
+                        FieldNotes[Tables.em] = new ObservableCollection<FieldNote>(FieldNotesAll[Tables.em].Where(x => stationIds.Contains(x.ParentID)).ToList());
+                        OnPropertyChanged(nameof(EarthMats));
+                    }
+                }
+            }
+
+        }
 
         #endregion
 
