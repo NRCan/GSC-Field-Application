@@ -38,17 +38,14 @@ public partial class EarthmatPage : ContentPage
     private void lihthoSearchResults_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         //Cast
-        ListView listView = sender as ListView;
-        if (listView != null && listView.SelectedItem != null)
+        if (e != null && e.SelectedItem != null)
         {
-            if (listView.SelectedItem.ToString() != string.Empty)
-            {
-                EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
-                vm2.RefineGroupListFromDetail(listView.SelectedItem.ToString());
-                lithoSearchBar.Text = listView.SelectedItem.ToString();
-                vm2.isLithoDetailListVisible = false;
 
-            }
+            EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
+            vm2.RefineGroupListFromDetail(e.SelectedItem.ToString());
+
+            lithoSearchBar.Text = e.SelectedItem.ToString();
+
         }
     }
 
@@ -61,11 +58,6 @@ public partial class EarthmatPage : ContentPage
 
             EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
             vm2.RefineDetailListFromGroup(picker.SelectedItem as ComboBoxItem);
-
-            //In theory we should reset detail value, but it gets annoying when clicking detail
-            //Then clicking group type then reclicking detail because it disapeared
-
-            //lithoSearchBar.Text = string.Empty; //Reset detail search bar because list will be refreshed with new values
 
             await vm2.Fill2ndRoundPickers();
 

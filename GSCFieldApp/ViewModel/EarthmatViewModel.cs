@@ -43,8 +43,9 @@ namespace GSCFieldApp.ViewModel
 
         private string currentProjectType = DatabaseLiterals.ApplicationThemeBedrock; //default in case failing
 
+        //UI
         private bool _isLithoGroupListVisible = false;
-        private bool _isLithoDetailListVisible = false;
+        private bool _isLithoDetailListVisible = true;
 
         private List<string> _lihthoDetailSearchResults = new List<string>();
 
@@ -55,7 +56,6 @@ namespace GSCFieldApp.ViewModel
         private IEnumerable<Vocabularies> _litho_detail_vocab; //Default list to keep in order to not redo the query each time
         private IEnumerable<Vocabularies> _litho_group_vocab; //Default list to keep in order to not redo the query each time
 
-        
         private ComboBox _earthLithoGroup = new ComboBox();
         private ComboBox _earthLithOccurAs = new ComboBox();
         private ComboBox _earthLithMapUnit = new ComboBox();
@@ -138,20 +138,9 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
-        public List<string> LihthoDetailSearchResults
-        {
-            get
-            {
-                return _lihthoDetailSearchResults;
-            }
-            set
-            {
-                _lihthoDetailSearchResults = value;
-                OnPropertyChanged(nameof(LihthoDetailSearchResults));
-            }
-        }
+        public List<string> LihthoDetailSearchResults { get { return _lihthoDetailSearchResults; } set { _lihthoDetailSearchResults = value; }  }
 
-        public bool isLithoDetailListVisible { get { return _isLithoDetailListVisible; } set { _isLithoDetailListVisible = value; OnPropertyChanged(nameof(isLithoDetailListVisible)); } }
+        public bool isLithoDetailListVisible { get { return _isLithoDetailListVisible; } set { _isLithoDetailListVisible = value; } }
 
         public ComboBox EarthLithoGroup { get { return _earthLithoGroup; } set { _earthLithoGroup = value; } }
         public ComboBox EarthLithQualifier { get { return _earthLithQualifier; } set { _earthLithQualifier = value; } }
@@ -318,18 +307,26 @@ namespace GSCFieldApp.ViewModel
         public string EarthResidualText { get { return _earthResidualText; } set { _earthResidualText = value; } }
 
         #endregion
+
         public EarthmatViewModel() 
         {
+            //Connect to db
             currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
+            //Init new field theme
             FieldThemes = new FieldThemes();
 
-            FillSearchListAsync();
+            //Init picklists
+            _ = FillSearchListAsync();
 
         }
 
         #region RELAY COMMANDS
 
+        /// <summary>
+        /// Back button command
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         public async Task Back()
         {
@@ -337,6 +334,10 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync("../");
         }
 
+        /// <summary>
+        /// Save button command
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         async Task Save()
         {
@@ -362,7 +363,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will delete a selected item in quality collection box.
+        /// Will delete a selected item in a concatenated box
         /// </summary>
         /// <returns></returns>
         [RelayCommand]
@@ -399,6 +400,11 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Hide command to hide group of controls
+        /// </summary>
+        /// <param name="visibilityObjectName"></param>
+        /// <returns></returns>
         [RelayCommand]
         public async Task Hide(string visibilityObjectName)
         {
@@ -418,6 +424,11 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Special command to filter down all lithological details
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
         [RelayCommand]
         public async Task PerformDetailSearch(string searchText)
         {
@@ -438,21 +449,20 @@ namespace GSCFieldApp.ViewModel
 
                 LihthoDetailSearchResults = _lihthoDetailSearchResults;
 
-                isLithoDetailListVisible = true;
+                _isLithoDetailListVisible = true;
             }
             else
             {
-                isLithoDetailListVisible = false;
+                _isLithoDetailListVisible = false;
             }
-
-            //Force refill of whole group list if user reset all details
-            if (searchText == string.Empty)
-            {
-                RefineGroupListFromDetail(string.Empty);
-            }
-            
+            OnPropertyChanged(nameof(isLithoDetailListVisible));
+            OnPropertyChanged(nameof(LihthoDetailSearchResults));
         }
 
+        /// <summary>
+        /// Special command to set colour system for fresh material
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         public async Task SetFreshColour()
         {
@@ -474,6 +484,10 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(Model));
         }
 
+        /// <summary>
+        /// Special command to set colour system for weathered material
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         public async Task SetWeatheredColour()
         {
@@ -495,6 +509,10 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(Model));
         }
 
+        /// <summary>
+        /// Special command to set contact relation with other records
+        /// </summary>
+        /// <returns></returns>
         [RelayCommand]
         public async Task SetContact()
         {
@@ -523,7 +541,7 @@ namespace GSCFieldApp.ViewModel
         #region METHODS
 
         /// <summary>
-        /// Will fill the detail search list values
+        /// Will fill the lithological detail search list values (approx. 450 values)
         /// </summary>
         /// <param name="in_vocab"></param>
         /// <param name="in_projectType"></param>
@@ -557,7 +575,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will fill the group search list values
+        /// Will fill the group search list values (approx. 65 items)
         /// </summary>
         /// <param name="in_vocab"></param>
         /// <param name="in_projectType"></param>
@@ -589,7 +607,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will initialize some preset list of lithologies
+        /// Will initialize some preset list of lithologies for type/group and details
         /// </summary>
         /// <returns></returns>
         private async Task FillSearchListAsync()
@@ -600,6 +618,8 @@ namespace GSCFieldApp.ViewModel
             currentProjectType = meta.First().FieldworkType.ToString();
 
             await FillLithoGroupSearchListAsync(vocab, currentProjectType);
+
+            //TODO: Make sure this one doesn't slow up the rendering process of the form
             await FillLithoSearchListAsync(vocab, currentProjectType);
         }
 
@@ -630,77 +650,58 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
-
+            _isLithoDetailListVisible = true;
             LihthoDetailSearchResults = _lihthoDetailSearchResults;
-
-            isLithoDetailListVisible = true;
-
+            OnPropertyChanged(nameof(isLithoDetailListVisible));
+            OnPropertyChanged(nameof(LihthoDetailSearchResults));
             
         }
 
         /// <summary>
-        /// Will force a filtered down list of lithology group/types based
-        /// on user selected detail (usually 1 value)
+        /// Will select a proper group/type lithology based on selected
+        /// detail
         /// </summary>
         /// <param name="groupName"></param>
         public void RefineGroupListFromDetail(string detailName)
         {
-            //Reset list
-            _earthLithoGroup = new ComboBox();
 
-            //Get proper lith group
-            foreach (Lithology lith in lithologies)
+            //Find group match from detail
+            bool foundMatch = false;
+            while (!foundMatch)
             {
-                //Prep new item
-                ComboBoxItem cbi = new ComboBoxItem();
-                cbi.itemValue = lith.GroupTypeCode;
-                cbi.itemName = lith.GroupTypeCode;
-
-                if (detailName != string.Empty)
+                foreach (Lithology lith in lithologies)
                 {
-                    foreach (LithologyDetail lDetail in lith.lithologyDetails)
+                    if (detailName != string.Empty)
                     {
-                        if (lDetail.DetailCode == detailName)
+                        foreach (LithologyDetail lDetail in lith.lithologyDetails)
                         {
-                            if (!_earthLithoGroup.cboxItems.Contains(cbi))
+                            if (lDetail.DetailCode == detailName)
                             {
-                                _earthLithoGroup.cboxItems.Add(cbi);
+                                ComboBoxItem matchGroupItem = _earthLithoGroup.cboxItems.Where(i => i.itemName == lith.GroupTypeCode).First();
+                                if (matchGroupItem != null)
+                                {
+                                    _earthLithoGroup.cboxDefaultItemIndex = _earthLithoGroup.cboxItems.IndexOf(matchGroupItem);
+                                    foundMatch = true; //Get out of all for loops
+                                }
+
+
                             }
+
                         }
-
-                    }
-                }
-                else
-                {
-                    //Force addition of all items back to group picker
-
-                    if (!_earthLithoGroup.cboxItems.Contains(cbi))
-                    {
-                        _earthLithoGroup.cboxItems.Add(cbi);
                     }
                 }
 
-
+                foundMatch = true; //Break while if nothing was found
             }
 
-            //Set default value if only is found
-            if (_earthLithoGroup.cboxItems.Count() == 1)
-            {
-                _earthLithoGroup.cboxDefaultItemIndex = 0;
-            }
-            else
-            {
-                _earthLithoGroup.cboxDefaultItemIndex = -1;
-            }
-
-            //Refresh
-            EarthLithoGroup = _earthLithoGroup;
             OnPropertyChanged(nameof(EarthLithoGroup));
+            OnPropertyChanged(nameof(EarthLithoGroup.cboxDefaultItemIndex));
 
         }
 
         /// <summary>
         /// Will fill all picker controls
+        /// TODO: make sure this whole thing doesn't slow too much form rendering
         /// </summary>
         /// <returns></returns>
         public async Task FillPickers()
@@ -759,7 +760,8 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will fill all picker controls
+        /// Will fill all picker controls that are dependant on the user selected
+        /// lithology group/type
         /// </summary>
         /// <returns></returns>
         public async Task Fill2ndRoundPickers()
@@ -780,7 +782,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will fill a needed picker control with vocabulary
+        /// Generic method to fill a needed picker control with vocabulary
         /// </summary>
         private async Task<ComboBox> FillAPicker(string fieldName, string extraField = "", string fieldWork = "")
         {
@@ -841,6 +843,7 @@ namespace GSCFieldApp.ViewModel
 
         /// <summary>
         /// Will fill out missing fields for model. Default auto-calculated values
+        /// Done before actually saving
         /// </summary>
         private async Task SetModelAsync()
         {
@@ -1111,7 +1114,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will make sure to load the second round of piclist
+        /// Will make sure to load the second round of picklist
         /// that depends on the user selected litho group
         /// </summary>
         /// <returns></returns>

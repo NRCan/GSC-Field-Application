@@ -76,8 +76,7 @@
                                         x:Name="lithoSearchBar" Text="{Binding Model.EarthMatLithdetail, Mode=TwoWay }"
                                         SearchCommand="{Binding PerformDetailSearchCommand}" 
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
-                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" 
-                                              
+                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible, Mode=TwoWay}"
                                         x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
                                         ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
 
