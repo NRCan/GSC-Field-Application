@@ -219,6 +219,14 @@ namespace GSCFieldApp.ViewModel
 
             }
 
+            //Update metadata if needed
+            if (metadataModel.IsActive == 0)
+            {
+                //Since a first location is being recorded, set to active.
+                metadataModel.IsActive = 1;
+                await dataAccess.SaveItemAsync(metadataModel, true);
+            }
+
             //Save
             locationModel = await dataAccess.SaveItemAsync(locationModel, false) as FieldLocation;
 

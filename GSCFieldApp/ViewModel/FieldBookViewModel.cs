@@ -129,8 +129,12 @@ namespace GSCFieldApp.ViewModel
             if (metadata != null && metadata.isValid)
             {
                 //Disable some key fields
-                _canWrite = false;
-                OnPropertyChanged(nameof(CanWrite));
+                if (metadata.IsActive == 1)
+                {
+                    //Prevents user from updating key info after starting a survey
+                    _canWrite = false;
+                    OnPropertyChanged(nameof(CanWrite));
+                }
 
                 //Set model like actual record
                 _model = metadata;
@@ -178,6 +182,7 @@ namespace GSCFieldApp.ViewModel
                 Model.Version = AppInfo.Current.VersionString;
                 Model.StartDate = String.Format("{0:d}", DateTime.Today);
                 Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
+                Model.IsActive = 0; //Default to inactive on new field books since they don't have any stations yet.
             }
 
             //Process pickers
