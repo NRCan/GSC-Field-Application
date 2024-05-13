@@ -182,9 +182,13 @@ namespace GSCFieldApp.ViewModel
                         {
                             _qualifierCollection.RemoveAt(0);
                         }
-                        _qualifierCollection.Add(value);
-                        _selectedEarthLithQualifier = value;
-                        OnPropertyChanged(nameof(EarthLithQualifierCollection));
+                        if (value != null && value.itemName != string.Empty)
+                        {
+                            _qualifierCollection.Add(value);
+                            _selectedEarthLithQualifier = value;
+                            OnPropertyChanged(nameof(EarthLithQualifierCollection));
+                        }
+
                     }
 
 
@@ -209,9 +213,13 @@ namespace GSCFieldApp.ViewModel
                         {
                             _textStructCollection.RemoveAt(0);
                         }
-                        _textStructCollection.Add(value);
-                        _selectedEarthLithTextStruc = value;
-                        OnPropertyChanged(nameof(EarthLithTextStrucCollection));
+
+                        if (value != null && value.itemName != string.Empty)
+                        {
+                            _textStructCollection.Add(value);
+                            _selectedEarthLithTextStruc = value;
+                            OnPropertyChanged(nameof(EarthLithTextStrucCollection));
+                        }
                     }
 
 
@@ -235,9 +243,14 @@ namespace GSCFieldApp.ViewModel
                         {
                             _grainSizeCollection.RemoveAt(0);
                         }
-                        _grainSizeCollection.Add(value);
-                        _selectedEarthLithGrainSize = value;
-                        OnPropertyChanged(nameof(EarthLithGrainSizeCollection));
+
+                        if (value != null && value.itemName != string.Empty)
+                        {
+                            _grainSizeCollection.Add(value);
+                            _selectedEarthLithGrainSize = value;
+                            OnPropertyChanged(nameof(EarthLithGrainSizeCollection));
+                        }
+
                     }
 
 
@@ -261,9 +274,14 @@ namespace GSCFieldApp.ViewModel
                         {
                             _bedThickCollection.RemoveAt(0);
                         }
-                        _bedThickCollection.Add(value);
-                        _selectedEarthLithBedThick = value;
-                        OnPropertyChanged(nameof(EarthLithBedThickCollection));
+
+                        if (value != null && value.itemName != string.Empty)
+                        {
+                            _bedThickCollection.Add(value);
+                            _selectedEarthLithBedThick = value;
+                            OnPropertyChanged(nameof(EarthLithBedThickCollection));
+                        }
+
                     }
 
 
@@ -287,9 +305,14 @@ namespace GSCFieldApp.ViewModel
                         {
                             _defFabCollection.RemoveAt(0);
                         }
-                        _defFabCollection.Add(value);
-                        _selectedEarthLithDefFab = value;
-                        OnPropertyChanged(nameof(EarthLithDefFabCollection));
+
+                        if (value != null && value.itemName != string.Empty)
+                        {
+                            _defFabCollection.Add(value);
+                            _selectedEarthLithDefFab = value;
+                            OnPropertyChanged(nameof(EarthLithDefFabCollection));
+                        }
+
                     }
 
 
