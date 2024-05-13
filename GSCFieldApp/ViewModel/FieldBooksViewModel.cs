@@ -57,19 +57,7 @@ namespace GSCFieldApp.ViewModel
             //Fill list view of projects
             FillBookCollectionAsync();
 
-            //Detect new field book save
-            FieldBookPage.newFieldBookSaved += FieldBookDialog_newFieldBookSaved;
-
         }
-
-        #region EVENTS
-        private void FieldBookDialog_newFieldBookSaved(object sender, EventArgs e)
-        {
-            FillBookCollectionAsync();
-
-        }
-
-        #endregion
 
         #region RELAY COMMANDS
 
