@@ -51,7 +51,7 @@
                         </Grid.RowDefinitions>
 
                         <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White" TextTransform="Uppercase"
-                            Margin="10,0,0,0"/>
+                            Margin="10,0,0,0" LineBreakMode="TailTruncation"/>
 
                         <Label Text="{Binding metadataForProject.MetadataActivity}" LineBreakMode="WordWrap"
                                FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
@@ -147,7 +147,7 @@
                 <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" SelectionChangedCommand="{Binding FieldBookChangedCommand}"
                                 CanReorderItems="False" HorizontalOptions="CenterAndExpand"
                                 SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}"
-                                ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}" 
+                                ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}"
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
                                 HeightRequest="{OnPlatform WinUI=380}" WidthRequest="{OnPlatform Android=380}">
 

@@ -215,23 +215,23 @@ namespace GSCFieldApp.ViewModel
             List<string> invalidFieldBookToDelete = new List<string>();
 
             //Iterate through local state folder
-            string[] fileList = Directory.GetFiles(FileSystem.Current.AppDataDirectory);
+            DirectoryInfo di = new DirectoryInfo(FileSystem.Current.AppDataDirectory);
+            FileInfo[] fileList = di.GetFiles().OrderByDescending(i=>i.CreationTime).ToArray();
 
-            foreach (string sf in fileList)
+            foreach (FileInfo fi in fileList)
             {
-                FileInfo fi = new FileInfo(sf);
 
                 //Check if file size is higher then 0
                 if (fi.Length > 0) 
                 {
                     //Get the databases but not the main default one
-                    if ((sf.Contains(DatabaseLiterals.DBTypeSqlite) || sf.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
-                        && !sf.Contains(DatabaseLiterals.DBName))
+                    if ((fi.Extension.Contains(DatabaseLiterals.DBTypeSqlite) || fi.Extension.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                        && !fi.Name.Contains(DatabaseLiterals.DBName))
                     {
 
                         //Connect to found database and retrive some information from it
                         FieldBooks currentBook = new FieldBooks();
-                        SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(sf);
+                        SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(fi.FullName);
 
                         //Get metadata records
                         List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
@@ -242,7 +242,7 @@ namespace GSCFieldApp.ViewModel
                             currentBook.CreateDate = met.StartDate;
                             currentBook.GeologistGeolcode = met.Geologist + "[" + met.UserCode + "]";
                             currentBook.ProjectPath = FileSystem.Current.AppDataDirectory;
-                            currentBook.ProjectDBPath = sf;
+                            currentBook.ProjectDBPath = fi.FullName;
                             currentBook.metadataForProject = m as Metadata;
 
                             //Manage to select last prefered fieldbook
@@ -281,7 +281,7 @@ namespace GSCFieldApp.ViewModel
                         if (!_fieldbookCollection.Contains(currentBook))
                         {
                             _fieldbookCollection.Add(currentBook);
-                            OnPropertyChanged(nameof(FieldbookCollection));
+                            
                         }
 
                         await currentConnection.CloseAsync();
@@ -305,7 +305,10 @@ namespace GSCFieldApp.ViewModel
 
                 
             }
-            
+
+            //Refresh UI
+            OnPropertyChanged(nameof(FieldbookCollection));
+
             WatermarkValidation();
         }
 
