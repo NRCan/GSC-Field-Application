@@ -71,7 +71,7 @@
                                     SelectedIndex="{Binding EarthLithoGroup.cboxDefaultItemIndex, Mode=TwoWay}" />
                                     
                                     <!-- Detail search bar (approx >450 items) -->
-                                    <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                     <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"
                                         x:Name="lithoSearchBar" Text="{Binding Model.EarthMatLithdetail, Mode=TwoWay }"
                                         SearchCommand="{Binding PerformDetailSearchCommand}" 

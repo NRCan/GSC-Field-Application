@@ -330,7 +330,7 @@
         </Setter>
     </Style>
 
-    <!--TODO: Find a way to customize title style-->
+    <!--Mandatory controls-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">
         <Setter Property="Margin" Value="10"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
@@ -338,9 +338,9 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
-        <!--<Setter Property="MinimumWidthRequest" Value="44"/>-->
-        <!--<Setter Property="MinimumWidthRequest" Value="200"/>-->
+        <Setter Property="WidthRequest" Value="240"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -356,6 +356,29 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Label" x:Key="FieldAppEntryTitleMandatory">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- -->
+    
     <Style TargetType="Rectangle" x:Key="HorizontalBar">
         <Setter Property="Height" Value="1"/>
         <!--<Setter Property="Margin" Value="20,10,20,20"/>-->

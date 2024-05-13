@@ -59,7 +59,7 @@
                             <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize StationPageTypeTitle}"/>
 
                             <VerticalStackLayout IsVisible="{Binding StationTypeVisibility}">
-                                <Picker Title="{local:Localize StationPageType}"
+                                <Picker Title="{local:Localize StationPageType}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding StationType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationType.cboxDefaultItemIndex, Mode=TwoWay}" />

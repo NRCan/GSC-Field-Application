@@ -28,8 +28,8 @@
                         <VerticalStackLayout>
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize FieldBookPageDescriptionTitle}"/>
 
-                            <Picker Title="{local:Localize FieldBookPageWorkType}" 
-                                    ItemsSource="{Binding ProjectType.cboxItems}" 
+                            <Picker Title="{local:Localize FieldBookPageWorkType}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding ProjectType.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding ProjectType.cboxDefaultItemIndex, Mode=TwoWay}" />
 
@@ -40,7 +40,7 @@
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                 <Entry Placeholder="{local:Localize FieldBookPageActivtyPlaceholder}"
                                        Text="{Binding Model.MetadataActivity}"/>
                             </VerticalStackLayout>
@@ -48,6 +48,36 @@
                         </VerticalStackLayout>
                     </Frame>
                     
+                    <!--Geologist section-->
+                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageGeologistTitle}"/>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.ProjectUser_FN}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.ProjectUser_MN}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+                                <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.ProjectUser_LN}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+                                <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" 
+                                       Text="{Binding Model.UserCode}" TextTransform="Uppercase"
+                                       IsEnabled="{Binding CanWrite, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </Frame>
+                                       
                     <!--Project chief section-->
                     <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
                         <VerticalStackLayout>
@@ -68,36 +98,6 @@
                                 <Entry Text="{Binding Model.ProjectLeader_LN}"/>
                             </VerticalStackLayout>
 
-
-                        </VerticalStackLayout>
-                    </Frame>
-                    
-                    <!--Geologist section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageGeologistTitle}"/>
-
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectUser_FN}"/>
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectUser_MN}"/>
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout >
-                                <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectUser_LN}"/>
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout >
-                                <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" 
-                                       Text="{Binding Model.UserCode}" TextTransform="Uppercase"
-                                       IsEnabled="{Binding CanWrite, Mode=TwoWay}"/>
-                            </VerticalStackLayout>
 
                         </VerticalStackLayout>
                     </Frame>
