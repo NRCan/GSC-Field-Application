@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:models="clr-namespace:GSCFieldApp.Models"
              x:DataType="viemodel:FieldNotesViewModel"
+             xmlns:converters="clr-namespace:GSCFieldApp.Converters"
              Title="{local:Localize ShellFieldNotesTitle}">
     
     <Shell.BackButtonBehavior>
@@ -13,6 +14,8 @@
     </Shell.BackButtonBehavior>
     
     <ContentPage.Resources>
+
+        <converters:ColorFromBoolConverter x:Key="colorFromBool"/>
 
         <!-- Note Cards Templates -->
         <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
@@ -55,15 +58,16 @@
         
         <DataTemplate x:Key="FieldNoteCardMobile" x:DataType="models:FieldNote">
 
-            <TextCell Detail="{Binding Display_text_3}" TextColor="{AppThemeBinding Light={StaticResource Black}, Dark= {StaticResource White}}"
+            <TextCell Detail="{Binding Display_text_3}" TextColor="{Binding isValid,  Converter={StaticResource colorFromBool}, ConverterParameter='isValid', Mode=OneWay}"
                       DetailColor="{AppThemeBinding Light={StaticResource Gray400}, Dark= {StaticResource Gray300}}"
                       Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
                       CommandParameter="{Binding .}">
-
                 <TextCell.Text>
+
                     <MultiBinding StringFormat="{}{0}: {1}">
                         <Binding Path="Display_text_1" />
                         <Binding Path="Display_text_2" />
+
                     </MultiBinding>
                 </TextCell.Text>
 
@@ -115,7 +119,7 @@
                             </CollectionView.ItemsLayout>
                         </CollectionView>
                         <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}"
-                                  ItemTemplate="{StaticResource FieldNoteCardMobile}"/>
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}" />
                     </VerticalStackLayout>
 
 

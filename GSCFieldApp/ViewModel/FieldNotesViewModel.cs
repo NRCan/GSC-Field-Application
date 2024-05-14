@@ -384,7 +384,8 @@ namespace GSCFieldApp.ViewModel
                         GenericTableName = DatabaseLiterals.TableStation,
                         GenericID = st.StationID,
                         ParentID = st.LocationID,
-                        Date = st.StationVisitDate
+                        Date = st.StationVisitDate,
+                        isValid = st.isValid
                     });
                 }
 
@@ -438,7 +439,8 @@ namespace GSCFieldApp.ViewModel
                         Display_text_3 = st.EarthMatLithgroup,
                         GenericTableName = DatabaseLiterals.TableEarthMat,
                         GenericID = st.EarthMatID,
-                        ParentID = parentID
+                        ParentID = parentID,
+                        isValid = st.isValid
                     });
                 }
 
