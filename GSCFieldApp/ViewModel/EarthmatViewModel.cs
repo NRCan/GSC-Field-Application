@@ -951,6 +951,10 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.EarthMatContact = concat.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
             }
+            if (EarthLithoGroup.cboxItems.Count() > 0 && EarthLithoGroup.cboxDefaultItemIndex != -1)
+            {
+                Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
+            }
         }
 
         /// <summary>
@@ -971,7 +975,7 @@ namespace GSCFieldApp.ViewModel
                 //Select values in pickers
                 foreach (ComboBoxItem cbox in EarthLithoGroup.cboxItems)
                 {
-                    if (cbox.itemValue == _model.GroupType)
+                    if (cbox.itemValue == _model.EarthMatLithgroup)
                     {
                         EarthLithoGroup.cboxDefaultItemIndex = EarthLithoGroup.cboxItems.IndexOf(cbox);
                         break;
