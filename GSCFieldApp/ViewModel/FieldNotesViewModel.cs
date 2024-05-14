@@ -189,7 +189,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedStation != null && tappedStation.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(StationPage)}",
+                    await Shell.Current.GoToAsync($"{nameof(StationPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(FieldLocation)] = null,
@@ -209,7 +209,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedEM != null && tappedEM.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}",
+                    await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Earthmaterial)] = (Earthmaterial)tappedEM[0],

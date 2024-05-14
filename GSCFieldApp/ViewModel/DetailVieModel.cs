@@ -13,7 +13,7 @@ namespace GSCFieldApp.ViewModel
         async Task GoBack()
         { 
             //Navigate backward (../.. will navigate two pages back)"
-            await Shell.Current.GoToAsync("..");    
+            await Shell.Current.GoToAsync("../");    
         }
     }
 }

@@ -190,8 +190,8 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            //await Shell.Current.GoToAsync($"{nameof(MapPage)}");
-            await Shell.Current.GoToAsync("..");
+            //await Shell.Current.GoToAsync($"{nameof(MapPage)}/");
+            await Shell.Current.GoToAsync("../");
 
         }
 
@@ -216,7 +216,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}",
+            await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Earthmaterial)] = null,

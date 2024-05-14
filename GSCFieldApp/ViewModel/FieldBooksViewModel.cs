@@ -83,7 +83,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task AddFieldBook()
         {
-            await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}");
+            await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/");
         }
 
         [RelayCommand]
@@ -126,7 +126,7 @@ namespace GSCFieldApp.ViewModel
             //Navigate to fieldbook page and send along the metadata
             if (_selectedFieldBook != null)
             {
-                await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}",
+                await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
                     new Dictionary<string, object>
                     {
                         [nameof(Metadata)] = _selectedFieldBook.metadataForProject,

@@ -63,7 +63,7 @@ namespace GSCFieldApp.Models
             //Navigate to fieldbook page and send along the metadata
             if (metadataForProject != null)
             {
-                await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}",
+                await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
                     new Dictionary<string, object>
                     {
                         [nameof(Metadata)] = metadataForProject,
