@@ -150,6 +150,9 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
+            //Delete location associated to this station
+            _ = await da.DeleteItemAsync(fieldLocation);
+
             //Android when navigating back, ham menu disapears if / isn't added to path
             await Shell.Current.GoToAsync("../");
         }

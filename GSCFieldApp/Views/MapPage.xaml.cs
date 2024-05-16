@@ -127,30 +127,30 @@ public LocalizationResourceManager LocalizationResourceManager
         //They might have deleted some stations, make sure to refresh
 
         foreach (var item in mapView.Map.Layers)
-        {
-            if (item.Name == ApplicationLiterals.aliasStations)
             {
-                mapView.Map.Layers.Remove(item);
-                List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
-                if (memLayers != null && memLayers.Count > 0)
+                if (item.Name == ApplicationLiterals.aliasStations)
                 {
-                    foreach (MemoryLayer ml in memLayers)
+                    mapView.Map.Layers.Remove(item);
+                    List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
+                    if (memLayers != null && memLayers.Count > 0)
                     {
-                        mapView.Map.Layers.Add(ml);
+                        foreach (MemoryLayer ml in memLayers)
+                        {
+                            mapView.Map.Layers.Add(ml);
+                        }
+
+                        mapView.Map.RefreshData();
+
+                        //Zoom to extent of stations
+                        SetExtent(memLayers[0]);
                     }
 
-                    mapView.Map.RefreshData();
 
-                    //Zoom to extent of stations
-                    SetExtent(memLayers[0]);
+                    break;
                 }
-
-
-                break;
             }
-        }
 
-    }
+        }
 
     /// <summary>
     /// Once the map is loaded, make a quick check on 
@@ -741,7 +741,7 @@ public LocalizationResourceManager LocalizationResourceManager
     }
 
     /// <summary>
-    /// Will create a new point layer for station location
+    /// Will create a new point layer for station or traverse location
     /// </summary>
     /// <returns></returns>
     private async Task<List<MemoryLayer>> CreateDefaultLayersAsync()
