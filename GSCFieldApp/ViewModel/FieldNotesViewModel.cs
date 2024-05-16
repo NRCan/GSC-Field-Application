@@ -364,6 +364,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[Tables.station].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
 
             }
 
@@ -373,7 +374,6 @@ namespace GSCFieldApp.ViewModel
             if (stations != null && stations.Count > 0)
             {
                 
-
                 foreach (Station st in stations)
                 {
                     FieldNotes[Tables.station].Add(new FieldNote
@@ -411,7 +411,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[Tables.em].Clear();
-
+                OnPropertyChanged(nameof(FieldNotes));
             }
 
             //Get all em from database
@@ -445,6 +445,8 @@ namespace GSCFieldApp.ViewModel
                 }
 
             }
+
+            OnPropertyChanged(nameof(FieldNotes));
 
         }
 
