@@ -26,6 +26,8 @@ using Mapsui.Providers.Wms;
 using Microsoft.Maui.Devices.Sensors;
 using System.Diagnostics;
 using System;
+using NetTopologySuite.Operation.Distance;
+
 #if ANDROID
 using Android.Content;
 #elif IOS
@@ -99,7 +101,7 @@ public LocalizationResourceManager LocalizationResourceManager
     {
         //Make sure to disable the waiting cursor
         MapViewModel mvm = this.BindingContext as MapViewModel;
-        mvm.SetWaitingCursor(false);
+        this.WaitingCursor.IsRunning = false;
 
         //Make sure to save current settings locally if not default layers
         try
@@ -148,17 +150,6 @@ public LocalizationResourceManager LocalizationResourceManager
             }
         }
 
-        //Manage GPS
-        if (!_isCheckingGeolocation)
-        {
-
-            MapViewModel mapViewModel = this.BindingContext as MapViewModel;
-
-            mapViewModel.SetWaitingCursor(true);
-            await StartGPS();
-
-        }
-
     }
 
     /// <summary>
@@ -189,6 +180,14 @@ public LocalizationResourceManager LocalizationResourceManager
 
         //Reload user datasets
         await LoadPreferedLayers();
+
+        //Manage GPS
+        if (!_isCheckingGeolocation)
+        {
+
+            await StartGPS();
+
+        }
     }
 
     private void mapView_MapClicked(object sender, MapClickedEventArgs e)
@@ -268,8 +267,7 @@ public LocalizationResourceManager LocalizationResourceManager
     /// <param name="e"></param>
     private async void AddLayerButton_Clicked(object sender, EventArgs e)
     {
-        MapViewModel mvm = this.BindingContext as MapViewModel;
-        mvm.SetWaitingCursor(true);
+        this.WaitingCursor.IsRunning = true;
 
         //Call a dialog for user to select a file
         FileResult fr = await PickLayer();
@@ -278,6 +276,8 @@ public LocalizationResourceManager LocalizationResourceManager
             await AddAMBTile(fr.FullPath);
 
         }
+
+        this.WaitingCursor.IsRunning = false;
 
     }
 
@@ -314,7 +314,7 @@ public LocalizationResourceManager LocalizationResourceManager
         }
         else
         {
-            StartGPS();
+            _ = StartGPS();
         }
     }
 
@@ -519,8 +519,7 @@ public LocalizationResourceManager LocalizationResourceManager
     {
         if (wmsURL != null && wmsURL != string.Empty)
         {
-            MapViewModel vm = this.BindingContext as MapViewModel;
-            vm.SetWaitingCursor(true);
+            this.WaitingCursor.IsRunning = true;
 
             string fullURL = wmsURL;
             string[] splitURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers);
@@ -566,7 +565,7 @@ public LocalizationResourceManager LocalizationResourceManager
                     LocalizationResourceManager["MapPageAddWMSFailMessage"].ToString(),
                     LocalizationResourceManager["GenericButtonOk"].ToString());
 
-                vm.SetWaitingCursor(false);
+                this.WaitingCursor.IsRunning = false;
             }
         }
 
@@ -957,6 +956,7 @@ public LocalizationResourceManager LocalizationResourceManager
 
                 try
                 {
+                    this.WaitingCursor.IsRunning = true;
 
                     //Listening to location changes
                     GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(1));
@@ -969,12 +969,17 @@ public LocalizationResourceManager LocalizationResourceManager
 
                     if (success)
                     {
+                        
                         //Force location change event
                         await BackgroundTimer(TimeSpan.FromSeconds(1));
 
                         //Temp this isn't triggered
                         Geolocation.LocationChanged += Geolocation_LocationChanged;
 
+                    }
+                    else
+                    {
+                        this.WaitingCursor.IsRunning = false;
                     }
                 }
                 catch (FeatureNotSupportedException fnsEx)
@@ -1089,7 +1094,7 @@ public LocalizationResourceManager LocalizationResourceManager
     {
         try
         {
-            // check if I should update location
+            // check if it should update location
             if (_isCheckingGeolocation)
             {
                 UpdateLocationOnMap(e.Location);
@@ -1115,6 +1120,7 @@ public LocalizationResourceManager LocalizationResourceManager
     {
         if (_isCheckingGeolocation)
         {
+
             MapViewModel vm = this.BindingContext as MapViewModel;
             vm.RefreshCoordinates(inLocation);
 
@@ -1133,6 +1139,8 @@ public LocalizationResourceManager LocalizationResourceManager
             {
                 mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
             }
+
+            this.WaitingCursor.IsRunning = false;
         }
 
     }

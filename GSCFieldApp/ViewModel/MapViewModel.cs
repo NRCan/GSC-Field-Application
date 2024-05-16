@@ -33,7 +33,6 @@ namespace GSCFieldApp.ViewModel
         private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>();
         private Collection<MapPageLayer> _customLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
-        private bool _isWaiting = false;
 
         #endregion
 
@@ -41,7 +40,6 @@ namespace GSCFieldApp.ViewModel
         public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
         private Collection<MapPageLayer> CayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
-        public bool IsWaiting { get { return _isWaiting; } set { _isWaiting = value; } }
 
         #endregion
         public MapViewModel()
@@ -152,15 +150,6 @@ namespace GSCFieldApp.ViewModel
             return Path.Combine(Path.GetDirectoryName(dataAccess.PreferedDatabasePath), Path.GetFileNameWithoutExtension(dataAccess.PreferedDatabasePath)) + ".json";
         }
 
-        /// <summary>
-        /// Enable / disable waiting cursor on map page
-        /// </summary>
-        /// <param name="isRunning"></param>
-        public void SetWaitingCursor(bool isRunning)
-        {
-            _isWaiting = isRunning;
-            OnPropertyChanged(nameof(IsWaiting));
-        }
         /// <summary>
         /// Will retrieve first metadata record
         /// </summary>
