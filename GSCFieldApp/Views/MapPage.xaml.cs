@@ -471,8 +471,14 @@ public LocalizationResourceManager LocalizationResourceManager
                 inLayer.Extent.MinY,
                 inLayer.Extent.MaxX,
                 inLayer.Extent.MaxY).Grow(2500);
+            double currentArea = mapView.Map.Navigator.Viewport.ToExtent().GetArea();
+            double zoomingToArea = fieldDataExtent.GetArea();
+            //Zoom to extent of all stations, unless current extent is already smaller
+            if (currentArea > zoomingToArea)
+            {
+                mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
+            }
 
-            mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
         }
         else
         {
