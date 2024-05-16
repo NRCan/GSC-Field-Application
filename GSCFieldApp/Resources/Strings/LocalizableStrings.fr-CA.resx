@@ -133,6 +133,9 @@
     <value>Aucun droit de positionnement.
 Aimeriez-vous modifier les droits?</value>
   </data>
+  <data name="DisplayAlertGPSNoEnabled" xml:space="preserve">
+    <value>Positionnement non activé</value>
+  </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Indexe</value>
   </data>

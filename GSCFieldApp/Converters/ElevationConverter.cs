@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using NetTopologySuite.Mathematics;
+using System;
 using System.Globalization;
 
 namespace GSCFieldApp.Converters
@@ -10,7 +12,16 @@ namespace GSCFieldApp.Converters
             if (value == null)
                 return value;
 
-            return string.Format("{0:0} m", value); //Keep only one digits, more is useless.
+            double dd = (double)value;
+            if (dd.IsZeroOrNaN())
+            {
+                return string.Format("N.A. m", value);
+            }
+            else
+            {
+                return string.Format("{0:0} m", value);//Keep only one digits, more is useless.
+            }
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

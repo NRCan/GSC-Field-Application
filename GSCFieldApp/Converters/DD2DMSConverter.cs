@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using System;
 using System.Globalization;
 
 namespace GSCFieldApp.Converters
@@ -27,10 +28,27 @@ namespace GSCFieldApp.Converters
             switch (parameter.ToString())
             {
                 case "Longitude":
-                    output = string.Format("{0}°{1:00}\'{2:00.00} {3}", d, m, s, isNegative ? 'W' : 'E');
+                    if (d.IsZeroOrNaN())
+                    {
+                        output = "N.A.";
+                    }
+                    else
+                    {
+                        output = string.Format("{0}°{1:00}\'{2:00.00} {3}", d, m, s, isNegative ? 'W' : 'E');
+                    }
+
+                    
                     break;
                 case "Latitude":
-                    output = string.Format("{0}°{1:00}\'{2:00.00} {3}", d, m, s, isNegative ? 'S' : 'N');
+                    if (d.IsZeroOrNaN())
+                    {
+                        output = "N.A.";
+                    }
+                    else
+                    {
+                        output = string.Format("{0}°{1:00}\'{2:00.00} {3}", d, m, s, isNegative ? 'S' : 'N');
+                    }
+                        
                     break;
             }
             return output;

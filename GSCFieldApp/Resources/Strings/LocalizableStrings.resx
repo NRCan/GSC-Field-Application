@@ -132,6 +132,9 @@
   <data name="DisplayAlertGPSMessage" xml:space="preserve">
     <value>Access to location service is currently disabled. Would you like to fix the problem?</value>
   </data>
+  <data name="DisplayAlertGPSNoEnabled" xml:space="preserve">
+    <value>Location access not activated</value>
+  </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Index</value>
   </data>

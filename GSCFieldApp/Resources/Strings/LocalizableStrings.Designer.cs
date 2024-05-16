@@ -106,6 +106,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location access not activated.
+        /// </summary>
+        internal static string DisplayAlertGPSNoEnabled {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSNoEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Index.
         /// </summary>
         internal static string EarthmatColourIndex {

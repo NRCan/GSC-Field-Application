@@ -24,6 +24,14 @@ using BruTile.Wmsc;
 using System.Collections.ObjectModel;
 using Mapsui.Providers.Wms;
 using Microsoft.Maui.Devices.Sensors;
+using System.Diagnostics;
+using System;
+#if ANDROID
+using Android.Content;
+#elif IOS
+using UIKit;
+using Foundation;
+#endif
 
 namespace GSCFieldApp.Views;
 
@@ -37,6 +45,7 @@ public partial class MapPage : ContentPage
     private int bitmapSymbolId = -1;
     private bool _isCheckingGeolocation = false;
     private enum defaultLayerList { Stations, Traverses }
+    private Location badLoc = new Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
 
 public LocalizationResourceManager LocalizationResourceManager
     => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -48,7 +57,6 @@ public LocalizationResourceManager LocalizationResourceManager
 
         //Initialize grid background
         mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
-
         mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
         {
             TextAlignment = Mapsui.Widgets.Alignment.Center,
@@ -59,6 +67,7 @@ public LocalizationResourceManager LocalizationResourceManager
         //Setting map page background default data
         SetOpenStreetMap();
 
+        //Set map and start listenning to layer events
         mapView.Map = mapControl.Map;
 
         this.Loaded += MapPage_Loaded;
@@ -142,7 +151,12 @@ public LocalizationResourceManager LocalizationResourceManager
         //Manage GPS
         if (!_isCheckingGeolocation)
         {
+
+            MapViewModel mapViewModel = this.BindingContext as MapViewModel;
+
+            mapViewModel.SetWaitingCursor(true);
             await StartGPS();
+
         }
 
     }
@@ -157,9 +171,6 @@ public LocalizationResourceManager LocalizationResourceManager
     /// <param name="e"></param>
     private async void MapPage_Loaded(object sender, EventArgs e)
     {
-
-        MapViewModel mvm = this.BindingContext as MapViewModel;
-        mvm.SetWaitingCursor(true);
 
         //Manage symbol and layers
         await AddSymbolToRegistry();
@@ -178,9 +189,6 @@ public LocalizationResourceManager LocalizationResourceManager
 
         //Reload user datasets
         await LoadPreferedLayers();
-
-        mvm.SetWaitingCursor(false);
-
     }
 
     private void mapView_MapClicked(object sender, MapClickedEventArgs e)
@@ -665,15 +673,6 @@ public LocalizationResourceManager LocalizationResourceManager
                 mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
             }
         }
-        //else
-        //{
-        //    if (App.Current.Resources.TryGetValue("White", out var errorColorvalue))
-        //    {
-        //        mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
-        //    }
-
-        //}
-
     }
 
     /// <summary>
@@ -939,67 +938,106 @@ public LocalizationResourceManager LocalizationResourceManager
     /// </summary>
     public async Task StartGPS()
     {
+        //Init 
         _isCheckingGeolocation = true;
+        CancellationToken cancellationToken = CancellationToken.None;
 
-        try
+        //Get permission from device first
+        PermissionStatus permissionStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
+
+        switch (permissionStatus)
         {
-            CancellationToken cancellationToken = CancellationToken.None;
-
-            PermissionStatus permissionStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
-
-            if (permissionStatus == PermissionStatus.Granted)
-            {
+            case PermissionStatus.Granted:
+                
                 if (cancellationToken.IsCancellationRequested)
                 {
+                    DeactivateLocationVisuals();
                     return;
                 }
 
-                GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(1));
-                CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
-                bool success = await Geolocation.StartListeningForegroundAsync(request);
-                string status = success
-                    ? "Started listening for foreground location updates"
-                    : "Couldn't start listening";
-
-                if (success)
+                try
                 {
-                    //Force location change event
-                    await BackgroundTimer(TimeSpan.FromSeconds(1));
 
-                    //Temp this isn't triggered
-                    Geolocation.LocationChanged += Geolocation_LocationChanged;
-                    
-                }
-            }
-        }
-        catch (System.Exception e)
-        {
+                    //Listening to location changes
+                    GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(1));
+                    CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
 
-            await MainThread.InvokeOnMainThreadAsync(async () =>
-            {
-                //Manage restricted access to other problems
-                if (e.Message.ToLower().Contains("denied"))
-                {
-                    //Tell user app doesn't have access to location
-                    bool answer = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
-                        LocalizationResourceManager["DisplayAlertGPSMessage"].ToString(),
-                        LocalizationResourceManager["GenericButtonYes"].ToString(),
-                        LocalizationResourceManager["GenericButtonNo"].ToString());
+                    bool success = await Geolocation.StartListeningForegroundAsync(request);
+                    string status = success
+                        ? "Started listening for foreground location updates"
+                        : "Couldn't start listening";
 
-                    if (answer == true)
+                    if (success)
                     {
-                        AppInfo.Current.ShowSettingsUI();
+                        //Force location change event
+                        await BackgroundTimer(TimeSpan.FromSeconds(1));
+
+                        //Temp this isn't triggered
+                        Geolocation.LocationChanged += Geolocation_LocationChanged;
+
                     }
                 }
-                else
+                catch (FeatureNotSupportedException fnsEx)
                 {
-                    //Generic error message regarding GPS
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPS"].ToString(), e.Message,
-                                            LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                    // Handle not supported on device exception
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                        fnsEx.Message,
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                    DeactivateLocationVisuals();
+                }
+                catch (FeatureNotEnabledException fneEx)
+                {
+
+                    // Handle not enabled on device exception
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
+                        fneEx.Message,
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                    //Open location settings so user can toggle it on
+#if ANDROID
+                    var intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
+                    intent.AddCategory(Intent.CategoryDefault);
+                    intent.SetFlags(ActivityFlags.NewTask);
+                    Platform.CurrentActivity.StartActivityForResult(intent, 0);
+#elif IOS
+                    UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:Privacy&path=LOCATION"));
+#endif
+
+                    DeactivateLocationVisuals();
+                }
+                catch (PermissionException pEx)
+                {
+
+                    // Handle permission exception
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                        pEx.Message,
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                    DeactivateLocationVisuals();
+                }
+                catch (Exception ex)
+                {
+
+                    // Unable to get location
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+                        ex.Message,
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                    DeactivateLocationVisuals();
                 }
 
-            });
+                break;
+
+            default:
+
+                await DisplayGPSNotGranted();
+                DeactivateLocationVisuals();
+
+                break;
+
         }
+
     }
 
     /// <summary>
@@ -1007,24 +1045,17 @@ public LocalizationResourceManager LocalizationResourceManager
     /// </summary>
     public async Task StopGPSAsync()
     {
-        if (_isCheckingGeolocation)
+        DeactivateLocationVisuals();
+
+        try
         {
-            await SetMapAccuracyColor(-99);
-            _isCheckingGeolocation = false;
-            //_cancelTokenSource.Cancel();
+            Geolocation.LocationChanged -= Geolocation_LocationChanged;
+            Geolocation.StopListeningForeground();
 
-            try
-            {
-                Geolocation.LocationChanged -= Geolocation_LocationChanged;
-                Geolocation.StopListeningForeground();
-                await SetMapAccuracyColor(-99);
-                string status = "Stopped listening for foreground location updates";
-
-            }
-            catch (System.Exception ex)
-            {
-                // Unable to stop listening for location changes
-            }
+        }
+        catch (System.Exception ex)
+        {
+            // Unable to stop listening for location changes
         }
 
     }
@@ -1082,24 +1113,62 @@ public LocalizationResourceManager LocalizationResourceManager
     /// <returns></returns>
     public async Task UpdateLocationOnMap(Location inLocation)
     {
-        MapViewModel vm = this.BindingContext as MapViewModel;
-        vm.RefreshCoordinates(inLocation);
-
-        await SetMapAccuracyColor(inLocation.Accuracy);
-
-        mapView?.MyLocationLayer.UpdateMyLocation(new Position(inLocation.Latitude, inLocation.Longitude));
-        mapView.RefreshGraphics();
-        //mapView.MyLocationFollow = true;
-
-        if (inLocation.Course != null)
+        if (_isCheckingGeolocation)
         {
-            mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            MapViewModel vm = this.BindingContext as MapViewModel;
+            vm.RefreshCoordinates(inLocation);
+
+            await SetMapAccuracyColor(inLocation.Accuracy);
+
+            mapView?.MyLocationLayer.UpdateMyLocation(new Position(inLocation.Latitude, inLocation.Longitude));
+            mapView.RefreshGraphics();
+            //mapView.MyLocationFollow = true;
+
+            if (inLocation.Course != null)
+            {
+                mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+            }
+
+            if (inLocation.Speed != null)
+            {
+                mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
+            }
         }
 
-        if (inLocation.Speed != null)
+    }
+
+    /// <summary>
+    /// When location permission isn't granted show warning and navigate to settings.
+    /// </summary>
+    public async Task DisplayGPSNotGranted()
+    {
+        //Tell user app doesn't have access to location
+        bool answer = await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
+            LocalizationResourceManager["DisplayAlertGPSMessage"].ToString(),
+            LocalizationResourceManager["GenericButtonYes"].ToString(),
+            LocalizationResourceManager["GenericButtonNo"].ToString());
+
+        if (answer == true)
         {
-            mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
+            AppInfo.Current.ShowSettingsUI();
         }
+
+    }
+
+    /// <summary>
+    /// Will make sure to render proper deactivated location graphics in map page
+    /// </summary>
+    public void DeactivateLocationVisuals()
+    {
+        //Make sure to disable background timer for location event
+        _isCheckingGeolocation = false;
+
+        //Make sure to turn gray map border color based on accuracy
+        _ = SetMapAccuracyColor(-99);
+
+        //Make sure to show proper bad location coordinates labels
+        MapViewModel mapViewModel = this.BindingContext as MapViewModel;
+        mapViewModel.RefreshCoordinates(badLoc);
     }
 
     #endregion
