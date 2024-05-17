@@ -125,6 +125,54 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(EarthLithModifierVisibility), value); }
         }
 
+        public bool EMMineralVisibility
+        {
+            get { return Preferences.Get(nameof(EMMineralVisibility), true); }
+            set { Preferences.Set(nameof(EMMineralVisibility), value); }
+        }
+
+        public bool EMColourVisibility
+        {
+            get { return Preferences.Get(nameof(EMColourVisibility), true); }
+            set { Preferences.Set(nameof(EMColourVisibility), value); }
+        }
+
+        public bool EMMetaFaciesVisibility
+        {
+            get { return Preferences.Get(nameof(EMMetaFaciesVisibility), true); }
+            set { Preferences.Set(nameof(EMMetaFaciesVisibility), value); }
+        }
+
+        public bool EMContactVisibility
+        {
+            get { return Preferences.Get(nameof(EMContactVisibility), true); }
+            set { Preferences.Set(nameof(EMContactVisibility), value); }
+        }
+
+        public bool EMContactRelVisibility
+        {
+            get { return Preferences.Get(nameof(EMContactRelVisibility), true); }
+            set { Preferences.Set(nameof(EMContactRelVisibility), value); }
+        }
+
+        public bool EMMagVisibility
+        {
+            get { return Preferences.Get(nameof(EMMagVisibility), true); }
+            set { Preferences.Set(nameof(EMMagVisibility), value); }
+        }
+
+        public bool EMInterpVisibility
+        {
+            get { return Preferences.Get(nameof(EMInterpVisibility), true); }
+            set { Preferences.Set(nameof(EMInterpVisibility), value); }
+        }
+
+        public bool EMGeneralVisibility
+        {
+            get { return Preferences.Get(nameof(EMGeneralVisibility), true); }
+            set { Preferences.Set(nameof(EMGeneralVisibility), value); }
+        }
+
         public ComboBoxItem SelectedEarthLithoGroup
         {
             get
