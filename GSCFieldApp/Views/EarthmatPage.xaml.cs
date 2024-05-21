@@ -74,4 +74,6 @@ public partial class EarthmatPage : ContentPage
             vm.CalculateResidual(senderBox.Text);
         }
     }
+
+
 }

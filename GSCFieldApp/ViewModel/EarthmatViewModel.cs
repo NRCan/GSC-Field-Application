@@ -19,6 +19,9 @@ using SQLite;
 using System.Text.RegularExpressions;
 using GSCFieldApp.Services;
 using static Microsoft.Maui.ApplicationModel.Permissions;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Storage;
+using System.Threading;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -416,12 +419,14 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty)
+            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
             {
+                
                 await da.SaveItemAsync(Model, true);
             }
             else
             {
+                //New entry coming from parent form
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
             }
@@ -431,6 +436,41 @@ namespace GSCFieldApp.ViewModel
 
             //Exit
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+        }
+
+        /// <summary>
+        /// Save button command
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        async Task SaveStay()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+            {
+                await da.SaveItemAsync(Model, true);
+            }
+            else
+            {
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+
+            }
+
+            //Close to be sure
+            await da.CloseConnectionAsync();
+
+            //Show saved message
+            await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
+
+            //Reset
+            await ResetModelAsync();
+            OnPropertyChanged(nameof(Model));
+
+
         }
 
         /// <summary>
@@ -919,14 +959,14 @@ namespace GSCFieldApp.ViewModel
         private async Task SetModelAsync()
         {
             //Make sure it's for a new field book
-            if (Model.EarthMatID == 0)
+            if (Model.EarthMatID == 0 && _station != null)
             {
                 //Get current application version
                 Model.EarthMatStatID = _station.StationID;
                 Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_station.StationID, _station.StationAlias);
             }
 
-            //Process pickers
+            #region Process pickers
             if (EarthLithQualifierCollection.Count > 0)
             {
                 Model.EarthMatModComp = concat.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
@@ -1003,6 +1043,35 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
             }
+            #endregion
+        }
+
+
+        /// <summary>
+        /// Will reset model fields to default just like it's a new record
+        /// </summary>
+        /// <returns></returns>
+        private async Task ResetModelAsync()
+        {
+
+            //Reset model
+            if (_station != null)
+            {
+                // if coming from station notes, calculate new alias
+                Model.EarthMatStatID = _station.StationID;
+                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_station.StationID, _station.StationAlias);
+            }
+            else if (Model.EarthMatStatID != null)
+            {
+                // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                List<Station> parentAlias = await currentConnection.Table<Station>().Where(e => e.StationID == Model.EarthMatStatID.Value).ToListAsync();
+                await currentConnection.CloseAsync();
+                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(Model.EarthMatStatID.Value, parentAlias.First().StationAlias);
+            }
+
+            Model.EarthMatID = 0;
+            
         }
 
         /// <summary>

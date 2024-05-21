@@ -471,8 +471,20 @@
 
             </ScrollView>
 
-            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldEarthMaterialColor}"
+
+
+            <SwipeView Grid.Row="1" Grid.ColumnSpan="2" Threshold="110">
+                <SwipeView.LeftItems>
+                    <SwipeItems Mode="Execute">
+                        <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
+                            Command="{Binding SaveStayCommand}"/>
+                    </SwipeItems>
+                </SwipeView.LeftItems>
+                
+                <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}"  BackgroundColor="{StaticResource FieldEarthMaterialColor}"
                     Command="{Binding SaveCommand}"/>
+            </SwipeView>
+
 
             <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="0" Grid.Column="1" >
 

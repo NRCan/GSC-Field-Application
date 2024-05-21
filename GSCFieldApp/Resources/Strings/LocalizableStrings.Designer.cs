@@ -70,6 +70,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stay.
+        /// </summary>
+        internal static string ButtonSaveStay {
+            get {
+                return ResourceManager.GetString("ButtonSaveStay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set.
         /// </summary>
         internal static string ButtonSet {
@@ -1344,6 +1353,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string ToastSaveBackupFailed {
             get {
                 return ResourceManager.GetString("ToastSaveBackupFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record has been saved..
+        /// </summary>
+        internal static string ToastSaveRecord {
+            get {
+                return ResourceManager.GetString("ToastSaveRecord", resourceCulture);
             }
         }
         

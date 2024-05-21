@@ -120,6 +120,9 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Sauver</value>
   </data>
+  <data name="ButtonSaveStay" xml:space="preserve">
+    <value>Rester</value>
+  </data>
   <data name="ButtonSet" xml:space="preserve">
     <value>+</value>
   </data>
@@ -546,6 +549,9 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="ToastSaveBackupFailed" xml:space="preserve">
     <value>La sauvegarde a rencontré une erreur: {0}</value>
+  </data>
+  <data name="ToastSaveRecord" xml:space="preserve">
+    <value>L'entrée a été sauvegardé.</value>
   </data>
   <data name="WatermarkNoFieldBook" xml:space="preserve">
     <value>Veuillez ajouter un carnet.</value>
