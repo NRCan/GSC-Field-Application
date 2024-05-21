@@ -162,27 +162,41 @@
 
             </ScrollView>
 
-            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldStationColor}"
+            <SwipeView Grid.Row="1" Grid.ColumnSpan="2" Threshold="110">
+                <SwipeView.LeftItems>
+                    <SwipeItems Mode="Execute">
+                        <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{StaticResource FieldStationColorLight}"
+                            Command="{Binding SaveStayCommand}"/>
+                    </SwipeItems>
+                </SwipeView.LeftItems>
+
+                <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldStationColor}"
                     Command="{Binding SaveCommand}"/>
+            </SwipeView>
 
 
-            <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="0" Grid.Column="1" >
+
+
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" ToolTipProperties.Text="{local:Localize StationTooltipAddEM}" 
                         Margin="0,10,0,10" 
                         BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
                         Command="{Binding AddEarthmatCommand}"/>
-            <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10" 
-                        ToolTipProperties.Text="{local:Localize StationTooltipAddEnv}"
-                        BackgroundColor="{StaticResource FieldEnvironmentColorLight}"/>
-            <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10" 
-                        ToolTipProperties.Text="{local:Localize StationTooltipAddMA}"
-                        BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
-            <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10" 
-                        ToolTipProperties.Text="{local:Localize StationTooltipAddPhoto}"
-                        BackgroundColor="{StaticResource FieldPhotoColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                            WidthRequest="40" Margin="0,10,0,10" 
+                            ToolTipProperties.Text="{local:Localize StationTooltipAddEnv}"
+                            BackgroundColor="{StaticResource FieldEnvironmentColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                            WidthRequest="40" Margin="0,10,0,10" 
+                            ToolTipProperties.Text="{local:Localize StationTooltipAddMA}"
+                            BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                            WidthRequest="40" Margin="0,10,0,10" 
+                            ToolTipProperties.Text="{local:Localize StationTooltipAddPhoto}"
+                            BackgroundColor="{StaticResource FieldPhotoColorLight}"/>
+            </StackLayout>
 
         </Grid>
     </ContentPage.Content>

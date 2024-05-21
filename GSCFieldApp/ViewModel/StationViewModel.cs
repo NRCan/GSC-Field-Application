@@ -16,6 +16,9 @@ using Microsoft.Maui.ApplicationModel.Communication;
 using System.Xml.Linq;
 using System.Reflection;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using CommunityToolkit.Maui.Alerts;
+using SQLite;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -43,6 +46,10 @@ namespace GSCFieldApp.ViewModel
 
         //Themes
         //private bool _bedrockVisibility = true; //Visibility for extra fields
+
+        //Localize
+        public LocalizationResourceManager LocalizationResourceManager
+        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
         #endregion
 
@@ -179,7 +186,7 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_station != null &&_station.StationAlias != string.Empty)
+            if (_station != null &&_station.StationAlias != string.Empty && _model.StationID != 0)
             {
                 await da.SaveItemAsync(Model, true);
             }
@@ -195,6 +202,41 @@ namespace GSCFieldApp.ViewModel
             //Exit
             //await Shell.Current.GoToAsync($"{nameof(MapPage)}/");
             await Shell.Current.GoToAsync("../");
+
+        }
+
+        /// <summary>
+        /// Save button command
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        async Task SaveStay()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (_station != null && _station.StationAlias != string.Empty && _model.StationID != 0)
+            {
+                await da.SaveItemAsync(Model, true);
+            }
+            else
+            {
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+
+            }
+
+            //Close to be sure
+            await da.CloseConnectionAsync();
+
+            //Show saved message
+            await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
+
+            //Reset
+            await ResetModelAsync();
+            OnPropertyChanged(nameof(Model));
+
 
         }
 
@@ -372,6 +414,34 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.StationPhysEnv = StationPhysEnv.cboxItems[StationPhysEnv.cboxDefaultItemIndex].itemValue;
             }
+
+        }
+
+        /// <summary>
+        /// Will reset model fields to default just like it's a new record
+        /// </summary>
+        /// <returns></returns>
+        private async Task ResetModelAsync()
+        {
+
+            //Reset model
+            if (Model.StationID == 0)
+            {
+                //Get current application version
+                Model.LocationID = fieldLocation.LocationID;
+                Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
+                Model.StationVisitDate = CalculateStationDate(); //Calculate new value
+                Model.StationVisitTime = CalculateStationTime(); //Calculate new value
+            }
+            else if (Model.LocationID != null)
+            {
+                // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
+                Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
+                Model.StationVisitDate = CalculateStationDate(); //Calculate new value
+                Model.StationVisitTime = CalculateStationTime(); //Calculate new value
+            }
+
+            Model.StationID = 0;
 
         }
 
