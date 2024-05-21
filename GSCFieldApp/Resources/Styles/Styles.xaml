@@ -100,7 +100,8 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="BorderWidth" Value="0" />
         <Setter Property="HeightRequest" Value="60"/>
-        <Setter Property="WidthRequest" Value="60"/>
+        <Setter Property="WidthRequest" Value="40"/>
+        <Setter Property="Margin" Value="0,10,0,10"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -213,6 +214,11 @@
         <Setter Property="SelectionMode" Value="Single"/>
     </Style>
 
+    <Style TargetType="Grid" x:Key="FieldAppFormGrid">
+        <Setter Property="RowDefinitions" Value="*, 80"/>
+        <Setter Property="ColumnDefinitions" Value="*, 40"/>
+    </Style>
+    
     <!--Concatenated value box styles-->
     <Style TargetType="Frame" x:Key="FieldAppConcatFrame">
         <Setter Property="HasShadow" Value="False" />
