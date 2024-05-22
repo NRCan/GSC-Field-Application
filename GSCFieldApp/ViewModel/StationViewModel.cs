@@ -212,31 +212,58 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveStay()
         {
-            //Fill out missing values in model
-            await SetModelAsync();
+            ////Fill out missing values in model
+            //await SetModelAsync();
 
-            //Validate if new entry or update
-            if (_station != null && _station.StationAlias != string.Empty && _model.StationID != 0)
+            ////Validate if new entry or update
+            //if (_station != null && _station.StationAlias != string.Empty && _model.StationID != 0)
+            //{
+            //    await da.SaveItemAsync(Model, true);
+            //}
+            //else
+            //{
+            //    //Insert new record
+            //    await da.SaveItemAsync(Model, false);
+
+            //}
+
+            ////Close to be sure
+            //await da.CloseConnectionAsync();
+
+            ////Show saved message
+            //await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
+
+            ////Reset
+            //await ResetModelAsync();
+            //OnPropertyChanged(nameof(Model));
+
+            //Display a warning to user
+            await Shell.Current.DisplayAlert("Not allowed", "Can't create a station with same location. ", " ");
+
+        }
+
+        [RelayCommand]
+        async Task SaveDelete()
+        {
+            if (_station.StationID != 0)
             {
-                await da.SaveItemAsync(Model, true);
+                //Display a prompt with an answer to prevent butt or fat finger deleting stations.
+                string answer = await Shell.Current.DisplayPromptAsync("Delete " + _station.StationAlias, "Enter last two digit of current year to delete", "DELETE", "CANCEL");
+
+                if (answer == DateTime.Now.Year.ToString().Substring(2))
+                {
+                    FieldLocation stationToDelete = new FieldLocation();
+                    stationToDelete.LocationID = _station.LocationID;
+                    int numberOfDeletedRows = await da.DeleteItemAsync(stationToDelete);
+                    await da.CloseConnectionAsync();
+
+                    //Show final messag to user
+                    await Shell.Current.DisplayAlert("Delete Completed", "Record " + _station.StationAlias + " has been deleted.", "OK");
+                }
             }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
 
-            }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
-            //Show saved message
-            await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
-
-            //Reset
-            await ResetModelAsync();
-            OnPropertyChanged(nameof(Model));
-
+            //Exit
+            await Shell.Current.GoToAsync("../");
 
         }
 

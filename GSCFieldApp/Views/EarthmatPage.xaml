@@ -480,7 +480,14 @@
                             Command="{Binding SaveStayCommand}"/>
                     </SwipeItems>
                 </SwipeView.LeftItems>
-                
+
+                <SwipeView.RightItems>
+                    <SwipeItems Mode="Execute">
+                        <SwipeItem x:Name="ButtonSaveDelete" Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
+                            Command="{Binding SaveDeleteCommand}"/>
+                    </SwipeItems>
+                </SwipeView.RightItems>
+
                 <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}"  BackgroundColor="{StaticResource FieldEarthMaterialColor}"
                     Command="{Binding SaveCommand}"/>
             </SwipeView>

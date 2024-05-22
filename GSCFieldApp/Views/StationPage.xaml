@@ -163,12 +163,21 @@
             </ScrollView>
 
             <SwipeView Grid.Row="1" Grid.ColumnSpan="2" Threshold="110">
+                
+                <!--Can't add station with same location. Pop warning to user.-->
                 <SwipeView.LeftItems>
                     <SwipeItems Mode="Execute">
                         <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{StaticResource FieldStationColorLight}"
                             Command="{Binding SaveStayCommand}"/>
                     </SwipeItems>
                 </SwipeView.LeftItems>
+
+                <SwipeView.RightItems>
+                    <SwipeItems Mode="Execute">
+                        <SwipeItem x:Name="ButtonSaveDelete" Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
+                            Command="{Binding SaveDeleteCommand}"/>
+                    </SwipeItems>
+                </SwipeView.RightItems>
 
                 <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldStationColor}"
                     Command="{Binding SaveCommand}"/>

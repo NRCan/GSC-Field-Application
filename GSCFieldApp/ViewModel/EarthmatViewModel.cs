@@ -473,6 +473,34 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        async Task SaveDelete()
+        {
+            if (_model.EarthMatID != 0)
+            {
+                //Display a prompt with an answer to prevent butt or fat finger deleting stations.
+                string answer = await Shell.Current.DisplayPromptAsync("Delete " + _model.EarthMatName, "Enter last two digit of current year to delete", "DELETE", "CANCEL");
+
+                if (answer == DateTime.Now.Year.ToString().Substring(2))
+                {
+                    Earthmaterial emToDelete = new Earthmaterial();
+                    emToDelete.EarthMatID = _model.EarthMatID;
+                    int numberOfDeletedRows = await da.DeleteItemAsync(emToDelete);
+                    await da.CloseConnectionAsync();
+
+                    //Show final messag to user
+                    await Shell.Current.DisplayAlert("Delete Completed", "Record " + _model.EarthMatName + " has been deleted.", "OK");
+                }
+            }
+
+            //Close to be sure
+            await da.CloseConnectionAsync();
+
+            //Exit
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+
+        }
+
         /// <summary>
         /// Will delete a selected item in a concatenated box
         /// </summary>

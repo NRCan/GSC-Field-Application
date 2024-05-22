@@ -70,6 +70,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string ButtonSaveDelete {
+            get {
+                return ResourceManager.GetString("ButtonSaveDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Stay.
         /// </summary>
         internal static string ButtonSaveStay {

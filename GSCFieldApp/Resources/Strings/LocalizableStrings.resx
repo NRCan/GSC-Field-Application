@@ -120,6 +120,9 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="ButtonSaveDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="ButtonSaveStay" xml:space="preserve">
     <value>Stay</value>
   </data>
