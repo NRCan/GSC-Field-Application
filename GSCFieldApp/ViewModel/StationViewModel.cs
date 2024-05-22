@@ -388,7 +388,7 @@ namespace GSCFieldApp.ViewModel
         private async Task SetModelAsync()
         {
             //Make sure it's for a new field book
-            if (Model.StationID == 0)
+            if (Model.StationID == 0 && fieldLocation != null)
             {
                 //Get current application version
                 Model.LocationID = fieldLocation.LocationID;
