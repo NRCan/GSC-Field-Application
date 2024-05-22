@@ -383,6 +383,8 @@ namespace GSCFieldApp.Dictionaries
         public const string TableFieldCampDeprecated = "FS_FIELDCAMP"; //Deprecated version 1.7
         public const string TableDrillHoles = "F_DRILL_HOLE"; //Version 1.8
 
+        public enum TableNames { meta, location, station, em, sample, ma, mineral, document, structure, fossil, environment, pflow, drill};
+
         #endregion
 
         #region Database table views name

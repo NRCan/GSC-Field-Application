@@ -35,6 +35,9 @@ namespace GSCFieldApp.ViewModel
         public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
+        //Services
+        public CommandService commandServ = new CommandService();
+
         //Database
         DataAccess da = new DataAccess();
         SQLiteAsyncConnection currentConnection;
@@ -478,23 +481,8 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.EarthMatID != 0)
             {
-                //Display a prompt with an answer to prevent butt or fat finger deleting stations.
-                string answer = await Shell.Current.DisplayPromptAsync("Delete " + _model.EarthMatName, "Enter last two digit of current year to delete", "DELETE", "CANCEL");
-
-                if (answer == DateTime.Now.Year.ToString().Substring(2))
-                {
-                    Earthmaterial emToDelete = new Earthmaterial();
-                    emToDelete.EarthMatID = _model.EarthMatID;
-                    int numberOfDeletedRows = await da.DeleteItemAsync(emToDelete);
-                    await da.CloseConnectionAsync();
-
-                    //Show final messag to user
-                    await Shell.Current.DisplayAlert("Delete Completed", "Record " + _model.EarthMatName + " has been deleted.", "OK");
-                }
+                await commandServ.DeleteDatabaseItemCommand(DatabaseLiterals.TableNames.em, _model.EarthMatName, _model.EarthMatID);
             }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
 
             //Exit
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");

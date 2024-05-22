@@ -97,6 +97,42 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record {0} has been deleted..
+        /// </summary>
+        internal static string CommandDeleteCompleteContent {
+            get {
+                return ResourceManager.GetString("CommandDeleteCompleteContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Completed.
+        /// </summary>
+        internal static string CommandDeleteCompleteTitle {
+            get {
+                return ResourceManager.GetString("CommandDeleteCompleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter last two digit of current year to delete.
+        /// </summary>
+        internal static string CommandDeleteContent {
+            get {
+                return ResourceManager.GetString("CommandDeleteContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete {0}.
+        /// </summary>
+        internal static string CommandDeleteTitle {
+            get {
+                return ResourceManager.GetString("CommandDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         internal static string DisplayAlertGPS {
@@ -129,6 +165,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string DisplayAlertGPSNoEnabled {
             get {
                 return ResourceManager.GetString("DisplayAlertGPSNoEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Allowed!.
+        /// </summary>
+        internal static string DisplayAlertNotAllowed {
+            get {
+                return ResourceManager.GetString("DisplayAlertNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t create a station with same location..
+        /// </summary>
+        internal static string DisplayAlertNotAllowedContent {
+            get {
+                return ResourceManager.GetString("DisplayAlertNotAllowedContent", resourceCulture);
             }
         }
         
@@ -880,7 +934,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CANCEL.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string GenericButtonCancel {
             get {
@@ -889,7 +943,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DELETE.
+        ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string GenericButtonDelete {
             get {
@@ -907,7 +961,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OK.
+        ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string GenericButtonOk {
             get {

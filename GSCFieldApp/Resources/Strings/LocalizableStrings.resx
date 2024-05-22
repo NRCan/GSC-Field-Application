@@ -129,6 +129,18 @@
   <data name="ButtonSet" xml:space="preserve">
     <value>Set</value>
   </data>
+  <data name="CommandDeleteCompleteContent" xml:space="preserve">
+    <value>Record {0} has been deleted.</value>
+  </data>
+  <data name="CommandDeleteCompleteTitle" xml:space="preserve">
+    <value>Delete Completed</value>
+  </data>
+  <data name="CommandDeleteContent" xml:space="preserve">
+    <value>Enter last two digit of current year to delete</value>
+  </data>
+  <data name="CommandDeleteTitle" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
   <data name="DisplayAlertGPS" xml:space="preserve">
     <value>Location</value>
   </data>
@@ -140,6 +152,12 @@
   </data>
   <data name="DisplayAlertGPSNoEnabled" xml:space="preserve">
     <value>Location access not activated</value>
+  </data>
+  <data name="DisplayAlertNotAllowed" xml:space="preserve">
+    <value>Not Allowed!</value>
+  </data>
+  <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
+    <value>Can't create a station with same location.</value>
   </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Index</value>
@@ -391,16 +409,16 @@
     <value>Stations</value>
   </data>
   <data name="GenericButtonCancel" xml:space="preserve">
-    <value>CANCEL</value>
+    <value>Cancel</value>
   </data>
   <data name="GenericButtonDelete" xml:space="preserve">
-    <value>DELETE</value>
+    <value>Delete</value>
   </data>
   <data name="GenericButtonNo" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="GenericButtonOk" xml:space="preserve">
-    <value>OK</value>
+    <value>Ok</value>
   </data>
   <data name="GenericButtonYes" xml:space="preserve">
     <value>Yes</value>

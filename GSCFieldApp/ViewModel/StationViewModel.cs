@@ -51,6 +51,9 @@ namespace GSCFieldApp.ViewModel
         public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
+        //Services
+        public CommandService commandServ = new CommandService();
+
         #endregion
 
         #region PROPERTIES
@@ -238,28 +241,18 @@ namespace GSCFieldApp.ViewModel
             //OnPropertyChanged(nameof(Model));
 
             //Display a warning to user
-            await Shell.Current.DisplayAlert("Not allowed", "Can't create a station with same location. ", " ");
+            await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertNotAllowed"].ToString(),
+                LocalizationResourceManager["DisplayAlertNotAllowedContent"].ToString(),
+                LocalizationResourceManager["GenericButtonOk"].ToString());
 
         }
 
         [RelayCommand]
         async Task SaveDelete()
         {
-            if (_station.StationID != 0)
+            if (_station != null && _station.StationID != 0)
             {
-                //Display a prompt with an answer to prevent butt or fat finger deleting stations.
-                string answer = await Shell.Current.DisplayPromptAsync("Delete " + _station.StationAlias, "Enter last two digit of current year to delete", "DELETE", "CANCEL");
-
-                if (answer == DateTime.Now.Year.ToString().Substring(2))
-                {
-                    FieldLocation stationToDelete = new FieldLocation();
-                    stationToDelete.LocationID = _station.LocationID;
-                    int numberOfDeletedRows = await da.DeleteItemAsync(stationToDelete);
-                    await da.CloseConnectionAsync();
-
-                    //Show final messag to user
-                    await Shell.Current.DisplayAlert("Delete Completed", "Record " + _station.StationAlias + " has been deleted.", "OK");
-                }
+                await commandServ.DeleteDatabaseItemCommand(DatabaseLiterals.TableNames.station, _station.StationAlias, _station.LocationID);
             }
 
             //Exit

@@ -142,6 +142,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DisplayAlertGPSNoEnabled" xml:space="preserve">
     <value>Positionnement non activé</value>
   </data>
+  <data name="DisplayAlertNotAllowed" xml:space="preserve">
+    <value>Pas autorisé!</value>
+  </data>
+  <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
+    <value>Une station ne peut avoir la même location qu'une autre. Retournez à la page de cartes.</value>
+  </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Indexe</value>
   </data>
