@@ -4,6 +4,7 @@
              x:Class="GSCFieldApp.Views.StationPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:views="clr-namespace:GSCFieldApp.Views"
              xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              x:DataType="viemodel:StationViewModel"
              Shell.BackgroundColor="{StaticResource FieldStationColor}"
@@ -162,9 +163,12 @@
 
             </ScrollView>
 
-            <SwipeView Grid.Row="1" Grid.ColumnSpan="2" Threshold="110">
+            <views:SaveSwipeItem Grid.Row="1" Grid.ColumnSpan="2" ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+
+            <!--<SwipeView Grid.Row="1" Grid.ColumnSpan="2" Threshold="110">
                 
-                <!--Can't add station with same location. Pop warning to user.-->
+                --><!--Can't add station with same location. Pop warning to user.--><!--
                 <SwipeView.LeftItems>
                     <SwipeItems Mode="Execute">
                         <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{StaticResource FieldStationColorLight}"
@@ -181,7 +185,7 @@
 
                 <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldStationColor}"
                     Command="{Binding SaveCommand}"/>
-            </SwipeView>
+            </SwipeView>-->
 
 
 
