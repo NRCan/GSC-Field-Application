@@ -397,7 +397,7 @@
 	  <MauiXaml Update="Views\MapPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SaveSwipeItem.xaml">
+	  <MauiXaml Update="Controls\SaveSwipeItem.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\StationPage.xaml">

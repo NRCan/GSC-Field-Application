@@ -4,7 +4,7 @@
              x:Class="GSCFieldApp.Views.StationPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
-             xmlns:views="clr-namespace:GSCFieldApp.Views"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
              xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              x:DataType="viemodel:StationViewModel"
              Shell.BackgroundColor="{StaticResource FieldStationColor}"
@@ -15,6 +15,8 @@
     </Shell.BackButtonBehavior>
 
     <ContentPage.Resources>
+
+        <SolidColorBrush x:Key="ColorTheme" Color="{StaticResource FieldStationColor}"/>
 
         <!-- Concatenated Value Template -->
         <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
@@ -66,7 +68,7 @@
                     </Frame>
 
                     <!--Outcrop section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}" 
+                    <Frame BorderColor="{StaticResource FieldStationColor}"
                            Style="{StaticResource FieldAppSectionFrame}" 
                            IsVisible="{Binding FieldThemes.BedrockVisibility}">
                         <Frame.GestureRecognizers>
@@ -163,31 +165,10 @@
 
             </ScrollView>
 
-            <views:SaveSwipeItem Grid.Row="1" Grid.ColumnSpan="2" ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
-
-
-            <!--<SwipeView Grid.Row="1" Grid.ColumnSpan="2" Threshold="110">
-                
-                --><!--Can't add station with same location. Pop warning to user.--><!--
-                <SwipeView.LeftItems>
-                    <SwipeItems Mode="Execute">
-                        <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{StaticResource FieldStationColorLight}"
-                            Command="{Binding SaveStayCommand}"/>
-                    </SwipeItems>
-                </SwipeView.LeftItems>
-
-                <SwipeView.RightItems>
-                    <SwipeItems Mode="Execute">
-                        <SwipeItem x:Name="ButtonSaveDelete" Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
-                            Command="{Binding SaveDeleteCommand}"/>
-                    </SwipeItems>
-                </SwipeView.RightItems>
-
-                <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{StaticResource FieldStationColor}"
-                    Command="{Binding SaveCommand}"/>
-            </SwipeView>-->
-
-
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="1" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldStationColor}" 
+                                    ButtonLightColor="{StaticResource FieldStationColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
 
             <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="0" Grid.Column="1" >
 

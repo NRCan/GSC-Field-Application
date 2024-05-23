@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:themes="clr-namespace:GSCFieldApp.Themes"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
              x:DataType="viemodel:EarthmatViewModel"
              Shell.BackgroundColor="{StaticResource FieldEarthMaterialColor}"
              Title="{local:Localize EarthmatPageTitle}">
@@ -471,27 +472,10 @@
 
             </ScrollView>
 
-
-
-            <SwipeView Grid.Row="1" Grid.ColumnSpan="2" Threshold="110">
-                <SwipeView.LeftItems>
-                    <SwipeItems Mode="Execute">
-                        <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
-                            Command="{Binding SaveStayCommand}"/>
-                    </SwipeItems>
-                </SwipeView.LeftItems>
-
-                <SwipeView.RightItems>
-                    <SwipeItems Mode="Execute">
-                        <SwipeItem x:Name="ButtonSaveDelete" Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
-                            Command="{Binding SaveDeleteCommand}"/>
-                    </SwipeItems>
-                </SwipeView.RightItems>
-
-                <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}"  BackgroundColor="{StaticResource FieldEarthMaterialColor}"
-                    Command="{Binding SaveCommand}"/>
-            </SwipeView>
-
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="1" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldEarthMaterialColor}"
+                                    ButtonLightColor="{StaticResource FieldEarthMaterialColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
 
             <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="0" Grid.Column="1" >
 
