@@ -18,10 +18,10 @@
 
         <SolidColorBrush x:Key="ColorTheme" Color="{StaticResource FieldStationColor}"/>
 
-         <!--Concatenated Value Template--> 
+         <!--Concatenated Value Template--><!-- 
         <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
 
-            <!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01-->
+            --><!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01--><!--
             <Frame Style="{StaticResource FieldAppConcatFrame}" >
                 <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}" >
                     <Label Text="{Binding itemName}" x:Name="itemNameText" Style="{StaticResource FieldAppConcatLabel}"/>
@@ -32,7 +32,7 @@
                 </HorizontalStackLayout>
             </Frame>
 
-        </DataTemplate>
+        </DataTemplate>-->
 
     </ContentPage.Resources>
     
@@ -88,12 +88,15 @@
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
                                 <!--<ListView />-->
-                                <Frame Style="{StaticResource FieldAppConcatMainFrame}">
+                                <!--<Frame Style="{StaticResource FieldAppConcatMainFrame}">
                                     <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
                                         x:Name="QualityCollectionView" 
                                         ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
                                         ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
-                                </Frame>
+                                </Frame>-->
+
+                                <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding QualityCollection}" DeleteItem="{Binding DeleteItemCommand}"/>
 
                             </VerticalStackLayout>
 
