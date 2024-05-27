@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Controls.ConcatenatedCollection"
+             xmlns:themes="clr-namespace:GSCFieldApp.Themes">
+
+    <ContentView.Resources >
+
+        <!-- Concatenated Value Template -->
+        <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
+
+            <!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01-->
+            <Frame Style="{StaticResource FieldAppConcatFrame}">
+                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}">
+                    <Label Text="{Binding itemName}" x:Name="itemNameText" Style="{StaticResource FieldAppConcatLabel}"/>
+                    <!--<Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:EarthmatViewModel}},Path=DeleteCommand}"
+                        CommandParameter="{Binding .}"/>-->
+                    <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"/>
+                </HorizontalStackLayout>
+            </Frame>
+
+        </DataTemplate>
+
+        <ControlTemplate x:Key="ConcatenatedCollectionControl" >
+            
+            <Frame Style="{StaticResource FieldAppConcatMainFrame}">
+                <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
+                                x:Name="ConcatCollectionView"
+                                ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
+                                ItemsSource="{TemplateBinding ConcatCollection}"/>
+            </Frame>
+
+        </ControlTemplate>
+    </ContentView.Resources>
+
+
+</ContentView>

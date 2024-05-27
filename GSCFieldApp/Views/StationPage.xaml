@@ -18,7 +18,7 @@
 
         <SolidColorBrush x:Key="ColorTheme" Color="{StaticResource FieldStationColor}"/>
 
-        <!-- Concatenated Value Template -->
+         <!--Concatenated Value Template--> 
         <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
 
             <!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01-->
