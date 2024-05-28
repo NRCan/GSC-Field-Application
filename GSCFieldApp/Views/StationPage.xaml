@@ -18,22 +18,6 @@
 
         <SolidColorBrush x:Key="ColorTheme" Color="{StaticResource FieldStationColor}"/>
 
-         <!--Concatenated Value Template--><!-- 
-        <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
-
-            --><!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01--><!--
-            <Frame Style="{StaticResource FieldAppConcatFrame}" >
-                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}" >
-                    <Label Text="{Binding itemName}" x:Name="itemNameText" Style="{StaticResource FieldAppConcatLabel}"/>
-                    <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
-                        Command="{Binding Source={RelativeSource 
-                                AncestorType={x:Type viemodel:StationViewModel}},Path=DeleteCommand}"
-                        CommandParameter="{Binding .}"/>
-                </HorizontalStackLayout>
-            </Frame>
-
-        </DataTemplate>-->
-
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -87,16 +71,10 @@
                                     ItemsSource="{Binding StationOutcropQuality.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
-                                <!--<ListView />-->
-                                <!--<Frame Style="{StaticResource FieldAppConcatMainFrame}">
-                                    <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
-                                        x:Name="QualityCollectionView" 
-                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                        ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
-                                </Frame>-->
 
+                                <!--Custom control to concatenate multiple values into one field-->
                                 <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
-                                                                 ConcatSource="{Binding QualityCollection}" DeleteItem="{Binding DeleteItemCommand}"/>
+                                                                 ConcatSource="{Binding QualityCollection}" />
 
                             </VerticalStackLayout>
 

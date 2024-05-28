@@ -172,7 +172,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         /// <returns></returns>
         [RelayCommand]
-        async Task DeleteItem(ComboBoxItem item)
+        public async Task DeleteItem(ComboBoxItem item)
         {
             if (_qualityCollection.Contains(item))
             {

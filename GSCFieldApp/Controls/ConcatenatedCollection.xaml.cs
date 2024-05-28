@@ -14,22 +14,25 @@ public partial class ConcatenatedCollection : ContentView
     public static readonly BindableProperty ConcatSourceProperty =
        BindableProperty.Create(nameof(ConcatSource), typeof(ObservableCollection<ComboBoxItem>), typeof(ConcatenatedCollection), defaultBindingMode: BindingMode.TwoWay);
 
-    /// <summary>
-    /// Bind to the command on the delete button
-    /// </summary>
-    public static readonly BindableProperty DeleteItemProperty =
-            BindableProperty.Create(nameof(DeleteItem), typeof(ICommand), typeof(ConcatenatedCollection), defaultBindingMode: BindingMode.TwoWay);
-
     public ObservableCollection<ComboBoxItem> ConcatSource
     {
         get => (ObservableCollection<ComboBoxItem>)GetValue(ConcatSourceProperty);
         set => SetValue(ConcatSourceProperty, value);
     }
 
-    public ICommand DeleteItem
+    /// <summary>
+    /// Will delete a selected item in quality collection box.
+    /// </summary>
+    /// <returns></returns>
+    [RelayCommand]
+    public void DeleteItem(ComboBoxItem item)
     {
-        get => (ICommand)GetValue(DeleteItemProperty);
-        set => SetValue(DeleteItemProperty, value);
+        if (ConcatSource.Contains(item))
+        {
+            ConcatSource.Remove(item);
+            OnPropertyChanged(nameof(ConcatSource));
+        }
+
     }
 
     public ConcatenatedCollection()

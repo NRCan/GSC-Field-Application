@@ -15,26 +15,6 @@
         <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
     </Shell.BackButtonBehavior>
 
-    <ContentPage.Resources>
-
-        <!-- Concatenated Value Template -->
-        <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
-
-            <!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01-->
-            <Frame Style="{StaticResource FieldAppConcatFrame}">
-                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}">
-                    <Label Text="{Binding itemName}" x:Name="itemNameText" Style="{StaticResource FieldAppConcatLabel}"/>
-                    <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
-                        Command="{Binding Source={RelativeSource 
-                                AncestorType={x:Type viemodel:EarthmatViewModel}},Path=DeleteCommand}"
-                        CommandParameter="{Binding .}"/>
-                </HorizontalStackLayout>
-            </Frame>
-
-        </DataTemplate>
-
-    </ContentPage.Resources>
-    
     <ContentPage.Content>
         <Grid Style="{StaticResource FieldAppFormGrid}">
 
@@ -79,13 +59,11 @@
                                     ItemsSource="{Binding EarthLithQualifier.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithQualifier}"
                                     SelectedIndex="{Binding EarthLithQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
-                                    <!--<ListView />-->
-                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
-                                        <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
-                                        x:Name="QualifierCollectionView"
-                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                        ItemsSource="{Binding EarthLithQualifierCollection, Mode=TwoWay}"/>
-                                    </Frame>
+
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding EarthLithQualifierCollection}" />
+                                    
                                 </VerticalStackLayout>
 
                                 <Picker Title="{local:Localize EarthmatPageLithOccurAs}" x:Name="OccurAsPicker"
@@ -154,13 +132,11 @@
                                     ItemsSource="{Binding EarthLithTextureStruct.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithTextureStructure}"
                                     SelectedIndex="{Binding EarthLithTextureStruct.cboxDefaultItemIndex, Mode=TwoWay}" />
-                                    <!--<ListView />-->
-                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
-                                        <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
-                                        x:Name="TextureStructureCollectionView" 
-                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                        ItemsSource="{Binding EarthLithTextStrucCollection, Mode=TwoWay}"/>
-                                    </Frame>
+
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding EarthLithTextStrucCollection}" />
+                                    
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout>
@@ -168,13 +144,10 @@
                                     ItemsSource="{Binding EarthLithGrainSize.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithGrainSize}"
                                     SelectedIndex="{Binding EarthLithGrainSize.cboxDefaultItemIndex, Mode=TwoWay}" />
-                                    <!--<ListView />-->
-                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
-                                        <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
-                                        x:Name="GrainSizeCollectionView" 
-                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                        ItemsSource="{Binding EarthLithGrainSizeCollection, Mode=TwoWay}"/>
-                                    </Frame>
+
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding EarthLithGrainSizeCollection}" />
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout>
@@ -182,13 +155,10 @@
                                     ItemsSource="{Binding EarthLithBedThick.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithBedThick}"
                                     SelectedIndex="{Binding EarthLithBedThick.cboxDefaultItemIndex, Mode=TwoWay}" />
-                                    <!--<ListView />-->
-                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
-                                        <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
-                                        x:Name="BedThickCollectionView" 
-                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                        ItemsSource="{Binding EarthLithBedThickCollection, Mode=TwoWay}"/>
-                                    </Frame>
+
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding EarthLithBedThickCollection}" />
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout>
@@ -196,13 +166,10 @@
                                     ItemsSource="{Binding EarthLithDefFab.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithDefFab}"
                                     SelectedIndex="{Binding EarthLithDefFab.cboxDefaultItemIndex, Mode=TwoWay}" />
-                                    <!--<ListView />-->
-                                    <Frame Style="{StaticResource FieldAppConcatMainFrame}">
-                                        <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
-                                        x:Name="DefFabCollectionView" 
-                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                        ItemsSource="{Binding EarthLithDefFabCollection, Mode=TwoWay}"/>
-                                    </Frame>
+
+                                    <!--Custom control to concatenate multiple values into one field-->
+                                    <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding EarthLithDefFabCollection}" />
                                 </VerticalStackLayout>
 
                             </VerticalStackLayout>
@@ -373,12 +340,10 @@
                                     <HorizontalStackLayout >
                                         <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetContactCommand}"/>
 
-                                        <Frame Style="{StaticResource FieldAppConcatMainFrame}" MaximumWidthRequest="197" WidthRequest="197">
-                                            <CollectionView Style="{StaticResource FieldAppConcatCollectionView}"
-                                        x:Name="ContactRelationCollectionView"
-                                        ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                        ItemsSource="{Binding EarthLithContactRelationCollection, Mode=TwoWay}"/>
-                                        </Frame>
+                                        <!--Custom control to concatenate multiple values into one field-->
+                                        <controls:ConcatenatedCollection MaximumWidthRequest="197" WidthRequest="197" ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding EarthLithContactRelationCollection}" />
+                                        
                                     </HorizontalStackLayout>
 
                                 </VerticalStackLayout>

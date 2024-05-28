@@ -490,44 +490,6 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will delete a selected item in a concatenated box
-        /// </summary>
-        /// <returns></returns>
-        [RelayCommand]
-        async Task Delete(ComboBoxItem item)
-        {
-            if (_qualifierCollection.Contains(item))
-            {
-                _qualifierCollection.Remove(item);
-            }
-
-            if (_bedThickCollection.Contains(item))
-            {
-                _bedThickCollection.Remove(item);
-            }
-
-            if (_contactRelationCollection.Contains(item))
-            {
-                _contactRelationCollection.Remove(item);
-            }
-
-            if (_grainSizeCollection.Contains(item))
-            {
-                _grainSizeCollection.Remove(item);
-            }
-
-            if (_defFabCollection.Contains(item))
-            {
-                _defFabCollection.Remove(item);
-            }
-
-            if (_textStructCollection.Contains(item))
-            {
-                _textStructCollection.Remove(item);
-            }
-        }
-
-        /// <summary>
         /// Hide command to hide group of controls
         /// </summary>
         /// <param name="visibilityObjectName"></param>
