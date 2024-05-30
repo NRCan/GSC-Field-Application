@@ -21,21 +21,9 @@
         <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
 
             <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="75" WidthRequest="175">
-                <Frame.GestureRecognizers>
 
-                    <!--Swipe doesn't work in frame, but does inside vertical stack layout-->
-                    <!--<SwipeGestureRecognizer Direction="Left" Command="{Binding Source={RelativeSource 
-                            AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=SwipeGestureRecognizerCommand}" 
-                                        CommandParameter="{Binding .}"/>-->
-                    <!--<TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
-                                          CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>-->
-
-                </Frame.GestureRecognizers>
                 <VerticalStackLayout Margin="7" >
                     <VerticalStackLayout.GestureRecognizers>
-                        <SwipeGestureRecognizer Direction="Left" Command="{Binding Source={RelativeSource 
-                            AncestorType={x:Type viemodel:FieldNotesViewModel}},Path=SwipeGestureRecognizerCommand}" 
-                                        CommandParameter="{Binding .}"/>
                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
                     </VerticalStackLayout.GestureRecognizers>
