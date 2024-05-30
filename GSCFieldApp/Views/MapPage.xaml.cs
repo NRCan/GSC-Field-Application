@@ -461,7 +461,7 @@ public LocalizationResourceManager LocalizationResourceManager
     /// <summary>
     /// Will zoom to the extent of the incoming memory layer
     /// </summary>
-    /// <param name="inMemoryLayer"></param>
+    /// <param name="inLayer"></param>
     public void SetExtent(ILayer inLayer = null)
     {
         if (inLayer != null && inLayer.Extent != null)
@@ -519,7 +519,6 @@ public LocalizationResourceManager LocalizationResourceManager
     /// Will add a new WMS layer into the map page
     /// </summary>
     /// <param name="wmsURL"></param>
-    /// <param name="layerIndex"></param>
     /// <param name="withCache"></param>
     public async Task AddAWMSAsync(string wmsURL, bool withCache = true)
     {
@@ -1077,7 +1076,7 @@ public LocalizationResourceManager LocalizationResourceManager
     /// TODO: Make sure this is still needed
     /// </summary>
     /// <param name="timeSpan"></param>
-    /// <param name="action"></param>
+
     /// <returns></returns>
     public async Task BackgroundTimer(TimeSpan timeSpan)
     {
