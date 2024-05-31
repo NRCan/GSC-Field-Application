@@ -16,8 +16,15 @@ namespace GSCFieldApp.Converters
         {
             if (value is bool && (bool)value)
             {
-                Color outColor = Application.Current.Resources["Black"] as Color;
+                //Detect current theme
+                AppTheme currentTheme = Application.Current.RequestedTheme;
+                Color outColor = Application.Current.Resources["Black"] as Color; //Default
 
+                if (currentTheme == AppTheme.Dark)
+                {
+                    outColor = Application.Current.Resources["White"] as Color;
+                }
+                
                 return outColor;
             }
             else

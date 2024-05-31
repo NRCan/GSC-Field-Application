@@ -14,34 +14,34 @@
 
     <FlyoutItem Title="{local:Localize ShellFieldBooksTitle}">
         <FlyoutItem.FlyoutIcon>
-            <FontImageSource Glyph="&#xF125F;" FontFamily="MatDesign" Color="Black"/>
+            <FontImageSource Glyph="&#xF125F;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
         <ShellContent ContentTemplate="{DataTemplate views:FieldBooksPage}"/>
     </FlyoutItem>
 
     <FlyoutItem Title="{local:Localize ShellFieldNotesTitle}">
         <FlyoutItem.FlyoutIcon>
-            <FontImageSource Glyph="&#xF039B;" FontFamily="MatDesign" Color="Black"/>
+            <FontImageSource Glyph="&#xF039B;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
         <ShellContent ContentTemplate="{DataTemplate views:FieldNotesPage}"/>
     </FlyoutItem>
 
     <FlyoutItem Title="{local:Localize ShellMapTitle}">
         <FlyoutItem.FlyoutIcon>
-            <FontImageSource Glyph="&#xF01E7;" FontFamily="MatDesign" Color="Black"/>
+            <FontImageSource Glyph="&#xF01E7;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
         <ShellContent ContentTemplate="{DataTemplate views:MapPage}"/>
     </FlyoutItem>
 
     <MenuItem Text="{local:Localize ShellQuickBackupTitle}" Command="{Binding DoBackupCommand}" >
         <MenuItem.IconImageSource>
-            <FontImageSource Glyph="&#xF0818;" FontFamily="MatDesign" Color="Black"/>
+            <FontImageSource Glyph="&#xF0818;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </MenuItem.IconImageSource>
     </MenuItem>
 
     <MenuItem Text="{local:Localize ShellSettingsTitle}" Command="{Binding NavigateToSettingsCommand}" >
         <MenuItem.IconImageSource>
-            <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="Black"/>
+            <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </MenuItem.IconImageSource>
     </MenuItem>
 

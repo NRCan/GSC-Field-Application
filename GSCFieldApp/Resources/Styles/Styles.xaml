@@ -63,7 +63,7 @@
     </Style>
 
     <Style TargetType="Button" x:Key="FieldAppButonSave">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
@@ -168,7 +168,7 @@
 
     <Style TargetType="Frame" x:Key="FieldAppSectionFrame">
         <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Margin" Value="2" />
         <Setter Property="WidthRequest" Value="300"/>
@@ -177,11 +177,12 @@
 
     <Style TargetType="Frame" x:Key="FieldAppNotesFrame">
         <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Margin" Value="5" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="WidthRequest" Value="150"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
     <Style TargetType="FlexLayout" x:Key="FieldAppFormFlexLayout">

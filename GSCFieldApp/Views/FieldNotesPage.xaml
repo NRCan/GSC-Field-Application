@@ -73,9 +73,8 @@
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
 
                 </Frame.GestureRecognizers>
-                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
-                    Text="{Binding}" TextColor="{StaticResource Gray600}"
-                    FontSize="Small" FontAttributes="Bold"/>
+                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                    Text="{Binding}" />
 
             </Frame>
 

@@ -1182,6 +1182,8 @@ public LocalizationResourceManager LocalizationResourceManager
         //Make sure to show proper bad location coordinates labels
         MapViewModel mapViewModel = this.BindingContext as MapViewModel;
         mapViewModel.RefreshCoordinates(badLoc);
+
+        this.WaitingCursor.IsRunning = false;
     }
 
     #endregion
