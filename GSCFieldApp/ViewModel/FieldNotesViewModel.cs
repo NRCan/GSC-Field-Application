@@ -220,37 +220,6 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
-        /// <summary>
-        /// Will initiate a delete sequence from the tapped field note card/item
-        /// </summary>
-        /// <param name="fieldNotes"></param>
-        /// <returns></returns>
-        [RelayCommand]
-        public async Task SwipeGestureRecognizer(FieldNote fieldNotes)
-        {
-            //Display a prompt with an answer to prevent butt or fat finger deleting stations.
-            string answer = await Shell.Current.DisplayPromptAsync("Delete " + fieldNotes.Display_text_1, "Enter last two digit of current year to delete" , "DELETE", "CANCEL");
-
-            if (answer == DateTime.Now.Year.ToString().Substring(2)) 
-            {
-                if (fieldNotes.GenericTableName == DatabaseLiterals.TableStation)
-                {
-                    FieldLocation stationToDelete = new FieldLocation();
-                    stationToDelete.LocationID = fieldNotes.ParentID;
-                    int numberOfDeletedRows = await da.DeleteItemAsync(stationToDelete);
-
-                    if (numberOfDeletedRows == 1)
-                    {
-                        //Refil note page
-                        await FillFieldNotesAsync();
-
-                        //Show final messag to user
-                        await Shell.Current.DisplayAlert("Delete Completed", "Record " + fieldNotes.Display_text_1 + " has been deleted.", "OK");
-                    }
-                }
-
-            }
-        }
         #endregion
 
         #region METHODS
