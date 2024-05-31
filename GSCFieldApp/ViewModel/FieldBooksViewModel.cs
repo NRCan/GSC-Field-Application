@@ -296,9 +296,9 @@ namespace GSCFieldApp.ViewModel
                     {
                         fi.Delete();
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        throw;
+                        new ErrorToLogFile(e).WriteToFile();
                     }
                     
                 }

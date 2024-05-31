@@ -132,7 +132,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             catch (Exception e)
             {
-                Debug.Write(e.Message);
+
+                new ErrorToLogFile(e).WriteToFile();
                 await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
                 return false;
             }
@@ -167,7 +168,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
                 catch (SQLite.SQLiteException ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    new ErrorToLogFile(ex).WriteToFile();
                     return 0;
                 }
             }
@@ -210,7 +211,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             catch (SQLite.SQLiteException ex)
             {
-                Console.WriteLine(ex.ToString());
+                new ErrorToLogFile(ex).WriteToFile();
                 return item;
             }
 

@@ -27,6 +27,10 @@ using Microsoft.Maui.Devices.Sensors;
 using System.Diagnostics;
 using System;
 using NetTopologySuite.Operation.Distance;
+using Xamarin.Google.Crypto.Tink.Subtle;
+using Org.Apache.Http.Conn;
+
+
 
 #if ANDROID
 using Android.Content;
@@ -116,6 +120,7 @@ public LocalizationResourceManager LocalizationResourceManager
         catch (System.Exception e)
         {
             DisplayAlert("Alert", e.Message, "OK");
+            new ErrorToLogFile(e).WriteToFile();
         }
     }
 
@@ -739,7 +744,7 @@ public LocalizationResourceManager LocalizationResourceManager
         }
         catch (System.Exception ex)
         {
-            // The user canceled or something went wrong
+            new ErrorToLogFile(ex).WriteToFile();
         }
 
         return null;
@@ -995,6 +1000,9 @@ public LocalizationResourceManager LocalizationResourceManager
                         fnsEx.Message,
                         LocalizationResourceManager["GenericButtonOk"].ToString());
                     DeactivateLocationVisuals();
+
+                    new ErrorToLogFile(fnsEx).WriteToFile();
+
                 }
                 catch (FeatureNotEnabledException fneEx)
                 {
@@ -1015,6 +1023,9 @@ public LocalizationResourceManager LocalizationResourceManager
 #endif
 
                     DeactivateLocationVisuals();
+
+                    new ErrorToLogFile(fneEx).WriteToFile();
+
                 }
                 catch (PermissionException pEx)
                 {
@@ -1025,6 +1036,9 @@ public LocalizationResourceManager LocalizationResourceManager
                         LocalizationResourceManager["GenericButtonOk"].ToString());
 
                     DeactivateLocationVisuals();
+
+                    new ErrorToLogFile(pEx).WriteToFile();
+
                 }
                 catch (Exception ex)
                 {
@@ -1033,8 +1047,10 @@ public LocalizationResourceManager LocalizationResourceManager
                     await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
                         ex.Message,
                         LocalizationResourceManager["GenericButtonOk"].ToString());
-
                     DeactivateLocationVisuals();
+
+                    new ErrorToLogFile(ex).WriteToFile();
+
                 }
 
                 break;
@@ -1066,6 +1082,8 @@ public LocalizationResourceManager LocalizationResourceManager
         catch (System.Exception ex)
         {
             // Unable to stop listening for location changes
+            new ErrorToLogFile(ex).WriteToFile();
+
         }
 
     }
@@ -1113,6 +1131,9 @@ public LocalizationResourceManager LocalizationResourceManager
         catch (System.Exception ex)
         {
             await DisplayAlert("Alert", ex.Message, "OK");
+
+            new ErrorToLogFile(ex).WriteToFile();
+
         }
     }
 

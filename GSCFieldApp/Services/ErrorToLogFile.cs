@@ -17,7 +17,7 @@ namespace GSCFieldApp.Services
             get
             {
                 var folder = FileSystem.Current.AppDataDirectory;
-                var fileName = $"GSCFieldAppLog {DateTime.Today:yyyy-MM-dd}.txt";
+                var fileName = $"GSCFieldAppLog_{DateTime.Today:yyyy-MM-dd}.txt";
 
                 return Path.Combine(folder, fileName);
             }
@@ -59,8 +59,9 @@ namespace GSCFieldApp.Services
                     writer.Close();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                new ErrorToLogFile(ex).WriteToFile();
                 return false;
             }
 
