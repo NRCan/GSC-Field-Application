@@ -41,9 +41,11 @@
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<Platforms>AnyCPU;x64;ARM64;ARM32</Platforms>
 		<Title>GSC Field App</Title>
-		<PackageProjectUrl>https://github.com/NRCan/GSC-Field-Application</PackageProjectUrl>
+		<PackageProjectUrl>https://nrcan.github.io/GSC-Field-Application/</PackageProjectUrl>
 		<FileVersion>3.0.0.1</FileVersion>
 		<AssemblyVersion>3.0.0.1</AssemblyVersion>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/NRCan/GSC-Field-Application-3</RepositoryUrl>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">

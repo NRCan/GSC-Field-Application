@@ -64,7 +64,7 @@
         </DataTemplate>
 
         <!--Note traverse cards-->
-        <DataTemplate x:Key="FieldNoteTraversesCard">
+        <DataTemplate x:Key="FieldNoteTraversesCard" x:DataType="x:String">
 
             <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="45" WidthRequest="175">
                 <Frame.GestureRecognizers>
@@ -73,7 +73,7 @@
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
 
                 </Frame.GestureRecognizers>
-                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}"
                     Text="{Binding}" />
 
             </Frame>
