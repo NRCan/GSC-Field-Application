@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Controls.ExpandableFrame">
+    <ContentView.Resources>
+        <ControlTemplate x:Key="ExpandableFrameControl">
+
+            <Frame BorderColor="{TemplateBinding FrameColor}" Style="{StaticResource FieldAppSectionFrame}" >
+
+                <!--Tap to hide content-->
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{TemplateBinding HideCommand}" NumberOfTapsRequired="1"/>
+                </Frame.GestureRecognizers>
+
+                <VerticalStackLayout IsVisible="{Binding vertVisibility, Mode=TwoWay}">
+
+                    <!--Title that won't be hidden-->
+                    <Label Style="{StaticResource FieldAppTitle}"  Text="{TemplateBinding FrameTitle}"/>
+
+                    <!--Stack that will be hidden-->
+                    <VerticalStackLayout IsVisible="{TemplateBinding FrameContentVisibility}">
+                        
+                        <!--Whatever needs to be inserted here from original view-->
+                        <ContentPresenter/>
+                        
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+        </ControlTemplate>
+    </ContentView.Resources>
+</ContentView>

@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
              x:DataType="viemodel:FieldBookViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
              Shell.BackgroundColor="{StaticResource Secondary}"
              Title="{local:Localize FieldBookPageTitle}">
 
@@ -22,37 +23,42 @@
             <ScrollView Orientation="Vertical" Grid.Row="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
-                
-                    <!--Description section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+
+                    <!--Description section dev-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="descriptionSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookDescriptionExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FieldBookPageDescriptionTitle}">
+
                         <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize FieldBookPageDescriptionTitle}"/>
 
                             <Picker Title="{local:Localize FieldBookPageWorkType}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding ProjectType.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding ProjectType.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry x:Name="ProjectName" x:Uid="proejctname" Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
                                        Text="{Binding Model.ProjectName}"/>
-                            </VerticalStackLayout>
+                                </VerticalStackLayout>
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
-                                <Entry Placeholder="{local:Localize FieldBookPageActivtyPlaceholder}"
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                    <Entry Placeholder="{local:Localize FieldBookPageActivtyPlaceholder}"
                                        Text="{Binding Model.MetadataActivity}"/>
+                                </VerticalStackLayout>
+
                             </VerticalStackLayout>
 
-                        </VerticalStackLayout>
-                    </Frame>
+                    </controls:ExpandableFrame>
+
                     
                     <!--Geologist section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="geologistSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookGeologistExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FieldBookPageGeologistTitle}">
                         <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageGeologistTitle}"/>
-
+                            
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                 <Entry Text="{Binding Model.ProjectUser_FN}"/>
@@ -74,15 +80,17 @@
                                        Text="{Binding Model.UserCode}" TextTransform="Uppercase"
                                        IsEnabled="{Binding CanWrite, Mode=TwoWay}"/>
                             </VerticalStackLayout>
-
+                            
                         </VerticalStackLayout>
-                    </Frame>
+
+
+                    </controls:ExpandableFrame>
                                        
                     <!--Project chief section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="projectChiefSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookProjectExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FieldBookPageProjectTitle}">
                         <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageProjectTitle}"/>
-
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.ProjectLeader_FN}"/>
@@ -97,36 +105,33 @@
                                 <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.ProjectLeader_LN}"/>
                             </VerticalStackLayout>
-
-
                         </VerticalStackLayout>
-                    </Frame>
+                    </controls:ExpandableFrame>
+
                     
                     <!--Other section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageOtherTitle}"/>
-
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="otherSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookOtherExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FieldBookPageOtherTitle}">
+                       
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageSSN}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Keyboard="Numeric" Text="{Binding Model.StationStartNumber}" Placeholder="1"
                                        IsEnabled="{Binding CanWrite, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
-                        </VerticalStackLayout>
-                    </Frame>
+                    </controls:ExpandableFrame>
 
                     <!--Notes section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="noteSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBooksGenericExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize GenericNoteTitle}">
+
                         <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize GenericNoteTitle}"/>
-
-                            <VerticalStackLayout>
-                                <Editor Style="{StaticResource FieldAppEditorNotes}" Text="{Binding Model.MetadataNotes}"/>
-                            </VerticalStackLayout>
-
+                            <Editor Style="{StaticResource FieldAppEditorNotes}" Text="{Binding Model.MetadataNotes}"/>
                         </VerticalStackLayout>
-                    </Frame>
+                        
+                    </controls:ExpandableFrame>
                     
                 </FlexLayout>
 
