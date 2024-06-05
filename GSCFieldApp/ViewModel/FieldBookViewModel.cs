@@ -41,6 +41,38 @@ namespace GSCFieldApp.ViewModel
         public Metadata Model { get { return _model; } set { _model = value; } }
         public ComboBox ProjectType { get { return _projectType; } set { _projectType = value; } }
         public bool CanWrite { get { return _canWrite; } set { _canWrite = value; } }
+
+        
+        public bool FieldBookDescriptionExpand
+        {
+            get { return Preferences.Get(nameof(FieldBookDescriptionExpand), true); }
+            set { Preferences.Set(nameof(FieldBookDescriptionExpand), value); }
+        }
+
+        public bool FieldBookGeologistExpand
+        {
+            get { return Preferences.Get(nameof(FieldBookGeologistExpand), true); }
+            set { Preferences.Set(nameof(FieldBookGeologistExpand), value); }
+        }
+
+        public bool FieldBookProjectExpand
+        {
+            get { return Preferences.Get(nameof(FieldBookProjectExpand), true); }
+            set { Preferences.Set(nameof(FieldBookProjectExpand), value); }
+        }
+
+        public bool FieldBookOtherExpand
+        {
+            get { return Preferences.Get(nameof(FieldBookOtherExpand), true); }
+            set { Preferences.Set(nameof(FieldBookOtherExpand), value); }
+        }
+
+        public bool FieldBooksGenericExpand
+        {
+            get { return Preferences.Get(nameof(FieldBooksGenericExpand), true); }
+            set { Preferences.Set(nameof(FieldBooksGenericExpand), value); }
+        }
+
         #endregion
 
         public FieldBookViewModel()

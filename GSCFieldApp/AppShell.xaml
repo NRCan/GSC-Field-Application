@@ -6,7 +6,7 @@
     xmlns:app="clr-namespace:GSCFieldApp"
     xmlns:views="clr-namespace:GSCFieldApp.Views"
     xmlns:local="clr-namespace:GSCFieldApp.Services"
-    Shell.FlyoutBehavior="Flyout">
+    Shell.FlyoutBehavior="Locked">
 
     <ShellContent
             Title="GSC Field App" FlyoutItemIsVisible="True" 
