@@ -438,7 +438,8 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+            //await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+            await Shell.Current.GoToAsync("../");
         }
 
         /// <summary>
@@ -485,7 +486,8 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+            //await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+            await Shell.Current.GoToAsync("../");
 
         }
 
