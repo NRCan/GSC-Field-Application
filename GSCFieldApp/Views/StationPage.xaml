@@ -100,29 +100,23 @@
                     </controls:ExpandableFrame>
                     
                     <!--Notes section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
-                        
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="StationNotesVisibility" NumberOfTapsRequired="1"/>
-                        </Frame.GestureRecognizers>
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationNotesVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize GenericNoteTitle}">
 
-                        <VerticalStackLayout Style="{StaticResource FieldAppExpandLayout}">
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize GenericNoteTitle}"/>
-
-                            <VerticalStackLayout IsVisible="{Binding StationNotesVisibility}">
-                                <Label Text="{local:Localize StationPageNotesCurrent}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" 
+                        <VerticalStackLayout>
+                            <Label Text="{local:Localize StationPageNotesCurrent}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" 
                                         Text="{Binding Model.StationNote, Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
-                                <Label Text="{local:Localize StationPageNotesSLS}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" 
+                            <Label Text="{local:Localize StationPageNotesSLS}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" 
                                         Text="{Binding Model.StationSLSNotes,Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
-                            </VerticalStackLayout>
-
                         </VerticalStackLayout>
-                    </Frame>
 
+                    </controls:ExpandableFrame>
+                  
                 </FlexLayout>
 
             </ScrollView>
