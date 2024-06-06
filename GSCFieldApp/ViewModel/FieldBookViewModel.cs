@@ -97,17 +97,29 @@ namespace GSCFieldApp.ViewModel
             //Validate if all mandatory entries have been filled.
             if (Model.isValid || !Model.isValid)
             {
-                //Make sure current field book database exists
+                //Project name and database name update validation
+                //If user has a databse, but renamed the project, we need to rename the database
 #if WINDOWS
-                da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+                string desiredDatabaseName = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
 #elif ANDROID
-                da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
+                string desiredDatabaseName = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
 #else
-                da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+                string desiredDatabaseName = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
 #endif
+
                 //Validate if new entry or update
                 if (_model.MetaID > 0)
                 {
+                    if (!Path.Exists(desiredDatabaseName) && Path.Exists(da.PreferedDatabasePath))
+                    {
+                        //Rename database
+                        FileInfo originalFileInfo = new FileInfo(da.PreferedDatabasePath);
+                        originalFileInfo.MoveTo(desiredDatabaseName);
+
+                        //Set prefered database
+                        da.PreferedDatabasePath = desiredDatabaseName;
+                    }
+
                     //Fill out missing values in model
                     SetModel();
 
@@ -115,6 +127,9 @@ namespace GSCFieldApp.ViewModel
                 }
                 else
                 {
+                    //Set database path
+                    da.PreferedDatabasePath = desiredDatabaseName;
+
                     //Create new field book database
                     await da.CreateDatabaseFromResource(da.PreferedDatabasePath);
 
