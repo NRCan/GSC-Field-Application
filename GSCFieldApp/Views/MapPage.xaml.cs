@@ -27,9 +27,6 @@ using Microsoft.Maui.Devices.Sensors;
 using System.Diagnostics;
 using System;
 using NetTopologySuite.Operation.Distance;
-using Xamarin.Google.Crypto.Tink.Subtle;
-using Org.Apache.Http.Conn;
-
 
 
 #if ANDROID
