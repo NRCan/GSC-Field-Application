@@ -39,13 +39,13 @@
                                 <VerticalStackLayout>
                                     <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>
                                     <Entry Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
-                                       Text="{Binding Model.ProjectName}"/>
+                                       Text="{Binding Model.ProjectName, Mode=TwoWay}"/>
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout>
                                     <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                     <Entry Placeholder="{local:Localize FieldBookPageActivtyPlaceholder}"
-                                       Text="{Binding Model.MetadataActivity}"/>
+                                       Text="{Binding Model.MetadataActivity, Mode=TwoWay}"/>
                                 </VerticalStackLayout>
 
                             </VerticalStackLayout>
@@ -61,17 +61,17 @@
                             
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
-                                <Entry Text="{Binding Model.ProjectUser_FN}"/>
+                                <Entry Text="{Binding Model.ProjectUser_FN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectUser_MN}"/>
+                                <Entry Text="{Binding Model.ProjectUser_MN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
-                                <Entry Text="{Binding Model.ProjectUser_LN}"/>
+                                <Entry Text="{Binding Model.ProjectUser_LN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >
@@ -93,17 +93,17 @@
                         <VerticalStackLayout>
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectLeader_FN}"/>
+                                <Entry Text="{Binding Model.ProjectLeader_FN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectLeader_MN}"/>
+                                <Entry Text="{Binding Model.ProjectLeader_MN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectLeader_LN}"/>
+                                <Entry Text="{Binding Model.ProjectLeader_LN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
@@ -128,7 +128,7 @@
                                               FrameTitle="{local:Localize GenericNoteTitle}">
 
                         <VerticalStackLayout>
-                            <Editor Style="{StaticResource FieldAppEditorNotes}" Text="{Binding Model.MetadataNotes}"/>
+                            <Editor Style="{StaticResource FieldAppEditorNotes}" Text="{Binding Model.MetadataNotes, Mode=TwoWay}"/>
                         </VerticalStackLayout>
                         
                     </controls:ExpandableFrame>
