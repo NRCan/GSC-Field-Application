@@ -90,5 +90,9 @@
         public const string aliasStations = "Stations"; //Used for map page layer menu
         public const string aliasTraversePoint = "Traverses"; //Used for map page layer menu
         #endregion
+
+        #region Files
+        public const string errorLogFileNameExt = "GSCFieldLog.txt"; //Will be used to save all error logs into a single file
+        #endregion
     }
 }

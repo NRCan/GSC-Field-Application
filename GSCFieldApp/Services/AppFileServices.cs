@@ -54,6 +54,51 @@ namespace GSCFieldApp.Services
         }
 
         /// <summary>
+        /// Will save prefered database
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task SaveBugLogFile(CancellationToken cancellationToken)
+        {
+
+            //Open desired file
+            DataAccess da = new DataAccess();
+            string errorLogFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, ApplicationLiterals.errorLogFileNameExt);
+            if (Path.Exists(errorLogFilePath))
+            {
+                using Stream stream = System.IO.File.OpenRead(errorLogFilePath);
+
+                if (stream != null)
+                {
+                    //Open save dialog
+                    var fileSaverResult = await FileSaver.Default.SaveAsync(ApplicationLiterals.errorLogFileNameExt, stream, cancellationToken);
+
+                    //Use Toast to show card in window interface or system like notification rather then modal alert popup.
+                    if (fileSaverResult.IsSuccessful)
+                    {
+                        string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
+
+                        await Toast.Make(toastText).Show(cancellationToken);
+                    }
+                    else
+                    {
+                        string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
+                        await Toast.Make(toastText).Show(cancellationToken);
+                    }
+                }
+
+                stream.Close();
+            }
+            else
+            {
+                string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), "Log file not found.");
+                await Toast.Make(toastText).Show(cancellationToken);
+            }
+
+        }
+
+
+        /// <summary>
         /// Will start a backup process for field books.
         /// </summary>
         /// <returns></returns>

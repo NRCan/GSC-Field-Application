@@ -1159,6 +1159,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download bug log.
+        /// </summary>
+        internal static string ShellGetBugLogTitle {
+            get {
+                return ResourceManager.GetString("ShellGetBugLogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map.
         /// </summary>
         internal static string ShellMapTitle {

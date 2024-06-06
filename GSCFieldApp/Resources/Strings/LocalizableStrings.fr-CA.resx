@@ -472,6 +472,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="ShellFileSaveSuccess" xml:space="preserve">
     <value>Le fichier a été sauvegardé avec succès à cet endroit:</value>
   </data>
+  <data name="ShellGetBugLogTitle" xml:space="preserve">
+    <value>Sauvegarder log de bug</value>
+  </data>
   <data name="ShellMapTitle" xml:space="preserve">
     <value>Carte</value>
   </data>

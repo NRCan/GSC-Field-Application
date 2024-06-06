@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace GSCFieldApp.Services
             get
             {
                 var folder = FileSystem.Current.AppDataDirectory;
-                var fileName = $"GSCFieldAppLog_{DateTime.Today:yyyy-MM-dd}.txt";
+                var fileName = ApplicationLiterals.errorLogFileNameExt;
 
                 return Path.Combine(folder, fileName);
             }

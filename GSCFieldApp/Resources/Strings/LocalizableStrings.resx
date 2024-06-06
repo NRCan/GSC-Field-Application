@@ -483,6 +483,9 @@
   <data name="ShellFileSaveSuccess" xml:space="preserve">
     <value>The file was saved successfully to location:</value>
   </data>
+  <data name="ShellGetBugLogTitle" xml:space="preserve">
+    <value>Download bug log</value>
+  </data>
   <data name="ShellMapTitle" xml:space="preserve">
     <value>Map</value>
   </data>

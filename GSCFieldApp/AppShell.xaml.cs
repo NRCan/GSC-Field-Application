@@ -16,6 +16,7 @@ public partial class AppShell : Shell
 {
     public ICommand NavigateToSettingsCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
+    public ICommand DoBakupLogCommand { get; private set; }
 
     public AppShell()
 	{
@@ -42,6 +43,11 @@ public partial class AppShell : Shell
             AppFileServices fileServices = new AppFileServices();
             await fileServices.SaveBackupDBFile(CancellationToken.None);
 
+        });
+
+        DoBakupLogCommand = new Command(async () => {
+            AppFileServices fileServices = new AppFileServices();
+            await fileServices.SaveBugLogFile(CancellationToken.None);
         });
 
         #endregion
