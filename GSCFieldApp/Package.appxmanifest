@@ -32,6 +32,13 @@
           </uap:FileSavePicker>
         </uap:Extension>
         <uap:Extension Category="windows.cameraSettings"/>
+        <uap:Extension Category="windows.fileOpenPicker">
+          <uap:FileOpenPicker>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.zip</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileOpenPicker>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
