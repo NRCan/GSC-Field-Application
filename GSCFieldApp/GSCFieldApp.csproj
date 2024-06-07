@@ -219,6 +219,7 @@
     <Compile Include="Models\Station.cs" />
     <Compile Include="Models\VocabularyManager.cs" />
     <Compile Include="Services\DatabaseServices\GeopackageService.cs" />
+    <Compile Include="Services\ErrorLogToFile.cs" />
     <Compile Include="Services\IgnorePropertiesResolver.cs" />
     <Compile Include="Services\ContentDialogMaker.cs" />
     <Compile Include="Services\FileServices\FileServices.cs" />
