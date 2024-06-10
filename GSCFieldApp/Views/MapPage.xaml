@@ -86,7 +86,7 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Foreground="White" Icon="OpenFile"    x:Uid="MapPageAddMaps" x:Name="MapPageAddMap" Tapped="MapPageAddMap_Tapped" ToolTipService.ToolTip=""/>
-            <AppBarButton x:Name="AddMaps" Label="" x:Uid="MapPageMapMenu" Foreground="White"   VerticalAlignment="Top" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
+            <AppBarButton x:Name="AddMaps" Label=""  x:Uid="MapPageMapMenu" Foreground="White"   VerticalAlignment="Top" ToolTipService.ToolTip="" Style="{StaticResource AppBarHiddenChevron}">
                     <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
                 </AppBarButton.Icon>
