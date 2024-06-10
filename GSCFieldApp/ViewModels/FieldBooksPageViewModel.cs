@@ -572,6 +572,17 @@ namespace GSCFieldApp.ViewModels
             localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoPName, fieldBook.metadataForProject.ProjectName);
             localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoActivityName, fieldBook.metadataForProject.MetadataActivity);
 
+            //Special setting for drill hole
+            if (fieldBook.metadataForProject.FieldworkType.Contains(DatabaseLiterals.KeywordDrill))
+            {
+                localSetting.SetSettingValue(DatabaseLiterals.TableDrillHoles, true);
+            }
+            else
+            {
+                localSetting.SetSettingValue(DatabaseLiterals.TableDrillHoles, false);
+            }
+            
+
             ApplicationData.Current.SignalDataChanged();
             DataAccess.DbPath = fieldBook.ProjectDBPath;
         }
