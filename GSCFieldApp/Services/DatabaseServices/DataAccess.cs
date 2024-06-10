@@ -102,7 +102,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             get
             {
-                if (_dbConnection == null)
+                if (_dbConnection == null && File.Exists(DbPath))
                 {
                     return new SQLiteConnection(DbPath);
                 }
