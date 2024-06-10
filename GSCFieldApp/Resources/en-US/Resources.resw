@@ -1042,7 +1042,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Geologist/Geolcode</value>
   </data>
   <data name="ProjectListStationHeader.Text" xml:space="preserve">
-    <value>Station</value>
+    <value>Location</value>
   </data>
   <data name="ProjectListTypeHeader.Text" xml:space="preserve">
     <value>Type</value>

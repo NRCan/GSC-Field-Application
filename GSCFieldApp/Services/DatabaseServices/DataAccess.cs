@@ -458,8 +458,6 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             List<object> tableRows = new List<object>();
 
-
-
             //Get the proper table object to read from it
             TableMapping tableMap = inConnection.GetMapping(tableType);
 
@@ -475,6 +473,37 @@ namespace GSCFieldApp.Services.DatabaseServices
                 else
                 {
                     tableRows = inConnection.Query(tableMap, query);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+
+            return tableRows;
+
+        }
+        
+        /// <summary>
+        /// Will return a list of object (rows) from a given table name.
+        /// In addition a query can be passed to filter results.
+        /// Can be used with any database, not the default working one.
+        /// </summary>
+        /// <param name="query">A query to filter table name, Can handle string.empty and null</param>
+        /// <returns>A list of object that will act as rows.</returns>
+        public List<int> ReadScalarFromDBConnectionWithoutClosingConnection(string query, SQLiteConnection inConnection)
+        {
+            List<int> tableRows = new List<int>(); 
+
+            //Check for table existance
+            try
+            {
+
+                //Get table info
+                if (query != string.Empty || query != null)
+                {
+                    tableRows = inConnection.QueryScalars<int>(query);
                 }
             }
             catch (Exception)

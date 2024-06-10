@@ -1040,7 +1040,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Géologue/Code de géologue</value>
   </data>
   <data name="ProjectListStationHeader.Text" xml:space="preserve">
-    <value>Station</value>
+    <value>Localisation</value>
   </data>
   <data name="ProjectListTypeHeader.Text" xml:space="preserve">
     <value>Type de projet</value>
