@@ -289,7 +289,16 @@
                         <Run x:Uid="AboutDatabaseVersion">Version</Run>
                         <Run Text="{Binding VersionDB}" />
                     </TextBlock>
-
+                    <!--
+                    <TextBlock Name="DownloadLinkTextBlock" Margin="10" RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.Below="VersionDBTextBlock">
+                        <Hyperlink Name="DownloadLink" RequestNavigate="DownloadLink_RequestNavigate">Download latest release</Hyperlink>
+                    </TextBlock>
+                    <TextBlock Name="RepoLinkTextBlock" Margin="10" RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.Below="DownloadLinkTextBlock">
+                        <Hyperlink NavigateUri="https://github.com/NRCan/GSC-Field-Application" RequestNavigate="Hyperlink_RequestNavigate">Update App</Hyperlink>
+                    </TextBlock>
+                    -->
                     <!--Contact Info-->
                     <TextBlock x:Name="ContactTextBlock" Margin="0,12,0,12" x:Uid="AboutContactHeader"
                                FontSize="22" RelativePanel.AlignLeftWithPanel="True"
