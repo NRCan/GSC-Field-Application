@@ -380,7 +380,7 @@ namespace GSCFieldApp.Views
         private async void MapPageAddMap_Tapped(object sender, TappedRoutedEventArgs e)
         {
             //Refresh
-            UpdateLayout();
+            //UpdateLayout();
 
             //Load
             try

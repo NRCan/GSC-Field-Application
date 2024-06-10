@@ -157,24 +157,13 @@ namespace GSCFieldApp.ViewModels
                                 currentDB.metadataForProject = m as Metadata;
                             }
 
-                            //For stations
+                            #region For stations
                             string stationQuerySelect = "SELECT *";
                             string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
                             string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationAlias + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "%'";
                             string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
                             List<object> stationCountResult = accessData.ReadTableFromDBConnectionWithoutClosingConnection(stationModel.GetType(), stationQueryFinal, currentConnection);
-                            if (stationCountResult != null && stationCountResult.Count > 0)
-                            {
-                                currentDB.StationNumber = stationCountResult.Count.ToString();
-                            }
-                            else if (stationCountResult != null && stationCountResult.Count == 0)
-                            {
-                                currentDB.StationNumber = "0";
-                            }
-                            else
-                            {
-                                currentDB.StationNumber = "?";
-                            }
+
                             if (stationCountResult.Count != 0)
                             {
                                 Station lastStation = (Station)stationCountResult[stationCountResult.Count - 1];
@@ -187,7 +176,22 @@ namespace GSCFieldApp.ViewModels
                                 StorageFolder parentFolder = await sfi.GetParentAsync();
                                 currentDB.ProjectPath = parentFolder.Path;
                             }
+                            #endregion
 
+                            #region For locations
+                            string queryLocation = "select count(*) from " + DatabaseLiterals.TableLocation;
+                            List<int> locationCountResult = accessData.ReadScalarFromDBConnectionWithoutClosingConnection(queryLocation, currentConnection);
+                            if (locationCountResult != null && locationCountResult.Count() > 0)
+                            {
+                                currentDB.StationNumber = locationCountResult[0].ToString();
+                            }
+                            else
+                            {
+                                currentDB.StationNumber = 0.ToString();
+                            }
+                            
+
+                            #endregion
                             _projectCollection.Add(currentDB);
 
                             currentConnection.Close();
@@ -535,7 +539,6 @@ namespace GSCFieldApp.ViewModels
                         //Zip and Copy
                         string outputZipFilePath = await fs.SaveArchiveCopy(selectedBook.ProjectPath,
                             selectedBook.metadataForProject.UserCode);
-
                     }
                 }
 
@@ -567,6 +570,17 @@ namespace GSCFieldApp.ViewModels
             localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoVersionSchema, fieldBook.metadataForProject.VersionSchema);
             localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoPName, fieldBook.metadataForProject.ProjectName);
             localSetting.SetSettingValue(DatabaseLiterals.FieldUserInfoActivityName, fieldBook.metadataForProject.MetadataActivity);
+
+            //Special setting for drill hole
+            if (fieldBook.metadataForProject.FieldworkType.Contains(DatabaseLiterals.KeywordDrill))
+            {
+                localSetting.SetSettingValue(DatabaseLiterals.TableDrillHoles, true);
+            }
+            else
+            {
+                localSetting.SetSettingValue(DatabaseLiterals.TableDrillHoles, false);
+            }
+            
 
             ApplicationData.Current.SignalDataChanged();
             DataAccess.DbPath = fieldBook.ProjectDBPath;

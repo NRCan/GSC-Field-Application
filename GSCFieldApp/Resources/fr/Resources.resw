@@ -1040,7 +1040,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Géologue/Code de géologue</value>
   </data>
   <data name="ProjectListStationHeader.Text" xml:space="preserve">
-    <value>Station</value>
+    <value>Localisation</value>
   </data>
   <data name="ProjectListTypeHeader.Text" xml:space="preserve">
     <value>Type de projet</value>
@@ -1529,10 +1529,10 @@ Shimamura, Kaz – Conseiller</value>
     <value>Structure</value>
   </data>
   <data name="SettingPageToggleSymbolStructure.OffContent" xml:space="preserve">
-    <value>Ne pas utiliser symbole</value>
+    <value>Ne pas symboliser</value>
   </data>
   <data name="SettingPageToggleSymbolStructure.OnContent" xml:space="preserve">
-    <value>Utiliser symbole</value>
+    <value>Utiliser un symbole</value>
   </data>
   <data name="MapPageIdentifyStationDialogTitle" xml:space="preserve">
     <value>Sommaire de la localisation</value>
@@ -1829,10 +1829,10 @@ Shimamura, Kaz – Conseiller</value>
     <value>Unité de mesure</value>
   </data>
   <data name="DrilllogIntervalsFrom.Header" xml:space="preserve">
-    <value>À partir de (cm)</value>
+    <value>À partir de (m)</value>
   </data>
   <data name="DrilllogIntervalsTo.Header" xml:space="preserve">
-    <value>Jusqu'à (cm)</value>
+    <value>Jusqu'à (m)</value>
   </data>
   <data name="FieldworkTableDrill.Text" xml:space="preserve">
     <value>Forages</value>

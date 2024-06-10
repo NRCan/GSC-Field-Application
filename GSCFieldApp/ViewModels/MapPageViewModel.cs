@@ -1992,6 +1992,7 @@ namespace GSCFieldApp.ViewModels
         public async void LayerFlyout_ClosedAsync(object sender, object e)
         {
             await SetLayerOrderAsync();
+            SaveLayerRendering();
         }
 
         #endregion
@@ -2477,11 +2478,15 @@ namespace GSCFieldApp.ViewModels
                     {
                         if (tpkList.ContainsKey(configs.LayerName))
                         {
-                            bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out bool tpkVisibility);
-                            Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out double tpkSliderSettingOpacity);
-                            await AddDataTypeTPK(tpkList[configs.LayerName], tpkVisibility, tpkSliderSettingOpacity / 100.0);
-                            tpkList.Remove(configs.LayerName);
-                            foundLayers = true;
+
+                            if (esriMap == null || esriMap.AllLayers.Count(x => x.Name.Replace(".tpk", "") == configs.LayerName.Replace(".tpk", "")) == 0)
+                            {
+                                bool.TryParse(configs.LayerSettings.LayerVisibility.ToString(), out bool tpkVisibility);
+                                Double.TryParse(configs.LayerSettings.LayerOpacity.ToString(), out double tpkSliderSettingOpacity);
+                                await AddDataTypeTPK(tpkList[configs.LayerName], tpkVisibility, tpkSliderSettingOpacity / 100.0);
+                                tpkList.Remove(configs.LayerName);
+                            }
+
                         }
 
                     }
@@ -2498,19 +2503,25 @@ namespace GSCFieldApp.ViewModels
             {
                 foreach (KeyValuePair<string, StorageFile> remainingTpks in tpkList)
                 {
-                    await AddDataTypeTPK(remainingTpks.Value, true, 1);
-                    MapPageLayers mpl = new MapPageLayers
+                    if (esriMap == null || esriMap.AllLayers.Count(x => x.Name.Replace(".tpk", "") == remainingTpks.Key.Replace(".tpk", "")) == 0)
                     {
-                        LayerName = remainingTpks.Key
-                    };
-                    MapPageLayerSetting mpls = new MapPageLayerSetting
-                    {
-                        LayerOpacity = 100,
-                        LayerVisibility = true
-                    };
-                    mpl.LayerSettings = mpls;
-                    _filenameValues.Insert(0, mpl);
-                    RaisePropertyChanged("FilenameValues");
+                        await AddDataTypeTPK(remainingTpks.Value, true, 1);
+
+                        MapPageLayers mpl = new MapPageLayers
+                        {
+                            LayerName = remainingTpks.Key
+                        };
+                        MapPageLayerSetting mpls = new MapPageLayerSetting
+                        {
+                            LayerOpacity = 100,
+                            LayerVisibility = true
+                        };
+                        mpl.LayerSettings = mpls;
+                        _filenameValues.Insert(0, mpl);
+                        RaisePropertyChanged("FilenameValues");
+                    }
+
+
                     foundLayers = true;
                 }
             }
@@ -2564,6 +2575,7 @@ namespace GSCFieldApp.ViewModels
 
                     _tileLayer.IsVisible = isTPKVisible;
                     _tileLayer.Opacity = tpkOpacity;
+
                     esriMap.Basemap.BaseLayers.Add(_tileLayer);
 
                     //Shows Peojection in map view
@@ -2636,7 +2648,7 @@ namespace GSCFieldApp.ViewModels
             {
                 SetLayerVisibilityOrOpacity(inSwitch, inSwitch.Header.ToString());
 
-                SaveLayerRendering();
+                //SaveLayerRendering();
             }
 
 
