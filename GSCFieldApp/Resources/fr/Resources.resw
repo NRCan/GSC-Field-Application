@@ -1829,10 +1829,10 @@ Shimamura, Kaz – Conseiller</value>
     <value>Unité de mesure</value>
   </data>
   <data name="DrilllogIntervalsFrom.Header" xml:space="preserve">
-    <value>À partir de (cm)</value>
+    <value>À partir de (m)</value>
   </data>
   <data name="DrilllogIntervalsTo.Header" xml:space="preserve">
-    <value>Jusqu'à (cm)</value>
+    <value>Jusqu'à (m)</value>
   </data>
   <data name="FieldworkTableDrill.Text" xml:space="preserve">
     <value>Forages</value>
