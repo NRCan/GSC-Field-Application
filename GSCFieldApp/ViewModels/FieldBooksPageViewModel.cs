@@ -539,7 +539,6 @@ namespace GSCFieldApp.ViewModels
                         //Zip and Copy
                         string outputZipFilePath = await fs.SaveArchiveCopy(selectedBook.ProjectPath,
                             selectedBook.metadataForProject.UserCode);
-
                     }
                 }
 

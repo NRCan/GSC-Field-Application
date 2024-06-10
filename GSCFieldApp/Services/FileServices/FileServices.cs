@@ -310,6 +310,12 @@ namespace GSCFieldApp.Services.FileServices
                         }
 
                     }
+
+                    //Clean up
+                    if (File.Exists(tempZip))
+                    {
+                        File.Delete(tempZip);
+                    }
                 }
 
                 return outputZipPhotoFilePath;

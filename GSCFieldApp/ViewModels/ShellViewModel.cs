@@ -4,6 +4,7 @@ using GSCFieldApp.Services.FileServices;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Template10.Mvvm;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -148,7 +149,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             //If any photos needs to be copied, else show warning
-            if (FilesToBackup.Count > 1)
+            if (FilesToBackup.Count > 1 && FilesToBackup.Where(x=>x.FileType != DatabaseLiterals.DBTypeSqlite).Count() > 0)
             {
                 //Copy database and rename it
                 List<StorageFile> newList = new List<StorageFile>();
