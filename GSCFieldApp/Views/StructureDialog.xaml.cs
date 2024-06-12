@@ -481,5 +481,15 @@ namespace GSCFieldApp.Views
 
 
         }
+
+        private void exampleCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void exampleCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

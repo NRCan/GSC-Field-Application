@@ -1893,4 +1893,8 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="UpgradeErrorMetadataContent" xml:space="preserve">
     <value>No metadata table was found within the incoming database. Can't upgrade.</value>
   </data>
+  <data name="StructureDialogPlotToMap.Header" xml:space="preserve">
+    <value>Plot To Map</value>
+    <comment>Added By Jamel</comment>
+  </data>
 </root>
