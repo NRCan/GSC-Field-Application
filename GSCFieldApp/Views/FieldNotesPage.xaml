@@ -28,10 +28,12 @@
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
                     </VerticalStackLayout.GestureRecognizers>
                     <Label HorizontalTextAlignment="Center"
-                            Text="{Binding Display_text_1}" TextColor="{StaticResource Gray400}" 
+                            Text="{Binding Display_text_1}" TextColor="{Binding isValid,  Converter={StaticResource colorFromBool}, ConverterParameter='isValid', Mode=OneWay}" 
                             FontSize="Default" FontAttributes="Bold"/>
                     <Label HorizontalTextAlignment="Center"
-                            Text="{Binding Display_text_2}" FontSize="Body" LineBreakMode="TailTruncation" FontAttributes="Bold"
+                            Text="{Binding Display_text_2}" 
+                            TextColor="{Binding isValid,  Converter={StaticResource colorFromBool}, ConverterParameter='isValid', Mode=OneWay}" 
+                            FontSize="Body" LineBreakMode="TailTruncation" FontAttributes="Bold"
                             VerticalOptions="End" />
                     <Label HorizontalTextAlignment="Center"
                             Text="{Binding Display_text_3}"
