@@ -212,6 +212,8 @@
     <Style TargetType="CollectionView" x:Key="FieldAppNotesTabletCollectionView">
         <Setter Property="IsVisible" Value="{OnIdiom Desktop=True, Phone=False, Tablet=True}"/>
         <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="VerticalOptions" Value="Fill"/>
+        <Setter Property="Margin" Value="7"/>
     </Style>
 
     <Style TargetType="Grid" x:Key="FieldAppFormGrid">
@@ -770,7 +772,7 @@
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
         <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray950}}" />
-        <Setter Property="Shell.ForegroundColor" Value="{OnPlatform WinUI={StaticResource White}, Default={StaticResource White}}" />
+        <Setter Property="Shell.ForegroundColor" Value="{OnPlatform WinUI={StaticResource Gray950}, Default={StaticResource White}}" />
         <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
         <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />

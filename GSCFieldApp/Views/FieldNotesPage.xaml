@@ -17,7 +17,7 @@
 
         <converters:ColorFromBoolConverter x:Key="colorFromBool"/>
 
-        <!-- Note Cards Templates -->
+        <!-- Tablet/Desktop Note Cards Templates -->
         <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
 
             <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="75" WidthRequest="175">
@@ -43,7 +43,7 @@
             
         </DataTemplate>
 
-        
+        <!-- Mobile Note Cards Templates -->
         <DataTemplate x:Key="FieldNoteCardMobile" x:DataType="models:FieldNote">
 
             <TextCell Detail="{Binding Display_text_3}" TextColor="{Binding isValid,  Converter={StaticResource colorFromBool}, ConverterParameter='isValid', Mode=OneWay}"
@@ -73,7 +73,8 @@
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
 
                 </Frame.GestureRecognizers>
-                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}"
+
+                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle}"
                     Text="{Binding}" />
 
             </Frame>
@@ -101,7 +102,7 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Stations, Mode=TwoWay}" >
                             <CollectionView.ItemsLayout>
-                                <GridItemsLayout Orientation="Vertical" 
+                                <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10"
                                     Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
                             </CollectionView.ItemsLayout>
                         </CollectionView>
@@ -131,8 +132,6 @@
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
                     </VerticalStackLayout>
                     
-
-
                     <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
                     <!--Sample records-->
@@ -152,10 +151,10 @@
                 <Button x:Name="FieldNoteDatesHeader" Text="{local:Localize Key=FielNotesDateHeader}" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="dates"/>
                 <ScrollView Orientation="Horizontal" >
-                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center"
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center" 
                             ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Horizontal" />
+                            <GridItemsLayout Orientation="Horizontal" HorizontalItemSpacing="{OnIdiom Desktop=25, Tablet=25, Phone=0, Default=0}"/>
                         </CollectionView.ItemsLayout>
                     </CollectionView>
                 </ScrollView>
