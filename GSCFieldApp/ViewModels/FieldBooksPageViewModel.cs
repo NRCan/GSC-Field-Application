@@ -38,7 +38,7 @@ namespace GSCFieldApp.ViewModels
         #region INITIALIZATION
 
         //UI
-        public ObservableCollection<FieldBooks> _projectCollection = new ObservableCollection<FieldBooks>();
+        private ObservableCollection<FieldBooks> _projectCollection = new ObservableCollection<FieldBooks>();
         public int _selectedProjectIndex = -1;
         private bool _noFieldBookWatermark = false;
 
@@ -71,6 +71,7 @@ namespace GSCFieldApp.ViewModels
         public ObservableCollection<FieldBooks> ProjectCollection
         {
             get { return _projectCollection; }
+            set { _projectCollection = value; }
         }
 
         public bool ProgressRingActive
@@ -90,11 +91,8 @@ namespace GSCFieldApp.ViewModels
 
         public FieldBooksPageViewModel()
         {
-            _projectCollection = new ObservableCollection<FieldBooks>();
-            RaisePropertyChanged("ProjectCollection");
-
             //Fill list view of projects
-            FillProjectCollectionAsync();
+            _ = FillProjectCollectionAsync();
 
             //Detect new field book save
             GSCFieldApp.Views.FieldBookDialog.newFieldBookSaved -= FieldBookDialog_newFieldBookSaved;
@@ -119,9 +117,9 @@ namespace GSCFieldApp.ViewModels
         /// <summary>
         /// Will fill the project collection with information related to it
         /// </summary>
-        private async void FillProjectCollectionAsync()
+        private async Task<ObservableCollection<FieldBooks>> FillProjectCollectionAsync()
         {
-            _projectCollection.Clear();
+            _projectCollection = new ObservableCollection<FieldBooks>();
             RaisePropertyChanged("ProjectCollection");
             List<string> invalidFieldBookToDelete = new List<string>();
 
@@ -189,16 +187,15 @@ namespace GSCFieldApp.ViewModels
                             {
                                 currentDB.StationNumber = 0.ToString();
                             }
-                            
+
 
                             #endregion
-                            _projectCollection.Add(currentDB);
+                            if (!_projectCollection.Contains(currentDB))
+                            {
+                                _projectCollection.Add(currentDB);
+                            }
 
                             currentConnection.Close();
-                            GC.Collect();
-                            GC.WaitForPendingFinalizers();
-
-                            System.Runtime.InteropServices.Marshal.ReleaseComObject(sfi);
 
                             break; //Forget about other files
                         }
@@ -207,7 +204,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Refresh UI
-            RaisePropertyChanged("ProjectCollection");
+            //RaisePropertyChanged("ProjectCollection");
 
             //Select the current active project, so it's highlighted in the list view
             ResourceLoader loadLocal = Windows.ApplicationModel.Resources.ResourceLoader.GetForCurrentView();
@@ -231,6 +228,7 @@ namespace GSCFieldApp.ViewModels
                 fieldBooksUpdate?.Invoke(this, true);
             }
 
+            return _projectCollection;
         }
 
         /// <summary>
@@ -396,7 +394,7 @@ namespace GSCFieldApp.ViewModels
             }
 
             //Refresh page
-            FillProjectCollectionAsync();
+            _ =FillProjectCollectionAsync();
 
         }
 
@@ -713,8 +711,9 @@ namespace GSCFieldApp.ViewModels
         private void ViewModel_projectEdit(object sender)
         {
             //Refresh page
-            FillProjectCollectionAsync();
+            _ =FillProjectCollectionAsync();
 
+            RaisePropertyChanged("ProjectCollection");
         }
 
         /// <summary>
@@ -868,7 +867,7 @@ namespace GSCFieldApp.ViewModels
 
                         SetFieldBook(restFieldBook);
 
-                        FillProjectCollectionAsync();
+                        _ = FillProjectCollectionAsync();
                     }
                     else
                     {
@@ -1149,7 +1148,7 @@ namespace GSCFieldApp.ViewModels
         private void upgradedDBDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
             //Send call to refresh other pages
-            FillProjectCollectionAsync();
+            _ = FillProjectCollectionAsync();
             EventHandler<string> newFieldBookRequest = newFieldBookSelected;
             if (newFieldBookRequest != null)
             {
