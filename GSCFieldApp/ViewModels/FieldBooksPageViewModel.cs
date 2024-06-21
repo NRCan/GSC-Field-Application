@@ -664,6 +664,7 @@ namespace GSCFieldApp.ViewModels
                         var modal = Window.Current.Content as ModalDialog;
                         var view = modal.ModalContent as Views.FieldBookDialog;
                         modal.ModalContent = view = new Views.FieldBookDialog(selectedProject);
+                        view.ViewModel.projectEdit -= ViewModel_projectEdit;
                         view.ViewModel.projectEdit += ViewModel_projectEdit;
                         modal.IsModal = true;
                     });
