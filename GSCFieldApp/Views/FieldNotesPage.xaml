@@ -7,8 +7,9 @@
              xmlns:models="clr-namespace:GSCFieldApp.Models"
              x:DataType="viemodel:FieldNotesViewModel"
              xmlns:converters="clr-namespace:GSCFieldApp.Converters"
-             Title="{local:Localize ShellFieldNotesTitle}">
-    
+             Title="{local:Localize ShellFieldNotesTitle}"
+             Shell.BackgroundColor="{StaticResource Primary}">
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False"/>
     </Shell.BackButtonBehavior>
@@ -125,7 +126,7 @@
                                         ItemsSource="{Binding EarthMats}"  >
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=2}"/>
+                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
                             </CollectionView.ItemsLayout>
                         </CollectionView>
 
