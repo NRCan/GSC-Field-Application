@@ -48,7 +48,7 @@
                     
 
                     <!--Outcrop section-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationOutcropVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize StationPageOutcropTitle}">
 

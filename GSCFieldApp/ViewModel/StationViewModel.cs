@@ -132,8 +132,6 @@ namespace GSCFieldApp.ViewModel
         public StationViewModel()
         {
             FieldThemes = new FieldThemes();
-
-            //SetFieldVisibility(); //Will enable/disable some fields based on bedrock or surficial usage
         }
 
         #region RELAYS
@@ -289,32 +287,12 @@ namespace GSCFieldApp.ViewModel
                 }
             );
         }
-    
+
 
 
         #endregion
 
         #region METHODS
-
-        ///// <summary>
-        ///// Will set visibility based on a bedrock or surficial field book
-        ///// </summary>
-        //public async Task SetFieldVisibility()
-        //{
-        //    //Prefered theme should be saved on field book selected. Defaults to bedrock.
-        //    string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoPName), DatabaseLiterals.ApplicationThemeBedrock);
-        //    if (preferedTheme == DatabaseLiterals.ApplicationThemeBedrock)
-        //    {
-        //        _bedrockVisibility = true;
-        //    }
-        //    else if (preferedTheme == DatabaseLiterals.ApplicationThemeSurficial)
-        //    {
-        //        _bedrockVisibility = false;
-        //    }
-
-
-        //    OnPropertyChanged(nameof(BedrockVisibility));
-        //}
 
         /// <summary>
         /// Will refill the form with existing values for update/editing purposes
