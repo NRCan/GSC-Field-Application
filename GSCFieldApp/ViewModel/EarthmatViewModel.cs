@@ -408,7 +408,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Android when navigating back, ham menu disapears if / isn't added to path
-            await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
         }
 
         /// <summary>
@@ -438,8 +438,8 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            //await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
-            await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"../{nameof(FieldNotesPage)}");
+            //await Shell.Current.GoToAsync("../");
         }
 
         /// <summary>
@@ -486,8 +486,8 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            //await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
-            await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"/{nameof(FieldNotesPage)}/");
+            //await Shell.Current.GoToAsync("../");
 
         }
 
