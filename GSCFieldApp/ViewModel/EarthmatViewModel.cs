@@ -627,6 +627,36 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(EarthLithContactRelationCollection));
         }
 
+        [RelayCommand]
+        public async Task AddSample()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+            {
+                await da.SaveItemAsync(Model, true);
+            }
+            else
+            {
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+            }
+
+            //Close to be sure
+            await da.CloseConnectionAsync();
+
+            //Navigate to child
+            await Shell.Current.GoToAsync($"{nameof(SamplePage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Sample)] = null,
+                    [nameof(Earthmaterial)] = Model
+                }
+            );
+        }
+
         #endregion
 
         #region METHODS

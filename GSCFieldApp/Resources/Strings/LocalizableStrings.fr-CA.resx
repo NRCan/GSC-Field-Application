@@ -460,6 +460,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Menu de toutes les couches présentation accessible dans la carte.</value>
   </data>
+  <data name="SamplePageTitle" xml:space="preserve">
+    <value>Échantillon</value>
+  </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Carnets de terrain</value>
   </data>

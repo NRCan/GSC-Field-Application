@@ -471,6 +471,9 @@
   <data name="MapPageLayer" xml:space="preserve">
     <value>Tap to see a list of all loaded layers and more options.</value>
   </data>
+  <data name="SamplePageTitle" xml:space="preserve">
+    <value>Sample</value>
+  </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Field Books</value>
   </data>

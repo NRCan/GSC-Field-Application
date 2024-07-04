@@ -408,12 +408,18 @@
 	  <MauiXaml Update="Controls\SaveSwipeItem.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\SamplePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\StationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SettingsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	<MauiXaml Update="Views\EarthmatPage.xaml">
+		<Generator>MSBuild:Compile</Generator>
+	</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -30,7 +30,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(FieldNotesPage), typeof(FieldNotesPage));
         Routing.RegisterRoute(nameof(MapPage), typeof(MapPage));
 
-
         //Will be used to navigate to setting page
         NavigateToSettingsCommand = new Command(async () => {
             //await GoToAsync(nameof(SettingsPage));
@@ -57,6 +56,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(FieldBookPage), typeof(FieldBookPage));
         Routing.RegisterRoute(nameof(StationPage), typeof(StationPage));
         Routing.RegisterRoute(nameof(EarthmatPage), typeof(EarthmatPage));
+        Routing.RegisterRoute(nameof(SamplePage), typeof(SamplePage));
 
         #endregion
 

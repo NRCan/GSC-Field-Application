@@ -59,6 +59,9 @@ public static class MauiProgram
         builder.Services.AddTransient<EarthmatPage>();
         builder.Services.AddTransient<EarthmatViewModel>();
 
+        builder.Services.AddTransient<SamplePage>();
+        builder.Services.AddTransient<SampleViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();

@@ -1123,6 +1123,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sample.
+        /// </summary>
+        internal static string SamplePageTitle {
+            get {
+                return ResourceManager.GetString("SamplePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field Books.
         /// </summary>
         internal static string ShellFieldBooksTitle {

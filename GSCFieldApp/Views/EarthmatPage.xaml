@@ -400,7 +400,7 @@
 
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" ToolTipProperties.Text="{local:Localize EarthmatTooltipAddSample}"
-                        Margin="0,10,0,10" 
+                        Margin="0,10,0,10" Command="{Binding AddSampleCommand}"
                         BackgroundColor="{StaticResource FieldSampleColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
