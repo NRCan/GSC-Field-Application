@@ -69,6 +69,7 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="MaximumHeightRequest" Value="44"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="WidthRequest" Value="110"/>
         <Setter Property="Margin" Value="10"/>
