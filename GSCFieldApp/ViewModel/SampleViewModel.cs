@@ -322,6 +322,59 @@ namespace GSCFieldApp.ViewModel
             Model.SampleID = 0;
 
         }
+
+        /// <summary>
+        /// Will refill the form with existing values for update/editing purposes
+        /// </summary>
+        /// <returns></returns>
+        public async Task Load()
+        {
+            if (_sample != null && _sample.SampleName != string.Empty)
+            {
+                //Set model like actual record
+                _model = _sample;
+
+                //Refresh
+                OnPropertyChanged(nameof(Model));
+
+                #region Pickers
+                //Select values in pickers
+                foreach (ComboBoxItem cbox in SampleType.cboxItems)
+                {
+                    if (cbox.itemValue == _model.SampleType)
+                    {
+                        SampleType.cboxDefaultItemIndex = SampleType.cboxItems.IndexOf(cbox);
+                        break;
+                    }
+                }
+                OnPropertyChanged(nameof(SampleType));
+
+                List<string> bfs = concat.UnpipeString(_sample.SamplePurpose);
+                _purposeCollection.Clear(); //Clear any possible values first
+                foreach (ComboBoxItem cbox in SamplePurpose.cboxItems)
+                {
+                    if (bfs.Contains(cbox.itemValue) && !_purposeCollection.Contains(cbox))
+                    {
+                        _purposeCollection.Add(cbox);
+                    }
+                }
+                OnPropertyChanged(nameof(SamplePurpose));
+
+                foreach (ComboBoxItem cbox in SampleCorePortion.cboxItems)
+                {
+                    if (cbox.itemValue == _model.SampleCoreSize)
+                    {
+                        SampleCorePortion.cboxDefaultItemIndex = SampleCorePortion.cboxItems.IndexOf(cbox);
+                        break;
+                    }
+                }
+                OnPropertyChanged(nameof(SampleCorePortion));
+
+                #endregion
+
+            }
+        }
+
         #endregion
     }
 }
