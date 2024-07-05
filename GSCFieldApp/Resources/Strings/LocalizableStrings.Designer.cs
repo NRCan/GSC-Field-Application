@@ -1123,11 +1123,146 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sampled by.
+        /// </summary>
+        internal static string SamplePageCoreBy {
+            get {
+                return ResourceManager.GetString("SamplePageCoreBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        internal static string SamplePageCoreFrom {
+            get {
+                return ResourceManager.GetString("SamplePageCoreFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length.
+        /// </summary>
+        internal static string SamplePageCoreLength {
+            get {
+                return ResourceManager.GetString("SamplePageCoreLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size (in quarters).
+        /// </summary>
+        internal static string SamplePageCorePortion {
+            get {
+                return ResourceManager.GetString("SamplePageCorePortion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Core.
+        /// </summary>
+        internal static string SamplePageCoreTitle {
+            get {
+                return ResourceManager.GetString("SamplePageCoreTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        internal static string SamplePageCoreTo {
+            get {
+                return ResourceManager.GetString("SamplePageCoreTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string SamplePageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("SamplePageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate name.
+        /// </summary>
+        internal static string SamplePageDuplicateName {
+            get {
+                return ResourceManager.GetString("SamplePageDuplicateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string SamplePageGeneralTitle {
+            get {
+                return ResourceManager.GetString("SamplePageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Blank?.
+        /// </summary>
+        internal static string SamplePageIsBlank {
+            get {
+                return ResourceManager.GetString("SamplePageIsBlank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Duplicate?.
+        /// </summary>
+        internal static string SamplePageIsDuplicate {
+            get {
+                return ResourceManager.GetString("SamplePageIsDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Orientation.
+        /// </summary>
+        internal static string SamplePageOrientationTitle {
+            get {
+                return ResourceManager.GetString("SamplePageOrientationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purpose.
+        /// </summary>
+        internal static string SamplePagePurpose {
+            get {
+                return ResourceManager.GetString("SamplePagePurpose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        internal static string SamplePageStateTitle {
+            get {
+                return ResourceManager.GetString("SamplePageStateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sample.
         /// </summary>
         internal static string SamplePageTitle {
             get {
                 return ResourceManager.GetString("SamplePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string SamplePageType {
+            get {
+                return ResourceManager.GetString("SamplePageType", resourceCulture);
             }
         }
         

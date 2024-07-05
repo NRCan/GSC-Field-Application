@@ -471,8 +471,53 @@
   <data name="MapPageLayer" xml:space="preserve">
     <value>Tap to see a list of all loaded layers and more options.</value>
   </data>
+  <data name="SamplePageCoreBy" xml:space="preserve">
+    <value>Sampled by</value>
+  </data>
+  <data name="SamplePageCoreFrom" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="SamplePageCoreLength" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="SamplePageCorePortion" xml:space="preserve">
+    <value>Size (in quarters)</value>
+  </data>
+  <data name="SamplePageCoreTitle" xml:space="preserve">
+    <value>Core</value>
+  </data>
+  <data name="SamplePageCoreTo" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="SamplePageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SamplePageDuplicateName" xml:space="preserve">
+    <value>Duplicate name</value>
+  </data>
+  <data name="SamplePageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SamplePageIsBlank" xml:space="preserve">
+    <value>Is Blank?</value>
+  </data>
+  <data name="SamplePageIsDuplicate" xml:space="preserve">
+    <value>Is Duplicate?</value>
+  </data>
+  <data name="SamplePageOrientationTitle" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="SamplePagePurpose" xml:space="preserve">
+    <value>Purpose</value>
+  </data>
+  <data name="SamplePageStateTitle" xml:space="preserve">
+    <value>State</value>
+  </data>
   <data name="SamplePageTitle" xml:space="preserve">
     <value>Sample</value>
+  </data>
+  <data name="SamplePageType" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Field Books</value>

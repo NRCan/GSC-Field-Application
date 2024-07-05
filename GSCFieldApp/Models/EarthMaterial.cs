@@ -268,16 +268,21 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                //Get index of last digits
-                string getLast3 = this.EarthMatName.Substring(this.EarthMatName.Length - 3);
                 string strOnlyID = string.Empty;
-                foreach (char c in getLast3)
+                if (this.EarthMatName != null)
                 {
-                    if (char.IsLetter(c))
+                    //Get index of last digits
+                    string getLast3 = this.EarthMatName.Substring(this.EarthMatName.Length - 3);
+
+                    foreach (char c in getLast3)
                     {
-                        strOnlyID = strOnlyID + c;
+                        if (char.IsLetter(c))
+                        {
+                            strOnlyID = strOnlyID + c;
+                        }
                     }
                 }
+
                 return strOnlyID;
             }
 

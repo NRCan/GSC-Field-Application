@@ -179,5 +179,36 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string SampleAliasLight
+        {
+            get
+            {
+                if (SampleName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(SampleName.Substring(SampleName.Length - 2), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        return SampleName.Substring(SampleName.Length - 4);
+                    }
+                    else
+                    {
+                        return DatabaseLiterals.picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return DatabaseLiterals.picklistNACode;
+                }
+            }
+            set { }
+        }
     }
 }

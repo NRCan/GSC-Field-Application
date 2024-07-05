@@ -327,77 +327,67 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-        //#region SAMPLE
-        ///// <summary>
-        ///// Will calculate a sample alias from a given parent id and parent alias.
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <returns></returns>
-        //public string CalculateSampleAlias(int parentID, string parentAlias)
-        //{
-        //    //Querying with Linq
-        //    List<object> sampleTableRaw = dAccess.ReadTable(sampleModel.GetType(), null);
-        //    IEnumerable<Sample> sampleTable = sampleTableRaw.Cast<Sample>(); //Cast to proper list type
-        //    IEnumerable<string> sampleParentEarth = from e in sampleTable where e.SampleEarthmatID == parentID orderby e.SampleName descending select e.SampleName;
+        #region SAMPLE
+        /// <summary>
+        /// Will calculate a sample alias from a given parent id and parent alias.
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public async Task<string> CalculateSampleAliasAsync(int parentID, string parentAlias)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<Sample> sampleParent = await currentConnection.Table<Sample>().Where(e => e.SampleEarthmatID == parentID).ToListAsync();
 
-        //    int newID = 1; //Incrementing step
-        //    string newAlias = string.Empty;
-        //    string finaleSampleString = parentAlias;
+            int newID = 1; //Incrementing step
+            string newAlias = string.Empty;
+            string finaleSampleString = parentAlias;
 
-        //    //Detect last sample number and add 1 to it.
-        //    if (sampleParentEarth.Count() > 0)
-        //    {
-        //        string lastAlias = sampleParentEarth.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
-        //        string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //Sample only has two digits id in the alias
+            //Detect last sample number and add 1 to it.
+            if (sampleParent.Count() > 0)
+            {
+                string lastAlias = sampleParent.ToList()[sampleParent.Count() - 1].SampleName.ToString();
+                string lastNumberString = lastAlias.ToList()[lastAlias.Length - 2].ToString(); //Sample only has two digits id in the alias
 
-        //        newID = Convert.ToInt16(lastNumberString) + newID;
+                newID = Convert.ToInt16(lastNumberString) + newID;
 
-        //        //Find a non existing name
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Padd current ID with 0 if needed
-        //            if (newID < 10)
-        //            {
-        //                newAlias = "0" + newID;
-        //            }
-        //            else
-        //            {
-        //                newAlias = newID.ToString();
-        //            }
+                //Find a non existing name
+                bool breaker = true;
+                while (breaker)
+                {
+                    //Padd current ID with 0 if needed
+                    if (newID < 10)
+                    {
+                        newAlias = "0" + newID;
+                    }
+                    else
+                    {
+                        newAlias = newID.ToString();
+                    }
 
-        //            finaleSampleString = parentAlias + newAlias;
+                    finaleSampleString = parentAlias + newAlias;
 
-        //            //Find existing
-        //            IEnumerable<Sample> existingSamples= from s in sampleTable where s.SampleEarthmatID == parentID && s.SampleName == finaleSampleString select s;
-        //            if (existingSamples.Count() == 0 || existingSamples == null)
-        //            {
-        //                breaker = false;
-        //            }
+                    //Find existing
+                    List<Sample> existingSamples = await currentConnection.Table<Sample>().Where(e => e.SampleEarthmatID == parentID && e.SampleName == finaleSampleString).ToListAsync();
+                    if (existingSamples.Count() == 0 || existingSamples == null)
+                    {
+                        breaker = false;
+                    }
 
-        //            newID++;
-        //        }
+                    newID++;
+                }
 
-        //    }
-        //    else
-        //    {
-        //        finaleSampleString = parentAlias + "0" + newID;
-        //    }
+            }
+            else
+            {
+                finaleSampleString = parentAlias + "0" + newID;
+            }
 
-        //    return finaleSampleString;
-        //}
+            return finaleSampleString;
+        }
 
-        ///// <summary>
-        ///// Will calculate a generic ID from sample table based on the highest current stored id.
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculateSampleID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
-
-        //#endregion
+        #endregion
 
         //#region DOCUMENT
         ///// <summary>

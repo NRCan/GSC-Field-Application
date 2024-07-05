@@ -218,6 +218,26 @@ namespace GSCFieldApp.ViewModel
                     );
                 }
             }
+
+            if (fieldNotes.GenericTableName == DatabaseLiterals.TableSample)
+            {
+                List<Sample> tappedSample = await currentConnection.Table<Sample>().Where(i => i.SampleID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedSample != null && tappedSample.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(SamplePage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Sample)] = (Sample)tappedSample[0],
+                            [nameof(Earthmaterial)] = null,
+                        }
+                    );
+                }
+            }
+
         }
 
         #endregion
@@ -237,7 +257,7 @@ namespace GSCFieldApp.ViewModel
                 await FillTraverseDates(currentConnection);
                 await FillStationNotes(currentConnection);
                 await FillEMNotes(currentConnection);
-
+                await FillSampleNotes(currentConnection);
                 await currentConnection.CloseAsync();
 
                 OnPropertyChanged(nameof(FieldNotes));
@@ -409,6 +429,52 @@ namespace GSCFieldApp.ViewModel
                         GenericTableName = DatabaseLiterals.TableEarthMat,
                         GenericID = st.EarthMatID,
                         ParentID = parentID,
+                        isValid = st.isValid
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
+
+        /// <summary>
+        /// Will get all database samples to fill sample cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillSampleNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(Tables.sample))
+            {
+                FieldNotes.Add(Tables.sample, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[Tables.sample].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all stations from database
+            List<Sample> samples = await inConnection.Table<Sample>().OrderBy(s => s.SampleName).ToListAsync();
+
+            if (samples != null && samples.Count > 0)
+            {
+
+                foreach (Sample st in samples)
+                {
+                    FieldNotes[Tables.sample].Add(new FieldNote
+                    {
+                        Display_text_1 = st.SampleAliasLight,
+                        Display_text_2 = st.SampleType,
+                        Display_text_3 = st.SamplePurpose,
+                        GenericTableName = DatabaseLiterals.TableSample,
+                        GenericID = st.SampleID,
+                        ParentID = st.SampleEarthmatID,
                         isValid = st.isValid
                     });
                 }

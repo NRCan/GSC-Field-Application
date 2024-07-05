@@ -20,6 +20,127 @@
             <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
+                    <!--Description-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleDescVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageDescriptionTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize SamplePageType}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding SampleType.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedIndex="{Binding SampleType.cboxDefaultItemIndex, Mode=TwoWay}"/>
+                            
+                            <VerticalStackLayout>
+                                <Picker Title="{local:Localize SamplePagePurpose}" x:Name="QualifierPicker"
+                                    ItemsSource="{Binding SamplePurpose.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedSamplePurpose}"
+                                    SelectedIndex="{Binding SamplePurpose.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <!--Custom control to concatenate multiple values into one field-->
+                                <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                            ConcatSource="{Binding SamplePurposeCollection}" />
+
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}">
+                                <Label Text="{local:Localize SamplePageIsBlank}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <CheckBox IsChecked="{Binding Model.SampleDuplicateName, Mode=TwoWay}"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}">
+                                <Label Text="{local:Localize SamplePageIsDuplicate}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <CheckBox IsChecked="{Binding IsSampleDuplicate, Mode=TwoWay}" x:Name="IsSampleDuplicateCheckbox"
+                                          Style="{StaticResource FieldAppCheckbox}"/>
+                            </HorizontalStackLayout>
+
+                            <Entry x:Name="SamplePageIsDuplicateEntry" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                   Text="{Binding Model.SampleDuplicateName, Mode=TwoWay}" 
+                                   Placeholder="{local:Localize SamplePageDuplicateName}"
+                                   IsEnabled="{Binding Source={x:Reference IsSampleDuplicateCheckbox}, Path=IsChecked}"/>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Core-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleCoreVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageCoreTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize SamplePageCorePortion}" 
+                                    ItemsSource="{Binding SampleCorePortion.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedIndex="{Binding SampleCorePortion.cboxDefaultItemIndex, Mode=TwoWay}"/>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize SamplePageCoreBy}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleBy, Mode=TwoWay}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize SamplePageCoreFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize SamplePageCoreLength}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreLength, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize SamplePageCoreTo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreTo, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+                            
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+
+                    <!--Orientation (BEDROCK) -->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleOrientVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageOrientationTitle}">
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--State (SURFICIAL) -->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleStateVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageStateTitle}">
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+
+                    <!--General -->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageGeneralTitle}">
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
                 </FlexLayout>
             </ScrollView>
 

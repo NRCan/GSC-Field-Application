@@ -460,8 +460,50 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Menu de toutes les couches présentation accessible dans la carte.</value>
   </data>
+  <data name="SamplePageCoreBy" xml:space="preserve">
+    <value>Échantillonné par</value>
+  </data>
+  <data name="SamplePageCoreFrom" xml:space="preserve">
+    <value>À partir de</value>
+  </data>
+  <data name="SamplePageCoreLength" xml:space="preserve">
+    <value>Longueur</value>
+  </data>
+  <data name="SamplePageCorePortion" xml:space="preserve">
+    <value>Proportion (en quart)</value>
+  </data>
+  <data name="SamplePageCoreTitle" xml:space="preserve">
+    <value>Carotte</value>
+  </data>
+  <data name="SamplePageCoreTo" xml:space="preserve">
+    <value>Jusqu'à</value>
+  </data>
+  <data name="SamplePageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SamplePageDuplicateName" xml:space="preserve">
+    <value>Nom de duplicat</value>
+  </data>
+  <data name="SamplePageGeneralTitle" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="SamplePageIsBlank" xml:space="preserve">
+    <value>Est-ce un blanc?</value>
+  </data>
+  <data name="SamplePageIsDuplicate" xml:space="preserve">
+    <value>Est-ce un duplicat?</value>
+  </data>
+  <data name="SamplePagePurpose" xml:space="preserve">
+    <value>But</value>
+  </data>
+  <data name="SamplePageStateTitle" xml:space="preserve">
+    <value>État</value>
+  </data>
   <data name="SamplePageTitle" xml:space="preserve">
     <value>Échantillon</value>
+  </data>
+  <data name="SamplePageType" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Carnets de terrain</value>
