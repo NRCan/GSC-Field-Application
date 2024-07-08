@@ -69,6 +69,9 @@ namespace GSCFieldApp.ViewModel
             if (_selectedFieldBook != null && _selectedFieldBook.ProjectDBPath != preferedDBPath)
             {
                 da.PreferedDatabasePath = _selectedFieldBook.ProjectDBPath;
+
+                // Keep in pref project type for futur vocab use and other viewing purposes
+                Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), _selectedFieldBook.metadataForProject.FieldworkType);
             }
 
             return Task.CompletedTask;

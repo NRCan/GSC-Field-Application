@@ -6,6 +6,7 @@
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viemodel:SampleViewModel"
              Shell.BackgroundColor="{StaticResource FieldSampleColor}"
              Title="{local:Localize SamplePageTitle}">
@@ -13,6 +14,12 @@
         <!--Hide back button - Android when navigating back, ham menu disapears-->
         <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
     </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+    </ContentPage.Resources>
 
     <ContentPage.Content>
         <Grid Style="{StaticResource FieldAppFormGrid}">
@@ -46,7 +53,7 @@
 
                             <HorizontalStackLayout IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}">
                                 <Label Text="{local:Localize SamplePageIsBlank}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <CheckBox IsChecked="{Binding Model.SampleDuplicateName, Mode=TwoWay}"/>
+                                <CheckBox IsChecked="{Binding Model.SampleBlank, Converter={StaticResource BoolFromStr}, Mode=TwoWay}"/>
                             </HorizontalStackLayout>
 
                             <HorizontalStackLayout IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}">

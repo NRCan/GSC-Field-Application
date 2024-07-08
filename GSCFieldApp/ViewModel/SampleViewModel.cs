@@ -17,8 +17,8 @@ using SQLite;
 
 namespace GSCFieldApp.ViewModel
 {
-    [QueryProperty(nameof(Earthmaterial), nameof(Earthmaterial))]
     [QueryProperty(nameof(Sample), nameof(Sample))]
+    [QueryProperty(nameof(Earthmaterial), nameof(Earthmaterial))]
     public partial class SampleViewModel : ObservableObject
     {
 

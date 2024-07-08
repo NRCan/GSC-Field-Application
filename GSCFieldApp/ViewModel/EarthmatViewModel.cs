@@ -387,8 +387,6 @@ namespace GSCFieldApp.ViewModel
 
         public EarthmatViewModel() 
         {
-            //Connect to db
-            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
             //Init new field theme
             FieldThemes = new FieldThemes();
@@ -733,15 +731,19 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         private async Task FillSearchListAsync()
         {
+            //Connect to db
+            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+
             //Prepare vocabulary
             List<Vocabularies> vocab = await currentConnection.Table<Vocabularies>().Where(vis => vis.Visibility == DatabaseLiterals.boolYes).ToListAsync();
-            List<Metadata> meta = await currentConnection.Table<Metadata>().Where(metadata => metadata.MetaID == 1).ToListAsync();
-            currentProjectType = meta.First().FieldworkType.ToString();
+            currentProjectType = Preferences.Get(DatabaseLiterals.FieldUserInfoFWorkType, currentProjectType);
 
             await FillLithoGroupSearchListAsync(vocab, currentProjectType);
 
             //TODO: Make sure this one doesn't slow up the rendering process of the form
             await FillLithoSearchListAsync(vocab, currentProjectType);
+
+            await currentConnection.CloseAsync();
         }
 
         /// <summary>
@@ -828,13 +830,13 @@ namespace GSCFieldApp.ViewModel
         public async Task FillPickers()
         {
             _earthLithoGroup = await FillAPicker(DatabaseLiterals.FieldEarthMatLithgroup);
-            _earthLithMapUnit = await FillAPicker(DatabaseLiterals.FieldEarthMatMapunit, "", currentProjectType);
-            _earthLithSorting = await FillAPicker(DatabaseLiterals.FieldEarthMatSorting, "", currentProjectType);
-            _earthLithWater = await FillAPicker(DatabaseLiterals.FieldEarthMatH2O, "", currentProjectType);
-            _earthLithOxidation = await FillAPicker(DatabaseLiterals.FieldEarthMatOxidation, "", currentProjectType);
-            _earthLithClast = await FillAPicker(DatabaseLiterals.FieldEarthMatClastForm, "", currentProjectType);
-            _earthLithBedThick = await FillAPicker(DatabaseLiterals.FieldEarthMatBedthick, "", currentProjectType);
-            _earthLithDefFab = await FillAPicker(DatabaseLiterals.FieldEarthMatDefabric, "", currentProjectType);
+            _earthLithMapUnit = await FillAPicker(DatabaseLiterals.FieldEarthMatMapunit, "");
+            _earthLithSorting = await FillAPicker(DatabaseLiterals.FieldEarthMatSorting, "");
+            _earthLithWater = await FillAPicker(DatabaseLiterals.FieldEarthMatH2O, "");
+            _earthLithOxidation = await FillAPicker(DatabaseLiterals.FieldEarthMatOxidation, "");
+            _earthLithClast = await FillAPicker(DatabaseLiterals.FieldEarthMatClastForm, "");
+            _earthLithBedThick = await FillAPicker(DatabaseLiterals.FieldEarthMatBedthick, "");
+            _earthLithDefFab = await FillAPicker(DatabaseLiterals.FieldEarthMatDefabric, "");
             _earthLithMetaFacies = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaFacies);
             _earthLithMetaInt = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaIntensity);
             _earthLithMagQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatMagQualifier);
@@ -868,7 +870,7 @@ namespace GSCFieldApp.ViewModel
             //There is one picker that needs a parent in bedrock, but doesn't in surficial
             if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
             {
-                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup, currentProjectType);
+                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
             }
 
@@ -890,10 +892,10 @@ namespace GSCFieldApp.ViewModel
             //second round pickers
             if (_model.GroupType != string.Empty)
             {
-                _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup, currentProjectType);
+                _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup);
                 _earthLithOccurAs = await FillAPicker(DatabaseLiterals.FieldEarthMatOccurs, _model.EarthMatLithgroup);
-                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup, currentProjectType);
-                _earthLithGrainSize = await FillAPicker(DatabaseLiterals.FieldEarthMatGrSize, _model.EarthMatLithgroup, currentProjectType);
+                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
+                _earthLithGrainSize = await FillAPicker(DatabaseLiterals.FieldEarthMatGrSize, _model.EarthMatLithgroup);
                 OnPropertyChanged(nameof(EarthLithQualifier));
                 OnPropertyChanged(nameof(EarthLithOccurAs));
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
@@ -905,10 +907,10 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Generic method to fill a needed picker control with vocabulary
         /// </summary>
-        private async Task<ComboBox> FillAPicker(string fieldName, string extraField = "", string fieldWork = "")
+        private async Task<ComboBox> FillAPicker(string fieldName, string extraField = "")
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName, extraField, fieldWork);
+            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName, extraField);
 
         }
 

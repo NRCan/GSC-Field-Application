@@ -227,15 +227,16 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="fieldwork">Field book theme (bedrock, surficial)</param>
         /// <returns>A list contain resulting voca class entries</returns>
         public async Task<List<Vocabularies>> GetPicklistValuesAsync(string tableName, string fieldName, string extraFieldValue, 
-            bool allValues, string fieldwork = "")
+            bool allValues)
         {
 
             //Get the current project type
             string fieldworkType = DatabaseLiterals.ApplicationThemeBedrock; //Default
 
-            if (fieldwork != string.Empty)
+            if (Preferences.ContainsKey(DatabaseLiterals.FieldUserInfoFWorkType))
             {
-                fieldworkType = fieldwork;
+                //This should be set whenever user selects a different field book
+                fieldworkType = Preferences.Get(DatabaseLiterals.FieldUserInfoFWorkType, fieldworkType);
             }
 
             //Build query
@@ -250,7 +251,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (fieldworkType != string.Empty)
             {
-                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '" + fieldworkType + "' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '')";
+                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") like '" + fieldworkType + "%' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '')";
             }
 
             if (extraFieldValue != string.Empty && extraFieldValue != null && extraFieldValue != "")
@@ -291,15 +292,14 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="tableName">The table name associated with the wanted vocab.</param>
         /// <param name="fieldName">The field name associated with the wanted vocab.</param>
-        /// <param name="fieldwork">The field book theme (bedrock, surficial)</param>
         /// <returns></returns>
-        public async Task<ComboBox> GetComboboxListWithVocabAsync(string tableName, string fieldName, string extraFieldValue = "", string fieldwork = "")
+        public async Task<ComboBox> GetComboboxListWithVocabAsync(string tableName, string fieldName, string extraFieldValue = "")
         {
             //Outputs
             ComboBox outputVocabs = new ComboBox();
 
             //Get vocab
-            List<Vocabularies> vocs = await GetPicklistValuesAsync(tableName, fieldName, extraFieldValue, false, fieldwork);
+            List<Vocabularies> vocs = await GetPicklistValuesAsync(tableName, fieldName, extraFieldValue, false);
 
             //Fill in cbox
             outputVocabs = GetComboboxListFromVocab(vocs);
