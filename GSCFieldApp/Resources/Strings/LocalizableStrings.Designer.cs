@@ -1123,6 +1123,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string SamplePageAzimuth {
+            get {
+                return ResourceManager.GetString("SamplePageAzimuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sampled by.
         /// </summary>
         internal static string SamplePageCoreBy {
@@ -1186,6 +1195,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dip/Plunge.
+        /// </summary>
+        internal static string SamplePageDipPlunge {
+            get {
+                return ResourceManager.GetString("SamplePageDipPlunge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duplicate name.
         /// </summary>
         internal static string SamplePageDuplicateName {
@@ -1240,11 +1258,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Format.
+        /// </summary>
+        internal static string SamplePageSampleFormat {
+            get {
+                return ResourceManager.GetString("SamplePageSampleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to State.
         /// </summary>
         internal static string SamplePageStateTitle {
             get {
                 return ResourceManager.GetString("SamplePageStateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surface.
+        /// </summary>
+        internal static string SamplePageSurface {
+            get {
+                return ResourceManager.GetString("SamplePageSurface", resourceCulture);
             }
         }
         

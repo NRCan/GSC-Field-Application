@@ -358,6 +358,10 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Entry" x:Key="FieldAppNumBoxInvalid">
+        <Setter Property="TextColor" Value="Red" />
+    </Style>
+    
     <!--Mandatory controls-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">
         <Setter Property="Margin" Value="10"/>

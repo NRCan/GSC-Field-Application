@@ -30,6 +30,8 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _samplePurpose = new ComboBox();
         private ComboBox _sampleType = new ComboBox();
         private ComboBox _sampleCorePortion = new ComboBox();
+        private ComboBox _sampleFormat = new ComboBox();
+        private ComboBox _sampleSurface = new ComboBox();
         private bool _isSampleDuplicate = false;
 
         //Concatenated
@@ -124,6 +126,8 @@ namespace GSCFieldApp.ViewModel
         public bool IsSampleDuplicate { get { return _isSampleDuplicate; } set { _isSampleDuplicate = value; } }
 
         public ComboBox SampleCorePortion { get { return _sampleCorePortion; } set { _sampleCorePortion = value; } }
+        public ComboBox SampleFormat { get { return _sampleFormat; } set { _sampleFormat = value; } }
+        public ComboBox SampleSurface { get { return _sampleSurface; } set { _sampleSurface = value; } }
         #endregion
 
         public SampleViewModel() 
@@ -250,9 +254,14 @@ namespace GSCFieldApp.ViewModel
             _sampleType = await FillAPicker(DatabaseLiterals.FieldSampleType);
             _samplePurpose = await FillAPicker(DatabaseLiterals.FieldSamplePurpose);
             _sampleCorePortion = await FillAPicker(DatabaseLiterals.FieldSampleCoreSize);
+            _sampleFormat = await FillAPicker(DatabaseLiterals.FieldSampleFormat);
+            _sampleSurface = await FillAPicker(DatabaseLiterals.FieldSampleSurface);
+
             OnPropertyChanged(nameof(SampleType));
             OnPropertyChanged(nameof(SamplePurpose));
             OnPropertyChanged(nameof(SampleCorePortion));
+            OnPropertyChanged(nameof(SampleFormat));
+            OnPropertyChanged(nameof(SampleSurface));
 
         }
 
@@ -285,14 +294,7 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.SamplePurpose = concat.PipeValues(SamplePurposeCollection); //process list of values so they are concatenated.
             }
-            if (SampleType.cboxItems.Count() > 0 && SampleType.cboxDefaultItemIndex != -1)
-            {
-                Model.SampleType = SampleType.cboxItems[SampleType.cboxDefaultItemIndex].itemValue; 
-            }
-            if (SampleCorePortion.cboxItems.Count() > 0 && SampleCorePortion.cboxDefaultItemIndex != -1)
-            {
-                Model.SampleCoreSize = SampleCorePortion.cboxItems[SampleCorePortion.cboxDefaultItemIndex].itemValue;
-            }
+
             #endregion
         }
 
@@ -339,16 +341,6 @@ namespace GSCFieldApp.ViewModel
 
                 #region Pickers
                 //Select values in pickers
-                foreach (ComboBoxItem cbox in SampleType.cboxItems)
-                {
-                    if (cbox.itemValue == _model.SampleType)
-                    {
-                        SampleType.cboxDefaultItemIndex = SampleType.cboxItems.IndexOf(cbox);
-                        break;
-                    }
-                }
-                OnPropertyChanged(nameof(SampleType));
-
                 List<string> bfs = concat.UnpipeString(_sample.SamplePurpose);
                 _purposeCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in SamplePurpose.cboxItems)
@@ -359,16 +351,6 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(SamplePurpose));
-
-                foreach (ComboBoxItem cbox in SampleCorePortion.cboxItems)
-                {
-                    if (cbox.itemValue == _model.SampleCoreSize)
-                    {
-                        SampleCorePortion.cboxDefaultItemIndex = SampleCorePortion.cboxItems.IndexOf(cbox);
-                        break;
-                    }
-                }
-                OnPropertyChanged(nameof(SampleCorePortion));
 
                 #endregion
 

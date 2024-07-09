@@ -471,6 +471,9 @@
   <data name="MapPageLayer" xml:space="preserve">
     <value>Tap to see a list of all loaded layers and more options.</value>
   </data>
+  <data name="SamplePageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
   <data name="SamplePageCoreBy" xml:space="preserve">
     <value>Sampled by</value>
   </data>
@@ -492,6 +495,9 @@
   <data name="SamplePageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="SamplePageDipPlunge" xml:space="preserve">
+    <value>Dip/Plunge</value>
+  </data>
   <data name="SamplePageDuplicateName" xml:space="preserve">
     <value>Duplicate name</value>
   </data>
@@ -510,8 +516,14 @@
   <data name="SamplePagePurpose" xml:space="preserve">
     <value>Purpose</value>
   </data>
+  <data name="SamplePageSampleFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
   <data name="SamplePageStateTitle" xml:space="preserve">
     <value>State</value>
+  </data>
+  <data name="SamplePageSurface" xml:space="preserve">
+    <value>Surface</value>
   </data>
   <data name="SamplePageTitle" xml:space="preserve">
     <value>Sample</value>
