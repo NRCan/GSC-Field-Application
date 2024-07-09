@@ -50,7 +50,7 @@ namespace GSCFieldApp.Converters
         }
 
         /// <summary>
-        /// This string value will be saved in the database
+        /// This combobox item string value will be the one saved in the database
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
