@@ -1058,7 +1058,6 @@ namespace GSCFieldApp.ViewModel
             #endregion
         }
 
-
         /// <summary>
         /// Will reset model fields to default just like it's a new record
         /// </summary>
@@ -1320,6 +1319,26 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithGrainSizeCollection));
             }
+
+        }
+
+        /// <summary>
+        /// Will create a quick earthmat record inside earthmat table, from a given map position.
+        /// A quick station will be created also.
+        /// </summary>
+        /// <param name="locationID"></param>
+        /// <returns></returns>
+        public async Task<Earthmaterial> QuickEarthmat(int locationID)
+        {
+            //Create a quick station and assign it 
+            StationViewModel stationViewModel = new StationViewModel();
+            _station = await stationViewModel.QuickStation(locationID);
+
+            //Fill out model and save new record
+            await SetModelAsync();
+            Earthmaterial quickEM = await da.SaveItemAsync(Model, false) as Earthmaterial;
+
+            return quickEM;
 
         }
 

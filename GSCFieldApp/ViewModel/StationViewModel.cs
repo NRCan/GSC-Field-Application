@@ -396,23 +396,78 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Process pickers
-            if (StationType.cboxDefaultItemIndex != -1)
+            if (StationType.cboxDefaultItemIndex != -1 && StationType.cboxItems.Count > 0)
             {
                 Model.StationObsType = StationType.cboxItems[StationType.cboxDefaultItemIndex].itemValue;
             }
-            if (StationOutcropQuality.cboxDefaultItemIndex != -1)
+            if (StationOutcropQuality.cboxDefaultItemIndex != -1 && QualityCollection != null && StationOutcropQuality.cboxItems.Count > 0)
             {
                 Model.StationOCQuality = ConcatenatedCombobox.PipeValues(QualityCollection); //process list of values so they are concatenated.
             }
-            if (StationSource.cboxDefaultItemIndex != -1)
+            if (StationSource.cboxDefaultItemIndex != -1 && StationSource.cboxItems.Count > 0)
             {
                 Model.StationObsSource = StationSource.cboxItems[StationSource.cboxDefaultItemIndex].itemValue;
             }
-            if (StationPhysEnv.cboxDefaultItemIndex != -1)
+            if (StationPhysEnv.cboxDefaultItemIndex != -1 && StationPhysEnv.cboxItems.Count > 0)
             {
                 Model.StationPhysEnv = StationPhysEnv.cboxItems[StationPhysEnv.cboxDefaultItemIndex].itemValue;
             }
 
+            //Process Air Photo and Traverse numbers
+            FillAirPhotoTraverseNo(); 
+        }
+
+        /// <summary>
+        /// TODO: Make sure this feature is still relevant. Not sure many people are using it.
+        /// Will prefill air photo number and traverse number from the last entered values by user.
+        /// </summary>
+        private void FillAirPhotoTraverseNo()
+        {
+            ////Special case for air photo and traverse numbers, get the last numbers
+            //string tableName = Dictionaries.DatabaseLiterals.TableStation;
+            //string querySelectFrom = "SELECT * FROM " + tableName;
+            //string queryOrder1 = " ORDER BY " + tableName + "." + Dictionaries.DatabaseLiterals.FieldStationVisitDate + " DESC";
+            //string queryOrder2 = ", " + tableName + "." + Dictionaries.DatabaseLiterals.FieldStationVisitTime + " DESC";
+            //string queryLimit = " LIMIT 1";
+            //string finaleQuery = querySelectFrom + queryOrder1 + queryOrder2 + queryLimit;
+
+            //List<object> stationTableRaw = accessData.ReadTable(StationModel.GetType(), finaleQuery);
+            //IEnumerable<Station> stationFiltered = stationTableRaw.Cast<Station>(); //Cast to proper list type
+            //if (stationFiltered.Count() != 0 || stationFiltered != null)
+            //{
+            //    foreach (Station sts in stationFiltered)
+            //    {
+            //        _stationTravNo = sts.StationTravNo.ToString();
+
+            //        //Make check on date if newer, increment traverse no. if wanted by user
+            //        if (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) == null ||
+            //            (localSetting.GetSettingValue(ApplicationLiterals.KeywordStationTraverseNo) != null &&
+            //            localSetting.GetBoolSettingValue(ApplicationLiterals.KeywordStationTraverseNo)))
+            //        {
+            //            string currentDate = DateTime.Now.ToShortDateString();
+            //            DateTime lastStationDate = DateTime.Parse(sts.StationVisitDate);
+            //            DateTime currentDateDT = DateTime.Parse(currentDate);
+            //            if (lastStationDate != null && currentDateDT != null)
+            //            {
+            //                int dateComparisonResult = DateTime.Compare(lastStationDate, currentDateDT);
+            //                if (lastStationDate != null && dateComparisonResult < 0)
+            //                {
+            //                    _stationTravNo = (sts.StationTravNo + 1).ToString();
+            //                }
+            //            }
+
+            //        }
+
+
+
+
+            //        _airno = sts.StationAirNo;
+            //    }
+
+            //}
+
+            //RaisePropertyChanged("TraverseNo");
+            //RaisePropertyChanged("AirPhoto");
         }
 
         /// <summary>
@@ -441,6 +496,26 @@ namespace GSCFieldApp.ViewModel
 
             Model.StationID = 0;
 
+        }
+
+        /// <summary>
+        /// Will make a quick station record in station table, from a given xy position. 
+        /// XY will be used to create a quick location first
+        /// </summary>
+        /// <param name="fieldLocation"></param>
+        /// <returns></returns>
+        public async Task<Station> QuickStation(int locationID)
+        {
+            //Spoof a location object with only an ID so SetModelAsync works well
+            FieldLocation fl = new FieldLocation();
+            fl.LocationID = locationID;
+            fieldLocation = fl;
+
+            //Fill out model and save new record
+            await SetModelAsync();
+            Station quickStation = await da.SaveItemAsync(Model, false) as Station;
+
+            return quickStation;
         }
 
         #endregion

@@ -69,7 +69,29 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
+        [RelayCommand]
+        async Task AddSample()
+        {
+            if (sensorLocation != null)
+            {
+                //Create a location record
+                int locationID = await SetLocationModelAsync();
 
+                //Create a quick earth material record
+                EarthmatViewModel earthmatViewModel = new EarthmatViewModel();
+                Earthmaterial quickEM = await earthmatViewModel.QuickEarthmat(locationID);
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                await Shell.Current.GoToAsync($"{nameof(SamplePage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Sample)] = null,
+                        [nameof(Earthmaterial)] = quickEM,
+                    }
+                );
+            }
+
+        }
         #endregion
 
         #region METHODS
