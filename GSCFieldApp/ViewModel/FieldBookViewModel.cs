@@ -236,6 +236,9 @@ namespace GSCFieldApp.ViewModel
             if (ProjectType.cboxDefaultItemIndex != -1)
             {
                 Model.FieldworkType = ProjectType.cboxItems[ProjectType.cboxDefaultItemIndex].itemValue;
+
+                // Keep in pref project type for futur vocab use and other viewing purposes
+                Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), Model.FieldworkType);
             }
 
         }

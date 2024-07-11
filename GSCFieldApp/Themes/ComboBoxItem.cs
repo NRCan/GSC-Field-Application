@@ -30,7 +30,7 @@ namespace GSCFieldApp.Themes
         /// </summary>
         /// <param name="inCollection"></param>
         /// <returns></returns>
-        public string PipeValues(ObservableCollection<ComboBoxItem> inCollection)
+        public static string PipeValues(ObservableCollection<ComboBoxItem> inCollection)
         {
             //Variable
             string output = string.Empty;
@@ -63,7 +63,7 @@ namespace GSCFieldApp.Themes
         /// </summary>
         /// <param name="inString"></param>
         /// <returns></returns>
-        public List<string> UnpipeString(string inString)
+        public static List<string> UnpipeString(string inString)
         {
             //Variables
             List<string> outputList = new List<string>();
@@ -81,9 +81,6 @@ namespace GSCFieldApp.Themes
             return outputList;
 
         }
-
-
-
     }
 
 }

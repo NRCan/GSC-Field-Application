@@ -492,6 +492,12 @@
   <data name="SamplePageCoreTo" xml:space="preserve">
     <value>To</value>
   </data>
+  <data name="SamplePageDepthMax" xml:space="preserve">
+    <value>Depth Max. (cm)</value>
+  </data>
+  <data name="SamplePageDepthMin" xml:space="preserve">
+    <value>Depth Min. (cm)</value>
+  </data>
   <data name="SamplePageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
   </data>
@@ -504,11 +510,17 @@
   <data name="SamplePageGeneralTitle" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="SamplePageHorizon" xml:space="preserve">
+    <value>Horizon</value>
+  </data>
   <data name="SamplePageIsBlank" xml:space="preserve">
     <value>Is Blank?</value>
   </data>
   <data name="SamplePageIsDuplicate" xml:space="preserve">
     <value>Is Duplicate?</value>
+  </data>
+  <data name="SamplePageNotes" xml:space="preserve">
+    <value>Notes</value>
   </data>
   <data name="SamplePageOrientationTitle" xml:space="preserve">
     <value>Orientation</value>
@@ -516,8 +528,14 @@
   <data name="SamplePagePurpose" xml:space="preserve">
     <value>Purpose</value>
   </data>
+  <data name="SamplePageQuality" xml:space="preserve">
+    <value>Quality</value>
+  </data>
   <data name="SamplePageSampleFormat" xml:space="preserve">
     <value>Format</value>
+  </data>
+  <data name="SamplePageState" xml:space="preserve">
+    <value>State</value>
   </data>
   <data name="SamplePageStateTitle" xml:space="preserve">
     <value>State</value>

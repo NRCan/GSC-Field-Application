@@ -231,12 +231,12 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
 
             //Get the current project type
-            string fieldworkType = DatabaseLiterals.ApplicationThemeBedrock; //Default
+            string fieldworkType = ApplicationThemeBedrock; //Default
 
-            if (Preferences.ContainsKey(DatabaseLiterals.FieldUserInfoFWorkType))
+            if (Preferences.ContainsKey(nameof(FieldUserInfoFWorkType)))
             {
                 //This should be set whenever user selects a different field book
-                fieldworkType = Preferences.Get(DatabaseLiterals.FieldUserInfoFWorkType, fieldworkType);
+                fieldworkType = Preferences.Get(nameof(FieldUserInfoFWorkType), fieldworkType);
             }
 
             //Build query

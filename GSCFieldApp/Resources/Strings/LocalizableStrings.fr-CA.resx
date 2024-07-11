@@ -481,6 +481,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SamplePageCoreTo" xml:space="preserve">
     <value>Jusqu'à</value>
   </data>
+  <data name="SamplePageDepthMax" xml:space="preserve">
+    <value>Profondeur Max. (cm)</value>
+  </data>
+  <data name="SamplePageDepthMin" xml:space="preserve">
+    <value>Profondeur Min. (cm)</value>
+  </data>
   <data name="SamplePageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
   </data>
@@ -493,17 +499,29 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SamplePageGeneralTitle" xml:space="preserve">
     <value>Général</value>
   </data>
+  <data name="SamplePageHorizon" xml:space="preserve">
+    <value>Horizon</value>
+  </data>
   <data name="SamplePageIsBlank" xml:space="preserve">
     <value>Est-ce un blanc?</value>
   </data>
   <data name="SamplePageIsDuplicate" xml:space="preserve">
     <value>Est-ce un duplicat?</value>
   </data>
+  <data name="SamplePageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="SamplePagePurpose" xml:space="preserve">
     <value>But</value>
   </data>
+  <data name="SamplePageQuality" xml:space="preserve">
+    <value>Qualité</value>
+  </data>
   <data name="SamplePageSampleFormat" xml:space="preserve">
     <value>Format</value>
+  </data>
+  <data name="SamplePageState" xml:space="preserve">
+    <value>État</value>
   </data>
   <data name="SamplePageStateTitle" xml:space="preserve">
     <value>État</value>

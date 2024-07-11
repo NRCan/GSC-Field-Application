@@ -18,6 +18,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampleType)]
         public string SampleType { get; set; }
 
+        /// <summary>
+        /// Is a concatenated field
+        /// </summary>
         [Column(DatabaseLiterals.FieldSamplePurpose)]
         public string SamplePurpose { get; set; }
 

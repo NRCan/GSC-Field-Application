@@ -1186,6 +1186,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Depth Max. (cm).
+        /// </summary>
+        internal static string SamplePageDepthMax {
+            get {
+                return ResourceManager.GetString("SamplePageDepthMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Depth Min. (cm).
+        /// </summary>
+        internal static string SamplePageDepthMin {
+            get {
+                return ResourceManager.GetString("SamplePageDepthMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string SamplePageDescriptionTitle {
@@ -1222,6 +1240,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Horizon.
+        /// </summary>
+        internal static string SamplePageHorizon {
+            get {
+                return ResourceManager.GetString("SamplePageHorizon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Blank?.
         /// </summary>
         internal static string SamplePageIsBlank {
@@ -1236,6 +1263,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string SamplePageIsDuplicate {
             get {
                 return ResourceManager.GetString("SamplePageIsDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string SamplePageNotes {
+            get {
+                return ResourceManager.GetString("SamplePageNotes", resourceCulture);
             }
         }
         
@@ -1258,11 +1294,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quality.
+        /// </summary>
+        internal static string SamplePageQuality {
+            get {
+                return ResourceManager.GetString("SamplePageQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Format.
         /// </summary>
         internal static string SamplePageSampleFormat {
             get {
                 return ResourceManager.GetString("SamplePageSampleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        internal static string SamplePageState {
+            get {
+                return ResourceManager.GetString("SamplePageState", resourceCulture);
             }
         }
         

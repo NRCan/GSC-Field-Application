@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Alerts;
 using SQLite;
+using System.Data;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -32,6 +33,9 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _sampleCorePortion = new ComboBox();
         private ComboBox _sampleFormat = new ComboBox();
         private ComboBox _sampleSurface = new ComboBox();
+        private ComboBox _sampleQuality = new ComboBox();
+        private ComboBox _sampleState = new ComboBox();
+        private ComboBox _sampleHorizon = new ComboBox();
         private bool _isSampleDuplicate = false;
 
         //Concatenated
@@ -113,6 +117,7 @@ namespace GSCFieldApp.ViewModel
                             _purposeCollection.Add(value);
                             _selectedSamplePurpose = value;
                             OnPropertyChanged(nameof(SelectedSamplePurpose));
+                            
                         }
 
                     }
@@ -128,6 +133,9 @@ namespace GSCFieldApp.ViewModel
         public ComboBox SampleCorePortion { get { return _sampleCorePortion; } set { _sampleCorePortion = value; } }
         public ComboBox SampleFormat { get { return _sampleFormat; } set { _sampleFormat = value; } }
         public ComboBox SampleSurface { get { return _sampleSurface; } set { _sampleSurface = value; } }
+        public ComboBox SampleQuality { get { return _sampleQuality; } set { _sampleQuality = value; } }
+        public ComboBox SampleState { get { return _sampleState; } set { _sampleState = value; } }
+        public ComboBox SampleHorizon { get { return _sampleHorizon; } set { _sampleHorizon = value; } }
         #endregion
 
         public SampleViewModel() 
@@ -246,22 +254,40 @@ namespace GSCFieldApp.ViewModel
         #region METHODS
 
         /// <summary>
-        /// Initialize all pickers
+        /// Initialize all pickers. 
+        /// To save loading time, process only those needed based on work type
         /// </summary>
         /// <returns></returns>
         public async Task FillPickers()
         {
             _sampleType = await FillAPicker(DatabaseLiterals.FieldSampleType);
             _samplePurpose = await FillAPicker(DatabaseLiterals.FieldSamplePurpose);
-            _sampleCorePortion = await FillAPicker(DatabaseLiterals.FieldSampleCoreSize);
-            _sampleFormat = await FillAPicker(DatabaseLiterals.FieldSampleFormat);
-            _sampleSurface = await FillAPicker(DatabaseLiterals.FieldSampleSurface);
-
             OnPropertyChanged(nameof(SampleType));
             OnPropertyChanged(nameof(SamplePurpose));
-            OnPropertyChanged(nameof(SampleCorePortion));
-            OnPropertyChanged(nameof(SampleFormat));
-            OnPropertyChanged(nameof(SampleSurface));
+
+            //Bedrock pickers
+            if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
+                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString() == DatabaseLiterals.ApplicationThemeBedrock)
+            {
+                _sampleCorePortion = await FillAPicker(DatabaseLiterals.FieldSampleCoreSize);
+                _sampleFormat = await FillAPicker(DatabaseLiterals.FieldSampleFormat);
+                _sampleSurface = await FillAPicker(DatabaseLiterals.FieldSampleSurface);
+                OnPropertyChanged(nameof(SampleCorePortion));
+                OnPropertyChanged(nameof(SampleFormat));
+                OnPropertyChanged(nameof(SampleSurface));
+            }
+
+            //Surficial pickers
+            if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
+                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString() == DatabaseLiterals.ApplicationThemeBedrock)
+            {
+                _sampleQuality = await FillAPicker(DatabaseLiterals.FieldSampleQuality);
+                _sampleState = await FillAPicker(DatabaseLiterals.FieldSampleState);
+                _sampleHorizon = await FillAPicker(DatabaseLiterals.FieldSampleHorizon);
+                OnPropertyChanged(nameof(SampleQuality));
+                OnPropertyChanged(nameof(SampleState));
+                OnPropertyChanged(nameof(SampleHorizon));
+            }
 
         }
 
@@ -292,7 +318,7 @@ namespace GSCFieldApp.ViewModel
             #region Process pickers
             if (SamplePurposeCollection.Count > 0)
             {
-                Model.SamplePurpose = concat.PipeValues(SamplePurposeCollection); //process list of values so they are concatenated.
+                Model.SamplePurpose = ConcatenatedCombobox.PipeValues(SamplePurposeCollection); //process list of values so they are concatenated.
             }
 
             #endregion
@@ -341,7 +367,7 @@ namespace GSCFieldApp.ViewModel
 
                 #region Pickers
                 //Select values in pickers
-                List<string> bfs = concat.UnpipeString(_sample.SamplePurpose);
+                List<string> bfs = ConcatenatedCombobox.UnpipeString(_sample.SamplePurpose);
                 _purposeCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in SamplePurpose.cboxItems)
                 {

@@ -981,23 +981,23 @@ namespace GSCFieldApp.ViewModel
             #region Process pickers
             if (EarthLithQualifierCollection.Count > 0)
             {
-                Model.EarthMatModComp = concat.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
+                Model.EarthMatModComp = ConcatenatedCombobox.PipeValues(EarthLithQualifierCollection); //process list of values so they are concatenated.
             }
             if (EarthLithTextStrucCollection.Count > 0)
             {
-                Model.EarthMatModTextStruc = concat.PipeValues(EarthLithTextStrucCollection); //process list of values so they are concatenated.
+                Model.EarthMatModTextStruc = ConcatenatedCombobox.PipeValues(EarthLithTextStrucCollection); //process list of values so they are concatenated.
             }
             if (EarthLithGrainSizeCollection.Count > 0)
             {
-                Model.EarthMatGrSize = concat.PipeValues(EarthLithGrainSizeCollection); //process list of values so they are concatenated.
+                Model.EarthMatGrSize = ConcatenatedCombobox.PipeValues(EarthLithGrainSizeCollection); //process list of values so they are concatenated.
             }
             if (EarthLithBedThickCollection.Count > 0)
             {
-                Model.EarthMatBedthick = concat.PipeValues(EarthLithBedThickCollection); //process list of values so they are concatenated.
+                Model.EarthMatBedthick = ConcatenatedCombobox.PipeValues(EarthLithBedThickCollection); //process list of values so they are concatenated.
             }
             if (EarthLithDefFabCollection.Count > 0)
             {
-                Model.EarthMatDefabric = concat.PipeValues(EarthLithDefFabCollection); //process list of values so they are concatenated.
+                Model.EarthMatDefabric = ConcatenatedCombobox.PipeValues(EarthLithDefFabCollection); //process list of values so they are concatenated.
             }
             if (EarthLithOccurAs.cboxItems.Count() > 0 && EarthLithOccurAs.cboxDefaultItemIndex != -1)
             {
@@ -1049,7 +1049,7 @@ namespace GSCFieldApp.ViewModel
             }
             if (EarthLithContactRelationCollection.Count > 0)
             {
-                Model.EarthMatContact = concat.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
+                Model.EarthMatContact = ConcatenatedCombobox.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
             }
             if (EarthLithoGroup.cboxItems.Count() > 0 && EarthLithoGroup.cboxDefaultItemIndex != -1)
             {
@@ -1157,7 +1157,7 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithClast));
 
-                List<string> bts = concat.UnpipeString(_earthmaterial.EarthMatBedthick);
+                List<string> bts = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatBedthick);
                 _bedThickCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EarthLithBedThick.cboxItems)
                 {
@@ -1168,7 +1168,7 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithBedThickCollection));
 
-                List<string> bfs = concat.UnpipeString(_earthmaterial.EarthMatDefabric);
+                List<string> bfs = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatDefabric);
                 _defFabCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EarthLithDefFab.cboxItems)
                 {
@@ -1233,7 +1233,7 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithContactLower));
 
-                List<string> ecs = concat.UnpipeString(_earthmaterial.EarthMatContact);
+                List<string> ecs = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatContact);
                 _contactRelationCollection.Clear(); //Clear any possible values first
                 foreach (string ec in ecs)
                 {
@@ -1249,7 +1249,7 @@ namespace GSCFieldApp.ViewModel
 
                 if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
                 {
-                    List<string> textStrucs = concat.UnpipeString(_earthmaterial.EarthMatModTextStruc);
+                    List<string> textStrucs = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatModTextStruc);
                     _textStructCollection.Clear(); //Clear any possible values first
                     foreach (ComboBoxItem cbox in EarthLithTextureStruct.cboxItems)
                     {
@@ -1278,7 +1278,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.GroupType != string.Empty)
             {
-                List<string> qualifiers = concat.UnpipeString(_earthmaterial.EarthMatModComp);
+                List<string> qualifiers = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatModComp);
                 _qualifierCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EarthLithQualifier.cboxItems)
                 {
@@ -1298,7 +1298,7 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithOccurAs));
 
-                List<string> textStrucs = concat.UnpipeString(_earthmaterial.EarthMatModTextStruc);
+                List<string> textStrucs = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatModTextStruc);
                 _textStructCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EarthLithTextureStruct.cboxItems)
                 {
@@ -1309,7 +1309,7 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithTextStrucCollection));
 
-                List<string> grainSizes = concat.UnpipeString(_earthmaterial.EarthMatGrSize);
+                List<string> grainSizes = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatGrSize);
                 _grainSizeCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EarthLithGrainSize.cboxItems)
                 {

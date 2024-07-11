@@ -342,7 +342,7 @@ namespace GSCFieldApp.ViewModel
                 #endregion
 
                 //Piped value field
-                List<string> qualities = concat.UnpipeString(_station.StationOCQuality);
+                List<string> qualities = ConcatenatedCombobox.UnpipeString(_station.StationOCQuality);
                 _qualityCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in StationOutcropQuality.cboxItems)
                 {
@@ -402,7 +402,7 @@ namespace GSCFieldApp.ViewModel
             }
             if (StationOutcropQuality.cboxDefaultItemIndex != -1)
             {
-                Model.StationOCQuality = concat.PipeValues(QualityCollection); //process list of values so they are concatenated.
+                Model.StationOCQuality = ConcatenatedCombobox.PipeValues(QualityCollection); //process list of values so they are concatenated.
             }
             if (StationSource.cboxDefaultItemIndex != -1)
             {
