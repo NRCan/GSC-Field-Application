@@ -6,6 +6,7 @@
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:controls="clr-namespace:GSCFieldApp.Controls"
              xmlns:themes="clr-namespace:GSCFieldApp.Themes"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viemodel:StationViewModel"
              Shell.BackgroundColor="{StaticResource FieldStationColor}"
              Title="{local:Localize StationPageTitle}" >
@@ -17,7 +18,8 @@
     <ContentPage.Resources>
 
         <SolidColorBrush x:Key="ColorTheme" Color="{StaticResource FieldStationColor}"/>
-
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+        
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -37,9 +39,20 @@
                             <Picker Title="{local:Localize StationPageType}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding StationType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
+                                    x:Name="StationTypePicker"
+                                    SelectedItem="{Binding Model.StationObsType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StationType, Source={x:Reference StationTypePicker}},
+                                        Mode=TwoWay}"
                                     SelectedIndex="{Binding StationType.cboxDefaultItemIndex, Mode=TwoWay}" />
+                            
                             <Picker Title="{local:Localize StationPageSource}"
-                                    ItemsSource="{Binding StationSource.cboxItems}" 
+                                    ItemsSource="{Binding StationSource.cboxItems}"
+                                    x:Name="StationSourcePicker"
+                                    SelectedItem="{Binding Model.StationObsSource, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StationSource, Source={x:Reference StationSourcePicker}},
+                                        Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationSource.cboxDefaultItemIndex, Mode=TwoWay}" />
                         </VerticalStackLayout>
@@ -79,6 +92,11 @@
                         <VerticalStackLayout>
                             <Picker Title="{local:Localize StationPageGeneralPhysEnv}"
                                     ItemsSource="{Binding StationPhysEnv.cboxItems}" 
+                                    x:Name="StationPhysEnvPicker"
+                                    SelectedItem="{Binding Model.StationPhysEnv, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StationPhysEnv, Source={x:Reference StationPhysEnvPicker}},
+                                        Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationPhysEnv.cboxDefaultItemIndex, Mode=TwoWay}" />
 

@@ -288,8 +288,6 @@ namespace GSCFieldApp.ViewModel
             );
         }
 
-
-
         #endregion
 
         #region METHODS
@@ -307,39 +305,6 @@ namespace GSCFieldApp.ViewModel
 
                 //Refresh
                 OnPropertyChanged(nameof(Model));
-
-                #region Pickers
-                //Select values in pickers
-                foreach (ComboBoxItem cbox in StationType.cboxItems)
-                {
-                    if (cbox.itemValue == _station.StationObsType)
-                    {
-                        StationType.cboxDefaultItemIndex = StationType.cboxItems.IndexOf(cbox);
-                        break;
-                    }
-                }
-                OnPropertyChanged(nameof(StationType));
-
-                foreach (ComboBoxItem cbox in StationSource.cboxItems)
-                {
-                    if (cbox.itemValue == _station.StationObsSource)
-                    {
-                        StationSource.cboxDefaultItemIndex = StationSource.cboxItems.IndexOf(cbox);
-                        break;
-                    }
-                }
-                OnPropertyChanged(nameof(StationSource));
-
-                foreach (ComboBoxItem cbox in StationPhysEnv.cboxItems)
-                {
-                    if (cbox.itemValue == _station.StationPhysEnv)
-                    {
-                        StationPhysEnv.cboxDefaultItemIndex = StationPhysEnv.cboxItems.IndexOf(cbox);
-                        break;
-                    }
-                }
-                OnPropertyChanged(nameof(StationPhysEnv));
-                #endregion
 
                 //Piped value field
                 List<string> qualities = ConcatenatedCombobox.UnpipeString(_station.StationOCQuality);
@@ -395,22 +360,10 @@ namespace GSCFieldApp.ViewModel
                 Model.StationVisitTime = CalculateStationTime(); //Calculate new value
             }
 
-            //Process pickers
-            if (StationType.cboxDefaultItemIndex != -1 && StationType.cboxItems.Count > 0)
-            {
-                Model.StationObsType = StationType.cboxItems[StationType.cboxDefaultItemIndex].itemValue;
-            }
+            //Process concatenated pickers
             if (StationOutcropQuality.cboxDefaultItemIndex != -1 && QualityCollection != null && StationOutcropQuality.cboxItems.Count > 0)
             {
                 Model.StationOCQuality = ConcatenatedCombobox.PipeValues(QualityCollection); //process list of values so they are concatenated.
-            }
-            if (StationSource.cboxDefaultItemIndex != -1 && StationSource.cboxItems.Count > 0)
-            {
-                Model.StationObsSource = StationSource.cboxItems[StationSource.cboxDefaultItemIndex].itemValue;
-            }
-            if (StationPhysEnv.cboxDefaultItemIndex != -1 && StationPhysEnv.cboxItems.Count > 0)
-            {
-                Model.StationPhysEnv = StationPhysEnv.cboxItems[StationPhysEnv.cboxDefaultItemIndex].itemValue;
             }
 
             //Process Air Photo and Traverse numbers
