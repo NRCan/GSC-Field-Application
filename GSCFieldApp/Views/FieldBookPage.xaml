@@ -4,6 +4,7 @@
              x:Class="GSCFieldApp.Views.FieldBookPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viemodel:FieldBookViewModel"
              xmlns:controls="clr-namespace:GSCFieldApp.Controls"
              Shell.BackgroundColor="{StaticResource Secondary}"
@@ -12,6 +13,11 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}" />
     </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+        <!--Converters-->
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <Grid >
@@ -34,6 +40,11 @@
                             <Picker Title="{local:Localize FieldBookPageWorkType}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding ProjectType.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" 
+                                    x:Name="FieldBookPageWorkTypePicker"
+                                    SelectedItem="{Binding Model.FieldworkType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding ProjectType, Source={x:Reference FieldBookPageWorkTypePicker}},
+                                        Mode=TwoWay}"
                                     SelectedIndex="{Binding ProjectType.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                                 <VerticalStackLayout>

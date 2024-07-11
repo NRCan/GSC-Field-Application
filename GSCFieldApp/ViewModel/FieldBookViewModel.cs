@@ -187,16 +187,6 @@ namespace GSCFieldApp.ViewModel
                 _model = metadata;
                 OnPropertyChanged(nameof(Model));
 
-                //Select values in pickers
-                foreach (ComboBoxItem cbox in ProjectType.cboxItems)
-                {
-                    if (cbox.itemValue == _model.FieldworkType)
-                    {
-                        ProjectType.cboxDefaultItemIndex = ProjectType.cboxItems.IndexOf(cbox);
-                        break;
-                    }
-                }
-                OnPropertyChanged(nameof(ProjectType));
             }
         }
 
@@ -235,8 +225,6 @@ namespace GSCFieldApp.ViewModel
             //Process pickers
             if (ProjectType.cboxDefaultItemIndex != -1)
             {
-                Model.FieldworkType = ProjectType.cboxItems[ProjectType.cboxDefaultItemIndex].itemValue;
-
                 // Keep in pref project type for futur vocab use and other viewing purposes
                 Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), Model.FieldworkType);
             }
