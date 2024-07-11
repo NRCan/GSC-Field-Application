@@ -999,54 +999,6 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.EarthMatDefabric = ConcatenatedCombobox.PipeValues(EarthLithDefFabCollection); //process list of values so they are concatenated.
             }
-            if (EarthLithOccurAs.cboxItems.Count() > 0 && EarthLithOccurAs.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatOccurs = EarthLithOccurAs.cboxItems[EarthLithOccurAs.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithMapUnit.cboxItems.Count() > 0 &&  EarthLithMapUnit.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatMapunit = EarthLithMapUnit.cboxItems[EarthLithMapUnit.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithSorting.cboxItems.Count() > 0 &&  EarthLithSorting.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatSorting = EarthLithSorting.cboxItems[EarthLithSorting.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithWater.cboxItems.Count() > 0 &&  EarthLithWater.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatH2O = EarthLithWater.cboxItems[EarthLithWater.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithOxidation.cboxItems.Count() > 0 &&  EarthLithOxidation.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatOxidation = EarthLithOxidation.cboxItems[EarthLithOxidation.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithClast.cboxItems.Count() > 0 &&  EarthLithClast.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatClastForm = EarthLithClast.cboxItems[EarthLithClast.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithMetaFacies.cboxItems.Count() > 0 && EarthLithMetaFacies.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatMetaIFacies = EarthLithMetaFacies.cboxItems[EarthLithMetaFacies.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithMetaInt.cboxItems.Count() > 0 && EarthLithMetaInt.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatMetaIntensity = EarthLithMetaInt.cboxItems[EarthLithMetaInt.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithMagQualifier.cboxItems.Count() > 0 && EarthLithMagQualifier.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatMagQualifier = EarthLithMagQualifier.cboxItems[EarthLithMagQualifier.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithConfidence.cboxItems.Count() > 0 && EarthLithConfidence.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatInterpConf = EarthLithConfidence.cboxItems[EarthLithConfidence.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithContactUpper.cboxItems.Count() > 0 && EarthLithContactUpper.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatContactUp = EarthLithContactUpper.cboxItems[EarthLithContactUpper.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
-            if (EarthLithContactLower.cboxItems.Count() > 0 && EarthLithContactLower.cboxDefaultItemIndex != -1)
-            {
-                Model.EarthMatContactLow = EarthLithContactLower.cboxItems[EarthLithContactLower.cboxDefaultItemIndex].itemValue; //process list of values so they are concatenated.
-            }
             if (EarthLithContactRelationCollection.Count > 0)
             {
                 Model.EarthMatContact = ConcatenatedCombobox.PipeValues(EarthLithContactRelationCollection); //process list of values so they are concatenated.
@@ -1096,9 +1048,6 @@ namespace GSCFieldApp.ViewModel
                 //Set model like actual record
                 _model = _earthmaterial;
 
-                //Refresh
-                OnPropertyChanged(nameof(Model));
-
                 #region Pickers
                 //Select values in pickers
                 foreach (ComboBoxItem cbox in EarthLithoGroup.cboxItems)
@@ -1111,50 +1060,6 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithoGroup));
 
-                foreach (ComboBoxItem cbox in EarthLithMapUnit.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatMapunit)
-                    {
-                        EarthLithMapUnit.cboxDefaultItemIndex = EarthLithMapUnit.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithMapUnit));
-
-                foreach (ComboBoxItem cbox in EarthLithSorting.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatSorting)
-                    {
-                        EarthLithSorting.cboxDefaultItemIndex = EarthLithSorting.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithSorting));
-
-                foreach (ComboBoxItem cbox in EarthLithWater.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatH2O)
-                    {
-                        EarthLithWater.cboxDefaultItemIndex = EarthLithWater.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithWater));
-
-                foreach (ComboBoxItem cbox in EarthLithOxidation.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatOxidation)
-                    {
-                        EarthLithOxidation.cboxDefaultItemIndex = EarthLithOxidation.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithOxidation));
-
-                foreach (ComboBoxItem cbox in EarthLithClast.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatClastForm)
-                    {
-                        EarthLithClast.cboxDefaultItemIndex = EarthLithClast.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithClast));
 
                 List<string> bts = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatBedthick);
                 _bedThickCollection.Clear(); //Clear any possible values first
@@ -1178,60 +1083,6 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithDefFabCollection));
 
-                foreach (ComboBoxItem cbox in EarthLithMetaFacies.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatMetaIFacies)
-                    {
-                        EarthLithMetaFacies.cboxDefaultItemIndex = EarthLithMetaFacies.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithMetaFacies));
-
-                foreach (ComboBoxItem cbox in EarthLithMetaInt.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatMetaIntensity)
-                    {
-                        EarthLithMetaInt.cboxDefaultItemIndex = EarthLithMetaInt.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithMetaInt));
-
-                foreach (ComboBoxItem cbox in EarthLithMagQualifier.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatMagQualifier)
-                    {
-                        EarthLithMagQualifier.cboxDefaultItemIndex = EarthLithMagQualifier.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithMagQualifier));
-
-                foreach (ComboBoxItem cbox in EarthLithConfidence.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatInterpConf)
-                    {
-                        EarthLithConfidence.cboxDefaultItemIndex = EarthLithConfidence.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithConfidence));
-
-                foreach (ComboBoxItem cbox in EarthLithContactUpper.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatContactUp)
-                    {
-                        EarthLithContactUpper.cboxDefaultItemIndex = EarthLithContactUpper.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithContactUpper));
-
-                foreach (ComboBoxItem cbox in EarthLithContactLower.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatContactLow)
-                    {
-                        EarthLithContactLower.cboxDefaultItemIndex = EarthLithContactLower.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithContactLower));
-
                 List<string> ecs = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatContact);
                 _contactRelationCollection.Clear(); //Clear any possible values first
                 foreach (string ec in ecs)
@@ -1242,7 +1093,7 @@ namespace GSCFieldApp.ViewModel
                     new_ec.canRemoveItem = true;
                     _contactRelationCollection.Add(new_ec);
                 }
-                OnPropertyChanged(nameof(EarthLithBedThickCollection));
+                OnPropertyChanged(nameof(EarthLithContactRelationCollection));
 
                 #endregion
 
@@ -1261,10 +1112,6 @@ namespace GSCFieldApp.ViewModel
 
                 }
 
-                //Piped value field
-                await Fill2ndRoundPickers();
-                await Load2nRound();
-
             }
         }
 
@@ -1277,6 +1124,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.GroupType != string.Empty)
             {
+
                 List<string> qualifiers = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatModComp);
                 _qualifierCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EarthLithQualifier.cboxItems)
@@ -1287,15 +1135,6 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(EarthLithQualifierCollection));
-
-                foreach (ComboBoxItem cbox in EarthLithOccurAs.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatOccurs)
-                    {
-                        EarthLithOccurAs.cboxDefaultItemIndex = EarthLithOccurAs.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithOccurAs));
 
                 List<string> textStrucs = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatModTextStruc);
                 _textStructCollection.Clear(); //Clear any possible values first
@@ -1318,6 +1157,8 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(EarthLithGrainSizeCollection));
+
+                OnPropertyChanged(nameof(Model));
             }
 
         }

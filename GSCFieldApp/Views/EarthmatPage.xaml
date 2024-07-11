@@ -6,6 +6,7 @@
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viemodel:EarthmatViewModel"
              Shell.BackgroundColor="{StaticResource FieldEarthMaterialColor}"
              Title="{local:Localize EarthmatPageTitle}">
@@ -15,6 +16,11 @@
         <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
     </Shell.BackButtonBehavior>
 
+    <ContentPage.Resources>
+        <!--Converters-->
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <Grid Style="{StaticResource FieldAppFormGrid}">
 
@@ -64,11 +70,19 @@
                             <Picker Title="{local:Localize EarthmatPageLithOccurAs}" x:Name="OccurAsPicker"
                                 ItemsSource="{Binding EarthLithOccurAs.cboxItems}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
+                                SelectedItem="{Binding Model.EarthMatOccurs, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding EarthLithOccurAs, Source={x:Reference OccurAsPicker}},
+                                    Mode=OneWay}"
                                 SelectedIndex="{Binding EarthLithOccurAs.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize EarthmatPageLithMapUnit}" x:Name="MapUnitPicker"
                                 ItemsSource="{Binding EarthLithMapUnit.cboxItems}"
                                 ItemDisplayBinding="{Binding itemName}"
+                                SelectedItem="{Binding Model.EarthMatMapunit, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding EarthLithMapUnit, Source={x:Reference MapUnitPicker}},
+                                    Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithMapUnit.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <VerticalStackLayout x:Name="EarthPercentPanel" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
@@ -87,21 +101,37 @@
 
                             <Picker Title="{local:Localize EarthmatPageSorting}" x:Name="SortingPicker"
                                 ItemsSource="{Binding EarthLithSorting.cboxItems}"
+                                SelectedItem="{Binding Model.EarthMatSorting, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding EarthLithSorting, Source={x:Reference SortingPicker}},
+                                    Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithSorting.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize EarthmatPageWater}" x:Name="H2oPicker"
                                 ItemsSource="{Binding EarthLithWater.cboxItems}"
+                                SelectedItem="{Binding Model.EarthMatH2O, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding EarthLithWater, Source={x:Reference H2oPicker}},
+                                    Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithWater.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize EarthmatPageOxidation}" x:Name="OxidationPicker"
                                 ItemsSource="{Binding EarthLithOxidation.cboxItems}"
+                                SelectedItem="{Binding Model.EarthMatOxidation, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding EarthLithOxidation, Source={x:Reference OxidationPicker}},
+                                    Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithOxidation.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize EarthmatPageClast}" x:Name="ClastPicker"
                                 ItemsSource="{Binding EarthLithClast.cboxItems}"
+                                SelectedItem="{Binding Model.EarthMatClastForm, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding EarthLithClast, Source={x:Reference ClastPicker}},
+                                    Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithClast.cboxDefaultItemIndex, Mode=TwoWay}" />
 
@@ -252,10 +282,18 @@
                             <Picker Title="{local:Localize EarthmatPageMetaFacies}" x:Name="MetaFaciesPicker"
                                     ItemsSource="{Binding EarthLithMetaFacies.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.EarthMatMetaIFacies, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding EarthLithMetaFacies, Source={x:Reference MetaFaciesPicker}},
+                                        Mode=TwoWay}"
                                     SelectedIndex="{Binding EarthLithMetaFacies.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize EarthmatPageMetaInt}" x:Name="MetaFaciesIntensityPicker"
                                     ItemsSource="{Binding EarthLithMetaInt.cboxItems}"
+                                    SelectedItem="{Binding Model.EarthMatMetaIntensity, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding EarthLithMetaInt, Source={x:Reference MetaFaciesIntensityPicker}},
+                                        Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithMetaInt.cboxDefaultItemIndex, Mode=TwoWay}" />
 
@@ -273,10 +311,18 @@
                             <Picker Title="{local:Localize EarthmatPageContactUpper}" x:Name="ContactUpperPicker"
                                     ItemsSource="{Binding EarthLithContactUpper.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.EarthMatContactUp, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding EarthLithContactUpper, Source={x:Reference ContactUpperPicker}},
+                                        Mode=TwoWay}"
                                     SelectedIndex="{Binding EarthLithContactUpper.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize EarthmatPageContactLower}" x:Name="ContactLowerPicker"
                                     ItemsSource="{Binding EarthLithContactLower.cboxItems}"
+                                    SelectedItem="{Binding Model.EarthMatContactLow, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding EarthLithContactLower, Source={x:Reference ContactLowerPicker}},
+                                        Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedIndex="{Binding EarthLithContactLower.cboxDefaultItemIndex, Mode=TwoWay}" />
 
@@ -342,6 +388,10 @@
 
                             <Picker Title="{local:Localize EarthmatPageMagQualifier}" x:Name="MagneticQualifierPicker"
                                 ItemsSource="{Binding EarthLithMagQualifier.cboxItems}"
+                                SelectedItem="{Binding Model.EarthMatMagQualifier, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding EarthLithMagQualifier, Source={x:Reference MagneticQualifierPicker}},
+                                        Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedIndex="{Binding EarthLithMagQualifier.cboxDefaultItemIndex, Mode=TwoWay}" />
                         </VerticalStackLayout>
@@ -357,6 +407,10 @@
 
                             <Picker Title="{local:Localize EarthmatPageConfidence}" x:Name="ConfidencePicker"
                                 ItemsSource="{Binding EarthLithConfidence.cboxItems}"
+                                SelectedItem="{Binding Model.EarthMatInterpConf, 
+                                       Converter={StaticResource cbox2Str},
+                                       ConverterParameter={Binding EarthLithConfidence, Source={x:Reference ConfidencePicker}},
+                                       Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
                                 SelectedIndex="{Binding EarthLithConfidence.cboxDefaultItemIndex, Mode=TwoWay}" />
 
