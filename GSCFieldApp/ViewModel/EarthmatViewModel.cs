@@ -736,7 +736,7 @@ namespace GSCFieldApp.ViewModel
 
             //Prepare vocabulary
             List<Vocabularies> vocab = await currentConnection.Table<Vocabularies>().Where(vis => vis.Visibility == DatabaseLiterals.boolYes).ToListAsync();
-            currentProjectType = Preferences.Get(DatabaseLiterals.FieldUserInfoFWorkType, currentProjectType);
+            currentProjectType = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), currentProjectType);
 
             await FillLithoGroupSearchListAsync(vocab, currentProjectType);
 
@@ -829,57 +829,65 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
+            //Bedrock pickers
+            if (currentProjectType == DatabaseLiterals.ApplicationThemeBedrock)
+            {
+                _earthLithBedThick = await FillAPicker(DatabaseLiterals.FieldEarthMatBedthick, "");
+                _earthLithDefFab = await FillAPicker(DatabaseLiterals.FieldEarthMatDefabric, "");
+                _earthLithMetaFacies = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaFacies);
+                _earthLithMetaInt = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaIntensity);
+                _earthLithMagQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatMagQualifier);
+                _earthLithContactUpper = await FillAPicker(DatabaseLiterals.FieldEarthMatContactUp);
+                _earthLithContactLower = await FillAPicker(DatabaseLiterals.FieldEarthMatContactLow);
+                _earthLithContactType = await FillAPicker(DatabaseLiterals.FieldEarthMatContactUp);
+
+                OnPropertyChanged(nameof(EarthLithBedThick));
+                OnPropertyChanged(nameof(EarthLithDefFab));
+                OnPropertyChanged(nameof(EarthLithMetaFacies));
+                OnPropertyChanged(nameof(EarthLithMetaInt));
+                OnPropertyChanged(nameof(EarthLithMagQualifier));
+                OnPropertyChanged(nameof(EarthLithContactUpper));
+                OnPropertyChanged(nameof(EarthLithContactLower));
+                OnPropertyChanged(nameof(EarthLithContactType));
+
+                //There is one picker that needs all brotha's and sista's listing
+                _earthLithContactRelatedAlias = await FillRelatedEarthmatAsync();
+                OnPropertyChanged(nameof(EarthLithContactRelatedAlias));
+
+            }
+            else if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
+            {
+                _earthLithSorting = await FillAPicker(DatabaseLiterals.FieldEarthMatSorting, "");
+                _earthLithWater = await FillAPicker(DatabaseLiterals.FieldEarthMatH2O, "");
+                _earthLithOxidation = await FillAPicker(DatabaseLiterals.FieldEarthMatOxidation, "");
+                _earthLithClast = await FillAPicker(DatabaseLiterals.FieldEarthMatClastForm, "");
+
+                OnPropertyChanged(nameof(EarthLithSorting));
+                OnPropertyChanged(nameof(EarthLithWater));
+                OnPropertyChanged(nameof(EarthLithOxidation));
+                OnPropertyChanged(nameof(EarthLithClast));
+
+                //There is one picker that needs a parent in bedrock, but doesn't in surficial
+                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
+                OnPropertyChanged(nameof(EarthLithTextureStruct));
+
+            }
+
             _earthLithoGroup = await FillAPicker(DatabaseLiterals.FieldEarthMatLithgroup);
             _earthLithMapUnit = await FillAPicker(DatabaseLiterals.FieldEarthMatMapunit, "");
-            _earthLithSorting = await FillAPicker(DatabaseLiterals.FieldEarthMatSorting, "");
-            _earthLithWater = await FillAPicker(DatabaseLiterals.FieldEarthMatH2O, "");
-            _earthLithOxidation = await FillAPicker(DatabaseLiterals.FieldEarthMatOxidation, "");
-            _earthLithClast = await FillAPicker(DatabaseLiterals.FieldEarthMatClastForm, "");
-            _earthLithBedThick = await FillAPicker(DatabaseLiterals.FieldEarthMatBedthick, "");
-            _earthLithDefFab = await FillAPicker(DatabaseLiterals.FieldEarthMatDefabric, "");
-            _earthLithMetaFacies = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaFacies);
-            _earthLithMetaInt = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaIntensity);
-            _earthLithMagQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatMagQualifier);
             _earthLithConfidence = await FillAPicker(DatabaseLiterals.FieldEarthMatInterpConf);
             _earthLithColourGeneric = await FillAPicker(DatabaseLiterals.KeywordColourGeneric);
             _earthLithColourIntensity = await FillAPicker(DatabaseLiterals.KeywordColourIntensity);
             _earthLithColourQualifier = await FillAPicker(DatabaseLiterals.KeywordColourQualifier);
-            _earthLithContactUpper = await FillAPicker(DatabaseLiterals.FieldEarthMatContactUp);
-            _earthLithContactLower = await FillAPicker(DatabaseLiterals.FieldEarthMatContactLow);
-            _earthLithContactType = await FillAPicker(DatabaseLiterals.FieldEarthMatContactUp);
+
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
-            OnPropertyChanged(nameof(EarthLithSorting));
-            OnPropertyChanged(nameof(EarthLithWater));
-            OnPropertyChanged(nameof(EarthLithOxidation));
-            OnPropertyChanged(nameof(EarthLithClast));
-            OnPropertyChanged(nameof(EarthLithBedThick));
-            OnPropertyChanged(nameof(EarthLithDefFab));
-            OnPropertyChanged(nameof(EarthLithMetaFacies));
-            OnPropertyChanged(nameof(EarthLithMetaInt));
-            OnPropertyChanged(nameof(EarthLithMagQualifier));
             OnPropertyChanged(nameof(EarthLithConfidence));
             OnPropertyChanged(nameof(EarthLithColourGeneric));
             OnPropertyChanged(nameof(EarthLithColourIntensity));
             OnPropertyChanged(nameof(EarthLithColourQualifier));
-            OnPropertyChanged(nameof(EarthLithContactUpper));
-            OnPropertyChanged(nameof(EarthLithContactLower));
-            OnPropertyChanged(nameof(EarthLithContactType));
 
-            //There is one picker that needs a parent in bedrock, but doesn't in surficial
-            if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
-            {
-                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
-                OnPropertyChanged(nameof(EarthLithTextureStruct));
-            }
-
-            //There is one picker that needs all brotha's and sista's listing
-            if (currentProjectType == DatabaseLiterals.ApplicationThemeBedrock)
-            {
-                _earthLithContactRelatedAlias = await FillRelatedEarthmatAsync();
-                OnPropertyChanged(nameof(EarthLithContactRelatedAlias));
-            }
         }
 
         /// <summary>
@@ -890,7 +898,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Fill2ndRoundPickers()
         {
             //second round pickers
-            if (_model.GroupType != string.Empty)
+            if (_model.GroupType != string.Empty && currentProjectType == DatabaseLiterals.ApplicationThemeBedrock)
             {
                 _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup);
                 _earthLithOccurAs = await FillAPicker(DatabaseLiterals.FieldEarthMatOccurs, _model.EarthMatLithgroup);
