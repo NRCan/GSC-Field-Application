@@ -63,6 +63,7 @@ namespace GSCFieldApp.ViewModel
         private IEnumerable<Vocabularies> _litho_group_vocab; //Default list to keep in order to not redo the query each time
 
         private ComboBox _earthLithoGroup = new ComboBox();
+        private ComboBox _earthLithDetail = new ComboBox(); //Surficial only
         private ComboBox _earthLithOccurAs = new ComboBox();
         private ComboBox _earthLithMapUnit = new ComboBox();
         private ComboBox _earthLithSorting = new ComboBox();
@@ -197,6 +198,7 @@ namespace GSCFieldApp.ViewModel
         public bool isLithoDetailListVisible { get { return _isLithoDetailListVisible; } set { _isLithoDetailListVisible = value; } }
 
         public ComboBox EarthLithoGroup { get { return _earthLithoGroup; } set { _earthLithoGroup = value; } }
+        public ComboBox EarthLithDetail { get { return _earthLithDetail; } set { _earthLithDetail = value; } }
         public ComboBox EarthLithQualifier { get { return _earthLithQualifier; } set { _earthLithQualifier = value; } }
         public ComboBox EarthLithOccurAs { get { return _earthLithOccurAs; } set { _earthLithOccurAs = value; } }
         public ComboBox EarthLithMapUnit { get { return _earthLithMapUnit; } set { _earthLithMapUnit = value; } }
@@ -861,11 +863,12 @@ namespace GSCFieldApp.ViewModel
                 _earthLithWater = await FillAPicker(DatabaseLiterals.FieldEarthMatH2O, "");
                 _earthLithOxidation = await FillAPicker(DatabaseLiterals.FieldEarthMatOxidation, "");
                 _earthLithClast = await FillAPicker(DatabaseLiterals.FieldEarthMatClastForm, "");
-
+                _earthLithDetail = await FillAPicker(DatabaseLiterals.FieldEarthMatLithdetail);
                 OnPropertyChanged(nameof(EarthLithSorting));
                 OnPropertyChanged(nameof(EarthLithWater));
                 OnPropertyChanged(nameof(EarthLithOxidation));
                 OnPropertyChanged(nameof(EarthLithClast));
+                OnPropertyChanged(nameof(EarthLithDetail));
 
                 //There is one picker that needs a parent in bedrock, but doesn't in surficial
                 _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
@@ -1119,6 +1122,9 @@ namespace GSCFieldApp.ViewModel
                     OnPropertyChanged(nameof(EarthLithTextStrucCollection));
 
                 }
+
+                //Refresh UI
+                OnPropertyChanged(nameof(Model));
 
             }
         }

@@ -36,22 +36,37 @@
                         <VerticalStackLayout>
                             
                             <VerticalStackLayout>
+
+                                <!--Surficial lith group-->
+                                <Picker Title="{local:Localize EarthmatPageLithoDetail}" x:Name="EMLithDetailSurficialPicker"
+                                ItemsSource="{Binding EarthLithDetail.cboxItems}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                ItemDisplayBinding="{Binding itemName}"
+                                SelectedItem="{Binding Model.EarthMatLithdetail, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding EarthLithDetail, Source={x:Reference EMLithDetailSurficialPicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding EarthLithDetail.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+
+                                    <!-- Group type picker (approx. 65 items in bedrock) -->
+                                    <Picker Title="{local:Localize EarthmatPageLithoType}" x:Name="LithoGroupPicker" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                                        ItemsSource="{Binding EarthLithoGroup.cboxItems}" SelectedIndexChanged="LithoGroupPicker_SelectedIndexChanged"
+                                        ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithoGroup}"
+                                        SelectedIndex="{Binding EarthLithoGroup.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                    <!-- Detail search bar (approx >450 items in bedrock only) -->
+                                    <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                    <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"
+                                        x:Name="lithoSearchBar" Text="{Binding Model.EarthMatLithdetail, Mode=TwoWay }"
+                                        SearchCommand="{Binding PerformDetailSearchCommand}" 
+                                        SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
+                                    <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible, Mode=TwoWay}"
+                                        x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
+                                        ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
                                     
-                                <!-- Group type picker (approx. 65 items) -->
-                                <Picker Title="{local:Localize EarthmatPageLithoType}" x:Name="LithoGroupPicker" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
-                                ItemsSource="{Binding EarthLithoGroup.cboxItems}" SelectedIndexChanged="LithoGroupPicker_SelectedIndexChanged"
-                                ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithoGroup}"
-                                SelectedIndex="{Binding EarthLithoGroup.cboxDefaultItemIndex, Mode=TwoWay}" />
-                                    
-                                <!-- Detail search bar (approx >450 items) -->
-                                <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
-                                <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"
-                                    x:Name="lithoSearchBar" Text="{Binding Model.EarthMatLithdetail, Mode=TwoWay }"
-                                    SearchCommand="{Binding PerformDetailSearchCommand}" 
-                                    SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
-                                <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible, Mode=TwoWay}"
-                                    x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
-                                    ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
+                                </VerticalStackLayout>
+
 
                             </VerticalStackLayout>
 
@@ -147,7 +162,7 @@
 
                         <VerticalStackLayout>
 
-                            <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
+                            <VerticalStackLayout>
                                 <Picker Title="{local:Localize EarthmatPageLithTextStruc}" x:Name="TextStructurePicker"
                                     ItemsSource="{Binding EarthLithTextureStruct.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithTextureStructure}"
@@ -159,7 +174,7 @@
 
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout>
+                            <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
                                 <Picker Title="{local:Localize EarthmatPageLithGrainSize}" x:Name="GrainSizePicker"
                                     ItemsSource="{Binding EarthLithGrainSize.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithGrainSize}"
@@ -170,7 +185,7 @@
                                                                  ConcatSource="{Binding EarthLithGrainSizeCollection}" />
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout>
+                            <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
                                 <Picker Title="{local:Localize EarthmatPageLithBedThick}" x:Name="BeddingThicknessPicker"
                                     ItemsSource="{Binding EarthLithBedThick.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithBedThick}"
@@ -181,7 +196,7 @@
                                                                  ConcatSource="{Binding EarthLithBedThickCollection}" />
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout>
+                            <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
                                 <Picker Title="{local:Localize EarthmatPageLithDefFab}" x:Name="DeformationFabricPicker"
                                     ItemsSource="{Binding EarthLithDefFab.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEarthLithDefFab}"
@@ -261,7 +276,7 @@
 
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout x:Name="EarthColourIndex">
+                            <VerticalStackLayout x:Name="EarthColourIndex" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
 
                                 <Label Text="{local:Localize EarthmatColourIndex}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.EarthMatColourInd, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}"/>
@@ -273,7 +288,7 @@
                     </controls:ExpandableFrame>
 
                     <!--Metamorphic facies-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMMetaFaciesVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize EarthmatPageMetaFaciesTitle}">
 
@@ -302,7 +317,7 @@
                     </controls:ExpandableFrame>
                
                     <!--Contact-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMContactVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize EarthmatPageContactTitle}">
 
@@ -340,7 +355,7 @@
                 
 
                     <!--Contact relation to other EM -->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMContactRelVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize EarthmatPageContactRelTitle}">
 
@@ -373,7 +388,7 @@
                     </controls:ExpandableFrame>
                              
                     <!--Magnetism-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMMagVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize EarthmatPageMagTitle}">
 
