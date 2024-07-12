@@ -34,15 +34,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #region LOCATION
         /// <summary>
-        /// Will calculate an generic ID for location table.
-        /// </summary>
-        /// <returns></returns>
-        public int CalculateLocationID(string inAlias = "")
-        {
-            return GetHashCodeFromGUID(inAlias);
-        }
-
-        /// <summary>
         /// Will calculate a new alias for location, if wanted.
         /// Output can be either empty or like this 17GHV001XY
         /// </summary>
@@ -54,11 +45,62 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (inStationAlias!=string.Empty)
             {
-                locAlias = locAlias + "XY";
+                locAlias = locAlias + DatabaseLiterals.TableLocationAliasSuffix;
             }
             else
             {
-                locAlias = await CalculateStationAliasAsync(DateTime.Now, officerCode) + "XY";
+                locAlias = await CalculateStationAliasAsync(DateTime.Now, officerCode);
+
+                //Connect to database to get all location so we can find existing location alias duplicate if any
+                SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+                List<FieldLocation> stats = await currentConnection.QueryAsync<FieldLocation>(String.Format("Select * From {0}", DatabaseLiterals.TableLocation));
+
+                //Find a non existing name
+                bool breaker = true;
+                //Get location number
+                string[] locNumberArray = locAlias.Split(officerCode);
+                string locNumberStr = string.Empty;
+
+                if (locNumberArray.Length == 2)
+                {
+                    //Convert to number
+                    int locInt = Convert.ToInt32(locNumberArray[1]);
+
+                    while (breaker)
+                    {
+
+                        //Padd current ID with 0 if needed
+                        if (locInt < 10)
+                        {
+                            locNumberStr = "000" + locInt.ToString();
+                        }
+                        else if (locInt >= 10 && locInt < 100)
+                        {
+                            locNumberStr = "00" + locInt.ToString();
+                        }
+                        else if (locInt >= 100 && locInt < 1000)
+                        {
+                            locNumberStr = "0" + locInt.ToString();
+                        }
+                        else
+                        {
+                            locNumberStr = locInt.ToString();
+                        }
+
+                        locAlias = locNumberArray[0] + officerCode + locNumberStr + DatabaseLiterals.TableLocationAliasSuffix;
+
+                        //Find existing
+                        List<FieldLocation> existingLocations = await currentConnection.Table<FieldLocation>().Where(e => e.LocationAlias == locNumberStr).ToListAsync();
+                        if (existingLocations.Count() == 0 || existingLocations == null)
+                        {
+                            breaker = false;
+                        }
+
+                        locInt++;
+                    }
+
+                }
+
             }
 
             return locAlias;
@@ -86,14 +128,6 @@ namespace GSCFieldApp.Services.DatabaseServices
         #endregion
 
         #region STATION
-        /// <summary>
-        /// Will calculate a generic ID for station table from row count.
-        /// </summary>
-        /// <returns></returns>
-        public int CalculateStationID(string inAlias)
-        {
-            return GetHashCodeFromGUID(inAlias);
-        }
 
         /// <summary>
         /// Will calculate a station alias name from a given station ID. Results: 16BEB001 (Year-Year-Geolcode-three digit number)

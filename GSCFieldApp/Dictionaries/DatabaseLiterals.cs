@@ -473,6 +473,7 @@ namespace GSCFieldApp.Dictionaries
         public const string TableMineralAlterationPrefix = "X";
         public const string TableEnvironmentPrefix = "E";
         public const string TableDrillHolePrefix = "DH";
+        public const string TableLocationAliasSuffix = "XY";
 
         #endregion
 
