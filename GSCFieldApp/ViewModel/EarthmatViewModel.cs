@@ -832,7 +832,7 @@ namespace GSCFieldApp.ViewModel
         public async Task FillPickers()
         {
             //Bedrock pickers
-            if (currentProjectType == DatabaseLiterals.ApplicationThemeBedrock)
+            if (currentProjectType.Contains(DatabaseLiterals.ApplicationThemeBedrock))
             {
                 _earthLithBedThick = await FillAPicker(DatabaseLiterals.FieldEarthMatBedthick, "");
                 _earthLithDefFab = await FillAPicker(DatabaseLiterals.FieldEarthMatDefabric, "");
@@ -901,7 +901,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Fill2ndRoundPickers()
         {
             //second round pickers
-            if (_model.GroupType != string.Empty && currentProjectType == DatabaseLiterals.ApplicationThemeBedrock)
+            if (_model.GroupType != string.Empty && currentProjectType.Contains(DatabaseLiterals.ApplicationThemeBedrock))
             {
                 _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup);
                 _earthLithOccurAs = await FillAPicker(DatabaseLiterals.FieldEarthMatOccurs, _model.EarthMatLithgroup);
@@ -1018,6 +1018,20 @@ namespace GSCFieldApp.ViewModel
             {
                 Model.EarthMatLithgroup = EarthLithoGroup.cboxItems[EarthLithoGroup.cboxDefaultItemIndex].itemValue;
             }
+
+            //Special cases pickers
+            //XAML converters usually saves directly in the model except for these
+            if (EarthLithOccurAs.cboxItems.Count() > 0 && EarthLithOccurAs.cboxDefaultItemIndex != -1)
+            {
+                //2nd round pickers aren't playing well with xaml converter
+                Model.EarthMatOccurs = EarthLithOccurAs.cboxItems[EarthLithOccurAs.cboxDefaultItemIndex].itemValue; 
+            }
+            if (EarthLithDetail.cboxItems.Count() > 0 && EarthLithDetail.cboxDefaultItemIndex != -1)
+            {
+                //Special picker only available in surficial, conflicting with bedrock on initialization
+                Model.EarthMatLithdetail = EarthLithDetail.cboxItems[EarthLithDetail.cboxDefaultItemIndex].itemValue; 
+            }
+
             #endregion
         }
 
@@ -1058,6 +1072,9 @@ namespace GSCFieldApp.ViewModel
             {
                 //Set model like actual record
                 _model = _earthmaterial;
+
+                //Refresh
+                OnPropertyChanged(nameof(Model));
 
                 #region Pickers
                 //Select values in pickers
@@ -1121,11 +1138,21 @@ namespace GSCFieldApp.ViewModel
                     }
                     OnPropertyChanged(nameof(EarthLithTextStrucCollection));
 
+                    //Special picker for earth material details
+                    //Else it interacts badly on initialization with bedrock form
+                    foreach (ComboBoxItem cbox in EarthLithDetail.cboxItems)
+                    {
+                        if (cbox.itemValue == _earthmaterial.EarthMatLithdetail)
+                        {
+                            EarthLithDetail.cboxDefaultItemIndex = EarthLithDetail.cboxItems.IndexOf(cbox); break;
+                        }
+                    }
+                    OnPropertyChanged(nameof(EarthLithDetail));
+
                 }
 
-                //Refresh UI
-                OnPropertyChanged(nameof(Model));
-
+                await Fill2ndRoundPickers();
+                await Load2nRound();
             }
         }
 
@@ -1172,7 +1199,16 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithGrainSizeCollection));
 
-                OnPropertyChanged(nameof(Model));
+                //Special case picker
+                //Doesn't interact well with xaml converter, need to keep it here
+                foreach (ComboBoxItem cbox in EarthLithOccurAs.cboxItems)
+                {
+                    if (cbox.itemValue == _earthmaterial.EarthMatOccurs)
+                    {
+                        EarthLithOccurAs.cboxDefaultItemIndex = EarthLithOccurAs.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithOccurAs));
             }
 
         }

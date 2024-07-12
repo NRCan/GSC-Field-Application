@@ -38,13 +38,10 @@
                             <VerticalStackLayout>
 
                                 <!--Surficial lith group-->
+                                <!--Can't use converter here, else it interacts badly with bedrock form on init.-->
                                 <Picker Title="{local:Localize EarthmatPageLithoDetail}" x:Name="EMLithDetailSurficialPicker"
                                 ItemsSource="{Binding EarthLithDetail.cboxItems}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
-                                SelectedItem="{Binding Model.EarthMatLithdetail, 
-                                    Converter={StaticResource cbox2Str},
-                                    ConverterParameter={Binding EarthLithDetail, Source={x:Reference EMLithDetailSurficialPicker}},
-                                    Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithDetail.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                                 <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
@@ -82,13 +79,10 @@
                                     
                             </VerticalStackLayout>
 
+                            <!--Can't use converter on this 2nd round picker, else it always gets overwritten with empty string on init-->
                             <Picker Title="{local:Localize EarthmatPageLithOccurAs}" x:Name="OccurAsPicker"
                                 ItemsSource="{Binding EarthLithOccurAs.cboxItems}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
-                                SelectedItem="{Binding Model.EarthMatOccurs, 
-                                    Converter={StaticResource cbox2Str},
-                                    ConverterParameter={Binding EarthLithOccurAs, Source={x:Reference OccurAsPicker}},
-                                    Mode=OneWay}"
                                 SelectedIndex="{Binding EarthLithOccurAs.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize EarthmatPageLithMapUnit}" x:Name="MapUnitPicker"
