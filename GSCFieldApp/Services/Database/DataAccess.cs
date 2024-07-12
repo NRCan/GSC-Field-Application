@@ -375,6 +375,34 @@ namespace GSCFieldApp.Services.DatabaseServices
             return await dbConnect.GetMappingAsync(tableType);
         }
 
+        /// <summary>
+        /// Will return the number of records of a table
+        /// </summary>
+        /// <param name="inTabelType"></param>
+        /// <returns></returns>
+        public async Task<int> GetTableCount(Type inTableType)
+        {
+            //Variables
+            int tableCount = 0;
+
+            //Get query result
+            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
+            TableMapping tableMapping = await GetATableObjectAsync(inTableType, dbConnect);
+
+            List<int> tableRows = await dbConnect.QueryScalarsAsync<int>("SELECT * FROM " + tableMapping.TableName);
+
+            if (tableRows.Count() > 0)
+            {
+                tableCount = tableRows[0];
+            }
+            
+
+            await dbConnect.CloseAsync();
+            
+            return tableCount;
+
+        }
+
         #endregion
 
     }

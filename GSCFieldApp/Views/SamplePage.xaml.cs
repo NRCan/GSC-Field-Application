@@ -1,13 +1,34 @@
+using GSCFieldApp.Services;
 using GSCFieldApp.ViewModel;
+using System;
 
 namespace GSCFieldApp.Views;
 
 public partial class SamplePage : ContentPage
 {
-	public SamplePage(SampleViewModel vm)
+    public LocalizationResourceManager LocalizationResourceManager
+        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
+    public SamplePage(SampleViewModel vm)
 	{
         InitializeComponent();
         BindingContext = vm;
+
+        this.Loaded += SamplePage_Loaded;
+    }
+
+    private async void SamplePage_Loaded(object sender, EventArgs e)
+    {
+        //Condiction visual remainder for surficial to take duplicate or blank sample
+        SampleViewModel vm3 = this.BindingContext as SampleViewModel;
+        bool needReminder = await vm3.DuplicateReminder();
+
+        if (needReminder)
+        {
+            await Shell.Current.DisplayAlert(LocalizationResourceManager["SamplePageDuplicateReminderTitle"].ToString(),
+                    LocalizationResourceManager["SamplePageDuplicateReminderMessage"].ToString(),
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
+        }
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
@@ -25,4 +46,5 @@ public partial class SamplePage : ContentPage
         //    this.Title = vm2.Earthmaterial.EarthMatName;
         //}
     }
+
 }

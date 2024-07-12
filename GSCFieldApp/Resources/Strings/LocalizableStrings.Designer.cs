@@ -1231,6 +1231,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a reminder to take a blank or a duplicate sample..
+        /// </summary>
+        internal static string SamplePageDuplicateReminderMessage {
+            get {
+                return ResourceManager.GetString("SamplePageDuplicateReminderMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate time!.
+        /// </summary>
+        internal static string SamplePageDuplicateReminderTitle {
+            get {
+                return ResourceManager.GetString("SamplePageDuplicateReminderTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         internal static string SamplePageGeneralTitle {

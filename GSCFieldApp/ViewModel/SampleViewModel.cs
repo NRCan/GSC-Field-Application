@@ -383,6 +383,31 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Will show a quick reminder to take a duplicate for
+        /// surficial geologist every 15 samples.
+        /// </summary>
+        public async Task<bool> DuplicateReminder()
+        {
+            bool shouldShowReminder = false;
+
+            if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
+                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString() == DatabaseLiterals.ApplicationThemeSurficial)
+            {
+                Sample sampleModel = new Sample();
+                int sampleCount = await da.GetTableCount(Model.GetType());
+
+                if (sampleCount % 15 == 0 && sampleCount != 0)
+                {
+                    shouldShowReminder = true;
+                }
+            }
+
+            return shouldShowReminder;
+
+        }
+
+
         #endregion
     }
 }

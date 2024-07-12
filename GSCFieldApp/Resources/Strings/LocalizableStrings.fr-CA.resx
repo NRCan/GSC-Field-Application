@@ -496,6 +496,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SamplePageDuplicateName" xml:space="preserve">
     <value>Nom de duplicat</value>
   </data>
+  <data name="SamplePageDuplicateReminderMessage" xml:space="preserve">
+    <value>Ceci est un rappel de prendre un blanc ou un duplicate.</value>
+  </data>
+  <data name="SamplePageDuplicateReminderTitle" xml:space="preserve">
+    <value>C'est l'heure des duplicats!</value>
+  </data>
   <data name="SamplePageGeneralTitle" xml:space="preserve">
     <value>Général</value>
   </data>

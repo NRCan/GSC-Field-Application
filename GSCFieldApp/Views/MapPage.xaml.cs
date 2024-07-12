@@ -50,8 +50,8 @@ public partial class MapPage : ContentPage
     private enum defaultLayerList { Stations, Traverses }
     private Location badLoc = new Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
 
-public LocalizationResourceManager LocalizationResourceManager
-    => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+    public LocalizationResourceManager LocalizationResourceManager
+        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
     public MapPage(MapViewModel vm)
     {
