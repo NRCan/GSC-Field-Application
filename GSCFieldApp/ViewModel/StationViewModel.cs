@@ -322,14 +322,19 @@ namespace GSCFieldApp.ViewModel
 
         public async Task FillPickers()
         {
+            //Bedrock pickers
+            if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
+                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString().Contains(DatabaseLiterals.ApplicationThemeBedrock))
+            {
+                _stationOutcropQuality = await FillAPicker(DatabaseLiterals.FieldStationOCQuality);
+                OnPropertyChanged(nameof(StationOutcropQuality));
+            }
 
             _stationType = await FillAPicker(DatabaseLiterals.FieldStationObsType);
-            _stationOutcropQuality = await FillAPicker(DatabaseLiterals.FieldStationOCQuality);
             _stationSource = await FillAPicker(DatabaseLiterals.FieldStationObsSource);
             _stationPhysEnv = await FillAPicker(DatabaseLiterals.FieldStationPhysEnv);
 
             OnPropertyChanged(nameof(StationType));
-            OnPropertyChanged(nameof(StationOutcropQuality));
             OnPropertyChanged(nameof(StationSource));
             OnPropertyChanged(nameof(StationPhysEnv));
 

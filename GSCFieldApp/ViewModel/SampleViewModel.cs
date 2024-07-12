@@ -267,7 +267,7 @@ namespace GSCFieldApp.ViewModel
 
             //Bedrock pickers
             if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
-                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString() == DatabaseLiterals.ApplicationThemeBedrock)
+                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString().Contains(DatabaseLiterals.ApplicationThemeBedrock))
             {
                 _sampleCorePortion = await FillAPicker(DatabaseLiterals.FieldSampleCoreSize);
                 _sampleFormat = await FillAPicker(DatabaseLiterals.FieldSampleFormat);
@@ -279,7 +279,7 @@ namespace GSCFieldApp.ViewModel
 
             //Surficial pickers
             if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
-                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString() == DatabaseLiterals.ApplicationThemeBedrock)
+                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString() == DatabaseLiterals.ApplicationThemeSurficial)
             {
                 _sampleQuality = await FillAPicker(DatabaseLiterals.FieldSampleQuality);
                 _sampleState = await FillAPicker(DatabaseLiterals.FieldSampleState);
