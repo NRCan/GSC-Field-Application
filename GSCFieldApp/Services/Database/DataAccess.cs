@@ -393,7 +393,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (tableRows.Count() > 0)
             {
-                tableCount = tableRows[0];
+                tableCount = tableRows.Count();
             }
             
 

@@ -19,7 +19,7 @@ public partial class SamplePage : ContentPage
 
     private async void SamplePage_Loaded(object sender, EventArgs e)
     {
-        //Condiction visual remainder for surficial to take duplicate or blank sample
+        //Conditional visual remainder for surficial to take duplicate or blank sample
         SampleViewModel vm3 = this.BindingContext as SampleViewModel;
         bool needReminder = await vm3.DuplicateReminder();
 
