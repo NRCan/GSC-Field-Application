@@ -29,13 +29,25 @@ namespace GSCFieldApp.ViewModel
         #region PROPERTIES
 
         private bool _isStationVisible = true;
-        public bool IsStationVisible { get { return _isStationVisible; } set { _isStationVisible = value; } }
+        public bool IsStationVisible 
+        {
+            get { return Preferences.Get(nameof(IsStationVisible), true); }
+            set { Preferences.Set(nameof(IsStationVisible), value); }
+        }
 
-        private bool _isEarthMatVisible = true;
-        public bool IsEarthMatVisible { get { return _isEarthMatVisible; } set { _isEarthMatVisible = value; } }
+        private bool _isEarthMatVisible = false;
+        public bool IsEarthMatVisible 
+        {
+            get { return Preferences.Get(nameof(IsEarthMatVisible), false); }
+            set { Preferences.Set(nameof(IsEarthMatVisible), value); }
+        }
 
-        private bool _isSampleVisible = true;
-        public bool IsSampleVisible { get { return _isSampleVisible; } set { _isSampleVisible = value; } }
+        private bool _isSampleVisible = false;
+        public bool IsSampleVisible 
+        {
+            get { return Preferences.Get(nameof(IsSampleVisible), false); }
+            set { Preferences.Set(nameof(IsSampleVisible), value); }
+        }
 
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
