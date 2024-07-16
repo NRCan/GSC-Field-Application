@@ -383,12 +383,13 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 string lastAlias = sampleParent.ToList()[sampleParent.Count() - 1].SampleName.ToString();
                 string lastNumberString = lastAlias.ToList()[lastAlias.Length - 2].ToString(); //Sample only has two digits id in the alias
-
-                newID = Convert.ToInt16(lastNumberString) + newID;
+                short parsedID = 0;
+                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                newID = parsedID + newID;
 
                 //Find a non existing name
-                bool breaker = true;
-                while (breaker)
+                //bool breaker = true;
+                while (processingID)
                 {
                     //Padd current ID with 0 if needed
                     if (newID < 10)
@@ -406,7 +407,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     List<Sample> existingSamples = await currentConnection.Table<Sample>().Where(e => e.SampleEarthmatID == parentID && e.SampleName == finaleSampleString).ToListAsync();
                     if (existingSamples.Count() == 0 || existingSamples == null)
                     {
-                        breaker = false;
+                        processingID = false;
                     }
 
                     newID++;
