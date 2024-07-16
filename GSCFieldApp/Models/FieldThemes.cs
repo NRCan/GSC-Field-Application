@@ -29,7 +29,7 @@ namespace GSCFieldApp.Models
         public async Task SetFieldVisibility()
         {
             //Prefered theme should be saved on field book selected. Defaults to bedrock.
-            string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoPName), DatabaseLiterals.ApplicationThemeBedrock);
+            string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), DatabaseLiterals.ApplicationThemeBedrock);
             if (preferedTheme == DatabaseLiterals.ApplicationThemeBedrock)
             {
                 _bedrockVisibility = true;

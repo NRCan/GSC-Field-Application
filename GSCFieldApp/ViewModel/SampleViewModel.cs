@@ -128,7 +128,29 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
-        public bool IsSampleDuplicate { get { return _isSampleDuplicate; } set { _isSampleDuplicate = value; } }
+        public bool IsSampleDuplicate 
+        { 
+            get 
+            { 
+                return _isSampleDuplicate; 
+            } 
+            set 
+            { 
+                _isSampleDuplicate = value;
+
+                //Initialiaze with a calculated value duplicate name
+                if (_isSampleDuplicate && Model != null && (Model.SampleDuplicateName == null || Model.SampleDuplicateName == string.Empty))
+                {
+                    Model.SampleDuplicateName = Model.SampleName; //Init with current sample name
+                }
+                else if (!_isSampleDuplicate && Model != null && (Model.SampleDuplicateName != string.Empty && Model.SampleDuplicateName == Model.SampleName))
+                {
+                    //If duplicate name hasn't been edited by user but checkbox has been set off, revert to empty string.
+                    Model.SampleDuplicateName = string.Empty;
+                }
+                OnPropertyChanged(nameof(Model));
+            } 
+        }
 
         public ComboBox SampleCorePortion { get { return _sampleCorePortion; } set { _sampleCorePortion = value; } }
         public ComboBox SampleFormat { get { return _sampleFormat; } set { _sampleFormat = value; } }
@@ -325,6 +347,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             #endregion
+
         }
 
         /// <summary>
