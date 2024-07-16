@@ -132,6 +132,10 @@ namespace GSCFieldApp.ViewModel
         public StationViewModel()
         {
             FieldThemes = new FieldThemes();
+
+            //Init alias if new station
+            _ = SetModelAsync();
+
         }
 
         #region RELAYS
@@ -356,7 +360,7 @@ namespace GSCFieldApp.ViewModel
         private async Task SetModelAsync()
         {
             //Make sure it's for a new field book
-            if (Model.StationID == 0 && fieldLocation != null)
+            if (Model != null && Model.StationID == 0 && fieldLocation != null)
             {
                 //Get current application version
                 Model.LocationID = fieldLocation.LocationID;

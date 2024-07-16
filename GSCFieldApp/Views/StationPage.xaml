@@ -26,7 +26,9 @@
 
         <Grid Style="{StaticResource FieldAppFormGrid}">
 
-            <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+            <Label Text="{Binding Model.StationAlias}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+            
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
 
@@ -140,11 +142,11 @@
             </ScrollView>
 
             <!--Custom control to save with options to swipe left or right-->
-            <controls:SaveSwipeItem Grid.Row="1" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldStationColor}" 
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldStationColor}" 
                                     ButtonLightColor="{StaticResource FieldStationColorLight}"
                                     ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
 
-            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="0" Grid.Column="1" >
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
 
 
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 

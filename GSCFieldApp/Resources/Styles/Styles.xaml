@@ -9,7 +9,14 @@
         <Setter Property="FontSize" Value="Title"/>
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="Background" Value="Transparent" />
+        
+    </Style>
 
+    <Style TargetType="Label" x:Key="FieldAppAliasTitle">
+        <Setter Property="FontSize" Value="Title"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="Label" x:Key="FieldAppEntryTitle">
@@ -218,7 +225,11 @@
     </Style>
 
     <Style TargetType="Grid" x:Key="FieldAppFormGrid">
-        <Setter Property="RowDefinitions" Value="*, 80"/>
+        <!--First row is record alias-->
+        <!--Second row is controls of form-->
+        <!--Third row is for save button-->
+        <!--Second column is for child add buttons-->
+        <Setter Property="RowDefinitions" Value="40, *, 80"/>
         <Setter Property="ColumnDefinitions" Value="*, 40"/>
     </Style>
 

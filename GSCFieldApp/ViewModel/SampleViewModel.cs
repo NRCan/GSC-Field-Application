@@ -142,6 +142,9 @@ namespace GSCFieldApp.ViewModel
         {
             //Init new field theme
             FieldThemes = new FieldThemes();
+
+            //Init alias if new sample
+            _ = SetModelAsync();
         }
 
         #region RELAYS
@@ -308,7 +311,7 @@ namespace GSCFieldApp.ViewModel
         private async Task SetModelAsync()
         {
             //Make sure it's for a new field book
-            if (Model.SampleID == 0 && _earthmaterial != null)
+            if (Model != null && Model.SampleID == 0 && _earthmaterial != null)
             {
                 //Get current application version
                 Model.SampleEarthmatID = _earthmaterial.EarthMatID;
@@ -316,7 +319,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             #region Process pickers
-            if (SamplePurposeCollection.Count > 0)
+            if (SamplePurposeCollection != null && SamplePurposeCollection.Count > 0)
             {
                 Model.SamplePurpose = ConcatenatedCombobox.PipeValues(SamplePurposeCollection); //process list of values so they are concatenated.
             }

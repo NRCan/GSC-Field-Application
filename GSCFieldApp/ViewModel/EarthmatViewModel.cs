@@ -396,6 +396,9 @@ namespace GSCFieldApp.ViewModel
             //Init picklists
             _ = FillSearchListAsync();
 
+            //Init alias if new em
+            _ = SetModelAsync();
+
         }
 
         #region RELAY COMMANDS
@@ -982,7 +985,7 @@ namespace GSCFieldApp.ViewModel
         private async Task SetModelAsync()
         {
             //Make sure it's for a new field book
-            if (Model.EarthMatID == 0 && _station != null)
+            if (Model != null && Model.EarthMatID == 0 && _station != null)
             {
                 //Get current application version
                 Model.EarthMatStatID = _station.StationID;
