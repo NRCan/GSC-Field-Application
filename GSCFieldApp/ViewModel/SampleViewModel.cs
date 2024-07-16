@@ -406,6 +406,9 @@ namespace GSCFieldApp.ViewModel
 
                 #endregion
 
+                //Validate paleomag controls visibility
+                ValidateForPaleomagnetism();
+
             }
         }
 
@@ -433,6 +436,55 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// If user has selected sample type of oriented, with paleomagnetism purpose, 
+        /// within a surficial field book. Then enable oriented fields from bedrock
+        /// </summary>
+        public void ValidateForPaleomagnetism(bool forceDeactivate = false)
+        {
+            #region validate paleomagnetism
+
+            //Validate for oriented samples type and paleomagnetism. This should trigger view on Oriented set of inputs
+            if (FieldThemes.SurficialVisibility 
+                && SelectedSamplePurpose.itemValue == DatabaseLiterals.samplePurposePaleomag
+                && Model.SampleType == DatabaseLiterals.sampleTypeOriented)
+            {
+                FieldThemes.BedrockOrientedSampleVisibility = true;
+                OnPropertyChanged(nameof(FieldThemes));
+            }
+            else if (FieldThemes.SurficialVisibility
+                && (SelectedSamplePurpose.itemValue != DatabaseLiterals.samplePurposePaleomag
+                || Model.SampleType != DatabaseLiterals.sampleTypeOriented))
+            {
+                FieldThemes.BedrockOrientedSampleVisibility = false;
+                OnPropertyChanged(nameof(FieldThemes));
+            }
+
+            //Validate within purposes list
+            if (FieldThemes.SurficialVisibility
+                && Model.SampleType == DatabaseLiterals.sampleTypeOriented
+                && SelectedSamplePurpose.itemValue == String.Empty
+                && SamplePurposeCollection.Count > 0)
+            {
+                foreach (Themes.ComboBoxItem cbi in SamplePurposeCollection)
+                {
+                    if (cbi.itemValue.Contains(DatabaseLiterals.samplePurposePaleomag))
+                    {
+                        FieldThemes.BedrockOrientedSampleVisibility = true;
+                        OnPropertyChanged(nameof(FieldThemes));
+                    }
+                }
+            }
+
+            //If needed, force deactivation of the whole header.
+            if (forceDeactivate)
+            {
+                FieldThemes.BedrockOrientedSampleVisibility = true;
+                OnPropertyChanged(nameof(FieldThemes));
+            }
+
+            #endregion
+        }
 
         #endregion
     }

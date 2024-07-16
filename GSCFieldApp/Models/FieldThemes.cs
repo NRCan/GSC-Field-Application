@@ -17,9 +17,11 @@ namespace GSCFieldApp.Models
         //Themes
         private bool _bedrockVisibility = true; //Visibility for extra fields
         private bool _surficialVisibility = true; //Visibility for extra fields
+        private bool _bedrockOrientedSampleVisibility = true; //For surficial samples with paleomag and oriented samples
 
         public bool BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
         public bool SurficialVisibility { get { return _surficialVisibility; } set { _surficialVisibility = value; } }
+        public bool BedrockOrientedSampleVisibility { get { return _bedrockOrientedSampleVisibility; } set { _bedrockOrientedSampleVisibility = value; } }
 
         public FieldThemes() { SetFieldVisibility(); }
 
@@ -32,18 +34,20 @@ namespace GSCFieldApp.Models
             string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), DatabaseLiterals.ApplicationThemeBedrock);
             if (preferedTheme == DatabaseLiterals.ApplicationThemeBedrock)
             {
-                _bedrockVisibility = true;
+                _bedrockVisibility = _bedrockOrientedSampleVisibility = true;
                 _surficialVisibility = false;
+
             }
             else if (preferedTheme == DatabaseLiterals.ApplicationThemeSurficial)
             {
-                _bedrockVisibility = false;
+                _bedrockVisibility = _bedrockOrientedSampleVisibility = false;
                 _surficialVisibility = true;
             }
 
 
             OnPropertyChanged(nameof(BedrockVisibility));
             OnPropertyChanged(nameof(SurficialVisibility));
+            OnPropertyChanged(nameof(BedrockOrientedSampleVisibility));
         }
     }
 }

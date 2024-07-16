@@ -43,7 +43,7 @@
                             <Picker Title="{local:Localize SamplePageType}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding SampleType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
-                                    x:Name="SampleTypePicker"
+                                    x:Name="SampleTypePicker" SelectedIndexChanged="SampleTypePicker_SelectedIndexChanged"
                                     SelectedItem="{Binding Model.SampleType, 
                                         Converter={StaticResource cbox2Str},
                                         ConverterParameter={Binding SampleType, Source={x:Reference SampleTypePicker}},
@@ -51,15 +51,16 @@
                                     SelectedIndex="{Binding SampleType.cboxDefaultItemIndex, Mode=TwoWay}"/>
                             
                             <VerticalStackLayout>
-                                <Picker Title="{local:Localize SamplePagePurpose}" 
-                                    ItemsSource="{Binding SamplePurpose.cboxItems}"
+                                <!--Quirk, selecting surficial paleomag with oriented sample should enable oriented control box from bedrock--> 
+                                <Picker Title="{local:Localize SamplePagePurpose}" x:Name="SamplePagePurposePicker"
+                                    ItemsSource="{Binding SamplePurpose.cboxItems}" SelectedIndexChanged="SamplePagePurposePicker_SelectedIndexChanged"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedSamplePurpose}"
                                     SelectedIndex="{Binding SamplePurpose.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                                 <!--Custom control to concatenate multiple values into one field-->
                                 <controls:ConcatenatedCollection 
                                     ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}" 
-                                    x:Name="SamplePurposeCollectionControl"
+                                    x:Name="SamplePurposeCollectionControl" SizeChanged="SamplePurposeCollectionControl_SizeChanged"
                                     ConcatSource="{Binding SamplePurposeCollection}" />
 
                             </VerticalStackLayout>
@@ -134,7 +135,7 @@
                     </controls:ExpandableFrame>
 
                     <!--Orientation (BEDROCK) -->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockOrientedSampleVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleOrientVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize SamplePageOrientationTitle}">
                         <VerticalStackLayout>

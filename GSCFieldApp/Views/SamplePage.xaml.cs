@@ -40,11 +40,41 @@ public partial class SamplePage : ContentPage
         await vm2.FillPickers();
         await vm2.Load(); //In case it is coming from an existing record in field notes
 
-        ////Overide title 
-        //if (vm2 != null && vm2.Earthmaterial != null && vm2.Earthmaterial.EarthMatName != string.Empty)
-        //{
-        //    this.Title = vm2.Earthmaterial.EarthMatName;
-        //}
     }
 
+    /// <summary>
+    /// Special validation for paleomagnetism
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void SamplePurposeCollectionControl_SizeChanged(object sender, EventArgs e)
+    {
+        //Validate paleomag controls visibility
+        SampleViewModel vm4 = this.BindingContext as SampleViewModel;
+        vm4.ValidateForPaleomagnetism();
+    }
+
+    /// <summary>
+    /// Special validation for paleomagnetism
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void SamplePagePurposePicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        //Validate paleomag controls visibility
+        SampleViewModel vm5 = this.BindingContext as SampleViewModel;
+        vm5.ValidateForPaleomagnetism();
+    }
+
+    /// <summary>
+    /// Special validation for paleomagnetism
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void SampleTypePicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        //Validate paleomag controls visibility
+        SampleViewModel vm6 = this.BindingContext as SampleViewModel;
+        vm6.ValidateForPaleomagnetism();
+    }
 }
