@@ -397,7 +397,7 @@ namespace GSCFieldApp.ViewModel
             _ = FillSearchListAsync();
 
             //Init alias if new em
-            _ = SetModelAsync();
+            _ = InitModel();
 
         }
 
@@ -984,13 +984,8 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task SetModelAsync()
         {
-            //Make sure it's for a new field book
-            if (Model != null && Model.EarthMatID == 0 && _station != null)
-            {
-                //Get current application version
-                Model.EarthMatStatID = _station.StationID;
-                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_station.StationID, _station.StationAlias);
-            }
+            //Make sure it's for a new em
+            _ = InitModel();
 
             #region Process pickers
             if (EarthLithQualifierCollection.Count > 0)
@@ -1229,11 +1224,27 @@ namespace GSCFieldApp.ViewModel
             _station = await stationViewModel.QuickStation(locationID);
 
             //Fill out model and save new record
-            await SetModelAsync();
+            await InitModel();
             Earthmaterial quickEM = await da.SaveItemAsync(Model, false) as Earthmaterial;
 
             return quickEM;
 
+        }
+
+        /// <summary>
+        /// Will initialize the model with needed calculated fields
+        /// </summary>
+        /// <returns></returns>
+        public async Task InitModel()
+        {
+            //Make sure it's for a new field book
+            if (Model != null && Model.EarthMatID == 0 && _station != null)
+            {
+                //Get current application version
+                Model.EarthMatStatID = _station.StationID;
+                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_station.StationID, _station.StationAlias);
+                OnPropertyChanged(nameof(Model));
+            }
         }
 
         #endregion

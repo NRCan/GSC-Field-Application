@@ -134,7 +134,7 @@ namespace GSCFieldApp.ViewModel
             FieldThemes = new FieldThemes();
 
             //Init alias if new station
-            _ = SetModelAsync();
+            _ = InitModel();
 
         }
 
@@ -302,6 +302,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task Load()
         {
+
             if (_station != null && _station.StationAlias != string.Empty)
             {
                 //Set model like actual record
@@ -360,14 +361,7 @@ namespace GSCFieldApp.ViewModel
         private async Task SetModelAsync()
         {
             //Make sure it's for a new field book
-            if (Model != null && Model.StationID == 0 && fieldLocation != null)
-            {
-                //Get current application version
-                Model.LocationID = fieldLocation.LocationID;
-                Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
-                Model.StationVisitDate = CalculateStationDate(); //Calculate new value
-                Model.StationVisitTime = CalculateStationTime(); //Calculate new value
-            }
+            _ = InitModel();
 
             //Process concatenated pickers
             if (StationOutcropQuality.cboxDefaultItemIndex != -1 && QualityCollection != null && StationOutcropQuality.cboxItems.Count > 0)
@@ -376,7 +370,8 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Process Air Photo and Traverse numbers
-            FillAirPhotoTraverseNo(); 
+            FillAirPhotoTraverseNo();
+ 
         }
 
         /// <summary>
@@ -474,10 +469,29 @@ namespace GSCFieldApp.ViewModel
             fieldLocation = fl;
 
             //Fill out model and save new record
-            await SetModelAsync();
+            await InitModel();
             Station quickStation = await da.SaveItemAsync(Model, false) as Station;
 
             return quickStation;
+        }
+
+        /// <summary>
+        /// Will initialize the model with needed calculated fields
+        /// </summary>
+        /// <returns></returns>
+        public async Task InitModel()
+        {
+            if (Model != null && Model.StationID == 0 && fieldLocation != null)
+            {
+                //Get current application version
+                Model.LocationID = fieldLocation.LocationID;
+                Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
+                Model.StationVisitDate = CalculateStationDate(); //Calculate new value
+                Model.StationVisitTime = CalculateStationTime(); //Calculate new value
+
+                OnPropertyChanged(nameof(Model));
+
+            }
         }
 
         #endregion

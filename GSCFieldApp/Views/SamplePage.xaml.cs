@@ -38,6 +38,7 @@ public partial class SamplePage : ContentPage
         //After binding context is setup fill pickers
         SampleViewModel vm2 = this.BindingContext as SampleViewModel;
         await vm2.FillPickers();
+        await vm2.InitModel();
         await vm2.Load(); //In case it is coming from an existing record in field notes
 
     }

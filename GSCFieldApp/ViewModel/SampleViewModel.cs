@@ -166,7 +166,7 @@ namespace GSCFieldApp.ViewModel
             FieldThemes = new FieldThemes();
 
             //Init alias if new sample
-            _ = SetModelAsync();
+            _ = InitModel();
         }
 
         #region RELAYS
@@ -333,12 +333,7 @@ namespace GSCFieldApp.ViewModel
         private async Task SetModelAsync()
         {
             //Make sure it's for a new field book
-            if (Model != null && Model.SampleID == 0 && _earthmaterial != null)
-            {
-                //Get current application version
-                Model.SampleEarthmatID = _earthmaterial.EarthMatID;
-                Model.SampleName = await idCalculator.CalculateSampleAliasAsync(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName);
-            }
+            _ = InitModel();
 
             #region Process pickers
             if (SamplePurposeCollection != null && SamplePurposeCollection.Count > 0)
@@ -383,6 +378,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task Load()
         {
+
             if (_sample != null && _sample.SampleName != string.Empty)
             {
                 //Set model like actual record
@@ -484,6 +480,22 @@ namespace GSCFieldApp.ViewModel
             }
 
             #endregion
+        }
+
+        /// <summary>
+        /// Will initialize the model with needed calculated fields
+        /// </summary>
+        /// <returns></returns>
+        public async Task InitModel()
+        {
+            if (Model != null && Model.SampleID == 0 && _earthmaterial != null)
+            {
+                //Get current application version
+                Model.SampleEarthmatID = _earthmaterial.EarthMatID;
+                Model.SampleName = await idCalculator.CalculateSampleAliasAsync(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName);
+
+                OnPropertyChanged(nameof(Model));
+            }
         }
 
         #endregion
