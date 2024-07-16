@@ -396,9 +396,6 @@ namespace GSCFieldApp.ViewModel
             //Init picklists
             _ = FillSearchListAsync();
 
-            //Init alias if new em
-            _ = InitModel();
-
         }
 
         #region RELAY COMMANDS
@@ -984,8 +981,6 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task SetModelAsync()
         {
-            //Make sure it's for a new em
-            _ = InitModel();
 
             #region Process pickers
             if (EarthLithQualifierCollection.Count > 0)

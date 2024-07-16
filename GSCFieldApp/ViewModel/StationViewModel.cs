@@ -132,10 +132,6 @@ namespace GSCFieldApp.ViewModel
         public StationViewModel()
         {
             FieldThemes = new FieldThemes();
-
-            //Init alias if new station
-            _ = InitModel();
-
         }
 
         #region RELAYS
@@ -360,8 +356,6 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task SetModelAsync()
         {
-            //Make sure it's for a new field book
-            _ = InitModel();
 
             //Process concatenated pickers
             if (StationOutcropQuality.cboxDefaultItemIndex != -1 && QualityCollection != null && StationOutcropQuality.cboxItems.Count > 0)
@@ -440,15 +434,15 @@ namespace GSCFieldApp.ViewModel
                 //Get current application version
                 Model.LocationID = fieldLocation.LocationID;
                 Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
-                Model.StationVisitDate = CalculateStationDate(); //Calculate new value
-                Model.StationVisitTime = CalculateStationTime(); //Calculate new value
+                Model.StationVisitDate = idCalculator.GetDate(); //Calculate new value
+                Model.StationVisitTime = idCalculator.GetTime(); //Calculate new value
             }
             else if (Model.LocationID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
                 Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
-                Model.StationVisitDate = CalculateStationDate(); //Calculate new value
-                Model.StationVisitTime = CalculateStationTime(); //Calculate new value
+                Model.StationVisitDate = idCalculator.GetDate(); //Calculate new value
+                Model.StationVisitTime = idCalculator.GetTime(); //Calculate new value
             }
 
             Model.StationID = 0;
@@ -486,26 +480,12 @@ namespace GSCFieldApp.ViewModel
                 //Get current application version
                 Model.LocationID = fieldLocation.LocationID;
                 Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
-                Model.StationVisitDate = CalculateStationDate(); //Calculate new value
-                Model.StationVisitTime = CalculateStationTime(); //Calculate new value
+                Model.StationVisitDate = idCalculator.GetDate(); //Calculate new value
+                Model.StationVisitTime = idCalculator.GetTime(); //Calculate new value
 
                 OnPropertyChanged(nameof(Model));
 
             }
-        }
-
-        #endregion
-
-        #region CALCULATIONS
-
-        public string CalculateStationDate()
-        {
-            return String.Format("{0:yyyy-MM-dd}", _dateGeneric); ;
-        }
-
-        public string CalculateStationTime()
-        {
-            return String.Format("{0:HH:mm:ss t}", _dateGeneric); ;
         }
 
         #endregion

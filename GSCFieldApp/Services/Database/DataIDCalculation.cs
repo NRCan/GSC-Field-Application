@@ -1072,6 +1072,16 @@ namespace GSCFieldApp.Services.DatabaseServices
             return String.Format("{0:yyyy-MM-dd HH:mm:ss}", dateTime);
         }
 
+        public string GetDate()
+        {
+            return String.Format("{0:yyyy-MM-dd}", DateTime.Now); ;
+        }
+
+        public string GetTime()
+        {
+            return String.Format("{0:HH:mm:ss t}", DateTime.Now); ;
+        }
+
         #endregion
     }
 }

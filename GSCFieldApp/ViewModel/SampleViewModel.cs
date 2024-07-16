@@ -164,9 +164,6 @@ namespace GSCFieldApp.ViewModel
         {
             //Init new field theme
             FieldThemes = new FieldThemes();
-
-            //Init alias if new sample
-            _ = InitModel();
         }
 
         #region RELAYS
@@ -332,8 +329,6 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task SetModelAsync()
         {
-            //Make sure it's for a new field book
-            _ = InitModel();
 
             #region Process pickers
             if (SamplePurposeCollection != null && SamplePurposeCollection.Count > 0)
