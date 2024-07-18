@@ -5,7 +5,7 @@ using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Themes;
 using GSCFieldApp.Views;
 using GSCFieldApp.Services;
-using GSCFieldApp.Dictionaries;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -206,8 +206,12 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"../{nameof(FieldNotesPage)}");
-            //await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(TableNames)] = TableNames.sample,
+                }
+            );
         }
 
         /// <summary>
@@ -250,12 +254,16 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.SampleID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(DatabaseLiterals.TableNames.sample, _model.SampleName, _model.SampleID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.sample, _model.SampleName, _model.SampleID);
             }
 
             //Exit
-            await Shell.Current.GoToAsync($"/{nameof(FieldNotesPage)}/");
-            //await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(TableNames)] = TableNames.sample,
+                }
+            );
 
         }
 
@@ -282,30 +290,30 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
-            _sampleType = await FillAPicker(DatabaseLiterals.FieldSampleType);
-            _samplePurpose = await FillAPicker(DatabaseLiterals.FieldSamplePurpose);
+            _sampleType = await FillAPicker(FieldSampleType);
+            _samplePurpose = await FillAPicker(FieldSamplePurpose);
             OnPropertyChanged(nameof(SampleType));
             OnPropertyChanged(nameof(SamplePurpose));
 
             //Bedrock pickers
-            if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
-                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString().Contains(DatabaseLiterals.ApplicationThemeBedrock))
+            if (Preferences.ContainsKey(nameof(FieldUserInfoFWorkType))
+                && Preferences.Get(nameof(FieldUserInfoFWorkType), "").ToString().Contains(ApplicationThemeBedrock))
             {
-                _sampleCorePortion = await FillAPicker(DatabaseLiterals.FieldSampleCoreSize);
-                _sampleFormat = await FillAPicker(DatabaseLiterals.FieldSampleFormat);
-                _sampleSurface = await FillAPicker(DatabaseLiterals.FieldSampleSurface);
+                _sampleCorePortion = await FillAPicker(FieldSampleCoreSize);
+                _sampleFormat = await FillAPicker(FieldSampleFormat);
+                _sampleSurface = await FillAPicker(FieldSampleSurface);
                 OnPropertyChanged(nameof(SampleCorePortion));
                 OnPropertyChanged(nameof(SampleFormat));
                 OnPropertyChanged(nameof(SampleSurface));
             }
 
             //Surficial pickers
-            if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
-                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString() == DatabaseLiterals.ApplicationThemeSurficial)
+            if (Preferences.ContainsKey(nameof(FieldUserInfoFWorkType))
+                && Preferences.Get(nameof(FieldUserInfoFWorkType), "").ToString() == ApplicationThemeSurficial)
             {
-                _sampleQuality = await FillAPicker(DatabaseLiterals.FieldSampleQuality);
-                _sampleState = await FillAPicker(DatabaseLiterals.FieldSampleState);
-                _sampleHorizon = await FillAPicker(DatabaseLiterals.FieldSampleHorizon);
+                _sampleQuality = await FillAPicker(FieldSampleQuality);
+                _sampleState = await FillAPicker(FieldSampleState);
+                _sampleHorizon = await FillAPicker(FieldSampleHorizon);
                 OnPropertyChanged(nameof(SampleQuality));
                 OnPropertyChanged(nameof(SampleState));
                 OnPropertyChanged(nameof(SampleHorizon));
@@ -319,7 +327,7 @@ namespace GSCFieldApp.ViewModel
         private async Task<ComboBox> FillAPicker(string fieldName)
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableSample, fieldName);
+            return await da.GetComboboxListWithVocabAsync(TableSample, fieldName);
 
         }
 
@@ -411,8 +419,8 @@ namespace GSCFieldApp.ViewModel
         {
             bool shouldShowReminder = false;
 
-            if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
-                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString() == DatabaseLiterals.ApplicationThemeSurficial)
+            if (Preferences.ContainsKey(nameof(FieldUserInfoFWorkType))
+                && Preferences.Get(nameof(FieldUserInfoFWorkType), "").ToString() == ApplicationThemeSurficial)
             {
                 Sample sampleModel = new Sample();
                 int sampleCount = await da.GetTableCount(Model.GetType());
@@ -437,15 +445,15 @@ namespace GSCFieldApp.ViewModel
 
             //Validate for oriented samples type and paleomagnetism. This should trigger view on Oriented set of inputs
             if (FieldThemes.SurficialVisibility 
-                && SelectedSamplePurpose.itemValue == DatabaseLiterals.samplePurposePaleomag
-                && Model.SampleType == DatabaseLiterals.sampleTypeOriented)
+                && SelectedSamplePurpose.itemValue == samplePurposePaleomag
+                && Model.SampleType == sampleTypeOriented)
             {
                 FieldThemes.BedrockOrientedSampleVisibility = true;
                 OnPropertyChanged(nameof(FieldThemes));
             }
             else if (FieldThemes.SurficialVisibility
-                && (SelectedSamplePurpose.itemValue != DatabaseLiterals.samplePurposePaleomag
-                || Model.SampleType != DatabaseLiterals.sampleTypeOriented))
+                && (SelectedSamplePurpose.itemValue != samplePurposePaleomag
+                || Model.SampleType != sampleTypeOriented))
             {
                 FieldThemes.BedrockOrientedSampleVisibility = false;
                 OnPropertyChanged(nameof(FieldThemes));
@@ -453,13 +461,13 @@ namespace GSCFieldApp.ViewModel
 
             //Validate within purposes list
             if (FieldThemes.SurficialVisibility
-                && Model.SampleType == DatabaseLiterals.sampleTypeOriented
+                && Model.SampleType == sampleTypeOriented
                 && SelectedSamplePurpose.itemValue == String.Empty
                 && SamplePurposeCollection.Count > 0)
             {
                 foreach (Themes.ComboBoxItem cbi in SamplePurposeCollection)
                 {
-                    if (cbi.itemValue.Contains(DatabaseLiterals.samplePurposePaleomag))
+                    if (cbi.itemValue.Contains(samplePurposePaleomag))
                     {
                         FieldThemes.BedrockOrientedSampleVisibility = true;
                         OnPropertyChanged(nameof(FieldThemes));

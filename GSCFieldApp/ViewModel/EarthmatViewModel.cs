@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using GSCFieldApp.Themes;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -47,7 +47,7 @@ namespace GSCFieldApp.ViewModel
         public DataIDCalculation idCalculator = new DataIDCalculation();
         ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
 
-        private string currentProjectType = DatabaseLiterals.ApplicationThemeBedrock; //default in case failing
+        private string currentProjectType = ApplicationThemeBedrock; //default in case failing
 
         //UI
         private bool _isLithoGroupListVisible = false;
@@ -438,7 +438,12 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"../{nameof(FieldNotesPage)}");
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
+                new Dictionary<string, object>
+                {
+                    ["UpdateTable"] = TableNames.earthmat,
+                }
+            );
             //await Shell.Current.GoToAsync("../");
         }
 
@@ -482,12 +487,16 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.EarthMatID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(DatabaseLiterals.TableNames.em, _model.EarthMatName, _model.EarthMatID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.earthmat, _model.EarthMatName, _model.EarthMatID);
             }
 
             //Exit
-            await Shell.Current.GoToAsync($"/{nameof(FieldNotesPage)}/");
-            //await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(TableNames)] = TableNames.earthmat,
+                }
+            );
 
         }
 
@@ -670,7 +679,7 @@ namespace GSCFieldApp.ViewModel
         private async Task FillLithoSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeField == DatabaseLiterals.FieldEarthMatLithdetail) && (theme.ThemeProjectType.Contains(in_projectType))) .ToListAsync();
+            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeField == FieldEarthMatLithdetail) && (theme.ThemeProjectType.Contains(in_projectType))) .ToListAsync();
             _litho_detail_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeName orderby v.Code select v;
 
             var _lihthoSearchResults = new List<string>();
@@ -704,7 +713,7 @@ namespace GSCFieldApp.ViewModel
         private async Task FillLithoGroupSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeField == DatabaseLiterals.FieldEarthMatLithgroup) && (theme.ThemeProjectType.Contains(in_projectType))).ToListAsync();
+            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeField == FieldEarthMatLithgroup) && (theme.ThemeProjectType.Contains(in_projectType))).ToListAsync();
             _litho_group_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeName orderby v.Code select v;
 
             var _lihthoSearchResults = new List<string>();
@@ -737,8 +746,8 @@ namespace GSCFieldApp.ViewModel
             currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
             //Prepare vocabulary
-            List<Vocabularies> vocab = await currentConnection.Table<Vocabularies>().Where(vis => vis.Visibility == DatabaseLiterals.boolYes).ToListAsync();
-            currentProjectType = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), currentProjectType);
+            List<Vocabularies> vocab = await currentConnection.Table<Vocabularies>().Where(vis => vis.Visibility == boolYes).ToListAsync();
+            currentProjectType = Preferences.Get(nameof(FieldUserInfoFWorkType), currentProjectType);
 
             await FillLithoGroupSearchListAsync(vocab, currentProjectType);
 
@@ -832,16 +841,16 @@ namespace GSCFieldApp.ViewModel
         public async Task FillPickers()
         {
             //Bedrock pickers
-            if (currentProjectType.Contains(DatabaseLiterals.ApplicationThemeBedrock))
+            if (currentProjectType.Contains(ApplicationThemeBedrock))
             {
-                _earthLithBedThick = await FillAPicker(DatabaseLiterals.FieldEarthMatBedthick, "");
-                _earthLithDefFab = await FillAPicker(DatabaseLiterals.FieldEarthMatDefabric, "");
-                _earthLithMetaFacies = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaFacies);
-                _earthLithMetaInt = await FillAPicker(DatabaseLiterals.FieldEarthMatMetaIntensity);
-                _earthLithMagQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatMagQualifier);
-                _earthLithContactUpper = await FillAPicker(DatabaseLiterals.FieldEarthMatContactUp);
-                _earthLithContactLower = await FillAPicker(DatabaseLiterals.FieldEarthMatContactLow);
-                _earthLithContactType = await FillAPicker(DatabaseLiterals.FieldEarthMatContactUp);
+                _earthLithBedThick = await FillAPicker(FieldEarthMatBedthick, "");
+                _earthLithDefFab = await FillAPicker(FieldEarthMatDefabric, "");
+                _earthLithMetaFacies = await FillAPicker(FieldEarthMatMetaFacies);
+                _earthLithMetaInt = await FillAPicker(FieldEarthMatMetaIntensity);
+                _earthLithMagQualifier = await FillAPicker(FieldEarthMatMagQualifier);
+                _earthLithContactUpper = await FillAPicker(FieldEarthMatContactUp);
+                _earthLithContactLower = await FillAPicker(FieldEarthMatContactLow);
+                _earthLithContactType = await FillAPicker(FieldEarthMatContactUp);
 
                 OnPropertyChanged(nameof(EarthLithBedThick));
                 OnPropertyChanged(nameof(EarthLithDefFab));
@@ -857,13 +866,13 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(EarthLithContactRelatedAlias));
 
             }
-            else if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
+            else if (currentProjectType == ApplicationThemeSurficial)
             {
-                _earthLithSorting = await FillAPicker(DatabaseLiterals.FieldEarthMatSorting, "");
-                _earthLithWater = await FillAPicker(DatabaseLiterals.FieldEarthMatH2O, "");
-                _earthLithOxidation = await FillAPicker(DatabaseLiterals.FieldEarthMatOxidation, "");
-                _earthLithClast = await FillAPicker(DatabaseLiterals.FieldEarthMatClastForm, "");
-                _earthLithDetail = await FillAPicker(DatabaseLiterals.FieldEarthMatLithdetail);
+                _earthLithSorting = await FillAPicker(FieldEarthMatSorting, "");
+                _earthLithWater = await FillAPicker(FieldEarthMatH2O, "");
+                _earthLithOxidation = await FillAPicker(FieldEarthMatOxidation, "");
+                _earthLithClast = await FillAPicker(FieldEarthMatClastForm, "");
+                _earthLithDetail = await FillAPicker(FieldEarthMatLithdetail);
                 OnPropertyChanged(nameof(EarthLithSorting));
                 OnPropertyChanged(nameof(EarthLithWater));
                 OnPropertyChanged(nameof(EarthLithOxidation));
@@ -871,17 +880,17 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(EarthLithDetail));
 
                 //There is one picker that needs a parent in bedrock, but doesn't in surficial
-                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
+                _earthLithTextureStruct = await FillAPicker(FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
 
             }
 
-            _earthLithoGroup = await FillAPicker(DatabaseLiterals.FieldEarthMatLithgroup);
-            _earthLithMapUnit = await FillAPicker(DatabaseLiterals.FieldEarthMatMapunit, "");
-            _earthLithConfidence = await FillAPicker(DatabaseLiterals.FieldEarthMatInterpConf);
-            _earthLithColourGeneric = await FillAPicker(DatabaseLiterals.KeywordColourGeneric);
-            _earthLithColourIntensity = await FillAPicker(DatabaseLiterals.KeywordColourIntensity);
-            _earthLithColourQualifier = await FillAPicker(DatabaseLiterals.KeywordColourQualifier);
+            _earthLithoGroup = await FillAPicker(FieldEarthMatLithgroup);
+            _earthLithMapUnit = await FillAPicker(FieldEarthMatMapunit, "");
+            _earthLithConfidence = await FillAPicker(FieldEarthMatInterpConf);
+            _earthLithColourGeneric = await FillAPicker(KeywordColourGeneric);
+            _earthLithColourIntensity = await FillAPicker(KeywordColourIntensity);
+            _earthLithColourQualifier = await FillAPicker(KeywordColourQualifier);
 
 
             OnPropertyChanged(nameof(EarthLithoGroup));
@@ -901,12 +910,12 @@ namespace GSCFieldApp.ViewModel
         public async Task Fill2ndRoundPickers()
         {
             //second round pickers
-            if (_model.GroupType != string.Empty && currentProjectType.Contains(DatabaseLiterals.ApplicationThemeBedrock))
+            if (_model.GroupType != string.Empty && currentProjectType.Contains(ApplicationThemeBedrock))
             {
-                _earthLithQualifier = await FillAPicker(DatabaseLiterals.FieldEarthMatModComp, _model.EarthMatLithgroup);
-                _earthLithOccurAs = await FillAPicker(DatabaseLiterals.FieldEarthMatOccurs, _model.EarthMatLithgroup);
-                _earthLithTextureStruct = await FillAPicker(DatabaseLiterals.FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
-                _earthLithGrainSize = await FillAPicker(DatabaseLiterals.FieldEarthMatGrSize, _model.EarthMatLithgroup);
+                _earthLithQualifier = await FillAPicker(FieldEarthMatModComp, _model.EarthMatLithgroup);
+                _earthLithOccurAs = await FillAPicker(FieldEarthMatOccurs, _model.EarthMatLithgroup);
+                _earthLithTextureStruct = await FillAPicker(FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
+                _earthLithGrainSize = await FillAPicker(FieldEarthMatGrSize, _model.EarthMatLithgroup);
                 OnPropertyChanged(nameof(EarthLithQualifier));
                 OnPropertyChanged(nameof(EarthLithOccurAs));
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
@@ -921,7 +930,7 @@ namespace GSCFieldApp.ViewModel
         private async Task<ComboBox> FillAPicker(string fieldName, string extraField = "")
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableEarthMat, fieldName, extraField);
+            return await da.GetComboboxListWithVocabAsync(TableEarthMat, fieldName, extraField);
 
         }
 
@@ -939,7 +948,7 @@ namespace GSCFieldApp.ViewModel
                 List<Earthmaterial> ems = new List<Earthmaterial>();
                 if (_earthmaterial != null)
                 {
-                    if (_earthmaterial.ParentName == Dictionaries.DatabaseLiterals.TableStation)
+                    if (_earthmaterial.ParentName == TableStation)
                     {
                         ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == Earthmaterial.EarthMatStatID || i.EarthMatID <= 1) && (i.EarthMatID != _earthmaterial.EarthMatID)).ToListAsync();
                     }
@@ -1118,7 +1127,7 @@ namespace GSCFieldApp.ViewModel
 
                 #endregion
 
-                if (currentProjectType == DatabaseLiterals.ApplicationThemeSurficial)
+                if (currentProjectType == ApplicationThemeSurficial)
                 {
                     List<string> textStrucs = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatModTextStruc);
                     _textStructCollection.Clear(); //Clear any possible values first
@@ -1260,7 +1269,7 @@ namespace GSCFieldApp.ViewModel
                 List<Earthmaterial> ems = new List<Earthmaterial>();
                 if (_earthmaterial != null)
                 {
-                    if (_earthmaterial.ParentName == Dictionaries.DatabaseLiterals.TableStation)
+                    if (_earthmaterial.ParentName == TableStation)
                     {
                         ems = await currentConnection.Table<Earthmaterial>().Where(i => (i.EarthMatStatID == Earthmaterial.EarthMatStatID || i.EarthMatID <= 1) && (i.EarthMatID != _earthmaterial.EarthMatID)).ToListAsync();
                     }

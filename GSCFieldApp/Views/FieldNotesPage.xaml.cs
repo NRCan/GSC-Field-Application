@@ -17,8 +17,32 @@ public partial class FieldNotesPage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-        FieldNotesViewModel vmi = (FieldNotesViewModel)BindingContext;
-        vmi.UpdateRecordList();
+        var stack = Application.Current.MainPage.Navigation.NavigationStack;
+        int countStack = Application.Current.MainPage.Navigation.NavigationStack.Count;
+
+        if (countStack > 1)
+        {
+            Page lastPage = stack[countStack - 2];
+            if (lastPage != null)
+            {
+                FieldNotesViewModel vmi = (FieldNotesViewModel)BindingContext;
+                if (lastPage.GetType() == typeof(EarthmatPage))
+                {
+                    vmi.UpdateTable = Dictionaries.DatabaseLiterals.TableNames.earthmat;
+                }
+                else if (lastPage.GetType() == typeof(SamplePage))
+                {
+                    vmi.UpdateTable = Dictionaries.DatabaseLiterals.TableNames.sample;
+                }
+                else if (lastPage.GetType() == typeof(StationPage))
+                {
+                    vmi.UpdateTable = Dictionaries.DatabaseLiterals.TableNames.station;
+                }
+                vmi.UpdateRecordList();
+            }
+
+        }
+
     }
 
 }

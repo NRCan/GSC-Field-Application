@@ -1,16 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Views;
 using SQLite;
 using System.Collections.ObjectModel;
+using System.Xml.Linq;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.ViewModel
 {
-    [QueryProperty(nameof(Station), nameof(Station))]
+    [QueryProperty(nameof(TableNames), nameof(TableNames))]
     public partial class FieldNotesViewModel : ObservableObject
     {
         //Localization
@@ -21,16 +22,30 @@ namespace GSCFieldApp.ViewModel
         DataAccess da = new DataAccess();
 
         //Database schema
-        private enum Tables { station, em, sample } //Will be used as dictionary key or other
+
 
         //Records
-        private Dictionary<Tables, ObservableCollection<FieldNote>> FieldNotes = new Dictionary<Tables, ObservableCollection<FieldNote>>(); //Used to populate records in each headers
-        private Dictionary<Tables, ObservableCollection<FieldNote>> FieldNotesAll = new Dictionary<Tables, ObservableCollection<FieldNote>>(); //Safe variable for refiltering datasets
+        private Dictionary<TableNames, ObservableCollection<FieldNote>> FieldNotes = new Dictionary<TableNames, ObservableCollection<FieldNote>>(); //Used to populate records in each headers
+        private Dictionary<TableNames, ObservableCollection<FieldNote>> FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(); //Safe variable for refiltering datasets
 
         #region PROPERTIES
 
         [ObservableProperty]
-        private Station _station;
+
+        private TableNames _tableNames;
+        public TableNames UpdateTable
+        {
+            get => _tableNames;
+            set
+            {
+                if (!EqualityComparer<TableNames>.Default.Equals(_tableNames, value))
+                {
+                    TableNames oldValue = _tableNames;
+                    _tableNames = value;
+                    OnPropertyChanged(nameof(UpdateTable));
+                }
+            }
+        }
 
         private bool _isStationVisible = true;
         public bool IsStationVisible 
@@ -59,9 +74,9 @@ namespace GSCFieldApp.ViewModel
 
             get
             {
-                if (FieldNotes.ContainsKey(Tables.em))
+                if (FieldNotes.ContainsKey(TableNames.earthmat))
                 {
-                    return _earthmats = FieldNotes[Tables.em];
+                    return _earthmats = FieldNotes[TableNames.earthmat];
                 }
                 else
                 {
@@ -78,9 +93,9 @@ namespace GSCFieldApp.ViewModel
 
             get
             {
-                if (FieldNotes.ContainsKey(Tables.sample))
+                if (FieldNotes.ContainsKey(TableNames.sample))
                 {
-                    return _samples = FieldNotes[Tables.sample];
+                    return _samples = FieldNotes[TableNames.sample];
                 }
                 else
                 {
@@ -96,9 +111,9 @@ namespace GSCFieldApp.ViewModel
         {
             get
             {
-                if (FieldNotes.ContainsKey(Tables.station))
+                if (FieldNotes.ContainsKey(TableNames.station))
                 {
-                    return _stations = FieldNotes[Tables.station] ;
+                    return _stations = FieldNotes[TableNames.station] ;
                 }
                 else
                 {
@@ -121,9 +136,9 @@ namespace GSCFieldApp.ViewModel
         public FieldNotesViewModel()
         {
             //Init notes
-            FieldNotes.Add(Tables.station, new ObservableCollection<FieldNote>());
-            FieldNotes.Add(Tables.em, new ObservableCollection<FieldNote>());
-            FieldNotes.Add(Tables.sample, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.station, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.earthmat, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.sample, new ObservableCollection<FieldNote>());
             _dates = new ObservableCollection<string>();
 
             //Init all records
@@ -153,27 +168,27 @@ namespace GSCFieldApp.ViewModel
             //Important note, tapping the header of dates will refill ALL records, kind of a refresh
             if (inComingName != null && inComingName != string.Empty)
             {
-                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordStation))
+                if (inComingName.ToLower().Contains(KeywordStation))
                 {
                     IsStationVisible = !IsStationVisible; 
                     OnPropertyChanged(nameof(IsStationVisible));
                 }
 
-                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordEarthmat))
+                if (inComingName.ToLower().Contains(KeywordEarthmat))
                 {
                     IsEarthMatVisible = !IsEarthMatVisible;
                     OnPropertyChanged(nameof(IsEarthMatVisible));
                 }
 
-                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordSample))
+                if (inComingName.ToLower().Contains(KeywordSample))
                 {
                     IsSampleVisible = !IsSampleVisible;
                     OnPropertyChanged(nameof(IsSampleVisible));
                 }
 
-                if (inComingName.ToLower().Contains(DatabaseLiterals.KeywordDates))
+                if (inComingName.ToLower().Contains(KeywordDates))
                 {
-                    foreach (KeyValuePair<Tables, ObservableCollection<FieldNote>> item in FieldNotesAll)
+                    foreach (KeyValuePair<TableNames, ObservableCollection<FieldNote>> item in FieldNotesAll)
                     {
                         FieldNotes[item.Key] = item.Value;
                     }
@@ -198,7 +213,7 @@ namespace GSCFieldApp.ViewModel
             SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
             //Get desire form on screen from tapped table name
-            if (fieldNotes.GenericTableName == DatabaseLiterals.TableStation)
+            if (fieldNotes.GenericTableName == TableStation)
             {
                 List<Station> tappedStation = await currentConnection.Table<Station>().Where(i => i.StationID == fieldNotes.GenericID).ToListAsync();
 
@@ -218,7 +233,7 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
-            if (fieldNotes.GenericTableName == DatabaseLiterals.TableEarthMat)
+            if (fieldNotes.GenericTableName == TableEarthMat)
             {
                 List<Earthmaterial> tappedEM = await currentConnection.Table<Earthmaterial>().Where(i => i.EarthMatID == fieldNotes.GenericID).ToListAsync();
 
@@ -237,7 +252,7 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
-            if (fieldNotes.GenericTableName == DatabaseLiterals.TableSample)
+            if (fieldNotes.GenericTableName == TableSample)
             {
                 List<Sample> tappedSample = await currentConnection.Table<Sample>().Where(i => i.SampleID == fieldNotes.GenericID).ToListAsync();
 
@@ -282,7 +297,7 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(Dates));
 
                 //Make a copy in case user wants to refilter values
-                FieldNotesAll = new Dictionary<Tables, ObservableCollection<FieldNote>>(FieldNotes);
+                FieldNotesAll = new Dictionary<TableNames, ObservableCollection<FieldNote>>(FieldNotes);
 
                 //Filter out latest date
                 //TODO uncomment if really needed
@@ -306,11 +321,11 @@ namespace GSCFieldApp.ViewModel
             //Clear whatever was in there first.
             _dates.Clear();
 
-            //Get all dates from key tables
+            //Get all dates from key TableNames
             List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1} order by {0} desc", 
-                DatabaseLiterals.FieldStationVisitDate, DatabaseLiterals.TableStation));
+                FieldStationVisitDate, TableStation));
             List<DrillHole> drills = await inConnection.QueryAsync<DrillHole>(string.Format("select distinct({0}) from {1} order by {0} desc",
-                DatabaseLiterals.FieldDrillRelogDate, DatabaseLiterals.TableDrillHoles));
+                FieldDrillRelogDate, TableDrillHoles));
 
             //Get all dates from database
             if (stats != null && stats.Count > 0)
@@ -363,14 +378,14 @@ namespace GSCFieldApp.ViewModel
         public async Task FillStationNotes(SQLiteAsyncConnection inConnection)
         {
             //Init a station group
-            if (!FieldNotes.ContainsKey(Tables.station))
+            if (!FieldNotes.ContainsKey(TableNames.station))
             {
-                FieldNotes.Add(Tables.station, new ObservableCollection<FieldNote>());
+                FieldNotes.Add(TableNames.station, new ObservableCollection<FieldNote>());
             }
             else 
             {
                 //Clear whatever was in there first.
-                FieldNotes[Tables.station].Clear();
+                FieldNotes[TableNames.station].Clear();
                 OnPropertyChanged(nameof(FieldNotes));
 
             }
@@ -383,12 +398,12 @@ namespace GSCFieldApp.ViewModel
                 
                 foreach (Station st in stations)
                 {
-                    FieldNotes[Tables.station].Add(new FieldNote
+                    FieldNotes[TableNames.station].Add(new FieldNote
                     {
                         Display_text_1 = st.StationAliasLight,
                         Display_text_2 = st.StationObsType,
                         Display_text_3 = st.StationNote,
-                        GenericTableName = DatabaseLiterals.TableStation,
+                        GenericTableName = TableStation,
                         GenericID = st.StationID,
                         ParentID = st.LocationID,
                         Date = st.StationVisitDate,
@@ -410,14 +425,14 @@ namespace GSCFieldApp.ViewModel
         public async Task FillEMNotes(SQLiteAsyncConnection inConnection)
         {
             //Init a station group
-            if (!FieldNotes.ContainsKey(Tables.em))
+            if (!FieldNotes.ContainsKey(TableNames.earthmat))
             {
-                FieldNotes.Add(Tables.em, new ObservableCollection<FieldNote>());
+                FieldNotes.Add(TableNames.earthmat, new ObservableCollection<FieldNote>());
             }
             else
             {
                 //Clear whatever was in there first.
-                FieldNotes[Tables.em].Clear();
+                FieldNotes[TableNames.earthmat].Clear();
                 OnPropertyChanged(nameof(FieldNotes));
             }
 
@@ -438,13 +453,13 @@ namespace GSCFieldApp.ViewModel
                     {
                         parentID = (int)st.EarthMatDrillHoleID;
                     }
-                    FieldNotes[Tables.em].Add(new FieldNote
+                    FieldNotes[TableNames.earthmat].Add(new FieldNote
                     {
                         
                         Display_text_1 = st.EarthmatAliasLight,
                         Display_text_2 = st.EarthMatLithdetail,
                         Display_text_3 = st.EarthMatLithgroup,
-                        GenericTableName = DatabaseLiterals.TableEarthMat,
+                        GenericTableName = TableEarthMat,
                         GenericID = st.EarthMatID,
                         ParentID = parentID,
                         isValid = st.isValid
@@ -465,14 +480,14 @@ namespace GSCFieldApp.ViewModel
         public async Task FillSampleNotes(SQLiteAsyncConnection inConnection)
         {
             //Init a station group
-            if (!FieldNotes.ContainsKey(Tables.sample))
+            if (!FieldNotes.ContainsKey(TableNames.sample))
             {
-                FieldNotes.Add(Tables.sample, new ObservableCollection<FieldNote>());
+                FieldNotes.Add(TableNames.sample, new ObservableCollection<FieldNote>());
             }
             else
             {
                 //Clear whatever was in there first.
-                FieldNotes[Tables.sample].Clear();
+                FieldNotes[TableNames.sample].Clear();
                 OnPropertyChanged(nameof(FieldNotes));
 
             }
@@ -485,12 +500,12 @@ namespace GSCFieldApp.ViewModel
 
                 foreach (Sample st in samples)
                 {
-                    FieldNotes[Tables.sample].Add(new FieldNote
+                    FieldNotes[TableNames.sample].Add(new FieldNote
                     {
                         Display_text_1 = st.SampleAliasLight,
                         Display_text_2 = st.SampleType,
                         Display_text_3 = st.SamplePurpose,
-                        GenericTableName = DatabaseLiterals.TableSample,
+                        GenericTableName = TableSample,
                         GenericID = st.SampleID,
                         ParentID = st.SampleEarthmatID,
                         isValid = st.isValid
@@ -514,20 +529,20 @@ namespace GSCFieldApp.ViewModel
             if (inDate != string.Empty)
             {
                 //Start with station
-                if (FieldNotesAll.ContainsKey(Tables.station))
+                if (FieldNotesAll.ContainsKey(TableNames.station))
                 {
-                    FieldNotes[Tables.station] = new ObservableCollection<FieldNote>(FieldNotesAll[Tables.station].Where(x => x.Date == inDate).ToList());
+                    FieldNotes[TableNames.station] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.station].Where(x => x.Date == inDate).ToList());
                     OnPropertyChanged(nameof(Stations));
                     //Children
-                    if (FieldNotesAll.ContainsKey(Tables.em))
+                    if (FieldNotesAll.ContainsKey(TableNames.earthmat))
                     {
                         List<int> stationIds = new List<int>();
-                        foreach (FieldNote sids in FieldNotes[Tables.station])
+                        foreach (FieldNote sids in FieldNotes[TableNames.station])
                         {
                             stationIds.Add(sids.GenericID);
                         }
 
-                        FieldNotes[Tables.em] = new ObservableCollection<FieldNote>(FieldNotesAll[Tables.em].Where(x => stationIds.Contains(x.ParentID)).ToList());
+                        FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).ToList());
                         OnPropertyChanged(nameof(EarthMats));
                     }
                 }
@@ -535,14 +550,58 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will refresh a desire table in the field notes
+        /// This should be triggered when user is coming from a form, either
+        /// adding items or editing them
+        /// </summary>
         public async void UpdateRecordList()
         {
-            if (Station != null)
+            //Detect if 
+            if (_tableNames != TableNames.meta)
             {
                 SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-                FillStationNotes(currentConnection);
-                currentConnection.CloseAsync();
+                
+                switch (_tableNames)
+                {
+                    case TableNames.meta:
+                        break;
+                    case TableNames.location:
+                        break;
+                    case TableNames.station:
+                        await FillStationNotes(currentConnection);
+                        break;
+                    case TableNames.earthmat:
+                        await FillEMNotes(currentConnection);
+                        break;
+                    case TableNames.sample:
+                        await FillSampleNotes(currentConnection);
+                        break;
+                    case TableNames.mineralization:
+                        break;
+                    case TableNames.mineral:
+                        break;
+                    case TableNames.document:
+                        break;
+                    case TableNames.structure:
+                        break;
+                    case TableNames.fossil:
+                        break;
+                    case TableNames.environment:
+                        break;
+                    case TableNames.pflow:
+                        break;
+                    case TableNames.drill:
+                        break;
+                    default:
+                        await FillStationNotes(currentConnection);
+                        break;
+                }
+
+                await currentConnection.CloseAsync();
+                //UpdatableTables = TableNames.meta; 
             }
+
         }
 
         #endregion

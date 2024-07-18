@@ -55,14 +55,14 @@ namespace GSCFieldApp.Services
                         flToDelete.LocationID = itemID;
                         numberOfRecordsDelete = await da.DeleteItemAsync(flToDelete);
                         break;
-                    case DatabaseLiterals.TableNames.em:
+                    case DatabaseLiterals.TableNames.earthmat:
                         Earthmaterial emToDelete = new Earthmaterial();
                         emToDelete.EarthMatID = itemID;
                         numberOfRecordsDelete = await da.DeleteItemAsync(emToDelete);
                         break;
                     case DatabaseLiterals.TableNames.sample:
                         break;
-                    case DatabaseLiterals.TableNames.ma:
+                    case DatabaseLiterals.TableNames.mineralization:
                         break;
                     case DatabaseLiterals.TableNames.mineral:
                         break;

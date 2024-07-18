@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using GSCFieldApp.Themes;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -201,12 +201,10 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            //await Shell.Current.GoToAsync($"{nameof(MapPage)}/");
-            //await Shell.Current.GoToAsync("../");
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
-                    [nameof(Station)] = Model,
+                    [nameof(TableNames)] = TableNames.station,
                 }
             );
 
@@ -256,11 +254,16 @@ namespace GSCFieldApp.ViewModel
         {
             if (_station != null && _station.StationID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(DatabaseLiterals.TableNames.station, _station.StationAlias, _station.LocationID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID);
             }
 
             //Exit
-            await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(TableNames)] = TableNames.station,
+                }
+            );
 
         }
 
@@ -330,16 +333,16 @@ namespace GSCFieldApp.ViewModel
         public async Task FillPickers()
         {
             //Bedrock pickers
-            if (Preferences.ContainsKey(nameof(DatabaseLiterals.FieldUserInfoFWorkType))
-                && Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), "").ToString().Contains(DatabaseLiterals.ApplicationThemeBedrock))
+            if (Preferences.ContainsKey(nameof(FieldUserInfoFWorkType))
+                && Preferences.Get(nameof(FieldUserInfoFWorkType), "").ToString().Contains(ApplicationThemeBedrock))
             {
-                _stationOutcropQuality = await FillAPicker(DatabaseLiterals.FieldStationOCQuality);
+                _stationOutcropQuality = await FillAPicker(FieldStationOCQuality);
                 OnPropertyChanged(nameof(StationOutcropQuality));
             }
 
-            _stationType = await FillAPicker(DatabaseLiterals.FieldStationObsType);
-            _stationSource = await FillAPicker(DatabaseLiterals.FieldStationObsSource);
-            _stationPhysEnv = await FillAPicker(DatabaseLiterals.FieldStationPhysEnv);
+            _stationType = await FillAPicker(FieldStationObsType);
+            _stationSource = await FillAPicker(FieldStationObsSource);
+            _stationPhysEnv = await FillAPicker(FieldStationPhysEnv);
 
             OnPropertyChanged(nameof(StationType));
             OnPropertyChanged(nameof(StationSource));
@@ -353,7 +356,7 @@ namespace GSCFieldApp.ViewModel
         private async Task<ComboBox> FillAPicker(string fieldName)
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            return await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableStation, fieldName);
+            return await da.GetComboboxListWithVocabAsync(TableStation, fieldName);
 
         }
 
@@ -381,10 +384,10 @@ namespace GSCFieldApp.ViewModel
         private void FillAirPhotoTraverseNo()
         {
             ////Special case for air photo and traverse numbers, get the last numbers
-            //string tableName = Dictionaries.DatabaseLiterals.TableStation;
+            //string tableName = Dictionaries.TableStation;
             //string querySelectFrom = "SELECT * FROM " + tableName;
-            //string queryOrder1 = " ORDER BY " + tableName + "." + Dictionaries.DatabaseLiterals.FieldStationVisitDate + " DESC";
-            //string queryOrder2 = ", " + tableName + "." + Dictionaries.DatabaseLiterals.FieldStationVisitTime + " DESC";
+            //string queryOrder1 = " ORDER BY " + tableName + "." + Dictionaries.FieldStationVisitDate + " DESC";
+            //string queryOrder2 = ", " + tableName + "." + Dictionaries.FieldStationVisitTime + " DESC";
             //string queryLimit = " LIMIT 1";
             //string finaleQuery = querySelectFrom + queryOrder1 + queryOrder2 + queryLimit;
 
