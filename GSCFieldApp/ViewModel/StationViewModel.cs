@@ -202,7 +202,13 @@ namespace GSCFieldApp.ViewModel
 
             //Exit
             //await Shell.Current.GoToAsync($"{nameof(MapPage)}/");
-            await Shell.Current.GoToAsync("../");
+            //await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Station)] = Model,
+                }
+            );
 
         }
 

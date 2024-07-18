@@ -18,7 +18,7 @@ public partial class FieldNotesPage : ContentPage
         base.OnNavigatedTo(args);
 
         FieldNotesViewModel vmi = (FieldNotesViewModel)BindingContext;
-        _ = vmi.FillFieldNotesAsync();
+        vmi.UpdateRecordList();
     }
 
 }

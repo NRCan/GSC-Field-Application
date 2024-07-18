@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace GSCFieldApp.ViewModel
 {
+    [QueryProperty(nameof(Station), nameof(Station))]
     public partial class FieldNotesViewModel : ObservableObject
     {
         //Localization
@@ -27,6 +28,9 @@ namespace GSCFieldApp.ViewModel
         private Dictionary<Tables, ObservableCollection<FieldNote>> FieldNotesAll = new Dictionary<Tables, ObservableCollection<FieldNote>>(); //Safe variable for refiltering datasets
 
         #region PROPERTIES
+
+        [ObservableProperty]
+        private Station _station;
 
         private bool _isStationVisible = true;
         public bool IsStationVisible 
@@ -122,6 +126,8 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(Tables.sample, new ObservableCollection<FieldNote>());
             _dates = new ObservableCollection<string>();
 
+            //Init all records
+            _ =  FillFieldNotesAsync();
         }
 
         #region RELAY
@@ -527,6 +533,16 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
+        }
+
+        public async void UpdateRecordList()
+        {
+            if (Station != null)
+            {
+                SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
+                FillStationNotes(currentConnection);
+                currentConnection.CloseAsync();
+            }
         }
 
         #endregion
