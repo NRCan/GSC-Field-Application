@@ -204,7 +204,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
-                    [nameof(TableNames)] = TableNames.station,
+                    ["UpdateTable"] = TableNames.station,
                 }
             );
 
@@ -261,7 +261,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
-                    [nameof(TableNames)] = TableNames.station,
+                    ["UpdateTable"] = TableNames.station,
                 }
             );
 

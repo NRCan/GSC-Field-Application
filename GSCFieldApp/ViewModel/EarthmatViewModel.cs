@@ -494,7 +494,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
-                    [nameof(TableNames)] = TableNames.earthmat,
+                    ["UpdateTable"] = TableNames.earthmat,
                 }
             );
 

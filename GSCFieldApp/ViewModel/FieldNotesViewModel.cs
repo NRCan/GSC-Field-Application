@@ -6,12 +6,13 @@ using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Views;
 using SQLite;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Xml.Linq;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.ViewModel
 {
-    [QueryProperty(nameof(TableNames), nameof(TableNames))]
+    [QueryProperty("UpdateTable", "UpdateTable")]
     public partial class FieldNotesViewModel : ObservableObject
     {
         //Localization
@@ -21,8 +22,8 @@ namespace GSCFieldApp.ViewModel
         //Database
         DataAccess da = new DataAccess();
 
-        //Database schema
-
+        //Error management
+        DateTime lastTimeTableUpdate = DateTime.MinValue; //For some reason observation property UpdateTable is triggered twice or thrice
 
         //Records
         private Dictionary<TableNames, ObservableCollection<FieldNote>> FieldNotes = new Dictionary<TableNames, ObservableCollection<FieldNote>>(); //Used to populate records in each headers
@@ -30,21 +31,23 @@ namespace GSCFieldApp.ViewModel
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Will track request for table update when navigating to field notes
+        /// </summary>
         [ObservableProperty]
-
-        private TableNames _tableNames;
-        public TableNames UpdateTable
+        private TableNames _updateTable;
+        partial void OnUpdateTableChanged(TableNames oldValue, TableNames newValue)
         {
-            get => _tableNames;
-            set
+            //Make sure to run update only if a human wants it...
+            //TODO: find out why this is triggered, at worst 3 times, in a row with all
+            // the last values
+            TimeSpan updateSpan = DateTime.Now - lastTimeTableUpdate;
+            if (updateSpan.TotalSeconds > 2)
             {
-                if (!EqualityComparer<TableNames>.Default.Equals(_tableNames, value))
-                {
-                    TableNames oldValue = _tableNames;
-                    _tableNames = value;
-                    OnPropertyChanged(nameof(UpdateTable));
-                }
+                lastTimeTableUpdate = DateTime.Now;
+                UpdateRecordList(newValue);
             }
+            
         }
 
         private bool _isStationVisible = true;
@@ -555,14 +558,14 @@ namespace GSCFieldApp.ViewModel
         /// This should be triggered when user is coming from a form, either
         /// adding items or editing them
         /// </summary>
-        public async void UpdateRecordList()
+        public async void UpdateRecordList(TableNames tableToUpdate)
         {
             //Detect if 
-            if (_tableNames != TableNames.meta)
+            if (tableToUpdate != TableNames.meta)
             {
                 SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
                 
-                switch (_tableNames)
+                switch (tableToUpdate)
                 {
                     case TableNames.meta:
                         break;
@@ -598,8 +601,7 @@ namespace GSCFieldApp.ViewModel
                         break;
                 }
 
-                await currentConnection.CloseAsync();
-                //UpdatableTables = TableNames.meta; 
+                await currentConnection.CloseAsync(); 
             }
 
         }
