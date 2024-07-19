@@ -187,6 +187,177 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        internal static string DocumentPageAdvancedTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageAdvancedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch entry of photo records.
+        /// </summary>
+        internal static string DocumentPageBatchEntry {
+            get {
+                return ResourceManager.GetString("DocumentPageBatchEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caption.
+        /// </summary>
+        internal static string DocumentPageCaption {
+            get {
+                return ResourceManager.GetString("DocumentPageCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        internal static string DocumentPageCategory {
+            get {
+                return ResourceManager.GetString("DocumentPageCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string DocumentPageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direction.
+        /// </summary>
+        internal static string DocumentPageDirection {
+            get {
+                return ResourceManager.GetString("DocumentPageDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Embeded camera.
+        /// </summary>
+        internal static string DocumentPageEmbededTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageEmbededTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to External camera.
+        /// </summary>
+        internal static string DocumentPageExternalTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageExternalTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Name.
+        /// </summary>
+        internal static string DocumentPageFileName {
+            get {
+                return ResourceManager.GetString("DocumentPageFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From (#).
+        /// </summary>
+        internal static string DocumentPageFileNoFrom {
+            get {
+                return ResourceManager.GetString("DocumentPageFileNoFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To (#).
+        /// </summary>
+        internal static string DocumentPageFileNoTo {
+            get {
+                return ResourceManager.GetString("DocumentPageFileNoTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Type.
+        /// </summary>
+        internal static string DocumentPageFileType {
+            get {
+                return ResourceManager.GetString("DocumentPageFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Previous Caption.
+        /// </summary>
+        internal static string DocumentPageLoadPreviousCaption {
+            get {
+                return ResourceManager.GetString("DocumentPageLoadPreviousCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object location X.
+        /// </summary>
+        internal static string DocumentPageObjX {
+            get {
+                return ResourceManager.GetString("DocumentPageObjX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object location Y.
+        /// </summary>
+        internal static string DocumentPageObjY {
+            get {
+                return ResourceManager.GetString("DocumentPageObjY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document.
+        /// </summary>
+        internal static string DocumentPageOtherDocumentsTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageOtherDocumentsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scale Direction.
+        /// </summary>
+        internal static string DocumentPageScaleDirection {
+            get {
+                return ResourceManager.GetString("DocumentPageScaleDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photo.
+        /// </summary>
+        internal static string DocumentPageTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Take a snapshot with device.
+        /// </summary>
+        internal static string DocumentPageTooltipSnapshot {
+            get {
+                return ResourceManager.GetString("DocumentPageTooltipSnapshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Index.
         /// </summary>
         internal static string EarthmatColourIndex {
@@ -912,6 +1083,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FielNotesEMHeader {
             get {
                 return ResourceManager.GetString("FielNotesEMHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photo.
+        /// </summary>
+        internal static string FielNotesPhotoHeader {
+            get {
+                return ResourceManager.GetString("FielNotesPhotoHeader", resourceCulture);
             }
         }
         

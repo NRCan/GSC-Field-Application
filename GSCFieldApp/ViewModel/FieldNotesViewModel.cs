@@ -13,6 +13,7 @@ using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 namespace GSCFieldApp.ViewModel
 {
     [QueryProperty("UpdateTable", "UpdateTable")]
+    [QueryProperty("UpdateTableID", "UpdateTableID")]
     public partial class FieldNotesViewModel : ObservableObject
     {
         //Localization
@@ -36,7 +37,15 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         [ObservableProperty]
         private TableNames _updateTable;
-        partial void OnUpdateTableChanged(TableNames oldValue, TableNames newValue)
+
+        [ObservableProperty]
+        private string _updateTableID;
+
+        /// <summary>
+        /// Need to use a random id else updating twice a given table records, won't trigger
+        /// </summary>
+        /// <param name="value"></param>
+        partial void OnUpdateTableIDChanged(string value)
         {
             //Make sure to run update only if a human wants it...
             //TODO: find out why this is triggered, at worst 3 times, in a row with all
@@ -45,9 +54,8 @@ namespace GSCFieldApp.ViewModel
             if (updateSpan.TotalSeconds > 2)
             {
                 lastTimeTableUpdate = DateTime.Now;
-                UpdateRecordList(newValue);
+                UpdateRecordList(_updateTable);
             }
-            
         }
 
         private bool _isStationVisible = true;
@@ -69,6 +77,13 @@ namespace GSCFieldApp.ViewModel
         {
             get { return Preferences.Get(nameof(IsSampleVisible), false); }
             set { Preferences.Set(nameof(IsSampleVisible), value); }
+        }
+
+        private bool _isDocumentVisible = false;
+        public bool IsDocumentVisible
+        {
+            get { return Preferences.Get(nameof(IsDocumentVisible), false); }
+            set { Preferences.Set(nameof(IsDocumentVisible), value); }
         }
 
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
@@ -127,6 +142,26 @@ namespace GSCFieldApp.ViewModel
             set { _stations = value; }
         }
 
+        private ObservableCollection<FieldNote> _documents = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Documents
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.document))
+                {
+                    return _documents = FieldNotes[TableNames.document];
+                }
+                else
+                {
+                    return _documents = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _documents = value; }
+        }
+
+
         private ObservableCollection<string> _dates = new ObservableCollection<string>();
         public ObservableCollection<string> Dates
         {
@@ -142,6 +177,8 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.station, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.earthmat, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.sample, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.document, new ObservableCollection<FieldNote>());
+
             _dates = new ObservableCollection<string>();
 
             //Init all records
@@ -189,6 +226,12 @@ namespace GSCFieldApp.ViewModel
                     OnPropertyChanged(nameof(IsSampleVisible));
                 }
 
+                if (inComingName.ToLower().Contains(nameof(TableNames.document)))
+                {
+                    IsDocumentVisible = !IsDocumentVisible;
+                    OnPropertyChanged(nameof(IsDocumentVisible));
+                }
+
                 if (inComingName.ToLower().Contains(KeywordDates))
                 {
                     foreach (KeyValuePair<TableNames, ObservableCollection<FieldNote>> item in FieldNotesAll)
@@ -198,6 +241,8 @@ namespace GSCFieldApp.ViewModel
 
                     OnPropertyChanged(nameof(Stations));
                     OnPropertyChanged(nameof(EarthMats));
+                    OnPropertyChanged(nameof(Samples));
+                    OnPropertyChanged(nameof(Documents));
                 }
 
             }
@@ -274,6 +319,24 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
+            if (fieldNotes.GenericTableName == TableDocument)
+            {
+                List<Document> tappedDoc = await currentConnection.Table<Document>().Where(i => i.DocumentID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedDoc != null && tappedDoc.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(DocumentPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Station)] = null,
+                            [nameof(Document)] = (Document)tappedDoc[0],
+                        }
+                    );
+                }
+            }
         }
 
         #endregion
@@ -294,6 +357,8 @@ namespace GSCFieldApp.ViewModel
                 await FillStationNotes(currentConnection);
                 await FillEMNotes(currentConnection);
                 await FillSampleNotes(currentConnection);
+                await FillDocumentNotes(currentConnection);
+
                 await currentConnection.CloseAsync();
 
                 OnPropertyChanged(nameof(FieldNotes));
@@ -522,6 +587,52 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
+        /// Will get all database samples to fill sample cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillDocumentNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.document))
+            {
+                FieldNotes.Add(TableNames.document, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.document].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all documents from database
+            List<Document> docs = await inConnection.Table<Document>().OrderBy(s => s.DocumentName).ToListAsync();
+
+            if (docs != null && docs.Count > 0)
+            {
+
+                foreach (Document dc in docs)
+                {
+                    FieldNotes[TableNames.document].Add(new FieldNote
+                    {
+                        Display_text_1 = dc.DocumentAliasLight,
+                        Display_text_2 = dc.Category,
+                        Display_text_3 = dc.Description,
+                        GenericTableName = TableDocument,
+                        GenericID = dc.DocumentID,
+                        ParentID = dc.StationID.Value,
+                        isValid = dc.isValid
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
+
+        /// <summary>
         /// A method that will filter out all records in field note page
         /// based on a desire date
         /// </summary>
@@ -585,6 +696,7 @@ namespace GSCFieldApp.ViewModel
                     case TableNames.mineral:
                         break;
                     case TableNames.document:
+                        await FillDocumentNotes(currentConnection);
                         break;
                     case TableNames.structure:
                         break;

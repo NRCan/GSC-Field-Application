@@ -79,7 +79,8 @@
 
                 <!--Quick photo-->
                 <Button Text="&#xF0D5D;" Style="{StaticResource FieldAppHeaderButton}"
-                        ToolTipProperties.Text="{local:Localize MapPageAddPhoto}"/>
+                        ToolTipProperties.Text="{local:Localize MapPageAddPhoto}"
+                        Command="{Binding AddDocumentCommand}"/>
 
                 <!--Quick sample-->
                 <Button Command="{Binding AddSampleCommand}" Text="&#xF04FD;" 

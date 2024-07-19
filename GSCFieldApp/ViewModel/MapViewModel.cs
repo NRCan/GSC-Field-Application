@@ -69,6 +69,7 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
+
         [RelayCommand]
         async Task AddSample()
         {
@@ -87,6 +88,30 @@ namespace GSCFieldApp.ViewModel
                     {
                         [nameof(Sample)] = null,
                         [nameof(Earthmaterial)] = quickEM,
+                    }
+                );
+            }
+
+        }
+
+        [RelayCommand]
+        async Task AddDocument()
+        {
+            if (sensorLocation != null)
+            {
+                //Create a location record
+                int locationID = await SetLocationModelAsync();
+
+                //Create a quick earth material record
+                StationViewModel statViewModel = new StationViewModel();
+                Station quickStat = await statViewModel.QuickStation(locationID);
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                await Shell.Current.GoToAsync($"{nameof(DocumentPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Station)] = quickStat,
+                        [nameof(Document)] = null,
                     }
                 );
             }

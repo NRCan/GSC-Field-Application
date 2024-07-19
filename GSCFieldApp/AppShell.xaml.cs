@@ -57,6 +57,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(StationPage), typeof(StationPage));
         Routing.RegisterRoute(nameof(EarthmatPage), typeof(EarthmatPage));
         Routing.RegisterRoute(nameof(SamplePage), typeof(SamplePage));
+        Routing.RegisterRoute(nameof(DocumentPage), typeof(DocumentPage));
 
         #endregion
 

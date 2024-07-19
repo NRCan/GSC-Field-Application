@@ -159,6 +159,63 @@
   <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
     <value>Can't create a station with same location.</value>
   </data>
+  <data name="DocumentPageAdvancedTitle" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="DocumentPageBatchEntry" xml:space="preserve">
+    <value>Batch entry of photo records</value>
+  </data>
+  <data name="DocumentPageCaption" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="DocumentPageCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="DocumentPageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DocumentPageDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="DocumentPageEmbededTitle" xml:space="preserve">
+    <value>Embeded camera</value>
+  </data>
+  <data name="DocumentPageExternalTitle" xml:space="preserve">
+    <value>External camera</value>
+  </data>
+  <data name="DocumentPageFileName" xml:space="preserve">
+    <value>File Name</value>
+  </data>
+  <data name="DocumentPageFileNoFrom" xml:space="preserve">
+    <value>From (#)</value>
+  </data>
+  <data name="DocumentPageFileNoTo" xml:space="preserve">
+    <value>To (#)</value>
+  </data>
+  <data name="DocumentPageFileType" xml:space="preserve">
+    <value>File Type</value>
+  </data>
+  <data name="DocumentPageLoadPreviousCaption" xml:space="preserve">
+    <value>Load Previous Caption</value>
+  </data>
+  <data name="DocumentPageObjX" xml:space="preserve">
+    <value>Object location X</value>
+  </data>
+  <data name="DocumentPageObjY" xml:space="preserve">
+    <value>Object location Y</value>
+  </data>
+  <data name="DocumentPageOtherDocumentsTitle" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="DocumentPageScaleDirection" xml:space="preserve">
+    <value>Scale Direction</value>
+  </data>
+  <data name="DocumentPageTitle" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
+    <value>Take a snapshot with device</value>
+  </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Index</value>
   </data>
@@ -401,6 +458,9 @@
   </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Earth Materials</value>
+  </data>
+  <data name="FielNotesPhotoHeader" xml:space="preserve">
+    <value>Photo</value>
   </data>
   <data name="FielNotesSampleHeader" xml:space="preserve">
     <value>Sample</value>

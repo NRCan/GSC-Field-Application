@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.DocumentPage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:themes="clr-namespace:GSCFieldApp.Themes"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:DocumentViewModel"
+             Shell.BackgroundColor="{StaticResource FieldPhotoColor}"
+             Title="{local:Localize DocumentPageTitle}">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:String2Integers x:Key="Str2Int"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.DocumentName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+                    
+                    <!--General description-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentDescVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DocumentPageDescriptionTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Picker Title="{local:Localize DocumentPageCategory}" x:Name="DocumentPageCategoryPicker"
+                                    ItemsSource="{Binding DocumentCategory.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedDocumentCategory}"
+                                    SelectedIndex="{Binding DocumentCategory.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <!--Custom control to concatenate multiple values into one field-->
+                                <controls:ConcatenatedCollection 
+                                    ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}" 
+                                    ConcatSource="{Binding DocumentCategoryCollection}" />
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout>
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize DocumentPageDirection}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.Direction, Mode=TwoWay}">
+                                        <Entry.Behaviors>
+                                            <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="360"
+                                            MaximumDecimalPlaces="0" />
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                    <!--TODO ADD SYMBOL ICON FOR ARROW THAT MOVES BASED ON DIRECTION-->
+                                </VerticalStackLayout>
+
+                                <Picker Title="{local:Localize DocumentPageScaleDirection}" 
+                                    x:Name="DocumentScalePicker" MaximumWidthRequest="100"
+                                    ItemsSource="{Binding DocumentScale.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedItem="{Binding Model.ScaleDirection, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DocumentScale, Source={x:Reference DocumentScalePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DocumentScale.cboxDefaultItemIndex, Mode=TwoWay}">
+                                </Picker>
+                                
+                            </HorizontalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize DocumentPageCaption}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.Description, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+                                <Button Text="{local:Localize DocumentPageLoadPreviousCaption}" Style="{StaticResource FieldAppGenericButton}"
+                                            Command="{Binding LoadPreviousCaptionCommand}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+
+
+                    </controls:ExpandableFrame>
+                    
+                    <!--Advanced parameters-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="False"
+                                              FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentAdvancedVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DocumentPageAdvancedTitle}">
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DocumentPageObjX}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.ObjectX, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DocumentPageObjY}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.ObjectY, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+
+                        </VerticalStackLayout>
+     
+                    </controls:ExpandableFrame>
+                    
+                    <!--Document parameters-->
+                    <!--TODO Complete this document section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="False"
+                                              FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentDocVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DocumentPageOtherDocumentsTitle}">
+                    </controls:ExpandableFrame>
+                    
+                    <!--External camera-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentExternalCamVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DocumentPageExternalTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DocumentPageFileName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.FileName, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize DocumentPageFileType}" 
+                                    x:Name="DocumentFileTypePicker" 
+                                    ItemsSource="{Binding DocumentFileType.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="DocumentFileTypePicker_SelectedIndexChanged"
+                                    SelectedItem="{Binding Model.DocumentType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DocumentFileType, Source={x:Reference DocumentFileTypePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DocumentFileType.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DocumentPageBatchEntry}" Style="{StaticResource FieldAppEntryTitle}"/>
+
+                                <HorizontalStackLayout>
+                                    <VerticalStackLayout>
+                                        <Label Text="{local:Localize DocumentPageFileNoFrom}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                        <Entry Text="{Binding Model.FileNumber, Mode=TwoWay, Converter={StaticResource Str2Int}}" 
+                                               Style="{StaticResource FieldAppNumBox}" 
+                                               x:Name="DocumentPageFileFromEntry"
+                                               TextChanged="DocumentPageFileFromEntry_TextChanged">
+
+                                            <Entry.Behaviors>
+                                                <toolkit:NumericValidationBehavior 
+                                                    InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                                    Flags="ValidateOnValueChanged"
+                                                    MinimumValue="1"
+                                                    MaximumValue="9999"
+                                                    MaximumDecimalPlaces="0" />
+                                            </Entry.Behaviors>
+
+                                        </Entry>
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout>
+                                        <Label Text="{local:Localize DocumentPageFileNoTo}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                        <Entry Text="{Binding FileNumberTo, Mode=TwoWay, Converter={StaticResource Str2Int}}" 
+                                               Style="{StaticResource FieldAppNumBox}"
+                                               x:Name="DocumentPageFileToEntry"
+                                               TextChanged="DocumentPageFileToEntry_TextChanged"
+                                               >
+                                            <Entry.Behaviors>
+                                                <toolkit:NumericValidationBehavior 
+                                                    InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                                    Flags="ValidateOnValueChanged"
+                                                    MinimumValue="0"
+                                                    MaximumValue="9999"
+                                                    MaximumDecimalPlaces="0" />
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </VerticalStackLayout>
+
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </controls:ExpandableFrame>
+                    
+                    <!--Embeded camera-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentInternalCamVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DocumentPageEmbededTitle}">
+                    </controls:ExpandableFrame>
+
+
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldPhotoColor}"
+                                    ButtonLightColor="{StaticResource FieldPhotoColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
+
+                <Button Text="&#xF0D5D;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize DocumentPageTooltipSnapshot}"
+                        BackgroundColor="{StaticResource FieldPhotoColorLight}"
+                        Command="{Binding AddSnapshotCommand}"/>
+                
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>

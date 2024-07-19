@@ -388,7 +388,6 @@ namespace GSCFieldApp.Services.DatabaseServices
                 newID = parsedID + newID;
 
                 //Find a non existing name
-                //bool breaker = true;
                 while (processingID)
                 {
                     //Padd current ID with 0 if needed
@@ -424,92 +423,76 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-        //#region DOCUMENT
-        ///// <summary>
-        ///// Will calculate an generic ID for document table.
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculateDocumentID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
+        #region DOCUMENT
 
-        ///// <summary>
-        ///// Will calculate a document alias(name) from a given parent ID and alias (name)
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <returns></returns>
-        //public string CalculateDocumentAlias(int parentID, string parentAlias, int startingDocNumber = 1)
-        //{
-        //    //Querying with Linq
-        //    List<object> doctableRaw = dAccess.ReadTable(docModel.GetType(), null);
-        //    IEnumerable<Document> docTable = doctableRaw.Cast<Document>(); //Cast to proper list type
-        //    IEnumerable<string> docParent = from d in docTable where d.RelatedID == parentID orderby d.DocumentName descending select d.DocumentName;
+        /// <summary>
+        /// Will calculate a document alias(name) from a given parent ID and alias (name)
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public async Task<string> CalculateDocumentAliasAsync(int parentID, string parentAlias, int startingDocNumber = 1)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<Document> docParent = await currentConnection.Table<Document>().Where(e => e.StationID == parentID).ToListAsync();
 
-        //    string newAlias = string.Empty;
-        //    string finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix;
+            int newID = 1; //Incrementing step
+            string newAlias = string.Empty;
+            string finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix;
 
-        //    //Detect last sample number and add 1 to it.
-        //    if (docParent.Count() > 0)
-        //    {
-        //        int lastNumber = docParent.ToList().Count(); //Select first element since the list has been sorted in descending order
-        //        //string lastNumberString = lastAlias.Substring(lastAlias.Length - 3); //Document only has three digits id in the alias
-        //        int newNumber = lastNumber + startingDocNumber;
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Padd current ID with 0 if needed
-        //            if (newNumber < 10)
-        //            {
-        //                newAlias = "00" + newNumber;
-        //            }
-        //            else if (newNumber < 100 && newNumber >= 10)
-        //            {
-        //                newAlias = "0" + newNumber;
-        //            }
-        //            else
-        //            {
-        //                newAlias = newNumber.ToString();
-        //            }
+            //Detect last record number and add 1 to it.
+            if (docParent.Count() > 0)
+            {
+                string lastAlias = docParent.ToList()[docParent.Count() - 1].DocumentName.ToString();
+                string lastNumberString = lastAlias.ToList()[lastAlias.Length - 3].ToString(); //Sample only has three digits id in the alias
+                short parsedID = 0;
+                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                newID = parsedID + newID;
 
-        //            finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
+                while (processingID)
+                {
+                    //Padd current ID with 0 if needed
+                    if (newID < 10)
+                    {
+                        newAlias = "00" + newID;
+                    }
+                    else if (newID < 100 && newID >= 10)
+                    {
+                        newAlias = "0" + newID;
+                    }
+                    else
+                    {
+                        newAlias = newID.ToString();
+                    }
 
-        //            //Find existing
-        //            IEnumerable<Document> existingDocument = from s in docTable where s.RelatedID == parentID && s.DocumentName == finaleDocumentString select s;
-        //            if (existingDocument.Count() == 0 || existingDocument == null)
-        //            {
-        //                breaker = false;
-        //            }
+                    finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
 
-        //            newNumber++;
-        //        }
+                    //Find existing
+                    List<Document> existingDocument = await currentConnection.Table<Document>().Where(e => e.StationID == parentID && e.DocumentName == finaleDocumentString).ToListAsync();
+                    if (existingDocument.Count() == 0 || existingDocument == null)
+                    {
+                        processingID = false;
+                    }
+
+                    newID++;
+                 
+                }
 
 
-        //    }
-        //    else
-        //    {
-        //        //Padd current ID with 0 if needed
-        //        if (startingDocNumber < 10)
-        //        {
-        //            newAlias = "00" + startingDocNumber;
-        //        }
-        //        else if (startingDocNumber < 100 && startingDocNumber >= 10)
-        //        {
-        //            newAlias = "0" + startingDocNumber;
-        //        }
-        //        else
-        //        {
-        //            newAlias = startingDocNumber.ToString();
-        //        }
+            }
+            else
+            {
+                //Padd current ID with 0 
+                newAlias = "00" + newID;
 
-        //        finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
-        //    }
+                finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
+            }
 
-        //    return finaleDocumentString;
-        //}
+            return finaleDocumentString;
+        }
 
-        //#endregion
+        #endregion
 
         //#region STRUCTURE
         ///// <summary>

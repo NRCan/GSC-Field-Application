@@ -22,6 +22,7 @@ using static Microsoft.Maui.ApplicationModel.Permissions;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Storage;
 using System.Threading;
+using System.Security.Cryptography;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -441,6 +442,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
+                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
                     ["UpdateTable"] = TableNames.earthmat,
                 }
             );
@@ -494,6 +496,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
+                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
                     ["UpdateTable"] = TableNames.earthmat,
                 }
             );

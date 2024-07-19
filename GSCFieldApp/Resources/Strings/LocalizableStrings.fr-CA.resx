@@ -148,6 +148,63 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
     <value>Une station ne peut avoir la même location qu'une autre. Retournez à la page de cartes.</value>
   </data>
+  <data name="DocumentPageAdvancedTitle" xml:space="preserve">
+    <value>Spécialisé</value>
+  </data>
+  <data name="DocumentPageBatchEntry" xml:space="preserve">
+    <value>Saisie d'un lot de photo</value>
+  </data>
+  <data name="DocumentPageCaption" xml:space="preserve">
+    <value>Libéllé</value>
+  </data>
+  <data name="DocumentPageCategory" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="DocumentPageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DocumentPageDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="DocumentPageEmbededTitle" xml:space="preserve">
+    <value>Caméra interne</value>
+  </data>
+  <data name="DocumentPageExternalTitle" xml:space="preserve">
+    <value>Caméra externe</value>
+  </data>
+  <data name="DocumentPageFileName" xml:space="preserve">
+    <value>Nom du fichier</value>
+  </data>
+  <data name="DocumentPageFileNoFrom" xml:space="preserve">
+    <value>Début (#)</value>
+  </data>
+  <data name="DocumentPageFileNoTo" xml:space="preserve">
+    <value>Fin (#)</value>
+  </data>
+  <data name="DocumentPageFileType" xml:space="preserve">
+    <value>Type fichier</value>
+  </data>
+  <data name="DocumentPageLoadPreviousCaption" xml:space="preserve">
+    <value>Charger libéllé précédent</value>
+  </data>
+  <data name="DocumentPageObjX" xml:space="preserve">
+    <value>Coordonnée X de l'objet</value>
+  </data>
+  <data name="DocumentPageObjY" xml:space="preserve">
+    <value>Coordonnée Y de l'objet</value>
+  </data>
+  <data name="DocumentPageOtherDocumentsTitle" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="DocumentPageScaleDirection" xml:space="preserve">
+    <value>Direction de l'échelle</value>
+  </data>
+  <data name="DocumentPageTitle" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
+    <value>Prendre une photo avec l'appareil</value>
+  </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Indexe</value>
   </data>
@@ -390,6 +447,9 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Matériaux du sol</value>
+  </data>
+  <data name="FielNotesPhotoHeader" xml:space="preserve">
+    <value>Photo</value>
   </data>
   <data name="FielNotesSampleHeader" xml:space="preserve">
     <value>Échantillons</value>

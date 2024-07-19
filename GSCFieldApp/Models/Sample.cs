@@ -198,7 +198,9 @@ namespace GSCFieldApp.Models
 
                     if (aliasNumber > 0)
                     {
-                        return SampleName.Substring(SampleName.Length - 4);
+                        //Trim bunch of zeros
+                        string shorterSampleName = SampleName.Substring(SampleName.Length - 7);
+                        return shorterSampleName.Trim('0');
                     }
                     else
                     {

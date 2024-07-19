@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Alerts;
 using SQLite;
 using System.Data;
+using System.Security.Cryptography;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -41,6 +42,7 @@ namespace GSCFieldApp.ViewModel
         //Concatenated
         private ComboBoxItem _selectedSamplePurpose = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _purposeCollection = new ObservableCollection<ComboBoxItem>();
+
         //Localize
         public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -209,6 +211,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
+                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
                     ["UpdateTable"] = TableNames.sample,
                 }
             );
@@ -261,6 +264,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
+                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
                     ["UpdateTable"] = TableNames.sample,
                 }
             );

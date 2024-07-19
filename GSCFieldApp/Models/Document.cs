@@ -187,5 +187,40 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string DocumentAliasLight
+        {
+            get
+            {
+                if (DocumentName != string.Empty)
+                {
+                    // Split into two main pieces, station # and photo #
+                    string[] splitName = DocumentName.Split(DatabaseLiterals.TableDocumentAliasPrefix);
+
+                    if (splitName.Count() > 0)
+                    {
+                        int docNumber = 0;
+                        int.TryParse(splitName[1], out docNumber);
+
+                        string statNumber = splitName[0].Substring(splitName[0].Length - 4).Trim('0');
+
+                        return statNumber + DatabaseLiterals.KeywordConcatCharacter2nd + docNumber.ToString();
+                    }
+                    else
+                    {
+                        return DatabaseLiterals.picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return DatabaseLiterals.picklistNACode;
+                }
+            }
+            set { }
+        }
     }
 }
