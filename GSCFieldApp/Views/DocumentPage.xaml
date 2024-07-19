@@ -22,6 +22,7 @@
         <conv:BoolFromStringConverter x:Key="BoolFromStr" />
         <conv:String2Integers x:Key="Str2Int"/>
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
+        <conv:ImageSourceConverter x:Key="image2URI"/>
 
     </ContentPage.Resources>
 
@@ -202,6 +203,11 @@
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
                                               FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentInternalCamVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize DocumentPageEmbededTitle}">
+                        <Image x:Name="DocumentPageEmbededImage" MaximumHeightRequest="300" MaximumWidthRequest="300" 
+                               IsVisible="{Binding EmbeddedPhotoExist, Mode=TwoWay}" 
+                               Source="{Binding Model.Hyperlink, Mode=TwoWay, Converter={StaticResource image2URI}}">
+
+                        </Image>
                     </controls:ExpandableFrame>
 
 

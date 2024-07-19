@@ -20,4 +20,11 @@
 	<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
 	<uses-sdk android:minSdkVersion="33" android:targetSdkVersion="34" />
+
+	<queries>
+		<intent>
+			<action android:name="android.media.action.IMAGE_CAPTURE" />
+		</intent>
+	</queries>
+	
 </manifest>

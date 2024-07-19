@@ -12,6 +12,7 @@ using CommunityToolkit.Maui.Alerts;
 using SQLite;
 using System.Globalization;
 using System.Security.Cryptography;
+using GSCFieldApp.Dictionaries;
 
 
 namespace GSCFieldApp.ViewModel
@@ -29,6 +30,7 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _documentScale = new ComboBox();
         private ComboBox _documentFileType = new ComboBox();
         private int _fileNumberTo = 0; //Will be used to calculate external camera ending numbering value
+        private bool _embeddedPhotoExist = false; // Will be used to show a picture taken by user with the device
 
         //Concatenated
         private ComboBoxItem _selectedDocumentCategory = new ComboBoxItem();
@@ -125,6 +127,7 @@ namespace GSCFieldApp.ViewModel
 
         public int FileNumberTo { get { return _fileNumberTo; } set { _fileNumberTo = value; } }
        
+        public bool EmbeddedPhotoExist { get { return _embeddedPhotoExist; } set { _embeddedPhotoExist = value; } }
         #endregion
 
         public DocumentViewModel()
@@ -245,7 +248,31 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task AddSnapshot()
         {
-            await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
+            //await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
+
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                FileResult snapshot = await MediaPicker.Default.CapturePhotoAsync();
+                snapshot.FileName = _model.DocumentName + documentTableFileSuffix;
+
+                if (snapshot != null)
+                {
+                    string localFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, snapshot.FileName);
+
+                    using Stream sourceStream = await snapshot.OpenReadAsync();
+                    using FileStream fileStream = File.OpenWrite(localFilePath);
+                    await sourceStream.CopyToAsync(fileStream);
+
+                    //Keep in model
+                    _model.Hyperlink = localFilePath;
+                    _embeddedPhotoExist = true;
+                    OnPropertyChanged(nameof(Model));
+                    OnPropertyChanged(nameof(EmbeddedPhotoExist));
+
+                    //Save current record
+                    await SaveStay();
+                }
+            }
         }
 
         /// <summary>
