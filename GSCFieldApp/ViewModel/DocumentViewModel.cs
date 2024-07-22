@@ -314,6 +314,24 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Triggered when user taps an embedded picture
+        /// Will open it full screen so user can edit it
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        async Task ImageTapped()
+        {
+            if (File.Exists(_model.Hyperlink))
+            {
+                await Launcher.Default.OpenAsync(new OpenFileRequest("popoverTitle", new ReadOnlyFile(_model.Hyperlink)));
+
+                //Force refresh of image (might have been edited by user)
+                OnPropertyChanged(nameof(Model));
+            }
+            
+        }
+
         #endregion
 
         #region METHODS
