@@ -23,6 +23,7 @@
         <conv:String2Integers x:Key="Str2Int"/>
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
         <conv:ImageSourceConverter x:Key="image2URI"/>
+        <conv:VisibilityFromReverseBoolConverter x:Key="reverseBool"/>
 
     </ContentPage.Resources>
 
@@ -128,7 +129,7 @@
                     </controls:ExpandableFrame>
                     
                     <!--External camera-->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsEnabled="{Binding Model.PhotoFileExists, Mode=TwoWay, Converter={StaticResource reverseBool}}"
                                               FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentExternalCamVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize DocumentPageExternalTitle}">
 
@@ -150,7 +151,7 @@
                                     SelectedIndex="{Binding DocumentFileType.cboxDefaultItemIndex, Mode=TwoWay}">
                             </Picker>
 
-                            <VerticalStackLayout>
+                            <VerticalStackLayout IsEnabled="{Binding Model.CanBatchCreate}">
                                 <Label Text="{local:Localize DocumentPageBatchEntry}" Style="{StaticResource FieldAppEntryTitle}"/>
 
                                 <HorizontalStackLayout>
@@ -204,8 +205,8 @@
                                               FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentInternalCamVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize DocumentPageEmbededTitle}">
                         <Image x:Name="DocumentPageEmbededImage" MaximumHeightRequest="300" MaximumWidthRequest="300" 
-                               IsVisible="{Binding EmbeddedPhotoExist, Mode=TwoWay}" 
-                               Source="{Binding Model.Hyperlink, Mode=TwoWay, Converter={StaticResource image2URI}}">
+                               IsVisible="{Binding Model.PhotoFileExists, Mode=TwoWay}"
+                               Source="{Binding Model.Hyperlink, TargetNullValue={x:Null}}">
 
                         </Image>
                     </controls:ExpandableFrame>

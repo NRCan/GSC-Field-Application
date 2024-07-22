@@ -104,26 +104,26 @@ namespace GSCFieldApp.Models
         //    set { }
         //}
 
-        ///// <summary>
-        ///// Will check if theoric photo file really exists. Could prevent code from trying to show a picture.
-        ///// </summary>
-        //[Ignore]
-        //public bool PhotoFileExists
-        //{
-        //    get
-        //    {
-        //        if (PhotoPath != string.Empty && PhotoPath != null)
-        //        {
-        //            return File.Exists(PhotoPath);
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
+        /// <summary>
+        /// Will check if theoric photo file really exists. Could prevent code from trying to show a picture.
+        /// </summary>
+        [Ignore]
+        public bool PhotoFileExists
+        {
+            get
+            {
+                if (Hyperlink != string.Empty && Hyperlink != null)
+                {
+                    return File.Exists(Hyperlink);
+                }
+                else
+                {
+                    return false;
+                }
 
-        //    }
-        //    set { }
-        //}
+            }
+            set { }
+        }
 
 
         /// <summary>
@@ -222,5 +222,29 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
+
+        /// <summary>
+        /// A propriety to detect whether record is a new one or not, this
+        /// can be used to enable batch create
+        /// </summary>
+        [Ignore]
+        public bool CanBatchCreate
+        {
+            get
+            {
+                if (DocumentID > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
+            }
+            set { }
+        }
+
     }
 }

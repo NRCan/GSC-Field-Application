@@ -15,15 +15,28 @@ namespace GSCFieldApp.Converters
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null || value.ToString() == string.Empty)
-                return new Uri("");
+            Uri inURI = null;
+            if (value != null && value.ToString() != string.Empty)
+            {
+                inURI = new Uri(value.ToString());
+            }
 
-            return new Uri(value.ToString());
+            return inURI;
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Empty;
+            if (value != null && (UriImageSource)value != null)
+            {
+                UriImageSource outURI = (UriImageSource)value;
+                string outPath = outURI.Uri.AbsolutePath;
+                return outPath;
+            }
+            else
+            {
+                return string.Empty;
+            }
+            
         }
 
     }

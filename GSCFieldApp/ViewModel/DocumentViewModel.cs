@@ -30,7 +30,6 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _documentScale = new ComboBox();
         private ComboBox _documentFileType = new ComboBox();
         private int _fileNumberTo = 0; //Will be used to calculate external camera ending numbering value
-        private bool _embeddedPhotoExist = false; // Will be used to show a picture taken by user with the device
 
         //Concatenated
         private ComboBoxItem _selectedDocumentCategory = new ComboBoxItem();
@@ -127,7 +126,6 @@ namespace GSCFieldApp.ViewModel
 
         public int FileNumberTo { get { return _fileNumberTo; } set { _fileNumberTo = value; } }
        
-        public bool EmbeddedPhotoExist { get { return _embeddedPhotoExist; } set { _embeddedPhotoExist = value; } }
         #endregion
 
         public DocumentViewModel()
@@ -199,14 +197,14 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_document != null && _document.DocumentName != string.Empty && _model.StationID != 0)
+            if (_document != null && _document.DocumentName != string.Empty && _model.DocumentID != 0)
             {
                 await da.SaveItemAsync(Model, true);
             }
             else
             {
                 //Insert new records as batch if needed
-                BatchCreatePhotos();
+                await BatchCreatePhotos();
             }
 
             //Close to be sure
@@ -232,6 +230,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
+                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
                     ["UpdateTable"] = TableNames.document,
                 }
             );
@@ -248,10 +247,15 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task AddSnapshot()
         {
-            //await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
 
             if (MediaPicker.Default.IsCaptureSupported)
             {
+                //Detect existing photo and reset so new photos is saved as new record
+                if (_document != null && _document.Hyperlink != null && _document.PhotoFileExists)
+                {
+                    await ResetModelAsync();
+                }
+
                 FileResult snapshot = await MediaPicker.Default.CapturePhotoAsync();
                 snapshot.FileName = _model.DocumentName + documentTableFileSuffix;
 
@@ -263,14 +267,16 @@ namespace GSCFieldApp.ViewModel
                     using FileStream fileStream = File.OpenWrite(localFilePath);
                     await sourceStream.CopyToAsync(fileStream);
 
+                    sourceStream.Close();
+                    fileStream.Close();
+
                     //Keep in model
                     _model.Hyperlink = localFilePath;
-                    _embeddedPhotoExist = true;
+                    _model.FileName = snapshot.FileName;
                     OnPropertyChanged(nameof(Model));
-                    OnPropertyChanged(nameof(EmbeddedPhotoExist));
 
                     //Save current record
-                    await SaveStay();
+                    await SaveAsNewSnapshot();
                 }
             }
         }
@@ -410,6 +416,8 @@ namespace GSCFieldApp.ViewModel
                 // if coming from station notes, calculate new alias
                 Model.StationID = _station.StationID;
                 Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
+                Model.Hyperlink = string.Empty;
+                Model.FileName = string.Empty;
             }
             else if (Model.StationID != null)
             {
@@ -418,9 +426,11 @@ namespace GSCFieldApp.ViewModel
                 List<Station> parentAlias = await currentConnection.Table<Station>().Where(e => e.StationID == Model.StationID).ToListAsync();
                 await currentConnection.CloseAsync();
                 Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(Model.StationID.Value, parentAlias.First().StationAlias);
+                Model.Hyperlink = string.Empty;
+                Model.FileName = string.Empty;
             }
 
-            Model.SampleID = 0;
+            Model.DocumentID = 0;
 
             OnPropertyChanged(nameof(Model));
         }
@@ -430,7 +440,12 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         public string CalculateFileName()
         {
-            if (_model != null && _model.DocumentType != null && _model.DocumentType != documentTableFileSuffix)
+            //make sure to now process embedded picture (they have an hyperlink value)
+            if (_model != null 
+                && _model.DocumentType != null 
+                && _model.DocumentType != documentTableFileSuffix 
+                && _model.Hyperlink == string.Empty
+                && File.Exists(_model.Hyperlink))
             {
                 _model.FileName = string.Empty;
                 string _noOlympusFileNumber = string.Empty;
@@ -546,24 +561,59 @@ namespace GSCFieldApp.ViewModel
         {
             int currentIteration = _model.FileNumber;
 
-            if (_fileNumberTo != 0 && _fileNumberTo > _model.FileNumber)
+            if (_fileNumberTo != 0 && _fileNumberTo >= _model.FileNumber)
             {
 
                 while (currentIteration <= _fileNumberTo)
                 {
-                    _model.FileNumber = currentIteration;
-                    _model.FileName = CalculateFileName();
-                    _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
-                    OnPropertyChanged(nameof(Model));
-                    await da.SaveItemAsync(Model, false);
+                    //Calculate filenumber and file name if not from embeded pictures
+                    if (_model.Hyperlink == null || _model.Hyperlink == string.Empty)
+                    {
+                        _model.FileNumber = currentIteration;
+                        _model.FileName = CalculateFileName();
+                    }
+
+                    if (_station != null)
+                    {
+                        _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
+                        OnPropertyChanged(nameof(Model));
+                        await da.SaveItemAsync(Model, false);
+                    }
+
 
                     currentIteration++;
                 }
+
             }
 
             return currentIteration;
 
 
+        }
+
+        /// <summary>
+        /// Triggered when user takes a new snapshot from an existing record
+        /// </summary>
+        /// <returns></returns>
+        private async Task SaveAsNewSnapshot()
+        {
+            //Get back original station record
+            if (_station == null)
+            {
+                //Go get original record
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                List<Station> pRecord = await currentConnection.Table<Station>().Where(e => e.StationID == Model.StationID).ToListAsync();
+                await currentConnection.CloseAsync();
+                if (pRecord != null && pRecord.Count() > 0)
+                {
+                    _station = pRecord.First();
+
+                    _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
+                    OnPropertyChanged(nameof(Model));
+                    await da.SaveItemAsync(Model, false);
+                }
+
+            }
         }
 
         /// <summary>
