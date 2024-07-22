@@ -651,11 +651,27 @@ namespace GSCFieldApp.ViewModel
                             stationIds.Add(sids.GenericID);
                         }
 
+                        #region First order children
                         FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).ToList());
                         OnPropertyChanged(nameof(EarthMats));
 
+
                         FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).ToList());
                         OnPropertyChanged(nameof(Documents));
+
+                        #endregion
+
+
+                        #region second order children
+                        ObservableCollection<FieldNote> dateFilterSamples = new ObservableCollection<FieldNote>();
+                        foreach (FieldNote fn in FieldNotesAll[TableNames.earthmat])
+                        {
+                            dateFilterSamples.Concat(FieldNotesAll[TableNames.sample].Where(x => x.ParentID == fn.GenericID).ToList());
+                        }
+                        FieldNotes[TableNames.sample] = dateFilterSamples;
+                        OnPropertyChanged(nameof(Samples));
+                        #endregion
+
                     }
                 }
             }
