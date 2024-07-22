@@ -653,6 +653,9 @@ namespace GSCFieldApp.ViewModel
 
                         FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).ToList());
                         OnPropertyChanged(nameof(EarthMats));
+
+                        FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).ToList());
+                        OnPropertyChanged(nameof(Documents));
                     }
                 }
             }
