@@ -101,7 +101,7 @@
                     <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="station"/>
                     <VerticalStackLayout IsVisible="{Binding IsStationVisible, Mode=TwoWay}">
-                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" 
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Stations, Mode=TwoWay}" >
                             <CollectionView.ItemsLayout>
@@ -109,7 +109,7 @@
                                     Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
                             </CollectionView.ItemsLayout>
                         </CollectionView>
-                        <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}"
+                        <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}" 
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}" />
                     </VerticalStackLayout>
 
@@ -189,7 +189,7 @@
                 <Button x:Name="FieldNoteDatesHeader" Text="{local:Localize Key=FielNotesDateHeader}" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="dates"/>
                 <ScrollView Orientation="Horizontal" >
-                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center" 
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center"  
                             ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Horizontal" HorizontalItemSpacing="{OnIdiom Desktop=25, Tablet=25, Phone=0, Default=0}"/>

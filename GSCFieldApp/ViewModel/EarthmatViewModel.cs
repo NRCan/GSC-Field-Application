@@ -492,12 +492,12 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.earthmat, _model.EarthMatName, _model.EarthMatID);
             }
 
-            //Exit
+            //Exit and force refresh on whole field note page
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
                     ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.earthmat,
+                    ["UpdateTable"] = TableNames.meta,
                 }
             );
 

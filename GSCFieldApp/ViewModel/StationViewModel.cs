@@ -263,12 +263,12 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID);
             }
 
-            //Exit
+            //Exit and force refresh on whole field note page
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
                     ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.station,
+                    ["UpdateTable"] = TableNames.meta,
                 }
             );
 

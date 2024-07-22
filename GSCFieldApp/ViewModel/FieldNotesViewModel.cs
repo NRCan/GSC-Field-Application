@@ -232,17 +232,11 @@ namespace GSCFieldApp.ViewModel
                     OnPropertyChanged(nameof(IsDocumentVisible));
                 }
 
+                //Special case, removing filtering on date and refreshing all records.
                 if (inComingName.ToLower().Contains(KeywordDates))
                 {
-                    foreach (KeyValuePair<TableNames, ObservableCollection<FieldNote>> item in FieldNotesAll)
-                    {
-                        FieldNotes[item.Key] = item.Value;
-                    }
-
-                    OnPropertyChanged(nameof(Stations));
-                    OnPropertyChanged(nameof(EarthMats));
-                    OnPropertyChanged(nameof(Samples));
-                    OnPropertyChanged(nameof(Documents));
+                    //Force refresh of all
+                    await FillFieldNotesAsync();
                 }
 
             }
@@ -647,6 +641,7 @@ namespace GSCFieldApp.ViewModel
                 {
                     FieldNotes[TableNames.station] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.station].Where(x => x.Date == inDate).ToList());
                     OnPropertyChanged(nameof(Stations));
+
                     //Children
                     if (FieldNotesAll.ContainsKey(TableNames.earthmat))
                     {
@@ -672,49 +667,50 @@ namespace GSCFieldApp.ViewModel
         public async void UpdateRecordList(TableNames tableToUpdate)
         {
             //Detect if 
-            if (tableToUpdate != TableNames.meta)
-            {
-                SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
+            SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
                 
-                switch (tableToUpdate)
-                {
-                    case TableNames.meta:
-                        break;
-                    case TableNames.location:
-                        break;
-                    case TableNames.station:
-                        await FillStationNotes(currentConnection);
-                        break;
-                    case TableNames.earthmat:
-                        await FillEMNotes(currentConnection);
-                        break;
-                    case TableNames.sample:
-                        await FillSampleNotes(currentConnection);
-                        break;
-                    case TableNames.mineralization:
-                        break;
-                    case TableNames.mineral:
-                        break;
-                    case TableNames.document:
-                        await FillDocumentNotes(currentConnection);
-                        break;
-                    case TableNames.structure:
-                        break;
-                    case TableNames.fossil:
-                        break;
-                    case TableNames.environment:
-                        break;
-                    case TableNames.pflow:
-                        break;
-                    case TableNames.drill:
-                        break;
-                    default:
-                        await FillStationNotes(currentConnection);
-                        break;
-                }
-
-                await currentConnection.CloseAsync(); 
+            switch (tableToUpdate)
+            {
+                case TableNames.meta:
+                    //Special case, this will trigger a whole field note page refresh
+                    //Best used when a delete cascade has been done and and child should be removed from page
+                    await FillFieldNotesAsync();
+                    break;
+                case TableNames.location:
+                    break;
+                case TableNames.station:
+                    await FillStationNotes(currentConnection);
+                    break;
+                case TableNames.earthmat:
+                    await FillEMNotes(currentConnection);
+                    break;
+                case TableNames.sample:
+                    await FillSampleNotes(currentConnection);
+                    break;
+                case TableNames.mineralization:
+                    break;
+                case TableNames.mineral:
+                    break;
+                case TableNames.document:
+                    await FillDocumentNotes(currentConnection);
+                    break;
+                case TableNames.structure:
+                    break;
+                case TableNames.fossil:
+                    break;
+                case TableNames.environment:
+                    break;
+                case TableNames.pflow:
+                    break;
+                case TableNames.drill:
+                    break;
+                default:
+                    await FillStationNotes(currentConnection);
+                    break;
             }
+
+            await currentConnection.CloseAsync(); 
+            
 
         }
 
