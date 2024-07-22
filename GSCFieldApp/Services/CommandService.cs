@@ -29,44 +29,59 @@ namespace GSCFieldApp.Services
         /// <param name="tableToDeleteItemFrom"></param>
         /// <param name="itemAlias"></param>
         /// <param name="itemID"></param>
+        /// <param name="skipPreventionDialog">Will act as a force delete without popup user needs to interact with. Used with quick button back command in map page</param>
         /// <returns></returns>
-        public async Task<int> DeleteDatabaseItemCommand(DatabaseLiterals.TableNames tableToDeleteItemFrom, string itemAlias, int itemID)
+        public async Task<int> DeleteDatabaseItemCommand(DatabaseLiterals.TableNames tableToDeleteItemFrom, string itemAlias, int itemID, bool skipPreventionDialog = false)
         {
             //Var
             int numberOfRecordsDelete = 0;
+            bool proceedWithDelete = skipPreventionDialog;
+            //Prevention dialog
+            if (!skipPreventionDialog)
+            {
+                //Display a prompt with an answer to prevent butt or fat finger deleting stations.
+                string title = String.Format(LocalizationResourceManager["CommandDeleteTitle"].ToString(), itemAlias);
+                string content = LocalizationResourceManager["CommandDeleteContent"].ToString();
+                string answer = await Shell.Current.DisplayPromptAsync(title, content, LocalizationResourceManager["GenericButtonDelete"].ToString(),
+                    LocalizationResourceManager["GenericButtonCancel"].ToString());
 
-            //Display a prompt with an answer to prevent butt or fat finger deleting stations.
-            string title = String.Format(LocalizationResourceManager["CommandDeleteTitle"].ToString(), itemAlias);
-            string content = LocalizationResourceManager["CommandDeleteContent"].ToString();
-            string answer = await Shell.Current.DisplayPromptAsync(title, content, LocalizationResourceManager["GenericButtonDelete"].ToString(),
-                LocalizationResourceManager["GenericButtonCancel"].ToString());
+                if (answer == DateTime.Now.Year.ToString().Substring(2))
+                {
+                    proceedWithDelete = true;
+                }
+            }
 
-            if (answer == DateTime.Now.Year.ToString().Substring(2) && itemAlias != string.Empty && itemID > 0)
+            if (proceedWithDelete && itemAlias != string.Empty && itemID > 0)
             {
                 switch (tableToDeleteItemFrom)
                 {
                     case DatabaseLiterals.TableNames.meta:
                         break;
                     case DatabaseLiterals.TableNames.location:
+                        //Location always does a cascades delete
+                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
                         break;
                     case DatabaseLiterals.TableNames.station:
                         //Special case with station, it shall delete from location
-                        FieldLocation flToDelete = new FieldLocation();
-                        flToDelete.LocationID = itemID;
-                        numberOfRecordsDelete = await da.DeleteItemAsync(flToDelete);
+                        //And location always cascades
+                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
                         break;
                     case DatabaseLiterals.TableNames.earthmat:
-                        Earthmaterial emToDelete = new Earthmaterial();
-                        emToDelete.EarthMatID = itemID;
-                        numberOfRecordsDelete = await da.DeleteItemAsync(emToDelete);
+                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableEarthMat, DatabaseLiterals.FieldEarthMatID, itemID);
                         break;
                     case DatabaseLiterals.TableNames.sample:
+                        Sample samToDelete = new Sample();
+                        samToDelete.SampleID = itemID;
+                        numberOfRecordsDelete = await da.DeleteItemAsync(samToDelete);
                         break;
                     case DatabaseLiterals.TableNames.mineralization:
                         break;
                     case DatabaseLiterals.TableNames.mineral:
                         break;
                     case DatabaseLiterals.TableNames.document:
+                        Document docToDelete = new Document();
+                        docToDelete.DocumentID = itemID;
+                        numberOfRecordsDelete = await da.DeleteItemAsync(docToDelete);
                         break;
                     case DatabaseLiterals.TableNames.structure:
                         break;
@@ -81,15 +96,17 @@ namespace GSCFieldApp.Services
                     default:
                         break;
                 }
-
-
-                
+ 
                 await da.CloseConnectionAsync();
 
                 //Show final messag to user
-                string doneTitle = LocalizationResourceManager["CommandDeleteCompleteTitle"].ToString();
-                string doneContent = String.Format(LocalizationResourceManager["CommandDeleteCompleteContent"].ToString(), itemAlias); 
-                await Shell.Current.DisplayAlert(doneTitle, doneContent, LocalizationResourceManager["GenericButtonOk"].ToString());
+                if (!skipPreventionDialog)
+                {
+                    string doneTitle = LocalizationResourceManager["CommandDeleteCompleteTitle"].ToString();
+                    string doneContent = String.Format(LocalizationResourceManager["CommandDeleteCompleteContent"].ToString(), itemAlias);
+                    await Shell.Current.DisplayAlert(doneTitle, doneContent, LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+
             }
 
             return numberOfRecordsDelete;

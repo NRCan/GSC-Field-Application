@@ -10,6 +10,7 @@ using SQLite;
 using System.Diagnostics;
 using BruTile.Wmts.Generated;
 using GSCFieldApp.Themes;
+using NetTopologySuite.Index.HPRtree;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -357,6 +358,41 @@ namespace GSCFieldApp.Services.DatabaseServices
             outputVocabs.cboxDefaultItemIndex = defaultValueIndex; 
 
             return outputVocabs;
+        }
+
+        /// <summary>
+        /// Will delete any record from given parameters.
+        /// TODO: The field name entry could be replace with the prime key if a TableMapping object is created. I think it returns the prime key field name. - Gab
+        /// </summary>
+        /// <param name="tableName">The table name to delete the record from</param>
+        /// <param name="tableFieldName">The table field name to select the record with</param>
+        /// <param name="recordIDToDelete">The table field value to delete.</param>
+        public async Task<int> DeleteItemCascadeAsync(string tableName, string tableFieldName, int recordIDToDelete)
+        {
+
+            // Create a new connection
+            try
+            {
+
+                //For debug
+                DbConnection.Tracer = new Action<string>(q => Debug.WriteLine(q));
+                DbConnection.Trace = true;
+
+
+                await DbConnection.ExecuteAsync("PRAGMA foreign_keys=ON");
+                int delRecords = await DbConnection.ExecuteAsync(string.Format("DELETE FROM {0} WHERE {1} = {2};", tableName, tableFieldName, recordIDToDelete));
+                return delRecords;
+
+
+
+            }
+            catch (SQLite.SQLiteException ex)
+            {
+                new ErrorToLogFile(ex).WriteToFile();
+                return 0;
+            }
+
+
         }
 
         #endregion

@@ -19,6 +19,7 @@ using Microsoft.Maui.Controls.PlatformConfiguration;
 using CommunityToolkit.Maui.Alerts;
 using SQLite;
 using GSCFieldApp.Services;
+using System.Security.Cryptography;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -158,8 +159,12 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            //Delete location associated to this station
-            _ = await da.DeleteItemAsync(fieldLocation);
+            //Make sure to delete station and location records if user is coming from map page
+            if (_station != null && _station.IsQuickStation != null && _station.IsQuickStation.Value)
+            {
+                //Delete without forced pop-up warning and question
+                await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
+            }
 
             //Android when navigating back, ham menu disapears if / isn't added to path
             await Shell.Current.GoToAsync("../");
@@ -204,6 +209,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
+                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
                     ["UpdateTable"] = TableNames.station,
                 }
             );
@@ -261,6 +267,7 @@ namespace GSCFieldApp.ViewModel
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
                 new Dictionary<string, object>
                 {
+                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
                     ["UpdateTable"] = TableNames.station,
                 }
             );
@@ -504,6 +511,7 @@ namespace GSCFieldApp.ViewModel
             //Fill out model and save new record
             await InitModel();
             Station quickStation = await da.SaveItemAsync(Model, false) as Station;
+            quickStation.IsQuickStation = true;
 
             return quickStation;
         }

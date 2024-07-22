@@ -223,7 +223,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_document != null && _document.DocumentID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(TableNames.document, _document.DocumentName, _station.StationID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.document, _document.DocumentName, _document.DocumentID);
             }
 
             //Exit
@@ -240,6 +240,16 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
+            //Make sure to delete station and location records if user is coming from map page
+            if (_station != null && _station.IsQuickStation != null && _station.IsQuickStation.Value)
+            {
+                //Delete without forced pop-up warning and question
+                await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
+
+                //Make sure to delete captured photo if there was one.
+                DeleteSnapshot();
+            }
+
             //Android when navigating back, ham menu disapears if / isn't added to path
             await Shell.Current.GoToAsync("../");
         }
@@ -626,6 +636,19 @@ namespace GSCFieldApp.ViewModel
                 _fileNumberTo = _model.FileNumber;
             }
             OnPropertyChanged(nameof(FileNumberTo));
+        }
+
+        /// <summary>
+        /// Will delete the temp snapshot from the local state folder
+        /// </summary>
+        public void DeleteSnapshot()
+        {
+            // Make sure not to delete a real picture, but the current snapshot only
+            if (_model != null && _model.Hyperlink != string.Empty && File.Exists(_model.Hyperlink))
+            {
+                File.Delete(_model.Hyperlink);
+            }
+
         }
 
         #endregion

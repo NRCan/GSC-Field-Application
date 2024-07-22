@@ -177,6 +177,18 @@ namespace GSCFieldApp.ViewModel
 
         public async Task Back()
         {
+            //Make sure to delete station and location records if user is coming from map page
+            if (_earthmaterial != null && _earthmaterial.IsQuickEarthmat != null && _earthmaterial.IsQuickEarthmat.Value)
+            {
+                //Get parent record
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                Station sRecord = await currentConnection.Table<Station>().Where(s => s.StationID == _earthmaterial.EarthMatStatID).FirstAsync();
+
+                //Delete without forced pop-up warning and question
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, sRecord.StationAlias, sRecord.LocationID, true);
+
+            }
+
             //Android when navigating back, ham menu disapears if / isn't added to path
             await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
         }

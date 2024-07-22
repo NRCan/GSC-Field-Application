@@ -105,7 +105,7 @@ namespace GSCFieldApp.ViewModel
                 //Create a quick earth material record
                 StationViewModel statViewModel = new StationViewModel();
                 Station quickStat = await statViewModel.QuickStation(locationID);
-
+                
                 //Navigate to station page and keep locationmodel for relationnal link
                 await Shell.Current.GoToAsync($"{nameof(DocumentPage)}/",
                     new Dictionary<string, object>
