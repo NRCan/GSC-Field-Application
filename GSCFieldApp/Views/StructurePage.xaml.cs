@@ -2,6 +2,8 @@ using GSCFieldApp.Services;
 using GSCFieldApp.ViewModel;
 using System;
 
+namespace GSCFieldApp.Views;
+
 public partial class StructurePage : ContentPage
 {
     public LocalizationResourceManager LocalizationResourceManager
@@ -10,7 +12,7 @@ public partial class StructurePage : ContentPage
 
     public StructurePage(StructureViewModel vm)
 	{
-		InitializeComponent();
+        InitializeComponent();
         BindingContext = vm;
     }
 }

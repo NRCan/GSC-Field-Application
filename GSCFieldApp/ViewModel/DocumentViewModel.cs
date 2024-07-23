@@ -19,7 +19,7 @@ namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Station), nameof(Station))]
     [QueryProperty(nameof(Document), nameof(Document))]
-    public partial class DocumentViewModel: ObservableObject
+    public partial class DocumentViewModel: FieldAppPageHelper
     {
         #region INIT
         DataAccess da = new DataAccess();
@@ -176,13 +176,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10,false),
-                    ["UpdateTable"] = TableNames.document,
-                }
-            );
+            await NavigateToFieldNotes(TableNames.document);
 
         }
 
@@ -227,13 +221,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.document,
-                }
-            );
+            await NavigateToFieldNotes(TableNames.document);
 
         }
 
@@ -250,8 +238,8 @@ namespace GSCFieldApp.ViewModel
                 DeleteSnapshot();
             }
 
-            //Android when navigating back, ham menu disapears if / isn't added to path
-            await Shell.Current.GoToAsync("../");
+            //Exit
+            await NavigateToFieldNotes(TableNames.document, false);
         }
 
         [RelayCommand]

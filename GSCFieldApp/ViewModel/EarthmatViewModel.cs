@@ -28,7 +28,7 @@ namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Earthmaterial), nameof(Earthmaterial))]
     [QueryProperty(nameof(Station), nameof(Station))]
-    public partial class EarthmatViewModel : ObservableObject
+    public partial class EarthmatViewModel : FieldAppPageHelper
     {
         #region INIT
 
@@ -408,8 +408,8 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            //Android when navigating back, ham menu disapears if / isn't added to path
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+            //Exit
+            await NavigateToFieldNotes(TableNames.earthmat, false);
         }
 
         /// <summary>
@@ -439,14 +439,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.earthmat,
-                }
-            );
-            //await Shell.Current.GoToAsync("../");
+            await NavigateToFieldNotes(TableNames.earthmat);
         }
 
         /// <summary>
@@ -492,14 +485,8 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.earthmat, _model.EarthMatName, _model.EarthMatID);
             }
 
-            //Exit and force refresh on whole field note page
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.meta,
-                }
-            );
+            //Exit
+            await NavigateToFieldNotes(TableNames.earthmat);
 
         }
 

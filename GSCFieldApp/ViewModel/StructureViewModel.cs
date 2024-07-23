@@ -19,7 +19,7 @@ namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Structure), nameof(Structure))]
     [QueryProperty(nameof(Earthmaterial), nameof(Earthmaterial))]
-    public partial class StructureViewModel: ObservableObject
+    public partial class StructureViewModel: FieldAppPageHelper
     {
         #region INIT
 
@@ -52,8 +52,9 @@ namespace GSCFieldApp.ViewModel
         #endregion
 
         public StructureViewModel()
-        { 
-        
+        {
+            //Init new field theme
+            FieldThemes = new FieldThemes();
         }
 
         #region RELAYS
@@ -73,8 +74,8 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            //Android when navigating back, ham menu disapears if / isn't added to path
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+            //Exit
+            await NavigateToFieldNotes(TableNames.structure, false);
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace GSCFieldApp.ViewModel
             //await SetModelAsync();
 
             //Validate if new entry or update
-            if (_structure != null && _structure.StructureName != string.Empty && _model.SampleID != 0)
+            if (_structure != null && _structure.StructureName != string.Empty && _model.StructureID != 0)
             {
 
                 await da.SaveItemAsync(Model, true);
@@ -104,13 +105,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.structure,
-                }
-            );
+            await NavigateToFieldNotes(TableNames.structure);
         }
 
         /// <summary>
@@ -158,13 +153,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.structure,
-                }
-            );
+            await NavigateToFieldNotes(TableNames.structure);
 
         }
 
@@ -187,7 +176,7 @@ namespace GSCFieldApp.ViewModel
                 Model.StructureEarthmatID = _earthmaterial.EarthMatID;
                 Model.StructureName = await idCalculator.CalculateSampleAliasAsync(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName);
             }
-            else if (Model.SampleEarthmatID != null)
+            else if (Model.StructureEarthmatID != null)
             {
                 // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);

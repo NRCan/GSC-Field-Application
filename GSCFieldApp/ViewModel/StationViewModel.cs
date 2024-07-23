@@ -27,7 +27,7 @@ namespace GSCFieldApp.ViewModel
     [QueryProperty(nameof(FieldLocation), nameof(FieldLocation))]
     [QueryProperty(nameof(Metadata), nameof(Metadata))]
     [QueryProperty(nameof(Station), nameof(Station))]
-    public partial class StationViewModel : ObservableObject
+    public partial class StationViewModel : FieldAppPageHelper
     {
         #region INIT
         public FieldThemes FieldThemes { get; set; }
@@ -206,13 +206,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.station,
-                }
-            );
+            await NavigateToFieldNotes(TableNames.station);
 
         }
 
@@ -263,14 +257,8 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID);
             }
 
-            //Exit and force refresh on whole field note page
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.meta,
-                }
-            );
+            //Exit
+            await NavigateToFieldNotes(TableNames.meta);
 
         }
 

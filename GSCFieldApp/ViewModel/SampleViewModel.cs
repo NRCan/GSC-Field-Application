@@ -21,7 +21,7 @@ namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Sample), nameof(Sample))]
     [QueryProperty(nameof(Earthmaterial), nameof(Earthmaterial))]
-    public partial class SampleViewModel : ObservableObject
+    public partial class SampleViewModel : FieldAppPageHelper
     {
 
         #region INIT
@@ -189,8 +189,8 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            //Android when navigating back, ham menu disapears if / isn't added to path
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/");
+            //Exit
+            await NavigateToFieldNotes(TableNames.sample, false);
         }
 
         /// <summary>
@@ -220,13 +220,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.sample,
-                }
-            );
+            await NavigateToFieldNotes(TableNames.sample);
         }
 
         /// <summary>
@@ -273,13 +267,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await Shell.Current.GoToAsync($"{nameof(FieldNotesPage)}/",
-                new Dictionary<string, object>
-                {
-                    ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
-                    ["UpdateTable"] = TableNames.sample,
-                }
-            );
+            await NavigateToFieldNotes(TableNames.sample);
 
         }
 
