@@ -386,7 +386,7 @@ namespace GSCFieldApp.ViewModel
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
                 List<Earthmaterial> parentAlias = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.SampleEarthmatID).ToListAsync();
                 await currentConnection.CloseAsync();
-                Model.SampleName = await idCalculator.CalculateEarthmatAliasAsync(Model.SampleEarthmatID, parentAlias.First().EarthMatName);
+                Model.SampleName = await idCalculator.CalculateSampleAliasAsync(Model.SampleEarthmatID, parentAlias.First().EarthMatName);
             }
 
             Model.SampleID = 0;

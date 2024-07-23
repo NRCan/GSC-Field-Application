@@ -176,7 +176,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Exit or stay in map page if quick photo
-            if (_station.IsMapPageQuick)
+            if (_station != null && _station.IsMapPageQuick)
             {
                 await Shell.Current.GoToAsync("../");
             }
@@ -476,7 +476,7 @@ namespace GSCFieldApp.ViewModel
                 && _model.DocumentType != null 
                 && _model.DocumentType != documentTableFileSuffix 
                 && _model.Hyperlink == string.Empty
-                && File.Exists(_model.Hyperlink))
+                && !File.Exists(_model.Hyperlink))
             {
                 _model.FileName = string.Empty;
                 string _noOlympusFileNumber = string.Empty;
@@ -607,10 +607,11 @@ namespace GSCFieldApp.ViewModel
                     if (_station != null)
                     {
                         _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
-                        OnPropertyChanged(nameof(Model));
-                        await da.SaveItemAsync(Model, false);
                     }
 
+
+                    OnPropertyChanged(nameof(Model));
+                    await da.SaveItemAsync(Model, false);
 
                     currentIteration++;
                 }
