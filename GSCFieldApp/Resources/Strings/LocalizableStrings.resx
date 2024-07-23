@@ -705,6 +705,9 @@
   <data name="StationTooltipAddPhoto" xml:space="preserve">
     <value>Tap to add one or many photos</value>
   </data>
+  <data name="StructurePageTitle" xml:space="preserve">
+    <value>Structure</value>
+  </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Field book was successfully saved to: {0}</value>
   </data>

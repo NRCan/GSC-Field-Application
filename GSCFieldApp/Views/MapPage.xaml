@@ -75,7 +75,8 @@
 
                 <!--Quick structure/pflow-->
                 <Button Text="&#xF183F;" Style="{StaticResource FieldAppHeaderButton}"
-                        ToolTipProperties.Text="{local:Localize MapPageAddStruc}"/>
+                        ToolTipProperties.Text="{local:Localize MapPageAddStruc}"
+                        Command="{Binding AddStructureCommand}"/>
 
                 <!--Quick photo-->
                 <Button Text="&#xF0D5D;" Style="{StaticResource FieldAppHeaderButton}"

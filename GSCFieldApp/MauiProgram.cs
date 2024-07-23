@@ -65,6 +65,9 @@ public static class MauiProgram
         builder.Services.AddTransient<DocumentPage>();
         builder.Services.AddTransient<DocumentViewModel>();
 
+        builder.Services.AddTransient<StructurePage>();
+        builder.Services.AddTransient<StructureViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();

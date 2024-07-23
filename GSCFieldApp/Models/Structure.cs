@@ -98,7 +98,7 @@ namespace GSCFieldApp.Models
         public string StructureNotes { get; set; }
 
         [Column(DatabaseLiterals.FieldStructureParentID)]
-        public int StructureParentID { get; set; }
+        public int StructureEarthmatID { get; set; }
 
         private int? _structureSymAng;
 

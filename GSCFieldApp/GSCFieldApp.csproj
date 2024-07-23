@@ -423,6 +423,9 @@
 	<MauiXaml Update="Views\EarthmatPage.xaml">
 		<Generator>MSBuild:Compile</Generator>
 	</MauiXaml>
+	<MauiXaml Update="Views\StructurePage.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>

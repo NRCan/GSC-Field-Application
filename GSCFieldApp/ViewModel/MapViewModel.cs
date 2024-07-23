@@ -16,6 +16,7 @@ using GSCFieldApp.Dictionaries;
 using SQLite;
 using CommunityToolkit.Maui.Core.Extensions;
 using Mapsui.Layers;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -42,6 +43,7 @@ namespace GSCFieldApp.ViewModel
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
 
         #endregion
+
         public MapViewModel()
         {
             //Get main metadata record
@@ -117,6 +119,43 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
+
+        [RelayCommand]
+        async Task AddStructure()
+        {
+            if (sensorLocation != null)
+            {
+                //Create a location record
+                int locationID = await SetLocationModelAsync();
+
+                //Special case: this command can either pop structure for bedrock fieldbook
+                // or pop paleoflow for surficial ones
+
+                string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), DatabaseLiterals.ApplicationThemeBedrock);
+                if(preferedTheme == ApplicationThemeBedrock)
+                {
+                    //Create a quick earth material record
+                    EarthmatViewModel emViewModel = new EarthmatViewModel();
+                    Earthmaterial quickEM = await emViewModel.QuickEarthmat(locationID);
+
+                    //Navigate to station page and keep locationmodel for relationnal link
+                    await Shell.Current.GoToAsync($"{nameof(StructurePage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Structure)] = null,
+                            [nameof(Earthmaterial)] = quickEM,
+                        }
+                    );
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
+                }
+
+
+            }
+        }
+        
         #endregion
 
         #region METHODS

@@ -1825,6 +1825,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Structure.
+        /// </summary>
+        internal static string StructurePageTitle {
+            get {
+                return ResourceManager.GetString("StructurePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field book was successfully saved to: {0}.
         /// </summary>
         internal static string ToastFieldBookBackup {
