@@ -160,14 +160,20 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Make sure to delete station and location records if user is coming from map page
-            if (_station != null && _station.IsQuickStation != null && _station.IsQuickStation.Value)
+            if (_station != null && _station.StationAlias != string.Empty && _model.StationID != 0)
             {
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
+
+                //Exit on map
+                await Shell.Current.GoToAsync("../");
+            }
+            else
+            {
+                //Exit in field notes
+                await NavigateToFieldNotes(TableNames.station);
             }
 
-            //Android when navigating back, ham menu disapears if / isn't added to path
-            await Shell.Current.GoToAsync("../");
         }
 
         /// <summary>
@@ -195,19 +201,28 @@ namespace GSCFieldApp.ViewModel
             if (_station != null &&_station.StationAlias != string.Empty && _model.StationID != 0)
             {
                 await da.SaveItemAsync(Model, true);
+
+                //Close to be sure
+                await da.CloseConnectionAsync();
+
+                //Exit
+                await NavigateToFieldNotes(TableNames.station);
+
             }
             else
             {
                 //Insert new record
                 await da.SaveItemAsync(Model, false);
+
+                //Close to be sure
+                await da.CloseConnectionAsync();
+
+                //Exit
+                await Shell.Current.GoToAsync("../");
+
             }
 
-            //Close to be sure
-            await da.CloseConnectionAsync();
-
-            //Exit
-            await NavigateToFieldNotes(TableNames.station);
-
+           
         }
 
         /// <summary>
@@ -499,7 +514,7 @@ namespace GSCFieldApp.ViewModel
             //Fill out model and save new record
             await InitModel();
             Station quickStation = await da.SaveItemAsync(Model, false) as Station;
-            quickStation.IsQuickStation = true;
+            quickStation.IsMapPageQuick = true;
 
             return quickStation;
         }

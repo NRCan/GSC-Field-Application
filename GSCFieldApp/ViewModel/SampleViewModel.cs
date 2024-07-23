@@ -178,7 +178,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Make sure to delete station and location records if user is coming from map page
-            if (_earthmaterial != null && _earthmaterial.IsQuickEarthmat != null && _earthmaterial.IsQuickEarthmat.Value)
+            if (_earthmaterial != null && _earthmaterial.IsMapPageQuick)
             {
                 //Get parent record
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
@@ -189,8 +189,15 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            //Exit
-            await NavigateToFieldNotes(TableNames.sample, false);
+            //Exit or stay in map page if quick photo
+            if (_earthmaterial != null && _earthmaterial.IsMapPageQuick)
+            {
+                await Shell.Current.GoToAsync("../");
+            }
+            else
+            {
+                await NavigateToFieldNotes(TableNames.sample);
+            }
         }
 
         /// <summary>
@@ -219,8 +226,15 @@ namespace GSCFieldApp.ViewModel
             //Close to be sure
             await da.CloseConnectionAsync();
 
-            //Exit
-            await NavigateToFieldNotes(TableNames.sample);
+            //Exit or stay in map page if quick photo
+            if (_earthmaterial != null && _earthmaterial.IsMapPageQuick)
+            {
+                await Shell.Current.GoToAsync("../");
+            }
+            else
+            {
+                await NavigateToFieldNotes(TableNames.sample);
+            }
         }
 
         /// <summary>

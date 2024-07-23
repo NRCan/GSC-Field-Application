@@ -350,6 +350,6 @@ namespace GSCFieldApp.Models
         /// Will be used to trigger a cascade delete coming from location record
         /// </summary>
         [Ignore]
-        public bool? IsQuickEarthmat { get; set; }
+        public bool IsMapPageQuick { get; set; } = false;
     }
 }

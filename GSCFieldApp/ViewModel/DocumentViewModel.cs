@@ -175,8 +175,16 @@ namespace GSCFieldApp.ViewModel
             //Close to be sure
             await da.CloseConnectionAsync();
 
-            //Exit
-            await NavigateToFieldNotes(TableNames.document);
+            //Exit or stay in map page if quick photo
+            if (_station.IsMapPageQuick)
+            {
+                await Shell.Current.GoToAsync("../");
+            }
+            else
+            {
+                await NavigateToFieldNotes(TableNames.document);
+            }
+
 
         }
 
@@ -229,7 +237,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Make sure to delete station and location records if user is coming from map page
-            if (_station != null && _station.IsQuickStation != null && _station.IsQuickStation.Value)
+            if (_station != null && _station.IsMapPageQuick)
             {
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
@@ -238,8 +246,15 @@ namespace GSCFieldApp.ViewModel
                 DeleteSnapshot();
             }
 
-            //Exit
-            await NavigateToFieldNotes(TableNames.document, false);
+            //Exit or stay in map page if quick photo
+            if (_station.IsMapPageQuick)
+            {
+                await Shell.Current.GoToAsync("../");
+            }
+            else
+            {
+                await NavigateToFieldNotes(TableNames.document);
+            }
         }
 
         [RelayCommand]

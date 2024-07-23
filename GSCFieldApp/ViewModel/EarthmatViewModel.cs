@@ -1220,7 +1220,7 @@ namespace GSCFieldApp.ViewModel
             //Fill out model and save new record
             await InitModel();
             Earthmaterial quickEM = await da.SaveItemAsync(Model, false) as Earthmaterial;
-            quickEM.IsQuickEarthmat = true;
+            quickEM.IsMapPageQuick = true;
 
             return quickEM;
 
