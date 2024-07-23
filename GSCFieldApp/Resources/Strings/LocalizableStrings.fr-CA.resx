@@ -691,8 +691,29 @@ Aimeriez-vous modifier les droits?</value>
   <data name="StationTooltipAddPhoto" xml:space="preserve">
     <value>Ajoutez une ou plusieurs photo</value>
   </data>
+  <data name="StructurePageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="StructurePageFabric" xml:space="preserve">
+    <value>Composition</value>
+  </data>
+  <data name="StructurePageMeasurementTitle" xml:space="preserve">
+    <value>Mesures</value>
+  </data>
+  <data name="StructurePageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="StructurePageNotesTitle" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="StructurePageSense" xml:space="preserve">
+    <value>Sens</value>
+  </data>
   <data name="StructurePageTitle" xml:space="preserve">
     <value>Structure</value>
+  </data>
+  <data name="StructurePageTypeTitle" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Le carnet a été sauvegardé avec succès ici: {0}</value>

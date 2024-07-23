@@ -494,74 +494,70 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-        //#region STRUCTURE
-        ///// <summary>
-        ///// Will calculate a generic ID for structure table
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculateStructureID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
+        #region STRUCTURE
 
-        ///// <summary>
-        ///// Will calculate a structure alias from a given parent id and parent alias.
-        ///// NOTE: It is related to parent alias which is earthmat
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <returns></returns>
-        //public string CalculateStructureAlias(int parentID, string parentAlias)
-        //{
-        //    //Querying with Linq
-        //    List<object> structureTableRaw = dAccess.ReadTable(structModel.GetType(), null);
-        //    IEnumerable<Structure> strucTable = structureTableRaw.Cast<Structure>(); //Cast to proper list type
-        //    IEnumerable<string> strucParentEarth = from e in strucTable where e.StructureParentID == parentID orderby e.StructureName descending select e.StructureName;
+        /// <summary>
+        /// Will calculate a structure alias from a given parent id and parent alias.
+        /// NOTE: It is related to parent alias which is earthmat
+        /// It's exactly the same procedure as sample alias
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public async Task<string> CalculateStructureAliasAsync(int parentID, string parentAlias)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<Structure> strucParentEarth = await currentConnection.Table<Structure>().Where(e => e.StructureEarthmatID == parentID).ToListAsync();
 
-        //    int newID = 1; //Incrementing step
-        //    string newAlias = string.Empty;
-        //    string finaleStructureString = parentAlias;
+            int newID = 1; //Incrementing step
+            string newAlias = string.Empty;
+            string finaleStructureString = parentAlias;
 
-        //    //Detect last sample number and add 1 to it.
-        //    if (strucParentEarth.Count() > 0)
-        //    {
-        //        string lastAlias = strucParentEarth.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
-        //        string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //Sample only has two digits id in the alias
-        //        newID = Convert.ToInt16(lastNumberString) + newID;
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Padd current ID with 0 if needed
-        //            if (newID < 10)
-        //            {
-        //                newAlias = "0" + newID;
-        //            }
-        //            else
-        //            {
-        //                newAlias = newID.ToString();
-        //            }
+            //Detect last sample number and add 1 to it.
+            if (strucParentEarth.Count() > 0)
+            {
+                string lastAlias = strucParentEarth.ToList()[strucParentEarth.Count() - 1].StructureName.ToString();
+                string lastNumberString = lastAlias.ToList()[lastAlias.Length - 2].ToString(); //Sample only has two digits id in the alias
+                short parsedID = 0;
+                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                newID = parsedID + newID;
 
-        //            finaleStructureString = parentAlias + newAlias;
+                //Find a non existing name
+                while (processingID)
+                {
+                    //Padd current ID with 0 if needed
+                    if (newID < 10)
+                    {
+                        newAlias = "0" + newID;
+                    }
+                    else
+                    {
+                        newAlias = newID.ToString();
+                    }
 
-        //            //Find existing
-        //            IEnumerable<Structure> existingStructure = from s in strucTable where s.StructureParentID == parentID && s.StructureName == finaleStructureString select s;
-        //            if (existingStructure.Count() == 0 || existingStructure == null)
-        //            {
-        //                breaker = false;
-        //            }
+                    finaleStructureString = parentAlias + newAlias;
 
-        //            newID++;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        finaleStructureString = parentAlias + "0" + newID;
-        //    }
+                    //Find existing
+                    List<Structure> existingSamples = await currentConnection.Table<Structure>().Where(e => e.StructureEarthmatID == parentID && e.StructureName == finaleStructureString).ToListAsync();
+                    if (existingSamples.Count() == 0 || existingSamples == null)
+                    {
+                        processingID = false;
+                    }
 
-        //    return finaleStructureString;
-        //}
+                    newID++;
+                }
 
-        //#endregion
+            }
+            else
+            {
+                finaleStructureString = parentAlias + "0" + newID;
+            }
+
+            return finaleStructureString;
+        }
+
+        #endregion
 
         //#region PALEO FLOW
 

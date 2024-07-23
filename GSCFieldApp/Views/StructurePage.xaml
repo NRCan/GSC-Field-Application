@@ -34,6 +34,69 @@
             <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
 
                 <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+                    
+                    <!--Type section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding StructureTypeVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StructurePageTypeTitle}">
+
+                        <VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Measurement section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding StructureMeasurementVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StructurePageMeasurementTitle}">
+
+                        <VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Description section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding StructureDescVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StructurePageDescriptionTitle}">
+
+                        <VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Notes section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding StructureNotesVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StructurePageNotesTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize StructurePageFabric}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.StructureFabric, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize StructurePageSense}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.StructureSense, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize StructurePageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.StructureNotes, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </controls:ExpandableFrame>
+
                 </FlexLayout>
             </ScrollView>
 

@@ -1825,11 +1825,74 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string StructurePageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("StructurePageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fabric.
+        /// </summary>
+        internal static string StructurePageFabric {
+            get {
+                return ResourceManager.GetString("StructurePageFabric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurements.
+        /// </summary>
+        internal static string StructurePageMeasurementTitle {
+            get {
+                return ResourceManager.GetString("StructurePageMeasurementTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string StructurePageNotes {
+            get {
+                return ResourceManager.GetString("StructurePageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string StructurePageNotesTitle {
+            get {
+                return ResourceManager.GetString("StructurePageNotesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sense.
+        /// </summary>
+        internal static string StructurePageSense {
+            get {
+                return ResourceManager.GetString("StructurePageSense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Structure.
         /// </summary>
         internal static string StructurePageTitle {
             get {
                 return ResourceManager.GetString("StructurePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string StructurePageTypeTitle {
+            get {
+                return ResourceManager.GetString("StructurePageTypeTitle", resourceCulture);
             }
         }
         
