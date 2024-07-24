@@ -700,8 +700,14 @@ Aimeriez-vous modifier les droits?</value>
   <data name="StructurePageAzimuth" xml:space="preserve">
     <value>Azimut</value>
   </data>
+  <data name="StructurePageClass" xml:space="preserve">
+    <value>Classe et type</value>
+  </data>
   <data name="StructurePageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="StructurePageDetail" xml:space="preserve">
+    <value>Détail</value>
   </data>
   <data name="StructurePageDipPlunge" xml:space="preserve">
     <value>Pendage/Plongée</value>

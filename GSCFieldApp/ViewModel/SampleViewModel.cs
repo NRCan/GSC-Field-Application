@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Themes;
+using GSCFieldApp.Controls;
 using GSCFieldApp.Views;
 using GSCFieldApp.Services;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
@@ -483,7 +483,7 @@ namespace GSCFieldApp.ViewModel
                 && SelectedSamplePurpose.itemValue == String.Empty
                 && SamplePurposeCollection.Count > 0)
             {
-                foreach (Themes.ComboBoxItem cbi in SamplePurposeCollection)
+                foreach (Controls.ComboBoxItem cbi in SamplePurposeCollection)
                 {
                     if (cbi.itemValue.Contains(samplePurposePaleomag))
                     {

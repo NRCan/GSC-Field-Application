@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace GSCFieldApp.Themes
+namespace GSCFieldApp.Controls
 {
     /// <summary>
     /// A class to be used with comboboxes to updated selected items
@@ -15,6 +15,7 @@ namespace GSCFieldApp.Themes
         public string itemName { get; set; }
         public string itemValue { get; set; }
         public bool canRemoveItem { get { return _canRemoveItem; } set { _canRemoveItem = value; } }
+        public string itemParent { get; set; } = string.Empty; //Will be used to filter down items with needed parents.
 
     }
 
@@ -36,7 +37,7 @@ namespace GSCFieldApp.Themes
             string output = string.Empty;
 
             //Iterate through values
-            foreach (Themes.ComboBoxItem cboxItems in inCollection)
+            foreach (Controls.ComboBoxItem cboxItems in inCollection)
             {
                 if (cboxItems != null)
                 {

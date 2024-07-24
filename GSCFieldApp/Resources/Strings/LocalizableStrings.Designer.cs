@@ -1852,11 +1852,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Class and type.
+        /// </summary>
+        internal static string StructurePageClass {
+            get {
+                return ResourceManager.GetString("StructurePageClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string StructurePageDescriptionTitle {
             get {
                 return ResourceManager.GetString("StructurePageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detail.
+        /// </summary>
+        internal static string StructurePageDetail {
+            get {
+                return ResourceManager.GetString("StructurePageDetail", resourceCulture);
             }
         }
         

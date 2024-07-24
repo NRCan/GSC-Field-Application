@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GSCFieldApp.Themes
+namespace GSCFieldApp.Controls
 {
     /// <summary>
     /// Class to change data template for fieldbooks at runtime.

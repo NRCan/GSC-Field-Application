@@ -15,7 +15,7 @@ using SQLite;
 using System.Resources;
 using GSCFieldApp.Dictionaries;
 using BruTile.Wmts.Generated;
-using GSCFieldApp.Themes;
+using GSCFieldApp.Controls;
 using NetTopologySuite.Index.HPRtree;
 using GSCFieldApp.Services;
 using System.IO.Compression;

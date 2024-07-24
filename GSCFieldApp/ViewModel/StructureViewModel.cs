@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
-using GSCFieldApp.Themes;
+using GSCFieldApp.Controls;
 using GSCFieldApp.Views;
 using GSCFieldApp.Services;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
@@ -39,6 +39,15 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _structureAttitude = new ComboBox();
         private ComboBox _structureYounging = new ComboBox();
         private ComboBox _structureGeneration = new ComboBox();
+        private ComboBox _structureClass = new ComboBox();
+        private ComboBox _structureDetail = new ComboBox();
+
+        private ComboBox _structureFormatAll = new ComboBox();
+        private ComboBox _structureDetailAll = new ComboBox();
+        private ComboBox _structureAttitudeAll = new ComboBox();
+        private ComboBox _structureYoungingAll = new ComboBox();
+        private ComboBox _structureGenerationAll = new ComboBox();
+
         //Localize
         public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -92,6 +101,9 @@ namespace GSCFieldApp.ViewModel
         public ComboBox StructureAttitude { get { return _structureAttitude; } set { _structureAttitude = value; } }
         public ComboBox StructureYounging { get { return _structureYounging; } set { _structureYounging = value; } }
         public ComboBox StructureGeneration { get { return _structureGeneration; } set { _structureGeneration = value; } }
+        public ComboBox StructureClass { get { return _structureClass; } set { _structureClass = value; } }
+        public ComboBox StructureDetail{ get { return _structureDetail; } set { _structureDetail = value; } }
+
         #endregion
 
         public StructureViewModel()
@@ -228,14 +240,10 @@ namespace GSCFieldApp.ViewModel
         {
             //Connect to db
             currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-            
 
             //First order pickers
-            _structureFormat = await FillAPicker(FieldStructureFormat);
-            OnPropertyChanged(nameof(StructureFormat));
-
-            _structureMethod = await FillAPicker(FieldStructureMethod);
-            OnPropertyChanged(nameof(StructureMethod));
+            _structureClass = await FillAPicker(FieldStructureClass);
+            OnPropertyChanged(nameof(StructureClass));
 
             _structureMethod = await FillAPicker(FieldStructureMethod);
             OnPropertyChanged(nameof(StructureMethod));
@@ -246,6 +254,23 @@ namespace GSCFieldApp.ViewModel
             _structureStrain = await FillAPicker(FieldStructureStrain);
             OnPropertyChanged(nameof(StructureStrain));
 
+            //Second order pickers
+            _structureDetailAll = await FillAPicker(FieldStructureDetail);
+            _structureAttitudeAll = await FillAPicker(FieldStructureAttitude);
+            _structureYoungingAll = await FillAPicker(FieldStructureYoung);
+            _structureGenerationAll = await FillAPicker(FieldStructureGeneration);
+
+            //There is one picker who doesn't have parents in surficial
+            if (FieldThemes.SurficialVisibility)
+            {
+                _structureFormat = await FillAPicker(FieldStructureFormat);
+                OnPropertyChanged(nameof(StructureFormat));
+            }
+            else
+            {
+                _structureFormatAll = await FillAPicker(FieldStructureFormat);
+            }
+
             //There is one picker that needs all brotha's and sista's listing
             _structureRelatedAlias = await FillRelatedStructureAsync();
             OnPropertyChanged(nameof(StructureRelatedAlias));
@@ -254,12 +279,46 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
+        /// Will fill all picker controls that are dependant on the user selected
+        /// structure class/type
+        /// </summary>
+        /// <returns></returns>
+        public async Task Fill2ndRoundPickers()
+        {
+
+            if (_model != null && _model.StructureClass != null && _model.StructureClass != string.Empty)
+            {
+                //One picklist can only be filtered down if coming from bedrock project
+                if (FieldThemes.BedrockVisibility)
+                {
+                    _structureFormat.cboxItems = _structureFormatAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+
+                    OnPropertyChanged(nameof(StructureFormat));
+                }
+
+                _structureDetail.cboxItems = _structureDetailAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                OnPropertyChanged(nameof(StructureDetail));
+
+                _structureAttitude.cboxItems = _structureAttitudeAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                OnPropertyChanged(nameof(StructureAttitude));
+
+                _structureYounging.cboxItems = _structureYoungingAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                OnPropertyChanged(nameof(StructureYounging));
+
+                _structureGeneration.cboxItems = _structureGenerationAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                OnPropertyChanged(nameof(StructureGeneration));
+            }
+
+        }
+
+
+        /// <summary>
         /// Will fill the project type combobox
         /// </summary>
-        private async Task<ComboBox> FillAPicker(string fieldName)
+        private async Task<ComboBox> FillAPicker(string fieldName, string extraField = "")
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
-            return await da.GetComboboxListWithVocabAsync(TableStructure, fieldName);
+            return await da.GetComboboxListWithVocabAsync(TableStructure, fieldName, extraField);
 
         }
 
@@ -270,13 +329,16 @@ namespace GSCFieldApp.ViewModel
         private async Task SetModelAsync()
         {
 
-            //#region Process concatenated pickers
-            //if (DocumentCategoryCollection != null && DocumentCategoryCollection.Count > 0)
-            //{
-            //    Model.Category = ConcatenatedCombobox.PipeValues(DocumentCategoryCollection); //process list of values so they are concatenated.
-            //}
-
-            //#endregion
+            //Make sure to split class picker into two fields (class and type)
+            if (_model != null && _model.StructureClass != null && _model.StructureClass != string.Empty)
+            {
+                string[] splitStructure = _model.StructureClass.Split(KeywordConcatCharacter2nd);
+                _model.StructureClass = splitStructure[0];
+                if (splitStructure.Count() > 1)
+                {
+                    _model.StructureType = _model.StructureClass.Split(KeywordConcatCharacter2nd)[1];
+                }
+            }
 
         }
 
@@ -311,20 +373,65 @@ namespace GSCFieldApp.ViewModel
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
-                //#region Pickers
-                ////Select values in pickers
-                //List<string> bfs = ConcatenatedCombobox.UnpipeString(_document.Category);
-                //_categoryCollection.Clear(); //Clear any possible values first
-                //foreach (ComboBoxItem cbox in DocumentCategory.cboxItems)
+
+            }
+            else
+            {
+                //Fill in second round of pickers
+                await Fill2ndRoundPickers();
+
+                //Load
+                //await Load2ndRound();
+            }
+        }
+
+        /// <summary>
+        /// Will refill the form with existing values for update/editing purposes
+        /// </summary>
+        /// <returns></returns>
+        public async Task Load2ndRound()
+        {
+
+            if (_structure != null && _structure.StructureName != string.Empty && _structure.StructureClass != null && _structure.StructureClass != String.Empty)
+            {
+                //Special case picker
+                //Doesn't interact well with xaml converter, need to keep it here
+
+                foreach (ComboBoxItem cbox in StructureAttitude.cboxItems)
+                {
+                    if (cbox.itemValue == _structure.StructureAttitude)
+                    {
+                        StructureAttitude.cboxDefaultItemIndex = StructureAttitude.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(StructureAttitude));
+
+                foreach (ComboBoxItem cbox in StructureYounging.cboxItems)
+                {
+                    if (cbox.itemValue == _structure.StructureYounging)
+                    {
+                        StructureYounging.cboxDefaultItemIndex = StructureYounging.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(StructureYounging));
+
+                foreach (ComboBoxItem cbox in StructureGeneration.cboxItems)
+                {
+                    if (cbox.itemValue == _structure.StructureGeneration)
+                    {
+                        StructureGeneration.cboxDefaultItemIndex = StructureGeneration.cboxItems.IndexOf(cbox); break;
+                    }
+                }
+                OnPropertyChanged(nameof(StructureGeneration));
+
+                //foreach (ComboBoxItem cbox in StructureFormat.cboxItems)
                 //{
-                //    if (bfs.Contains(cbox.itemValue) && !_categoryCollection.Contains(cbox))
+                //    if (cbox.itemValue == _structure.StructureFormat)
                 //    {
-                //        _categoryCollection.Add(cbox);
+                //        StructureFormat.cboxDefaultItemIndex = StructureFormat.cboxItems.IndexOf(cbox); break;
                 //    }
                 //}
-                //OnPropertyChanged(nameof(DocumentCategory));
-
-                //#endregion
+                //OnPropertyChanged(nameof(StructureFormat));
 
             }
         }
@@ -414,10 +521,15 @@ namespace GSCFieldApp.ViewModel
 
                     foreach (Structure st in sts)
                     {
-                        Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
-                        newItem.itemValue = st.StructureID.ToString();
-                        newItem.itemName = string.Format("{0} ({1})", st.StructureName, st.StructureClass);
-                        relatedCbx.cboxItems.Add(newItem);
+                        //Exclude self from list
+                        if (st.StructureName != _model.StructureName)
+                        {
+                            Controls.ComboBoxItem newItem = new Controls.ComboBoxItem();
+                            newItem.itemValue = st.StructureID.ToString();
+                            newItem.itemName = string.Format("{0} ({1})", st.StructureName, st.StructureClass);
+                            relatedCbx.cboxItems.Add(newItem);
+                        }
+
                     }
 
                     relatedCbx.cboxDefaultItemIndex = -1;

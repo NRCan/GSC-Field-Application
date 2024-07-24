@@ -4,7 +4,6 @@
              x:Class="GSCFieldApp.Views.FieldBooksPage"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
-             xmlns:selectors="clr-namespace:GSCFieldApp.Themes"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType="viewmodel:FieldBooksViewModel" 
              xmlns:model="using:GSCFieldApp.Models"

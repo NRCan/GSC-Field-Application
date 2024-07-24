@@ -5,7 +5,6 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:controls="clr-namespace:GSCFieldApp.Controls"
-             xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viemodel:StationViewModel"
              Shell.BackgroundColor="{StaticResource FieldStationColor}"

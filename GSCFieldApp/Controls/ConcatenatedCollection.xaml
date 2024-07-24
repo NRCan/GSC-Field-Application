@@ -2,7 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GSCFieldApp.Controls.ConcatenatedCollection"
-             xmlns:themes="clr-namespace:GSCFieldApp.Themes">
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls">
 
     <ContentView.Resources >
 
@@ -13,7 +13,7 @@
                                 x:Name="ConcatCollectionView"
                                 ItemsSource="{TemplateBinding ConcatSource}">
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="themes:ComboBoxItem">
+                        <DataTemplate x:DataType="controls:ComboBoxItem">
                             <Frame Style="{StaticResource FieldAppConcatFrame}">
                                 <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}">
                                     <Label Text="{Binding itemName}" x:Name="itemNameText" Style="{StaticResource FieldAppConcatLabel}"/>

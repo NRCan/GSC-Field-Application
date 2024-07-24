@@ -9,7 +9,7 @@ using GSCFieldApp.Dictionaries;
 using SQLite;
 using System.Diagnostics;
 using BruTile.Wmts.Generated;
-using GSCFieldApp.Themes;
+using GSCFieldApp.Controls;
 using NetTopologySuite.Index.HPRtree;
 
 namespace GSCFieldApp.Services.DatabaseServices
@@ -305,6 +305,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Fill in cbox
             outputVocabs = GetComboboxListFromVocab(vocs);
 
+
             return outputVocabs;
         }
 
@@ -347,6 +348,12 @@ namespace GSCFieldApp.Services.DatabaseServices
                 if (vocabs.DefaultValue != null && vocabs.DefaultValue == Dictionaries.DatabaseLiterals.boolYes)
                 {
                     defaultValueIndex = outputVocabsList.Count;
+                }
+
+                //Keep relatedTo Value for filtering
+                if (vocabs.RelatedTo != null && vocabs.RelatedTo != string.Empty)
+                {
+                    newItem.itemParent = vocabs.RelatedTo;
                 }
 
                 outputVocabsList.Add(newItem);

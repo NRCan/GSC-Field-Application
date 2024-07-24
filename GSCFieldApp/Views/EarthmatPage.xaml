@@ -4,7 +4,6 @@
              x:Class="GSCFieldApp.Views.EarthmatPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
-             xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              xmlns:controls="clr-namespace:GSCFieldApp.Controls"
              xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viemodel:EarthmatViewModel"

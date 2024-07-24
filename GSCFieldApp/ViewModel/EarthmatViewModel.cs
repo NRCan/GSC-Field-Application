@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Models;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
-using GSCFieldApp.Themes;
+using GSCFieldApp.Controls;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Maui.ApplicationModel.Communication;
@@ -990,7 +990,7 @@ namespace GSCFieldApp.ViewModel
 
                     foreach (Earthmaterial em in ems)
                     {
-                        Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
+                        Controls.ComboBoxItem newItem = new Controls.ComboBoxItem();
                         newItem.itemValue = em.EarthMatName;
                         newItem.itemName = em.EarthMatName;
                         relatedCbx.cboxItems.Add(newItem);

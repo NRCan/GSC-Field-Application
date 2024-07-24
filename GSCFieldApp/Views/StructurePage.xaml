@@ -4,7 +4,6 @@
              x:Class="GSCFieldApp.Views.StructurePage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
-             xmlns:themes="clr-namespace:GSCFieldApp.Themes"
              xmlns:controls="clr-namespace:GSCFieldApp.Controls"
              xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -41,6 +40,26 @@
                                               FrameTitle="{local:Localize StructurePageTypeTitle}">
 
                         <VerticalStackLayout>
+
+                            <!--Quirk - Show item value instead of name, else planar and linear are missing from text-->
+                            <Picker Title="{local:Localize StructurePageClass}" x:Name="StructureClassPicker"
+                                    ItemsSource="{Binding StructureClass.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemValue}" SelectedIndexChanged="StructureClassPicker_SelectedIndexChanged"
+                                    SelectedItem="{Binding Model.StructureClass, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureClass, Source={x:Reference StructureClassPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureClass.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize StructurePageDetail}" x:Name="StructureDetailPicker"
+                                    ItemsSource="{Binding StructureDetail.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureDetail, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureDetail, Source={x:Reference StructureDetailPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureDetail.cboxDefaultItemIndex, Mode=TwoWay}" />
+
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
 
@@ -119,6 +138,7 @@
                                               FrameTitle="{local:Localize StructurePageDescriptionTitle}">
 
                         <VerticalStackLayout>
+
                             <Picker Title="{local:Localize StructurePageAttitude}" x:Name="StructureAttitudePicker"
                                     ItemsSource="{Binding StructureAttitude.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
@@ -137,6 +157,7 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding StructureYounging.cboxDefaultItemIndex, Mode=TwoWay}" />
 
+                            <!--Can't use converter on this 2nd round picker, else it always gets overwritten with empty string on init-->
                             <Picker Title="{local:Localize StructurePageGeneration}" x:Name="StructureGenerationPicker"
                                     ItemsSource="{Binding StructureGeneration.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"

@@ -714,8 +714,14 @@
   <data name="StructurePageAzimuth" xml:space="preserve">
     <value>Azimuth</value>
   </data>
+  <data name="StructurePageClass" xml:space="preserve">
+    <value>Class and type</value>
+  </data>
   <data name="StructurePageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="StructurePageDetail" xml:space="preserve">
+    <value>Detail</value>
   </data>
   <data name="StructurePageDipPlunge" xml:space="preserve">
     <value>Dip/Plunge</value>
