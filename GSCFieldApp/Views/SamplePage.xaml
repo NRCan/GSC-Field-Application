@@ -85,55 +85,6 @@
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
 
-                    <!--Core (BEDROCK) -->
-                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
-                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleCoreVisibility, Mode=TwoWay}"
-                                              FrameTitle="{local:Localize SamplePageCoreTitle}">
-                        <VerticalStackLayout>
-
-                            <Picker Title="{local:Localize SamplePageCorePortion}"
-                                    x:Name="SampleCoreSizePicker"
-                                    ItemsSource="{Binding SampleCorePortion.cboxItems}" 
-                                    ItemDisplayBinding="{Binding itemName}" 
-                                    SelectedItem="{Binding Model.SampleCoreSize, 
-                                        Converter={StaticResource cbox2Str},
-                                        ConverterParameter={Binding SampleCorePortion, Source={x:Reference SampleCoreSizePicker}},
-                                        Mode=TwoWay}"
-                                    SelectedIndex="{Binding SampleCorePortion.cboxDefaultItemIndex, Mode=TwoWay}"/>
-
-                            <VerticalStackLayout IsVisible="False">
-                                <!--Quirk, this should be initialized with field book geologist name-->
-                                <!--I feel like this is redundant information, hide for now for later discussion with geologist regarding this-->
-                                <Label Text="{local:Localize SamplePageCoreBy}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleBy, Mode=TwoWay}"/>
-
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout>
-                                <!--Quirk, this along next control should automatically calculate Core length "to" value--> 
-                                <Label Text="{local:Localize SamplePageCoreFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
-
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout>
-                                <!--Quirk, this along previous control should automatically calculate Core length "to" value-->
-                                <Label Text="{local:Localize SamplePageCoreLength}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreLength, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
-
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout>
-
-                                <Label Text="{local:Localize SamplePageCoreTo}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.SampleCoreTo, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"/>
-
-                            </VerticalStackLayout>
-                            
-
-                        </VerticalStackLayout>
-                    </controls:ExpandableFrame>
-
                     <!--Orientation (BEDROCK) -->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockOrientedSampleVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleOrientVisibility, Mode=TwoWay}"
@@ -255,6 +206,54 @@
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
 
+                    <!--Core (BEDROCK) -->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleCoreVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageCoreTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize SamplePageCorePortion}"
+                                    x:Name="SampleCoreSizePicker"
+                                    ItemsSource="{Binding SampleCorePortion.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedItem="{Binding Model.SampleCoreSize, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding SampleCorePortion, Source={x:Reference SampleCoreSizePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding SampleCorePortion.cboxDefaultItemIndex, Mode=TwoWay}"/>
+
+                            <VerticalStackLayout IsVisible="False">
+                                <!--Quirk, this should be initialized with field book geologist name-->
+                                <!--I feel like this is redundant information, hide for now for later discussion with geologist regarding this-->
+                                <Label Text="{local:Localize SamplePageCoreBy}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleBy, Mode=TwoWay}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <!--Quirk, this along next control should automatically calculate Core length "to" value-->
+                                <Label Text="{local:Localize SamplePageCoreFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <!--Quirk, this along previous control should automatically calculate Core length "to" value-->
+                                <Label Text="{local:Localize SamplePageCoreLength}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreLength, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize SamplePageCoreTo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreTo, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
 
                     <!--General -->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
