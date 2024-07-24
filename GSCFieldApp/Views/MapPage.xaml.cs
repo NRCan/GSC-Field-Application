@@ -333,6 +333,7 @@ public partial class MapPage : ContentPage
             LocalizationResourceManager["MapPageAddWaypointDialogMessage"].ToString(),
             LocalizationResourceManager["GenericButtonOk"].ToString(),
             LocalizationResourceManager["GenericButtonCancel"].ToString(),
+            LocalizationResourceManager["MapPageAddWaypointDialogPlaceholder"].ToString(),-1,null,
             LocalizationResourceManager["MapPageAddWaypointDialogPlaceholder"].ToString());
 
         if (wms_url != string.Empty)
