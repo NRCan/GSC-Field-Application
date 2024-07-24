@@ -460,13 +460,16 @@
     <value>Earth Materials</value>
   </data>
   <data name="FielNotesPhotoHeader" xml:space="preserve">
-    <value>Photo</value>
+    <value>Photos</value>
   </data>
   <data name="FielNotesSampleHeader" xml:space="preserve">
-    <value>Sample</value>
+    <value>Samples</value>
   </data>
   <data name="FielNotesStationHeader" xml:space="preserve">
     <value>Stations</value>
+  </data>
+  <data name="FielNotesStructureHeader" xml:space="preserve">
+    <value>Structures</value>
   </data>
   <data name="GenericButtonCancel" xml:space="preserve">
     <value>Cancel</value>
@@ -705,14 +708,35 @@
   <data name="StationTooltipAddPhoto" xml:space="preserve">
     <value>Tap to add one or many photos</value>
   </data>
+  <data name="StructurePageAttitude" xml:space="preserve">
+    <value>Attitude</value>
+  </data>
+  <data name="StructurePageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
   <data name="StructurePageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="StructurePageDipPlunge" xml:space="preserve">
+    <value>Dip/Plunge</value>
   </data>
   <data name="StructurePageFabric" xml:space="preserve">
     <value>Fabric</value>
   </data>
+  <data name="StructurePageFlattening" xml:space="preserve">
+    <value>Flattening</value>
+  </data>
+  <data name="StructurePageFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="StructurePageGeneration" xml:space="preserve">
+    <value>Generation</value>
+  </data>
   <data name="StructurePageMeasurementTitle" xml:space="preserve">
     <value>Measurements</value>
+  </data>
+  <data name="StructurePageMethod" xml:space="preserve">
+    <value>Method</value>
   </data>
   <data name="StructurePageNotes" xml:space="preserve">
     <value>Notes</value>
@@ -720,14 +744,23 @@
   <data name="StructurePageNotesTitle" xml:space="preserve">
     <value>Notes</value>
   </data>
+  <data name="StructurePageRelate" xml:space="preserve">
+    <value>Related</value>
+  </data>
   <data name="StructurePageSense" xml:space="preserve">
     <value>Sense</value>
+  </data>
+  <data name="StructurePageStrain" xml:space="preserve">
+    <value>Strain</value>
   </data>
   <data name="StructurePageTitle" xml:space="preserve">
     <value>Structure</value>
   </data>
   <data name="StructurePageTypeTitle" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="StructurePageYounging" xml:space="preserve">
+    <value>Younging</value>
   </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Field book was successfully saved to: {0}</value>

@@ -23,11 +23,22 @@ namespace GSCFieldApp.ViewModel
     {
         #region INIT
 
+        //Database
         DataAccess da = new DataAccess();
+        SQLiteAsyncConnection currentConnection;
         public DataIDCalculation idCalculator = new DataIDCalculation();
+
         private Structure _model = new Structure();
 
-
+        //UI
+        private ComboBox _structureRelatedAlias = new ComboBox();
+        private ComboBox _structureFormat = new ComboBox();
+        private ComboBox _structureMethod = new ComboBox();
+        private ComboBox _structureFlattening = new ComboBox();
+        private ComboBox _structureStrain = new ComboBox();
+        private ComboBox _structureAttitude = new ComboBox();
+        private ComboBox _structureYounging = new ComboBox();
+        private ComboBox _structureGeneration = new ComboBox();
         //Localize
         public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -72,6 +83,15 @@ namespace GSCFieldApp.ViewModel
             get { return Preferences.Get(nameof(StructureNotesVisibility), true); }
             set { Preferences.Set(nameof(StructureNotesVisibility), value); }
         }
+
+        public ComboBox StructureRelatedAlias { get { return _structureRelatedAlias; } set { _structureRelatedAlias = value; } }
+        public ComboBox StructureFormat { get { return _structureFormat; } set { _structureFormat = value; } }
+        public ComboBox StructureMethod { get { return _structureMethod; } set { _structureMethod = value; } }
+        public ComboBox StructureStrain { get { return _structureStrain; } set { _structureStrain = value; } }
+        public ComboBox StructureFlattening { get { return _structureFlattening; } set { _structureFlattening = value; } }
+        public ComboBox StructureAttitude { get { return _structureAttitude; } set { _structureAttitude = value; } }
+        public ComboBox StructureYounging { get { return _structureYounging; } set { _structureYounging = value; } }
+        public ComboBox StructureGeneration { get { return _structureGeneration; } set { _structureGeneration = value; } }
         #endregion
 
         public StructureViewModel()
@@ -206,13 +226,31 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
-            //_documentCategory = await FillAPicker(FieldDocumentCategory);
-            //_documentScale = await FillAPicker(FieldDocumentScaleDirection);
-            //_documentFileType = await FillAPicker(FieldDocumentType);
+            //Connect to db
+            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+            
 
-            //OnPropertyChanged(nameof(DocumentCategory));
-            //OnPropertyChanged(nameof(DocumentScale));
-            //OnPropertyChanged(nameof(DocumentFileType));
+            //First order pickers
+            _structureFormat = await FillAPicker(FieldStructureFormat);
+            OnPropertyChanged(nameof(StructureFormat));
+
+            _structureMethod = await FillAPicker(FieldStructureMethod);
+            OnPropertyChanged(nameof(StructureMethod));
+
+            _structureMethod = await FillAPicker(FieldStructureMethod);
+            OnPropertyChanged(nameof(StructureMethod));
+
+            _structureFlattening = await FillAPicker(FieldStructureFlattening);
+            OnPropertyChanged(nameof(StructureFlattening));
+
+            _structureStrain = await FillAPicker(FieldStructureStrain);
+            OnPropertyChanged(nameof(StructureStrain));
+
+            //There is one picker that needs all brotha's and sista's listing
+            _structureRelatedAlias = await FillRelatedStructureAsync();
+            OnPropertyChanged(nameof(StructureRelatedAlias));
+
+            await currentConnection.CloseAsync();
         }
 
         /// <summary>
@@ -317,6 +355,79 @@ namespace GSCFieldApp.ViewModel
             Model.StructureID = 0;
 
         }
+
+        /// <summary>
+        /// Will fill with all structures from other siblings
+        /// </summary>
+        public async Task<ComboBox> FillRelatedStructureAsync(string strucClass = "")
+        {
+            ComboBox relatedCbx = new ComboBox();
+            relatedCbx.cboxDefaultItemIndex = -1;
+
+            //Refresh picker if user has changed structure class/type
+            if (strucClass != string.Empty)
+            {
+                _structureRelatedAlias.cboxItems.Clear();
+                OnPropertyChanged(nameof(StructureRelatedAlias));
+            }
+            else
+            {
+                //Else keep whatever has been passed from field notes as an existing value
+                if (_model != null && _model.StructureClass != string.Empty)
+                {
+                    strucClass = _model.StructureClass;
+                }
+                    
+            }
+
+            if (_earthmaterial != null || _structure != null)
+            {
+                //Find proper parent id either for new structure or ones in edit
+                List<Structure> sts = new List<Structure>();
+                if (_structure != null)
+                {
+
+                    sts = await currentConnection.Table<Structure>().Where(i => (i.StructureEarthmatID == _structure.StructureEarthmatID)).ToListAsync();
+
+                }
+                else
+                {
+                    if (_earthmaterial != null)
+                    {
+                        sts = await currentConnection.Table<Structure>().Where(i => (i.StructureEarthmatID == _earthmaterial.EarthMatID)).ToListAsync();
+                    }
+                }
+
+                //Extra where clause to find only counterpart structure and not the same classes
+                if (_model.StructureClass != null && _model.StructureClass.Contains(KeywordPlanar))
+                {
+                    sts = sts.Where(s => s.StructureClass.Contains(KeywordLinear)).ToList();
+                }
+                else if (_model.StructureClass != null && _model.StructureClass.Contains(KeywordLinear))
+                {
+                    sts = sts.Where(s => s.StructureClass.Contains(KeywordPlanar)).ToList();
+                }
+
+
+                if (sts != null && sts.Count > 0)
+                {
+
+                    foreach (Structure st in sts)
+                    {
+                        Themes.ComboBoxItem newItem = new Themes.ComboBoxItem();
+                        newItem.itemValue = st.StructureID.ToString();
+                        newItem.itemName = string.Format("{0} ({1})", st.StructureName, st.StructureClass);
+                        relatedCbx.cboxItems.Add(newItem);
+                    }
+
+                    relatedCbx.cboxDefaultItemIndex = -1;
+                }
+            }
+
+            return relatedCbx;
+
+        }
+
 
         #endregion
     }

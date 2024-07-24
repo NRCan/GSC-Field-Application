@@ -656,6 +656,36 @@ namespace GSCFieldApp.ViewModel
             );
         }
 
+        [RelayCommand]
+        public async Task AddStructure()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+            {
+                await da.SaveItemAsync(Model, true);
+            }
+            else
+            {
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+            }
+
+            //Close to be sure
+            await da.CloseConnectionAsync();
+
+            //Navigate to child
+            await Shell.Current.GoToAsync($"{nameof(StructurePage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Structure)] = null,
+                    [nameof(Earthmaterial)] = Model,
+                }
+            );
+        }
+
         #endregion
 
         #region METHODS

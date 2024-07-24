@@ -457,6 +457,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FielNotesStationHeader" xml:space="preserve">
     <value>Stations</value>
   </data>
+  <data name="FielNotesStructureHeader" xml:space="preserve">
+    <value>Structures</value>
+  </data>
   <data name="GenericButtonCancel" xml:space="preserve">
     <value>ANNULER</value>
   </data>
@@ -691,14 +694,35 @@ Aimeriez-vous modifier les droits?</value>
   <data name="StationTooltipAddPhoto" xml:space="preserve">
     <value>Ajoutez une ou plusieurs photo</value>
   </data>
+  <data name="StructurePageAttitude" xml:space="preserve">
+    <value>Disposition</value>
+  </data>
+  <data name="StructurePageAzimuth" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
   <data name="StructurePageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="StructurePageDipPlunge" xml:space="preserve">
+    <value>Pendage/Plongée</value>
   </data>
   <data name="StructurePageFabric" xml:space="preserve">
     <value>Composition</value>
   </data>
+  <data name="StructurePageFlattening" xml:space="preserve">
+    <value>Cisaillement</value>
+  </data>
+  <data name="StructurePageFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="StructurePageGeneration" xml:space="preserve">
+    <value>Génération</value>
+  </data>
   <data name="StructurePageMeasurementTitle" xml:space="preserve">
     <value>Mesures</value>
+  </data>
+  <data name="StructurePageMethod" xml:space="preserve">
+    <value>Méthode</value>
   </data>
   <data name="StructurePageNotes" xml:space="preserve">
     <value>Notes</value>
@@ -706,14 +730,23 @@ Aimeriez-vous modifier les droits?</value>
   <data name="StructurePageNotesTitle" xml:space="preserve">
     <value>Notes</value>
   </data>
+  <data name="StructurePageRelate" xml:space="preserve">
+    <value>Relation</value>
+  </data>
   <data name="StructurePageSense" xml:space="preserve">
     <value>Sens</value>
+  </data>
+  <data name="StructurePageStrain" xml:space="preserve">
+    <value>Déformation</value>
   </data>
   <data name="StructurePageTitle" xml:space="preserve">
     <value>Structure</value>
   </data>
   <data name="StructurePageTypeTitle" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="StructurePageYounging" xml:space="preserve">
+    <value>Polarité</value>
   </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Le carnet a été sauvegardé avec succès ici: {0}</value>

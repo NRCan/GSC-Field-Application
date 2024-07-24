@@ -86,6 +86,13 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(IsDocumentVisible), value); }
         }
 
+        private bool _isStructureVisible = false;
+        public bool IsStructureVisible
+        {
+            get { return Preferences.Get(nameof(IsStructureVisible), false); }
+            set { Preferences.Set(nameof(IsStructureVisible), value); }
+        }
+
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
         { 
@@ -161,6 +168,24 @@ namespace GSCFieldApp.ViewModel
             set { _documents = value; }
         }
 
+        private ObservableCollection<FieldNote> _structures = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Structures
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.structure))
+                {
+                    return _structures = FieldNotes[TableNames.structure];
+                }
+                else
+                {
+                    return _structures = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _structures = value; }
+        }
 
         private ObservableCollection<string> _dates = new ObservableCollection<string>();
         public ObservableCollection<string> Dates
@@ -178,6 +203,7 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.earthmat, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.sample, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.document, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.structure, new ObservableCollection<FieldNote>());
 
             _dates = new ObservableCollection<string>();
 
@@ -230,6 +256,12 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsDocumentVisible = !IsDocumentVisible;
                     OnPropertyChanged(nameof(IsDocumentVisible));
+                }
+
+                if (inComingName.ToLower().Contains(nameof(TableNames.structure)))
+                {
+                    IsStructureVisible = !IsStructureVisible;
+                    OnPropertyChanged(nameof(IsStructureVisible));
                 }
 
                 //Special case, removing filtering on date and refreshing all records.
@@ -313,6 +345,25 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
+            if (fieldNotes.GenericTableName == TableStructure)
+            {
+                List<Structure> tappedStructure = await currentConnection.Table<Structure>().Where(i => i.StructureID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedStructure != null && tappedStructure.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(StructurePage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Structure)] = (Structure)tappedStructure[0],
+                            [nameof(Earthmaterial)] = null,
+                        }
+                    );
+                }
+            }
+
             if (fieldNotes.GenericTableName == TableDocument)
             {
                 List<Document> tappedDoc = await currentConnection.Table<Document>().Where(i => i.DocumentID == fieldNotes.GenericID).ToListAsync();
@@ -352,6 +403,7 @@ namespace GSCFieldApp.ViewModel
                 await FillEMNotes(currentConnection);
                 await FillSampleNotes(currentConnection);
                 await FillDocumentNotes(currentConnection);
+                await FillStructureNotes(currentConnection);
 
                 await currentConnection.CloseAsync();
 
@@ -627,6 +679,53 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
+        /// Will get all database samples to fill sample cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillStructureNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.structure))
+            {
+                FieldNotes.Add(TableNames.structure, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.structure].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all stations from database
+            List<Structure> structures = await inConnection.Table<Structure>().OrderBy(s => s.StructureName).ToListAsync();
+
+            if (structures != null && structures.Count > 0)
+            {
+
+                foreach (Structure st in structures)
+                {
+                    FieldNotes[TableNames.structure].Add(new FieldNote
+                    {
+                        Display_text_1 = st.StructureAliasLight,
+                        Display_text_2 = st.StructureClass,
+                        Display_text_3 = st.StructureDetail,
+                        GenericTableName = TableStructure,
+                        GenericID = st.StructureID,
+                        ParentID = st.StructureEarthmatID,
+                        isValid = st.isValid
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
+
+
+        /// <summary>
         /// A method that will filter out all records in field note page
         /// based on a desire date
         /// </summary>
@@ -664,12 +763,16 @@ namespace GSCFieldApp.ViewModel
 
                         #region second order children
                         ObservableCollection<FieldNote> dateFilterSamples = new ObservableCollection<FieldNote>();
+                        ObservableCollection<FieldNote> dateFilterStructures = new ObservableCollection<FieldNote>();
                         foreach (FieldNote fn in FieldNotesAll[TableNames.earthmat])
                         {
                             dateFilterSamples.Concat(FieldNotesAll[TableNames.sample].Where(x => x.ParentID == fn.GenericID).ToList());
+                            dateFilterStructures.Concat(FieldNotesAll[TableNames.structure].Where(s => s.ParentID == fn.GenericID).ToList());
                         }
                         FieldNotes[TableNames.sample] = dateFilterSamples;
+                        FieldNotes[TableNames.structure] = dateFilterStructures;
                         OnPropertyChanged(nameof(Samples));
+                        OnPropertyChanged(nameof(Structures));
                         #endregion
 
                     }
@@ -714,6 +817,7 @@ namespace GSCFieldApp.ViewModel
                     await FillDocumentNotes(currentConnection);
                     break;
                 case TableNames.structure:
+                    await FillStructureNotes(currentConnection);
                     break;
                 case TableNames.fossil:
                     break;

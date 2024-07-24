@@ -105,38 +105,37 @@ namespace GSCFieldApp.Models
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
 
-        ///// <summary>
-        ///// Soft mandatory field check. User can still create record even if fields are not filled.
-        ///// Ignore attribute will tell sql not to try to write this field inside the database.
-        ///// </summary>
-        //[Ignore]
-        //public bool isValid
-        //{
-        //    get
-        //    {
-        //        if ((StructureType != string.Empty && StructureType != Dictionaries.DatabaseLiterals.picklistNACode) &&
-        //            (StructureDetail != string.Empty && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode) &&
-        //            (StructureFormat != string.Empty && StructureFormat != Dictionaries.DatabaseLiterals.picklistNACode) &&
-        //            (isRelatedStructuresAzimuthValid == true || isRelatedStructuresAzimuthValid == null) &&
-        //            (isRelatedStructuresDipValid == true || isRelatedStructuresDipValid == null))
-        //        {
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            if (StructureAttitude == DatabaseLiterals.structurePlanarAttitudeTrend)
-        //            {
-        //                return true;
-        //            }
-        //            else
-        //            {
-        //                return false;
-        //            }
-                    
-        //        }
-        //    }
-        //    set { }
-        //}
+        /// <summary>
+        /// Soft mandatory field check. User can still create record even if fields are not filled.
+        /// Ignore attribute will tell sql not to try to write this field inside the database.
+        /// </summary>
+        [Ignore]
+        public bool isValid
+        {
+            get
+            {
+                //TODO: Should we add back the validation on related azim and dips? Commented off the properties
+                if ((StructureType != string.Empty && StructureType != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureDetail != string.Empty && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode) &&
+                    (StructureFormat != string.Empty && StructureFormat != Dictionaries.DatabaseLiterals.picklistNACode))
+                {
+                    return true;
+                }
+                else
+                {
+                    if (StructureAttitude == DatabaseLiterals.structurePlanarAttitudeTrend)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+            }
+            set { }
+        }
 
         /// <summary>
         /// A concatenation of all three field. For UI purposes
@@ -179,7 +178,6 @@ namespace GSCFieldApp.Models
         /// Azimuths need to be based on right hand rule and current structure must have a related structure.
         /// Could be linear related to planar, or planar related to linear
         /// </summary>
-
         //[Ignore]
         //public bool? isRelatedStructuresAzimuthValid
         //{
@@ -224,7 +222,7 @@ namespace GSCFieldApp.Models
         //            {
         //                azimuthLinear = StructureAzimuth;
         //            }
-        //            else if (relatedStructure != null && 
+        //            else if (relatedStructure != null &&
         //                relatedStructure.StructureClass != null &&
         //                relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear))
         //            {
@@ -396,6 +394,39 @@ namespace GSCFieldApp.Models
                 structureFieldList[DatabaseLiterals.DBVersion144] = structureFieldList144;
 
                 return structureFieldList;
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string StructureAliasLight
+        {
+            get
+            {
+                if (StructureName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(StructureName.Substring(StructureName.Length - 2), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        //Trim bunch of zeros
+                        string shorterStructureName = StructureName.Substring(StructureName.Length - 7);
+                        return shorterStructureName.Trim('0');
+                    }
+                    else
+                    {
+                        return DatabaseLiterals.picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return DatabaseLiterals.picklistNACode;
+                }
             }
             set { }
         }

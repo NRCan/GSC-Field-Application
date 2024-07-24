@@ -1087,7 +1087,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Photo.
+        ///   Looks up a localized string similar to Photos.
         /// </summary>
         internal static string FielNotesPhotoHeader {
             get {
@@ -1096,7 +1096,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sample.
+        ///   Looks up a localized string similar to Samples.
         /// </summary>
         internal static string FielNotesSampleHeader {
             get {
@@ -1110,6 +1110,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FielNotesStationHeader {
             get {
                 return ResourceManager.GetString("FielNotesStationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structures.
+        /// </summary>
+        internal static string FielNotesStructureHeader {
+            get {
+                return ResourceManager.GetString("FielNotesStructureHeader", resourceCulture);
             }
         }
         
@@ -1825,11 +1834,38 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attitude.
+        /// </summary>
+        internal static string StructurePageAttitude {
+            get {
+                return ResourceManager.GetString("StructurePageAttitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string StructurePageAzimuth {
+            get {
+                return ResourceManager.GetString("StructurePageAzimuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string StructurePageDescriptionTitle {
             get {
                 return ResourceManager.GetString("StructurePageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dip/Plunge.
+        /// </summary>
+        internal static string StructurePageDipPlunge {
+            get {
+                return ResourceManager.GetString("StructurePageDipPlunge", resourceCulture);
             }
         }
         
@@ -1843,11 +1879,47 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flattening.
+        /// </summary>
+        internal static string StructurePageFlattening {
+            get {
+                return ResourceManager.GetString("StructurePageFlattening", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Format.
+        /// </summary>
+        internal static string StructurePageFormat {
+            get {
+                return ResourceManager.GetString("StructurePageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generation.
+        /// </summary>
+        internal static string StructurePageGeneration {
+            get {
+                return ResourceManager.GetString("StructurePageGeneration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurements.
         /// </summary>
         internal static string StructurePageMeasurementTitle {
             get {
                 return ResourceManager.GetString("StructurePageMeasurementTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method.
+        /// </summary>
+        internal static string StructurePageMethod {
+            get {
+                return ResourceManager.GetString("StructurePageMethod", resourceCulture);
             }
         }
         
@@ -1870,11 +1942,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Related.
+        /// </summary>
+        internal static string StructurePageRelate {
+            get {
+                return ResourceManager.GetString("StructurePageRelate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sense.
         /// </summary>
         internal static string StructurePageSense {
             get {
                 return ResourceManager.GetString("StructurePageSense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strain.
+        /// </summary>
+        internal static string StructurePageStrain {
+            get {
+                return ResourceManager.GetString("StructurePageStrain", resourceCulture);
             }
         }
         
@@ -1893,6 +1983,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string StructurePageTypeTitle {
             get {
                 return ResourceManager.GetString("StructurePageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Younging.
+        /// </summary>
+        internal static string StructurePageYounging {
+            get {
+                return ResourceManager.GetString("StructurePageYounging", resourceCulture);
             }
         }
         

@@ -439,6 +439,31 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         }
 
+        /// <summary>
+        /// Will return a related structure record as an object
+        /// </summary>
+        /// <param name="StrucId"></param>
+        /// <returns></returns>
+        public async Task<Structure> GetRelatedStructure(int? StrucId)
+        {
+            Structure relatedStructure = new Structure();
+            if (StrucId != null)
+            {
+                SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
+                List<Structure> relatedStructures = await dbConnect.Table<Structure>().Where(struc => struc.StructureID == StrucId).ToListAsync();
+
+                if (relatedStructures != null  && relatedStructures.Count > 0)
+                {
+                    relatedStructure = relatedStructures[0];
+                }
+
+                await dbConnect.CloseAsync();
+                
+            }
+
+            return relatedStructure;
+        }
+
         #endregion
 
     }
