@@ -468,6 +468,7 @@
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddPaleoflow}"
+                        Command="{Binding AddPaleoflowCommand}"
                         BackgroundColor="{StaticResource FieldPflowColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"

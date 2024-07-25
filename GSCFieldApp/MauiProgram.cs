@@ -68,6 +68,9 @@ public static class MauiProgram
         builder.Services.AddTransient<StructurePage>();
         builder.Services.AddTransient<StructureViewModel>();
 
+        builder.Services.AddTransient<PaleoflowPage>();
+        builder.Services.AddTransient<PaleoflowViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();

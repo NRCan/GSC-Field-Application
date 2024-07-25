@@ -459,6 +459,9 @@
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Earth Materials</value>
   </data>
+  <data name="FielNotesPaleoflowHeader" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
   <data name="FielNotesPhotoHeader" xml:space="preserve">
     <value>Photos</value>
   </data>
@@ -533,6 +536,45 @@
   </data>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Tap to see a list of all loaded layers and more options.</value>
+  </data>
+  <data name="PaleoflowBedSurface" xml:space="preserve">
+    <value>Bedrock surface</value>
+  </data>
+  <data name="PaleoflowPageClass" xml:space="preserve">
+    <value>Class</value>
+  </data>
+  <data name="PaleoflowPageConfidence" xml:space="preserve">
+    <value>Confidence</value>
+  </data>
+  <data name="PaleoflowPageDescTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PaleoflowPageFeature" xml:space="preserve">
+    <value>Feature</value>
+  </data>
+  <data name="PaleoflowPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="PaleoflowPageIndicators" xml:space="preserve">
+    <value>Numbers of Indicators</value>
+  </data>
+  <data name="PaleoflowPageMeasurementTitle" xml:space="preserve">
+    <value>Measurements</value>
+  </data>
+  <data name="PaleoflowPageQuality" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="PaleoflowPageRelationTitle" xml:space="preserve">
+    <value>Relations</value>
+  </data>
+  <data name="PaleoflowPageSense" xml:space="preserve">
+    <value>Sense</value>
+  </data>
+  <data name="PaleoflowPageTitle" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
+  <data name="PaleoflowPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="SamplePageAzimuth" xml:space="preserve">
     <value>Azimuth</value>

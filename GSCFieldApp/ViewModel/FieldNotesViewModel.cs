@@ -23,6 +23,9 @@ namespace GSCFieldApp.ViewModel
         //Database
         DataAccess da = new DataAccess();
 
+        //Project type
+        private FieldThemes _fieldThemes = new FieldThemes();
+
         //Error management
         DateTime lastTimeTableUpdate = DateTime.MinValue; //For some reason observation property UpdateTable is triggered twice or thrice
 
@@ -91,6 +94,13 @@ namespace GSCFieldApp.ViewModel
         {
             get { return Preferences.Get(nameof(IsStructureVisible), false); }
             set { Preferences.Set(nameof(IsStructureVisible), value); }
+        }
+
+        private bool _isPaleoflowVisible = false;
+        public bool IsPaleoflowVisible
+        {
+            get { return Preferences.Get(nameof(IsPaleoflowVisible), false); }
+            set { Preferences.Set(nameof(IsPaleoflowVisible), value); }
         }
 
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
@@ -187,6 +197,26 @@ namespace GSCFieldApp.ViewModel
             set { _structures = value; }
         }
 
+        private ObservableCollection<FieldNote> _paleoflows = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Paleoflows
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.pflow))
+                {
+                    return _paleoflows = FieldNotes[TableNames.pflow];
+                }
+                else
+                {
+                    return _paleoflows = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _paleoflows = value; }
+        }
+
+
         private ObservableCollection<string> _dates = new ObservableCollection<string>();
         public ObservableCollection<string> Dates
         {
@@ -204,7 +234,7 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.sample, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.document, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.structure, new ObservableCollection<FieldNote>());
-
+            FieldNotes.Add(TableNames.pflow, new ObservableCollection<FieldNote>());
             _dates = new ObservableCollection<string>();
 
             //Init all records
@@ -262,6 +292,12 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsStructureVisible = !IsStructureVisible;
                     OnPropertyChanged(nameof(IsStructureVisible));
+                }
+
+                if (inComingName.ToLower().Contains(nameof(TableNames.pflow)))
+                {
+                    IsPaleoflowVisible = !IsPaleoflowVisible;
+                    OnPropertyChanged(nameof(IsPaleoflowVisible));
                 }
 
                 //Special case, removing filtering on date and refreshing all records.
@@ -364,6 +400,25 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
+            if (fieldNotes.GenericTableName == TablePFlow)
+            {
+                List<Paleoflow> tappedPflow = await currentConnection.Table<Paleoflow>().Where(i => i.PFlowID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedPflow != null && tappedPflow.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(PaleoflowPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Paleoflow)] = (Paleoflow)tappedPflow[0],
+                            [nameof(Earthmaterial)] = null,
+                        }
+                    );
+                }
+            }
+
             if (fieldNotes.GenericTableName == TableDocument)
             {
                 List<Document> tappedDoc = await currentConnection.Table<Document>().Where(i => i.DocumentID == fieldNotes.GenericID).ToListAsync();
@@ -404,6 +459,7 @@ namespace GSCFieldApp.ViewModel
                 await FillSampleNotes(currentConnection);
                 await FillDocumentNotes(currentConnection);
                 await FillStructureNotes(currentConnection);
+                await FillPaleoflowNotes(currentConnection);
 
                 await currentConnection.CloseAsync();
 
@@ -679,7 +735,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will get all database samples to fill sample cards
+        /// Will get all database structures to fill structures cards
         /// </summary>
         /// <param name="inConnection"></param>
         /// <returns></returns>
@@ -724,6 +780,53 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will get all database pflow to fill pflow cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillPaleoflowNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.pflow))
+            {
+                FieldNotes.Add(TableNames.pflow, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.pflow].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all stations from database
+            List<Paleoflow> pflows = await inConnection.Table<Paleoflow>().OrderBy(s => s.PFlowName).ToListAsync();
+
+            if (pflows != null && pflows.Count > 0)
+            {
+
+                foreach (Paleoflow st in pflows)
+                {
+                    FieldNotes[TableNames.pflow].Add(new FieldNote
+                    {
+                        Display_text_1 = st.PflowAliasLight,
+                        Display_text_2 = st.PFlowClass,
+                        Display_text_3 = st.PFlowSense,
+                        GenericTableName = TablePFlow,
+                        GenericID = st.PFlowID,
+                        ParentID = st.PFlowParentID,
+                        isValid = st.isValid
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
+
+
 
         /// <summary>
         /// A method that will filter out all records in field note page
@@ -764,15 +867,19 @@ namespace GSCFieldApp.ViewModel
                         #region second order children
                         ObservableCollection<FieldNote> dateFilterSamples = new ObservableCollection<FieldNote>();
                         ObservableCollection<FieldNote> dateFilterStructures = new ObservableCollection<FieldNote>();
+                        ObservableCollection<FieldNote> dateFilterPaleoflow = new ObservableCollection<FieldNote>();
                         foreach (FieldNote fn in FieldNotesAll[TableNames.earthmat])
                         {
                             dateFilterSamples.Concat(FieldNotesAll[TableNames.sample].Where(x => x.ParentID == fn.GenericID).ToList());
                             dateFilterStructures.Concat(FieldNotesAll[TableNames.structure].Where(s => s.ParentID == fn.GenericID).ToList());
+                            dateFilterPaleoflow.Concat(FieldNotesAll[TableNames.pflow].Where(s => s.ParentID == fn.GenericID).ToList());
                         }
                         FieldNotes[TableNames.sample] = dateFilterSamples;
                         FieldNotes[TableNames.structure] = dateFilterStructures;
+                        FieldNotes[TableNames.pflow] = dateFilterPaleoflow;
                         OnPropertyChanged(nameof(Samples));
                         OnPropertyChanged(nameof(Structures));
+                        OnPropertyChanged(nameof(Paleoflows));
                         #endregion
 
                     }
@@ -824,6 +931,7 @@ namespace GSCFieldApp.ViewModel
                 case TableNames.environment:
                     break;
                 case TableNames.pflow:
+                    await FillPaleoflowNotes(currentConnection);
                     break;
                 case TableNames.drill:
                     break;

@@ -1087,6 +1087,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Paleoflow.
+        /// </summary>
+        internal static string FielNotesPaleoflowHeader {
+            get {
+                return ResourceManager.GetString("FielNotesPaleoflowHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Photos.
         /// </summary>
         internal static string FielNotesPhotoHeader {
@@ -1308,6 +1317,123 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string MapPageLayer {
             get {
                 return ResourceManager.GetString("MapPageLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bedrock surface.
+        /// </summary>
+        internal static string PaleoflowBedSurface {
+            get {
+                return ResourceManager.GetString("PaleoflowBedSurface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Class.
+        /// </summary>
+        internal static string PaleoflowPageClass {
+            get {
+                return ResourceManager.GetString("PaleoflowPageClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confidence.
+        /// </summary>
+        internal static string PaleoflowPageConfidence {
+            get {
+                return ResourceManager.GetString("PaleoflowPageConfidence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string PaleoflowPageDescTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageDescTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feature.
+        /// </summary>
+        internal static string PaleoflowPageFeature {
+            get {
+                return ResourceManager.GetString("PaleoflowPageFeature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string PaleoflowPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numbers of Indicators.
+        /// </summary>
+        internal static string PaleoflowPageIndicators {
+            get {
+                return ResourceManager.GetString("PaleoflowPageIndicators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurements.
+        /// </summary>
+        internal static string PaleoflowPageMeasurementTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageMeasurementTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quality.
+        /// </summary>
+        internal static string PaleoflowPageQuality {
+            get {
+                return ResourceManager.GetString("PaleoflowPageQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relations.
+        /// </summary>
+        internal static string PaleoflowPageRelationTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageRelationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sense.
+        /// </summary>
+        internal static string PaleoflowPageSense {
+            get {
+                return ResourceManager.GetString("PaleoflowPageSense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paleoflow.
+        /// </summary>
+        internal static string PaleoflowPageTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string PaleoflowPageTypeTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageTypeTitle", resourceCulture);
             }
         }
         

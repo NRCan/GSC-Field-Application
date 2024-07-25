@@ -539,8 +539,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleStructureString = parentAlias + newAlias;
 
                     //Find existing
-                    List<Structure> existingSamples = await currentConnection.Table<Structure>().Where(e => e.StructureEarthmatID == parentID && e.StructureName == finaleStructureString).ToListAsync();
-                    if (existingSamples.Count() == 0 || existingSamples == null)
+                    List<Structure> existingStructures = await currentConnection.Table<Structure>().Where(e => e.StructureEarthmatID == parentID && e.StructureName == finaleStructureString).ToListAsync();
+                    if (existingStructures.Count() == 0 || existingStructures == null)
                     {
                         processingID = false;
                     }
@@ -559,86 +559,71 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-        //#region PALEO FLOW
+        #region PALEO FLOW
 
-        ///// <summary>
-        ///// Will calculate an generic ID for paleoflow table.
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculatePFlowID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
+        /// <summary>
+        /// Will calculate a paleaflow alias from a given parent id and parent alias.
+        /// NOTE: identical to bedrock structure table.
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public async Task<string> CalculatePflowAliasAsync(int parentID, string parentAlias)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<Paleoflow> pflowParentEarth = await currentConnection.Table<Paleoflow>().Where(e => e.PFlowParentID == parentID).ToListAsync();
 
-        ///// <summary>
-        ///// Will calculate a paleaflow alias from a given parent id and parent alias.
-        ///// NOTE: identical to bedrock structure table.
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <returns></returns>
-        //public string CalculatePflowAlias(int parentID, string parentAlias)
-        //{
-        //    //Querying with Linq
-        //    List<object> pflowTableRaw = dAccess.ReadTable(pflowModel.GetType(), null);
-        //    IEnumerable<Paleoflow> pflowTable = pflowTableRaw.Cast<Paleoflow>(); //Cast to proper list type
-        //    IEnumerable<string> pflowParentEarth = from e in pflowTable where e.PFlowParentID == parentID orderby e.PFlowName descending select e.PFlowName;
+            int newID = 1; //Incrementing step
+            string newAlias = string.Empty;
+            string finalPflowString = parentAlias;
 
-        //    int newID = 1; //Incrementing step
-        //    string newAlias = string.Empty;
-        //    string finalePflowString = parentAlias;
+            //Detect last sample number and add 1 to it.
+            if (pflowParentEarth.Count() > 0)
+            {
+                string lastAlias = pflowParentEarth.ToList()[pflowParentEarth.Count() - 1].PFlowName.ToString();
+                string lastNumberString = lastAlias.ToList()[lastAlias.Length - 2].ToString(); //Sample only has two digits id in the alias
+                short parsedID = 0;
+                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                newID = parsedID + newID;
 
-        //    //Detect last sample number and add 1 to it.
-        //    if (pflowParentEarth.Count() > 0)
-        //    {
-        //        string lastAlias = pflowParentEarth.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
-        //        string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //Sample only has two digits id in the alias
-        //        newID = Convert.ToInt16(lastNumberString) + newID;
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Padd current ID with 0 if needed
-        //            if (newID < 10)
-        //            {
-        //                newAlias = "0" + newID;
-        //            }
-        //            else
-        //            {
-        //                newAlias = newID.ToString();
-        //            }
+                //Find a non existing name
+                while (processingID)
+                {
+                    //Padd current ID with 0 if needed
+                    if (newID < 10)
+                    {
+                        newAlias = "0" + newID;
+                    }
+                    else
+                    {
+                        newAlias = newID.ToString();
+                    }
 
-        //            finalePflowString = parentAlias + newAlias;
+                    finalPflowString = parentAlias + newAlias;
 
-        //            //Find existing
-        //            IEnumerable<Paleoflow> existingPflow = from s in pflowTable where s.PFlowParentID == parentID && s.PFlowName == finalePflowString select s;
-        //            if (existingPflow.Count() == 0 || existingPflow == null)
-        //            {
-        //                breaker = false;
-        //            }
+                    //Find existing
+                    List<Paleoflow> existingPflows = await currentConnection.Table<Paleoflow>().Where(e => e.PFlowParentID == parentID && e.PFlowName == finalPflowString).ToListAsync();
+                    if (existingPflows.Count() == 0 || existingPflows == null)
+                    {
+                        processingID = false;
+                    }
 
-        //            newID++;
-        //        }
+                    newID++;
+                }
 
-        //    }
-        //    else
-        //    {
-        //        finalePflowString = parentAlias + "0" + newID;
-        //    }
+            }
+            else
+            {
+                finalPflowString = parentAlias + "0" + newID;
+            }
 
-        //    return finalePflowString;
-        //}
+            return finalPflowString;
+        }
 
-        //#endregion
+        #endregion
 
         //#region FOSSIL
-        ///// <summary>
-        ///// Will calculate an generic ID for fossil table.
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculateFossilID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
 
         ///// <summary>
         ///// Will calculate a paleaflow alias from a given parent id and parent alias.

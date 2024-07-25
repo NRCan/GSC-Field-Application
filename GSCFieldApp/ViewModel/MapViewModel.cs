@@ -35,6 +35,7 @@ namespace GSCFieldApp.ViewModel
         private Collection<MapPageLayer> _customLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
 
+        private FieldThemes _fieldThemes = new FieldThemes();
         #endregion
 
         #region PROPERTIES
@@ -131,14 +132,15 @@ namespace GSCFieldApp.ViewModel
                 //Special case: this command can either pop structure for bedrock fieldbook
                 // or pop paleoflow for surficial ones
 
+                //Create a quick earth material record
+                EarthmatViewModel emViewModel = new EarthmatViewModel();
+                Earthmaterial quickEM = await emViewModel.QuickEarthmat(locationID);
+
                 string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), DatabaseLiterals.ApplicationThemeBedrock);
                 if(preferedTheme == ApplicationThemeBedrock)
                 {
-                    //Create a quick earth material record
-                    EarthmatViewModel emViewModel = new EarthmatViewModel();
-                    Earthmaterial quickEM = await emViewModel.QuickEarthmat(locationID);
 
-                    //Navigate to station page and keep locationmodel for relationnal link
+                    //Navigate to structure page 
                     await Shell.Current.GoToAsync($"{nameof(StructurePage)}/",
                         new Dictionary<string, object>
                         {
@@ -149,7 +151,14 @@ namespace GSCFieldApp.ViewModel
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
+                    //Navigate to pflow page 
+                    await Shell.Current.GoToAsync($"{nameof(PaleoflowPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(PaleoflowPage)] = null,
+                            [nameof(Earthmaterial)] = quickEM,
+                        }
+                    );
                 }
 
 

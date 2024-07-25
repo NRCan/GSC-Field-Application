@@ -630,22 +630,8 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task AddSample()
         {
-            //Fill out missing values in model
-            await SetModelAsync();
-
-            //Validate if new entry or update
-            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
-            {
-                await da.SaveItemAsync(Model, true);
-            }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-            }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
+            //Save
+            await SetAndSaveModelAsync();
 
             //Navigate to child
             await Shell.Current.GoToAsync($"{nameof(SamplePage)}/",
@@ -660,28 +646,30 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task AddStructure()
         {
-            //Fill out missing values in model
-            await SetModelAsync();
-
-            //Validate if new entry or update
-            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
-            {
-                await da.SaveItemAsync(Model, true);
-            }
-            else
-            {
-                //Insert new record
-                await da.SaveItemAsync(Model, false);
-            }
-
-            //Close to be sure
-            await da.CloseConnectionAsync();
+            //Save
+            await SetAndSaveModelAsync();
 
             //Navigate to child
             await Shell.Current.GoToAsync($"{nameof(StructurePage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Structure)] = null,
+                    [nameof(Earthmaterial)] = Model,
+                }
+            );
+        }
+
+        [RelayCommand]
+        public async Task AddPaleoflow()
+        {
+            //Save
+            await SetAndSaveModelAsync();
+
+            //Navigate to pflow page 
+            await Shell.Current.GoToAsync($"{nameof(PaleoflowPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(PaleoflowPage)] = null,
                     [nameof(Earthmaterial)] = Model,
                 }
             );
@@ -1264,6 +1252,26 @@ namespace GSCFieldApp.ViewModel
                 Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_station.StationID, _station.StationAlias);
                 OnPropertyChanged(nameof(Model));
             }
+        }
+
+        public async Task SetAndSaveModelAsync()
+        {
+            //Fill out missing values in model
+            await SetModelAsync();
+
+            //Validate if new entry or update
+            if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty && _model.EarthMatID != 0)
+            {
+                await da.SaveItemAsync(Model, true);
+            }
+            else
+            {
+                //Insert new record
+                await da.SaveItemAsync(Model, false);
+            }
+
+            //Close to be sure
+            await da.CloseConnectionAsync();
         }
 
         #endregion
