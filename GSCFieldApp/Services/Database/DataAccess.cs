@@ -359,6 +359,12 @@ namespace GSCFieldApp.Services.DatabaseServices
                 outputVocabsList.Add(newItem);
             }
 
+            //If at the end there is onlye one record, make it a default
+            if (outputVocabsList.Count == 1)
+            {
+                defaultValueIndex = 0;
+            }
+
             //Set
             ComboBox outputVocabs = new ComboBox();
             outputVocabs.cboxItems = outputVocabsList;

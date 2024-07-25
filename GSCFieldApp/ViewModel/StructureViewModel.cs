@@ -291,21 +291,48 @@ namespace GSCFieldApp.ViewModel
                 //One picklist can only be filtered down if coming from bedrock project
                 if (FieldThemes.BedrockVisibility)
                 {
-                    _structureFormat.cboxItems = _structureFormatAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                    //Special case, needs to contain structure class and not structure class and type
+                    _structureFormat.cboxItems = _structureFormatAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass.Split(KeywordConcatCharacter2nd)[0])).ToList();
+
+                    //Selected index parsing
+                    if (_structureFormat.cboxItems.Count == 1)
+                    {
+                        _structureFormat.cboxDefaultItemIndex = 0;
+                    }
 
                     OnPropertyChanged(nameof(StructureFormat));
                 }
 
                 _structureDetail.cboxItems = _structureDetailAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                //Selected index parsing
+                if (_structureDetail.cboxItems.Count == 1)
+                {
+                    _structureDetail.cboxDefaultItemIndex = 0;
+                }
                 OnPropertyChanged(nameof(StructureDetail));
 
                 _structureAttitude.cboxItems = _structureAttitudeAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                //Selected index parsing
+                if (_structureAttitude.cboxItems.Count == 1)
+                {
+                    _structureAttitude.cboxDefaultItemIndex = 0;
+                }
                 OnPropertyChanged(nameof(StructureAttitude));
 
                 _structureYounging.cboxItems = _structureYoungingAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                //Selected index parsing
+                if (_structureYounging.cboxItems.Count == 1)
+                {
+                    _structureYounging.cboxDefaultItemIndex = 0;
+                }
                 OnPropertyChanged(nameof(StructureYounging));
 
                 _structureGeneration.cboxItems = _structureGenerationAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.StructureClass)).ToList();
+                //Selected index parsing
+                if (_structureGeneration.cboxItems.Count == 1)
+                {
+                    _structureGeneration.cboxDefaultItemIndex = 0;
+                }
                 OnPropertyChanged(nameof(StructureGeneration));
             }
 
@@ -336,7 +363,7 @@ namespace GSCFieldApp.ViewModel
                 _model.StructureClass = splitStructure[0];
                 if (splitStructure.Count() > 1)
                 {
-                    _model.StructureType = _model.StructureClass.Split(KeywordConcatCharacter2nd)[1];
+                    _model.StructureType = splitStructure[1];
                 }
             }
 
