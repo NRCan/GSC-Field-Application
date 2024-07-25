@@ -80,10 +80,13 @@
                                     
                             </VerticalStackLayout>
 
-                            <!--Can't use converter on this 2nd round picker, else it always gets overwritten with empty string on init-->
                             <Picker Title="{local:Localize EarthmatPageLithOccurAs}" x:Name="OccurAsPicker"
                                 ItemsSource="{Binding EarthLithOccurAs.cboxItems}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                 ItemDisplayBinding="{Binding itemName}"
+                                SelectedItem="{Binding Model.EarthMatOccurs, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding EarthLithOccurAs, Source={x:Reference OccurAsPicker}},
+                                    Mode=TwoWay}"
                                 SelectedIndex="{Binding EarthLithOccurAs.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize EarthmatPageLithMapUnit}" x:Name="MapUnitPicker"
@@ -206,23 +209,6 @@
 
                     </controls:ExpandableFrame>
                     
-
-                    <!--Mineralogy-->
-                    <!--NOTE: since there is litteraly a mineral button on the side of the form
-                        this whole control will remain disable while in dev. The need seeems less
-                        less important -->
-                    <!--<Frame BorderColor="{StaticResource FieldEarthMaterialColor}"  IsVisible="false" Style="{StaticResource FieldAppSectionFrame}">
-
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding HideCommand}" CommandParameter="EMMineralVisibility" NumberOfTapsRequired="1"/>
-                        </Frame.GestureRecognizers>
-                        
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize EarthmatPageMineralogyTitle}"/>
-
-                        </VerticalStackLayout>
-                    </Frame>-->
-
                     <!--Colours-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
                                               FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMColourVisibility, Mode=TwoWay}"

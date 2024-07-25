@@ -66,6 +66,7 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _earthLithoGroup = new ComboBox();
         private ComboBox _earthLithDetail = new ComboBox(); //Surficial only
         private ComboBox _earthLithOccurAs = new ComboBox();
+        private ComboBox _earthLithOccursAsAll = new ComboBox();
         private ComboBox _earthLithMapUnit = new ComboBox();
         private ComboBox _earthLithSorting = new ComboBox();
         private ComboBox _earthLithWater = new ComboBox();
@@ -911,7 +912,7 @@ namespace GSCFieldApp.ViewModel
             _earthLithColourGeneric = await FillAPicker(KeywordColourGeneric);
             _earthLithColourIntensity = await FillAPicker(KeywordColourIntensity);
             _earthLithColourQualifier = await FillAPicker(KeywordColourQualifier);
-
+            _earthLithOccursAsAll = await FillAPicker(FieldEarthMatOccurs);
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
@@ -933,13 +934,21 @@ namespace GSCFieldApp.ViewModel
             if (_model.GroupType != string.Empty && currentProjectType.Contains(ApplicationThemeBedrock))
             {
                 _earthLithQualifier = await FillAPicker(FieldEarthMatModComp, _model.EarthMatLithgroup);
-                _earthLithOccurAs = await FillAPicker(FieldEarthMatOccurs, _model.EarthMatLithgroup);
+                //_earthLithOccurAs = await FillAPicker(FieldEarthMatOccurs, _model.EarthMatLithgroup);
                 _earthLithTextureStruct = await FillAPicker(FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
                 _earthLithGrainSize = await FillAPicker(FieldEarthMatGrSize, _model.EarthMatLithgroup);
                 OnPropertyChanged(nameof(EarthLithQualifier));
-                OnPropertyChanged(nameof(EarthLithOccurAs));
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
                 OnPropertyChanged(nameof(EarthLithGrainSize));
+
+                _earthLithOccurAs.cboxItems.Clear();
+                _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && f.itemParent == _model.EarthMatLithgroup).ToList();
+                if (_earthLithOccurAs.cboxItems.Count == 1)
+                {
+                    _earthLithOccurAs.cboxDefaultItemIndex = 0;
+                }
+                OnPropertyChanged(nameof(EarthLithOccurAs));
+
             }
 
         }
@@ -1043,11 +1052,6 @@ namespace GSCFieldApp.ViewModel
 
             //Special cases pickers
             //XAML converters usually saves directly in the model except for these
-            if (EarthLithOccurAs.cboxItems.Count() > 0 && EarthLithOccurAs.cboxDefaultItemIndex != -1)
-            {
-                //2nd round pickers aren't playing well with xaml converter
-                Model.EarthMatOccurs = EarthLithOccurAs.cboxItems[EarthLithOccurAs.cboxDefaultItemIndex].itemValue; 
-            }
             if (EarthLithDetail.cboxItems.Count() > 0 && EarthLithDetail.cboxDefaultItemIndex != -1)
             {
                 //Special picker only available in surficial, conflicting with bedrock on initialization
@@ -1221,16 +1225,6 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithGrainSizeCollection));
 
-                //Special case picker
-                //Doesn't interact well with xaml converter, need to keep it here
-                foreach (ComboBoxItem cbox in EarthLithOccurAs.cboxItems)
-                {
-                    if (cbox.itemValue == _earthmaterial.EarthMatOccurs)
-                    {
-                        EarthLithOccurAs.cboxDefaultItemIndex = EarthLithOccurAs.cboxItems.IndexOf(cbox); break;
-                    }
-                }
-                OnPropertyChanged(nameof(EarthLithOccurAs));
             }
 
         }
