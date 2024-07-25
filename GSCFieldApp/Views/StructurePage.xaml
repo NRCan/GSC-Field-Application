@@ -43,7 +43,7 @@
 
                             <!--Quirk - Show item value instead of name, else planar and linear are missing from text-->
                             <Picker Title="{local:Localize StructurePageClass}" x:Name="StructureClassPicker"
-                                    ItemsSource="{Binding StructureClass.cboxItems}"
+                                    ItemsSource="{Binding StructureClass.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemValue}" SelectedIndexChanged="StructureClassPicker_SelectedIndexChanged"
                                     SelectedItem="{Binding Model.StructureClass, 
                                         Converter={StaticResource cbox2Str},
@@ -52,7 +52,7 @@
                                     SelectedIndex="{Binding StructureClass.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize StructurePageDetail}" x:Name="StructureDetailPicker"
-                                    ItemsSource="{Binding StructureDetail.cboxItems}"
+                                    ItemsSource="{Binding StructureDetail.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureDetail, 
                                         Converter={StaticResource cbox2Str},
@@ -71,7 +71,7 @@
                         <VerticalStackLayout>
 
                             <Picker Title="{local:Localize StructurePageFormat}" x:Name="StructureFormatPicker"
-                                    ItemsSource="{Binding StructureFormat.cboxItems}"
+                                    ItemsSource="{Binding StructureFormat.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.StructureFormat, 
                                         Converter={StaticResource cbox2Str},
@@ -80,7 +80,7 @@
                                     SelectedIndex="{Binding StructureFormat.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize StructurePageAzimuth}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Label Text="{local:Localize StructurePageAzimuth}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                 <Entry Text="{Binding Model.StructureAzimuth, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
                                        Style="{StaticResource FieldAppNumBox}">
                                     <Entry.Behaviors>
@@ -97,7 +97,7 @@
 
                             <VerticalStackLayout>
 
-                                <Label Text="{local:Localize StructurePageDipPlunge}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Label Text="{local:Localize StructurePageDipPlunge}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                 <Entry Text="{Binding Model.StructureDipPlunge,Converter={StaticResource Str2Int}, Mode=TwoWay}"
                                        Style="{StaticResource FieldAppNumBox}">
                                     <Entry.Behaviors>
