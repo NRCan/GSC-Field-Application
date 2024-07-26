@@ -141,8 +141,6 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
-            //Fill out missing values in model
-            await SetModelAsync();
 
             //Validate if new entry or update
             if (_paleoflow != null && _paleoflow.ParentName != string.Empty && _model.PFlowID != 0)
@@ -178,8 +176,6 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task SaveStay()
         {
-            //Fill out missing values in model
-            await SetModelAsync();
 
             //Validate if new entry or update
             if (_paleoflow != null && _paleoflow.ParentName != string.Empty && _model.PFlowID != 0)
@@ -307,26 +303,6 @@ namespace GSCFieldApp.ViewModel
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
             return await da.GetComboboxListWithVocabAsync(TablePFlow, fieldName, extraField);
-
-        }
-
-        /// <summary>
-        /// Will fill out missing fields for model. Default auto-calculated values
-        /// Done before actually saving
-        /// </summary>
-        private async Task SetModelAsync()
-        {
-
-            ////Make sure to split class picker into two fields (class and type)
-            //if (_model != null && _model.PFlowClass != null && _model.PFlowClass != string.Empty)
-            //{
-            //    string[] splitStructure = _model.StructureClass.Split(KeywordConcatCharacter2nd);
-            //    _model.StructureClass = splitStructure[0];
-            //    if (splitStructure.Count() > 1)
-            //    {
-            //        _model.StructureType = splitStructure[1];
-            //    }
-            //}
 
         }
 
