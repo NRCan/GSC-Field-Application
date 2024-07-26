@@ -627,7 +627,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         /// <summary>
         /// Will calculate a paleaflow alias from a given parent id and parent alias.
-        /// NOTE: identical to bedrock structure table.
+        /// NOTE: identical to bedrock sample table.
         /// </summary>
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
@@ -687,7 +687,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-        //#region MINERAL
+        #region MINERAL
         ///// <summary>
         ///// Will calculate a sample alias from a given parent id and parent alias.
         ///// </summary>
@@ -749,18 +749,10 @@ namespace GSCFieldApp.Services.DatabaseServices
         //    return finaleMineralString;
         //}
 
-        ///// <summary>
-        ///// Will calculate a generic ID from sample table based on the highest current stored id.
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculateMineralID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
+        #endregion
 
-        //#endregion
+        #region MINERAL ALTERATION
 
-        //#region MINERAL ALTERATION
         ///// <summary>
         ///// Will calculate an mineral alteration alias from a given parent id and parent alias.
         ///// Should look like YYGeolcodeStationNumberXMANumber --> 17GHV001X01, first min. alteration of first station of geo
@@ -823,88 +815,74 @@ namespace GSCFieldApp.Services.DatabaseServices
         //    return finaleMAString;
         //}
 
-        ///// <summary>
-        ///// Will calculate a generic ID from sample table based on the highest current stored id.
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculateMineralAlterationID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
-        //#endregion
+        #endregion
 
-        //#region ENVIRONMENT
-        ///// <summary>
-        ///// Will calculate an mineral alteration alias from a given parent id and parent alias.
-        ///// Should look like YYGeolcodeStationNumberXMANumber --> 17GHV001X01, first environment of first station of geo
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <returns></returns>
-        //public string CalculateEnvironmentAlias(int parentID, string parentAlias)
-        //{
-        //    //Variables
-        //    string prefix = DatabaseLiterals.TableEnvironmentPrefix;
+        #region ENVIRONMENT
+        /// <summary>
+        /// Will calculate an environment alias from a given parent id and parent alias.
+        /// NOTE: identical to photo/document alias or earth material without incrementing letter
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public async Task<string> CalculateEnvironmentAliasAsync(int parentID, string parentAlias)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<EnvironmentModel> envParentStations = await currentConnection.Table<EnvironmentModel>().Where(e => e.EnvStationID == parentID).ToListAsync();
 
-        //    //Querying with Linq
-        //    List<object> envTableRaw = dAccess.ReadTable(envModel.GetType(), null);
-        //    IEnumerable<EnvironmentModel> envTable = envTableRaw.Cast<EnvironmentModel>(); //Cast to proper list type
-        //    IEnumerable<string> envParentStations = from env in envTable where env.EnvStationID == parentID orderby env.EnvName descending select env.EnvName;
+            int newID = 1; //Incrementing step
+            string newAlias = string.Empty;
+            string finaleEnvironmentString = parentAlias + DatabaseLiterals.TableEnvironmentPrefix;
 
-        //    int startingNumber = 1;
-        //    string startingNumberStr = string.Empty;
-        //    string finaleENVString = parentAlias;
+            //Detect last record number and add 1 to it.
+            if (envParentStations.Count() > 0)
+            {
+                string lastAlias = envParentStations.ToList()[envParentStations.Count() - 1].EnvName.ToString();
+                string lastNumberString = lastAlias.ToList()[lastAlias.Length - 2].ToString(); 
+                short parsedID = 0;
+                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                newID = parsedID + newID;
 
-        //    //Calculate
-        //    if (envParentStations.Count() > 0)
-        //    {
-        //        string lastAlias = envParentStations.ToList()[0].ToString();
+                while (processingID)
+                {
+                    //Padd current ID with 0 if needed
+                    if (newID < 10)
+                    {
+                        newAlias = "0" + newID;
+                    }
+                    else
+                    {
+                        newAlias = newID.ToString();
+                    }
 
-        //        //Find a non existing name
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Padd current ID with 0 if needed
-        //            if (startingNumber < 10)
-        //            {
-        //                startingNumberStr = "0" + startingNumber.ToString();
-        //            }
-        //            else
-        //            {
-        //                startingNumberStr = startingNumber.ToString();
-        //            }
+                    finaleEnvironmentString = parentAlias + DatabaseLiterals.TableEnvironmentPrefix + newAlias;
 
-        //            finaleENVString = parentAlias + prefix + startingNumberStr;
+                    //Find existing
+                    List<EnvironmentModel> existingDocument = await currentConnection.Table<EnvironmentModel>().Where(e => e.EnvStationID == parentID && e.EnvName == finaleEnvironmentString).ToListAsync();
+                    if (existingDocument.Count() == 0 || existingDocument == null)
+                    {
+                        processingID = false;
+                    }
 
-        //            //Find existing
-        //            IEnumerable<EnvironmentModel> existingENV = from env2 in envTable where env2.EnvStationID == parentID && env2.EnvName == finaleENVString select env2;
+                    newID++;
 
-        //            if (existingENV.Count() == 0 || existingENV == null)
-        //            {
-        //                breaker = false;
-        //            }
+                }
 
-        //            startingNumber++;
 
-        //        }
-        //    }
-        //    else
-        //    {
-        //        finaleENVString = parentAlias + prefix + "0" + startingNumber.ToString();
-        //    }
+            }
+            else
+            {
+                //Padd current ID with 0 
+                newAlias = "0" + newID;
 
-        //    return finaleENVString;
-        //}
+                finaleEnvironmentString = parentAlias + DatabaseLiterals.TableEnvironmentPrefix + newAlias;
+            }
 
-        ///// <summary>
-        ///// Will calculate a generic ID from sample table based on the highest current stored id.
-        ///// </summary>
-        ///// <returns></returns>
-        //public int CalculateEnvironmentID()
-        //{
-        //    return GetHashCodeFromGUID();
-        //}
-        //#endregion
+            return finaleEnvironmentString;
+        }
+
+        #endregion
 
         #endregion
 

@@ -381,6 +381,57 @@
   <data name="EarthmatTooltipAddStruc" xml:space="preserve">
     <value>Tap to add a new structure</value>
   </data>
+  <data name="EnvironmentPageAzim" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="EnvironmentPageBoulder" xml:space="preserve">
+    <value>Boulder</value>
+  </data>
+  <data name="EnvironmentPageCover" xml:space="preserve">
+    <value>Cover</value>
+  </data>
+  <data name="EnvironmentPageDepthLayer" xml:space="preserve">
+    <value>Active Depth Layer (m)</value>
+  </data>
+  <data name="EnvironmentPageDrainage" xml:space="preserve">
+    <value>Drainage</value>
+  </data>
+  <data name="EnvironmentPageExposure" xml:space="preserve">
+    <value>Exposure</value>
+  </data>
+  <data name="EnvironmentPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="EnvironmentPageGroundTitle" xml:space="preserve">
+    <value>Ground</value>
+  </data>
+  <data name="EnvironmentPageIce" xml:space="preserve">
+    <value>Ice</value>
+  </data>
+  <data name="EnvironmentPageLandscapeTitle" xml:space="preserve">
+    <value>Landscape</value>
+  </data>
+  <data name="EnvironmentPagePattern" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="EnvironmentPagePermIndicator" xml:space="preserve">
+    <value>Permafrost Indicator</value>
+  </data>
+  <data name="EnvironmentPageRelief" xml:space="preserve">
+    <value>Relief</value>
+  </data>
+  <data name="EnvironmentPageSlope" xml:space="preserve">
+    <value>Slope</value>
+  </data>
+  <data name="EnvironmentPageTerrainTitle" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="EnvironmentPageTitle" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="EnvPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="FieldBookBackupGeneric" xml:space="preserve">
     <value>Backup</value>
   </data>
@@ -458,6 +509,9 @@
   </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Earth Materials</value>
+  </data>
+  <data name="FielNotesEnvironmentHeader" xml:space="preserve">
+    <value>Environment</value>
   </data>
   <data name="FielNotesFossilHeader" xml:space="preserve">
     <value>Fossil</value>

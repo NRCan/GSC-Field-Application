@@ -3,47 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GSCFieldApp.Dictionaries;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 
 namespace GSCFieldApp.Models
 {
-    [Table(DatabaseLiterals.TableEnvironment)]
+    [Table(TableEnvironment)]
     public class EnvironmentModel
     {
 
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldEnvID)]
+        [PrimaryKey, AutoIncrement, Column(FieldEnvID)]
         public int EnvID { get; set; }
 
-        [Column(DatabaseLiterals.FieldEnvName)]
+        [Column(FieldEnvName)]
         public string EnvName { get; set; }
 
-        [Column(DatabaseLiterals.FieldEnvRelief)]
+        [Column(FieldEnvRelief)]
         public string EnvRelief { get; set; }
 
-        [Column(DatabaseLiterals.FieldEnvSlope)]
+        [Column(FieldEnvSlope)]
         public int EnvSlope { get; set; }
-        [Column(DatabaseLiterals.FieldEnvAzim)]
+        [Column(FieldEnvAzim)]
         public int EnvAzim { get; set; }
-        [Column(DatabaseLiterals.FieldEnvDrainage)]
+        [Column(FieldEnvDrainage)]
         public string EnvDrainage{ get; set; }
-        [Column(DatabaseLiterals.FieldEnvPermIndicator)]
+        [Column(FieldEnvPermIndicator)]
         public string EnvPermIndicator{ get; set; }
-        [Column(DatabaseLiterals.FieldEnvGroundPattern)]
+        [Column(FieldEnvGroundPattern)]
         public string EnvGroundPattern { get; set; }
-        [Column(DatabaseLiterals.FieldEnvGroundIce)]
+        [Column(FieldEnvGroundIce)]
         public string EnvGroundIce { get; set; }
-        [Column(DatabaseLiterals.FieldEnvGroundCover)]
+        [Column(FieldEnvGroundCover)]
         public string EnvGroundCover { get; set; }
-        [Column(DatabaseLiterals.FieldEnvActiveLayerDepth)]
+        [Column(FieldEnvActiveLayerDepth)]
         public double EnvActiveLayerDepth { get; set; }
-        [Column(DatabaseLiterals.FieldEnvBoulder)]
+        [Column(FieldEnvBoulder)]
         public string EnvBoulder { get; set; }
-        [Column(DatabaseLiterals.FieldEnvExposure)]
+        [Column(FieldEnvExposure)]
         public string EnvExposure { get; set; }
-        [Column(DatabaseLiterals.FieldEnvNotes)]
+        [Column(FieldEnvNotes)]
         public string EnvNotes { get; set; }
-        [Column(DatabaseLiterals.FieldEnvStationID)]
+        [Column(FieldEnvStationID)]
         public int EnvStationID { get; set; }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> envFieldList = new Dictionary<double, List<string>>();
                 List<string> envFieldListDefault = new List<string>();
 
-                envFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
+                envFieldListDefault.Add(FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -90,13 +90,13 @@ namespace GSCFieldApp.Models
 
                 }
 
-                envFieldList[DatabaseLiterals.DBVersion] = envFieldListDefault;
+                envFieldList[DBVersion] = envFieldListDefault;
 
                 //Revert shcema 1.7 changes
                 List<string> envFieldList160 = new List<string>();
                 envFieldList160.AddRange(envFieldListDefault);
-                envFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                envFieldList[DatabaseLiterals.DBVersion160] = envFieldList160;
+                envFieldList160.Remove(FieldGenericRowID);
+                envFieldList[DBVersion160] = envFieldList160;
 
 
                 return envFieldList;
@@ -104,6 +104,38 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string EnvironmentAliasLight
+        {
+            get
+            {
+                if (EnvName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(EnvName.Substring(EnvName.Length - 2), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        //Trim bunch of zeros
+                        string shorterStructureName = EnvName.Substring(EnvName.Length - 7);
+                        return shorterStructureName.Trim('0');
+                    }
+                    else
+                    {
+                        return picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return picklistNACode;
+                }
+            }
+            set { }
+        }
 
     }
 }

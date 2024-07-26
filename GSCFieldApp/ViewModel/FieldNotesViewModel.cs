@@ -110,6 +110,13 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(IsFossilVisible), value); }
         }
 
+        private bool _isEnvironmentVisible = false;
+        public bool IsEnvironmentVisible
+        {
+            get { return Preferences.Get(nameof(IsEnvironmentVisible), false); }
+            set { Preferences.Set(nameof(IsEnvironmentVisible), value); }
+        }
+
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
         { 
@@ -242,6 +249,26 @@ namespace GSCFieldApp.ViewModel
             set { _fossils = value; }
         }
 
+        private ObservableCollection<FieldNote> _environments = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Environments
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.environment))
+                {
+                    return _environments = FieldNotes[TableNames.environment];
+                }
+                else
+                {
+                    return _environments = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _environments = value; }
+        }
+
+
         private ObservableCollection<string> _dates = new ObservableCollection<string>();
         public ObservableCollection<string> Dates
         {
@@ -261,6 +288,7 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.structure, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.pflow, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.fossil, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.environment, new ObservableCollection<FieldNote>());
 
             _dates = new ObservableCollection<string>();
 
@@ -331,6 +359,12 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsFossilVisible = !IsFossilVisible;
                     OnPropertyChanged(nameof(IsFossilVisible));
+                }
+
+                if (inComingName.ToLower().Contains(nameof(TableNames.environment)))
+                {
+                    IsEnvironmentVisible = !IsEnvironmentVisible;
+                    OnPropertyChanged(nameof(IsEnvironmentVisible));
                 }
 
                 //Special case, removing filtering on date and refreshing all records.
@@ -471,6 +505,25 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
+            if (fieldNotes.GenericTableName == TableEnvironment)
+            {
+                List<EnvironmentModel> tappedEnv = await currentConnection.Table<EnvironmentModel>().Where(i => i.EnvID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedEnv != null && tappedEnv.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(EnvironmentModel)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(EnvironmentModel)] = (EnvironmentModel)tappedEnv[0],
+                            [nameof(Station)] = null,
+                        }
+                    );
+                }
+            }
+
             if (fieldNotes.GenericTableName == TableDocument)
             {
                 List<Document> tappedDoc = await currentConnection.Table<Document>().Where(i => i.DocumentID == fieldNotes.GenericID).ToListAsync();
@@ -513,6 +566,7 @@ namespace GSCFieldApp.ViewModel
                 await FillStructureNotes(currentConnection);
                 await FillPaleoflowNotes(currentConnection);
                 await FillFossilNotes(currentConnection);
+                await FillEnvironmentNotes(currentConnection);
 
                 await currentConnection.CloseAsync();
 
@@ -925,7 +979,53 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will get all database pflow to fill pflow cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillEnvironmentNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.environment))
+            {
+                FieldNotes.Add(TableNames.environment, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.environment].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
 
+            }
+
+            //Get all stations from database
+            List<EnvironmentModel> environments = await inConnection.Table<EnvironmentModel>().OrderBy(s => s.EnvID).ToListAsync();
+
+            if (environments != null && environments.Count > 0)
+            {
+
+                foreach (EnvironmentModel st in environments)
+                {
+                    FieldNotes[TableNames.environment].Add(new FieldNote
+                    {
+                        Display_text_1 = st.EnvironmentAliasLight,
+                        Display_text_2 = st.EnvRelief,
+                        Display_text_3 = st.EnvNotes,
+                        GenericTableName = TableEnvironment,
+                        GenericID = st.EnvID,
+                        ParentID = st.EnvStationID,
+                        isValid = st.isValid
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
+
+        
         /// <summary>
         /// A method that will filter out all records in field note page
         /// based on a desire date
@@ -959,6 +1059,8 @@ namespace GSCFieldApp.ViewModel
                         FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).ToList());
                         OnPropertyChanged(nameof(Documents));
 
+                        FieldNotes[TableNames.environment] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.environment].Where(x => stationIds.Contains(x.ParentID)).ToList());
+                        OnPropertyChanged(nameof(Environments));
                         #endregion
 
 
@@ -1032,6 +1134,7 @@ namespace GSCFieldApp.ViewModel
                     await FillFossilNotes(currentConnection);
                     break;
                 case TableNames.environment:
+                    await FillEnvironmentNotes(currentConnection);
                     break;
                 case TableNames.pflow:
                     await FillPaleoflowNotes(currentConnection);

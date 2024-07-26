@@ -853,6 +853,159 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string EnvironmentPageAzim {
+            get {
+                return ResourceManager.GetString("EnvironmentPageAzim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boulder.
+        /// </summary>
+        internal static string EnvironmentPageBoulder {
+            get {
+                return ResourceManager.GetString("EnvironmentPageBoulder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cover.
+        /// </summary>
+        internal static string EnvironmentPageCover {
+            get {
+                return ResourceManager.GetString("EnvironmentPageCover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Depth Layer (m).
+        /// </summary>
+        internal static string EnvironmentPageDepthLayer {
+            get {
+                return ResourceManager.GetString("EnvironmentPageDepthLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drainage.
+        /// </summary>
+        internal static string EnvironmentPageDrainage {
+            get {
+                return ResourceManager.GetString("EnvironmentPageDrainage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exposure.
+        /// </summary>
+        internal static string EnvironmentPageExposure {
+            get {
+                return ResourceManager.GetString("EnvironmentPageExposure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string EnvironmentPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ground.
+        /// </summary>
+        internal static string EnvironmentPageGroundTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageGroundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ice.
+        /// </summary>
+        internal static string EnvironmentPageIce {
+            get {
+                return ResourceManager.GetString("EnvironmentPageIce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Landscape.
+        /// </summary>
+        internal static string EnvironmentPageLandscapeTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageLandscapeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pattern.
+        /// </summary>
+        internal static string EnvironmentPagePattern {
+            get {
+                return ResourceManager.GetString("EnvironmentPagePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Permafrost Indicator.
+        /// </summary>
+        internal static string EnvironmentPagePermIndicator {
+            get {
+                return ResourceManager.GetString("EnvironmentPagePermIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relief.
+        /// </summary>
+        internal static string EnvironmentPageRelief {
+            get {
+                return ResourceManager.GetString("EnvironmentPageRelief", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slope.
+        /// </summary>
+        internal static string EnvironmentPageSlope {
+            get {
+                return ResourceManager.GetString("EnvironmentPageSlope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terrain.
+        /// </summary>
+        internal static string EnvironmentPageTerrainTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageTerrainTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Environment.
+        /// </summary>
+        internal static string EnvironmentPageTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string EnvPageNotes {
+            get {
+                return ResourceManager.GetString("EnvPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backup.
         /// </summary>
         internal static string FieldBookBackupGeneric {
@@ -1083,6 +1236,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FielNotesEMHeader {
             get {
                 return ResourceManager.GetString("FielNotesEMHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Environment.
+        /// </summary>
+        internal static string FielNotesEnvironmentHeader {
+            get {
+                return ResourceManager.GetString("FielNotesEnvironmentHeader", resourceCulture);
             }
         }
         

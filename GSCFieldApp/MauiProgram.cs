@@ -74,6 +74,9 @@ public static class MauiProgram
         builder.Services.AddTransient<FossilPage>();
         builder.Services.AddTransient<FossilViewModel>();
 
+        builder.Services.AddTransient<EnvironmentPage>();
+        builder.Services.AddTransient<EnvironmentViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();

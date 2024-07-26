@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.EnvironmentPage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:EnvironmentViewModel"
+             Shell.BackgroundColor="{StaticResource FieldEnvironmentColor}"
+             Title="{local:Localize EnvironmentPageTitle}">
+    
+    <Shell.BackButtonBehavior>
+        <!--Hide back button - Android when navigating back, ham menu disapears-->
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:String2Integers x:Key="Str2Int"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.EnvName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
+                    <!--Landscape section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" FrameContentVisibility="{Binding EnvironmentLandscapeVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize EnvironmentPageLandscapeTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize EnvironmentPageRelief}" x:Name="EnvironmentPageReliefPicker"
+                                    ItemsSource="{Binding EnvironmentRelief.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.EnvRelief, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding EnvironmentRelief, Source={x:Reference EnvironmentPageReliefPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding EnvironmentRelief.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EnvironmentPageBoulder}" x:Name="EnvironmentPageBoulderPicker"
+                                    ItemsSource="{Binding EnvironmentBoulder.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.EnvBoulder, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding EnvironmentBoulder, Source={x:Reference EnvironmentPageBoulderPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding EnvironmentBoulder.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize EnvironmentPageSlope}" />
+                                <Entry Text="{Binding Model.EnvSlope, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="45"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize EnvironmentPageAzim}"/>
+                                <Entry Text="{Binding Model.EnvAzim,Converter={StaticResource Str2Int}, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="360"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Terrain section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" FrameContentVisibility="{Binding EnvironmentTerrainVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize EnvironmentPageTerrainTitle}">
+
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize EnvironmentPageDrainage}" x:Name="EnvironmentPageDrainagePicker"
+                                   ItemsSource="{Binding EnvironmentDrainage.cboxItems}" 
+                                   ItemDisplayBinding="{Binding itemName}"
+                                   SelectedItem="{Binding Model.EnvDrainage, 
+                                       Converter={StaticResource cbox2Str},
+                                       ConverterParameter={Binding EnvironmentDrainage, Source={x:Reference EnvironmentPageDrainagePicker}},
+                                       Mode=TwoWay}"
+                                   SelectedIndex="{Binding EnvironmentDrainage.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EnvironmentPagePermIndicator}" x:Name="EnvironmentPagePermIndicatorPicker"
+                                   ItemsSource="{Binding EnvironmentPermIndicator.cboxItems}" 
+                                   ItemDisplayBinding="{Binding itemName}"
+                                   SelectedItem="{Binding Model.EnvPermIndicator, 
+                                       Converter={StaticResource cbox2Str},
+                                       ConverterParameter={Binding EnvironmentPermIndicator, Source={x:Reference EnvironmentPagePermIndicatorPicker}},
+                                       Mode=TwoWay}"
+                                   SelectedIndex="{Binding EnvironmentPermIndicator.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EnvironmentPageExposure}" x:Name="EnvironmentPageExposurePicker"
+                                   ItemsSource="{Binding EnvironmentExposure.cboxItems}" 
+                                   ItemDisplayBinding="{Binding itemName}"
+                                   SelectedItem="{Binding Model.EnvExposure, 
+                                       Converter={StaticResource cbox2Str},
+                                       ConverterParameter={Binding EnvironmentExposure, Source={x:Reference EnvironmentPageExposurePicker}},
+                                       Mode=TwoWay}"
+                                   SelectedIndex="{Binding EnvironmentExposure.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize EnvironmentPageDepthLayer}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.EnvActiveLayerDepth, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                        
+                    </controls:ExpandableFrame>
+
+                    <!--Ground section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" FrameContentVisibility="{Binding EnvironmentGroundVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize EnvironmentPageGroundTitle}">
+
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize EnvironmentPageCover}" x:Name="EnvironmentPageCoverPicker"
+                                   ItemsSource="{Binding EnvironmentCover.cboxItems}" 
+                                   ItemDisplayBinding="{Binding itemName}"
+                                   SelectedItem="{Binding Model.EnvGroundCover, 
+                                       Converter={StaticResource cbox2Str},
+                                       ConverterParameter={Binding EnvironmentCover, Source={x:Reference EnvironmentPageCoverPicker}},
+                                       Mode=TwoWay}"
+                                   SelectedIndex="{Binding EnvironmentCover.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EnvironmentPageIce}" x:Name="EnvironmentPageIcePicker"
+                                   ItemsSource="{Binding EnvironmentIce.cboxItems}" 
+                                   ItemDisplayBinding="{Binding itemName}"
+                                   SelectedItem="{Binding Model.EnvGroundIce, 
+                                       Converter={StaticResource cbox2Str},
+                                       ConverterParameter={Binding EnvironmentIce, Source={x:Reference EnvironmentPageIcePicker}},
+                                       Mode=TwoWay}"
+                                   SelectedIndex="{Binding EnvironmentIce.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize EnvironmentPagePattern}" x:Name="EnvironmentPagePatternPicker"
+                                    ItemsSource="{Binding EnvironmentPattern.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedEnvironmentPattern}"
+                                    SelectedIndex="{Binding EnvironmentPattern.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <!--Custom control to concatenate multiple values into one field-->
+                            <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding EnvironmentPatternCollection}" />
+
+                        </VerticalStackLayout>
+                        
+                    </controls:ExpandableFrame>
+
+                    <!--General section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" FrameContentVisibility="{Binding EnvironmentGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize EnvironmentPageGeneralTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize EnvPageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.EnvNotes, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </controls:ExpandableFrame>
+
+
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldEnvironmentColor}"
+                                    ButtonLightColor="{StaticResource FieldEnvironmentColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>

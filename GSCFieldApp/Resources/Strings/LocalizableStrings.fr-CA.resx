@@ -370,6 +370,57 @@ Aimeriez-vous modifier les droits?</value>
   <data name="EarthmatTooltipAddStruc" xml:space="preserve">
     <value>Ajoutez une nouvelle structure</value>
   </data>
+  <data name="EnvironmentPageAzim" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="EnvironmentPageBoulder" xml:space="preserve">
+    <value>Rocher</value>
+  </data>
+  <data name="EnvironmentPageCover" xml:space="preserve">
+    <value>Couverture</value>
+  </data>
+  <data name="EnvironmentPageDepthLayer" xml:space="preserve">
+    <value>Profondeur couche active (m)</value>
+  </data>
+  <data name="EnvironmentPageDrainage" xml:space="preserve">
+    <value>Drainage</value>
+  </data>
+  <data name="EnvironmentPageExposure" xml:space="preserve">
+    <value>Exposition</value>
+  </data>
+  <data name="EnvironmentPageGeneralTitle" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="EnvironmentPageGroundTitle" xml:space="preserve">
+    <value>Sol</value>
+  </data>
+  <data name="EnvironmentPageIce" xml:space="preserve">
+    <value>Glace</value>
+  </data>
+  <data name="EnvironmentPageLandscapeTitle" xml:space="preserve">
+    <value>Paysage</value>
+  </data>
+  <data name="EnvironmentPagePattern" xml:space="preserve">
+    <value>Motifs</value>
+  </data>
+  <data name="EnvironmentPagePermIndicator" xml:space="preserve">
+    <value>Indicateur de permafrost</value>
+  </data>
+  <data name="EnvironmentPageRelief" xml:space="preserve">
+    <value>Relief</value>
+  </data>
+  <data name="EnvironmentPageSlope" xml:space="preserve">
+    <value>Pente</value>
+  </data>
+  <data name="EnvironmentPageTerrainTitle" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="EnvironmentPageTitle" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
+  <data name="EnvPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="FieldBookBackupGeneric" xml:space="preserve">
     <value>Sauvegarde</value>
   </data>
@@ -447,6 +498,9 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Matériaux du sol</value>
+  </data>
+  <data name="FielNotesEnvironmentHeader	Environment" xml:space="preserve">
+    <value>Environnement</value>
   </data>
   <data name="FielNotesFossilHeader" xml:space="preserve">
     <value>Fossile</value>
