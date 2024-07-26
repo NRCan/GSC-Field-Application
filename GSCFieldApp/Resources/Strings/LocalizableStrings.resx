@@ -459,6 +459,9 @@
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Earth Materials</value>
   </data>
+  <data name="FielNotesFossilHeader" xml:space="preserve">
+    <value>Fossil</value>
+  </data>
   <data name="FielNotesPaleoflowHeader" xml:space="preserve">
     <value>Paleoflow</value>
   </data>
@@ -473,6 +476,18 @@
   </data>
   <data name="FielNotesStructureHeader" xml:space="preserve">
     <value>Structures</value>
+  </data>
+  <data name="FossilPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="FossilPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="FossilPageTitle" xml:space="preserve">
+    <value>Fossil</value>
+  </data>
+  <data name="FossilPageType" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="GenericButtonCancel" xml:space="preserve">
     <value>Cancel</value>

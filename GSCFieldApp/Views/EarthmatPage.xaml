@@ -472,6 +472,7 @@
                         BackgroundColor="{StaticResource FieldPflowColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                        Command="{Binding AddFossilCommand}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddFossil}"
                         BackgroundColor="{StaticResource FieldFossilColorLight}"/>
             </StackLayout>

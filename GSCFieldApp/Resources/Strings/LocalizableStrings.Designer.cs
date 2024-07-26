@@ -1087,6 +1087,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fossil.
+        /// </summary>
+        internal static string FielNotesFossilHeader {
+            get {
+                return ResourceManager.GetString("FielNotesFossilHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paleoflow.
         /// </summary>
         internal static string FielNotesPaleoflowHeader {
@@ -1128,6 +1137,42 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FielNotesStructureHeader {
             get {
                 return ResourceManager.GetString("FielNotesStructureHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string FossilPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("FossilPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string FossilPageNotes {
+            get {
+                return ResourceManager.GetString("FossilPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fossil.
+        /// </summary>
+        internal static string FossilPageTitle {
+            get {
+                return ResourceManager.GetString("FossilPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string FossilPageType {
+            get {
+                return ResourceManager.GetString("FossilPageType", resourceCulture);
             }
         }
         

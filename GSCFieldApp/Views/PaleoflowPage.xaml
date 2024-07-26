@@ -220,8 +220,8 @@
             </ScrollView>
 
             <!--Custom control to save with options to swipe left or right-->
-            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldStrucColor}"
-                                    ButtonLightColor="{StaticResource FieldPflowColor}"
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldPflowColor}"
+                                    ButtonLightColor="{StaticResource FieldPflowColorLight}"
                                     ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
 
         </Grid>

@@ -60,6 +60,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(DocumentPage), typeof(DocumentPage));
         Routing.RegisterRoute(nameof(StructurePage), typeof(StructurePage));
         Routing.RegisterRoute(nameof(PaleoflowPage), typeof(PaleoflowPage));
+        Routing.RegisterRoute(nameof(FossilPage), typeof(FossilPage));
         #endregion
 
         BindingContext = this;

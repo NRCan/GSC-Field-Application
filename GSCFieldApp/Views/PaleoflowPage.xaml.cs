@@ -24,11 +24,12 @@ public partial class PaleoflowPage : ContentPage
 
     private void PaleoflowPageClassPicker_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (true)
+        Picker picker = sender as Picker;
+        if (picker != null && picker.SelectedItem != null)
         {
-
+            PaleoflowViewModel vm3 = this.BindingContext as PaleoflowViewModel;
+            _ = vm3.Fill2ndRoundPickers();
         }
-        PaleoflowViewModel vm3 = this.BindingContext as PaleoflowViewModel;
-        vm3.Fill2ndRoundPickers();
+
     }
 }

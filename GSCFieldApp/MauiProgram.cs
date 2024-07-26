@@ -71,6 +71,9 @@ public static class MauiProgram
         builder.Services.AddTransient<PaleoflowPage>();
         builder.Services.AddTransient<PaleoflowViewModel>();
 
+        builder.Services.AddTransient<FossilPage>();
+        builder.Services.AddTransient<FossilViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();

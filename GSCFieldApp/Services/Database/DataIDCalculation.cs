@@ -623,65 +623,69 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-        //#region FOSSIL
+        #region FOSSIL
 
-        ///// <summary>
-        ///// Will calculate a paleaflow alias from a given parent id and parent alias.
-        ///// NOTE: identical to bedrock structure table.
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <returns></returns>
-        //public string CalculateFossilAlias(int parentID, string parentAlias)
-        //{
-        //    //Querying with Linq
-        //    List<object> fossilTableRaw = dAccess.ReadTable(fossilModel.GetType(), null);
-        //    IEnumerable<Fossil>fossilTable = fossilTableRaw.Cast<Fossil>(); //Cast to proper list type
-        //    IEnumerable<string> fossilParentEarth = from e in fossilTable where e.FossilParentID == parentID orderby e.FossilIDName descending select e.FossilIDName;
+        /// <summary>
+        /// Will calculate a paleaflow alias from a given parent id and parent alias.
+        /// NOTE: identical to bedrock structure table.
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public async Task<string> CalculateFossilAliasAsync(int parentID, string parentAlias)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<Fossil> fossilParentEarth = await currentConnection.Table<Fossil>().Where(e => e.FossilParentID == parentID).ToListAsync();
 
-        //    int newID = 1; //Incrementing step
-        //    string newAlias = string.Empty;
-        //    string finaleFossilString = parentAlias;
+            int newID = 1; //Incrementing step
+            string newAlias = string.Empty;
+            string finalFossilString = parentAlias;
 
-        //    //Detect last sample number and add 1 to it.
-        //    if (fossilParentEarth.Count() > 0)
-        //    {
-        //        string lastAlias = fossilParentEarth.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
-        //        string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //Sample only has two digits id in the alias
-        //        newID = Convert.ToInt16(lastNumberString) + newID;
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Padd current ID with 0 if needed
-        //            if (newID < 10)
-        //            {
-        //                newAlias = "0" + newID;
-        //            }
-        //            else
-        //            {
-        //                newAlias = newID.ToString();
-        //            }
-        //            finaleFossilString = parentAlias + newAlias;
+            //Detect last sample number and add 1 to it.
+            if (fossilParentEarth.Count() > 0)
+            {
+                string lastAlias = fossilParentEarth.ToList()[fossilParentEarth.Count() - 1].FossilIDName.ToString();
+                string lastNumberString = lastAlias.ToList()[lastAlias.Length - 2].ToString(); //Sample only has two digits id in the alias
+                short parsedID = 0;
+                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                newID = parsedID + newID;
 
-        //            //Find existing
-        //            IEnumerable<Fossil> existingFossil = from s in fossilTable where s.FossilParentID == parentID && s.FossilIDName == finaleFossilString select s;
-        //            if (existingFossil.Count() == 0 || existingFossil == null)
-        //            {
-        //                breaker = false;
-        //            }
+                //Find a non existing name
+                while (processingID)
+                {
+                    //Padd current ID with 0 if needed
+                    if (newID < 10)
+                    {
+                        newAlias = "0" + newID;
+                    }
+                    else
+                    {
+                        newAlias = newID.ToString();
+                    }
 
-        //            newID++;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        finaleFossilString = parentAlias + "0" + newID;
-        //    }
+                    finalFossilString = parentAlias + newAlias;
 
-        //    return finaleFossilString;
-        //}
+                    //Find existing
+                    List<Fossil> existingFossils= await currentConnection.Table<Fossil>().Where(e => e.FossilParentID == parentID && e.FossilIDName == finalFossilString).ToListAsync();
+                    if (existingFossils.Count() == 0 || existingFossils == null)
+                    {
+                        processingID = false;
+                    }
 
-        //#endregion
+                    newID++;
+                }
+
+            }
+            else
+            {
+                finalFossilString = parentAlias + "0" + newID;
+            }
+
+            return finalFossilString;
+        }
+
+        #endregion
 
         //#region MINERAL
         ///// <summary>

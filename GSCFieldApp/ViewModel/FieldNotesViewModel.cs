@@ -103,6 +103,13 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(IsPaleoflowVisible), value); }
         }
 
+        private bool _isFossilVisible = false;
+        public bool IsFossilVisible
+        {
+            get { return Preferences.Get(nameof(IsFossilVisible), false); }
+            set { Preferences.Set(nameof(IsFossilVisible), value); }
+        }
+
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
         { 
@@ -216,6 +223,24 @@ namespace GSCFieldApp.ViewModel
             set { _paleoflows = value; }
         }
 
+        private ObservableCollection<FieldNote> _fossils = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Fossils
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.fossil))
+                {
+                    return _fossils = FieldNotes[TableNames.fossil];
+                }
+                else
+                {
+                    return _fossils = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _fossils = value; }
+        }
 
         private ObservableCollection<string> _dates = new ObservableCollection<string>();
         public ObservableCollection<string> Dates
@@ -235,6 +260,8 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.document, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.structure, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.pflow, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.fossil, new ObservableCollection<FieldNote>());
+
             _dates = new ObservableCollection<string>();
 
             //Init all records
@@ -298,6 +325,12 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsPaleoflowVisible = !IsPaleoflowVisible;
                     OnPropertyChanged(nameof(IsPaleoflowVisible));
+                }
+
+                if (inComingName.ToLower().Contains(nameof(TableNames.fossil)))
+                {
+                    IsFossilVisible = !IsFossilVisible;
+                    OnPropertyChanged(nameof(IsFossilVisible));
                 }
 
                 //Special case, removing filtering on date and refreshing all records.
@@ -419,6 +452,25 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
+            if (fieldNotes.GenericTableName == TableFossil)
+            {
+                List<Fossil> tappedFossil= await currentConnection.Table<Fossil>().Where(i => i.FossilID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedFossil != null && tappedFossil.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(Fossil)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Fossil)] = (Fossil)tappedFossil[0],
+                            [nameof(Earthmaterial)] = null,
+                        }
+                    );
+                }
+            }
+
             if (fieldNotes.GenericTableName == TableDocument)
             {
                 List<Document> tappedDoc = await currentConnection.Table<Document>().Where(i => i.DocumentID == fieldNotes.GenericID).ToListAsync();
@@ -460,6 +512,7 @@ namespace GSCFieldApp.ViewModel
                 await FillDocumentNotes(currentConnection);
                 await FillStructureNotes(currentConnection);
                 await FillPaleoflowNotes(currentConnection);
+                await FillFossilNotes(currentConnection);
 
                 await currentConnection.CloseAsync();
 
@@ -826,6 +879,51 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will get all database pflow to fill pflow cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillFossilNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.fossil))
+            {
+                FieldNotes.Add(TableNames.fossil, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.fossil].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all stations from database
+            List<Fossil> fossils = await inConnection.Table<Fossil>().OrderBy(s => s.FossilIDName).ToListAsync();
+
+            if (fossils != null && fossils.Count > 0)
+            {
+
+                foreach (Fossil st in fossils)
+                {
+                    FieldNotes[TableNames.fossil].Add(new FieldNote
+                    {
+                        Display_text_1 = st.FossilAliasLight,
+                        Display_text_2 = st.FossilType,
+                        Display_text_3 = st.FossilNote,
+                        GenericTableName = TableFossil,
+                        GenericID = st.FossilID,
+                        ParentID = st.FossilParentID,
+                        isValid = st.isValid
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
 
 
         /// <summary>
@@ -868,18 +966,22 @@ namespace GSCFieldApp.ViewModel
                         ObservableCollection<FieldNote> dateFilterSamples = new ObservableCollection<FieldNote>();
                         ObservableCollection<FieldNote> dateFilterStructures = new ObservableCollection<FieldNote>();
                         ObservableCollection<FieldNote> dateFilterPaleoflow = new ObservableCollection<FieldNote>();
+                        ObservableCollection<FieldNote> dateFilterFossil = new ObservableCollection<FieldNote>();
                         foreach (FieldNote fn in FieldNotesAll[TableNames.earthmat])
                         {
                             dateFilterSamples.Concat(FieldNotesAll[TableNames.sample].Where(x => x.ParentID == fn.GenericID).ToList());
                             dateFilterStructures.Concat(FieldNotesAll[TableNames.structure].Where(s => s.ParentID == fn.GenericID).ToList());
                             dateFilterPaleoflow.Concat(FieldNotesAll[TableNames.pflow].Where(s => s.ParentID == fn.GenericID).ToList());
+                            dateFilterFossil.Concat(FieldNotesAll[TableNames.fossil].Where(s => s.ParentID == fn.GenericID).ToList());
                         }
                         FieldNotes[TableNames.sample] = dateFilterSamples;
                         FieldNotes[TableNames.structure] = dateFilterStructures;
                         FieldNotes[TableNames.pflow] = dateFilterPaleoflow;
+                        FieldNotes[TableNames.fossil] = dateFilterFossil;
                         OnPropertyChanged(nameof(Samples));
                         OnPropertyChanged(nameof(Structures));
                         OnPropertyChanged(nameof(Paleoflows));
+                        OnPropertyChanged(nameof(Fossils));
                         #endregion
 
                     }
@@ -927,6 +1029,7 @@ namespace GSCFieldApp.ViewModel
                     await FillStructureNotes(currentConnection);
                     break;
                 case TableNames.fossil:
+                    await FillFossilNotes(currentConnection);
                     break;
                 case TableNames.environment:
                     break;

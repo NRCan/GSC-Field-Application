@@ -1,4 +1,4 @@
-﻿using GSCFieldApp.Dictionaries;
+﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -6,27 +6,27 @@ using System.Linq;
 
 namespace GSCFieldApp.Models
 {
-    [Table(DatabaseLiterals.TableFossil)]
+    [Table(TableFossil)]
     public class Fossil
     {
 
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldFossilID)]
+        [PrimaryKey, AutoIncrement, Column(FieldFossilID)]
         public int FossilID { get; set; }
 
-        [Column(DatabaseLiterals.FieldFossilName)]
+        [Column(FieldFossilName)]
         public string FossilIDName { get; set; }
 
-        [Column(DatabaseLiterals.FieldFossilType)]
+        [Column(FieldFossilType)]
         public string FossilType { get; set; }
 
-        [Column(DatabaseLiterals.FieldFossilNote)]
+        [Column(FieldFossilNote)]
         public string FossilNote { get; set; }
 
-        [Column(DatabaseLiterals.FieldFossilParentID)]
+        [Column(FieldFossilParentID)]
         public int FossilParentID { get; set; }
 
         //Hierarchy
-        public string ParentName = DatabaseLiterals.TableEarthMat;
+        public string ParentName = TableEarthMat;
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -37,7 +37,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((FossilType != string.Empty && FossilType != null && FossilType != Dictionaries.DatabaseLiterals.picklistNACode))
+                if ((FossilType != string.Empty && FossilType != null && FossilType != picklistNACode))
                 {
                     return true;
                 }
@@ -62,7 +62,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> fossilFieldList = new Dictionary<double, List<string>>();
                 List<string> fossilFieldListDefault = new List<string>();
 
-                fossilFieldListDefault.Add(DatabaseLiterals.FieldFossilID);
+                fossilFieldListDefault.Add(FieldFossilID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -72,16 +72,49 @@ namespace GSCFieldApp.Models
 
                 }
 
-                fossilFieldList[DatabaseLiterals.DBVersion] = fossilFieldListDefault;
+                fossilFieldList[DBVersion] = fossilFieldListDefault;
 
                 //Revert shcema 1.7 changes
                 //List<string> fossilFieldList160 = new List<string>();
                 //fossilFieldList160.AddRange(fossilFieldListDefault);
-                //fossilFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //fossilFieldList[DatabaseLiterals.DBVersion160] = fossilFieldList160;
+                //fossilFieldList160.Remove(FieldGenericRowID);
+                //fossilFieldList[DBVersion160] = fossilFieldList160;
 
 
                 return fossilFieldList;
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string FossilAliasLight
+        {
+            get
+            {
+                if (FossilIDName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(FossilIDName.Substring(FossilIDName.Length - 2), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        //Trim bunch of zeros
+                        string shorterName = FossilIDName.Substring(FossilIDName.Length - 7);
+                        return shorterName.Trim('0');
+                    }
+                    else
+                    {
+                        return picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return picklistNACode;
+                }
             }
             set { }
         }

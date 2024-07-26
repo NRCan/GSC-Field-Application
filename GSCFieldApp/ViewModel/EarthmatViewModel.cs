@@ -675,6 +675,22 @@ namespace GSCFieldApp.ViewModel
             );
         }
 
+        [RelayCommand]
+        public async Task AddFossil()
+        {
+            //Save
+            await SetAndSaveModelAsync();
+
+            //Navigate to pflow page 
+            await Shell.Current.GoToAsync($"{nameof(FossilPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(FossilPage)] = null,
+                    [nameof(Earthmaterial)] = Model,
+                }
+            );
+        }
+
         #endregion
 
         #region METHODS

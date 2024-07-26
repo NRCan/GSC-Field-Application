@@ -448,6 +448,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Matériaux du sol</value>
   </data>
+  <data name="FielNotesFossilHeader" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
   <data name="FielNotesPaleoflowHeader" xml:space="preserve">
     <value>Flux paléoglaciaire</value>
   </data>
@@ -462,6 +465,18 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="FielNotesStructureHeader" xml:space="preserve">
     <value>Structures</value>
+  </data>
+  <data name="FossilPageGeneralTitle" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="FossilPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="FossilPageTitle" xml:space="preserve">
+    <value>Fossile</value>
+  </data>
+  <data name="FossilPageType" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="GenericButtonCancel" xml:space="preserve">
     <value>ANNULER</value>

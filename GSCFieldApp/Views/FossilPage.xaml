@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.FossilPage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:FossilViewModel"
+             Shell.BackgroundColor="{StaticResource FieldFossilColor}"
+             Title="{local:Localize FossilPageTitle}">
+    
+    <Shell.BackButtonBehavior>
+        <!--Hide back button - Android when navigating back, ham menu disapears-->
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.FossilIDName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
+                    <!--General section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" FrameContentVisibility="{Binding FossilGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FossilPageGeneralTitle}">
+
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize FossilPageType}" x:Name="FossilPageTypePicker"
+                                    ItemsSource="{Binding FossilType.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.FossilType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding FossilType, Source={x:Reference FossilPageTypePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding FossilType.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize FossilPageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.FossilNote, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                        
+                    </controls:ExpandableFrame>
+
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldFossilColor}"
+                                    ButtonLightColor="{StaticResource FieldFossilColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+        </Grid>
+    </ContentPage.Content>
+
+
+</ContentPage>
