@@ -496,14 +496,23 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FielNotesDateHeader" xml:space="preserve">
     <value>Dates de traverses</value>
   </data>
+  <data name="FielNotesDrillHolesHeader" xml:space="preserve">
+    <value>Forages</value>
+  </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Matériaux du sol</value>
   </data>
-  <data name="FielNotesEnvironmentHeader	Environment" xml:space="preserve">
+  <data name="FielNotesEnvironmentHeader" xml:space="preserve">
     <value>Environnement</value>
   </data>
   <data name="FielNotesFossilHeader" xml:space="preserve">
     <value>Fossile</value>
+  </data>
+  <data name="FielNotesMineralHeader" xml:space="preserve">
+    <value>Minéral</value>
+  </data>
+  <data name="FielNotesMineralizationHeader" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
   </data>
   <data name="FielNotesPaleoflowHeader" xml:space="preserve">
     <value>Flux paléoglaciaire</value>
@@ -735,6 +744,21 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="SamplePageType" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="SettingPageCategoryBedrock" xml:space="preserve">
+    <value>Roches en place</value>
+  </data>
+  <data name="SettingPageCategoryCommon" xml:space="preserve">
+    <value>Commun</value>
+  </data>
+  <data name="SettingPageCategorySurficial" xml:space="preserve">
+    <value>Dépôts meubles</value>
+  </data>
+  <data name="SettingPageHeading" xml:space="preserve">
+    <value>Thèmes</value>
+  </data>
+  <data name="SettingPageTitle" xml:space="preserve">
+    <value>Configurations</value>
   </data>
   <data name="ShellAboutTitle" xml:space="preserve">
     <value>À propos</value>

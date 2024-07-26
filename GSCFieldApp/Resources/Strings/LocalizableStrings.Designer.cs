@@ -1231,6 +1231,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drill Holes.
+        /// </summary>
+        internal static string FielNotesDrillHolesHeader {
+            get {
+                return ResourceManager.GetString("FielNotesDrillHolesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Earth Materials.
         /// </summary>
         internal static string FielNotesEMHeader {
@@ -1254,6 +1263,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FielNotesFossilHeader {
             get {
                 return ResourceManager.GetString("FielNotesFossilHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineral.
+        /// </summary>
+        internal static string FielNotesMineralHeader {
+            get {
+                return ResourceManager.GetString("FielNotesMineralHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineralization/Alteration.
+        /// </summary>
+        internal static string FielNotesMineralizationHeader {
+            get {
+                return ResourceManager.GetString("FielNotesMineralizationHeader", resourceCulture);
             }
         }
         
@@ -1956,6 +1983,51 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string SamplePageType {
             get {
                 return ResourceManager.GetString("SamplePageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bedrock.
+        /// </summary>
+        internal static string SettingPageCategoryBedrock {
+            get {
+                return ResourceManager.GetString("SettingPageCategoryBedrock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Common.
+        /// </summary>
+        internal static string SettingPageCategoryCommon {
+            get {
+                return ResourceManager.GetString("SettingPageCategoryCommon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surficial.
+        /// </summary>
+        internal static string SettingPageCategorySurficial {
+            get {
+                return ResourceManager.GetString("SettingPageCategorySurficial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Themes.
+        /// </summary>
+        internal static string SettingPageHeading {
+            get {
+                return ResourceManager.GetString("SettingPageHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string SettingPageTitle {
+            get {
+                return ResourceManager.GetString("SettingPageTitle", resourceCulture);
             }
         }
         

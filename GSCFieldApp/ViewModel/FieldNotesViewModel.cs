@@ -117,6 +117,11 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(IsEnvironmentVisible), value); }
         }
 
+        public bool EarthMaterialVisible
+        {
+            get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
+            set { }
+        }
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
         public ObservableCollection<FieldNote> EarthMats
         { 

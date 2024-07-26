@@ -32,11 +32,11 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(FieldNotesPage), typeof(FieldNotesPage));
         Routing.RegisterRoute(nameof(MapPage), typeof(MapPage));
 
-        //Will be used to navigate to setting page
-        NavigateToSettingsCommand = new Command(async () => {
-            //await GoToAsync(nameof(SettingsPage));
-            await DisplayAlert("Alert", "Not yet implemented", "OK");
-        });
+        ////Will be used to navigate to setting page
+        //NavigateToSettingsCommand = new Command(async () => {
+        //    await GoToAsync(nameof(SettingsPage));
+        //    //await DisplayAlert("Alert", "Not yet implemented", "OK");
+        //});
 
         //Will be used to trigger a backup process
         DoBackupCommand = new Command(async () =>

@@ -1,12 +1,12 @@
 using GSCFieldApp.ViewModel;
+
 namespace GSCFieldApp.Views;
 
-
-public partial class SettingsPage : TabbedPage
+public partial class SettingsPage : ContentPage
 {
-	public SettingsPage()
+	public SettingsPage(SettingsViewModel vm)
 	{
 		InitializeComponent();
-
+		BindingContext = vm;
 	}
 }

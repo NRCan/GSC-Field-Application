@@ -57,11 +57,13 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellSettingsTitle}" Command="{Binding NavigateToSettingsCommand}" >
-        <MenuItem.IconImageSource>
+    <FlyoutItem Title="{local:Localize ShellSettingsTitle}">
+        <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
-        </MenuItem.IconImageSource>
-    </MenuItem>
+        </FlyoutItem.FlyoutIcon>
+        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"/>
+    </FlyoutItem>
+
 
     <FlyoutItem Title="{local:Localize ShellAboutTitle}">
         <FlyoutItem.FlyoutIcon>

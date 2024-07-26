@@ -507,6 +507,9 @@
   <data name="FielNotesDateHeader" xml:space="preserve">
     <value>Traverse Dates</value>
   </data>
+  <data name="FielNotesDrillHolesHeader" xml:space="preserve">
+    <value>Drill Holes</value>
+  </data>
   <data name="FielNotesEMHeader" xml:space="preserve">
     <value>Earth Materials</value>
   </data>
@@ -515,6 +518,12 @@
   </data>
   <data name="FielNotesFossilHeader" xml:space="preserve">
     <value>Fossil</value>
+  </data>
+  <data name="FielNotesMineralHeader" xml:space="preserve">
+    <value>Mineral</value>
+  </data>
+  <data name="FielNotesMineralizationHeader" xml:space="preserve">
+    <value>Mineralization/Alteration</value>
   </data>
   <data name="FielNotesPaleoflowHeader" xml:space="preserve">
     <value>Paleoflow</value>
@@ -749,6 +758,21 @@
   </data>
   <data name="SamplePageType" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="SettingPageCategoryBedrock" xml:space="preserve">
+    <value>Bedrock</value>
+  </data>
+  <data name="SettingPageCategoryCommon" xml:space="preserve">
+    <value>Common</value>
+  </data>
+  <data name="SettingPageCategorySurficial" xml:space="preserve">
+    <value>Surficial</value>
+  </data>
+  <data name="SettingPageHeading" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="SettingPageTitle" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="ShellAboutTitle" xml:space="preserve">
     <value>About</value>

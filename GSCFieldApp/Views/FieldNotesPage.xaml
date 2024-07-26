@@ -117,25 +117,28 @@
                     <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
                     <!--Earth material records-->
-                    <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
-                    Command="{Binding HideCommand}" CommandParameter="earth"/>
+                    <VerticalStackLayout IsVisible="{Binding EarthMaterialVisible, Mode=OneWayToSource}">
+                        <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            Command="{Binding HideCommand}" CommandParameter="earth"/>
 
-                    <VerticalStackLayout IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}">
-                        <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                        <VerticalStackLayout IsVisible="{Binding IsEarthMatVisible, Mode=TwoWay}">
+                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding EarthMats}"  >
-                            <CollectionView.ItemsLayout>
-                                <GridItemsLayout Orientation="Vertical" 
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" 
                                     Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
-                            </CollectionView.ItemsLayout>
-                        </CollectionView>
+                                </CollectionView.ItemsLayout>
+                            </CollectionView>
 
-                        <ListView ItemsSource="{Binding EarthMats, Mode=TwoWay}"
+                            <ListView ItemsSource="{Binding EarthMats, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
+                        </VerticalStackLayout>
+
+                        <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
                     </VerticalStackLayout>
 
-                    <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
                     <!--Sample records-->
                     <Button Text="{local:Localize Key=FielNotesSampleHeader}" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
