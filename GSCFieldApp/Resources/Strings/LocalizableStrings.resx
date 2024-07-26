@@ -696,6 +696,9 @@
   <data name="SamplePageType" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="ShellAboutTitle" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Field Books</value>
   </data>
@@ -714,8 +717,14 @@
   <data name="ShellMapTitle" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="ShellPicklistEditorTitle" xml:space="preserve">
+    <value>Picklist editor</value>
+  </data>
   <data name="ShellQuickBackupTitle" xml:space="preserve">
-    <value>Quick Backup</value>
+    <value>Quick Database Backup</value>
+  </data>
+  <data name="ShellQuickPhotoBackupTitle" xml:space="preserve">
+    <value>Quick Photo Backup</value>
   </data>
   <data name="ShellSettingsTitle" xml:space="preserve">
     <value>Settings</value>

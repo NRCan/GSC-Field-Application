@@ -26,7 +26,7 @@
         <ShellContent ContentTemplate="{DataTemplate views:FieldNotesPage}"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="{local:Localize ShellMapTitle}">
+    <FlyoutItem Title="{local:Localize ShellMapTitle}" >
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF01E7;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
@@ -39,9 +39,15 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellSettingsTitle}" Command="{Binding NavigateToSettingsCommand}" >
+    <MenuItem Text="{local:Localize ShellQuickPhotoBackupTitle}" Command="{Binding DoPhotoBackupCommand}" >
         <MenuItem.IconImageSource>
-            <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
+            <FontImageSource Glyph="&#xF0693;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+    <MenuItem Text="{local:Localize ShellPicklistEditorTitle}" Command="{Binding DoPicklistEditorCommand}" >
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="&#xF0900;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </MenuItem.IconImageSource>
     </MenuItem>
 
@@ -51,5 +57,17 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
+    <MenuItem Text="{local:Localize ShellSettingsTitle}" Command="{Binding NavigateToSettingsCommand}" >
+        <MenuItem.IconImageSource>
+            <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
+        </MenuItem.IconImageSource>
+    </MenuItem>
+
+    <FlyoutItem Title="{local:Localize ShellAboutTitle}">
+        <FlyoutItem.FlyoutIcon>
+            <FontImageSource Glyph="&#xF02FD;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
+        </FlyoutItem.FlyoutIcon>
+        <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
+    </FlyoutItem>
 
 </Shell>

@@ -17,6 +17,8 @@ public partial class AppShell : Shell
     public ICommand NavigateToSettingsCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
     public ICommand DoBakupLogCommand { get; private set; }
+    public ICommand DoPicklistEditorCommand { get; private set; }
+    public ICommand DoPhotoBackupCommand { get; private set; }
 
     public AppShell()
 	{
@@ -47,6 +49,16 @@ public partial class AppShell : Shell
         DoBakupLogCommand = new Command(async () => {
             AppFileServices fileServices = new AppFileServices();
             await fileServices.SaveBugLogFile(CancellationToken.None);
+        });
+
+        DoPicklistEditorCommand = new Command(async () => {
+            await DisplayAlert("Alert", "Not yet implemented", "OK");
+            
+        });
+
+        DoPhotoBackupCommand = new Command(async () => {
+            await DisplayAlert("Alert", "Not yet implemented", "OK");
+
         });
 
         #endregion

@@ -682,6 +682,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SamplePageType" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="ShellAboutTitle" xml:space="preserve">
+    <value>À propos</value>
+  </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Carnets de terrain</value>
   </data>
@@ -700,8 +703,14 @@ Aimeriez-vous modifier les droits?</value>
   <data name="ShellMapTitle" xml:space="preserve">
     <value>Carte</value>
   </data>
+  <data name="ShellPicklistEditorTitle" xml:space="preserve">
+    <value>Éditer les listes déroulantes</value>
+  </data>
   <data name="ShellQuickBackupTitle" xml:space="preserve">
     <value>Sauvegarde rapide</value>
+  </data>
+  <data name="ShellQuickPhotoBackupTitle" xml:space="preserve">
+    <value>Sauvegarde des photos</value>
   </data>
   <data name="ShellSettingsTitle" xml:space="preserve">
     <value>Configurations</value>

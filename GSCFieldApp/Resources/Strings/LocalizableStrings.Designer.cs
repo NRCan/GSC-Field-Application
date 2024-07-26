@@ -1798,6 +1798,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string ShellAboutTitle {
+            get {
+                return ResourceManager.GetString("ShellAboutTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field Books.
         /// </summary>
         internal static string ShellFieldBooksTitle {
@@ -1852,11 +1861,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quick Backup.
+        ///   Looks up a localized string similar to Picklist editor.
+        /// </summary>
+        internal static string ShellPicklistEditorTitle {
+            get {
+                return ResourceManager.GetString("ShellPicklistEditorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Database Backup.
         /// </summary>
         internal static string ShellQuickBackupTitle {
             get {
                 return ResourceManager.GetString("ShellQuickBackupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Photo Backup.
+        /// </summary>
+        internal static string ShellQuickPhotoBackupTitle {
+            get {
+                return ResourceManager.GetString("ShellQuickPhotoBackupTitle", resourceCulture);
             }
         }
         
