@@ -1330,6 +1330,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Method.
+        /// </summary>
+        internal static string PaleoflowMethod {
+            get {
+                return ResourceManager.GetString("PaleoflowMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string PaleoflowPageAzimuth {
+            get {
+                return ResourceManager.GetString("PaleoflowPageAzimuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Class.
         /// </summary>
         internal static string PaleoflowPageClass {
@@ -1353,6 +1371,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string PaleoflowPageDescTitle {
             get {
                 return ResourceManager.GetString("PaleoflowPageDescTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dip.
+        /// </summary>
+        internal static string PaleoflowPageDipPlunge {
+            get {
+                return ResourceManager.GetString("PaleoflowPageDipPlunge", resourceCulture);
             }
         }
         
@@ -1384,11 +1411,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Main Direction?.
+        /// </summary>
+        internal static string PaleoflowPageIsMainDirection {
+            get {
+                return ResourceManager.GetString("PaleoflowPageIsMainDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurements.
         /// </summary>
         internal static string PaleoflowPageMeasurementTitle {
             get {
                 return ResourceManager.GetString("PaleoflowPageMeasurementTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string PaleoflowPageNotes {
+            get {
+                return ResourceManager.GetString("PaleoflowPageNotes", resourceCulture);
             }
         }
         
@@ -1434,6 +1479,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string PaleoflowPageTypeTitle {
             get {
                 return ResourceManager.GetString("PaleoflowPageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relation.
+        /// </summary>
+        internal static string PaleoflowRelation {
+            get {
+                return ResourceManager.GetString("PaleoflowRelation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relative Age.
+        /// </summary>
+        internal static string PaleoflowRelativeAge {
+            get {
+                return ResourceManager.GetString("PaleoflowRelativeAge", resourceCulture);
             }
         }
         

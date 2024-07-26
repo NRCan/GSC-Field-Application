@@ -540,6 +540,12 @@
   <data name="PaleoflowBedSurface" xml:space="preserve">
     <value>Bedrock surface</value>
   </data>
+  <data name="PaleoflowMethod" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="PaleoflowPageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
   <data name="PaleoflowPageClass" xml:space="preserve">
     <value>Class</value>
   </data>
@@ -548,6 +554,9 @@
   </data>
   <data name="PaleoflowPageDescTitle" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="PaleoflowPageDipPlunge" xml:space="preserve">
+    <value>Dip</value>
   </data>
   <data name="PaleoflowPageFeature" xml:space="preserve">
     <value>Feature</value>
@@ -558,8 +567,14 @@
   <data name="PaleoflowPageIndicators" xml:space="preserve">
     <value>Numbers of Indicators</value>
   </data>
+  <data name="PaleoflowPageIsMainDirection" xml:space="preserve">
+    <value>Is Main Direction?</value>
+  </data>
   <data name="PaleoflowPageMeasurementTitle" xml:space="preserve">
     <value>Measurements</value>
+  </data>
+  <data name="PaleoflowPageNotes" xml:space="preserve">
+    <value>Notes</value>
   </data>
   <data name="PaleoflowPageQuality" xml:space="preserve">
     <value>Quality</value>
@@ -575,6 +590,12 @@
   </data>
   <data name="PaleoflowPageTypeTitle" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="PaleoflowRelation" xml:space="preserve">
+    <value>Relation</value>
+  </data>
+  <data name="PaleoflowRelativeAge" xml:space="preserve">
+    <value>Relative Age</value>
   </data>
   <data name="SamplePageAzimuth" xml:space="preserve">
     <value>Azimuth</value>

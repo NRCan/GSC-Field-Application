@@ -45,7 +45,9 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _paleoflowConfidence = new ComboBox();
         private ComboBox _paleoflowQuality = new ComboBox();
         private ComboBox _paleoflowIndicators = new ComboBox();
-
+        private ComboBox _paleoflowRelativeAge = new ComboBox();
+        private ComboBox _paleoflowMethod = new ComboBox();
+        private ComboBox _paleoflowRelation = new ComboBox();
         #endregion
 
         #region PROPERTIES
@@ -97,6 +99,10 @@ namespace GSCFieldApp.ViewModel
         public ComboBox PaleoflowConfidence { get { return _paleoflowConfidence; } set { _paleoflowConfidence = value; } }
         public ComboBox PaleoflowQuality { get { return _paleoflowQuality; } set { _paleoflowQuality = value; } }
         public ComboBox PaleoflowIndicators { get { return _paleoflowIndicators; } set { _paleoflowIndicators = value; } }
+
+        public ComboBox PaleoflowRelativeAge { get { return _paleoflowRelativeAge; } set { _paleoflowRelativeAge = value; } }
+        public ComboBox PaleoflowMethod { get { return _paleoflowMethod; } set { _paleoflowMethod = value; } }
+        public ComboBox PaleoflowRelation { get { return _paleoflowRelation; } set { _paleoflowRelation = value; } }
 
         #endregion
 
@@ -252,6 +258,15 @@ namespace GSCFieldApp.ViewModel
             _paleoflowIndicators = await FillAPicker(FieldPFlowNumIndic);
             OnPropertyChanged(nameof(PaleoflowIndicators));
 
+            _paleoflowRelation = await FillAPicker(FieldPFlowRelation);
+            OnPropertyChanged(nameof(PaleoflowRelation));
+
+            _paleoflowRelativeAge = await FillAPicker(FieldPFlowRelage);
+            OnPropertyChanged(nameof(PaleoflowRelativeAge));
+
+            _paleoflowMethod = await FillAPicker(FieldPFlowMethod);
+            OnPropertyChanged(nameof(PaleoflowMethod));
+
             //Second order pickers
             _paleoflowFeatureAll = await FillAPicker(FieldPFlowFeature);
 
@@ -325,7 +340,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Get current application version
                 Model.PFlowParentID = _earthmaterial.EarthMatID;
-                Model.PFlowName = await idCalculator.CalculateStructureAliasAsync(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName);
+                Model.PFlowName = await idCalculator.CalculatePflowAliasAsync(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName);
                 OnPropertyChanged(nameof(Model));
 
             }

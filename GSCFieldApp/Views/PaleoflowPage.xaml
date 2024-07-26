@@ -75,6 +75,48 @@
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
                                               FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding PaleoflowMeasurementVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize PaleoflowPageMeasurementTitle}">
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize PaleoflowPageAzimuth}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.PFlowAzimuth, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="360"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize PaleoflowPageDipPlunge}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.PFlowDip,Converter={StaticResource Str2Int}, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="90"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout>
+                                <Label Text="{local:Localize PaleoflowPageIsMainDirection}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <CheckBox IsChecked="{Binding Model.PFlowMainDir, Converter={StaticResource BoolFromStr}, Mode=TwoWay}"/>
+                            </HorizontalStackLayout>
+
+                        </VerticalStackLayout>
+                    
                     </controls:ExpandableFrame>
 
                     <!--Description section-->
@@ -111,7 +153,7 @@
                                     SelectedIndex="{Binding PaleoflowQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                             <Picker Title="{local:Localize PaleoflowPageIndicators}" x:Name="PaleoflowPageIndicatorsPicker"
-                                    ItemsSource="{Binding PaleoflowIndicatorse.cboxItems}" 
+                                    ItemsSource="{Binding PaleoflowIndicators.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowNumIndic, 
                                         Converter={StaticResource cbox2Str},
@@ -126,12 +168,52 @@
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
                                               FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding PaleoflowRelationVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize PaleoflowPageRelationTitle}">
+
+                        <VerticalStackLayout>
+                            
+                            <Picker Title="{local:Localize PaleoflowRelativeAge}" x:Name="PaleoflowPageRelativeAgePicker"
+                                    ItemsSource="{Binding PaleoflowRelativeAge.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.PFlowRelAge, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding PaleoflowRelativeAge, Source={x:Reference PaleoflowPageRelativeAgePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding PaleoflowRelativeAge.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize PaleoflowMethod}" x:Name="PaleoflowPageMethodPicker"
+                                    ItemsSource="{Binding PaleoflowMethod.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.PFlowMethod, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding PaleoflowMethod, Source={x:Reference PaleoflowPageMethodPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding PaleoflowMethod.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize PaleoflowRelation}" x:Name="PaleoflowPageRelationPicker"
+                                    ItemsSource="{Binding PaleoflowRelation.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.PFlowRelation, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding PaleoflowRelation, Source={x:Reference PaleoflowPageRelationPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding PaleoflowRelation.cboxDefaultItemIndex, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                        
                     </controls:ExpandableFrame>
 
                     <!--General section-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
                                               FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding PaleoflowGeneralVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize PaleoflowPageGeneralTitle}">
+
+                        <VerticalStackLayout >
+
+                            <Label Text="{local:Localize PaleoflowPageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Text="{Binding Model.PFlowNotes, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                        </VerticalStackLayout>
+
                     </controls:ExpandableFrame>
 
                 </FlexLayout>

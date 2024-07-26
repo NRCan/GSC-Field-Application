@@ -529,6 +529,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="PaleoflowBedSurface" xml:space="preserve">
     <value>Surface de la roche</value>
   </data>
+  <data name="PaleoflowMethod" xml:space="preserve">
+    <value>Méthode</value>
+  </data>
+  <data name="PaleoflowPageAzimuth" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
   <data name="PaleoflowPageClass" xml:space="preserve">
     <value>Classe</value>
   </data>
@@ -537,6 +543,9 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="PaleoflowPageDescTitle" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="PaleoflowPageDipPlunge" xml:space="preserve">
+    <value>Pendage</value>
   </data>
   <data name="PaleoflowPageFeature" xml:space="preserve">
     <value>Caractérisque</value>
@@ -547,8 +556,14 @@ Aimeriez-vous modifier les droits?</value>
   <data name="PaleoflowPageIndicators" xml:space="preserve">
     <value>Nombre d'indicateur</value>
   </data>
+  <data name="PaleoflowPageIsMainDirection" xml:space="preserve">
+    <value>Direction principale?</value>
+  </data>
   <data name="PaleoflowPageMeasurementTitle" xml:space="preserve">
     <value>Mesures</value>
+  </data>
+  <data name="PaleoflowPageNotes" xml:space="preserve">
+    <value>Notes</value>
   </data>
   <data name="PaleoflowPageQuality" xml:space="preserve">
     <value>Qualité</value>
@@ -564,6 +579,12 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="PaleoflowPageTypeTitle" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="PaleoflowRelation" xml:space="preserve">
+    <value>Relation</value>
+  </data>
+  <data name="PaleoflowRelativeAge" xml:space="preserve">
+    <value>Âge relatif</value>
   </data>
   <data name="SamplePageAzimuth" xml:space="preserve">
     <value>Azimut</value>

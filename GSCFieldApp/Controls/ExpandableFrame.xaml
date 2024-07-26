@@ -12,7 +12,7 @@
                     <TapGestureRecognizer Command="{TemplateBinding HideCommand}" NumberOfTapsRequired="{OnIdiom Default=1, Desktop=2, Phone=2, Tablet=2}"/>
                 </Frame.GestureRecognizers>
 
-                <VerticalStackLayout IsVisible="{Binding vertVisibility, Mode=TwoWay}">
+                <VerticalStackLayout>
 
                     <!--Title that won't be hidden-->
                     <Label Style="{StaticResource FieldAppTitle}"  Text="{TemplateBinding FrameTitle}"/>
