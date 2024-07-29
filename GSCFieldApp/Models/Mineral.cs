@@ -1,4 +1,4 @@
-﻿using GSCFieldApp.Dictionaries;
+﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using GSCFieldApp.Services.DatabaseServices;
 using SQLite;
 using System;
@@ -7,44 +7,44 @@ using System.Linq;
 
 namespace GSCFieldApp.Models
 {
-    [Table(DatabaseLiterals.TableMineral)]
+    [Table(TableMineral)]
     public class Mineral
     {
 
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldMineralID)]
+        [PrimaryKey, AutoIncrement, Column(FieldMineralID)]
         public int MineralID { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralIDName)]
+        [Column(FieldMineralIDName)]
         public string MineralIDName { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineral)]
+        [Column(FieldMineral)]
         public string MineralName { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralFormHabit)]
+        [Column(FieldMineralFormHabit)]
         public string MineralFormHabit { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralOccurence)]
+        [Column(FieldMineralOccurence)]
         public string MineralOccur { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralColour)]
+        [Column(FieldMineralColour)]
         public string MineralColour { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralSizeMin)]
+        [Column(FieldMineralSizeMin)]
         public string MineralSizeMin { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralSizeMax)]
+        [Column(FieldMineralSizeMax)]
         public string MineralSizeMax { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralMode)]
+        [Column(FieldMineralMode)]
         public string MineralMode { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralNote)]
+        [Column(FieldMineralNote)]
         public string MineralNote { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralEMID)]
+        [Column(FieldMineralEMID)]
         public int? MineralEMID { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralMAID)]
+        [Column(FieldMineralMAID)]
         public int? MineralMAID { get; set; }
 
 
@@ -57,8 +57,8 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((MineralName != string.Empty && MineralName != null && MineralName != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (MineralMode != string.Empty && MineralMode != null && MineralMode != Dictionaries.DatabaseLiterals.picklistNACode))
+                if ((MineralName != string.Empty && MineralName != null && MineralName != picklistNACode) &&
+                    (MineralMode != string.Empty && MineralMode != null && MineralMode != picklistNACode))
                 {
                     return true;
                 }
@@ -84,7 +84,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> mineralFieldList = new Dictionary<double, List<string>>();
                 List<string> mineralFieldListDefault = new List<string>();
 
-                mineralFieldListDefault.Add(DatabaseLiterals.FieldMineralID);
+                mineralFieldListDefault.Add(FieldMineralID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -94,30 +94,64 @@ namespace GSCFieldApp.Models
 
                 }
 
-                mineralFieldList[DatabaseLiterals.DBVersion] = mineralFieldListDefault;
+                mineralFieldList[DBVersion] = mineralFieldListDefault;
 
                 //Revert shcema 1.7 changes
                 //List<string> mineralFieldList160 = new List<string>();
                 //mineralFieldList160.AddRange(mineralFieldListDefault);
-                //mineralFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                mineralFieldList[DatabaseLiterals.DBVersion160] = mineralFieldListDefault;
+                //mineralFieldList160.Remove(FieldGenericRowID);
+                mineralFieldList[DBVersion160] = mineralFieldListDefault;
 
 
                 //Revert schema 1.6 changes. 
                 List<string> mineralFieldList150 = new List<string>();
                 mineralFieldList150.AddRange(mineralFieldListDefault);
-                int removeIndex = mineralFieldList150.IndexOf(DatabaseLiterals.FieldMineralFormHabit);
-                mineralFieldList150.Remove(DatabaseLiterals.FieldMineralFormHabit);
-                mineralFieldList150.Insert(removeIndex, DatabaseLiterals.FieldMineralHabitDeprecated);
-                mineralFieldList150.Insert(removeIndex, DatabaseLiterals.FieldMineralFormDeprecated);
+                int removeIndex = mineralFieldList150.IndexOf(FieldMineralFormHabit);
+                mineralFieldList150.Remove(FieldMineralFormHabit);
+                mineralFieldList150.Insert(removeIndex, FieldMineralHabitDeprecated);
+                mineralFieldList150.Insert(removeIndex, FieldMineralFormDeprecated);
 
-                mineralFieldList150.Remove(DatabaseLiterals.FieldMineralMAID);
+                mineralFieldList150.Remove(FieldMineralMAID);
 
-                mineralFieldList[DatabaseLiterals.DBVersion150] = mineralFieldList150;
+                mineralFieldList[DBVersion150] = mineralFieldList150;
 
                 return mineralFieldList;
             }
             set { }
         }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string MineralAliasLight
+        {
+            get
+            {
+                if (MineralIDName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(MineralIDName.Substring(MineralIDName.Length - 2), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        //Trim bunch of zeros
+                        string shorterStructureName = MineralIDName.Substring(MineralIDName.Length - 8);
+                        return shorterStructureName.Trim('0');
+                    }
+                    else
+                    {
+                        return picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return picklistNACode;
+                }
+            }
+            set { }
+        }
+
     }
 }

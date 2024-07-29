@@ -691,6 +691,23 @@ namespace GSCFieldApp.ViewModel
             );
         }
 
+        [RelayCommand]
+        public async Task AddMineral()
+        {
+            //Save
+            await SetAndSaveModelAsync();
+
+            //Navigate to pflow page 
+            await Shell.Current.GoToAsync($"{nameof(MineralPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(MineralPage)] = null,
+                    [nameof(Earthmaterial)] = Model,
+                    [nameof(MineralAlteration)] = null,
+                }
+            );
+        }
+
         #endregion
 
         #region METHODS

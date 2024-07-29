@@ -28,9 +28,6 @@ public static class MauiProgram
 
         // Need to add these to actually create them on start
         //Singleton will be created once
-        builder.Services.AddSingleton<MainPage>();
-		builder.Services.AddSingleton<MainViewModel>();
-
 		builder.Services.AddSingleton<SettingsPage>();
 		builder.Services.AddSingleton<SettingsViewModel>();
 
@@ -76,6 +73,9 @@ public static class MauiProgram
 
         builder.Services.AddTransient<EnvironmentPage>();
         builder.Services.AddTransient<EnvironmentViewModel>();
+
+        builder.Services.AddTransient<MineralPage>();
+        builder.Services.AddTransient<MineralViewModel>();
 
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();

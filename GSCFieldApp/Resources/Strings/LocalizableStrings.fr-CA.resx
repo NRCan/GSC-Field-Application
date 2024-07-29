@@ -652,6 +652,33 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Menu de toutes les couches présentation accessible dans la carte.</value>
   </data>
+  <data name="MineralPageColour" xml:space="preserve">
+    <value>Couleur</value>
+  </data>
+  <data name="MineralPageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MineralPageFormHabit" xml:space="preserve">
+    <value>Forme / Structure</value>
+  </data>
+  <data name="MineralPageGeneralTitle" xml:space="preserve">
+    <value>Génral</value>
+  </data>
+  <data name="MineralPageMode" xml:space="preserve">
+    <value>Résiduel</value>
+  </data>
+  <data name="MineralPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="MineralPageOccurence" xml:space="preserve">
+    <value>Occurence</value>
+  </data>
+  <data name="MineralPageTitle" xml:space="preserve">
+    <value>Minéral</value>
+  </data>
+  <data name="MineralPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="PaleoflowBedSurface" xml:space="preserve">
     <value>Surface de la roche</value>
   </data>
@@ -940,11 +967,17 @@ Aimeriez-vous modifier les droits?</value>
   <data name="StructurePageGeneration" xml:space="preserve">
     <value>Génération</value>
   </data>
+  <data name="StructurePageMaxSize" xml:space="preserve">
+    <value>Taille Max. (mm)</value>
+  </data>
   <data name="StructurePageMeasurementTitle" xml:space="preserve">
     <value>Mesures</value>
   </data>
   <data name="StructurePageMethod" xml:space="preserve">
     <value>Méthode</value>
+  </data>
+  <data name="StructurePageMinSize" xml:space="preserve">
+    <value>Taille Min. (mm)</value>
   </data>
   <data name="StructurePageNotes" xml:space="preserve">
     <value>Notes</value>

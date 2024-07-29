@@ -117,11 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutPageAppInfo" xml:space="preserve">
-    <value>Application information</value>
-  </data>
   <data name="AboutPageAppInfoDBVersion" xml:space="preserve">
     <value>Database version </value>
+  </data>
+  <data name="AboutPageAppInfoHeader" xml:space="preserve">
+    <value>Application information</value>
   </data>
   <data name="AboutPageAppInfoPublisher" xml:space="preserve">
     <value>Natural Resources Canada</value>
@@ -663,6 +663,33 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Tap to see a list of all loaded layers and more options.</value>
   </data>
+  <data name="MineralPageColour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="MineralPageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MineralPageFormHabit" xml:space="preserve">
+    <value>Form / Habit</value>
+  </data>
+  <data name="MineralPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="MineralPageMode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="MineralPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="MineralPageOccurence" xml:space="preserve">
+    <value>Occurence</value>
+  </data>
+  <data name="MineralPageTitle" xml:space="preserve">
+    <value>Mineral</value>
+  </data>
+  <data name="MineralPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="PaleoflowBedSurface" xml:space="preserve">
     <value>Bedrock surface</value>
   </data>
@@ -954,11 +981,17 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="StructurePageGeneration" xml:space="preserve">
     <value>Generation</value>
   </data>
+  <data name="StructurePageMaxSize" xml:space="preserve">
+    <value>Size Max. (mm)</value>
+  </data>
   <data name="StructurePageMeasurementTitle" xml:space="preserve">
     <value>Measurements</value>
   </data>
   <data name="StructurePageMethod" xml:space="preserve">
     <value>Method</value>
+  </data>
+  <data name="StructurePageMinSize" xml:space="preserve">
+    <value>Size Min. (mm)</value>
   </data>
   <data name="StructurePageNotes" xml:space="preserve">
     <value>Notes</value>

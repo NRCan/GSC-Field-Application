@@ -74,6 +74,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(PaleoflowPage), typeof(PaleoflowPage));
         Routing.RegisterRoute(nameof(FossilPage), typeof(FossilPage));
         Routing.RegisterRoute(nameof(EnvironmentPage), typeof(EnvironmentPage));
+        Routing.RegisterRoute(nameof(MineralPage), typeof(MineralPage));
         #endregion
 
         BindingContext = this;

@@ -77,6 +77,9 @@ namespace GSCFieldApp.Services
                     case DatabaseLiterals.TableNames.mineralization:
                         break;
                     case DatabaseLiterals.TableNames.mineral:
+                        Mineral minToDelete = new Mineral();
+                        minToDelete.MineralID = itemID;
+                        numberOfRecordsDelete = await da.DeleteItemAsync(minToDelete);
                         break;
                     case DatabaseLiterals.TableNames.document:
                         Document docToDelete = new Document();
@@ -84,12 +87,24 @@ namespace GSCFieldApp.Services
                         numberOfRecordsDelete = await da.DeleteItemAsync(docToDelete);
                         break;
                     case DatabaseLiterals.TableNames.structure:
+                        Structure strucToDelete = new Structure();
+                        strucToDelete.StructureID = itemID;
+                        numberOfRecordsDelete = await da.DeleteItemAsync(strucToDelete);
                         break;
                     case DatabaseLiterals.TableNames.fossil:
+                        Fossil fossilToDelete = new Fossil();
+                        fossilToDelete.FossilID = itemID;
+                        numberOfRecordsDelete = await da.DeleteItemAsync(fossilToDelete);
                         break;
                     case DatabaseLiterals.TableNames.environment:
+                        EnvironmentModel envToDelete = new EnvironmentModel();
+                        envToDelete.EnvID = itemID;
+                        numberOfRecordsDelete = await da.DeleteItemAsync(envToDelete);
                         break;
                     case DatabaseLiterals.TableNames.pflow:
+                        Paleoflow pflowToDelete = new Paleoflow();
+                        pflowToDelete.PFlowID = itemID;
+                        numberOfRecordsDelete = await da.DeleteItemAsync(pflowToDelete);
                         break;
                     case DatabaseLiterals.TableNames.drill:
                         break;

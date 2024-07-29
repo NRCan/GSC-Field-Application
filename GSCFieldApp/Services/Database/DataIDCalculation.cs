@@ -688,66 +688,67 @@ namespace GSCFieldApp.Services.DatabaseServices
         #endregion
 
         #region MINERAL
-        ///// <summary>
-        ///// Will calculate a sample alias from a given parent id and parent alias.
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <param name="idAddIncrement">A value to add to ID for increment start, used for bacth calculate</param>
-        ///// <returns></returns>
-        //public string CalculateMineralAlias(int? parentID, string parentAlias, int idAddIncrement = 0)
-        //{
-        //    //Querying with Linq
-        //    List<object> MineralTableRaw = dAccess.ReadTable(mineralModel.GetType(), null);
-        //    IEnumerable<Mineral> mineralTable = MineralTableRaw.Cast<Mineral>(); //Cast to proper list type
-        //    IEnumerable<string> mineralParentEarth = from e in mineralTable where e.MineralEMID == parentID || e.MineralMAID == parentID orderby e.MineralIDName descending select e.MineralIDName;
+        /// <summary>
+        /// Will calculate a sample alias from a given parent id and parent alias.
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <param name="idAddIncrement">A value to add to ID for increment start, used for bacth calculate</param>
+        /// <returns></returns>
+        public async Task<string> CalculateMineralAlias(int? parentID, string parentAlias, int idAddIncrement = 0)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<Mineral> minerals = await currentConnection.Table<Mineral>().ToListAsync(); //Get all records
+            List<Mineral> mineralParentEarth = await currentConnection.Table<Mineral>().Where(e => e.MineralEMID == parentID || e.MineralMAID == parentID).OrderBy(e=>e.MineralIDName).ToListAsync();
 
-        //    int newID = 1 + idAddIncrement; //Incrementing step
-        //    string newAlias = string.Empty;
-        //    string finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix;
+            int newID = 1 + idAddIncrement; //Incrementing step
+            string newAlias = string.Empty;
+            string finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix;
 
-        //    //Detect last sample number and add 1 to it.
-        //    if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) !=null)
-        //    {
-        //        string lastAlias = mineralParentEarth.ToList()[0].ToString(); //Select first element since the list has been sorted in descending order
-        //        string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //Sample only has two digits id in the alias
+            //Detect last sample number and add 1 to it.
+            if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) != null)
+            {
+                string lastAlias = mineralParentEarth.ToList()[0].MineralIDName; //Select first element since the list has been sorted in descending order
+                string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //mineral only has two digits id in the alias
+                short parsedID = 0;
+                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                newID = parsedID + newID;
 
-        //        newID = Convert.ToInt16(lastNumberString) + newID;
+                //Find a non existing name
+                while (processingID)
+                {
+                    //Padd current ID with 0 if needed
+                    if (newID < 10)
+                    {
+                        newAlias = "0" + newID;
+                    }
+                    else
+                    {
+                        newAlias = newID.ToString();
+                    }
 
-        //        //Find a non existing name
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Padd current ID with 0 if needed
-        //            if (newID < 10)
-        //            {
-        //                newAlias = "0" + newID;
-        //            }
-        //            else
-        //            {
-        //                newAlias = newID.ToString();
-        //            }
+                    finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + newAlias;
 
-        //            finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + newAlias;
+                    //Find existing
+                    List<Mineral> existingMinerals = minerals.Where(e => e.MineralIDName == finaleMineralString).ToList();
+                    if (existingMinerals.Count() == 0 || existingMinerals == null)
+                    {
+                        processingID = false;
+                    }
 
-        //            //Find existing
-        //            IEnumerable<string> existingMinerals = from m in mineralTable where m.MineralIDName == finaleMineralString select m.MineralIDName;
-        //            if (existingMinerals.Count() == 0 || existingMinerals == null)
-        //            {
-        //                breaker = false;
-        //            }
 
-        //            newID++;
-        //        }
+                    newID++;
+                }
 
-        //    }
-        //    else
-        //    {
-        //        finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + "0" + newID;
-        //    }
+            }
+            else
+            {
+                finaleMineralString = finaleMineralString + "0" + newID;
+            }
 
-        //    return finaleMineralString;
-        //}
+            return finaleMineralString;
+        }
 
         #endregion
 

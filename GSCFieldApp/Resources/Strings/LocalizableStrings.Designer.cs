@@ -61,20 +61,20 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application information.
-        /// </summary>
-        internal static string AboutPageAppInfo {
-            get {
-                return ResourceManager.GetString("AboutPageAppInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Database version .
         /// </summary>
         internal static string AboutPageAppInfoDBVersion {
             get {
                 return ResourceManager.GetString("AboutPageAppInfoDBVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application information.
+        /// </summary>
+        internal static string AboutPageAppInfoHeader {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoHeader", resourceCulture);
             }
         }
         
@@ -1681,6 +1681,87 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Colour.
+        /// </summary>
+        internal static string MineralPageColour {
+            get {
+                return ResourceManager.GetString("MineralPageColour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string MineralPageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("MineralPageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Form / Habit.
+        /// </summary>
+        internal static string MineralPageFormHabit {
+            get {
+                return ResourceManager.GetString("MineralPageFormHabit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string MineralPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("MineralPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mode.
+        /// </summary>
+        internal static string MineralPageMode {
+            get {
+                return ResourceManager.GetString("MineralPageMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string MineralPageNotes {
+            get {
+                return ResourceManager.GetString("MineralPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occurence.
+        /// </summary>
+        internal static string MineralPageOccurence {
+            get {
+                return ResourceManager.GetString("MineralPageOccurence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineral.
+        /// </summary>
+        internal static string MineralPageTitle {
+            get {
+                return ResourceManager.GetString("MineralPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string MineralPageTypeTitle {
+            get {
+                return ResourceManager.GetString("MineralPageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bedrock surface.
         /// </summary>
         internal static string PaleoflowBedSurface {
@@ -2554,6 +2635,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Size Max. (mm).
+        /// </summary>
+        internal static string StructurePageMaxSize {
+            get {
+                return ResourceManager.GetString("StructurePageMaxSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurements.
         /// </summary>
         internal static string StructurePageMeasurementTitle {
@@ -2568,6 +2658,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string StructurePageMethod {
             get {
                 return ResourceManager.GetString("StructurePageMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size Min. (mm).
+        /// </summary>
+        internal static string StructurePageMinSize {
+            get {
+                return ResourceManager.GetString("StructurePageMinSize", resourceCulture);
             }
         }
         
