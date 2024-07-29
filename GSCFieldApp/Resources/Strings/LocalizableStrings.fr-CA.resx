@@ -117,6 +117,54 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutPageAppInfoDBVersion" xml:space="preserve">
+    <value>Version de la base de données </value>
+  </data>
+  <data name="AboutPageAppInfoHeader" xml:space="preserve">
+    <value>Information sur l'application</value>
+  </data>
+  <data name="AboutPageAppInfoPublisher" xml:space="preserve">
+    <value>Ressources naturelles Canada</value>
+  </data>
+  <data name="AboutPageAppInfoVersion" xml:space="preserve">
+    <value>Version </value>
+  </data>
+  <data name="AboutPageContactHeader" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="AboutPageContactText" xml:space="preserve">
+    <value>Gabriel Huot-Vézina
+Agent géomatique
+Commission géologique du Canada, Ressources naturelles du Canada
+Gouvernment du Canada
+490 de la Couronne, Québec, Québec, G1K 9A9
+gabriel.huot-vezina@nrcan-rncan.gc.ca</value>
+  </data>
+  <data name="AboutPageProjectHeader" xml:space="preserve">
+    <value>Projet</value>
+  </data>
+  <data name="AboutPageProjectIssue" xml:space="preserve">
+    <value>Soumettre un</value>
+  </data>
+  <data name="AboutPageProjectIssueHyperlink" xml:space="preserve">
+    <value> problème.</value>
+  </data>
+  <data name="AboutPageProjectSourceCode" xml:space="preserve">
+    <value>Code source du projet sur disponible sur</value>
+  </data>
+  <data name="AboutPageTeamHeader" xml:space="preserve">
+    <value>Équipe</value>
+  </data>
+  <data name="AboutPageTeamText" xml:space="preserve">
+    <value>Cocking, Robert – Conseiller et formation
+Girard, Étienne – Modélisateur de base de donnée,  Chef de projet "Geological Data Flow"
+Huot-Vézina, Gabriel – Principal programmeur, Chef d'activité
+Joseph, Jamel – Programmeur
+Shimamura, Kaz – Conseiller</value>
+  </data>
+  <data name="AboutPageTitle" xml:space="preserve">
+    <value>Application de terrain de la CGC</value>
+  </data>
   <data name="ButtonSave" xml:space="preserve">
     <value>Sauver</value>
   </data>

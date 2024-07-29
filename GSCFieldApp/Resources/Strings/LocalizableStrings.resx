@@ -117,6 +117,54 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutPageAppInfo" xml:space="preserve">
+    <value>Application information</value>
+  </data>
+  <data name="AboutPageAppInfoDBVersion" xml:space="preserve">
+    <value>Database version </value>
+  </data>
+  <data name="AboutPageAppInfoPublisher" xml:space="preserve">
+    <value>Natural Resources Canada</value>
+  </data>
+  <data name="AboutPageAppInfoVersion" xml:space="preserve">
+    <value>Version </value>
+  </data>
+  <data name="AboutPageContactHeader" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="AboutPageContactText" xml:space="preserve">
+    <value>Gabriel Huot-Vézina
+Geomatic agent
+Geological Survey of Canada, Natural Resources Canada
+Government of Canada
+490 de la Couronne, Québec, Québec, G1K 9A9
+gabriel.huot-vezina@nrcan-rncan.gc.ca</value>
+  </data>
+  <data name="AboutPageProjectHeader" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="AboutPageProjectIssue" xml:space="preserve">
+    <value>Submit an</value>
+  </data>
+  <data name="AboutPageProjectIssueHyperlink" xml:space="preserve">
+    <value> issue.</value>
+  </data>
+  <data name="AboutPageProjectSourceCode" xml:space="preserve">
+    <value>Project source code available on</value>
+  </data>
+  <data name="AboutPageTeamHeader" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="AboutPageTeamText" xml:space="preserve">
+    <value>Cocking, Robert – Training and Advisor
+Girard, Étienne – Geological Data Flow Project Leader 
+Huot-Vézina, Gabriel – Lead Developer, Data Collection Activity Leader 
+Joseph, Jamel – Developer
+Shimamura, Kaz – Senior Advisor</value>
+  </data>
+  <data name="AboutPageTitle" xml:space="preserve">
+    <value>GSC Field Application</value>
+  </data>
   <data name="ButtonSave" xml:space="preserve">
     <value>Save</value>
   </data>

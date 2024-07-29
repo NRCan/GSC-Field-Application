@@ -61,6 +61,132 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application information.
+        /// </summary>
+        internal static string AboutPageAppInfo {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database version .
+        /// </summary>
+        internal static string AboutPageAppInfoDBVersion {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoDBVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Natural Resources Canada.
+        /// </summary>
+        internal static string AboutPageAppInfoPublisher {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoPublisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version .
+        /// </summary>
+        internal static string AboutPageAppInfoVersion {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact.
+        /// </summary>
+        internal static string AboutPageContactHeader {
+            get {
+                return ResourceManager.GetString("AboutPageContactHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gabriel Huot-Vézina
+        ///Geomatic agent
+        ///Geological Survey of Canada, Natural Resources Canada
+        ///Government of Canada
+        ///490 de la Couronne, Québec, Québec, G1K 9A9
+        ///gabriel.huot-vezina@nrcan-rncan.gc.ca.
+        /// </summary>
+        internal static string AboutPageContactText {
+            get {
+                return ResourceManager.GetString("AboutPageContactText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project.
+        /// </summary>
+        internal static string AboutPageProjectHeader {
+            get {
+                return ResourceManager.GetString("AboutPageProjectHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit an.
+        /// </summary>
+        internal static string AboutPageProjectIssue {
+            get {
+                return ResourceManager.GetString("AboutPageProjectIssue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  issue..
+        /// </summary>
+        internal static string AboutPageProjectIssueHyperlink {
+            get {
+                return ResourceManager.GetString("AboutPageProjectIssueHyperlink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project source code available on.
+        /// </summary>
+        internal static string AboutPageProjectSourceCode {
+            get {
+                return ResourceManager.GetString("AboutPageProjectSourceCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team.
+        /// </summary>
+        internal static string AboutPageTeamHeader {
+            get {
+                return ResourceManager.GetString("AboutPageTeamHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cocking, Robert – Training and Advisor
+        ///Girard, Étienne – Geological Data Flow Project Leader 
+        ///Huot-Vézina, Gabriel – Lead Developer, Data Collection Activity Leader 
+        ///Joseph, Jamel – Developer
+        ///Shimamura, Kaz – Senior Advisor.
+        /// </summary>
+        internal static string AboutPageTeamText {
+            get {
+                return ResourceManager.GetString("AboutPageTeamText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GSC Field Application.
+        /// </summary>
+        internal static string AboutPageTitle {
+            get {
+                return ResourceManager.GetString("AboutPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         internal static string ButtonSave {
