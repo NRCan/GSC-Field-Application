@@ -757,6 +757,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageHeading" xml:space="preserve">
     <value>Thèmes</value>
   </data>
+  <data name="SettingPageThemeExplanation" xml:space="preserve">
+    <value>Masque/Affiche les barres de thèmes dans la page de notes de terrain.</value>
+  </data>
   <data name="SettingPageTitle" xml:space="preserve">
     <value>Configurations</value>
   </data>

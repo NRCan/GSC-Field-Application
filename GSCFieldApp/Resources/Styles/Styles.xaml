@@ -261,6 +261,12 @@
         <Setter Property="ColumnDefinitions" Value="*, 40"/>
     </Style>
 
+    <Style TargetType="Grid" x:Key="FieldAppSettingGrid">
+        <!--First column is toggle text-->
+        <!--Second column is the toggle itself-->
+        <Setter Property="ColumnDefinitions" Value="*, 40"/>
+    </Style>
+
     <Style TargetType="CheckBox" x:Key="FieldAppCheckbox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>

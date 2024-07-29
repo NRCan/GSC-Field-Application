@@ -2023,6 +2023,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hides/shows theme bars in the field notes page..
+        /// </summary>
+        internal static string SettingPageThemeExplanation {
+            get {
+                return ResourceManager.GetString("SettingPageThemeExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingPageTitle {

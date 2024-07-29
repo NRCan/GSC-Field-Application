@@ -16,6 +16,9 @@ public partial class ExpandableFrame : ContentView
     public static readonly BindableProperty FrameTitleProperty =
         BindableProperty.Create(nameof(FrameTitle), typeof(string), typeof(ExpandableFrame), "");
 
+    public static readonly BindableProperty FrameWidthProperty =
+    BindableProperty.Create(nameof(FrameWidth), typeof(string), typeof(ExpandableFrame), "");
+
     public Color FrameColor
     {
         get => (Color)GetValue(FrameColorProperty);
@@ -32,6 +35,12 @@ public partial class ExpandableFrame : ContentView
     {
         get => (bool)GetValue(FrameContentVisibilityProperty);
         set => SetValue(FrameContentVisibilityProperty, value);
+    }
+
+    public string FrameWidth
+    {
+        get => (string)GetValue(FrameWidthProperty);
+        set => SetValue(FrameWidthProperty, value);
     }
 
     /// <summary>

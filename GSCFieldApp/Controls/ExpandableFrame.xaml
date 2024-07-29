@@ -5,7 +5,7 @@
     <ContentView.Resources>
         <ControlTemplate x:Key="ExpandableFrameControl">
 
-            <Frame BorderColor="{TemplateBinding FrameColor}" Style="{StaticResource FieldAppSectionFrame}" >
+            <Frame BorderColor="{TemplateBinding FrameColor}" Style="{StaticResource FieldAppSectionFrame}" WidthRequest="{TemplateBinding FrameWidth}">
 
                 <!--Tap to hide content-->
                 <Frame.GestureRecognizers>

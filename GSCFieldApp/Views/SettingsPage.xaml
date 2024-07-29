@@ -11,82 +11,98 @@
 
     <ContentPage.Content>
 
-        <Grid Style="{StaticResource FieldAppFormGrid}">
+        <ScrollView Orientation="Vertical">
+            <VerticalStackLayout>
 
-            <Label Text="{local:Localize SettingPageHeading}" Style="{StaticResource FieldAppAliasTitle}" Margin="20,0,0,0" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0"/>
+                <!--Themes control settings-->
+                <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" FrameWidth="350"
+                                              FrameColor="{StaticResource Primary}" FrameTitle="{local:Localize SettingPageHeading}">
+                    <VerticalStackLayout>
+                        <Label Text="{local:Localize SettingPageThemeExplanation}"/>
 
-            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <!--Common tables activation-->
+                        <VerticalStackLayout Margin="10">
+                            <Label Text="{local:Localize SettingPageCategoryCommon}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
 
-                <VerticalStackLayout Margin="40,10,0,0">
-                    <Label Text="{local:Localize SettingPageCategoryCommon}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+                            <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{local:Localize FielNotesEMHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                <Switch x:Name="earthMat" IsToggled="{Binding EarthMaterialVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
 
-                    <VerticalStackLayout HorizontalOptions="Start">
-                        <HorizontalStackLayout >
-                            <Switch x:Name="earthMat" IsToggled="{Binding EarthMaterialVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesEMHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
+                                <Label Text="{local:Localize FielNotesFossilHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
+                                <Switch x:Name="fossil" IsToggled="{Binding FossilVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
 
-                        <HorizontalStackLayout >
-                            <Switch x:Name="fossil" IsToggled="{Binding FossilVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesFossilHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
 
-                        <HorizontalStackLayout >
-                            <Switch x:Name="photo" IsToggled="{Binding DocumentVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesPhotoHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
+                                <Label Text="{local:Localize FielNotesPhotoHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2"/>
+                                <Switch x:Name="photo" IsToggled="{Binding DocumentVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
 
-                        <HorizontalStackLayout >
-                            <Switch x:Name="sample" IsToggled="{Binding SampleVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesSampleHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
+                                <Label Text="{local:Localize FielNotesSampleHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3"/>
+                                <Switch x:Name="sample" IsToggled="{Binding SampleVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
+
+
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <!--Bedrock tables activation-->
+                        <VerticalStackLayout Margin="10">
+                            <Label Text="{local:Localize SettingPageCategoryBedrock}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                            <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{local:Localize FielNotesMineralHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                <Switch x:Name="mineral" IsToggled="{Binding MineralVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+
+                                <Label Text="{local:Localize FielNotesMineralizationHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
+                                <Switch x:Name="mineralization" IsToggled="{Binding MineralizationVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
+
+                                <Label Text="{local:Localize FielNotesStructureHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2"/>
+                                <Switch x:Name="structure" IsToggled="{Binding StructureVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
+
+                                <Label Text="{local:Localize FielNotesDrillHolesHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3"/>
+                                <Switch x:Name="drill" IsToggled="{Binding DrillVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
+
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <!--Surficial tables activation-->
+                        <VerticalStackLayout Margin="10">
+                            <Label Text="{local:Localize SettingPageCategorySurficial}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                            <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{local:Localize FielNotesPaleoflowHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                <Switch x:Name="pflow" IsToggled="{Binding PaleoflowVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+
+                                <Label Text="{local:Localize FielNotesEnvironmentHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
+                                <Switch x:Name="env" IsToggled="{Binding EnvironmentVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
+
+                            </Grid>
+                        </VerticalStackLayout>
 
                     </VerticalStackLayout>
+                </controls:ExpandableFrame>
+                
+                <!--TODO: implement version 2 app other settings-->
+                
+            </VerticalStackLayout>
+        </ScrollView>
 
-                    <Label Text="{local:Localize SettingPageCategoryBedrock}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
-                    <VerticalStackLayout HorizontalOptions="Start">
 
-                        <HorizontalStackLayout >
-                            <Switch x:Name="mineral" IsToggled="{Binding MineralVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesMineralHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout >
-                            <Switch x:Name="mineralization" IsToggled="{Binding MineralizationVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesMineralizationHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout >
-                            <Switch x:Name="structure" IsToggled="{Binding StructureVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesStructureHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout >
-                            <Switch x:Name="drill" IsToggled="{Binding DrillVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesDrillHolesHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-                                                
-                    </VerticalStackLayout>
-
-                    <Label Text="{local:Localize SettingPageCategorySurficial}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
-                    <VerticalStackLayout HorizontalOptions="Start">
-
-                        <HorizontalStackLayout >
-                            <Switch x:Name="pflow" IsToggled="{Binding PaleoflowVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesPaleoflowHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-
-                        <HorizontalStackLayout >
-                            <Switch x:Name="env" IsToggled="{Binding EnvironmentVisible}" HorizontalOptions="Start"/>
-                            <Label Text="{local:Localize FielNotesEnvironmentHeader}" FontSize="Medium" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-
-                    </VerticalStackLayout>
-
-                </VerticalStackLayout>
-                    
-            </ScrollView>
-        </Grid>
     </ContentPage.Content>
 
 </ContentPage >

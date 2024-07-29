@@ -771,6 +771,9 @@
   <data name="SettingPageHeading" xml:space="preserve">
     <value>Themes</value>
   </data>
+  <data name="SettingPageThemeExplanation" xml:space="preserve">
+    <value>Hides/shows theme bars in the field notes page.</value>
+  </data>
   <data name="SettingPageTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
