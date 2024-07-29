@@ -61,65 +61,101 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
-        private bool _isStationVisible = true;
-        public bool IsStationVisible 
+        private bool _isStationExpanded = true;
+        public bool IsStationExpanded
         {
-            get { return Preferences.Get(nameof(IsStationVisible), true); }
-            set { Preferences.Set(nameof(IsStationVisible), value); }
+            get { return Preferences.Get(nameof(IsStationExpanded), true); }
+            set { Preferences.Set(nameof(IsStationExpanded), value); }
         }
 
-        private bool _isEarthMatVisible = false;
-        public bool IsEarthMatVisible 
+        private bool _isEarthMatExpanded = false;
+        public bool IsEarthMatExpanded
         {
-            get { return Preferences.Get(nameof(IsEarthMatVisible), false); }
-            set { Preferences.Set(nameof(IsEarthMatVisible), value); }
+            get { return Preferences.Get(nameof(IsEarthMatExpanded), false); }
+            set { Preferences.Set(nameof(IsEarthMatExpanded), value); }
         }
 
-        private bool _isSampleVisible = false;
-        public bool IsSampleVisible 
+        private bool _isSampleExpanded = false;
+        public bool IsSampleExpanded
         {
-            get { return Preferences.Get(nameof(IsSampleVisible), false); }
-            set { Preferences.Set(nameof(IsSampleVisible), value); }
+            get { return Preferences.Get(nameof(IsSampleExpanded), false); }
+            set { Preferences.Set(nameof(IsSampleExpanded), value); }
         }
 
-        private bool _isDocumentVisible = false;
-        public bool IsDocumentVisible
+        private bool _isDocumentExpanded = false;
+        public bool IsDocumentExpanded
         {
-            get { return Preferences.Get(nameof(IsDocumentVisible), false); }
-            set { Preferences.Set(nameof(IsDocumentVisible), value); }
+            get { return Preferences.Get(nameof(IsDocumentExpanded), false); }
+            set { Preferences.Set(nameof(IsDocumentExpanded), value); }
         }
 
-        private bool _isStructureVisible = false;
-        public bool IsStructureVisible
+        private bool _isStructureExpanded = false;
+        public bool IsStructureExpanded
         {
-            get { return Preferences.Get(nameof(IsStructureVisible), false); }
-            set { Preferences.Set(nameof(IsStructureVisible), value); }
+            get { return Preferences.Get(nameof(IsStructureExpanded), false); }
+            set { Preferences.Set(nameof(IsStructureExpanded), value); }
         }
 
-        private bool _isPaleoflowVisible = false;
-        public bool IsPaleoflowVisible
+        private bool _isPaleoflowExpanded = false;
+        public bool IsPaleoflowExpanded
         {
-            get { return Preferences.Get(nameof(IsPaleoflowVisible), false); }
-            set { Preferences.Set(nameof(IsPaleoflowVisible), value); }
+            get { return Preferences.Get(nameof(IsPaleoflowExpanded), false); }
+            set { Preferences.Set(nameof(IsPaleoflowExpanded), value); }
         }
 
-        private bool _isFossilVisible = false;
-        public bool IsFossilVisible
+        private bool _isFossilExpanded = false;
+        public bool IsFossilExpanded
         {
-            get { return Preferences.Get(nameof(IsFossilVisible), false); }
-            set { Preferences.Set(nameof(IsFossilVisible), value); }
+            get { return Preferences.Get(nameof(IsFossilExpanded), false); }
+            set { Preferences.Set(nameof(IsFossilExpanded), value); }
         }
 
-        private bool _isEnvironmentVisible = false;
-        public bool IsEnvironmentVisible
+        private bool _isEnvironmentExpanded = false;
+        public bool IsEnvironmentExpanded
         {
-            get { return Preferences.Get(nameof(IsEnvironmentVisible), false); }
-            set { Preferences.Set(nameof(IsEnvironmentVisible), value); }
+            get { return Preferences.Get(nameof(IsEnvironmentExpanded), false); }
+            set { Preferences.Set(nameof(IsEnvironmentExpanded), value); }
         }
 
         public bool EarthMaterialVisible
         {
             get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
+            set { }
+        }
+
+        public bool SampleVisible
+        {
+            get { return Preferences.Get(nameof(SampleVisible), true); }
+            set { }
+        }
+
+        public bool FossilVisible
+        {
+            get { return Preferences.Get(nameof(FossilVisible), true); }
+            set { }
+        }
+
+        public bool DocumentVisible
+        {
+            get { return Preferences.Get(nameof(DocumentVisible), true); }
+            set { }
+        }
+
+        public bool PaleoflowVisible
+        {
+            get { return Preferences.Get(nameof(PaleoflowVisible), true); }
+            set { }
+        }
+
+        public bool EnvironmentVisible
+        {
+            get { return Preferences.Get(nameof(EnvironmentVisible), true); }
+            set { }
+        }
+
+        public bool StructureVisible
+        {
+            get { return Preferences.Get(nameof(StructureVisible), true); }
             set { }
         }
         private ObservableCollection<FieldNote> _earthmats = new ObservableCollection<FieldNote>();
@@ -326,50 +362,50 @@ namespace GSCFieldApp.ViewModel
             {
                 if (inComingName.ToLower().Contains(KeywordStation))
                 {
-                    IsStationVisible = !IsStationVisible; 
-                    OnPropertyChanged(nameof(IsStationVisible));
+                    IsStationExpanded = !IsStationExpanded ; 
+                    OnPropertyChanged(nameof(IsStationExpanded ));
                 }
 
                 if (inComingName.ToLower().Contains(KeywordEarthmat))
                 {
-                    IsEarthMatVisible = !IsEarthMatVisible;
-                    OnPropertyChanged(nameof(IsEarthMatVisible));
+                    IsEarthMatExpanded = !IsEarthMatExpanded;
+                    OnPropertyChanged(nameof(IsEarthMatExpanded));
                 }
 
                 if (inComingName.ToLower().Contains(KeywordSample))
                 {
-                    IsSampleVisible = !IsSampleVisible;
-                    OnPropertyChanged(nameof(IsSampleVisible));
+                    IsSampleExpanded = !IsSampleExpanded;
+                    OnPropertyChanged(nameof(IsSampleExpanded));
                 }
 
                 if (inComingName.ToLower().Contains(nameof(TableNames.document)))
                 {
-                    IsDocumentVisible = !IsDocumentVisible;
-                    OnPropertyChanged(nameof(IsDocumentVisible));
+                    IsDocumentExpanded = !IsDocumentExpanded;
+                    OnPropertyChanged(nameof(IsDocumentExpanded));
                 }
 
                 if (inComingName.ToLower().Contains(nameof(TableNames.structure)))
                 {
-                    IsStructureVisible = !IsStructureVisible;
-                    OnPropertyChanged(nameof(IsStructureVisible));
+                    IsStructureExpanded = !IsStructureExpanded;
+                    OnPropertyChanged(nameof(IsStructureExpanded));
                 }
 
                 if (inComingName.ToLower().Contains(nameof(TableNames.pflow)))
                 {
-                    IsPaleoflowVisible = !IsPaleoflowVisible;
-                    OnPropertyChanged(nameof(IsPaleoflowVisible));
+                    IsPaleoflowExpanded = !IsPaleoflowExpanded;
+                    OnPropertyChanged(nameof(IsPaleoflowExpanded));
                 }
 
                 if (inComingName.ToLower().Contains(nameof(TableNames.fossil)))
                 {
-                    IsFossilVisible = !IsFossilVisible;
-                    OnPropertyChanged(nameof(IsFossilVisible));
+                    IsFossilExpanded = !IsFossilExpanded;
+                    OnPropertyChanged(nameof(IsFossilExpanded));
                 }
 
                 if (inComingName.ToLower().Contains(nameof(TableNames.environment)))
                 {
-                    IsEnvironmentVisible = !IsEnvironmentVisible;
-                    OnPropertyChanged(nameof(IsEnvironmentVisible));
+                    IsEnvironmentExpanded = !IsEnvironmentExpanded;
+                    OnPropertyChanged(nameof(IsEnvironmentExpanded));
                 }
 
                 //Special case, removing filtering on date and refreshing all records.
@@ -1153,6 +1189,21 @@ namespace GSCFieldApp.ViewModel
 
             await currentConnection.CloseAsync(); 
             
+
+        }
+
+        /// <summary>
+        /// Simple method to hide/show whole field theme header bars, coming from setting page.
+        /// </summary>
+        public void ThemeHeaderBarsRefresh()
+        {
+            OnPropertyChanged(nameof(EarthMaterialVisible));
+            OnPropertyChanged(nameof(SampleVisible));
+            OnPropertyChanged(nameof(StructureVisible));
+            OnPropertyChanged(nameof(DocumentVisible));
+            OnPropertyChanged(nameof(PaleoflowVisible));
+            OnPropertyChanged(nameof(EnvironmentVisible));
+            OnPropertyChanged(nameof(FossilVisible));
 
         }
 

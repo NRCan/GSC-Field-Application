@@ -12,4 +12,13 @@ public partial class FieldNotesPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+        //Force reset of theme header bar for hidden/show preferences that might be coming from config.
+        FieldNotesViewModel vm2 = (FieldNotesViewModel)BindingContext;
+        vm2.ThemeHeaderBarsRefresh();
+    }
 }
