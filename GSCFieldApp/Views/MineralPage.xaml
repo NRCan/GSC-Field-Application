@@ -43,6 +43,16 @@
 
                         <VerticalStackLayout>
 
+                            <!-- Detail search bar (approx >220 items) -->
+                            <Label Text="{local:Localize MineralPageName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                            <SearchBar Placeholder="{local:Localize MineralPageNameSearchPlaceholder}"
+                                        x:Name="mineralNameSearchBar" Text="{Binding Model.MineralName, Mode=TwoWay }"
+                                        SearchCommand="{Binding PerformNameSearchCommand}" 
+                                        SearchCommandParameter="{Binding Text, Source={x:Reference mineralNameSearchBar}}"/>
+                            <ListView Style="{StaticResource FieldAppSearchCollectionView}" x:Name="mineralSearchList" ItemSelected="mineralSearchList_ItemSelected"
+                                        ItemsSource="{Binding MineralPageNameSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
+                            <!-- -->
+                            
                             <Picker Title="{local:Localize MineralPageMode}" x:Name="MineralPageModePicker"
                                     ItemsSource="{Binding MineralMode.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemDisplayBinding="{Binding itemName}"

@@ -667,6 +667,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MineralPageMode" xml:space="preserve">
     <value>Résiduel</value>
   </data>
+  <data name="MineralPageName" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="MineralPageNameSearchPlaceholder" xml:space="preserve">
+    <value>Rechercher un nom de minéral</value>
+  </data>
   <data name="MineralPageNotes" xml:space="preserve">
     <value>Notes</value>
   </data>

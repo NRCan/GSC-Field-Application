@@ -1726,6 +1726,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string MineralPageName {
+            get {
+                return ResourceManager.GetString("MineralPageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search mineral name.
+        /// </summary>
+        internal static string MineralPageNameSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("MineralPageNameSearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         internal static string MineralPageNotes {

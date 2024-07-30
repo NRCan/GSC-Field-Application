@@ -20,4 +20,18 @@ public partial class MineralPage : ContentPage
         await viewModel.InitModel();
         await viewModel.Load();
     }
+
+    /// <summary>
+    /// From user selected mineral name in list view, apply item to search bar
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void mineralSearchList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        //Cast
+        if (e != null && e.SelectedItem != null)
+        {
+            mineralNameSearchBar.Text = e.SelectedItem.ToString();
+        }
+    }
 }

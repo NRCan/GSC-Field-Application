@@ -678,6 +678,12 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MineralPageMode" xml:space="preserve">
     <value>Mode</value>
   </data>
+  <data name="MineralPageName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="MineralPageNameSearchPlaceholder" xml:space="preserve">
+    <value>Search mineral name</value>
+  </data>
   <data name="MineralPageNotes" xml:space="preserve">
     <value>Notes</value>
   </data>

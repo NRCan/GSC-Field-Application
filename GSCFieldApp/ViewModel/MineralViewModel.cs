@@ -42,6 +42,10 @@ namespace GSCFieldApp.ViewModel
 
         private ObservableCollection<ComboBoxItem> _mineralFormHabitCollection = new ObservableCollection<ComboBoxItem>();
 
+        //private bool _isMineralListVisible = false;
+        private List<string> _mineralPageNameSearchResults = new List<string>();
+        private ComboBox _mineralNames = new ComboBox();
+
         //Localize
         public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -121,12 +125,19 @@ namespace GSCFieldApp.ViewModel
         }
         public ObservableCollection<ComboBoxItem> MineralFormHabitCollection { get { return _mineralFormHabitCollection; } set { _mineralFormHabitCollection = value; OnPropertyChanged(nameof(MineralFormHabitCollection)); } }
 
+        //public bool IsMineralListVisible { get { return _isMineralListVisible; } set { _isMineralListVisible = value; } }
+        public List<string> MineralPageNameSearchResults { get { return _mineralPageNameSearchResults; } set { _mineralPageNameSearchResults = value; } }
+        public ComboBox MineralNames { get { return _mineralNames; } set { _mineralNames = value; } }
+
         #endregion
 
         public MineralViewModel()
         {
             //Init new field theme
             FieldThemes = new FieldThemes();
+
+            //Fill search bar
+            _ = FillSearchListAsync();
         }
 
         #region RELAYS
@@ -228,7 +239,40 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Special command to filter down all mineral names
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
+        [RelayCommand]
+        public async Task PerformNameSearch(string searchText)
+        {
 
+            var search_term = searchText.ToLower();
+            var results = _mineralNames.cboxItems.Where(i => i.itemName.ToLower().Contains(search_term)).ToList();
+
+            if (results.Count > 0)
+            {
+                _mineralPageNameSearchResults = new List<string>();
+                foreach (ComboBoxItem tmp in results)
+                {
+                    if (!_mineralPageNameSearchResults.Contains(tmp.itemName.ToString()))
+                    {
+                        _mineralPageNameSearchResults.Add(tmp.itemName.ToString());
+                    }
+                }
+
+                MineralPageNameSearchResults = _mineralPageNameSearchResults;
+
+                //_isMineralListVisible = true;
+            }
+            //else
+            //{
+            //    _isMineralListVisible = false;
+            //}
+            //OnPropertyChanged(nameof(IsMineralListVisible));
+            OnPropertyChanged(nameof(MineralPageNameSearchResults));
+        }
         #endregion
 
         #region METHODS
@@ -256,12 +300,8 @@ namespace GSCFieldApp.ViewModel
             _mineralFormHabit = await FillAPicker(FieldMineralFormHabit);
             OnPropertyChanged(nameof(MineralFormHabit));
 
-            //Second order pickers
-
-
             await currentConnection.CloseAsync();
         }
-
 
         /// <summary>
         /// Will fill the project type combobox
@@ -382,6 +422,20 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+
+        /// <summary>
+        /// Will initialize some preset list of lithologies for type/group and details
+        /// </summary>
+        /// <returns></returns>
+        private async Task FillSearchListAsync()
+        {
+            //Connect to db
+            currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+
+            _mineralNames = await FillAPicker(FieldMineral);
+
+            await currentConnection.CloseAsync();
+        }
 
         #endregion
 
