@@ -663,6 +663,9 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Tap to see a list of all loaded layers and more options.</value>
   </data>
+  <data name="MineralizationAlterationPageTitle" xml:space="preserve">
+    <value>Mineralization / Alteration</value>
+  </data>
   <data name="MineralPageColour" xml:space="preserve">
     <value>Colour</value>
   </data>

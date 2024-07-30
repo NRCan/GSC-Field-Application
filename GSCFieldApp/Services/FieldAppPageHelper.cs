@@ -26,6 +26,26 @@ namespace GSCFieldApp.Services
 {
     public class FieldAppPageHelper: ObservableObject
     {
+        #region INIT
+        //Database
+        public DataAccess da = new DataAccess();
+        public SQLiteAsyncConnection currentConnection;
+        public DataIDCalculation idCalculator = new DataIDCalculation();
+
+        //Localize
+        public LocalizationResourceManager LocalizationResourceManager
+        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
+        //Services
+        public CommandService commandServ = new CommandService();
+
+        //Controls
+        public ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
+
+        //Theme
+        public FieldThemes FieldThemes { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Will navigate to field note page and force a refresh on notes

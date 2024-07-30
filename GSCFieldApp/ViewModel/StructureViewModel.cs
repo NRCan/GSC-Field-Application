@@ -22,12 +22,6 @@ namespace GSCFieldApp.ViewModel
     public partial class StructureViewModel: FieldAppPageHelper
     {
         #region INIT
-
-        //Database
-        DataAccess da = new DataAccess();
-        SQLiteAsyncConnection currentConnection;
-        public DataIDCalculation idCalculator = new DataIDCalculation();
-
         private Structure _model = new Structure();
 
         //UI
@@ -48,13 +42,6 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _structureYoungingAll = new ComboBox();
         private ComboBox _structureGenerationAll = new ComboBox();
 
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
-
         #endregion
 
         #region PROPERTIES
@@ -64,8 +51,6 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private Structure _structure;
-
-        public FieldThemes FieldThemes { get; set; } //Enable/Disable certain controls based on work type
 
         public Structure Model { get { return _model; } set { _model = value; } }
 

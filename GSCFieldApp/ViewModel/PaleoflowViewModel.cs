@@ -23,18 +23,7 @@ namespace GSCFieldApp.ViewModel
     {
         #region INIT
         //Database
-        DataAccess da = new DataAccess();
-        SQLiteAsyncConnection currentConnection;
-        public DataIDCalculation idCalculator = new DataIDCalculation();
-
         private Paleoflow _model = new Paleoflow();
-
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
 
         //UI
         private ComboBox _paleoflowClass = new ComboBox();
@@ -56,8 +45,6 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private Paleoflow _paleoflow;
-
-        public FieldThemes FieldThemes { get; set; } //Enable/Disable certain controls based on work type
 
         public Paleoflow Model { get { return _model; } set { _model = value; } }
 

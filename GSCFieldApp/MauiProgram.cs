@@ -44,9 +44,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<AboutPageViewModel>();
 
         //Transient will be created/deleted each time
-        builder.Services.AddTransient<DetailPage>();
-        builder.Services.AddTransient<DetailVieModel>();
-
 		builder.Services.AddTransient<StationPage>();
 		builder.Services.AddTransient<StationViewModel>();
 

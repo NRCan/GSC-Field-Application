@@ -25,9 +25,6 @@ namespace GSCFieldApp.ViewModel
     {
 
         #region INIT
-        DataAccess da = new DataAccess();
-        ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
-        public DataIDCalculation idCalculator = new DataIDCalculation();
         private Sample _model = new Sample();
         private ComboBox _samplePurpose = new ComboBox();
         private ComboBox _sampleType = new ComboBox();
@@ -43,13 +40,6 @@ namespace GSCFieldApp.ViewModel
         private ComboBoxItem _selectedSamplePurpose = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _purposeCollection = new ObservableCollection<ComboBoxItem>();
 
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
-
         #endregion
 
         #region PROPERTIES
@@ -59,8 +49,6 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private Sample _sample;
-
-        public FieldThemes FieldThemes { get; set; } //Enable/Disable certain controls based on work type
 
         public Sample Model { get { return _model; } set { _model = value; } }
 

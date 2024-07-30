@@ -652,6 +652,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Menu de toutes les couches présentation accessible dans la carte.</value>
   </data>
+  <data name="MineralizationAlterationPageTitle" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
+  </data>
   <data name="MineralPageColour" xml:space="preserve">
     <value>Couleur</value>
   </data>

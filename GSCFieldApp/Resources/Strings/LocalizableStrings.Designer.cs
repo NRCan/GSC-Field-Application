@@ -1681,6 +1681,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mineralization / Alteration.
+        /// </summary>
+        internal static string MineralizationAlterationPageTitle {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Colour.
         /// </summary>
         internal static string MineralPageColour {

@@ -18,18 +18,12 @@ using GSCFieldApp.Services;
 namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Metadata), nameof(Metadata))]
-    public partial class FieldBookViewModel: ObservableObject
+    public partial class FieldBookViewModel: FieldAppPageHelper
     {
         #region INIT
-
-        DataAccess da = new DataAccess();
         private Metadata _model = new Metadata();
         private ComboBox _projectType = new ComboBox();
         private bool _canWrite = true;
-
-        //Localization
-        public LocalizationResourceManager LocalizationResourceManager
-            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
         #endregion
 

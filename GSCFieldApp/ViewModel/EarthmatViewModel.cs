@@ -32,21 +32,8 @@ namespace GSCFieldApp.ViewModel
     {
         #region INIT
 
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
-
-        //Database
-        DataAccess da = new DataAccess();
-        SQLiteAsyncConnection currentConnection;
-
         //Model
         private Earthmaterial _model = new Earthmaterial();
-        public DataIDCalculation idCalculator = new DataIDCalculation();
-        ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
 
         private string currentProjectType = ApplicationThemeBedrock; //default in case failing
 
@@ -119,8 +106,6 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private Station _station;
-
-        public FieldThemes FieldThemes { get; set; } //Enable/Disable certain controls based on work type
 
         public Earthmaterial Model { get { return _model; } set { _model = value; } }
         public bool EMLithoVisibility

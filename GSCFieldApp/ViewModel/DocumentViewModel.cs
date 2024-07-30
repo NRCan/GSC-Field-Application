@@ -22,9 +22,7 @@ namespace GSCFieldApp.ViewModel
     public partial class DocumentViewModel: FieldAppPageHelper
     {
         #region INIT
-        DataAccess da = new DataAccess();
-        ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
-        public DataIDCalculation idCalculator = new DataIDCalculation();
+
         private Document _model = new Document();
         private ComboBox _documentCategory = new ComboBox();
         private ComboBox _documentScale = new ComboBox();
@@ -35,12 +33,6 @@ namespace GSCFieldApp.ViewModel
         private ComboBoxItem _selectedDocumentCategory = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _categoryCollection = new ObservableCollection<ComboBoxItem>();
 
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
 
         #endregion
 
@@ -52,10 +44,7 @@ namespace GSCFieldApp.ViewModel
         [ObservableProperty]
         private Document _document;
 
-        public FieldThemes FieldThemes { get; set; } //Enable/Disable certain controls based on work type
-
         public Document Model { get { return _model; } set { _model = value; } }
-
 
         public bool DocumentDescVisibility
         {

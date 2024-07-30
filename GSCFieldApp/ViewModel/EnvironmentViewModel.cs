@@ -25,18 +25,7 @@ namespace GSCFieldApp.ViewModel
         #region INIT
 
         //Database
-        DataAccess da = new DataAccess();
-        SQLiteAsyncConnection currentConnection;
-        public DataIDCalculation idCalculator = new DataIDCalculation();
-
         private EnvironmentModel _model = new EnvironmentModel();
-
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
 
         //UI
         private ComboBox _environmentRelief = new ComboBox();
@@ -60,8 +49,6 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private EnvironmentModel _environment;
-
-        public FieldThemes FieldThemes { get; set; } //Enable/Disable certain controls based on work type
 
         public EnvironmentModel Model { get { return _model; } set { _model = value; } }
 

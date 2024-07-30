@@ -23,21 +23,10 @@ namespace GSCFieldApp.ViewModel
     {
         #region INIT
         //Database
-        DataAccess da = new DataAccess();
-        SQLiteAsyncConnection currentConnection;
-        public DataIDCalculation idCalculator = new DataIDCalculation();
-
         private Fossil _model = new Fossil();
 
         //UI
         private ComboBox _fossilType = new ComboBox();
-
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
 
         #endregion
 
@@ -48,8 +37,6 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private Fossil _fossil;
-
-        public FieldThemes FieldThemes { get; set; } //Enable/Disable certain controls based on work type
 
         public Fossil Model { get { return _model; } set { _model = value; } }
 

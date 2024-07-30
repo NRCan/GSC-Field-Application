@@ -25,11 +25,6 @@ namespace GSCFieldApp.ViewModel
     {
         #region INIT
 
-        //Database
-        DataAccess da = new DataAccess();
-        SQLiteAsyncConnection currentConnection;
-        public DataIDCalculation idCalculator = new DataIDCalculation();
-
         private Mineral _model = new Mineral();
 
         //UI
@@ -46,13 +41,6 @@ namespace GSCFieldApp.ViewModel
         private List<string> _mineralPageNameSearchResults = new List<string>();
         private ComboBox _mineralNames = new ComboBox();
 
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
-
         #endregion
 
         #region PROPERTIES
@@ -65,8 +53,6 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private Mineral _mineral;
-
-        public FieldThemes FieldThemes { get; set; } //Enable/Disable certain controls based on work type
 
         public Mineral Model { get { return _model; } set { _model = value; } }
 

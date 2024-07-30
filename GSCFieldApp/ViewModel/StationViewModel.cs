@@ -30,12 +30,10 @@ namespace GSCFieldApp.ViewModel
     public partial class StationViewModel : FieldAppPageHelper
     {
         #region INIT
-        public FieldThemes FieldThemes { get; set; }
-        DataAccess da = new DataAccess();
-        ConcatenatedCombobox concat = new ConcatenatedCombobox(); //Use to concatenate values
+        
         private Station _model = new Station();
         private DateTimeOffset _dateGeneric = DateTime.Now; //Default
-        public DataIDCalculation idCalculator = new DataIDCalculation();
+
         private ComboBox _stationType = new ComboBox();
         private ComboBox _stationOutcropQuality = new ComboBox();
         private ComboBox _stationSource = new ComboBox();
@@ -44,16 +42,6 @@ namespace GSCFieldApp.ViewModel
         //Concatenated
         private ComboBoxItem _selectedStationOutcropQuality = new ComboBoxItem();
         private ObservableCollection<ComboBoxItem> _qualityCollection = new ObservableCollection<ComboBoxItem>();
-
-        //Themes
-        //private bool _bedrockVisibility = true; //Visibility for extra fields
-
-        //Localize
-        public LocalizationResourceManager LocalizationResourceManager
-        => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
-
-        //Services
-        public CommandService commandServ = new CommandService();
 
         #endregion
 
