@@ -75,11 +75,10 @@ namespace GSCFieldApp.Services
                         numberOfRecordsDelete = await da.DeleteItemAsync(samToDelete);
                         break;
                     case DatabaseLiterals.TableNames.mineralization:
+                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableMineralAlteration, DatabaseLiterals.FieldMineralAlterationID, itemID);
                         break;
                     case DatabaseLiterals.TableNames.mineral:
-                        Mineral minToDelete = new Mineral();
-                        minToDelete.MineralID = itemID;
-                        numberOfRecordsDelete = await da.DeleteItemAsync(minToDelete);
+                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableMineral, DatabaseLiterals.FieldMineralID, itemID);
                         break;
                     case DatabaseLiterals.TableNames.document:
                         Document docToDelete = new Document();

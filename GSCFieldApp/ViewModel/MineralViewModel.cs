@@ -249,14 +249,8 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 MineralPageNameSearchResults = _mineralPageNameSearchResults;
-
-                //_isMineralListVisible = true;
             }
-            //else
-            //{
-            //    _isMineralListVisible = false;
-            //}
-            //OnPropertyChanged(nameof(IsMineralListVisible));
+
             OnPropertyChanged(nameof(MineralPageNameSearchResults));
         }
         #endregion
@@ -380,13 +374,13 @@ namespace GSCFieldApp.ViewModel
             {
                 // if coming from em notes, calculate new alias
                 Model.MineralEMID = _earthmaterial.EarthMatID;
-                Model.MineralName = await idCalculator.CalculateMineralAlias(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName, TableNames.earthmat);
+                Model.MineralIDName = await idCalculator.CalculateMineralAlias(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName, TableNames.earthmat);
             }
             else if (_mineralAlteration != null)
             {
                 // if coming from ma notes, calculate new alias
                 Model.MineralMAID = _mineralAlteration.MAID;
-                Model.MineralName = await idCalculator.CalculateMineralAlias(_mineralAlteration.MAID, _mineralAlteration.MAName, TableNames.mineralization);
+                Model.MineralIDName = await idCalculator.CalculateMineralAlias(_mineralAlteration.MAID, _mineralAlteration.MAName, TableNames.mineralization);
             }
             else if (Model.MineralEMID != null)
             {
