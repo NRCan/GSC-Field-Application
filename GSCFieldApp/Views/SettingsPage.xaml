@@ -100,6 +100,33 @@
                     </VerticalStackLayout>
 
                 </Frame>
+
+                <Frame BorderColor="{StaticResource Primary}" Style="{StaticResource FieldAppSectionFrame}" WidthRequest="350">
+                    <VerticalStackLayout>
+                        <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageDebugHeading}"/>
+
+                        <VerticalStackLayout Margin="10">
+                            <Label Text="{local:Localize SettingPageDebugLog}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                            <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                <Button Style="{StaticResource FieldAppSymbolButton}" BackgroundColor="{StaticResource Primary}" 
+                                        TextColor="White" WidthRequest="45" HeightRequest="45" Text="&#xF0818;" Command="{Binding DoDebugLogBackupCommand}" 
+                                        Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+
+
+                            </Grid>
+
+                            
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+
+                </Frame> 
                 
                 <!--TODO: implement version 2 app other settings-->
                 

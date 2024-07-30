@@ -1,14 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.ViewModel
 {
     public partial class SettingsViewModel: ObservableObject
     {
+        #region PROPERTIES
         public bool EarthMaterialVisible
         {
             get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
@@ -68,8 +71,16 @@ namespace GSCFieldApp.ViewModel
             get { return Preferences.Get(nameof(EnvironmentVisible), true); }
             set { Preferences.Set(nameof(EnvironmentVisible), value); }
         }
+        #endregion
 
-
+        #region RELAYS
+        [RelayCommand]
+        public async Task DoDebugLogBackup()
+        {
+            AppFileServices fileServices = new AppFileServices();
+            await fileServices.SaveBugLogFile(CancellationToken.None);
+        }
+        #endregion
         public SettingsViewModel() { }  
 
     }

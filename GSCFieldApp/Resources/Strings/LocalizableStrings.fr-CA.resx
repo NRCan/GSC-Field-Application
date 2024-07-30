@@ -835,6 +835,18 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageCategorySurficial" xml:space="preserve">
     <value>Dépôts meubles</value>
   </data>
+  <data name="SettingPageDebugHeading" xml:space="preserve">
+    <value>Débogue</value>
+  </data>
+  <data name="SettingPageDebugLog" xml:space="preserve">
+    <value>Journal de débogue</value>
+  </data>
+  <data name="SettingPageDebugLogSave" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
+  <data name="SettingPageDebugLogUsage" xml:space="preserve">
+    <value>Sauvegarder une copie du journal.</value>
+  </data>
   <data name="SettingPageHeading" xml:space="preserve">
     <value>Thèmes</value>
   </data>

@@ -417,6 +417,9 @@
 	  <MauiXaml Update="Controls\SaveSwipeItem.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\MineralizationAlterationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\MineralPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

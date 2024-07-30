@@ -16,7 +16,6 @@ public partial class AppShell : Shell
 {
     public ICommand NavigateToSettingsCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
-    public ICommand DoBakupLogCommand { get; private set; }
     public ICommand DoPicklistEditorCommand { get; private set; }
     public ICommand DoPhotoBackupCommand { get; private set; }
 
@@ -46,10 +45,6 @@ public partial class AppShell : Shell
 
         });
 
-        DoBakupLogCommand = new Command(async () => {
-            AppFileServices fileServices = new AppFileServices();
-            await fileServices.SaveBugLogFile(CancellationToken.None);
-        });
 
         DoPicklistEditorCommand = new Command(async () => {
             await DisplayAlert("Alert", "Not yet implemented", "OK");
@@ -75,6 +70,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(FossilPage), typeof(FossilPage));
         Routing.RegisterRoute(nameof(EnvironmentPage), typeof(EnvironmentPage));
         Routing.RegisterRoute(nameof(MineralPage), typeof(MineralPage));
+        Routing.RegisterRoute(nameof(MineralizationAlterationPage), typeof(MineralizationAlterationPage));
         #endregion
 
         BindingContext = this;

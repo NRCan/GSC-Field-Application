@@ -2239,6 +2239,42 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Debug.
+        /// </summary>
+        internal static string SettingPageDebugHeading {
+            get {
+                return ResourceManager.GetString("SettingPageDebugHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logs.
+        /// </summary>
+        internal static string SettingPageDebugLog {
+            get {
+                return ResourceManager.GetString("SettingPageDebugLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string SettingPageDebugLogSave {
+            get {
+                return ResourceManager.GetString("SettingPageDebugLogSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save of copy of debug logs..
+        /// </summary>
+        internal static string SettingPageDebugLogUsage {
+            get {
+                return ResourceManager.GetString("SettingPageDebugLogUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Themes.
         /// </summary>
         internal static string SettingPageHeading {

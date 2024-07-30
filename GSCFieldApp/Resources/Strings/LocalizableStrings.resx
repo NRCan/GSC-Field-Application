@@ -849,6 +849,18 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="SettingPageCategorySurficial" xml:space="preserve">
     <value>Surficial</value>
   </data>
+  <data name="SettingPageDebugHeading" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="SettingPageDebugLog" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="SettingPageDebugLogSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SettingPageDebugLogUsage" xml:space="preserve">
+    <value>Save of copy of debug logs.</value>
+  </data>
   <data name="SettingPageHeading" xml:space="preserve">
     <value>Themes</value>
   </data>

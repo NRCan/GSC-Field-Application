@@ -51,19 +51,12 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellGetBugLogTitle}" Command="{Binding DoBakupLogCommand}" >
-        <MenuItem.IconImageSource>
-            <FontImageSource Glyph="&#xF00E4;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
-        </MenuItem.IconImageSource>
-    </MenuItem>
-
-    <FlyoutItem Title="{local:Localize ShellSettingsTitle}">
+    <FlyoutItem Title="{local:Localize ShellSettingsTitle}" >
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
         <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"/>
     </FlyoutItem>
-
 
     <FlyoutItem Title="{local:Localize ShellAboutTitle}">
         <FlyoutItem.FlyoutIcon>

@@ -77,6 +77,9 @@ public static class MauiProgram
         builder.Services.AddTransient<MineralPage>();
         builder.Services.AddTransient<MineralViewModel>();
 
+        builder.Services.AddTransient<MineralizationAlterationPage>();
+        builder.Services.AddTransient<MineralizationAlterationViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();
