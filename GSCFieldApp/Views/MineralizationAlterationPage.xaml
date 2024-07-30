@@ -25,10 +25,116 @@
 
     </ContentPage.Resources>
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.MAName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
+
+                    <!--Type-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldMineralAlterationColor}" FrameContentVisibility="{Binding MATypeVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize MineralizationAlterationPageTypeTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize MineralizationAlterationPageType}" x:Name="MineralizationAlterationPageTypePicker"
+                                    ItemsSource="{Binding MineralizationAlteration.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.MAMA, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding MineralizationAlteration, Source={x:Reference MineralizationAlterationPageTypePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding MineralizationAlteration.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize MineralizationAlterationPageUnit}" x:Name="MineralizationAlterationPageUnitPicker"
+                                    ItemsSource="{Binding MineralizationAlterationUnit.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.MAUnit, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding MineralizationAlterationUnit, Source={x:Reference MineralizationAlterationPageUnitPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding MineralizationAlterationUnit.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Description-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldMineralAlterationColor}" FrameContentVisibility="{Binding MADescVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize MineralizationAlterationPageDescTitle}">
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Picker Title="{local:Localize MineralizationAlterationDistribution}" x:Name="MineralizationAlterationDistributionPicker"
+                                    ItemsSource="{Binding MineralizationAlterationDistribution.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedMineralizationAlterationDistribution}"
+                                    SelectedIndex="{Binding MineralizationAlterationDistribution.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <!--Custom control to concatenate multiple values into one field-->
+                                <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding MineralizationAlterationDistributionCollection}" />
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize MineralizationAlterationPagePhase}" x:Name="MineralizationAlterationPagePhasePicker"
+                                    ItemsSource="{Binding MineralizationAlterationPhase.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.MAPhase, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding MineralizationAlterationPhase, Source={x:Reference MineralizationAlterationPagePhasePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding MineralizationAlterationPhase.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize MineralizationAlterationPageTexture}" x:Name="MineralizationAlterationPageTexturePicker"
+                                    ItemsSource="{Binding MineralizationAlterationTexture.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.MATexture, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding MineralizationAlterationTexture, Source={x:Reference MineralizationAlterationPageTexturePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding MineralizationAlterationTexture.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize MineralizationAlterationPageFacies}" x:Name="MineralizationAlterationPageFaciesPicker"
+                                    ItemsSource="{Binding MineralizationAlterationFacies.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.MAFacies, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding MineralizationAlterationFacies, Source={x:Reference MineralizationAlterationPageFaciesPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding MineralizationAlterationFacies.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize MineralizationAlterationNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.MANotes, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+                    
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldMineralAlterationColor}"
+                                    ButtonLightColor="{StaticResource FieldMineralAlterationColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
+
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize MineralizationAlterationTooltipAddMineral}"
+                        Command="{Binding AddMineralCommand}"
+                        BackgroundColor="{StaticResource FieldMineralColorLight}"/>
+
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

@@ -663,8 +663,38 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Tap to see a list of all loaded layers and more options.</value>
   </data>
+  <data name="MineralizationAlterationDistribution" xml:space="preserve">
+    <value>Distribution</value>
+  </data>
+  <data name="MineralizationAlterationNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="MineralizationAlterationPageDescTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MineralizationAlterationPageFacies" xml:space="preserve">
+    <value>Facies</value>
+  </data>
+  <data name="MineralizationAlterationPagePhase" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="MineralizationAlterationPageTexture" xml:space="preserve">
+    <value>Texture</value>
+  </data>
   <data name="MineralizationAlterationPageTitle" xml:space="preserve">
     <value>Mineralization / Alteration</value>
+  </data>
+  <data name="MineralizationAlterationPageType" xml:space="preserve">
+    <value>Mineralization / Alteration</value>
+  </data>
+  <data name="MineralizationAlterationPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="MineralizationAlterationPageUnit" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="MineralizationAlterationTooltipAddMineral" xml:space="preserve">
+    <value>Tap to add a new mineral</value>
   </data>
   <data name="MineralPageColour" xml:space="preserve">
     <value>Colour</value>

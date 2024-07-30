@@ -1681,11 +1681,101 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Distribution.
+        /// </summary>
+        internal static string MineralizationAlterationDistribution {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationDistribution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string MineralizationAlterationNotes {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string MineralizationAlterationPageDescTitle {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageDescTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Facies.
+        /// </summary>
+        internal static string MineralizationAlterationPageFacies {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageFacies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phase.
+        /// </summary>
+        internal static string MineralizationAlterationPagePhase {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPagePhase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Texture.
+        /// </summary>
+        internal static string MineralizationAlterationPageTexture {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageTexture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mineralization / Alteration.
         /// </summary>
         internal static string MineralizationAlterationPageTitle {
             get {
                 return ResourceManager.GetString("MineralizationAlterationPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineralization / Alteration.
+        /// </summary>
+        internal static string MineralizationAlterationPageType {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string MineralizationAlterationPageTypeTitle {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit.
+        /// </summary>
+        internal static string MineralizationAlterationPageUnit {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new mineral.
+        /// </summary>
+        internal static string MineralizationAlterationTooltipAddMineral {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationTooltipAddMineral", resourceCulture);
             }
         }
         

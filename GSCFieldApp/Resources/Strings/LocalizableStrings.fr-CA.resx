@@ -652,8 +652,38 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageLayer" xml:space="preserve">
     <value>Menu de toutes les couches présentation accessible dans la carte.</value>
   </data>
+  <data name="MineralizationAlterationDistribution" xml:space="preserve">
+    <value>Distribution</value>
+  </data>
+  <data name="MineralizationAlterationNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="MineralizationAlterationPageDescTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MineralizationAlterationPageFacies" xml:space="preserve">
+    <value>Faciès d'alteration</value>
+  </data>
+  <data name="MineralizationAlterationPagePhase" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="MineralizationAlterationPageTexture" xml:space="preserve">
+    <value>Texture</value>
+  </data>
   <data name="MineralizationAlterationPageTitle" xml:space="preserve">
     <value>Minéralisation / Altération</value>
+  </data>
+  <data name="MineralizationAlterationPageType" xml:space="preserve">
+    <value>Minéralisation / Altération</value>
+  </data>
+  <data name="MineralizationAlterationPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="MineralizationAlterationPageUnit" xml:space="preserve">
+    <value>Unité</value>
+  </data>
+  <data name="MineralizationAlterationTooltipAddMineral" xml:space="preserve">
+    <value>Ajouter un nouveau minéral</value>
   </data>
   <data name="MineralPageColour" xml:space="preserve">
     <value>Couleur</value>

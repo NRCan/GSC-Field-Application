@@ -239,7 +239,6 @@ namespace GSCFieldApp.ViewModel
 
             }
         }
-
         public ComboBoxItem SelectedEarthLithTextureStructure
         {
             get
@@ -363,6 +362,7 @@ namespace GSCFieldApp.ViewModel
 
             }
         }
+
         public ObservableCollection<ComboBoxItem> EarthLithQualifierCollection { get { return _qualifierCollection; } set { _qualifierCollection = value; OnPropertyChanged(nameof(EarthLithQualifierCollection)); } }
         public ObservableCollection<ComboBoxItem> EarthLithTextStrucCollection { get { return _textStructCollection; } set { _textStructCollection = value; OnPropertyChanged(nameof(EarthLithTextStrucCollection)); } }
         public ObservableCollection<ComboBoxItem> EarthLithGrainSizeCollection { get { return _grainSizeCollection; } set { _grainSizeCollection = value; OnPropertyChanged(nameof(EarthLithGrainSizeCollection)); } }
@@ -689,6 +689,23 @@ namespace GSCFieldApp.ViewModel
                     [nameof(MineralPage)] = null,
                     [nameof(Earthmaterial)] = Model,
                     [nameof(MineralAlteration)] = null,
+                }
+            );
+        }
+
+        [RelayCommand]
+        public async Task AddMineralization()
+        {
+            //Save
+            await SetAndSaveModelAsync();
+
+            //Navigate to pflow page 
+            await Shell.Current.GoToAsync($"{nameof(MineralizationAlterationPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(MineralAlteration)] = null,
+                    [nameof(Earthmaterial)] = Model,
+                    [nameof(Station)] = null,
                 }
             );
         }

@@ -461,6 +461,7 @@
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddMA}"
+                        Command="{Binding AddMineralizationCommand}"
                         BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"

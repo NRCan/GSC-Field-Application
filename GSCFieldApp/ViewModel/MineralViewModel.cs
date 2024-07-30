@@ -321,7 +321,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Get current application version
                 Model.MineralEMID = _earthmaterial.EarthMatID;
-                Model.MineralIDName = await idCalculator.CalculateMineralAlias(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName);
+                Model.MineralIDName = await idCalculator.CalculateMineralAlias(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName, TableNames.earthmat);
                 OnPropertyChanged(nameof(Model));
 
             }
@@ -330,7 +330,7 @@ namespace GSCFieldApp.ViewModel
             {
                 //Get current application version
                 Model.MineralMAID = _mineralAlteration.MAID;
-                Model.MineralIDName = await idCalculator.CalculateMineralAlias(_mineralAlteration.MAID, _mineralAlteration.MAName);
+                Model.MineralIDName = await idCalculator.CalculateMineralAlias(_mineralAlteration.MAID, _mineralAlteration.MAName, TableNames.mineralization);
                 OnPropertyChanged(nameof(Model));
 
             }
@@ -380,13 +380,13 @@ namespace GSCFieldApp.ViewModel
             {
                 // if coming from em notes, calculate new alias
                 Model.MineralEMID = _earthmaterial.EarthMatID;
-                Model.MineralName = await idCalculator.CalculateMineralAlias(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName);
+                Model.MineralName = await idCalculator.CalculateMineralAlias(_earthmaterial.EarthMatID, _earthmaterial.EarthMatName, TableNames.earthmat);
             }
             else if (_mineralAlteration != null)
             {
                 // if coming from ma notes, calculate new alias
                 Model.MineralMAID = _mineralAlteration.MAID;
-                Model.MineralName = await idCalculator.CalculateMineralAlias(_mineralAlteration.MAID, _mineralAlteration.MAName);
+                Model.MineralName = await idCalculator.CalculateMineralAlias(_mineralAlteration.MAID, _mineralAlteration.MAName, TableNames.mineralization);
             }
             else if (Model.MineralEMID != null)
             {
@@ -394,7 +394,7 @@ namespace GSCFieldApp.ViewModel
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
                 List<Earthmaterial> parentAlias = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatID == Model.MineralEMID).ToListAsync();
                 await currentConnection.CloseAsync();
-                Model.MineralIDName = await idCalculator.CalculateMineralAlias(Model.MineralEMID.Value, parentAlias.First().EarthMatName);
+                Model.MineralIDName = await idCalculator.CalculateMineralAlias(Model.MineralEMID.Value, parentAlias.First().EarthMatName, TableNames.earthmat);
             }
             else if (Model.MineralMAID != null)
             {
@@ -402,7 +402,7 @@ namespace GSCFieldApp.ViewModel
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
                 List<MineralAlteration> parentAlias = await currentConnection.Table<MineralAlteration>().Where(e => e.MAID == Model.MineralMAID).ToListAsync();
                 await currentConnection.CloseAsync();
-                Model.MineralIDName = await idCalculator.CalculateMineralAlias(Model.MineralMAID.Value, parentAlias.First().MAName);
+                Model.MineralIDName = await idCalculator.CalculateMineralAlias(Model.MineralMAID.Value, parentAlias.First().MAName, TableNames.mineralization);
             }
             Model.MineralID = 0;
 

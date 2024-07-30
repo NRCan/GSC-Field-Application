@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using GSCFieldApp.Models;
-using GSCFieldApp.Dictionaries;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
+
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -45,7 +46,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (inStationAlias!=string.Empty)
             {
-                locAlias = locAlias + DatabaseLiterals.TableLocationAliasSuffix;
+                locAlias = locAlias + TableLocationAliasSuffix;
             }
             else
             {
@@ -53,7 +54,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                 //Connect to database to get all location so we can find existing location alias duplicate if any
                 SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-                List<FieldLocation> stats = await currentConnection.QueryAsync<FieldLocation>(String.Format("Select * From {0}", DatabaseLiterals.TableLocation));
+                List<FieldLocation> stats = await currentConnection.QueryAsync<FieldLocation>(String.Format("Select * From {0}", TableLocation));
 
                 //Find a non existing name
                 bool breaker = true;
@@ -87,7 +88,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                             locNumberStr = locInt.ToString();
                         }
 
-                        locAlias = locNumberArray[0] + officerCode + locNumberStr + DatabaseLiterals.TableLocationAliasSuffix;
+                        locAlias = locNumberArray[0] + officerCode + locNumberStr + TableLocationAliasSuffix;
 
                         //Find existing
                         List<FieldLocation> existingLocations = await currentConnection.Table<FieldLocation>().Where(e => e.LocationAlias == locNumberStr).ToListAsync();
@@ -139,11 +140,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
 
             //Querying with Linq
-            string stationQuerySelect = "SELECT " + DatabaseLiterals.FieldStationAlias;
-            string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
-            string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "'";
-            string stationQueryWhere2 = " OR " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationObsType + " IS NULL";
-            string stationQueryOrderbyLimit = " ORDER BY " + DatabaseLiterals.FieldStationAlias + " DESC LIMIT 1;";
+            string stationQuerySelect = "SELECT " + FieldStationAlias;
+            string stationQueryFrom = " FROM " + TableStation;
+            string stationQueryWhere = " WHERE " + TableStation + "." + FieldStationObsType + " NOT LIKE '%" + KeywordStationWaypoint + "'";
+            string stationQueryWhere2 = " OR " + TableStation + "." + FieldStationObsType + " IS NULL";
+            string stationQueryOrderbyLimit = " ORDER BY " + FieldStationAlias + " DESC LIMIT 1;";
             string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere + stationQueryWhere2 + stationQueryOrderbyLimit;
 
             SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
@@ -155,7 +156,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Get officer code
             if (currentGeolcode == string.Empty)
             {
-                List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", DatabaseLiterals.TableMetadata));
+                List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
                 currentGeolcode = mets[0].UserCode;
             }
 
@@ -163,7 +164,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             int stationCount = stats.Count();
             if (stationCount == 0)
             {
-                List<Metadata> metStationCount = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", DatabaseLiterals.TableMetadata));
+                List<Metadata> metStationCount = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
                 stationCount = metStationCount[0].StationStartNumber;
             }
             else
@@ -222,14 +223,14 @@ namespace GSCFieldApp.Services.DatabaseServices
         //{
 
         //    //Get current geolcode
-        //    string currentGeolcode = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoUCode).ToString();
-        //    string currentMetaID = localSetting.GetSettingValue(Dictionaries.DatabaseLiterals.FieldUserInfoID).ToString();
+        //    string currentGeolcode = localSetting.GetSettingValue(Dictionaries.FieldUserInfoUCode).ToString();
+        //    string currentMetaID = localSetting.GetSettingValue(Dictionaries.FieldUserInfoID).ToString();
 
         //    //Build query to get a waypoint term count
-        //    string querySelect= "SELECT s." + Dictionaries.DatabaseLiterals.FieldStationAlias + " ";
-        //    string queryFrom = "FROM " + Dictionaries.DatabaseLiterals.TableStation + " as s ";
-        //    string queryWhere = "WHERE " + "s." + Dictionaries.DatabaseLiterals.FieldStationObsType + " LIKE '%" + waypointVocabCode + "%' ";
-        //    string queryOrderBy = "ORDER BY s." + Dictionaries.DatabaseLiterals.FieldStationAlias + " DESC LIMIT 1";
+        //    string querySelect= "SELECT s." + Dictionaries.FieldStationAlias + " ";
+        //    string queryFrom = "FROM " + Dictionaries.TableStation + " as s ";
+        //    string queryWhere = "WHERE " + "s." + Dictionaries.FieldStationObsType + " LIKE '%" + waypointVocabCode + "%' ";
+        //    string queryOrderBy = "ORDER BY s." + Dictionaries.FieldStationAlias + " DESC LIMIT 1";
         //    string finalQuery = querySelect + queryFrom + queryWhere + queryOrderBy;
 
         //    //Get query result
@@ -291,7 +292,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
             List<Earthmaterial> eartmatParentStations = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatStatID == parentID).ToListAsync();
 
-            if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+            if (parentAlias.Contains(TableDrillHolePrefix))
             {
                 eartmatParentStations = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatDrillHoleID == parentID).ToListAsync();
                 isDrillHole = true;
@@ -337,7 +338,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Find existing
                     List<Earthmaterial> existingEarth = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatStatID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
-                    if (parentAlias.Contains(DatabaseLiterals.TableDrillHolePrefix))
+                    if (parentAlias.Contains(TableDrillHolePrefix))
                     {
                         existingEarth = await currentConnection.Table<Earthmaterial>().Where(e => e.EarthMatDrillHoleID == parentID && e.EarthMatName == finaleEarthmatString).ToListAsync();
                     }
@@ -439,7 +440,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             int newID = 1; //Incrementing step
             string newAlias = string.Empty;
-            string finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix;
+            string finaleDocumentString = parentAlias + TableDocumentAliasPrefix;
 
             //Detect last record number and add 1 to it.
             if (docParent.Count() > 0)
@@ -466,7 +467,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         newAlias = newID.ToString();
                     }
 
-                    finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
+                    finaleDocumentString = parentAlias + TableDocumentAliasPrefix + newAlias;
 
                     //Find existing
                     List<Document> existingDocument = await currentConnection.Table<Document>().Where(e => e.StationID == parentID && e.DocumentName == finaleDocumentString).ToListAsync();
@@ -486,7 +487,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Padd current ID with 0 
                 newAlias = "00" + newID;
 
-                finaleDocumentString = parentAlias + DatabaseLiterals.TableDocumentAliasPrefix + newAlias;
+                finaleDocumentString = parentAlias + TableDocumentAliasPrefix + newAlias;
             }
 
             return finaleDocumentString;
@@ -695,21 +696,29 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentAlias"></param>
         /// <param name="idAddIncrement">A value to add to ID for increment start, used for bacth calculate</param>
         /// <returns></returns>
-        public async Task<string> CalculateMineralAlias(int? parentID, string parentAlias, int idAddIncrement = 0)
+        public async Task<string> CalculateMineralAlias(int? parentID, string parentAlias, TableNames parentType)
         {
             //Querying with Linq
             SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
             List<Mineral> minerals = await currentConnection.Table<Mineral>().ToListAsync(); //Get all records
-            List<Mineral> mineralParentEarth = await currentConnection.Table<Mineral>().Where(e => e.MineralEMID == parentID || e.MineralMAID == parentID).OrderBy(e=>e.MineralIDName).ToListAsync();
 
-            int newID = 1 + idAddIncrement; //Incrementing step
+            if (parentType == TableNames.mineralization)
+            {
+                minerals = minerals.Where(m => m.MineralMAID == parentID.Value).ToList();
+            }
+            else if (parentType == TableNames.earthmat)
+            {
+                minerals = minerals.Where(m => m.MineralEMID == parentID.Value).ToList();
+            }
+
+            int newID = 1; //Incrementing step
             string newAlias = string.Empty;
-            string finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix;
+            string finaleMineralString = parentAlias + TableMineralAliasPrefix;
 
             //Detect last sample number and add 1 to it.
-            if (mineralParentEarth.Count() > 0 && mineralParentEarth.ElementAt(0) != null)
+            if (minerals.Count() > 0 && minerals.ElementAt(0) != null)
             {
-                string lastAlias = mineralParentEarth.ToList()[0].MineralIDName; //Select first element since the list has been sorted in descending order
+                string lastAlias = minerals.ToList()[0].MineralIDName; //Select first element since the list has been sorted in descending order
                 string lastNumberString = lastAlias.Substring(lastAlias.Length - 2); //mineral only has two digits id in the alias
                 short parsedID = 0;
                 bool processingID = Int16.TryParse(lastNumberString, out parsedID);
@@ -728,7 +737,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         newAlias = newID.ToString();
                     }
 
-                    finaleMineralString = parentAlias + DatabaseLiterals.TableMineralAliasPrefix + newAlias;
+                    finaleMineralString = parentAlias + TableMineralAliasPrefix + newAlias;
 
                     //Find existing
                     List<Mineral> existingMinerals = minerals.Where(e => e.MineralIDName == finaleMineralString).ToList();
@@ -754,67 +763,69 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #region MINERAL ALTERATION
 
-        ///// <summary>
-        ///// Will calculate an mineral alteration alias from a given parent id and parent alias.
-        ///// Should look like YYGeolcodeStationNumberXMANumber --> 17GHV001X01, first min. alteration of first station of geo
-        ///// </summary>
-        ///// <param name="parentID"></param>
-        ///// <param name="parentAlias"></param>
-        ///// <returns></returns>
-        //public string CalculateMineralAlterationAlias(int parentID, string parentAlias)
-        //{
-        //    //Variables
-        //    string prefix = DatabaseLiterals.TableMineralAlterationPrefix;
+        /// <summary>
+        /// Will calculate an mineral alteration alias from a given parent id and parent alias.
+        /// Should look like YYGeolcodeStationNumberXMANumber --> 17GHV001X01, first min. alteration of first station of geo
+        /// </summary>
+        /// <param name="parentID"></param>
+        /// <param name="parentAlias"></param>
+        /// <returns></returns>
+        public async Task<string> CalculateMineralAlterationAliasAsync(int parentID, string parentAlias)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<MineralAlteration> mas = await currentConnection.Table<MineralAlteration>().ToListAsync(); //Get all records
+            List<MineralAlteration> maParentStations = await currentConnection.Table<MineralAlteration>().Where(e => e.MAEarthmatID == parentID || e.MAStationID == parentID).OrderBy(e => e.MAName).ToListAsync();
+            int newID = 1; //Incrementing step
+            string newAlias = string.Empty;
+            string finaleMAString = parentAlias + TableMineralAlterationPrefix;
 
-        //    //Querying with Linq
-        //    List<object> maTableRaw = dAccess.ReadTable(minAlterationModel.GetType(), null);
-        //    IEnumerable<MineralAlteration> maTable = maTableRaw.Cast<MineralAlteration>(); //Cast to proper list type
-        //    IEnumerable<string> maParentStations = from ma in maTable where ma.MAParentID == parentID orderby ma.MAName descending select ma.MAName;
+            //Detect last record number and add 1 to it.
+            if (maParentStations.Count() > 0)
+            {
+                string lastAlias = maParentStations.ToList()[maParentStations.Count() - 1].MAName.ToString();
+                string lastNumberString = lastAlias.ToList()[lastAlias.Length - 2].ToString();
+                short parsedID = 0;
+                bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                newID = parsedID + newID;
 
-        //    int startingNumber = 1;
-        //    string startingNumberStr = string.Empty;
-        //    string finaleMAString = parentAlias;
+                while (processingID)
+                {
+                    //Padd current ID with 0 if needed
+                    if (newID < 10)
+                    {
+                        newAlias = "0" + newID;
+                    }
+                    else
+                    {
+                        newAlias = newID.ToString();
+                    }
 
-        //    //Calculate
-        //    if (maParentStations.Count() > 0)
-        //    {
-        //        string lastAlias = maParentStations.ToList()[0].ToString();
+                    finaleMAString = parentAlias + TableMineralAlterationPrefix + newAlias;
 
-        //        //Find a non existing name
-        //        bool breaker = true;
-        //        while (breaker)
-        //        {
-        //            //Padd current ID with 0 if needed
-        //            if (startingNumber < 10)
-        //            {
-        //                startingNumberStr = "0" + startingNumber.ToString();
-        //            }
-        //            else
-        //            {
-        //                startingNumberStr = startingNumber.ToString();
-        //            }
+                    //Find existing
+                    List<MineralAlteration> existingMA = mas.Where(e => e.MAName == finaleMAString).ToList();
+                    if (existingMA.Count() == 0 || existingMA == null)
+                    {
+                        processingID = false;
+                    }
 
-        //            finaleMAString = parentAlias + prefix + startingNumberStr;
+                    newID++;
 
-        //            //Find existing
-        //            IEnumerable<MineralAlteration> existingMA = from ma2 in maTable where ma2.MAParentID == parentID && ma2.MAName == finaleMAString select ma2;
+                }
 
-        //            if (existingMA.Count() == 0 || existingMA == null)
-        //            {
-        //                breaker = false;
-        //            }
 
-        //            startingNumber++;
+            }
+            else
+            {
+                //Padd current ID with 0 
+                newAlias = "0" + newID;
 
-        //        }
-        //    }
-        //    else
-        //    {
-        //        finaleMAString = parentAlias + prefix + "0" + startingNumber.ToString();
-        //    }
+                finaleMAString = parentAlias + TableMineralAlterationPrefix + newAlias;
+            }
 
-        //    return finaleMAString;
-        //}
+            return finaleMAString;
+        }
 
         #endregion
 
@@ -834,7 +845,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             int newID = 1; //Incrementing step
             string newAlias = string.Empty;
-            string finaleEnvironmentString = parentAlias + DatabaseLiterals.TableEnvironmentPrefix;
+            string finaleEnvironmentString = parentAlias + TableEnvironmentPrefix;
 
             //Detect last record number and add 1 to it.
             if (envParentStations.Count() > 0)
@@ -857,7 +868,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                         newAlias = newID.ToString();
                     }
 
-                    finaleEnvironmentString = parentAlias + DatabaseLiterals.TableEnvironmentPrefix + newAlias;
+                    finaleEnvironmentString = parentAlias + TableEnvironmentPrefix + newAlias;
 
                     //Find existing
                     List<EnvironmentModel> existingDocument = await currentConnection.Table<EnvironmentModel>().Where(e => e.EnvStationID == parentID && e.EnvName == finaleEnvironmentString).ToListAsync();
@@ -877,7 +888,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Padd current ID with 0 
                 newAlias = "0" + newID;
 
-                finaleEnvironmentString = parentAlias + DatabaseLiterals.TableEnvironmentPrefix + newAlias;
+                finaleEnvironmentString = parentAlias + TableEnvironmentPrefix + newAlias;
             }
 
             return finaleEnvironmentString;
@@ -900,7 +911,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             int getRemainder; //In case it's needed, will be calculate from modulo
             int getQuotient; //In case needed, will be used for overload
 
-            List<string> alphaList = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", DatabaseLiterals.TableMineralAliasPrefix, "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+            List<string> alphaList = new List<string> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", TableMineralAliasPrefix, "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 
             //Retrieve a new numerical id
             int numID = startingNumber;
