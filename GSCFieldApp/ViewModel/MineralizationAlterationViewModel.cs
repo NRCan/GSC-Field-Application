@@ -151,14 +151,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.MAID != 0)
             {
-                if (_model.MAEarthmatID != null && _model.MAEarthmatID > 0)
-                {
-                    await commandServ.DeleteDatabaseItemCommand(TableNames.mineralization, _model.MAName, _model.MAEarthmatID.Value);
-                }
-                if (_model.MAStationID > 0)
-                {
-                    await commandServ.DeleteDatabaseItemCommand(TableNames.mineralization, _model.MAName, _model.MAStationID);
-                }
+                await commandServ.DeleteDatabaseItemCommand(TableNames.mineralization, _model.MAName, _model.MAID);
             }
 
             //Exit

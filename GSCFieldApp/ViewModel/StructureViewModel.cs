@@ -203,7 +203,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.StructureID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(TableNames.structure, _model.StructureName, _model.StructureEarthmatID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.structure, _model.StructureName, _model.StructureID);
             }
 
             //Exit

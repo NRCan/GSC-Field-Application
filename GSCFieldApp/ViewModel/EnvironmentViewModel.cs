@@ -201,7 +201,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.EnvID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(TableNames.environment, _model.EnvName, _model.EnvStationID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.environment, _model.EnvName, _model.EnvID);
             }
 
             //Exit
