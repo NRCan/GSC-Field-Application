@@ -217,6 +217,23 @@
                                     ButtonLightColor="{StaticResource FieldObservationColorLight}"
                                     ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
 
+
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
+
+
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" ToolTipProperties.Text="{local:Localize LocationPageTooltipAddStation}" 
+                        Margin="0,10,0,10" 
+                        BackgroundColor="{StaticResource FieldStationColor}"
+                        Command="{Binding AddStationCommand}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize LocationPageTooltipAddDrill}"
+                        Command="{Binding AddDrillCommand}"
+                        BackgroundColor="{StaticResource FieldDrillColor}"/>
+
+            </StackLayout>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

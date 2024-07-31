@@ -128,6 +128,31 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        [RelayCommand]
+        async Task AddStation()
+        {
+            if (_fieldLocation != null)
+            {
+                await SetAndSaveModelAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                await Shell.Current.GoToAsync($"{nameof(StationPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(FieldLocation)] = _fieldLocation,
+                        [nameof(Metadata)] = null,
+                        [nameof(Station)] = null,
+                    }
+                );
+            }
+        }
+
+
+        [RelayCommand]
+        async Task AddDrill()
+        { 
+        
+        }
         #endregion
 
         public LocationViewModel() { }

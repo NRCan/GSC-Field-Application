@@ -1735,6 +1735,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new drill hole record..
+        /// </summary>
+        internal static string LocationPageTooltipAddDrill {
+            get {
+                return ResourceManager.GetString("LocationPageTooltipAddDrill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new station record..
+        /// </summary>
+        internal static string LocationPageTooltipAddStation {
+            get {
+                return ResourceManager.GetString("LocationPageTooltipAddStation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to add a new layer..
         /// </summary>
         internal static string MapPageAddData {

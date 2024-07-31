@@ -51,53 +51,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             else
             {
                 finaleLocationString = await CalculateStationAliasAsync(DateTime.Now, officerCode) + TableLocationAliasSuffix;
-
-                ////Connect to database to get all location so we can find existing location alias duplicate if any
-                //SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-                //List<FieldLocation> locs = await currentConnection.QueryAsync<FieldLocation>(String.Format("Select * From {0}", TableLocation));
-
-                //int newID = 1; //Incrementing step
-                //string newAlias = string.Empty;
-                //string finaleLocationString = locAlias + TableLocationAliasSuffix;
-
-                //if (locs.Count() > 0)
-                //{
-                //    string lastNumberString = locAlias.ToList()[locAlias.Length - 4].ToString(); //location has 4 digits
-                //    short parsedID = 0;
-                //    bool processingID = Int16.TryParse(lastNumberString, out parsedID);
-                //    newID = parsedID + newID;
-
-                //    //Find a non existing name
-                //    while (processingID)
-                //    {
-                //        //Padd current ID with 0 if needed
-                //        if (newID < 10)
-                //        {
-                //            newAlias = "0" + newID;
-                //        }
-                //        else
-                //        {
-                //            newAlias = newID.ToString();
-                //        }
-
-                //        finaleLocationString = locAlias + newAlias;
-
-                //        //Find existing
-                //        List<Sample> existingSamples = await currentConnection.Table<Sample>().Where(e => e.SampleEarthmatID == parentID && e.SampleName == finaleSampleString).ToListAsync();
-                //        if (existingSamples.Count() == 0 || existingSamples == null)
-                //        {
-                //            processingID = false;
-                //        }
-
-                //        newID++;
-                //    }
-
-                //}
-                //else
-                //{
-                //    finaleSampleString = parentAlias + "0" + newID;
-                //}
-
             }
 
             return finaleLocationString;

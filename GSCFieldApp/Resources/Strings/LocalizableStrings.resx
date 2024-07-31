@@ -681,6 +681,12 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="LocationPageTitle" xml:space="preserve">
     <value>Location</value>
   </data>
+  <data name="LocationPageTooltipAddDrill" xml:space="preserve">
+    <value>Tap to add a new drill hole record.</value>
+  </data>
+  <data name="LocationPageTooltipAddStation" xml:space="preserve">
+    <value>Tap to add a new station record.</value>
+  </data>
   <data name="MapPageAddData" xml:space="preserve">
     <value>Tap to add a new layer.</value>
   </data>

@@ -670,6 +670,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="LocationPageTitle" xml:space="preserve">
     <value>Localisation</value>
   </data>
+  <data name="LocationPageTooltipAddDrill" xml:space="preserve">
+    <value>Ajoutez une nouvelle entrée pour une carotte de forage.</value>
+  </data>
+  <data name="LocationPageTooltipAddStation" xml:space="preserve">
+    <value>Ajoutez une nouvelle entrée pour une station.</value>
+  </data>
   <data name="MapPageAddData" xml:space="preserve">
     <value>Ajouter une nouvelle couche de données.</value>
   </data>
