@@ -1057,6 +1057,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="ToastDevModeActivated" xml:space="preserve">
     <value>Mode déveleppeur activé</value>
   </data>
+  <data name="ToastDevModeDeactivated" xml:space="preserve">
+    <value>Mode développeur désactivé</value>
+  </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Le carnet a été sauvegardé avec succès ici: {0}</value>
   </data>

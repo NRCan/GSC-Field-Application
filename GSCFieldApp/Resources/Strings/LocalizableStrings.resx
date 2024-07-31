@@ -1071,6 +1071,9 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="ToastDevModeActivated" xml:space="preserve">
     <value>Developer mode activated</value>
   </data>
+  <data name="ToastDevModeDeactivated" xml:space="preserve">
+    <value>Developer mode deactivated</value>
+  </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Field book was successfully saved to: {0}</value>
   </data>

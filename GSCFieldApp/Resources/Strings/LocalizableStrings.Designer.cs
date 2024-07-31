@@ -2905,6 +2905,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Developer mode deactivated.
+        /// </summary>
+        internal static string ToastDevModeDeactivated {
+            get {
+                return ResourceManager.GetString("ToastDevModeDeactivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field book was successfully saved to: {0}.
         /// </summary>
         internal static string ToastFieldBookBackup {
