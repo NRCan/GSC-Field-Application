@@ -2374,7 +2374,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Themes.
+        ///   Looks up a localized string similar to Field Notes Tables.
         /// </summary>
         internal static string SettingPageHeading {
             get {
@@ -2892,6 +2892,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string StructurePageYounging {
             get {
                 return ResourceManager.GetString("StructurePageYounging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Developer mode activated.
+        /// </summary>
+        internal static string ToastDevModeActivated {
+            get {
+                return ResourceManager.GetString("ToastDevModeActivated", resourceCulture);
             }
         }
         

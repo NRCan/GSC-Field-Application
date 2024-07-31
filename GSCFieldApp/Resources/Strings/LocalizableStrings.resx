@@ -895,7 +895,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Save of copy of debug logs.</value>
   </data>
   <data name="SettingPageHeading" xml:space="preserve">
-    <value>Themes</value>
+    <value>Field Notes Tables</value>
   </data>
   <data name="SettingPageThemeExplanation" xml:space="preserve">
     <value>Hides/shows theme bars in the field notes page.</value>
@@ -1067,6 +1067,9 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="StructurePageYounging" xml:space="preserve">
     <value>Younging</value>
+  </data>
+  <data name="ToastDevModeActivated" xml:space="preserve">
+    <value>Developer mode activated</value>
   </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Field book was successfully saved to: {0}</value>

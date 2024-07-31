@@ -166,7 +166,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Application de terrain de la CGC</value>
   </data>
   <data name="ButtonSave" xml:space="preserve">
-    <value>Sauver</value>
+    <value>Enreg.</value>
   </data>
   <data name="ButtonSaveDelete" xml:space="preserve">
     <value>Suppr.</value>
@@ -872,22 +872,22 @@ Aimeriez-vous modifier les droits?</value>
     <value>Débogue</value>
   </data>
   <data name="SettingPageDebugLog" xml:space="preserve">
-    <value>Journal de débogue</value>
+    <value>Journal</value>
   </data>
   <data name="SettingPageDebugLogSave" xml:space="preserve">
-    <value>Sauvegarder</value>
+    <value>Enreg.</value>
   </data>
   <data name="SettingPageDebugLogUsage" xml:space="preserve">
-    <value>Sauvegarder une copie du journal.</value>
+    <value>Enregistrer une copie du journal.</value>
   </data>
   <data name="SettingPageHeading" xml:space="preserve">
-    <value>Thèmes</value>
+    <value>Tables des notes de terrain</value>
   </data>
   <data name="SettingPageThemeExplanation" xml:space="preserve">
     <value>Masque/Affiche les barres de thèmes dans la page de notes de terrain.</value>
   </data>
   <data name="SettingPageTitle" xml:space="preserve">
-    <value>Configurations</value>
+    <value>Paramètres</value>
   </data>
   <data name="ShellAboutTitle" xml:space="preserve">
     <value>À propos</value>
@@ -911,7 +911,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Carte</value>
   </data>
   <data name="ShellPicklistEditorTitle" xml:space="preserve">
-    <value>Éditer les listes déroulantes</value>
+    <value>Éditions des listes déroulantes</value>
   </data>
   <data name="ShellQuickBackupTitle" xml:space="preserve">
     <value>Sauvegarde rapide</value>
@@ -920,7 +920,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Sauvegarde des photos</value>
   </data>
   <data name="ShellSettingsTitle" xml:space="preserve">
-    <value>Configurations</value>
+    <value>Paramètres</value>
   </data>
   <data name="StationPageCurrentNotePlaceholder" xml:space="preserve">
     <value>Station actuelle</value>
@@ -1053,6 +1053,9 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="StructurePageYounging" xml:space="preserve">
     <value>Polarité</value>
+  </data>
+  <data name="ToastDevModeActivated" xml:space="preserve">
+    <value>Mode déveleppeur activé</value>
   </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Le carnet a été sauvegardé avec succès ici: {0}</value>

@@ -9,4 +9,12 @@ public partial class SettingsPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+
+		SettingsViewModel vm2 = (SettingsViewModel)BindingContext;
+		vm2.SettingRefresh();
+    }
 }

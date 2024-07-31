@@ -10,7 +10,11 @@
         <VerticalStackLayout Margin="20">
 
             <!-- Logos-->
-            <Image HorizontalOptions="Center" Source="logo.svg" MaximumWidthRequest="100" MaximumHeightRequest="100"></Image>
+            <Image HorizontalOptions="Center" Source="logo.svg" MaximumWidthRequest="100" MaximumHeightRequest="100" Rotation="{Binding LogoRotation, Mode=TwoWay}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LogoTappedCommand}"/>
+                </Image.GestureRecognizers>
+            </Image>
             <!-- TODO Add nrcan logo, need it in svg...-->
             
             <!--Application info section-->

@@ -71,6 +71,16 @@ namespace GSCFieldApp.ViewModel
             get { return Preferences.Get(nameof(EnvironmentVisible), true); }
             set { Preferences.Set(nameof(EnvironmentVisible), value); }
         }
+
+        /// <summary>
+        /// Property saved in the about page
+        /// </summary>
+        public bool DeveloperModeActivated
+        {
+            get { return Preferences.Get(nameof(DeveloperModeActivated), false); }
+            set { }
+        }
+
         #endregion
 
         #region RELAYS
@@ -81,7 +91,19 @@ namespace GSCFieldApp.ViewModel
             await fileServices.SaveBugLogFile(CancellationToken.None);
         }
         #endregion
-        public SettingsViewModel() { }  
 
+        public SettingsViewModel() { }
+
+        #region METHODS
+
+        /// <summary>
+        /// Simple method to hide/show some section
+        /// </summary>
+        public void SettingRefresh()
+        {
+            OnPropertyChanged(nameof(DeveloperModeActivated));
+        }
+
+        #endregion
     }
 }

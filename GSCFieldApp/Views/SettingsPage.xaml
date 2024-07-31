@@ -15,7 +15,7 @@
             <VerticalStackLayout>
 
                 <!--Themes control settings-->
-                <Frame BorderColor="{StaticResource Primary}" Style="{StaticResource FieldAppSectionFrame}" WidthRequest="350">
+                <Frame BorderColor="Transparent">
                     <VerticalStackLayout>
                         <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageHeading}"/>
 
@@ -98,35 +98,35 @@
 
                         </VerticalStackLayout>
                     </VerticalStackLayout>
-
                 </Frame>
+                
+                <!--Debug section-->
 
-                <Frame BorderColor="{StaticResource Primary}" Style="{StaticResource FieldAppSectionFrame}" WidthRequest="350">
-                    <VerticalStackLayout>
-                        <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageDebugHeading}"/>
+                <Frame BorderColor="Transparent" IsVisible="{Binding DeveloperModeActivated}">
+                        <VerticalStackLayout>
+                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageDebugHeading}"/>
 
-                        <VerticalStackLayout Margin="10">
-                            <Label Text="{local:Localize SettingPageDebugLog}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+                            <VerticalStackLayout Margin="10">
+                                <Label Text="{local:Localize SettingPageDebugLog}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
 
-                            <Grid Style="{StaticResource FieldAppSettingGrid}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
+                                <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
 
-                                <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
-                                <Button Style="{StaticResource FieldAppSymbolButton}" BackgroundColor="{StaticResource Primary}" 
-                                        TextColor="White" WidthRequest="45" HeightRequest="45" Text="&#xF0818;" Command="{Binding DoDebugLogBackupCommand}" 
-                                        Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+                                    <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                    <Button Style="{StaticResource FieldAppSymbolButton}" BackgroundColor="{StaticResource Primary}" 
+                                    TextColor="White" WidthRequest="45" HeightRequest="45" Text="&#xF0818;" Command="{Binding DoDebugLogBackupCommand}" 
+                                    Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
 
 
-                            </Grid>
+                                </Grid>
 
-                            
+
+                            </VerticalStackLayout>
+
                         </VerticalStackLayout>
-
-                    </VerticalStackLayout>
-
-                </Frame> 
+                </Frame>
                 
                 <!--TODO: implement version 2 app other settings-->
                 
