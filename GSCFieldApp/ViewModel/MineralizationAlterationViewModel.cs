@@ -217,6 +217,18 @@ namespace GSCFieldApp.ViewModel
             }
 
             #endregion
+
+            //Process foreign keys
+            if (Model.MAEarthmatID != null)
+            {
+                //Force null in station id
+                Model.MAStationID = null;
+            }
+            else if (Model.MAStationID != null)
+            {
+                //Force null in earthmat id
+                Model.MAEarthmatID = null;
+            }
         }
 
         /// <summary>
@@ -253,7 +265,7 @@ namespace GSCFieldApp.ViewModel
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
                 List<Station> parentAlias = await currentConnection.Table<Station>().Where(e => e.StationID == Model.MAStationID).ToListAsync();
                 await currentConnection.CloseAsync();
-                Model.MAName = await idCalculator.CalculateMineralAlterationAliasAsync(Model.MAStationID, parentAlias.First().StationAlias);
+                Model.MAName = await idCalculator.CalculateMineralAlterationAliasAsync(Model.MAStationID.Value, parentAlias.First().StationAlias);
             }
             Model.MAID = 0;
 
