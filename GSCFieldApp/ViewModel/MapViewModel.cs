@@ -164,7 +164,29 @@ namespace GSCFieldApp.ViewModel
 
             }
         }
-        
+
+        [RelayCommand]
+        async Task AddLocation()
+        {
+            if (sensorLocation != null)
+            {
+                //Create a location record
+                int locationID = await SetLocationModelAsync();
+
+                //Navigate to structure page 
+                if (locationID > 0)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(LocationPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(FieldLocation)] = locationModel,
+                        }
+                    );
+                }
+
+            }
+        }
+
         #endregion
 
         #region METHODS

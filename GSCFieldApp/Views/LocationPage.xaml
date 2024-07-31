@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.LocationPage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:LocationViewModel"
+             Shell.BackgroundColor="{StaticResource FieldObservationColor}"
+             Title="{local:Localize LocationPageTitle}">
+    <Shell.BackButtonBehavior>
+        <!--Hide back button - Android when navigating back, ham menu disapears-->
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:String2Double x:Key="Str2Double"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.LocationAlias}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
+                    <!--Datum section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldObservationColor}" FrameContentVisibility="{Binding LocationDatumVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize LocationPageDatumTitle}">
+
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize LocationPageGeodetic}"
+                                    ItemsSource="{Binding LocationGeodeticSystem.cboxItems}" 
+                                    x:Name="LocationPageGeodeticPicker"
+                                    Style="{StaticResource FieldAppMandatoryPicker}"
+                                    SelectedItem="{Binding Model.LocationDatum, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding LocationGeodeticSystem, Source={x:Reference LocationPageGeodeticPicker}},
+                                        Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedIndex="{Binding LocationGeodeticSystem.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Geographic section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldObservationColor}" FrameContentVisibility="{Binding LocationGeographicVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize LocationPageGeographicTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize LocationPageLatitude}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                    <Entry Text="{Binding Model.LocationLat, Converter={StaticResource Str2Double}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}"
+                                           ToolTipProperties.Text="{local:Localize LocationPageLatitudeToolip}">
+                                        <Entry.Behaviors>
+                                            <!--Source: https://en.wikipedia.org/wiki/Decimal_degrees-->
+                                            <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="-90"
+                                            MaximumValue="90"
+                                            MaximumDecimalPlaces="8"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize LocationPageLongitude}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                    <Entry Text="{Binding Model.LocationLong, Converter={StaticResource Str2Double}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}"
+                                           ToolTipProperties.Text="{local:Localize LocationPageLongitudeToolip}">
+                                        <Entry.Behaviors>
+                                            <!--Source: https://en.wikipedia.org/wiki/Decimal_degrees-->
+                                            <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="-180"
+                                            MaximumValue="180"
+                                            MaximumDecimalPlaces="8"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+
+                                </VerticalStackLayout>
+
+                                <Button Text="{local:Localize LocationPageButtonToProjected}" Style="{StaticResource FieldAppGenericButton}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Projected section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldObservationColor}" FrameContentVisibility="{Binding LocationProjectedVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize LocationPageProjectedTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize LocationPageEasting}"/>
+                                <Entry Text="{Binding Model.LocationEasting, Converter={StaticResource Str2Double}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}"
+                                       ToolTipProperties.Text="{local:Localize LocationPageEastingToolip}">
+                                    <Entry.Behaviors>
+                                        <!--Source: https://www.maptools.com/tutorials/utm/details-->
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="160000"
+                                            MaximumValue="834000"
+                                            MaximumDecimalPlaces="4" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize LocationPageNorthing}"/>
+                                <Entry Text="{Binding Model.LocationNorthing, Converter={StaticResource Str2Double}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}"
+                                       ToolTipProperties.Text="{local:Localize LocationPageNorthingToolip}">
+                                    <Entry.Behaviors>
+                                        <!--Source: https://www.maptools.com/tutorials/utm/details-->
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="10000000"
+                                            MaximumDecimalPlaces="4" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <Button Text="{local:Localize LocationPageButtonToGeo}" Style="{StaticResource FieldAppGenericButton}"/>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--General section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldObservationColor}" FrameContentVisibility="{Binding LocationGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize LocationPageGeneralTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize LocationPageElevation}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.LocationElev, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="10000"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize LocationPageAccuracy}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.LocationErrorMeasure, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="10000"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize LocationPageNTS}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.locationNTS, Mode=TwoWay}" Placeholder="{local:Localize LocationPageNTSPlaceholder}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize LocationPageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.LocationNotes, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldObservationColor}"
+                                    ButtonLightColor="{StaticResource FieldObservationColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

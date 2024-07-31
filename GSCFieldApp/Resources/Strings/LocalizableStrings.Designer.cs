@@ -1393,6 +1393,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        internal static string FielNotesLocationHeader {
+            get {
+                return ResourceManager.GetString("FielNotesLocationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mineral.
         /// </summary>
         internal static string FielNotesMineralHeader {
@@ -1542,6 +1551,186 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string GenericNoteTitle {
             get {
                 return ResourceManager.GetString("GenericNoteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accuracy (m).
+        /// </summary>
+        internal static string LocationPageAccuracy {
+            get {
+                return ResourceManager.GetString("LocationPageAccuracy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To Geographic.
+        /// </summary>
+        internal static string LocationPageButtonToGeo {
+            get {
+                return ResourceManager.GetString("LocationPageButtonToGeo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To UTM.
+        /// </summary>
+        internal static string LocationPageButtonToProjected {
+            get {
+                return ResourceManager.GetString("LocationPageButtonToProjected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Datum.
+        /// </summary>
+        internal static string LocationPageDatumTitle {
+            get {
+                return ResourceManager.GetString("LocationPageDatumTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Easting (m).
+        /// </summary>
+        internal static string LocationPageEasting {
+            get {
+                return ResourceManager.GetString("LocationPageEasting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valid value between 160 000 and 834 000 with maximum of 4 decimals..
+        /// </summary>
+        internal static string LocationPageEastingToolip {
+            get {
+                return ResourceManager.GetString("LocationPageEastingToolip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elevation.
+        /// </summary>
+        internal static string LocationPageElevation {
+            get {
+                return ResourceManager.GetString("LocationPageElevation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string LocationPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("LocationPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geographic.
+        /// </summary>
+        internal static string LocationPageGeographicTitle {
+            get {
+                return ResourceManager.GetString("LocationPageGeographicTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latitude.
+        /// </summary>
+        internal static string LocationPageLatitude {
+            get {
+                return ResourceManager.GetString("LocationPageLatitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Having more then 8 decimal places represent a sub-millimetric value..
+        /// </summary>
+        internal static string LocationPageLatitudeToolip {
+            get {
+                return ResourceManager.GetString("LocationPageLatitudeToolip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Longitude.
+        /// </summary>
+        internal static string LocationPageLongitude {
+            get {
+                return ResourceManager.GetString("LocationPageLongitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Having more then 8 decimal places represent a sub-millimetric value..
+        /// </summary>
+        internal static string LocationPageLongitudeToolip {
+            get {
+                return ResourceManager.GetString("LocationPageLongitudeToolip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Northing (m).
+        /// </summary>
+        internal static string LocationPageNorthing {
+            get {
+                return ResourceManager.GetString("LocationPageNorthing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valid value between 0 and 1 000 000 with maximum of 4 decimals..
+        /// </summary>
+        internal static string LocationPageNorthingToolip {
+            get {
+                return ResourceManager.GetString("LocationPageNorthingToolip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string LocationPageNotes {
+            get {
+                return ResourceManager.GetString("LocationPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nation Topographic Sheet (NTS).
+        /// </summary>
+        internal static string LocationPageNTS {
+            get {
+                return ResourceManager.GetString("LocationPageNTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ex: 31M01.
+        /// </summary>
+        internal static string LocationPageNTSPlaceholder {
+            get {
+                return ResourceManager.GetString("LocationPageNTSPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projected.
+        /// </summary>
+        internal static string LocationPageProjectedTitle {
+            get {
+                return ResourceManager.GetString("LocationPageProjectedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        internal static string LocationPageTitle {
+            get {
+                return ResourceManager.GetString("LocationPageTitle", resourceCulture);
             }
         }
         

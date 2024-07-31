@@ -42,69 +42,65 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public async Task<string> CalculateLocationAliasAsync(string inStationAlias = "", string officerCode = "")
         {
-            string locAlias = inStationAlias;
+            string finaleLocationString = inStationAlias;
 
             if (inStationAlias!=string.Empty)
             {
-                locAlias = locAlias + TableLocationAliasSuffix;
+                finaleLocationString = inStationAlias + TableLocationAliasSuffix;
             }
             else
             {
-                locAlias = await CalculateStationAliasAsync(DateTime.Now, officerCode);
+                finaleLocationString = await CalculateStationAliasAsync(DateTime.Now, officerCode) + TableLocationAliasSuffix;
 
-                //Connect to database to get all location so we can find existing location alias duplicate if any
-                SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-                List<FieldLocation> stats = await currentConnection.QueryAsync<FieldLocation>(String.Format("Select * From {0}", TableLocation));
+                ////Connect to database to get all location so we can find existing location alias duplicate if any
+                //SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+                //List<FieldLocation> locs = await currentConnection.QueryAsync<FieldLocation>(String.Format("Select * From {0}", TableLocation));
 
-                //Find a non existing name
-                bool breaker = true;
-                //Get location number
-                string[] locNumberArray = locAlias.Split(officerCode);
-                string locNumberStr = string.Empty;
+                //int newID = 1; //Incrementing step
+                //string newAlias = string.Empty;
+                //string finaleLocationString = locAlias + TableLocationAliasSuffix;
 
-                if (locNumberArray.Length == 2)
-                {
-                    //Convert to number
-                    int locInt = Convert.ToInt32(locNumberArray[1]);
+                //if (locs.Count() > 0)
+                //{
+                //    string lastNumberString = locAlias.ToList()[locAlias.Length - 4].ToString(); //location has 4 digits
+                //    short parsedID = 0;
+                //    bool processingID = Int16.TryParse(lastNumberString, out parsedID);
+                //    newID = parsedID + newID;
 
-                    while (breaker)
-                    {
+                //    //Find a non existing name
+                //    while (processingID)
+                //    {
+                //        //Padd current ID with 0 if needed
+                //        if (newID < 10)
+                //        {
+                //            newAlias = "0" + newID;
+                //        }
+                //        else
+                //        {
+                //            newAlias = newID.ToString();
+                //        }
 
-                        //Padd current ID with 0 if needed
-                        if (locInt < 10)
-                        {
-                            locNumberStr = "000" + locInt.ToString();
-                        }
-                        else if (locInt >= 10 && locInt < 100)
-                        {
-                            locNumberStr = "00" + locInt.ToString();
-                        }
-                        else if (locInt >= 100 && locInt < 1000)
-                        {
-                            locNumberStr = "0" + locInt.ToString();
-                        }
-                        else
-                        {
-                            locNumberStr = locInt.ToString();
-                        }
+                //        finaleLocationString = locAlias + newAlias;
 
-                        locAlias = locNumberArray[0] + officerCode + locNumberStr + TableLocationAliasSuffix;
+                //        //Find existing
+                //        List<Sample> existingSamples = await currentConnection.Table<Sample>().Where(e => e.SampleEarthmatID == parentID && e.SampleName == finaleSampleString).ToListAsync();
+                //        if (existingSamples.Count() == 0 || existingSamples == null)
+                //        {
+                //            processingID = false;
+                //        }
 
-                        //Find existing
-                        List<FieldLocation> existingLocations = await currentConnection.Table<FieldLocation>().Where(e => e.LocationAlias == locNumberStr).ToListAsync();
-                        if (existingLocations.Count() == 0 || existingLocations == null)
-                        {
-                            breaker = false;
-                        }
+                //        newID++;
+                //    }
 
-                        locInt++;
-                    }
-
-                }
+                //}
+                //else
+                //{
+                //    finaleSampleString = parentAlias + "0" + newID;
+                //}
 
             }
 
-            return locAlias;
+            return finaleLocationString;
         }
         #endregion
 

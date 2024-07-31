@@ -131,6 +131,13 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(IsMineralizationExpanded), value); }
         }
 
+        private bool _isLocationExpanded = false;
+        public bool IsLocationExpanded
+        {
+            get { return Preferences.Get(nameof(IsLocationExpanded), false); }
+            set { Preferences.Set(nameof(IsLocationExpanded), value); }
+        }
+
         public bool EarthMaterialVisible
         {
             get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
@@ -374,6 +381,26 @@ namespace GSCFieldApp.ViewModel
             set { _mineralizationAlterations = value; }
         }
 
+        private ObservableCollection<FieldNote> _locations = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Locations
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.location))
+                {
+                    return _locations = FieldNotes[TableNames.location];
+                }
+                else
+                {
+                    return _locations = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _locations = value; }
+        }
+
+
         private ObservableCollection<string> _dates = new ObservableCollection<string>();
         public ObservableCollection<string> Dates
         {
@@ -396,6 +423,7 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.environment, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.mineral, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.mineralization, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.location, new ObservableCollection<FieldNote>());
 
             _dates = new ObservableCollection<string>();
 
@@ -485,6 +513,12 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsMineralizationExpanded = !IsMineralizationExpanded;
                     OnPropertyChanged(nameof(IsMineralizationExpanded));
+                }
+
+                if (inComingName.ToLower() == (nameof(TableNames.location)))
+                {
+                    IsLocationExpanded = !IsLocationExpanded;
+                    OnPropertyChanged(nameof(IsLocationExpanded));
                 }
 
                 //Special case, removing filtering on date and refreshing all records.
@@ -703,6 +737,23 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
+            if (fieldNotes.GenericTableName == TableLocation)
+            {
+                List<FieldLocation> tappedLocation = await currentConnection.Table<FieldLocation>().Where(i => i.LocationID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedLocation != null && tappedLocation.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(LocationPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(FieldLocation)] = (FieldLocation)tappedLocation[0],
+                        }
+                    );
+                }
+            }
         }
 
         #endregion
@@ -730,6 +781,7 @@ namespace GSCFieldApp.ViewModel
                 await FillEnvironmentNotes(currentConnection);
                 await FillMineralNotes(currentConnection);
                 await FillMineralizationAlterationNotes(currentConnection);
+                await FillLocationNotes(currentConnection);
 
                 await currentConnection.CloseAsync();
 
@@ -1294,6 +1346,53 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will get all database pflow to fill pflow cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillLocationNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.location))
+            {
+                FieldNotes.Add(TableNames.location, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.location].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all stations from database
+            List<FieldLocation> mineralizations = await inConnection.Table<FieldLocation>().OrderBy(s => s.LocationID).ToListAsync();
+
+            if (mineralizations != null && mineralizations.Count > 0)
+            {
+
+                foreach (FieldLocation loc in mineralizations)
+                {
+                    string coordinatesFormat = string.Format("{0}° {1}°",
+                        Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
+                    FieldNotes[TableNames.location].Add(new FieldNote
+                    {
+                        Display_text_1 = loc.LocationAliasLight,
+                        Display_text_2 = coordinatesFormat,
+                        Display_text_3 = loc.locationNTS,
+                        GenericTableName = TableLocation,
+                        GenericID = loc.LocationID,
+                        ParentID = loc.MetaID,
+                        isValid = loc.isValid
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
 
         /// <summary>
         /// A method that will filter out all records in field note page
@@ -1375,6 +1474,12 @@ namespace GSCFieldApp.ViewModel
 
 
                 }
+
+                if (FieldNotesAll.ContainsKey(TableNames.location))
+                {
+                    FieldNotes[TableNames.location] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).ToList());
+                    OnPropertyChanged(nameof(Locations));
+                }
             }
 
         }
@@ -1397,6 +1502,7 @@ namespace GSCFieldApp.ViewModel
                     await FillFieldNotesAsync();
                     break;
                 case TableNames.location:
+                    await FillLocationNotes(currentConnection);
                     break;
                 case TableNames.station:
                     await FillStationNotes(currentConnection);

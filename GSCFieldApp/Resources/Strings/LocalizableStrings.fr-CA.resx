@@ -556,6 +556,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FielNotesFossilHeader" xml:space="preserve">
     <value>Fossile</value>
   </data>
+  <data name="FielNotesLocationHeader	Location" xml:space="preserve">
+    <value>Localisation</value>
+  </data>
   <data name="FielNotesMineralHeader" xml:space="preserve">
     <value>Minéral</value>
   </data>
@@ -606,6 +609,66 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="LocationPageAccuracy" xml:space="preserve">
+    <value>Précision (m)</value>
+  </data>
+  <data name="LocationPageButtonToGeo" xml:space="preserve">
+    <value>vers Géographique</value>
+  </data>
+  <data name="LocationPageButtonToProjected" xml:space="preserve">
+    <value>vers UTM</value>
+  </data>
+  <data name="LocationPageDatumTitle" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="LocationPageEasting" xml:space="preserve">
+    <value>Est (m)</value>
+  </data>
+  <data name="LocationPageEastingToolip" xml:space="preserve">
+    <value>Valeur valide entre 160 000 et 834 000 ainsi que 4 décimales.</value>
+  </data>
+  <data name="LocationPageElevation" xml:space="preserve">
+    <value>Élévation (m)</value>
+  </data>
+  <data name="LocationPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="LocationPageGeographicTitle" xml:space="preserve">
+    <value>Géographiques</value>
+  </data>
+  <data name="LocationPageLatitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="LocationPageLatitudeToolip" xml:space="preserve">
+    <value>Plus que 8 décimales représente une valeur sous le millimètre.</value>
+  </data>
+  <data name="LocationPageLongitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="LocationPageLongitudeToolip" xml:space="preserve">
+    <value>Plus que 8 décimales représente une valeur sous le millimètre.</value>
+  </data>
+  <data name="LocationPageNorthing" xml:space="preserve">
+    <value>Nord (m)</value>
+  </data>
+  <data name="LocationPageNorthingToolip" xml:space="preserve">
+    <value>Valeur valide entre 0 et 1 000 000 ainsi que 4 décimales.</value>
+  </data>
+  <data name="LocationPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="LocationPageNTS" xml:space="preserve">
+    <value>Système national de référence cartographique (SNRC)</value>
+  </data>
+  <data name="LocationPageNTSPlaceholder" xml:space="preserve">
+    <value>Ex: 31M01</value>
+  </data>
+  <data name="LocationPageProjectedTitle" xml:space="preserve">
+    <value>Projetées</value>
+  </data>
+  <data name="LocationPageTitle" xml:space="preserve">
+    <value>Localisation</value>
   </data>
   <data name="MapPageAddData" xml:space="preserve">
     <value>Ajouter une nouvelle couche de données.</value>
