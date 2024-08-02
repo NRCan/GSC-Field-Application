@@ -111,7 +111,6 @@ namespace GSCFieldApp.ViewModel
 
         }
 
-
         /// <summary>
         /// Save button command
         /// </summary>
@@ -155,7 +154,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.earthmat);
+            await NavigateToFieldNotes(TableNames.mineralization);
 
         }
 

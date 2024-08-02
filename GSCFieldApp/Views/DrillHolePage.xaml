@@ -39,6 +39,26 @@
                                               FrameTitle="{local:Localize DrillHoleContextTitle}">
 
                         <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageOriginalName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.DrillName, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageCompany}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.DrillCompany, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize DrillHolePageType}" x:Name="DrillHolePageTypePicker"
+                                    ItemsSource="{Binding DrillType.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.DrillType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DrillType, Source={x:Reference DrillHolePageTypePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DrillType.cboxDefaultItemIndex, Mode=TwoWay}" />
+
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
 
@@ -48,6 +68,63 @@
                                               FrameTitle="{local:Localize DrillHoleMetricsTitle}">
 
                         <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageAzimuth}"/>
+                                <Entry Text="{Binding Model.DrillAzim, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="360"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize DrillHolePageDip}"/>
+                                <Entry Text="{Binding Model.DrillDip,Converter={StaticResource Str2Int}, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="90"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageLength}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.DrillDepth, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize DrillHolePageUnits}" x:Name="DrillHolePageUnitPicker"
+                                    ItemsSource="{Binding DrillUnits.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.DrillUnit, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DrillUnits, Source={x:Reference DrillHolePageUnitPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DrillUnits.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize DrillHolePageHoleSize}" x:Name="DrillHolePageHoleSizePicker"
+                                    ItemsSource="{Binding DrilHoleSizes.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.DrillHoleSize, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DrilHoleSizes, Source={x:Reference DrillHolePageHoleSizePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DrilHoleSizes.cboxDefaultItemIndex, Mode=TwoWay}" />
+
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
 
@@ -71,6 +148,12 @@
 
                 </FlexLayout>
             </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldDrillColor}"
+                                    ButtonLightColor="{StaticResource FieldDrillColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
         </Grid>
     </ContentPage.Content>
     

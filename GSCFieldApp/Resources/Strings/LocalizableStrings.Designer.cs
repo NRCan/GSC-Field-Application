@@ -484,11 +484,83 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string DrillHolePageAzimuth {
+            get {
+                return ResourceManager.GetString("DrillHolePageAzimuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        internal static string DrillHolePageCompany {
+            get {
+                return ResourceManager.GetString("DrillHolePageCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dip.
+        /// </summary>
+        internal static string DrillHolePageDip {
+            get {
+                return ResourceManager.GetString("DrillHolePageDip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hole Size.
+        /// </summary>
+        internal static string DrillHolePageHoleSize {
+            get {
+                return ResourceManager.GetString("DrillHolePageHoleSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length.
+        /// </summary>
+        internal static string DrillHolePageLength {
+            get {
+                return ResourceManager.GetString("DrillHolePageLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Original Name.
+        /// </summary>
+        internal static string DrillHolePageOriginalName {
+            get {
+                return ResourceManager.GetString("DrillHolePageOriginalName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drill Hole.
         /// </summary>
         internal static string DrillHolePageTitle {
             get {
                 return ResourceManager.GetString("DrillHolePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string DrillHolePageType {
+            get {
+                return ResourceManager.GetString("DrillHolePageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Units.
+        /// </summary>
+        internal static string DrillHolePageUnits {
+            get {
+                return ResourceManager.GetString("DrillHolePageUnits", resourceCulture);
             }
         }
         

@@ -264,8 +264,32 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
     <value>Take a snapshot with device</value>
   </data>
+  <data name="DrillHolePageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="DrillHolePageCompany" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="DrillHolePageDip" xml:space="preserve">
+    <value>Dip</value>
+  </data>
+  <data name="DrillHolePageHoleSize" xml:space="preserve">
+    <value>Hole Size</value>
+  </data>
+  <data name="DrillHolePageLength" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="DrillHolePageOriginalName" xml:space="preserve">
+    <value>Original Name</value>
+  </data>
   <data name="DrillHolePageTitle" xml:space="preserve">
     <value>Drill Hole</value>
+  </data>
+  <data name="DrillHolePageType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillHolePageUnits" xml:space="preserve">
+    <value>Units</value>
   </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Index</value>

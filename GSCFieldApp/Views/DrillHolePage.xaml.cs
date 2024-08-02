@@ -13,5 +13,10 @@ public partial class DrillHolePage : ContentPage
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);	
+
+		DrillHoleViewModel vm2 = BindingContext as DrillHoleViewModel;
+		vm2.FillPickers();
+		vm2.InitModel();
+		vm2.Load();
     }
 }

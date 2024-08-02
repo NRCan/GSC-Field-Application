@@ -253,8 +253,32 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
     <value>Prendre une photo avec l'appareil</value>
   </data>
+  <data name="DrillHolePageAzimuth" xml:space="preserve">
+    <value>Azimut</value>
+  </data>
+  <data name="DrillHolePageCompany" xml:space="preserve">
+    <value>Entreprise</value>
+  </data>
+  <data name="DrillHolePageDip" xml:space="preserve">
+    <value>Pendage</value>
+  </data>
+  <data name="DrillHolePageHoleSize" xml:space="preserve">
+    <value>Taille du trou</value>
+  </data>
+  <data name="DrillHolePageLength" xml:space="preserve">
+    <value>Longueur</value>
+  </data>
+  <data name="DrillHolePageOriginalName" xml:space="preserve">
+    <value>Nom d'origine</value>
+  </data>
   <data name="DrillHolePageTitle" xml:space="preserve">
     <value>Puit de forage</value>
+  </data>
+  <data name="DrillHolePageType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillHolePageUnits" xml:space="preserve">
+    <value>Unité de mesure</value>
   </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Indexe</value>

@@ -24,6 +24,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         readonly Metadata metadataModel = new Metadata();
         readonly MineralAlteration minAlterationModel = new MineralAlteration();
         readonly EnvironmentModel envModel = new EnvironmentModel();
+        readonly DrillHole drillHoleModel = new DrillHole();
         readonly DataAccess dAccess = new DataAccess();
 
         public DataIDCalculation()
@@ -85,7 +86,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="currentID">The station ID to calculate the alias from</param>
         /// <param name="stationTime">The datetime object related to the station to get the year from</param>
         /// <returns></returns>
-        public async Task<string> CalculateStationAliasAsync(DateTime stationDate, string currentGeolcode = "")
+        public async Task<string> CalculateStationAliasAsync(DateTime stationDate, string currentGeolcode = "", bool followDrillAlias = true)
         {
 
             //Querying with Linq
@@ -132,6 +133,23 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Increment
                 stationCount = lastCharacterNumber + 1;
 
+            }
+
+            if (followDrillAlias)
+            {
+                List<DrillHole> drills = await currentConnection.Table<DrillHole>().OrderByDescending(s => s.DrillIDName).ToListAsync();
+                if (drills != null && drills.Count > 0)
+                {
+                    int drillIDNo = 0;
+                    int.TryParse(drills[0].DrillAliasLight, out drillIDNo);
+
+                    //Increment only if it's higher then last drill hole
+                    if (stationCount < drillIDNo)
+                    {
+                        stationCount = drillIDNo + 1;
+                    }
+                    
+                }
             }
 
             //Padd current ID with 0 if needed
@@ -842,6 +860,94 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return finaleEnvironmentString;
         }
+
+        #endregion
+
+        #region DRILL HOLE
+
+        /// <summary>
+        /// Will calculate a drill alias name from a given parent ID. Results: 16BEB0001DH (Year-Year-Geolcode-three digit number)
+        /// </summary>
+        /// <param name="recordDate">The field note date</param>
+        /// <param name="parentID">The location id</param>
+        /// <param name="followStationAlias">If drillhole alias must follow the numbering system from station form</param>
+        /// <returns></returns>
+        public async Task<string> CalculateDrillAliasAsync(DateTime recordDate, int parentID, bool followStationAlias = true)
+        {
+            //Querying with Linq
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<DrillHole> drills = await currentConnection.Table<DrillHole>().Where(e => e.DrillLocationID == parentID).ToListAsync();
+
+            //Get current year
+            string currentDate = recordDate.Year.ToString();
+
+            //Get officer code
+            List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+            string currentGeolcode = mets[0].UserCode;
+
+            //Get initial station start number and officer code
+            int drillCount = drills.Count() + 1;
+
+            //Follow alias system of station to start
+            string finalDrillAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + drillCount.ToString() + TableDrillHolePrefix;
+            if (followStationAlias)
+            {
+                List<Station> stations = await currentConnection.Table<Station>().OrderByDescending(s => s.StationAlias).ToListAsync();
+                if (stations != null && stations.Count > 0)
+                {
+                    int stationIDNo = 0;
+                    int.TryParse(stations[0].StationAliasLight, out stationIDNo);
+
+                    //Increment only if it's higher then last station
+                    if (drillCount < stationIDNo)
+                    {
+                        drillCount = stationIDNo + 1;
+                    }
+
+                }
+            }
+
+            //Increment until record doesn't exist
+            bool processingID = true;
+            while (processingID)
+            {
+                //Padd current ID with 0 if needed
+                string outputStringID = string.Empty;
+                if (drillCount < 10)
+                {
+                    outputStringID = "000" + drillCount.ToString();
+                }
+                else if (drillCount >= 10 && drillCount < 100)
+                {
+                    outputStringID = "00" + drillCount.ToString();
+                }
+                else if (drillCount >= 100 && drillCount < 1000)
+                {
+                    outputStringID = "0" + drillCount.ToString();
+                }
+                else
+                {
+                    outputStringID = drillCount.ToString();
+                }
+
+                finalDrillAlias = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + drillCount.ToString() + TableDrillHolePrefix;
+
+                //Find existing
+                List<DrillHole> existingDrill = await currentConnection.Table<DrillHole>().Where(e => e.DrillLocationID == parentID && e.DrillIDName == finalDrillAlias).ToListAsync();
+                if (existingDrill.Count() == 0 || existingDrill == null)
+                {
+                    processingID = false;
+                }
+
+                drillCount++;
+
+            }
+
+            await currentConnection.CloseAsync();
+
+            return finalDrillAlias;
+        }
+
 
         #endregion
 
