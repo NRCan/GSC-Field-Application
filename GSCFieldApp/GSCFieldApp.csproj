@@ -329,6 +329,7 @@
 	  <None Remove="Resources\Images\logo_gray.svg" />
 	  <None Remove="Resources\Images\point.png" />
 	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
+	  <None Remove="Resources\Raw\SRID.csv" />
 	</ItemGroup>
 
 	<ItemGroup>

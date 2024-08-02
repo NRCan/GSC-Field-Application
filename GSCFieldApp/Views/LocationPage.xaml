@@ -99,7 +99,8 @@
 
                                 </VerticalStackLayout>
 
-                                <Button Text="{local:Localize LocationPageButtonToProjected}" Style="{StaticResource FieldAppGenericButton}"/>
+                                <Button Text="{local:Localize LocationPageButtonToProjected}" Style="{StaticResource FieldAppGenericButton}" 
+                                        Command="{Binding ConvertToProjectedCommand}"/>
 
                             </VerticalStackLayout>
 
@@ -149,7 +150,8 @@
 
                             </VerticalStackLayout>
 
-                            <Button Text="{local:Localize LocationPageButtonToGeo}" Style="{StaticResource FieldAppGenericButton}"/>
+                            <Button Text="{local:Localize LocationPageButtonToGeo}" Style="{StaticResource FieldAppGenericButton}"
+                                    Command="{Binding ConvertToGeographicCommand}"/>
 
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>

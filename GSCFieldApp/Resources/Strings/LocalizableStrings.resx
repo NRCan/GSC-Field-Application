@@ -645,6 +645,12 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="LocationPageGeneralTitle" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="LocationPageGeodeticAlert" xml:space="preserve">
+    <value>Coordinate system</value>
+  </data>
+  <data name="LocationPageGeodeticAlertMessage" xml:space="preserve">
+    <value>Please select a proper coordinate system.</value>
+  </data>
   <data name="LocationPageGeographicTitle" xml:space="preserve">
     <value>Geographic</value>
   </data>

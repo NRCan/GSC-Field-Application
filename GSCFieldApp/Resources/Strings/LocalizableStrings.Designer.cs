@@ -1627,6 +1627,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Coordinate system.
+        /// </summary>
+        internal static string LocationPageGeodeticAlert {
+            get {
+                return ResourceManager.GetString("LocationPageGeodeticAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a proper coordinate system..
+        /// </summary>
+        internal static string LocationPageGeodeticAlertMessage {
+            get {
+                return ResourceManager.GetString("LocationPageGeodeticAlertMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Geographic.
         /// </summary>
         internal static string LocationPageGeographicTitle {

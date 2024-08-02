@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 using SQLite;
 using CommunityToolkit.Maui.Alerts;
 using System.Security.Cryptography;
+using Mapsui;
+using Mapsui.Projections;
+using ProjNet.CoordinateSystems;
+using NTS = NetTopologySuite;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -23,6 +27,7 @@ namespace GSCFieldApp.ViewModel
         #region INIT
 
         private FieldLocation _model = new FieldLocation();
+        private GeopackageService _geopackageService = new GeopackageService();
 
         //UI
         private ComboBox _locationGeodeticSystem = new ComboBox();
@@ -100,7 +105,6 @@ namespace GSCFieldApp.ViewModel
             await NavigateToFieldNotes(TableNames.location);
         }
 
-
         /// <summary>
         /// Save button command
         /// </summary>
@@ -147,12 +151,117 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
-
         [RelayCommand]
         async Task AddDrill()
         { 
         
         }
+
+        [RelayCommand]
+        async Task ConvertToProjected()
+        {
+            //Transform
+            if (_model.LocationLong != 0.0 && _model.LocationLat != 0.0)
+            {
+                //Bad system
+                bool isSystemValid = false;
+
+                if (_model.LocationDatum != null && _model.LocationDatum != string.Empty)
+                {
+                    //Detect a projected system (UTM or Yukon Alberts=3579)
+                    int.TryParse(_model.LocationDatum, out int selectedEPGS);
+                    if (selectedEPGS > 10000 || selectedEPGS == 3579)
+                    {
+                        //Build coordinate system for transformation
+                        CoordinateSystem outSR = await SridReader.GetCSbyID(selectedEPGS);
+                        CoordinateSystem inSR = await SridReader.GetCSbyID(KeywordEPSGDefault);
+
+                        //Transform
+                        NTS.Geometries.Point currentPoint = GeopackageService.defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(_model.LocationLong, _model.LocationLat));
+
+                        if (currentPoint != null)
+                        {
+                            NTS.Geometries.Point transformedPoint = GeopackageService.TransformPointCoordinates(currentPoint, inSR, outSR);
+
+                            if (transformedPoint != null)
+                            {
+                                _model.LocationEasting = Math.Round(transformedPoint.X, 4);
+                                _model.LocationNorthing = Math.Round(transformedPoint.Y, 4);
+
+                                isSystemValid = true;
+                                OnPropertyChanged(nameof(Model));
+                            }
+                        }
+
+
+                    }
+
+                }
+
+                if (!isSystemValid && _model.LocationDatum != null && _model.LocationDatum != string.Empty)
+                {
+                    string projectionErrorTitle = LocalizationResourceManager["LocationPageGeodeticAlert"].ToString();
+                    string projectionErrorContent = LocalizationResourceManager["LocationPageGeodeticAlertMessage"].ToString();
+                    Shell.Current.DisplayAlert(projectionErrorTitle, projectionErrorContent, LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+
+            }
+        }
+
+        [RelayCommand]
+        async Task ConvertToGeographic()
+        {
+            //Transform
+            if (_model.LocationEasting != 0.0 && _model.LocationNorthing != 0.0)
+            {
+                //Bad system
+                bool isSystemValid = false;
+
+                if (_model.LocationDatum != null && _model.LocationDatum != string.Empty)
+                {
+                    //Build coordinate system for transformation
+                    CoordinateSystem outSR = await SridReader.GetCSbyID(KeywordEPSGDefault);
+
+                    //Detect a projected system (UTM or Yukon Alberts=3579)
+                    int.TryParse(_model.LocationDatum, out int selectedEPGS);
+
+                    //The database only has UTM NAD83 metric coordinate system, except Yukon albert
+                    if (selectedEPGS > 10000 )
+                    {
+                        outSR = await SridReader.GetCSbyID(4617); //NAD83 geographic
+                        CoordinateSystem inSR = await SridReader.GetCSbyID(selectedEPGS);
+
+                        //Transform
+                        NTS.Geometries.Point currentPoint = GeopackageService.defaultGeometryFactory.CreatePoint(
+                            new NetTopologySuite.Geometries.Coordinate(_model.LocationEasting.Value, _model.LocationNorthing.Value));
+
+                        if (currentPoint != null)
+                        {
+                            NTS.Geometries.Point transformedPoint = GeopackageService.TransformPointCoordinates(currentPoint, inSR, outSR);
+
+                            if (transformedPoint != null)
+                            {
+                                _model.LocationLong = Math.Round(transformedPoint.X,8);
+                                _model.LocationLat = Math.Round(transformedPoint.Y,8);
+
+                                isSystemValid = true;
+                                OnPropertyChanged(nameof(Model));
+                            }
+                        }
+                    }
+
+                }
+
+                if (!isSystemValid && _model.LocationDatum != null && _model.LocationDatum != string.Empty)
+                {
+                    string projectionErrorTitle = LocalizationResourceManager["LocationPageGeodeticAlert"].ToString();
+                    string projectionErrorContent = LocalizationResourceManager["LocationPageGeodeticAlertMessage"].ToString();
+                    await Shell.Current.DisplayAlert(projectionErrorTitle, projectionErrorContent, LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+
+            }
+        }
+
         #endregion
 
         public LocationViewModel() { }
@@ -161,6 +270,8 @@ namespace GSCFieldApp.ViewModel
 
         public async Task SetAndSaveModelAsync()
         {
+            //Make sure datum is properly set
+            _model.LocationDatum = KeywordEPSGDefault.ToString();
 
             //Validate if new entry or update
             if (_fieldLocation != null && _fieldLocation.LocationAlias != string.Empty && _model.LocationID != 0)
@@ -213,6 +324,24 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will initialize the model with needed calculated fields
+        /// </summary>
+        /// <returns></returns>
+        public async Task InitModel()
+        {
+            if (Model != null && Model.LocationID == 0 && _fieldLocation != null)
+            {
+                ////Get current application version
+                //Model.
+                //Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
+                //Model.StationVisitDate = idCalculator.GetDate(); //Calculate new value
+                //Model.StationVisitTime = idCalculator.GetTime(); //Calculate new value
+
+                //OnPropertyChanged(nameof(Model));
+
+            }
+        }
         #endregion
 
     }

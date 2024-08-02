@@ -287,14 +287,14 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task<int> SetLocationModelAsync()
         {
-
+            locationModel = new FieldLocation();
             if (sensorLocation.Altitude.HasValue)
             {
                 locationModel.LocationElev = (double)sensorLocation.Altitude;
             }
 
-            locationModel.LocationLat = sensorLocation.Latitude;
-            locationModel.LocationLong = sensorLocation.Longitude;
+            locationModel.LocationLat = Math.Round(sensorLocation.Latitude,8);
+            locationModel.LocationLong = Math.Round(sensorLocation.Longitude,8);
             if (sensorLocation.Accuracy.HasValue)
             {
                 locationModel.LocationErrorMeasure = (double)sensorLocation.Accuracy;

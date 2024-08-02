@@ -634,6 +634,12 @@ Aimeriez-vous modifier les droits?</value>
   <data name="LocationPageGeneralTitle" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="LocationPageGeodeticAlert" xml:space="preserve">
+    <value>Système de coordonnées</value>
+  </data>
+  <data name="LocationPageGeodeticAlertMessage" xml:space="preserve">
+    <value>Veuillez sélectionner un système de coordonnées valide.</value>
+  </data>
   <data name="LocationPageGeographicTitle" xml:space="preserve">
     <value>Géographiques</value>
   </data>
