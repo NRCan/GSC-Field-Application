@@ -80,6 +80,9 @@ public static class MauiProgram
         builder.Services.AddTransient<LocationPage>();
         builder.Services.AddTransient<LocationViewModel>();
 
+        builder.Services.AddTransient<DrillHolePage>();
+        builder.Services.AddTransient<DrillHoleViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();

@@ -16,7 +16,6 @@ public partial class LocationPage : ContentPage
 
 		LocationViewModel vm2 = (LocationViewModel)BindingContext;
         await vm2.FillPickers();
-        await vm2.InitModel();
         await vm2.Load(); 
     }
 }

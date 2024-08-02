@@ -54,10 +54,10 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(StructureVisible), value); }
         }
 
-        public bool DrillVisible
+        public bool DrillHoleVisible
         {
-            get { return Preferences.Get(nameof(DrillVisible), true); }
-            set { Preferences.Set(nameof(DrillVisible), value); }
+            get { return Preferences.Get(nameof(DrillHoleVisible), true); }
+            set { Preferences.Set(nameof(DrillHoleVisible), value); }
         }
 
         public bool PaleoflowVisible

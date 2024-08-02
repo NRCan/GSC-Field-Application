@@ -290,19 +290,20 @@ namespace GSCFieldApp.ViewModel
             locationModel = new FieldLocation();
             if (sensorLocation.Altitude.HasValue)
             {
-                locationModel.LocationElev = (double)sensorLocation.Altitude;
+                locationModel.LocationElev = Math.Round((double)sensorLocation.Altitude,0);
             }
 
             locationModel.LocationLat = Math.Round(sensorLocation.Latitude,8);
             locationModel.LocationLong = Math.Round(sensorLocation.Longitude,8);
             if (sensorLocation.Accuracy.HasValue)
             {
-                locationModel.LocationErrorMeasure = (double)sensorLocation.Accuracy;
+                locationModel.LocationErrorMeasure = Math.Round((double)sensorLocation.Accuracy,0);
             }
-            //locationModel.LocationElevMethod = vocabElevmethodGPS,
-            //locationModel.LocationEntryType = sensorLocation.po.PositionSource.ToString(),
-            //locationModel.LocationErrorMeasureType = sensorLocation.,
-            locationModel.LocationElevationAccuracy = sensorLocation.VerticalAccuracy;
+            if (sensorLocation.VerticalAccuracy.HasValue)
+            {
+                locationModel.LocationElevationAccuracy = Math.Round(sensorLocation.VerticalAccuracy.Value,0);
+            }
+            
             locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault.ToString();
             locationModel.LocationTimestamp = idCalc.FormatFullDate(DateTime.Now);
             //Foreign key

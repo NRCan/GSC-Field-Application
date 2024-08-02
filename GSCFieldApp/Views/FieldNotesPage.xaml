@@ -116,6 +116,29 @@
 
                     <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
+                    <!--Drill Hole records-->
+                    <VerticalStackLayout IsVisible="{Binding DrillHoleVisible, Mode=TwoWay}">
+                        <Button Text="{local:Localize Key=FielNotesDrillHolesHeader}" BackgroundColor="{StaticResource FieldDrillColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            Command="{Binding HideCommand}" CommandParameter="drill"/>
+
+                        <VerticalStackLayout IsVisible="{Binding IsDrillHoleExpanded, Mode=TwoWay}">
+                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                                        Style="{StaticResource FieldAppNotesTabletCollectionView}"
+                                        ItemsSource="{Binding DrillHoles}"  >
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" 
+                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                </CollectionView.ItemsLayout>
+                            </CollectionView>
+
+                            <ListView ItemsSource="{Binding DrillHoles, Mode=TwoWay}"
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}"
+                                  Style="{StaticResource FieldAppNotesMobileListView}"/>
+                        </VerticalStackLayout>
+
+                        <Label Text="{Binding DrillHoles.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+                    </VerticalStackLayout>
+
                     <!--Earth material records-->
                     <VerticalStackLayout IsVisible="{Binding EarthMaterialVisible, Mode=TwoWay}">
                         <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"

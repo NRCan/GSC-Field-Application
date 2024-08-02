@@ -484,6 +484,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drill Hole.
+        /// </summary>
+        internal static string DrillHolePageTitle {
+            get {
+                return ResourceManager.GetString("DrillHolePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Index.
         /// </summary>
         internal static string EarthmatColourIndex {

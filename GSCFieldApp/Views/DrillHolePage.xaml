@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.DrillHolePage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:DrillHoleViewModel"
+             Shell.BackgroundColor="{StaticResource FieldDrillColor}"
+             Title="{local:Localize DrillHolePageTitle}">
+    <Shell.BackButtonBehavior>
+        <!--Hide back button - Android when navigating back, ham menu disapears-->
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:String2Double x:Key="Str2Double"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.DrillIDName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
+                    <!--Context section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldDrillColor}" FrameContentVisibility="{Binding DrillHoleContextVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DrillHoleContextTitle}">
+
+                        <VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Metrics section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldDrillColor}" FrameContentVisibility="{Binding DrillHoleMetricsVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DrillHoleMetricsTitle}">
+
+                        <VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Log/Relog section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldDrillColor}" FrameContentVisibility="{Binding DrillHoleLogVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DrillHoleLogTitle}">
+
+                        <VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--General section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldDrillColor}" FrameContentVisibility="{Binding DrillHoleGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DrillHoleGeneralTitle}">
+
+                        <VerticalStackLayout>
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                </FlexLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>

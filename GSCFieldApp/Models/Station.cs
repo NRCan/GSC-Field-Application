@@ -1,68 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GSCFieldApp.Dictionaries;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 
 namespace GSCFieldApp.Models
 {
-    [Table(DatabaseLiterals.TableStation)]
+    [Table(TableStation)]
     public class Station
     {
 
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldStationID)]
+        [PrimaryKey, AutoIncrement, Column(FieldStationID)]
         public int StationID { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationAlias)]
+        [Column(FieldStationAlias)]
         public string StationAlias { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationTraverseNumber)]
+        [Column(FieldStationTraverseNumber)]
         public int StationTravNo { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationOCQuality)]
+        [Column(FieldStationOCQuality)]
         public string StationOCQuality { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationVisitDate)]
+        [Column(FieldStationVisitDate)]
         public string StationVisitDate { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationVisitTime)]
+        [Column(FieldStationVisitTime)]
         public string StationVisitTime { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationObsType)]
+        [Column(FieldStationObsType)]
         public string StationObsType { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationObsSource)]
+        [Column(FieldStationObsSource)]
         public string StationObsSource { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationOCSize)]
+        [Column(FieldStationOCSize)]
         public string StationOCSize { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationPhysEnv)]
+        [Column(FieldStationPhysEnv)]
         public string StationPhysEnv { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationLegend)]
+        [Column(FieldStationLegend)]
         public string StationLegend { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationInterpretation)]
+        [Column(FieldStationInterpretation)]
         public string StationInterpretation { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationNote)]
+        [Column(FieldStationNote)]
         public string StationNote { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationSLSNote)]
+        [Column(FieldStationSLSNote)]
         public string StationSLSNotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationRelatedTo)]
+        [Column(FieldStationRelatedTo)]
         public string StationRelatedTo { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationAirPhotoNumber)]
+        [Column(FieldStationAirPhotoNumber)]
         public string StationAirNo { get; set; }
 
-        [Column(DatabaseLiterals.FieldStationObsID)]
+        [Column(FieldStationObsID)]
         public int LocationID { get; set; }
 
         //Hierarchy
-        public string ParentName = DatabaseLiterals.TableLocation;
+        public string ParentName = TableLocation;
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -73,7 +73,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (StationObsType != string.Empty && StationObsType != null && StationObsType != Dictionaries.DatabaseLiterals.picklistNACode)
+                if (StationObsType != string.Empty && StationObsType != null && StationObsType != picklistNACode)
                 {
                     return true;
                 }
@@ -99,7 +99,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> stationFieldList = new Dictionary<double, List<string>>();
                 List<string> stationFieldListDefault = new List<string>();
 
-                stationFieldListDefault.Add(DatabaseLiterals.FieldStationID);
+                stationFieldListDefault.Add(FieldStationID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -109,31 +109,31 @@ namespace GSCFieldApp.Models
 
                 }
 
-                stationFieldList[DatabaseLiterals.DBVersion] = stationFieldListDefault;
+                stationFieldList[DBVersion] = stationFieldListDefault;
 
                 //Revert shcema 1.7 changes
                 List<string> statFieldList160 = new List<string>();
                 statFieldList160.AddRange(stationFieldListDefault);
-                int insertIndex = stationFieldListDefault.IndexOf(DatabaseLiterals.FieldStationObsID) - 1;
-                statFieldList160.Insert(insertIndex, DatabaseLiterals.FieldStationReportLinkDeprecated);
-                stationFieldList[DatabaseLiterals.DBVersion160] = statFieldList160;
+                int insertIndex = stationFieldListDefault.IndexOf(FieldStationObsID) - 1;
+                statFieldList160.Insert(insertIndex, FieldStationReportLinkDeprecated);
+                stationFieldList[DBVersion160] = statFieldList160;
 
 
                 //Revert schema 1.6 changes. 
                 List<string> stationFieldList150 = new List<string>();
                 stationFieldList150.AddRange(statFieldList160);
-                stationFieldList150.Remove(DatabaseLiterals.FieldStationRelatedTo);
-                stationFieldList150.Remove(DatabaseLiterals.FieldStationObsSource);
+                stationFieldList150.Remove(FieldStationRelatedTo);
+                stationFieldList150.Remove(FieldStationObsSource);
 
-                stationFieldList[DatabaseLiterals.DBVersion150] = stationFieldList150;
+                stationFieldList[DBVersion150] = stationFieldList150;
 
                 //Revert schema 1.5 changes. 
                 List<string> stationFieldList144 = new List<string>();
                 stationFieldList144.AddRange(stationFieldList150);
-                int removeIndex = stationFieldList144.IndexOf(DatabaseLiterals.FieldStationAlias);
-                stationFieldList144.Remove(DatabaseLiterals.FieldStationAlias);
-                stationFieldList144.Insert(removeIndex, DatabaseLiterals.FieldStationAliasDeprecated);
-                stationFieldList[DatabaseLiterals.DBVersion144] = stationFieldList144;
+                int removeIndex = stationFieldList144.IndexOf(FieldStationAlias);
+                stationFieldList144.Remove(FieldStationAlias);
+                stationFieldList144.Insert(removeIndex, FieldStationAliasDeprecated);
+                stationFieldList[DBVersion144] = stationFieldList144;
 
                 return stationFieldList;
             }
@@ -159,13 +159,13 @@ namespace GSCFieldApp.Models
                     }
                     else
                     {
-                        return DatabaseLiterals.picklistNACode;
+                        return picklistNACode;
                     }
                      
                 }
                 else
                 {
-                    return DatabaseLiterals.picklistNACode;
+                    return picklistNACode;
                 }
             }
             set { }

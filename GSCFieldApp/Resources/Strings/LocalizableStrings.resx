@@ -264,6 +264,9 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
     <value>Take a snapshot with device</value>
   </data>
+  <data name="DrillHolePageTitle" xml:space="preserve">
+    <value>Drill Hole</value>
+  </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Index</value>
   </data>

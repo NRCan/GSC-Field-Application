@@ -87,6 +87,10 @@
 
     <Color x:Key="ReportPageInvalidBackground">Red</Color>
 
+    <Color x:Key="FieldAppNoteLevel1">#0b2c71</Color>
+    <Color x:Key="FieldAppNoteLevel2">#1247b7</Color>
+    <Color x:Key="FieldAppNoteLevel3">#2b69ea</Color>
+    
     <!--Custom Field color brushes-->
     <SolidColorBrush x:Key="CustomColorBrush" Color="{StaticResource Primary}" />
     <SolidColorBrush x:Key="CustomContrastColorBrush" Color="{StaticResource White}" />

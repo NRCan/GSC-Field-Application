@@ -72,7 +72,7 @@
                                     <Switch x:Name="structure" IsToggled="{Binding StructureVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
 
                                     <Label Text="{local:Localize FielNotesDrillHolesHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3"/>
-                                    <Switch x:Name="drill" IsToggled="{Binding DrillVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
+                                    <Switch x:Name="drill" IsToggled="{Binding DrillHoleVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
 
                                 </Grid>
                             </VerticalStackLayout>

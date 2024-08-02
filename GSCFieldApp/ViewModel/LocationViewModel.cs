@@ -153,8 +153,22 @@ namespace GSCFieldApp.ViewModel
 
         [RelayCommand]
         async Task AddDrill()
-        { 
-        
+        {
+            if (_fieldLocation != null)
+            {
+                await SetAndSaveModelAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                await Shell.Current.GoToAsync($"{nameof(DrillHolePage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(DrillHole)] = null,
+                        [nameof(FieldLocation)] = _fieldLocation,
+                    }
+                );
+            }
+
+
         }
 
         [RelayCommand]
@@ -324,24 +338,6 @@ namespace GSCFieldApp.ViewModel
 
         }
 
-        /// <summary>
-        /// Will initialize the model with needed calculated fields
-        /// </summary>
-        /// <returns></returns>
-        public async Task InitModel()
-        {
-            if (Model != null && Model.LocationID == 0 && _fieldLocation != null)
-            {
-                ////Get current application version
-                //Model.
-                //Model.StationAlias = await idCalculator.CalculateStationAliasAsync(DateTime.Now);
-                //Model.StationVisitDate = idCalculator.GetDate(); //Calculate new value
-                //Model.StationVisitTime = idCalculator.GetTime(); //Calculate new value
-
-                //OnPropertyChanged(nameof(Model));
-
-            }
-        }
         #endregion
 
     }
