@@ -164,7 +164,29 @@ namespace GSCFieldApp.ViewModel
 
             }
         }
-        
+
+        [RelayCommand]
+        async Task AddLocation()
+        {
+            if (sensorLocation != null)
+            {
+                //Create a location record
+                int locationID = await SetLocationModelAsync();
+
+                //Navigate to structure page 
+                if (locationID > 0)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(LocationPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(FieldLocation)] = locationModel,
+                        }
+                    );
+                }
+
+            }
+        }
+
         #endregion
 
         #region METHODS
@@ -265,22 +287,23 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task<int> SetLocationModelAsync()
         {
-
+            locationModel = new FieldLocation();
             if (sensorLocation.Altitude.HasValue)
             {
-                locationModel.LocationElev = (double)sensorLocation.Altitude;
+                locationModel.LocationElev = Math.Round((double)sensorLocation.Altitude,0);
             }
 
-            locationModel.LocationLat = sensorLocation.Latitude;
-            locationModel.LocationLong = sensorLocation.Longitude;
+            locationModel.LocationLat = Math.Round(sensorLocation.Latitude,8);
+            locationModel.LocationLong = Math.Round(sensorLocation.Longitude,8);
             if (sensorLocation.Accuracy.HasValue)
             {
-                locationModel.LocationErrorMeasure = (double)sensorLocation.Accuracy;
+                locationModel.LocationErrorMeasure = Math.Round((double)sensorLocation.Accuracy,0);
             }
-            //locationModel.LocationElevMethod = vocabElevmethodGPS,
-            //locationModel.LocationEntryType = sensorLocation.po.PositionSource.ToString(),
-            //locationModel.LocationErrorMeasureType = sensorLocation.,
-            locationModel.LocationElevationAccuracy = sensorLocation.VerticalAccuracy;
+            if (sensorLocation.VerticalAccuracy.HasValue)
+            {
+                locationModel.LocationElevationAccuracy = Math.Round(sensorLocation.VerticalAccuracy.Value,0);
+            }
+            
             locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault.ToString();
             locationModel.LocationTimestamp = idCalc.FormatFullDate(DateTime.Now);
             //Foreign key

@@ -329,6 +329,7 @@
 	  <None Remove="Resources\Images\logo_gray.svg" />
 	  <None Remove="Resources\Images\point.png" />
 	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
+	  <None Remove="Resources\Raw\SRID.csv" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -390,6 +391,9 @@
 	  <MauiXaml Update="Views\DocumentPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\DrillHolePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\EnvironmentPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -406,6 +410,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\FossilPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LocationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\MapPage.xaml">

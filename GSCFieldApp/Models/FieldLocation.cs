@@ -198,6 +198,35 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string LocationAliasLight
+        {
+            get
+            {
+                if (LocationAlias != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(LocationAlias.Substring(LocationAlias.Length - 6, 4), out aliasNumber);
 
+                    if (aliasNumber > 0)
+                    {
+                        return aliasNumber.ToString();
+                    }
+                    else
+                    {
+                        return DatabaseLiterals.picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return DatabaseLiterals.picklistNACode;
+                }
+            }
+            set { }
+        }
     }
 }

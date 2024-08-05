@@ -152,7 +152,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.FossilID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(TableNames.fossil, _model.FossilIDName, _model.FossilParentID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.fossil, _model.FossilIDName, _model.FossilID);
             }
 
             //Exit

@@ -264,6 +264,33 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
     <value>Take a snapshot with device</value>
   </data>
+  <data name="DrillHolePageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="DrillHolePageCompany" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="DrillHolePageDip" xml:space="preserve">
+    <value>Dip</value>
+  </data>
+  <data name="DrillHolePageHoleSize" xml:space="preserve">
+    <value>Hole Size</value>
+  </data>
+  <data name="DrillHolePageLength" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="DrillHolePageOriginalName" xml:space="preserve">
+    <value>Original Name</value>
+  </data>
+  <data name="DrillHolePageTitle" xml:space="preserve">
+    <value>Drill Hole</value>
+  </data>
+  <data name="DrillHolePageType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillHolePageUnits" xml:space="preserve">
+    <value>Units</value>
+  </data>
   <data name="EarthmatColourIndex" xml:space="preserve">
     <value>Index</value>
   </data>
@@ -567,6 +594,9 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="FielNotesFossilHeader" xml:space="preserve">
     <value>Fossil</value>
   </data>
+  <data name="FielNotesLocationHeader" xml:space="preserve">
+    <value>Location</value>
+  </data>
   <data name="FielNotesMineralHeader" xml:space="preserve">
     <value>Mineral</value>
   </data>
@@ -617,6 +647,78 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="LocationPageAccuracy" xml:space="preserve">
+    <value>Accuracy (m)</value>
+  </data>
+  <data name="LocationPageButtonToGeo" xml:space="preserve">
+    <value>To Geographic</value>
+  </data>
+  <data name="LocationPageButtonToProjected" xml:space="preserve">
+    <value>To UTM</value>
+  </data>
+  <data name="LocationPageDatumTitle" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="LocationPageEasting" xml:space="preserve">
+    <value>Easting (m)</value>
+  </data>
+  <data name="LocationPageEastingToolip" xml:space="preserve">
+    <value>Valid value between 160 000 and 834 000 with maximum of 4 decimals.</value>
+  </data>
+  <data name="LocationPageElevation" xml:space="preserve">
+    <value>Elevation</value>
+  </data>
+  <data name="LocationPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="LocationPageGeodeticAlert" xml:space="preserve">
+    <value>Coordinate system</value>
+  </data>
+  <data name="LocationPageGeodeticAlertMessage" xml:space="preserve">
+    <value>Please select a proper coordinate system.</value>
+  </data>
+  <data name="LocationPageGeographicTitle" xml:space="preserve">
+    <value>Geographic</value>
+  </data>
+  <data name="LocationPageLatitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="LocationPageLatitudeToolip" xml:space="preserve">
+    <value>Having more then 8 decimal places represent a sub-millimetric value.</value>
+  </data>
+  <data name="LocationPageLongitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="LocationPageLongitudeToolip" xml:space="preserve">
+    <value>Having more then 8 decimal places represent a sub-millimetric value.</value>
+  </data>
+  <data name="LocationPageNorthing" xml:space="preserve">
+    <value>Northing (m)</value>
+  </data>
+  <data name="LocationPageNorthingToolip" xml:space="preserve">
+    <value>Valid value between 0 and 1 000 000 with maximum of 4 decimals.</value>
+  </data>
+  <data name="LocationPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="LocationPageNTS" xml:space="preserve">
+    <value>Nation Topographic Sheet (NTS)</value>
+  </data>
+  <data name="LocationPageNTSPlaceholder" xml:space="preserve">
+    <value>Ex: 31M01</value>
+  </data>
+  <data name="LocationPageProjectedTitle" xml:space="preserve">
+    <value>Projected</value>
+  </data>
+  <data name="LocationPageTitle" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="LocationPageTooltipAddDrill" xml:space="preserve">
+    <value>Tap to add a new drill hole record.</value>
+  </data>
+  <data name="LocationPageTooltipAddStation" xml:space="preserve">
+    <value>Tap to add a new station record.</value>
   </data>
   <data name="MapPageAddData" xml:space="preserve">
     <value>Tap to add a new layer.</value>
@@ -1070,6 +1172,9 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="ToastDevModeActivated" xml:space="preserve">
     <value>Developer mode activated</value>
+  </data>
+  <data name="ToastDevModeDeactivated" xml:space="preserve">
+    <value>Developer mode deactivated</value>
   </data>
   <data name="ToastFieldBookBackup" xml:space="preserve">
     <value>Field book was successfully saved to: {0}</value>

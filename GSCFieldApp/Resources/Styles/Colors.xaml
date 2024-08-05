@@ -82,8 +82,15 @@
     <Color x:Key="FieldEnvironmentColor">#99cc00</Color>
     <Color x:Key="FieldEnvironmentColorLight">#bfff00</Color>
 
+    <Color x:Key="FieldDrillColor">#439ee2</Color>
+    <Color x:Key="FieldDrillColorLight">#8EC4ED</Color>
+
     <Color x:Key="ReportPageInvalidBackground">Red</Color>
 
+    <Color x:Key="FieldAppNoteLevel1">#0b2c71</Color>
+    <Color x:Key="FieldAppNoteLevel2">#1247b7</Color>
+    <Color x:Key="FieldAppNoteLevel3">#2b69ea</Color>
+    
     <!--Custom Field color brushes-->
     <SolidColorBrush x:Key="CustomColorBrush" Color="{StaticResource Primary}" />
     <SolidColorBrush x:Key="CustomContrastColorBrush" Color="{StaticResource White}" />
@@ -120,6 +127,9 @@
 
     <SolidColorBrush x:Key="FieldEnvironmentColorBrush" Color="{StaticResource FieldEnvironmentColor}"/>
     <SolidColorBrush x:Key="FieldEnvironmentColorLightBrush" Color="{StaticResource FieldEnvironmentColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldDrillColorBrush" Color="{StaticResource FieldDrillColor}"/>
+    <SolidColorBrush x:Key="FieldDrillColorLightBrush" Color="{StaticResource FieldDrillColorLight}"/>
 
     <SolidColorBrush x:Key="ReportPageInvalidBackgroundBrush" Color="{StaticResource ReportPageInvalidBackground}"/>
 

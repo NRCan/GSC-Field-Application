@@ -5,24 +5,62 @@
              xmlns:local="clr-namespace:GSCFieldApp.Services">
     <ContentView.Resources >
         <ControlTemplate x:Key="SaveSwipeControl" >
-            <SwipeView Threshold="110">
-                <SwipeView.LeftItems>
-                    <SwipeItems Mode="Execute">
-                        <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{TemplateBinding ButtonLightColor}"
+
+            <VerticalStackLayout>
+
+                <!--For mobile and touch screens-->
+                <SwipeView Threshold="110" IsVisible="{OnIdiom Tablet=True, Phone=True, Desktop=False}" >
+                    <SwipeView.LeftItems>
+                        <SwipeItems Mode="Execute">
+                            <SwipeItem x:Name="ButtonSaveStay" Text="{local:Localize ButtonSaveStay}" BackgroundColor="{TemplateBinding ButtonLightColor}"
                             Command="{Binding SaveStayCommand}"/>
-                    </SwipeItems>
-                </SwipeView.LeftItems>
+                        </SwipeItems>
+                    </SwipeView.LeftItems>
 
-                <SwipeView.RightItems>
-                    <SwipeItems Mode="Execute">
-                        <SwipeItem x:Name="ButtonSaveDelete" Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
+                    <SwipeView.RightItems>
+                        <SwipeItems Mode="Execute">
+                            <SwipeItem x:Name="ButtonSaveDelete" Text="{local:Localize ButtonSaveDelete}" BackgroundColor="{StaticResource Gray500}" 
                             Command="{Binding SaveDeleteCommand}"/>
-                    </SwipeItems>
-                </SwipeView.RightItems>
+                        </SwipeItems>
+                    </SwipeView.RightItems>
 
-                <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" BackgroundColor="{TemplateBinding ButtonColor}"
+                    <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" BackgroundColor="{TemplateBinding ButtonColor}"
                     Command="{Binding SaveCommand}"/>
-            </SwipeView>
+                </SwipeView>
+
+                <!--For desktop winui3 doesn't support mouse on swipeitems-->
+                <!--https://github.com/dotnet/maui/issues/16287-->
+                <Grid IsVisible="{OnIdiom Tablet=False, Phone=False, Desktop=True}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Text="{local:Localize ButtonSaveDelete}"
+                        Style="{StaticResource FieldAppButonSave}" 
+                        BackgroundColor="{StaticResource Gray500}"
+                        Command="{Binding SaveDeleteCommand}"
+                        Grid.Row="0" Grid.Column="0"/>
+
+                    <Button Text="{local:Localize ButtonSave}" 
+                        Style="{StaticResource FieldAppButonSave}" 
+                        BackgroundColor="{TemplateBinding ButtonColor}"
+                        Command="{Binding SaveCommand}"
+                        Grid.Row="0" Grid.Column="1"/>
+
+                    <Button Text="{local:Localize ButtonSaveStay}" 
+                        Style="{StaticResource FieldAppButonSave}" 
+                        BackgroundColor="{TemplateBinding ButtonLightColor}"
+                        Command="{Binding SaveStayCommand}"
+                        Grid.Row="0" Grid.Column="2"/>
+                </Grid>
+
+
+            </VerticalStackLayout>
+            
+
         </ControlTemplate>
     </ContentView.Resources>
 

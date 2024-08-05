@@ -67,7 +67,8 @@
 
                 <!--Manual XY-->
                 <Button Text="XY" Style="{StaticResource FieldAppHeaderButton}"
-                        ToolTipProperties.Text="{local:Localize MapPageAddXY}"/>
+                        ToolTipProperties.Text="{local:Localize MapPageAddXY}"
+                        Command="{Binding AddLocationCommand}"/>
 
                 <!--Waypoint-->
                 <Button Text="&#xF023D;" Style="{StaticResource FieldAppHeaderButton}"

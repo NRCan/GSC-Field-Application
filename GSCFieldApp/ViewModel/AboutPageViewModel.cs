@@ -51,7 +51,14 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(DeveloperModeActivated));
 
                 //Show toast to tell user the good news
-                await Toast.Make(LocalizationResourceManager["ToastDevModeActivated"].ToString()).Show(CancellationToken.None);
+                if (DeveloperModeActivated)
+                {
+                    await Toast.Make(LocalizationResourceManager["ToastDevModeActivated"].ToString()).Show(CancellationToken.None);
+                }
+                else
+                {
+                    await Toast.Make(LocalizationResourceManager["ToastDevModeDeactivated"].ToString()).Show(CancellationToken.None);
+                }
 
             }
         }

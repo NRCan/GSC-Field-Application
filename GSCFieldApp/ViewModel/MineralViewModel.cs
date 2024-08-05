@@ -209,15 +209,9 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.MineralID != 0)
             {
-                if (_model.MineralEMID != null)
-                {
-                    await commandServ.DeleteDatabaseItemCommand(TableNames.mineral, _model.MineralIDName, _model.MineralEMID.Value);
-                }
-                else
-                {
-                    await commandServ.DeleteDatabaseItemCommand(TableNames.mineral, _model.MineralIDName, _model.MineralMAID.Value);
-                }
-                
+
+                await commandServ.DeleteDatabaseItemCommand(TableNames.mineral, _model.MineralIDName, _model.MineralID);
+       
             }
 
             //Exit

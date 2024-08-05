@@ -1,4 +1,4 @@
-﻿using GSCFieldApp.Dictionaries;
+﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -8,71 +8,71 @@ using System.Threading.Tasks;
 
 namespace GSCFieldApp.Models
 {
-    [Table(DatabaseLiterals.TableDrillHoles)]
+    [Table(TableDrillHoles)]
     public class DrillHole
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldDrillID)]
+        [PrimaryKey, AutoIncrement, Column(FieldDrillID)]
         public int DrillID { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillIDName)]
+        [Column(FieldDrillIDName)]
         public string DrillIDName { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillName)]
+        [Column(FieldDrillName)]
         public string DrillName { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillCompany)]
+        [Column(FieldDrillCompany)]
         public string DrillCompany { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillType)]
+        [Column(FieldDrillType)]
         public string DrillType { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillAzimuth)]
+        [Column(FieldDrillAzimuth)]
         public double? DrillAzim { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillDip)]
+        [Column(FieldDrillDip)]
         public double? DrillDip { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillDepth)]
+        [Column(FieldDrillDepth)]
         public double? DrillDepth { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillUnit)]
+        [Column(FieldDrillUnit)]
         public string DrillUnit { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillDate)]
+        [Column(FieldDrillDate)]
         public string DrillDate { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillHoleSize)]
+        [Column(FieldDrillHoleSize)]
         public string DrillHoleSize { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillCoreSize)]
+        [Column(FieldDrillCoreSize)]
         public string DrillCoreSize { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillRelogType)]
+        [Column(FieldDrillRelogType)]
         public string DrillRelogType { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillRelogBy)]
+        [Column(FieldDrillRelogBy)]
         public string DrillRelogBy { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillRelogIntervals)]
+        [Column(FieldDrillRelogIntervals)]
         public string DrillRelogIntervals { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillRelogDate)]
+        [Column(FieldDrillRelogDate)]
         public string DrillRelogDate { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillLog)]
+        [Column(FieldDrillLog)]
         public string DrillLog { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillRelatedTo)]
+        [Column(FieldDrillRelatedTo)]
         public string DrillRelatedTo { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillNotes)]
+        [Column(FieldDrillNotes)]
         public string DrillNotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldDrillLocationID)]
+        [Column(FieldDrillLocationID)]
         public int DrillLocationID { get; set; }
 
         //Hierarchy
-        public string ParentName = DatabaseLiterals.TableLocation;
+        public string ParentName = TableLocation;
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -108,7 +108,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> drillFieldList = new Dictionary<double, List<string>>();
                 List<string> drillFieldListDefault = new List<string>();
 
-                drillFieldListDefault.Add(DatabaseLiterals.FieldDrillID);
+                drillFieldListDefault.Add(FieldDrillID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -118,7 +118,7 @@ namespace GSCFieldApp.Models
 
                 }
 
-                drillFieldList[DatabaseLiterals.DBVersion] = drillFieldListDefault;
+                drillFieldList[DBVersion] = drillFieldListDefault;
 
 
                 return drillFieldList;
@@ -126,5 +126,35 @@ namespace GSCFieldApp.Models
             set { }
         }
 
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string DrillAliasLight
+        {
+            get
+            {
+                if (DrillIDName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(DrillIDName.Substring(DrillIDName.Length - 4), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        return aliasNumber.ToString() + TableDrillHolePrefix;
+                    }
+                    else
+                    {
+                        return picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return picklistNACode;
+                }
+            }
+            set { }
+        }
     }
 }

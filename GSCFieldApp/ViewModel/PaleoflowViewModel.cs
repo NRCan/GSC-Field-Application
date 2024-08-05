@@ -195,7 +195,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.PFlowID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(TableNames.pflow, _model.PFlowName, _model.PFlowParentID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.pflow, _model.PFlowName, _model.PFlowID);
             }
 
             //Exit

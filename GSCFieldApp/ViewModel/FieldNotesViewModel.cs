@@ -131,6 +131,20 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(IsMineralizationExpanded), value); }
         }
 
+        private bool _isLocationExpanded = false;
+        public bool IsLocationExpanded
+        {
+            get { return Preferences.Get(nameof(IsLocationExpanded), false); }
+            set { Preferences.Set(nameof(IsLocationExpanded), value); }
+        }
+
+        private bool _isDrillHoleExpanded = false;
+        public bool IsDrillHoleExpanded
+        {
+            get { return Preferences.Get(nameof(IsDrillHoleExpanded), false); }
+            set { Preferences.Set(nameof(IsDrillHoleExpanded), value); }
+        }
+
         public bool EarthMaterialVisible
         {
             get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
@@ -182,6 +196,12 @@ namespace GSCFieldApp.ViewModel
         public bool MineralizationVisible
         {
             get { return Preferences.Get(nameof(MineralizationVisible), true); }
+            set { }
+        }
+
+        public bool DrillHoleVisible
+        {
+            get { return Preferences.Get(nameof(DrillHoleVisible), true); }
             set { }
         }
 
@@ -374,6 +394,44 @@ namespace GSCFieldApp.ViewModel
             set { _mineralizationAlterations = value; }
         }
 
+        private ObservableCollection<FieldNote> _locations = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Locations
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.location))
+                {
+                    return _locations = FieldNotes[TableNames.location];
+                }
+                else
+                {
+                    return _locations = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _locations = value; }
+        }
+
+        private ObservableCollection<FieldNote> _drillHoles = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> DrillHoles
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.drill))
+                {
+                    return _drillHoles = FieldNotes[TableNames.drill];
+                }
+                else
+                {
+                    return _drillHoles = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _drillHoles = value; }
+        }
+
         private ObservableCollection<string> _dates = new ObservableCollection<string>();
         public ObservableCollection<string> Dates
         {
@@ -396,6 +454,8 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.environment, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.mineral, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.mineralization, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.location, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.drill, new ObservableCollection<FieldNote>());
 
             _dates = new ObservableCollection<string>();
 
@@ -485,6 +545,18 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsMineralizationExpanded = !IsMineralizationExpanded;
                     OnPropertyChanged(nameof(IsMineralizationExpanded));
+                }
+
+                if (inComingName.ToLower() == (nameof(TableNames.location)))
+                {
+                    IsLocationExpanded = !IsLocationExpanded;
+                    OnPropertyChanged(nameof(IsLocationExpanded));
+                }
+
+                if (inComingName.ToLower() == (nameof(TableNames.drill)))
+                {
+                    IsDrillHoleExpanded = !IsDrillHoleExpanded;
+                    OnPropertyChanged(nameof(IsDrillHoleExpanded));
                 }
 
                 //Special case, removing filtering on date and refreshing all records.
@@ -703,6 +775,42 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
+            if (fieldNotes.GenericTableName == TableLocation)
+            {
+                List<FieldLocation> tappedLocation = await currentConnection.Table<FieldLocation>().Where(i => i.LocationID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedLocation != null && tappedLocation.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(LocationPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(FieldLocation)] = (FieldLocation)tappedLocation[0],
+                        }
+                    );
+                }
+            }
+
+            if (fieldNotes.GenericTableName == TableDrillHoles)
+            {
+                List<DrillHole> tappedDrill= await currentConnection.Table<DrillHole>().Where(i => i.DrillID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to station page and keep locationmodel for relationnal link
+                if (tappedDrill != null && tappedDrill.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(DrillHolePage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(DrillHole)] = (DrillHole)tappedDrill[0],
+                            [nameof(FieldLocation)] = null,
+                        }
+                    );
+                }
+            }
         }
 
         #endregion
@@ -730,6 +838,8 @@ namespace GSCFieldApp.ViewModel
                 await FillEnvironmentNotes(currentConnection);
                 await FillMineralNotes(currentConnection);
                 await FillMineralizationAlterationNotes(currentConnection);
+                await FillLocationNotes(currentConnection);
+                await FillDrillHoleNotes(currentConnection);
 
                 await currentConnection.CloseAsync();
 
@@ -1097,7 +1207,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will get all database pflow to fill pflow cards
+        /// Will get all database fossils
         /// </summary>
         /// <param name="inConnection"></param>
         /// <returns></returns>
@@ -1143,7 +1253,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will get all database pflow to fill pflow cards
+        /// Will get all database environment records
         /// </summary>
         /// <param name="inConnection"></param>
         /// <returns></returns>
@@ -1189,7 +1299,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will get all database pflow to fill pflow cards
+        /// Will get all database minerals
         /// </summary>
         /// <param name="inConnection"></param>
         /// <returns></returns>
@@ -1242,7 +1352,7 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will get all database pflow to fill pflow cards
+        /// Will get all database mineralization/alteration
         /// </summary>
         /// <param name="inConnection"></param>
         /// <returns></returns>
@@ -1285,6 +1395,101 @@ namespace GSCFieldApp.ViewModel
                         GenericID = st.MAID,
                         ParentID = parentID.Value,
                         isValid = st.isValid
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
+
+        /// <summary>
+        /// Will get all database location 
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillLocationNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.location))
+            {
+                FieldNotes.Add(TableNames.location, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.location].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all stations from database
+            List<FieldLocation> mineralizations = await inConnection.Table<FieldLocation>().OrderBy(s => s.LocationID).ToListAsync();
+
+            if (mineralizations != null && mineralizations.Count > 0)
+            {
+
+                foreach (FieldLocation loc in mineralizations)
+                {
+                    string coordinatesFormat = string.Format("{0}° {1}°",
+                        Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
+                    FieldNotes[TableNames.location].Add(new FieldNote
+                    {
+                        Display_text_1 = loc.LocationAliasLight,
+                        Display_text_2 = coordinatesFormat,
+                        Display_text_3 = loc.locationNTS,
+                        GenericTableName = TableLocation,
+                        GenericID = loc.LocationID,
+                        ParentID = loc.MetaID,
+                        isValid = loc.isValid,
+                        Date = loc.LocationTimestamp
+                    });
+                }
+
+            }
+
+            OnPropertyChanged(nameof(FieldNotes));
+
+        }
+
+        /// <summary>
+        /// Will get all database drill holes 
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillDrillHoleNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.drill))
+            {
+                FieldNotes.Add(TableNames.drill, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.drill].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all stations from database
+            List<DrillHole> drills = await inConnection.Table<DrillHole>().OrderBy(s => s.DrillID).ToListAsync();
+
+            if (drills != null && drills.Count > 0)
+            {
+
+                foreach (DrillHole dr in drills)
+                {
+                    FieldNotes[TableNames.drill].Add(new FieldNote
+                    {
+                        Display_text_1 = dr.DrillAliasLight,
+                        Display_text_2 = dr.DrillCompany,
+                        Display_text_3 = dr.DrillType,
+                        GenericTableName = TableDrillHoles,
+                        GenericID = dr.DrillID,
+                        ParentID = dr.DrillLocationID,
+                        isValid = dr.isValid
                     });
                 }
 
@@ -1373,7 +1578,18 @@ namespace GSCFieldApp.ViewModel
 
                     #endregion
 
+                }
 
+                if (FieldNotesAll.ContainsKey(TableNames.location))
+                {
+                    FieldNotes[TableNames.location] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).ToList());
+                    OnPropertyChanged(nameof(Locations));
+                }
+
+                if (FieldNotesAll.ContainsKey(TableNames.drill))
+                {
+                    FieldNotes[TableNames.drill] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.drill].Where(x => x.Date == inDate).ToList());
+                    OnPropertyChanged(nameof(DrillHoles));
                 }
             }
 
@@ -1397,6 +1613,7 @@ namespace GSCFieldApp.ViewModel
                     await FillFieldNotesAsync();
                     break;
                 case TableNames.location:
+                    await FillLocationNotes(currentConnection);
                     break;
                 case TableNames.station:
                     await FillStationNotes(currentConnection);
@@ -1429,6 +1646,7 @@ namespace GSCFieldApp.ViewModel
                     await FillPaleoflowNotes(currentConnection);
                     break;
                 case TableNames.drill:
+                    await FillDrillHoleNotes(currentConnection);
                     break;
                 default:
                     await FillStationNotes(currentConnection);
@@ -1454,6 +1672,7 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(FossilVisible));
             OnPropertyChanged(nameof(MineralVisible));
             OnPropertyChanged(nameof(MineralizationVisible));
+            OnPropertyChanged(nameof(DrillHoleVisible));
         }
 
         #endregion

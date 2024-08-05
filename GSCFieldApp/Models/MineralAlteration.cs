@@ -41,7 +41,7 @@ namespace GSCFieldApp.Models
         public int? MAEarthmatID { get; set; }
 
         [Column(FieldMineralAlterationStationID)]
-        public int MAStationID { get; set; }
+        public int? MAStationID { get; set; }
 
 
         //Hierarchy

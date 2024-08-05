@@ -24,7 +24,7 @@ namespace GSCFieldApp.Services.DatabaseServices
     public class GeopackageService
     {
         public DataAccess dAcccess = new DataAccess();
-        public GeometryFactory defaultGeometryFactory = new GeometryFactory();
+        public static GeometryFactory defaultGeometryFactory = new GeometryFactory();
 
         /// <summary>
         /// This special class is used since mod_spatialite can't seem to be working
@@ -101,14 +101,33 @@ namespace GSCFieldApp.Services.DatabaseServices
                 GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
                 //Transform
-                CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory(); 
-                ICoordinateTransformation trans = ctFact.CreateFromCoordinateSystems(incomingProjection, wgs84);
-                double[] pointDouble = { outPoint.X, outPoint.Y};
-                double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
-
-                // Create a point at desired location
-                outPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
+                outPoint = TransformPointCoordinates(outPoint, incomingProjection, wgs84);
             }
+
+            return outPoint;
+        }
+
+        /// <summary>
+        /// Will take a input point object and transform it from one coordinate system
+        /// to another.
+        /// </summary>
+        /// <param name="inPointCoordinates"></param>
+        /// <param name="inCoordSystem"></param>
+        /// <param name="outCoordSystem"></param>
+        /// <returns></returns>
+        public static NTS.Geometries.Point TransformPointCoordinates(NTS.Geometries.Point inPointCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
+        {
+            //Init
+            NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
+
+            //Transform
+            CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory();
+            ICoordinateTransformation trans = ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem);
+            double[] pointDouble = { inPointCoordinates.X, inPointCoordinates.Y };
+            double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
+
+            //Create point
+            outPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
 
             return outPoint;
         }
