@@ -20,6 +20,7 @@
         <!-- UI data Converters-->
         <conv:BoolFromStringConverter x:Key="BoolFromStr" />
         <conv:String2Double x:Key="Str2Double"/>
+        <conv:String2Integers x:Key="Str2Int"/>
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
 
     </ContentPage.Resources>

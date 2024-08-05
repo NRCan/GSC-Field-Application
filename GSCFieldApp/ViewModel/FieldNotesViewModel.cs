@@ -874,8 +874,8 @@ namespace GSCFieldApp.ViewModel
             //Get all dates from key TableNames
             List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1} order by {0} desc", 
                 FieldStationVisitDate, TableStation));
-            List<DrillHole> drills = await inConnection.QueryAsync<DrillHole>(string.Format("select distinct({0}) from {1} order by {0} desc",
-                FieldDrillRelogDate, TableDrillHoles));
+            List<FieldLocation> locs = await inConnection.QueryAsync<FieldLocation>(string.Format("select distinct(SUBSTRING({0}, 1, 10)) as {0} from {1} order by {0} desc",
+                FieldLocationTimestamp, TableLocation));
 
             //Get all dates from database
             if (stats != null && stats.Count > 0)
@@ -897,16 +897,16 @@ namespace GSCFieldApp.ViewModel
                 }
             }
 
-            if (drills != null && drills.Count > 0)
+            if (locs != null && locs.Count > 0)
             {
-                foreach (DrillHole dr in drills)
+                foreach (FieldLocation dr in locs)
                 {
 
                     string dDate = LocalizationResourceManager["FieldNotesEmptyDate"].ToString();
 
-                    if (dr.DrillRelogDate != null && dr.DrillRelogDate != string.Empty)
+                    if (dr.LocationTimestamp != null && dr.LocationTimestamp != string.Empty)
                     {
-                        dDate = dr.DrillRelogDate;
+                        dDate = dr.LocationTimestamp;
                     }
 
                     if (!_dates.Contains(dDate))
@@ -1436,14 +1436,14 @@ namespace GSCFieldApp.ViewModel
                         Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
                     FieldNotes[TableNames.location].Add(new FieldNote
                     {
-                        Display_text_1 = loc.LocationAliasLight,
+                        Display_text_1 = loc.LocationAlias,
                         Display_text_2 = coordinatesFormat,
                         Display_text_3 = loc.locationNTS,
                         GenericTableName = TableLocation,
                         GenericID = loc.LocationID,
                         ParentID = loc.MetaID,
                         isValid = loc.isValid,
-                        Date = loc.LocationTimestamp
+                        Date = loc.LocationTimestamp.Substring(0, 10)
                     });
                 }
 
@@ -1584,13 +1584,38 @@ namespace GSCFieldApp.ViewModel
                 {
                     FieldNotes[TableNames.location] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).ToList());
                     OnPropertyChanged(nameof(Locations));
+
+                    //Children
+                    List<int> locIds = new List<int>();
+                    foreach (FieldNote lids in FieldNotes[TableNames.location])
+                    {
+                        locIds.Add(lids.GenericID);
+                    }
+
+                    FieldNotes[TableNames.drill] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.drill].Where(x => locIds.Contains(x.ParentID)).ToList());
+                    OnPropertyChanged(nameof(DrillHoles));
+
+
+                    #region drill First order children
+
+                    List<int> drillIds = new List<int>();
+                    foreach (FieldNote ds in FieldNotes[TableNames.drill])
+                    {
+                        drillIds.Add(ds.GenericID);
+                    }
+
+                    FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => drillIds.Contains(x.ParentID)).ToList());
+                    OnPropertyChanged(nameof(EarthMats));
+
+
+                    FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => drillIds.Contains(x.ParentID)).ToList());
+                    OnPropertyChanged(nameof(Documents));
+
+                    #endregion
+
+
                 }
 
-                if (FieldNotesAll.ContainsKey(TableNames.drill))
-                {
-                    FieldNotes[TableNames.drill] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.drill].Where(x => x.Date == inDate).ToList());
-                    OnPropertyChanged(nameof(DrillHoles));
-                }
             }
 
         }

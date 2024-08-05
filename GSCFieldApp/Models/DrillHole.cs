@@ -137,7 +137,7 @@ namespace GSCFieldApp.Models
                 if (DrillIDName != string.Empty)
                 {
                     int aliasNumber = 0;
-                    int.TryParse(DrillIDName.Substring(DrillIDName.Length - 4), out aliasNumber);
+                    int.TryParse(DrillIDName.Substring(DrillIDName.Length - 6,4), out aliasNumber);
 
                     if (aliasNumber > 0)
                     {
