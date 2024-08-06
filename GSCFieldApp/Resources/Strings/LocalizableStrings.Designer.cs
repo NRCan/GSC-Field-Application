@@ -2365,6 +2365,60 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide/Show dropdown language terms, as well as adding new ones for all forms and fields. All values can also be reordered with a drag-and-drop and a specific one can be set as a default value that will be automatically selected on form opening..
+        /// </summary>
+        internal static string PicklistPageExplanation {
+            get {
+                return ResourceManager.GetString("PicklistPageExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field.
+        /// </summary>
+        internal static string PicklistPageFields {
+            get {
+                return ResourceManager.GetString("PicklistPageFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms.
+        /// </summary>
+        internal static string PicklistPageFieldValues {
+            get {
+                return ResourceManager.GetString("PicklistPageFieldValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drop downs edition.
+        /// </summary>
+        internal static string PicklistPageHeading {
+            get {
+                return ResourceManager.GetString("PicklistPageHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes Table.
+        /// </summary>
+        internal static string PicklistPageTables {
+            get {
+                return ResourceManager.GetString("PicklistPageTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picklists.
+        /// </summary>
+        internal static string PicklistPageTitle {
+            get {
+                return ResourceManager.GetString("PicklistPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Azimuth.
         /// </summary>
         internal static string SamplePageAzimuth {

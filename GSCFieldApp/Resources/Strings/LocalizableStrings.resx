@@ -891,6 +891,24 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="PaleoflowRelativeAge" xml:space="preserve">
     <value>Relative Age</value>
   </data>
+  <data name="PicklistPageExplanation" xml:space="preserve">
+    <value>Hide/Show dropdown language terms, as well as adding new ones for all forms and fields. All values can also be reordered with a drag-and-drop and a specific one can be set as a default value that will be automatically selected on form opening.</value>
+  </data>
+  <data name="PicklistPageFields" xml:space="preserve">
+    <value>Field</value>
+  </data>
+  <data name="PicklistPageFieldValues" xml:space="preserve">
+    <value>Terms</value>
+  </data>
+  <data name="PicklistPageHeading" xml:space="preserve">
+    <value>Drop downs edition</value>
+  </data>
+  <data name="PicklistPageTables" xml:space="preserve">
+    <value>Notes Table</value>
+  </data>
+  <data name="PicklistPageTitle" xml:space="preserve">
+    <value>Picklists</value>
+  </data>
   <data name="SamplePageAzimuth" xml:space="preserve">
     <value>Azimuth</value>
   </data>

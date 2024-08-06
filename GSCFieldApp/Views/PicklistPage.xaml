@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.PicklistPage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:models="clr-namespace:GSCFieldApp.Models"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:PicklistViewModel"
+             Title="{local:Localize PicklistPageTitle}">
+
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:BoldFontFromStringConverter x:Key="FontBoldFromStr" />
+        <conv:ComboboxItemToTableEnum x:Key="cbox2Enum"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+        <DataTemplate x:Key="PicklistValueTemplate" x:DataType="models:Picklist">
+
+            <ViewCell>
+
+                <Grid Style="{StaticResource FieldAppSettingGrid}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="{Binding PicklistFieldValueName}" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Start"
+                           Grid.Column="0" Grid.Row="0" TextColor="{StaticResource Black}" FontAttributes="{Binding PicklistDefault, Converter={StaticResource FontBoldFromStr}}" />
+                    <Switch IsToggled="{Binding PicklistVisible, Converter={StaticResource BoolFromStr}}" 
+                            Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+
+                </Grid>
+
+            </ViewCell>
+
+        </DataTemplate>
+
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+
+        <ScrollView Orientation="Vertical">
+            <VerticalStackLayout>
+
+                <!--Picklist selection-->
+                <Frame BorderColor="Transparent">
+                    <VerticalStackLayout>
+                        <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize PicklistPageHeading}"/>
+
+                        <VerticalStackLayout>
+                            <Label Text="{local:Localize PicklistPageExplanation}"/>
+                        </VerticalStackLayout>
+
+                        <Picker Title="{local:Localize PicklistPageTables}" x:Name="PicklistPageTablesPicker" HorizontalOptions="Start"
+                                    ItemsSource="{Binding PicklistTables.cboxItems}" Margin="0,10,0,10"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageTablesPicker_SelectedIndexChanged"
+                                    SelectedItem="{Binding Model.PicklistName, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding PicklistTables, Source={x:Reference PicklistPageTablesPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding PicklistTables.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                        <Picker Title="{local:Localize PicklistPageFields}" x:Name="PicklistPageFieldsPicker" HorizontalOptions="Start"
+                                    ItemsSource="{Binding PicklistFields.cboxItems}" Margin="0,0,0,10"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageFieldsPicker_SelectedIndexChanged"
+                                    SelectedItem="{Binding Model.PicklistField, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding PicklistFields, Source={x:Reference PicklistPageFieldsPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding PicklistFields.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                        <Label Text="{local:Localize PicklistPageFieldValues}"/>
+                        <Frame BorderColor="{StaticResource Primary}" Margin="0,10,0,10" MaximumHeightRequest="500" MinimumWidthRequest="350" HorizontalOptions="Start">
+                            <ListView ItemsSource="{Binding PicklistValues, Mode=TwoWay}" Margin="0,0,0,10" MaximumHeightRequest="500" MinimumWidthRequest="350"
+                                  ItemTemplate="{StaticResource PicklistValueTemplate}"
+                                  Style="{StaticResource FieldAppPickListView}"/>
+                        </Frame>
+
+
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

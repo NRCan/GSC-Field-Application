@@ -83,6 +83,9 @@ public static class MauiProgram
         builder.Services.AddTransient<DrillHolePage>();
         builder.Services.AddTransient<DrillHoleViewModel>();
 
+        builder.Services.AddTransient<PicklistPage>();
+        builder.Services.AddTransient<PicklistViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
         builder.Services.AddTransient<MessageService>();

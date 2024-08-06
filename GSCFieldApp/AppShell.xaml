@@ -45,11 +45,12 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellPicklistEditorTitle}" Command="{Binding DoPicklistEditorCommand}" >
-        <MenuItem.IconImageSource>
+    <FlyoutItem Title="{local:Localize ShellPicklistEditorTitle}" >
+        <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF0900;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
-        </MenuItem.IconImageSource>
-    </MenuItem>
+        </FlyoutItem.FlyoutIcon>
+        <ShellContent ContentTemplate="{DataTemplate views:PicklistPage}"/>
+    </FlyoutItem>
 
     <FlyoutItem Title="{local:Localize ShellSettingsTitle}" >
         <FlyoutItem.FlyoutIcon>

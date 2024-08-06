@@ -245,6 +245,12 @@
         <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}"/>
     </Style>
 
+    <Style TargetType="ListView" x:Key="FieldAppPickListView">
+        <Setter Property="SelectionMode" Value="Single"/>
+        <!--<Setter Property="IsGroupingEnabled" Value="True"/>-->
+        <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}"/>
+    </Style>
+
     <Style TargetType="CollectionView" x:Key="FieldAppNotesTabletCollectionView">
         <Setter Property="IsVisible" Value="{OnIdiom Desktop=True, Phone=False, Tablet=True}"/>
         <Setter Property="SelectionMode" Value="Single"/>

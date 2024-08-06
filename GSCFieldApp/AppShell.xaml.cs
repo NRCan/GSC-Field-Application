@@ -16,7 +16,6 @@ public partial class AppShell : Shell
 {
     public ICommand NavigateToSettingsCommand { get; private set; }
     public ICommand DoBackupCommand { get; private set; }
-    public ICommand DoPicklistEditorCommand { get; private set; }
     public ICommand DoPhotoBackupCommand { get; private set; }
 
     public AppShell()
@@ -29,6 +28,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(FieldBooksPage), typeof(FieldBooksPage));
         Routing.RegisterRoute(nameof(FieldNotesPage), typeof(FieldNotesPage));
         Routing.RegisterRoute(nameof(MapPage), typeof(MapPage));
+        Routing.RegisterRoute(nameof(PicklistPage), typeof(PicklistPage));
 
         //Will be used to trigger a backup process
         DoBackupCommand = new Command(async () =>
@@ -36,12 +36,6 @@ public partial class AppShell : Shell
             AppFileServices fileServices = new AppFileServices();
             await fileServices.SaveBackupDBFile(CancellationToken.None);
 
-        });
-
-
-        DoPicklistEditorCommand = new Command(async () => {
-            await DisplayAlert("Alert", "Not yet implemented", "OK");
-            
         });
 
         DoPhotoBackupCommand = new Command(async () => {
@@ -66,6 +60,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(MineralizationAlterationPage), typeof(MineralizationAlterationPage));
         Routing.RegisterRoute(nameof(LocationPage), typeof(LocationPage));
         Routing.RegisterRoute(nameof(DrillHolePage), typeof(DrillHolePage));
+
         #endregion
 
         BindingContext = this;
