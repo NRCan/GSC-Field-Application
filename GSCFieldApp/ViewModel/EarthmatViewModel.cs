@@ -28,6 +28,7 @@ namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Earthmaterial), nameof(Earthmaterial))]
     [QueryProperty(nameof(Station), nameof(Station))]
+    [QueryProperty(nameof(DrillHole), nameof(DrillHole))]
     public partial class EarthmatViewModel : FieldAppPageHelper
     {
         #region INIT
@@ -106,6 +107,9 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private Station _station;
+
+        [ObservableProperty]
+        private DrillHole _drillHole;
 
         public Earthmaterial Model { get { return _model; } set { _model = value; } }
         public bool EMLithoVisibility
@@ -1107,6 +1111,21 @@ namespace GSCFieldApp.ViewModel
                 Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(Model.EarthMatStatID.Value, parentAlias.First().StationAlias);
             }
 
+            if (_drillHole != null)
+            {
+                // if coming from station notes, calculate new alias
+                Model.EarthMatDrillHoleID = _drillHole.DrillID;
+                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_drillHole.DrillID, _drillHole.DrillIDName);
+            }
+            else if (Model.EarthMatDrillHoleID != null)
+            {
+                // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                List<DrillHole> parentAlias = await currentConnection.Table<DrillHole>().Where(e => e.DrillID == Model.EarthMatDrillHoleID.Value).ToListAsync();
+                await currentConnection.CloseAsync();
+                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(Model.EarthMatDrillHoleID.Value, parentAlias.First().DrillIDName);
+            }
+
             Model.EarthMatID = 0;
             
         }
@@ -1285,6 +1304,15 @@ namespace GSCFieldApp.ViewModel
                 //Get current application version
                 Model.EarthMatStatID = _station.StationID;
                 Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_station.StationID, _station.StationAlias);
+                OnPropertyChanged(nameof(Model));
+            }
+
+            //Might be coming from a less known parent
+            if (Model != null && Model.EarthMatID == 0 && _drillHole != null)
+            {
+                //Get current application version
+                Model.EarthMatDrillHoleID = _drillHole.DrillID;
+                Model.EarthMatName = await idCalculator.CalculateEarthmatAliasAsync(_drillHole.DrillID, _drillHole.DrillIDName);
                 OnPropertyChanged(nameof(Model));
             }
         }

@@ -253,11 +253,32 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
     <value>Prendre une photo avec l'appareil</value>
   </data>
+  <data name="DrillHoleContextTitle" xml:space="preserve">
+    <value>Contexte</value>
+  </data>
+  <data name="DrillHoleGeneralTitle" xml:space="preserve">
+    <value>Général</value>
+  </data>
+  <data name="DrillHoleLogDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DrillHoleLogTitle" xml:space="preserve">
+    <value>Journal</value>
+  </data>
+  <data name="DrillHoleMetricsTitle" xml:space="preserve">
+    <value>Mesures</value>
+  </data>
   <data name="DrillHolePageAzimuth" xml:space="preserve">
     <value>Azimut</value>
   </data>
   <data name="DrillHolePageCompany" xml:space="preserve">
     <value>Entreprise</value>
+  </data>
+  <data name="DrillHolePageCoreSize" xml:space="preserve">
+    <value>Taille de la carotte</value>
+  </data>
+  <data name="DrillHolePageDate" xml:space="preserve">
+    <value>Date</value>
   </data>
   <data name="DrillHolePageDip" xml:space="preserve">
     <value>Pendage</value>
@@ -268,8 +289,29 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DrillHolePageLength" xml:space="preserve">
     <value>Longueur</value>
   </data>
+  <data name="DrillHolePageLogBy" xml:space="preserve">
+    <value>Par</value>
+  </data>
+  <data name="DrillHolePageLogFrom" xml:space="preserve">
+    <value>À partir de (m)</value>
+  </data>
+  <data name="DrillHolePageLogTo" xml:space="preserve">
+    <value>Jusqu'à (m)</value>
+  </data>
+  <data name="DrillHolePageLogType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillHolePageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="DrillHolePageOriginalName" xml:space="preserve">
     <value>Nom d'origine</value>
+  </data>
+  <data name="DrillHolePageRelatedTo" xml:space="preserve">
+    <value>En lien avec (ex: une station)</value>
+  </data>
+  <data name="DrillHolePageSummary" xml:space="preserve">
+    <value>Sommaire</value>
   </data>
   <data name="DrillHolePageTitle" xml:space="preserve">
     <value>Puit de forage</value>

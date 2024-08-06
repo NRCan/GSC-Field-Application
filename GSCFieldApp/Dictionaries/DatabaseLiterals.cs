@@ -319,7 +319,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldDrillType = "DRILLHOLE_TYPE"; //Version 1.8
         public const string FieldDrillAzimuth = "AZIMUTH"; //Version 1.8
         public const string FieldDrillDip = "DIP"; //Version 1.8
-        public const string FieldDrillDepth = "DH_DEPTH"; //Version 1.8
+        public const string FieldDrillDepth = "DH_LENGTH"; //Version 1.8
         public const string FieldDrillUnit = "UNIT"; //Version 1.8
         public const string FieldDrillDate = "DRILHOLE_DATE"; //Version 1.8
         public const string FieldDrillHoleSize = "DRILLHOLE_SIZE"; //Version 1.8

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using SQLite;
 using CommunityToolkit.Maui.Alerts;
 using System.Security.Cryptography;
+using System.Collections.ObjectModel;
 namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(DrillHole), nameof(DrillHole))]
@@ -26,6 +27,14 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _drillType = new ComboBox();
         private ComboBox _drillUnits = new ComboBox();
         private ComboBox _drillHoleSizes = new ComboBox();
+        private ComboBox _drillHoleLogType = new ComboBox();
+        private ComboBox _drillCoreSizes = new ComboBox();
+
+        private ComboBox _drillCoreSizesAll = new ComboBox();
+
+        private string _drillHoleLogFrom = string.Empty;
+        private string _drillHoleLogTo = string.Empty;
+        private ObservableCollection<ComboBoxItem> _drillHoleLogIntervalCollection = new ObservableCollection<ComboBoxItem>();
 
         #endregion
 
@@ -65,7 +74,15 @@ namespace GSCFieldApp.ViewModel
 
         public ComboBox DrillType { get { return _drillType; } set { _drillType = value; } }
         public ComboBox DrillUnits { get { return _drillUnits; } set { _drillUnits = value; } }
-        public ComboBox DrilHoleSizes { get { return _drillHoleSizes; } set { _drillHoleSizes = value; } }
+        public ComboBox DrillHoleSizes { get { return _drillHoleSizes; } set { _drillHoleSizes = value; } }
+        public ComboBox DrillHoleLogType { get { return _drillHoleLogType; } set { _drillHoleLogType = value; } }
+        public ComboBox DrillCoreSizes { get { return _drillCoreSizes; } set { _drillCoreSizes = value; } }
+
+        public string DrillHoleLogFrom { get { return _drillHoleLogFrom; } set { _drillHoleLogFrom = value; } }
+        public string DrillHoleLogTo { get { return _drillHoleLogTo; } set { _drillHoleLogTo = value; } }
+        public ObservableCollection<ComboBoxItem> DrillHoleLogIntervalCollection { get { return _drillHoleLogIntervalCollection; } set { _drillHoleLogIntervalCollection = value; OnPropertyChanged(nameof(DrillHoleLogIntervalCollection)); } }
+
+
         #endregion
 
         #region RELAYS
@@ -124,6 +141,62 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Special command to set contact relation with other records
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        public async Task SetLogInterval()
+        {
+            if (_drillHoleLogFrom != string.Empty && _drillHoleLogTo != string.Empty)
+            {
+                //Build string
+                string logInterval = _drillHoleLogFrom + KeywordConcatCharacter2nd + _drillHoleLogTo;
+
+                //Add 
+                ComboBoxItem newInterval = new ComboBoxItem();
+                newInterval.itemName = logInterval;
+                newInterval.itemValue = logInterval;
+                newInterval.canRemoveItem = true;
+                _drillHoleLogIntervalCollection.Add(newInterval);
+            }
+
+            OnPropertyChanged(nameof(DrillHoleLogIntervalCollection));
+        }
+
+        [RelayCommand]
+        async Task AddEarthmat()
+        {
+            //Save
+            await SetAndSaveModelAsync();
+
+            //Navigate to child
+            await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Earthmaterial)] = null,
+                    [nameof(Station)] = null,
+                    [nameof(DrillHole)] = Model
+                }
+            );
+        }
+
+        [RelayCommand]
+        async Task AddDocument()
+        {
+            //Save
+            await SetAndSaveModelAsync();
+
+            //Navigate to child
+            await Shell.Current.GoToAsync($"{nameof(DocumentPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Station)] = null,
+                    [nameof(Document)] = null,
+                    [nameof(DrillHole)] = Model
+                }
+            );
+        }
 
         #endregion
 
@@ -200,6 +273,19 @@ namespace GSCFieldApp.ViewModel
                 //Set model like actual record
                 _model = _drillHole;
 
+
+                List<string> dris = ConcatenatedCombobox.UnpipeString(_drillHole.DrillRelogIntervals);
+                _drillHoleLogIntervalCollection.Clear(); //Clear any possible values first
+                foreach (string dri in dris)
+                {
+                    ComboBoxItem new_dri = new ComboBoxItem();
+                    new_dri.itemValue = dri;
+                    new_dri.itemName = dri;
+                    new_dri.canRemoveItem = true;
+                    _drillHoleLogIntervalCollection.Add(new_dri);
+                }
+                OnPropertyChanged(nameof(DrillHoleLogIntervalCollection));
+
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
@@ -221,7 +307,15 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(DrillUnits));
 
             _drillHoleSizes = await FillAPicker(FieldDrillHoleSize);
-            OnPropertyChanged(nameof(DrilHoleSizes));
+            OnPropertyChanged(nameof(DrillHoleSizes));
+
+            _drillHoleLogType = await FillAPicker(FieldDrillRelogType);
+            OnPropertyChanged(nameof(DrillHoleLogType));
+
+            _drillCoreSizesAll = await FillAPicker(FieldDrillCoreSize);
+
+            //Not a picker but still needs initialization
+            await FillLogBy();
         }
 
 
@@ -252,6 +346,48 @@ namespace GSCFieldApp.ViewModel
             }
 
         }
+
+        /// <summary>
+        /// Will fill log by with default value of fieldbook geologist
+        /// </summary>
+        private async Task FillLogBy()
+        {
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+            List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+
+            if (mets != null && mets.Count == 1)
+            {
+                _model.DrillRelogBy = mets[0].Geologist;
+
+                //Update UI
+                OnPropertyChanged(nameof(Model));
+            }
+            await currentConnection.CloseAsync();
+        }
+
+        /// <summary>
+        /// Will autofill the core size based on selected hole size.
+        /// structure class/type
+        /// </summary>
+        /// <returns></returns>
+        public async Task FillCoreSize()
+        {
+            //Push value to a text box. 
+            if (_model != null && _model.DrillHoleSize != null && _model.DrillHoleSize != string.Empty && _drillCoreSizesAll != null && _drillCoreSizesAll.cboxItems.Count > 0)
+            {
+                ComboBoxItem getParent = _drillCoreSizesAll.cboxItems.Where(f => f.itemParent != null && f.itemParent.Contains(_model.DrillHoleSize)).ToList().FirstOrDefault();
+
+                if (getParent != null)
+                {
+                    _model.DrillCoreSize = getParent.itemValue;
+
+                    OnPropertyChanged(nameof(Model));
+                }
+
+            }
+
+        }
+
 
         #endregion
     }

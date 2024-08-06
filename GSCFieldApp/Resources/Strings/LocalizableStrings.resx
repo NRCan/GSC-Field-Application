@@ -264,11 +264,32 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
     <value>Take a snapshot with device</value>
   </data>
+  <data name="DrillHoleContextTitle" xml:space="preserve">
+    <value>Context</value>
+  </data>
+  <data name="DrillHoleGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="DrillHoleLogDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DrillHoleLogTitle" xml:space="preserve">
+    <value>Log/Relog</value>
+  </data>
+  <data name="DrillHoleMetricsTitle" xml:space="preserve">
+    <value>Metrics</value>
+  </data>
   <data name="DrillHolePageAzimuth" xml:space="preserve">
     <value>Azimuth</value>
   </data>
   <data name="DrillHolePageCompany" xml:space="preserve">
     <value>Company</value>
+  </data>
+  <data name="DrillHolePageCoreSize" xml:space="preserve">
+    <value>Core Size</value>
+  </data>
+  <data name="DrillHolePageDate" xml:space="preserve">
+    <value>Date</value>
   </data>
   <data name="DrillHolePageDip" xml:space="preserve">
     <value>Dip</value>
@@ -279,8 +300,29 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DrillHolePageLength" xml:space="preserve">
     <value>Length</value>
   </data>
+  <data name="DrillHolePageLogBy" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="DrillHolePageLogFrom" xml:space="preserve">
+    <value>From (m)</value>
+  </data>
+  <data name="DrillHolePageLogTo" xml:space="preserve">
+    <value>To (m)</value>
+  </data>
+  <data name="DrillHolePageLogType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillHolePageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
   <data name="DrillHolePageOriginalName" xml:space="preserve">
     <value>Original Name</value>
+  </data>
+  <data name="DrillHolePageRelatedTo" xml:space="preserve">
+    <value>Related To</value>
+  </data>
+  <data name="DrillHolePageSummary" xml:space="preserve">
+    <value>Summary</value>
   </data>
   <data name="DrillHolePageTitle" xml:space="preserve">
     <value>Drill Hole</value>

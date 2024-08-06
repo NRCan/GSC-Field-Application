@@ -19,6 +19,7 @@ namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Station), nameof(Station))]
     [QueryProperty(nameof(Document), nameof(Document))]
+    [QueryProperty(nameof(DrillHole), nameof(DrillHole))]
     public partial class DocumentViewModel: FieldAppPageHelper
     {
         #region INIT
@@ -43,6 +44,9 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private Document _document;
+
+        [ObservableProperty]
+        private DrillHole _drillHole;
 
         public Document Model { get { return _model; } set { _model = value; } }
 
