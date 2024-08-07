@@ -112,16 +112,6 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PicklistTables.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <!--<Picker Title="{local:Localize PicklistPageFields}" x:Name="PicklistPageFieldsPicker" HorizontalOptions="Start"
-                                    Grid.Column="0" Grid.Row="1"
-                                    ItemsSource="{Binding PicklistFields.cboxItems}" Margin="0,10,0,10"
-                                    ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageFieldsPicker_SelectedIndexChanged"
-                                    SelectedItem="{Binding ModelPicklist.PicklistField, 
-                                        Converter={StaticResource cbox2Str},
-                                        ConverterParameter={Binding PicklistFields, Source={x:Reference PicklistPageFieldsPicker}},
-                                        Mode=TwoWay}"
-                                    SelectedIndex="{Binding PicklistFields.cboxDefaultItemIndex, Mode=TwoWay}" />-->
-
                             <Picker Title="{local:Localize PicklistPageFields}" x:Name="PicklistPageFieldsPicker" HorizontalOptions="Start"
                                     Grid.Column="0" Grid.Row="1"
                                     ItemsSource="{Binding PicklistFields.cboxItems}" Margin="0,10,0,10"

@@ -15,6 +15,7 @@ using SQLite;
 using CommunityToolkit.Maui.Alerts;
 using System.IO;
 using System.Collections.ObjectModel;
+using NetTopologySuite.Index.IntervalRTree;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -61,9 +62,18 @@ namespace GSCFieldApp.ViewModel
                 newVocab.Creator = Preferences.Get(nameof(FieldUserInfoUCode), AppInfo.Current.Name);
                 newVocab.CreatorDate = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
 
+                //Manage parent
+                if (_modelPicklist.PicklistParent != null && _modelPicklist.PicklistParent != string.Empty)
+                {
+                    newVocab.RelatedTo = _modelPicklist.PicklistParent;
+                }
+
                 //Add
                 _picklistValues.Insert(0, newVocab);
                 OnPropertyChanged(nameof(PicklistValues));
+
+                //Save
+                await da.SaveItemAsync(newVocab, false);
             }
 
         }
@@ -105,12 +115,13 @@ namespace GSCFieldApp.ViewModel
                     _picklistValues.RemoveAt(vocabIndex);
                     _picklistValues.Insert(vocabIndex, vocabToEdit);
                     OnPropertyChanged(nameof(PicklistValues));
+
+                    SaveAll();
                 }
             }
 
 
         }
-
 
         /// <summary>
         /// Will force a ascending alphabetical order sort on the picklist values
@@ -128,6 +139,8 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 OnPropertyChanged(nameof(PicklistValues));
+
+                SaveAll();
             }
 
         }
@@ -140,8 +153,6 @@ namespace GSCFieldApp.ViewModel
                 //Get a new list so we can edit later one the real one
                 List<Vocabularies> copiedVocbs = _picklistValues.ToList();
                 _picklistValues.Clear();
-
-
 
                 foreach (Vocabularies vocs in copiedVocbs)
                 {
@@ -168,9 +179,9 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(PicklistValues));
+
+                SaveAll();
             }
-
-
         }
 
         #endregion
@@ -210,7 +221,7 @@ namespace GSCFieldApp.ViewModel
 
             //Connect
             SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-            _vocabularyManagers = await currentConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeProjectType == fieldworkType || e.ThemeProjectType == string.Empty)).ToListAsync();
+            _vocabularyManagers = await currentConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeSpecificTo == fieldworkType || e.ThemeSpecificTo == string.Empty)).ToListAsync();
 
             //Special fill for table names
             _picklistTables = await FillTablePicklist(currentConnection);
@@ -235,69 +246,69 @@ namespace GSCFieldApp.ViewModel
 
                 foreach (VocabularyManager vcms in _vocabularyManagers)
                 {
-                    if (!parsedVoc.Contains(vcms.ThemeTable))
+                    if (!parsedVoc.Contains(vcms.ThemeAssignTable))
                     {
                         //Spoof a vocab object and get localized table name
                         Vocabularies voc = new Vocabularies();
-                        voc.Code = vcms.ThemeTable;
-                        voc.Description = vcms.ThemeTable;
+                        voc.Code = vcms.ThemeAssignTable;
+                        voc.Description = vcms.ThemeAssignTable;
 
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.environment.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.environment.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesEnvironmentHeader"].ToString();
                         }
 
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.document.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.document.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesPhotoHeader"].ToString();
                         }
 
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.drill.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.drill.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesDrillHolesHeader"].ToString();
                         }
 
-                        if (vcms.ThemeTable.ToLower().Contains(KeywordEarthmat))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(KeywordEarthmat))
                         {
-                            voc.Code = vcms.ThemeTable;
+                            voc.Code = vcms.ThemeAssignTable;
                             voc.Description = LocalizationResourceManager["FielNotesEMHeader"].ToString();
                         }
 
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.fossil.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.fossil.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesFossilHeader"].ToString();
                         }
 
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.location.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.location.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesLocationHeader"].ToString();
                         }
 
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.meta.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.meta.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FieldBookPageTitle"].ToString();
                         }
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.mineral.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.mineral.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesMineralHeader"].ToString();
                         }
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.mineralization.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.mineralization.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesMineralizationHeader"].ToString();
                         }
-                        if (vcms.ThemeTable.ToLower().Contains(KeywordPflow))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(KeywordPflow))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesPaleoflowHeader"].ToString();
                         }
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.sample.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.sample.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesSampleHeader"].ToString();
                         }
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.station.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.station.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesStationHeader"].ToString();
                         }
-                        if (vcms.ThemeTable.ToLower().Contains(TableNames.structure.ToString()))
+                        if (vcms.ThemeAssignTable.ToLower().Contains(TableNames.structure.ToString()))
                         {
                             voc.Description = LocalizationResourceManager["FielNotesStructureHeader"].ToString();
                         }
@@ -307,7 +318,7 @@ namespace GSCFieldApp.ViewModel
                         {
                             vocTable.Add(voc);
 
-                            parsedVoc.Add(vcms.ThemeTable);
+                            parsedVoc.Add(vcms.ThemeAssignTable);
                         }
 
 
@@ -341,21 +352,21 @@ namespace GSCFieldApp.ViewModel
 
             if (_vocabularyManagers != null && _vocabularyManagers.Count > 0 && ModelPicklist.PicklistName != string.Empty)
             {
-                List<VocabularyManager> subVocabList = _vocabularyManagers.Where(v => v.ThemeTable == ModelPicklist.PicklistName).ToList();
+                List<VocabularyManager> subVocabList = _vocabularyManagers.Where(v => v.ThemeAssignTable == ModelPicklist.PicklistName).ToList();
                 foreach (VocabularyManager vcms in subVocabList)
                 {
-                    if (!parsedVoc.Contains(vcms.ThemeField))
+                    if (!parsedVoc.Contains(vcms.ThemeAssignField))
                     {
                         //Spoof a vocab object and get localized table name
                         Vocabularies voc = new Vocabularies();
-                        voc.Code = vcms.ThemeName;
-                        voc.Description = vcms.ThemeNameDesc;
+                        voc.Code = vcms.ThemeCodedTheme;
+                        voc.Description = vcms.ThemeCodeThemeDesc;
 
                         //Prevent bs from beind added.
                         if (voc.Code != null && voc.Code != string.Empty)
                         {
                             vocTable.Add(voc);
-                            parsedVoc.Add(vcms.ThemeField);
+                            parsedVoc.Add(vcms.ThemeAssignField);
                         }
 
 
@@ -388,7 +399,13 @@ namespace GSCFieldApp.ViewModel
 
             if (_modelPicklist.PicklistParent != null && _modelPicklist.PicklistParent != string.Empty)
             {
-                incomingValues = await da.GetPicklistValuesAsync(ModelPicklist.PicklistName, ModelPicklist.PicklistField, _modelPicklist.PicklistParent, false);
+                //Get db AssignTo field from selection
+                List<VocabularyManager> assignToFields = _vocabularyManagers.Where(v => v.ThemeCodedTheme == _modelPicklist.PicklistField).ToList();
+                if (assignToFields != null && assignToFields.Count() > 0)
+                {
+                    incomingValues = await da.GetPicklistValuesAsync(ModelPicklist.PicklistName, assignToFields[0].ThemeAssignField, _modelPicklist.PicklistParent, false);
+                }
+                
             }
             else
             {
@@ -460,6 +477,41 @@ namespace GSCFieldApp.ViewModel
             }
 
             return doesHaveParents;
+        }
+
+        /// <summary>
+        /// Will set current picklist collection
+        /// </summary>
+        public async void SaveAll()
+        {
+            if (_picklistValues != null && _picklistValues.Count() > 0)
+            {
+                //Get date
+                string currentTime = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+
+                //Get user geolcode
+                string userCode = Preferences.Get(nameof(FieldUserInfoUCode), AppInfo.Current.Name);
+
+                //Set order
+                double iterativeOrder = 1.0;
+
+                //Iterate through picklist values
+                foreach (Vocabularies vocs in _picklistValues)
+                {
+                    //Keep some knowledge about who has done this
+                    vocs.Editor = userCode;
+                    vocs.EditorDate = currentTime;
+
+                    //New order
+                    vocs.Order = iterativeOrder;
+
+                    await da.SaveItemAsync(vocs, true);
+
+                    iterativeOrder++;
+                }
+
+                
+            }
         }
         #endregion
     }

@@ -727,8 +727,8 @@ namespace GSCFieldApp.ViewModel
         private async Task FillLithoSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeField == FieldEarthMatLithdetail) && (theme.ThemeProjectType.Contains(in_projectType))) .ToListAsync();
-            _litho_detail_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeName orderby v.Code select v;
+            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithdetail) && (theme.ThemeSpecificTo.Contains(in_projectType))) .ToListAsync();
+            _litho_detail_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
 
             var _lihthoSearchResults = new List<string>();
             foreach (Vocabularies tmp in _litho_detail_vocab)
@@ -761,8 +761,8 @@ namespace GSCFieldApp.ViewModel
         private async Task FillLithoGroupSearchListAsync(List<Vocabularies> in_vocab, string in_projectType)
         {
 
-            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeField == FieldEarthMatLithgroup) && (theme.ThemeProjectType.Contains(in_projectType))).ToListAsync();
-            _litho_group_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeName orderby v.Code select v;
+            List<VocabularyManager> vocab_manager = await currentConnection.Table<VocabularyManager>().Where(theme => (theme.ThemeAssignField == FieldEarthMatLithgroup) && (theme.ThemeSpecificTo.Contains(in_projectType))).ToListAsync();
+            _litho_group_vocab = from v in in_vocab join vm in vocab_manager on v.CodedTheme equals vm.ThemeCodedTheme orderby v.Code select v;
 
             var _lihthoSearchResults = new List<string>();
             foreach (Vocabularies tmp in _litho_group_vocab)
