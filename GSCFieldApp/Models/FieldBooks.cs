@@ -43,7 +43,10 @@ namespace GSCFieldApp.Models
             da.PreferedDatabasePath = ProjectDBPath;
 
             //Keep theme
-            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoPName), metadataForProject.FieldworkType);
+            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), metadataForProject.FieldworkType);
+
+            //Keep geolcode
+            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoUCode), metadataForProject.Geologist);
         }
 
         /// <summary>
@@ -58,7 +61,7 @@ namespace GSCFieldApp.Models
             da.PreferedDatabasePath = ProjectDBPath;
 
             //Keep theme
-            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoPName), metadataForProject.FieldworkType);
+            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), metadataForProject.FieldworkType);
 
             //Navigate to fieldbook page and send along the metadata
             if (metadataForProject != null)

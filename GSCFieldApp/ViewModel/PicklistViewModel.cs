@@ -18,30 +18,174 @@ using System.Collections.ObjectModel;
 
 namespace GSCFieldApp.ViewModel
 {
-    public partial class PicklistViewModel: FieldAppPageHelper
+    public partial class PicklistViewModel : FieldAppPageHelper
     {
         #region INIT
-        private Picklist _model = new Picklist();
+        private Vocabularies _model = new Vocabularies();
+        private Picklist _modelPicklist = new Picklist();
         private ComboBox _picklistTables = new ComboBox();
         private ComboBox _picklistFields = new ComboBox();
-
+        private ComboBox _picklistParents = new ComboBox();
         private List<VocabularyManager> _vocabularyManagers = new List<VocabularyManager>();
-        private ObservableCollection<Picklist> _picklistValues = new ObservableCollection<Picklist>();
+        private ObservableCollection<Vocabularies> _picklistValues = new ObservableCollection<Vocabularies>();
 
         #endregion
 
         #region RELAYS
+        /// <summary>
+        /// Will add a new term within the database
+        /// </summary>
+        [RelayCommand]
+        async void AddNewTerm()
+        {
+
+            string popUpTitle = LocalizationResourceManager["PicklistPageAddNewTermTitle"].ToString();
+            string popUpContent = LocalizationResourceManager["PicklistPageAddNewTermContent"].ToString();
+            string result = await Shell.Current.DisplayPromptAsync(popUpTitle, popUpContent);
+
+            if (result != null && result != string.Empty)
+            {
+                //Trim
+                result = result.Trim();
+
+                //Set
+                Vocabularies newVocab = new Vocabularies();
+                newVocab.Code = result;
+                newVocab.Description = result;
+                newVocab.DescriptionFR = result;
+                newVocab.TermID = idCalculator.CalculateGUID();
+                newVocab.CodedTheme = _picklistValues.First().CodedTheme; //Steal from first item
+                newVocab.Visibility = boolYes;
+                newVocab.Editable = boolYes;
+                newVocab.Order = 0.0; //Make sure to add in first place
+                newVocab.Creator = Preferences.Get(nameof(FieldUserInfoUCode), AppInfo.Current.Name);
+                newVocab.CreatorDate = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+
+                //Add
+                _picklistValues.Insert(0, newVocab);
+                OnPropertyChanged(nameof(PicklistValues));
+            }
+
+        }
+
+        /// <summary>
+        /// Will mod a term
+        /// </summary>
+        [RelayCommand]
+        async void ModifyTerm(Vocabularies vocabToEdit)
+        {
+            if (vocabToEdit != null)
+            {
+                string popUpTitle = LocalizationResourceManager["PicklistPageModifyTermTitle"].ToString();
+                string popUpContent = LocalizationResourceManager["PicklistPageModifyTermContent"].ToString();
+                string popUpButtonOK = LocalizationResourceManager["GenericButtonOk"].ToString();
+                string popUpButtonCancel = LocalizationResourceManager["GenericButtonCancel"].ToString();
+                string result = await Shell.Current.DisplayPromptAsync(popUpTitle, popUpContent, popUpButtonOK, popUpButtonCancel, null, -1, null, vocabToEdit.Description);
+
+                if (result != null && result != string.Empty)
+                {
+                    //Trim
+                    result = result.Trim();
+
+                    //Set
+                    vocabToEdit.Description = result;
+                    vocabToEdit.DescriptionFR = result;
+                    vocabToEdit.Editor = Preferences.Get(nameof(FieldUserInfoUCode), AppInfo.Current.Name);
+                    vocabToEdit.EditorDate = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+
+                    //Replace 
+                    int vocabIndex = -1;
+                    foreach (Vocabularies voc in _picklistValues)
+                    {
+                        if (voc.TermID == vocabToEdit.TermID)
+                        {
+                            vocabIndex = _picklistValues.IndexOf(voc);
+                        }
+                    }
+                    _picklistValues.RemoveAt(vocabIndex);
+                    _picklistValues.Insert(vocabIndex, vocabToEdit);
+                    OnPropertyChanged(nameof(PicklistValues));
+                }
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// Will force a ascending alphabetical order sort on the picklist values
+        /// </summary>
+        [RelayCommand]
+        async void SortTerm()
+        {
+            if (_picklistValues != null && _picklistValues.Count > 0)
+            {
+                List<Vocabularies> sortedVocab = _picklistValues.OrderBy(v => v.Description).ToList();
+                _picklistValues.Clear();
+                foreach (Vocabularies vs in sortedVocab)
+                {
+                    _picklistValues.Add(vs);
+                }
+
+                OnPropertyChanged(nameof(PicklistValues));
+            }
+
+        }
+
+        [RelayCommand]
+        async void SetDefaultTerm(Vocabularies vocabToEdit)
+        {
+            if (vocabToEdit != null)
+            {
+                //Get a new list so we can edit later one the real one
+                List<Vocabularies> copiedVocbs = _picklistValues.ToList();
+                _picklistValues.Clear();
+
+
+
+                foreach (Vocabularies vocs in copiedVocbs)
+                {
+                    int currentIndex = copiedVocbs.IndexOf(vocs);
+                    if (vocs.TermID == vocabToEdit.TermID)
+                    {
+                        //Set as default selected value or reverse
+                        if (vocabToEdit.DefaultValue == boolYes)
+                        {
+                            vocabToEdit.DefaultValue = boolNo;
+                        }
+                        else
+                        {
+                            vocabToEdit.DefaultValue = boolYes;
+                        }
+                        
+                        _picklistValues.Add(vocabToEdit);
+                    }
+                    else
+                    {
+                        //Unset all other values
+                        vocs.DefaultValue = boolNo;
+                        _picklistValues.Add(vocs);
+                    }
+                }
+                OnPropertyChanged(nameof(PicklistValues));
+            }
+
+
+        }
+
         #endregion
 
         #region PROPERTIES
 
-        public Picklist Model { get { return _model; } set { _model = value; } }
+        public Vocabularies Model { get { return _model; } set { _model = value; } }
+        public Picklist ModelPicklist { get { return _modelPicklist; } set { _modelPicklist = value; } }
         public ComboBox PicklistTables { get { return _picklistTables; } set { _picklistTables = value; } }
         public ComboBox PicklistFields { get { return _picklistFields; } set { _picklistFields = value; } }
-        public ObservableCollection<Picklist> PicklistValues { get { return _picklistValues; } set { _picklistValues = value; } }
+        public ComboBox PicklistParents { get { return _picklistParents; } set { _picklistParents = value; } }
+        public ObservableCollection<Vocabularies> PicklistValues { get { return _picklistValues; } set { _picklistValues = value; } }
         #endregion
 
-        public PicklistViewModel() 
+        public PicklistViewModel()
         {
             _ = FillPickers();
         }
@@ -170,14 +314,14 @@ namespace GSCFieldApp.ViewModel
                     }
 
                 }
-                
+
             }
 
             //Convert to custom picker
             ComboBox tableBox = da.GetComboboxListFromVocab(vocTable);
 
             //Sort based on localized value
-            List<ComboBoxItem> sortedTableBox = tableBox.cboxItems.OrderBy(t=>t.itemName).ToList();
+            List<ComboBoxItem> sortedTableBox = tableBox.cboxItems.OrderBy(t => t.itemName).ToList();
             tableBox.cboxItems = sortedTableBox;
 
             return tableBox;
@@ -195,16 +339,16 @@ namespace GSCFieldApp.ViewModel
             List<Vocabularies> vocTable = new List<Vocabularies>();
             List<string> parsedVoc = new List<string>();
 
-            if (_vocabularyManagers != null && _vocabularyManagers.Count > 0 && _model.PicklistName != string.Empty)
+            if (_vocabularyManagers != null && _vocabularyManagers.Count > 0 && ModelPicklist.PicklistName != string.Empty)
             {
-                List<VocabularyManager> subVocabList = _vocabularyManagers.Where(v => v.ThemeTable == _model.PicklistName).ToList();
+                List<VocabularyManager> subVocabList = _vocabularyManagers.Where(v => v.ThemeTable == ModelPicklist.PicklistName).ToList();
                 foreach (VocabularyManager vcms in subVocabList)
                 {
                     if (!parsedVoc.Contains(vcms.ThemeField))
                     {
                         //Spoof a vocab object and get localized table name
                         Vocabularies voc = new Vocabularies();
-                        voc.Code = vcms.ThemeField;
+                        voc.Code = vcms.ThemeName;
                         voc.Description = vcms.ThemeNameDesc;
 
                         //Prevent bs from beind added.
@@ -240,7 +384,16 @@ namespace GSCFieldApp.ViewModel
         public async void FillFieldValuesPicklist()
         {
             //Get the values
-            List<Vocabularies> incomingValues = await da.GetPicklistValuesAsync(_model.PicklistName, _model.PicklistField, "", false);
+            List<Vocabularies> incomingValues = new List<Vocabularies>();
+
+            if (_modelPicklist.PicklistParent != null && _modelPicklist.PicklistParent != string.Empty)
+            {
+                incomingValues = await da.GetPicklistValuesAsync(ModelPicklist.PicklistName, ModelPicklist.PicklistField, _modelPicklist.PicklistParent, false);
+            }
+            else
+            {
+                incomingValues = await da.GetPicklistValuesAsync(ModelPicklist.PicklistName, ModelPicklist.PicklistField, "", false);
+            }
 
             if (incomingValues != null && incomingValues.Count > 0)
             {
@@ -251,19 +404,62 @@ namespace GSCFieldApp.ViewModel
                 //Convert for usage in xaml template
                 foreach (Vocabularies v in incomingValues)
                 {
-                    Picklist vToPick = new Picklist();
-                    vToPick.PicklistName = _model.PicklistName;
-                    vToPick.PicklistField = _model.PicklistField;
-                    vToPick.PicklistVisible = v.Visibility;
-                    vToPick.PicklistDefault = v.DefaultValue;
-                    vToPick.PicklistFieldValueCode = v.Code;
-                    vToPick.PicklistFieldValueName = v.Description;
-                    _picklistValues.Add(vToPick);
+                    _picklistValues.Add(v);
                 }
             }
 
             OnPropertyChanged(nameof(PicklistValues));
 
+        }
+
+        /// <summary>
+        /// Will fill out the picker of parent values based on user selected field.
+        /// </summary>
+        public async Task<bool> FillFieldParentValuesPicklist()
+        {
+            bool doesHaveParents = false;
+
+            if (_modelPicklist.PicklistField != null && _modelPicklist.PicklistField != string.Empty)
+            {
+                //Build query to retrieve unique parents
+                //select * from M_DICTIONARY m WHERE m.CODETHEME in 
+                string querySelect_1 = "select * from " + TableDictionary + " m ";
+                string queryWhere_1 = " WHERE m." + FieldDictionaryCodedTheme + " in ";
+
+                //(select m.CODETHEME from M_DICTIONARY m join M_DICTIONARY_MANAGER mdm on m.CODETHEME = mdm.CODETHEME WHERE m.CODE in 
+                string querySelect_2 = "(select m." + FieldDictionaryCodedTheme + " from " + TableDictionary + " m ";
+                string querySelect_2_join = "join " + TableDictionaryManager + " mdm on m." + FieldDictionaryCodedTheme + " = mdm." + FieldDictionaryCodedTheme + " ";
+                string queryWhere_2 = " WHERE m." + FieldDictionaryCode + " in ";
+
+                //(select distinct(m.RELATEDTO) from M_DICTIONARY m WHERE m.CODETHEME = 'MODTEXTURE' ORDER BY m.RELATEDTO ) and mdm.ASSIGNTABLE in 
+                string querySelect_3 = "(select distinct(m." + FieldDictionaryRelatedTo + ") from " + TableDictionary + " m ";
+                string queryWhere_3 = " WHERE m." + FieldDictionaryCodedTheme + " = '" + _modelPicklist.PicklistField + "'";
+                string queryOrderBy_3 = " ORDER BY m." + FieldDictionaryRelatedTo + " ) and mdm." + FieldDictionaryManagerAssignTable + " in ";
+
+                //(select mdm2.ASSIGNTABLE from M_DICTIONARY_MANAGER mdm2 where mdm2.CODETHEME = 'MODTEXTURE'))  AND m.VISIBLE = 'Y' ORDER BY m.DESCRIPTIONEN ASC
+                string queryWhere_1_2 = "(select mdm2." + FieldDictionaryManagerAssignTable +
+                    " from " + TableDictionaryManager + " mdm2 where mdm2." + FieldDictionaryCodedTheme +
+                    " = '" + _modelPicklist.PicklistField + "'))";
+                string queryWhere_1_3 = " AND m." + FieldDictionaryVisible + " = '" + boolYes + "'";
+                string queryOrderby_1 = " ORDER BY m." + FieldDictionaryDescription + " ASC";
+
+                string queryFinal = querySelect_1 + queryWhere_1 + querySelect_2 + querySelect_2_join + queryWhere_2 + querySelect_3 + queryWhere_3 + queryOrderBy_3 + queryWhere_1_2 + queryWhere_1_3 + queryOrderby_1;
+
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                List<Vocabularies> parentVocabs = await currentConnection.QueryAsync<Vocabularies>(queryFinal);
+
+                if (parentVocabs != null && parentVocabs.Count() > 0)
+                {
+                    //Convert to custom picker
+                    _picklistParents = da.GetComboboxListFromVocab(parentVocabs);
+                    OnPropertyChanged(nameof(PicklistParents));
+                    doesHaveParents = true;
+                }
+
+                await currentConnection.CloseAsync();
+            }
+
+            return doesHaveParents;
         }
         #endregion
     }

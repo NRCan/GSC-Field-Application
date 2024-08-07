@@ -28,5 +28,8 @@ namespace GSCFieldApp.Models
         //Is field value set as a default one
         public string PicklistDefault { get; set; }
 
+        //Related parent value (structures and lithos have parent/children)
+        public string PicklistParent { get; set; }
+
     }
 }

@@ -251,6 +251,15 @@
         <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}"/>
     </Style>
 
+    <Style TargetType="CollectionView" x:Key="FieldAppPickListCollectionView">
+        <Setter Property="SelectionMode" Value="Multiple"/>
+        <Setter Property="CanReorderItems" Value="True"/>
+        <Setter Property="ItemsUpdatingScrollMode" Value="KeepItemsInView"/>
+        <Setter Property="MaximumHeightRequest" Value="500"/>
+        <Setter Property="MinimumHeightRequest" Value="500"/>
+        <Setter Property="MinimumWidthRequest" Value="350"/>
+    </Style>
+    
     <Style TargetType="CollectionView" x:Key="FieldAppNotesTabletCollectionView">
         <Setter Property="IsVisible" Value="{OnIdiom Desktop=True, Phone=False, Tablet=True}"/>
         <Setter Property="SelectionMode" Value="Single"/>

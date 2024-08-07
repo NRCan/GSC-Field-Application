@@ -2491,7 +2491,34 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide/Show dropdown language terms, as well as adding new ones for all forms and fields. All values can also be reordered with a drag-and-drop and a specific one can be set as a default value that will be automatically selected on form opening..
+        ///   Looks up a localized string similar to Please add a new term..
+        /// </summary>
+        internal static string PicklistPageAddNewTermContent {
+            get {
+                return ResourceManager.GetString("PicklistPageAddNewTermContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picklist.
+        /// </summary>
+        internal static string PicklistPageAddNewTermTitle {
+            get {
+                return ResourceManager.GetString("PicklistPageAddNewTermTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new picklist term..
+        /// </summary>
+        internal static string PicklistPageAddNewTermTooltip {
+            get {
+                return ResourceManager.GetString("PicklistPageAddNewTermTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide/Show drop down terms, as well as adding new ones for all forms and fields. Values can also be reordered with a drag-and-drop and a specific one can be set as a default value that will be automatically selected on form opening. Double-tap terms to modify their textual value..
         /// </summary>
         internal static string PicklistPageExplanation {
             get {
@@ -2523,6 +2550,42 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string PicklistPageHeading {
             get {
                 return ResourceManager.GetString("PicklistPageHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify selected term at your needs..
+        /// </summary>
+        internal static string PicklistPageModifyTermContent {
+            get {
+                return ResourceManager.GetString("PicklistPageModifyTermContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picklist.
+        /// </summary>
+        internal static string PicklistPageModifyTermTitle {
+            get {
+                return ResourceManager.GetString("PicklistPageModifyTermTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent term.
+        /// </summary>
+        internal static string PicklistPageParentValue {
+            get {
+                return ResourceManager.GetString("PicklistPageParentValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to sort in ascending order..
+        /// </summary>
+        internal static string PicklistPageSortAscendTooltip {
+            get {
+                return ResourceManager.GetString("PicklistPageSortAscendTooltip", resourceCulture);
             }
         }
         
