@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using GSCFieldApp.Dictionaries;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Views;
 using NetTopologySuite.IO;
@@ -43,10 +43,10 @@ namespace GSCFieldApp.Models
             da.PreferedDatabasePath = ProjectDBPath;
 
             //Keep theme
-            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), metadataForProject.FieldworkType);
+            Preferences.Set(nameof(FieldUserInfoFWorkType), metadataForProject.FieldworkType);
 
             //Keep geolcode
-            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoUCode), metadataForProject.Geologist);
+            Preferences.Set(nameof(FieldUserInfoUCode), metadataForProject.Geologist);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace GSCFieldApp.Models
             da.PreferedDatabasePath = ProjectDBPath;
 
             //Keep theme
-            Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), metadataForProject.FieldworkType);
+            Preferences.Set(nameof(FieldUserInfoFWorkType), metadataForProject.FieldworkType);
 
             //Navigate to fieldbook page and send along the metadata
             if (metadataForProject != null)

@@ -21,6 +21,7 @@ using GSCFieldApp.Services;
 using System.IO.Compression;
 using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Maui.Alerts;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -71,8 +72,8 @@ namespace GSCFieldApp.ViewModel
                 da.PreferedDatabasePath = _selectedFieldBook.ProjectDBPath;
 
                 // Keep in pref project type for futur vocab use and other viewing purposes
-                Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), _selectedFieldBook.metadataForProject.FieldworkType);
-
+                Preferences.Set(nameof(FieldUserInfoFWorkType), _selectedFieldBook.metadataForProject.FieldworkType);
+                Preferences.Set(nameof(FieldUserInfoUCode), _selectedFieldBook.metadataForProject.UserCode); 
             }
 
             return Task.CompletedTask;
@@ -98,7 +99,7 @@ namespace GSCFieldApp.ViewModel
             string uploadFB = await appFileServices.UploadFieldBook();
 
             //Refresh list
-            if (uploadFB.Contains(DatabaseLiterals.DBTypeSqlite))
+            if (uploadFB.Contains(DBTypeSqlite))
             {
                 FillBookCollectionAsync();
             }
@@ -229,8 +230,8 @@ namespace GSCFieldApp.ViewModel
                 if (fi.Length > 0) 
                 {
                     //Get the databases but not the main default one
-                    if ((fi.Extension.Contains(DatabaseLiterals.DBTypeSqlite) || fi.Extension.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
-                        && !fi.Name.Contains(DatabaseLiterals.DBName))
+                    if ((fi.Extension.Contains(DBTypeSqlite) || fi.Extension.Contains(DBTypeSqliteDeprecated))
+                        && !fi.Name.Contains(DBName))
                     {
 
                         //Connect to found database and retrive some information from it
@@ -260,8 +261,8 @@ namespace GSCFieldApp.ViewModel
 
                         //For stations
                         string stationQuerySelect = "SELECT *";
-                        string stationQueryFrom = " FROM " + DatabaseLiterals.TableStation;
-                        string stationQueryWhere = " WHERE " + DatabaseLiterals.TableStation + "." + DatabaseLiterals.FieldStationAlias + " NOT LIKE '%" + DatabaseLiterals.KeywordStationWaypoint + "%'";
+                        string stationQueryFrom = " FROM " + TableStation;
+                        string stationQueryWhere = " WHERE " + TableStation + "." + FieldStationAlias + " NOT LIKE '%" + KeywordStationWaypoint + "%'";
                         string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
                         List<Station> stationCountResult = await currentConnection.Table<Station>().ToListAsync();
                         if (stationCountResult != null && stationCountResult.Count > 0)

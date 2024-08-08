@@ -15,7 +15,7 @@ using SQLite;
 using CommunityToolkit.Maui.Alerts;
 using System.IO;
 using System.Collections.ObjectModel;
-using NetTopologySuite.Index.IntervalRTree;
+using NetTopologySuite.Index.HPRtree;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -29,7 +29,7 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _picklistParents = new ComboBox();
         private List<VocabularyManager> _vocabularyManagers = new List<VocabularyManager>();
         private ObservableCollection<Vocabularies> _picklistValues = new ObservableCollection<Vocabularies>();
-
+        private bool _isWaiting = false;
         #endregion
 
         #region RELAYS
@@ -116,7 +116,6 @@ namespace GSCFieldApp.ViewModel
                     _picklistValues.Insert(vocabIndex, vocabToEdit);
                     OnPropertyChanged(nameof(PicklistValues));
 
-                    SaveAll();
                 }
             }
 
@@ -133,14 +132,16 @@ namespace GSCFieldApp.ViewModel
             {
                 List<Vocabularies> sortedVocab = _picklistValues.OrderBy(v => v.Description).ToList();
                 _picklistValues.Clear();
+                double newOrder = 1.0;
                 foreach (Vocabularies vs in sortedVocab)
                 {
+                    vs.Order = newOrder;
                     _picklistValues.Add(vs);
+                    newOrder++;
                 }
 
                 OnPropertyChanged(nameof(PicklistValues));
 
-                SaveAll();
             }
 
         }
@@ -153,6 +154,7 @@ namespace GSCFieldApp.ViewModel
                 //Get a new list so we can edit later one the real one
                 List<Vocabularies> copiedVocbs = _picklistValues.ToList();
                 _picklistValues.Clear();
+                OnPropertyChanged(nameof(PicklistValues));
 
                 foreach (Vocabularies vocs in copiedVocbs)
                 {
@@ -180,7 +182,50 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(PicklistValues));
 
-                SaveAll();
+            }
+        }
+
+        [RelayCommand]
+        async void Save()
+        {
+            if (_picklistValues != null && _picklistValues.Count() > 0)
+            {
+                //Get date
+                string currentTime = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+
+                //Get user geolcode
+                string userCode = Preferences.Get(nameof(FieldUserInfoUCode), AppInfo.Current.Name);
+
+                //Set order
+                double iterativeOrder = 1.0;
+
+                //Show waiting cursor
+                _isWaiting = true;
+                OnPropertyChanged(nameof(IsWaiting));
+
+                //IEnumerable<Vocabularies> testing = new IEnumerable<Vocabularies>();
+                //Iterate through picklist values
+                foreach (Vocabularies vocs in _picklistValues)
+                {
+                    //Keep some knowledge about who has done this
+                    vocs.Editor = userCode;
+                    vocs.EditorDate = currentTime;
+
+                    //New order
+                    vocs.Order = iterativeOrder;
+                    iterativeOrder++;
+
+                }
+
+                OnPropertyChanged(nameof(PicklistValues));
+
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                await currentConnection.UpdateAllAsync(_picklistValues, true);
+                await currentConnection.CloseAsync();
+                //Show saved message
+                _isWaiting = false;
+                OnPropertyChanged(nameof(IsWaiting));
+                await Toast.Make(LocalizationResourceManager["ToastSaveRecord"].ToString()).Show(CancellationToken.None);
             }
         }
 
@@ -194,6 +239,7 @@ namespace GSCFieldApp.ViewModel
         public ComboBox PicklistFields { get { return _picklistFields; } set { _picklistFields = value; } }
         public ComboBox PicklistParents { get { return _picklistParents; } set { _picklistParents = value; } }
         public ObservableCollection<Vocabularies> PicklistValues { get { return _picklistValues; } set { _picklistValues = value; } }
+        public bool IsWaiting { get { return _isWaiting; } set { _isWaiting = value; } }
         #endregion
 
         public PicklistViewModel()
@@ -346,6 +392,14 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public void FillFieldsPicklist()
         {
+            //Reset other controls
+            _picklistFields.cboxItems.Clear();
+            OnPropertyChanged(nameof(PicklistFields));
+            _picklistParents.cboxItems.Clear();
+            OnPropertyChanged(nameof(PicklistParents));
+            _picklistValues.Clear();
+            OnPropertyChanged(nameof(PicklistValues));
+
             //Build combobox object
             List<Vocabularies> vocTable = new List<Vocabularies>();
             List<string> parsedVoc = new List<string>();
@@ -394,6 +448,12 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         public async void FillFieldValuesPicklist()
         {
+            //Reset
+            _picklistValues.Clear();
+            OnPropertyChanged(nameof(PicklistValues));
+            _picklistParents.cboxItems.Clear();
+            OnPropertyChanged(nameof(PicklistParents));
+
             //Get the values
             List<Vocabularies> incomingValues = new List<Vocabularies>();
 
@@ -414,14 +474,13 @@ namespace GSCFieldApp.ViewModel
 
             if (incomingValues != null && incomingValues.Count > 0)
             {
-                //Init
-                _picklistValues.Clear();
-                OnPropertyChanged(nameof(PicklistValues));
-
                 //Convert for usage in xaml template
                 foreach (Vocabularies v in incomingValues)
                 {
-                    _picklistValues.Add(v);
+                    if (v.Code != null && v.Code != string.Empty)
+                    {
+                        _picklistValues.Add(v);
+                    }
                 }
             }
 
@@ -438,6 +497,10 @@ namespace GSCFieldApp.ViewModel
 
             if (_modelPicklist.PicklistField != null && _modelPicklist.PicklistField != string.Empty)
             {
+                //Reset
+                _picklistParents.cboxItems.Clear();
+                OnPropertyChanged(nameof(PicklistParents));
+
                 //Build query to retrieve unique parents
                 //select * from M_DICTIONARY m WHERE m.CODETHEME in 
                 string querySelect_1 = "select * from " + TableDictionary + " m ";
@@ -479,40 +542,6 @@ namespace GSCFieldApp.ViewModel
             return doesHaveParents;
         }
 
-        /// <summary>
-        /// Will set current picklist collection
-        /// </summary>
-        public async void SaveAll()
-        {
-            if (_picklistValues != null && _picklistValues.Count() > 0)
-            {
-                //Get date
-                string currentTime = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
-
-                //Get user geolcode
-                string userCode = Preferences.Get(nameof(FieldUserInfoUCode), AppInfo.Current.Name);
-
-                //Set order
-                double iterativeOrder = 1.0;
-
-                //Iterate through picklist values
-                foreach (Vocabularies vocs in _picklistValues)
-                {
-                    //Keep some knowledge about who has done this
-                    vocs.Editor = userCode;
-                    vocs.EditorDate = currentTime;
-
-                    //New order
-                    vocs.Order = iterativeOrder;
-
-                    await da.SaveItemAsync(vocs, true);
-
-                    iterativeOrder++;
-                }
-
-                
-            }
-        }
         #endregion
     }
 }
