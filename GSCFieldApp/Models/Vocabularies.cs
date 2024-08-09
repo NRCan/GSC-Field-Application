@@ -15,8 +15,8 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableDictionary)]
     public class Vocabularies
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID)]
-        public int rowid { get; set; }
+        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID), NotNull]
+        public int ObjectID { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryTermID)]
         public string TermID { get; set; }

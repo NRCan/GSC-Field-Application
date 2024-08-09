@@ -205,6 +205,7 @@ namespace GSCFieldApp.ViewModel
 
                 //IEnumerable<Vocabularies> testing = new IEnumerable<Vocabularies>();
                 //Iterate through picklist values
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
                 foreach (Vocabularies vocs in _picklistValues)
                 {
                     //Keep some knowledge about who has done this
@@ -214,14 +215,14 @@ namespace GSCFieldApp.ViewModel
                     //New order
                     vocs.Order = iterativeOrder;
                     iterativeOrder++;
-
                 }
 
-                OnPropertyChanged(nameof(PicklistValues));
-
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
                 await currentConnection.UpdateAllAsync(_picklistValues, true);
+
+                OnPropertyChanged(nameof(PicklistValues));
+ 
                 await currentConnection.CloseAsync();
+
                 //Show saved message
                 _isWaiting = false;
                 OnPropertyChanged(nameof(IsWaiting));
