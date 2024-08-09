@@ -943,7 +943,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Tap to add a new picklist term.</value>
   </data>
   <data name="PicklistPageExplanation" xml:space="preserve">
-    <value>Hide/Show drop down terms, as well as adding new ones for all forms and fields. Values can also be reordered with a drag-and-drop and a specific one can be set as a default value that will be automatically selected on form opening. Double-tap terms to modify their textual value.</value>
+    <value>Hide/Show drop down terms, as well as adding new ones for all forms and fields. Values can also be reordered with a drag-and-drop and a specific one can be set as a default value with a single tap. Double-tap terms to modify their textual value.</value>
   </data>
   <data name="PicklistPageFields" xml:space="preserve">
     <value>Field</value>

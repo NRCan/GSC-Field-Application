@@ -40,8 +40,8 @@
                        TextColor="{Binding Source={x:Reference PicklistViewPage}, Path=TemplateVisibleSwitch, Converter={StaticResource FontColorFromStr}}"
                         Grid.Column="0" Grid.Row="0"  FontAttributes="{Binding PicklistDefault, Converter={StaticResource FontBoldFromStr}}" />-->
 
-                <Label Text="{Binding Description}" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Start"
-                        Grid.Column="0" Grid.Row="0"  FontAttributes="{Binding DefaultValue, Converter={StaticResource FontBoldFromStr}, Mode=TwoWay}" />
+                <Label Text="{Binding Description}" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Start" 
+                        Grid.Column="0" Grid.Row="0"  FontAttributes="{Binding DefaultValue, Converter={StaticResource FontBoldFromStr}, Mode=TwoWay}" LineBreakMode="HeadTruncation" />
 
                 <CheckBox IsChecked="{Binding Visibility, Converter={StaticResource BoolFromStr}, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
 

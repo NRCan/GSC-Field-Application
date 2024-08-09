@@ -275,13 +275,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             List<Vocabularies> vocabs = await currentConnection.QueryAsync<Vocabularies>(finalQuery);
 
-            //Vocabularies voc = new Vocabularies();
-            //List<Vocabularies> vocTable = new List<Vocabularies> { voc };
-            //if (vocabs.Count != 0)
-            //{
-            //    vocTable = vocabs;
-            //}
-
             return vocabs;
         }
 

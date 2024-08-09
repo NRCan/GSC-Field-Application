@@ -457,20 +457,23 @@ namespace GSCFieldApp.ViewModel
 
             //Get the values
             List<Vocabularies> incomingValues = new List<Vocabularies>();
-
+            List<VocabularyManager> assignToFields = _vocabularyManagers.Where(v => v.ThemeCodedTheme == _modelPicklist.PicklistField).ToList();
             if (_modelPicklist.PicklistParent != null && _modelPicklist.PicklistParent != string.Empty)
             {
                 //Get db AssignTo field from selection
-                List<VocabularyManager> assignToFields = _vocabularyManagers.Where(v => v.ThemeCodedTheme == _modelPicklist.PicklistField).ToList();
                 if (assignToFields != null && assignToFields.Count() > 0)
                 {
-                    incomingValues = await da.GetPicklistValuesAsync(ModelPicklist.PicklistName, assignToFields[0].ThemeAssignField, _modelPicklist.PicklistParent, false);
+                    incomingValues = await da.GetPicklistValuesAsync(ModelPicklist.PicklistName, assignToFields[0].ThemeAssignField, _modelPicklist.PicklistParent, true);
                 }
                 
             }
             else
             {
-                incomingValues = await da.GetPicklistValuesAsync(ModelPicklist.PicklistName, ModelPicklist.PicklistField, "", false);
+                if (assignToFields != null && assignToFields.Count() > 0)
+                {
+                    incomingValues = await da.GetPicklistValuesAsync(ModelPicklist.PicklistName, assignToFields[0].ThemeAssignField, "", true);
+                }
+                
             }
 
             if (incomingValues != null && incomingValues.Count > 0)
