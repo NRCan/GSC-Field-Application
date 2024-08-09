@@ -241,23 +241,23 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             //Build query
-            string querySelect = "SELECT * FROM " + TableDictionary;
-            string queryJoin = " JOIN " + TableDictionaryManager + " ON " + TableDictionary + "." + FieldDictionaryCodedTheme + " = " + TableDictionaryManager + "." + FieldDictionaryManagerCodedTheme;
-            string queryWhere = " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerAssignTable + " = '" + tableName + "'";
-            string queryAndField = " AND " + TableDictionaryManager + "." + FieldDictionaryManagerAssignField + " = '" + fieldName + "'";
-            string queryAndVisible = " AND " + TableDictionary + "." + FieldDictionaryVisible + " = '" + boolYes + "'";
+            string querySelect = "SELECT md.* FROM " + TableDictionary + " as md";
+            string queryJoin = " JOIN " + TableDictionaryManager + " as mdm ON md." + FieldDictionaryCodedTheme + " = mdm." + FieldDictionaryManagerCodedTheme;
+            string queryWhere = " WHERE mdm." + FieldDictionaryManagerAssignTable + " = '" + tableName + "'";
+            string queryAndField = " AND mdm." + FieldDictionaryManagerAssignField + " = '" + fieldName + "'";
+            string queryAndVisible = " AND md." + FieldDictionaryVisible + " = '" + boolYes + "'";
             string queryAndWorkType = string.Empty;
             string queryAndParent = string.Empty;
-            string queryOrdering = " ORDER BY " + TableDictionary + "." + FieldDictionaryOrder + " ASC";
+            string queryOrdering = " ORDER BY md." + FieldDictionaryOrder + " ASC";
 
             if (fieldworkType != string.Empty)
             {
-                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") like '" + fieldworkType + "%' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '')";
+                queryAndWorkType = " AND (lower(mdm." + FieldDictionaryManagerSpecificTo + ") like '" + fieldworkType + "%' OR lower(mdm." + FieldDictionaryManagerSpecificTo + ") = '')";
             }
 
             if (extraFieldValue != string.Empty && extraFieldValue != null && extraFieldValue != "")
             {
-                queryAndParent = " AND " + TableDictionary + "." + FieldDictionaryRelatedTo + " = '" + extraFieldValue + "'";
+                queryAndParent = " AND md." + FieldDictionaryRelatedTo + " = '" + extraFieldValue + "'";
             }
 
             string finalQuery = querySelect + queryJoin + queryWhere + queryAndField + queryAndWorkType + queryAndParent;
@@ -275,14 +275,14 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             List<Vocabularies> vocabs = await currentConnection.QueryAsync<Vocabularies>(finalQuery);
 
-            Vocabularies voc = new Vocabularies();
-            List<Vocabularies> vocTable = new List<Vocabularies> { voc };
-            if (vocabs.Count != 0)
-            {
-                vocTable = vocabs;
-            }
+            //Vocabularies voc = new Vocabularies();
+            //List<Vocabularies> vocTable = new List<Vocabularies> { voc };
+            //if (vocabs.Count != 0)
+            //{
+            //    vocTable = vocabs;
+            //}
 
-            return vocTable;
+            return vocabs;
         }
 
         /// <summary>
