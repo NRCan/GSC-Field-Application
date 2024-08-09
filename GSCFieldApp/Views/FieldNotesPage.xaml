@@ -147,7 +147,7 @@
                         <VerticalStackLayout IsVisible="{Binding IsEarthMatExpanded, Mode=TwoWay}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
-                                        ItemsSource="{Binding EarthMats}"  >
+                                        ItemsSource="{Binding EarthMats, Mode=TwoWay}"  >
                                 <CollectionView.ItemsLayout>
                                     <GridItemsLayout Orientation="Vertical" 
                                     Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>

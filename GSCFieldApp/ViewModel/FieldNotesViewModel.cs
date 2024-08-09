@@ -851,11 +851,11 @@ namespace GSCFieldApp.ViewModel
 
                 //Filter out latest date
                 //TODO uncomment if really needed
-                //if (Dates != null && Dates.Count > 0)
-                //{
-                //    await FilterRecordsOnDate(Dates.First());
-                //}
-                
+                if (Dates != null && Dates.Count > 0)
+                {
+                    await FilterRecordsOnDate(Dates.First());
+                }
+
             }
 
         }
@@ -942,13 +942,13 @@ namespace GSCFieldApp.ViewModel
 
             //Get all stations from database
             List<Station> stations = await inConnection.Table<Station>().OrderBy(s => s.StationAlias).ToListAsync();
-
+            ObservableCollection<FieldNote> stationsFN = new ObservableCollection<FieldNote>();
             if (stations != null && stations.Count > 0)
             {
                 
                 foreach (Station st in stations)
                 {
-                    FieldNotes[TableNames.station].Add(new FieldNote
+                    stationsFN.Add(new FieldNote
                     {
                         Display_text_1 = st.StationAliasLight,
                         Display_text_2 = st.StationObsType,
@@ -962,8 +962,8 @@ namespace GSCFieldApp.ViewModel
                 }
 
             }
-
-            OnPropertyChanged(nameof(FieldNotes)); 
+            FieldNotes[TableNames.station] = stationsFN;
+            OnPropertyChanged(nameof(Stations)); 
 
         }
 
@@ -983,42 +983,46 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.earthmat].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(EarthMats));
             }
 
-            //Get all em from database
-            List<Earthmaterial> ems = await inConnection.Table<Earthmaterial>().OrderBy(x=>x.EarthMatName).ToListAsync();
-
-            if (ems != null && ems.Count > 0)
+            if (EarthMaterialVisible)
             {
-                foreach (Earthmaterial st in ems)
+                //Get all em from database
+                List<Earthmaterial> ems = await inConnection.Table<Earthmaterial>().OrderBy(x => x.EarthMatName).ToListAsync();
+                ObservableCollection<FieldNote> emsFN = new ObservableCollection<FieldNote>();
+                if (ems != null && ems.Count > 0)
                 {
-                    int parentID = -1;
-                    string parentLightAlias = string.Empty;
-                    if (st.EarthMatStatID != null)
+                    foreach (Earthmaterial st in ems)
                     {
-                        parentID = (int)st.EarthMatStatID;
-                    }
-                    if (st.EarthMatDrillHoleID != null)
-                    {
-                        parentID = (int)st.EarthMatDrillHoleID;
-                    }
-                    FieldNotes[TableNames.earthmat].Add(new FieldNote
-                    {
-                        
-                        Display_text_1 = st.EarthmatAliasLight,
-                        Display_text_2 = st.EarthMatLithdetail,
-                        Display_text_3 = st.EarthMatLithgroup,
-                        GenericTableName = TableEarthMat,
-                        GenericID = st.EarthMatID,
-                        ParentID = parentID,
-                        isValid = st.isValid
-                    });
-                }
+                        int parentID = -1;
+                        string parentLightAlias = string.Empty;
+                        if (st.EarthMatStatID != null)
+                        {
+                            parentID = (int)st.EarthMatStatID;
+                        }
+                        if (st.EarthMatDrillHoleID != null)
+                        {
+                            parentID = (int)st.EarthMatDrillHoleID;
+                        }
+                        emsFN.Add(new FieldNote
+                        {
 
+                            Display_text_1 = st.EarthmatAliasLight,
+                            Display_text_2 = st.EarthMatLithdetail,
+                            Display_text_3 = st.EarthMatLithgroup,
+                            GenericTableName = TableEarthMat,
+                            GenericID = st.EarthMatID,
+                            ParentID = parentID,
+                            isValid = st.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.earthmat] = emsFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(EarthMats));
 
         }
 
@@ -1038,33 +1042,37 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.sample].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Samples));
 
             }
 
-            //Get all stations from database
-            List<Sample> samples = await inConnection.Table<Sample>().OrderBy(s => s.SampleName).ToListAsync();
-
-            if (samples != null && samples.Count > 0)
+            if (SampleVisible)
             {
-
-                foreach (Sample st in samples)
+                //Get all stations from database
+                List<Sample> samples = await inConnection.Table<Sample>().OrderBy(s => s.SampleName).ToListAsync();
+                ObservableCollection<FieldNote> samplesFN = new ObservableCollection<FieldNote>();
+                if (samples != null && samples.Count > 0)
                 {
-                    FieldNotes[TableNames.sample].Add(new FieldNote
-                    {
-                        Display_text_1 = st.SampleAliasLight,
-                        Display_text_2 = st.SampleType,
-                        Display_text_3 = st.SamplePurpose,
-                        GenericTableName = TableSample,
-                        GenericID = st.SampleID,
-                        ParentID = st.SampleEarthmatID,
-                        isValid = st.isValid
-                    });
-                }
 
+                    foreach (Sample st in samples)
+                    {
+                        samplesFN.Add(new FieldNote
+                        {
+                            Display_text_1 = st.SampleAliasLight,
+                            Display_text_2 = st.SampleType,
+                            Display_text_3 = st.SamplePurpose,
+                            GenericTableName = TableSample,
+                            GenericID = st.SampleID,
+                            ParentID = st.SampleEarthmatID,
+                            isValid = st.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.sample] = samplesFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(Samples));
 
         }
 
@@ -1084,33 +1092,37 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.document].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Documents));
 
             }
 
-            //Get all documents from database
-            List<Document> docs = await inConnection.Table<Document>().OrderBy(s => s.DocumentName).ToListAsync();
-
-            if (docs != null && docs.Count > 0)
+            if (SampleVisible)
             {
-
-                foreach (Document dc in docs)
+                //Get all documents from database
+                List<Document> docs = await inConnection.Table<Document>().OrderBy(s => s.DocumentName).ToListAsync();
+                ObservableCollection<FieldNote> docsFN = new ObservableCollection<FieldNote>();
+                if (docs != null && docs.Count > 0)
                 {
-                    FieldNotes[TableNames.document].Add(new FieldNote
-                    {
-                        Display_text_1 = dc.DocumentAliasLight,
-                        Display_text_2 = dc.Category,
-                        Display_text_3 = dc.Description,
-                        GenericTableName = TableDocument,
-                        GenericID = dc.DocumentID,
-                        ParentID = dc.StationID.Value,
-                        isValid = dc.isValid
-                    });
-                }
 
+                    foreach (Document dc in docs)
+                    {
+                        docsFN.Add(new FieldNote
+                        {
+                            Display_text_1 = dc.DocumentAliasLight,
+                            Display_text_2 = dc.Category,
+                            Display_text_3 = dc.Description,
+                            GenericTableName = TableDocument,
+                            GenericID = dc.DocumentID,
+                            ParentID = dc.StationID.Value,
+                            isValid = dc.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.document] = docsFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(Documents));
 
         }
 
@@ -1130,33 +1142,37 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.structure].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Structures));
 
             }
 
-            //Get all stations from database
-            List<Structure> structures = await inConnection.Table<Structure>().OrderBy(s => s.StructureName).ToListAsync();
-
-            if (structures != null && structures.Count > 0)
+            if (StructureVisible)
             {
-
-                foreach (Structure st in structures)
+                //Get all stations from database
+                List<Structure> structures = await inConnection.Table<Structure>().OrderBy(s => s.StructureName).ToListAsync();
+                ObservableCollection<FieldNote> structuresFN = new ObservableCollection<FieldNote>();
+                if (structures != null && structures.Count > 0)
                 {
-                    FieldNotes[TableNames.structure].Add(new FieldNote
-                    {
-                        Display_text_1 = st.StructureAliasLight,
-                        Display_text_2 = st.StructureClass,
-                        Display_text_3 = st.StructureDetail,
-                        GenericTableName = TableStructure,
-                        GenericID = st.StructureID,
-                        ParentID = st.StructureEarthmatID,
-                        isValid = st.isValid
-                    });
-                }
 
+                    foreach (Structure st in structures)
+                    {
+                        structuresFN.Add(new FieldNote
+                        {
+                            Display_text_1 = st.StructureAliasLight,
+                            Display_text_2 = st.StructureClass,
+                            Display_text_3 = st.StructureDetail,
+                            GenericTableName = TableStructure,
+                            GenericID = st.StructureID,
+                            ParentID = st.StructureEarthmatID,
+                            isValid = st.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.structure] = structuresFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(Structures));
 
         }
 
@@ -1176,33 +1192,37 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.pflow].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Paleoflows));
 
             }
 
-            //Get all stations from database
-            List<Paleoflow> pflows = await inConnection.Table<Paleoflow>().OrderBy(s => s.PFlowName).ToListAsync();
-
-            if (pflows != null && pflows.Count > 0)
+            if (PaleoflowVisible)
             {
-
-                foreach (Paleoflow st in pflows)
+                //Get all stations from database
+                List<Paleoflow> pflows = await inConnection.Table<Paleoflow>().OrderBy(s => s.PFlowName).ToListAsync();
+                ObservableCollection<FieldNote> pflowsFN = new ObservableCollection<FieldNote>();
+                if (pflows != null && pflows.Count > 0)
                 {
-                    FieldNotes[TableNames.pflow].Add(new FieldNote
-                    {
-                        Display_text_1 = st.PflowAliasLight,
-                        Display_text_2 = st.PFlowClass,
-                        Display_text_3 = st.PFlowSense,
-                        GenericTableName = TablePFlow,
-                        GenericID = st.PFlowID,
-                        ParentID = st.PFlowParentID,
-                        isValid = st.isValid
-                    });
-                }
 
+                    foreach (Paleoflow st in pflows)
+                    {
+                        pflowsFN.Add(new FieldNote
+                        {
+                            Display_text_1 = st.PflowAliasLight,
+                            Display_text_2 = st.PFlowClass,
+                            Display_text_3 = st.PFlowSense,
+                            GenericTableName = TablePFlow,
+                            GenericID = st.PFlowID,
+                            ParentID = st.PFlowParentID,
+                            isValid = st.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.pflow] = pflowsFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(Paleoflows));
 
         }
 
@@ -1222,33 +1242,37 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.fossil].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Fossils));
 
             }
 
-            //Get all stations from database
-            List<Fossil> fossils = await inConnection.Table<Fossil>().OrderBy(s => s.FossilIDName).ToListAsync();
-
-            if (fossils != null && fossils.Count > 0)
+            if (FossilVisible)
             {
-
-                foreach (Fossil st in fossils)
+                //Get all stations from database
+                List<Fossil> fossils = await inConnection.Table<Fossil>().OrderBy(s => s.FossilIDName).ToListAsync();
+                ObservableCollection<FieldNote> fossilsFN = new ObservableCollection<FieldNote>();
+                if (fossils != null && fossils.Count > 0)
                 {
-                    FieldNotes[TableNames.fossil].Add(new FieldNote
-                    {
-                        Display_text_1 = st.FossilAliasLight,
-                        Display_text_2 = st.FossilType,
-                        Display_text_3 = st.FossilNote,
-                        GenericTableName = TableFossil,
-                        GenericID = st.FossilID,
-                        ParentID = st.FossilParentID,
-                        isValid = st.isValid
-                    });
-                }
 
+                    foreach (Fossil st in fossils)
+                    {
+                        fossilsFN.Add(new FieldNote
+                        {
+                            Display_text_1 = st.FossilAliasLight,
+                            Display_text_2 = st.FossilType,
+                            Display_text_3 = st.FossilNote,
+                            GenericTableName = TableFossil,
+                            GenericID = st.FossilID,
+                            ParentID = st.FossilParentID,
+                            isValid = st.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.fossil] = fossilsFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(Fossils));
 
         }
 
@@ -1268,33 +1292,37 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.environment].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Environments));
 
             }
 
-            //Get all stations from database
-            List<EnvironmentModel> environments = await inConnection.Table<EnvironmentModel>().OrderBy(s => s.EnvID).ToListAsync();
-
-            if (environments != null && environments.Count > 0)
+            if (EnvironmentVisible)
             {
-
-                foreach (EnvironmentModel st in environments)
+                //Get all stations from database
+                List<EnvironmentModel> environments = await inConnection.Table<EnvironmentModel>().OrderBy(s => s.EnvID).ToListAsync();
+                ObservableCollection<FieldNote> environmentsFN = new ObservableCollection<FieldNote>();
+                if (environments != null && environments.Count > 0)
                 {
-                    FieldNotes[TableNames.environment].Add(new FieldNote
-                    {
-                        Display_text_1 = st.EnvironmentAliasLight,
-                        Display_text_2 = st.EnvRelief,
-                        Display_text_3 = st.EnvNotes,
-                        GenericTableName = TableEnvironment,
-                        GenericID = st.EnvID,
-                        ParentID = st.EnvStationID,
-                        isValid = st.isValid
-                    });
-                }
 
+                    foreach (EnvironmentModel st in environments)
+                    {
+                        environmentsFN.Add(new FieldNote
+                        {
+                            Display_text_1 = st.EnvironmentAliasLight,
+                            Display_text_2 = st.EnvRelief,
+                            Display_text_3 = st.EnvNotes,
+                            GenericTableName = TableEnvironment,
+                            GenericID = st.EnvID,
+                            ParentID = st.EnvStationID,
+                            isValid = st.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.environment] = environmentsFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(Environments));
 
         }
 
@@ -1314,40 +1342,44 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.mineral].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Minerals));
 
             }
 
-            //Get all stations from database
-            List<Mineral> minerals = await inConnection.Table<Mineral>().OrderBy(s => s.MineralID).ToListAsync();
-
-            if (minerals != null && minerals.Count > 0)
+            if (MineralVisible)
             {
-
-                foreach (Mineral st in minerals)
+                //Get all stations from database
+                List<Mineral> minerals = await inConnection.Table<Mineral>().OrderBy(s => s.MineralID).ToListAsync();
+                ObservableCollection<FieldNote> mineralsFN = new ObservableCollection<FieldNote>();
+                if (minerals != null && minerals.Count > 0)
                 {
-                    //Find proper parent
-                    int? parentID = st.MineralEMID;
-                    if (parentID == null && st.MineralMAID != null)
+
+                    foreach (Mineral st in minerals)
                     {
-                        parentID = st.MineralMAID;
+                        //Find proper parent
+                        int? parentID = st.MineralEMID;
+                        if (parentID == null && st.MineralMAID != null)
+                        {
+                            parentID = st.MineralMAID;
+                        }
+
+                        mineralsFN.Add(new FieldNote
+                        {
+                            Display_text_1 = st.MineralAliasLight,
+                            Display_text_2 = st.MineralName,
+                            Display_text_3 = st.MineralMode,
+                            GenericTableName = TableMineral,
+                            GenericID = st.MineralID,
+                            ParentID = parentID.Value,
+                            isValid = st.isValid
+                        });
                     }
 
-                    FieldNotes[TableNames.mineral].Add(new FieldNote
-                    {
-                        Display_text_1 = st.MineralAliasLight,
-                        Display_text_2 = st.MineralName,
-                        Display_text_3 = st.MineralMode,
-                        GenericTableName = TableMineral,
-                        GenericID = st.MineralID,
-                        ParentID = parentID.Value,
-                        isValid = st.isValid
-                    });
                 }
-
+                FieldNotes[TableNames.mineral] = mineralsFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(Minerals));
 
         }
 
@@ -1367,40 +1399,44 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.mineralization].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(MineralizationAlterations));
 
             }
 
-            //Get all stations from database
-            List<MineralAlteration> mineralizations = await inConnection.Table<MineralAlteration>().OrderBy(s => s.MAID).ToListAsync();
-
-            if (mineralizations != null && mineralizations.Count > 0)
+            if (MineralizationVisible)
             {
-
-                foreach (MineralAlteration st in mineralizations)
+                //Get all stations from database
+                List<MineralAlteration> mineralizations = await inConnection.Table<MineralAlteration>().OrderBy(s => s.MAID).ToListAsync();
+                ObservableCollection<FieldNote> mineralizationsFN = new ObservableCollection<FieldNote>();
+                if (mineralizations != null && mineralizations.Count > 0)
                 {
-                    //Find proper parent
-                    int? parentID = st.MAStationID;
-                    if (parentID == null && st.MAEarthmatID != null)
+
+                    foreach (MineralAlteration st in mineralizations)
                     {
-                        parentID = st.MAEarthmatID;
+                        //Find proper parent
+                        int? parentID = st.MAStationID;
+                        if (parentID == null && st.MAEarthmatID != null)
+                        {
+                            parentID = st.MAEarthmatID;
+                        }
+
+                        mineralizationsFN.Add(new FieldNote
+                        {
+                            Display_text_1 = st.MineralALterationAliasLight,
+                            Display_text_2 = st.MAMA,
+                            Display_text_3 = st.MAUnit,
+                            GenericTableName = TableMineralAlteration,
+                            GenericID = st.MAID,
+                            ParentID = parentID.Value,
+                            isValid = st.isValid
+                        });
                     }
 
-                    FieldNotes[TableNames.mineralization].Add(new FieldNote
-                    {
-                        Display_text_1 = st.MineralALterationAliasLight,
-                        Display_text_2 = st.MAMA,
-                        Display_text_3 = st.MAUnit,
-                        GenericTableName = TableMineralAlteration,
-                        GenericID = st.MAID,
-                        ParentID = parentID.Value,
-                        isValid = st.isValid
-                    });
                 }
-
+                FieldNotes[TableNames.mineralization] = mineralizationsFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(MineralizationAlterations));
 
         }
 
@@ -1420,21 +1456,21 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.location].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(Locations));
 
             }
 
             //Get all stations from database
-            List<FieldLocation> mineralizations = await inConnection.Table<FieldLocation>().OrderBy(s => s.LocationID).ToListAsync();
-
-            if (mineralizations != null && mineralizations.Count > 0)
+            List<FieldLocation> locations = await inConnection.Table<FieldLocation>().OrderBy(s => s.LocationID).ToListAsync();
+            ObservableCollection<FieldNote> locationsFN = new ObservableCollection<FieldNote>();
+            if (locations != null && locations.Count > 0)
             {
 
-                foreach (FieldLocation loc in mineralizations)
+                foreach (FieldLocation loc in locations)
                 {
                     string coordinatesFormat = string.Format("{0}° {1}°",
                         Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
-                    FieldNotes[TableNames.location].Add(new FieldNote
+                    locationsFN.Add(new FieldNote
                     {
                         Display_text_1 = loc.LocationAlias,
                         Display_text_2 = coordinatesFormat,
@@ -1448,8 +1484,8 @@ namespace GSCFieldApp.ViewModel
                 }
 
             }
-
-            OnPropertyChanged(nameof(FieldNotes));
+            FieldNotes[TableNames.location] = locationsFN;
+            OnPropertyChanged(nameof(Locations));
 
         }
 
@@ -1469,33 +1505,37 @@ namespace GSCFieldApp.ViewModel
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.drill].Clear();
-                OnPropertyChanged(nameof(FieldNotes));
+                OnPropertyChanged(nameof(DrillHoles));
 
             }
 
-            //Get all stations from database
-            List<DrillHole> drills = await inConnection.Table<DrillHole>().OrderBy(s => s.DrillID).ToListAsync();
-
-            if (drills != null && drills.Count > 0)
+            if (DrillHoleVisible)
             {
-
-                foreach (DrillHole dr in drills)
+                //Get all stations from database
+                List<DrillHole> drills = await inConnection.Table<DrillHole>().OrderBy(s => s.DrillID).ToListAsync();
+                ObservableCollection<FieldNote> drillsFN = new ObservableCollection<FieldNote>();
+                if (drills != null && drills.Count > 0)
                 {
-                    FieldNotes[TableNames.drill].Add(new FieldNote
-                    {
-                        Display_text_1 = dr.DrillAliasLight,
-                        Display_text_2 = dr.DrillCompany,
-                        Display_text_3 = dr.DrillType,
-                        GenericTableName = TableDrillHoles,
-                        GenericID = dr.DrillID,
-                        ParentID = dr.DrillLocationID,
-                        isValid = dr.isValid
-                    });
-                }
 
+                    foreach (DrillHole dr in drills)
+                    {
+                        drillsFN.Add(new FieldNote
+                        {
+                            Display_text_1 = dr.DrillAliasLight,
+                            Display_text_2 = dr.DrillCompany,
+                            Display_text_3 = dr.DrillType,
+                            GenericTableName = TableDrillHoles,
+                            GenericID = dr.DrillID,
+                            ParentID = dr.DrillLocationID,
+                            isValid = dr.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.drill] = drillsFN;
             }
 
-            OnPropertyChanged(nameof(FieldNotes));
+            OnPropertyChanged(nameof(DrillHoles));
 
         }
 
