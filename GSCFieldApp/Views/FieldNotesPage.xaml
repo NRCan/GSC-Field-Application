@@ -210,7 +210,6 @@
                         <Label Text="{Binding Structures.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
                     </VerticalStackLayout>
 
-
                     <!--Paleoflow records-->
                     <VerticalStackLayout IsVisible="{Binding PaleoflowVisible, Mode=TwoWay}">
                         <Button Text="{local:Localize Key=FielNotesPaleoflowHeader}" BackgroundColor="{StaticResource FieldPflowColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
@@ -234,7 +233,6 @@
                         <Label Text="{Binding Paleoflows.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
                     </VerticalStackLayout>
-
 
                     <!--Mineral records-->
                     <VerticalStackLayout IsVisible="{Binding MineralVisible, Mode=TwoWay}">
@@ -311,7 +309,6 @@
 
                     </VerticalStackLayout>
 
-
                     <!--Environment records-->
                     <VerticalStackLayout IsVisible="{Binding EnvironmentVisible, Mode=TwoWay}">
 
@@ -336,7 +333,6 @@
                         <Label Text="{Binding Environments.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
                     </VerticalStackLayout>
-
 
                     <!--Photo/Document records-->
                     <VerticalStackLayout IsVisible="{Binding DocumentVisible, Mode=TwoWay}">
@@ -364,7 +360,7 @@
                     </VerticalStackLayout>
 
                     <!--Location records-->
-                    <VerticalStackLayout>
+                    <VerticalStackLayout IsVisible="{Binding LocationVisible, Mode=TwoWay}">
 
                         <Button Text="{local:Localize Key=FielNotesLocationHeader}" BackgroundColor="{StaticResource FieldObservationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="location"/>
@@ -399,11 +395,12 @@
                 <Button x:Name="FieldNoteDatesHeader" Text="{local:Localize Key=FielNotesDateHeader}" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="dates"/>
                 <ScrollView Orientation="Horizontal" >
-                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center"  
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center" 
                             ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Horizontal" HorizontalItemSpacing="{OnIdiom Desktop=25, Tablet=25, Phone=0, Default=0}"/>
                         </CollectionView.ItemsLayout>
+                        
                     </CollectionView>
                 </ScrollView>
             </VerticalStackLayout>

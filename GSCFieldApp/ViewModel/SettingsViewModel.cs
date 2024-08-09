@@ -72,6 +72,12 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(EnvironmentVisible), value); }
         }
 
+        public bool LocationVisible
+        {
+            get { return Preferences.Get(nameof(LocationVisible), true); }
+            set { Preferences.Set(nameof(LocationVisible), value); }
+        }
+
         /// <summary>
         /// Property saved in the about page
         /// </summary>
