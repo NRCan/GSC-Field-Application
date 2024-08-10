@@ -69,20 +69,41 @@
         <!--Note traverse cards-->
         <DataTemplate x:Key="FieldNoteTraversesCard" x:DataType="x:String">
 
-            <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="45" WidthRequest="175">
-                <Frame.GestureRecognizers>
+            <VerticalStackLayout HeightRequest="45" WidthRequest="155">
+                <Grid>
+                    <Grid.GestureRecognizers>
 
-                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapDateGestureRecognizerCommand}"
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapDateGestureRecognizerCommand}"
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
 
-                </Frame.GestureRecognizers>
+                    </Grid.GestureRecognizers>
 
-                <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle}"
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle, Phone=Small}"
                     Text="{Binding}" />
 
-            </Frame>
+                </Grid>
+            </VerticalStackLayout>
+
 
         </DataTemplate>
+
+        <!--Custom selection color for collection view-->
+        <Style TargetType="VerticalStackLayout">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor"
+                                        Value="{StaticResource Primary}" />
+
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
 
     </ContentPage.Resources>
 
@@ -395,10 +416,10 @@
                 <Button x:Name="FieldNoteDatesHeader" Text="{local:Localize Key=FielNotesDateHeader}" BackgroundColor="{StaticResource Gray200}" Style="{StaticResource FieldAppNoteHeaderButton}"
                     Command="{Binding HideCommand}" CommandParameter="dates"/>
                 <ScrollView Orientation="Horizontal" >
-                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center" 
+                    <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center"
                             ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" >
                         <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Horizontal" HorizontalItemSpacing="{OnIdiom Desktop=25, Tablet=25, Phone=0, Default=0}"/>
+                            <GridItemsLayout Orientation="Horizontal"/>
                         </CollectionView.ItemsLayout>
                         
                     </CollectionView>
