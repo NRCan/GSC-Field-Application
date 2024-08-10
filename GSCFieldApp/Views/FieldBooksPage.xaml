@@ -31,7 +31,7 @@
 
                 </VerticalStackLayout.GestureRecognizers>
                 <Frame BackgroundColor="{StaticResource Primary}" x:Name="fieldBookFrame" BorderColor="{StaticResource Primary}">
-                    <Grid Margin="0,0,-10,10" BackgroundColor="{StaticResource Primary}">
+                    <Grid Margin="0,0,0,10" BackgroundColor="{StaticResource Primary}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1"/>
@@ -113,9 +113,8 @@
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <Grid Margin="0,-48,0,0">
+        <Grid >
             <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
@@ -136,7 +135,7 @@
 
             </StackLayout>
 
-            <ScrollView Orientation="Vertical" Grid.Row="1">
+            <ScrollView Orientation="Vertical" Grid.Row="0">
 
                 <!--<FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" x:Name="fieldbooklayout"
                             BindableLayout.ItemTemplateSelector="{StaticResource fieldbookSelector}" 
@@ -144,7 +143,7 @@
 
                 </FlexLayout>-->
                 <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" SelectionChangedCommand="{Binding FieldBookChangedCommand}"
-                                CanReorderItems="False" HorizontalOptions="CenterAndExpand"
+                                CanReorderItems="False" HorizontalOptions="Center"
                                 SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}"
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}"
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
@@ -154,10 +153,10 @@
                 
             </ScrollView>
 
-            <Label x:Name="test" Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="1" Style="{StaticResource Watermark}" HorizontalTextAlignment="Center"
+            <Label x:Name="test" Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="0" Style="{StaticResource Watermark}" HorizontalTextAlignment="Center"
                    IsVisible="{Binding NoFieldBookWatermark, Mode=TwoWay}"/>
 
-            <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="2" FlowDirection="RightToLeft" BackgroundColor="{StaticResource Primary}">
+            <StackLayout Orientation="Horizontal"  HeightRequest="48" Grid.Row="1" FlowDirection="RightToLeft" BackgroundColor="{StaticResource Primary}">
 
                 <!--Update a selected field book-->
                 <Button Command="{Binding UpdateFieldBookCommand}" Text="&#xF0453;" Style="{StaticResource FieldAppHeaderButton}"/>
@@ -183,7 +182,7 @@
 
             <!--Waiting indication-->
             <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" 
-                               Style="{StaticResource FieldAppActivityIndicator}" Grid.Row="1"/>
+                               Style="{StaticResource FieldAppActivityIndicator}" Grid.Row="0"/>
 
         </Grid>
 
