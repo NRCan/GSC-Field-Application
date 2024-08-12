@@ -30,7 +30,8 @@
                                     CommandParameter="{Binding .}"/>
 
                 </VerticalStackLayout.GestureRecognizers>
-                <Frame BackgroundColor="{StaticResource Primary}" x:Name="fieldBookFrame" BorderColor="{StaticResource Primary}">
+                <Border StrokeShape="RoundRectangle 8,8,8,8" Background="{StaticResource Primary}" Margin="10">
+
                     <Grid Margin="0,0,0,10" BackgroundColor="{StaticResource Primary}">
 
                         <Grid.ColumnDefinitions>
@@ -84,9 +85,74 @@
                         <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 
                     </Grid>
-                </Frame>
+                    
+                </Border>
 
             </VerticalStackLayout>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="FieldbooksSelectedTemplate2" x:DataType="model:FieldBooks" >
+
+            <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->
+            <Border StrokeShape="RoundRectangle 8,8,8,8" Background="{StaticResource Primary}" Margin="10" Padding="10" HeightRequest="380" WidthRequest="250">
+
+                <Grid Margin="0,0,0,10" BackgroundColor="{StaticResource Primary}">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3"/>
+                            <ColumnDefinition Width="180"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="150"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White" TextTransform="Uppercase"
+                            Margin="10,0,0,0" LineBreakMode="TailTruncation"/>
+
+                        <Label Text="{Binding metadataForProject.MetadataActivity}" LineBreakMode="WordWrap"
+                               FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
+                               Grid.Column="1" Grid.Row="1"/>
+                        <Label Text="{Binding metadataForProject.ProjectName}"
+                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
+                               Grid.Column="1" Grid.Row="2"/>
+                        <Label Text="{Binding metadataForProject.FieldworkType}" 
+                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
+                               Grid.Column="1" Grid.Row="3"/>
+                        <Label Text="{Binding metadataForProject.StartDate}" 
+                               FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
+                               Grid.Column="1" Grid.Row="4"/>
+
+                        <!--Station count total-->
+                        <Label Grid.Column="1" Grid.Row="5" TextColor="White" 
+                                Margin="25,0,0,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Station ("/>
+                                    <Span Text="{Binding StationNumber}"/>
+                                    <Span Text=")"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                        <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="15,0,0,0" HeightRequest="100" 
+                       Grid.Row="7" HorizontalOptions="Center" VerticalOptions="Center" Source="logo.png"/>
+
+                        <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
+
+                    </Grid>
+
+            </Border>
+
         </DataTemplate>
 
         <!--Used to auto-select first prefered notebook at runtime with a flexlayout -->
@@ -137,17 +203,12 @@
 
             <ScrollView Orientation="Vertical" Grid.Row="0">
 
-                <!--<FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" x:Name="fieldbooklayout"
-                            BindableLayout.ItemTemplateSelector="{StaticResource fieldbookSelector}" 
-                            BindableLayout.ItemsSource="{Binding FieldbookCollection, Mode=TwoWay}">
-
-                </FlexLayout>-->
-                <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" SelectionChangedCommand="{Binding FieldBookChangedCommand}"
-                                CanReorderItems="False" HorizontalOptions="Center"
+                <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate2}" SelectionChangedCommand="{Binding FieldBookChangedCommand}"
+                                CanReorderItems="False"
                                 SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}"
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}"
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
-                                HeightRequest="{OnPlatform WinUI=380}" WidthRequest="{OnPlatform Android=380}">
+                                HeightRequest="{OnPlatform WinUI=380}" WidthRequest="{OnPlatform Android=250}">
 
                 </CollectionView>
                 
