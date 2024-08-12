@@ -320,6 +320,15 @@ namespace GSCFieldApp.ViewModel
                 
             }
 
+            //Push prefered field book at first place
+            FieldBooks prefFB = _fieldbookCollection.Where(x => x.isSelected).First();
+            if (prefFB != null)
+            {
+                int currentPreferedIndex = _fieldbookCollection.IndexOf(prefFB);
+                _fieldbookCollection.Move(currentPreferedIndex, 0);
+            }
+
+
             //Refresh UI
             OnPropertyChanged(nameof(FieldbookCollection));
 
