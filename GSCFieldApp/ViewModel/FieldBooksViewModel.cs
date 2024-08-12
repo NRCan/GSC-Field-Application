@@ -63,17 +63,20 @@ namespace GSCFieldApp.ViewModel
         #region RELAY COMMANDS
 
         [RelayCommand]
-        Task FieldBookChanged()
+        Task FieldBookChanged(FieldBooks tappedFieldbook)
         {
             string preferedDBPath = Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty);
 
-            if (_selectedFieldBook != null && _selectedFieldBook.ProjectDBPath != preferedDBPath)
+            if (tappedFieldbook != null && tappedFieldbook.ProjectDBPath != preferedDBPath)
             {
-                da.PreferedDatabasePath = _selectedFieldBook.ProjectDBPath;
+                da.PreferedDatabasePath = tappedFieldbook.ProjectDBPath;
 
                 // Keep in pref project type for futur vocab use and other viewing purposes
-                Preferences.Set(nameof(FieldUserInfoFWorkType), _selectedFieldBook.metadataForProject.FieldworkType);
-                Preferences.Set(nameof(FieldUserInfoUCode), _selectedFieldBook.metadataForProject.UserCode); 
+                Preferences.Set(nameof(FieldUserInfoFWorkType), tappedFieldbook.metadataForProject.FieldworkType);
+                Preferences.Set(nameof(FieldUserInfoUCode), tappedFieldbook.metadataForProject.UserCode);
+
+                _selectedFieldBook = tappedFieldbook;
+                OnPropertyChanged(nameof(SelectedFieldBook));
             }
 
             return Task.CompletedTask;
@@ -254,8 +257,14 @@ namespace GSCFieldApp.ViewModel
                             string preferedDBPath = Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty);
                             if (currentBook.ProjectDBPath == preferedDBPath)
                             {
+                                currentBook.isSelected = true;
                                 _selectedFieldBook = currentBook;
+                                
                                 OnPropertyChanged(nameof(SelectedFieldBook));
+                            }
+                            else
+                            {
+                                currentBook.isSelected = false;
                             }
                         }
 

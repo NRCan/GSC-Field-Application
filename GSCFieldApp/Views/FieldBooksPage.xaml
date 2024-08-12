@@ -5,6 +5,7 @@
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viewmodel:FieldBooksViewModel" 
              xmlns:model="using:GSCFieldApp.Models"
              Title="{local:Localize ShellFieldBooksTitle}">
@@ -15,89 +16,24 @@
     
     <ContentPage.Resources>
 
+        <conv:ColorFromBoolConverterFieldBooks x:Key="str2Color"/>
+        <conv:String2Integers x:Key="str2int"/>
+        <conv:BoolFromStringConverter x:Key="str2Bool"/>
         <!--Templates-->
-        <DataTemplate x:Key="FieldbooksSelectedTemplate" x:DataType="model:FieldBooks">
-            <VerticalStackLayout HeightRequest="380" WidthRequest="250">
-                <VerticalStackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding}"/>
+        <DataTemplate x:Key="FieldbooksSelectedTemplate" x:DataType="model:FieldBooks" >
+            <VerticalStackLayout>
+                <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->
+                <Border Style="{StaticResource FieldAppBorder}" 
+                    BackgroundColor="{StaticResource Primary}" 
+                    HeightRequest="380" WidthRequest="250">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=FieldBookChangedCommand}" 
+                                          CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:FieldBooksViewModel}}, Path=EditFieldBookCommand}" 
+                                          CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
 
-                    <TapGestureRecognizer Command="{Binding DoubleTapCommand}" CommandParameter="{Binding}" NumberOfTapsRequired="2"/>
-                    
-                    <!--Doesn't work great under Android, a bit clunky to actually make it work-->
-                    <!--Using delete button is recommanded--> 
-                    <SwipeGestureRecognizer Direction="Left" Command="{Binding Source={RelativeSource 
-                        AncestorType={x:Type viewmodel:FieldBooksViewModel}},Path=SwipeGestureRecognizerCommand}" 
-                                    CommandParameter="{Binding .}"/>
-
-                </VerticalStackLayout.GestureRecognizers>
-                <Border StrokeShape="RoundRectangle 8,8,8,8" Background="{StaticResource Primary}" Margin="10">
-
-                    <Grid Margin="0,0,0,10" BackgroundColor="{StaticResource Primary}">
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1"/>
-                            <ColumnDefinition Width="180"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="100"/>
-
-                        </Grid.RowDefinitions>
-
-                        <Label Grid.Column="1" Grid.Row="0" FontSize="20" Text="{Binding metadataForProject.Geologist}" TextColor="White" TextTransform="Uppercase"
-                            Margin="10,0,0,0" LineBreakMode="TailTruncation"/>
-
-                        <Label Text="{Binding metadataForProject.MetadataActivity}" LineBreakMode="WordWrap"
-                               FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="White"
-                               Grid.Column="1" Grid.Row="1"/>
-                        <Label Text="{Binding metadataForProject.ProjectName}"
-                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
-                               Grid.Column="1" Grid.Row="2"/>
-                        <Label Text="{Binding metadataForProject.FieldworkType}" 
-                                FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
-                               Grid.Column="1" Grid.Row="3"/>
-                        <Label Text="{Binding metadataForProject.StartDate}" 
-                               FontAutoScalingEnabled="False" Margin="25,0,0,0" TextColor="White"
-                               Grid.Column="1" Grid.Row="4"/>
-
-                        <!--Station count total-->
-                        <Label Grid.Column="1" Grid.Row="5" TextColor="White" 
-                                Margin="25,0,0,0">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="Station ("/>
-                                    <Span Text="{Binding StationNumber}"/>
-                                    <Span Text=")"/>
-                                </FormattedString>
-                            </Label.FormattedText>
-
-                        </Label>
-
-                        <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="15,0,0,0"
-                       Grid.Row="7" HorizontalOptions="Center" VerticalOptions="End" Source="logo.png"/>
-
-                        <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
-
-                    </Grid>
-                    
-                </Border>
-
-            </VerticalStackLayout>
-        </DataTemplate>
-
-
-        <DataTemplate x:Key="FieldbooksSelectedTemplate2" x:DataType="model:FieldBooks" >
-
-            <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->
-            <Border StrokeShape="RoundRectangle 8,8,8,8" Background="{StaticResource Primary}" Margin="10" Padding="10" HeightRequest="380" WidthRequest="250">
-
-                <Grid Margin="0,0,0,10" BackgroundColor="{StaticResource Primary}">
+                    </Border.GestureRecognizers>
+                    <Grid Margin="0,0,0,10">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3"/>
@@ -151,13 +87,11 @@
 
                     </Grid>
 
-            </Border>
+                </Border>
+            </VerticalStackLayout>
+
 
         </DataTemplate>
-
-        <!--Used to auto-select first prefered notebook at runtime with a flexlayout -->
-        <!--<selectors:FieldbookTemplateSelector x:Key="fieldbookSelector" DefaultTemplate="{StaticResource FieldbooksTemplate}"
-                                             SelectedTemplate="{StaticResource FieldbooksSelectedTemplate}"/>-->
 
         <!--Custom selection color for collection view-->
         <Style TargetType="VerticalStackLayout">
@@ -175,7 +109,6 @@
                 </VisualStateGroupList>
             </Setter>
         </Style>
-
     </ContentPage.Resources>
     
     <ContentPage.Content>
@@ -203,15 +136,12 @@
 
             <ScrollView Orientation="Vertical" Grid.Row="0">
 
-                <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate2}" SelectionChangedCommand="{Binding FieldBookChangedCommand}"
-                                CanReorderItems="False"
-                                SelectedItem="{Binding SelectedFieldBook,Mode=TwoWay}"
+                <CollectionView ItemTemplate="{StaticResource FieldbooksSelectedTemplate}" 
+                                CanReorderItems="False" SelectedItem="{Binding SelectedFieldBook, Mode=TwoWay}"
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}"
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
-                                HeightRequest="{OnPlatform WinUI=380}" WidthRequest="{OnPlatform Android=250}">
+                                HeightRequest="{OnPlatform WinUI=380}" WidthRequest="{OnPlatform Android=270}"/>
 
-                </CollectionView>
-                
             </ScrollView>
 
             <Label x:Name="test" Text="{local:Localize WatermarkNoFieldBook}" Grid.Row="0" Style="{StaticResource Watermark}" HorizontalTextAlignment="Center"

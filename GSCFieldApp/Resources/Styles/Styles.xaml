@@ -293,8 +293,6 @@
         <Setter Property="Margin" Value="7"/>
     </Style>
 
-    
-    
     <Style TargetType="Grid" x:Key="FieldAppFormGrid">
         <!--First row is record alias-->
         <!--Second row is controls of form-->
@@ -327,6 +325,14 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+    </Style>
+
+    <Style TargetType="Border" x:Key="FieldAppBorder">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 8,8,8,8"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="StrokeThickness" Value="1"/>
     </Style>
 
     <!--Concatenated value box styles-->

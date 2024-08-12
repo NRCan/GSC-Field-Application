@@ -19,10 +19,8 @@ namespace GSCFieldApp.Models
         public string ProjectDBPath { get; set; }
         public string CreateDate { get; set; }
         public Metadata metadataForProject { get; set; }
-
+        public bool isSelected { get; set; }
         private DataAccess da = new DataAccess();
-
-        public Microsoft.Maui.Graphics.Color FieldbookColor { get; set;}
 
         #endregion
 
@@ -31,48 +29,48 @@ namespace GSCFieldApp.Models
             metadataForProject = new Metadata();
         }
 
-        /// <summary>
-        /// On a field book item tap, keep path to database in preferences
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        [RelayCommand]
-        public void Tap()
-        {
-            //Keep path
-            da.PreferedDatabasePath = ProjectDBPath;
+        ///// <summary>
+        ///// On a field book item tap, keep path to database in preferences
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //[RelayCommand]
+        //public void Tap()
+        //{
+        //    //Keep path
+        //    da.PreferedDatabasePath = ProjectDBPath;
 
-            //Keep theme
-            Preferences.Set(nameof(FieldUserInfoFWorkType), metadataForProject.FieldworkType);
+        //    //Keep theme
+        //    Preferences.Set(nameof(FieldUserInfoFWorkType), metadataForProject.FieldworkType);
 
-            //Keep geolcode
-            Preferences.Set(nameof(FieldUserInfoUCode), metadataForProject.Geologist);
-        }
+        //    //Keep geolcode
+        //    Preferences.Set(nameof(FieldUserInfoUCode), metadataForProject.Geologist);
+        //}
 
-        /// <summary>
-        /// On a field book item tap, keep path to database in preferences
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        [RelayCommand]
-        public async Task DoubleTapAsync()
-        {
-            //Keep path
-            da.PreferedDatabasePath = ProjectDBPath;
+        ///// <summary>
+        ///// On a field book item tap, keep path to database in preferences
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //[RelayCommand]
+        //public async Task DoubleTapAsync()
+        //{
+        //    //Keep path
+        //    da.PreferedDatabasePath = ProjectDBPath;
 
-            //Keep theme
-            Preferences.Set(nameof(FieldUserInfoFWorkType), metadataForProject.FieldworkType);
+        //    //Keep theme
+        //    Preferences.Set(nameof(FieldUserInfoFWorkType), metadataForProject.FieldworkType);
 
-            //Navigate to fieldbook page and send along the metadata
-            if (metadataForProject != null)
-            {
-                await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
-                    new Dictionary<string, object>
-                    {
-                        [nameof(Metadata)] = metadataForProject,
-                    }
-                );
-            }
-        }
+        //    //Navigate to fieldbook page and send along the metadata
+        //    if (metadataForProject != null)
+        //    {
+        //        await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
+        //            new Dictionary<string, object>
+        //            {
+        //                [nameof(Metadata)] = metadataForProject,
+        //            }
+        //        );
+        //    }
+        //}
     }
 }
