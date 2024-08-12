@@ -1103,16 +1103,22 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            if (SampleVisible)
+            if (DocumentVisible)
             {
                 //Get all documents from database
                 List<Document> docs = await inConnection.Table<Document>().OrderBy(s => s.DocumentName).ToListAsync();
                 ObservableCollection<FieldNote> docsFN = new ObservableCollection<FieldNote>();
                 if (docs != null && docs.Count > 0)
                 {
-
+                    
                     foreach (Document dc in docs)
                     {
+                        int? parentID = dc.StationID;
+
+                        if (!parentID.HasValue && dc.DrillHoleID.HasValue)
+                        {
+                            parentID = dc.DrillHoleID;
+                        }
                         docsFN.Add(new FieldNote
                         {
                             Display_text_1 = dc.DocumentAliasLight,
@@ -1120,7 +1126,7 @@ namespace GSCFieldApp.ViewModel
                             Display_text_3 = dc.Description,
                             GenericTableName = TableDocument,
                             GenericID = dc.DocumentID,
-                            ParentID = dc.StationID.Value,
+                            ParentID = parentID.Value,
                             isValid = dc.isValid
                         });
                     }

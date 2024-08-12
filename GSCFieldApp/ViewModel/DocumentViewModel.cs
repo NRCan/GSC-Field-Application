@@ -155,7 +155,7 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_document != null && _document.DocumentName != string.Empty && _model.StationID != 0)
+            if (_document != null && _document.DocumentName != string.Empty && (_model.StationID != 0 || _model.DrillHoleID != 0))
             {
                 await da.SaveItemAsync(Model, true);
             }
@@ -235,6 +235,11 @@ namespace GSCFieldApp.ViewModel
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
 
+                //Make sure to delete captured photo if there was one.
+                DeleteSnapshot();
+            }
+            else if (_drillHole != null)
+            {
                 //Make sure to delete captured photo if there was one.
                 DeleteSnapshot();
             }
@@ -392,6 +397,19 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(Model));
                 OnPropertyChanged(nameof(FileNumberTo));
             }
+
+            if (Model != null && Model.DocumentID == 0 && _drillHole != null)
+            {
+                //Get current application version
+                Model.DrillHoleID = _drillHole.DrillID;
+                Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_drillHole.DrillID, _drillHole.DrillIDName);
+                Model.FileName = CalculateFileName();
+                Model.FileNumber = 1;
+                _fileNumberTo = 1;
+                OnPropertyChanged(nameof(Model));
+                OnPropertyChanged(nameof(FileNumberTo));
+            }
+
         }
 
         /// <summary>
@@ -433,6 +451,8 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         private async Task ResetModelAsync()
         {
+            // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
 
             //Reset model
             if (_station != null)
@@ -440,23 +460,34 @@ namespace GSCFieldApp.ViewModel
                 // if coming from station notes, calculate new alias
                 Model.StationID = _station.StationID;
                 Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
-                Model.Hyperlink = string.Empty;
-                Model.FileName = string.Empty;
+
             }
             else if (Model.StationID != null)
             {
-                // if coming from field notes on a record edit that needs to be saved as a new record with stay/save
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                
                 List<Station> parentAlias = await currentConnection.Table<Station>().Where(e => e.StationID == Model.StationID).ToListAsync();
-                await currentConnection.CloseAsync();
                 Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(Model.StationID.Value, parentAlias.First().StationAlias);
-                Model.Hyperlink = string.Empty;
-                Model.FileName = string.Empty;
-            }
 
+            }
+            else if (_drillHole != null)
+            {
+                // if coming from station notes, calculate new alias
+                Model.DrillHoleID = _drillHole.DrillID;
+                Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_drillHole.DrillID, _drillHole.DrillIDName);
+
+            }
+            else if (Model.DrillHoleID != null)
+            {
+                List<DrillHole> parentAlias = await currentConnection.Table<DrillHole>().Where(e => e.DrillID == Model.DrillHoleID).ToListAsync();
+                Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(Model.DrillHoleID.Value, parentAlias.First().DrillIDName);
+            }
+            Model.Hyperlink = string.Empty;
+            Model.FileName = string.Empty;
             Model.DocumentID = 0;
 
             OnPropertyChanged(nameof(Model));
+
+            await currentConnection.CloseAsync();
         }
 
         /// <summary>
@@ -638,6 +669,21 @@ namespace GSCFieldApp.ViewModel
                     await da.SaveItemAsync(Model, false);
                 }
 
+            }
+            else if (_drillHole == null)
+            {
+                //Go get original record
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                List<DrillHole> pRecord = await currentConnection.Table<DrillHole>().Where(e => e.DrillID == Model.DrillHoleID).ToListAsync();
+                await currentConnection.CloseAsync();
+                if (pRecord != null && pRecord.Count() > 0)
+                {
+                    _drillHole = pRecord.First();
+
+                    _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_drillHole.DrillID, _drillHole.DrillIDName);
+                    OnPropertyChanged(nameof(Model));
+                    await da.SaveItemAsync(Model, false);
+                }
             }
         }
 
