@@ -106,6 +106,9 @@ namespace GSCFieldApp.Services
                         numberOfRecordsDelete = await da.DeleteItemAsync(pflowToDelete);
                         break;
                     case DatabaseLiterals.TableNames.drill:
+                        //Special case with station, it shall delete from location
+                        //And location always cascades
+                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
                         break;
                     default:
                         break;
