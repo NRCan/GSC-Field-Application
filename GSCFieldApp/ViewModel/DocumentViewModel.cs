@@ -13,6 +13,7 @@ using SQLite;
 using System.Globalization;
 using System.Security.Cryptography;
 using GSCFieldApp.Dictionaries;
+using Microsoft.Maui.Storage;
 
 
 namespace GSCFieldApp.ViewModel
@@ -230,7 +231,7 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Make sure to delete station and location records if user is coming from map page
-            if (_station != null && _station.IsMapPageQuick)
+            if (_station != null && _station.IsMapPageQuick && _model.DocumentID != null)
             {
                 //Delete without forced pop-up warning and question
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
@@ -238,7 +239,7 @@ namespace GSCFieldApp.ViewModel
                 //Make sure to delete captured photo if there was one.
                 DeleteSnapshot();
             }
-            else if (_drillHole != null)
+            else if (_drillHole != null && _model.DocumentID != null)
             {
                 //Make sure to delete captured photo if there was one.
                 DeleteSnapshot();
@@ -273,6 +274,25 @@ namespace GSCFieldApp.ViewModel
                 if (snapshot != null)
                 {
                     string localFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, snapshot.FileName);
+
+                    //Manage file name and possible existing files
+                    if (File.Exists(localFilePath))
+                    {
+                        //Delete
+                        try
+                        {
+                            File.Delete(localFilePath);
+                        }
+                        catch (UnauthorizedAccessException ua)
+                        {
+                            new ErrorToLogFile(ua).WriteToFile();
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorToLogFile(e).WriteToFile();
+                        }
+                        
+                    }
 
                     using Stream sourceStream = await snapshot.OpenReadAsync();
                     using FileStream fileStream = File.OpenWrite(localFilePath);
