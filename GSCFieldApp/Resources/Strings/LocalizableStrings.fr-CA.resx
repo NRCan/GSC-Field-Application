@@ -205,6 +205,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DocumentPageCaption" xml:space="preserve">
     <value>Libéllé</value>
   </data>
+  <data name="DocumentPageCaptionPlaceholder" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="DocumentPageCategory" xml:space="preserve">
     <value>Catégorie</value>
   </data>

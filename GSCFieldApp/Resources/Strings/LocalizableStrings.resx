@@ -216,6 +216,9 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DocumentPageCaption" xml:space="preserve">
     <value>Caption</value>
   </data>
+  <data name="DocumentPageCaptionPlaceholder" xml:space="preserve">
+    <value>Caption</value>
+  </data>
   <data name="DocumentPageCategory" xml:space="preserve">
     <value>Category</value>
   </data>

@@ -54,43 +54,41 @@
                                     ConcatSource="{Binding DocumentCategoryCollection}" />
                             </VerticalStackLayout>
 
-                            <HorizontalStackLayout>
-                                <VerticalStackLayout>
-                                    <Label Text="{local:Localize DocumentPageDirection}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                    <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.Direction, Mode=TwoWay}">
-                                        <Entry.Behaviors>
-                                            <toolkit:NumericValidationBehavior 
-                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
-                                            Flags="ValidateOnValueChanged"
-                                            MinimumValue="0"
-                                            MaximumValue="360"
-                                            MaximumDecimalPlaces="0" />
-                                        </Entry.Behaviors>
-                                    </Entry>
-                                    <!--TODO ADD SYMBOL ICON FOR ARROW THAT MOVES BASED ON DIRECTION-->
-                                </VerticalStackLayout>
-
-                                <Picker Title="{local:Localize DocumentPageScaleDirection}" 
-                                    x:Name="DocumentScalePicker" MaximumWidthRequest="100"
-                                    ItemsSource="{Binding DocumentScale.cboxItems}" 
-                                    ItemDisplayBinding="{Binding itemName}" 
-                                    SelectedItem="{Binding Model.ScaleDirection, 
-                                        Converter={StaticResource cbox2Str},
-                                        ConverterParameter={Binding DocumentScale, Source={x:Reference DocumentScalePicker}},
-                                        Mode=TwoWay}"
-                                    SelectedIndex="{Binding DocumentScale.cboxDefaultItemIndex, Mode=TwoWay}">
-                                </Picker>
-                                
-                            </HorizontalStackLayout>
-
                             <VerticalStackLayout >
 
                                 <Label Text="{local:Localize DocumentPageCaption}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Editor Text="{Binding Model.Description, Mode=TwoWay}"
+                                <Editor Text="{Binding Model.Description, Mode=TwoWay}" Placeholder="{local:Localize DocumentPageCaptionPlaceholder}"
                                        Style="{StaticResource FieldAppEditorNotes}"/>
                                 <Button Text="{local:Localize DocumentPageLoadPreviousCaption}" Style="{StaticResource FieldAppGenericButton}"
                                             Command="{Binding LoadPreviousCaptionCommand}"/>
 
+                            </VerticalStackLayout>
+
+
+                            <Picker Title="{local:Localize DocumentPageScaleDirection}" 
+                                x:Name="DocumentScalePicker" MaximumWidthRequest="100"
+                                ItemsSource="{Binding DocumentScale.cboxItems}" 
+                                ItemDisplayBinding="{Binding itemName}" 
+                                SelectedItem="{Binding Model.ScaleDirection, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding DocumentScale, Source={x:Reference DocumentScalePicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding DocumentScale.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DocumentPageDirection}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Style="{StaticResource FieldAppNumBox}" Text="{Binding Model.Direction, Mode=TwoWay}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                        InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                        Flags="ValidateOnValueChanged"
+                                        MinimumValue="0"
+                                        MaximumValue="360"
+                                        MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+                                <!--TODO ADD SYMBOL ICON FOR ARROW THAT MOVES BASED ON DIRECTION-->
                             </VerticalStackLayout>
 
                         </VerticalStackLayout>

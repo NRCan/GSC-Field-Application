@@ -340,6 +340,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caption.
+        /// </summary>
+        internal static string DocumentPageCaptionPlaceholder {
+            get {
+                return ResourceManager.GetString("DocumentPageCaptionPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         internal static string DocumentPageCategory {
