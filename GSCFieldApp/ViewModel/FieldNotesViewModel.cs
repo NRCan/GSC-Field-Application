@@ -449,6 +449,9 @@ namespace GSCFieldApp.ViewModel
             set { _dates = value; }
         }
 
+        private bool _isWaiting = false;
+        public bool IsWaiting { get { return _isWaiting; }  set { _isWaiting = value; } }
+
         #endregion
 
         public FieldNotesViewModel()
@@ -835,6 +838,9 @@ namespace GSCFieldApp.ViewModel
         {
             if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
             {
+                _isWaiting = true;
+                OnPropertyChanged(nameof(IsWaiting));
+
                 SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
 
                 await FillTraverseDates(currentConnection);
@@ -866,6 +872,8 @@ namespace GSCFieldApp.ViewModel
                     await FilterRecordsOnDate(Dates.First());
                 }
 
+                _isWaiting = false;
+                OnPropertyChanged(nameof(IsWaiting));
             }
 
         }

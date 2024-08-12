@@ -431,6 +431,10 @@
                 </ScrollView>
             </VerticalStackLayout>
 
+            <!--Waiting indication-->
+            <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" 
+                               Style="{StaticResource FieldAppActivityIndicator}" Grid.Row="0"/>
+
         </Grid>
 
     </ContentPage.Content>
