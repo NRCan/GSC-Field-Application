@@ -69,19 +69,22 @@
         <!--Note traverse cards-->
         <DataTemplate x:Key="FieldNoteTraversesCard" x:DataType="x:String">
 
-            <VerticalStackLayout HeightRequest="45" WidthRequest="155">
-                <Grid>
-                    <Grid.GestureRecognizers>
+            <VerticalStackLayout>
+                <Border HeightRequest="45" WidthRequest="155" Stroke="Transparent">
+                    <Grid >
+                        <Grid.GestureRecognizers>
 
-                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapDateGestureRecognizerCommand}"
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapDateGestureRecognizerCommand}"
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
 
-                    </Grid.GestureRecognizers>
+                        </Grid.GestureRecognizers>
 
-                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle, Phone=Small}"
-                    Text="{Binding}" />
+                        <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Style="{StaticResource FieldAppEntryTitle}" FontSize="{OnIdiom Desktop=Subtitle, Tablet=Subtitle, Phone=Small}"
+                            Text="{Binding}" />
 
-                </Grid>
+                    </Grid>
+                </Border>
+
             </VerticalStackLayout>
 
 
@@ -96,7 +99,7 @@
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
                                 <Setter Property="BackgroundColor"
-                                        Value="{StaticResource Primary}" />
+                                        Value="{StaticResource Gray300}" />
 
                             </VisualState.Setters>
                         </VisualState>
@@ -111,7 +114,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="120"/>
+                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
             <ScrollView Orientation="Vertical" Grid.Row="0" Grid.Column="0">
@@ -417,7 +420,9 @@
                     Command="{Binding HideCommand}" CommandParameter="dates"/>
                 <ScrollView Orientation="Horizontal" >
                     <CollectionView ItemTemplate="{StaticResource FieldNoteTraversesCard}" VerticalOptions="Center"
-                            ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" >
+                            ItemsSource="{Binding Dates, Mode=TwoWay}" SelectionMode="Single" 
+                                    SelectedItem="{Binding SelectedDate, Mode=TwoWay}"
+                                    HeightRequest="45" >
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Horizontal"/>
                         </CollectionView.ItemsLayout>

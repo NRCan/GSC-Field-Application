@@ -439,6 +439,9 @@ namespace GSCFieldApp.ViewModel
             set { _drillHoles = value; }
         }
 
+        private string _selectedDate = string.Empty;
+        public string SelectedDate { get { return _selectedDate; } set { _selectedDate = value; } }
+
         private ObservableCollection<string> _dates = new ObservableCollection<string>();
         public ObservableCollection<string> Dates
         {
@@ -1563,6 +1566,10 @@ namespace GSCFieldApp.ViewModel
         {
             if (inDate != string.Empty)
             {
+                //Update selection on UI
+                _selectedDate = inDate;
+                OnPropertyChanged(nameof(SelectedDate));
+
                 //Start with station
                 if (FieldNotesAll.ContainsKey(TableNames.station))
                 {
