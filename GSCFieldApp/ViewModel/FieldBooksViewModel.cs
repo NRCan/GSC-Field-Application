@@ -321,7 +321,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Push prefered field book at first place
-            if (_fieldbookCollection != null && _fieldbookCollection.Count() > 0)
+            if (_fieldbookCollection != null && _fieldbookCollection.Count() > 1)
             {
                 FieldBooks prefFB = _fieldbookCollection.Where(x => x.isSelected).First();
                 if (prefFB != null)
