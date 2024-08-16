@@ -10,27 +10,27 @@
 
     <ShellContent
             Title="GSC Field App" FlyoutItemIsVisible="True" 
-            ContentTemplate="{DataTemplate views:FieldBooksPage}"/>
+            ContentTemplate="{DataTemplate views:FieldBooksPage}" Route="FieldBooksPage"/>
 
     <FlyoutItem Title="{local:Localize ShellFieldBooksTitle}">
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF125F;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
-        <ShellContent ContentTemplate="{DataTemplate views:FieldBooksPage}"/>
+        <ShellContent ContentTemplate="{DataTemplate views:FieldBooksPage}" />
     </FlyoutItem>
 
     <FlyoutItem Title="{local:Localize ShellFieldNotesTitle}">
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF039B;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
-        <ShellContent ContentTemplate="{DataTemplate views:FieldNotesPage}"/>
+        <ShellContent ContentTemplate="{DataTemplate views:FieldNotesPage}" Route="FieldNotesPage"/>
     </FlyoutItem>
 
     <FlyoutItem Title="{local:Localize ShellMapTitle}" >
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF01E7;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
-        <ShellContent ContentTemplate="{DataTemplate views:MapPage}"/>
+        <ShellContent ContentTemplate="{DataTemplate views:MapPage}" Route="MapPage"/>
     </FlyoutItem>
 
     <MenuItem Text="{local:Localize ShellQuickBackupTitle}" Command="{Binding DoBackupCommand}" >
@@ -49,21 +49,21 @@
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF0900;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
-        <ShellContent ContentTemplate="{DataTemplate views:PicklistPage}"/>
+        <ShellContent ContentTemplate="{DataTemplate views:PicklistPage}" Route="PicklistPage"/>
     </FlyoutItem>
 
     <FlyoutItem Title="{local:Localize ShellSettingsTitle}" >
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF08BB;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
-        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}"/>
+        <ShellContent ContentTemplate="{DataTemplate views:SettingsPage}" Route="SettingsPage"/>
     </FlyoutItem>
 
     <FlyoutItem Title="{local:Localize ShellAboutTitle}">
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF02FD;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>
-        <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
+        <ShellContent ContentTemplate="{DataTemplate views:AboutPage}" Route="AboutPage"/>
     </FlyoutItem>
 
 </Shell>

@@ -29,48 +29,5 @@ namespace GSCFieldApp.Models
             metadataForProject = new Metadata();
         }
 
-        ///// <summary>
-        ///// On a field book item tap, keep path to database in preferences
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //[RelayCommand]
-        //public void Tap()
-        //{
-        //    //Keep path
-        //    da.PreferedDatabasePath = ProjectDBPath;
-
-        //    //Keep theme
-        //    Preferences.Set(nameof(FieldUserInfoFWorkType), metadataForProject.FieldworkType);
-
-        //    //Keep geolcode
-        //    Preferences.Set(nameof(FieldUserInfoUCode), metadataForProject.Geologist);
-        //}
-
-        ///// <summary>
-        ///// On a field book item tap, keep path to database in preferences
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //[RelayCommand]
-        //public async Task DoubleTapAsync()
-        //{
-        //    //Keep path
-        //    da.PreferedDatabasePath = ProjectDBPath;
-
-        //    //Keep theme
-        //    Preferences.Set(nameof(FieldUserInfoFWorkType), metadataForProject.FieldworkType);
-
-        //    //Navigate to fieldbook page and send along the metadata
-        //    if (metadataForProject != null)
-        //    {
-        //        await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
-        //            new Dictionary<string, object>
-        //            {
-        //                [nameof(Metadata)] = metadataForProject,
-        //            }
-        //        );
-        //    }
-        //}
     }
 }
