@@ -246,7 +246,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit or stay in map page if quick photo
-            if (_station.IsMapPageQuick)
+            if (_station != null && _station.IsMapPageQuick)
             {
                 await Shell.Current.GoToAsync("../");
             }
