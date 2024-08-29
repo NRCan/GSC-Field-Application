@@ -859,7 +859,7 @@ namespace GSCFieldApp.ViewModel
 
                 await currentConnection.CloseAsync();
 
-                OnPropertyChanged(nameof(FieldNotes));
+                //OnPropertyChanged(nameof(FieldNotes));
                 OnPropertyChanged(nameof(Dates));
 
                 //Make a copy in case user wants to refilter values
@@ -1592,42 +1592,36 @@ namespace GSCFieldApp.ViewModel
                     }
 
                     #region Station First order children
-                    FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     OnPropertyChanged(nameof(EarthMats));
 
 
-                    FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     OnPropertyChanged(nameof(Documents));
 
-                    FieldNotes[TableNames.environment] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.environment].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.environment] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.environment].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     OnPropertyChanged(nameof(Environments));
 
-                    FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     OnPropertyChanged(nameof(MineralizationAlterations));
 
                     #endregion
 
                     #region Earth Mat - Second order children
-                    ObservableCollection<FieldNote> dateFilterSamples = new ObservableCollection<FieldNote>();
-                    ObservableCollection<FieldNote> dateFilterStructures = new ObservableCollection<FieldNote>();
-                    ObservableCollection<FieldNote> dateFilterPaleoflow = new ObservableCollection<FieldNote>();
-                    ObservableCollection<FieldNote> dateFilterFossil = new ObservableCollection<FieldNote>();
-                    ObservableCollection<FieldNote> dateFilterMineral = new ObservableCollection<FieldNote>();
-                    ObservableCollection<FieldNote> dateFilterMineralization = new ObservableCollection<FieldNote>();
-                    foreach (FieldNote fn in FieldNotesAll[TableNames.earthmat])
+                    List<int> emIds = new List<int>();
+
+                    foreach (FieldNote fn in FieldNotes[TableNames.earthmat])
                     {
-                        dateFilterSamples.Concat(FieldNotesAll[TableNames.sample].Where(x => x.ParentID == fn.GenericID).OrderBy(x => x.GenericAliasName).ToList());
-                        dateFilterStructures.Concat(FieldNotesAll[TableNames.structure].Where(s => s.ParentID == fn.GenericID).OrderBy(x => x.GenericAliasName).ToList());
-                        dateFilterPaleoflow.Concat(FieldNotesAll[TableNames.pflow].Where(s => s.ParentID == fn.GenericID).OrderBy(x => x.GenericAliasName).ToList());
-                        dateFilterFossil.Concat(FieldNotesAll[TableNames.fossil].Where(s => s.ParentID == fn.GenericID).OrderBy(x => x.GenericAliasName).ToList());
-                        dateFilterMineral.Concat(FieldNotesAll[TableNames.mineral].Where(s => s.ParentID == fn.GenericID).OrderBy(x => x.GenericAliasName).ToList());
-                        dateFilterMineralization.Concat(FieldNotesAll[TableNames.mineralization].Where(s => s.ParentID == fn.GenericID).OrderBy(x => x.GenericAliasName).ToList());
+                        emIds.Add(fn.GenericID);
                     }
-                    FieldNotes[TableNames.sample] = dateFilterSamples;
-                    FieldNotes[TableNames.structure] = dateFilterStructures;
-                    FieldNotes[TableNames.pflow] = dateFilterPaleoflow;
-                    FieldNotes[TableNames.fossil] = dateFilterFossil;
-                    FieldNotes[TableNames.mineralization] = dateFilterMineralization;
+
+                    FieldNotes[TableNames.sample] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.sample].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.structure] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.structure].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.pflow] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.pflow].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.fossil] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.fossil].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.mineral] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineral].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+
                     OnPropertyChanged(nameof(Samples));
                     OnPropertyChanged(nameof(Structures));
                     OnPropertyChanged(nameof(Paleoflows));
@@ -1636,12 +1630,12 @@ namespace GSCFieldApp.ViewModel
                     #endregion
 
                     #region Mineralization childrens
+                    List<int> maIds = new List<int>();
                     foreach (FieldNote fn in FieldNotesAll[TableNames.mineralization])
                     {
-                        dateFilterMineral.Concat(FieldNotesAll[TableNames.mineral].Where(s => s.ParentID == fn.GenericID).OrderBy(x => x.GenericAliasName).OrderBy(x => x.GenericAliasName).ToList());
+                        maIds.Add(fn.GenericID);
                     }
-
-                    FieldNotes[TableNames.mineral] = dateFilterMineral;
+                    ObservableCollectionHelper.AddRange(FieldNotesAll[TableNames.mineral], FieldNotesAll[TableNames.mineral].Where(x => maIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     OnPropertyChanged(nameof(Minerals));
 
                     #endregion
@@ -1650,7 +1644,7 @@ namespace GSCFieldApp.ViewModel
 
                 if (FieldNotesAll.ContainsKey(TableNames.location))
                 {
-                    FieldNotes[TableNames.location] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.location] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).OrderBy(x => x.Display_text_1).ToList());
                     OnPropertyChanged(nameof(Locations));
 
                     //Children
@@ -1660,7 +1654,7 @@ namespace GSCFieldApp.ViewModel
                         locIds.Add(lids.GenericID);
                     }
 
-                    FieldNotes[TableNames.drill] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.drill].Where(x => locIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.drill] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.drill].Where(x => locIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     OnPropertyChanged(nameof(DrillHoles));
 
 
@@ -1675,7 +1669,7 @@ namespace GSCFieldApp.ViewModel
                     IEnumerable<FieldNote> dateEM = FieldNotesAll[TableNames.earthmat].Where(x => drillIds.Contains(x.ParentID));
                     if (dateEM.Count() > 0)
                     {
-                        ObservableCollectionHelper.AddRange(FieldNotes[TableNames.earthmat], FieldNotesAll[TableNames.earthmat].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
+                        ObservableCollectionHelper.AddRange(FieldNotes[TableNames.earthmat], FieldNotesAll[TableNames.earthmat].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1));
                         OnPropertyChanged(nameof(EarthMats));
                     }
 
@@ -1683,7 +1677,7 @@ namespace GSCFieldApp.ViewModel
                     IEnumerable<FieldNote> dateDOC = FieldNotesAll[TableNames.document].Where(x => drillIds.Contains(x.ParentID));
                     if (dateDOC.Count() > 0)
                     {
-                        ObservableCollectionHelper.AddRange(FieldNotes[TableNames.document], FieldNotesAll[TableNames.document].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
+                        ObservableCollectionHelper.AddRange(FieldNotes[TableNames.document], FieldNotesAll[TableNames.document].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1));
                         OnPropertyChanged(nameof(Documents));
                     }
 
