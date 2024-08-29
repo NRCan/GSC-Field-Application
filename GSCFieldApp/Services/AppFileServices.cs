@@ -143,9 +143,10 @@ namespace GSCFieldApp.Services
             }
 
             //Save a copy of zipped folder with a prompt
-            using Stream localStream = System.IO.File.OpenRead(da.PreferedDatabasePath);
+            using Stream localStream = System.IO.File.OpenRead(fieldBookZipPath);
             CancellationToken cancellationToken = new CancellationToken();
-            var fileSaverResult = await FileSaver.Default.SaveAsync(fieldBookZipPath, localStream, cancellationToken);
+            string zipFileName = Path.GetFileName(fieldBookZipPath);
+            var fileSaverResult = await FileSaver.Default.SaveAsync(zipFileName, localStream, cancellationToken);
 
             //Use Toast to show card in window interface or system like notification rather then modal alert popup.
             if (fileSaverResult.IsSuccessful)
