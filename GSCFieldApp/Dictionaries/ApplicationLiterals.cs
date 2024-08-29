@@ -91,8 +91,9 @@
         public const string aliasTraversePoint = "Traverses"; //Used for map page layer menu
         #endregion
 
-        #region Files
+        #region Files / Folders
         public const string errorLogFileNameExt = "GSCFieldLog.txt"; //Will be used to save all error logs into a single file
+        public const string photoFolderSuffix = "_Photos"; //Will be used to create subfolders containing all photos for a given field book. Easier when zipping for backup.
         #endregion
     }
 }

@@ -273,7 +273,10 @@ namespace GSCFieldApp.ViewModel
 
                 if (snapshot != null)
                 {
-                    string localFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, snapshot.FileName);
+                    //Name sub folder just like the database and the json for layers
+                    AppFileServices afs = new AppFileServices();
+                    string subFolderPath = afs.CreatePhotoSubFolder();
+                    string localFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, subFolderPath, snapshot.FileName);
 
                     //Manage file name and possible existing files
                     if (File.Exists(localFilePath))

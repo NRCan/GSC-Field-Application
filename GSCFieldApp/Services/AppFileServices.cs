@@ -122,7 +122,7 @@ namespace GSCFieldApp.Services
             using (FileStream zipToOpen = new FileStream(fieldBookZipPath, FileMode.Create))
             using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
             {
-                //Get a list of files from field book that has the same name (layer json and other file types and photos)
+                //Get a list of files from field book that has the same name (layer json and other file types)
                 foreach (var file in Directory.GetFiles(userLocalFolder, userDBName + "*"))
                 {
                     //Make sure to not self zip current zip
@@ -139,6 +139,25 @@ namespace GSCFieldApp.Services
                         }
                     }
 
+                }
+
+                //Get a list of embeded device photos 
+                AppFileServices afs = new AppFileServices();
+                string photoSubFolder = afs.GetPhotoSubFolder();
+                if (Directory.Exists(photoSubFolder))
+                {
+                    foreach (var photos in Directory.GetFiles(photoSubFolder))
+                    {
+                        var entryName = Path.GetFileName(photos);
+                        var entry = archive.CreateEntry(entryName);
+                        entry.LastWriteTime = File.GetLastWriteTime(photos);
+                        using (var fs = new FileStream(photos, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        using (var stream = entry.Open())
+                        {
+                            fs.CopyTo(stream);
+                            fs.Close();
+                        }
+                    }
                 }
             }
 
@@ -211,6 +230,37 @@ namespace GSCFieldApp.Services
 
             return copiedFieldBookPath;
 
+        }
+
+        /// <summary>
+        /// Will create the photo subfolder to store embeded photos from the device
+        /// </summary>
+        /// <returns></returns>
+        public string CreatePhotoSubFolder()
+        {
+            string photoSubFolder = GetPhotoSubFolder();
+
+            if (!Directory.Exists(photoSubFolder))
+            {
+                Directory.CreateDirectory(photoSubFolder);
+            }
+
+            return photoSubFolder;
+        }
+
+        /// <summary>
+        /// Will return the needed sub folder to store user embeded device photos for the current field book
+        /// User could have the same officer code (used in photo naming), but for different field books. 
+        /// Sub folder solution solves this and will help backup to get only the right photos.
+        /// </summary>
+        /// <returns></returns>
+        public string GetPhotoSubFolder()
+        {
+            //Variables
+            DataAccess da = new DataAccess();
+            string subFolderPath = Path.Combine(Path.GetDirectoryName(da.PreferedDatabasePath), Path.GetFileNameWithoutExtension(da.PreferedDatabasePath) + ApplicationLiterals.photoFolderSuffix);
+
+            return subFolderPath;
         }
 
     }
