@@ -1496,7 +1496,7 @@ namespace GSCFieldApp.ViewModel
                         Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
                     locationsFN.Add(new FieldNote
                     {
-                        Display_text_1 = loc.LocationAlias,
+                        Display_text_1 = loc.LocationAliasLight,
                         Display_text_2 = coordinatesFormat,
                         Display_text_3 = loc.locationNTS,
                         GenericTableName = TableLocation,
