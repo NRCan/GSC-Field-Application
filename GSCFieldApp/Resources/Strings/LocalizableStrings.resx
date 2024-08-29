@@ -172,7 +172,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Delete</value>
   </data>
   <data name="ButtonSaveStay" xml:space="preserve">
-    <value>Stay</value>
+    <value>Copy</value>
   </data>
   <data name="ButtonSet" xml:space="preserve">
     <value>Set</value>

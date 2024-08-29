@@ -205,7 +205,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stay.
+        ///   Looks up a localized string similar to Copy.
         /// </summary>
         internal static string ButtonSaveStay {
             get {

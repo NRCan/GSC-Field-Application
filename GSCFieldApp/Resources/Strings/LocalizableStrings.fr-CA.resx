@@ -172,7 +172,7 @@ Shimamura, Kaz – Conseiller</value>
     <value>Suppr.</value>
   </data>
   <data name="ButtonSaveStay" xml:space="preserve">
-    <value>Rester</value>
+    <value>Copier</value>
   </data>
   <data name="ButtonSet" xml:space="preserve">
     <value>+</value>
