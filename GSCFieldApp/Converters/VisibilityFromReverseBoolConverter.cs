@@ -14,14 +14,14 @@ namespace GSCFieldApp.Converters
         {
             if (value is bool && !(bool)value)
             {
-                return Visibility.Visible;
+                return true;
             }
-            return Visibility.Collapsed;
+            return false;
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Visibility && (Visibility)value == Visibility.Visible)
+            if (value is bool && (bool)value)
             {
                 return false;
             }

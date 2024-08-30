@@ -117,14 +117,455 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutPageAppInfoDBVersion" xml:space="preserve">
+    <value>Database version </value>
+  </data>
+  <data name="AboutPageAppInfoHeader" xml:space="preserve">
+    <value>Application information</value>
+  </data>
+  <data name="AboutPageAppInfoPublisher" xml:space="preserve">
+    <value>Natural Resources Canada</value>
+  </data>
+  <data name="AboutPageAppInfoVersion" xml:space="preserve">
+    <value>Version </value>
+  </data>
+  <data name="AboutPageContactHeader" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="AboutPageContactText" xml:space="preserve">
+    <value>Gabriel Huot-Vézina
+Geomatic agent
+Geological Survey of Canada, Natural Resources Canada
+Government of Canada
+490 de la Couronne, Québec, Québec, G1K 9A9
+gabriel.huot-vezina@nrcan-rncan.gc.ca</value>
+  </data>
+  <data name="AboutPageProjectHeader" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="AboutPageProjectIssue" xml:space="preserve">
+    <value>Submit an</value>
+  </data>
+  <data name="AboutPageProjectIssueHyperlink" xml:space="preserve">
+    <value> issue.</value>
+  </data>
+  <data name="AboutPageProjectSourceCode" xml:space="preserve">
+    <value>Project source code available on</value>
+  </data>
+  <data name="AboutPageTeamHeader" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="AboutPageTeamText" xml:space="preserve">
+    <value>Cocking, Robert – Training and Advisor
+Girard, Étienne – Geological Data Flow Project Leader 
+Huot-Vézina, Gabriel – Lead Developer, Data Collection Activity Leader 
+Joseph, Jamel – Developer
+Shimamura, Kaz – Senior Advisor</value>
+  </data>
+  <data name="AboutPageTitle" xml:space="preserve">
+    <value>GSC Field Application</value>
+  </data>
   <data name="ButtonSave" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="ButtonSaveDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ButtonSaveStay" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="ButtonSet" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="CommandDeleteCompleteContent" xml:space="preserve">
+    <value>Record {0} has been deleted.</value>
+  </data>
+  <data name="CommandDeleteCompleteTitle" xml:space="preserve">
+    <value>Delete Completed</value>
+  </data>
+  <data name="CommandDeleteContent" xml:space="preserve">
+    <value>Enter last two digit of current year to delete</value>
+  </data>
+  <data name="CommandDeleteTitle" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
+  <data name="DisplayAlertGPS" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="DisplayAlertGPSDenied" xml:space="preserve">
+    <value>Location access denied</value>
+  </data>
+  <data name="DisplayAlertGPSMessage" xml:space="preserve">
+    <value>Access to location service is currently disabled. Would you like to fix the problem?</value>
+  </data>
+  <data name="DisplayAlertGPSNoEnabled" xml:space="preserve">
+    <value>Location access not activated</value>
+  </data>
+  <data name="DisplayAlertNotAllowed" xml:space="preserve">
+    <value>Not Allowed!</value>
+  </data>
+  <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
+    <value>Can't create a station with same location.</value>
+  </data>
+  <data name="DocumentPageAdvancedTitle" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="DocumentPageBatchEntry" xml:space="preserve">
+    <value>Batch entry of photo records</value>
+  </data>
+  <data name="DocumentPageCaption" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="DocumentPageCaptionPlaceholder" xml:space="preserve">
+    <value>Caption</value>
+  </data>
+  <data name="DocumentPageCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="DocumentPageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DocumentPageDirection" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="DocumentPageEmbededTitle" xml:space="preserve">
+    <value>Embeded camera</value>
+  </data>
+  <data name="DocumentPageExternalTitle" xml:space="preserve">
+    <value>External camera</value>
+  </data>
+  <data name="DocumentPageFileName" xml:space="preserve">
+    <value>File Name</value>
+  </data>
+  <data name="DocumentPageFileNoFrom" xml:space="preserve">
+    <value>From (#)</value>
+  </data>
+  <data name="DocumentPageFileNoTo" xml:space="preserve">
+    <value>To (#)</value>
+  </data>
+  <data name="DocumentPageFileType" xml:space="preserve">
+    <value>File Type</value>
+  </data>
+  <data name="DocumentPageLoadPreviousCaption" xml:space="preserve">
+    <value>Load Previous Caption</value>
+  </data>
+  <data name="DocumentPageObjX" xml:space="preserve">
+    <value>Object location X</value>
+  </data>
+  <data name="DocumentPageObjY" xml:space="preserve">
+    <value>Object location Y</value>
+  </data>
+  <data name="DocumentPageOtherDocumentsTitle" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="DocumentPageScaleDirection" xml:space="preserve">
+    <value>Scale Direction</value>
+  </data>
+  <data name="DocumentPageTitle" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="DocumentPageTooltipSnapshot" xml:space="preserve">
+    <value>Take a snapshot with device</value>
+  </data>
+  <data name="DrillHoleContextTitle" xml:space="preserve">
+    <value>Context</value>
+  </data>
+  <data name="DrillHoleGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="DrillHoleLogDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DrillHoleLogTitle" xml:space="preserve">
+    <value>Log/Relog</value>
+  </data>
+  <data name="DrillHoleMetricsTitle" xml:space="preserve">
+    <value>Metrics</value>
+  </data>
+  <data name="DrillHolePageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="DrillHolePageCompany" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="DrillHolePageCoreSize" xml:space="preserve">
+    <value>Core Size</value>
+  </data>
+  <data name="DrillHolePageDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DrillHolePageDip" xml:space="preserve">
+    <value>Dip</value>
+  </data>
+  <data name="DrillHolePageHoleSize" xml:space="preserve">
+    <value>Hole Size</value>
+  </data>
+  <data name="DrillHolePageLength" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="DrillHolePageLogBy" xml:space="preserve">
+    <value>By</value>
+  </data>
+  <data name="DrillHolePageLogFrom" xml:space="preserve">
+    <value>From (m)</value>
+  </data>
+  <data name="DrillHolePageLogTo" xml:space="preserve">
+    <value>To (m)</value>
+  </data>
+  <data name="DrillHolePageLogType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillHolePageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="DrillHolePageOriginalName" xml:space="preserve">
+    <value>Original Name</value>
+  </data>
+  <data name="DrillHolePageRelatedTo" xml:space="preserve">
+    <value>Related To</value>
+  </data>
+  <data name="DrillHolePageSummary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="DrillHolePageTitle" xml:space="preserve">
+    <value>Drill Hole</value>
+  </data>
+  <data name="DrillHolePageType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DrillHolePageUnits" xml:space="preserve">
+    <value>Units</value>
+  </data>
+  <data name="EarthmatColourIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="EarthmatContactNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="EarthmatInterpNotes" xml:space="preserve">
+    <value>Interpretation</value>
+  </data>
+  <data name="EarthmatNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="EarthmatPageClast" xml:space="preserve">
+    <value>Clast Form</value>
+  </data>
+  <data name="EarthmatPageColourFresh" xml:space="preserve">
+    <value>Fresh</value>
+  </data>
+  <data name="EarthmatPageColourGeneric" xml:space="preserve">
+    <value>Generic</value>
+  </data>
+  <data name="EarthmatPageColourIntensity" xml:space="preserve">
+    <value>Intensity</value>
+  </data>
+  <data name="EarthmatPageColourPlaceholder" xml:space="preserve">
+    <value>Generic + Intensity + Qualifier</value>
+  </data>
+  <data name="EarthmatPageColourQualifier" xml:space="preserve">
+    <value>Qualifier</value>
+  </data>
+  <data name="EarthmatPageColourTitle" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="EarthmatPageColourWeathered" xml:space="preserve">
+    <value>Weathered</value>
+  </data>
+  <data name="EarthmatPageConfidence" xml:space="preserve">
+    <value>Confidence</value>
+  </data>
+  <data name="EarthmatPageContactLower" xml:space="preserve">
+    <value>Lower</value>
+  </data>
+  <data name="EarthmatPageContactRelatedAlias" xml:space="preserve">
+    <value>Related to</value>
+  </data>
+  <data name="EarthmatPageContactRelTitle" xml:space="preserve">
+    <value>Contact relations</value>
+  </data>
+  <data name="EarthmatPageContactTitle" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="EarthmatPageContactType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="EarthmatPageContactUpper" xml:space="preserve">
+    <value>Upper</value>
+  </data>
+  <data name="EarthmatPageDetailSearchPlaceholder" xml:space="preserve">
+    <value>Type detail ie. basalt</value>
+  </data>
+  <data name="EarthmatPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="EarthmatPageInterpretationTitle" xml:space="preserve">
+    <value>Interpretation</value>
+  </data>
+  <data name="EarthmatPageLithBedThick" xml:space="preserve">
+    <value>Bedding Thickness</value>
+  </data>
+  <data name="EarthmatPageLithDefFab" xml:space="preserve">
+    <value>Deformation Fabric</value>
+  </data>
+  <data name="EarthmatPageLithGrainSize" xml:space="preserve">
+    <value>Grain/Crystal Size</value>
+  </data>
+  <data name="EarthmatPageLithMapUnit" xml:space="preserve">
+    <value>Map Unit</value>
+  </data>
+  <data name="EarthmatPageLithOccurAs" xml:space="preserve">
+    <value>Occurs as</value>
+  </data>
+  <data name="EarthmatPageLithoDetail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="EarthmatPageLithoModTitle" xml:space="preserve">
+    <value>Lithologic Modifiers</value>
+  </data>
+  <data name="EarthmatPageLithoTitle" xml:space="preserve">
+    <value>Lithology - Setting and composition</value>
+  </data>
+  <data name="EarthmatPageLithoType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="EarthmatPageLithPercent" xml:space="preserve">
+    <value>Percent</value>
+  </data>
+  <data name="EarthmatPageLithQualifier" xml:space="preserve">
+    <value>Qualifier</value>
+  </data>
+  <data name="EarthmatPageLithTextStruc" xml:space="preserve">
+    <value>Texture/Structure</value>
+  </data>
+  <data name="EarthmatPageMagQualifier" xml:space="preserve">
+    <value>Qualifier</value>
+  </data>
+  <data name="EarthmatPageMagSusc" xml:space="preserve">
+    <value>Susceptibility (10-3 SI)</value>
+  </data>
+  <data name="EarthmatPageMagTitle" xml:space="preserve">
+    <value>Magnetism</value>
+  </data>
+  <data name="EarthmatPageMetaFacies" xml:space="preserve">
+    <value>Facies</value>
+  </data>
+  <data name="EarthmatPageMetaFaciesTitle" xml:space="preserve">
+    <value>Metamorphic Facies</value>
+  </data>
+  <data name="EarthmatPageMetaInt" xml:space="preserve">
+    <value>Intensity</value>
+  </data>
+  <data name="EarthmatPageMineralogyTitle" xml:space="preserve">
+    <value>Mineralogy</value>
+  </data>
+  <data name="EarthmatPageOxidation" xml:space="preserve">
+    <value>Oxidation</value>
+  </data>
+  <data name="EarthmatPageRelationDescription" xml:space="preserve">
+    <value>Relation description</value>
+  </data>
+  <data name="EarthmatPageRelationDescriptionPlaceholder" xml:space="preserve">
+    <value>Type + Related To</value>
+  </data>
+  <data name="EarthmatPageResidualLabel" xml:space="preserve">
+    <value>Total: {0}% ({1})</value>
+  </data>
+  <data name="EarthmatPageSearchPlaceholder" xml:space="preserve">
+    <value>Type group ie. metamorphic</value>
+  </data>
+  <data name="EarthmatPageSorting" xml:space="preserve">
+    <value>Sorting</value>
+  </data>
+  <data name="EarthmatPageTitle" xml:space="preserve">
+    <value>Earth Material</value>
+  </data>
+  <data name="EarthmatPageWater" xml:space="preserve">
+    <value>H2O Content</value>
+  </data>
+  <data name="EarthmatTooltipAddFossil" xml:space="preserve">
+    <value>Tap to add a new fossil</value>
+  </data>
+  <data name="EarthmatTooltipAddMA" xml:space="preserve">
+    <value>Tap to add a new mineralization/alteration</value>
+  </data>
+  <data name="EarthmatTooltipAddMineral" xml:space="preserve">
+    <value>Tap to add a new mineral</value>
+  </data>
+  <data name="EarthmatTooltipAddPaleoflow" xml:space="preserve">
+    <value>Tap to add a new paleoflow</value>
+  </data>
+  <data name="EarthmatTooltipAddSample" xml:space="preserve">
+    <value>Tap to add a new sample</value>
+  </data>
+  <data name="EarthmatTooltipAddStruc" xml:space="preserve">
+    <value>Tap to add a new structure</value>
+  </data>
+  <data name="EnvironmentPageAzim" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="EnvironmentPageBoulder" xml:space="preserve">
+    <value>Boulder</value>
+  </data>
+  <data name="EnvironmentPageCover" xml:space="preserve">
+    <value>Cover</value>
+  </data>
+  <data name="EnvironmentPageDepthLayer" xml:space="preserve">
+    <value>Active Depth Layer (m)</value>
+  </data>
+  <data name="EnvironmentPageDrainage" xml:space="preserve">
+    <value>Drainage</value>
+  </data>
+  <data name="EnvironmentPageExposure" xml:space="preserve">
+    <value>Exposure</value>
+  </data>
+  <data name="EnvironmentPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="EnvironmentPageGroundTitle" xml:space="preserve">
+    <value>Ground</value>
+  </data>
+  <data name="EnvironmentPageIce" xml:space="preserve">
+    <value>Ice</value>
+  </data>
+  <data name="EnvironmentPageLandscapeTitle" xml:space="preserve">
+    <value>Landscape</value>
+  </data>
+  <data name="EnvironmentPagePattern" xml:space="preserve">
+    <value>Pattern</value>
+  </data>
+  <data name="EnvironmentPagePermIndicator" xml:space="preserve">
+    <value>Permafrost Indicator</value>
+  </data>
+  <data name="EnvironmentPageRelief" xml:space="preserve">
+    <value>Relief</value>
+  </data>
+  <data name="EnvironmentPageSlope" xml:space="preserve">
+    <value>Slope</value>
+  </data>
+  <data name="EnvironmentPageTerrainTitle" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="EnvironmentPageTitle" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="EnvPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="FieldBookBackupGeneric" xml:space="preserve">
+    <value>Backup</value>
   </data>
   <data name="FieldBookPageActivty" xml:space="preserve">
     <value>Activity</value>
   </data>
   <data name="FieldBookPageActivtyPlaceholder" xml:space="preserve">
     <value>Field Summer 2023</value>
+  </data>
+  <data name="FieldbookPageBackupMessage" xml:space="preserve">
+    <value>Would you like to do a backup of selected field book?</value>
+  </data>
+  <data name="FieldbookPageBackupTitle" xml:space="preserve">
+    <value>Backup Field Book</value>
   </data>
   <data name="FieldBookPageChiefFName" xml:space="preserve">
     <value>First Name</value>
@@ -135,8 +576,20 @@
   <data name="FieldBookPageChiefMName" xml:space="preserve">
     <value>Middle Name</value>
   </data>
+  <data name="FieldbookPageDeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to remove selected field book from device?</value>
+  </data>
+  <data name="FieldbookPageDeleteTitle" xml:space="preserve">
+    <value>Delete Field Book</value>
+  </data>
   <data name="FieldBookPageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
+  </data>
+  <data name="FieldBookPageFailedToSave" xml:space="preserve">
+    <value>Some mandatory fields have not been filled.</value>
+  </data>
+  <data name="FieldBookPageFailedToSaveTitle" xml:space="preserve">
+    <value>Warning</value>
   </data>
   <data name="FieldBookPageGeologistTitle" xml:space="preserve">
     <value>Geologist</value>
@@ -168,8 +621,476 @@
   <data name="FieldBookPageWorkType" xml:space="preserve">
     <value>Work Type</value>
   </data>
+  <data name="FieldNotesEmptyDate" xml:space="preserve">
+    <value>Missing date</value>
+  </data>
+  <data name="FielNotesDateHeader" xml:space="preserve">
+    <value>Traverse Dates</value>
+  </data>
+  <data name="FielNotesDrillHolesHeader" xml:space="preserve">
+    <value>Drill Holes</value>
+  </data>
+  <data name="FielNotesEMHeader" xml:space="preserve">
+    <value>Earth Materials</value>
+  </data>
+  <data name="FielNotesEnvironmentHeader" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="FielNotesFossilHeader" xml:space="preserve">
+    <value>Fossil</value>
+  </data>
+  <data name="FielNotesLocationHeader" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="FielNotesMineralHeader" xml:space="preserve">
+    <value>Mineral</value>
+  </data>
+  <data name="FielNotesMineralizationHeader" xml:space="preserve">
+    <value>Mineralization/Alteration</value>
+  </data>
+  <data name="FielNotesPaleoflowHeader" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
+  <data name="FielNotesPhotoHeader" xml:space="preserve">
+    <value>Photos</value>
+  </data>
+  <data name="FielNotesSampleHeader" xml:space="preserve">
+    <value>Samples</value>
+  </data>
+  <data name="FielNotesStationHeader" xml:space="preserve">
+    <value>Stations</value>
+  </data>
+  <data name="FielNotesStructureHeader" xml:space="preserve">
+    <value>Structures</value>
+  </data>
+  <data name="FossilPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="FossilPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="FossilPageTitle" xml:space="preserve">
+    <value>Fossil</value>
+  </data>
+  <data name="FossilPageType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="GenericButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="GenericButtonDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="GenericButtonNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="GenericButtonOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="GenericButtonYes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="LocationPageAccuracy" xml:space="preserve">
+    <value>Accuracy (m)</value>
+  </data>
+  <data name="LocationPageButtonToGeo" xml:space="preserve">
+    <value>To Geographic</value>
+  </data>
+  <data name="LocationPageButtonToProjected" xml:space="preserve">
+    <value>To UTM</value>
+  </data>
+  <data name="LocationPageDatumTitle" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="LocationPageEasting" xml:space="preserve">
+    <value>Easting (m)</value>
+  </data>
+  <data name="LocationPageEastingToolip" xml:space="preserve">
+    <value>Valid value between 160 000 and 834 000 with maximum of 4 decimals.</value>
+  </data>
+  <data name="LocationPageElevation" xml:space="preserve">
+    <value>Elevation</value>
+  </data>
+  <data name="LocationPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="LocationPageGeodeticAlert" xml:space="preserve">
+    <value>Coordinate system</value>
+  </data>
+  <data name="LocationPageGeodeticAlertMessage" xml:space="preserve">
+    <value>Please select a proper coordinate system.</value>
+  </data>
+  <data name="LocationPageGeographicTitle" xml:space="preserve">
+    <value>Geographic</value>
+  </data>
+  <data name="LocationPageLatitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="LocationPageLatitudeToolip" xml:space="preserve">
+    <value>Having more then 8 decimal places represent a sub-millimetric value.</value>
+  </data>
+  <data name="LocationPageLongitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="LocationPageLongitudeToolip" xml:space="preserve">
+    <value>Having more then 8 decimal places represent a sub-millimetric value.</value>
+  </data>
+  <data name="LocationPageNorthing" xml:space="preserve">
+    <value>Northing (m)</value>
+  </data>
+  <data name="LocationPageNorthingToolip" xml:space="preserve">
+    <value>Valid value between 0 and 1 000 000 with maximum of 4 decimals.</value>
+  </data>
+  <data name="LocationPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="LocationPageNTS" xml:space="preserve">
+    <value>Nation Topographic Sheet (NTS)</value>
+  </data>
+  <data name="LocationPageNTSPlaceholder" xml:space="preserve">
+    <value>Ex: 31M01</value>
+  </data>
+  <data name="LocationPageProjectedTitle" xml:space="preserve">
+    <value>Projected</value>
+  </data>
+  <data name="LocationPageTitle" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="LocationPageTooltipAddDrill" xml:space="preserve">
+    <value>Tap to add a new drill hole record.</value>
+  </data>
+  <data name="LocationPageTooltipAddStation" xml:space="preserve">
+    <value>Tap to add a new station record.</value>
+  </data>
+  <data name="MapPageAddData" xml:space="preserve">
+    <value>Tap to add a new layer.</value>
+  </data>
+  <data name="MapPageAddPhoto" xml:space="preserve">
+    <value>Tap to add a quick photo record.</value>
+  </data>
+  <data name="MapPageAddSample" xml:space="preserve">
+    <value>Tap to add a quick sample record.</value>
+  </data>
+  <data name="MapPageAddStation" xml:space="preserve">
+    <value>Tap to add a station record.</value>
+  </data>
+  <data name="MapPageAddStruc" xml:space="preserve">
+    <value>Tap to add a quick structure/pflow record.</value>
+  </data>
+  <data name="MapPageAddWaypoint" xml:space="preserve">
+    <value>Tap to add a waypoint.</value>
+  </data>
+  <data name="MapPageAddWaypointDialogMessage" xml:space="preserve">
+    <value>Please enter the WMS web link including the layer to be added.</value>
+  </data>
+  <data name="MapPageAddWaypointDialogPlaceholder" xml:space="preserve">
+    <value>https://canada3d-geo.azurewebsites.net/canada3d/wms?version=1.1.0</value>
+  </data>
+  <data name="MapPageAddWaypointDialogTitle" xml:space="preserve">
+    <value>Add WMS </value>
+  </data>
+  <data name="MapPageAddWMS" xml:space="preserve">
+    <value>Tap to add an URL of an online Web Mapping Server (WMS).</value>
+  </data>
+  <data name="MapPageAddWMSFailMessage" xml:space="preserve">
+    <value>Entered URL failed to fetch a layer. Please make sure the URL contains the layer name and is preceded by "&amp;layers=".</value>
+  </data>
+  <data name="MapPageAddWMSFailTitle" xml:space="preserve">
+    <value>WMS Failure</value>
+  </data>
+  <data name="MapPageAddXY" xml:space="preserve">
+    <value>Tap to manually create a location record from XY or lat/long.</value>
+  </data>
+  <data name="MapPageGPSMode" xml:space="preserve">
+    <value>Tap to turn on/off GPS.</value>
+  </data>
+  <data name="MapPageLayer" xml:space="preserve">
+    <value>Tap to see a list of all loaded layers and more options.</value>
+  </data>
+  <data name="MineralizationAlterationDistribution" xml:space="preserve">
+    <value>Distribution</value>
+  </data>
+  <data name="MineralizationAlterationNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="MineralizationAlterationPageDescTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MineralizationAlterationPageFacies" xml:space="preserve">
+    <value>Facies</value>
+  </data>
+  <data name="MineralizationAlterationPagePhase" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="MineralizationAlterationPageTexture" xml:space="preserve">
+    <value>Texture</value>
+  </data>
+  <data name="MineralizationAlterationPageTitle" xml:space="preserve">
+    <value>Mineralization / Alteration</value>
+  </data>
+  <data name="MineralizationAlterationPageType" xml:space="preserve">
+    <value>Mineralization / Alteration</value>
+  </data>
+  <data name="MineralizationAlterationPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="MineralizationAlterationPageUnit" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="MineralizationAlterationTooltipAddMineral" xml:space="preserve">
+    <value>Tap to add a new mineral</value>
+  </data>
+  <data name="MineralPageColour" xml:space="preserve">
+    <value>Colour</value>
+  </data>
+  <data name="MineralPageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="MineralPageFormHabit" xml:space="preserve">
+    <value>Form / Habit</value>
+  </data>
+  <data name="MineralPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="MineralPageMode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="MineralPageName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="MineralPageNameSearchPlaceholder" xml:space="preserve">
+    <value>Search mineral name</value>
+  </data>
+  <data name="MineralPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="MineralPageOccurence" xml:space="preserve">
+    <value>Occurence</value>
+  </data>
+  <data name="MineralPageTitle" xml:space="preserve">
+    <value>Mineral</value>
+  </data>
+  <data name="MineralPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="PaleoflowBedSurface" xml:space="preserve">
+    <value>Bedrock surface</value>
+  </data>
+  <data name="PaleoflowMethod" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="PaleoflowPageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="PaleoflowPageClass" xml:space="preserve">
+    <value>Class</value>
+  </data>
+  <data name="PaleoflowPageConfidence" xml:space="preserve">
+    <value>Confidence</value>
+  </data>
+  <data name="PaleoflowPageDescTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PaleoflowPageDipPlunge" xml:space="preserve">
+    <value>Dip</value>
+  </data>
+  <data name="PaleoflowPageFeature" xml:space="preserve">
+    <value>Feature</value>
+  </data>
+  <data name="PaleoflowPageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="PaleoflowPageIndicators" xml:space="preserve">
+    <value>Numbers of Indicators</value>
+  </data>
+  <data name="PaleoflowPageIsMainDirection" xml:space="preserve">
+    <value>Is Main Direction?</value>
+  </data>
+  <data name="PaleoflowPageMeasurementTitle" xml:space="preserve">
+    <value>Measurements</value>
+  </data>
+  <data name="PaleoflowPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="PaleoflowPageQuality" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="PaleoflowPageRelationTitle" xml:space="preserve">
+    <value>Relations</value>
+  </data>
+  <data name="PaleoflowPageSense" xml:space="preserve">
+    <value>Sense</value>
+  </data>
+  <data name="PaleoflowPageTitle" xml:space="preserve">
+    <value>Paleoflow</value>
+  </data>
+  <data name="PaleoflowPageTypeTitle" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="PaleoflowRelation" xml:space="preserve">
+    <value>Relation</value>
+  </data>
+  <data name="PaleoflowRelativeAge" xml:space="preserve">
+    <value>Relative Age</value>
+  </data>
+  <data name="PicklistPageAddNewTermContent" xml:space="preserve">
+    <value>Please add a new term.</value>
+  </data>
+  <data name="PicklistPageAddNewTermTitle" xml:space="preserve">
+    <value>Picklist</value>
+  </data>
+  <data name="PicklistPageAddNewTermTooltip" xml:space="preserve">
+    <value>Tap to add a new picklist term.</value>
+  </data>
+  <data name="PicklistPageExplanation" xml:space="preserve">
+    <value>Hide/Show drop down terms, as well as adding new ones for all forms and fields. Values can also be reordered with a drag-and-drop and a specific one can be set as a default value with a single tap. Double-tap terms to modify their textual value.</value>
+  </data>
+  <data name="PicklistPageFields" xml:space="preserve">
+    <value>Field</value>
+  </data>
+  <data name="PicklistPageFieldValues" xml:space="preserve">
+    <value>Terms</value>
+  </data>
+  <data name="PicklistPageHeading" xml:space="preserve">
+    <value>Drop downs edition</value>
+  </data>
+  <data name="PicklistPageModifyTermContent" xml:space="preserve">
+    <value>Modify selected term at your needs.</value>
+  </data>
+  <data name="PicklistPageModifyTermTitle" xml:space="preserve">
+    <value>Picklist</value>
+  </data>
+  <data name="PicklistPageParentValue" xml:space="preserve">
+    <value>Parent term</value>
+  </data>
+  <data name="PicklistPageSortAscendTooltip" xml:space="preserve">
+    <value>Tap to sort in ascending order.</value>
+  </data>
+  <data name="PicklistPageTables" xml:space="preserve">
+    <value>Notes Table</value>
+  </data>
+  <data name="PicklistPageTitle" xml:space="preserve">
+    <value>Picklists</value>
+  </data>
+  <data name="SamplePageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="SamplePageCoreBy" xml:space="preserve">
+    <value>Sampled by</value>
+  </data>
+  <data name="SamplePageCoreFrom" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="SamplePageCoreLength" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="SamplePageCorePortion" xml:space="preserve">
+    <value>Size (in quarters)</value>
+  </data>
+  <data name="SamplePageCoreTitle" xml:space="preserve">
+    <value>Core</value>
+  </data>
+  <data name="SamplePageCoreTo" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="SamplePageDepthMax" xml:space="preserve">
+    <value>Depth Max. (cm)</value>
+  </data>
+  <data name="SamplePageDepthMin" xml:space="preserve">
+    <value>Depth Min. (cm)</value>
+  </data>
+  <data name="SamplePageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SamplePageDipPlunge" xml:space="preserve">
+    <value>Dip/Plunge</value>
+  </data>
+  <data name="SamplePageDuplicateName" xml:space="preserve">
+    <value>Duplicate name</value>
+  </data>
+  <data name="SamplePageDuplicateReminderMessage" xml:space="preserve">
+    <value>This is a reminder to take a blank or a duplicate sample.</value>
+  </data>
+  <data name="SamplePageDuplicateReminderTitle" xml:space="preserve">
+    <value>Duplicate time!</value>
+  </data>
+  <data name="SamplePageGeneralTitle" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SamplePageHorizon" xml:space="preserve">
+    <value>Horizon</value>
+  </data>
+  <data name="SamplePageIsBlank" xml:space="preserve">
+    <value>Is Blank?</value>
+  </data>
+  <data name="SamplePageIsDuplicate" xml:space="preserve">
+    <value>Is Duplicate?</value>
+  </data>
+  <data name="SamplePageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="SamplePageOrientationTitle" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="SamplePagePurpose" xml:space="preserve">
+    <value>Purpose</value>
+  </data>
+  <data name="SamplePageQuality" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="SamplePageSampleFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="SamplePageState" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="SamplePageStateTitle" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="SamplePageSurface" xml:space="preserve">
+    <value>Surface</value>
+  </data>
+  <data name="SamplePageTitle" xml:space="preserve">
+    <value>Sample</value>
+  </data>
+  <data name="SamplePageType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="SettingPageCategoryBedrock" xml:space="preserve">
+    <value>Bedrock</value>
+  </data>
+  <data name="SettingPageCategoryCommon" xml:space="preserve">
+    <value>Common</value>
+  </data>
+  <data name="SettingPageCategorySurficial" xml:space="preserve">
+    <value>Surficial</value>
+  </data>
+  <data name="SettingPageDebugHeading" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="SettingPageDebugLog" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="SettingPageDebugLogSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SettingPageDebugLogUsage" xml:space="preserve">
+    <value>Save of copy of debug logs.</value>
+  </data>
+  <data name="SettingPageHeading" xml:space="preserve">
+    <value>Field Notes Tables</value>
+  </data>
+  <data name="SettingPageThemeExplanation" xml:space="preserve">
+    <value>Hides/shows theme bars in the field notes page.</value>
+  </data>
+  <data name="SettingPageTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ShellAboutTitle" xml:space="preserve">
+    <value>About</value>
   </data>
   <data name="ShellFieldBooksTitle" xml:space="preserve">
     <value>Field Books</value>
@@ -177,11 +1098,26 @@
   <data name="ShellFieldNotesTitle" xml:space="preserve">
     <value>Field Notes</value>
   </data>
+  <data name="ShellFileSaveFail" xml:space="preserve">
+    <value>The file was not saved successfully with error:</value>
+  </data>
+  <data name="ShellFileSaveSuccess" xml:space="preserve">
+    <value>The file was saved successfully to location:</value>
+  </data>
+  <data name="ShellGetBugLogTitle" xml:space="preserve">
+    <value>Download bug log</value>
+  </data>
   <data name="ShellMapTitle" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="ShellPicklistEditorTitle" xml:space="preserve">
+    <value>Picklist editor</value>
+  </data>
   <data name="ShellQuickBackupTitle" xml:space="preserve">
-    <value>Quick Backup</value>
+    <value>Quick Database Backup</value>
+  </data>
+  <data name="ShellQuickPhotoBackupTitle" xml:space="preserve">
+    <value>Quick Photo Backup</value>
   </data>
   <data name="ShellSettingsTitle" xml:space="preserve">
     <value>Settings</value>
@@ -206,6 +1142,12 @@
   </data>
   <data name="StationPageGeneralTravNo" xml:space="preserve">
     <value>Traverse #</value>
+  </data>
+  <data name="StationPageNotesCurrent" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="StationPageNotesSLS" xml:space="preserve">
+    <value>Since Last Station</value>
   </data>
   <data name="StationPageOutcropQuality" xml:space="preserve">
     <value>Quality</value>
@@ -233,6 +1175,105 @@
   </data>
   <data name="StationPageTypeTitle" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="StationTooltipAddEM" xml:space="preserve">
+    <value>Tap to add a new earth material</value>
+  </data>
+  <data name="StationTooltipAddEnv" xml:space="preserve">
+    <value>Tap to add a new environment</value>
+  </data>
+  <data name="StationTooltipAddMA" xml:space="preserve">
+    <value>Tap to add a new mineralization/alteration</value>
+  </data>
+  <data name="StationTooltipAddPhoto" xml:space="preserve">
+    <value>Tap to add one or many photos</value>
+  </data>
+  <data name="StructurePageAttitude" xml:space="preserve">
+    <value>Attitude</value>
+  </data>
+  <data name="StructurePageAzimuth" xml:space="preserve">
+    <value>Azimuth</value>
+  </data>
+  <data name="StructurePageClass" xml:space="preserve">
+    <value>Class and type</value>
+  </data>
+  <data name="StructurePageDescriptionTitle" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="StructurePageDetail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="StructurePageDipPlunge" xml:space="preserve">
+    <value>Dip/Plunge</value>
+  </data>
+  <data name="StructurePageFabric" xml:space="preserve">
+    <value>Fabric</value>
+  </data>
+  <data name="StructurePageFlattening" xml:space="preserve">
+    <value>Flattening</value>
+  </data>
+  <data name="StructurePageFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="StructurePageGeneration" xml:space="preserve">
+    <value>Generation</value>
+  </data>
+  <data name="StructurePageMaxSize" xml:space="preserve">
+    <value>Size Max. (mm)</value>
+  </data>
+  <data name="StructurePageMeasurementTitle" xml:space="preserve">
+    <value>Measurements</value>
+  </data>
+  <data name="StructurePageMethod" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="StructurePageMinSize" xml:space="preserve">
+    <value>Size Min. (mm)</value>
+  </data>
+  <data name="StructurePageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="StructurePageNotesTitle" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="StructurePageRelate" xml:space="preserve">
+    <value>Related</value>
+  </data>
+  <data name="StructurePageSense" xml:space="preserve">
+    <value>Sense</value>
+  </data>
+  <data name="StructurePageStrain" xml:space="preserve">
+    <value>Strain</value>
+  </data>
+  <data name="StructurePageTitle" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="StructurePageTypeTitle" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="StructurePageYounging" xml:space="preserve">
+    <value>Younging</value>
+  </data>
+  <data name="ToastDevModeActivated" xml:space="preserve">
+    <value>Developer mode activated</value>
+  </data>
+  <data name="ToastDevModeDeactivated" xml:space="preserve">
+    <value>Developer mode deactivated</value>
+  </data>
+  <data name="ToastFieldBookBackup" xml:space="preserve">
+    <value>Field book was successfully saved to: {0}</value>
+  </data>
+  <data name="ToastFieldBookBackupFailed" xml:space="preserve">
+    <value>Field book was not saved successfully and shows error: {0}</value>
+  </data>
+  <data name="ToastSaveBackup" xml:space="preserve">
+    <value>The file was saved successfully to location: {0}</value>
+  </data>
+  <data name="ToastSaveBackupFailed" xml:space="preserve">
+    <value>The file was not saved successfully with error: {0}</value>
+  </data>
+  <data name="ToastSaveRecord" xml:space="preserve">
+    <value>Record has been saved.</value>
   </data>
   <data name="WatermarkNoFieldBook" xml:space="preserve">
     <value>Please add a new field book</value>

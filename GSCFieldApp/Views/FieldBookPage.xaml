@@ -4,135 +4,151 @@
              x:Class="GSCFieldApp.Views.FieldBookPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viemodel:FieldBookViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
              Shell.BackgroundColor="{StaticResource Secondary}"
              Title="{local:Localize FieldBookPageTitle}">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}" />
     </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+        <!--Converters-->
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <Grid >
             <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
 
-            <ScrollView Orientation="Vertical" Grid.Row="1">
+            <ScrollView Orientation="Vertical" Grid.Row="0">
 
-                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" >
-                
-                    <!--Description section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
+
+                    <!--Description section dev-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="descriptionSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookDescriptionExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FieldBookPageDescriptionTitle}">
+
                         <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize FieldBookPageDescriptionTitle}"/>
 
-                            <Picker Title="{local:Localize FieldBookPageWorkType}" 
-                                    ItemsSource="{Binding ProjectType.cboxItems}" 
+                            <Picker Title="{local:Localize FieldBookPageWorkType}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding ProjectType.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" 
+                                    x:Name="FieldBookPageWorkTypePicker"
+                                    SelectedItem="{Binding Model.FieldworkType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding ProjectType, Source={x:Reference FieldBookPageWorkTypePicker}},
+                                        Mode=TwoWay}"
                                     SelectedIndex="{Binding ProjectType.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
-                                       Text="{Binding Model.ProjectName}"/>
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize FieldBookPageProject}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Placeholder="{local:Localize FieldBookPageProjectPlaceholder}"
+                                       Text="{Binding Model.ProjectName, Mode=TwoWay}"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                    <Entry Placeholder="{local:Localize FieldBookPageActivtyPlaceholder}"
+                                       Text="{Binding Model.MetadataActivity, Mode=TwoWay}"/>
+                                </VerticalStackLayout>
+
                             </VerticalStackLayout>
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageActivty}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Placeholder="{local:Localize FieldBookPageActivtyPlaceholder}"
-                                       Text="{Binding Model.MetadataActivity}"/>
-                            </VerticalStackLayout>
+                    </controls:ExpandableFrame>
 
-                        </VerticalStackLayout>
-                    </Frame>
-                    
-                    <!--Project chief section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageProjectTitle}"/>
-
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectLeader_FN}"/>
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectLeader_MN}"/>
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout >
-                                <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectLeader_LN}"/>
-                            </VerticalStackLayout>
-
-
-                        </VerticalStackLayout>
-                    </Frame>
                     
                     <!--Geologist section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="geologistSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookGeologistExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FieldBookPageGeologistTitle}">
                         <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageGeologistTitle}"/>
-
+                            
                             <VerticalStackLayout>
-                                <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectUser_FN}"/>
+                                <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.ProjectUser_FN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectUser_MN}"/>
+                                <Entry Text="{Binding Model.ProjectUser_MN, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+                                <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.ProjectUser_LN, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+                                <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" 
+                                       Text="{Binding Model.UserCode}" TextTransform="Uppercase"
+                                       IsEnabled="{Binding CanWrite, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+                            
+                        </VerticalStackLayout>
+
+
+                    </controls:ExpandableFrame>
+                                       
+                    <!--Project chief section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="projectChiefSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookProjectExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FieldBookPageProjectTitle}">
+                        <VerticalStackLayout>
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize FieldBookPageChiefFName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.ProjectLeader_FN, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize FieldBookPageChiefMName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.ProjectLeader_MN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >
                                 <Label Text="{local:Localize FieldBookPageChiefLName}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.ProjectUser_LN}"/>
+                                <Entry Text="{Binding Model.ProjectLeader_LN, Mode=TwoWay}"/>
                             </VerticalStackLayout>
-
-                            <VerticalStackLayout >
-                                <Label Text="{local:Localize FieldBookPageOfficerCode}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry x:Name="FieldBookPageOfficerCode" Placeholder="{local:Localize FieldBookPageOfficerCodePlaceholder}" 
-                                       Text="{Binding Model.UserCode}"
-                                       TextChanged="FieldBookPageOfficerCode_TextChanged" />
-                            </VerticalStackLayout>
-
                         </VerticalStackLayout>
-                    </Frame>
+                    </controls:ExpandableFrame>
+
                     
                     <!--Other section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize FieldBookPageOtherTitle}"/>
-
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="otherSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBookOtherExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize FieldBookPageOtherTitle}">
+                       
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize FieldBookPageSSN}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Keyboard="Numeric" Text="{Binding Model.StationStartNumber}" Placeholder="1"/>
+                                <Entry Keyboard="Numeric" Text="{Binding Model.StationStartNumber}" Placeholder="1"
+                                       IsEnabled="{Binding CanWrite, Mode=TwoWay}"/>
                             </VerticalStackLayout>
 
-                        </VerticalStackLayout>
-                    </Frame>
+                    </controls:ExpandableFrame>
 
                     <!--Notes section-->
-                    <Frame BorderColor="{StaticResource Secondary}" Style="{StaticResource FieldAppSectionFrame}">
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" x:Name="noteSectionFrame"
+                                              FrameColor="{StaticResource Secondary}" FrameContentVisibility="{Binding FieldBooksGenericExpand, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize GenericNoteTitle}">
+
                         <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}" Text="{local:Localize GenericNoteTitle}"/>
-
-                            <VerticalStackLayout>
-                                <Editor Style="{StaticResource FieldAppEditorNotes}" Text="{Binding Model.MetadataNotes}"/>
-                            </VerticalStackLayout>
-
+                            <Editor Style="{StaticResource FieldAppEditorNotes}" Text="{Binding Model.MetadataNotes, Mode=TwoWay}"/>
                         </VerticalStackLayout>
-                    </Frame>
+                        
+                    </controls:ExpandableFrame>
                     
                 </FlexLayout>
 
             </ScrollView>
 
-            <Button x:Name="FieldBookSaveButton" Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="2"
+            <Button x:Name="FieldBookSaveButton" Text="{local:Localize ButtonSave}" BackgroundColor="{StaticResource Secondary}" Style="{StaticResource FieldAppButonSave}" Grid.Row="1"
                     Command="{Binding ValidateAndSaveCommand}"/>
 
         </Grid>

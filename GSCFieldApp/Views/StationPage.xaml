@@ -4,65 +4,69 @@
              x:Class="GSCFieldApp.Views.StationPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
-             xmlns:themes="clr-namespace:GSCFieldApp.Themes"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
              x:DataType="viemodel:StationViewModel"
              Shell.BackgroundColor="{StaticResource FieldStationColor}"
-             Title="{local:Localize StationPageTitle}">
+             Title="{local:Localize StationPageTitle}" >
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
 
     <ContentPage.Resources>
 
-        <!-- Concatenated Value Template -->
-        <DataTemplate x:Key="ConcatenatedValueTemplate" x:DataType="themes:ComboBoxItem">
-
-            <!--Swipe view could have been used to delete, but doesn't work under winui3, 2023-08-01-->
-            <Frame Style="{StaticResource FieldAppConcatFrame}" >
-                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}">
-                    <Label Text="{Binding itemName}" x:Name="itemNameText" />
-                    <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
-                        Command="{Binding Source={RelativeSource 
-                                AncestorType={x:Type viemodel:StationViewModel}},Path=DeleteCommand}"
-                        CommandParameter="{Binding .}"/>
-                </HorizontalStackLayout>
-            </Frame>
-
-        </DataTemplate>
-
+        <SolidColorBrush x:Key="ColorTheme" Color="{StaticResource FieldStationColor}"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+        
     </ContentPage.Resources>
     
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="80"/>
-            </Grid.RowDefinitions>
 
-            <ScrollView Orientation="Vertical" Grid.Row="1">
+        <Grid Style="{StaticResource FieldAppFormGrid}">
 
-                <FlexLayout AlignItems="Start" Direction="Row" Wrap="Wrap" VerticalOptions="Fill" HorizontalOptions="Fill" >
+            <Label Text="{Binding Model.StationAlias}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+            
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
 
                     <!--Station Type section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageTypeTitle}"/>
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationTypeVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StationPageTypeTitle}">
 
-                            <Picker Title="{local:Localize StationPageType}"
+                        <VerticalStackLayout >
+                            <Picker Title="{local:Localize StationPageType}" Style="{StaticResource FieldAppMandatoryPicker}"
                                     ItemsSource="{Binding StationType.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}" 
+                                    x:Name="StationTypePicker"
+                                    SelectedItem="{Binding Model.StationObsType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StationType, Source={x:Reference StationTypePicker}},
+                                        Mode=TwoWay}"
                                     SelectedIndex="{Binding StationType.cboxDefaultItemIndex, Mode=TwoWay}" />
+                            
                             <Picker Title="{local:Localize StationPageSource}"
-                                    ItemsSource="{Binding StationSource.cboxItems}" 
+                                    ItemsSource="{Binding StationSource.cboxItems}"
+                                    x:Name="StationSourcePicker"
+                                    SelectedItem="{Binding Model.StationObsSource, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StationSource, Source={x:Reference StationSourcePicker}},
+                                        Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationSource.cboxDefaultItemIndex, Mode=TwoWay}" />
-
                         </VerticalStackLayout>
-                    </Frame>
+                        
+                    </controls:ExpandableFrame>
+                    
 
                     <!--Outcrop section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}" HeightRequest="500">
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageOutcropTitle}"/>
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                                              FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationOutcropVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StationPageOutcropTitle}">
 
+                        <VerticalStackLayout>
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize StationPageOutcropSize}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.StationOCSize, Mode=TwoWay}" Placeholder="{local:Localize StationPageOutcropSizePlaceholder}"/>
@@ -72,22 +76,28 @@
                                     ItemsSource="{Binding StationOutcropQuality.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedStationOutcropQuality}"
                                     SelectedIndex="{Binding StationOutcropQuality.cboxDefaultItemIndex, Mode=TwoWay}" />
-                            <!--<ListView />-->
-                            <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
-                                            x:Name="QualityCollectionView" 
-                                            ItemTemplate="{StaticResource ConcatenatedValueTemplate}"
-                                            ItemsSource="{Binding QualityCollection, Mode=TwoWay}"/>
+
+                            <!--Custom control to concatenate multiple values into one field-->
+                            <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding QualityCollection}" />
 
                         </VerticalStackLayout>
-                    </Frame>
+
+                    </controls:ExpandableFrame>
+                    
 
                     <!--General section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StationPageGeneralTitle}">
                         <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize StationPageGeneralTitle}"/>
-
                             <Picker Title="{local:Localize StationPageGeneralPhysEnv}"
                                     ItemsSource="{Binding StationPhysEnv.cboxItems}" 
+                                    x:Name="StationPhysEnvPicker"
+                                    SelectedItem="{Binding Model.StationPhysEnv, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StationPhysEnv, Source={x:Reference StationPhysEnvPicker}},
+                                        Mode=TwoWay}"
                                     ItemDisplayBinding="{Binding itemName}" 
                                     SelectedIndex="{Binding StationPhysEnv.cboxDefaultItemIndex, Mode=TwoWay}" />
 
@@ -105,33 +115,60 @@
                                 <Label Text="{local:Localize StationPageGeneralRelatedTo}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.StationRelatedTo, Mode=TwoWay}" Placeholder="{local:Localize StationPageGeneralRelatedToPlaceholder}"/>
                             </VerticalStackLayout>
-
                         </VerticalStackLayout>
-                    </Frame>
-
+                    </controls:ExpandableFrame>
+                    
                     <!--Notes section-->
-                    <Frame BorderColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppSectionFrame}">
-                        <VerticalStackLayout>
-                            <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize GenericNoteTitle}"/>
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStationColor}" FrameContentVisibility="{Binding StationNotesVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize GenericNoteTitle}">
 
-                            <VerticalStackLayout>
-                                <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" 
+                        <VerticalStackLayout>
+                            <Label Text="{local:Localize StationPageNotesCurrent}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Placeholder="{local:Localize StationPageCurrentNotePlaceholder}" 
                                         Text="{Binding Model.StationNote, Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
-                                <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" 
+                            <Label Text="{local:Localize StationPageNotesSLS}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Placeholder="{local:Localize StationPageSLSPlaceholder}" 
                                         Text="{Binding Model.StationSLSNotes,Mode=TwoWay}"
                                         Style="{StaticResource FieldAppEditorNotes}"/>
-                            </VerticalStackLayout>
-
                         </VerticalStackLayout>
-                    </Frame>
 
+                    </controls:ExpandableFrame>
+                  
                 </FlexLayout>
 
             </ScrollView>
 
-            <Button Text="{local:Localize ButtonSave}" Style="{StaticResource FieldAppButonSave}" Grid.Row="2"
-                    Command="{Binding SaveCommand}"/>
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldStationColor}" 
+                                    ButtonLightColor="{StaticResource FieldStationColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
+
+
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" ToolTipProperties.Text="{local:Localize StationTooltipAddEM}" 
+                        Margin="0,10,0,10" 
+                        BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
+                        Command="{Binding AddEarthmatCommand}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize StationTooltipAddEnv}"
+                        Command="{Binding AddEnvironmentCommand}"
+                        BackgroundColor="{StaticResource FieldEnvironmentColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize StationTooltipAddMA}"
+                        Command="{Binding AddMineralizationCommand}"
+                        BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize StationTooltipAddPhoto}"
+                        BackgroundColor="{StaticResource FieldPhotoColorLight}"
+                        Command="{Binding AddDocumentCommand}"/>
+            </StackLayout>
 
         </Grid>
     </ContentPage.Content>

@@ -1,479 +1,481 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{61F148DB-B4D1-4D45-A2C2-894806180744}</ProjectGuid>
-    <OutputType>AppContainerExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GSCFieldApp</RootNamespace>
-    <AssemblyName>GSCFieldApp</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>
-    </PackageCertificateKeyFile>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Never</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
-    <PackageCertificateThumbprint>14CF0ECF911C8A37CF0E2EF4F8E06F25425B80C1</PackageCertificateThumbprint>
-    <AppxPackageDir>C:\work data\datacollections\PublishedVersions\</AppxPackageDir>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppInstallerUpdateFrequency>100</AppInstallerUpdateFrequency>
-    <AppInstallerCheckForUpdateFrequency>Daily</AppInstallerCheckForUpdateFrequency>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <HoursBetweenUpdateChecks>2400</HoursBetweenUpdateChecks>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <AppInstallerUri>https://github.com/NRCan/GSC-Field-Application/releases</AppInstallerUri>
-    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
-    <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <DocumentationFile>
-    </DocumentationFile>
-    <Optimize>false</Optimize>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <EnableGatekeeperAnalysis>false</EnableGatekeeperAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Assets\Readme.md" />
-    <None Include="Converters\Readme.md" />
-    <None Include="Dictionaries\Readme.md" />
-    <Content Include="Assets\mosquito.png" />
-    <Content Include="Assets\Images\theme-dark\struc_linear.png" />
-    <Content Include="Assets\Images\theme-dark\struc_planar.png" />
-    <Content Include="Assets\Images\theme-light\struc_linear.png" />
-    <Content Include="Assets\Images\theme-light\struc_planar.png" />
-    <Content Include="Assets\WrongPhotoURI.bmp" />
-    <Content Include="ModelResources\GSCFieldwork_v143.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ModelResources\GSCFieldwork_v144.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ModelResources\GSCFieldwork_V142.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ModelResources\GSCFieldwork_v150.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ModelResources\GSCFieldwork.gpkg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ModelResources\GSCFieldwork_v160.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="GSCFieldApp_TemporaryKey.pfx" />
-    <None Include="ModelResources\Readme.md" />
-    <None Include="Models\Readme.md" />
-    <None Include="project.json" />
-    <None Include="Properties\Readme.md" />
-    <None Include="Readme.md" />
-    <None Include="Resources\Readme.md" />
-    <None Include="Services\Readme.md" />
-    <None Include="Styles\Readme.md" />
-    <None Include="Themes\Readme.md" />
-    <None Include="ViewModels\Readme.md" />
-    <None Include="Views\Readme.md" />
-    <PRIResource Include="Resources\fr\Resources.resw" />
-    <PRIResource Include="Resources\en-US\Resources.resw" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Converters\BitmapSourceConverter.cs" />
-    <Compile Include="Converters\String2Integer.cs" />
-    <Compile Include="Converters\String2Double.cs" />
-    <Compile Include="Converters\TextWithDegreeConverter.cs" />
-    <Compile Include="Converters\TextWithAzimDegreeConverter.cs" />
-    <Compile Include="Converters\TextWithPercentageConverter.cs" />
-    <Compile Include="Converters\DD2DMSConverter.cs" />
-    <Compile Include="Converters\ElevationConverter.cs" />
-    <Compile Include="Converters\HorizontalAccuracyConverter.cs" />
-    <Compile Include="Converters\MediaBrushConverter.cs" />
-    <Compile Include="Converters\PicklistDefaultValueConverter.cs" />
-    <Compile Include="Converters\MandatoryFieldConverter.cs" />
-    <Compile Include="Converters\ScaleConverter.cs" />
-    <Compile Include="Converters\SecondOrderPicklistConverter.cs" />
-    <Compile Include="Converters\SolidColorBrushConverter.cs" />
-    <Compile Include="Converters\VisibilityFromBoolConverter.cs" />
-    <Compile Include="Converters\ReverseBoolConverter.cs" />
-    <Compile Include="Converters\VisibilityFromReverseBoolConverter.cs" />
-    <Compile Include="Converters\WidthFromVisibility.cs" />
-    <Compile Include="Dictionaries\DatabaseLiterals.cs" />
-    <Compile Include="Dictionaries\ScienceLiterals.cs" />
-    <Compile Include="Dictionaries\ApplicationLiterals.cs" />
-    <Compile Include="ESRIRuntimeLicence.cs" />
-    <Compile Include="Models\Contacts.cs" />
-    <Compile Include="Models\Colour.cs" />
-    <Compile Include="Models\DD2DMS.cs" />
-    <Compile Include="Models\EnvironmentModel.cs" />
-    <Compile Include="Models\GraphicPlacement.cs" />
-    <Compile Include="Models\MapPageLayers.cs" />
-    <Compile Include="Models\Document.cs" />
-    <Compile Include="Models\Fossil.cs" />
-    <Compile Include="Models\MapPageLayerSetting.cs" />
-    <Compile Include="Models\MapPageStation.cs" />
-    <Compile Include="Models\Mineral.cs" />
-    <Compile Include="Models\MineralAlteration.cs" />
-    <Compile Include="Models\Paleoflow.cs" />
-    <Compile Include="Models\Popper.cs" />
-    <Compile Include="Models\Structure.cs" />
-    <Compile Include="Models\Vocabularies.cs" />
-    <Compile Include="Models\EarthMaterial.cs" />
-    <Compile Include="Models\FieldLocation.cs" />
-    <Compile Include="Models\Measurement.cs" />
-    <Compile Include="Models\Metadata.cs" />
-    <Compile Include="Models\Sample.cs" />
-    <Compile Include="Models\SemanticZoomDataGenerator.cs" />
-    <Compile Include="Models\SemanticZoomData.cs" />
-    <Compile Include="Models\Station.cs" />
-    <Compile Include="Models\VocabularyManager.cs" />
-    <Compile Include="Services\DatabaseServices\GeopackageService.cs" />
-    <Compile Include="Services\IgnorePropertiesResolver.cs" />
-    <Compile Include="Services\ContentDialogMaker.cs" />
-    <Compile Include="Services\FileServices\FileServices.cs" />
-    <Compile Include="Themes\EasterEgg.cs" />
-    <Compile Include="Themes\GridViewItemPanel.cs" />
-    <Compile Include="Themes\ComboBoxItem.cs" />
-    <Compile Include="Themes\ExpandPanel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DatabaseServices\DataAccess.cs" />
-    <Compile Include="Services\DatabaseServices\DataIDCalculation.cs" />
-    <Compile Include="Services\DatabaseServices\DataLocalSettings.cs" />
-    <Compile Include="Services\SettingsServices\SettingsService.cs" />
-    <Compile Include="Converters\PicklistDescriptionConverter.cs" />
-    <Compile Include="ViewModels\DocumentViewModel.cs" />
-    <Compile Include="ViewModels\EarthmatViewModel.cs" />
-    <Compile Include="ViewModels\FossilViewModel.cs" />
-    <Compile Include="ViewModels\LocationViewModel.cs" />
-    <Compile Include="ViewModels\MapPageViewModel.cs" />
-    <Compile Include="ViewModels\MineralizationAlterationViewModel.cs" />
-    <Compile Include="ViewModels\MineralViewModel.cs" />
-    <Compile Include="ViewModels\PaleoflowViewModel.cs" />
-    <Compile Include="ViewModels\PicklistViewModel.cs" />
-    <Compile Include="Models\FieldBooks.cs" />
-    <Compile Include="Models\FieldNotes.cs" />
-    <Compile Include="ViewModels\FieldNotesViewModel.cs" />
-    <Compile Include="ViewModels\ContentDialogSemanticZoomViewModel.cs" />
-    <Compile Include="ViewModels\SampleViewModel.cs" />
-    <Compile Include="ViewModels\FieldBooksPageViewModel.cs" />
-    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
-    <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\EnvironmentViewModel.cs" />
-    <Compile Include="ViewModels\StationViewModel.cs" />
-    <Compile Include="ViewModels\StructureViewModel.cs" />
-    <Compile Include="ViewModels\FieldBookDialogViewModel.cs" />
-    <Compile Include="Views\ContentDialogSemanticZoom.xaml.cs">
-      <DependentUpon>ContentDialogSemanticZoom.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DocumentDialog.xaml.cs">
-      <DependentUpon>DocumentDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EarthmatDialog.xaml.cs">
-      <DependentUpon>EarthmatDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FossilDialog.xaml.cs">
-      <DependentUpon>FossilDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LocationDialog.xaml.cs">
-      <DependentUpon>LocationDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MapPage.xaml.cs">
-      <DependentUpon>MapPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MineralizationAlterationDialog.xaml.cs">
-      <DependentUpon>MineralizationAlterationDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MineralDialog.xaml.cs">
-      <DependentUpon>MineralDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PaleoflowDialog.xaml.cs">
-      <DependentUpon>PaleoflowDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PicklistDialog.xaml.cs">
-      <DependentUpon>PicklistDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FieldNotesPage.xaml.cs">
-      <DependentUpon>FieldNotesPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SampleDialog.xaml.cs">
-      <DependentUpon>SampleDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FieldBooksPage.xaml.cs">
-      <DependentUpon>FieldBooksPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Shell.xaml.cs">
-      <DependentUpon>Shell.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Splash.xaml.cs">
-      <DependentUpon>Splash.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EnvironmentDialog.xaml.cs">
-      <DependentUpon>EnvironmentDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StationDialog.xaml.cs">
-      <DependentUpon>StationDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\StructureDialog.xaml.cs">
-      <DependentUpon>StructureDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FieldBookDialog.xaml.cs">
-      <DependentUpon>FieldBookDialog.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\IC809393.png" />
-    <Content Include="Help.htm" />
-    <None Include="Package.StoreAssociation.xml" />
-    <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Styles\Custom.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
-    <Page Include="Views\ContentDialogSemanticZoom.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DocumentDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EarthmatDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FossilDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LocationDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MapPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MineralizationAlterationDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MineralDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PaleoflowDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PicklistDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FieldNotesPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SampleDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FieldBooksPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\SettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Shell.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Splash.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EnvironmentDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StationDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\StructureDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FieldBookDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Esri.ArcGISRuntime.Toolkit">
-      <Version>100.15.0</Version>
-    </PackageReference>
-    <PackageReference Include="Esri.ArcGISRuntime.UWP">
-      <Version>200.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.14</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
-      <Version>2.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="mod_spatialite">
-      <Version>4.3.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Proj.NET">
-      <Version>1.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="SpatialiteSharp">
-      <Version>4.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="sqlite-net-pcl">
-      <Version>1.8.116</Version>
-    </PackageReference>
-    <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.117</Version>
-    </PackageReference>
-    <PackageReference Include="Template10">
-      <Version>1.1.13-preview-20161207</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BundleArtifacts\" />
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0-maccatalyst;net8.0-ios;net8.0-android34.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+		<OutputType>Exe</OutputType>
+		<RootNamespace>GSCFieldApp</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<UseMauiEssentials>true</UseMauiEssentials>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<!-- Display name -->
+		<ApplicationTitle>GSCFieldApp</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.gscfieldapp</ApplicationId>
+		<ApplicationIdGuid>0e61882b-e79d-4744-959f-44922a0a28cd</ApplicationIdGuid>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>3.0</ApplicationDisplayVersion>
+		<ApplicationVersion>3</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">33.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.19041.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<DefaultLanguage>en</DefaultLanguage>
+		<GenerateAppInstallerFile>True</GenerateAppInstallerFile>
+		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+		<PackageCertificateThumbprint>C0079599675A235D4F2C81071D93246CB90E461D</PackageCertificateThumbprint>
+		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+		<GenerateTestArtifacts>True</GenerateTestArtifacts>
+		<AppInstallerUri>C:\work data\datacollections\PublishedVersions</AppInstallerUri>
+		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+		<Platforms>AnyCPU;x64;ARM64;ARM32</Platforms>
+		<Title>GSC Field App</Title>
+		<PackageProjectUrl>https://nrcan.github.io/GSC-Field-Application/</PackageProjectUrl>
+		<FileVersion>3.0.0.1</FileVersion>
+		<AssemblyVersion>3.0.0.1</AssemblyVersion>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/NRCan/GSC-Field-Application-3</RepositoryUrl>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
+      <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	  <PublishTrimmed>False</PublishTrimmed>
+	  <TrimMode>link</TrimMode>
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <DebugSymbols>True</DebugSymbols>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <EnableLLVM>True</EnableLLVM>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|ARM32'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	  <PublishTrimmed>False</PublishTrimmed>
+	  <TrimMode>link</TrimMode>
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <DebugSymbols>True</DebugSymbols>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <EnableLLVM>True</EnableLLVM>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|ARM64'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	  <PublishTrimmed>False</PublishTrimmed>
+	  <TrimMode>link</TrimMode>
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <DebugSymbols>True</DebugSymbols>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <EnableLLVM>True</EnableLLVM>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|x64'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	  <PublishTrimmed>False</PublishTrimmed>
+	  <TrimMode>link</TrimMode>
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <DebugSymbols>True</DebugSymbols>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <EnableLLVM>True</EnableLLVM>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	  <TrimMode>link</TrimMode>
+	  <PublishTrimmed>True</PublishTrimmed>
+	  <AndroidLinkTool>r8</AndroidLinkTool>
+	  <DebugSymbols>False</DebugSymbols>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <EnableLLVM>True</EnableLLVM>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|ARM32'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	  <TrimMode>link</TrimMode>
+	  <PublishTrimmed>True</PublishTrimmed>
+	  <AndroidLinkTool>r8</AndroidLinkTool>
+	  <DebugSymbols>False</DebugSymbols>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <EnableLLVM>True</EnableLLVM>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|ARM64'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	  <TrimMode>link</TrimMode>
+	  <PublishTrimmed>True</PublishTrimmed>
+	  <AndroidLinkTool>r8</AndroidLinkTool>
+	  <DebugSymbols>False</DebugSymbols>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <EnableLLVM>True</EnableLLVM>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|x64'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	  <TrimMode>link</TrimMode>
+	  <PublishTrimmed>False</PublishTrimmed>
+	  <AndroidLinkTool>r8</AndroidLinkTool>
+	  <DebugSymbols>False</DebugSymbols>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+	  <EnableLLVM>True</EnableLLVM>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|ARM32'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|ARM64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|x64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|ARM32'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|ARM64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|x64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|ARM32'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|ARM64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|x64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|ARM32'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|ARM64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|x64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|ARM32'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|ARM64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|x64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|ARM32'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|ARM64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|x64'">
+	  <ApplicationIdGuid>AAF30D8B-9110-4473-B55B-2C0203C02F92</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|AnyCPU'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|x64'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|ARM64'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|ARM32'">
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|AnyCPU'">
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|x64'">
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|ARM64'">
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android34.0|ARM32'">
+	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App icon for all other platforms -->
+		<!--NOTE: Setting a BaseSize here crashes deployment on Android-->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#710B2C" ForegroundScale="0.55" />
+
+		<!-- App icon for Windows -->
+		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" Update="Resources\AppIcon\appicon.svg" Color="#710B2C" BaseSize="300,300" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Models\FieldAppLocation.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Platforms\Android\Linker.xml" />
+	  <None Remove="Platforms\iOS\Linker.xml" />
+	  <None Remove="Resources\Fonts\MaterialDesignIconsDesktop.ttf" />
+	  <None Remove="Resources\Images\logo.svg" />
+	  <None Remove="Resources\Images\logo_gray.svg" />
+	  <None Remove="Resources\Images\point.png" />
+	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
+	  <None Remove="Resources\Raw\SRID.csv" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <LinkDescription Include="Platforms\Android\Linker.xml" />
+	  <LinkDescription Include="Platforms\iOS\Linker.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Raw\point.png">
+	    <CopyToOutputDirectory></CopyToOutputDirectory>
+	  </MauiImage>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Models\FieldAppLocation.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BruTile" Version="5.0.6" />
+		<PackageReference Include="BruTile.MbTiles" Version="5.0.6" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="GeoAPI.CoordinateSystems" Version="2.0.0-nuget005" />
+		<PackageReference Include="HarfBuzzSharp" Version="8.3.0-preview.2.1" />
+		<PackageReference Include="Mapsui" Version="4.1.5" />
+		<PackageReference Include="Mapsui.Extensions" Version="4.1.5" />
+		<PackageReference Include="Mapsui.Maui" Version="4.1.5" />
+		<PackageReference Include="Mapsui.Nts" Version="4.1.5" />
+		<PackageReference Include="Mapsui.Rendering.Skia" Version="4.1.5" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.0-preview.2.24128.4" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.0-preview.2.24128.4" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0-preview.2.24128.5" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.21" />
+		<PackageReference Include="NetTopologySuite" Version="2.5.0" />
+		<PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="4.0.0" />
+		<PackageReference Include="NetTopologySuite.IO.GeoPackage" Version="2.0.0" />
+		<PackageReference Include="ProjNet" Version="2.0.0" />
+		<PackageReference Include="ProjNET4GeoAPI" Version="1.4.1" />
+		<PackageReference Include="SkiaSharp" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.7" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.9" />
+		<PackageReference Include="Svg.Skia" Version="1.0.0.16" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Controls\ConcatenatedCollection.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\ExpandableFrame.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AboutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\DocumentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\DrillHolePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\EnvironmentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FieldBookPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FieldBooksPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FieldNotesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FormPresenter.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\FossilPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LocationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MapPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\SaveSwipeItem.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MineralizationAlterationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MineralPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PaleoflowPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PicklistPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SamplePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\StationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	<MauiXaml Update="Views\EarthmatPage.xaml">
+		<Generator>MSBuild:Compile</Generator>
+	</MauiXaml>
+	<MauiXaml Update="Views\StructurePage.xaml">
+	  <Generator>MSBuild:Compile</Generator>
+	</MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources\Strings\LocalizableStrings.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>LocalizableStrings.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\StationPage.xaml.cs">
+	    <DependentUpon>StationPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SettingsPage.xaml.cs">
+	    <DependentUpon>SettingsPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Resources\Strings\LocalizableStrings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>LocalizableStrings.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Strings\LocalizableStrings.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>LocalizableStrings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
 </Project>

@@ -4,90 +4,132 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Services.DatabaseServices;
-//using SQLite;
 using System.Data.Common;
-//using System.Data.SqlClient;
+using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using System.Transactions;
-//using SpatialiteSharp;
+using NTS = NetTopologySuite;
+using GSCFieldApp.Models;
+using NetTopologySuite.IO;
+using GSCFieldApp.Dictionaries;
+using NetTopologySuite.Geometries;
+//using GeoAPI.CoordinateSystems;
+//using GeoAPI.CoordinateSystems.Transformations;
+using ProjNet.CoordinateSystems.Projections;
+using ProjNet.CoordinateSystems;
+using ProjNet.CoordinateSystems.Transformations;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class GeopackageService
     {
         public DataAccess dAcccess = new DataAccess();
+        public static GeometryFactory defaultGeometryFactory = new GeometryFactory();
 
         /// <summary>
         /// This special class is used since mod_spatialite can't seem to be working
         /// along with sqlite-net-pcl. 
         /// </summary>
         public GeopackageService()
-        { 
+        {
+            //Initiate a new NTS instance
+            NTS.NtsGeometryServices.Instance = new NTS.NtsGeometryServices(
+                // default CoordinateSequenceFactory
+                NTS.Geometries.Implementation.CoordinateArraySequenceFactory.Instance,
+                // default precision model
+                new NTS.Geometries.PrecisionModel(1000d),
+                // default SRID
+                DatabaseLiterals.KeywordEPSGDefault,
+                // Geometry overlay operation function set to use (Legacy or NG)
+                NTS.Geometries.GeometryOverlay.NG,
+                // Coordinate equality comparer to use (CoordinateEqualityComparer or PerOrdinateEqualityComparer)
+                new NTS.Geometries.CoordinateEqualityComparer()
+            );
+
+            // Create a geometry factory with the spatial reference id 4326
+            defaultGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGDefault);
 
         }
 
         /// <summary>
-        /// Will perform a spatialite sql query within a geopackage
-        /// NOTE: Need to use system.data.sqlite else spatialiteloader rants about bad connection object
+        /// Will take input coordinates and transform them in
+        /// geopackage valid byte array geometry.
         /// </summary>
-        /// <param name="in_query"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         /// <returns></returns>
-        public int DoSpatialiteQueryInGeopackage(string in_query, bool doScalar = true)
+        public byte[] CreateByteGeometry(double x, double y)
         {
+            // Create a point at desired location
+            NTS.Geometries.Point inPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(x, y));
 
-            //string dbPath = dAcccess.PreferedDatabasePath;
+            // Convert geometry to geopackage geometry bytes
+            GeoPackageGeoWriter geo = new GeoPackageGeoWriter();
+            byte[] bytePoint = geo.Write(inPoint);
+            
+            return bytePoint;
 
-            int newId = int.MinValue;
-
-            //// Create a new connection
-            //using (System.Data.SQLite.SQLiteConnection db = new System.Data.SQLite.SQLiteConnection())
-            //{
-            //    db.ConnectionString = @"Data Source=" + dbPath + "; Version=3;";
-            //    db.Open();
-
-            //    //Make sure journal creation is off (anti wal and shm files)
-            //    //https://www.sqlite.org/wal.html
-            //    System.Data.SQLite.SQLiteCommand wallOffCommand = new System.Data.SQLite.SQLiteCommand(@"PRAGMA journal_mode=DELETE;", db);
-            //    wallOffCommand.ExecuteNonQuery();
-
-
-            //    using (var transaction = db.BeginTransaction())
-            //    {
-
-
-            //        //Load spatialite extension
-            //        SpatialiteLoader.Load(db);
-
-            //        //Enable amphibious mode to use spatialite sql within geopackage
-            //        System.Data.SQLite.SQLiteCommand amphibiousCommand = new System.Data.SQLite.SQLiteCommand(@"select EnableGpkgAmphibiousMode()", db);
-            //        amphibiousCommand.ExecuteNonQuery();
-
-            //        //Pass query
-            //        //example: "INSERT INTO FS_LOCATION (Shape, locationid, latitude, longitude, metaid) values (MakePoint(-80.314,46.930, 4326), 'test_gab_visual_studio2', 46.930, -80.314, '7297f789-36e8-4c06-86e9-46b9ffcb1607')"
-            //        System.Data.SQLite.SQLiteCommand addLocation = new System.Data.SQLite.SQLiteCommand(in_query, db);
-            //        if (doScalar)
-            //        {
-            //            object scalar = addLocation.ExecuteScalar();
-            //            newId = int.Parse(scalar.ToString());
-            //        }
-            //        else
-            //        {
-            //            newId = addLocation.ExecuteNonQuery();
-            //        }
-
-
-            //        //Disable mode
-            //        System.Data.SQLite.SQLiteCommand amphibiousCommandOff = new System.Data.SQLite.SQLiteCommand(@"select DisableGpkgAmphibiousMode()", db);
-            //        amphibiousCommandOff.ExecuteNonQuery();
-
-            //        transaction.Commit();
-            //    }
-
-            //    db.Close();
-            //}
-
-            return newId;
         }
 
+        /// <summary>
+        /// From a given byte array that defines a geometry, will return a point object
+        /// TODO make this working, incoming geometry has a SRID = -1 so we can't convert incoming points
+        /// </summary>
+        /// <param name="geomBytes">The byte array to transform into a point object</param>
+        /// <returns></returns>
+        public NTS.Geometries.Point GetGeometryFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault)
+        {
+            NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
+
+            GeoPackageGeoReader geoReader = new GeoPackageGeoReader();
+            
+            NTS.Geometries.Geometry geom = geoReader.Read(geomBytes);
+            
+            if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.Point)
+            {
+                outPoint = geom as NTS.Geometries.Point;
+            }
+
+            if (srid != DatabaseLiterals.KeywordEPSGDefault && outPoint != null)
+            {
+                //Create a coord factory for incoming traverses
+                CoordinateSystemFactory csFact = new CoordinateSystemFactory();
+                string wkt = outPoint.ToString();
+                CoordinateSystem incomingProjection = csFact.CreateFromWkt(wkt);
+
+                //Default map page coordinate
+                GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+
+                //Transform
+                outPoint = TransformPointCoordinates(outPoint, incomingProjection, wgs84);
+            }
+
+            return outPoint;
+        }
+
+        /// <summary>
+        /// Will take a input point object and transform it from one coordinate system
+        /// to another.
+        /// </summary>
+        /// <param name="inPointCoordinates"></param>
+        /// <param name="inCoordSystem"></param>
+        /// <param name="outCoordSystem"></param>
+        /// <returns></returns>
+        public static NTS.Geometries.Point TransformPointCoordinates(NTS.Geometries.Point inPointCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
+        {
+            //Init
+            NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
+
+            //Transform
+            CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory();
+            ICoordinateTransformation trans = ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem);
+            double[] pointDouble = { inPointCoordinates.X, inPointCoordinates.Y };
+            double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
+
+            //Create point
+            outPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
+
+            return outPoint;
+        }
     }
 }

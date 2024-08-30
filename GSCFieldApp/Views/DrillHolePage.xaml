@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.DrillHolePage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:DrillHoleViewModel"
+             Shell.BackgroundColor="{StaticResource FieldDrillColor}"
+             Title="{local:Localize DrillHolePageTitle}">
+    <Shell.BackButtonBehavior>
+        <!--Hide back button - Android when navigating back, ham menu disapears-->
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:String2Integers x:Key="Str2Int"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.DrillIDName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
+                    <!--Context section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldDrillColor}" FrameContentVisibility="{Binding DrillHoleContextVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DrillHoleContextTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageOriginalName}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.DrillName, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageCompany}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.DrillCompany, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize DrillHolePageType}" x:Name="DrillHolePageTypePicker"
+                                    ItemsSource="{Binding DrillType.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.DrillType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DrillType, Source={x:Reference DrillHolePageTypePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DrillType.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Metrics section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldDrillColor}" FrameContentVisibility="{Binding DrillHoleMetricsVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DrillHoleMetricsTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageAzimuth}"/>
+                                <Entry Text="{Binding Model.DrillAzim, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="360"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize DrillHolePageDip}"/>
+                                <Entry Text="{Binding Model.DrillDip,Converter={StaticResource Str2Int}, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="90"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageLength}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.DrillDepth, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize DrillHolePageUnits}" x:Name="DrillHolePageUnitPicker"
+                                    ItemsSource="{Binding DrillUnits.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.DrillUnit, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DrillUnits, Source={x:Reference DrillHolePageUnitPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DrillUnits.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize DrillHolePageHoleSize}" x:Name="DrillHolePageHoleSizePicker"
+                                    ItemsSource="{Binding DrillHoleSizes.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="DrillHolePageHoleSizePicker_SelectedIndexChanged"
+                                    SelectedItem="{Binding Model.DrillHoleSize, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DrillHoleSizes, Source={x:Reference DrillHolePageHoleSizePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DrillHoleSizes.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageCoreSize}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.DrillCoreSize, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageDate}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <DatePicker Format="YYYY-MM-dd" Date="{Binding Model.DrillDate}"/>
+                            </VerticalStackLayout>
+
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Log/Relog section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldDrillColor}" FrameContentVisibility="{Binding DrillHoleLogVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DrillHoleLogTitle}">
+
+                        <VerticalStackLayout>
+
+
+                            <Picker Title="{local:Localize DrillHolePageLogType}" x:Name="DrillHolePageLogTypePicker"
+                                    ItemsSource="{Binding DrillHoleLogType.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.DrillRelogType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding DrillHoleLogType, Source={x:Reference DrillHolePageLogTypePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding DrillHoleLogType.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize DrillHolePageLogBy}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.DrillRelogBy, Mode=TwoWay}"/>
+
+                            </VerticalStackLayout>
+
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHoleLogDate}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <DatePicker Format="YYYY-MM-dd" Date="{Binding Model.DrillRelogDate}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize DrillHolePageSummary}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.DrillLog, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+
+                            <VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize DrillHolePageLogFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding DrillHoleLogFrom}" />
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+                                    <Label Text="{local:Localize DrillHolePageLogTo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                    <Entry Text="{Binding DrillHoleLogTo}"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout>
+
+                                    <HorizontalStackLayout >
+                                        <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetLogIntervalCommand}"/>
+
+                                        <!--Custom control to concatenate multiple values into one field-->
+                                        <controls:ConcatenatedCollection MaximumWidthRequest="197" WidthRequest="197" ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                 ConcatSource="{Binding DrillHoleLogIntervalCollection}" />
+
+                                    </HorizontalStackLayout>
+
+                                </VerticalStackLayout>
+
+                            </VerticalStackLayout>
+                            
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--General section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldDrillColor}" FrameContentVisibility="{Binding DrillHoleGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize DrillHoleGeneralTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize DrillHolePageRelatedTo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.DrillRelatedTo, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
+
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize DrillHolePageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.DrillNotes, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldDrillColor}"
+                                    ButtonLightColor="{StaticResource FieldDrillColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+
+            <StackLayout Orientation="Vertical" WidthRequest="40" Grid.Row="1" Grid.Column="1" >
+
+
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" ToolTipProperties.Text="{local:Localize StationTooltipAddEM}" 
+                        Margin="0,10,0,10" 
+                        BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
+                        Command="{Binding AddEarthmatCommand}"/>
+                <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
+                        WidthRequest="40" Margin="0,10,0,10" 
+                        ToolTipProperties.Text="{local:Localize StationTooltipAddPhoto}"
+                        BackgroundColor="{StaticResource FieldPhotoColorLight}"
+                        Command="{Binding AddDocumentCommand}"/>
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>

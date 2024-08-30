@@ -97,15 +97,22 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (ProjectUser_MN != null && ProjectUser_MN != string.Empty)
+                if (ProjectUser_MN != null && ProjectUser_MN != string.Empty && ProjectUser_LN != null && ProjectUser_FN != null)
                 {
-                    return ProjectUser_LN + ", " + ProjectUser_FN + " " + ProjectUser_MN.First() + ".";
+                    return ProjectUser_LN + ", " + ProjectUser_FN.First() + ". " + ProjectUser_MN.First() + ".";
+                }
+                else if (ProjectUser_LN != null && ProjectUser_FN != null && ProjectUser_LN != string.Empty && ProjectUser_FN != string.Empty)
+                {
+                    return ProjectUser_LN + ", " + ProjectUser_FN.First() + ".";
+                }
+                else if (ProjectUser_LN != null && ProjectUser_LN != string.Empty)
+                {
+                    return ProjectUser_LN;
                 }
                 else
                 {
-                    return ProjectUser_LN + ", " + ProjectUser_FN;
+                    return string.Empty;
                 }
-
             }
             set { }
 

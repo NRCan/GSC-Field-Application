@@ -1,4 +1,4 @@
-﻿using GSCFieldApp.Dictionaries;
+﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -7,61 +7,61 @@ using System.Linq;
 namespace GSCFieldApp.Models
 {
 
-    [Table(DatabaseLiterals.TableStructure)]
+    [Table(TableStructure)]
     public class Structure
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldStructureID)]
+        [PrimaryKey, AutoIncrement, Column(FieldStructureID)]
         public int StructureID { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureName)]
+        [Column(FieldStructureName)]
         public string StructureName { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureClass)]
+        [Column(FieldStructureClass)]
         public string StructureClass { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureType)]
+        [Column(FieldStructureType)]
         public string StructureType { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureDetail)]
+        [Column(FieldStructureDetail)]
         public string StructureDetail { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureMethod)]
+        [Column(FieldStructureMethod)]
         public string StructureMethod { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureFormat)]
+        [Column(FieldStructureFormat)]
         public string StructureFormat { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureAttitude)]
+        [Column(FieldStructureAttitude)]
         public string StructureAttitude { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureYoung)]
+        [Column(FieldStructureYoung)]
         public string StructureYounging { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureGeneration)]
+        [Column(FieldStructureGeneration)]
         public string StructureGeneration { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureStrain)]
+        [Column(FieldStructureStrain)]
         public string StructureStrain { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureFlattening)]
+        [Column(FieldStructureFlattening)]
         public string StructureFlattening { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureRelated)]
+        [Column(FieldStructureRelated)]
         public int? StructureRelated { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureFabric)]
+        [Column(FieldStructureFabric)]
         public string StructureFabric { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureSense)]
+        [Column(FieldStructureSense)]
         public string StructureSense { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureAzimuth)]
+        [Column(FieldStructureAzimuth)]
         public int StructureAzimuth { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureDip)]
+        [Column(FieldStructureDip)]
         public int StructureDipPlunge { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureSymAng)]
+        [Column(FieldStructureSymAng)]
         public int StructureSymAng
         {
             //Autocalculated field based on selected format, if any is chosen.
@@ -69,8 +69,8 @@ namespace GSCFieldApp.Models
             {
                 if (StructureClass != null &&
                     StructureFormat != null &&
-                    StructureFormat.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordDipDipDirectionRule) &&
-                    StructureClass.ToLower().Contains(Dictionaries.DatabaseLiterals.KeywordPlanar))
+                    StructureFormat.ToLower().Contains(KeywordDipDipDirectionRule) &&
+                    StructureClass.ToLower().Contains(KeywordPlanar))
                 {
 
                     if (StructureAzimuth >= 0 && StructureAzimuth <= 90)
@@ -94,49 +94,48 @@ namespace GSCFieldApp.Models
             }
         }
 
-        [Column(DatabaseLiterals.FieldStructureNotes)]
+        [Column(FieldStructureNotes)]
         public string StructureNotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldStructureParentID)]
-        public int StructureParentID { get; set; }
+        [Column(FieldStructureParentID)]
+        public int StructureEarthmatID { get; set; }
 
         private int? _structureSymAng;
 
         //Hierarchy
-        public string ParentName = DatabaseLiterals.TableEarthMat;
+        public string ParentName = TableEarthMat;
 
-        ///// <summary>
-        ///// Soft mandatory field check. User can still create record even if fields are not filled.
-        ///// Ignore attribute will tell sql not to try to write this field inside the database.
-        ///// </summary>
-        //[Ignore]
-        //public bool isValid
-        //{
-        //    get
-        //    {
-        //        if ((StructureType != string.Empty && StructureType != Dictionaries.DatabaseLiterals.picklistNACode) &&
-        //            (StructureDetail != string.Empty && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode) &&
-        //            (StructureFormat != string.Empty && StructureFormat != Dictionaries.DatabaseLiterals.picklistNACode) &&
-        //            (isRelatedStructuresAzimuthValid == true || isRelatedStructuresAzimuthValid == null) &&
-        //            (isRelatedStructuresDipValid == true || isRelatedStructuresDipValid == null))
-        //        {
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            if (StructureAttitude == DatabaseLiterals.structurePlanarAttitudeTrend)
-        //            {
-        //                return true;
-        //            }
-        //            else
-        //            {
-        //                return false;
-        //            }
-                    
-        //        }
-        //    }
-        //    set { }
-        //}
+        /// <summary>
+        /// Soft mandatory field check. User can still create record even if fields are not filled.
+        /// Ignore attribute will tell sql not to try to write this field inside the database.
+        /// </summary>
+        [Ignore]
+        public bool isValid
+        {
+            get
+            {
+                //TODO: Should we add back the validation on related azim and dips? Commented off the properties
+                if ((StructureType != string.Empty && StructureType != picklistNACode) &&
+                    (StructureDetail != string.Empty && StructureDetail != picklistNACode) &&
+                    (StructureFormat != string.Empty && StructureFormat != picklistNACode))
+                {
+                    return true;
+                }
+                else
+                {
+                    if (StructureAttitude == structurePlanarAttitudeTrend)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+            }
+            set { }
+        }
 
         /// <summary>
         /// A concatenation of all three field. For UI purposes
@@ -146,11 +145,11 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((StructureClass != string.Empty && StructureClass != null && StructureClass != Dictionaries.DatabaseLiterals.picklistNACode))
+                if ((StructureClass != string.Empty && StructureClass != null && StructureClass != picklistNACode))
                 {
-                    if ((StructureType != string.Empty && StructureType != null && StructureType != Dictionaries.DatabaseLiterals.picklistNACode))
+                    if ((StructureType != string.Empty && StructureType != null && StructureType != picklistNACode))
                     {
-                        if ((StructureDetail != string.Empty && StructureDetail != null && StructureDetail != Dictionaries.DatabaseLiterals.picklistNACode))
+                        if ((StructureDetail != string.Empty && StructureDetail != null && StructureDetail != picklistNACode))
                         {
                             return StructureClass + " - " + StructureType + " ; " + StructureDetail;
                         }
@@ -179,7 +178,6 @@ namespace GSCFieldApp.Models
         /// Azimuths need to be based on right hand rule and current structure must have a related structure.
         /// Could be linear related to planar, or planar related to linear
         /// </summary>
-
         //[Ignore]
         //public bool? isRelatedStructuresAzimuthValid
         //{
@@ -201,7 +199,7 @@ namespace GSCFieldApp.Models
         //            }
 
         //            //Fill in variables
-        //            if (StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
+        //            if (StructureClass.Contains(KeywordPlanar))
         //            {
         //                azimuthPlanar = StructureAzimuth;
 
@@ -210,7 +208,7 @@ namespace GSCFieldApp.Models
         //                    azimuthPlanarMax = azimuthPlanar + 180;
         //                }
         //            }
-        //            else if (relatedStructure != null && relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
+        //            else if (relatedStructure != null && relatedStructure.StructureClass.Contains(KeywordPlanar))
         //            {
         //                azimuthPlanar = StructureAzimuth;
 
@@ -220,13 +218,13 @@ namespace GSCFieldApp.Models
         //                }
         //            }
 
-        //            if (StructureClass.Contains(DatabaseLiterals.KeywordLinear))
+        //            if (StructureClass.Contains(KeywordLinear))
         //            {
         //                azimuthLinear = StructureAzimuth;
         //            }
-        //            else if (relatedStructure != null && 
+        //            else if (relatedStructure != null &&
         //                relatedStructure.StructureClass != null &&
-        //                relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear))
+        //                relatedStructure.StructureClass.Contains(KeywordLinear))
         //            {
         //                azimuthLinear = StructureAzimuth;
         //            }
@@ -293,20 +291,20 @@ namespace GSCFieldApp.Models
 
 
         //            //Fill in variables
-        //            if (StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
+        //            if (StructureClass.Contains(KeywordPlanar))
         //            {
         //                dipPlanar = StructureDipPlunge;
         //            }
-        //            else if (relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordPlanar))
+        //            else if (relatedStructure.StructureClass.Contains(KeywordPlanar))
         //            {
         //                dipPlanar = StructureDipPlunge;
         //            }
 
-        //            if (StructureClass.Contains(DatabaseLiterals.KeywordLinear))
+        //            if (StructureClass.Contains(KeywordLinear))
         //            {
         //                dipLinear = StructureDipPlunge;
         //            }
-        //            else if (relatedStructure.StructureClass.Contains(DatabaseLiterals.KeywordLinear))
+        //            else if (relatedStructure.StructureClass.Contains(KeywordLinear))
         //            {
         //                dipLinear = StructureDipPlunge;
         //            }
@@ -366,7 +364,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> structureFieldList = new Dictionary<double, List<string>>();
                 List<string> structureFieldListDefault = new List<string>();
 
-                structureFieldListDefault.Add(DatabaseLiterals.FieldStructureID);
+                structureFieldListDefault.Add(FieldStructureID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -376,26 +374,69 @@ namespace GSCFieldApp.Models
 
                 }
 
-                structureFieldList[DatabaseLiterals.DBVersion] = structureFieldListDefault;
+                structureFieldList[DBVersion] = structureFieldListDefault;
                 
 
                 //Revert shcema 1.7 changes
                 //List<string> strucFieldList160 = new List<string>();
                 //strucFieldList160.AddRange(structureFieldListDefault);
-                //strucFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //structureFieldList[DatabaseLiterals.DBVersion160] = strucFieldList160;
+                //strucFieldList160.Remove(FieldGenericRowID);
+                //structureFieldList[DBVersion160] = strucFieldList160;
 
-                structureFieldList[DatabaseLiterals.DBVersion150] = structureFieldListDefault;
+                structureFieldList[DBVersion150] = structureFieldListDefault;
 
                 //Revert schema 1.5 changes. 
                 List<string> structureFieldList144 = new List<string>();
                 structureFieldList144.AddRange(structureFieldListDefault);
-                int removeIndex = structureFieldList144.IndexOf(DatabaseLiterals.FieldStructureName);
-                structureFieldList144.Remove(DatabaseLiterals.FieldStructureName);
-                structureFieldList144.Insert(removeIndex,DatabaseLiterals.FieldStructureNameDeprecated);
-                structureFieldList[DatabaseLiterals.DBVersion144] = structureFieldList144;
+                int removeIndex = structureFieldList144.IndexOf(FieldStructureName);
+                structureFieldList144.Remove(FieldStructureName);
+                structureFieldList144.Insert(removeIndex,FieldStructureNameDeprecated);
+                structureFieldList[DBVersion144] = structureFieldList144;
 
                 return structureFieldList;
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string StructureAliasLight
+        {
+            get
+            {
+                if (StructureName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(StructureName.Substring(StructureName.Length - 2), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        //Trim bunch of zeros
+                        string shorterStructureName = StructureName.Substring(StructureName.Length - 7);
+                        return shorterStructureName.Trim('0');
+                    }
+                    else
+                    {
+                        return picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return picklistNACode;
+                }
+            }
+            set { }
+        }
+
+        [Ignore]
+        public string GetClassType
+        {
+            get 
+            {
+                return string.Format("{0}{1}{2}", StructureClass, KeywordConcatCharacter2nd, StructureType);
             }
             set { }
         }

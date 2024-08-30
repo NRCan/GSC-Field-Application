@@ -4,13 +4,19 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!--Custom style-->
+    <!--Custom style--> 
     <Style TargetType="Label" x:Key="FieldAppTitle">
         <Setter Property="FontSize" Value="Title"/>
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Margin" Value="0,0,0,4"/>
-        <Setter Property="Padding" Value="10"/>
+        
+    </Style>
+
+    <Style TargetType="Label" x:Key="FieldAppAliasTitle">
+        <Setter Property="FontSize" Value="Title"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="Label" x:Key="FieldAppEntryTitle">
@@ -46,7 +52,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="10,0"/>
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
         <Setter Property="HeightRequest" Value="100"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -64,12 +70,13 @@
     </Style>
 
     <Style TargetType="Button" x:Key="FieldAppButonSave">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="MaximumHeightRequest" Value="44"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="WidthRequest" Value="110"/>
         <Setter Property="Margin" Value="10"/>
@@ -92,7 +99,7 @@
     </Style>
 
     <Style TargetType="Button" x:Key="FieldAppHeaderButton">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}" />
+        <Setter Property="TextColor" Value="White" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="MatDesign"/>
         <Setter Property="FontSize" Value="Large"/>
@@ -106,10 +113,11 @@
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
+                    <VisualState x:Name="Pressed">
                         <VisualState.Setters>
-                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
-                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
+                            <Setter Property="TextColor" Value="white" />
+                            <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                            <Setter Property="Scale" Value="0.8" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -117,34 +125,16 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Frame" x:Key="FieldAppSectionFrame">
-        <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="Margin" Value="10" />
-        <Setter Property="WidthRequest" Value="300"/>
-    </Style>
-
-    <!--Concatenated value box styles-->
-    <Style TargetType="Frame" x:Key="FieldAppConcatFrame">
-        <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="HorizontalOptions" Value="Center"/>
-    </Style>
-    <Style TargetType="HorizontalStackLayout" x:Key="FieldAppConcatHLayout">
-        <Setter Property="HeightRequest" Value="25"/>
-    </Style>
-    <Style TargetType="Button" x:Key="FieldAppConcatDelButton">
-        <Setter Property="TextColor" Value="#FF0000" />
-            <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="FontFamily" Value="MatDesign"/>
-        <Setter Property="FontSize" Value="Medium"/>
-        <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="Margin" Value="0,-12,0,0"/>
-        <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="HeightRequest" Value="25"/>
-        <Setter Property="Text" Value="&#xF0A7A;"/>
+    <Style TargetType="Button" x:Key="FieldAppNoteHeaderButton">
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MinimumWidthRequest" Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -159,16 +149,314 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
+
+    <Style TargetType="Button" x:Key="FieldAppSymbolButton">
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="MatDesign"/>
+        <Setter Property="FontSize" Value="Medium"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <!--<Setter Property="Margin" Value="{OnPlatform '0,-12,0,0', Android='0,-5,0,0', iOS='0,-5,0,0' }"/>-->
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="HeightRequest" Value="{OnPlatform 55, WinUI=25}"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="FieldAppGenericButton">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="4,4"/>
+        <Setter Property="MaximumHeightRequest" Value="44"/>
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="End"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray200}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="FieldAppSectionFrame">
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="WidthRequest" Value="325"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="FieldAppNotesFrame">
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="WidthRequest" Value="150"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
+
+    <Style TargetType="Grid" x:Key="FieldAppNotesDateFrame">
+        <!--<Setter Property="HasShadow" Value="False" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
+        <Setter Property="CornerRadius" Value="8" />-->
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="WidthRequest" Value="150"/>
+        <!--<Setter Property="BackgroundColor" Value="Transparent"/>-->
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+                    <VisualState Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="white"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState Name="Selected">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="blue"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="FlexLayout" x:Key="FieldAppFormFlexLayout">
+        <Setter Property="AlignItems" Value="Start" />
+        <Setter Property="JustifyContent" Value="{OnIdiom Start, Phone=Center,Tablet=Center}" />
+        <Setter Property="Direction" Value="Row" />
+        <Setter Property="Wrap" Value="Wrap" />
+        <Setter Property="VerticalOptions" Value="StartAndExpand"/>
+        <Setter Property="HorizontalOptions" Value="Fill"/>
+    </Style>
+
+    <Style TargetType="VerticalStackLayout" x:Key="FieldAppExpandLayout">
+        <Setter Property="Margin" Value="0,0,0,2"/>
+    </Style>
+
+    <Style TargetType="ActivityIndicator" x:Key="FieldAppActivityIndicator">
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="MaximumWidthRequest" Value="50"/>
+    </Style>
+
+    <Style TargetType="ListView" x:Key="FieldAppNotesMobileListView">
+        <Setter Property="IsVisible" Value="{OnIdiom Desktop=False, Phone=True}"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="MaximumHeightRequest" Value="275"/>
+        <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}"/>
+    </Style>
+
+    <Style TargetType="ListView" x:Key="FieldAppPickListView">
+        <Setter Property="SelectionMode" Value="Single"/>
+        <!--<Setter Property="IsGroupingEnabled" Value="True"/>-->
+        <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}"/>
+    </Style>
+
+    <Style TargetType="CollectionView" x:Key="FieldAppPickListCollectionView">
+        <Setter Property="SelectionMode" Value="Multiple"/>
+        <Setter Property="CanReorderItems" Value="True"/>
+        <Setter Property="ItemsUpdatingScrollMode" Value="KeepItemsInView"/>
+        <Setter Property="MaximumHeightRequest" Value="500"/>
+        <Setter Property="MinimumHeightRequest" Value="500"/>
+        <Setter Property="MinimumWidthRequest" Value="350"/>
+    </Style>
+    
+    <Style TargetType="CollectionView" x:Key="FieldAppNotesTabletCollectionView">
+        <Setter Property="IsVisible" Value="{OnIdiom Desktop=True, Phone=False, Tablet=True}"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="VerticalOptions" Value="Fill"/>
+        <Setter Property="Margin" Value="7"/>
+    </Style>
+
+    <Style TargetType="Grid" x:Key="FieldAppFormGrid">
+        <!--First row is record alias-->
+        <!--Second row is controls of form-->
+        <!--Third row is for save button-->
+        <!--Second column is for child add buttons-->
+        <Setter Property="RowDefinitions" Value="40, *, 80"/>
+        <Setter Property="ColumnDefinitions" Value="*, 40"/>
+    </Style>
+
+    <Style TargetType="Grid" x:Key="FieldAppSettingGrid">
+        <!--First column is toggle text-->
+        <!--Second column is the toggle itself-->
+        <Setter Property="ColumnDefinitions" Value="*, 40"/>
+    </Style>
+
+    <Style TargetType="CheckBox" x:Key="FieldAppCheckbox">
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="Margin" Value="0,0,-10,0"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Border" x:Key="FieldAppBorder">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 8,8,8,8"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+    </Style>
+
+    <!--Concatenated value box styles-->
+    <Style TargetType="Frame" x:Key="FieldAppConcatFrame">
+        <Setter Property="HasShadow" Value="False" />
+        <!--<Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />-->
+        <!--<Setter Property="CornerRadius" Value="8" />-->
+        <Setter Property="HorizontalOptions" Value="Start"/>
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="FieldAppConcatMainFrame">
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
+
+    <Style TargetType="HorizontalStackLayout" x:Key="FieldAppConcatHLayout">
+        <Setter Property="HeightRequest" Value="25"/>
+        <Setter Property="HorizontalOptions" Value="StartAndExpand"/>
+    </Style>
+    
+    <Style TargetType="Button" x:Key="FieldAppConcatDelButton">
+        <Setter Property="TextColor" Value="{StaticResource Gray400}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <!--<Setter Property="FontFamily" Value="MatDesign"/>-->
+        <!--<Setter Property="FontSize" Value="Medium"/>-->
+        <!--<Setter Property="VerticalOptions" Value="Start"/>-->
+        <!--<Setter Property="HorizontalOptions" Value="Start"/>-->
+        <!--<Setter Property="Margin" Value="{OnIdiom '0,-10,0,0', Tablet='0,-10,0,0', Phone='0,-10,0,0' }"/>-->
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="Padding" Value="0"/>
+        <!--<Setter Property="HeightRequest" Value="{OnPlatform 55, WinUI=25}"/>-->
+        <Setter Property="Text" Value="X"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="Frame" x:Key="FieldAppConcatOuterFrame">
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+    </Style>
+
     <Style TargetType="CollectionView" x:Key="FieldAppConcatCollectionView">
-        <Setter Property="Margin" Value="15,0,0,15"/>
+        <!--<Setter Property="Margin" Value="0"/>-->
+        <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="VerticalOptions" Value="Fill"/>
         <Setter Property="SelectionMode" Value="Single"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
-        <Setter Property="MaximumHeightRequest" Value="250"/>
+        <Setter Property="HeightRequest" Value="150"/>
         <Setter Property="CanReorderItems" Value="True"/>
-        <Setter Property="BackgroundColor" Value="{StaticResource Gray100}"/>
     </Style>
-    <!--TODO: Find a way to customize title style-->
+
+    <Style TargetType="Label" x:Key="FieldAppConcatLabel">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="MaximumWidthRequest" Value="135" />
+        <Setter Property="LineBreakMode" Value="MiddleTruncation"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <!-- -->
+
+    <Style TargetType="ListView" x:Key="FieldAppSearchCollectionView">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="VerticalOptions" Value="Fill"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Default"/>
+        <Setter Property="HeightRequest" Value="120"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="RowHeight" Value="45"/>
+    </Style>
+
+    <Style TargetType="Entry" x:Key="FieldAppNumBox">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="0,0"/>
+        <Setter Property="Keyboard" Value="Numeric"/>
+        <Setter Property="Placeholder" Value="0"/>
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <!--TODO Find why setting widht justsify centering of control-->
+        <!--<Setter Property="MaximumWidthRequest" Value="35"/>-->
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Entry" x:Key="FieldAppNumBoxInvalid">
+        <Setter Property="TextColor" Value="Red" />
+    </Style>
+    
+    <!--Mandatory controls-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">
         <Setter Property="Margin" Value="10"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
@@ -176,9 +464,9 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
-        <!--<Setter Property="MinimumWidthRequest" Value="44"/>-->
-        <!--<Setter Property="MinimumWidthRequest" Value="200"/>-->
+        <Setter Property="WidthRequest" Value="240"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -194,6 +482,34 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Label" x:Key="FieldAppEntryTitleMandatory">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- -->
+    
+    <Style TargetType="Rectangle" x:Key="HorizontalBar">
+        <Setter Property="Height" Value="1"/>
+        <!--<Setter Property="Margin" Value="20,10,20,20"/>-->
+    </Style>
+
     <!--Modified default-->
     <Style TargetType="Picker">
         <Setter Property="Margin" Value="10"/>
@@ -202,8 +518,8 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="MinimumWidthRequest" Value="100"/>
-        <!--<Setter Property="WidthRequest" Value="200"/>-->
+        <Setter Property="MinimumHeightRequest" Value="44"/>
+        <Setter Property="WidthRequest" Value="240"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -224,7 +540,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Margin" Value="0,0"/>
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
@@ -574,7 +890,7 @@
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
         <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray950}}" />
-        <Setter Property="Shell.ForegroundColor" Value="{OnPlatform WinUI={StaticResource Primary}, Default={StaticResource White}}" />
+        <Setter Property="Shell.ForegroundColor" Value="{OnPlatform WinUI={StaticResource Gray950}, Default={StaticResource White}}" />
         <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
         <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />

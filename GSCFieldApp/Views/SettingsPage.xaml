@@ -1,45 +1,143 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="GSCFieldApp.Views.SettingsPage"
-            xmlns:views="clr-namespace:GSCFieldApp.Views"
-            xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
-            android:TabbedPage.ToolbarPlacement="Bottom"
-            Title="Settings">
-    <!--<NavigationPage x:Name="SettingVisibilityTab" Title="Visibility"/>
-    <NavigationPage x:Name="SettingPicklistTab" Title="Picklits"/>
-    <NavigationPage x:Name="SettingOtherTab" Title="Other"/>
-    <NavigationPage x:Name="SettingAboutTab" Title="About">
-        <x:Arguments>
-            <views:AboutPage/>
-        </x:Arguments>
-    </NavigationPage>-->
+            xmlns:local="clr-namespace:GSCFieldApp.Services"
+            xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+            xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+            xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+            x:DataType="viemodel:SettingsViewModel"
+            Title="{local:Localize SettingPageTitle}">
 
-    <!--<ContentPage.MenuBarItems>
-        <MenuBarItem Text="Visibility"/>
-        <MenuBarItem Text="Picklist"/>
-        <MenuBarItem Text="Other"/>
-        <MenuBarItem Text="About"/>
-        
-    </ContentPage.MenuBarItems>-->
+    <ContentPage.Content>
 
-    <!--<TabBar>
-        <Tab Title="Visibility">
-            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
-        </Tab>
-        <Tab Title="Picklist">
-            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
-        </Tab>
-        <Tab Title="Other">
-            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
-        </Tab>
-        <Tab Title="About">
-            <ShellContent ContentTemplate="{DataTemplate views:AboutPage}"/>
-        </Tab>
-    </TabBar>-->
+        <ScrollView Orientation="Vertical">
+            <VerticalStackLayout>
 
-    <ContentPage Title="Tab 1"/>
-    <ContentPage Title="Tab 2"/>
-    <ContentPage Title="Tab 3"/>
+                <!--Themes control settings-->
+                <Frame BorderColor="Transparent">
+                    <VerticalStackLayout>
+                        <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageHeading}"/>
 
-</TabbedPage >
+                        <VerticalStackLayout>
+                            <Label Text="{local:Localize SettingPageThemeExplanation}"/>
+
+                            <!--Common tables activation-->
+                            <VerticalStackLayout Margin="10">
+                                <Label Text="{local:Localize SettingPageCategoryCommon}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                                <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Text="{local:Localize FielNotesEMHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                    <Switch x:Name="earthMat" IsToggled="{Binding EarthMaterialVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+
+                                    <Label Text="{local:Localize FielNotesFossilHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
+                                    <Switch x:Name="fossil" IsToggled="{Binding FossilVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
+
+
+                                    <Label Text="{local:Localize FielNotesPhotoHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2"/>
+                                    <Switch x:Name="photo" IsToggled="{Binding DocumentVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
+
+                                    <Label Text="{local:Localize FielNotesSampleHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3"/>
+                                    <Switch x:Name="sample" IsToggled="{Binding SampleVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
+
+                                    <Label Text="{local:Localize FielNotesLocationHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="4"/>
+                                    <Switch x:Name="location" IsToggled="{Binding LocationVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="4"/>
+
+                                </Grid>
+                            </VerticalStackLayout>
+
+                            <!--Bedrock tables activation-->
+                            <VerticalStackLayout Margin="10">
+                                <Label Text="{local:Localize SettingPageCategoryBedrock}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                                <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{local:Localize FielNotesMineralHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                    <Switch x:Name="mineral" IsToggled="{Binding MineralVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+
+                                    <Label Text="{local:Localize FielNotesMineralizationHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
+                                    <Switch x:Name="mineralization" IsToggled="{Binding MineralizationVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
+
+                                    <Label Text="{local:Localize FielNotesStructureHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2"/>
+                                    <Switch x:Name="structure" IsToggled="{Binding StructureVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
+
+                                    <Label Text="{local:Localize FielNotesDrillHolesHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3"/>
+                                    <Switch x:Name="drill" IsToggled="{Binding DrillHoleVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
+
+                                </Grid>
+                            </VerticalStackLayout>
+
+                            <!--Surficial tables activation-->
+                            <VerticalStackLayout Margin="10">
+                                <Label Text="{local:Localize SettingPageCategorySurficial}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                                <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{local:Localize FielNotesPaleoflowHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                    <Switch x:Name="pflow" IsToggled="{Binding PaleoflowVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+
+                                    <Label Text="{local:Localize FielNotesEnvironmentHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
+                                    <Switch x:Name="env" IsToggled="{Binding EnvironmentVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
+
+                                </Grid>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!--Debug section-->
+
+                <Frame BorderColor="Transparent" IsVisible="{Binding DeveloperModeActivated}">
+                    <VerticalStackLayout>
+                        <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageDebugHeading}"/>
+
+                        <VerticalStackLayout Margin="10,0,0,0">
+                            <Label Text="{local:Localize SettingPageDebugLog}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                            <Grid Style="{StaticResource FieldAppSettingGrid}" Margin="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" WidthRequest="{OnIdiom Phone=255}" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                                <Button Style="{StaticResource FieldAppButonSave}" BackgroundColor="{StaticResource Primary}" FontSize="Medium"
+                                    TextColor="White" Text="&#xF0818;" Command="{Binding DoDebugLogBackupCommand}" 
+                                    Grid.Column="1" HorizontalOptions="End" Grid.Row="0" WidthRequest="{OnIdiom Phone=75}"
+                                    FontFamily="MatDesign"/>
+
+
+                            </Grid>
+
+
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!--TODO: implement version 2 app other settings-->
+                
+            </VerticalStackLayout>
+        </ScrollView>
+
+
+    </ContentPage.Content>
+
+</ContentPage >

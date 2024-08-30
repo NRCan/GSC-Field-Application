@@ -8,27 +8,64 @@ using System.Threading.Tasks;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Models;
 using GSCFieldApp.Dictionaries;
-using GSCFieldApp.Themes;
+using GSCFieldApp.Controls;
 using ShimSkiaSharp;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using Microsoft.Maui.ApplicationModel.Communication;
+using GSCFieldApp.Services;
 
 namespace GSCFieldApp.ViewModel
 {
-    public partial class FieldBookViewModel: ObservableObject
+    [QueryProperty(nameof(Metadata), nameof(Metadata))]
+    public partial class FieldBookViewModel: FieldAppPageHelper
     {
         #region INIT
-
-        DataAccess da = new DataAccess();
-        private Metadata model = new Metadata();
+        private Metadata _model = new Metadata();
         private ComboBox _projectType = new ComboBox();
+        private bool _canWrite = true;
 
         #endregion
 
         #region PROPERTIES
-        
-        public Metadata Model { get { return model; } set { model = value; } }
+
+        [ObservableProperty]
+        private Metadata metadata;
+
+        public Metadata Model { get { return _model; } set { _model = value; } }
         public ComboBox ProjectType { get { return _projectType; } set { _projectType = value; } }
+        public bool CanWrite { get { return _canWrite; } set { _canWrite = value; } }
+
+        
+        public bool FieldBookDescriptionExpand
+        {
+            get { return Preferences.Get(nameof(FieldBookDescriptionExpand), true); }
+            set { Preferences.Set(nameof(FieldBookDescriptionExpand), value); }
+        }
+
+        public bool FieldBookGeologistExpand
+        {
+            get { return Preferences.Get(nameof(FieldBookGeologistExpand), true); }
+            set { Preferences.Set(nameof(FieldBookGeologistExpand), value); }
+        }
+
+        public bool FieldBookProjectExpand
+        {
+            get { return Preferences.Get(nameof(FieldBookProjectExpand), true); }
+            set { Preferences.Set(nameof(FieldBookProjectExpand), value); }
+        }
+
+        public bool FieldBookOtherExpand
+        {
+            get { return Preferences.Get(nameof(FieldBookOtherExpand), true); }
+            set { Preferences.Set(nameof(FieldBookOtherExpand), value); }
+        }
+
+        public bool FieldBooksGenericExpand
+        {
+            get { return Preferences.Get(nameof(FieldBooksGenericExpand), true); }
+            set { Preferences.Set(nameof(FieldBooksGenericExpand), value); }
+        }
 
         #endregion
 
@@ -54,16 +91,39 @@ namespace GSCFieldApp.ViewModel
             //Validate if all mandatory entries have been filled.
             if (Model.isValid || !Model.isValid)
             {
-                //Make sure current field book database exists
-                da.PreferedDatabasePath = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+                //Project name and database name update validation
+                //If user has a databse, but renamed the project, we need to rename the database
+#if WINDOWS
+                string desiredDatabaseName = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+#elif ANDROID
+                string desiredDatabaseName = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
+#else
+                string desiredDatabaseName = Path.Combine(FileSystem.Current.AppDataDirectory, Model.FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+#endif
 
                 //Validate if new entry or update
-                if (model.MetaID > 0)
+                if (_model.MetaID > 0)
                 {
+                    if (!Path.Exists(desiredDatabaseName) && Path.Exists(da.PreferedDatabasePath))
+                    {
+                        //Rename database
+                        FileInfo originalFileInfo = new FileInfo(da.PreferedDatabasePath);
+                        originalFileInfo.MoveTo(desiredDatabaseName);
+
+                        //Set prefered database
+                        da.PreferedDatabasePath = desiredDatabaseName;
+                    }
+
+                    //Fill out missing values in model
+                    SetModel();
+
                     await da.SaveItemAsync(Model, true);
                 }
                 else
                 {
+                    //Set database path
+                    da.PreferedDatabasePath = desiredDatabaseName;
+
                     //Create new field book database
                     await da.CreateDatabaseFromResource(da.PreferedDatabasePath);
 
@@ -78,27 +138,51 @@ namespace GSCFieldApp.ViewModel
                 await da.CloseConnectionAsync();
 
                 //Exit
-                await Shell.Current.GoToAsync("..");
+                await Shell.Current.GoToAsync("../");
             }
             else
             {
                 //Show error
-                await Shell.Current.DisplayAlert("Warning", "Some mandatory fields have not been filled.", "Ok");
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBookPageFailedToSaveTitle"].ToString(),
+                    LocalizationResourceManager["FieldBookPageFailedToSave"].ToString(), 
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
             }
 
 
         }
 
         [RelayCommand]
-        async Task Back()
+        public async Task Back()
         {
-            //Navigate backward (../.. will navigate two pages back)"
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync("../");
         }
 
         #endregion
 
         #region METHODS
+
+        /// <summary>
+        /// Will refill the form with existing values for update/editing purposes
+        /// </summary>
+        /// <returns></returns>
+        public async Task Load()
+        {
+            if (metadata != null && metadata.isValid)
+            {
+                //Disable some key fields
+                if (metadata.IsActive == 1)
+                {
+                    //Prevents user from updating key info after starting a survey
+                    _canWrite = false;
+                    OnPropertyChanged(nameof(CanWrite));
+                }
+
+                //Set model like actual record
+                _model = metadata;
+                OnPropertyChanged(nameof(Model));
+
+            }
+        }
 
         /// <summary>
         /// Will fill the project type combobox
@@ -129,12 +213,14 @@ namespace GSCFieldApp.ViewModel
                 Model.Version = AppInfo.Current.VersionString;
                 Model.StartDate = String.Format("{0:d}", DateTime.Today);
                 Model.VersionSchema = DatabaseLiterals.DBVersion.ToString();
+                Model.IsActive = 0; //Default to inactive on new field books since they don't have any stations yet.
+            }
 
-                //Process pickers
-                if (ProjectType.cboxDefaultItemIndex != -1)
-                {
-                    Model.FieldworkType = ProjectType.cboxItems[ProjectType.cboxDefaultItemIndex].itemValue;
-                }
+            //Process pickers
+            if (ProjectType.cboxDefaultItemIndex != -1)
+            {
+                // Keep in pref project type for futur vocab use and other viewing purposes
+                Preferences.Set(nameof(DatabaseLiterals.FieldUserInfoFWorkType), Model.FieldworkType);
             }
 
         }

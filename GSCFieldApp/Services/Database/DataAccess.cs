@@ -9,16 +9,24 @@ using GSCFieldApp.Dictionaries;
 using SQLite;
 using System.Diagnostics;
 using BruTile.Wmts.Generated;
-using GSCFieldApp.Themes;
+using GSCFieldApp.Controls;
+using NetTopologySuite.Index.HPRtree;
 
-// Based on code sample from: http://blogs.u2u.be/diederik/post/2015/09/08/Using-SQLite-on-the-Universal-Windows-Platform.aspx -Kaz
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataAccess
     {
         public static SQLiteAsyncConnection _dbConnection;
-        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqlite;
 
+        //TODO: find why on android .gpkg isn't a valid file type even though the database is sqlite.
+
+#if WINDOWS
+        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqlite;
+#elif ANDROID
+        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqliteDeprecated;
+#else
+        public const string DatabaseFilename = DatabaseLiterals.DBName + DatabaseLiterals.DBTypeSqlite;
+#endif
         /// <summary>
         /// Default database patch in the app directory.
         /// Will be saved as another name once the field book is properly filled and then created.
@@ -97,24 +105,27 @@ namespace GSCFieldApp.Services.DatabaseServices
 
                     //Need a binary write for geopackage database, else file will be corrupt with 
                     //default stream writer/reader
-                    byte[] buffer = new byte[1024];
+                    byte[] buffer = new byte[16*1024];
                     using (BinaryWriter fileWriter = new BinaryWriter(outputStream))
                     {
                         using (BinaryReader fileReader = new BinaryReader(package))
                         {
-                            //Read package by block of 1024 bytes.
-                            long readCount = 0;
-                            while (readCount < fileReader.BaseStream.Length)
-                            {
-                                int read = fileReader.Read(buffer, 0, buffer.Length);
-                                readCount += read;
+                            //NOTE: On android length isn't a property so we need to count the bytes instead
+                            //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/file-system-helpers?view=net-maui-7.0&tabs=android#platform-differences 
 
-                                //Write
-                                fileWriter.Write(buffer, 0, read);
+                            //Read package by block of 1024 bytes.
+                            int readCount = 0;
+
+                            while ((readCount = fileReader.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                fileWriter.Write(buffer, 0, readCount);
                             }
+
                         }
                     }
 
+                    //Keep database path as default
+                    PreferedDatabasePath = outputDatabasePath;
                 }
 
                 return true;
@@ -122,10 +133,50 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             catch (Exception e)
             {
-                Debug.Write(e.Message);
+
+                new ErrorToLogFile(e).WriteToFile();
+                await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
                 return false;
             }
 
+
+        }
+
+        /// <summary>
+        /// Will delete an item object that is a model table
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="doUpdate"></param>
+        /// <returns></returns>
+        public async Task<int> DeleteItemAsync(object item)
+        {
+            if (item != null)
+            {
+                // Create a new connection
+                try
+                {
+
+                    //For debug
+                    DbConnection.Tracer = new Action<string>(q => Debug.WriteLine(q));
+                    DbConnection.Trace = true;
+
+
+                    int numberOfRows = await DbConnection.DeleteAsync(item);
+                    return numberOfRows;
+
+
+
+                }
+                catch (SQLite.SQLiteException ex)
+                {
+                    new ErrorToLogFile(ex).WriteToFile();
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
 
         }
 
@@ -161,7 +212,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
             catch (SQLite.SQLiteException ex)
             {
-                Console.WriteLine(ex.ToString());
+                new ErrorToLogFile(ex).WriteToFile();
                 return item;
             }
 
@@ -177,35 +228,36 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="fieldwork">Field book theme (bedrock, surficial)</param>
         /// <returns>A list contain resulting voca class entries</returns>
         public async Task<List<Vocabularies>> GetPicklistValuesAsync(string tableName, string fieldName, string extraFieldValue, 
-            bool allValues, string fieldwork = "")
+            bool allValues)
         {
 
             //Get the current project type
-            string fieldworkType = ScienceLiterals.ApplicationThemeBedrock; //Default
+            string fieldworkType = ApplicationThemeBedrock; //Default
 
-            if (fieldwork != string.Empty)
+            if (Preferences.ContainsKey(nameof(FieldUserInfoFWorkType)))
             {
-                fieldworkType = fieldwork;
+                //This should be set whenever user selects a different field book
+                fieldworkType = Preferences.Get(nameof(FieldUserInfoFWorkType), fieldworkType);
             }
 
             //Build query
-            string querySelect = "SELECT * FROM " + TableDictionary;
-            string queryJoin = " JOIN " + TableDictionaryManager + " ON " + TableDictionary + "." + FieldDictionaryCodedTheme + " = " + TableDictionaryManager + "." + FieldDictionaryManagerCodedTheme;
-            string queryWhere = " WHERE " + TableDictionaryManager + "." + FieldDictionaryManagerAssignTable + " = '" + tableName + "'";
-            string queryAndField = " AND " + TableDictionaryManager + "." + FieldDictionaryManagerAssignField + " = '" + fieldName + "'";
-            string queryAndVisible = " AND " + TableDictionary + "." + FieldDictionaryVisible + " = '" + boolYes + "'";
+            string querySelect = "SELECT md.* FROM " + TableDictionary + " as md";
+            string queryJoin = " JOIN " + TableDictionaryManager + " as mdm ON md." + FieldDictionaryCodedTheme + " = mdm." + FieldDictionaryManagerCodedTheme;
+            string queryWhere = " WHERE mdm." + FieldDictionaryManagerAssignTable + " = '" + tableName + "'";
+            string queryAndField = " AND mdm." + FieldDictionaryManagerAssignField + " = '" + fieldName + "'";
+            string queryAndVisible = " AND md." + FieldDictionaryVisible + " = '" + boolYes + "'";
             string queryAndWorkType = string.Empty;
             string queryAndParent = string.Empty;
-            string queryOrdering = " ORDER BY " + TableDictionary + "." + FieldDictionaryOrder + " ASC";
+            string queryOrdering = " ORDER BY md." + FieldDictionaryOrder + " ASC";
 
             if (fieldworkType != string.Empty)
             {
-                queryAndWorkType = " AND (lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '" + fieldworkType + "' OR lower(" + TableDictionaryManager + "." + FieldDictionaryManagerSpecificTo + ") = '')";
+                queryAndWorkType = " AND (lower(mdm." + FieldDictionaryManagerSpecificTo + ") like '" + fieldworkType + "%' OR lower(mdm." + FieldDictionaryManagerSpecificTo + ") = '')";
             }
 
             if (extraFieldValue != string.Empty && extraFieldValue != null && extraFieldValue != "")
             {
-                queryAndParent = " AND " + TableDictionary + "." + FieldDictionaryRelatedTo + " = '" + extraFieldValue + "'";
+                queryAndParent = " AND md." + FieldDictionaryRelatedTo + " = '" + extraFieldValue + "'";
             }
 
             string finalQuery = querySelect + queryJoin + queryWhere + queryAndField + queryAndWorkType + queryAndParent;
@@ -219,17 +271,11 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             //Get vocab records
-            SQLiteAsyncConnection currentConnection = GetConnectionFromPath(DatabaseFilePath);
+            SQLiteAsyncConnection currentConnection = GetConnectionFromPath(PreferedDatabasePath);
+
             List<Vocabularies> vocabs = await currentConnection.QueryAsync<Vocabularies>(finalQuery);
 
-            Vocabularies voc = new Vocabularies();
-            List<Vocabularies> vocTable = new List<Vocabularies> { voc };
-            if (vocabs.Count != 0)
-            {
-                vocTable = vocabs;
-            }
-
-            return vocTable;
+            return vocabs;
         }
 
         /// <summary>
@@ -240,19 +286,18 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="tableName">The table name associated with the wanted vocab.</param>
         /// <param name="fieldName">The field name associated with the wanted vocab.</param>
-        /// <param name="fieldwork">The field book theme (bedrock, surficial)</param>
         /// <returns></returns>
-        public async Task<ComboBox> GetComboboxListWithVocabAsync(string tableName, string fieldName, string fieldwork = "")
+        public async Task<ComboBox> GetComboboxListWithVocabAsync(string tableName, string fieldName, string extraFieldValue = "")
         {
             //Outputs
             ComboBox outputVocabs = new ComboBox();
 
             //Get vocab
-            DataAccess picklistAccess = new DataAccess();
-            List<Vocabularies> vocs = await picklistAccess.GetPicklistValuesAsync(tableName, fieldName, string.Empty, false, fieldwork);
+            List<Vocabularies> vocs = await GetPicklistValuesAsync(tableName, fieldName, extraFieldValue, false);
 
             //Fill in cbox
             outputVocabs = GetComboboxListFromVocab(vocs);
+
 
             return outputVocabs;
         }
@@ -298,7 +343,19 @@ namespace GSCFieldApp.Services.DatabaseServices
                     defaultValueIndex = outputVocabsList.Count;
                 }
 
+                //Keep relatedTo Value for filtering
+                if (vocabs.RelatedTo != null && vocabs.RelatedTo != string.Empty)
+                {
+                    newItem.itemParent = vocabs.RelatedTo;
+                }
+
                 outputVocabsList.Add(newItem);
+            }
+
+            //If at the end there is onlye one record, make it a default
+            if (outputVocabsList.Count == 1)
+            {
+                defaultValueIndex = 0;
             }
 
             //Set
@@ -309,8 +366,42 @@ namespace GSCFieldApp.Services.DatabaseServices
             return outputVocabs;
         }
 
-        #endregion
+        /// <summary>
+        /// Will delete any record from given parameters.
+        /// TODO: The field name entry could be replace with the prime key if a TableMapping object is created. I think it returns the prime key field name. - Gab
+        /// </summary>
+        /// <param name="tableName">The table name to delete the record from</param>
+        /// <param name="tableFieldName">The table field name to select the record with</param>
+        /// <param name="recordIDToDelete">The table field value to delete.</param>
+        public async Task<int> DeleteItemCascadeAsync(string tableName, string tableFieldName, int recordIDToDelete)
+        {
 
+            // Create a new connection
+            try
+            {
+
+                //For debug
+                DbConnection.Tracer = new Action<string>(q => Debug.WriteLine(q));
+                DbConnection.Trace = true;
+
+
+                await DbConnection.ExecuteAsync("PRAGMA foreign_keys=ON");
+                int delRecords = await DbConnection.ExecuteAsync(string.Format("DELETE FROM {0} WHERE {1} = {2};", tableName, tableFieldName, recordIDToDelete));
+                return delRecords;
+
+
+
+            }
+            catch (SQLite.SQLiteException ex)
+            {
+                new ErrorToLogFile(ex).WriteToFile();
+                return 0;
+            }
+
+
+        }
+
+        #endregion
 
         #region GET METHODS (usually needs a connection object)
         /// <summary>
@@ -326,110 +417,57 @@ namespace GSCFieldApp.Services.DatabaseServices
             return await dbConnect.GetMappingAsync(tableType);
         }
 
-        #endregion
-
-        #region GEOPACKAGE
-
         /// <summary>
-        /// Will generate an insert query for geopackages
-        /// NOTE: Needs to stay here else it conflicts with the spatialitesharp which doesn't use
-        /// the same libraries and throws a bunch of conflict.
+        /// Will return the number of records of a table
         /// </summary>
-        /// <param name="inClassObject"></param>
+        /// <param name="inTabelType"></param>
         /// <returns></returns>
-        public async Task<string> GetGeopackageInsertQueryAsync(FieldLocation inLocation, string tableNameIfDifferent = "")
+        public async Task<int> GetTableCount(Type inTableType)
         {
             //Variables
-            string insertQuery = @"INSERT INTO "; //Init
+            int tableCount = 0;
 
-            //Get table mapping
-            TableMapping inMapping = await GetATableObjectAsync(inLocation.GetType(), DbConnection);
+            //Get query result
+            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
+            TableMapping tableMapping = await GetATableObjectAsync(inTableType, dbConnect);
 
-            //Add table name in query
-            string inTableName = inLocation.LocationTableName;
-            if (tableNameIfDifferent != inTableName && tableNameIfDifferent != string.Empty)
+            List<int> tableRows = await dbConnect.QueryScalarsAsync<int>("SELECT * FROM " + tableMapping.TableName);
+
+            if (tableRows.Count() > 0)
             {
-                inTableName = tableNameIfDifferent;
+                tableCount = tableRows.Count();
             }
-            insertQuery = insertQuery + inTableName + " (" + DatabaseLiterals.FieldGenericGeometry + ",";
+            
 
-            //Fill in the field name list of the query
-            foreach (TableMapping.Column col in inMapping.Columns)
-            {
-                Type colType = col.ColumnType;
-
-                var value = col.GetValue(inLocation);
-
-                if (value != null && col.Name != DatabaseLiterals.FieldGenericGeometry)
-                {
-                    insertQuery = insertQuery + col.Name + ",";
-                }
-
-            }
-
-            //Remove last comma
-            insertQuery = insertQuery.Remove(insertQuery.Length - 1, 1);
-
-            //Add make point sql method
-            insertQuery = insertQuery + ") VALUES (gpkgMakePoint( " + inLocation.LocationLong +
-                ", " + inLocation.LocationLat + ", " + inLocation.LocationDatum + ")";
-
-            //Finalize query with values
-            foreach (TableMapping.Column col in inMapping.Columns)
-            {
-                Type colType = col.ColumnType;
-
-                var value = col.GetValue(inLocation);
-
-                if (value != null && col.Name != DatabaseLiterals.FieldGenericGeometry)
-                {
-                    if (colType == typeof(System.String))
-                    {
-                        value = '"' + value.ToString() + '"';
-                    }
-
-                    if (col.Name == DatabaseLiterals.FieldLocationID)
-                    {
-                        value = "NULL";
-                    }
-
-                    if (col == inMapping.Columns.Last())
-                    {
-                        insertQuery = insertQuery + ", " + value + ") ";
-                    }
-                    else
-                    {
-                        insertQuery = insertQuery + ", " + value;
-                    }
-
-                }
-
-            }
-
-            return insertQuery + " returning " + DatabaseLiterals.FieldLocationID + ";";
-
+            await dbConnect.CloseAsync();
+            
+            return tableCount;
 
         }
 
         /// <summary>
-        /// Will generate an update query for geopackages geometry field
+        /// Will return a related structure record as an object
         /// </summary>
-        /// <param name="inClassObject"></param>
-        /// <param name="tableNameIfDifferent"></param>
+        /// <param name="StrucId"></param>
         /// <returns></returns>
-        public string GetGeopackageUpdateQuery(string tableName)
+        public async Task<Structure> GetRelatedStructure(int? StrucId)
         {
-            //Variables cast(EPSG as integer)
-            string upQuery = string.Empty; //Init
-
-            if (tableName == DatabaseLiterals.TableLocation)
+            Structure relatedStructure = new Structure();
+            if (StrucId != null)
             {
-                upQuery = @"UPDATE " + tableName + " SET " + FieldGenericGeometry + " = " +
-                    " gpkgMakePoint( " + FieldLocationLongitude + ", " + FieldLocationLatitude + ", cast(" +
-                    FieldLocationDatum + " as integer));";
+                SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
+                List<Structure> relatedStructures = await dbConnect.Table<Structure>().Where(struc => struc.StructureID == StrucId).ToListAsync();
+
+                if (relatedStructures != null  && relatedStructures.Count > 0)
+                {
+                    relatedStructure = relatedStructures[0];
+                }
+
+                await dbConnect.CloseAsync();
+                
             }
 
-            return upQuery;
+            return relatedStructure;
         }
 
         #endregion

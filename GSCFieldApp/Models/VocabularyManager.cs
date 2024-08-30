@@ -16,22 +16,22 @@ namespace GSCFieldApp.Models
         public string ThemeID { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerCodedTheme)]
-        public string ThemeName { get; set; }
+        public string ThemeCodedTheme { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerSpecificTo)]
-        public string ThemeProjectType { get; set; }
+        public string ThemeSpecificTo { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerAssignTable)]
-        public string ThemeTable { get; set; }
+        public string ThemeAssignTable { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerCodedThemeDescription)]
-        public string ThemeNameDesc { get; set; }
+        public string ThemeCodeThemeDesc { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerOutputFile)]
         public string ThemeOutputFile { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerAssignField)]
-        public string ThemeField { get; set; }
+        public string ThemeAssignField { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerEditable)]
         public string ThemeEditable { get; set; }

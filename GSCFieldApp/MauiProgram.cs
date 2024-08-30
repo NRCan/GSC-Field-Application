@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using GSCFieldApp.Services;
 using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Extensions.Logging;
@@ -27,9 +28,6 @@ public static class MauiProgram
 
         // Need to add these to actually create them on start
         //Singleton will be created once
-        builder.Services.AddSingleton<MainPage>();
-		builder.Services.AddSingleton<MainViewModel>();
-
 		builder.Services.AddSingleton<SettingsPage>();
 		builder.Services.AddSingleton<SettingsViewModel>();
 
@@ -46,17 +44,51 @@ public static class MauiProgram
         builder.Services.AddSingleton<AboutPageViewModel>();
 
         //Transient will be created/deleted each time
-        builder.Services.AddTransient<DetailPage>();
-        builder.Services.AddTransient<DetailVieModel>();
-
 		builder.Services.AddTransient<StationPage>();
 		builder.Services.AddTransient<StationViewModel>();
 
         builder.Services.AddTransient<FieldBookPage>();
         builder.Services.AddTransient<FieldBookViewModel>();
 
+        builder.Services.AddTransient<EarthmatPage>();
+        builder.Services.AddTransient<EarthmatViewModel>();
+
+        builder.Services.AddTransient<SamplePage>();
+        builder.Services.AddTransient<SampleViewModel>();
+
+        builder.Services.AddTransient<DocumentPage>();
+        builder.Services.AddTransient<DocumentViewModel>();
+
+        builder.Services.AddTransient<StructurePage>();
+        builder.Services.AddTransient<StructureViewModel>();
+
+        builder.Services.AddTransient<PaleoflowPage>();
+        builder.Services.AddTransient<PaleoflowViewModel>();
+
+        builder.Services.AddTransient<FossilPage>();
+        builder.Services.AddTransient<FossilViewModel>();
+
+        builder.Services.AddTransient<EnvironmentPage>();
+        builder.Services.AddTransient<EnvironmentViewModel>();
+
+        builder.Services.AddTransient<MineralPage>();
+        builder.Services.AddTransient<MineralViewModel>();
+
+        builder.Services.AddTransient<MineralizationAlterationPage>();
+        builder.Services.AddTransient<MineralizationAlterationViewModel>();
+
+        builder.Services.AddTransient<LocationPage>();
+        builder.Services.AddTransient<LocationViewModel>();
+
+        builder.Services.AddTransient<DrillHolePage>();
+        builder.Services.AddTransient<DrillHoleViewModel>();
+
+        builder.Services.AddTransient<PicklistPage>();
+        builder.Services.AddTransient<PicklistViewModel>();
+
         //Add localization service, making it available for all views
         builder.Services.AddLocalization();
+        builder.Services.AddTransient<MessageService>();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.SamplePage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:SampleViewModel"
+             Shell.BackgroundColor="{StaticResource FieldSampleColor}"
+             Title="{local:Localize SamplePageTitle}">
+    <Shell.BackButtonBehavior>
+        <!--Hide back button - Android when navigating back, ham menu disapears-->
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:String2Integers x:Key="Str2Int"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.SampleName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+            
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+    
+                    <!--Description-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleDescVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageDescriptionTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize SamplePageType}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding SampleType.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    x:Name="SampleTypePicker" SelectedIndexChanged="SampleTypePicker_SelectedIndexChanged"
+                                    SelectedItem="{Binding Model.SampleType, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding SampleType, Source={x:Reference SampleTypePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding SampleType.cboxDefaultItemIndex, Mode=TwoWay}"/>
+                            
+                            <VerticalStackLayout>
+                                <!--Quirk, selecting surficial paleomag with oriented sample should enable oriented control box from bedrock--> 
+                                <Picker Title="{local:Localize SamplePagePurpose}" x:Name="SamplePagePurposePicker" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding SamplePurpose.cboxItems}" SelectedIndexChanged="SamplePagePurposePicker_SelectedIndexChanged"
+                                    ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedSamplePurpose}"
+                                    SelectedIndex="{Binding SamplePurpose.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                                <!--Custom control to concatenate multiple values into one field-->
+                                <controls:ConcatenatedCollection 
+                                    ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}" 
+                                    x:Name="SamplePurposeCollectionControl" SizeChanged="SamplePurposeCollectionControl_SizeChanged"
+                                    ConcatSource="{Binding SamplePurposeCollection}" />
+
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}">
+                                <Label Text="{local:Localize SamplePageIsBlank}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <CheckBox IsChecked="{Binding Model.SampleBlank, Converter={StaticResource BoolFromStr}, Mode=TwoWay}"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}">
+                                <Label Text="{local:Localize SamplePageIsDuplicate}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <CheckBox IsChecked="{Binding IsSampleDuplicate, Mode=TwoWay}" x:Name="IsSampleDuplicateCheckbox"
+                                          Style="{StaticResource FieldAppCheckbox}"/>
+                            </HorizontalStackLayout>
+
+                            <!--Quirk, this should be initialized with actual sample alias when enabled-->
+                            <Entry x:Name="SamplePageIsDuplicateEntry" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                   Text="{Binding Model.SampleDuplicateName, Mode=TwoWay}" 
+                                   Placeholder="{local:Localize SamplePageDuplicateName}"
+                                   IsEnabled="{Binding Source={x:Reference IsSampleDuplicateCheckbox}, Path=IsChecked}"/>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Orientation (BEDROCK) -->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockOrientedSampleVisibility, Mode=TwoWay}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleOrientVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageOrientationTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize SamplePageSampleFormat}" 
+                                    x:Name="SampleFormatPicker"
+                                    ItemsSource="{Binding SampleFormat.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedItem="{Binding Model.SampleFormat, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding SampleFormat, Source={x:Reference SampleFormatPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding SampleFormat.cboxDefaultItemIndex, Mode=TwoWay}"/>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize SamplePageAzimuth}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleAzim, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="360"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                
+                                <Label Text="{local:Localize SamplePageDipPlunge}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleDiplunge,Converter={StaticResource Str2Int}, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="90"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize SamplePageSurface}" 
+                                    x:Name="SampleSurfacePicker" 
+                                    ItemsSource="{Binding SampleSurface.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedItem="{Binding Model.SampleSurface, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding SampleSurface, Source={x:Reference SampleSurfacePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding SampleSurface.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--State (SURFICIAL) -->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleStateVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageStateTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize SamplePageQuality}" 
+                                x:Name="SampleQualityPicker" 
+                                ItemsSource="{Binding SampleQuality.cboxItems}" 
+                                ItemDisplayBinding="{Binding itemName}" 
+                                SelectedItem="{Binding Model.SampleQuality, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding SampleQuality, Source={x:Reference SampleQualityPicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding SampleQuality.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
+
+                            <Picker Title="{local:Localize SamplePageState}" 
+                                x:Name="SampleStatePicker" 
+                                ItemsSource="{Binding SampleState.cboxItems}" 
+                                ItemDisplayBinding="{Binding itemName}" 
+                                SelectedItem="{Binding Model.SampleState, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding SampleState, Source={x:Reference SampleStatePicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding SampleState.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
+
+                            <Picker Title="{local:Localize SamplePageHorizon}" 
+                                x:Name="SampleHorizonPicker" 
+                                ItemsSource="{Binding SampleHorizon.cboxItems}" 
+                                ItemDisplayBinding="{Binding itemName}" 
+                                SelectedItem="{Binding Model.SampleHorizon, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding SampleHorizon, Source={x:Reference SampleHorizonPicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding SampleHorizon.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize SamplePageDepthMin}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleDepthMin, Converter={StaticResource Str2Int}, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize SamplePageDepthMax}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleDepthMax,Converter={StaticResource Str2Int}, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Core (BEDROCK) -->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleCoreVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageCoreTitle}">
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize SamplePageCorePortion}"
+                                    x:Name="SampleCoreSizePicker"
+                                    ItemsSource="{Binding SampleCorePortion.cboxItems}" 
+                                    ItemDisplayBinding="{Binding itemName}" 
+                                    SelectedItem="{Binding Model.SampleCoreSize, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding SampleCorePortion, Source={x:Reference SampleCoreSizePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding SampleCorePortion.cboxDefaultItemIndex, Mode=TwoWay}"/>
+
+                            <VerticalStackLayout IsVisible="False">
+                                <!--Quirk, this should be initialized with field book geologist name-->
+                                <!--I feel like this is redundant information, hide for now for later discussion with geologist regarding this-->
+                                <Label Text="{local:Localize SamplePageCoreBy}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleBy, Mode=TwoWay}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <!--Quirk, this along next control should automatically calculate Core length "to" value-->
+                                <Label Text="{local:Localize SamplePageCoreFrom}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreFrom, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <!--Quirk, this along previous control should automatically calculate Core length "to" value-->
+                                <Label Text="{local:Localize SamplePageCoreLength}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreLength, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"  ReturnCommand="{Binding SampleCoreCalculatToCommand}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize SamplePageCoreTo}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.SampleCoreTo, Mode=TwoWay}" Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--General -->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldSampleColor}" FrameContentVisibility="{Binding SampleGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize SamplePageGeneralTitle}">
+                        <VerticalStackLayout >
+
+                            <Label Text="{local:Localize SamplePageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                            <Editor Text="{Binding Model.SampleNotes, Mode=TwoWay}"
+                                        Style="{StaticResource FieldAppEditorNotes}"/>
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldSampleColor}"
+                                    ButtonLightColor="{StaticResource FieldSampleColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

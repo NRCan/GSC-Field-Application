@@ -1,4 +1,4 @@
-﻿using GSCFieldApp.Dictionaries;
+﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -6,45 +6,46 @@ using System.Linq;
 
 namespace GSCFieldApp.Models
 {
-    [Table(DatabaseLiterals.TableMineralAlteration)]
+    [Table(TableMineralAlteration)]
     public class MineralAlteration
     {
 
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldMineralAlterationID)]
+        [PrimaryKey, AutoIncrement, Column(FieldMineralAlterationID)]
         public int MAID { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationName)]
+        [Column(FieldMineralAlterationName)]
         public string MAName { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlteration)]
+        [Column(FieldMineralAlteration)]
         public string MAMA { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationUnit)]
+        [Column(FieldMineralAlterationUnit)]
         public string MAUnit { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationDistrubute)]
+        [Column(FieldMineralAlterationDistrubute)]
         public string MADistribute { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationPhase)]
+        [Column(FieldMineralAlterationPhase)]
         public string MAPhase { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationTexture)]
+        [Column(FieldMineralAlterationTexture)]
         public string MATexture { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationFacies)]
+        [Column(FieldMineralAlterationFacies)]
         public string MAFacies { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationNotes)]
+        [Column(FieldMineralAlterationNotes)]
         public string MANotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationRelTable)]
-        public string MAParentTable { get; set; }
+        [Column(FieldMineralAlterationEarthmatID)]
+        public int? MAEarthmatID { get; set; }
 
-        [Column(DatabaseLiterals.FieldMineralAlterationRelID)]
-        public int MAParentID { get; set; }
+        [Column(FieldMineralAlterationStationID)]
+        public int? MAStationID { get; set; }
+
 
         //Hierarchy
-        public string ParentName = DatabaseLiterals.TableStation;
+        public string ParentName = TableStation;
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -55,7 +56,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((MAMA != string.Empty && MAMA != null && MAMA != Dictionaries.DatabaseLiterals.picklistNACode))
+                if ((MAMA != string.Empty && MAMA != null && MAMA != picklistNACode))
                 {
                     return true;
                 }
@@ -81,7 +82,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> maFieldList = new Dictionary<double, List<string>>();
                 List<string> maFieldListDefault = new List<string>();
 
-                maFieldListDefault.Add(DatabaseLiterals.FieldMineralAlterationID);
+                maFieldListDefault.Add(FieldMineralAlterationID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -91,30 +92,73 @@ namespace GSCFieldApp.Models
 
                 }
 
-                maFieldList[DatabaseLiterals.DBVersion] = maFieldListDefault;
+                maFieldList[DBVersion] = maFieldListDefault;
+
+                //Revert schema 1.8 changes
+                List<string> maFieldList170 = new List<string>();
+                maFieldList170.AddRange(maFieldListDefault);
+                maFieldList170.Remove(FieldMineralAlterationEarthmatID);
+                maFieldList170.Remove(FieldMineralAlterationStationID);
+                maFieldList170.Add(FieldMineralAlterationRelTableDeprecated);
+                maFieldList170.Add(FieldMineralAlterationRelIDDeprecated);
+                maFieldList[DBVersion170] = maFieldList170;
 
                 //Revert shcema 1.7 changes
                 //List<string> maFieldList160 = new List<string>();
                 //maFieldList160.AddRange(maFieldListDefault);
-                //maFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                maFieldList[DatabaseLiterals.DBVersion160] = maFieldListDefault;
+                //maFieldList160.Remove(FieldGenericRowID);
+                maFieldList[DBVersion160] = maFieldList170;
 
 
                 //Revert schema 1.6 changes. 
                 List<string> maFieldList150 = new List<string>();
-                maFieldList150.AddRange(maFieldListDefault);
+                maFieldList150.AddRange(maFieldList170);
 
-                int unitIndex = maFieldList150.IndexOf(DatabaseLiterals.FieldMineralAlterationUnit);
-                maFieldList150.Insert(unitIndex + 1, DatabaseLiterals.FieldMineralAlterationMineralDeprecated);
-                maFieldList150.Insert(unitIndex + 2, DatabaseLiterals.FieldMineralAlterationModeDeprecated);
-                maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationPhase);
-                maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationTexture);
-                maFieldList150.Remove(DatabaseLiterals.FieldMineralAlterationFacies);
-                maFieldList[DatabaseLiterals.DBVersion150] = maFieldList150;
+                int unitIndex = maFieldList150.IndexOf(FieldMineralAlterationUnit);
+                maFieldList150.Insert(unitIndex + 1, FieldMineralAlterationMineralDeprecated);
+                maFieldList150.Insert(unitIndex + 2, FieldMineralAlterationModeDeprecated);
+                maFieldList150.Remove(FieldMineralAlterationPhase);
+                maFieldList150.Remove(FieldMineralAlterationTexture);
+                maFieldList150.Remove(FieldMineralAlterationFacies);
+                maFieldList[DBVersion150] = maFieldList150;
 
                 return maFieldList;
             }
             set { }
         }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string MineralALterationAliasLight
+        {
+            get
+            {
+                if (MAName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(MAName.Substring(MAName.Length - 2), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        //Trim bunch of zeros
+                        string shorterStructureName = MAName.Substring(MAName.Length - 7);
+                        return shorterStructureName.Trim('0');
+                    }
+                    else
+                    {
+                        return picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return picklistNACode;
+                }
+            }
+            set { }
+        }
+
     }
 }

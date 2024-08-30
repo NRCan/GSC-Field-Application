@@ -61,11 +61,1298 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database version .
+        /// </summary>
+        internal static string AboutPageAppInfoDBVersion {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoDBVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application information.
+        /// </summary>
+        internal static string AboutPageAppInfoHeader {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Natural Resources Canada.
+        /// </summary>
+        internal static string AboutPageAppInfoPublisher {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoPublisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version .
+        /// </summary>
+        internal static string AboutPageAppInfoVersion {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact.
+        /// </summary>
+        internal static string AboutPageContactHeader {
+            get {
+                return ResourceManager.GetString("AboutPageContactHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gabriel Huot-Vézina
+        ///Geomatic agent
+        ///Geological Survey of Canada, Natural Resources Canada
+        ///Government of Canada
+        ///490 de la Couronne, Québec, Québec, G1K 9A9
+        ///gabriel.huot-vezina@nrcan-rncan.gc.ca.
+        /// </summary>
+        internal static string AboutPageContactText {
+            get {
+                return ResourceManager.GetString("AboutPageContactText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project.
+        /// </summary>
+        internal static string AboutPageProjectHeader {
+            get {
+                return ResourceManager.GetString("AboutPageProjectHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit an.
+        /// </summary>
+        internal static string AboutPageProjectIssue {
+            get {
+                return ResourceManager.GetString("AboutPageProjectIssue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  issue..
+        /// </summary>
+        internal static string AboutPageProjectIssueHyperlink {
+            get {
+                return ResourceManager.GetString("AboutPageProjectIssueHyperlink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project source code available on.
+        /// </summary>
+        internal static string AboutPageProjectSourceCode {
+            get {
+                return ResourceManager.GetString("AboutPageProjectSourceCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team.
+        /// </summary>
+        internal static string AboutPageTeamHeader {
+            get {
+                return ResourceManager.GetString("AboutPageTeamHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cocking, Robert – Training and Advisor
+        ///Girard, Étienne – Geological Data Flow Project Leader 
+        ///Huot-Vézina, Gabriel – Lead Developer, Data Collection Activity Leader 
+        ///Joseph, Jamel – Developer
+        ///Shimamura, Kaz – Senior Advisor.
+        /// </summary>
+        internal static string AboutPageTeamText {
+            get {
+                return ResourceManager.GetString("AboutPageTeamText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GSC Field Application.
+        /// </summary>
+        internal static string AboutPageTitle {
+            get {
+                return ResourceManager.GetString("AboutPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         internal static string ButtonSave {
             get {
                 return ResourceManager.GetString("ButtonSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string ButtonSaveDelete {
+            get {
+                return ResourceManager.GetString("ButtonSaveDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string ButtonSaveStay {
+            get {
+                return ResourceManager.GetString("ButtonSaveStay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set.
+        /// </summary>
+        internal static string ButtonSet {
+            get {
+                return ResourceManager.GetString("ButtonSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record {0} has been deleted..
+        /// </summary>
+        internal static string CommandDeleteCompleteContent {
+            get {
+                return ResourceManager.GetString("CommandDeleteCompleteContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Completed.
+        /// </summary>
+        internal static string CommandDeleteCompleteTitle {
+            get {
+                return ResourceManager.GetString("CommandDeleteCompleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter last two digit of current year to delete.
+        /// </summary>
+        internal static string CommandDeleteContent {
+            get {
+                return ResourceManager.GetString("CommandDeleteContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete {0}.
+        /// </summary>
+        internal static string CommandDeleteTitle {
+            get {
+                return ResourceManager.GetString("CommandDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        internal static string DisplayAlertGPS {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location access denied.
+        /// </summary>
+        internal static string DisplayAlertGPSDenied {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access to location service is currently disabled. Would you like to fix the problem?.
+        /// </summary>
+        internal static string DisplayAlertGPSMessage {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location access not activated.
+        /// </summary>
+        internal static string DisplayAlertGPSNoEnabled {
+            get {
+                return ResourceManager.GetString("DisplayAlertGPSNoEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Allowed!.
+        /// </summary>
+        internal static string DisplayAlertNotAllowed {
+            get {
+                return ResourceManager.GetString("DisplayAlertNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t create a station with same location..
+        /// </summary>
+        internal static string DisplayAlertNotAllowedContent {
+            get {
+                return ResourceManager.GetString("DisplayAlertNotAllowedContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        internal static string DocumentPageAdvancedTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageAdvancedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Batch entry of photo records.
+        /// </summary>
+        internal static string DocumentPageBatchEntry {
+            get {
+                return ResourceManager.GetString("DocumentPageBatchEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caption.
+        /// </summary>
+        internal static string DocumentPageCaption {
+            get {
+                return ResourceManager.GetString("DocumentPageCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caption.
+        /// </summary>
+        internal static string DocumentPageCaptionPlaceholder {
+            get {
+                return ResourceManager.GetString("DocumentPageCaptionPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        internal static string DocumentPageCategory {
+            get {
+                return ResourceManager.GetString("DocumentPageCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string DocumentPageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direction.
+        /// </summary>
+        internal static string DocumentPageDirection {
+            get {
+                return ResourceManager.GetString("DocumentPageDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Embeded camera.
+        /// </summary>
+        internal static string DocumentPageEmbededTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageEmbededTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to External camera.
+        /// </summary>
+        internal static string DocumentPageExternalTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageExternalTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Name.
+        /// </summary>
+        internal static string DocumentPageFileName {
+            get {
+                return ResourceManager.GetString("DocumentPageFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From (#).
+        /// </summary>
+        internal static string DocumentPageFileNoFrom {
+            get {
+                return ResourceManager.GetString("DocumentPageFileNoFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To (#).
+        /// </summary>
+        internal static string DocumentPageFileNoTo {
+            get {
+                return ResourceManager.GetString("DocumentPageFileNoTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Type.
+        /// </summary>
+        internal static string DocumentPageFileType {
+            get {
+                return ResourceManager.GetString("DocumentPageFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Previous Caption.
+        /// </summary>
+        internal static string DocumentPageLoadPreviousCaption {
+            get {
+                return ResourceManager.GetString("DocumentPageLoadPreviousCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object location X.
+        /// </summary>
+        internal static string DocumentPageObjX {
+            get {
+                return ResourceManager.GetString("DocumentPageObjX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object location Y.
+        /// </summary>
+        internal static string DocumentPageObjY {
+            get {
+                return ResourceManager.GetString("DocumentPageObjY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document.
+        /// </summary>
+        internal static string DocumentPageOtherDocumentsTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageOtherDocumentsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scale Direction.
+        /// </summary>
+        internal static string DocumentPageScaleDirection {
+            get {
+                return ResourceManager.GetString("DocumentPageScaleDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photo.
+        /// </summary>
+        internal static string DocumentPageTitle {
+            get {
+                return ResourceManager.GetString("DocumentPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Take a snapshot with device.
+        /// </summary>
+        internal static string DocumentPageTooltipSnapshot {
+            get {
+                return ResourceManager.GetString("DocumentPageTooltipSnapshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Context.
+        /// </summary>
+        internal static string DrillHoleContextTitle {
+            get {
+                return ResourceManager.GetString("DrillHoleContextTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string DrillHoleGeneralTitle {
+            get {
+                return ResourceManager.GetString("DrillHoleGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string DrillHoleLogDate {
+            get {
+                return ResourceManager.GetString("DrillHoleLogDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log/Relog.
+        /// </summary>
+        internal static string DrillHoleLogTitle {
+            get {
+                return ResourceManager.GetString("DrillHoleLogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metrics.
+        /// </summary>
+        internal static string DrillHoleMetricsTitle {
+            get {
+                return ResourceManager.GetString("DrillHoleMetricsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string DrillHolePageAzimuth {
+            get {
+                return ResourceManager.GetString("DrillHolePageAzimuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        internal static string DrillHolePageCompany {
+            get {
+                return ResourceManager.GetString("DrillHolePageCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Core Size.
+        /// </summary>
+        internal static string DrillHolePageCoreSize {
+            get {
+                return ResourceManager.GetString("DrillHolePageCoreSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string DrillHolePageDate {
+            get {
+                return ResourceManager.GetString("DrillHolePageDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dip.
+        /// </summary>
+        internal static string DrillHolePageDip {
+            get {
+                return ResourceManager.GetString("DrillHolePageDip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hole Size.
+        /// </summary>
+        internal static string DrillHolePageHoleSize {
+            get {
+                return ResourceManager.GetString("DrillHolePageHoleSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length.
+        /// </summary>
+        internal static string DrillHolePageLength {
+            get {
+                return ResourceManager.GetString("DrillHolePageLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By.
+        /// </summary>
+        internal static string DrillHolePageLogBy {
+            get {
+                return ResourceManager.GetString("DrillHolePageLogBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From (m).
+        /// </summary>
+        internal static string DrillHolePageLogFrom {
+            get {
+                return ResourceManager.GetString("DrillHolePageLogFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To (m).
+        /// </summary>
+        internal static string DrillHolePageLogTo {
+            get {
+                return ResourceManager.GetString("DrillHolePageLogTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string DrillHolePageLogType {
+            get {
+                return ResourceManager.GetString("DrillHolePageLogType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string DrillHolePageNotes {
+            get {
+                return ResourceManager.GetString("DrillHolePageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Original Name.
+        /// </summary>
+        internal static string DrillHolePageOriginalName {
+            get {
+                return ResourceManager.GetString("DrillHolePageOriginalName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Related To.
+        /// </summary>
+        internal static string DrillHolePageRelatedTo {
+            get {
+                return ResourceManager.GetString("DrillHolePageRelatedTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary.
+        /// </summary>
+        internal static string DrillHolePageSummary {
+            get {
+                return ResourceManager.GetString("DrillHolePageSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drill Hole.
+        /// </summary>
+        internal static string DrillHolePageTitle {
+            get {
+                return ResourceManager.GetString("DrillHolePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string DrillHolePageType {
+            get {
+                return ResourceManager.GetString("DrillHolePageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Units.
+        /// </summary>
+        internal static string DrillHolePageUnits {
+            get {
+                return ResourceManager.GetString("DrillHolePageUnits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index.
+        /// </summary>
+        internal static string EarthmatColourIndex {
+            get {
+                return ResourceManager.GetString("EarthmatColourIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string EarthmatContactNotes {
+            get {
+                return ResourceManager.GetString("EarthmatContactNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interpretation.
+        /// </summary>
+        internal static string EarthmatInterpNotes {
+            get {
+                return ResourceManager.GetString("EarthmatInterpNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string EarthmatNotes {
+            get {
+                return ResourceManager.GetString("EarthmatNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clast Form.
+        /// </summary>
+        internal static string EarthmatPageClast {
+            get {
+                return ResourceManager.GetString("EarthmatPageClast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fresh.
+        /// </summary>
+        internal static string EarthmatPageColourFresh {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourFresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generic.
+        /// </summary>
+        internal static string EarthmatPageColourGeneric {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intensity.
+        /// </summary>
+        internal static string EarthmatPageColourIntensity {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourIntensity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generic + Intensity + Qualifier.
+        /// </summary>
+        internal static string EarthmatPageColourPlaceholder {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Qualifier.
+        /// </summary>
+        internal static string EarthmatPageColourQualifier {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourQualifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colour.
+        /// </summary>
+        internal static string EarthmatPageColourTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weathered.
+        /// </summary>
+        internal static string EarthmatPageColourWeathered {
+            get {
+                return ResourceManager.GetString("EarthmatPageColourWeathered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confidence.
+        /// </summary>
+        internal static string EarthmatPageConfidence {
+            get {
+                return ResourceManager.GetString("EarthmatPageConfidence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lower.
+        /// </summary>
+        internal static string EarthmatPageContactLower {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Related to.
+        /// </summary>
+        internal static string EarthmatPageContactRelatedAlias {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactRelatedAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact relations.
+        /// </summary>
+        internal static string EarthmatPageContactRelTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactRelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contact.
+        /// </summary>
+        internal static string EarthmatPageContactTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string EarthmatPageContactType {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upper.
+        /// </summary>
+        internal static string EarthmatPageContactUpper {
+            get {
+                return ResourceManager.GetString("EarthmatPageContactUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type detail ie. basalt.
+        /// </summary>
+        internal static string EarthmatPageDetailSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("EarthmatPageDetailSearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string EarthmatPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interpretation.
+        /// </summary>
+        internal static string EarthmatPageInterpretationTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageInterpretationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bedding Thickness.
+        /// </summary>
+        internal static string EarthmatPageLithBedThick {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithBedThick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deformation Fabric.
+        /// </summary>
+        internal static string EarthmatPageLithDefFab {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithDefFab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grain/Crystal Size.
+        /// </summary>
+        internal static string EarthmatPageLithGrainSize {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithGrainSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map Unit.
+        /// </summary>
+        internal static string EarthmatPageLithMapUnit {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithMapUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occurs as.
+        /// </summary>
+        internal static string EarthmatPageLithOccurAs {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithOccurAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detail.
+        /// </summary>
+        internal static string EarthmatPageLithoDetail {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lithologic Modifiers.
+        /// </summary>
+        internal static string EarthmatPageLithoModTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoModTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lithology - Setting and composition.
+        /// </summary>
+        internal static string EarthmatPageLithoTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string EarthmatPageLithoType {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percent.
+        /// </summary>
+        internal static string EarthmatPageLithPercent {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithPercent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Qualifier.
+        /// </summary>
+        internal static string EarthmatPageLithQualifier {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithQualifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Texture/Structure.
+        /// </summary>
+        internal static string EarthmatPageLithTextStruc {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithTextStruc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Qualifier.
+        /// </summary>
+        internal static string EarthmatPageMagQualifier {
+            get {
+                return ResourceManager.GetString("EarthmatPageMagQualifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Susceptibility (10-3 SI).
+        /// </summary>
+        internal static string EarthmatPageMagSusc {
+            get {
+                return ResourceManager.GetString("EarthmatPageMagSusc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Magnetism.
+        /// </summary>
+        internal static string EarthmatPageMagTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageMagTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Facies.
+        /// </summary>
+        internal static string EarthmatPageMetaFacies {
+            get {
+                return ResourceManager.GetString("EarthmatPageMetaFacies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Metamorphic Facies.
+        /// </summary>
+        internal static string EarthmatPageMetaFaciesTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageMetaFaciesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Intensity.
+        /// </summary>
+        internal static string EarthmatPageMetaInt {
+            get {
+                return ResourceManager.GetString("EarthmatPageMetaInt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineralogy.
+        /// </summary>
+        internal static string EarthmatPageMineralogyTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageMineralogyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oxidation.
+        /// </summary>
+        internal static string EarthmatPageOxidation {
+            get {
+                return ResourceManager.GetString("EarthmatPageOxidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relation description.
+        /// </summary>
+        internal static string EarthmatPageRelationDescription {
+            get {
+                return ResourceManager.GetString("EarthmatPageRelationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type + Related To.
+        /// </summary>
+        internal static string EarthmatPageRelationDescriptionPlaceholder {
+            get {
+                return ResourceManager.GetString("EarthmatPageRelationDescriptionPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total: {0}% ({1}).
+        /// </summary>
+        internal static string EarthmatPageResidualLabel {
+            get {
+                return ResourceManager.GetString("EarthmatPageResidualLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type group ie. metamorphic.
+        /// </summary>
+        internal static string EarthmatPageSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("EarthmatPageSearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorting.
+        /// </summary>
+        internal static string EarthmatPageSorting {
+            get {
+                return ResourceManager.GetString("EarthmatPageSorting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Earth Material.
+        /// </summary>
+        internal static string EarthmatPageTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H2O Content.
+        /// </summary>
+        internal static string EarthmatPageWater {
+            get {
+                return ResourceManager.GetString("EarthmatPageWater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new fossil.
+        /// </summary>
+        internal static string EarthmatTooltipAddFossil {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddFossil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new mineralization/alteration.
+        /// </summary>
+        internal static string EarthmatTooltipAddMA {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddMA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new mineral.
+        /// </summary>
+        internal static string EarthmatTooltipAddMineral {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddMineral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new paleoflow.
+        /// </summary>
+        internal static string EarthmatTooltipAddPaleoflow {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddPaleoflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new sample.
+        /// </summary>
+        internal static string EarthmatTooltipAddSample {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new structure.
+        /// </summary>
+        internal static string EarthmatTooltipAddStruc {
+            get {
+                return ResourceManager.GetString("EarthmatTooltipAddStruc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string EnvironmentPageAzim {
+            get {
+                return ResourceManager.GetString("EnvironmentPageAzim", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boulder.
+        /// </summary>
+        internal static string EnvironmentPageBoulder {
+            get {
+                return ResourceManager.GetString("EnvironmentPageBoulder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cover.
+        /// </summary>
+        internal static string EnvironmentPageCover {
+            get {
+                return ResourceManager.GetString("EnvironmentPageCover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active Depth Layer (m).
+        /// </summary>
+        internal static string EnvironmentPageDepthLayer {
+            get {
+                return ResourceManager.GetString("EnvironmentPageDepthLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drainage.
+        /// </summary>
+        internal static string EnvironmentPageDrainage {
+            get {
+                return ResourceManager.GetString("EnvironmentPageDrainage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exposure.
+        /// </summary>
+        internal static string EnvironmentPageExposure {
+            get {
+                return ResourceManager.GetString("EnvironmentPageExposure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string EnvironmentPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ground.
+        /// </summary>
+        internal static string EnvironmentPageGroundTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageGroundTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ice.
+        /// </summary>
+        internal static string EnvironmentPageIce {
+            get {
+                return ResourceManager.GetString("EnvironmentPageIce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Landscape.
+        /// </summary>
+        internal static string EnvironmentPageLandscapeTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageLandscapeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pattern.
+        /// </summary>
+        internal static string EnvironmentPagePattern {
+            get {
+                return ResourceManager.GetString("EnvironmentPagePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Permafrost Indicator.
+        /// </summary>
+        internal static string EnvironmentPagePermIndicator {
+            get {
+                return ResourceManager.GetString("EnvironmentPagePermIndicator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relief.
+        /// </summary>
+        internal static string EnvironmentPageRelief {
+            get {
+                return ResourceManager.GetString("EnvironmentPageRelief", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Slope.
+        /// </summary>
+        internal static string EnvironmentPageSlope {
+            get {
+                return ResourceManager.GetString("EnvironmentPageSlope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terrain.
+        /// </summary>
+        internal static string EnvironmentPageTerrainTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageTerrainTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Environment.
+        /// </summary>
+        internal static string EnvironmentPageTitle {
+            get {
+                return ResourceManager.GetString("EnvironmentPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string EnvPageNotes {
+            get {
+                return ResourceManager.GetString("EnvPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        internal static string FieldBookBackupGeneric {
+            get {
+                return ResourceManager.GetString("FieldBookBackupGeneric", resourceCulture);
             }
         }
         
@@ -84,6 +1371,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FieldBookPageActivtyPlaceholder {
             get {
                 return ResourceManager.GetString("FieldBookPageActivtyPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Would you like to do a backup of selected field book?.
+        /// </summary>
+        internal static string FieldbookPageBackupMessage {
+            get {
+                return ResourceManager.GetString("FieldbookPageBackupMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup Field Book.
+        /// </summary>
+        internal static string FieldbookPageBackupTitle {
+            get {
+                return ResourceManager.GetString("FieldbookPageBackupTitle", resourceCulture);
             }
         }
         
@@ -115,11 +1420,47 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove selected field book from device?.
+        /// </summary>
+        internal static string FieldbookPageDeleteMessage {
+            get {
+                return ResourceManager.GetString("FieldbookPageDeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Field Book.
+        /// </summary>
+        internal static string FieldbookPageDeleteTitle {
+            get {
+                return ResourceManager.GetString("FieldbookPageDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string FieldBookPageDescriptionTitle {
             get {
                 return ResourceManager.GetString("FieldBookPageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some mandatory fields have not been filled..
+        /// </summary>
+        internal static string FieldBookPageFailedToSave {
+            get {
+                return ResourceManager.GetString("FieldBookPageFailedToSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string FieldBookPageFailedToSaveTitle {
+            get {
+                return ResourceManager.GetString("FieldBookPageFailedToSaveTitle", resourceCulture);
             }
         }
         
@@ -214,11 +1555,1415 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Missing date.
+        /// </summary>
+        internal static string FieldNotesEmptyDate {
+            get {
+                return ResourceManager.GetString("FieldNotesEmptyDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Traverse Dates.
+        /// </summary>
+        internal static string FielNotesDateHeader {
+            get {
+                return ResourceManager.GetString("FielNotesDateHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drill Holes.
+        /// </summary>
+        internal static string FielNotesDrillHolesHeader {
+            get {
+                return ResourceManager.GetString("FielNotesDrillHolesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Earth Materials.
+        /// </summary>
+        internal static string FielNotesEMHeader {
+            get {
+                return ResourceManager.GetString("FielNotesEMHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Environment.
+        /// </summary>
+        internal static string FielNotesEnvironmentHeader {
+            get {
+                return ResourceManager.GetString("FielNotesEnvironmentHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fossil.
+        /// </summary>
+        internal static string FielNotesFossilHeader {
+            get {
+                return ResourceManager.GetString("FielNotesFossilHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        internal static string FielNotesLocationHeader {
+            get {
+                return ResourceManager.GetString("FielNotesLocationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineral.
+        /// </summary>
+        internal static string FielNotesMineralHeader {
+            get {
+                return ResourceManager.GetString("FielNotesMineralHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineralization/Alteration.
+        /// </summary>
+        internal static string FielNotesMineralizationHeader {
+            get {
+                return ResourceManager.GetString("FielNotesMineralizationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paleoflow.
+        /// </summary>
+        internal static string FielNotesPaleoflowHeader {
+            get {
+                return ResourceManager.GetString("FielNotesPaleoflowHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Photos.
+        /// </summary>
+        internal static string FielNotesPhotoHeader {
+            get {
+                return ResourceManager.GetString("FielNotesPhotoHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Samples.
+        /// </summary>
+        internal static string FielNotesSampleHeader {
+            get {
+                return ResourceManager.GetString("FielNotesSampleHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stations.
+        /// </summary>
+        internal static string FielNotesStationHeader {
+            get {
+                return ResourceManager.GetString("FielNotesStationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structures.
+        /// </summary>
+        internal static string FielNotesStructureHeader {
+            get {
+                return ResourceManager.GetString("FielNotesStructureHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string FossilPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("FossilPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string FossilPageNotes {
+            get {
+                return ResourceManager.GetString("FossilPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fossil.
+        /// </summary>
+        internal static string FossilPageTitle {
+            get {
+                return ResourceManager.GetString("FossilPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string FossilPageType {
+            get {
+                return ResourceManager.GetString("FossilPageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string GenericButtonCancel {
+            get {
+                return ResourceManager.GetString("GenericButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string GenericButtonDelete {
+            get {
+                return ResourceManager.GetString("GenericButtonDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string GenericButtonNo {
+            get {
+                return ResourceManager.GetString("GenericButtonNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string GenericButtonOk {
+            get {
+                return ResourceManager.GetString("GenericButtonOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string GenericButtonYes {
+            get {
+                return ResourceManager.GetString("GenericButtonYes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         internal static string GenericNoteTitle {
             get {
                 return ResourceManager.GetString("GenericNoteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accuracy (m).
+        /// </summary>
+        internal static string LocationPageAccuracy {
+            get {
+                return ResourceManager.GetString("LocationPageAccuracy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To Geographic.
+        /// </summary>
+        internal static string LocationPageButtonToGeo {
+            get {
+                return ResourceManager.GetString("LocationPageButtonToGeo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To UTM.
+        /// </summary>
+        internal static string LocationPageButtonToProjected {
+            get {
+                return ResourceManager.GetString("LocationPageButtonToProjected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Datum.
+        /// </summary>
+        internal static string LocationPageDatumTitle {
+            get {
+                return ResourceManager.GetString("LocationPageDatumTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Easting (m).
+        /// </summary>
+        internal static string LocationPageEasting {
+            get {
+                return ResourceManager.GetString("LocationPageEasting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valid value between 160 000 and 834 000 with maximum of 4 decimals..
+        /// </summary>
+        internal static string LocationPageEastingToolip {
+            get {
+                return ResourceManager.GetString("LocationPageEastingToolip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elevation.
+        /// </summary>
+        internal static string LocationPageElevation {
+            get {
+                return ResourceManager.GetString("LocationPageElevation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string LocationPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("LocationPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coordinate system.
+        /// </summary>
+        internal static string LocationPageGeodeticAlert {
+            get {
+                return ResourceManager.GetString("LocationPageGeodeticAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a proper coordinate system..
+        /// </summary>
+        internal static string LocationPageGeodeticAlertMessage {
+            get {
+                return ResourceManager.GetString("LocationPageGeodeticAlertMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geographic.
+        /// </summary>
+        internal static string LocationPageGeographicTitle {
+            get {
+                return ResourceManager.GetString("LocationPageGeographicTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latitude.
+        /// </summary>
+        internal static string LocationPageLatitude {
+            get {
+                return ResourceManager.GetString("LocationPageLatitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Having more then 8 decimal places represent a sub-millimetric value..
+        /// </summary>
+        internal static string LocationPageLatitudeToolip {
+            get {
+                return ResourceManager.GetString("LocationPageLatitudeToolip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Longitude.
+        /// </summary>
+        internal static string LocationPageLongitude {
+            get {
+                return ResourceManager.GetString("LocationPageLongitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Having more then 8 decimal places represent a sub-millimetric value..
+        /// </summary>
+        internal static string LocationPageLongitudeToolip {
+            get {
+                return ResourceManager.GetString("LocationPageLongitudeToolip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Northing (m).
+        /// </summary>
+        internal static string LocationPageNorthing {
+            get {
+                return ResourceManager.GetString("LocationPageNorthing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valid value between 0 and 1 000 000 with maximum of 4 decimals..
+        /// </summary>
+        internal static string LocationPageNorthingToolip {
+            get {
+                return ResourceManager.GetString("LocationPageNorthingToolip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string LocationPageNotes {
+            get {
+                return ResourceManager.GetString("LocationPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nation Topographic Sheet (NTS).
+        /// </summary>
+        internal static string LocationPageNTS {
+            get {
+                return ResourceManager.GetString("LocationPageNTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ex: 31M01.
+        /// </summary>
+        internal static string LocationPageNTSPlaceholder {
+            get {
+                return ResourceManager.GetString("LocationPageNTSPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projected.
+        /// </summary>
+        internal static string LocationPageProjectedTitle {
+            get {
+                return ResourceManager.GetString("LocationPageProjectedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        internal static string LocationPageTitle {
+            get {
+                return ResourceManager.GetString("LocationPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new drill hole record..
+        /// </summary>
+        internal static string LocationPageTooltipAddDrill {
+            get {
+                return ResourceManager.GetString("LocationPageTooltipAddDrill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new station record..
+        /// </summary>
+        internal static string LocationPageTooltipAddStation {
+            get {
+                return ResourceManager.GetString("LocationPageTooltipAddStation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new layer..
+        /// </summary>
+        internal static string MapPageAddData {
+            get {
+                return ResourceManager.GetString("MapPageAddData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a quick photo record..
+        /// </summary>
+        internal static string MapPageAddPhoto {
+            get {
+                return ResourceManager.GetString("MapPageAddPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a quick sample record..
+        /// </summary>
+        internal static string MapPageAddSample {
+            get {
+                return ResourceManager.GetString("MapPageAddSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a station record..
+        /// </summary>
+        internal static string MapPageAddStation {
+            get {
+                return ResourceManager.GetString("MapPageAddStation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a quick structure/pflow record..
+        /// </summary>
+        internal static string MapPageAddStruc {
+            get {
+                return ResourceManager.GetString("MapPageAddStruc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a waypoint..
+        /// </summary>
+        internal static string MapPageAddWaypoint {
+            get {
+                return ResourceManager.GetString("MapPageAddWaypoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the WMS web link including the layer to be added..
+        /// </summary>
+        internal static string MapPageAddWaypointDialogMessage {
+            get {
+                return ResourceManager.GetString("MapPageAddWaypointDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://canada3d-geo.azurewebsites.net/canada3d/wms?version=1.1.0.
+        /// </summary>
+        internal static string MapPageAddWaypointDialogPlaceholder {
+            get {
+                return ResourceManager.GetString("MapPageAddWaypointDialogPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add WMS .
+        /// </summary>
+        internal static string MapPageAddWaypointDialogTitle {
+            get {
+                return ResourceManager.GetString("MapPageAddWaypointDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add an URL of an online Web Mapping Server (WMS)..
+        /// </summary>
+        internal static string MapPageAddWMS {
+            get {
+                return ResourceManager.GetString("MapPageAddWMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entered URL failed to fetch a layer. Please make sure the URL contains the layer name and is preceded by &quot;&amp;layers=&quot;..
+        /// </summary>
+        internal static string MapPageAddWMSFailMessage {
+            get {
+                return ResourceManager.GetString("MapPageAddWMSFailMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WMS Failure.
+        /// </summary>
+        internal static string MapPageAddWMSFailTitle {
+            get {
+                return ResourceManager.GetString("MapPageAddWMSFailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to manually create a location record from XY or lat/long..
+        /// </summary>
+        internal static string MapPageAddXY {
+            get {
+                return ResourceManager.GetString("MapPageAddXY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to turn on/off GPS..
+        /// </summary>
+        internal static string MapPageGPSMode {
+            get {
+                return ResourceManager.GetString("MapPageGPSMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to see a list of all loaded layers and more options..
+        /// </summary>
+        internal static string MapPageLayer {
+            get {
+                return ResourceManager.GetString("MapPageLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distribution.
+        /// </summary>
+        internal static string MineralizationAlterationDistribution {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationDistribution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string MineralizationAlterationNotes {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string MineralizationAlterationPageDescTitle {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageDescTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Facies.
+        /// </summary>
+        internal static string MineralizationAlterationPageFacies {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageFacies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phase.
+        /// </summary>
+        internal static string MineralizationAlterationPagePhase {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPagePhase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Texture.
+        /// </summary>
+        internal static string MineralizationAlterationPageTexture {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageTexture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineralization / Alteration.
+        /// </summary>
+        internal static string MineralizationAlterationPageTitle {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineralization / Alteration.
+        /// </summary>
+        internal static string MineralizationAlterationPageType {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string MineralizationAlterationPageTypeTitle {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit.
+        /// </summary>
+        internal static string MineralizationAlterationPageUnit {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationPageUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new mineral.
+        /// </summary>
+        internal static string MineralizationAlterationTooltipAddMineral {
+            get {
+                return ResourceManager.GetString("MineralizationAlterationTooltipAddMineral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colour.
+        /// </summary>
+        internal static string MineralPageColour {
+            get {
+                return ResourceManager.GetString("MineralPageColour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string MineralPageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("MineralPageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Form / Habit.
+        /// </summary>
+        internal static string MineralPageFormHabit {
+            get {
+                return ResourceManager.GetString("MineralPageFormHabit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string MineralPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("MineralPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mode.
+        /// </summary>
+        internal static string MineralPageMode {
+            get {
+                return ResourceManager.GetString("MineralPageMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string MineralPageName {
+            get {
+                return ResourceManager.GetString("MineralPageName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search mineral name.
+        /// </summary>
+        internal static string MineralPageNameSearchPlaceholder {
+            get {
+                return ResourceManager.GetString("MineralPageNameSearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string MineralPageNotes {
+            get {
+                return ResourceManager.GetString("MineralPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occurence.
+        /// </summary>
+        internal static string MineralPageOccurence {
+            get {
+                return ResourceManager.GetString("MineralPageOccurence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mineral.
+        /// </summary>
+        internal static string MineralPageTitle {
+            get {
+                return ResourceManager.GetString("MineralPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string MineralPageTypeTitle {
+            get {
+                return ResourceManager.GetString("MineralPageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bedrock surface.
+        /// </summary>
+        internal static string PaleoflowBedSurface {
+            get {
+                return ResourceManager.GetString("PaleoflowBedSurface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method.
+        /// </summary>
+        internal static string PaleoflowMethod {
+            get {
+                return ResourceManager.GetString("PaleoflowMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string PaleoflowPageAzimuth {
+            get {
+                return ResourceManager.GetString("PaleoflowPageAzimuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Class.
+        /// </summary>
+        internal static string PaleoflowPageClass {
+            get {
+                return ResourceManager.GetString("PaleoflowPageClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confidence.
+        /// </summary>
+        internal static string PaleoflowPageConfidence {
+            get {
+                return ResourceManager.GetString("PaleoflowPageConfidence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string PaleoflowPageDescTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageDescTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dip.
+        /// </summary>
+        internal static string PaleoflowPageDipPlunge {
+            get {
+                return ResourceManager.GetString("PaleoflowPageDipPlunge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feature.
+        /// </summary>
+        internal static string PaleoflowPageFeature {
+            get {
+                return ResourceManager.GetString("PaleoflowPageFeature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string PaleoflowPageGeneralTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numbers of Indicators.
+        /// </summary>
+        internal static string PaleoflowPageIndicators {
+            get {
+                return ResourceManager.GetString("PaleoflowPageIndicators", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Main Direction?.
+        /// </summary>
+        internal static string PaleoflowPageIsMainDirection {
+            get {
+                return ResourceManager.GetString("PaleoflowPageIsMainDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurements.
+        /// </summary>
+        internal static string PaleoflowPageMeasurementTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageMeasurementTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string PaleoflowPageNotes {
+            get {
+                return ResourceManager.GetString("PaleoflowPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quality.
+        /// </summary>
+        internal static string PaleoflowPageQuality {
+            get {
+                return ResourceManager.GetString("PaleoflowPageQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relations.
+        /// </summary>
+        internal static string PaleoflowPageRelationTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageRelationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sense.
+        /// </summary>
+        internal static string PaleoflowPageSense {
+            get {
+                return ResourceManager.GetString("PaleoflowPageSense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paleoflow.
+        /// </summary>
+        internal static string PaleoflowPageTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string PaleoflowPageTypeTitle {
+            get {
+                return ResourceManager.GetString("PaleoflowPageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relation.
+        /// </summary>
+        internal static string PaleoflowRelation {
+            get {
+                return ResourceManager.GetString("PaleoflowRelation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relative Age.
+        /// </summary>
+        internal static string PaleoflowRelativeAge {
+            get {
+                return ResourceManager.GetString("PaleoflowRelativeAge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please add a new term..
+        /// </summary>
+        internal static string PicklistPageAddNewTermContent {
+            get {
+                return ResourceManager.GetString("PicklistPageAddNewTermContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picklist.
+        /// </summary>
+        internal static string PicklistPageAddNewTermTitle {
+            get {
+                return ResourceManager.GetString("PicklistPageAddNewTermTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new picklist term..
+        /// </summary>
+        internal static string PicklistPageAddNewTermTooltip {
+            get {
+                return ResourceManager.GetString("PicklistPageAddNewTermTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide/Show drop down terms, as well as adding new ones for all forms and fields. Values can also be reordered with a drag-and-drop and a specific one can be set as a default value with a single tap. Double-tap terms to modify their textual value..
+        /// </summary>
+        internal static string PicklistPageExplanation {
+            get {
+                return ResourceManager.GetString("PicklistPageExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field.
+        /// </summary>
+        internal static string PicklistPageFields {
+            get {
+                return ResourceManager.GetString("PicklistPageFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms.
+        /// </summary>
+        internal static string PicklistPageFieldValues {
+            get {
+                return ResourceManager.GetString("PicklistPageFieldValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drop downs edition.
+        /// </summary>
+        internal static string PicklistPageHeading {
+            get {
+                return ResourceManager.GetString("PicklistPageHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify selected term at your needs..
+        /// </summary>
+        internal static string PicklistPageModifyTermContent {
+            get {
+                return ResourceManager.GetString("PicklistPageModifyTermContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picklist.
+        /// </summary>
+        internal static string PicklistPageModifyTermTitle {
+            get {
+                return ResourceManager.GetString("PicklistPageModifyTermTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parent term.
+        /// </summary>
+        internal static string PicklistPageParentValue {
+            get {
+                return ResourceManager.GetString("PicklistPageParentValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to sort in ascending order..
+        /// </summary>
+        internal static string PicklistPageSortAscendTooltip {
+            get {
+                return ResourceManager.GetString("PicklistPageSortAscendTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes Table.
+        /// </summary>
+        internal static string PicklistPageTables {
+            get {
+                return ResourceManager.GetString("PicklistPageTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picklists.
+        /// </summary>
+        internal static string PicklistPageTitle {
+            get {
+                return ResourceManager.GetString("PicklistPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string SamplePageAzimuth {
+            get {
+                return ResourceManager.GetString("SamplePageAzimuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sampled by.
+        /// </summary>
+        internal static string SamplePageCoreBy {
+            get {
+                return ResourceManager.GetString("SamplePageCoreBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        internal static string SamplePageCoreFrom {
+            get {
+                return ResourceManager.GetString("SamplePageCoreFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Length.
+        /// </summary>
+        internal static string SamplePageCoreLength {
+            get {
+                return ResourceManager.GetString("SamplePageCoreLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size (in quarters).
+        /// </summary>
+        internal static string SamplePageCorePortion {
+            get {
+                return ResourceManager.GetString("SamplePageCorePortion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Core.
+        /// </summary>
+        internal static string SamplePageCoreTitle {
+            get {
+                return ResourceManager.GetString("SamplePageCoreTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To.
+        /// </summary>
+        internal static string SamplePageCoreTo {
+            get {
+                return ResourceManager.GetString("SamplePageCoreTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Depth Max. (cm).
+        /// </summary>
+        internal static string SamplePageDepthMax {
+            get {
+                return ResourceManager.GetString("SamplePageDepthMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Depth Min. (cm).
+        /// </summary>
+        internal static string SamplePageDepthMin {
+            get {
+                return ResourceManager.GetString("SamplePageDepthMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string SamplePageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("SamplePageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dip/Plunge.
+        /// </summary>
+        internal static string SamplePageDipPlunge {
+            get {
+                return ResourceManager.GetString("SamplePageDipPlunge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate name.
+        /// </summary>
+        internal static string SamplePageDuplicateName {
+            get {
+                return ResourceManager.GetString("SamplePageDuplicateName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a reminder to take a blank or a duplicate sample..
+        /// </summary>
+        internal static string SamplePageDuplicateReminderMessage {
+            get {
+                return ResourceManager.GetString("SamplePageDuplicateReminderMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate time!.
+        /// </summary>
+        internal static string SamplePageDuplicateReminderTitle {
+            get {
+                return ResourceManager.GetString("SamplePageDuplicateReminderTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string SamplePageGeneralTitle {
+            get {
+                return ResourceManager.GetString("SamplePageGeneralTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Horizon.
+        /// </summary>
+        internal static string SamplePageHorizon {
+            get {
+                return ResourceManager.GetString("SamplePageHorizon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Blank?.
+        /// </summary>
+        internal static string SamplePageIsBlank {
+            get {
+                return ResourceManager.GetString("SamplePageIsBlank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Duplicate?.
+        /// </summary>
+        internal static string SamplePageIsDuplicate {
+            get {
+                return ResourceManager.GetString("SamplePageIsDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string SamplePageNotes {
+            get {
+                return ResourceManager.GetString("SamplePageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Orientation.
+        /// </summary>
+        internal static string SamplePageOrientationTitle {
+            get {
+                return ResourceManager.GetString("SamplePageOrientationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purpose.
+        /// </summary>
+        internal static string SamplePagePurpose {
+            get {
+                return ResourceManager.GetString("SamplePagePurpose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quality.
+        /// </summary>
+        internal static string SamplePageQuality {
+            get {
+                return ResourceManager.GetString("SamplePageQuality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Format.
+        /// </summary>
+        internal static string SamplePageSampleFormat {
+            get {
+                return ResourceManager.GetString("SamplePageSampleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        internal static string SamplePageState {
+            get {
+                return ResourceManager.GetString("SamplePageState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        internal static string SamplePageStateTitle {
+            get {
+                return ResourceManager.GetString("SamplePageStateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surface.
+        /// </summary>
+        internal static string SamplePageSurface {
+            get {
+                return ResourceManager.GetString("SamplePageSurface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample.
+        /// </summary>
+        internal static string SamplePageTitle {
+            get {
+                return ResourceManager.GetString("SamplePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string SamplePageType {
+            get {
+                return ResourceManager.GetString("SamplePageType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bedrock.
+        /// </summary>
+        internal static string SettingPageCategoryBedrock {
+            get {
+                return ResourceManager.GetString("SettingPageCategoryBedrock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Common.
+        /// </summary>
+        internal static string SettingPageCategoryCommon {
+            get {
+                return ResourceManager.GetString("SettingPageCategoryCommon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Surficial.
+        /// </summary>
+        internal static string SettingPageCategorySurficial {
+            get {
+                return ResourceManager.GetString("SettingPageCategorySurficial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debug.
+        /// </summary>
+        internal static string SettingPageDebugHeading {
+            get {
+                return ResourceManager.GetString("SettingPageDebugHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logs.
+        /// </summary>
+        internal static string SettingPageDebugLog {
+            get {
+                return ResourceManager.GetString("SettingPageDebugLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string SettingPageDebugLogSave {
+            get {
+                return ResourceManager.GetString("SettingPageDebugLogSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save of copy of debug logs..
+        /// </summary>
+        internal static string SettingPageDebugLogUsage {
+            get {
+                return ResourceManager.GetString("SettingPageDebugLogUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field Notes Tables.
+        /// </summary>
+        internal static string SettingPageHeading {
+            get {
+                return ResourceManager.GetString("SettingPageHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hides/shows theme bars in the field notes page..
+        /// </summary>
+        internal static string SettingPageThemeExplanation {
+            get {
+                return ResourceManager.GetString("SettingPageThemeExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string SettingPageTitle {
+            get {
+                return ResourceManager.GetString("SettingPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string ShellAboutTitle {
+            get {
+                return ResourceManager.GetString("ShellAboutTitle", resourceCulture);
             }
         }
         
@@ -241,6 +2986,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file was not saved successfully with error:.
+        /// </summary>
+        internal static string ShellFileSaveFail {
+            get {
+                return ResourceManager.GetString("ShellFileSaveFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file was saved successfully to location:.
+        /// </summary>
+        internal static string ShellFileSaveSuccess {
+            get {
+                return ResourceManager.GetString("ShellFileSaveSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download bug log.
+        /// </summary>
+        internal static string ShellGetBugLogTitle {
+            get {
+                return ResourceManager.GetString("ShellGetBugLogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map.
         /// </summary>
         internal static string ShellMapTitle {
@@ -250,11 +3022,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quick Backup.
+        ///   Looks up a localized string similar to Picklist editor.
+        /// </summary>
+        internal static string ShellPicklistEditorTitle {
+            get {
+                return ResourceManager.GetString("ShellPicklistEditorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Database Backup.
         /// </summary>
         internal static string ShellQuickBackupTitle {
             get {
                 return ResourceManager.GetString("ShellQuickBackupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Photo Backup.
+        /// </summary>
+        internal static string ShellQuickPhotoBackupTitle {
+            get {
+                return ResourceManager.GetString("ShellQuickPhotoBackupTitle", resourceCulture);
             }
         }
         
@@ -327,6 +3117,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string StationPageGeneralTravNo {
             get {
                 return ResourceManager.GetString("StationPageGeneralTravNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current.
+        /// </summary>
+        internal static string StationPageNotesCurrent {
+            get {
+                return ResourceManager.GetString("StationPageNotesCurrent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Since Last Station.
+        /// </summary>
+        internal static string StationPageNotesSLS {
+            get {
+                return ResourceManager.GetString("StationPageNotesSLS", resourceCulture);
             }
         }
         
@@ -408,6 +3216,303 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string StationPageTypeTitle {
             get {
                 return ResourceManager.GetString("StationPageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new earth material.
+        /// </summary>
+        internal static string StationTooltipAddEM {
+            get {
+                return ResourceManager.GetString("StationTooltipAddEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new environment.
+        /// </summary>
+        internal static string StationTooltipAddEnv {
+            get {
+                return ResourceManager.GetString("StationTooltipAddEnv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add a new mineralization/alteration.
+        /// </summary>
+        internal static string StationTooltipAddMA {
+            get {
+                return ResourceManager.GetString("StationTooltipAddMA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tap to add one or many photos.
+        /// </summary>
+        internal static string StationTooltipAddPhoto {
+            get {
+                return ResourceManager.GetString("StationTooltipAddPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attitude.
+        /// </summary>
+        internal static string StructurePageAttitude {
+            get {
+                return ResourceManager.GetString("StructurePageAttitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azimuth.
+        /// </summary>
+        internal static string StructurePageAzimuth {
+            get {
+                return ResourceManager.GetString("StructurePageAzimuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Class and type.
+        /// </summary>
+        internal static string StructurePageClass {
+            get {
+                return ResourceManager.GetString("StructurePageClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string StructurePageDescriptionTitle {
+            get {
+                return ResourceManager.GetString("StructurePageDescriptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detail.
+        /// </summary>
+        internal static string StructurePageDetail {
+            get {
+                return ResourceManager.GetString("StructurePageDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dip/Plunge.
+        /// </summary>
+        internal static string StructurePageDipPlunge {
+            get {
+                return ResourceManager.GetString("StructurePageDipPlunge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fabric.
+        /// </summary>
+        internal static string StructurePageFabric {
+            get {
+                return ResourceManager.GetString("StructurePageFabric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flattening.
+        /// </summary>
+        internal static string StructurePageFlattening {
+            get {
+                return ResourceManager.GetString("StructurePageFlattening", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Format.
+        /// </summary>
+        internal static string StructurePageFormat {
+            get {
+                return ResourceManager.GetString("StructurePageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generation.
+        /// </summary>
+        internal static string StructurePageGeneration {
+            get {
+                return ResourceManager.GetString("StructurePageGeneration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size Max. (mm).
+        /// </summary>
+        internal static string StructurePageMaxSize {
+            get {
+                return ResourceManager.GetString("StructurePageMaxSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurements.
+        /// </summary>
+        internal static string StructurePageMeasurementTitle {
+            get {
+                return ResourceManager.GetString("StructurePageMeasurementTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method.
+        /// </summary>
+        internal static string StructurePageMethod {
+            get {
+                return ResourceManager.GetString("StructurePageMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size Min. (mm).
+        /// </summary>
+        internal static string StructurePageMinSize {
+            get {
+                return ResourceManager.GetString("StructurePageMinSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string StructurePageNotes {
+            get {
+                return ResourceManager.GetString("StructurePageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string StructurePageNotesTitle {
+            get {
+                return ResourceManager.GetString("StructurePageNotesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Related.
+        /// </summary>
+        internal static string StructurePageRelate {
+            get {
+                return ResourceManager.GetString("StructurePageRelate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sense.
+        /// </summary>
+        internal static string StructurePageSense {
+            get {
+                return ResourceManager.GetString("StructurePageSense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strain.
+        /// </summary>
+        internal static string StructurePageStrain {
+            get {
+                return ResourceManager.GetString("StructurePageStrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structure.
+        /// </summary>
+        internal static string StructurePageTitle {
+            get {
+                return ResourceManager.GetString("StructurePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string StructurePageTypeTitle {
+            get {
+                return ResourceManager.GetString("StructurePageTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Younging.
+        /// </summary>
+        internal static string StructurePageYounging {
+            get {
+                return ResourceManager.GetString("StructurePageYounging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Developer mode activated.
+        /// </summary>
+        internal static string ToastDevModeActivated {
+            get {
+                return ResourceManager.GetString("ToastDevModeActivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Developer mode deactivated.
+        /// </summary>
+        internal static string ToastDevModeDeactivated {
+            get {
+                return ResourceManager.GetString("ToastDevModeDeactivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field book was successfully saved to: {0}.
+        /// </summary>
+        internal static string ToastFieldBookBackup {
+            get {
+                return ResourceManager.GetString("ToastFieldBookBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field book was not saved successfully and shows error: {0}.
+        /// </summary>
+        internal static string ToastFieldBookBackupFailed {
+            get {
+                return ResourceManager.GetString("ToastFieldBookBackupFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file was saved successfully to location: {0}.
+        /// </summary>
+        internal static string ToastSaveBackup {
+            get {
+                return ResourceManager.GetString("ToastSaveBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file was not saved successfully with error: {0}.
+        /// </summary>
+        internal static string ToastSaveBackupFailed {
+            get {
+                return ResourceManager.GetString("ToastSaveBackupFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record has been saved..
+        /// </summary>
+        internal static string ToastSaveRecord {
+            get {
+                return ResourceManager.GetString("ToastSaveRecord", resourceCulture);
             }
         }
         

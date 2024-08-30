@@ -1,4 +1,4 @@
-﻿using GSCFieldApp.Dictionaries;
+﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -6,62 +6,62 @@ using System.Linq;
 
 namespace GSCFieldApp.Models
 {
-    [Table(DatabaseLiterals.TablePFlow)]
+    [Table(TablePFlow)]
     public class Paleoflow
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldPFlowID)]
+        [PrimaryKey, AutoIncrement, Column(FieldPFlowID)]
         public int PFlowID { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowName)]
+        [Column(FieldPFlowName)]
         public string PFlowName { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowClass)]
+        [Column(FieldPFlowClass)]
         public string PFlowClass { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowSense)]
+        [Column(FieldPFlowSense)]
         public string PFlowSense{ get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowFeature)]
+        [Column(FieldPFlowFeature)]
         public string PFlowFeature { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowMethod)]
+        [Column(FieldPFlowMethod)]
         public string PFlowMethod { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowAzimuth)]
+        [Column(FieldPFlowAzimuth)]
         public int PFlowAzimuth { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowMainDir)]
+        [Column(FieldPFlowMainDir)]
         public string PFlowMainDir { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowRelage)]
+        [Column(FieldPFlowRelage)]
         public int PFlowRelAge { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowDip)]
+        [Column(FieldPFlowDip)]
         public int PFlowDip { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowNumIndic)]
+        [Column(FieldPFlowNumIndic)]
         public string PFlowNumIndic { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowDefinition)]
+        [Column(FieldPFlowDefinition)]
         public string PFlowDefinition { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowRelation)]
+        [Column(FieldPFlowRelation)]
         public string PFlowRelation { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowBedsurf)]
+        [Column(FieldPFlowBedsurf)]
         public string PFlowBedsurf { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowConfidence)]
+        [Column(FieldPFlowConfidence)]
         public string PFlowConfidence { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowNotes)]
+        [Column(FieldPFlowNotes)]
         public string PFlowNotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldPFlowParentID)]
+        [Column(FieldPFlowParentID)]
         public int PFlowParentID { get; set; }
 
         //Hierarchy
-        public string ParentName = DatabaseLiterals.TableEarthMat;
+        public string ParentName = TableEarthMat;
 
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
@@ -72,8 +72,8 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if ((PFlowClass != string.Empty && PFlowClass != null && PFlowClass != Dictionaries.DatabaseLiterals.picklistNACode) &&
-                    (PFlowSense != string.Empty && PFlowSense != null && PFlowSense != Dictionaries.DatabaseLiterals.picklistNACode))
+                if ((PFlowClass != string.Empty && PFlowClass != null && PFlowClass != picklistNACode) &&
+                    (PFlowSense != string.Empty && PFlowSense != null && PFlowSense != picklistNACode))
                 {
                     return true;
                 }
@@ -98,7 +98,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> pflowFieldList = new Dictionary<double, List<string>>();
                 List<string> pflowFieldListDefault = new List<string>();
 
-                pflowFieldListDefault.Add(DatabaseLiterals.FieldPFlowID);
+                pflowFieldListDefault.Add(FieldPFlowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -108,16 +108,49 @@ namespace GSCFieldApp.Models
 
                 }
 
-                pflowFieldList[DatabaseLiterals.DBVersion] = pflowFieldListDefault;
+                pflowFieldList[DBVersion] = pflowFieldListDefault;
 
                 //Revert shcema 1.7 changes
                 //List<string> pflowFieldList160 = new List<string>();
                 //pflowFieldList160.AddRange(pflowFieldListDefault);
-                //pflowFieldList160.Remove(DatabaseLiterals.FieldGenericRowID);
-                //pflowFieldList[DatabaseLiterals.DBVersion160] = pflowFieldList160;
+                //pflowFieldList160.Remove(FieldGenericRowID);
+                //pflowFieldList[DBVersion160] = pflowFieldList160;
 
 
                 return pflowFieldList;
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string PflowAliasLight
+        {
+            get
+            {
+                if (PFlowName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(PFlowName.Substring(PFlowName.Length - 2), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        //Trim bunch of zeros
+                        string shorterName = PFlowName.Substring(PFlowName.Length - 7);
+                        return shorterName.Trim('0');
+                    }
+                    else
+                    {
+                        return picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return picklistNACode;
+                }
             }
             set { }
         }

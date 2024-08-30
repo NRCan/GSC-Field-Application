@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Controls.ConcatenatedCollection"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls">
+
+    <ContentView.Resources >
+
+        <ControlTemplate x:Key="ConcatenatedCollectionControl" >
+            
+            <Frame Style="{StaticResource FieldAppConcatMainFrame}">
+                <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
+                                x:Name="ConcatCollectionView"
+                                ItemsSource="{TemplateBinding ConcatSource}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="controls:ComboBoxItem">
+                            <Frame Style="{StaticResource FieldAppConcatFrame}">
+                                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}">
+                                    <Label Text="{Binding itemName}" x:Name="itemNameText" Style="{StaticResource FieldAppConcatLabel}"/>
+                                    <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
+                                        Command="{TemplateBinding DeleteItemCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+        </ControlTemplate>
+    </ContentView.Resources>
+
+
+</ContentView>

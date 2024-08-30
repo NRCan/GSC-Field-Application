@@ -40,19 +40,26 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldDocumentHyperlink)]
         public string Hyperlink { get; set; }
 
-        [Column(DatabaseLiterals.FieldDocumentRelatedtable)]
-        public string RelatedTable { get; set; }
-
-        [Column(DatabaseLiterals.FieldDocumentRelatedID)]
-        public int RelatedID { get; set; }
-
         [Column(DatabaseLiterals.FieldDocumentObjLocX)]
         public double? ObjectX { get; set; }
 
-        [Column(DatabaseLiterals.FIeldDocumentObjLocY)]
+        [Column(DatabaseLiterals.FieldDocumentObjLocY)]
         public double? ObjectY { get; set; }
 
+        [Column(DatabaseLiterals.FieldDocumentScaleDirection)]
+        public string ScaleDirection { get; set; }
 
+        [Column(DatabaseLiterals.FieldDocumentStationID)]
+        public int? StationID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentSampleID)]
+        public int? SampleID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentDrillHoleID)]
+        public int? DrillHoleID { get; set; }
+
+        [Column(DatabaseLiterals.FieldDocumentEarthMatID)]
+        public int? EarthmatID { get; set; }
         /// <summary>
         /// Soft mandatory field check. User can still create record even if fields are not filled.
         /// Ignore attribute will tell sql not to try to write this field inside the database.
@@ -75,9 +82,9 @@ namespace GSCFieldApp.Models
             set { }
         }
 
-        ///// <summary>
-        ///// A theoric photo path, might not exists
-        ///// </summary>
+        /// <summary>
+        /// A theoric photo path, might not exists
+        /// </summary>
         //[Ignore]
         //public string PhotoPath
         //{
@@ -90,33 +97,33 @@ namespace GSCFieldApp.Models
         //        {
         //            _fieldbookPath = Path.Combine(localSetting.GetSettingValue(Dictionaries.ApplicationLiterals.KeywordFieldProject).ToString(), DocumentName + ".jpg");
         //        }
-                
-                
+
+
         //        return _fieldbookPath;
         //    }
         //    set { }
         //}
 
-        ///// <summary>
-        ///// Will check if theoric photo file really exists. Could prevent code from trying to show a picture.
-        ///// </summary>
-        //[Ignore]
-        //public bool PhotoFileExists
-        //{
-        //    get
-        //    {
-        //        if (PhotoPath != string.Empty && PhotoPath != null)
-        //        {
-        //            return File.Exists(PhotoPath);
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
+        /// <summary>
+        /// Will check if theoric photo file really exists. Could prevent code from trying to show a picture.
+        /// </summary>
+        [Ignore]
+        public bool PhotoFileExists
+        {
+            get
+            {
+                if (Hyperlink != string.Empty && Hyperlink != null)
+                {
+                    return File.Exists(Hyperlink);
+                }
+                else
+                {
+                    return false;
+                }
 
-        //    }
-        //    set { }
-        //}
+            }
+            set { }
+        }
 
 
         /// <summary>
@@ -145,6 +152,19 @@ namespace GSCFieldApp.Models
 
                 documentFieldList[DatabaseLiterals.DBVersion] = documentFieldListDefault;
 
+                //Revert shcema 1.8 changes
+                List<string> documentFieldList170 = new List<string>();
+                documentFieldList170.AddRange(documentFieldListDefault);
+                int removeIndex170 = documentFieldListDefault.IndexOf(DatabaseLiterals.FieldDocumentHyperlink);
+                documentFieldList170.Insert(removeIndex170 + 1, DatabaseLiterals.FieldDocumentRelatedtableDeprecated);
+                documentFieldList170.Insert(removeIndex170 + 2, DatabaseLiterals.FieldDocumentRelatedIDDeprecated);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentSampleID);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentStationID);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentDrillHoleID);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentScaleDirection);
+                documentFieldList170.Remove(DatabaseLiterals.FieldDocumentEarthMatID);
+                documentFieldList[DatabaseLiterals.DBVersion170] = documentFieldList170;
+
                 //Revert shcema 1.7 changes
                 //List<string> documentFieldList160 = new List<string>();
                 //documentFieldList160.AddRange(documentFieldListDefault);
@@ -152,17 +172,76 @@ namespace GSCFieldApp.Models
                 //documentFieldList[DatabaseLiterals.DBVersion160] = documentFieldList160;
 
                 //Noting has change in 1.6
-                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldListDefault;
+                documentFieldList[DatabaseLiterals.DBVersion150] = documentFieldList170;
 
                 //Revert schema 1.5 changes. 
                 List<string> documentFieldList144 = new List<string>();
                 documentFieldList144.AddRange(documentFieldList[DatabaseLiterals.DBVersion150]);
                 int removeIndex = documentFieldList144.IndexOf(DatabaseLiterals.FieldDocumentName);
                 documentFieldList144.Remove(DatabaseLiterals.FieldDocumentName);
-                documentFieldList144.Insert(removeIndex,DatabaseLiterals.FieldDocumentNameDeprecated);
+                documentFieldList144.Insert(removeIndex, DatabaseLiterals.FieldDocumentNameDeprecated);
                 documentFieldList[DatabaseLiterals.DBVersion144] = documentFieldList144;
 
                 return documentFieldList;
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string DocumentAliasLight
+        {
+            get
+            {
+                if (DocumentName != string.Empty)
+                {
+                    // Split into two main pieces, station # and photo #
+                    string[] splitName = DocumentName.Split(DatabaseLiterals.TableDocumentAliasPrefix);
+
+                    if (splitName.Count() > 0)
+                    {
+                        int docNumber = 0;
+                        int.TryParse(splitName[1], out docNumber);
+
+                        string statNumber = splitName[0].Substring(splitName[0].Length - 4).Trim('0');
+
+                        return statNumber + DatabaseLiterals.KeywordConcatCharacter2nd + docNumber.ToString();
+                    }
+                    else
+                    {
+                        return DatabaseLiterals.picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return DatabaseLiterals.picklistNACode;
+                }
+            }
+            set { }
+        }
+
+
+        /// <summary>
+        /// A propriety to detect whether record is a new one or not, this
+        /// can be used to enable batch create
+        /// </summary>
+        [Ignore]
+        public bool CanBatchCreate
+        {
+            get
+            {
+                if (DocumentID > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
             }
             set { }
         }

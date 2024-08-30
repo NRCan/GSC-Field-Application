@@ -9,6 +9,9 @@
     <Color x:Key="Tertiary">#9f103e</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
+    <Color x:Key="ErrorColor">#E74856</Color>
+    <Color x:Key="WarningColor">#FFB900</Color>
+    <Color x:Key="PositionColor">#88D184</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
     <Color x:Key="Gray300">#ACACAC</Color>
@@ -22,6 +25,9 @@
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
     <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
     <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
+    <SolidColorBrush x:Key="Errorrush" Color="{StaticResource ErrorColor}"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
+    <SolidColorBrush x:Key="PositionBrush" Color="{StaticResource PositionColor}"/>
     <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
     <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
     <SolidColorBrush x:Key="Gray300Brush" Color="{StaticResource Gray300}"/>
@@ -76,8 +82,15 @@
     <Color x:Key="FieldEnvironmentColor">#99cc00</Color>
     <Color x:Key="FieldEnvironmentColorLight">#bfff00</Color>
 
+    <Color x:Key="FieldDrillColor">#439ee2</Color>
+    <Color x:Key="FieldDrillColorLight">#8EC4ED</Color>
+
     <Color x:Key="ReportPageInvalidBackground">Red</Color>
 
+    <Color x:Key="FieldAppNoteLevel1">#0b2c71</Color>
+    <Color x:Key="FieldAppNoteLevel2">#1247b7</Color>
+    <Color x:Key="FieldAppNoteLevel3">#2b69ea</Color>
+    
     <!--Custom Field color brushes-->
     <SolidColorBrush x:Key="CustomColorBrush" Color="{StaticResource Primary}" />
     <SolidColorBrush x:Key="CustomContrastColorBrush" Color="{StaticResource White}" />
@@ -114,6 +127,9 @@
 
     <SolidColorBrush x:Key="FieldEnvironmentColorBrush" Color="{StaticResource FieldEnvironmentColor}"/>
     <SolidColorBrush x:Key="FieldEnvironmentColorLightBrush" Color="{StaticResource FieldEnvironmentColorLight}"/>
+
+    <SolidColorBrush x:Key="FieldDrillColorBrush" Color="{StaticResource FieldDrillColor}"/>
+    <SolidColorBrush x:Key="FieldDrillColorLightBrush" Color="{StaticResource FieldDrillColorLight}"/>
 
     <SolidColorBrush x:Key="ReportPageInvalidBackgroundBrush" Color="{StaticResource ReportPageInvalidBackground}"/>
 

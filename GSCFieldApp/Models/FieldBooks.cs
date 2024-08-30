@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using GSCFieldApp.Services.DatabaseServices;
+using GSCFieldApp.Views;
 using NetTopologySuite.IO;
 
 namespace GSCFieldApp.Models
@@ -17,10 +19,8 @@ namespace GSCFieldApp.Models
         public string ProjectDBPath { get; set; }
         public string CreateDate { get; set; }
         public Metadata metadataForProject { get; set; }
-
+        public bool isSelected { get; set; }
         private DataAccess da = new DataAccess();
-
-        public Microsoft.Maui.Graphics.Color FieldbookColor { get; set;}
 
         #endregion
 
@@ -29,15 +29,5 @@ namespace GSCFieldApp.Models
             metadataForProject = new Metadata();
         }
 
-        /// <summary>
-        /// On a field book item tap, keep path to database in preferences
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        [RelayCommand]
-        public void Tap()
-        {
-            da.PreferedDatabasePath = ProjectDBPath;
-        }
     }
 }

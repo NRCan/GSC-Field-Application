@@ -9,6 +9,10 @@ using GSCFieldApp.Resources.Strings;
 
 namespace GSCFieldApp.Services
 {
+    /// <summary>
+    /// This class will add a localization extension for dynamic
+    /// values directly in the XAML.
+    /// </summary>
     [ContentProperty(nameof(Key))]
     //give any name you want to this class; however,
     //you will use this name in XML like so: Text="{local:Localize hello_world}"

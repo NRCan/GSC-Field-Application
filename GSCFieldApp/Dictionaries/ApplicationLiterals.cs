@@ -74,5 +74,26 @@
         public const double structureSymbolsImageHeight = 101; //Will be use for symbol placement 
         public const double structureSymbolsImageWidth = 101; //Will be use for symbol placement
         #endregion
+
+        #region Text Symbols
+
+        public const string gpsModeTap = "&#xF0A55;";
+        public const string gpsModeGPS = "&#xF01A4;";
+
+        #endregion
+
+        #region GIS
+
+        public const string keywordWMS = "NRCan_GSCFieldApp"; //Will be used for WMS caching prefix and token generation
+        public const string keywordWMSLayers = "&layers="; //Will be used to get wms layer names in the URL
+        public const string aliasOSM = "Open Street Map"; //Used for map page layer menu
+        public const string aliasStations = "Stations"; //Used for map page layer menu
+        public const string aliasTraversePoint = "Traverses"; //Used for map page layer menu
+        #endregion
+
+        #region Files / Folders
+        public const string errorLogFileNameExt = "GSCFieldLog.txt"; //Will be used to save all error logs into a single file
+        public const string photoFolderSuffix = "_Photos"; //Will be used to create subfolders containing all photos for a given field book. Easier when zipping for backup.
+        #endregion
     }
 }

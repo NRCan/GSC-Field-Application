@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.MineralPage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:MineralViewModel"
+             Shell.BackgroundColor="{StaticResource FieldMineralColor}"
+             Title="{local:Localize MineralPageTitle}">
+
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:String2Integers x:Key="Str2Int"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+        <conv:ImageSourceConverter x:Key="image2URI"/>
+        <conv:VisibilityFromReverseBoolConverter x:Key="reverseBool"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.MineralIDName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+
+                    <!--Type of section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldMineralColor}" FrameContentVisibility="{Binding MineralTypeVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize MineralPageTypeTitle}">
+
+                        <VerticalStackLayout>
+
+                            <!-- Detail search bar (approx >220 items) -->
+                            <Label Text="{local:Localize MineralPageName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                            <SearchBar Placeholder="{local:Localize MineralPageNameSearchPlaceholder}"
+                                        x:Name="mineralNameSearchBar" Text="{Binding Model.MineralName, Mode=TwoWay }"
+                                        SearchCommand="{Binding PerformNameSearchCommand}" 
+                                        SearchCommandParameter="{Binding Text, Source={x:Reference mineralNameSearchBar}}"/>
+                            <ListView Style="{StaticResource FieldAppSearchCollectionView}" x:Name="mineralSearchList" ItemSelected="mineralSearchList_ItemSelected"
+                                        ItemsSource="{Binding MineralPageNameSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
+                            <!-- -->
+                            
+                            <Picker Title="{local:Localize MineralPageMode}" x:Name="MineralPageModePicker"
+                                    ItemsSource="{Binding MineralMode.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.MineralMode, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding MineralMode, Source={x:Reference MineralPageModePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding MineralMode.cboxDefaultItemIndex, Mode=TwoWay}" />
+                            
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Description section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldMineralColor}" FrameContentVisibility="{Binding MineralDescVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize MineralPageDescriptionTitle}">
+
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize MineralPageColour}" x:Name="MineralPageColourPicker"
+                                    ItemsSource="{Binding MineralColour.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.MineralColour, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding MineralColour, Source={x:Reference MineralPageColourPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding MineralColour.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize StructurePageMinSize}"/>
+                                <Entry Text="{Binding Model.MineralSizeMin, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="1000"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize StructurePageMaxSize}"/>
+                                <Entry Text="{Binding Model.MineralSizeMax, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="1000"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize MineralPageOccurence}" x:Name="MineralPageOccurencePicker"
+                                    ItemsSource="{Binding MineralOccurence.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.MineralOccur, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding MineralOccurence, Source={x:Reference MineralPageOccurencePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding MineralOccurence.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize MineralPageFormHabit}" x:Name="MineralPageFormHabitPicker"
+                                ItemsSource="{Binding MineralFormHabit.cboxItems}"
+                                ItemDisplayBinding="{Binding itemName}" SelectedItem="{Binding SelectedMineralFormHabit}"
+                                SelectedIndex="{Binding MineralFormHabit.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <!--Custom control to concatenate multiple values into one field-->
+                            <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                                                ConcatSource="{Binding MineralFormHabitCollection}" />
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+
+                    <!--General section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldMineralColor}" FrameContentVisibility="{Binding MineralGeneralVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize MineralPageGeneralTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize MineralPageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.MineralNote, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+                            
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldMineralColor}"
+                                    ButtonLightColor="{StaticResource FieldMineralColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

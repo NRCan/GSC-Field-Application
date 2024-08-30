@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.StructurePage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:StructureViewModel"
+             Shell.BackgroundColor="{StaticResource FieldStrucColor}"
+             Title="{local:Localize StructurePageTitle}">
+
+    <Shell.BackButtonBehavior>
+        <!--Hide back button - Android when navigating back, ham menu disapears-->
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+
+        <!-- UI data Converters-->
+        <conv:BoolFromStringConverter x:Key="BoolFromStr" />
+        <conv:String2Integers x:Key="Str2Int"/>
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.StructureName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}">
+                    
+                    <!--Type section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding StructureTypeVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StructurePageTypeTitle}">
+
+                        <VerticalStackLayout>
+
+                            <!--Quirk - Show item value instead of name, else planar and linear are missing from text-->
+                            <Picker Title="{local:Localize StructurePageClass}" x:Name="StructureClassPicker"
+                                    ItemsSource="{Binding StructureClass.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemValue}" SelectedIndexChanged="StructureClassPicker_SelectedIndexChanged"
+                                    SelectedItem="{Binding Model.StructureClass, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureClass, Source={x:Reference StructureClassPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureClass.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize StructurePageDetail}" x:Name="StructureDetailPicker"
+                                    ItemsSource="{Binding StructureDetail.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureDetail, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureDetail, Source={x:Reference StructureDetailPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureDetail.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Measurement section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding StructureMeasurementVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StructurePageMeasurementTitle}">
+
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize StructurePageFormat}" x:Name="StructureFormatPicker"
+                                    ItemsSource="{Binding StructureFormat.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureFormat, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureFormat, Source={x:Reference StructureFormatPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureFormat.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize StructurePageAzimuth}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.StructureAzimuth, Converter={StaticResource Str2Int}, Mode=TwoWay}" 
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="360"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+
+                                <Label Text="{local:Localize StructurePageDipPlunge}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
+                                <Entry Text="{Binding Model.StructureDipPlunge,Converter={StaticResource Str2Int}, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppNumBox}">
+                                    <Entry.Behaviors>
+                                        <toolkit:NumericValidationBehavior 
+                                            InvalidStyle="{StaticResource FieldAppNumBoxInvalid}"
+                                            Flags="ValidateOnValueChanged"
+                                            MinimumValue="0"
+                                            MaximumValue="90"
+                                            MaximumDecimalPlaces="0" />
+                                    </Entry.Behaviors>
+                                </Entry>
+
+                            </VerticalStackLayout>
+
+                            <Picker Title="{local:Localize StructurePageMethod}" x:Name="StructureMethodPicker"
+                                    ItemsSource="{Binding StructureMethod.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureMethod, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureMethod, Source={x:Reference StructureMethodPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureMethod.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize StructurePageRelate}" x:Name="StructureRelatedAliasPicker"
+                                    ItemsSource="{Binding StructureRelatedAlias.cboxItems, Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedIndex="{Binding StructureRelatedAlias.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <!--TODO: One image for planar symbols that rotates with their azim angle-->
+                            <!--TODO: One image for linear symbols that rotates with their azim angle-->
+                            
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Description section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding StructureDescVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StructurePageDescriptionTitle}">
+
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize StructurePageAttitude}" x:Name="StructureAttitudePicker"
+                                    ItemsSource="{Binding StructureAttitude.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureAttitude, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureAttitude, Source={x:Reference StructureAttitudePicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureAttitude.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize StructurePageYounging}" x:Name="StructureYoungingPicker"
+                                    ItemsSource="{Binding StructureYounging.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureYounging, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureYounging, Source={x:Reference StructureYoungingPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureYounging.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <!--Can't use converter on this 2nd round picker, else it always gets overwritten with empty string on init-->
+                            <Picker Title="{local:Localize StructurePageGeneration}" x:Name="StructureGenerationPicker"
+                                    ItemsSource="{Binding StructureGeneration.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureGeneration, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureGeneration, Source={x:Reference StructureGenerationPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureGeneration.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize StructurePageStrain}" x:Name="StructureStrainPicker"
+                                    ItemsSource="{Binding StructureStrain.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureStrain, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureStrain, Source={x:Reference StructureStrainPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureStrain.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                            <Picker Title="{local:Localize StructurePageFlattening}" x:Name="StructureFlatteningPicker"
+                                    ItemsSource="{Binding StructureFlattening.cboxItems}"
+                                    ItemDisplayBinding="{Binding itemName}"
+                                    SelectedItem="{Binding Model.StructureFlattening, 
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding StructureFlattening, Source={x:Reference StructureFlatteningPicker}},
+                                        Mode=TwoWay}"
+                                    SelectedIndex="{Binding StructureFlattening.cboxDefaultItemIndex, Mode=TwoWay}" />
+
+                        </VerticalStackLayout>
+                    </controls:ExpandableFrame>
+
+                    <!--Notes section-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldStrucColor}" FrameContentVisibility="{Binding StructureNotesVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize StructurePageNotesTitle}">
+
+                        <VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize StructurePageFabric}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.StructureFabric, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize StructurePageSense}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.StructureSense, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize StructurePageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.StructureNotes, Mode=TwoWay}"
+                                       Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </controls:ExpandableFrame>
+
+                </FlexLayout>
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldStrucColor}"
+                                    ButtonLightColor="{StaticResource FieldStrucColorLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+            
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>
