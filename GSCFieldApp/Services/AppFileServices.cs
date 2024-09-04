@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SQLite;
+using GSCFieldApp.Models;
 
 namespace GSCFieldApp.Services
 {
@@ -218,8 +220,16 @@ namespace GSCFieldApp.Services
             {
                 if (result.FileName.Contains(DatabaseLiterals.DBTypeSqlite))
                 {
+                    //Get proper database name to fit standard naming template
+                    SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(result.FullPath);
+                    List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
+                    if (metadataTableRows != null && metadataTableRows.Count() == 1)
+                    {
+                        copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+                    }
+                    await currentConnection.CloseAsync();
+
                     //Copy to local state
-                    copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, result.FileName);
                     using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
                     using (Stream incomingFieldBookStream = System.IO.File.OpenRead(result.FullPath))
                     await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);

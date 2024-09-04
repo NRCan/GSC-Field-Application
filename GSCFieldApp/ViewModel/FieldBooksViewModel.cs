@@ -132,20 +132,27 @@ namespace GSCFieldApp.ViewModel
         }
 
         [RelayCommand]
-        public async Task EditFieldBook()
+        public async Task EditFieldBook(FieldBooks tappedFieldbook)
         {
+            FieldBooks fbToEdit = new FieldBooks();
             //Navigate to fieldbook page and send along the metadata
-            if (_selectedFieldBook != null)
+            if (tappedFieldbook == null && _selectedFieldBook != null)
             {
-                await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
-                    new Dictionary<string, object>
-                    {
-                        [nameof(Metadata)] = _selectedFieldBook.metadataForProject,
-                    }
-                );
+                fbToEdit = _selectedFieldBook;
             }
-                    }
+            else if (tappedFieldbook != null)
+            {
+                fbToEdit = tappedFieldbook;
+            }
 
+
+            await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
+                new Dictionary<string, object>
+                {
+                    [nameof(Metadata)] = fbToEdit.metadataForProject,
+                }
+            );
+        }
         #endregion
 
         #region METHODS
