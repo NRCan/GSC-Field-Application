@@ -20,7 +20,7 @@
 		<ApplicationIdGuid>0e61882b-e79d-4744-959f-44922a0a28cd</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>3.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>3.0.2</ApplicationDisplayVersion>
 		<ApplicationVersion>3</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
@@ -42,8 +42,8 @@
 		<Platforms>AnyCPU;x64;ARM64;ARM32</Platforms>
 		<Title>GSC Field App</Title>
 		<PackageProjectUrl>https://nrcan.github.io/GSC-Field-Application/</PackageProjectUrl>
-		<FileVersion>3.0.0.1</FileVersion>
-		<AssemblyVersion>3.0.0.1</AssemblyVersion>
+		<FileVersion>3.0.2</FileVersion>
+		<AssemblyVersion>3.0.2</AssemblyVersion>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/NRCan/GSC-Field-Application-3</RepositoryUrl>
 	</PropertyGroup>
