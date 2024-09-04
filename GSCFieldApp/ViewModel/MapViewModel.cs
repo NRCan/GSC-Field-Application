@@ -46,7 +46,7 @@ namespace GSCFieldApp.ViewModel
 
         #region PROPERTIES
         public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
-        private Collection<MapPageLayer> CayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
+        private Collection<MapPageLayer> CustomLayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
 
         #endregion
@@ -55,6 +55,10 @@ namespace GSCFieldApp.ViewModel
         {
             //Get main metadata record
             _ = GetMetadataAsync();
+
+            //Detect new field book selection, uprgrade, edit, ...
+            FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+            FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
 
         }
 
@@ -409,8 +413,8 @@ namespace GSCFieldApp.ViewModel
             //To prevent layer being inserted in the wrong place, clear it before adding anything
             Collection<ILayer> refreshCollection = new Collection<ILayer>();
 
-            _layerCollection.Clear();
-            _customLayerCollection.Clear();
+            //Clear before reloading
+            RemoveAllLayers();
 
             int index = 0;
 
@@ -446,6 +450,18 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(layerCollection));
             }
             
+
+        }
+
+        /// <summary>
+        /// Will wipe all layers from layer collection
+        /// </summary>
+        public void RemoveAllLayers()
+        {
+            _layerCollection.Clear();
+            _customLayerCollection.Clear();
+            OnPropertyChanged(nameof(layerCollection));
+            OnPropertyChanged(nameof(CustomLayerCollection));
 
         }
 
@@ -493,6 +509,24 @@ namespace GSCFieldApp.ViewModel
             LocalizationResourceManager["MapPageAlertFieldBookMessage"].ToString(),
             LocalizationResourceManager["GenericButtonOk"].ToString());
         }
+        #endregion
+
+        #region EVENTS
+
+        /// <summary>
+        /// Event triggered when user has changed field books.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void FieldBooksViewModel_newFieldBookSelectedAsync(object sender, bool hasChanged)
+        {
+            if (hasChanged)
+            {
+                RemoveAllLayers();
+            }
+            
+        }
+
         #endregion
     }
 }

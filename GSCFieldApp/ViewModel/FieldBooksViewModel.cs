@@ -44,6 +44,9 @@ namespace GSCFieldApp.ViewModel
         readonly Station stationModel = new Station();
         readonly Metadata metadataModel = new Metadata();
 
+        //Events
+        public static EventHandler<bool> newFieldBookSelected; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
+
         #region Properties
 
         public bool NoFieldBookWatermark { get { return _noFieldBookWatermark; } set { _noFieldBookWatermark = value; } }
@@ -141,7 +144,7 @@ namespace GSCFieldApp.ViewModel
                     }
                 );
             }
-        }
+                    }
 
         #endregion
 
@@ -395,6 +398,13 @@ namespace GSCFieldApp.ViewModel
 
             //Reset prefered database
             da.PreferedDatabasePath = da.DatabaseFilePath;
+
+            //Send call to refresh other pages
+            EventHandler<bool> newFieldBookRequest = newFieldBookSelected;
+            if (newFieldBookRequest != null)
+            {
+                newFieldBookRequest(this, true);
+            }
         }
 
         #endregion

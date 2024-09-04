@@ -76,9 +76,28 @@ public partial class MapPage : ContentPage
         this.Loaded += MapPage_Loaded;
         this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
         this.mapControl.Map.Layers.LayerRemoved += Layers_LayerRemoved;
+
+        //Detect new field book selection, uprgrade, edit, ...
+        FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+        FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+
     }
 
     #region EVENTS
+
+    /// <summary>
+    /// Event triggered when user has changed field books.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void FieldBooksViewModel_newFieldBookSelectedAsync(object sender, bool hasChanged)
+    {
+        if (hasChanged)
+        {
+            await RefreshDefaultFeatureLayer();
+        }
+
+    }
 
     /// <summary>
     /// Make sure to refresh prefered layer json file when 
@@ -129,30 +148,29 @@ public partial class MapPage : ContentPage
         //They might have deleted some stations, make sure to refresh
 
         foreach (var item in mapView.Map.Layers)
+        {
+            if (item.Name == ApplicationLiterals.aliasStations)
             {
-                if (item.Name == ApplicationLiterals.aliasStations)
+                mapView.Map.Layers.Remove(item);
+                List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
+                if (memLayers != null && memLayers.Count > 0)
                 {
-                    mapView.Map.Layers.Remove(item);
-                    List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
-                    if (memLayers != null && memLayers.Count > 0)
+                    foreach (MemoryLayer ml in memLayers)
                     {
-                        foreach (MemoryLayer ml in memLayers)
-                        {
-                            mapView.Map.Layers.Add(ml);
-                        }
-
-                        mapView.Map.RefreshData();
-
-                        //Zoom to extent of stations
-                        SetExtent(memLayers[0]);
+                        mapView.Map.Layers.Add(ml);
                     }
 
+                    mapView.Map.RefreshData();
 
-                    break;
+                    //Zoom to extent of stations
+                    SetExtent(memLayers[0]);
                 }
-            }
 
+                break;
+            }
         }
+
+    }
 
     /// <summary>
     /// Once the map is loaded, make a quick check on 
@@ -167,18 +185,8 @@ public partial class MapPage : ContentPage
 
         //Manage symbol and layers
         await AddSymbolToRegistry();
-        List<MemoryLayer> mls = await CreateDefaultLayersAsync();
-        if (mls != null && mls.Count() > 0)
-        {
-            foreach (MemoryLayer ml in mls)
-            {
-                mapView.Map.Layers.Add(ml);
-            }
 
-            //Zoom to initial extent of the station layer
-            SetExtent(mls[0]);
-
-        }
+        await RefreshDefaultFeatureLayer();
 
         //Reload user datasets
         await LoadPreferedLayers();
@@ -348,6 +356,26 @@ public partial class MapPage : ContentPage
     #endregion
 
     #region METHODS
+
+    /// <summary>
+    /// Will force a quick refresh on the feature layers like station and traverses
+    /// </summary>
+    /// <returns></returns>
+    private async Task RefreshDefaultFeatureLayer()
+    {
+        List<MemoryLayer> mls = await CreateDefaultLayersAsync();
+        if (mls != null && mls.Count() > 0)
+        {
+            foreach (MemoryLayer ml in mls)
+            {
+                mapView.Map.Layers.Add(ml);
+            }
+
+            //Zoom to initial extent of the station layer
+            SetExtent(mls[0]);
+
+        }
+    }
 
     /// <summary>
     /// Will insert a given layer right before the drawable
