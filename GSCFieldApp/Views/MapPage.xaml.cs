@@ -796,7 +796,7 @@ public partial class MapPage : ContentPage
     {
         IEnumerable<IFeature> enumFeat = new IFeature[] { };
 
-        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty && da.PreferedDatabasePath != da.DatabaseFilePath)
         {
 
             //Get an offset placement for labels

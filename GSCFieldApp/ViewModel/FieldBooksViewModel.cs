@@ -330,6 +330,20 @@ namespace GSCFieldApp.ViewModel
                     _fieldbookCollection.Move(currentPreferedIndex, 0);
                 }
             }
+            else if (_fieldbookCollection != null && _fieldbookCollection.Count() == 1)
+            {
+                //Else auto-select the only field book
+                _selectedFieldBook = _fieldbookCollection.First();
+                OnPropertyChanged(nameof(SelectedFieldBook));
+
+                //Force this to be the prefered database.
+                da.PreferedDatabasePath = _selectedFieldBook.ProjectDBPath;
+            }
+            else
+            {
+                //Default
+                da.PreferedDatabasePath = da.DatabaseFilePath;
+            }
 
             //Refresh UI
             OnPropertyChanged(nameof(FieldbookCollection));
@@ -337,6 +351,9 @@ namespace GSCFieldApp.ViewModel
             WatermarkValidation();
         }
 
+        /// <summary>
+        /// Will show a watermark if no field book are present in the app
+        /// </summary>
         public void WatermarkValidation()
         {
             if (_fieldbookCollection.Count == 0)
@@ -355,10 +372,13 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will delete prefered field book and associated files
         /// </summary>
-        public void DeleteUserFieldBook()
+        public async Task DeleteUserFieldBook()
         {
             string userLocalFolder = Path.GetDirectoryName(da.PreferedDatabasePath);
             string userDBName = Path.GetFileNameWithoutExtension(da.PreferedDatabasePath);
+
+            //Make sure to close the connection before deleting
+            await da.CloseConnectionAsync();
 
             string[] file = Directory.GetFiles(userLocalFolder, userDBName + "*");
 
