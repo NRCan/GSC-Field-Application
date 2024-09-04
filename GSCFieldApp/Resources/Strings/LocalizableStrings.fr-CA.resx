@@ -679,6 +679,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="GenericButtonYes" xml:space="preserve">
     <value>Oui</value>
   </data>
+  <data name="GenericErrorTitle" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
   </data>
@@ -792,6 +795,9 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="MapPageAddXY" xml:space="preserve">
     <value>Ajouter manuellement une coordonnées XY ou Lat/Long.</value>
+  </data>
+  <data name="MapPageAlertFieldBookMessage" xml:space="preserve">
+    <value>Veuillez créer ou sélectionner un carnet de note avant de prendre des données.</value>
   </data>
   <data name="MapPageGPSMode" xml:space="preserve">
     <value>Éteindre/Allumer le GPS.</value>

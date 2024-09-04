@@ -1762,6 +1762,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string GenericErrorTitle {
+            get {
+                return ResourceManager.GetString("GenericErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notes.
         /// </summary>
         internal static string GenericNoteTitle {
@@ -2100,6 +2109,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string MapPageAddXY {
             get {
                 return ResourceManager.GetString("MapPageAddXY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please create or select a field book before taking any data..
+        /// </summary>
+        internal static string MapPageAlertFieldBookMessage {
+            get {
+                return ResourceManager.GetString("MapPageAlertFieldBookMessage", resourceCulture);
             }
         }
         

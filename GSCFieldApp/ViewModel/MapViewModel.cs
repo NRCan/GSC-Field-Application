@@ -13,6 +13,7 @@ using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
 using System.Diagnostics;
 using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services;
 using SQLite;
 using CommunityToolkit.Maui.Core.Extensions;
 using Mapsui.Layers;
@@ -36,6 +37,11 @@ namespace GSCFieldApp.ViewModel
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
 
         private FieldThemes _fieldThemes = new FieldThemes();
+
+        //Localization
+        public LocalizationResourceManager LocalizationResourceManager
+            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
         #endregion
 
         #region PROPERTIES
@@ -58,17 +64,25 @@ namespace GSCFieldApp.ViewModel
         {
             if (sensorLocation != null)
             {
-                await SetLocationModelAsync();
+                int locId = await SetLocationModelAsync();
 
-                //Navigate to station page and keep locationmodel for relationnal link
-                await Shell.Current.GoToAsync($"{nameof(StationPage)}/",
-                    new Dictionary<string, object>
-                    {
-                        [nameof(FieldLocation)] = locationModel,
-                        [nameof(Metadata)] = metadataModel,
-                        [nameof(Station)] = null,
-                    }
-                );
+                if (locId != -1)
+                {
+                    //Navigate to station page and keep locationmodel for relationnal link
+                    await Shell.Current.GoToAsync($"{nameof(StationPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(FieldLocation)] = locationModel,
+                            [nameof(Metadata)] = metadataModel,
+                            [nameof(Station)] = null,
+                        }
+                    );
+                }
+                else
+                {
+                    await ShowMissingFieldBookMesasge();
+                }
+
             }
 
         }
@@ -81,18 +95,25 @@ namespace GSCFieldApp.ViewModel
                 //Create a location record
                 int locationID = await SetLocationModelAsync();
 
-                //Create a quick earth material record
-                EarthmatViewModel earthmatViewModel = new EarthmatViewModel();
-                Earthmaterial quickEM = await earthmatViewModel.QuickEarthmat(locationID);
+                if (locationID != -1)
+                {
+                    //Create a quick earth material record
+                    EarthmatViewModel earthmatViewModel = new EarthmatViewModel();
+                    Earthmaterial quickEM = await earthmatViewModel.QuickEarthmat(locationID);
 
-                //Navigate to station page and keep locationmodel for relationnal link
-                await Shell.Current.GoToAsync($"{nameof(SamplePage)}/",
-                    new Dictionary<string, object>
-                    {
-                        [nameof(Sample)] = null,
-                        [nameof(Earthmaterial)] = quickEM,
-                    }
-                );
+                    //Navigate to station page and keep locationmodel for relationnal link
+                    await Shell.Current.GoToAsync($"{nameof(SamplePage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Sample)] = null,
+                            [nameof(Earthmaterial)] = quickEM,
+                        }
+                    );
+                }
+                else
+                {
+                    await ShowMissingFieldBookMesasge();
+                }
             }
 
         }
@@ -105,18 +126,26 @@ namespace GSCFieldApp.ViewModel
                 //Create a location record
                 int locationID = await SetLocationModelAsync();
 
-                //Create a quick earth material record
-                StationViewModel statViewModel = new StationViewModel();
-                Station quickStat = await statViewModel.QuickStation(locationID);
-                
-                //Navigate to station page and keep locationmodel for relationnal link
-                await Shell.Current.GoToAsync($"{nameof(DocumentPage)}/",
-                    new Dictionary<string, object>
-                    {
-                        [nameof(Station)] = quickStat,
-                        [nameof(Document)] = null,
-                    }
-                );
+                if (locationID != -1)
+                {
+                    //Create a quick earth material record
+                    StationViewModel statViewModel = new StationViewModel();
+                    Station quickStat = await statViewModel.QuickStation(locationID);
+
+                    //Navigate to station page and keep locationmodel for relationnal link
+                    await Shell.Current.GoToAsync($"{nameof(DocumentPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Station)] = quickStat,
+                            [nameof(Document)] = null,
+                        }
+                    );
+                }
+                else
+                {
+                    await ShowMissingFieldBookMesasge();
+                }
+
             }
 
         }
@@ -129,39 +158,44 @@ namespace GSCFieldApp.ViewModel
                 //Create a location record
                 int locationID = await SetLocationModelAsync();
 
-                //Special case: this command can either pop structure for bedrock fieldbook
-                // or pop paleoflow for surficial ones
-
-                //Create a quick earth material record
-                EarthmatViewModel emViewModel = new EarthmatViewModel();
-                Earthmaterial quickEM = await emViewModel.QuickEarthmat(locationID);
-
-                string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), DatabaseLiterals.ApplicationThemeBedrock);
-                if(preferedTheme == ApplicationThemeBedrock)
+                if (locationID != -1)
                 {
+                    //Special case: this command can either pop structure for bedrock fieldbook
+                    // or pop paleoflow for surficial ones
 
-                    //Navigate to structure page 
-                    await Shell.Current.GoToAsync($"{nameof(StructurePage)}/",
-                        new Dictionary<string, object>
-                        {
-                            [nameof(Structure)] = null,
-                            [nameof(Earthmaterial)] = quickEM,
-                        }
-                    );
+                    //Create a quick earth material record
+                    EarthmatViewModel emViewModel = new EarthmatViewModel();
+                    Earthmaterial quickEM = await emViewModel.QuickEarthmat(locationID);
+
+                    string preferedTheme = Preferences.Get(nameof(DatabaseLiterals.FieldUserInfoFWorkType), DatabaseLiterals.ApplicationThemeBedrock);
+                    if (preferedTheme == ApplicationThemeBedrock)
+                    {
+
+                        //Navigate to structure page 
+                        await Shell.Current.GoToAsync($"{nameof(StructurePage)}/",
+                            new Dictionary<string, object>
+                            {
+                                [nameof(Structure)] = null,
+                                [nameof(Earthmaterial)] = quickEM,
+                            }
+                        );
+                    }
+                    else
+                    {
+                        //Navigate to pflow page 
+                        await Shell.Current.GoToAsync($"{nameof(PaleoflowPage)}/",
+                            new Dictionary<string, object>
+                            {
+                                [nameof(PaleoflowPage)] = null,
+                                [nameof(Earthmaterial)] = quickEM,
+                            }
+                        );
+                    }
                 }
                 else
                 {
-                    //Navigate to pflow page 
-                    await Shell.Current.GoToAsync($"{nameof(PaleoflowPage)}/",
-                        new Dictionary<string, object>
-                        {
-                            [nameof(PaleoflowPage)] = null,
-                            [nameof(Earthmaterial)] = quickEM,
-                        }
-                    );
+                    await ShowMissingFieldBookMesasge();
                 }
-
-
             }
         }
 
@@ -183,8 +217,13 @@ namespace GSCFieldApp.ViewModel
                         }
                     );
                 }
+                else
+                {
+                    await ShowMissingFieldBookMesasge();
+                }
 
             }
+
         }
 
         #endregion
@@ -227,7 +266,6 @@ namespace GSCFieldApp.ViewModel
 
         }
 
-
         /// <summary>
         /// Will get current field book layer settings from a jSON file inside the local folder
         /// </summary>
@@ -256,7 +294,6 @@ namespace GSCFieldApp.ViewModel
             return preferedLayers;
 
         }
-
 
         /// <summary>
         /// Will return the json file path for storing prefered layers
@@ -287,59 +324,67 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task<int> SetLocationModelAsync()
         {
-            locationModel = new FieldLocation();
-            if (sensorLocation.Altitude.HasValue)
+            //Quick check if a valid field book is selected
+            if (dataAccess.PreferedDatabasePath != dataAccess.DatabaseFilePath)
             {
-                locationModel.LocationElev = Math.Round((double)sensorLocation.Altitude,0);
-            }
+                locationModel = new FieldLocation();
+                if (sensorLocation.Altitude.HasValue)
+                {
+                    locationModel.LocationElev = Math.Round((double)sensorLocation.Altitude, 0);
+                }
 
-            locationModel.LocationLat = Math.Round(sensorLocation.Latitude,8);
-            locationModel.LocationLong = Math.Round(sensorLocation.Longitude,8);
-            if (sensorLocation.Accuracy.HasValue)
-            {
-                locationModel.LocationErrorMeasure = Math.Round((double)sensorLocation.Accuracy,0);
-            }
-            if (sensorLocation.VerticalAccuracy.HasValue)
-            {
-                locationModel.LocationElevationAccuracy = Math.Round(sensorLocation.VerticalAccuracy.Value,0);
-            }
-            
-            locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault.ToString();
-            locationModel.LocationTimestamp = idCalc.FormatFullDate(DateTime.Now);
-            //Foreign key
-            if (metadataModel.MetaID > 0)
-            {
-                locationModel.MetaID = metadataModel.MetaID;
+                locationModel.LocationLat = Math.Round(sensorLocation.Latitude, 8);
+                locationModel.LocationLong = Math.Round(sensorLocation.Longitude, 8);
+                if (sensorLocation.Accuracy.HasValue)
+                {
+                    locationModel.LocationErrorMeasure = Math.Round((double)sensorLocation.Accuracy, 0);
+                }
+                if (sensorLocation.VerticalAccuracy.HasValue)
+                {
+                    locationModel.LocationElevationAccuracy = Math.Round(sensorLocation.VerticalAccuracy.Value, 0);
+                }
+
+                locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault.ToString();
+                locationModel.LocationTimestamp = idCalc.FormatFullDate(DateTime.Now);
+                //Foreign key
+                if (metadataModel.MetaID > 0)
+                {
+                    locationModel.MetaID = metadataModel.MetaID;
+                }
+                else
+                {
+                    locationModel.MetaID = 1;
+                }
+
+                locationModel.LocationAlias = await idCalc.CalculateLocationAliasAsync("", metadataModel.UserCode); //Calculate new value
+
+                //Fill in the feature location
+                if (!locationModel.LocationLong.IsZeroOrNaN() && !locationModel.LocationLat.IsZeroOrNaN())
+                {
+                    GeopackageService geoService = new GeopackageService();
+                    locationModel.LocationGeometry = geoService.CreateByteGeometry(locationModel.LocationLong, locationModel.LocationLat);
+
+                }
+
+                //Update metadata if needed
+                if (metadataModel.IsActive == 0)
+                {
+                    //Since a first location is being recorded, set to active.
+                    metadataModel.IsActive = 1;
+                    await dataAccess.SaveItemAsync(metadataModel, true);
+                }
+
+                //Save
+                locationModel = await dataAccess.SaveItemAsync(locationModel, false) as FieldLocation;
+
+                //Return ID
+                return locationModel.LocationID;
             }
             else
             {
-                locationModel.MetaID = 1;
+                return -1;
             }
 
-            locationModel.LocationAlias = await idCalc.CalculateLocationAliasAsync("", metadataModel.UserCode); //Calculate new value
-
-            //Fill in the feature location
-            if (!locationModel.LocationLong.IsZeroOrNaN() && !locationModel.LocationLat.IsZeroOrNaN())
-            {
-                GeopackageService geoService = new GeopackageService();
-                locationModel.LocationGeometry = geoService.CreateByteGeometry(locationModel.LocationLong, locationModel.LocationLat);
-
-            }
-
-            //Update metadata if needed
-            if (metadataModel.IsActive == 0)
-            {
-                //Since a first location is being recorded, set to active.
-                metadataModel.IsActive = 1;
-                await dataAccess.SaveItemAsync(metadataModel, true);
-            }
-
-            //Save
-            locationModel = await dataAccess.SaveItemAsync(locationModel, false) as FieldLocation;
-
-            //Return ID
-            return locationModel.LocationID;
-            
         }
 
         /// <summary>
@@ -439,7 +484,15 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(GPSModeButtonSymbol));
         }
 
-
+        /// <summary>
+        /// Will inform user to actual create or select a field book before taking any data
+        /// </summary>
+        public async Task ShowMissingFieldBookMesasge()
+        {
+            await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+            LocalizationResourceManager["MapPageAlertFieldBookMessage"].ToString(),
+            LocalizationResourceManager["GenericButtonOk"].ToString());
+        }
         #endregion
     }
 }

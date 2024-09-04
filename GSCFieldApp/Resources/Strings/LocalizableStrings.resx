@@ -690,6 +690,9 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="GenericButtonYes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="GenericErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="GenericNoteTitle" xml:space="preserve">
     <value>Notes</value>
   </data>
@@ -803,6 +806,9 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="MapPageAddXY" xml:space="preserve">
     <value>Tap to manually create a location record from XY or lat/long.</value>
+  </data>
+  <data name="MapPageAlertFieldBookMessage" xml:space="preserve">
+    <value>Please create or select a field book before taking any data.</value>
   </data>
   <data name="MapPageGPSMode" xml:space="preserve">
     <value>Tap to turn on/off GPS.</value>
