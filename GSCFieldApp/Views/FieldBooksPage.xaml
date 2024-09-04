@@ -33,7 +33,7 @@
                                           CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
 
                     </Border.GestureRecognizers>
-                    <Grid Margin="0,0,0,10">
+                    <Grid Margin="{OnPlatform WinUI='0,0,10,-10', Android='0,0,0,10', iOS='0,0,0,10'}" Padding="0">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3"/>
@@ -120,14 +120,14 @@
 
             <StackLayout Orientation="Horizontal" Grid.Row="0" FlowDirection="RightToLeft">
 
-                <!--Deleting a selected field book-->
-                <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
+                <!--Deleting a selected field book--><!--
+                <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform WinUI=True, Android=False, iOS=False}"/>
                 
-                <!--Editing a selected field book-->
-                <Button Command="{Binding EditFieldBookCommand}" Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
+                --><!--Editing a selected field book--><!--
+                <Button Command="{Binding EditFieldBookCommand}" Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform WinUI=True, Android=False, iOS=False}"/>
 
-                <!--Adding new field book-->
-                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom True, Tablet=False, Phone=False}"/>
+                --><!--Adding new field book--><!--
+                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnPlatform WinUI=True, Android=False, iOS=False}"/>-->
 
                 <!--Opening a selected field book-->
                 <!--This feature has been dropped, by default a selected field book will be kept in memory-->
@@ -140,7 +140,7 @@
                                 CanReorderItems="False" SelectedItem="{Binding SelectedFieldBook, Mode=TwoWay}"
                                 ItemsSource="{Binding FieldbookCollection,Mode=TwoWay}"
                                 SelectionMode="Single" ItemsLayout="{OnPlatform HorizontalList, Android=VerticalList}"
-                                HeightRequest="{OnPlatform WinUI=380}" WidthRequest="{OnPlatform Android=270}"/>
+                                HeightRequest="{OnPlatform WinUI=400}" WidthRequest="{OnPlatform Android=270}"/>
 
             </ScrollView>
 
@@ -161,13 +161,13 @@
                 <!--Android only section-->
                 
                 <!--Deleting a selected field book-->
-                <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
+                <Button Command="{Binding DeleteFieldBookCommand}" Text="&#xF0A7A;" Style="{StaticResource FieldAppHeaderButton}" />
 
                 <!--Editing a selected field book-->
-                <Button Command="{Binding EditFieldBookCommand}" Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
+                <Button Command="{Binding EditFieldBookCommand}" Text="&#xF0CB6;" Style="{StaticResource FieldAppHeaderButton}" />
 
                 <!--Adding new field book-->
-                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" IsVisible="{OnIdiom False, Phone=True, Tablet=True}"/>
+                <Button Command="{Binding AddFieldBookCommand}" Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" />
 
             </StackLayout>
 
