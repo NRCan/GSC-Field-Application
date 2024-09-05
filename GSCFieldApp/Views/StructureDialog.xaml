@@ -134,6 +134,8 @@
                                 ItemsSource="{x:Bind strucViewModel.StructFormat}" 
                                 SelectedValue="{x:Bind strucViewModel.SelectedStructFormat, Mode=TwoWay}"
                                 SelectionChanged="StructureFormatCombobox_SelectionChanged" TabIndex="7"      />
+                            <CheckBox x:Name="StructurePlotToMapCheckBox" Content="Plot To Map"
+                                IsChecked="{x:Bind strucViewModel.SelectedStructPlotToMap, Mode=TwoWay}" />
                         </GridView>
 
                         <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_02"

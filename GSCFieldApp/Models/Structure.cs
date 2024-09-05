@@ -31,6 +31,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldStructureFormat)]
         public string StructureFormat { get; set; }
 
+        [Column(DatabaseLiterals.FieldStructurePlotToMap)]
+        public string StructurePlotToMap { get; set; }
+
         [Column(DatabaseLiterals.FieldStructureAttitude)]
         public string StructureAttitude { get; set; }
 

@@ -236,6 +236,7 @@
         public const string FieldStructureNotes = "NOTES";//Version 1.0
         public const string FieldStructureParentID = "EARTHMATID";//Version 1.0
         public const string FieldStructureSymAng = "SYMANG";//Version 1.0
+        public const string FieldStructurePlotToMap = "PLOTTOMAP";//Version 1.0
 
         public const string FieldPFlowID = "PFLOWID";//Version 1.0
         public const string FieldPFlowName = "PFLOWIDNAME";//Version 1.0
