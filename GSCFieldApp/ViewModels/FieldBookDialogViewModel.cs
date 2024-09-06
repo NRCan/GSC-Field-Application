@@ -4,6 +4,7 @@ using GSCFieldApp.Services.DatabaseServices;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Template10.Common;
 using Template10.Mvvm;
@@ -22,7 +23,7 @@ namespace GSCFieldApp.ViewModels
         public FieldBooks existingUserDetail;
 
         //UI
-        private List<Themes.ComboBoxItem> _projectType = new List<Themes.ComboBoxItem>();
+        private ObservableCollection<Themes.ComboBoxItem> _projectType = new ObservableCollection<Themes.ComboBoxItem>();
         private string _selectedProjectType = string.Empty;
         private string _startStationNumber = "1";
         private string _projectName = string.Empty;
@@ -119,7 +120,7 @@ namespace GSCFieldApp.ViewModels
 
         public string ActivityName { get { return _activityName; } set { _activityName = value; } }
         public string Notes { get { return _notes; } set { _notes = value; } }
-        public List<Themes.ComboBoxItem> ProjectType { get { return _projectType; } set { _projectType = value; } }
+        public ObservableCollection<Themes.ComboBoxItem> ProjectType { get { return _projectType; } set { _projectType = value; } }
         public string SelectedProjectType { get { return _selectedProjectType; } set { _selectedProjectType = value; } }
         public bool Enability { get { return _enability; } set { _enability = value; } }
 
@@ -141,7 +142,10 @@ namespace GSCFieldApp.ViewModels
 
             //Init.
             string fieldName = Dictionaries.DatabaseLiterals.FieldUserInfoFWorkType;
-            _projectType = accessData.GetComboboxListWithVocab(userTable, fieldName, out _selectedProjectType);
+            foreach (var pType in accessData.GetComboboxListWithVocab(userTable, fieldName, out _selectedProjectType))
+            {
+                _projectType.Add(pType);
+            }
 
             //Update UI
             RaisePropertyChanged("ProjectType");
@@ -259,6 +263,7 @@ namespace GSCFieldApp.ViewModels
             RaisePropertyChanged("GeologistLN");
             RaisePropertyChanged("Notes");
             RaisePropertyChanged("ActivityName");
+            RaisePropertyChanged("SelectedProjectType"); 
 
         }
 
