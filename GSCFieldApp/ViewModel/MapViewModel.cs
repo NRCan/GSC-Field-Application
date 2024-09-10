@@ -57,7 +57,7 @@ namespace GSCFieldApp.ViewModel
             _ = GetMetadataAsync();
 
             //Detect new field book selection, uprgrade, edit, ...
-            FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+            FieldBooksViewModel.newFieldBookSelected -= FieldBooksViewModel_newFieldBookSelectedAsync;
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
 
         }
