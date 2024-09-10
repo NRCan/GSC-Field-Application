@@ -95,5 +95,11 @@
         public const string errorLogFileNameExt = "GSCFieldLog.txt"; //Will be used to save all error logs into a single file
         public const string photoFolderSuffix = "_Photos"; //Will be used to create subfolders containing all photos for a given field book. Easier when zipping for backup.
         #endregion
+
+        #region Easter eggs
+
+        public static readonly List<string> funnyNames = new List<string>(){ "kitty", "hullabaloo", "canoodle", "doink", "little_pony", "unicorn", "my_sweet_little_fairy" };
+
+        #endregion
     }
 }

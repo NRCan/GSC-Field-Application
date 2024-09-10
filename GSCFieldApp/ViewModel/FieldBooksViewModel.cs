@@ -72,14 +72,7 @@ namespace GSCFieldApp.ViewModel
 
             if (tappedFieldbook != null && tappedFieldbook.ProjectDBPath != preferedDBPath)
             {
-                da.PreferedDatabasePath = tappedFieldbook.ProjectDBPath;
-
-                // Keep in pref project type for futur vocab use and other viewing purposes
-                Preferences.Set(nameof(FieldUserInfoFWorkType), tappedFieldbook.metadataForProject.FieldworkType);
-                Preferences.Set(nameof(FieldUserInfoUCode), tappedFieldbook.metadataForProject.UserCode);
-
-                _selectedFieldBook = tappedFieldbook;
-                OnPropertyChanged(nameof(SelectedFieldBook));
+                SetFieldBookAsPreferred(tappedFieldbook);
             }
 
             return Task.CompletedTask;
@@ -145,6 +138,8 @@ namespace GSCFieldApp.ViewModel
                 fbToEdit = tappedFieldbook;
             }
 
+            // Keep in preferences
+            SetFieldBookAsPreferred(fbToEdit);
 
             await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
                 new Dictionary<string, object>
@@ -252,16 +247,15 @@ namespace GSCFieldApp.ViewModel
                         SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(fi.FullName);
 
                         //Get metadata records
-                        List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
-                        foreach (Metadata m in metadataTableRows)
+                        Metadata metadataTableRows = await currentConnection.Table<Metadata>()?.FirstAsync();
+                        if(metadataTableRows != null) 
                         {
                             //For metadata
-                            Metadata met = m as Metadata;
-                            currentBook.CreateDate = met.StartDate;
-                            currentBook.GeologistGeolcode = met.Geologist + "[" + met.UserCode + "]";
+                            currentBook.CreateDate = metadataTableRows.StartDate;
+                            currentBook.GeologistGeolcode = metadataTableRows.Geologist + "[" + metadataTableRows.UserCode + "]";
                             currentBook.ProjectPath = FileSystem.Current.AppDataDirectory;
                             currentBook.ProjectDBPath = fi.FullName;
-                            currentBook.metadataForProject = m as Metadata;
+                            currentBook.metadataForProject = metadataTableRows;
 
                             //Manage to select last prefered fieldbook
                             string preferedDBPath = Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty);
@@ -412,6 +406,23 @@ namespace GSCFieldApp.ViewModel
             {
                 newFieldBookRequest(this, true);
             }
+        }
+
+        /// <summary>
+        /// Will keep in memory the desired field book and selected in the collection
+        /// </summary>
+        /// <param name="book"></param>
+        public void SetFieldBookAsPreferred(FieldBooks book)
+        {
+            da.PreferedDatabasePath = book.ProjectDBPath;
+
+            // Keep in pref project type for futur vocab use and other viewing purposes
+            Preferences.Set(nameof(FieldUserInfoFWorkType), book.metadataForProject.FieldworkType);
+            Preferences.Set(nameof(FieldUserInfoUCode), book.metadataForProject.UserCode);
+
+            _selectedFieldBook = book;
+            OnPropertyChanged(nameof(SelectedFieldBook));
+
         }
 
         #endregion

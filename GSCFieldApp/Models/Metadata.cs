@@ -178,6 +178,8 @@ namespace GSCFieldApp.Models
 
         /// <summary>
         /// Will calculate a field book file name. Used for database copies
+        /// Ex: Pontiac_GYA.gpkg if project name is available
+        /// Smith_John_JSM.gpkg if no project name is entered, geologist name is used instead
         /// </summary>
         /// <returns></returns>
         [Ignore]
@@ -185,18 +187,31 @@ namespace GSCFieldApp.Models
         {
             get
             {
+                string fileName = string.Empty;
 
-                //If project name isn't empty use that first
-                if (ProjectName != null && ProjectName != string.Empty)
+                //Start with activity name
+                if (MetadataActivity != null && MetadataActivity != string.Empty)
                 {
-                    return ProjectName.ToString().Replace(" ", "_") + "_" + UserCode;
+                    fileName = MetadataActivity.ToString().Replace(" ", "_") + "_" + UserCode;
                 }
-                //If proejctName is empty take geologist name
+                else if (ProjectName != null && ProjectName != string.Empty)
+                {
+                    fileName = ProjectName.ToString().Replace(" ", "_") + "_" + UserCode;
+                }
+                else if (Geologist != null && Geologist != string.Empty)
+                {
+                    fileName = (Geologist.ToString().Replace(",", "_") + "_" + UserCode).Replace(".", "");
+                }
+                else if (UserCode != null && Geologist != string.Empty)
+                {
+                    fileName = UserCode;   
+                }
                 else
                 {
-                    return Geologist.ToString().Replace(",", "_") + "_" + UserCode;
+                    fileName = ApplicationLiterals.funnyNames.ElementAt(new Random().Next(0,6));
                 }
 
+                return fileName.Replace("__", "_").TrimEnd('_');
             }
             set { }
         }
