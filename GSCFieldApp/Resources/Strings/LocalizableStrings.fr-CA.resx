@@ -196,6 +196,9 @@ Aimeriez-vous modifier les droits?</value>
   <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
     <value>Une station ne peut avoir la même location qu'une autre. Retournez à la page de cartes.</value>
   </data>
+  <data name="DisplayAlertNotAllowedLocationContent" xml:space="preserve">
+    <value>Une localisation ne peut avoir les même coordonnées.</value>
+  </data>
   <data name="DocumentPageAdvancedTitle" xml:space="preserve">
     <value>Spécialisé</value>
   </data>

@@ -313,6 +313,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t create a location with same position..
+        /// </summary>
+        internal static string DisplayAlertNotAllowedLocationContent {
+            get {
+                return ResourceManager.GetString("DisplayAlertNotAllowedLocationContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced.
         /// </summary>
         internal static string DocumentPageAdvancedTitle {

@@ -207,6 +207,9 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
     <value>Can't create a station with same location.</value>
   </data>
+  <data name="DisplayAlertNotAllowedLocationContent" xml:space="preserve">
+    <value>Can't create a location with same position.</value>
+  </data>
   <data name="DocumentPageAdvancedTitle" xml:space="preserve">
     <value>Advanced</value>
   </data>

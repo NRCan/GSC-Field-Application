@@ -102,7 +102,16 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Exit
-            await NavigateToFieldNotes(TableNames.location);
+            if (_fieldLocation != null && _fieldLocation.LocationAlias != string.Empty && _model.LocationID != 0)
+            {
+                await NavigateToFieldNotes(TableNames.location);
+            }
+            else
+            {
+                //Exit on map
+                await Shell.Current.GoToAsync("../");
+            }
+                
         }
 
         /// <summary>
@@ -114,7 +123,7 @@ namespace GSCFieldApp.ViewModel
         {
             //Display a warning to user
             await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertNotAllowed"].ToString(),
-                LocalizationResourceManager["DisplayAlertNotAllowedContent"].ToString(),
+                LocalizationResourceManager["DisplayAlertNotAllowedLocationContent"].ToString(),
                 LocalizationResourceManager["GenericButtonOk"].ToString());
 
         }
