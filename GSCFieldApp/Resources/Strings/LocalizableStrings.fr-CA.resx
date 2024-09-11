@@ -775,17 +775,17 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageAddWaypoint" xml:space="preserve">
     <value>Ajouter un point d'intérêt.</value>
   </data>
-  <data name="MapPageAddWaypointDialogMessage" xml:space="preserve">
-    <value>Veuillez écrire l'adresse complète du service WMS à ajouter.</value>
-  </data>
-  <data name="MapPageAddWaypointDialogPlaceholder" xml:space="preserve">
-    <value>https://canada3d-geo.azurewebsites.net/canada3d/wms?version=1.1.0</value>
-  </data>
-  <data name="MapPageAddWaypointDialogTitle" xml:space="preserve">
-    <value>Ajouter une couche WMS</value>
-  </data>
   <data name="MapPageAddWMS" xml:space="preserve">
     <value>Ajouter une adresse web d'un service de cartographique (WMS).</value>
+  </data>
+  <data name="MapPageAddWMSDialogMessage" xml:space="preserve">
+    <value>Veuillez écrire l'adresse complète du service WMS à ajouter.</value>
+  </data>
+  <data name="MapPageAddWMSDialogPlaceholder" xml:space="preserve">
+    <value>https://canada3d-geo.azurewebsites.net/ows?version=1.3.0&amp;layers=c3d_geophys:CanMag_BouguerAnomaly_2KM_8bits</value>
+  </data>
+  <data name="MapPageAddWMSDialogTitle" xml:space="preserve">
+    <value>Ajouter une couche WMS</value>
   </data>
   <data name="MapPageAddWMSFailMessage" xml:space="preserve">
     <value>L'adresse URL du service WMS a échoué à trouver une couche de données. Veuillez-vous assurer que celui-ci possède bien le nom de la dite couche et que cette dernière est précédé par "&amp;layers=".</value>

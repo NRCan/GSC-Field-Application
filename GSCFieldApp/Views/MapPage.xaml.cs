@@ -78,7 +78,7 @@ public partial class MapPage : ContentPage
         this.mapControl.Map.Layers.LayerRemoved += Layers_LayerRemoved;
 
         //Detect new field book selection, uprgrade, edit, ...
-        FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+        FieldBooksViewModel.newFieldBookSelected -= FieldBooksViewModel_newFieldBookSelectedAsync;
         FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
 
     }
@@ -337,12 +337,12 @@ public partial class MapPage : ContentPage
     private async void AddWMS_Clicked(object sender, EventArgs e)
     {
 
-        string wms_url = await DisplayPromptAsync(LocalizationResourceManager["MapPageAddWaypointDialogTitle"].ToString(),
-            LocalizationResourceManager["MapPageAddWaypointDialogMessage"].ToString(),
+        string wms_url = await DisplayPromptAsync(LocalizationResourceManager["MapPageAddWMSDialogTitle"].ToString(),
+            LocalizationResourceManager["MapPageAddWMSDialogMessage"].ToString(),
             LocalizationResourceManager["GenericButtonOk"].ToString(),
             LocalizationResourceManager["GenericButtonCancel"].ToString(),
-            LocalizationResourceManager["MapPageAddWaypointDialogPlaceholder"].ToString(),-1,null,
-            LocalizationResourceManager["MapPageAddWaypointDialogPlaceholder"].ToString());
+            LocalizationResourceManager["MapPageAddWMSDialogPlaceholder"].ToString(),-1,null,
+            LocalizationResourceManager["MapPageAddWMSDialogPlaceholder"].ToString());
 
         if (wms_url != string.Empty)
         {
