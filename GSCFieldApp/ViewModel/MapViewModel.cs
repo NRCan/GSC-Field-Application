@@ -211,6 +211,9 @@ namespace GSCFieldApp.ViewModel
                 //Create a location record
                 int locationID = await SetLocationModelAsync();
 
+                //Change entry type for manual
+                locationModel.LocationEntryType = locationEntryTypeManual;
+
                 //Navigate to structure page 
                 if (locationID > 0)
                 {
@@ -369,6 +372,9 @@ namespace GSCFieldApp.ViewModel
                     locationModel.LocationGeometry = geoService.CreateByteGeometry(locationModel.LocationLong, locationModel.LocationLat);
 
                 }
+
+                //Other info
+                locationModel.LocationEntryType = locationEntryTypeSatellite;
 
                 //Update metadata if needed
                 if (metadataModel.IsActive == 0)

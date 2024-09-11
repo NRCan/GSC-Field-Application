@@ -113,7 +113,7 @@ namespace GSCFieldApp.Models
         {
             get
             {
-                if (LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual || LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeTap)
+                if (LocationEntryType != null && LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeManual || LocationEntryType == Dictionaries.DatabaseLiterals.locationEntryTypeTap)
                 {
                     return true;
                 }
