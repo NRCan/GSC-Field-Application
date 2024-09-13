@@ -78,7 +78,6 @@ public partial class MapPage : ContentPage
         this.mapControl.Map.Layers.LayerRemoved += Layers_LayerRemoved;
 
         //Detect new field book selection, uprgrade, edit, ...
-        FieldBooksViewModel.newFieldBookSelected -= FieldBooksViewModel_newFieldBookSelectedAsync;
         FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
 
     }
@@ -94,7 +93,11 @@ public partial class MapPage : ContentPage
     {
         if (hasChanged)
         {
+            // Force refresh on OSM and stations
             await RefreshDefaultFeatureLayer();
+
+            //Reload user datasets
+            await LoadPreferedLayers();
         }
 
     }
@@ -351,6 +354,33 @@ public partial class MapPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Will detect when layer menu is closed so that it can saves the layer rendering in the json
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void MapLayerFrame_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "IsVisible")
+        {
+            Frame sentFrame = sender as Frame;
+
+            //Condition on map view not being null to prevent it from being launch and map page load
+            if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
+            {
+
+                MapViewModel mvm = this.BindingContext as MapViewModel;
+                if (mvm.LayerCollection != null && mvm.LayerCollection.Count() > 0)
+                {
+                    mvm.SaveLayerRendering();
+                }
+
+            }
+
+
+        }
+    }
+
     #endregion
 
     #endregion
@@ -363,6 +393,9 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     private async Task RefreshDefaultFeatureLayer()
     {
+        MapViewModel mapViewModel = this.BindingContext as MapViewModel;
+        mapViewModel.RemoveAllLayers();
+
         List<MemoryLayer> mls = await CreateDefaultLayersAsync();
         if (mls != null && mls.Count() > 0)
         {
