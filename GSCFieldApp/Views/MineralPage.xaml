@@ -73,7 +73,7 @@
                         <VerticalStackLayout>
 
                             <Picker Title="{local:Localize MineralPageColour}" x:Name="MineralPageColourPicker"
-                                    ItemsSource="{Binding MineralColour.cboxItems}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                    ItemsSource="{Binding MineralColour.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.MineralColour, 
                                         Converter={StaticResource cbox2Str},
