@@ -78,7 +78,6 @@ public partial class MapPage : ContentPage
 
         this.Loaded += MapPage_Loaded;
         this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
-        this.mapControl.Map.Layers.LayerRemoved += Layers_LayerRemoved;
 
         //Detect new field book selection, uprgrade, edit, ...
         FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
@@ -103,18 +102,6 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// Make sure to refresh prefered layer json file when 
-    /// one is removed.
-    /// </summary>
-    /// <param name="layer"></param>
-    private void Layers_LayerRemoved(ILayer layer)
-    {
-        //_vm.RefreshLayerCollection(mapControl.Map.Layers);
-        _vm.SaveLayerRendering();
-
-    }
-
-    /// <summary>
     /// Will be triggered whenever a layer has been added. 
     /// This will make sure to close the waiting cursor
     /// </summary>
@@ -123,22 +110,6 @@ public partial class MapPage : ContentPage
     {
         //Make sure to disable the waiting cursor
         this.WaitingCursor.IsRunning = false;
-
-        //Make sure to save current settings locally if not default layers
-        try
-        {
-            if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
-                layer.Name != ApplicationLiterals.aliasTraversePoint)
-            {
-                _vm.SaveLayerRendering(layer);
-            }
-
-        }
-        catch (System.Exception e)
-        {
-            DisplayAlert("Alert", e.Message, "OK");
-            new ErrorToLogFile(e).WriteToFile();
-        }
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
@@ -195,9 +166,10 @@ public partial class MapPage : ContentPage
         //Manage symbol and layers
         await AddSymbolToRegistry();
 
+        //Freshen up the default layers
         await RefreshDefaultFeatureLayer();
 
-        //Reload user datasets
+        //Reload user datasets for selected field book
         await LoadPreferedLayers();
 
         //Manage GPS
@@ -281,6 +253,9 @@ public partial class MapPage : ContentPage
 
             //Remove it also from the view model layer collection for menu
             _vm.RefreshLayerCollection(mapView.Map.Layers);
+
+            //Save
+            _vm.SaveLayerRendering();
         }
 
     }
@@ -299,7 +274,6 @@ public partial class MapPage : ContentPage
         if (fr != null)
         {
             await AddAMBTile(fr.FullPath);
-
         }
 
         this.WaitingCursor.IsRunning = false;
@@ -446,6 +420,8 @@ public partial class MapPage : ContentPage
                     //Update layer collection for menu
                     _vm.RefreshLayerCollection(mapView.Map.Layers);
 
+                    //Save
+                    _vm.SaveLayerRendering();
                     break;
                 }
 
@@ -491,20 +467,37 @@ public partial class MapPage : ContentPage
         }
     }
 
+
+
     /// <summary>
-    /// On init will reload user prefered layers from saved JSON file
+    /// On init will reload user prefered layers from saved JSON file.
+    /// It'll also do some clean up making sure only desired layers are loaded.
     /// </summary>
     /// <returns></returns>
     public async Task LoadPreferedLayers()
-    { 
-        //Get prefered layers
-        Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
+    {
+        //Clean before load
         List<string> prefLayerNames = new List<string>();
+        prefLayerNames.Add(ApplicationLiterals.aliasOSM);
+        prefLayerNames.Add(ApplicationLiterals.aliasTraversePoint);
+        prefLayerNames.Add(ApplicationLiterals.aliasStations);
+        prefLayerNames.Add(ApplicationLiterals.aliasMapsuiDrawables);
+        prefLayerNames.Add(ApplicationLiterals.aliasMapsuiLayer);
+        prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
+        prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
 
-        //Iterate through mapPageLayers object and reload each of time
+        ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
+        if (layerToRemove.Count() > 0)
+        {
+            mapView.Map.Layers.Remove(layerToRemove);
+        }
+
+        //Get prefered layers and add them
+        Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
+
         if (prefLayers != null && mapView != null)
         {
-            //Add
+
             foreach (MapPageLayer mpl in prefLayers)
             {
                 if (mpl.LayerName != ApplicationLiterals.aliasStations)
@@ -517,26 +510,8 @@ public partial class MapPage : ContentPage
                     {
                         await AddAWMSAsync(mpl.LayerPathOrURL);
                     }
-
-                    prefLayerNames.Add(mpl.LayerName);
                 }
 
-            }
-
-            //Add all defaults
-            prefLayerNames.Add(ApplicationLiterals.aliasOSM);
-            prefLayerNames.Add(ApplicationLiterals.aliasTraversePoint);
-            prefLayerNames.Add(ApplicationLiterals.aliasStations);
-            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiDrawables);
-            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiLayer);
-            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
-            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
-
-            //Remove those that aren't pref json
-            ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
-            if (layerToRemove.Count() > 0)
-            {
-                mapView.Map.Layers.Remove(layerToRemove);
             }
         }
     }
