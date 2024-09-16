@@ -359,7 +359,7 @@
                                     <Button Text="{local:Localize ButtonSet}" BackgroundColor="Gray" Padding="-5" Command="{Binding SetContactCommand}"/>
 
                                     <!--Custom control to concatenate multiple values into one field-->
-                                    <controls:ConcatenatedCollection MaximumWidthRequest="197" WidthRequest="197" ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
+                                    <controls:ConcatenatedCollection MinimumWidthRequest="225" ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
                                                                  ConcatSource="{Binding EarthLithContactRelationCollection}" />
 
                                 </HorizontalStackLayout>
