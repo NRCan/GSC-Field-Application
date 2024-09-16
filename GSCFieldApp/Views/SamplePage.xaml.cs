@@ -21,14 +21,7 @@ public partial class SamplePage : ContentPage
     {
         //Conditional visual remainder for surficial to take duplicate or blank sample
         SampleViewModel vm3 = this.BindingContext as SampleViewModel;
-        bool needReminder = await vm3.DuplicateReminder();
-
-        if (needReminder)
-        {
-            await Shell.Current.DisplayAlert(LocalizationResourceManager["SamplePageDuplicateReminderTitle"].ToString(),
-                    LocalizationResourceManager["SamplePageDuplicateReminderMessage"].ToString(),
-                    LocalizationResourceManager["GenericButtonOk"].ToString());
-        }
+        await vm3.DuplicateReminder();
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)

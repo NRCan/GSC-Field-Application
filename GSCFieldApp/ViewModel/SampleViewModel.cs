@@ -257,6 +257,9 @@ namespace GSCFieldApp.ViewModel
             await ResetModelAsync();
             OnPropertyChanged(nameof(Model));
 
+            //Surficial reminder
+            await DuplicateReminder();
+
 
         }
 
@@ -435,6 +438,13 @@ namespace GSCFieldApp.ViewModel
                 {
                     shouldShowReminder = true;
                 }
+            }
+
+            if (shouldShowReminder)
+            {
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["SamplePageDuplicateReminderTitle"].ToString(),
+                        LocalizationResourceManager["SamplePageDuplicateReminderMessage"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
             }
 
             return shouldShowReminder;
