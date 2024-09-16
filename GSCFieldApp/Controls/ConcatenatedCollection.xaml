@@ -14,14 +14,27 @@
                                 ItemsSource="{TemplateBinding ConcatSource}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="controls:ComboBoxItem">
-                            <Frame Style="{StaticResource FieldAppConcatFrame}">
-                                <HorizontalStackLayout Style="{StaticResource FieldAppConcatHLayout}">
-                                    <Label Text="{Binding itemName}" x:Name="itemNameText" Style="{StaticResource FieldAppConcatLabel}"/>
-                                    <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
+
+                            <Grid Style="{StaticResource FieldAppSettingGrid}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="1"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding itemName}" x:Name="itemNameText" Style="{StaticResource FieldAppConcatLabel}" Grid.Column="0" Grid.Row="0" />
+
+                                <Button x:Name="ConcatValueCheck" Style="{StaticResource FieldAppConcatDelButton}" IsVisible="{Binding canRemoveItem}"
                                         Command="{TemplateBinding DeleteItemCommand}"
-                                        CommandParameter="{Binding .}"/>
-                                </HorizontalStackLayout>
-                            </Frame>
+                                        CommandParameter="{Binding .}"
+                                        Grid.Column="1" Grid.Row="0"/>
+
+                                <BoxView HeightRequest="1" BackgroundColor="{StaticResource Gray100}" Color="{StaticResource Gray100}"  Grid.Row="1" Grid.ColumnSpan="2" Margin="0"/>
+
+                            </Grid>
+
+
+
+
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
