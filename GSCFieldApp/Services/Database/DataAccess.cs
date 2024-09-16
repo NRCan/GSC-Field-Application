@@ -275,6 +275,13 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             List<Vocabularies> vocabs = await currentConnection.QueryAsync<Vocabularies>(finalQuery);
 
+            //Add empty record for user to remove any selected values
+            Vocabularies emptyNull = new Vocabularies();
+            emptyNull.Code = null;
+            emptyNull.Description = " ";
+
+            vocabs.Insert(0, emptyNull);
+
             return vocabs;
         }
 

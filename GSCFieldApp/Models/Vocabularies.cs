@@ -28,7 +28,7 @@ namespace GSCFieldApp.Models
         public string RelatedTo { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryCode)]
-        public string Code { get; set; }
+        public string? Code { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryDescription)]
         public string Description { get; set; }
