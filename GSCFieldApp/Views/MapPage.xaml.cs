@@ -565,8 +565,13 @@ public partial class MapPage : ContentPage
                 inLayer.Extent.MaxY).Grow(2500);
             double currentArea = mapView.Map.Navigator.Viewport.ToExtent().GetArea();
             double zoomingToArea = fieldDataExtent.GetArea();
+
             //Zoom to extent of all stations, unless current extent is already smaller
-            if (currentArea > zoomingToArea)
+            if (inLayer.Name == ApplicationLiterals.aliasStations && currentArea > zoomingToArea)
+            {
+                mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
+            }
+            else if (inLayer.Name != ApplicationLiterals.aliasStations)
             {
                 mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
             }
