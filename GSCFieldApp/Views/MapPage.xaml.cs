@@ -27,6 +27,7 @@ using Microsoft.Maui.Devices.Sensors;
 using System.Diagnostics;
 using System;
 using NetTopologySuite.Operation.Distance;
+using BruTile.Wms;
 
 
 #if ANDROID
@@ -109,7 +110,7 @@ public partial class MapPage : ContentPage
     private void Layers_LayerRemoved(ILayer layer)
     {
         //_vm.RefreshLayerCollection(mapControl.Map.Layers);
-        //mvm.SaveLayerRendering();
+        _vm.SaveLayerRendering();
 
     }
 
@@ -433,7 +434,7 @@ public partial class MapPage : ContentPage
         {
 
             //Insert before the layer names drawables, WMS always should be beneath lines and points
-            if (layer.Name.Contains("Drawables"))
+            if (layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables))
             {
                 int rightIndex = layerList.IndexOf(layer);
 
@@ -465,7 +466,7 @@ public partial class MapPage : ContentPage
         {
 
             //Insert before the layer names drawables, WMS always should be beneath lines and points
-            if (layer.Name.Contains("Drawables"))
+            if (layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables))
             {
                 //Get top layer
                 ILayer topLayer = layerList[layerList.IndexOf(layer) - 1];
@@ -498,10 +499,12 @@ public partial class MapPage : ContentPage
     { 
         //Get prefered layers
         Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
+        List<string> prefLayerNames = new List<string>();
 
         //Iterate through mapPageLayers object and reload each of time
-        if (prefLayers != null)
+        if (prefLayers != null && mapView != null)
         {
+            //Add
             foreach (MapPageLayer mpl in prefLayers)
             {
                 if (mpl.LayerName != ApplicationLiterals.aliasStations)
@@ -514,7 +517,26 @@ public partial class MapPage : ContentPage
                     {
                         await AddAWMSAsync(mpl.LayerPathOrURL);
                     }
+
+                    prefLayerNames.Add(mpl.LayerName);
                 }
+
+            }
+
+            //Add all defaults
+            prefLayerNames.Add(ApplicationLiterals.aliasOSM);
+            prefLayerNames.Add(ApplicationLiterals.aliasTraversePoint);
+            prefLayerNames.Add(ApplicationLiterals.aliasStations);
+            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiDrawables);
+            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiLayer);
+            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
+            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
+
+            //Remove those that aren't pref json
+            ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
+            if (layerToRemove.Count() > 0)
+            {
+                mapView.Map.Layers.Remove(layerToRemove);
             }
         }
     }
@@ -539,7 +561,7 @@ public partial class MapPage : ContentPage
                 //Insert at right location in collection
                 InsertLayerAtRightPlace(newTileLayer);
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
                 await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
                     e.Message,
@@ -1132,7 +1154,7 @@ public partial class MapPage : ContentPage
                     new ErrorToLogFile(pEx).WriteToFile();
 
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
 
                     // Unable to get location
