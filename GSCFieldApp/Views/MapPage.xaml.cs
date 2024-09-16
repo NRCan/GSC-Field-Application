@@ -40,6 +40,7 @@ namespace GSCFieldApp.Views;
 
 public partial class MapPage : ContentPage
 {
+    private MapViewModel _vm;
     //private CancellationTokenSource? gpsCancelation;
     private CancellationTokenSource _cancelTokenSource;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
@@ -57,6 +58,7 @@ public partial class MapPage : ContentPage
     {
         InitializeComponent();
         BindingContext = vm;
+        _vm = vm;
 
         //Initialize grid background
         mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
@@ -91,11 +93,8 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void FieldBooksViewModel_newFieldBookSelectedAsync(object sender, bool hasChanged)
     {
-        if (hasChanged)
+        if (hasChanged && mapView != null)
         {
-            // Force refresh on OSM and stations
-            await RefreshDefaultFeatureLayer();
-
             //Reload user datasets
             await LoadPreferedLayers();
         }
@@ -109,9 +108,8 @@ public partial class MapPage : ContentPage
     /// <param name="layer"></param>
     private void Layers_LayerRemoved(ILayer layer)
     {
-        MapViewModel mvm = this.BindingContext as MapViewModel;
-        mvm.RefreshLayerCollection(mapControl.Map.Layers);
-        mvm.SaveLayerRendering();
+        //_vm.RefreshLayerCollection(mapControl.Map.Layers);
+        //mvm.SaveLayerRendering();
 
     }
 
@@ -123,7 +121,6 @@ public partial class MapPage : ContentPage
     private void Layers_LayerAdded(ILayer layer)
     {
         //Make sure to disable the waiting cursor
-        MapViewModel mvm = this.BindingContext as MapViewModel;
         this.WaitingCursor.IsRunning = false;
 
         //Make sure to save current settings locally if not default layers
@@ -132,7 +129,7 @@ public partial class MapPage : ContentPage
             if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
                 layer.Name != ApplicationLiterals.aliasTraversePoint)
             {
-                mvm.SaveLayerRendering(layer);
+                _vm.SaveLayerRendering(layer);
             }
 
         }
@@ -154,13 +151,21 @@ public partial class MapPage : ContentPage
         {
             if (item.Name == ApplicationLiterals.aliasStations)
             {
-                mapView.Map.Layers.Remove(item);
+                //Remove all the one with same name
+                ILayer[] stations = mapView.Map.Layers.Where(x=>x.Name == ApplicationLiterals.aliasStations).ToArray();
+                mapView.Map.Layers.Remove(stations);
+
                 List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
                 if (memLayers != null && memLayers.Count > 0)
                 {
                     foreach (MemoryLayer ml in memLayers)
                     {
-                        mapView.Map.Layers.Add(ml);
+                        //Make sure it's not already in there
+                        if (mapView.Map.Layers.Where(x=>x.Name == ml.Name).Count() == 0)
+                        {
+                            mapView.Map.Layers.Add(ml);
+                        }
+                        
                     }
 
                     mapView.Map.RefreshData();
@@ -269,8 +274,14 @@ public partial class MapPage : ContentPage
 
         if (layerToDelete != null)
         {
-            mapControl.Map.Layers.Remove(layerToDelete);
+            //Remove layer from map control, make it so and remove possible duplicates at the same time
+            ILayer[] layersToDelete = mapView.Map.Layers.Where(x => x.Name == layerToDelete.Name).ToArray();
+            mapView.Map.Layers.Remove(layerToDelete);
+
+            //Remove it also from the view model layer collection for menu
+            _vm.RefreshLayerCollection(mapView.Map.Layers);
         }
+
     }
 
     /// <summary>
@@ -303,8 +314,7 @@ public partial class MapPage : ContentPage
     private void ManageLayerButton_Clicked(object sender, EventArgs e)
     {
         //Refresh VM list of layers
-        MapViewModel vm = this.BindingContext as MapViewModel;
-        vm.RefreshLayerCollection(mapView.Map.Layers);
+        _vm.RefreshLayerCollection(mapView.Map.Layers);
 
         MapLayerFrame.IsVisible = !MapLayerFrame.IsVisible;
     }
@@ -368,16 +378,11 @@ public partial class MapPage : ContentPage
             //Condition on map view not being null to prevent it from being launch and map page load
             if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
             {
-
-                MapViewModel mvm = this.BindingContext as MapViewModel;
-                if (mvm.LayerCollection != null && mvm.LayerCollection.Count() > 0)
+                if (_vm.LayerCollection != null && _vm.LayerCollection.Count() > 0)
                 {
-                    mvm.SaveLayerRendering();
+                    _vm.SaveLayerRendering();
                 }
-
             }
-
-
         }
     }
 
@@ -393,15 +398,19 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     private async Task RefreshDefaultFeatureLayer()
     {
-        MapViewModel mapViewModel = this.BindingContext as MapViewModel;
-        mapViewModel.RemoveAllLayers();
+        _vm.EmptyLayerCollections();
 
         List<MemoryLayer> mls = await CreateDefaultLayersAsync();
         if (mls != null && mls.Count() > 0)
         {
             foreach (MemoryLayer ml in mls)
             {
-                mapView.Map.Layers.Add(ml);
+                //Verify if doesn't exist and add
+                if (mapView.Map.Layers.Where(x=>x.Name == ml.Name).Count() == 0)
+                {
+                    mapView.Map.Layers.Add(ml);
+                }
+                
             }
 
             //Zoom to initial extent of the station layer
@@ -427,8 +436,18 @@ public partial class MapPage : ContentPage
             if (layer.Name.Contains("Drawables"))
             {
                 int rightIndex = layerList.IndexOf(layer);
-                mapView.Map.Layers.Insert(rightIndex, in_layer);
-                break;
+
+                //make sure it's not already in there
+                if (mapView.Map.Layers.Where(x => x.Name == in_layer.Name).Count() == 0)
+                {
+                    mapView.Map.Layers.Insert(rightIndex, in_layer);
+
+                    //Update layer collection for menu
+                    _vm.RefreshLayerCollection(mapView.Map.Layers);
+
+                    break;
+                }
+
             }
 
         }
@@ -478,8 +497,7 @@ public partial class MapPage : ContentPage
     public async Task LoadPreferedLayers()
     { 
         //Get prefered layers
-        MapViewModel mvm = this.BindingContext as MapViewModel;
-        Collection<MapPageLayer> prefLayers = await mvm.GetLayerRendering();
+        Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
 
         //Iterate through mapPageLayers object and reload each of time
         if (prefLayers != null)
@@ -510,14 +528,24 @@ public partial class MapPage : ContentPage
     {
         if (mbTilePath != null && mbTilePath != string.Empty)
         {
-            MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
-            byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+            try
+            {
+                MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
+                byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
 
-            TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
-            newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
-            newTileLayer.Tag = mbTilePath;
-            //Insert at right location in collection
-            InsertLayerAtRightPlace(newTileLayer);
+                TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+                newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
+                newTileLayer.Tag = mbTilePath;
+                //Insert at right location in collection
+                InsertLayerAtRightPlace(newTileLayer);
+            }
+            catch (Exception e)
+            {
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                    e.Message,
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
+            }
+
         }
 
     }
@@ -1147,7 +1175,6 @@ public partial class MapPage : ContentPage
 
     }
 
-
     /// <summary>
     /// TEMP method to force refresh of location each seconds
     /// TODO: Make sure this is still needed
@@ -1205,9 +1232,7 @@ public partial class MapPage : ContentPage
     {
         if (_isCheckingGeolocation)
         {
-
-            MapViewModel vm = this.BindingContext as MapViewModel;
-            vm.RefreshCoordinates(inLocation);
+            _vm.RefreshCoordinates(inLocation);
 
             await SetMapAccuracyColor(inLocation.Accuracy);
 
@@ -1260,8 +1285,7 @@ public partial class MapPage : ContentPage
         _ = SetMapAccuracyColor(-99);
 
         //Make sure to show proper bad location coordinates labels
-        MapViewModel mapViewModel = this.BindingContext as MapViewModel;
-        mapViewModel.RefreshCoordinates(badLoc);
+        _vm.RefreshCoordinates(badLoc);
 
         this.WaitingCursor.IsRunning = false;
     }

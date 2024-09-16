@@ -417,7 +417,7 @@ namespace GSCFieldApp.ViewModel
             Collection<ILayer> refreshCollection = new Collection<ILayer>();
 
             //Clear before reloading
-            RemoveAllLayers();
+            EmptyLayerCollections();
 
             int index = 0;
 
@@ -461,7 +461,7 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will wipe all layers from layer collection
         /// </summary>
-        public void RemoveAllLayers()
+        public void EmptyLayerCollections()
         {
             _layerCollection.Clear();
             _customLayerCollection.Clear();
