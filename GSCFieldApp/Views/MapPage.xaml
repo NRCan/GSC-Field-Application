@@ -117,11 +117,11 @@
 
             <!--Map Layer menu-->
             <Frame x:Name="MapLayerFrame" Grid.Row="1" Padding="15" 
-                   BorderColor="{StaticResource Gray300}" Margin="0"
+                   BorderColor="{StaticResource Gray300}" Margin="0" PropertyChanged="MapLayerFrame_PropertyChanged"
                    HeightRequest="300" WidthRequest="350" IsVisible="False">
                 <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection"
                                 ItemTemplate="{StaticResource MapLayersProperties}"
-                                ItemsSource="{Binding layerCollection,Mode=TwoWay}" />
+                                ItemsSource="{Binding LayerCollection,Mode=TwoWay}" />
                 
                 <!--Attempt to use directly Map.Layers, but couldn't work with a mode=twoway-->
                 <!--Had to revert to viewmodel refresh method for each click on layer button-->

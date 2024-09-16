@@ -420,6 +420,7 @@ namespace GSCFieldApp.Dictionaries
         public const string sampleTypeOriented = "oriented";
         public const string samplePurposePaleomag = "paleomagnetism";
         public const string structurePlanarAttitudeTrend = "trend";
+        public const string locationEntryTypeSatellite = "Satellite"; 
 
         #endregion
 

@@ -400,12 +400,7 @@ namespace GSCFieldApp.ViewModel
             //Reset prefered database
             da.PreferedDatabasePath = da.DatabaseFilePath;
 
-            //Send call to refresh other pages
-            EventHandler<bool> newFieldBookRequest = newFieldBookSelected;
-            if (newFieldBookRequest != null)
-            {
-                newFieldBookRequest(this, true);
-            }
+
         }
 
         /// <summary>
@@ -422,6 +417,13 @@ namespace GSCFieldApp.ViewModel
 
             _selectedFieldBook = book;
             OnPropertyChanged(nameof(SelectedFieldBook));
+
+            //Send call to refresh other pages
+            EventHandler<bool> newFieldBookRequest = newFieldBookSelected;
+            if (newFieldBookRequest != null)
+            {
+                newFieldBookRequest(this, true);
+            }
 
         }
 

@@ -27,6 +27,7 @@ using Microsoft.Maui.Devices.Sensors;
 using System.Diagnostics;
 using System;
 using NetTopologySuite.Operation.Distance;
+using BruTile.Wms;
 
 
 #if ANDROID
@@ -40,6 +41,7 @@ namespace GSCFieldApp.Views;
 
 public partial class MapPage : ContentPage
 {
+    private MapViewModel _vm;
     //private CancellationTokenSource? gpsCancelation;
     private CancellationTokenSource _cancelTokenSource;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
@@ -57,6 +59,7 @@ public partial class MapPage : ContentPage
     {
         InitializeComponent();
         BindingContext = vm;
+        _vm = vm;
 
         //Initialize grid background
         mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
@@ -79,7 +82,6 @@ public partial class MapPage : ContentPage
 
         //Detect new field book selection, uprgrade, edit, ...
         FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
-        FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
 
     }
 
@@ -92,9 +94,10 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void FieldBooksViewModel_newFieldBookSelectedAsync(object sender, bool hasChanged)
     {
-        if (hasChanged)
+        if (hasChanged && mapView != null)
         {
-            await RefreshDefaultFeatureLayer();
+            //Reload user datasets
+            await LoadPreferedLayers();
         }
 
     }
@@ -106,9 +109,8 @@ public partial class MapPage : ContentPage
     /// <param name="layer"></param>
     private void Layers_LayerRemoved(ILayer layer)
     {
-        MapViewModel mvm = this.BindingContext as MapViewModel;
-        mvm.RefreshLayerCollection(mapControl.Map.Layers);
-        mvm.SaveLayerRendering();
+        //_vm.RefreshLayerCollection(mapControl.Map.Layers);
+        _vm.SaveLayerRendering();
 
     }
 
@@ -120,7 +122,6 @@ public partial class MapPage : ContentPage
     private void Layers_LayerAdded(ILayer layer)
     {
         //Make sure to disable the waiting cursor
-        MapViewModel mvm = this.BindingContext as MapViewModel;
         this.WaitingCursor.IsRunning = false;
 
         //Make sure to save current settings locally if not default layers
@@ -129,7 +130,7 @@ public partial class MapPage : ContentPage
             if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
                 layer.Name != ApplicationLiterals.aliasTraversePoint)
             {
-                mvm.SaveLayerRendering(layer);
+                _vm.SaveLayerRendering(layer);
             }
 
         }
@@ -151,13 +152,21 @@ public partial class MapPage : ContentPage
         {
             if (item.Name == ApplicationLiterals.aliasStations)
             {
-                mapView.Map.Layers.Remove(item);
+                //Remove all the one with same name
+                ILayer[] stations = mapView.Map.Layers.Where(x=>x.Name == ApplicationLiterals.aliasStations).ToArray();
+                mapView.Map.Layers.Remove(stations);
+
                 List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
                 if (memLayers != null && memLayers.Count > 0)
                 {
                     foreach (MemoryLayer ml in memLayers)
                     {
-                        mapView.Map.Layers.Add(ml);
+                        //Make sure it's not already in there
+                        if (mapView.Map.Layers.Where(x=>x.Name == ml.Name).Count() == 0)
+                        {
+                            mapView.Map.Layers.Add(ml);
+                        }
+                        
                     }
 
                     mapView.Map.RefreshData();
@@ -266,8 +275,14 @@ public partial class MapPage : ContentPage
 
         if (layerToDelete != null)
         {
-            mapControl.Map.Layers.Remove(layerToDelete);
+            //Remove layer from map control, make it so and remove possible duplicates at the same time
+            ILayer[] layersToDelete = mapView.Map.Layers.Where(x => x.Name == layerToDelete.Name).ToArray();
+            mapView.Map.Layers.Remove(layerToDelete);
+
+            //Remove it also from the view model layer collection for menu
+            _vm.RefreshLayerCollection(mapView.Map.Layers);
         }
+
     }
 
     /// <summary>
@@ -300,8 +315,7 @@ public partial class MapPage : ContentPage
     private void ManageLayerButton_Clicked(object sender, EventArgs e)
     {
         //Refresh VM list of layers
-        MapViewModel vm = this.BindingContext as MapViewModel;
-        vm.RefreshLayerCollection(mapView.Map.Layers);
+        _vm.RefreshLayerCollection(mapView.Map.Layers);
 
         MapLayerFrame.IsVisible = !MapLayerFrame.IsVisible;
     }
@@ -337,17 +351,39 @@ public partial class MapPage : ContentPage
     private async void AddWMS_Clicked(object sender, EventArgs e)
     {
 
-        string wms_url = await DisplayPromptAsync(LocalizationResourceManager["MapPageAddWaypointDialogTitle"].ToString(),
-            LocalizationResourceManager["MapPageAddWaypointDialogMessage"].ToString(),
+        string wms_url = await DisplayPromptAsync(LocalizationResourceManager["MapPageAddWMSDialogTitle"].ToString(),
+            LocalizationResourceManager["MapPageAddWMSDialogMessage"].ToString(),
             LocalizationResourceManager["GenericButtonOk"].ToString(),
             LocalizationResourceManager["GenericButtonCancel"].ToString(),
-            LocalizationResourceManager["MapPageAddWaypointDialogPlaceholder"].ToString(),-1,null,
-            LocalizationResourceManager["MapPageAddWaypointDialogPlaceholder"].ToString());
+            LocalizationResourceManager["MapPageAddWMSDialogPlaceholder"].ToString(),-1,null,
+            LocalizationResourceManager["MapPageAddWMSDialogPlaceholder"].ToString());
 
         if (wms_url != string.Empty)
         {
             //Insert
             await AddAWMSAsync(wms_url);
+        }
+    }
+
+    /// <summary>
+    /// Will detect when layer menu is closed so that it can saves the layer rendering in the json
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void MapLayerFrame_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "IsVisible")
+        {
+            Frame sentFrame = sender as Frame;
+
+            //Condition on map view not being null to prevent it from being launch and map page load
+            if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
+            {
+                if (_vm.LayerCollection != null && _vm.LayerCollection.Count() > 0)
+                {
+                    _vm.SaveLayerRendering();
+                }
+            }
         }
     }
 
@@ -363,12 +399,19 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     private async Task RefreshDefaultFeatureLayer()
     {
+        _vm.EmptyLayerCollections();
+
         List<MemoryLayer> mls = await CreateDefaultLayersAsync();
         if (mls != null && mls.Count() > 0)
         {
             foreach (MemoryLayer ml in mls)
             {
-                mapView.Map.Layers.Add(ml);
+                //Verify if doesn't exist and add
+                if (mapView.Map.Layers.Where(x=>x.Name == ml.Name).Count() == 0)
+                {
+                    mapView.Map.Layers.Add(ml);
+                }
+                
             }
 
             //Zoom to initial extent of the station layer
@@ -391,11 +434,21 @@ public partial class MapPage : ContentPage
         {
 
             //Insert before the layer names drawables, WMS always should be beneath lines and points
-            if (layer.Name.Contains("Drawables"))
+            if (layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables))
             {
                 int rightIndex = layerList.IndexOf(layer);
-                mapView.Map.Layers.Insert(rightIndex, in_layer);
-                break;
+
+                //make sure it's not already in there
+                if (mapView.Map.Layers.Where(x => x.Name == in_layer.Name).Count() == 0)
+                {
+                    mapView.Map.Layers.Insert(rightIndex, in_layer);
+
+                    //Update layer collection for menu
+                    _vm.RefreshLayerCollection(mapView.Map.Layers);
+
+                    break;
+                }
+
             }
 
         }
@@ -413,7 +466,7 @@ public partial class MapPage : ContentPage
         {
 
             //Insert before the layer names drawables, WMS always should be beneath lines and points
-            if (layer.Name.Contains("Drawables"))
+            if (layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables))
             {
                 //Get top layer
                 ILayer topLayer = layerList[layerList.IndexOf(layer) - 1];
@@ -445,12 +498,13 @@ public partial class MapPage : ContentPage
     public async Task LoadPreferedLayers()
     { 
         //Get prefered layers
-        MapViewModel mvm = this.BindingContext as MapViewModel;
-        Collection<MapPageLayer> prefLayers = await mvm.GetLayerRendering();
+        Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
+        List<string> prefLayerNames = new List<string>();
 
         //Iterate through mapPageLayers object and reload each of time
-        if (prefLayers != null)
+        if (prefLayers != null && mapView != null)
         {
+            //Add
             foreach (MapPageLayer mpl in prefLayers)
             {
                 if (mpl.LayerName != ApplicationLiterals.aliasStations)
@@ -463,7 +517,26 @@ public partial class MapPage : ContentPage
                     {
                         await AddAWMSAsync(mpl.LayerPathOrURL);
                     }
+
+                    prefLayerNames.Add(mpl.LayerName);
                 }
+
+            }
+
+            //Add all defaults
+            prefLayerNames.Add(ApplicationLiterals.aliasOSM);
+            prefLayerNames.Add(ApplicationLiterals.aliasTraversePoint);
+            prefLayerNames.Add(ApplicationLiterals.aliasStations);
+            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiDrawables);
+            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiLayer);
+            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
+            prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
+
+            //Remove those that aren't pref json
+            ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
+            if (layerToRemove.Count() > 0)
+            {
+                mapView.Map.Layers.Remove(layerToRemove);
             }
         }
     }
@@ -477,14 +550,24 @@ public partial class MapPage : ContentPage
     {
         if (mbTilePath != null && mbTilePath != string.Empty)
         {
-            MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
-            byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+            try
+            {
+                MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
+                byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
 
-            TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
-            newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
-            newTileLayer.Tag = mbTilePath;
-            //Insert at right location in collection
-            InsertLayerAtRightPlace(newTileLayer);
+                TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+                newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
+                newTileLayer.Tag = mbTilePath;
+                //Insert at right location in collection
+                InsertLayerAtRightPlace(newTileLayer);
+            }
+            catch (System.Exception e)
+            {
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                    e.Message,
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
+            }
+
         }
 
     }
@@ -504,8 +587,13 @@ public partial class MapPage : ContentPage
                 inLayer.Extent.MaxY).Grow(2500);
             double currentArea = mapView.Map.Navigator.Viewport.ToExtent().GetArea();
             double zoomingToArea = fieldDataExtent.GetArea();
+
             //Zoom to extent of all stations, unless current extent is already smaller
-            if (currentArea > zoomingToArea)
+            if (inLayer.Name == ApplicationLiterals.aliasStations && currentArea > zoomingToArea)
+            {
+                mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
+            }
+            else if (inLayer.Name != ApplicationLiterals.aliasStations)
             {
                 mapView.Map.Navigator.ZoomToBox(box: fieldDataExtent, boxFit: MBoxFit.Fit);
             }
@@ -1066,7 +1154,7 @@ public partial class MapPage : ContentPage
                     new ErrorToLogFile(pEx).WriteToFile();
 
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
 
                     // Unable to get location
@@ -1113,7 +1201,6 @@ public partial class MapPage : ContentPage
         }
 
     }
-
 
     /// <summary>
     /// TEMP method to force refresh of location each seconds
@@ -1172,9 +1259,7 @@ public partial class MapPage : ContentPage
     {
         if (_isCheckingGeolocation)
         {
-
-            MapViewModel vm = this.BindingContext as MapViewModel;
-            vm.RefreshCoordinates(inLocation);
+            _vm.RefreshCoordinates(inLocation);
 
             await SetMapAccuracyColor(inLocation.Accuracy);
 
@@ -1227,8 +1312,7 @@ public partial class MapPage : ContentPage
         _ = SetMapAccuracyColor(-99);
 
         //Make sure to show proper bad location coordinates labels
-        MapViewModel mapViewModel = this.BindingContext as MapViewModel;
-        mapViewModel.RefreshCoordinates(badLoc);
+        _vm.RefreshCoordinates(badLoc);
 
         this.WaitingCursor.IsRunning = false;
     }

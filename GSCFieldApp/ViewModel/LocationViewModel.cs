@@ -78,16 +78,11 @@ namespace GSCFieldApp.ViewModel
             if (_fieldLocation != null && _fieldLocation.LocationAlias != string.Empty && _model.LocationID != 0)
             {
                 //Delete without forced pop-up warning and question
-                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _fieldLocation.LocationAlias, _fieldLocation.LocationID, true);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _fieldLocation.LocationAlias, _fieldLocation.LocationID, true);     
+            }
 
-                //Exit on map
-                await Shell.Current.GoToAsync("../");
-            }
-            else
-            {
-                //Exit in field notes
-                await NavigateToFieldNotes(TableNames.location);
-            }
+            //Exit
+            await Shell.Current.GoToAsync("../");
 
         }
 
@@ -101,17 +96,18 @@ namespace GSCFieldApp.ViewModel
             //Save
             await SetAndSaveModelAsync();
 
+            //Show message to take a station or a drill core.
+
             //Exit
-            if (_fieldLocation != null && _fieldLocation.LocationAlias != string.Empty && _model.LocationID != 0)
+            if (Model.isManualEntry)
             {
-                await NavigateToFieldNotes(TableNames.location);
+                await Shell.Current.GoToAsync($"//{nameof(MapPage)}");
             }
             else
             {
-                //Exit on map
-                await Shell.Current.GoToAsync("../");
+                await NavigateToFieldNotes(TableNames.location);
             }
-                
+            
         }
 
         /// <summary>
@@ -136,8 +132,8 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.location, _fieldLocation.LocationAlias, _fieldLocation.LocationID);
             }
 
-            //Exit
-            await NavigateToFieldNotes(TableNames.location);
+            //Exit on either map or field notes
+            await Shell.Current.GoToAsync("../");
 
         }
 

@@ -18,6 +18,7 @@ using SQLite;
 using CommunityToolkit.Maui.Core.Extensions;
 using Mapsui.Layers;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
+using BruTile.Wms;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -32,7 +33,7 @@ namespace GSCFieldApp.ViewModel
         private Station stationModel = new Station();
         public Location sensorLocation { get; set; }  //This is coming from the view when new location event is triggered. 
         public Mapsui.Map mapViewFallback = new Mapsui.Map();
-        private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>();
+        private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>(); //The actual collection of layers (including OSM and Stations)
         private Collection<MapPageLayer> _customLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
 
@@ -45,7 +46,7 @@ namespace GSCFieldApp.ViewModel
         #endregion
 
         #region PROPERTIES
-        public ObservableCollection<ILayer> layerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
+        public ObservableCollection<ILayer> LayerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
         private Collection<MapPageLayer> CustomLayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
 
@@ -55,10 +56,6 @@ namespace GSCFieldApp.ViewModel
         {
             //Get main metadata record
             _ = GetMetadataAsync();
-
-            //Detect new field book selection, uprgrade, edit, ...
-            FieldBooksViewModel.newFieldBookSelected -= FieldBooksViewModel_newFieldBookSelectedAsync;
-            FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
 
         }
 
@@ -210,6 +207,9 @@ namespace GSCFieldApp.ViewModel
             {
                 //Create a location record
                 int locationID = await SetLocationModelAsync();
+
+                //Change entry type for manual
+                locationModel.LocationEntryType = locationEntryTypeManual;
 
                 //Navigate to structure page 
                 if (locationID > 0)
@@ -370,6 +370,9 @@ namespace GSCFieldApp.ViewModel
 
                 }
 
+                //Other info
+                locationModel.LocationEntryType = locationEntryTypeSatellite;
+
                 //Update metadata if needed
                 if (metadataModel.IsActive == 0)
                 {
@@ -414,7 +417,7 @@ namespace GSCFieldApp.ViewModel
             Collection<ILayer> refreshCollection = new Collection<ILayer>();
 
             //Clear before reloading
-            RemoveAllLayers();
+            EmptyLayerCollections();
 
             int index = 0;
 
@@ -422,20 +425,22 @@ namespace GSCFieldApp.ViewModel
             foreach (ILayer layer in layers)
             {
                 //Remove unused layers
-                if (!layer.Name.Contains("Drawables") && !layer.Name.Contains("Callouts") &&
-                    !layer.Name.Contains("Layer") && !layer.Name.Contains("Pins")) 
+                if (!layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables) && !layer.Name.Contains(ApplicationLiterals.aliasMapsuiCallouts) &&
+                    !layer.Name.Contains(ApplicationLiterals.aliasMapsuiLayer) && !layer.Name.Contains(ApplicationLiterals.aliasMapsuiPins)) 
                 {
-                    if (!_layerCollection.Contains(layer))
+                    if (!_layerCollection.Contains(layer) && _layerCollection.Where(x=>x.Name == layer.Name).Count() == 0)
                     {
                         _layerCollection.Add(layer);
 
                         if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
-                            layer.Name != ApplicationLiterals.aliasTraversePoint)
+                            layer.Name != ApplicationLiterals.aliasTraversePoint )
                         {
                             MapPageLayerBuilder mplb = new MapPageLayerBuilder();
-                            _customLayerCollection.Add(mplb.GetMapPageLayer(layer, index));
+                            if (!_customLayerCollection.Contains(mplb.GetMapPageLayer(layer, index)))
+                            {
+                                _customLayerCollection.Add(mplb.GetMapPageLayer(layer, index));
+                            }
                         }
-                        
                     }
                 }
 
@@ -447,7 +452,7 @@ namespace GSCFieldApp.ViewModel
 
             if (_layerCollection.Count() > 0)
             {
-                OnPropertyChanged(nameof(layerCollection));
+                OnPropertyChanged(nameof(LayerCollection));
             }
             
 
@@ -456,13 +461,27 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will wipe all layers from layer collection
         /// </summary>
-        public void RemoveAllLayers()
+        public void EmptyLayerCollections()
         {
             _layerCollection.Clear();
             _customLayerCollection.Clear();
-            OnPropertyChanged(nameof(layerCollection));
+            OnPropertyChanged(nameof(LayerCollection));
             OnPropertyChanged(nameof(CustomLayerCollection));
 
+        }
+
+        /// <summary>
+        /// Will remove from the custom layer list a given layer
+        /// </summary>
+        /// <param name="layerToremove"></param>
+        public void RemoveALayer(ILayer layerToremove)
+        {
+            MapPageLayerBuilder mplb = new MapPageLayerBuilder();
+            if (!_customLayerCollection.Contains(mplb.GetMapPageLayer(layerToremove)))
+            {
+                _customLayerCollection.Remove(mplb.GetMapPageLayer(layerToremove));
+                OnPropertyChanged(nameof(CustomLayerCollection));
+            }
         }
 
         /// <summary>
@@ -512,20 +531,6 @@ namespace GSCFieldApp.ViewModel
         #endregion
 
         #region EVENTS
-
-        /// <summary>
-        /// Event triggered when user has changed field books.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void FieldBooksViewModel_newFieldBookSelectedAsync(object sender, bool hasChanged)
-        {
-            if (hasChanged)
-            {
-                RemoveAllLayers();
-            }
-            
-        }
 
         #endregion
     }
