@@ -35,20 +35,20 @@
                                         <RowDefinition Height="40"/>
                                     </Grid.RowDefinitions>
                                     <Label Text="{local:Localize FielNotesEMHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
-                                    <Switch x:Name="earthMat" IsToggled="{Binding EarthMaterialVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+                                    <Switch x:Name="earthMat" IsToggled="{Binding EarthMaterialVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
 
                                     <Label Text="{local:Localize FielNotesFossilHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
-                                    <Switch x:Name="fossil" IsToggled="{Binding FossilVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
+                                    <Switch x:Name="fossil" IsToggled="{Binding FossilVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
 
 
                                     <Label Text="{local:Localize FielNotesPhotoHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2"/>
-                                    <Switch x:Name="photo" IsToggled="{Binding DocumentVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
+                                    <Switch x:Name="photo" IsToggled="{Binding DocumentVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
 
                                     <Label Text="{local:Localize FielNotesSampleHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3"/>
-                                    <Switch x:Name="sample" IsToggled="{Binding SampleVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
+                                    <Switch x:Name="sample" IsToggled="{Binding SampleVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
 
                                     <Label Text="{local:Localize FielNotesLocationHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="4"/>
-                                    <Switch x:Name="location" IsToggled="{Binding LocationVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="4"/>
+                                    <Switch x:Name="location" IsToggled="{Binding LocationVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="4"/>
 
                                 </Grid>
                             </VerticalStackLayout>
@@ -66,16 +66,16 @@
                                     </Grid.RowDefinitions>
 
                                     <Label Text="{local:Localize FielNotesMineralHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
-                                    <Switch x:Name="mineral" IsToggled="{Binding MineralVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+                                    <Switch x:Name="mineral" IsToggled="{Binding MineralVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
 
                                     <Label Text="{local:Localize FielNotesMineralizationHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
-                                    <Switch x:Name="mineralization" IsToggled="{Binding MineralizationVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
+                                    <Switch x:Name="mineralization" IsToggled="{Binding MineralizationVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
 
                                     <Label Text="{local:Localize FielNotesStructureHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2"/>
-                                    <Switch x:Name="structure" IsToggled="{Binding StructureVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
+                                    <Switch x:Name="structure" IsToggled="{Binding StructureVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="2"/>
 
                                     <Label Text="{local:Localize FielNotesDrillHolesHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3"/>
-                                    <Switch x:Name="drill" IsToggled="{Binding DrillHoleVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
+                                    <Switch x:Name="drill" IsToggled="{Binding DrillHoleVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
 
                                 </Grid>
                             </VerticalStackLayout>
@@ -91,10 +91,10 @@
                                     </Grid.RowDefinitions>
 
                                     <Label Text="{local:Localize FielNotesPaleoflowHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
-                                    <Switch x:Name="pflow" IsToggled="{Binding PaleoflowVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
+                                    <Switch x:Name="pflow" IsToggled="{Binding PaleoflowVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
 
                                     <Label Text="{local:Localize FielNotesEnvironmentHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
-                                    <Switch x:Name="env" IsToggled="{Binding EnvironmentVisible}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
+                                    <Switch x:Name="env" IsToggled="{Binding EnvironmentVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
 
                                 </Grid>
                             </VerticalStackLayout>

@@ -1768,6 +1768,7 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(MineralVisible));
             OnPropertyChanged(nameof(MineralizationVisible));
             OnPropertyChanged(nameof(DrillHoleVisible));
+            OnPropertyChanged(nameof(LocationVisible));
         }
 
         #endregion
