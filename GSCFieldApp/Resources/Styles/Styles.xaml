@@ -24,7 +24,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="0,0"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -52,7 +52,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="Margin" Value="0,0"/>
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
         <Setter Property="HeightRequest" Value="100"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -455,7 +455,7 @@
     
     <!--Mandatory controls-->
     <Style TargetType="Picker" x:Key="FieldAppMandatoryPicker">
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="0,0"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
@@ -463,7 +463,7 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontAttributes" Value="Bold"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="WidthRequest" Value="240"/>
+        <!--<Setter Property="WidthRequest" Value="240"/>-->
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -509,14 +509,14 @@
 
     <!--Modified default-->
     <Style TargetType="Picker">
-        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Margin" Value="0,0"/>
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
-        <Setter Property="WidthRequest" Value="240"/>
+        <!--<Setter Property="WidthRequest" Value="240"/>-->
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
