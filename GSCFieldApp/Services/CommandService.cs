@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
 using GSCFieldApp.Services.DatabaseServices;
+using SQLite;
 
 namespace GSCFieldApp.Services
 {
@@ -64,7 +65,18 @@ namespace GSCFieldApp.Services
                     case DatabaseLiterals.TableNames.station:
                         //Special case with station, it shall delete from location
                         //And location always cascades
-                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
+                        SQLiteAsyncConnection dbConnect = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                        List<DrillHole> drillSiblings = await dbConnect.Table<DrillHole>().Where(d=>d.DrillLocationID == itemID).ToListAsync();
+                        await dbConnect.CloseAsync();
+                        if (drillSiblings != null && drillSiblings.Count() > 0)
+                        {
+                            numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableStation, DatabaseLiterals.FieldStationObsID, itemID);
+                        }
+                        else
+                        {
+                            numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
+                        }
+                        
                         break;
                     case DatabaseLiterals.TableNames.earthmat:
                         numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableEarthMat, DatabaseLiterals.FieldEarthMatID, itemID);
@@ -108,7 +120,17 @@ namespace GSCFieldApp.Services
                     case DatabaseLiterals.TableNames.drill:
                         //Special case with station, it shall delete from location
                         //And location always cascades
-                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
+                        SQLiteAsyncConnection statConnect = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                        List<Station> statSiblings = await statConnect.Table<Station>().Where(s => s.LocationID == itemID).ToListAsync();
+                        if (statSiblings != null && statSiblings.Count() > 0)
+                        {
+                            numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableDrillHoles, DatabaseLiterals.FieldDrillLocationID, itemID);
+                        }
+                        else
+                        {
+                            numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLocation, DatabaseLiterals.FieldLocationID, itemID);
+                        }
+                            
                         break;
                     default:
                         break;
