@@ -1624,21 +1624,24 @@ namespace GSCFieldApp.ViewModel
                     FieldNotes[TableNames.pflow] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.pflow].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     FieldNotes[TableNames.fossil] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.fossil].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     FieldNotes[TableNames.mineral] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineral].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
-                    FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
-
+                    
                     OnPropertyChanged(nameof(Samples));
                     OnPropertyChanged(nameof(Structures));
                     OnPropertyChanged(nameof(Paleoflows));
                     OnPropertyChanged(nameof(Fossils));
-                    OnPropertyChanged(nameof(MineralizationAlterations));
+
                     #endregion
 
                     #region Mineralization childrens
+                    ObservableCollectionHelper.AddRange(FieldNotesAll[TableNames.mineralization], FieldNotesAll[TableNames.mineralization].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    OnPropertyChanged(nameof(MineralizationAlterations));
+
                     List<int> maIds = new List<int>();
                     foreach (FieldNote fn in FieldNotesAll[TableNames.mineralization])
                     {
                         maIds.Add(fn.GenericID);
                     }
+                    
                     ObservableCollectionHelper.AddRange(FieldNotesAll[TableNames.mineral], FieldNotesAll[TableNames.mineral].Where(x => maIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
                     OnPropertyChanged(nameof(Minerals));
 
