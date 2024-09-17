@@ -87,8 +87,8 @@
                                     <ColumnDefinition Width="40"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Picker Title="{local:Localize PicklistPageTables}" x:Name="PicklistPageTablesPicker" HorizontalOptions="Start"
-                                    Grid.Column="0" Grid.Row="0"
+                                <Picker Title="{local:Localize PicklistPageTables}" x:Name="PicklistPageTablesPicker" HorizontalOptions="StartAndExpand"
+                                    Grid.Column="0" Grid.Row="0" WidthRequest="240"
                                     ItemsSource="{Binding PicklistTables.cboxItems}" Margin="0,10,0,10"
                                     ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageTablesPicker_SelectedIndexChanged"
                                     SelectedItem="{Binding ModelPicklist.PicklistName, 
@@ -97,8 +97,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PicklistTables.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <Picker Title="{local:Localize PicklistPageFields}" x:Name="PicklistPageFieldsPicker" HorizontalOptions="Start"
-                                    Grid.Column="0" Grid.Row="1"
+                                <Picker Title="{local:Localize PicklistPageFields}" x:Name="PicklistPageFieldsPicker" HorizontalOptions="StartAndExpand"
+                                    Grid.Column="0" Grid.Row="1" WidthRequest="240"
                                     ItemsSource="{Binding PicklistFields.cboxItems}" Margin="0,10,0,10"
                                     ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageFieldsPicker_SelectedIndexChanged"
                                     SelectedItem="{Binding ModelPicklist.PicklistField, 
@@ -107,8 +107,8 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PicklistFields.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                                <Picker Title="{local:Localize PicklistPageParentValue}" x:Name="PicklistPageParentValuePicker" HorizontalOptions="Start"
-                                    Grid.Column="0" Grid.Row="2" 
+                                <Picker Title="{local:Localize PicklistPageParentValue}" x:Name="PicklistPageParentValuePicker" HorizontalOptions="StartAndExpand"
+                                    Grid.Column="0" Grid.Row="2" WidthRequest="240" 
                                     ItemsSource="{Binding PicklistParents.cboxItems, Mode=TwoWay}" Margin="0,10,0,10"
                                     ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageParentValuePicker_SelectedIndexChanged"
                                     SelectedItem="{Binding ModelPicklist.PicklistParent, 
