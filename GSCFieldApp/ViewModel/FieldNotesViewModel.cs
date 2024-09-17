@@ -4,6 +4,7 @@ using GSCFieldApp.Models;
 using GSCFieldApp.Services;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Views;
+using Mapsui.UI.Maui;
 using SQLite;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -474,6 +475,9 @@ namespace GSCFieldApp.ViewModel
 
             //Init all records
             _ =  FillFieldNotesAsync();
+
+            //Detect new field book selection, uprgrade, edit, ...
+            FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
         }
 
         #region RELAY
@@ -1769,6 +1773,25 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(MineralizationVisible));
             OnPropertyChanged(nameof(DrillHoleVisible));
             OnPropertyChanged(nameof(LocationVisible));
+        }
+
+        #endregion
+
+        #region EVENTS
+
+        /// <summary>
+        /// Event triggered when user has changed field books.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void FieldBooksViewModel_newFieldBookSelectedAsync(object sender, bool hasChanged)
+        {
+            if (hasChanged)
+            {
+                //Reload all notes
+                await FillFieldNotesAsync();
+            }
+
         }
 
         #endregion
