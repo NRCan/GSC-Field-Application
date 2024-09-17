@@ -8,7 +8,7 @@
 
         <ControlTemplate x:Key="ConcatenatedCollectionControl" >
             
-            <Frame Style="{StaticResource FieldAppConcatMainFrame}">
+            <Border Style="{StaticResource FieldAppBorder}">
                 <CollectionView Style="{StaticResource FieldAppConcatCollectionView}" 
                                 x:Name="ConcatCollectionView"
                                 ItemsSource="{TemplateBinding ConcatSource}">
@@ -38,7 +38,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </Frame>
+            </Border>
 
         </ControlTemplate>
     </ContentView.Resources>

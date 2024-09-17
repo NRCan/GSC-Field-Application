@@ -21,7 +21,7 @@
         <!-- Tablet/Desktop Note Cards Templates -->
         <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
 
-            <Frame Style="{StaticResource FieldAppNotesFrame}" HeightRequest="75" WidthRequest="175">
+            <Border Style="{StaticResource FieldAppBorder}" HeightRequest="75" WidthRequest="175">
 
                 <VerticalStackLayout Margin="7" >
                     <VerticalStackLayout.GestureRecognizers>
@@ -42,7 +42,7 @@
                             VerticalOptions="End"  />
                 </VerticalStackLayout>
 
-            </Frame>
+            </Border>
             
         </DataTemplate>
 

@@ -116,8 +116,10 @@
             </HorizontalStackLayout>
 
             <!--Map Layer menu-->
-            <Frame x:Name="MapLayerFrame" Grid.Row="1" Padding="15" 
-                   BorderColor="{StaticResource Gray300}" Margin="0" PropertyChanged="MapLayerFrame_PropertyChanged"
+            <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->
+            
+            <Border x:Name="MapLayerFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
+                   Margin="0" PropertyChanged="MapLayerFrame_PropertyChanged"
                    HeightRequest="300" WidthRequest="350" IsVisible="False">
                 <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection"
                                 ItemTemplate="{StaticResource MapLayersProperties}"
@@ -128,7 +130,7 @@
                 <!--<CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection"
                                 ItemTemplate="{StaticResource MapLayersProperties}" 
                                 ItemsSource="{Binding Source={x:Reference mapView}, Path=Map.Layers, FallbackValue={Binding mapViewFallback}, TargetNullValue={Binding mapViewFallback}}" />-->
-            </Frame>
+            </Border>
             
 
             <!--Controls bottom bar-->
