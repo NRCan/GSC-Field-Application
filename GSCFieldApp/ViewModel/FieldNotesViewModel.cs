@@ -723,7 +723,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedEnv != null && tappedEnv.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(EnvironmentModel)}/",
+                    await Shell.Current.GoToAsync($"{nameof(EnvironmentPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(EnvironmentModel)] = (EnvironmentModel)tappedEnv[0],

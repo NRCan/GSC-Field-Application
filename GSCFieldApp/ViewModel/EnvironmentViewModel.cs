@@ -48,7 +48,7 @@ namespace GSCFieldApp.ViewModel
         private Station _station;
 
         [ObservableProperty]
-        private EnvironmentModel _environment;
+        private EnvironmentModel _environmentModel;
 
         public EnvironmentModel Model { get { return _model; } set { _model = value; } }
 
@@ -140,7 +140,7 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_environment != null && _environment.EnvName != string.Empty && _model.EnvID != 0)
+            if (_environmentModel != null && _environmentModel.EnvName != string.Empty && _model.EnvID != 0)
             {
 
                 await da.SaveItemAsync(Model, true);
@@ -171,7 +171,7 @@ namespace GSCFieldApp.ViewModel
             await SetModelAsync();
 
             //Validate if new entry or update
-            if (_environment != null && _environment.EnvName != string.Empty && _model.EnvID != 0)
+            if (_environmentModel != null && _environmentModel.EnvName != string.Empty && _model.EnvID != 0)
             {
 
                 await da.SaveItemAsync(Model, true);
@@ -290,16 +290,16 @@ namespace GSCFieldApp.ViewModel
         public async Task Load()
         {
 
-            if (_environment != null && _environment.EnvName != string.Empty)
+            if (_environmentModel != null && _environmentModel.EnvName != string.Empty)
             {
                 //Set model like actual record
-                _model = _environment;
+                _model = _environmentModel;
 
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
                 //Piped value field
-                List<string> patterns = ConcatenatedCombobox.UnpipeString(_environment.EnvGroundPattern);
+                List<string> patterns = ConcatenatedCombobox.UnpipeString(_environmentModel.EnvGroundPattern);
                 _environmentPatternCollection.Clear(); //Clear any possible values first
                 foreach (ComboBoxItem cbox in EnvironmentPattern.cboxItems)
                 {
