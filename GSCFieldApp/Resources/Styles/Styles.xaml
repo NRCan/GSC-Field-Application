@@ -201,23 +201,13 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Frame" x:Key="FieldAppSectionFrame">
-        <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="Margin" Value="2" />
+    <Style TargetType="Border" x:Key="FieldAppSectionBorder">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 8,8,8,8"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="StrokeThickness" Value="1"/>
         <Setter Property="WidthRequest" Value="325"/>
-        <Setter Property="BackgroundColor" Value="Transparent"/>
-    </Style>
-
-    <Style TargetType="Frame" x:Key="FieldAppNotesFrame">
-        <Setter Property="HasShadow" Value="False" />
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
-        <Setter Property="CornerRadius" Value="8" />
-        <Setter Property="Margin" Value="5" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="WidthRequest" Value="150"/>
-        <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
     <Style TargetType="Grid" x:Key="FieldAppNotesDateFrame">
@@ -336,8 +326,7 @@
     </Style>
 
     <!--Concatenated value box styles-->
-    <Style TargetType="Frame" x:Key="FieldAppConcatFrame">
-        <Setter Property="HasShadow" Value="False" />
+    <Style TargetType="Border" x:Key="FieldAppConcatBorder">
         <!--<Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />-->
         <!--<Setter Property="CornerRadius" Value="8" />-->
         <Setter Property="HorizontalOptions" Value="Start"/>
@@ -346,8 +335,8 @@
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
-    <Style TargetType="Frame" x:Key="FieldAppConcatMainFrame">
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+    <Style TargetType="Border" x:Key="FieldAppConcatMainBorder">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
 
@@ -378,8 +367,8 @@
         </Setter>
     </Style>
     
-    <Style TargetType="Frame" x:Key="FieldAppConcatOuterFrame">
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
+    <Style TargetType="Border" x:Key="FieldAppConcatOuterBorder">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
     </Style>
 
     <Style TargetType="CollectionView" x:Key="FieldAppConcatCollectionView">

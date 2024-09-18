@@ -15,7 +15,7 @@
             <VerticalStackLayout>
 
                 <!--Themes control settings-->
-                <Frame BorderColor="Transparent">
+                <Border Stroke="Transparent">
                     <VerticalStackLayout>
                         <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageHeading}"/>
 
@@ -101,11 +101,11 @@
 
                         </VerticalStackLayout>
                     </VerticalStackLayout>
-                </Frame>
+                </Border>
                 
                 <!--Debug section-->
 
-                <Frame BorderColor="Transparent" IsVisible="{Binding DeveloperModeActivated}">
+                <Border Stroke="Transparent" IsVisible="{Binding DeveloperModeActivated}">
                     <VerticalStackLayout>
                         <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageDebugHeading}"/>
 
@@ -130,7 +130,7 @@
                         </VerticalStackLayout>
 
                     </VerticalStackLayout>
-                </Frame>
+                </Border>
                 
                 <!--TODO: implement version 2 app other settings-->
                 

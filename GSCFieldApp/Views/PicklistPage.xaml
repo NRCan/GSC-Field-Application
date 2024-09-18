@@ -64,7 +64,7 @@
                 <VerticalStackLayout>
 
                     <!--Picklist selection-->
-                    <Frame BorderColor="Transparent">
+                    <Border Stroke="Transparent">
                         <VerticalStackLayout>
 
                             <!--Text section-->
@@ -151,7 +151,7 @@
                             </Border>
 
                         </VerticalStackLayout>
-                    </Frame>
+                    </Border>
 
 
                 </VerticalStackLayout>

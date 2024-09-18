@@ -10,12 +10,12 @@
 
         <ControlTemplate x:Key="ExpandableFrameControl">
 
-            <Frame BorderColor="{TemplateBinding FrameColor}" Style="{StaticResource FieldAppSectionFrame}">
+            <Border Stroke="{TemplateBinding FrameColor}" Style="{StaticResource FieldAppSectionBorder}">
 
                 <!--Tap to hide content-->
-                <Frame.GestureRecognizers>
+                <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{TemplateBinding HideCommand}" NumberOfTapsRequired="{OnIdiom Default=1, Desktop=2, Phone=2, Tablet=2}"/>
-                </Frame.GestureRecognizers>
+                </Border.GestureRecognizers>
 
                 <VerticalStackLayout>
 
@@ -30,7 +30,7 @@
                         
                     </VerticalStackLayout>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
         </ControlTemplate>
     </ContentView.Resources>
