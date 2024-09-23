@@ -47,19 +47,21 @@ public partial class AppShell : Shell
 
         #region FORMS NAVIGATION
 
-        Routing.RegisterRoute(nameof(FieldBookPage), typeof(FieldBookPage));
+        ///Make each detail routes for field books page or field notes page since they
+        ///are not navigable from the shell
+        Routing.RegisterRoute("FieldBooksPage/FieldBookPage", typeof(FieldBookPage));
         Routing.RegisterRoute("FieldNotesPage/StationPage", typeof(StationPage));
         Routing.RegisterRoute("FieldNotesPage/EarthmatPage", typeof(EarthmatPage));
         Routing.RegisterRoute("FieldNotesPage/SamplePage", typeof(SamplePage));
-        Routing.RegisterRoute(nameof(DocumentPage), typeof(DocumentPage));
-        Routing.RegisterRoute(nameof(StructurePage), typeof(StructurePage));
-        Routing.RegisterRoute(nameof(PaleoflowPage), typeof(PaleoflowPage));
-        Routing.RegisterRoute(nameof(FossilPage), typeof(FossilPage));
-        Routing.RegisterRoute(nameof(EnvironmentPage), typeof(EnvironmentPage));
-        Routing.RegisterRoute(nameof(MineralPage), typeof(MineralPage));
-        Routing.RegisterRoute(nameof(MineralizationAlterationPage), typeof(MineralizationAlterationPage));
+        Routing.RegisterRoute("FieldNotesPage/DocumentPage", typeof(DocumentPage));
+        Routing.RegisterRoute("FieldNotesPage/StructurePage", typeof(StructurePage));
+        Routing.RegisterRoute("FieldNotesPage/PaleoflowPage", typeof(PaleoflowPage));
+        Routing.RegisterRoute("FieldNotesPage/FossilPage", typeof(FossilPage));
+        Routing.RegisterRoute("FieldNotesPage/EnvironmentPage", typeof(EnvironmentPage));
+        Routing.RegisterRoute("FieldNotesPage/MineralPage", typeof(MineralPage));
+        Routing.RegisterRoute("FieldNotesPage/MineralizationAlterationPage", typeof(MineralizationAlterationPage));
         Routing.RegisterRoute("FieldNotesPage/LocationPage", typeof(LocationPage));
-        Routing.RegisterRoute(nameof(DrillHolePage), typeof(DrillHolePage));
+        Routing.RegisterRoute("FieldNotesPage/DrillHolePage", typeof(DrillHolePage));
 
         #endregion
 

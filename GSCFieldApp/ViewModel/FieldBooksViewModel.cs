@@ -87,7 +87,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task AddFieldBook()
         {
-            await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/");
+            await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(FieldBookPage)}/");
         }
 
         [RelayCommand]
@@ -141,7 +141,7 @@ namespace GSCFieldApp.ViewModel
             // Keep in preferences
             SetFieldBookAsPreferred(fbToEdit);
 
-            await Shell.Current.GoToAsync($"{nameof(FieldBookPage)}/",
+            await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(FieldBookPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Metadata)] = fbToEdit.metadataForProject,

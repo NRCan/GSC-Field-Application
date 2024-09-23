@@ -138,7 +138,7 @@ namespace GSCFieldApp.ViewModel
                 await da.CloseConnectionAsync();
 
                 //Exit
-                await Shell.Current.GoToAsync("../");
+                await Shell.Current.GoToAsync($"////{nameof(FieldBooksPage)}/");
             }
             else
             {
@@ -154,7 +154,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            await Shell.Current.GoToAsync("../");
+            await Shell.Current.GoToAsync($"////{nameof(FieldBooksPage)}/");
         }
 
         #endregion

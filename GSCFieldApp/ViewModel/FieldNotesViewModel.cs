@@ -608,7 +608,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedStation != null && tappedStation.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(StationPage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(StationPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(FieldLocation)] = null,
@@ -628,7 +628,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedEM != null && tappedEM.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(EarthmatPage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(EarthmatPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Earthmaterial)] = (Earthmaterial)tappedEM[0],
@@ -647,7 +647,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedSample != null && tappedSample.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(SamplePage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(SamplePage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Sample)] = (Sample)tappedSample[0],
@@ -666,7 +666,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedStructure != null && tappedStructure.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(StructurePage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(StructurePage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Structure)] = (Structure)tappedStructure[0],
@@ -685,7 +685,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedPflow != null && tappedPflow.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(PaleoflowPage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(PaleoflowPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Paleoflow)] = (Paleoflow)tappedPflow[0],
@@ -704,7 +704,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedFossil != null && tappedFossil.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(Fossil)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(FossilPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Fossil)] = (Fossil)tappedFossil[0],
@@ -723,7 +723,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedEnv != null && tappedEnv.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(EnvironmentPage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(EnvironmentPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(EnvironmentModel)] = (EnvironmentModel)tappedEnv[0],
@@ -742,7 +742,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedDoc != null && tappedDoc.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(DocumentPage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(DocumentPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Station)] = null,
@@ -761,7 +761,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedMineral != null && tappedMineral.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(MineralPage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(MineralPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Mineral)] = (Mineral)tappedMineral[0],
@@ -781,7 +781,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedMineralization != null && tappedMineralization.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(MineralizationAlterationPage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(MineralizationAlterationPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(MineralAlteration)] = (MineralAlteration)tappedMineralization[0],
@@ -801,7 +801,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedLocation != null && tappedLocation.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(LocationPage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(LocationPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(FieldLocation)] = (FieldLocation)tappedLocation[0],
@@ -819,7 +819,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to station page and keep locationmodel for relationnal link
                 if (tappedDrill != null && tappedDrill.Count() == 1)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(DrillHolePage)}/",
+                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(DrillHolePage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(DrillHole)] = (DrillHole)tappedDrill[0],
