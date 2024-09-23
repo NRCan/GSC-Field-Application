@@ -48,9 +48,9 @@ public partial class AppShell : Shell
         #region FORMS NAVIGATION
 
         Routing.RegisterRoute(nameof(FieldBookPage), typeof(FieldBookPage));
-        Routing.RegisterRoute(nameof(StationPage), typeof(StationPage));
-        Routing.RegisterRoute(nameof(EarthmatPage), typeof(EarthmatPage));
-        Routing.RegisterRoute(nameof(SamplePage), typeof(SamplePage));
+        Routing.RegisterRoute("FieldNotesPage/StationPage", typeof(StationPage));
+        Routing.RegisterRoute("FieldNotesPage/EarthmatPage", typeof(EarthmatPage));
+        Routing.RegisterRoute("FieldNotesPage/SamplePage", typeof(SamplePage));
         Routing.RegisterRoute(nameof(DocumentPage), typeof(DocumentPage));
         Routing.RegisterRoute(nameof(StructurePage), typeof(StructurePage));
         Routing.RegisterRoute(nameof(PaleoflowPage), typeof(PaleoflowPage));
@@ -58,7 +58,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(EnvironmentPage), typeof(EnvironmentPage));
         Routing.RegisterRoute(nameof(MineralPage), typeof(MineralPage));
         Routing.RegisterRoute(nameof(MineralizationAlterationPage), typeof(MineralizationAlterationPage));
-        Routing.RegisterRoute(nameof(LocationPage), typeof(LocationPage));
+        Routing.RegisterRoute("FieldNotesPage/LocationPage", typeof(LocationPage));
         Routing.RegisterRoute(nameof(DrillHolePage), typeof(DrillHolePage));
 
         #endregion

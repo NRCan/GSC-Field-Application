@@ -214,7 +214,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to structure page 
                 if (locationID > 0)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(LocationPage)}/",
+                    await Shell.Current.GoToAsync($"////FieldNotesPage/LocationPage/",
                         new Dictionary<string, object>
                         {
                             [nameof(FieldLocation)] = locationModel,

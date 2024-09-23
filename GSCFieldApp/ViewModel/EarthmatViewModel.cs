@@ -623,7 +623,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"{nameof(SamplePage)}/",
+            await Shell.Current.GoToAsync($"////FieldNotesPage/SamplePage/",
                 new Dictionary<string, object>
                 {
                     [nameof(Sample)] = null,

@@ -145,7 +145,7 @@ namespace GSCFieldApp.ViewModel
                 await SetAndSaveModelAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
-                await Shell.Current.GoToAsync($"{nameof(StationPage)}/",
+                await Shell.Current.GoToAsync($"////FieldNotesPage/StationPage/",
                     new Dictionary<string, object>
                     {
                         [nameof(FieldLocation)] = _fieldLocation,
