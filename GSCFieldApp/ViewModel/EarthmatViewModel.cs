@@ -35,7 +35,7 @@ namespace GSCFieldApp.ViewModel
 
         //Model
         private Earthmaterial _model = new Earthmaterial();
-
+        private string _occurenceLoadedValue = string.Empty; //Will be filled with occurence value on load
         private string currentProjectType = ApplicationThemeBedrock; //default in case failing
 
         //UI
@@ -939,7 +939,7 @@ namespace GSCFieldApp.ViewModel
             _earthLithColourGeneric = await FillAPicker(KeywordColourGeneric);
             _earthLithColourIntensity = await FillAPicker(KeywordColourIntensity);
             _earthLithColourQualifier = await FillAPicker(KeywordColourQualifier);
-            _earthLithOccursAsAll = await FillAPicker(FieldEarthMatOccurs);
+            _earthLithOccurAs = _earthLithOccursAsAll = await FillAPicker(FieldEarthMatOccurs); 
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
@@ -947,7 +947,7 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(EarthLithColourGeneric));
             OnPropertyChanged(nameof(EarthLithColourIntensity));
             OnPropertyChanged(nameof(EarthLithColourQualifier));
-
+            OnPropertyChanged(nameof(EarthLithOccurAs)); //Init with all values and filter down at 2nd load
         }
 
         /// <summary>
@@ -958,18 +958,18 @@ namespace GSCFieldApp.ViewModel
         public async Task Fill2ndRoundPickers()
         {
             //second round pickers
-            if (_model.GroupType != string.Empty && currentProjectType.Contains(ApplicationThemeBedrock))
+            if (_earthmaterial.GroupType != string.Empty && currentProjectType.Contains(ApplicationThemeBedrock))
             {
-                _earthLithQualifier = await FillAPicker(FieldEarthMatModComp, _model.EarthMatLithgroup);
+                _earthLithQualifier = await FillAPicker(FieldEarthMatModComp, _earthmaterial.EarthMatLithgroup);
                 //_earthLithOccurAs = await FillAPicker(FieldEarthMatOccurs, _model.EarthMatLithgroup);
                 _earthLithTextureStruct = await FillAPicker(FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
-                _earthLithGrainSize = await FillAPicker(FieldEarthMatGrSize, _model.EarthMatLithgroup);
+                _earthLithGrainSize = await FillAPicker(FieldEarthMatGrSize, _earthmaterial.EarthMatLithgroup);
                 OnPropertyChanged(nameof(EarthLithQualifier));
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
                 OnPropertyChanged(nameof(EarthLithGrainSize));
 
-                _earthLithOccurAs.cboxItems.Clear();
-                _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && f.itemParent == _model.EarthMatLithgroup).ToList();
+                //_earthLithOccurAs.cboxItems.Clear();
+                _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && _earthmaterial.EarthMatLithgroup.Contains(f.itemParent)).ToList();
                 if (_earthLithOccurAs.cboxItems.Count == 1)
                 {
                     _earthLithOccurAs.cboxDefaultItemIndex = 0;
@@ -1132,23 +1132,30 @@ namespace GSCFieldApp.ViewModel
 
         /// <summary>
         /// Will refill the form with existing values for update/editing purposes
+        /// Will refill the form with existing values for update/editing purposes
         /// </summary>
         /// <returns></returns>
         public async Task Load()
         {
             if (_earthmaterial != null && _earthmaterial.EarthMatName != string.Empty)
             {
+                //Special case for occurences
+                //Setting model object will remove its value because of
+                //how is the picker value converter built
+                _occurenceLoadedValue = _earthmaterial.EarthMatOccurs;
+
                 //Set model like actual record
                 _model = _earthmaterial;
 
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
+
                 #region Pickers
                 //Select values in pickers
                 foreach (ComboBoxItem cbox in EarthLithoGroup.cboxItems)
                 {
-                    if (cbox.itemValue == _model.EarthMatLithgroup)
+                    if (cbox.itemValue == _earthmaterial.EarthMatLithgroup)
                     {
                         EarthLithoGroup.cboxDefaultItemIndex = EarthLithoGroup.cboxItems.IndexOf(cbox);
                         break;
@@ -1231,7 +1238,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task Load2nRound()
         {
-            if (_model.GroupType != string.Empty)
+            if (_earthmaterial.GroupType != string.Empty)
             {
 
                 List<string> qualifiers = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatModComp);
@@ -1266,6 +1273,15 @@ namespace GSCFieldApp.ViewModel
                     }
                 }
                 OnPropertyChanged(nameof(EarthLithGrainSizeCollection));
+
+                foreach (ComboBoxItem occ in EarthLithOccurAs.cboxItems)
+                {
+                    if (occ.itemValue == _occurenceLoadedValue || (occ.itemValue != string.Empty && occ.itemValue == _earthmaterial.EarthMatOccurs ) )
+                    {
+                        EarthLithOccurAs.cboxDefaultItemIndex = EarthLithOccurAs.cboxItems.IndexOf(occ); break;
+                    }
+                }
+                OnPropertyChanged(nameof(EarthLithOccurAs));
 
             }
 
