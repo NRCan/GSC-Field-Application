@@ -59,7 +59,7 @@ namespace GSCFieldApp.Services
             if (refreshTable)
             {
                 //Refresh a given table
-                await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}",
+                await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}",
                     new Dictionary<string, object>
                     {
                         ["UpdateTableID"] = RandomNumberGenerator.GetHexString(10, false),
@@ -70,7 +70,7 @@ namespace GSCFieldApp.Services
             else
             {
                 //Default navigation
-                await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}");
+                await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}");
             }
 
         }

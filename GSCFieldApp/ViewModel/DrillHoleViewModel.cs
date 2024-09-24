@@ -171,7 +171,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(EarthmatPage)}/",
+            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(EarthmatPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Earthmaterial)] = null,
@@ -188,7 +188,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(DocumentPage)}/",
+            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(DocumentPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Station)] = null,

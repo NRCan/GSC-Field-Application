@@ -70,7 +70,7 @@ namespace GSCFieldApp.ViewModel
                 if (locId != -1)
                 {
                     //Navigate to station page and keep locationmodel for relationnal link
-                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(StationPage)}/",
+                    await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(StationPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(FieldLocation)] = locationModel,
@@ -103,7 +103,7 @@ namespace GSCFieldApp.ViewModel
                     Earthmaterial quickEM = await earthmatViewModel.QuickEarthmat(locationID);
 
                     //Navigate to station page and keep locationmodel for relationnal link
-                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(SamplePage)}/",
+                    await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(SamplePage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Sample)] = null,
@@ -134,7 +134,7 @@ namespace GSCFieldApp.ViewModel
                     Station quickStat = await statViewModel.QuickStation(locationID);
 
                     //Navigate to station page and keep locationmodel for relationnal link
-                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(DocumentPage)}/",
+                    await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(DocumentPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(Station)] = quickStat,
@@ -173,7 +173,7 @@ namespace GSCFieldApp.ViewModel
                     {
 
                         //Navigate to structure page 
-                        await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(StructurePage)}/",
+                        await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(StructurePage)}/",
                             new Dictionary<string, object>
                             {
                                 [nameof(Structure)] = null,
@@ -184,7 +184,7 @@ namespace GSCFieldApp.ViewModel
                     else
                     {
                         //Navigate to pflow page 
-                        await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(PaleoflowPage)}/",
+                        await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(PaleoflowPage)}/",
                             new Dictionary<string, object>
                             {
                                 [nameof(PaleoflowPage)] = null,
@@ -214,7 +214,7 @@ namespace GSCFieldApp.ViewModel
                 //Navigate to structure page 
                 if (locationID > 0)
                 {
-                    await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(LocationPage)}/",
+                    await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(LocationPage)}/",
                         new Dictionary<string, object>
                         {
                             [nameof(FieldLocation)] = locationModel,

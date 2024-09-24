@@ -172,7 +172,7 @@ namespace GSCFieldApp.ViewModel
             //Exit or stay in map page if quick photo
             if (_station != null && _station.IsMapPageQuick)
             {
-                await Shell.Current.GoToAsync($"////{nameof(MapPage)}/");
+                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
             }
             else
             {
@@ -248,7 +248,7 @@ namespace GSCFieldApp.ViewModel
             //Exit or stay in map page if quick photo
             if (_station != null && _station.IsMapPageQuick)
             {
-                await Shell.Current.GoToAsync($"////{nameof(MapPage)}/");
+                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
             }
             else
             {

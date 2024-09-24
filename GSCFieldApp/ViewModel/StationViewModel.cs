@@ -154,7 +154,7 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
 
                 //Exit on map
-                await Shell.Current.GoToAsync($"////{nameof(MapPage)}/");
+                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
 
             }
             else
@@ -207,7 +207,7 @@ namespace GSCFieldApp.ViewModel
                 await da.CloseConnectionAsync();
 
                 //Exit
-                await Shell.Current.GoToAsync($"////{nameof(MapPage)}/");
+                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
 
             }
 
@@ -262,7 +262,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(EarthmatPage)}/",
+            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(EarthmatPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Earthmaterial)] = null,
@@ -292,7 +292,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(DocumentPage)}/",
+            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(DocumentPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Station)] = Model,
@@ -322,7 +322,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(EnvironmentPage)}/",
+            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(EnvironmentPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(EnvironmentModel)] = null,
@@ -352,7 +352,7 @@ namespace GSCFieldApp.ViewModel
             await da.CloseConnectionAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"////{nameof(FieldNotesPage)}/{nameof(MineralizationAlterationPage)}/",
+            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(MineralizationAlterationPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(MineralAlteration)] = null,
