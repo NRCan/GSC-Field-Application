@@ -1287,4 +1287,16 @@ Shimamura, Kaz – Senior Advisor</value>
   <data name="WatermarkNoFieldBook" xml:space="preserve">
     <value>Please add a new field book</value>
   </data>
+  <data name="FieldBookPageDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PicklistPageTables	Form" xml:space="preserve">
+    <value>Notes Table</value>
+  </data>
+  <data name="MapPageTapCoordinateTitle" xml:space="preserve">
+    <value>Coordinates</value>
+  </data>
+  <data name="MapPageTapCoordinateContent" xml:space="preserve">
+    <value>Would you like to create a new station from this point?</value>
+  </data>
 </root>

@@ -29,7 +29,6 @@ using System;
 using NetTopologySuite.Operation.Distance;
 using BruTile.Wms;
 
-
 #if ANDROID
 using Android.Content;
 #elif IOS
@@ -181,13 +180,47 @@ public partial class MapPage : ContentPage
         }
     }
 
-    private void mapView_MapClicked(object sender, MapClickedEventArgs e)
+    private async void mapView_MapClicked(object sender, MapClickedEventArgs e)
     {
         //Make sure to disable map layer frame
         MapLayerFrame.IsVisible = false;
 
         //NOT WORKING --> Get feature info
         //GetWMSFeatureInfo(e.Point);
+
+        //Detect if in tap mode show tapped coordinates on screen
+        if (!_isCheckingGeolocation)
+        {
+            //Convert incoming geographic coordinates and transform into DMS
+            DD2DMS dmsLongitude = DD2DMS.FromDouble(e.Point.ToPoint().X);
+            DD2DMS dmsLatitude = DD2DMS.FromDouble(e.Point.ToPoint().Y);
+
+            //Build alert content with DMS values
+            string content = string.Format("{0}\n{1}", 
+                LocalizationResourceManager["MapPageTapCoordinateContent"].ToString(),
+                e.Point.ToString()
+                );
+
+            //Show dialog
+            bool answer = await Shell.Current.DisplayAlert(
+                LocalizationResourceManager["MapPageTapCoordinateTitle"].ToString(),
+                content,
+                LocalizationResourceManager["GenericButtonYes"].ToString(),
+                LocalizationResourceManager["GenericButtonNo"].ToString());
+
+            //Pop station form
+            if (answer)
+            {
+                //Refresh view with tap
+                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Point.Latitude, e.Point.Longitude));
+                mapView.RefreshGraphics();
+
+                //Init record creation
+                MapViewModel mvm = BindingContext as MapViewModel;
+                mvm.RefreshCoordinatesFromTap(e.Point);
+                mvm.AddStationCommand.Execute(mvm);
+            }
+        }
 
     }
 

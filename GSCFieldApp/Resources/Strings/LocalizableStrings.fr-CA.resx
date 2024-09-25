@@ -177,6 +177,9 @@ Shimamura, Kaz – Conseiller</value>
   <data name="ButtonSet" xml:space="preserve">
     <value>+</value>
   </data>
+  <data name="CommandDeleteCompleteContent" xml:space="preserve">
+    <value>Enr. {0} a été supprimé.</value>
+  </data>
   <data name="DisplayAlertGPS" xml:space="preserve">
     <value>Position</value>
   </data>
@@ -574,7 +577,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FieldbookPageDeleteTitle" xml:space="preserve">
     <value>Supprimer le carnet</value>
   </data>
-  <data name="FieldBookPageDescription" xml:space="preserve">
+  <data name="FieldBookPageDescriptionTitle" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="FieldBookPageFailedToSave" xml:space="preserve">
@@ -631,7 +634,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FielNotesFossilHeader" xml:space="preserve">
     <value>Fossile</value>
   </data>
-  <data name="FielNotesLocationHeader	Location" xml:space="preserve">
+  <data name="FielNotesLocationHeader" xml:space="preserve">
     <value>Localisation</value>
   </data>
   <data name="FielNotesMineralHeader" xml:space="preserve">
@@ -967,7 +970,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="PicklistPageSortAscendTooltip" xml:space="preserve">
     <value>Toucher afin de trier en ordre croissant.</value>
   </data>
-  <data name="PicklistPageTables	Form" xml:space="preserve">
+  <data name="PicklistPageTables" xml:space="preserve">
     <value>Table de notes</value>
   </data>
   <data name="PicklistPageTitle" xml:space="preserve">
@@ -1029,6 +1032,9 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="SamplePageNotes" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="SamplePageOrientationTitle" xml:space="preserve">
+    <value>Orientation</value>
   </data>
   <data name="SamplePagePurpose" xml:space="preserve">
     <value>But</value>
@@ -1272,5 +1278,17 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="WatermarkNoFieldBook" xml:space="preserve">
     <value>Veuillez ajouter un carnet.</value>
+  </data>
+  <data name="FieldBookPageDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PicklistPageTables	Form" xml:space="preserve">
+    <value>Table de notes</value>
+  </data>
+  <data name="MapPageTapCoordinateTitle" xml:space="preserve">
+    <value>Coordonnées</value>
+  </data>
+  <data name="MapPageTapCoordinateContent" xml:space="preserve">
+    <value>Aimeriez-vous créer une nouvelle station à partir de ce point?</value>
   </data>
 </root>

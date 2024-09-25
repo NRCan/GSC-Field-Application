@@ -1449,6 +1449,15 @@ namespace GSCFieldApp.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
+        internal static string FieldBookPageDescription {
+            get {
+                return ResourceManager.GetString("FieldBookPageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
         internal static string FieldBookPageDescriptionTitle {
             get {
                 return ResourceManager.GetString("FieldBookPageDescriptionTitle", resourceCulture);
@@ -2145,6 +2154,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string MapPageLayer {
             get {
                 return ResourceManager.GetString("MapPageLayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Would you like to create a new station from this point?.
+        /// </summary>
+        internal static string MapPageTapCoordinateContent {
+            get {
+                return ResourceManager.GetString("MapPageTapCoordinateContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coordinates.
+        /// </summary>
+        internal static string MapPageTapCoordinateTitle {
+            get {
+                return ResourceManager.GetString("MapPageTapCoordinateTitle", resourceCulture);
             }
         }
         

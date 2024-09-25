@@ -19,6 +19,7 @@ using CommunityToolkit.Maui.Core.Extensions;
 using Mapsui.Layers;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using BruTile.Wms;
+using Mapsui.UI.Maui;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -371,7 +372,15 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 //Other info
-                locationModel.LocationEntryType = locationEntryTypeSatellite;
+                if (sensorLocation.IsFromMockProvider)
+                {
+                    locationModel.LocationEntryType = locationEntryTypeTap;
+                }
+                else
+                {
+                    locationModel.LocationEntryType = locationEntryTypeSatellite;
+                }
+                
 
                 //Update metadata if needed
                 if (metadataModel.IsActive == 0)
@@ -396,11 +405,27 @@ namespace GSCFieldApp.ViewModel
 
         /// <summary>
         /// Refresh the coordinates that will be shown on the map page as labels
+        /// and used for a new location record. Coming from sensor.
         /// </summary>
         /// <param name="inLocation"></param>
         public void RefreshCoordinates(Location inLocation)
         {
             sensorLocation = inLocation;
+            OnPropertyChanged(nameof(sensorLocation));
+        }
+
+        /// <summary>
+        /// Refresh the coordinates that will be shown on the map page as labels
+        /// and used for a new lcoation record. Coming from a tap on screen.
+        /// </summary>
+        /// <param name="inLocation"></param>
+        public void RefreshCoordinatesFromTap(Position inPosition)
+        {
+            sensorLocation = new Location();
+            sensorLocation.Latitude = inPosition.Latitude;
+            sensorLocation.Longitude = inPosition.Longitude;
+            sensorLocation.IsFromMockProvider = true; //Quick and dirty way to make sure tap entry is saved within f_location instead of gps.
+
             OnPropertyChanged(nameof(sensorLocation));
         }
 
