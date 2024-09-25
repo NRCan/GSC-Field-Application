@@ -205,7 +205,7 @@ namespace GSCFieldApp.Models
                         int docNumber = 0;
                         int.TryParse(splitName[1], out docNumber);
 
-                        string statNumber = splitName[0].Substring(splitName[0].Length - 4).Trim('0');
+                        string statNumber = splitName[0].Substring(splitName[0].Length - 4).TrimStart('0');
 
                         return statNumber + DatabaseLiterals.KeywordConcatCharacter2nd + docNumber.ToString();
                     }

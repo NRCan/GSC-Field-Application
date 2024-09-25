@@ -103,7 +103,7 @@ namespace GSCFieldApp.Models
                     {
                         //Trim bunch of zeros
                         string shorterName = FossilIDName.Substring(FossilIDName.Length - 7);
-                        return shorterName.Trim('0');
+                        return shorterName.TrimStart('0');
                     }
                     else
                     {

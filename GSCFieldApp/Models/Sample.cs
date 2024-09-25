@@ -200,7 +200,7 @@ namespace GSCFieldApp.Models
                     {
                         //Trim bunch of zeros
                         string shorterSampleName = SampleName.Substring(SampleName.Length - 7);
-                        return shorterSampleName.Trim('0');
+                        return shorterSampleName.TrimStart('0');
                     }
                     else
                     {

@@ -137,7 +137,7 @@ namespace GSCFieldApp.Models
                     {
                         //Trim bunch of zeros
                         string shorterStructureName = MineralIDName.Substring(MineralIDName.Length - 8);
-                        return shorterStructureName.Trim('0');
+                        return shorterStructureName.TrimStart('0');
                     }
                     else
                     {

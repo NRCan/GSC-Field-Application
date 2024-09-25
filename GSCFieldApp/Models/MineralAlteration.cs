@@ -144,7 +144,7 @@ namespace GSCFieldApp.Models
                     {
                         //Trim bunch of zeros
                         string shorterStructureName = MAName.Substring(MAName.Length - 7);
-                        return shorterStructureName.Trim('0');
+                        return shorterStructureName.TrimStart('0');
                     }
                     else
                     {

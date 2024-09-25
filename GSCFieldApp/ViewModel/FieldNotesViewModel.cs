@@ -1596,17 +1596,17 @@ namespace GSCFieldApp.ViewModel
                     }
 
                     #region Station First order children
-                    FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(EarthMats));
 
 
-                    FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.document] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.document].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(Documents));
 
-                    FieldNotes[TableNames.environment] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.environment].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.environment] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.environment].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(Environments));
 
-                    FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(MineralizationAlterations));
 
                     #endregion
@@ -1619,11 +1619,11 @@ namespace GSCFieldApp.ViewModel
                         emIds.Add(fn.GenericID);
                     }
 
-                    FieldNotes[TableNames.sample] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.sample].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
-                    FieldNotes[TableNames.structure] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.structure].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
-                    FieldNotes[TableNames.pflow] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.pflow].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
-                    FieldNotes[TableNames.fossil] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.fossil].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
-                    FieldNotes[TableNames.mineral] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineral].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.sample] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.sample].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.structure] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.structure].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.pflow] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.pflow].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.fossil] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.fossil].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.mineral] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineral].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     
                     OnPropertyChanged(nameof(Samples));
                     OnPropertyChanged(nameof(Structures));
@@ -1633,7 +1633,7 @@ namespace GSCFieldApp.ViewModel
                     #endregion
 
                     #region Mineralization childrens
-                    ObservableCollectionHelper.AddRange(FieldNotesAll[TableNames.mineralization], FieldNotesAll[TableNames.mineralization].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    ObservableCollectionHelper.AddRange(FieldNotesAll[TableNames.mineralization], FieldNotesAll[TableNames.mineralization].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(MineralizationAlterations));
 
                     List<int> maIds = new List<int>();
@@ -1642,7 +1642,7 @@ namespace GSCFieldApp.ViewModel
                         maIds.Add(fn.GenericID);
                     }
                     
-                    ObservableCollectionHelper.AddRange(FieldNotesAll[TableNames.mineral], FieldNotesAll[TableNames.mineral].Where(x => maIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    ObservableCollectionHelper.AddRange(FieldNotesAll[TableNames.mineral], FieldNotesAll[TableNames.mineral].Where(x => maIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(Minerals));
 
                     #endregion
@@ -1651,7 +1651,7 @@ namespace GSCFieldApp.ViewModel
 
                 if (FieldNotesAll.ContainsKey(TableNames.location))
                 {
-                    FieldNotes[TableNames.location] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.location] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(Locations));
 
                     //Children
@@ -1661,7 +1661,7 @@ namespace GSCFieldApp.ViewModel
                         locIds.Add(lids.GenericID);
                     }
 
-                    FieldNotes[TableNames.drill] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.drill].Where(x => locIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1).ToList());
+                    FieldNotes[TableNames.drill] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.drill].Where(x => locIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(DrillHoles));
 
 
@@ -1676,7 +1676,7 @@ namespace GSCFieldApp.ViewModel
                     IEnumerable<FieldNote> dateEM = FieldNotesAll[TableNames.earthmat].Where(x => drillIds.Contains(x.ParentID));
                     if (dateEM.Count() > 0)
                     {
-                        ObservableCollectionHelper.AddRange(FieldNotes[TableNames.earthmat], FieldNotesAll[TableNames.earthmat].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1));
+                        ObservableCollectionHelper.AddRange(FieldNotes[TableNames.earthmat], FieldNotesAll[TableNames.earthmat].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
                         OnPropertyChanged(nameof(EarthMats));
                     }
 
@@ -1684,7 +1684,7 @@ namespace GSCFieldApp.ViewModel
                     IEnumerable<FieldNote> dateDOC = FieldNotesAll[TableNames.document].Where(x => drillIds.Contains(x.ParentID));
                     if (dateDOC.Count() > 0)
                     {
-                        ObservableCollectionHelper.AddRange(FieldNotes[TableNames.document], FieldNotesAll[TableNames.document].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.Display_text_1));
+                        ObservableCollectionHelper.AddRange(FieldNotes[TableNames.document], FieldNotesAll[TableNames.document].Where(x => drillIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName));
                         OnPropertyChanged(nameof(Documents));
                     }
 

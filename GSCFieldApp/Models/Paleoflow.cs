@@ -139,7 +139,7 @@ namespace GSCFieldApp.Models
                     {
                         //Trim bunch of zeros
                         string shorterName = PFlowName.Substring(PFlowName.Length - 7);
-                        return shorterName.Trim('0');
+                        return shorterName.TrimStart('0');
                     }
                     else
                     {
