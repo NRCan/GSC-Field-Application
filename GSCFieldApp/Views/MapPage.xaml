@@ -137,7 +137,7 @@
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
 
                 <!--Tap option -->
-                <Button x:Name="GPSMode" Text="&#xF01A4;"
+                <Button x:Name="GPSMode" Text="&#xF01A4;" 
                         ToolTipProperties.Text="{local:Localize MapPageGPSMode}"
                         Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"/>
 

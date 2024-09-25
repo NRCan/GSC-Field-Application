@@ -48,6 +48,7 @@ public partial class MapPage : ContentPage
     private GeopackageService geopackService = new GeopackageService();
     private int bitmapSymbolId = -1;
     private bool _isCheckingGeolocation = false;
+    private bool _isTapMode = false;
     private enum defaultLayerList { Stations, Traverses }
     private Location badLoc = new Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
 
@@ -172,7 +173,7 @@ public partial class MapPage : ContentPage
         await LoadPreferedLayers();
 
         //Manage GPS
-        if (!_isCheckingGeolocation)
+        if (!_isCheckingGeolocation && !_isTapMode)
         {
 
             await StartGPS();
@@ -191,6 +192,9 @@ public partial class MapPage : ContentPage
         //Detect if in tap mode show tapped coordinates on screen
         if (!_isCheckingGeolocation)
         {
+            //Keep tap mode for future validation
+            _isTapMode = true;
+
             //Convert incoming geographic coordinates and transform into DMS
             DD2DMS dmsLongitude = DD2DMS.FromDouble(e.Point.ToPoint().X);
             DD2DMS dmsLatitude = DD2DMS.FromDouble(e.Point.ToPoint().Y);
@@ -220,6 +224,10 @@ public partial class MapPage : ContentPage
                 mvm.RefreshCoordinatesFromTap(e.Point);
                 mvm.AddStationCommand.Execute(mvm);
             }
+        }
+        else
+        {
+            _isTapMode = false;
         }
 
     }
