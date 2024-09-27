@@ -114,6 +114,8 @@ public partial class MapPage : ContentPage
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
+
+
         base.OnNavigatedTo(args);
 
         //In case user is coming from field notes

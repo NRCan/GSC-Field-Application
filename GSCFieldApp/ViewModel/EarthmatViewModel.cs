@@ -623,7 +623,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(SamplePage)}/",
+            await Shell.Current.GoToAsync($"/{nameof(SamplePage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Sample)] = null,
@@ -639,7 +639,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to child
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(StructurePage)}/",
+            await Shell.Current.GoToAsync($"/{nameof(StructurePage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(Structure)] = null,
@@ -655,7 +655,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(PaleoflowPage)}/",
+            await Shell.Current.GoToAsync($"/{nameof(PaleoflowPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(PaleoflowPage)] = null,
@@ -671,7 +671,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(FossilPage)}/",
+            await Shell.Current.GoToAsync($"/{nameof(FossilPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(FossilPage)] = null,
@@ -687,7 +687,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(MineralPage)}/",
+            await Shell.Current.GoToAsync($"/{nameof(MineralPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(MineralPage)] = null,
@@ -704,7 +704,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(MineralizationAlterationPage)}/",
+            await Shell.Current.GoToAsync($"/{nameof(MineralizationAlterationPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(MineralAlteration)] = null,

@@ -82,7 +82,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/");
+            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}");
 
         }
 
@@ -133,7 +133,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit on either map or field notes
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/");
+            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}");
 
         }
 
@@ -145,7 +145,7 @@ namespace GSCFieldApp.ViewModel
                 await SetAndSaveModelAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
-                await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(StationPage)}/",
+                await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
                     new Dictionary<string, object>
                     {
                         [nameof(FieldLocation)] = _fieldLocation,
@@ -164,7 +164,7 @@ namespace GSCFieldApp.ViewModel
                 await SetAndSaveModelAsync();
 
                 //Navigate to station page and keep locationmodel for relationnal link
-                await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(DrillHolePage)}/",
+                await Shell.Current.GoToAsync($"/{nameof(DrillHolePage)}/",
                     new Dictionary<string, object>
                     {
                         [nameof(DrillHole)] = null,

@@ -165,7 +165,7 @@ namespace GSCFieldApp.ViewModel
             await SetAndSaveModelAsync();
 
             //Navigate to pflow page 
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}/{nameof(MineralPage)}/",
+            await Shell.Current.GoToAsync($"/{nameof(MineralPage)}/",
                 new Dictionary<string, object>
                 {
                     [nameof(MineralPage)] = null,

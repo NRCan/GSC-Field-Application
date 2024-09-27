@@ -49,19 +49,19 @@ public partial class AppShell : Shell
 
         ///Make each detail routes for field books page or field notes page since they
         ///are not navigable from the shell
-        Routing.RegisterRoute("FieldBooksPage/FieldBookPage", typeof(FieldBookPage));
-        Routing.RegisterRoute("FieldNotesPage/StationPage", typeof(StationPage));
-        Routing.RegisterRoute("FieldNotesPage/EarthmatPage", typeof(EarthmatPage));
-        Routing.RegisterRoute("FieldNotesPage/SamplePage", typeof(SamplePage));
-        Routing.RegisterRoute("FieldNotesPage/DocumentPage", typeof(DocumentPage));
-        Routing.RegisterRoute("FieldNotesPage/StructurePage", typeof(StructurePage));
-        Routing.RegisterRoute("FieldNotesPage/PaleoflowPage", typeof(PaleoflowPage));
-        Routing.RegisterRoute("FieldNotesPage/FossilPage", typeof(FossilPage));
-        Routing.RegisterRoute("FieldNotesPage/EnvironmentPage", typeof(EnvironmentPage));
-        Routing.RegisterRoute("FieldNotesPage/MineralPage", typeof(MineralPage));
-        Routing.RegisterRoute("FieldNotesPage/MineralizationAlterationPage", typeof(MineralizationAlterationPage));
-        Routing.RegisterRoute("FieldNotesPage/LocationPage", typeof(LocationPage));
-        Routing.RegisterRoute("FieldNotesPage/DrillHolePage", typeof(DrillHolePage));
+        Routing.RegisterRoute("FieldBookPage", typeof(FieldBookPage));
+        Routing.RegisterRoute("StationPage", typeof(StationPage));
+        Routing.RegisterRoute("EarthmatPage", typeof(EarthmatPage));
+        Routing.RegisterRoute("SamplePage", typeof(SamplePage));
+        Routing.RegisterRoute("DocumentPage", typeof(DocumentPage));
+        Routing.RegisterRoute("StructurePage", typeof(StructurePage));
+        Routing.RegisterRoute("PaleoflowPage", typeof(PaleoflowPage));
+        Routing.RegisterRoute("FossilPage", typeof(FossilPage));
+        Routing.RegisterRoute("EnvironmentPage", typeof(EnvironmentPage));
+        Routing.RegisterRoute("MineralPage", typeof(MineralPage));
+        Routing.RegisterRoute("MineralizationAlterationPage", typeof(MineralizationAlterationPage));
+        Routing.RegisterRoute("LocationPage", typeof(LocationPage));
+        Routing.RegisterRoute("DrillHolePage", typeof(DrillHolePage));
 
         #endregion
 

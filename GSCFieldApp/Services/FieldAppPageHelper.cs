@@ -56,6 +56,18 @@ namespace GSCFieldApp.Services
         /// <returns></returns>
         public static async Task NavigateToFieldNotes(TableNames tableName, bool refreshTable = true)
         {
+            //Make sure to remove all previous navigated pages to prevent them from showing up
+            List<Page> lastPages = Shell.Current.Navigation.NavigationStack.ToList();
+
+            foreach (Page p in lastPages)
+            {
+                if (p != null)
+                {
+                    Shell.Current.Navigation.RemovePage(p);
+                }
+
+            }
+
             if (refreshTable)
             {
                 //Refresh a given table

@@ -8,10 +8,13 @@
     xmlns:local="clr-namespace:GSCFieldApp.Services"
     Shell.FlyoutBehavior="Flyout">
 
+    <!-- NOTE: Adding anything in here, even if registered as transient in MauiProgram, won't
+    recreate the page. It'll be create once and that's it -->
+    
     <ShellContent
             Title="GSC Field App" FlyoutItemIsVisible="True" 
             ContentTemplate="{DataTemplate views:FieldBooksPage}" Route="FieldBooksPage"/>
-
+    
     <FlyoutItem Title="{local:Localize ShellFieldBooksTitle}">
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF125F;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
