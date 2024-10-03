@@ -148,11 +148,14 @@ namespace GSCFieldApp.ViewModel
         public async Task Back()
         {
             //Make sure to delete station and location records if user is coming from map page
-            if (_station != null && _station.StationAlias != string.Empty && _model.StationID != 0)
+            if (_model != null && _model.StationID == 0)
             {
                 //Delete without forced pop-up warning and question
-                await commandServ.DeleteDatabaseItemCommand(TableNames.station, _station.StationAlias, _station.LocationID, true);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, fieldLocation.LocationAlias, fieldLocation.LocationID, true);
+            }
 
+            if(_station == null)
+            { 
                 //Exit on map
                 await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
 
