@@ -957,25 +957,36 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task Fill2ndRoundPickers()
         {
+            string lithgroup = string.Empty;
+
             //second round pickers
-            if (_earthmaterial.GroupType != string.Empty && currentProjectType.Contains(ApplicationThemeBedrock))
+            if (_earthmaterial != null && _earthmaterial.GroupType != string.Empty && currentProjectType.Contains(ApplicationThemeBedrock))
             {
-                _earthLithQualifier = await FillAPicker(FieldEarthMatModComp, _earthmaterial.EarthMatLithgroup);
+                lithgroup = _earthmaterial.EarthMatLithgroup;
+
+            }
+            else if (_model != null && _model.GroupType != string.Empty && currentProjectType.Contains(ApplicationThemeBedrock))
+            {
+                lithgroup = _model.EarthMatLithgroup;
+            }
+
+            if (lithgroup != string.Empty)
+            {
+                _earthLithQualifier = await FillAPicker(FieldEarthMatModComp, lithgroup);
                 //_earthLithOccurAs = await FillAPicker(FieldEarthMatOccurs, _model.EarthMatLithgroup);
-                _earthLithTextureStruct = await FillAPicker(FieldEarthMatModTextStruc, _model.EarthMatLithgroup);
-                _earthLithGrainSize = await FillAPicker(FieldEarthMatGrSize, _earthmaterial.EarthMatLithgroup);
+                _earthLithTextureStruct = await FillAPicker(FieldEarthMatModTextStruc, lithgroup);
+                _earthLithGrainSize = await FillAPicker(FieldEarthMatGrSize, lithgroup);
                 OnPropertyChanged(nameof(EarthLithQualifier));
                 OnPropertyChanged(nameof(EarthLithTextureStruct));
                 OnPropertyChanged(nameof(EarthLithGrainSize));
 
                 //_earthLithOccurAs.cboxItems.Clear();
-                _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && _earthmaterial.EarthMatLithgroup.Contains(f.itemParent)).ToList();
+                _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).ToList();
                 if (_earthLithOccurAs.cboxItems.Count == 1)
                 {
                     _earthLithOccurAs.cboxDefaultItemIndex = 0;
                 }
                 OnPropertyChanged(nameof(EarthLithOccurAs));
-
             }
 
         }
