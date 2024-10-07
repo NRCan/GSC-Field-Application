@@ -939,7 +939,12 @@ namespace GSCFieldApp.ViewModel
             _earthLithColourGeneric = await FillAPicker(KeywordColourGeneric);
             _earthLithColourIntensity = await FillAPicker(KeywordColourIntensity);
             _earthLithColourQualifier = await FillAPicker(KeywordColourQualifier);
-            _earthLithOccurAs = _earthLithOccursAsAll = await FillAPicker(FieldEarthMatOccurs); 
+
+            if (_earthLithOccursAsAll != null && _earthLithOccursAsAll.cboxItems.Count == 0)
+            {
+                _earthLithOccursAsAll = await FillAPicker(FieldEarthMatOccurs);
+            }
+            _earthLithOccurAs = _earthLithOccursAsAll;
 
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
@@ -1237,8 +1242,8 @@ namespace GSCFieldApp.ViewModel
 
                 }
 
-                await Fill2ndRoundPickers();
-                await Load2nRound();
+                await Fill2ndRoundPickers().ContinueWith(async antecedent => await Load2nRound());
+
             }
         }
 
@@ -1249,7 +1254,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task Load2nRound()
         {
-            if (_earthmaterial.GroupType != string.Empty)
+            if (_earthmaterial != null && _earthmaterial.GroupType != string.Empty)
             {
 
                 List<string> qualifiers = ConcatenatedCombobox.UnpipeString(_earthmaterial.EarthMatModComp);
@@ -1285,14 +1290,16 @@ namespace GSCFieldApp.ViewModel
                 }
                 OnPropertyChanged(nameof(EarthLithGrainSizeCollection));
 
-                foreach (ComboBoxItem occ in EarthLithOccurAs.cboxItems)
+                foreach (ComboBoxItem occ in _earthLithOccurAs.cboxItems)
                 {
-                    if (occ.itemValue == _occurenceLoadedValue || (occ.itemValue != string.Empty && occ.itemValue == _earthmaterial.EarthMatOccurs ) )
+                    if (occ.itemValue == _occurenceLoadedValue || (occ.itemValue != string.Empty && occ.itemValue == _earthmaterial.EarthMatOccurs))
                     {
-                        EarthLithOccurAs.cboxDefaultItemIndex = EarthLithOccurAs.cboxItems.IndexOf(occ); break;
+                        _earthLithOccurAs.cboxDefaultItemIndex = _earthLithOccurAs.cboxItems.IndexOf(occ);
+                        OnPropertyChanged(nameof(EarthLithOccurAs));
+                        break;
                     }
                 }
-                OnPropertyChanged(nameof(EarthLithOccurAs));
+
 
             }
 
