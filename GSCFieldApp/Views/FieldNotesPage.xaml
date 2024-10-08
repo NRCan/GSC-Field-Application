@@ -124,7 +124,8 @@
                     <!--Station records-->
                     <Button x:Name="FieldNoteStationHeader" Text="{local:Localize Key=FielNotesStationHeader}" BackgroundColor="{StaticResource FieldStationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="station"/>
-                    <VerticalStackLayout IsVisible="{Binding IsStationExpanded, Mode=TwoWay}">
+
+                    <Grid IsVisible="{Binding IsStationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                         <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}" 
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Stations, Mode=TwoWay}" >
@@ -133,10 +134,10 @@
                                     Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
                             </CollectionView.ItemsLayout>
                         </CollectionView>
-                        <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}" 
+                        <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}" />
-                    </VerticalStackLayout>
-
+                    </Grid>
+                    
 
                     <Label Text="{Binding Stations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
@@ -145,7 +146,7 @@
                         <Button Text="{local:Localize Key=FielNotesDrillHolesHeader}" BackgroundColor="{StaticResource FieldDrillColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="drill"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsDrillHoleExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsDrillHoleExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding DrillHoles}"  >
@@ -158,7 +159,7 @@
                             <ListView ItemsSource="{Binding DrillHoles, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding DrillHoles.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
                     </VerticalStackLayout>
@@ -168,7 +169,7 @@
                         <Button Text="{local:Localize Key=FielNotesEMHeader}" BackgroundColor="{StaticResource FieldEarthMaterialColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="earth"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsEarthMatExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsEarthMatExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding EarthMats, Mode=TwoWay}"  >
@@ -181,7 +182,7 @@
                             <ListView ItemsSource="{Binding EarthMats, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding EarthMats.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
                     </VerticalStackLayout>
@@ -192,7 +193,7 @@
                         <Button Text="{local:Localize Key=FielNotesSampleHeader}" BackgroundColor="{StaticResource FieldSampleColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="sample"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsSampleExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsSampleExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Samples}"  >
@@ -205,7 +206,7 @@
                             <ListView ItemsSource="{Binding Samples, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding Samples.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
@@ -216,7 +217,7 @@
                         <Button Text="{local:Localize Key=FielNotesStructureHeader}" BackgroundColor="{StaticResource FieldStrucColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="structure"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsStructureExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsStructureExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Structures}"  >
@@ -229,7 +230,7 @@
                             <ListView ItemsSource="{Binding Structures, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding Structures.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
                     </VerticalStackLayout>
@@ -239,7 +240,7 @@
                         <Button Text="{local:Localize Key=FielNotesPaleoflowHeader}" BackgroundColor="{StaticResource FieldPflowColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="pflow"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsPaleoflowExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsPaleoflowExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Paleoflows}"  >
@@ -252,7 +253,7 @@
                             <ListView ItemsSource="{Binding Paleoflows, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding Paleoflows.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
@@ -264,7 +265,7 @@
                         <Button Text="{local:Localize Key=FielNotesMineralHeader}" BackgroundColor="{StaticResource FieldMineralColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="mineral"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsMineralExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsMineralExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Minerals}"  >
@@ -277,7 +278,7 @@
                             <ListView ItemsSource="{Binding Minerals, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding Minerals.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
@@ -289,7 +290,7 @@
                         <Button Text="{local:Localize Key=FielNotesMineralizationHeader}" BackgroundColor="{StaticResource FieldMineralAlterationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="mineralization"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsMineralizationExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsMineralizationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding MineralizationAlterations}"  >
@@ -302,7 +303,7 @@
                             <ListView ItemsSource="{Binding MineralizationAlterations, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding MineralizationAlterations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
@@ -314,7 +315,7 @@
                         <Button Text="{local:Localize Key=FielNotesFossilHeader}" BackgroundColor="{StaticResource FieldFossilColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                         Command="{Binding HideCommand}" CommandParameter="fossil"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsFossilExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsFossilExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Fossils}"  >
@@ -327,7 +328,7 @@
                             <ListView ItemsSource="{Binding Fossils, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding Fossils.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
@@ -339,7 +340,7 @@
                         <Button Text="{local:Localize Key=FielNotesEnvironmentHeader}" BackgroundColor="{StaticResource FieldEnvironmentColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="environment"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsEnvironmentExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsEnvironmentExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Environments}"  >
@@ -352,7 +353,7 @@
                             <ListView ItemsSource="{Binding Environments, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding Environments.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
@@ -364,7 +365,7 @@
                         <Button Text="{local:Localize Key=FielNotesPhotoHeader}" BackgroundColor="{StaticResource FieldPhotoColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="document"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsDocumentExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsDocumentExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Documents}"  >
@@ -377,7 +378,7 @@
                             <ListView ItemsSource="{Binding Documents, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding Documents.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 
@@ -389,7 +390,7 @@
                         <Button Text="{local:Localize Key=FielNotesLocationHeader}" BackgroundColor="{StaticResource FieldObservationColor}" Style="{StaticResource FieldAppNoteHeaderButton}"
                             Command="{Binding HideCommand}" CommandParameter="location"/>
 
-                        <VerticalStackLayout IsVisible="{Binding IsLocationExpanded, Mode=TwoWay}">
+                        <Grid IsVisible="{Binding IsLocationExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
                             <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Locations}"  >
@@ -402,7 +403,7 @@
                             <ListView ItemsSource="{Binding Locations, Mode=TwoWay}"
                                   ItemTemplate="{StaticResource FieldNoteCardMobile}"
                                   Style="{StaticResource FieldAppNotesMobileListView}"/>
-                        </VerticalStackLayout>
+                        </Grid>
 
                         <Label Text="{Binding Locations.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
 

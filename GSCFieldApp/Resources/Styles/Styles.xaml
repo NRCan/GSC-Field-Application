@@ -292,6 +292,14 @@
         <Setter Property="ColumnDefinitions" Value="*, 40"/>
     </Style>
 
+    <Style TargetType="Grid" x:Key="FieldAppNotesGrid">
+        <!--Can't use vertical stack layout to hold list view
+        will be using grids instead else list view items are
+        disordering as soon as user scrolls up and down-->
+        <Setter Property="RowDefinitions" Value="275"/>
+        <Setter Property="MaximumHeightRequest" Value="275"/>
+    </Style>
+
     <Style TargetType="Grid" x:Key="FieldAppSettingGrid">
         <!--First column is toggle text-->
         <!--Second column is the toggle itself-->
