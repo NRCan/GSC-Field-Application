@@ -1295,7 +1295,15 @@ public partial class MapPage : ContentPage
                 mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
             }
 
-            this.WaitingCursor.IsRunning = false;
+            if (inLocation.Accuracy <= 10)
+            {
+                this.WaitingCursor.IsRunning = false;
+            }
+            else
+            {
+                this.WaitingCursor.IsRunning = true;
+            }
+            
         }
 
     }
