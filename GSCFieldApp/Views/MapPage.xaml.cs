@@ -391,13 +391,16 @@ public partial class MapPage : ContentPage
     {
         if (e.PropertyName == "IsVisible")
         {
-            Frame sentFrame = sender as Frame;
+            Border sentFrame = sender as Border;
 
             //Condition on map view not being null to prevent it from being launch and map page load
             if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
             {
                 if (_vm.LayerCollection != null && _vm.LayerCollection.Count() > 0)
                 {
+                    //Update layer collection for menu
+                    _vm.RefreshLayerCollection(mapView.Map.Layers);
+
                     _vm.SaveLayerRendering();
                 }
             }
@@ -464,7 +467,7 @@ public partial class MapPage : ContentPage
                     _vm.RefreshLayerCollection(mapView.Map.Layers);
 
                     //Save
-                    _vm.SaveLayerRendering();
+                    _vm.SaveLayerRendering(in_layer);
                     break;
                 }
 
@@ -547,11 +550,11 @@ public partial class MapPage : ContentPage
                 {
                     if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
                     {
-                        await AddAMBTile(mpl.LayerPathOrURL);
+                        await AddAMBTile(mpl.LayerPathOrURL, mpl);
                     }
                     else if (mpl.LayerType == MapPageLayer.LayerTypes.wms)
                     {
-                        await AddAWMSAsync(mpl.LayerPathOrURL);
+                        await AddAWMSAsync(mpl.LayerPathOrURL, true, mpl);
                     }
                 }
 
@@ -564,7 +567,7 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="mbTilePath"></param>
     /// <returns></returns>
-    public async Task AddAMBTile(string mbTilePath)
+    public async Task AddAMBTile(string mbTilePath, MapPageLayer pageLayer = null)
     {
         if (mbTilePath != null && mbTilePath != string.Empty)
         {
@@ -576,6 +579,14 @@ public partial class MapPage : ContentPage
                 TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
                 newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
                 newTileLayer.Tag = mbTilePath;
+
+                //If full object is passed, get extra info in
+                if (pageLayer != null)
+                {
+                    newTileLayer.Opacity = pageLayer.LayerOpacity;
+                    newTileLayer.Enabled = pageLayer.LayerVisibility;
+                }
+
                 //Insert at right location in collection
                 InsertLayerAtRightPlace(newTileLayer);
             }
@@ -657,7 +668,7 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="wmsURL"></param>
     /// <param name="withCache"></param>
-    public async Task AddAWMSAsync(string wmsURL, bool withCache = true)
+    public async Task AddAWMSAsync(string wmsURL, bool withCache = true, MapPageLayer pageLayer = null)
     {
         if (wmsURL != null && wmsURL != string.Empty)
         {
@@ -683,7 +694,12 @@ public partial class MapPage : ContentPage
                     tl.Name = layerNameFromURL;
                     tl.Tag = fullURL;
 
-                    
+                    if (pageLayer != null)
+                    {
+                        tl.Opacity = pageLayer.LayerOpacity;
+                        tl.Enabled = pageLayer.LayerVisibility;
+                    }
+
                     //Insert at right location in collection
                     InsertLayerAtRightPlace(tl);
                 }
@@ -695,6 +711,12 @@ public partial class MapPage : ContentPage
                     TileLayer tl = new TileLayer(t);
                     tl.Name = layerNameFromURL;
                     tl.Tag = fullURL;
+
+                    if (pageLayer != null)
+                    {
+                        tl.Opacity = pageLayer.LayerOpacity;
+                        tl.Enabled = pageLayer.LayerVisibility;
+                    }
 
                     //Insert at right location in collection
                     InsertLayerAtRightPlace(tl);

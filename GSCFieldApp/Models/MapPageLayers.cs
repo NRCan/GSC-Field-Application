@@ -23,6 +23,10 @@ namespace GSCFieldApp.Models
         public LayerTypes LayerType { get; set;}
 
         public string? LayerPathOrURL { get; set; }
+
+        public bool LayerVisibility { get; set; }
+
+        public double LayerOpacity { get; set; }
     }
 
     public class MapPageLayerBuilder
@@ -43,6 +47,8 @@ namespace GSCFieldApp.Models
             {
                 mpl.LayerName = inLayer.Name;
                 mpl.LayerOrder = 0;
+                mpl.LayerOpacity = inLayer.Opacity;
+                mpl.LayerVisibility = inLayer.Enabled;
 
                 //Retrieve hidden info from tag
                 if (inLayer.Tag != null)

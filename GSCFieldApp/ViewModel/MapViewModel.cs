@@ -268,6 +268,7 @@ namespace GSCFieldApp.ViewModel
 
             await using FileStream fStream = File.Create(JSONPath);
             await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
+            fStream.Close();
 
         }
 
@@ -292,6 +293,7 @@ namespace GSCFieldApp.ViewModel
                     preferedLayers = await JsonSerializer.DeserializeAsync<Collection<MapPageLayer>>(openStream, options);
 
                     openStream.Close();
+                    openStream.Dispose();
                 }
 
             }
