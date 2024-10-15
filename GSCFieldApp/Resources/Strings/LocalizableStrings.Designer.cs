@@ -61,6 +61,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More About.
+        /// </summary>
+        internal static string AboutPageAboutOrg {
+            get {
+                return ResourceManager.GetString("AboutPageAboutOrg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Geological Survey of Canada.
+        /// </summary>
+        internal static string AboutPageAboutOrgGSC {
+            get {
+                return ResourceManager.GetString("AboutPageAboutOrgGSC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Science.
+        /// </summary>
+        internal static string AboutPageAboutOrgOpenGeoscience {
+            get {
+                return ResourceManager.GetString("AboutPageAboutOrgOpenGeoscience", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database version .
         /// </summary>
         internal static string AboutPageAppInfoDBVersion {
@@ -75,6 +102,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string AboutPageAppInfoHeader {
             get {
                 return ResourceManager.GetString("AboutPageAppInfoHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        internal static string AboutPageAppInfoHelp {
+            get {
+                return ResourceManager.GetString("AboutPageAppInfoHelp", resourceCulture);
             }
         }
         
@@ -97,6 +133,42 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data Lead.
+        /// </summary>
+        internal static string AboutPageAppTeamDataLead {
+            get {
+                return ResourceManager.GetString("AboutPageAppTeamDataLead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Developer.
+        /// </summary>
+        internal static string AboutPageAppTeamDev {
+            get {
+                return ResourceManager.GetString("AboutPageAppTeamDev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lead.
+        /// </summary>
+        internal static string AboutPageAppTeamLead {
+            get {
+                return ResourceManager.GetString("AboutPageAppTeamLead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advisor.
+        /// </summary>
+        internal static string AboutPageAppTeamTraining {
+            get {
+                return ResourceManager.GetString("AboutPageAppTeamTraining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact.
         /// </summary>
         internal static string AboutPageContactHeader {
@@ -106,52 +178,38 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Gabriel Huot-Vézina
-        ///Geomatic agent
-        ///Geological Survey of Canada, Natural Resources Canada
-        ///Government of Canada
-        ///490 de la Couronne, Québec, Québec, G1K 9A9
-        ///gabriel.huot-vezina@nrcan-rncan.gc.ca.
+        ///   Looks up a localized string similar to Application development.
         /// </summary>
-        internal static string AboutPageContactText {
+        internal static string AboutPageHelpAppDev {
             get {
-                return ResourceManager.GetString("AboutPageContactText", resourceCulture);
+                return ResourceManager.GetString("AboutPageHelpAppDev", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project.
+        ///   Looks up a localized string similar to Data model.
         /// </summary>
-        internal static string AboutPageProjectHeader {
+        internal static string AboutPageHelpDataModel {
             get {
-                return ResourceManager.GetString("AboutPageProjectHeader", resourceCulture);
+                return ResourceManager.GetString("AboutPageHelpDataModel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit an.
+        ///   Looks up a localized string similar to Guide.
         /// </summary>
-        internal static string AboutPageProjectIssue {
+        internal static string AboutPageHelpGuide {
             get {
-                return ResourceManager.GetString("AboutPageProjectIssue", resourceCulture);
+                return ResourceManager.GetString("AboutPageHelpGuide", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  issue..
+        ///   Looks up a localized string similar to Issues.
         /// </summary>
-        internal static string AboutPageProjectIssueHyperlink {
+        internal static string AboutPageHelpIssue {
             get {
-                return ResourceManager.GetString("AboutPageProjectIssueHyperlink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Project source code available on.
-        /// </summary>
-        internal static string AboutPageProjectSourceCode {
-            get {
-                return ResourceManager.GetString("AboutPageProjectSourceCode", resourceCulture);
+                return ResourceManager.GetString("AboutPageHelpIssue", resourceCulture);
             }
         }
         
@@ -161,19 +219,6 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string AboutPageTeamHeader {
             get {
                 return ResourceManager.GetString("AboutPageTeamHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cocking, Robert – Training and Advisor
-        ///Girard, Étienne – Geological Data Flow Project Leader 
-        ///Huot-Vézina, Gabriel – Lead Developer, Data Collection Activity Leader 
-        ///Joseph, Jamel – Developer
-        ///Shimamura, Kaz – Senior Advisor.
-        /// </summary>
-        internal static string AboutPageTeamText {
-            get {
-                return ResourceManager.GetString("AboutPageTeamText", resourceCulture);
             }
         }
         
@@ -241,7 +286,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter last two digit of current year to delete.
+        ///   Looks up a localized string similar to Enter last two digit of current year to delete..
         /// </summary>
         internal static string CommandDeleteContent {
             get {

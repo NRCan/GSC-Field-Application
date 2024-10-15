@@ -132,35 +132,8 @@
   <data name="AboutPageContactHeader" xml:space="preserve">
     <value>Contact</value>
   </data>
-  <data name="AboutPageContactText" xml:space="preserve">
-    <value>Gabriel Huot-Vézina
-Geomatic agent
-Geological Survey of Canada, Natural Resources Canada
-Government of Canada
-490 de la Couronne, Québec, Québec, G1K 9A9
-gabriel.huot-vezina@nrcan-rncan.gc.ca</value>
-  </data>
-  <data name="AboutPageProjectHeader" xml:space="preserve">
-    <value>Project</value>
-  </data>
-  <data name="AboutPageProjectIssue" xml:space="preserve">
-    <value>Submit an</value>
-  </data>
-  <data name="AboutPageProjectIssueHyperlink" xml:space="preserve">
-    <value> issue.</value>
-  </data>
-  <data name="AboutPageProjectSourceCode" xml:space="preserve">
-    <value>Project source code available on</value>
-  </data>
   <data name="AboutPageTeamHeader" xml:space="preserve">
     <value>Team</value>
-  </data>
-  <data name="AboutPageTeamText" xml:space="preserve">
-    <value>Cocking, Robert – Training and Advisor
-Girard, Étienne – Geological Data Flow Project Leader 
-Huot-Vézina, Gabriel – Lead Developer, Data Collection Activity Leader 
-Joseph, Jamel – Developer
-Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="AboutPageTitle" xml:space="preserve">
     <value>GSC Field Application</value>
@@ -184,7 +157,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Delete Completed</value>
   </data>
   <data name="CommandDeleteContent" xml:space="preserve">
-    <value>Enter last two digit of current year to delete</value>
+    <value>Enter last two digit of current year to delete.</value>
   </data>
   <data name="CommandDeleteTitle" xml:space="preserve">
     <value>Delete {0}</value>
@@ -1298,5 +1271,41 @@ Shimamura, Kaz – Senior Advisor</value>
   </data>
   <data name="MapPageTapCoordinateContent" xml:space="preserve">
     <value>Would you like to create a new station from this point?</value>
+  </data>
+  <data name="AboutPageAppInfoHelp" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="AboutPageHelpGuide" xml:space="preserve">
+    <value>Guide</value>
+  </data>
+  <data name="AboutPageHelpAppDev" xml:space="preserve">
+    <value>Application development</value>
+  </data>
+  <data name="AboutPageHelpIssue" xml:space="preserve">
+    <value>Issues</value>
+  </data>
+  <data name="AboutPageHelpDataModel" xml:space="preserve">
+    <value>Data model</value>
+  </data>
+  <data name="AboutPageAboutOrg" xml:space="preserve">
+    <value>More About</value>
+  </data>
+  <data name="AboutPageAboutOrgGSC" xml:space="preserve">
+    <value>Geological Survey of Canada</value>
+  </data>
+  <data name="AboutPageAboutOrgOpenGeoscience" xml:space="preserve">
+    <value>Open Science</value>
+  </data>
+  <data name="AboutPageAppTeamLead" xml:space="preserve">
+    <value>Lead</value>
+  </data>
+  <data name="AboutPageAppTeamDataLead" xml:space="preserve">
+    <value>Data Lead</value>
+  </data>
+  <data name="AboutPageAppTeamDev" xml:space="preserve">
+    <value>Developer</value>
+  </data>
+  <data name="AboutPageAppTeamTraining" xml:space="preserve">
+    <value>Advisor</value>
   </data>
 </root>

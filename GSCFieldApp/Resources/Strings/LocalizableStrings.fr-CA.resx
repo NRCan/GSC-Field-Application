@@ -132,35 +132,8 @@
   <data name="AboutPageContactHeader" xml:space="preserve">
     <value>Contact</value>
   </data>
-  <data name="AboutPageContactText" xml:space="preserve">
-    <value>Gabriel Huot-Vézina
-Agent géomatique
-Commission géologique du Canada, Ressources naturelles du Canada
-Gouvernment du Canada
-490 de la Couronne, Québec, Québec, G1K 9A9
-gabriel.huot-vezina@nrcan-rncan.gc.ca</value>
-  </data>
-  <data name="AboutPageProjectHeader" xml:space="preserve">
-    <value>Projet</value>
-  </data>
-  <data name="AboutPageProjectIssue" xml:space="preserve">
-    <value>Soumettre un</value>
-  </data>
-  <data name="AboutPageProjectIssueHyperlink" xml:space="preserve">
-    <value> problème.</value>
-  </data>
-  <data name="AboutPageProjectSourceCode" xml:space="preserve">
-    <value>Code source du projet sur disponible sur</value>
-  </data>
   <data name="AboutPageTeamHeader" xml:space="preserve">
     <value>Équipe</value>
-  </data>
-  <data name="AboutPageTeamText" xml:space="preserve">
-    <value>Cocking, Robert – Conseiller et formation
-Girard, Étienne – Modélisateur de base de donnée,  Chef de projet "Geological Data Flow"
-Huot-Vézina, Gabriel – Principal programmeur, Chef d'activité
-Joseph, Jamel – Programmeur
-Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="AboutPageTitle" xml:space="preserve">
     <value>Application de terrain de la CGC</value>
@@ -179,6 +152,15 @@ Shimamura, Kaz – Conseiller</value>
   </data>
   <data name="CommandDeleteCompleteContent" xml:space="preserve">
     <value>Enr. {0} a été supprimé.</value>
+  </data>
+  <data name="CommandDeleteCompleteTitle" xml:space="preserve">
+    <value>Effacement terminé</value>
+  </data>
+  <data name="CommandDeleteContent" xml:space="preserve">
+    <value>Entrez les deux derniers chiffres de l'année en cours.</value>
+  </data>
+  <data name="CommandDeleteTitle" xml:space="preserve">
+    <value>Supprimer {0}</value>
   </data>
   <data name="DisplayAlertGPS" xml:space="preserve">
     <value>Position</value>
@@ -1290,5 +1272,41 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="MapPageTapCoordinateContent" xml:space="preserve">
     <value>Aimeriez-vous créer une nouvelle station à partir de ce point?</value>
+  </data>
+  <data name="AboutPageAppInfoHelp" xml:space="preserve">
+    <value>Aide</value>
+  </data>
+  <data name="AboutPageHelpGuide" xml:space="preserve">
+    <value>Guide</value>
+  </data>
+  <data name="AboutPageHelpAppDev" xml:space="preserve">
+    <value>Développement de l'application</value>
+  </data>
+  <data name="AboutPageHelpIssue" xml:space="preserve">
+    <value>Billet de problèmes</value>
+  </data>
+  <data name="AboutPageHelpDataModel" xml:space="preserve">
+    <value>Modèle de données</value>
+  </data>
+  <data name="AboutPageAboutOrg" xml:space="preserve">
+    <value>Plus d'information à propos de</value>
+  </data>
+  <data name="AboutPageAboutOrgGSC" xml:space="preserve">
+    <value>Commisson géologique du Canada</value>
+  </data>
+  <data name="AboutPageAboutOrgOpenGeoscience" xml:space="preserve">
+    <value>Sciences ouvertes</value>
+  </data>
+  <data name="AboutPageAppTeamLead" xml:space="preserve">
+    <value>Coordonateur</value>
+  </data>
+  <data name="AboutPageAppTeamDataLead" xml:space="preserve">
+    <value>Coordonateur, gestion de données</value>
+  </data>
+  <data name="AboutPageAppTeamDev" xml:space="preserve">
+    <value>Développeur</value>
+  </data>
+  <data name="AboutPageAppTeamTraining" xml:space="preserve">
+    <value>Aviseur</value>
   </data>
 </root>

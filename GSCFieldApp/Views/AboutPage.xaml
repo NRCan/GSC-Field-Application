@@ -4,7 +4,7 @@
              x:Class="GSCFieldApp.Views.AboutPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
-             Title="{local:Localize AboutPageTitle}">
+             Title="{local:Localize AboutPageTitle}" BackgroundColor="{StaticResource Gray100}">
 
     <ScrollView>
         <VerticalStackLayout Margin="20">
@@ -18,77 +18,133 @@
             <!-- TODO Add nrcan logo, need it in svg...-->
             
             <!--Application info section-->
-            <VerticalStackLayout Margin="0,0,0,20">
-                <Label Text="{local:Localize AboutPageAppInfoHeader}" Style="{StaticResource FieldAppTitle}"/>
-                <Label Text="{local:Localize AboutPageAppInfoPublisher}"/>
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{local:Localize AboutPageAppInfoVersion}" />
-                            <Span Text="{Binding AppVersion}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Label>
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{local:Localize AboutPageAppInfoDBVersion}" />
-                            <Span Text="{Binding AppDBVersion}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </VerticalStackLayout>
-            
-            
-            <!--Contact info section-->
-            <VerticalStackLayout Margin="0,0,0,20">
-                <Label Text="{local:Localize AboutPageContactHeader}" Style="{StaticResource FieldAppTitle}" />
-                <Label Text="{local:Localize AboutPageContactText}" FontSize="Micro"/>
-            </VerticalStackLayout>
-
-            <!--Project info section-->
-            <VerticalStackLayout Margin="0,0,0,20">
-                <Label Text="{local:Localize AboutPageProjectHeader}" Style="{StaticResource FieldAppTitle}" />
-                <Label FontSize="Micro">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{local:Localize AboutPageProjectSourceCode}" />
-                            <Span Text=" GitHub."
-                              TextColor="Blue"
-                              TextDecorations="Underline">
-                                <Span.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding TapCommand}"
-                                          CommandParameter="https://nrcan.github.io/GSC-Field-Application/" />
-                                </Span.GestureRecognizers>
-                            </Span>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-
-                <Label FontSize="Micro">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="{local:Localize AboutPageProjectIssue}" />
-                            <Span Text="{local:Localize AboutPageProjectIssueHyperlink}"
-                              TextColor="Blue"
-                              TextDecorations="Underline">
-                                <Span.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding TapCommand}"
-                                          CommandParameter="https://github.com/NRCan/GSC-Field-Application/issues" />
-                                </Span.GestureRecognizers>
-                            </Span>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+            <Label Text="{local:Localize AboutPageAppInfoHeader}" Style="{StaticResource FieldAppSettingTitles}" />
+            <Border Style="{StaticResource FieldAppSettingBorder}">
                 
-            </VerticalStackLayout>
-            
+
+                    <Grid Style="{StaticResource FieldAppSettingGrid}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                    <Label Text="{local:Localize AboutPageAppInfoVersion}"  FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
+                    <Label Text="{Binding AppVersion}"  FontSize="Small" HorizontalOptions="End"  Grid.Row="0" TextColor="{StaticResource Gray400}"/>
+
+                    <Label Text="{local:Localize AboutPageAppInfoDBVersion}"  FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
+                    <Label Text="{Binding AppDBVersion}"  FontSize="Small" HorizontalOptions="End"  Grid.Row="1" TextColor="{StaticResource Gray400}"/>
+
+                </Grid>
+
+            </Border>
+
+            <!--Help section-->
+            <Label Text="{local:Localize AboutPageAppInfoHelp}" Style="{StaticResource FieldAppSettingTitles}" />
+            <Border Style="{StaticResource FieldAppSettingBorder}">
+
+
+                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,60">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+
+                    <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" 
+                        Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application/blob/master/Documents/GSC%20FIELD%20APP%20GUIDE.pdf" />
+                    <Label Text="{local:Localize Key=AboutPageHelpGuide}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
+                    <Label Text=">" FontSize="Large" WidthRequest="20" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+
+                    <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="1"  
+                           Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application" />
+                    <Label Text="{local:Localize AboutPageHelpAppDev}" FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0" />
+                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+                    <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2"  
+                           Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application/issues" />
+                    <Label Text="{local:Localize AboutPageHelpIssue}" FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
+                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+                    <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="3"  
+                           Command="{Binding TapCommand}" CommandParameter="https://doi.org/10.4095/pjucp83rbn" />
+                    <Label Text="{local:Localize AboutPageHelpDataModel}" FontSize="Small" HorizontalOptions="Start" Grid.Row="3" Grid.Column="0" />
+                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+                </Grid>
+
+            </Border>
+
+            <!--Org and links section-->
+            <Label Text="{local:Localize AboutPageAboutOrg}" Style="{StaticResource FieldAppSettingTitles}" />
+            <Border Style="{StaticResource FieldAppSettingBorder}">
+
+
+                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,60">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+
+                    <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" 
+                        Command="{Binding TapCommand}" CommandParameter="https://natural-resources.canada.ca/home" />
+                    <Label Text="{local:Localize Key=AboutPageAppInfoPublisher}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
+                    <Label Text=">" FontSize="Large" WidthRequest="20" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+
+                    <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="1"  
+                           Command="{Binding TapCommand}" CommandParameter="https://natural-resources.canada.ca/science-and-data/research-centres-and-labs/geological-survey-canada/17100" />
+                    <Label Text="{local:Localize AboutPageAboutOrgGSC}" FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0" />
+                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+                    <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2"  
+                           Command="{Binding TapCommand}" CommandParameter="https://www.canada.ca/en/environment-climate-change/services/science-technology/open-science-action-plan.html" />
+                    <Label Text="{local:Localize AboutPageAboutOrgOpenGeoscience}" FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
+                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+                </Grid>
+
+            </Border>
+
             
             <!--Team info section-->
-            <VerticalStackLayout Margin="0,0,0,20">
-                <Label Text="{local:Localize AboutPageTeamHeader}" Style="{StaticResource FieldAppTitle}" />
-                <Label Text="{local:Localize AboutPageTeamText}" FontSize="Micro"/>
-            </VerticalStackLayout>
+            <Label Text="{local:Localize AboutPageTeamHeader}" Style="{StaticResource FieldAppSettingTitles}" />
+            <Border Style="{StaticResource FieldAppSettingBorder}">
+
+                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,250">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+
+                    <Label Text="{local:Localize AboutPageAppTeamLead}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
+                    <Label Text="Huot-Vézina, G." FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}" />
+
+
+                    <Label Text="{local:Localize AboutPageAppTeamDataLead}" FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0" />
+                    <Label Text="Girard, É." FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+
+                    <Label Text="{local:Localize AboutPageAppTeamDev}" FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
+                    <Label Text="Huot-Vézina, G., Joseph, J." FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+
+                    <Label Text="{local:Localize AboutPageAppTeamAdvisor}" FontSize="Small" HorizontalOptions="Start" Grid.Row="3" Grid.Column="0" />
+                    <Label Text="Cocking, R., Shimamura, K." FontSize="Small" HorizontalOptions="Start" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+                </Grid>
+
+            </Border>
 
 
         </VerticalStackLayout>
