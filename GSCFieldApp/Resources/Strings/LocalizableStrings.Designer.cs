@@ -133,6 +133,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advisor.
+        /// </summary>
+        internal static string AboutPageAppTeamAdvisor {
+            get {
+                return ResourceManager.GetString("AboutPageAppTeamAdvisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data Lead.
         /// </summary>
         internal static string AboutPageAppTeamDataLead {
@@ -156,15 +165,6 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string AboutPageAppTeamLead {
             get {
                 return ResourceManager.GetString("AboutPageAppTeamLead", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Advisor.
-        /// </summary>
-        internal static string AboutPageAppTeamTraining {
-            get {
-                return ResourceManager.GetString("AboutPageAppTeamTraining", resourceCulture);
             }
         }
         

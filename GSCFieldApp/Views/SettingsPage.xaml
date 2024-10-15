@@ -7,12 +7,12 @@
             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
             x:DataType="viemodel:SettingsViewModel"
-            Title="{local:Localize SettingPageTitle}">
+            Title="{local:Localize SettingPageTitle}" BackgroundColor="{StaticResource Gray100}">
 
     <ContentPage.Content>
 
         <ScrollView Orientation="Vertical">
-            <VerticalStackLayout>
+            <VerticalStackLayout Margin="20">
 
                 <!--Themes control settings-->
                 <Border Stroke="Transparent">
@@ -20,12 +20,11 @@
                         <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageHeading}"/>
 
                         <VerticalStackLayout>
-                            <Label Text="{local:Localize SettingPageThemeExplanation}"/>
+                            <Label Text="{local:Localize SettingPageThemeExplanation}" Margin="0,0,0,20"/>
 
                             <!--Common tables activation-->
-                            <VerticalStackLayout Margin="10">
-                                <Label Text="{local:Localize SettingPageCategoryCommon}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
-
+                            <Label Text="{local:Localize SettingPageCategoryCommon}" Style="{StaticResource FieldAppSettingTitles}" HorizontalOptions="Start" FontSize="Medium"/>
+                            <Border Style="{StaticResource FieldAppSettingBorder}">
                                 <Grid Style="{StaticResource FieldAppSettingGrid}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="40"/>
@@ -51,11 +50,12 @@
                                     <Switch x:Name="location" IsToggled="{Binding LocationVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="4"/>
 
                                 </Grid>
-                            </VerticalStackLayout>
+                            </Border>
 
                             <!--Bedrock tables activation-->
-                            <VerticalStackLayout Margin="10">
-                                <Label Text="{local:Localize SettingPageCategoryBedrock}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+                            <Label Text="{local:Localize SettingPageCategoryBedrock}" Style="{StaticResource FieldAppSettingTitles}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                            <Border Style="{StaticResource FieldAppSettingBorder}">
 
                                 <Grid Style="{StaticResource FieldAppSettingGrid}">
                                     <Grid.RowDefinitions>
@@ -78,11 +78,12 @@
                                     <Switch x:Name="drill" IsToggled="{Binding DrillHoleVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="3"/>
 
                                 </Grid>
-                            </VerticalStackLayout>
+                            </Border>
 
                             <!--Surficial tables activation-->
-                            <VerticalStackLayout Margin="10">
-                                <Label Text="{local:Localize SettingPageCategorySurficial}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+                            <Label Text="{local:Localize SettingPageCategorySurficial}" Style="{StaticResource FieldAppSettingTitles}"  HorizontalOptions="Start" FontSize="Medium"/>
+
+                            <Border Style="{StaticResource FieldAppSettingBorder}">
 
                                 <Grid Style="{StaticResource FieldAppSettingGrid}">
                                     <Grid.RowDefinitions>
@@ -97,7 +98,7 @@
                                     <Switch x:Name="env" IsToggled="{Binding EnvironmentVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="1"/>
 
                                 </Grid>
-                            </VerticalStackLayout>
+                            </Border>
 
                         </VerticalStackLayout>
                     </VerticalStackLayout>
@@ -107,27 +108,24 @@
 
                 <Border Stroke="Transparent" IsVisible="{Binding DeveloperModeActivated}">
                     <VerticalStackLayout>
+                        
                         <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageDebugHeading}"/>
 
-                        <VerticalStackLayout Margin="10,0,0,0">
-                            <Label Text="{local:Localize SettingPageDebugLog}" Style="{StaticResource FieldAppAliasTitle}"  HorizontalOptions="Start" FontSize="Medium"/>
+                        <Border Style="{StaticResource FieldAppSettingBorder}">
 
-                            <Grid Style="{StaticResource FieldAppSettingGrid}" Margin="0">
+                            <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,60">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
 
-                                <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" WidthRequest="{OnIdiom Phone=255}" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
-                                <Button Style="{StaticResource FieldAppButonSave}" BackgroundColor="{StaticResource Primary}" FontSize="Medium"
-                                    TextColor="White" Text="&#xF0818;" Command="{Binding DoDebugLogBackupCommand}" 
-                                    Grid.Column="1" HorizontalOptions="End" Grid.Row="0" WidthRequest="{OnIdiom Phone=75}"
-                                    FontFamily="MatDesign"/>
-
+                                <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" Command="{Binding DoDebugLogBackupCommand}"/>
+                                <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
+                                <Label Text=">" FontSize="Large" WidthRequest="20" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                             </Grid>
 
 
-                        </VerticalStackLayout>
+                        </Border>
 
                     </VerticalStackLayout>
                 </Border>

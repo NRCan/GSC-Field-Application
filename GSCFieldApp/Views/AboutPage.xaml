@@ -20,19 +20,19 @@
             <!--Application info section-->
             <Label Text="{local:Localize AboutPageAppInfoHeader}" Style="{StaticResource FieldAppSettingTitles}" />
             <Border Style="{StaticResource FieldAppSettingBorder}">
-                
 
-                    <Grid Style="{StaticResource FieldAppSettingGrid}">
+
+                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,60">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
                             <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
 
                     <Label Text="{local:Localize AboutPageAppInfoVersion}"  FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
-                    <Label Text="{Binding AppVersion}"  FontSize="Small" HorizontalOptions="End"  Grid.Row="0" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="{Binding AppVersion}"  FontSize="Micro" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1"  Grid.Row="0" TextColor="{StaticResource Gray400}"/>
 
                     <Label Text="{local:Localize AboutPageAppInfoDBVersion}"  FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
-                    <Label Text="{Binding AppDBVersion}"  FontSize="Small" HorizontalOptions="End"  Grid.Row="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="{Binding AppDBVersion}"  FontSize="Micro" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1" Grid.Row="1" TextColor="{StaticResource Gray400}"/>
 
                 </Grid>
 
@@ -43,7 +43,7 @@
             <Border Style="{StaticResource FieldAppSettingBorder}">
 
 
-                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,60">
+                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,30">
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
@@ -56,23 +56,23 @@
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" 
                         Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application/blob/master/Documents/GSC%20FIELD%20APP%20GUIDE.pdf" />
                     <Label Text="{local:Localize Key=AboutPageHelpGuide}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" WidthRequest="20" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="1"  
                            Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application" />
                     <Label Text="{local:Localize AboutPageHelpAppDev}" FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2"  
                            Command="{Binding TapCommand}" CommandParameter="https://github.com/NRCan/GSC-Field-Application/issues" />
                     <Label Text="{local:Localize AboutPageHelpIssue}" FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="3"  
                            Command="{Binding TapCommand}" CommandParameter="https://doi.org/10.4095/pjucp83rbn" />
                     <Label Text="{local:Localize AboutPageHelpDataModel}" FontSize="Small" HorizontalOptions="Start" Grid.Row="3" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                 </Grid>
 
@@ -83,7 +83,7 @@
             <Border Style="{StaticResource FieldAppSettingBorder}">
 
 
-                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,60">
+                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,30">
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
@@ -95,18 +95,18 @@
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" 
                         Command="{Binding TapCommand}" CommandParameter="https://natural-resources.canada.ca/home" />
                     <Label Text="{local:Localize Key=AboutPageAppInfoPublisher}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" WidthRequest="20" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="1"  
                            Command="{Binding TapCommand}" CommandParameter="https://natural-resources.canada.ca/science-and-data/research-centres-and-labs/geological-survey-canada/17100" />
                     <Label Text="{local:Localize AboutPageAboutOrgGSC}" FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                     <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2"  
                            Command="{Binding TapCommand}" CommandParameter="https://www.canada.ca/en/environment-climate-change/services/science-technology/open-science-action-plan.html" />
                     <Label Text="{local:Localize AboutPageAboutOrgOpenGeoscience}" FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
-                    <Label Text=">" FontSize="Large" HorizontalOptions="Start" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text=">" FontSize="Large" HorizontalOptions="End" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                 </Grid>
 
@@ -117,30 +117,30 @@
             <Label Text="{local:Localize AboutPageTeamHeader}" Style="{StaticResource FieldAppSettingTitles}" />
             <Border Style="{StaticResource FieldAppSettingBorder}">
 
-                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,250">
+                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,200">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
                     </Grid.RowDefinitions>
 
 
-                    <Label Text="{local:Localize AboutPageAppTeamLead}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
-                    <Label Text="Huot-Vézina, G." FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}" />
+                    <Label Text="{local:Localize AboutPageAppTeamLead}" MaximumHeightRequest="35" FontSize="Small" LineBreakMode="TailTruncation" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" />
+                    <Label Text="Huot-Vézina, G." FontSize="Micro" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}" />
 
 
-                    <Label Text="{local:Localize AboutPageAppTeamDataLead}" FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0" />
-                    <Label Text="Girard, É." FontSize="Small" HorizontalOptions="Start" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="{local:Localize AboutPageAppTeamDataLead}" FontSize="Small" LineBreakMode="MiddleTruncation" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="1" Grid.Column="0" />
+                    <Label Text="Girard, É." FontSize="Micro" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
 
-                    <Label Text="{local:Localize AboutPageAppTeamDev}" FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
-                    <Label Text="Huot-Vézina, G., Joseph, J." FontSize="Small" HorizontalOptions="Start" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="{local:Localize AboutPageAppTeamDev}" FontSize="Small" LineBreakMode="TailTruncation" VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
+                    <Label Text="Huot-Vézina, G., Joseph, J." FontSize="Micro" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
 
-                    <Label Text="{local:Localize AboutPageAppTeamAdvisor}" FontSize="Small" HorizontalOptions="Start" Grid.Row="3" Grid.Column="0" />
-                    <Label Text="Cocking, R., Shimamura, K." FontSize="Small" HorizontalOptions="Start" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="{local:Localize AboutPageAppTeamAdvisor}" FontSize="Small" LineBreakMode="WordWrap" VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="3" Grid.Column="0" />
+                    <Label Text="Cocking, R., Shimamura, K." FontSize="Micro" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                 </Grid>
 

@@ -1305,7 +1305,7 @@
   <data name="AboutPageAppTeamDev" xml:space="preserve">
     <value>Developer</value>
   </data>
-  <data name="AboutPageAppTeamTraining" xml:space="preserve">
+  <data name="AboutPageAppTeamAdvisor" xml:space="preserve">
     <value>Advisor</value>
   </data>
 </root>
