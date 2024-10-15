@@ -18,6 +18,14 @@
         <Setter Property="TextColor" Value="{StaticResource Gray600}" />
     </Style>
 
+    <Style TargetType="Label" x:Key="FieldAppSettingValues">
+        <Setter Property="FontSize" Value="Micro"/>
+        <Setter Property="HorizontalOptions" Value="End"/>
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="TextColor" Value="{StaticResource Gray400}" />
+        
+    </Style>
+
     <Style TargetType="Label" x:Key="FieldAppAliasTitle">
         <Setter Property="FontSize" Value="Title"/>
         <Setter Property="FontAttributes" Value="Bold"/>

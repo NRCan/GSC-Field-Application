@@ -1301,7 +1301,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Coordonateur</value>
   </data>
   <data name="AboutPageAppTeamDataLead" xml:space="preserve">
-    <value>Gestion de données</value>
+    <value>Gestion données</value>
   </data>
   <data name="AboutPageAppTeamDev" xml:space="preserve">
     <value>Développeur</value>

@@ -29,10 +29,10 @@
                         </Grid.RowDefinitions>
 
                     <Label Text="{local:Localize AboutPageAppInfoVersion}"  FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
-                    <Label Text="{Binding AppVersion}"  FontSize="Micro" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1"  Grid.Row="0" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="{Binding AppVersion}" Style="{StaticResource FieldAppSettingValues}" Grid.Column="1"  Grid.Row="0"/>
 
                     <Label Text="{local:Localize AboutPageAppInfoDBVersion}"  FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1"/>
-                    <Label Text="{Binding AppDBVersion}"  FontSize="Micro" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1" Grid.Row="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="{Binding AppDBVersion}" Style="{StaticResource FieldAppSettingValues}" Grid.Column="1" Grid.Row="1"/>
 
                 </Grid>
 
@@ -128,19 +128,19 @@
 
 
                     <Label Text="{local:Localize AboutPageAppTeamLead}" MaximumHeightRequest="35" FontSize="Small" LineBreakMode="TailTruncation" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" />
-                    <Label Text="Huot-Vézina, G." FontSize="Micro" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}" />
+                    <Label Text="Huot-Vézina, G." Style="{StaticResource FieldAppSettingValues}" Grid.Row="0" Grid.Column="1" />
 
 
                     <Label Text="{local:Localize AboutPageAppTeamDataLead}" FontSize="Small" LineBreakMode="MiddleTruncation" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="1" Grid.Column="0" />
-                    <Label Text="Girard, É." FontSize="Micro" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="1" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="Girard, É." Style="{StaticResource FieldAppSettingValues}" Grid.Row="1" Grid.Column="1" />
 
 
                     <Label Text="{local:Localize AboutPageAppTeamDev}" FontSize="Small" LineBreakMode="TailTruncation" VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="2" Grid.Column="0" />
-                    <Label Text="Huot-Vézina, G., Joseph, J." FontSize="Micro" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="Huot-Vézina, G., Joseph, J." Style="{StaticResource FieldAppSettingValues}" Grid.Row="2" Grid.Column="1" />
 
 
                     <Label Text="{local:Localize AboutPageAppTeamAdvisor}" FontSize="Small" LineBreakMode="WordWrap" VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="3" Grid.Column="0" />
-                    <Label Text="Cocking, R., Shimamura, K." FontSize="Micro" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                    <Label Text="Cocking, R., Shimamura, K." Style="{StaticResource FieldAppSettingValues}" Grid.Row="3" Grid.Column="1"/>
 
                 </Grid>
 
