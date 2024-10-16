@@ -12,6 +12,9 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 
+		<!--https://github.com/mono/SkiaSharp/issues/2999 On 2024-10-16-->
+		<!--<WindowsSdkPackageVersion>10.0.19041.38</WindowsSdkPackageVersion>-->
+		
 		<!-- Display name -->
 		<ApplicationTitle>GSCFieldApp</ApplicationTitle>
 
@@ -350,12 +353,12 @@
 	<ItemGroup>
 		<PackageReference Include="BruTile" Version="5.0.6" />
 		<PackageReference Include="BruTile.MbTiles" Version="5.0.6" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.71" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.82" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.71" />
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="GeoAPI.CoordinateSystems" Version="2.0.0-nuget005" />
-		<PackageReference Include="HarfBuzzSharp" Version="8.3.0-preview.2.1" />
+		<PackageReference Include="HarfBuzzSharp" Version="8.3.0-preview.5.3" />
 		<PackageReference Include="Mapsui" Version="4.1.5" />
 		<PackageReference Include="Mapsui.Extensions" Version="4.1.5" />
 		<PackageReference Include="Mapsui.Maui" Version="4.1.5" />
@@ -364,15 +367,15 @@
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.0-preview.2.24128.4" />
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.0-preview.2.24128.4" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0-preview.2.24128.5" />
-		<PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.71" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.82" />
 		<PackageReference Include="NetTopologySuite" Version="2.5.0" />
 		<PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="4.0.0" />
 		<PackageReference Include="NetTopologySuite.IO.GeoPackage" Version="2.0.0" />
 		<PackageReference Include="ProjNet" Version="2.0.0" />
 		<PackageReference Include="ProjNET4GeoAPI" Version="1.4.1" />
-		<PackageReference Include="SkiaSharp" Version="2.88.7" />
-		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="2.88.7" />
-		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp" Version="3.0.0-preview.5.3" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.0.0-preview.5.3" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Core" Version="3.0.0-preview.5.3" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.9" />
 		<PackageReference Include="Svg.Skia" Version="1.0.0.16" />
