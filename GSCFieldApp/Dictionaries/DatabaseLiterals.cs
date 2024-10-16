@@ -1,4 +1,7 @@
 ﻿
+using Android.Telecom;
+using GSCFieldApp.Models;
+
 namespace GSCFieldApp.Dictionaries
 {
     public static class DatabaseLiterals
@@ -356,6 +359,15 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldTravPointAirPhoto = "AIR_PHOTO"; //Version 1.7
         public const string FieldTravPointMagDeclination = "MAG_DECLIN"; //Version 1.7
 
+        public const string FieldLineworkID = "LINEWORKID"; //Version 1.9
+        public const string FieldLineworkGeometry = "geometry"; //Version 1.9
+        public const string FieldLineworkIDName = "LINEWORKDIDNAME"; //Version 1.9
+        public const string FieldLineworkType = "LINETYPE"; //Version 1.9
+        public const string FieldLineworkConfidence = "CONFIDENCE"; //Version 1.9
+        public const string FieldLineworkSymbol = "SYMBOL"; //Version 1.9
+        public const string FieldLineworkNotes = "NOTES"; //Version 1.9
+        public const string FieldLineworkMetaID = "METAID"; //Version 1.9
+
         #endregion
 
         #region Database table names
@@ -382,8 +394,9 @@ namespace GSCFieldApp.Dictionaries
         public const string TableTraverseLine = "F_TRAVERSE_LINE";//Version 1.7
         public const string TableFieldCampDeprecated = "FS_FIELDCAMP"; //Deprecated version 1.7
         public const string TableDrillHoles = "F_DRILL_HOLE"; //Version 1.8
+        public const string TableLinework = "F_LINE_WORK"; //Version 1.9
 
-        public enum TableNames { meta, location, station, earthmat, sample, mineralization, mineral, document, structure, fossil, environment, pflow, drill};
+        public enum TableNames { meta, location, station, earthmat, sample, mineralization, mineral, document, structure, fossil, environment, pflow, drill, linework};
 
         #endregion
 
