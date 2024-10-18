@@ -1,4 +1,4 @@
-﻿using GSCFieldApp.Dictionaries;
+﻿using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -7,31 +7,31 @@ using System.Linq;
 namespace GSCFieldApp.Models
 {
 
-    [Table(DatabaseLiterals.TableLinework)]
+    [Table(TableLinework)]
     public class Linework
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldLineworkID)]
+        [PrimaryKey, AutoIncrement, Column(FieldLineworkID)]
         public int LineID { get; set; }
 
-        [Column(DatabaseLiterals.FieldLineworkGeometry)]
+        [Column(FieldLineworkGeometry)]
         public byte[] LineGeom { get; set; }
 
-        [Column(DatabaseLiterals.FieldLineworkIDName)]
+        [Column(FieldLineworkIDName)]
         public string LineIDName { get; set; }
 
-        [Column(DatabaseLiterals.FieldLineworkType)]
+        [Column(FieldLineworkType)]
         public string LineType { get; set; }
 
-        [Column(DatabaseLiterals.FieldLineworkConfidence)]
+        [Column(FieldLineworkConfidence)]
         public int LineCpnfidence { get; set; }
 
-        [Column(DatabaseLiterals.FieldLineworkSymbol)]
+        [Column(FieldLineworkSymbol)]
         public int LineSymbol { get; set; }
 
-        [Column(DatabaseLiterals.FieldLineworkNotes)]
+        [Column(FieldLineworkNotes)]
         public string LineNotes { get; set; }
 
-        [Column(DatabaseLiterals.FieldLineworkMetaID)]
+        [Column(FieldLineworkMetaID)]
         public string LineMetaID { get; set; }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> lineworkFieldList = new Dictionary<double, List<string>>();
                 List<string> lineworkFieldListDefault = new List<string>();
 
-                lineworkFieldListDefault.Add(DatabaseLiterals.FieldLineworkID);
+                lineworkFieldListDefault.Add(FieldLineworkID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
@@ -57,9 +57,40 @@ namespace GSCFieldApp.Models
 
                 }
 
-                lineworkFieldList[DatabaseLiterals.DBVersion] = lineworkFieldListDefault;
+                lineworkFieldList[DBVersion] = lineworkFieldListDefault;
 
                 return lineworkFieldList;
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// </summary>
+        [Ignore]
+        public string LineAliasLight
+        {
+            get
+            {
+                if (LineIDName != null && LineIDName != string.Empty)
+                {
+                    int aliasNumber = 0;
+                    int.TryParse(LineIDName.Substring(LineIDName.Length - 4), out aliasNumber);
+
+                    if (aliasNumber > 0)
+                    {
+                        return aliasNumber.ToString();
+                    }
+                    else
+                    {
+                        return picklistNACode;
+                    }
+
+                }
+                else
+                {
+                    return picklistNACode;
+                }
             }
             set { }
         }

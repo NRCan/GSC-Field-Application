@@ -369,7 +369,7 @@ namespace GSCFieldApp.ViewModel
                 if (!locationModel.LocationLong.IsZeroOrNaN() && !locationModel.LocationLat.IsZeroOrNaN())
                 {
                     GeopackageService geoService = new GeopackageService();
-                    locationModel.LocationGeometry = geoService.CreateByteGeometry(locationModel.LocationLong, locationModel.LocationLat);
+                    locationModel.LocationGeometry = geoService.CreateByteGeometryPoint(locationModel.LocationLong, locationModel.LocationLat);
 
                 }
 
@@ -460,7 +460,7 @@ namespace GSCFieldApp.ViewModel
                         _layerCollection.Add(layer);
 
                         if (layer.Name != ApplicationLiterals.aliasStations && layer.Name != ApplicationLiterals.aliasOSM &&
-                            layer.Name != ApplicationLiterals.aliasTraversePoint )
+                            layer.Name != ApplicationLiterals.aliasTraversePoint && layer.Name != ApplicationLiterals.aliasLinework)
                         {
                             MapPageLayerBuilder mplb = new MapPageLayerBuilder();
                             if (!_customLayerCollection.Contains(mplb.GetMapPageLayer(layer, index)))

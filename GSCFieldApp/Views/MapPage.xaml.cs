@@ -23,11 +23,14 @@ using BruTile.Web;
 using BruTile.Wmsc;
 using System.Collections.ObjectModel;
 using Mapsui.Providers.Wms;
-using Microsoft.Maui.Devices.Sensors;
+using Sensor = Microsoft.Maui.Devices.Sensors;
 using System.Diagnostics;
 using System;
 using NetTopologySuite.Operation.Distance;
 using BruTile.Wms;
+using Mapsui.Nts;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
 
 #if ANDROID
 using Android.Content;
@@ -49,8 +52,9 @@ public partial class MapPage : ContentPage
     private int bitmapSymbolId = -1;
     private bool _isCheckingGeolocation = false;
     private bool _isTapMode = false;
-    private enum defaultLayerList { Stations, Traverses }
-    private Location badLoc = new Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
+    private bool _isDrawingLine = false;
+    private enum defaultLayerList { Stations, Linework, Traverses }
+    private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
 
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
@@ -191,8 +195,8 @@ public partial class MapPage : ContentPage
         //NOT WORKING --> Get feature info
         //GetWMSFeatureInfo(e.Point);
 
-        //Detect if in tap mode show tapped coordinates on screen
-        if (!_isCheckingGeolocation)
+        //Detect if in tap mode or drawing lines to show tapped coordinates on screen
+        if (!_isCheckingGeolocation && !_isDrawingLine)
         {
             //Keep tap mode for future validation
             _isTapMode = true;
@@ -218,7 +222,7 @@ public partial class MapPage : ContentPage
             if (answer)
             {
                 //Refresh view with tap
-                mapView?.MyLocationLayer.UpdateMyLocation(new Position(e.Point.Latitude, e.Point.Longitude));
+                mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(e.Point.Latitude, e.Point.Longitude));
                 mapView.RefreshGraphics();
 
                 //Init record creation
@@ -383,6 +387,34 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
+    /// Will enable the user to draw an interpretation line on screen.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void DrawLine_Clicked(object sender, EventArgs e)
+    {
+        //Revert current state of drawing lines
+        _isDrawingLine = !_isDrawingLine;
+
+        //Change font color to indicate it's activated
+        if (_isDrawingLine && App.Current.Resources.TryGetValue("Secondary", out var colorValue))
+        {
+            var activeColor = (Microsoft.Maui.Graphics.Color)colorValue;
+
+            this.DrawLine.TextColor = activeColor;
+        }
+        else
+        {
+            //Keep as default
+            this.DrawLine.TextColor = Microsoft.Maui.Graphics.Colors.White;
+        }
+        
+
+    }
+
+    #endregion
+
+    /// <summary>
     /// Will detect when layer menu is closed so that it can saves the layer rendering in the json
     /// </summary>
     /// <param name="sender"></param>
@@ -406,8 +438,6 @@ public partial class MapPage : ContentPage
             }
         }
     }
-
-    #endregion
 
     #endregion
 
@@ -480,7 +510,7 @@ public partial class MapPage : ContentPage
     /// Will try to do a get feature info from a WMS service
     /// TODO find why it doesn't work and why x and y are int rather then doubles
     /// </summary>
-    public void GetWMSFeatureInfo(Position inMouseClickPosition)
+    public void GetWMSFeatureInfo(Mapsui.UI.Maui.Position inMouseClickPosition)
     {
         //Detect if top layer is wms
         List<ILayer> layerList = mapControl.Map.Layers.ToList();
@@ -527,6 +557,7 @@ public partial class MapPage : ContentPage
         prefLayerNames.Add(ApplicationLiterals.aliasOSM);
         prefLayerNames.Add(ApplicationLiterals.aliasTraversePoint);
         prefLayerNames.Add(ApplicationLiterals.aliasStations);
+        prefLayerNames.Add(ApplicationLiterals.aliasLinework);
         prefLayerNames.Add(ApplicationLiterals.aliasMapsuiDrawables);
         prefLayerNames.Add(ApplicationLiterals.aliasMapsuiLayer);
         prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
@@ -546,7 +577,7 @@ public partial class MapPage : ContentPage
 
             foreach (MapPageLayer mpl in prefLayers)
             {
-                if (mpl.LayerName != ApplicationLiterals.aliasStations)
+                if (mpl.LayerName != ApplicationLiterals.aliasStations && mpl.LayerName != ApplicationLiterals.aliasLinework)
                 {
                     if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
                     {
@@ -928,13 +959,26 @@ public partial class MapPage : ContentPage
 
             if (addOrNot)
             {
-                defaultLayers.Add(new MemoryLayer
+                if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasStations)
                 {
-                    Name = Enum.GetName(typeof(defaultLayerList), i),
-                    IsMapInfoLayer = true,
-                    Features = dFeats,
-                    Style = CreateBitmapStyle(),
-                });
+                    defaultLayers.Add(new MemoryLayer
+                    {
+                        Name = Enum.GetName(typeof(defaultLayerList), i),
+                        IsMapInfoLayer = true,
+                        Features = dFeats,
+                        Style = CreateBitmapStyle()
+                    });
+                }
+                else
+                {
+                    defaultLayers.Add(new MemoryLayer
+                    {
+                        Name = Enum.GetName(typeof(defaultLayerList), i),
+                        IsMapInfoLayer = true,
+                        Features = dFeats
+                    });
+                }
+
             }
 
         }
@@ -973,7 +1017,9 @@ public partial class MapPage : ContentPage
 
                     enumFeat = await GetPointTraversesAsync(offset);
                     break;
-
+                case defaultLayerList.Linework:
+                    enumFeat = await GetLineworkAsync(offset);
+                    break;
                 default:
                     enumFeat = await GetStationLocationsAsync(offset);
 
@@ -1022,6 +1068,7 @@ public partial class MapPage : ContentPage
                     BorderThickness = 2,
                     Offset = offset
                 });
+
             }
 
             await currentConnection.CloseAsync();
@@ -1077,7 +1124,69 @@ public partial class MapPage : ContentPage
 
     }
 
+    /// <summary>
+    /// Will query the database to retrive some basic information about linework feature
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<IFeature>> GetLineworkAsync(Offset offset)
+    {
+        IEnumerable<IFeature> enumFeat = new IFeature[] { };
+        if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
+        {
+            //Prep
+            GeopackageService geopackageService = new GeopackageService();
 
+            //Connect and gather linework
+            SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
+            List<Linework> fieldLinework = await currentConnection.Table<Linework>().ToListAsync();
+
+            if (fieldLinework != null && fieldLinework.Count() > 0)
+            {
+                foreach (Linework lw in fieldLinework)
+                {
+                    //Build geometry
+                    LineString inLineString = await geopackageService.GetGeometryLineFromByte(lw.LineGeom);
+
+                    if (inLineString != null)
+                    {
+                        //Build feature metadata
+                        WKTReader wellKnownTextReader = new WKTReader();
+
+                        IFeature feat = new GeometryFeature(wellKnownTextReader.Read(inLineString.AsText()));
+
+                        if (feat != null)
+                        {
+                            feat["name"] = lw.LineAliasLight;
+
+                            //Add to list of features
+                            enumFeat = enumFeat.Append(feat);
+
+                            //Style line and label
+                            feat.Styles.Add(new VectorStyle { Line = new Pen(Color.Violet, 5) });
+                            feat.Styles.Add(new LabelStyle
+                            {
+                                Text = lw.LineID.ToString(),
+                                BackColor = new Brush(Color.WhiteSmoke),
+                                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                                //CollisionDetection = true,
+                                BorderThickness = 1,
+                                Offset = offset
+                            });
+                        }
+
+                    }
+
+
+                }
+            }
+
+            await currentConnection.CloseAsync();
+        }
+
+        return enumFeat;
+    
+    }
     /// <summary>
     /// Will set style of stations on map
     /// </summary>
@@ -1254,7 +1363,7 @@ public partial class MapPage : ContentPage
         var periodicTimer = new PeriodicTimer(timeSpan);
         while (await periodicTimer.WaitForNextTickAsync() && _isCheckingGeolocation)
         {
-            Location location = await Geolocation.GetLocationAsync();
+            Sensor.Location location = await Geolocation.GetLocationAsync();
             await UpdateLocationOnMap(location);
         }
     }
@@ -1266,7 +1375,7 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void Geolocation_LocationChanged(object sender, GeolocationLocationChangedEventArgs e)
+    private async void Geolocation_LocationChanged(object sender, Sensor.GeolocationLocationChangedEventArgs e)
     {
         try
         {
@@ -1295,7 +1404,7 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="inLocation"></param>
     /// <returns></returns>
-    public async Task UpdateLocationOnMap(Location inLocation)
+    public async Task UpdateLocationOnMap(Sensor.Location inLocation)
     {
         if (_isCheckingGeolocation)
         {
@@ -1303,7 +1412,7 @@ public partial class MapPage : ContentPage
 
             await SetMapAccuracyColor(inLocation.Accuracy);
 
-            mapView?.MyLocationLayer.UpdateMyLocation(new Position(inLocation.Latitude, inLocation.Longitude));
+            mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
             mapView.RefreshGraphics();
             //mapView.MyLocationFollow = true;
 
@@ -1367,4 +1476,28 @@ public partial class MapPage : ContentPage
 
     #endregion
 
+    private async void mapView_TouchStarted(object sender, Mapsui.UI.TouchedEventArgs e)
+    {
+        if (_isDrawingLine)
+        {
+            await Shell.Current.DisplayAlert("Started", e.ScreenPoints.ToString(), "Ok");
+        }
+        
+    }
+
+    private async void mapView_TouchEnded(object sender, Mapsui.UI.TouchedEventArgs e)
+    {
+        if (_isDrawingLine)
+        {
+            await Shell.Current.DisplayAlert("Ended", e.ScreenPoints.ToString(), "Ok");
+        }
+    }
+
+    private async void mapView_TouchMove(object sender, Mapsui.UI.TouchedEventArgs e)
+    {
+        if (_isDrawingLine)
+        {
+            await Shell.Current.DisplayAlert("Move", e.ScreenPoints.ToString(), "Ok");
+        }
+    }
 }

@@ -2185,6 +2185,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to draw an intepretation line..
+        /// </summary>
+        internal static string MapPageDrawLine {
+            get {
+                return ResourceManager.GetString("MapPageDrawLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to turn on/off GPS..
         /// </summary>
         internal static string MapPageGPSMode {

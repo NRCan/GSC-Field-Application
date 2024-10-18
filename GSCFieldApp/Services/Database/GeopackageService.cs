@@ -19,10 +19,12 @@ using ProjNet.CoordinateSystems.Projections;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 
+
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class GeopackageService
     {
+
         public DataAccess dAcccess = new DataAccess();
         public static GeometryFactory defaultGeometryFactory = new GeometryFactory();
 
@@ -58,7 +60,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public byte[] CreateByteGeometry(double x, double y)
+        public byte[] CreateByteGeometryPoint(double x, double y)
         {
             // Create a point at desired location
             NTS.Geometries.Point inPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(x, y));
@@ -77,7 +79,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="geomBytes">The byte array to transform into a point object</param>
         /// <returns></returns>
-        public NTS.Geometries.Point GetGeometryFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault)
+        public NTS.Geometries.Point GetGeometryPointFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault)
         {
             NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
 
@@ -108,6 +110,41 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// From a given byte array that defines a geometry, will return a line object
+        /// TODO make this working, incoming geometry has a SRID = -1 so we can't convert incoming points
+        /// </summary>
+        /// <param name="geomBytes">The byte array to transform into a point object</param>
+        /// <returns></returns>
+        public async Task<NTS.Geometries.LineString> GetGeometryLineFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault)
+        {
+            NTS.Geometries.LineString outLine = new NTS.Geometries.LineString(new Coordinate[] { });
+
+            GeoPackageGeoReader geoReader = new GeoPackageGeoReader();
+            geoReader.HandleSRID = true;
+            NTS.Geometries.Geometry geom = geoReader.Read(geomBytes);
+
+            if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.LineString)
+            {
+                outLine = geom as NTS.Geometries.LineString;
+            }
+
+            if (outLine != null && outLine.SRID != -1 && outLine.SRID != DatabaseLiterals.KeywordEPSGDefault)
+            {
+                //Create a coord factory for incoming traverses
+                CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outLine.SRID);
+
+                //Default map page coordinate
+                GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+
+                //Transform
+                outLine = await TransformLineCoordinates(outLine, incomingProjection, wgs84);
+            }
+
+            return outLine;
+        }
+
+
+        /// <summary>
         /// Will take a input point object and transform it from one coordinate system
         /// to another.
         /// </summary>
@@ -130,6 +167,51 @@ namespace GSCFieldApp.Services.DatabaseServices
             outPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
 
             return outPoint;
+        }
+
+        /// <summary>
+        /// Will take a input line string object and transform it from one coordinate system
+        /// to another.
+        /// </summary>
+        /// <param name="inLineCoordinates"></param>
+        /// <param name="inCoordSystem"></param>
+        /// <param name="outCoordSystem"></param>
+        /// <returns></returns>
+        public static async Task<NTS.Geometries.LineString> TransformLineCoordinates(NTS.Geometries.LineString inLineCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
+        {
+            //Init
+            NTS.Geometries.LineString outLine = new NTS.Geometries.LineString(new Coordinate[] { });
+            Coordinate[] transformedCoordinates = new Coordinate[inLineCoordinates.Count];
+            int coordinateIndex = 0;
+
+            //Keep error log
+            try
+            {
+                //Transform
+                //TODO: transforming 3978 to 4326 seems to be lacking some levels of fine details in the coordinates
+                // leading to a really tiny near 0,0 feature for some reasons.
+                CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory();
+                ICoordinateTransformation trans = ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem);
+                
+                foreach (Coordinate c in inLineCoordinates.Coordinates)
+                {
+                    double[] pointDouble = { c.X, c.Y };
+                    double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
+                    transformedCoordinates[coordinateIndex] = new Coordinate(transformedPoint[0], transformedPoint[1]);
+                    coordinateIndex++;
+                }
+
+                //Create line
+                outLine = defaultGeometryFactory.CreateLineString(transformedCoordinates);
+            }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+                await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
+            }
+
+
+            return outLine;
         }
     }
 }

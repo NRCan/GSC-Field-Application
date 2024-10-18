@@ -1309,4 +1309,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="AboutPageAppTeamAdvisor" xml:space="preserve">
     <value>Aviseur</value>
   </data>
+  <data name="MapPageDrawLine" xml:space="preserve">
+    <value>Ajouter une nouvelle ligne d'interprétation.</value>
+  </data>
 </root>

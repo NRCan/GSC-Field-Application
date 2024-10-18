@@ -1308,4 +1308,7 @@
   <data name="AboutPageAppTeamAdvisor" xml:space="preserve">
     <value>Advisor</value>
   </data>
+  <data name="MapPageDrawLine" xml:space="preserve">
+    <value>Tap to draw an intepretation line.</value>
+  </data>
 </root>

@@ -99,8 +99,8 @@
             <!--Map Control-->
             <mapsui:MapView x:Name="mapView"
                             Grid.Row ="1" 
-                            IsVisible="true" MapClicked="mapView_MapClicked"
-                            VerticalOptions="FillAndExpand"
+                            IsVisible="true" MapClicked="mapView_MapClicked" TouchStarted="mapView_TouchStarted" TouchEnded="mapView_TouchEnded"
+                            VerticalOptions="FillAndExpand" TouchMove="mapView_TouchMove"
                             HorizontalOptions="FillAndExpand"
                             Margin="10"/>
 
@@ -155,6 +155,11 @@
                 <Button x:Name="AddWMS" Text="&#xF1406;" 
                         ToolTipProperties.Text="{local:Localize MapPageAddWMS}"
                         Style="{StaticResource FieldAppHeaderButton}" Clicked="AddWMS_Clicked"/>
+                
+                <!--Draw a line for work-->
+                <Button x:Name="DrawLine" Text="&#xF0F49;"
+                        ToolTipProperties.Text="{local:Localize MapPageDrawLine}"
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="DrawLine_Clicked"/>
 
             </StackLayout>
 

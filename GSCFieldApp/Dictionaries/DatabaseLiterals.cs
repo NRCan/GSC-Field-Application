@@ -1,5 +1,4 @@
 ﻿
-using Android.Telecom;
 using GSCFieldApp.Models;
 
 namespace GSCFieldApp.Dictionaries
