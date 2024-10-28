@@ -332,6 +332,15 @@
 	  <None Remove="Resources\Images\logo_gray.svg" />
 	  <None Remove="Resources\Images\point.png" />
 	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
+		
+	  <None Remove="Resources\Raw\GSCFieldwork_V142.gpkg" />
+	  <None Remove="Resources\Raw\GSCFieldwork_V143.gpkg" />
+	  <None Remove="Resources\Raw\GSCFieldwork_V144.gpkg" />
+	  <None Remove="Resources\Raw\GSCFieldwork_V150.gpkg" />
+	  <None Remove="Resources\Raw\GSCFieldwork_V160.gpkg" />
+	  <None Remove="Resources\Raw\GSCFieldwork_V170.gpkg" />
+	  <None Remove="Resources\Raw\GSCFieldwork_V180.gpkg" />
+		
 	  <None Remove="Resources\Raw\SRID.csv" />
 	</ItemGroup>
 
