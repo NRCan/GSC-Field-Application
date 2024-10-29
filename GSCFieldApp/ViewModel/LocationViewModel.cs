@@ -200,7 +200,7 @@ namespace GSCFieldApp.ViewModel
 
                         if (currentPoint != null)
                         {
-                            NTS.Geometries.Point transformedPoint = GeopackageService.TransformPointCoordinates(currentPoint, inSR, outSR);
+                            NTS.Geometries.Point transformedPoint = await GeopackageService.TransformPointCoordinates(currentPoint, inSR, outSR);
 
                             if (transformedPoint != null)
                             {
@@ -256,7 +256,7 @@ namespace GSCFieldApp.ViewModel
 
                         if (currentPoint != null)
                         {
-                            NTS.Geometries.Point transformedPoint = GeopackageService.TransformPointCoordinates(currentPoint, inSR, outSR);
+                            NTS.Geometries.Point transformedPoint = await GeopackageService.TransformPointCoordinates(currentPoint, inSR, outSR);
 
                             if (transformedPoint != null)
                             {

@@ -80,31 +80,33 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="geomBytes">The byte array to transform into a point object</param>
         /// <returns></returns>
-        public NTS.Geometries.Point GetGeometryPointFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault)
+        public async Task<NTS.Geometries.Point> GetGeometryPointFromByteAsync(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSRID = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
             NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
 
-            GeoPackageGeoReader geoReader = new GeoPackageGeoReader();
-            
+            //build geopackage reader to get geometry as proper object
+            PrecisionModel precisionModel = new PrecisionModel(PrecisionModels.FloatingSingle); //to get all decimals
+            CoordinateSequenceFactory coordinateSequenceFactory = NtsGeometryServices.Instance.DefaultCoordinateSequenceFactory;
+            GeoPackageGeoReader geoReader = new GeoPackageGeoReader(coordinateSequenceFactory, precisionModel);
+            geoReader.HandleSRID = true;
             NTS.Geometries.Geometry geom = geoReader.Read(geomBytes);
-            
+
             if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.Point)
             {
                 outPoint = geom as NTS.Geometries.Point;
             }
 
-            if (srid != DatabaseLiterals.KeywordEPSGDefault && outPoint != null)
+            if (outPoint != null && outPoint.SRID != -1 && outPoint.SRID != outSRID)
             {
                 //Create a coord factory for incoming traverses
-                CoordinateSystemFactory csFact = new CoordinateSystemFactory();
-                string wkt = outPoint.ToString();
-                CoordinateSystem incomingProjection = csFact.CreateFromWkt(wkt);
+                CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outPoint.SRID);
 
                 //Default map page coordinate
-                GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+                CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSRID);
+
 
                 //Transform
-                outPoint = TransformPointCoordinates(outPoint, incomingProjection, wgs84);
+                outPoint = await TransformPointCoordinates(outPoint, incomingProjection, outgoingProjection);
             }
 
             return outPoint;
@@ -121,7 +123,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Init
             NTS.Geometries.LineString outLine = new NTS.Geometries.LineString(new Coordinate[] { });
 
-            //build geopackag reader to get geometry as proper object
+            //Build geopackage reader to get geometry as proper object
             PrecisionModel precisionModel = new PrecisionModel(PrecisionModels.FloatingSingle); //to get all decimals
             CoordinateSequenceFactory coordinateSequenceFactory = NtsGeometryServices.Instance.DefaultCoordinateSequenceFactory;
             GeoPackageGeoReader geoReader = new GeoPackageGeoReader(coordinateSequenceFactory, precisionModel);
@@ -157,19 +159,30 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="inCoordSystem"></param>
         /// <param name="outCoordSystem"></param>
         /// <returns></returns>
-        public static NTS.Geometries.Point TransformPointCoordinates(NTS.Geometries.Point inPointCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
+        public static async Task<NTS.Geometries.Point> TransformPointCoordinates(NTS.Geometries.Point inPointCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
         {
             //Init
             NTS.Geometries.Point outPoint = new NTS.Geometries.Point(new Coordinate());
 
-            //Transform
-            CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory();
-            ICoordinateTransformation trans = ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem);
-            double[] pointDouble = { inPointCoordinates.X, inPointCoordinates.Y };
-            double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
+            //Keep error log
+            try
+            {
+                //Transform
+                CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory();
+                ICoordinateTransformation trans = ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem);
+                double[] pointDouble = { inPointCoordinates.X, inPointCoordinates.Y };
+                double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
 
-            //Create point
-            outPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
+                //Create point
+                outPoint = defaultGeometryFactory.CreatePoint(new NetTopologySuite.Geometries.Coordinate(transformedPoint[0], transformedPoint[1]));
+
+            }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+                await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
+            }
+
 
             return outPoint;
         }
@@ -179,6 +192,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// to another.
         /// TODO: Find why transforming 4326 to 3857 fails with a Y translation further south
         /// Even QGIS can transform correctly. Something is not properly set in the transformation.
+        /// https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/
         /// </summary>
         /// <param name="inLineCoordinates"></param>
         /// <param name="inCoordSystem"></param>

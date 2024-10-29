@@ -31,6 +31,8 @@ using BruTile.Wms;
 using Mapsui.Nts;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
+using GeoAPI.Geometries;
+
 
 #if ANDROID
 using Android.Content;
@@ -951,13 +953,13 @@ public partial class MapPage : ContentPage
             bool addOrNot = true; //Will be used to get traverses out of the way if empty
             IEnumerable<IFeature> dFeats = await GetLocationsAsync((defaultLayerList)i);
 
-            if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasTraversePoint)
-            {
-                if (dFeats.Count() == 0)
-                {
-                    addOrNot = false;
-                }
-            }
+            //if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasTraversePoint)
+            //{
+            //    if (dFeats.Count() == 0)
+            //    {
+            //        addOrNot = false;
+            //    }
+            //}
 
             if (addOrNot)
             {
@@ -1096,28 +1098,44 @@ public partial class MapPage : ContentPage
         {
 
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-            List<TraversePoint> fieldTravPoint = await currentConnection.QueryAsync<TraversePoint>
-                ("SELECT " + DatabaseLiterals.FieldTravPointLabel + ", " + DatabaseLiterals.FieldTravPointXDD +
-                ", " + DatabaseLiterals.FieldTravPointYDD + " FROM " + DatabaseLiterals.TableTraversePoint);
+            List<TraversePoint> fieldTravPoint = await currentConnection.Table<TraversePoint>().ToListAsync();
 
-            foreach (TraversePoint tp in fieldTravPoint)
+            //Prep
+            GeopackageService geopackageService = new GeopackageService();
+
+            if (fieldTravPoint != null && fieldTravPoint.Count > 0)
             {
-                IFeature feat = new PointFeature(SphericalMercator.FromLonLat(tp.TravXDD, tp.TravYDD).ToMPoint());
-                feat["name"] = tp.TravLabel;
-
-
-                enumFeat = enumFeat.Append(feat);
-
-                feat.Styles.Add(new LabelStyle
+                foreach (TraversePoint tp in fieldTravPoint)
                 {
-                    Text = tp.TravLabel,
-                    BackColor = new Brush(Color.LightGoldenRodYellow),
-                    HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                    //CollisionDetection = true,
-                    BorderThickness = 2,
-                    Offset = offset
-                });
+
+                    //Build geometry
+                    NetTopologySuite.Geometries.Point travPointString = await geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom);
+
+                    if (travPointString != null)
+                    {
+                        //Build feature metadata
+                        WKTReader wellKnownTextReader = new WKTReader();
+                        IFeature feat = new GeometryFeature(wellKnownTextReader.Read(travPointString.AsText()));
+                        feat["name"] = tp.TravLabel;
+
+                        enumFeat = enumFeat.Append(feat);
+
+                        feat.Styles.Add(new LabelStyle
+                        {
+                            Text = tp.TravLabel,
+                            BackColor = new Brush(Color.LightGoldenRodYellow),
+                            HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                            //CollisionDetection = true,
+                            BorderThickness = 2,
+                            Offset = offset
+                        });
+                    }
+
+
+                }
+
             }
+
 
             await currentConnection.CloseAsync();
 
@@ -1155,7 +1173,6 @@ public partial class MapPage : ContentPage
                     {
                         //Build feature metadata
                         WKTReader wellKnownTextReader = new WKTReader();
-
                         IFeature feat = new GeometryFeature(wellKnownTextReader.Read(inLineString.AsText()));
 
                         if (feat != null)
@@ -1172,9 +1189,7 @@ public partial class MapPage : ContentPage
                                 Text = lw.LineID.ToString(),
                                 BackColor = new Brush(Color.WhiteSmoke),
                                 HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                                //CollisionDetection = true,
-                                BorderThickness = 1,
-                                Offset = offset
+                                BorderThickness = 1
                             });
                         }
 
