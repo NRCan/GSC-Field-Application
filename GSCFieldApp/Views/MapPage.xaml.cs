@@ -127,15 +127,16 @@ public partial class MapPage : ContentPage
 
         foreach (var item in mapView.Map.Layers)
         {
-            if (item.Name == ApplicationLiterals.aliasStations)
+            if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
             {
                 //Remove all the one with same name
-                ILayer[] stations = mapView.Map.Layers.Where(x=>x.Name == ApplicationLiterals.aliasStations).ToArray();
+                ILayer[] stations = mapView.Map.Layers.Where(x=>x.Name == item.Name).ToArray();
                 mapView.Map.Layers.Remove(stations);
 
                 List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
                 if (memLayers != null && memLayers.Count > 0)
                 {
+                    //TODO check this, a loop of layer addigin within a loop of layers...
                     foreach (MemoryLayer ml in memLayers)
                     {
                         //Make sure it's not already in there
@@ -553,6 +554,7 @@ public partial class MapPage : ContentPage
     public async Task LoadPreferedLayers()
     {
         //Clean before load
+        //Must match layer name else it'll be removed.
         List<string> prefLayerNames = new List<string>();
         prefLayerNames.Add(ApplicationLiterals.aliasOSM);
         prefLayerNames.Add(ApplicationLiterals.aliasTraversePoint);
@@ -1054,6 +1056,7 @@ public partial class MapPage : ContentPage
 
             foreach (FieldLocation fl in fieldLoc)
             {
+                //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
                 IFeature feat = new PointFeature(SphericalMercator.FromLonLat(fl.LocationLong, fl.LocationLat).ToMPoint());
                 feat["name"] = fl.LocationAlias;
 
