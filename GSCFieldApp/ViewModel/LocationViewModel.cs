@@ -221,7 +221,7 @@ namespace GSCFieldApp.ViewModel
                 {
                     string projectionErrorTitle = LocalizationResourceManager["LocationPageGeodeticAlert"].ToString();
                     string projectionErrorContent = LocalizationResourceManager["LocationPageGeodeticAlertMessage"].ToString();
-                    Shell.Current.DisplayAlert(projectionErrorTitle, projectionErrorContent, LocalizationResourceManager["GenericButtonOk"].ToString());
+                    _ = Shell.Current.DisplayAlert(projectionErrorTitle, projectionErrorContent, LocalizationResourceManager["GenericButtonOk"].ToString());
                 }
 
             }

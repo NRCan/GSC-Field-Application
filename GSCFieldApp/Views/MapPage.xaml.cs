@@ -32,6 +32,12 @@ using Mapsui.Nts;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using GeoAPI.Geometries;
+using Mapsui.UI.Objects;
+using Point = NetTopologySuite.Geometries.Point;
+using Coordinate = NetTopologySuite.Geometries.Coordinate;
+using System.Collections.Generic;
+
+
 
 
 #if ANDROID
@@ -57,7 +63,8 @@ public partial class MapPage : ContentPage
     private bool _isDrawingLine = false;
     private enum defaultLayerList { Stations, Linework, Traverses }
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
-
+    private Drawable _drawable = new Drawable(); //Meant to be used for linework
+    private GeometryFeature _drawableGeometry = null; //Meant to be used for linework
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
@@ -546,8 +553,6 @@ public partial class MapPage : ContentPage
         }
     }
 
-
-
     /// <summary>
     /// On init will reload user prefered layers from saved JSON file.
     /// It'll also do some clean up making sure only desired layers are loaded.
@@ -953,13 +958,14 @@ public partial class MapPage : ContentPage
             bool addOrNot = true; //Will be used to get traverses out of the way if empty
             IEnumerable<IFeature> dFeats = await GetLocationsAsync((defaultLayerList)i);
 
-            //if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasTraversePoint)
-            //{
-            //    if (dFeats.Count() == 0)
-            //    {
-            //        addOrNot = false;
-            //    }
-            //}
+            //TODO: comment out when traverses will be totally implemented
+            if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasTraversePoint)
+            {
+                if (dFeats.Count() == 0)
+                {
+                    addOrNot = false;
+                }
+            }
 
             if (addOrNot)
             {
@@ -1186,7 +1192,7 @@ public partial class MapPage : ContentPage
                             feat.Styles.Add(new VectorStyle { Line = new Pen(Color.Violet, 5) });
                             feat.Styles.Add(new LabelStyle
                             {
-                                Text = lw.LineID.ToString(),
+                                Text = lw.LineAliasLight,
                                 BackColor = new Brush(Color.WhiteSmoke),
                                 HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
                                 BorderThickness = 1
@@ -1205,6 +1211,7 @@ public partial class MapPage : ContentPage
         return enumFeat;
     
     }
+
     /// <summary>
     /// Will set style of stations on map
     /// </summary>
@@ -1494,28 +1501,107 @@ public partial class MapPage : ContentPage
 
     #endregion
 
+
+    /// <summary>
+    /// Whenever user touches screen, add point to line graphic
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void mapView_TouchStarted(object sender, Mapsui.UI.TouchedEventArgs e)
     {
-        if (_isDrawingLine)
+        if (e != null && e.ScreenPoints != null && e.ScreenPoints.Count() > 0)
         {
-            await Shell.Current.DisplayAlert("Started", e.ScreenPoints.ToString(), "Ok");
+            (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY(e.ScreenPoints.First().X, e.ScreenPoints.First().Y);
+            //await Shell.Current.DisplayAlert("Ended", clickedPoint.Item1.ToString() + ", " + clickedPoint.Item2.ToString(), "Ok");
+
+            FillDrawableWithCoordinate(clickedPoint.Item1, clickedPoint.Item2);
+
         }
+    }
+
+    /// <summary>
+    /// Will init and fill a drawable feature that will then be converted to a F_LINE_WORK when done.
+    /// </summary>
+    /// <param name="xCoord"></param>
+    /// <param name="yCoord"></param>
+    private async void FillDrawableWithCoordinate(double xCoord, double yCoord)
+    {
+        //Make sure styling and layer are ready
+        await InitiateLineworkLayer();
+
+        //Force it to drawable layer
+        IEnumerable<ILayer> layers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkEdit);
+        if (layers != null && layers.First() != null)
+        {
+            
+            WritableLayer writeLayer = layers.First() as WritableLayer;
+            if (writeLayer != null)
+            {
+                GeometryFeature newFeat = await AddPointToLineworkEdit(xCoord, yCoord);
+
+                // Keep only one geometry within this layer
+                writeLayer.Clear();
+                writeLayer.AddRange(new List<IFeature>() { newFeat });
+
+                mapView.Map.RefreshGraphics();
+            }
+        }
+
         
+
     }
 
-    private async void mapView_TouchEnded(object sender, Mapsui.UI.TouchedEventArgs e)
+    /// <summary>
+    /// Will add a coordinate to a geometry feature
+    /// </summary>
+    /// <param name="geomToAddPointTo"></param>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    private async Task<GeometryFeature> AddPointToLineworkEdit(double x, double y)
     {
-        if (_isDrawingLine)
+        if (_drawableGeometry != null)
         {
-            await Shell.Current.DisplayAlert("Ended", e.ScreenPoints.ToString(), "Ok");
-        }
-    }
+            _drawableGeometry.Geometry = await GeopackageService.AddPointToLineString(_drawableGeometry.Geometry as LineString, x, y);
 
-    private async void mapView_TouchMove(object sender, Mapsui.UI.TouchedEventArgs e)
-    {
-        if (_isDrawingLine)
-        {
-            await Shell.Current.DisplayAlert("Move", e.ScreenPoints.ToString(), "Ok");
         }
+        else
+        {
+            _drawableGeometry = new GeometryFeature();
+            _drawableGeometry.Geometry = new LineString(new[] { new Coordinate(x, y), new Coordinate(x, y) });
+
+        }
+
+        return _drawableGeometry;
+    }
+    
+    /// <summary>
+    /// Will initiate the linework for edit layer with styling inside a writablelayer
+    /// </summary>
+    /// <returns></returns>
+    private async Task InitiateLineworkLayer()
+    {
+
+        //Init drawable layer
+        IEnumerable<ILayer> currentLayers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkEdit);
+        if (currentLayers == null || currentLayers.Count() == 0)
+        {
+            //Style it
+            ILayer layerToAdd = new WritableLayer
+            {
+                Name = ApplicationLiterals.aliasLineworkEdit,
+                Style = new Mapsui.Styles.VectorStyle()
+                {
+                    Fill = null,
+                    Outline = null,
+                    Line = { Color = Color.FromString("Black"), Width = 5 }
+                },
+                IsMapInfoLayer = true,
+
+            };
+
+            mapView.Map.Layers.Add(layerToAdd);
+
+        }
+
     }
 }

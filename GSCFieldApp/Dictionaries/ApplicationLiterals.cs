@@ -90,7 +90,7 @@
         public const string aliasStations = "Stations"; //Used for map page layer menu
         public const string aliasTraversePoint = "Traverses"; //Used for map page layer menu
         public const string aliasLinework = "Linework"; //Used for map page layer menu
-
+        public const string aliasLineworkEdit = "LineworkEdit"; //Used for temp drawing before saving in linework database feature
         public const string aliasMapsuiDrawables = "Drawables";
         public const string aliasMapsuiLayer = "Layer";
         public const string aliasMapsuiPins = "Pins";

@@ -20,7 +20,6 @@ using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 using NetTopologySuite;
 
-
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class GeopackageService
@@ -114,7 +113,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         /// <summary>
         /// From a given byte array that defines a geometry, will return a line object
-        /// TODO make this working, incoming geometry has a SRID = -1 so we can't convert incoming points
+        /// WARNING: About EPSG3857 and it's Y-axis problem
+        /// https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/
         /// </summary>
         /// <param name="geomBytes">The byte array to transform into a point object</param>
         /// <returns></returns>
@@ -190,8 +190,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <summary>
         /// Will take a input line string object and transform it from one coordinate system
         /// to another.
-        /// TODO: Find why transforming 4326 to 3857 fails with a Y translation further south
-        /// Even QGIS can transform correctly. Something is not properly set in the transformation.
+        /// WARNING: About EPSG3857 and it's Y-axis problem
         /// https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/
         /// </summary>
         /// <param name="inLineCoordinates"></param>
@@ -231,6 +230,29 @@ namespace GSCFieldApp.Services.DatabaseServices
 
 
             return outLine;
+        }
+
+        /// <summary>
+        /// Will add a new coordinate to a linestring object
+        /// </summary>
+        /// <param name="inLineCoordinates"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static async Task<NTS.Geometries.LineString> AddPointToLineString(NTS.Geometries.LineString inLineCoordinates, double x, double y)
+        {
+            //Init
+            Coordinate[] coordinates = new Coordinate[inLineCoordinates.Count + 1];
+
+            //Add
+            for (int i = 0; i < inLineCoordinates.Count; i++)
+            {
+                coordinates[i] = inLineCoordinates[i];
+            }
+            coordinates[inLineCoordinates.Count] = new Coordinate(x, y);
+
+            //Convert
+            return defaultGeometryFactory.CreateLineString(coordinates);
         }
     }
 }

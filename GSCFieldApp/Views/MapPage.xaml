@@ -99,8 +99,8 @@
             <!--Map Control-->
             <mapsui:MapView x:Name="mapView"
                             Grid.Row ="1" 
-                            IsVisible="true" MapClicked="mapView_MapClicked" TouchStarted="mapView_TouchStarted" TouchEnded="mapView_TouchEnded"
-                            VerticalOptions="FillAndExpand" TouchMove="mapView_TouchMove"
+                            IsVisible="true" MapClicked="mapView_MapClicked" TouchStarted="mapView_TouchStarted"
+                            VerticalOptions="FillAndExpand" 
                             HorizontalOptions="FillAndExpand"
                             Margin="10"/>
 
