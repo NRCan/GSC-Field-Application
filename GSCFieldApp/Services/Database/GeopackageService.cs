@@ -254,5 +254,22 @@ namespace GSCFieldApp.Services.DatabaseServices
             //Convert
             return defaultGeometryFactory.CreateLineString(coordinates);
         }
+
+        /// <summary>
+        /// Will take input linestring and transform them in
+        /// geopackage valid byte array geometry.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public byte[] CreateByteGeometryLine(LineString inLine)
+        {
+            // Convert geometry to geopackage geometry bytes
+            GeoPackageGeoWriter geo = new GeoPackageGeoWriter();
+            byte[] bytePoint = geo.Write(inLine);
+
+            return bytePoint;
+
+        }
     }
 }

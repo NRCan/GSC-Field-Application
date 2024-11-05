@@ -1330,4 +1330,16 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FielNotesLineworkHeader" xml:space="preserve">
     <value>Lignes dessinées</value>
   </data>
+  <data name="MapPageAddLineworkDialogTitle" xml:space="preserve">
+    <value>Enregistrement de la ligne</value>
+  </data>
+  <data name="MapPageAddLineDialogMessage" xml:space="preserve">
+    <value>Procéder à l'enregistrement du tracé?</value>
+  </data>
+  <data name="GenericButtonSave" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="GenericButtonContinue" xml:space="preserve">
+    <value>Continuer</value>
+  </data>
 </root>

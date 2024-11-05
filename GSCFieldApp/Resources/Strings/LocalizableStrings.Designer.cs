@@ -1798,6 +1798,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        internal static string GenericButtonContinue {
+            get {
+                return ResourceManager.GetString("GenericButtonContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string GenericButtonDelete {
@@ -1821,6 +1830,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string GenericButtonOk {
             get {
                 return ResourceManager.GetString("GenericButtonOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string GenericButtonSave {
+            get {
+                return ResourceManager.GetString("GenericButtonSave", resourceCulture);
             }
         }
         
@@ -2118,6 +2136,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string MapPageAddData {
             get {
                 return ResourceManager.GetString("MapPageAddData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proceed to save drawn line?.
+        /// </summary>
+        internal static string MapPageAddLineDialogMessage {
+            get {
+                return ResourceManager.GetString("MapPageAddLineDialogMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Linework edit.
+        /// </summary>
+        internal static string MapPageAddLineworkDialogTitle {
+            get {
+                return ResourceManager.GetString("MapPageAddLineworkDialogTitle", resourceCulture);
             }
         }
         

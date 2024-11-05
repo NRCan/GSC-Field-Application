@@ -20,6 +20,7 @@ using Mapsui.Layers;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using BruTile.Wms;
 using Mapsui.UI.Maui;
+using NTSGeom = NetTopologySuite.Geometries;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -66,7 +67,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (sensorLocation != null)
             {
-                int locId = await SetLocationModelAsync();
+                int locId = await SaveLocationModelAsync();
 
                 if (locId != -1)
                 {
@@ -95,7 +96,7 @@ namespace GSCFieldApp.ViewModel
             if (sensorLocation != null)
             {
                 //Create a location record
-                int locationID = await SetLocationModelAsync();
+                int locationID = await SaveLocationModelAsync();
 
                 if (locationID != -1)
                 {
@@ -126,7 +127,7 @@ namespace GSCFieldApp.ViewModel
             if (sensorLocation != null)
             {
                 //Create a location record
-                int locationID = await SetLocationModelAsync();
+                int locationID = await SaveLocationModelAsync();
 
                 if (locationID != -1)
                 {
@@ -158,7 +159,7 @@ namespace GSCFieldApp.ViewModel
             if (sensorLocation != null)
             {
                 //Create a location record
-                int locationID = await SetLocationModelAsync();
+                int locationID = await SaveLocationModelAsync();
 
                 if (locationID != -1)
                 {
@@ -207,7 +208,7 @@ namespace GSCFieldApp.ViewModel
             if (sensorLocation != null)
             {
                 //Create a location record
-                int locationID = await SetLocationModelAsync();
+                int locationID = await SaveLocationModelAsync();
 
                 //Change entry type for manual
                 locationModel.LocationEntryType = locationEntryTypeManual;
@@ -329,7 +330,7 @@ namespace GSCFieldApp.ViewModel
         /// Will save the location model within prefered database
         /// </summary>
         /// <returns></returns>
-        public async Task<int> SetLocationModelAsync()
+        public async Task<int> SaveLocationModelAsync()
         {
             //Quick check if a valid field book is selected
             if (dataAccess.PreferedDatabasePath != dataAccess.DatabaseFilePath)
@@ -403,6 +404,53 @@ namespace GSCFieldApp.ViewModel
                 return -1;
             }
 
+        }
+
+        /// <summary>
+        /// Will save the linework model within prefered database
+        /// </summary>
+        /// <param name="lineStringToSave"></param>
+        /// <returns></returns>
+        public async Task<Linework> SaveLineworkModelAsync(NTSGeom.LineString lineStringToSave)
+        {
+            Linework lineworkModel = null;
+
+            //Quick check if a valid field book is selected
+            if (dataAccess.PreferedDatabasePath != dataAccess.DatabaseFilePath)
+            {
+                lineworkModel = new Linework();
+
+                //Keep fact that it's coming from the map
+                lineworkModel.IsMapPageQuick = true;
+
+                //Foreign key
+                if (metadataModel.MetaID > 0)
+                {
+                    lineworkModel.LineMetaID = metadataModel.MetaID;
+                }
+                else
+                {
+                    lineworkModel.LineMetaID = 1;
+                }
+
+                lineworkModel.LineIDName = await idCalc.CalculateLineworkAliasAsync(DateTime.Now, metadataModel.UserCode); //Calculate new value
+
+                //Fill in the feature location
+                if (lineStringToSave != null)
+                {
+                    GeopackageService geoService = new GeopackageService();
+                    lineworkModel.LineGeom = geoService.CreateByteGeometryLine(lineStringToSave);
+
+                }
+
+                //Save
+                lineworkModel = await dataAccess.SaveItemAsync(lineworkModel, false) as Linework;
+
+                //Return ID
+                return lineworkModel;
+            }
+
+            return lineworkModel;
         }
 
         /// <summary>
@@ -555,6 +603,29 @@ namespace GSCFieldApp.ViewModel
             LocalizationResourceManager["MapPageAlertFieldBookMessage"].ToString(),
             LocalizationResourceManager["GenericButtonOk"].ToString());
         }
+
+        /// <summary>
+        /// Will save the incoming linework user drawn edits
+        /// And it will open the linework page for edition.
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddLinework(NTSGeom.LineString inLine)
+        {
+            //Navigate to structure page 
+            Linework linework = await SaveLineworkModelAsync(inLine);
+
+            if (linework != null && linework.LineID > 0)
+            {
+                //Navigate to station page and keep locationmodel for relationnal link
+                await Shell.Current.GoToAsync($"/{nameof(LineworkPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Linework)] = linework,
+                    }
+                );
+            }
+        }
+
         #endregion
 
         #region EVENTS

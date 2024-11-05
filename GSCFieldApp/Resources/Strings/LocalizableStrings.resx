@@ -1329,4 +1329,16 @@
   <data name="FielNotesLineworkHeader" xml:space="preserve">
     <value>Line Work</value>
   </data>
+  <data name="MapPageAddLineworkDialogTitle" xml:space="preserve">
+    <value>Linework edit</value>
+  </data>
+  <data name="MapPageAddLineDialogMessage" xml:space="preserve">
+    <value>Proceed to save drawn line?</value>
+  </data>
+  <data name="GenericButtonSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="GenericButtonContinue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
 </root>
