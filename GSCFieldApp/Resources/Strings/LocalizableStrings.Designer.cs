@@ -349,7 +349,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t create a station with same location..
+        ///   Looks up a localized string similar to Can&apos;t create a copy of this record, please return to map page..
         /// </summary>
         internal static string DisplayAlertNotAllowedContent {
             get {
@@ -358,7 +358,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t create a location with same position..
+        ///   Looks up a localized string similar to Can&apos;t create a copy of this record, please return to map page..
         /// </summary>
         internal static string DisplayAlertNotAllowedLocationContent {
             get {
@@ -1672,6 +1672,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Line Work.
+        /// </summary>
+        internal static string FielNotesLineworkHeader {
+            get {
+                return ResourceManager.GetString("FielNotesLineworkHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         internal static string FielNotesLocationHeader {
@@ -1839,6 +1848,51 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string GenericNoteTitle {
             get {
                 return ResourceManager.GetString("GenericNoteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confidence.
+        /// </summary>
+        internal static string LineworkPageConfidence {
+            get {
+                return ResourceManager.GetString("LineworkPageConfidence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        internal static string LineworkPageLineType {
+            get {
+                return ResourceManager.GetString("LineworkPageLineType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        internal static string LineworkPageNotes {
+            get {
+                return ResourceManager.GetString("LineworkPageNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line Color.
+        /// </summary>
+        internal static string LineworkPageSymbol {
+            get {
+                return ResourceManager.GetString("LineworkPageSymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Linework.
+        /// </summary>
+        internal static string LineworkPageTitle {
+            get {
+                return ResourceManager.GetString("LineworkPageTitle", resourceCulture);
             }
         }
         

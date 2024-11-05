@@ -178,10 +178,10 @@
     <value>Not Allowed!</value>
   </data>
   <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
-    <value>Can't create a station with same location.</value>
+    <value>Can't create a copy of this record, please return to map page.</value>
   </data>
   <data name="DisplayAlertNotAllowedLocationContent" xml:space="preserve">
-    <value>Can't create a location with same position.</value>
+    <value>Can't create a copy of this record, please return to map page.</value>
   </data>
   <data name="DocumentPageAdvancedTitle" xml:space="preserve">
     <value>Advanced</value>
@@ -1310,5 +1310,23 @@
   </data>
   <data name="MapPageDrawLine" xml:space="preserve">
     <value>Tap to draw an intepretation line.</value>
+  </data>
+  <data name="LineworkPageTitle" xml:space="preserve">
+    <value>Linework</value>
+  </data>
+  <data name="LineworkPageLineType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="LineworkPageConfidence" xml:space="preserve">
+    <value>Confidence</value>
+  </data>
+  <data name="LineworkPageSymbol" xml:space="preserve">
+    <value>Line Color</value>
+  </data>
+  <data name="LineworkPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="FielNotesLineworkHeader" xml:space="preserve">
+    <value>Line Work</value>
   </data>
 </root>

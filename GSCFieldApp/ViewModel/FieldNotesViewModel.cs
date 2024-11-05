@@ -147,6 +147,13 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(IsDrillHoleExpanded), value); }
         }
 
+        private bool _isLineworkExpanded = false;
+        public bool IsLineworkExpanded
+        {
+            get { return Preferences.Get(nameof(IsLineworkExpanded), false); }
+            set { Preferences.Set(nameof(IsLineworkExpanded), value); }
+        }
+
         public bool EarthMaterialVisible
         {
             get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
@@ -210,6 +217,12 @@ namespace GSCFieldApp.ViewModel
         public bool LocationVisible
         {
             get { return Preferences.Get(nameof(LocationVisible), true); }
+            set { }
+        }
+
+        public bool LineworkVisible
+        {
+            get { return Preferences.Get(nameof(LineworkVisible), true); }
             set { }
         }
 
@@ -440,6 +453,25 @@ namespace GSCFieldApp.ViewModel
             set { _drillHoles = value; }
         }
 
+        private ObservableCollection<FieldNote> _lineworks = new ObservableCollection<FieldNote>();
+        public ObservableCollection<FieldNote> Lineworks
+        {
+
+            get
+            {
+                if (FieldNotes.ContainsKey(TableNames.linework))
+                {
+                    return _lineworks = FieldNotes[TableNames.linework];
+                }
+                else
+                {
+                    return _lineworks = new ObservableCollection<FieldNote>();
+                }
+
+            }
+            set { _lineworks = value; }
+        }
+
         private string _selectedDate = string.Empty;
         public string SelectedDate { get { return _selectedDate; } set { _selectedDate = value; } }
 
@@ -470,6 +502,7 @@ namespace GSCFieldApp.ViewModel
             FieldNotes.Add(TableNames.mineralization, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.location, new ObservableCollection<FieldNote>());
             FieldNotes.Add(TableNames.drill, new ObservableCollection<FieldNote>());
+            FieldNotes.Add(TableNames.linework, new ObservableCollection<FieldNote>());
 
             _dates = new ObservableCollection<string>();
 
@@ -574,6 +607,12 @@ namespace GSCFieldApp.ViewModel
                 {
                     IsDrillHoleExpanded = !IsDrillHoleExpanded;
                     OnPropertyChanged(nameof(IsDrillHoleExpanded));
+                }
+
+                if (inComingName.ToLower() == (nameof(TableNames.linework)))
+                {
+                    IsLineworkExpanded = !IsLineworkExpanded;
+                    OnPropertyChanged(nameof(IsLineworkExpanded));
                 }
 
                 //Special case, removing filtering on date and refreshing all records.
@@ -828,6 +867,24 @@ namespace GSCFieldApp.ViewModel
                     );
                 }
             }
+
+            if (fieldNotes.GenericTableName == TableLinework)
+            {
+                List<Linework> tappedLine = await currentConnection.Table<Linework>().Where(i => i.LineID == fieldNotes.GenericID).ToListAsync();
+
+                await currentConnection.CloseAsync();
+
+                //Navigate to linework page
+                if (tappedLine != null && tappedLine.Count() == 1)
+                {
+                    await Shell.Current.GoToAsync($"/{nameof(LineworkPage)}/",
+                        new Dictionary<string, object>
+                        {
+                            [nameof(Linework)] = (Linework)tappedLine[0],
+                        }
+                    );
+                }
+            }
         }
 
         #endregion
@@ -860,6 +917,7 @@ namespace GSCFieldApp.ViewModel
                 await FillMineralizationAlterationNotes(currentConnection);
                 await FillLocationNotes(currentConnection);
                 await FillDrillHoleNotes(currentConnection);
+                await FillLineworkNotes(currentConnection);
 
                 await currentConnection.CloseAsync();
 
@@ -1567,6 +1625,52 @@ namespace GSCFieldApp.ViewModel
 
         }
 
+        /// <summary>
+        /// Will get all database stations to fill station cards
+        /// </summary>
+        /// <param name="inConnection"></param>
+        /// <returns></returns>
+        public async Task FillLineworkNotes(SQLiteAsyncConnection inConnection)
+        {
+            //Init a station group
+            if (!FieldNotes.ContainsKey(TableNames.linework))
+            {
+                FieldNotes.Add(TableNames.linework, new ObservableCollection<FieldNote>());
+            }
+            else
+            {
+                //Clear whatever was in there first.
+                FieldNotes[TableNames.linework].Clear();
+                OnPropertyChanged(nameof(FieldNotes));
+
+            }
+
+            //Get all stations from database
+            List<Linework> lineworks = await inConnection.Table<Linework>().OrderBy(s => s.LineIDName).ToListAsync();
+            ObservableCollection<FieldNote> lineworksFN = new ObservableCollection<FieldNote>();
+            if (lineworks != null && lineworks.Count > 0)
+            {
+
+                foreach (Linework ln in lineworks)
+                {
+                    lineworksFN.Add(new FieldNote
+                    {
+                        Display_text_1 = ln.LineAliasLight,
+                        Display_text_2 = ln.LineType,
+                        Display_text_3 = ln.LineNotes,
+                        GenericTableName = TableLinework,
+                        GenericID = ln.LineID,
+                        ParentID = ln.LineMetaID,
+                        isValid = ln.isValid
+                    });
+                }
+
+            }
+            FieldNotes[TableNames.linework] = lineworksFN;
+            OnPropertyChanged(nameof(Lineworks));
+
+        }
+
 
         /// <summary>
         /// A method that will filter out all records in field note page
@@ -1750,6 +1854,9 @@ namespace GSCFieldApp.ViewModel
                 case TableNames.drill:
                     await FillDrillHoleNotes(currentConnection);
                     break;
+                case TableNames.linework:
+                    await FillLineworkNotes(currentConnection);
+                    break;
                 default:
                     await FillStationNotes(currentConnection);
                     break;
@@ -1776,6 +1883,7 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(MineralizationVisible));
             OnPropertyChanged(nameof(DrillHoleVisible));
             OnPropertyChanged(nameof(LocationVisible));
+            OnPropertyChanged(nameof(LineworkVisible));
         }
 
         #endregion

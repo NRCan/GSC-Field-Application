@@ -85,6 +85,9 @@
     <Color x:Key="FieldDrillColor">#439ee2</Color>
     <Color x:Key="FieldDrillColorLight">#8EC4ED</Color>
 
+    <Color x:Key="FieldLinework">#005b49</Color>
+    <Color x:Key="FieldLineworkLight">#327b6d</Color>
+
     <Color x:Key="ReportPageInvalidBackground">Red</Color>
 
     <Color x:Key="FieldAppNoteLevel1">#0b2c71</Color>

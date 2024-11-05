@@ -951,6 +951,80 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
+        #region LINE WORK
+
+        /// <summary>
+        /// Will calculate a station alias name from a given station ID. Results: 16BEB001 (Year-Year-Geolcode-three digit number)
+        /// </summary>
+        /// <param name="stationTime">The datetime object related to the line</param>
+        /// <param name="currentGeolcode">The officer code to append to the alias</param>
+        /// <returns></returns>
+        public async Task<string> CalculateLineworkAliasAsync(DateTime stationDate, string currentGeolcode = "")
+        {
+
+            //Querying with Linq
+            string lineworkQuerySelect = "SELECT " + FieldLineworkIDName;
+            string lineworkQueryFrom = " FROM " + TableLinework;
+            string lineworkQueryOrderbyLimit = " ORDER BY " + FieldLineworkIDName + " DESC LIMIT 1;";
+            string lineworkQueryFinal = lineworkQuerySelect + lineworkQueryFrom + lineworkQueryOrderbyLimit;
+
+            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            List<Linework> lines = await currentConnection.QueryAsync<Linework>(lineworkQueryFinal);
+
+            //Get current year
+            string currentDate = stationDate.Year.ToString();
+
+            //Get officer code
+            if (currentGeolcode == string.Empty)
+            {
+                List<Metadata> mets = await currentConnection.QueryAsync<Metadata>(string.Format("select * from {0} limit 1", TableMetadata));
+                currentGeolcode = mets[0].UserCode;
+            }
+
+            //Get actual last alias and extract it's number
+            int lineworkCount = lines.Count();
+            List<char> lastCharacters = lines[0].LineIDName.ToList();
+            List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
+            string lastNumber = string.Empty;
+            foreach (char c in lastNumbers)
+            {
+                //Rebuild number
+                lastNumber = lastNumber + c;
+            }
+            int lastCharacterNumber = Convert.ToInt32(lastNumber);
+
+            //Increment
+            lineworkCount = lastCharacterNumber + 1;
+
+            //Padd current ID with 0 if needed
+            string outputStringID = string.Empty;
+            if (lineworkCount < 10)
+            {
+                outputStringID = "000" + lineworkCount.ToString();
+            }
+            else if (lineworkCount >= 10 && lineworkCount < 100)
+            {
+                outputStringID = "00" + lineworkCount.ToString();
+            }
+            else if (lineworkCount >= 100 && lineworkCount < 1000)
+            {
+                outputStringID = "0" + lineworkCount.ToString();
+            }
+            else
+            {
+                outputStringID = lineworkCount.ToString();
+            }
+
+            string finaleLineworkString = currentDate.Substring(currentDate.Length - 2) + currentGeolcode + outputStringID; //Ex: 16BEB001
+
+            await currentConnection.CloseAsync();
+
+            return finaleLineworkString;
+
+        }
+
+        #endregion
+
         #endregion
 
         #region GENERIC

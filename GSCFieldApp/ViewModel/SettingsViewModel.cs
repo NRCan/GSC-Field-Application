@@ -78,6 +78,12 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(LocationVisible), value); }
         }
 
+        public bool LineworkVisible
+        {
+            get { return Preferences.Get(nameof(LineworkVisible), true); }
+            set { Preferences.Set(nameof(LineworkVisible), value); }
+        }
+
         /// <summary>
         /// Property saved in the about page
         /// </summary>

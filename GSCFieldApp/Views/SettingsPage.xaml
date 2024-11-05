@@ -32,6 +32,7 @@
                                         <RowDefinition Height="40"/>
                                         <RowDefinition Height="40"/>
                                         <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
                                     </Grid.RowDefinitions>
                                     <Label Text="{local:Localize FielNotesEMHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0"/>
                                     <Switch x:Name="earthMat" IsToggled="{Binding EarthMaterialVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>
@@ -48,6 +49,9 @@
 
                                     <Label Text="{local:Localize FielNotesLocationHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="4"/>
                                     <Switch x:Name="location" IsToggled="{Binding LocationVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="4"/>
+
+                                    <Label Text="{local:Localize FielNotesLineworkHeader}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="5"/>
+                                    <Switch x:Name="linework" IsToggled="{Binding LineworkVisible, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="5"/>
 
                                 </Grid>
                             </Border>

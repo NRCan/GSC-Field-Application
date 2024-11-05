@@ -179,10 +179,10 @@ Aimeriez-vous modifier les droits?</value>
     <value>Pas autorisé!</value>
   </data>
   <data name="DisplayAlertNotAllowedContent" xml:space="preserve">
-    <value>Une station ne peut avoir la même location qu'une autre. Retournez à la page de cartes.</value>
+    <value> Retournez à la page de cartes, cet enregistrement ne peut être copié.</value>
   </data>
   <data name="DisplayAlertNotAllowedLocationContent" xml:space="preserve">
-    <value>Une localisation ne peut avoir les même coordonnées.</value>
+    <value> Retournez à la page de cartes, cet enregistrement ne peut être copié.</value>
   </data>
   <data name="DocumentPageAdvancedTitle" xml:space="preserve">
     <value>Spécialisé</value>
@@ -1311,5 +1311,23 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="MapPageDrawLine" xml:space="preserve">
     <value>Ajouter une nouvelle ligne d'interprétation.</value>
+  </data>
+  <data name="LineworkPageTitle" xml:space="preserve">
+    <value>Lignes dessinées</value>
+  </data>
+  <data name="LineworkPageLineType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="LineworkPageConfidence" xml:space="preserve">
+    <value>Confidence</value>
+  </data>
+  <data name="LineworkPageSymbol" xml:space="preserve">
+    <value>Couleur de la ligne</value>
+  </data>
+  <data name="LineworkPageNotes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="FielNotesLineworkHeader" xml:space="preserve">
+    <value>Lignes dessinées</value>
   </data>
 </root>

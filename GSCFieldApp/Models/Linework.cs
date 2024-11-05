@@ -23,16 +23,16 @@ namespace GSCFieldApp.Models
         public string LineType { get; set; }
 
         [Column(FieldLineworkConfidence)]
-        public int LineCpnfidence { get; set; }
+        public string LineConfidence { get; set; }
 
         [Column(FieldLineworkSymbol)]
-        public int LineSymbol { get; set; }
+        public string LineSymbol { get; set; }
 
         [Column(FieldLineworkNotes)]
         public string LineNotes { get; set; }
 
         [Column(FieldLineworkMetaID)]
-        public string LineMetaID { get; set; }
+        public int LineMetaID { get; set; }
 
         /// <summary>
         /// A list of all possible fields from current class but also from previous schemas (for db upgrade)
@@ -94,5 +94,32 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
+        /// <summary>
+        /// Soft mandatory field check. User can still create record even if fields are not filled.
+        /// Ignore attribute will tell sql not to try to write this field inside the database.
+        /// </summary>
+        [Ignore]
+        public bool isValid
+        {
+            get
+            {
+                if (LineType != string.Empty)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set { }
+        }
+
+        /// <summary>
+        /// Will be used to trigger a cascade delete coming from location record
+        /// </summary>
+        [Ignore]
+        public bool IsMapPageQuick { get; set; } = false;
     }
 }

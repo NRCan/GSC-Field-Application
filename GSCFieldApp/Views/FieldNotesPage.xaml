@@ -409,7 +409,32 @@
 
                     </VerticalStackLayout>
 
-                    
+                    <!--Linework records-->
+                    <VerticalStackLayout IsVisible="{Binding LineworkVisible, Mode=TwoWay}">
+
+                        <Button Text="{local:Localize Key=FielNotesLineworkHeader}" BackgroundColor="{StaticResource FieldLinework}" Style="{StaticResource FieldAppNoteHeaderButton}"
+                            Command="{Binding HideCommand}" CommandParameter="linework"/>
+
+                        <Grid IsVisible="{Binding IsLineworkExpanded, Mode=TwoWay}" Style="{StaticResource FieldAppNotesGrid}">
+                            <CollectionView ItemTemplate="{StaticResource FieldNoteCardTablet}"
+                                        Style="{StaticResource FieldAppNotesTabletCollectionView}"
+                                        ItemsSource="{Binding Lineworks}"  >
+                                <CollectionView.ItemsLayout>
+                                    <GridItemsLayout Orientation="Vertical" 
+                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                </CollectionView.ItemsLayout>
+                            </CollectionView>
+
+                            <ListView ItemsSource="{Binding Lineworks, Mode=TwoWay}"
+                                  ItemTemplate="{StaticResource FieldNoteCardMobile}"
+                                  Style="{StaticResource FieldAppNotesMobileListView}"/>
+                        </Grid>
+
+                        <Label Text="{Binding Lineworks.Count, StringFormat='Total records: {0:D}'}" Margin="0,0,0,10" />
+
+                    </VerticalStackLayout>
+
+
                 </VerticalStackLayout>
                 
             </ScrollView>

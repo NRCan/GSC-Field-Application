@@ -62,6 +62,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("MineralizationAlterationPage", typeof(MineralizationAlterationPage));
         Routing.RegisterRoute("LocationPage", typeof(LocationPage));
         Routing.RegisterRoute("DrillHolePage", typeof(DrillHolePage));
+        Routing.RegisterRoute("LineworkPage", typeof(LineworkPage));
 
         #endregion
 

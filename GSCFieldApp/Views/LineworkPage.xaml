@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GSCFieldApp.Views.LineworkPage"
+             xmlns:local="clr-namespace:GSCFieldApp.Services"
+             xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
+             xmlns:controls="clr-namespace:GSCFieldApp.Controls"
+             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viemodel:LineworkViewModel"
+             Shell.BackgroundColor="{StaticResource FieldLinework}"
+             Title="{local:Localize LineworkPageTitle}">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Content>
+        <Grid Style="{StaticResource FieldAppFormGrid}">
+
+            <Label Text="{Binding Model.LineIDName}" Style="{StaticResource FieldAppAliasTitle}" Grid.Row="0" Grid.Column="0"/>
+
+            <ScrollView Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+
+                <FlexLayout Style="{StaticResource FieldAppFormFlexLayout}" >
+
+                    <!--General description-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldLinework}" 
+                                              FrameTitle="{local:Localize LineworkPageTitle}">
+
+                        <VerticalStackLayout>
+
+                            <Picker Title="{local:Localize LineworkPageLineType}" Style="{StaticResource FieldAppMandatoryPicker}"
+                                x:Name="LineworkTypePicker" 
+                                ItemsSource="{Binding LineworkType.cboxItems}" 
+                                ItemDisplayBinding="{Binding itemName}" 
+                                SelectedItem="{Binding Model.LineType, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding LineworkType, Source={x:Reference LineworkTypePicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding LineworkType.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
+
+                            <Picker Title="{local:Localize LineworkPageConfidence}" 
+                                x:Name="LineworkConfidencePicker" 
+                                ItemsSource="{Binding LineworkConfidence.cboxItems}" 
+                                ItemDisplayBinding="{Binding itemName}" 
+                                SelectedItem="{Binding Model.LineConfidence, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding LineworkConfidence, Source={x:Reference LineworkConfidencePicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding LineworkConfidence.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
+
+                            <!--<Picker Title="{local:Localize LineworkPageSymbol}" 
+                                x:Name="LineworkSymbolPicker" MaximumWidthRequest="100"
+                                ItemsSource="{Binding LineworkSymbol.cboxItems}" 
+                                ItemDisplayBinding="{Binding itemName}" 
+                                SelectedItem="{Binding Model.LineSymbol, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding LineworkSymbol, Source={x:Reference LineworkSymbolPicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding LineworkSymbol.cboxDefaultItemIndex, Mode=TwoWay}">
+                        </Picker>-->
+
+                            <VerticalStackLayout >
+
+                                <Label Text="{local:Localize LineworkPageNotes}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Editor Text="{Binding Model.LineNotes, Mode=TwoWay}" Style="{StaticResource FieldAppEditorNotes}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </controls:ExpandableFrame>
+                    
+                </FlexLayout>
+
+
+            </ScrollView>
+
+            <!--Custom control to save with options to swipe left or right-->
+            <controls:SaveSwipeItem Grid.Row="2" Grid.ColumnSpan="2" ButtonColor="{StaticResource FieldLinework}"
+                                    ButtonLightColor="{StaticResource FieldLineworkLight}"
+                                    ControlTemplate="{StaticResource Key=SaveSwipeControl}"/>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
