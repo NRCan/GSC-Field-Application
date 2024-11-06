@@ -17,7 +17,7 @@ using CommunityToolkit.Maui.Alerts;
 namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Linework), nameof(Linework))]
-    public partial class LineworkViewModel: FieldAppPageHelper
+    public partial class LineworkViewModel : FieldAppPageHelper
     {
         #region INIT
         //Database
@@ -26,7 +26,6 @@ namespace GSCFieldApp.ViewModel
         //UI
         private ComboBox _lineworkType = new ComboBox();
         private ComboBox _lineworkConfidence = new ComboBox();
-        //private ComboBox _lineworkSymbol = new ComboBox();
 
         #endregion
 
@@ -39,8 +38,7 @@ namespace GSCFieldApp.ViewModel
 
         public ComboBox LineworkType { get { return _lineworkType; } set { _lineworkType = value; } }
         public ComboBox LineworkConfidence { get { return _lineworkConfidence; } set { _lineworkConfidence = value; } }
-        //public ComboBox LineworkSymbol { get { return _lineworkSymbol; } set { _lineworkSymbol = value; } }
-
+ 
         #endregion
 
         #region RELAYS
@@ -75,6 +73,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task Save()
         {
+            await SetModel();
 
             //Validate if new entry or update
             if (_linework != null && _model.LineID != 0)
@@ -146,7 +145,7 @@ namespace GSCFieldApp.ViewModel
 
         public LineworkViewModel()
         {
-           
+
         }
 
         #region METHODS
@@ -163,9 +162,6 @@ namespace GSCFieldApp.ViewModel
             //First order pickers
             _lineworkConfidence = await FillAPicker(FieldLineworkConfidence);
             OnPropertyChanged(nameof(LineworkConfidence));
-
-            //_lineworkSymbol = await FillAPicker(FieldPFlowSense);
-            //OnPropertyChanged(nameof(LineworkSymbol));
 
             _lineworkType = await FillAPicker(FieldLineworkType);
             OnPropertyChanged(nameof(LineworkType));
@@ -216,6 +212,31 @@ namespace GSCFieldApp.ViewModel
 
             }
 
+        }
+
+        /// <summary>
+        /// Will fill out missing fields for model. Default auto-calculated values
+        /// Done before actually saving
+        /// </summary>
+        private async Task SetModel()
+        {
+            //Set proper color schema if nothing available
+            if (_model.LineType != null && (_model.LineSymbol == null || _model.LineSymbol == string.Empty))
+            {
+                SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
+                List<Vocabularies> vocab = await currentConnection.Table<Vocabularies>().Where(col => col.CodedTheme == vocabularyLineType && col.Code == _model.LineType).ToListAsync();
+
+                if (vocab != null && vocab.Count > 0)
+                {
+                    _model.LineSymbol = vocab[0].Symbol;
+                }
+                await currentConnection.CloseAsync();
+            }
+            else if (_model.LineType == null)
+            {
+                //Save default to grey
+                _model.LineSymbol = Mapsui.Styles.Color.Grey.ToString();
+            }
         }
 
         #endregion

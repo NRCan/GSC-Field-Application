@@ -415,6 +415,9 @@ public partial class MapPage : ContentPage
         {
             //Keep as default
             this.DrawLine.TextColor = Microsoft.Maui.Graphics.Colors.White;
+
+            //Clear any drawn lines
+            EmptyLinework();
         }
         
 
@@ -1239,9 +1242,11 @@ public partial class MapPage : ContentPage
                             //Add to list of features
                             enumFeat = enumFeat.Append(feat);
 
+                            //Get true line color
+                            Color lineColor = GetColorFromString(lw.LineSymbol);
                             
                             //Style line and label
-                            feat.Styles.Add(new VectorStyle { Line = new Pen(Color.Violet, 5) });
+                            feat.Styles.Add(new VectorStyle { Line = new Pen(lineColor, 3) });
                             feat.Styles.Add(new LabelStyle
                             {
                                 Text = lw.LineAliasLight,
@@ -1370,7 +1375,7 @@ public partial class MapPage : ContentPage
     {
         //Force it to drawable layer
         IEnumerable<ILayer> layers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkEdit);
-        if (layers != null && layers.First() != null)
+        if (layers != null && layers.Count() > 0)
         {
 
             WritableLayer writeLayer = layers.First() as WritableLayer;
@@ -1435,6 +1440,35 @@ public partial class MapPage : ContentPage
             }
 
         }
+    }
+
+    /// <summary>
+    /// Will return a mapsui color for symbolization, from a givens string
+    /// Defaults to grey if it fails to convert.
+    /// </summary>
+    /// <param name="inColor"></param>
+    /// <returns></returns>
+    private Color GetColorFromString(string inColor)
+    {
+        //Valid else default to grey
+        if (inColor != null)
+        {
+            try
+            {
+                return Color.FromString(inColor);
+            }
+            catch (System.Exception e)
+            {
+                new ErrorToLogFile(e.Message).WriteToFile();
+
+                return Color.Grey;
+            }
+        }
+        else
+        {
+            return Color.Grey;
+        }
+
     }
 
     #endregion

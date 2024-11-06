@@ -433,6 +433,7 @@ namespace GSCFieldApp.ViewModel
                     lineworkModel.LineMetaID = 1;
                 }
 
+                //Get a goold id alias
                 lineworkModel.LineIDName = await idCalc.CalculateLineworkAliasAsync(DateTime.Now, metadataModel.UserCode); //Calculate new value
 
                 //Fill in the feature location

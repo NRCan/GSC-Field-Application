@@ -27,6 +27,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         public DataAccess dAcccess = new DataAccess();
         public static GeometryFactory defaultGeometryFactory = new GeometryFactory();
+        public static GeometryFactory defaultMapsuiGeometryFactory = new GeometryFactory();
 
         /// <summary>
         /// This special class is used since mod_spatialite can't seem to be working
@@ -50,6 +51,9 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             // Create a geometry factory with the spatial reference id 4326
             defaultGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGDefault);
+
+            //Create another one with the default spatial reference from Mapsui
+            defaultMapsuiGeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(DatabaseLiterals.KeywordEPSGMapsuiDefault);
 
         }
 
@@ -220,7 +224,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
 
                 //Create line
-                outLine = defaultGeometryFactory.CreateLineString(transformedCoordinates);
+                outLine = defaultMapsuiGeometryFactory.CreateLineString(transformedCoordinates);
             }
             catch (Exception e)
             {
@@ -252,7 +256,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             coordinates[inLineCoordinates.Count] = new Coordinate(x, y);
 
             //Convert
-            return defaultGeometryFactory.CreateLineString(coordinates);
+            return defaultMapsuiGeometryFactory.CreateLineString(coordinates);
         }
 
         /// <summary>

@@ -53,16 +53,10 @@
                                 SelectedIndex="{Binding LineworkConfidence.cboxDefaultItemIndex, Mode=TwoWay}">
                             </Picker>
 
-                            <!--<Picker Title="{local:Localize LineworkPageSymbol}" 
-                                x:Name="LineworkSymbolPicker" MaximumWidthRequest="100"
-                                ItemsSource="{Binding LineworkSymbol.cboxItems}" 
-                                ItemDisplayBinding="{Binding itemName}" 
-                                SelectedItem="{Binding Model.LineSymbol, 
-                                    Converter={StaticResource cbox2Str},
-                                    ConverterParameter={Binding LineworkSymbol, Source={x:Reference LineworkSymbolPicker}},
-                                    Mode=TwoWay}"
-                                SelectedIndex="{Binding LineworkSymbol.cboxDefaultItemIndex, Mode=TwoWay}">
-                        </Picker>-->
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize LineworkPageSymbol}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.LineSymbol, Mode=TwoWay}"/>
+                            </VerticalStackLayout>
 
                             <VerticalStackLayout >
 
