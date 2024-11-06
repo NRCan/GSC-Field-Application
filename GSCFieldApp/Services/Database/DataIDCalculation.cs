@@ -983,15 +983,21 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //Get actual last alias and extract it's number
             int lineworkCount = lines.Count();
-            List<char> lastCharacters = lines[0].LineIDName.ToList();
-            List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
-            string lastNumber = string.Empty;
-            foreach (char c in lastNumbers)
+            int lastCharacterNumber = 0;
+
+            if (lineworkCount > 0)
             {
-                //Rebuild number
-                lastNumber = lastNumber + c;
+                List<char> lastCharacters = lines[0].LineIDName.ToList();
+                List<char> lastNumbers = lastCharacters.GetRange(lastCharacters.Count() - 4, 4);
+                string lastNumber = string.Empty;
+                foreach (char c in lastNumbers)
+                {
+                    //Rebuild number
+                    lastNumber = lastNumber + c;
+                }
+
+                lastCharacterNumber = Convert.ToInt32(lastNumber);
             }
-            int lastCharacterNumber = Convert.ToInt32(lastNumber);
 
             //Increment
             lineworkCount = lastCharacterNumber + 1;

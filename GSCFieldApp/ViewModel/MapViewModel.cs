@@ -438,13 +438,22 @@ namespace GSCFieldApp.ViewModel
                 //Fill in the feature location
                 if (lineStringToSave != null)
                 {
-                    GeopackageService geoService = new GeopackageService();
-                    lineworkModel.LineGeom = geoService.CreateByteGeometryLine(lineStringToSave);
+                    //Last touch up to geometry
+                    lineStringToSave.SRID = DatabaseLiterals.KeywordEPSGMapsuiDefault;
 
+                    if (lineStringToSave.IsValid)
+                    {
+                        GeopackageService geoService = new GeopackageService();
+                        lineworkModel.LineGeom = geoService.CreateByteGeometryLine(lineStringToSave);
+
+                        //Save only if geometry was 
+                        if (lineworkModel.LineGeom != null)
+                        {
+                            //Save
+                            lineworkModel = await dataAccess.SaveItemAsync(lineworkModel, false) as Linework;
+                        }
+                    }
                 }
-
-                //Save
-                lineworkModel = await dataAccess.SaveItemAsync(lineworkModel, false) as Linework;
 
                 //Return ID
                 return lineworkModel;

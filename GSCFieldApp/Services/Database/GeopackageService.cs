@@ -264,6 +264,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public byte[] CreateByteGeometryLine(LineString inLine)
         {
+
             // Convert geometry to geopackage geometry bytes
             GeoPackageGeoWriter geo = new GeoPackageGeoWriter();
             byte[] bytePoint = geo.Write(inLine);

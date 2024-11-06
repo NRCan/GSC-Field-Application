@@ -55,7 +55,7 @@ namespace GSCFieldApp.ViewModel
                 await commandServ.DeleteDatabaseItemCommand(TableNames.linework, _linework.LineIDName, _linework.LineID, true);
             }
 
-            if (_linework == null)
+            if (_linework == null || _linework.IsMapPageQuick)
             {
                 //Exit on map
                 await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
@@ -112,7 +112,18 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            await NavigateToFieldNotes(TableNames.linework);
+            if (_linework.IsMapPageQuick)
+            {
+                //Exit on map
+                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+
+            }
+            else
+            {
+                //Exit in field notes
+                await NavigateToFieldNotes(TableNames.linework);
+            }
+
 
         }
 

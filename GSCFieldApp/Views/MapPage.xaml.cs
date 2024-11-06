@@ -1379,7 +1379,7 @@ public partial class MapPage : ContentPage
                 writeLayer.Clear();
                 mapView.Map.RefreshGraphics();
 
-                _drawableGeometry.Geometry = null;
+                _drawableGeometry = null;
             }
         }
     }
