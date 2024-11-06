@@ -1008,7 +1008,7 @@ public partial class MapPage : ContentPage
         {
             //Make sure some features have records
             bool addOrNot = true; //Will be used to get traverses out of the way if empty
-            IEnumerable<IFeature> dFeats = await GetLocationsAsync((defaultLayerList)i);
+            IEnumerable<IFeature> dFeats = await GetGeometriesAsync((defaultLayerList)i);
 
             //TODO: comment out when traverses will be totally implemented
             if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasTraversePoint &&
@@ -1055,7 +1055,7 @@ public partial class MapPage : ContentPage
     /// and stations
     /// </summary>
     /// <returns></returns>
-    private async Task<IEnumerable<IFeature>> GetLocationsAsync(defaultLayerList inLayer)
+    private async Task<IEnumerable<IFeature>> GetGeometriesAsync(defaultLayerList inLayer)
     {
         IEnumerable<IFeature> enumFeat = new IFeature[] { };
 
@@ -1239,6 +1239,7 @@ public partial class MapPage : ContentPage
                             //Add to list of features
                             enumFeat = enumFeat.Append(feat);
 
+                            
                             //Style line and label
                             feat.Styles.Add(new VectorStyle { Line = new Pen(Color.Violet, 5) });
                             feat.Styles.Add(new LabelStyle
@@ -1350,7 +1351,7 @@ public partial class MapPage : ContentPage
                 {
                     Fill = null,
                     Outline = null,
-                    Line = { Color = Color.FromString("Black"), Width = 5 }
+                    Line = { Color = Color.FromString("Black"), Width = 2 }
                 },
                 IsMapInfoLayer = true,
 
@@ -1413,7 +1414,7 @@ public partial class MapPage : ContentPage
                     EmptyLinework();
 
                     //Force refresh of linework feature on the map
-                    IEnumerable<IFeature> lineFeats = await GetLocationsAsync(defaultLayerList.Linework);
+                    IEnumerable<IFeature> lineFeats = await GetGeometriesAsync(defaultLayerList.Linework);
                     IEnumerable<ILayer> mapViewLayers = mapView.Map.Layers.Where(x => x.Name == ApplicationLiterals.aliasLinework);
                     if (mapViewLayers.Count() > 0)
                     {

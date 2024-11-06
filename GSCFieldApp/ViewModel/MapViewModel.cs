@@ -446,12 +446,18 @@ namespace GSCFieldApp.ViewModel
                         GeopackageService geoService = new GeopackageService();
                         lineworkModel.LineGeom = geoService.CreateByteGeometryLine(lineStringToSave);
 
-                        //Save only if geometry was 
+                        //Save only if geometry was valid
                         if (lineworkModel.LineGeom != null)
                         {
                             //Save
                             lineworkModel = await dataAccess.SaveItemAsync(lineworkModel, false) as Linework;
                         }
+                    }
+                    else
+                    {
+                        string errorMessage = "Linework linestring was invalid: " + lineStringToSave.Coordinates.ToString();
+                        new ErrorToLogFile(errorMessage).WriteToFile();
+                        await Shell.Current.DisplayAlert("Error", errorMessage, "Ok");
                     }
                 }
 
