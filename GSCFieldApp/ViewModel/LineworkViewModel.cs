@@ -19,6 +19,7 @@ namespace GSCFieldApp.ViewModel
 {
     [QueryProperty(nameof(Linework), nameof(Linework))]
     [QueryProperty(nameof(LineString), nameof(LineString))]
+    [QueryProperty(nameof(Metadata), nameof(Metadata))]
     public partial class LineworkViewModel : FieldAppPageHelper
     {
         #region INIT
@@ -38,6 +39,9 @@ namespace GSCFieldApp.ViewModel
 
         [ObservableProperty]
         private LineString _lineString;
+
+        [ObservableProperty]
+        private Metadata _metadata;
 
         public Linework Model { get { return _model; } set { _model = value; } }
 
@@ -241,6 +245,16 @@ namespace GSCFieldApp.ViewModel
             {
                 GeopackageService geoService = new GeopackageService();
                 _model.LineGeom = geoService.CreateByteGeometryLine(_lineString);
+            }
+
+            //Foreign key
+            if (_metadata != null && _metadata.MetaID > 0)
+            {
+                _model.LineMetaID = _metadata.MetaID;
+            }
+            else
+            {
+                _model.LineMetaID = 1;
             }
         }
 

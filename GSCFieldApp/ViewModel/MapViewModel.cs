@@ -407,44 +407,6 @@ namespace GSCFieldApp.ViewModel
         }
 
         /// <summary>
-        /// Will save the linework model within prefered database
-        /// </summary>
-        /// <param name="lineStringToSave"></param>
-        /// <returns></returns>
-        public async Task<Linework> SaveLineworkModelAsync(NTSGeom.LineString lineStringToSave)
-        {
-            Linework lineworkModel = null;
-
-            //Quick check if a valid field book is selected
-            if (dataAccess.PreferedDatabasePath != dataAccess.DatabaseFilePath)
-            {
-                lineworkModel = new Linework();
-
-                //Keep fact that it's coming from the map
-                lineworkModel.IsMapPageQuick = true;
-
-                //Fill in the feature location
-                if (lineStringToSave != null)
-                {
-                    //Last touch up to geometry
-                    lineStringToSave.SRID = DatabaseLiterals.KeywordEPSGMapsuiDefault;
-
-                    if (!lineStringToSave.IsValid)
-                    {
-                        string errorMessage = "Linework linestring was invalid: " + lineStringToSave.Coordinates.ToString();
-                        new ErrorToLogFile(errorMessage).WriteToFile();
-                        await Shell.Current.DisplayAlert("Error", errorMessage, "Ok");
-                    }
-                }
-
-                //Return ID
-                return lineworkModel;
-            }
-
-            return lineworkModel;
-        }
-
-        /// <summary>
         /// Refresh the coordinates that will be shown on the map page as labels
         /// and used for a new location record. Coming from sensor.
         /// </summary>
@@ -613,6 +575,7 @@ namespace GSCFieldApp.ViewModel
                     {
                         [nameof(Linework)] = null,
                         [nameof(NTSGeom.LineString)] = inLine,
+                        [nameof(Metadata)] = metadataModel,
                     }
                 );
             }
