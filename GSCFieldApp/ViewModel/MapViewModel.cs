@@ -423,38 +423,13 @@ namespace GSCFieldApp.ViewModel
                 //Keep fact that it's coming from the map
                 lineworkModel.IsMapPageQuick = true;
 
-                //Foreign key
-                if (metadataModel.MetaID > 0)
-                {
-                    lineworkModel.LineMetaID = metadataModel.MetaID;
-                }
-                else
-                {
-                    lineworkModel.LineMetaID = 1;
-                }
-
-                //Get a goold id alias
-                lineworkModel.LineIDName = await idCalc.CalculateLineworkAliasAsync(DateTime.Now, metadataModel.UserCode); //Calculate new value
-
                 //Fill in the feature location
                 if (lineStringToSave != null)
                 {
                     //Last touch up to geometry
                     lineStringToSave.SRID = DatabaseLiterals.KeywordEPSGMapsuiDefault;
 
-                    if (lineStringToSave.IsValid)
-                    {
-                        GeopackageService geoService = new GeopackageService();
-                        lineworkModel.LineGeom = geoService.CreateByteGeometryLine(lineStringToSave);
-
-                        //Save only if geometry was valid
-                        if (lineworkModel.LineGeom != null)
-                        {
-                            //Save
-                            lineworkModel = await dataAccess.SaveItemAsync(lineworkModel, false) as Linework;
-                        }
-                    }
-                    else
+                    if (!lineStringToSave.IsValid)
                     {
                         string errorMessage = "Linework linestring was invalid: " + lineStringToSave.Coordinates.ToString();
                         new ErrorToLogFile(errorMessage).WriteToFile();
@@ -627,16 +602,17 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task AddLinework(NTSGeom.LineString inLine)
         {
-            //Navigate to structure page 
-            Linework linework = await SaveLineworkModelAsync(inLine);
-
-            if (linework != null && linework.LineID > 0)
+            if (inLine != null )
             {
+                //Last touch up to geometry
+                inLine.SRID = DatabaseLiterals.KeywordEPSGMapsuiDefault;
+
                 //Navigate to station page and keep locationmodel for relationnal link
                 await Shell.Current.GoToAsync($"/{nameof(LineworkPage)}/",
                     new Dictionary<string, object>
                     {
-                        [nameof(Linework)] = linework,
+                        [nameof(Linework)] = null,
+                        [nameof(NTSGeom.LineString)] = inLine,
                     }
                 );
             }

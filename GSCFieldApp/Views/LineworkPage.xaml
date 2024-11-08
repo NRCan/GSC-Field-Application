@@ -15,6 +15,13 @@
         <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
     </Shell.BackButtonBehavior>
 
+
+    <ContentPage.Resources>
+
+        <conv:ComboboxItemToString x:Key="cbox2Str"/>
+
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <Grid Style="{StaticResource FieldAppFormGrid}">
 
@@ -36,9 +43,9 @@
                                 ItemsSource="{Binding LineworkType.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 
                                 SelectedItem="{Binding Model.LineType, 
-                                    Converter={StaticResource cbox2Str},
-                                    ConverterParameter={Binding LineworkType, Source={x:Reference LineworkTypePicker}},
-                                    Mode=TwoWay}"
+                                        Converter={StaticResource cbox2Str},
+                                        ConverterParameter={Binding LineworkType, Source={x:Reference LineworkTypePicker}},
+                                        Mode=TwoWay}"
                                 SelectedIndex="{Binding LineworkType.cboxDefaultItemIndex, Mode=TwoWay}">
                             </Picker>
 
