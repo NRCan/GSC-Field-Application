@@ -130,40 +130,45 @@ public partial class MapPage : ContentPage
         base.OnNavigatedTo(args);
 
         //In case user is coming from field notes
-        //They might have deleted some stations, make sure to refresh
+        //They might have deleted some stations or linework, make sure to refresh
 
         foreach (var item in mapView.Map.Layers)
         {
             if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
             {
-                //Remove all the one with same name
-                ILayer[] stations = mapView.Map.Layers.Where(x=>x.Name == item.Name).ToArray();
-                mapView.Map.Layers.Remove(stations);
+                //Remove layer, in order to force a refresh
+                ILayer[] featLayers = mapView.Map.Layers.Where(x=>x.Name == item.Name).ToArray();
+                mapView.Map.Layers.Remove(featLayers);
 
-                List<MemoryLayer> memLayers = await CreateDefaultLayersAsync();
-                if (memLayers != null && memLayers.Count > 0)
+                //Fetch the layer object
+                defaultLayerList defaultToReload = defaultLayerList.Stations;
+                if (item.Name == ApplicationLiterals.aliasLinework)
                 {
-                    //TODO check this, a loop of layer addigin within a loop of layers...
-                    foreach (MemoryLayer ml in memLayers)
-                    {
-                        //Make sure it's not already in there
-                        if (mapView.Map.Layers.Where(x=>x.Name == ml.Name).Count() == 0)
-                        {
-                            mapView.Map.Layers.Add(ml);
-                        }
-                        
-                    }
-
-                    mapView.Map.RefreshData();
-
-                    //Zoom to extent of stations
-                    SetExtent(memLayers[0]);
+                    defaultToReload = defaultLayerList.Linework;
                 }
+                MemoryLayer reloadLayer = await CreateDefaultLayerAsync(defaultToReload);
 
-                break;
+                //Insert back into map and zoom to station
+                if (reloadLayer != null)
+                {
+                    //Make sure it's not already in there
+                    if (mapView.Map.Layers.Where(x=>x.Name == reloadLayer.Name).Count() == 0)
+                    {
+                        mapView.Map.Layers.Add(reloadLayer);
+                    }
+ 
+                    //Zoom to extent of stations
+                    if (defaultToReload == defaultLayerList.Stations)
+                    {
+                        SetExtent(reloadLayer);
+                    }
+                    
+                }
             }
         }
 
+        //Force redraw of all
+        mapView.Map.RefreshData();
     }
 
     /// <summary>
@@ -476,7 +481,7 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void mapView_DoubleTap(object sender, Mapsui.UI.TappedEventArgs e)
     {
-        FinalizeLinework(e);
+        //FinalizeLinework(e);
     }
 
     /// <summary>
@@ -1009,46 +1014,13 @@ public partial class MapPage : ContentPage
 
         foreach (int i in Enum.GetValues(typeof(defaultLayerList)))
         {
-            //Make sure some features have records
-            bool addOrNot = true; //Will be used to get traverses out of the way if empty
-            IEnumerable<IFeature> dFeats = await GetGeometriesAsync((defaultLayerList)i);
+            MemoryLayer dLayer = await CreateDefaultLayerAsync((defaultLayerList)i);
 
-            //TODO: comment out when traverses will be totally implemented
-            if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasTraversePoint &&
-                Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasLineworkEdit)
+            if (dLayer != null)
             {
-                if (dFeats.Count() == 0)
-                {
-                    addOrNot = false;
-                }
+                defaultLayers.Add(dLayer);
             }
-
-            if (addOrNot)
-            {
-                if (Enum.GetName(typeof(defaultLayerList), i) == ApplicationLiterals.aliasStations)
-                {
-                    defaultLayers.Add(new MemoryLayer
-                    {
-                        Name = Enum.GetName(typeof(defaultLayerList), i),
-                        IsMapInfoLayer = true,
-                        Features = dFeats,
-                        Style = CreateBitmapStyle()
-                    });
-                }
-                else
-                {
-                    defaultLayers.Add(new MemoryLayer
-                    {
-                        Name = Enum.GetName(typeof(defaultLayerList), i),
-                        IsMapInfoLayer = true,
-                        Features = dFeats
-                    });
-                }
-
-            }
-
         }
-
 
         return defaultLayers;
     }
@@ -1471,6 +1443,58 @@ public partial class MapPage : ContentPage
 
     }
 
+    /// <summary>
+    /// Will create a memory layer for a given enum value
+    /// </summary>
+    /// <param name="defaultLayerName"></param>
+    /// <returns></returns>
+    private async Task<MemoryLayer> CreateDefaultLayerAsync(defaultLayerList defaultLayerName)
+    {
+        MemoryLayer defaultLayer = new MemoryLayer();
+
+        //Make sure some features have records
+        bool addOrNot = true; //Will be used to get traverses out of the way if empty
+        IEnumerable<IFeature> dFeats = await GetGeometriesAsync(defaultLayerName);
+
+        //TODO: comment out when traverses will be totally implemented
+        if (Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasTraversePoint &&
+            Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasLineworkEdit)
+        {
+            if (dFeats.Count() == 0)
+            {
+                addOrNot = false;
+            }
+        }
+
+        if (addOrNot)
+        {
+            if (Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasStations)
+            {
+                defaultLayer = new MemoryLayer()
+                {
+                    Name = Enum.GetName(defaultLayerName),
+                    IsMapInfoLayer = true,
+                    Features = dFeats,
+                    Style = CreateBitmapStyle()
+                };
+
+            }
+            else
+            {
+                defaultLayer = new MemoryLayer()
+                {
+                    Name = Enum.GetName(defaultLayerName),
+                    IsMapInfoLayer = true,
+                    Features = dFeats
+                };
+            }
+
+        }
+
+        return defaultLayer;
+    }
+
+
     #endregion
 
     #region GPS
@@ -1626,7 +1650,6 @@ public partial class MapPage : ContentPage
     /// TODO: Make sure this is still needed
     /// </summary>
     /// <param name="timeSpan"></param>
-
     /// <returns></returns>
     public async Task BackgroundTimer(TimeSpan timeSpan)
     {
