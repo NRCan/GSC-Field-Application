@@ -400,32 +400,13 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// Will enable the user to draw an interpretation line on screen.
+    /// Will enable/disable the user to draw an interpretation line on screen.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     private void DrawLine_Clicked(object sender, EventArgs e)
     {
-        //Revert current state of drawing lines
-        _isDrawingLine = !_isDrawingLine;
-
-        //Change font color to indicate it's activated
-        if (_isDrawingLine && App.Current.Resources.TryGetValue("Secondary", out var colorValue))
-        {
-            var activeColor = (Microsoft.Maui.Graphics.Color)colorValue;
-
-            this.DrawLine.TextColor = activeColor;
-        }
-        else
-        {
-            //Keep as default
-            this.DrawLine.TextColor = Microsoft.Maui.Graphics.Colors.White;
-
-            //Clear any drawn lines
-            EmptyLinework();
-        }
-        
-
+        DisableDrawing();
     }
 
     #endregion
@@ -456,8 +437,8 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// Track single tap on screen. If user has enable drawing mode, add tapped points to 
-    /// linestring of lineworkedit temporary feature
+    /// Track single tap on screen. If drawing mode is enabled, it will start 
+    /// screen movement tracking to add to a temp linework linestring.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -465,39 +446,11 @@ public partial class MapPage : ContentPage
     {
         if (e != null && e.ScreenPosition != null && _isDrawingLine)
         {
-            (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY(e.ScreenPosition.X, e.ScreenPosition.Y);
-
-            FillLinework(clickedPoint.Item1, clickedPoint.Item2);
-
+            mapView.TouchAction -= mapView_TouchAction;
+            mapView.TouchAction += mapView_TouchAction;
         }
     }
 
-    /// <summary>
-    /// Track double tap on screen.
-    /// If user has enable drawing mode, this will close the current lineworkedit linestring geometry
-    /// and will popup the linework edit form to save the record.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void mapView_DoubleTap(object sender, Mapsui.UI.TappedEventArgs e)
-    {
-        //FinalizeLinework(e);
-    }
-
-    /// <summary>
-    /// Whenever user touches screen, add point to line graphic
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void mapView_TouchStarted(object sender, Mapsui.UI.TouchedEventArgs e)
-    {
-        //if (e != null && e.ScreenPoints != null && e.ScreenPoints.Count() > 0)
-        //{
-        //    (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY(e.ScreenPoints.First().X, e.ScreenPoints.First().Y);
-        //    FillDrawableWithCoordinate(clickedPoint.Item1, clickedPoint.Item2);
-
-        //}
-    }
 
     /// <summary>
     /// Will finalize linework if in drawing mode
@@ -506,9 +459,25 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void mapView_LongTap(object sender, Mapsui.UI.TappedEventArgs e)
     {
+        //Stop event tracking and finalize work
+        mapView.TouchAction -= mapView_TouchAction;
         FinalizeLinework(e);
     }
 
+    /// <summary>
+    /// Screen movement tracking to fill in all vertices in linework temp linestring
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void mapView_TouchAction(object sender, SkiaSharp.Views.Maui.SKTouchEventArgs e)
+    {
+        if (e.ActionType == SkiaSharp.Views.Maui.SKTouchAction.Moved)
+        {
+            (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY(e.Location.X, e.Location.Y);
+            FillLinework(clickedPoint.Item1, clickedPoint.Item2);
+        }
+        
+    }
     #endregion
 
     #region METHODS
@@ -1367,50 +1336,42 @@ public partial class MapPage : ContentPage
     /// </summary>
     private async void FinalizeLinework(Mapsui.UI.TappedEventArgs tappedEventArgs)
     {
-        if (tappedEventArgs != null && tappedEventArgs.ScreenPosition != null && _isDrawingLine)
+        //Ask user if a save process can be initiated
+        bool canSave = await DisplayAlert(LocalizationResourceManager["MapPageAddLineworkDialogTitle"].ToString(),
+            LocalizationResourceManager["MapPageAddLineDialogMessage"].ToString(),
+            LocalizationResourceManager["GenericButtonSave"].ToString(),
+            LocalizationResourceManager["GenericButtonContinue"].ToString());
+
+        if (canSave)
         {
-            //Add last point to line
-            (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY(tappedEventArgs.ScreenPosition.X, tappedEventArgs.ScreenPosition.Y);
-            FillLinework(clickedPoint.Item1, clickedPoint.Item2);
-
-            //Ask user if a save process can be initiated
-            bool canSave = await DisplayAlert(LocalizationResourceManager["MapPageAddLineworkDialogTitle"].ToString(),
-                LocalizationResourceManager["MapPageAddLineDialogMessage"].ToString(),
-                LocalizationResourceManager["GenericButtonSave"].ToString(),
-                LocalizationResourceManager["GenericButtonContinue"].ToString());
-
-            if (canSave)
+            //Create an actual and new linework record with previous drawn line
+            if ((LineString)_drawableGeometry.Geometry != null)
             {
-                //Create an actual and new linework record with previous drawn line
-                if ((LineString)_drawableGeometry.Geometry != null)
+                //Save linework as a new record and open edit form for user to finalize it
+                await _vm.AddLinework((LineString)_drawableGeometry.Geometry);
+
+                //Empty lineworkedit layer of any content
+                EmptyLinework();
+
+                //Force refresh of linework feature on the map
+                IEnumerable<IFeature> lineFeats = await GetGeometriesAsync(defaultLayerList.Linework);
+                IEnumerable<ILayer> mapViewLayers = mapView.Map.Layers.Where(x => x.Name == ApplicationLiterals.aliasLinework);
+                if (mapViewLayers.Count() > 0)
                 {
-                    //Save linework as a new record and open edit form for user to finalize it
-                    await _vm.AddLinework((LineString)_drawableGeometry.Geometry);
+                    ILayer lineworkLayer = mapViewLayers.First();
+                    MemoryLayer memoryLineLayer = lineworkLayer as MemoryLayer;
 
-                    //Empty lineworkedit layer of any content
-                    EmptyLinework();
-
-                    //Force refresh of linework feature on the map
-                    IEnumerable<IFeature> lineFeats = await GetGeometriesAsync(defaultLayerList.Linework);
-                    IEnumerable<ILayer> mapViewLayers = mapView.Map.Layers.Where(x => x.Name == ApplicationLiterals.aliasLinework);
-                    if (mapViewLayers.Count() > 0)
+                    if (memoryLineLayer != null)
                     {
-                        ILayer lineworkLayer = mapViewLayers.First();
-                        MemoryLayer memoryLineLayer = lineworkLayer as MemoryLayer;
-
-                        if (memoryLineLayer != null)
-                        {
-                            memoryLineLayer.Features = lineFeats;
-                            mapView.Map.RefreshData();
-                        }
-
-
+                        memoryLineLayer.Features = lineFeats;
+                        mapView.Map.RefreshData();
                     }
 
 
                 }
-            }
 
+
+            }
         }
     }
 
@@ -1494,7 +1455,31 @@ public partial class MapPage : ContentPage
         return defaultLayer;
     }
 
+    /// <summary>
+    /// Will enable/disable the user to draw an interpretation line on screen.
+    /// </summary>
+    private void DisableDrawing()
+    {
+        //Revert current state of drawing lines
+        _isDrawingLine = !_isDrawingLine;
 
+        //Change font color to indicate it's activated
+        if (_isDrawingLine && App.Current.Resources.TryGetValue("Secondary", out var colorValue))
+        {
+            var activeColor = (Microsoft.Maui.Graphics.Color)colorValue;
+
+            this.DrawLine.TextColor = activeColor;
+        }
+        else
+        {
+            //Keep as default
+            this.DrawLine.TextColor = Microsoft.Maui.Graphics.Colors.White;
+
+            //Clear any drawn lines
+            EmptyLinework();
+        }
+
+    }
     #endregion
 
     #region GPS
@@ -1768,5 +1753,6 @@ public partial class MapPage : ContentPage
     }
 
     #endregion
+
 
 }
