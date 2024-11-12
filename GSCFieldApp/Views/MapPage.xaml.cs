@@ -446,11 +446,14 @@ public partial class MapPage : ContentPage
     {
         if (e != null && e.ScreenPosition != null && _isDrawingLine)
         {
+            //Disable map panning else on mobile devices the touch screen movement will move the map instead of drawing
+            mapView.Map.Navigator.PanLock = true;
+
+            //Start touch screen movement tracking
             mapView.TouchAction -= mapView_TouchAction;
             mapView.TouchAction += mapView_TouchAction;
         }
     }
-
 
     /// <summary>
     /// Will finalize linework if in drawing mode
@@ -462,6 +465,10 @@ public partial class MapPage : ContentPage
         //Stop event tracking and finalize work
         mapView.TouchAction -= mapView_TouchAction;
         FinalizeLinework(e);
+
+        //Bring back map panning
+        mapView.Map.Navigator.PanLock = false;
+
     }
 
     /// <summary>
