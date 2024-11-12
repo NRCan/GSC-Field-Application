@@ -115,7 +115,19 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task UpdateFieldBook()
         {
-            await Shell.Current.DisplayAlert("Alert", "Not yet implemented", "OK");
+            //Validate if selected fieldbook needs upgrade or can be upgraded
+            //New field books or empty ones shouldn't be upgraded
+            bool canUpgrade = await CanUpgradeFieldBook();
+            if (canUpgrade)
+            {
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUpgradeTitle"].ToString(),
+                    LocalizationResourceManager["FieldBooksUpgradeContentInvalid"].ToString(),
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
+            }
+                
         }
 
         [RelayCommand]
@@ -425,6 +437,30 @@ namespace GSCFieldApp.ViewModel
                 newFieldBookRequest(this, true);
             }
 
+        }
+
+        /// <summary>
+        /// Will take select fieldbook db path and will perform some checks to validate if 
+        /// database can be upgraded or not. Older schema will return true.
+        /// </summary>
+        public async Task<bool> CanUpgradeFieldBook()
+        {
+            //Variables
+            bool canUpgrade = false;
+
+            //Check #1 Needs more then one location for it to be upgradable
+            FieldLocation fieldLocationQuery = new FieldLocation();
+            int locationCount = await da.GetTableCount(fieldLocationQuery.GetType());
+
+            //Check #2 DB version must be older then current
+            double d_mVersions = await da.GetDBVersion();
+
+            if (d_mVersions != DatabaseLiterals.DBVersion && d_mVersions != 0.0 && d_mVersions < DatabaseLiterals.DBVersion)
+            {
+                canUpgrade = true;
+            }
+
+            return canUpgrade;
         }
 
         #endregion

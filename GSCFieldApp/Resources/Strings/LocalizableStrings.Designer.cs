@@ -1618,6 +1618,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current field book is already latest. .
+        /// </summary>
+        internal static string FieldBooksUpgradeContentInvalid {
+            get {
+                return ResourceManager.GetString("FieldBooksUpgradeContentInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrade.
+        /// </summary>
+        internal static string FieldBooksUpgradeTitle {
+            get {
+                return ResourceManager.GetString("FieldBooksUpgradeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing date.
         /// </summary>
         internal static string FieldNotesEmptyDate {

@@ -1341,4 +1341,10 @@
   <data name="GenericButtonContinue" xml:space="preserve">
     <value>Continue</value>
   </data>
+  <data name="FieldBooksUpgradeTitle" xml:space="preserve">
+    <value>Upgrade</value>
+  </data>
+  <data name="FieldBooksUpgradeContentInvalid" xml:space="preserve">
+    <value>Current field book is already latest. </value>
+  </data>
 </root>

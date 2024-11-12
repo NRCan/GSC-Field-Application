@@ -1342,4 +1342,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="GenericButtonContinue" xml:space="preserve">
     <value>Continuer</value>
   </data>
+  <data name="FieldBooksUpgradeTitle" xml:space="preserve">
+    <value>Mise-à-jour</value>
+  </data>
+  <data name="FieldBooksUpgradeContentInvalid" xml:space="preserve">
+    <value>Le présent carnet est déjà de la plus récente version.</value>
+  </data>
 </root>

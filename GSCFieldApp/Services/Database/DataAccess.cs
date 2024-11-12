@@ -477,6 +477,33 @@ namespace GSCFieldApp.Services.DatabaseServices
             return relatedStructure;
         }
 
+        /// <summary>
+        /// Will get a read from F_METADATA.VERSIONSCHEMA and will return value in double
+        /// </summary>
+        /// <returns></returns>
+        public async Task<double> GetDBVersion()
+        {
+            double schemaVersion = 0.0;
+
+            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
+            List<Metadata> mets = await dbConnect.Table<Metadata>().ToListAsync();
+            await dbConnect.CloseAsync();
+
+            if (mets != null && mets.Count() > 0)
+            {
+                //Default to first one 
+
+                //Parse result
+                if (mets[0].VersionSchema != null)
+                {
+                    Double.TryParse(mets[0].VersionSchema.ToString(), out schemaVersion);
+                }
+
+            }
+
+            return schemaVersion;
+        }
+
         #endregion
 
     }
