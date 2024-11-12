@@ -36,6 +36,7 @@ using Mapsui.UI.Objects;
 using Point = NetTopologySuite.Geometries.Point;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
 using System.Collections.Generic;
+using SkiaSharp.Views.Maui.Controls;
 
 
 #if ANDROID
@@ -59,6 +60,8 @@ public partial class MapPage : ContentPage
     private bool _isCheckingGeolocation = false;
     private bool _isTapMode = false;
     private bool _isDrawingLine = false;
+    private double _viewportHeightRatio = 1; //Needed to calculate ratio difference between mapsui viewport box and skiasharp box on touch action events for line drawing
+    private double _viewportWidthRatio = 1;
     private enum defaultLayerList { Stations, Linework, Traverses }
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
     private Drawable _drawable = new Drawable(); //Meant to be used for linework
@@ -480,7 +483,13 @@ public partial class MapPage : ContentPage
     {
         if (e.ActionType == SkiaSharp.Views.Maui.SKTouchAction.Moved)
         {
-            (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY(e.Location.X, e.Location.Y);
+            //Get screen ratio between skia and mapsui
+            Tuple<double, double> screenRatios = CalculateViewportRatio(sender as SKCanvasView, mapView.Map.Navigator);
+
+            //Convert screen pixel location to map location
+            (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY((e.Location.X)* screenRatios.Item1, (e.Location.Y)*screenRatios.Item2);
+            
+            //Add to linework layer
             FillLinework(clickedPoint.Item1, clickedPoint.Item2);
         }
         
@@ -1487,6 +1496,26 @@ public partial class MapPage : ContentPage
         }
 
     }
+
+    /// <summary>
+    /// Need to caculate some screen ratio between skiasharp and mapsui, 
+    /// else a drawnline will be offset baceuse skiasharpp uses a different
+    /// viewport/canvas size then mapsui.
+    /// </summary>
+    private Tuple<double, double> CalculateViewportRatio(SKCanvasView skiaBox, Navigator mapsuiBox)
+    {
+        if (_viewportHeightRatio == 1 && _viewportWidthRatio == 1)
+        {
+            if (skiaBox != null && mapsuiBox != null)
+            {
+                _viewportHeightRatio = mapsuiBox.Viewport.Height / skiaBox.CanvasSize.Height;
+                _viewportWidthRatio = mapsuiBox.Viewport.Width / skiaBox.CanvasSize.Width;
+            }
+        }
+
+        return new Tuple<double, double>(_viewportWidthRatio, _viewportHeightRatio);
+    }
+
     #endregion
 
     #region GPS
