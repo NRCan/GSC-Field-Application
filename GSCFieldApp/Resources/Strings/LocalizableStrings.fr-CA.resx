@@ -1348,4 +1348,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FieldBooksUpgradeContentInvalid" xml:space="preserve">
     <value>Le présent carnet est déjà de la plus récente version.</value>
   </data>
+  <data name="FieldBooksUpgradeContentError" xml:space="preserve">
+    <value>Une erreur s'est produite lors de la mise-à-jour. Veuillez consulter le journal d'erreur pour plus d'information.</value>
+  </data>
+  <data name="FieldBooksUpgradeContentDone" xml:space="preserve">
+    <value>Le carnet a été mis-à-jour avec succès.</value>
+  </data>
 </root>

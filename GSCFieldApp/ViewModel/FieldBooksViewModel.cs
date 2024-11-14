@@ -44,6 +44,9 @@ namespace GSCFieldApp.ViewModel
         readonly Station stationModel = new Station();
         readonly Metadata metadataModel = new Metadata();
 
+        //Others
+        private double _dbVersion = 0.0; //Will be used to track ugraded db versions
+        private double _dbNextVersion = 0.0; //Will be used to track to which version the db will be ugraded to
         //Events
         public static EventHandler<bool> newFieldBookSelected; //This event is triggered when a different fb is selected so field notes and map pages forces a refresh.  
 
@@ -115,11 +118,29 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task UpdateFieldBook()
         {
+            SetWaitingCursor(true);
+
             //Validate if selected fieldbook needs upgrade or can be upgraded
             //New field books or empty ones shouldn't be upgraded
             bool canUpgrade = await CanUpgradeFieldBook();
             if (canUpgrade)
             {
+                bool upgradeWorked = await DoUpgradeFieldBook();
+
+                //Show toast of upgrade finished
+                if (upgradeWorked)
+                {
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUpgradeTitle"].ToString(),
+                        LocalizationResourceManager["FieldBooksUpgradeContentDone"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+                else
+                {
+                    //State that something went wrong.
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUpgradeTitle"].ToString(),
+                        LocalizationResourceManager["FieldBooksUpgradeContentError"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
             }
             else
             {
@@ -127,7 +148,8 @@ namespace GSCFieldApp.ViewModel
                     LocalizationResourceManager["FieldBooksUpgradeContentInvalid"].ToString(),
                     LocalizationResourceManager["GenericButtonOk"].ToString());
             }
-                
+
+            SetWaitingCursor(false);
         }
 
         [RelayCommand]
@@ -453,14 +475,132 @@ namespace GSCFieldApp.ViewModel
             int locationCount = await da.GetTableCount(fieldLocationQuery.GetType());
 
             //Check #2 DB version must be older then current
-            double d_mVersions = await da.GetDBVersion();
+            _dbVersion = await da.GetDBVersion();
 
-            if (d_mVersions != DatabaseLiterals.DBVersion && d_mVersions != 0.0 && d_mVersions < DatabaseLiterals.DBVersion)
+            if (_dbVersion != DatabaseLiterals.DBVersion && _dbVersion != 0.0 && _dbVersion < DatabaseLiterals.DBVersion)
             {
                 canUpgrade = true;
             }
 
             return canUpgrade;
+        }
+
+        /// <summary>
+        /// Will upgrade a selected field book to the latest schema version
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> DoUpgradeFieldBook()
+        { 
+            bool upgradeFinished = false;
+
+            //Upgrade until latest version
+            while (_dbVersion < DatabaseLiterals.DBVersion)
+            {
+
+                //Get a new legacy database name
+                string legacyDB = GetLegacyDBNamePath(_dbVersion);
+
+                //Create a brand new legacy database
+                await da.CreateDatabaseFromResource(legacyDB, legacyDB.Substring(legacyDB.IndexOf("_v")));
+
+                //Last check on db version
+                _dbVersion = _dbNextVersion;
+
+                //TEMP
+                upgradeFinished = true;
+
+            }
+
+            return upgradeFinished;
+        }
+
+        /// <summary>
+        /// Will build a new database name and path to store upgraded result for a given version
+        /// to the next one (e.g. 1.6 db named Salluit.gpkg will output Salluit_V170.gpkg)
+        /// </summary>
+        /// <returns></returns>
+        public string GetLegacyDBNamePath(double dbVersion)
+        {
+            //output
+            string legacyDBPath = string.Empty;
+
+            //Keep current database path before creating the new one
+            string legacyDepot = FileSystem.Current.AppDataDirectory;
+
+            //Get current file name
+            string legacyFileName = Path.GetFileNameWithoutExtension(da.PreferedDatabasePath);
+
+            //Get next version number
+            _dbNextVersion = GetNextLegacyDBVersion(dbVersion);
+
+            //Build a new one
+            if (_dbNextVersion < DatabaseLiterals.DBVersion150)
+            {
+                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString().Replace(".", "") + DatabaseLiterals.DBTypeSqliteDeprecated;
+            }
+            else if (_dbNextVersion < DatabaseLiterals.DBVersion170 && _dbNextVersion >= DatabaseLiterals.DBVersion150)
+            {
+                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqliteDeprecated;
+            }
+            else if (_dbNextVersion < DatabaseLiterals.DBVersion && _dbNextVersion >= DatabaseLiterals.DBVersion170)
+            {
+                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
+            }
+            else 
+            {
+                //Current defaulting to 1.9
+                legacyFileName = legacyFileName + DatabaseLiterals.DBTypeSqlite;
+            }
+
+            //Build path
+            legacyDBPath = Path.Combine(legacyDepot, legacyFileName);
+
+            return legacyDBPath;
+        }
+
+
+        /// <summary>
+        /// Will output the next legacy version that follows a given one
+        /// </summary>
+        /// <param name="dbVersion"></param>
+        /// <returns></returns>
+        public double GetNextLegacyDBVersion(double dbVersion)
+        {
+            //output
+            double nextVersion = dbVersion;
+
+            if (dbVersion == 1.42)
+            {
+                nextVersion = DatabaseLiterals.DBVersion143;
+            }
+            else if (dbVersion == 1.43)
+            {
+                nextVersion = DatabaseLiterals.DBVersion144;
+            }
+            else if (dbVersion == 1.44)
+            {
+                nextVersion = DatabaseLiterals.DBVersion150;
+            }
+            else if (dbVersion == 1.5)
+            {
+                nextVersion = DatabaseLiterals.DBVersion160;
+            }
+            else if (dbVersion == 1.6)
+            {
+                nextVersion = DatabaseLiterals.DBVersion170;
+            }
+            else if (dbVersion == 1.7)
+            {
+                nextVersion = DatabaseLiterals.DBVersion170;
+
+            }
+            else if (dbVersion == 1.8)
+            {
+                nextVersion = DatabaseLiterals.DBVersion190;
+
+            }
+
+            return nextVersion;
         }
 
         #endregion

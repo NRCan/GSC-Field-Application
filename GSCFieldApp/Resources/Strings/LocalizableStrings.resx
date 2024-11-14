@@ -1347,4 +1347,10 @@
   <data name="FieldBooksUpgradeContentInvalid" xml:space="preserve">
     <value>Current field book is already latest. </value>
   </data>
+  <data name="FieldBooksUpgradeContentError" xml:space="preserve">
+    <value>An error occured while doing the upgrade. Enable debug log for more information.</value>
+  </data>
+  <data name="FieldBooksUpgradeContentDone" xml:space="preserve">
+    <value>Field book has been upgraded successfully.</value>
+  </data>
 </root>

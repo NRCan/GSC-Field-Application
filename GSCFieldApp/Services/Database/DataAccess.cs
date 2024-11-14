@@ -91,14 +91,19 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// Will write an embedded resource to a file with a binary writer. In case it exists, it will replace it.
         /// Will save the resource to the local folder.
         /// </summary>
-        public async Task<bool> CreateDatabaseFromResource(string outputDatabasePath)
+        public async Task<bool> CreateDatabaseFromResource(string outputDatabasePath, string resourceName = "")
         {
             try
             {
                 if (!File.Exists(outputDatabasePath))
                 {
+                    if (resourceName == string.Empty)
+                    {
+                        resourceName = @"GSCFieldwork.gpkg";
+                    }
+
                     //Open stream with embeded resource
-                    using Stream package = await FileSystem.OpenAppPackageFileAsync(@"GSCFieldwork.gpkg");
+                    using Stream package = await FileSystem.OpenAppPackageFileAsync(resourceName);
 
                     //Open empty stream for output file
                     using FileStream outputStream = System.IO.File.OpenWrite(outputDatabasePath);
