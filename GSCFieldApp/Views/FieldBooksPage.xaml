@@ -19,6 +19,8 @@
         <conv:ColorFromBoolConverterFieldBooks x:Key="str2Color"/>
         <conv:String2Integers x:Key="str2int"/>
         <conv:BoolFromStringConverter x:Key="str2Bool"/>
+        <conv:VisibilityFromReverseBoolConverter x:Key="reverseBool"/>
+        
         <!--Templates-->
         <DataTemplate x:Key="FieldbooksSelectedTemplate" x:DataType="model:FieldBooks" >
             <VerticalStackLayout>
@@ -80,8 +82,12 @@
 
                         </Label>
 
+                        <Label Text="{local:Localize FieldBooksInvalidVersion}" IsVisible="{Binding isValid, Converter={StaticResource reverseBool}}"
+                           FontAutoScalingEnabled="True" Margin="25,0,0,0" TextColor="Red" FontAttributes="Bold"
+                           Grid.Column="1" Grid.Row="6"/>
+                        
                         <Image x:Name="fieldbook_logo" Grid.Column="1" Margin="15,0,0,0" HeightRequest="100" 
-                       Grid.Row="7" HorizontalOptions="Center" VerticalOptions="Center" Source="logo.png"/>
+                            Grid.Row="7" HorizontalOptions="Center" VerticalOptions="Center" Source="logo.png"/>
 
                         <Rectangle Grid.RowSpan="8" Grid.Column="0" Margin="-5,0,0,0" HorizontalOptions="Start" Fill="{StaticResource Secondary}"/>
 

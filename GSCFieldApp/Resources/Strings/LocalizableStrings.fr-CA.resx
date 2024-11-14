@@ -1354,4 +1354,13 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FieldBooksUpgradeContentDone" xml:space="preserve">
     <value>Le carnet a été mis-à-jour avec succès.</value>
   </data>
+  <data name="FieldBooksUploadTitle" xml:space="preserve">
+    <value>Téléverser carnet de terrain</value>
+  </data>
+  <data name="FieldBooksUploadContentInvalid" xml:space="preserve">
+    <value>Le fichier sélectionné est soit vide ou soit non conforme au modèle de données de l'application de données de terrain.</value>
+  </data>
+  <data name="FieldBooksInvalidVersion" xml:space="preserve">
+    <value>Mise-à-jour requise</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@ using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using GSCFieldApp.Services.DatabaseServices;
 using GSCFieldApp.Views;
 using NetTopologySuite.IO;
+using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.Models
 {
@@ -20,6 +21,33 @@ namespace GSCFieldApp.Models
         public string CreateDate { get; set; }
         public Metadata metadataForProject { get; set; }
         public bool isSelected { get; set; }
+        public bool isValid 
+        {
+            get
+            {
+                if (metadataForProject != null && metadataForProject.VersionSchema != null)
+                {
+
+                    double version = double.Parse(metadataForProject.VersionSchema);
+
+                    if (!double.IsNaN(version) && version == DatabaseLiterals.DBVersion)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set { }
+        }
+
         private DataAccess da = new DataAccess();
 
         #endregion

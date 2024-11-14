@@ -206,34 +206,45 @@ namespace GSCFieldApp.Services
             FilePickerFileType customFileType = new FilePickerFileType(
                 new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
-                                    {DevicePlatform.WinUI, new [] { DatabaseLiterals.DBTypeSqlite} },
+                                    {DevicePlatform.WinUI, new [] { DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated} },
                                     {DevicePlatform.Android, new [] { "application/*"} },
-                                    {DevicePlatform.iOS, new [] { DatabaseLiterals.DBTypeSqlite } },
+                                    {DevicePlatform.iOS, new [] { DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated } },
                 });
 
             PickOptions options = new PickOptions();
-            options.PickerTitle = "Upload Field Book";
+            options.PickerTitle = LocalizationResourceManager["FieldBooksUploadTitle"].ToString();
             options.FileTypes = customFileType;
 
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
             {
-                if (result.FileName.Contains(DatabaseLiterals.DBTypeSqlite))
+                //Get proper database name to fit standard naming template
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(result.FullPath);
+                List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
+                await currentConnection.CloseAsync();
+
+                if (metadataTableRows != null && metadataTableRows.Count() == 1)
                 {
-                    //Get proper database name to fit standard naming template
-                    SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(result.FullPath);
-                    List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
-                    if (metadataTableRows != null && metadataTableRows.Count() == 1)
+                    copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+
+                    //Legacy extension
+                    if (result.FileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
                     {
-                        copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+                        copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
                     }
-                    await currentConnection.CloseAsync();
 
                     //Copy to local state
                     using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
                     using (Stream incomingFieldBookStream = System.IO.File.OpenRead(result.FullPath))
-                    await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
-
+                        await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
+                }
+                else
+                {
+                    //Show error
+                    new ErrorToLogFile(LocalizationResourceManager["FieldBooksUploadContentInvalid"].ToString()).WriteToFile();
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
+                        LocalizationResourceManager["FieldBooksUploadContentInvalid"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
                 }
 
             }

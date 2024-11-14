@@ -101,7 +101,7 @@ namespace GSCFieldApp.ViewModel
             string uploadFB = await appFileServices.UploadFieldBook();
 
             //Refresh list
-            if (uploadFB.Contains(DBTypeSqlite))
+            if (uploadFB.Contains(DBTypeSqlite) || uploadFB.Contains(DBTypeSqliteDeprecated))
             {
                 FillBookCollectionAsync();
             }
@@ -361,10 +361,10 @@ namespace GSCFieldApp.ViewModel
             //Push prefered field book at first place
             if (_fieldbookCollection != null && _fieldbookCollection.Count() > 1)
             {
-                FieldBooks prefFB = _fieldbookCollection.Where(x => x.isSelected).First();
-                if (prefFB != null)
+                List<FieldBooks> prefFB = _fieldbookCollection.Where(x => x.isSelected).ToList();
+                if (prefFB != null && prefFB.Count > 0)
                 {
-                    int currentPreferedIndex = _fieldbookCollection.IndexOf(prefFB);
+                    int currentPreferedIndex = _fieldbookCollection.IndexOf(prefFB.First());
                     _fieldbookCollection.Move(currentPreferedIndex, 0);
                 }
             }
@@ -493,6 +493,14 @@ namespace GSCFieldApp.ViewModel
         { 
             bool upgradeFinished = false;
 
+            //Rename selected field book with version number
+            string legacyDBInit = GetLegacyDBNamePath(_dbVersion, false);
+            if (!File.Exists(legacyDBInit) )
+            {
+                System.IO.File.Move(da.PreferedDatabasePath, legacyDBInit);
+                da.PreferedDatabasePath = legacyDBInit;
+            }
+
             //Upgrade until latest version
             while (_dbVersion < DatabaseLiterals.DBVersion)
             {
@@ -500,8 +508,15 @@ namespace GSCFieldApp.ViewModel
                 //Get a new legacy database name
                 string legacyDB = GetLegacyDBNamePath(_dbVersion);
 
+                //Build ressource file name
+                string legacyResource = string.Empty;
+                if (legacyDB.Contains("_v"))
+                {
+                    legacyResource = DatabaseLiterals.DBName + legacyDB.Substring(legacyDB.IndexOf("_v"));
+                }
+
                 //Create a brand new legacy database
-                await da.CreateDatabaseFromResource(legacyDB, legacyDB.Substring(legacyDB.IndexOf("_v")));
+                await da.CreateDatabaseFromResource(legacyDB, legacyResource);
 
                 //Last check on db version
                 _dbVersion = _dbNextVersion;
@@ -519,7 +534,7 @@ namespace GSCFieldApp.ViewModel
         /// to the next one (e.g. 1.6 db named Salluit.gpkg will output Salluit_V170.gpkg)
         /// </summary>
         /// <returns></returns>
-        public string GetLegacyDBNamePath(double dbVersion)
+        public string GetLegacyDBNamePath(double dbVersion, bool withNextVersion = true)
         {
             //output
             string legacyDBPath = string.Empty;
@@ -531,9 +546,22 @@ namespace GSCFieldApp.ViewModel
             string legacyFileName = Path.GetFileNameWithoutExtension(da.PreferedDatabasePath);
 
             //Get next version number
-            _dbNextVersion = GetNextLegacyDBVersion(dbVersion);
+            if (withNextVersion)
+            {
+                _dbNextVersion = GetNextLegacyDBVersion(dbVersion);
+            }
+            else
+            {
+                _dbNextVersion = dbVersion;
+            }
 
             //Build a new one
+            if (legacyFileName.Contains("_v"))
+            {
+                //Make sure to remove iterated versions from name
+                legacyFileName = legacyFileName.Substring(0,legacyFileName.IndexOf("_v")); 
+            }
+            
             if (_dbNextVersion < DatabaseLiterals.DBVersion150)
             {
                 legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString().Replace(".", "") + DatabaseLiterals.DBTypeSqliteDeprecated;
@@ -591,7 +619,7 @@ namespace GSCFieldApp.ViewModel
             }
             else if (dbVersion == 1.7)
             {
-                nextVersion = DatabaseLiterals.DBVersion170;
+                nextVersion = DatabaseLiterals.DBVersion180;
 
             }
             else if (dbVersion == 1.8)

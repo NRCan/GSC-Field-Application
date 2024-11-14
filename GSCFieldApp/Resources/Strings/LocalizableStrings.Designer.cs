@@ -1618,6 +1618,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upgrade needed.
+        /// </summary>
+        internal static string FieldBooksInvalidVersion {
+            get {
+                return ResourceManager.GetString("FieldBooksInvalidVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Field book has been upgraded successfully..
         /// </summary>
         internal static string FieldBooksUpgradeContentDone {
@@ -1650,6 +1659,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string FieldBooksUpgradeTitle {
             get {
                 return ResourceManager.GetString("FieldBooksUpgradeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected database is either empty or not a field app model..
+        /// </summary>
+        internal static string FieldBooksUploadContentInvalid {
+            get {
+                return ResourceManager.GetString("FieldBooksUploadContentInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Field Book.
+        /// </summary>
+        internal static string FieldBooksUploadTitle {
+            get {
+                return ResourceManager.GetString("FieldBooksUploadTitle", resourceCulture);
             }
         }
         
