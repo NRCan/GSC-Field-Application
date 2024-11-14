@@ -271,9 +271,9 @@ namespace GSCFieldApp.ViewModel
                 //Check if file size is higher then 0
                 if (fi.Length > 0) 
                 {
-                    //Get the databases but not the main default one
+                    //Get the databases but not the main default one or the legacy ones
                     if ((fi.Extension.Contains(DBTypeSqlite) || fi.Extension.Contains(DBTypeSqliteDeprecated))
-                        && !fi.Name.Contains(DBName))
+                        && !fi.Name.Contains(DBName) && !fi.Name.Contains("_v"))
                     {
 
                         //Connect to found database and retrive some information from it
