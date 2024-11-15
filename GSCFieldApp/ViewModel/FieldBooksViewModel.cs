@@ -133,6 +133,9 @@ namespace GSCFieldApp.ViewModel
                     await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUpgradeTitle"].ToString(),
                         LocalizationResourceManager["FieldBooksUpgradeContentDone"].ToString(),
                         LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                    //Refresh
+                    FillBookCollectionAsync();
                 }
                 else
                 {
@@ -276,64 +279,69 @@ namespace GSCFieldApp.ViewModel
                         && !fi.Name.Contains(DBName) && !fi.Name.Contains("_v"))
                     {
 
-                        //Connect to found database and retrive some information from it
+                        //Connect to database and retrieve some information from it
                         FieldBooks currentBook = new FieldBooks();
                         SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(fi.FullName);
 
                         //Get metadata records
-                        Metadata metadataTableRows = await currentConnection.Table<Metadata>()?.FirstAsync();
-                        if(metadataTableRows != null) 
+                        List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>().ToListAsync();
+                        if (metadataTableRows != null && metadataTableRows.Count() > 0)
                         {
-                            //For metadata
-                            currentBook.CreateDate = metadataTableRows.StartDate;
-                            currentBook.GeologistGeolcode = metadataTableRows.Geologist + "[" + metadataTableRows.UserCode + "]";
-                            currentBook.ProjectPath = FileSystem.Current.AppDataDirectory;
-                            currentBook.ProjectDBPath = fi.FullName;
-                            currentBook.metadataForProject = metadataTableRows;
+                            Metadata validMetadata = metadataTableRows.First();
 
-                            //Manage to select last prefered fieldbook
-                            string preferedDBPath = Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty);
-                            if (currentBook.ProjectDBPath == preferedDBPath)
+                            if (validMetadata != null)
                             {
-                                currentBook.isSelected = true;
-                                _selectedFieldBook = currentBook;
-                                
-                                OnPropertyChanged(nameof(SelectedFieldBook));
+                                //For metadata
+                                currentBook.CreateDate = validMetadata.StartDate;
+                                currentBook.GeologistGeolcode = validMetadata.Geologist + "[" + validMetadata.UserCode + "]";
+                                currentBook.ProjectPath = FileSystem.Current.AppDataDirectory;
+                                currentBook.ProjectDBPath = fi.FullName;
+                                currentBook.metadataForProject = validMetadata;
+
+                                //Manage to select last prefered fieldbook
+                                string preferedDBPath = Preferences.Get(ApplicationLiterals.preferenceDatabasePath, string.Empty);
+                                if (currentBook.ProjectDBPath == preferedDBPath)
+                                {
+                                    currentBook.isSelected = true;
+                                    _selectedFieldBook = currentBook;
+
+                                    OnPropertyChanged(nameof(SelectedFieldBook));
+                                }
+                                else
+                                {
+                                    currentBook.isSelected = false;
+                                }
+                            }
+
+                            //For stations
+                            string stationQuerySelect = "SELECT *";
+                            string stationQueryFrom = " FROM " + TableStation;
+                            string stationQueryWhere = " WHERE " + TableStation + "." + FieldStationAlias + " NOT LIKE '%" + KeywordStationWaypoint + "%'";
+                            string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
+                            List<Station> stationCountResult = await currentConnection.Table<Station>().ToListAsync();
+                            if (stationCountResult != null && stationCountResult.Count > 0)
+                            {
+                                currentBook.StationNumber = stationCountResult.Count.ToString();
+                            }
+                            else if (stationCountResult != null && stationCountResult.Count == 0)
+                            {
+                                currentBook.StationNumber = "0";
                             }
                             else
                             {
-                                currentBook.isSelected = false;
+                                currentBook.StationNumber = "?";
                             }
-                        }
+                            if (stationCountResult.Count != 0)
+                            {
+                                Station lastStation = (Station)stationCountResult[stationCountResult.Count - 1];
+                                currentBook.StationLastEntered = lastStation.StationAlias;
+                            }
 
-                        //For stations
-                        string stationQuerySelect = "SELECT *";
-                        string stationQueryFrom = " FROM " + TableStation;
-                        string stationQueryWhere = " WHERE " + TableStation + "." + FieldStationAlias + " NOT LIKE '%" + KeywordStationWaypoint + "%'";
-                        string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
-                        List<Station> stationCountResult = await currentConnection.Table<Station>().ToListAsync();
-                        if (stationCountResult != null && stationCountResult.Count > 0)
-                        {
-                            currentBook.StationNumber = stationCountResult.Count.ToString();
-                        }
-                        else if (stationCountResult != null && stationCountResult.Count == 0)
-                        {
-                            currentBook.StationNumber = "0";
-                        }
-                        else
-                        {
-                            currentBook.StationNumber = "?";
-                        }
-                        if (stationCountResult.Count != 0)
-                        {
-                            Station lastStation = (Station)stationCountResult[stationCountResult.Count - 1];
-                            currentBook.StationLastEntered = lastStation.StationAlias;
-                        }
+                            if (!_fieldbookCollection.Contains(currentBook))
+                            {
+                                _fieldbookCollection.Add(currentBook);
 
-                        if (!_fieldbookCollection.Contains(currentBook))
-                        {
-                            _fieldbookCollection.Add(currentBook);
-                            
+                            }
                         }
 
                         await currentConnection.CloseAsync();
@@ -491,14 +499,14 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task<bool> DoUpgradeFieldBook()
         { 
-            bool upgradeFinished = false;
+            bool upgradeWorked = false;
 
             //Rename selected field book with version number
-            string legacyDBInit = GetLegacyDBNamePath(_dbVersion, false);
-            if (!File.Exists(legacyDBInit) )
+            string legacyDBFrom = GetLegacyDBNamePath(_dbVersion, false);
+            if (!File.Exists(legacyDBFrom) )
             {
-                System.IO.File.Move(da.PreferedDatabasePath, legacyDBInit);
-                da.PreferedDatabasePath = legacyDBInit;
+                System.IO.File.Move(da.PreferedDatabasePath, legacyDBFrom);
+                da.PreferedDatabasePath = legacyDBFrom;
             }
 
             //Upgrade until latest version
@@ -506,27 +514,39 @@ namespace GSCFieldApp.ViewModel
             {
 
                 //Get a new legacy database name
-                string legacyDB = GetLegacyDBNamePath(_dbVersion);
+                string legacyDBTo = GetLegacyDBNamePath(_dbVersion);
 
                 //Build ressource file name
                 string legacyResource = string.Empty;
-                if (legacyDB.Contains("_v"))
+                if (legacyDBTo.Contains("_v"))
                 {
-                    legacyResource = DatabaseLiterals.DBName + legacyDB.Substring(legacyDB.IndexOf("_v"));
+                    legacyResource = DatabaseLiterals.DBName + legacyDBTo.Substring(legacyDBTo.IndexOf("_v"));
                 }
 
-                //Create a brand new legacy database
-                await da.CreateDatabaseFromResource(legacyDB, legacyResource);
+                //Create a brand new legacy database 
+                bool createdLegacyDB = await da.CreateDatabaseFromResource(legacyDBTo, legacyResource);
 
-                //Last check on db version
+                if (createdLegacyDB)
+                {
+                    //Connect to the new working database
+                    SQLiteAsyncConnection upgradeDBConnection = da.GetConnectionFromPath(legacyDBTo);
+
+                    //Keep user vocab dictionaries
+                    upgradeWorked = await da.GetLatestVocab(legacyDBFrom, upgradeDBConnection, _dbVersion, true);
+
+                    //Upgrade other tables
+
+                    //Close
+                    await upgradeDBConnection.CloseAsync();
+                }
+
+                //Iterate version and legacy database path
                 _dbVersion = _dbNextVersion;
-
-                //TEMP
-                upgradeFinished = true;
+                legacyDBFrom = legacyDBTo;
 
             }
 
-            return upgradeFinished;
+            return upgradeWorked;
         }
 
         /// <summary>

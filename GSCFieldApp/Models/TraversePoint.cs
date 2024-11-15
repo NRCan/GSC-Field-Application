@@ -95,7 +95,7 @@ namespace GSCFieldApp.Models
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        travPointFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        travPointFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

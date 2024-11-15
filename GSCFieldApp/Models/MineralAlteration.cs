@@ -87,7 +87,7 @@ namespace GSCFieldApp.Models
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        maFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        maFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

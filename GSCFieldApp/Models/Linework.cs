@@ -52,7 +52,7 @@ namespace GSCFieldApp.Models
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        lineworkFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        lineworkFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

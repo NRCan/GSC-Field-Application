@@ -104,7 +104,7 @@ namespace GSCFieldApp.Models
                 {
                     if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        stationFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        stationFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

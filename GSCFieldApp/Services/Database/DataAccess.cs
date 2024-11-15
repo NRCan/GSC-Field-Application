@@ -11,12 +11,17 @@ using System.Diagnostics;
 using BruTile.Wmts.Generated;
 using GSCFieldApp.Controls;
 using NetTopologySuite.Index.HPRtree;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
     public class DataAccess
     {
         public static SQLiteAsyncConnection _dbConnection;
+
+        //Localization
+        public LocalizationResourceManager LocalizationResourceManager
+            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
         //TODO: find why on android .gpkg isn't a valid file type even though the database is sqlite.
 
@@ -508,6 +513,143 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return schemaVersion;
         }
+
+        /// <summary>
+        /// Will take an input database and will upgrade output database vocab tables (dictionaries) with latest coming from an input version
+        /// </summary>
+        public async Task<bool> GetLatestVocab(string vocabFromDBPath, SQLiteAsyncConnection vocabToDBConnection, double fromDBVersion, bool closeConnection = true)
+        {
+            //Output
+            bool completedWithoutErrors = false;
+
+            //Will hold all queries needed to be committed
+            List<string> queryList = new List<string>() { };
+            List<Exception> exceptionList = new List<Exception>();
+
+            //Build attach db query
+            string attachDBName = "db2";
+            string attachQuery = "ATTACH '" + vocabFromDBPath + "' AS " + attachDBName + ";";
+            queryList.Add(attachQuery);
+
+            //Build insert queries
+            #region M_DICTIONARY
+
+            Vocabularies modelVocab = new Vocabularies();
+            List<string> vocabFieldList = modelVocab.getFieldList[DBVersion];
+            string vocab_querySelect = string.Empty;
+
+            foreach (string vocabFields in vocabFieldList)
+            {
+                //Get all fields except alias
+                if (vocabFields != vocabFieldList.First())
+                {
+
+                    if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && fromDBVersion >= 1.5)
+                    {
+                        vocab_querySelect = vocab_querySelect +
+                            ", iif(NOT EXISTS (SELECT sql from " + attachDBName + ".sqlite_master where sql LIKE '%" + DatabaseLiterals.TableDictionary + "%" + DatabaseLiterals.FieldDictionaryVersion +
+                            "%'),v." + DatabaseLiterals.FieldDictionaryVersion + ",NULL) as " + DatabaseLiterals.FieldDictionaryVersion;
+                    }
+                    else if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && fromDBVersion == 1.44)
+                    {
+                        vocab_querySelect = vocab_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldDictionaryVersion;
+                    }
+                    else if (vocabFields == DatabaseLiterals.FieldDictionaryVersion && fromDBVersion < 1.5)
+                    {
+                        //Do nothing, field didn't exist
+                    }
+                    else
+                    {
+                        vocab_querySelect = vocab_querySelect + ", v." + vocabFields + " as " + vocabFields;
+                    }
+
+                }
+                else
+                {
+                    if (vocabFields == FieldGenericRowID && fromDBVersion >= DBVersion160)
+                    {
+                        vocab_querySelect = " NULL as " + vocabFields; //Don't insert the ids back
+                    }
+                    else if (vocabFields == FieldGenericRowID && fromDBVersion < DBVersion160)
+                    {
+                        //Do nothing, skip that one, it was added in version 1.7
+                    }
+
+
+                }
+
+            }
+            vocab_querySelect = vocab_querySelect.Replace(", ,", "");
+
+            string insertQuery_vocab = "INSERT INTO " + DatabaseLiterals.TableDictionary + " SELECT " + vocab_querySelect;
+            insertQuery_vocab = insertQuery_vocab.Replace("SELECT ,", "SELECT ");
+            insertQuery_vocab = insertQuery_vocab + " FROM " + attachDBName + "." + DatabaseLiterals.TableDictionary + " as v";
+
+            insertQuery_vocab = insertQuery_vocab + " WHERE v." + FieldDictionaryCreator + " not in (select distinct(md." +
+                FieldDictionaryCreator + ") from " + TableDictionary + " as md)";
+            insertQuery_vocab = insertQuery_vocab + " AND v." + FieldDictionaryTermID + " not in (select md." + FieldDictionaryTermID + " from " +
+                TableDictionary + " as md);";
+            queryList.Add(insertQuery_vocab);
+
+            #endregion
+
+            //Build detach query
+            string detachQuery = "DETACH DATABASE " + attachDBName + ";";
+            queryList.Add(detachQuery);
+
+            //Build vacuum query
+            string vacuumQuery = "VACUUM;";
+            queryList.Add(vacuumQuery);
+
+            //Update working database
+            foreach (string q in queryList)
+            {
+                try
+                {
+                    await vocabToDBConnection.ExecuteAsync(q);
+                }
+                catch (Exception e)
+                {
+                    exceptionList.Add(e);
+                }
+
+            }
+
+            //Close if needed
+            if (closeConnection)
+            {
+
+                await vocabToDBConnection.CloseAsync();
+            }
+
+            //Process exceptions
+            if (exceptionList.Count > 0)
+            {
+                string wholeStack = string.Empty;
+
+                foreach (Exception es in exceptionList)
+                {
+                    wholeStack = wholeStack + "; " + es.Message + "; " + es.StackTrace;
+                }
+
+                foreach (string q in queryList)
+                {
+                    wholeStack = wholeStack + "\n " + q;
+                }
+
+                //Log
+                new ErrorToLogFile(wholeStack + "\n DBVersion:" + fromDBVersion).WriteToFile();
+
+            }
+            else
+            {
+                completedWithoutErrors = true;
+            }
+
+            return completedWithoutErrors;
+        }
+
 
         #endregion
 

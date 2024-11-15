@@ -132,6 +132,10 @@ namespace GSCFieldApp.Services
                         }
                             
                         break;
+                    case DatabaseLiterals.TableNames.linework:
+                        //Location always does a cascades delete
+                        numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableLinework, DatabaseLiterals.FieldLineworkID, itemID);
+                        break;
                     default:
                         break;
                 }
