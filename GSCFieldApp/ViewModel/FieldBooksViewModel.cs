@@ -799,6 +799,9 @@ namespace GSCFieldApp.ViewModel
             if (fromDBVersion == DBVersion180)
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_9(attachDBName));
+
+                //Remove table that needs a special update query
+                basicInsertQueriesTables.Remove(TableSample);
             }
             #endregion
 
@@ -2200,7 +2203,7 @@ namespace GSCFieldApp.ViewModel
             #region F_SAMPLE
 
             Sample modelSample = new Sample();
-            List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion180];
             string sample_querySelect = string.Empty;
 
             foreach (string sampleFields in sampleFieldList)
@@ -2469,6 +2472,43 @@ namespace GSCFieldApp.ViewModel
             //https://github.com/NRCan/GSC-Field-Application/milestone/13
             List<string> insertQuery_19 = new List<string>();
 
+            #region F_SAMPLE
+
+            Sample modelSample = new Sample();
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+            string sample_querySelect = string.Empty;
+
+            foreach (string sampleFields in sampleFieldList)
+            {
+                //Get all fields except alias
+
+                if (sampleFields != sampleFieldList.First())
+                {
+                    if (sampleFields == DatabaseLiterals.FieldSampleFrostBoil)
+                    {
+                        sample_querySelect = sample_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldSampleFrostBoil;
+                    }
+
+                    else
+                    {
+                        sample_querySelect = sample_querySelect + ", sm." + sampleFields + " as " + sampleFields;
+                    }
+
+                }
+                else
+                {
+                    sample_querySelect = " sm." + sampleFields + " as " + sampleFields;
+                }
+
+            }
+            sample_querySelect = sample_querySelect.Replace(", ,", "");
+
+            string insertQuery_19_sample = "INSERT INTO " + DatabaseLiterals.TableSample + " SELECT " + sample_querySelect;
+            insertQuery_19_sample = insertQuery_19_sample + " FROM " + attachedDBName + "." + DatabaseLiterals.TableSample + " as sm";
+            insertQuery_19.Add(insertQuery_19_sample);
+
+            #endregion
 
             return insertQuery_19;
         }
