@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     [Table(TableStructure)]
     public class Structure
     {
-        [PrimaryKey, AutoIncrement, Column(FieldStructureID)]
+        [Column(FieldStructureID), PrimaryKey, AutoIncrement]
         public int StructureID { get; set; }
 
         [Column(FieldStructureName)]
@@ -364,12 +364,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> structureFieldList = new Dictionary<double, List<string>>();
                 List<string> structureFieldListDefault = new List<string>();
 
-                structureFieldListDefault.Add(FieldStructureID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        structureFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        structureFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

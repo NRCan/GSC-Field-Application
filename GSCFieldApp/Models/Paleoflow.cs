@@ -9,7 +9,7 @@ namespace GSCFieldApp.Models
     [Table(TablePFlow)]
     public class Paleoflow
     {
-        [PrimaryKey, AutoIncrement, Column(FieldPFlowID)]
+        [Column(FieldPFlowID), PrimaryKey, AutoIncrement]
         public int PFlowID { get; set; }
 
         [Column(FieldPFlowName)]
@@ -98,12 +98,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> pflowFieldList = new Dictionary<double, List<string>>();
                 List<string> pflowFieldListDefault = new List<string>();
 
-                pflowFieldListDefault.Add(FieldPFlowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        pflowFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        pflowFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

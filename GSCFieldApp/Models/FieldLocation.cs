@@ -12,7 +12,7 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldLocationID)]
+        [Column(DatabaseLiterals.FieldLocationID), PrimaryKey, AutoIncrement]
         public int LocationID { get; set; }
 
         [Column(DatabaseLiterals.FieldGenericGeometry)]
@@ -138,12 +138,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> locationFieldList = new Dictionary<double, List<string>>();
                 List<string> locationFieldListDefault = new List<string>();
 
-                locationFieldListDefault.Add(DatabaseLiterals.FieldLocationID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        locationFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        locationFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

@@ -13,7 +13,7 @@ namespace GSCFieldApp.Models
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableLocation;
 
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldDocumentID)]
+        [Column(DatabaseLiterals.FieldDocumentID), PrimaryKey, AutoIncrement]
         public int DocumentID { get; set; }
 
         [Column(DatabaseLiterals.FieldDocumentName)]
@@ -140,12 +140,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> documentFieldList = new Dictionary<double, List<string>>();
                 List<string> documentFieldListDefault = new List<string>();
 
-                documentFieldListDefault.Add(DatabaseLiterals.FieldDocumentID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        documentFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        documentFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

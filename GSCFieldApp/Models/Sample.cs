@@ -9,7 +9,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableSample)]
     public class Sample
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldSampleID)]
+        [Column(DatabaseLiterals.FieldSampleID), PrimaryKey, AutoIncrement]
         public int SampleID { get; set; }
 
         [Column(DatabaseLiterals.FieldSampleName)]
@@ -129,12 +129,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> sampleFieldList = new Dictionary<double, List<string>>();
                 List<string> sampleFieldListDefault = new List<string>();
 
-                sampleFieldListDefault.Add(DatabaseLiterals.FieldSampleID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        sampleFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        sampleFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

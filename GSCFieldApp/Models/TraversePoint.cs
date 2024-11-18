@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableTraversePoint)]
     public class TraversePoint
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldTravPointID)]
+        [Column(DatabaseLiterals.FieldTravPointID), PrimaryKey, AutoIncrement]
         public int TravID { get; set; }
 
         [Column(DatabaseLiterals.FieldTravPointGeometry)]
@@ -90,12 +90,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> travPointFieldList = new Dictionary<double, List<string>>();
                 List<string> travPointFieldListDefault = new List<string>();
 
-                travPointFieldListDefault.Add(DatabaseLiterals.FieldTravPointID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        travPointFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        travPointFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

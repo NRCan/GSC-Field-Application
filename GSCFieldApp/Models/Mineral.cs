@@ -11,7 +11,7 @@ namespace GSCFieldApp.Models
     public class Mineral
     {
 
-        [PrimaryKey, AutoIncrement, Column(FieldMineralID)]
+        [Column(FieldMineralID), PrimaryKey, AutoIncrement]
         public int MineralID { get; set; }
 
         [Column(FieldMineralIDName)]
@@ -84,12 +84,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> mineralFieldList = new Dictionary<double, List<string>>();
                 List<string> mineralFieldListDefault = new List<string>();
 
-                mineralFieldListDefault.Add(FieldMineralID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        mineralFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        mineralFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

@@ -9,7 +9,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableDictionaryManager)]
     public class VocabularyManager
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID)]
+        [Column(DatabaseLiterals.FieldGenericRowID), PrimaryKey, AutoIncrement]
         public int rowid { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryManagerLinkID)]
@@ -53,12 +53,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> vocabManagerFieldList = new Dictionary<double, List<string>>();
                 List<string> vocabManagerFieldListDefault = new List<string>();
 
-                vocabManagerFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        vocabManagerFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        vocabManagerFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

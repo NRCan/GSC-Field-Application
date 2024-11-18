@@ -485,7 +485,10 @@ namespace GSCFieldApp.ViewModel
             //Check #2 DB version must be older then current
             _dbVersion = await da.GetDBVersion();
 
-            if (_dbVersion != DatabaseLiterals.DBVersion && _dbVersion != 0.0 && _dbVersion < DatabaseLiterals.DBVersion)
+            if (_dbVersion != DatabaseLiterals.DBVersion 
+                && _dbVersion != 0.0 
+                && _dbVersion < DatabaseLiterals.DBVersion
+                && locationCount > 0)
             {
                 canUpgrade = true;
             }
@@ -510,7 +513,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Upgrade until latest version
-            while (_dbVersion < DatabaseLiterals.DBVersion && upgradeWorked)
+            while (_dbVersion < DatabaseLiterals.DBVersion)
             {
 
                 //Get a new legacy database name
@@ -538,9 +541,9 @@ namespace GSCFieldApp.ViewModel
                     bool upgradeTableWorked = await UpgradeTables(legacyDBFrom, upgradeDBConnection, _dbVersion, _dbNextVersion, true);
 
                     //Manage errors
-                    if (!upgradeVocabWorked || !upgradeTableWorked)
+                    if (upgradeVocabWorked && upgradeTableWorked)
                     {
-                        upgradeWorked = false;
+                        upgradeWorked = true;
                     }
 
                     //Close
@@ -704,15 +707,25 @@ namespace GSCFieldApp.ViewModel
             if (fromDBVersion <= 1.42)
             {
                 queryList.Add(GetUpgradeQueryVersion1_42(attachDBName));
+
+                //Remove table that needs a special update query
                 basicInsertQueriesTables.Remove(TableEarthMat);
+
+                //Add deprecated
+                basicInsertQueriesTables.Remove(TableEnvironment);
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
                 basicInsertQueriesTables.Add(TableTraversePointDeprecated);
             }
             if (fromDBVersion == 1.43)
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_44(attachDBName));
+
+                //Remove table that needs a special update query
                 basicInsertQueriesTables.Remove(TableLocation);
                 basicInsertQueriesTables.Remove(TableMetadata);
+
+                //Add deprecated
+                basicInsertQueriesTables.Remove(TableEnvironment);
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
                 basicInsertQueriesTables.Add(TableTraversePointDeprecated);
 
@@ -720,6 +733,8 @@ namespace GSCFieldApp.ViewModel
             if (fromDBVersion < 1.5 && fromDBVersion >= 1.44)
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_5(attachDBName));
+
+                //Remove table that needs a special update query
                 basicInsertQueriesTables.Remove(TableLocation);
                 basicInsertQueriesTables.Remove(TableSample);
                 basicInsertQueriesTables.Remove(TableStation);
@@ -727,6 +742,9 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableEarthMat);
                 basicInsertQueriesTables.Remove(TableMetadata);
                 basicInsertQueriesTables.Remove(TableDocument);
+
+                //Add deprecated
+                basicInsertQueriesTables.Remove(TableEnvironment);
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
                 basicInsertQueriesTables.Add(TableTraversePointDeprecated);
             }
@@ -734,6 +752,8 @@ namespace GSCFieldApp.ViewModel
             if (fromDBVersion == 1.5)
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_6(attachDBName));
+
+                //Remove table that needs a special update query
                 basicInsertQueriesTables.Remove(TableStation);
                 basicInsertQueriesTables.Remove(TableEarthMat);
                 basicInsertQueriesTables.Remove(TableMineral);
@@ -741,6 +761,7 @@ namespace GSCFieldApp.ViewModel
                 basicInsertQueriesTables.Remove(TableLocation);
 
                 //Tables that are either not in are can't have any data in this version
+                basicInsertQueriesTables.Remove(TableEnvironment);
                 basicInsertQueriesTables.Add(TableTraverseLineDeprecated);
                 basicInsertQueriesTables.Add(TableTraversePointDeprecated);
 
@@ -749,6 +770,8 @@ namespace GSCFieldApp.ViewModel
             if (fromDBVersion == DBVersion160)
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_7(attachDBName));
+
+                //Remove table that needs a special update query
                 basicInsertQueriesTables.Clear();
                 queryList.Add(openForeignConstraints); //Open at last, foreign keys so last query of delete works
             }
@@ -756,6 +779,8 @@ namespace GSCFieldApp.ViewModel
             if (fromDBVersion == DBVersion170)
             {
                 queryList.AddRange(GetUpgradeQueryVersion1_8(attachDBName));
+
+                //Remove table that needs a special update query
                 basicInsertQueriesTables.Remove(TableSample);
                 basicInsertQueriesTables.Remove(TableMineralAlteration);
                 basicInsertQueriesTables.Remove(TableLocation);

@@ -11,7 +11,7 @@ namespace GSCFieldApp.Models
     [Table(TableDrillHoles)]
     public class DrillHole
     {
-        [PrimaryKey, AutoIncrement, Column(FieldDrillID)]
+        [Column(FieldDrillID), PrimaryKey, AutoIncrement]
         public int DrillID { get; set; }
 
         [Column(FieldDrillIDName)]
@@ -108,12 +108,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> drillFieldList = new Dictionary<double, List<string>>();
                 List<string> drillFieldListDefault = new List<string>();
 
-                drillFieldListDefault.Add(FieldDrillID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        drillFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        drillFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

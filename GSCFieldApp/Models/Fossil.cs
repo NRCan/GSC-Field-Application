@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     public class Fossil
     {
 
-        [PrimaryKey, AutoIncrement, Column(FieldFossilID)]
+        [Column(FieldFossilID), PrimaryKey, AutoIncrement]
         public int FossilID { get; set; }
 
         [Column(FieldFossilName)]
@@ -62,12 +62,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> fossilFieldList = new Dictionary<double, List<string>>();
                 List<string> fossilFieldListDefault = new List<string>();
 
-                fossilFieldListDefault.Add(FieldFossilID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        fossilFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        fossilFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

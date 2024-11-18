@@ -14,7 +14,7 @@ namespace GSCFieldApp.Models
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldUserInfoID), NotNull]
+        [Column(DatabaseLiterals.FieldUserInfoID), PrimaryKey, AutoIncrement, NotNull]
         public int MetaID { get; set; }
 
         [Column(DatabaseLiterals.FieldUserInfoPCode)]
@@ -130,12 +130,12 @@ namespace GSCFieldApp.Models
                 //version of the class
                 Dictionary<double, List<string>> metadataFieldList = new Dictionary<double, List<string>>();
                 List<string> metadataFieldListDefault = new List<string>();
-                metadataFieldListDefault.Add(DatabaseLiterals.FieldUserInfoID);
+
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        metadataFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        metadataFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

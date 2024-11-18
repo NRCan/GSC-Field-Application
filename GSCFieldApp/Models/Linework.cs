@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     [Table(TableLinework)]
     public class Linework
     {
-        [PrimaryKey, AutoIncrement, Column(FieldLineworkID)]
+        [Column(FieldLineworkID), PrimaryKey, AutoIncrement]
         public int LineID { get; set; }
 
         [Column(FieldLineworkGeometry)]
@@ -47,12 +47,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> lineworkFieldList = new Dictionary<double, List<string>>();
                 List<string> lineworkFieldListDefault = new List<string>();
 
-                lineworkFieldListDefault.Add(FieldLineworkID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        lineworkFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        lineworkFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

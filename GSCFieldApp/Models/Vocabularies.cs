@@ -15,7 +15,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableDictionary)]
     public class Vocabularies
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldGenericRowID), NotNull]
+        [Column(DatabaseLiterals.FieldGenericRowID), PrimaryKey, AutoIncrement, NotNull]
         public int ObjectID { get; set; }
 
         [Column(DatabaseLiterals.FieldDictionaryTermID)]
@@ -84,12 +84,21 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> vocabFieldList = new Dictionary<double, List<string>>();
                 List<string> vocabFieldListDefault = new List<string>();
 
-                vocabFieldListDefault.Add(DatabaseLiterals.FieldGenericRowID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    
+                    if (item != null && item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        vocabFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        //Nullable string field string? will have a byte argument as first element
+                        if (!item.CustomAttributes.First().ConstructorArguments[0].ToString().Contains("Byte"))
+                        {
+                            vocabFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        }
+                        else if(item.CustomAttributes.First().ConstructorArguments[0].ToString().Contains("Byte"))
+                        {
+                            vocabFieldListDefault.Add(item.CustomAttributes.ElementAt(1).ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        }
+                        
                     }
 
                 }

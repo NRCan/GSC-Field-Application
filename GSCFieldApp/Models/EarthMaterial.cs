@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     [Table(DatabaseLiterals.TableEarthMat)]
     public class Earthmaterial
     {
-        [PrimaryKey, AutoIncrement, Column(DatabaseLiterals.FieldEarthMatID)]
+        [Column(DatabaseLiterals.FieldEarthMatID), PrimaryKey, AutoIncrement]
         public int EarthMatID { get; set; }
 
         [Column(DatabaseLiterals.FieldEarthMatName)]
@@ -189,12 +189,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> earthmatFieldList = new Dictionary<double, List<string>>();
                 List<string> earthmatFieldListDefault = new List<string>();
 
-                earthmatFieldListDefault.Add(DatabaseLiterals.FieldEarthMatID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        earthmatFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        earthmatFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }

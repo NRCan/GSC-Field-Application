@@ -10,7 +10,7 @@ namespace GSCFieldApp.Models
     public class Station
     {
 
-        [PrimaryKey, AutoIncrement, Column(FieldStationID)]
+        [Column(FieldStationID), PrimaryKey, AutoIncrement]
         public int StationID { get; set; }
 
         [Column(FieldStationAlias)]
@@ -99,12 +99,11 @@ namespace GSCFieldApp.Models
                 Dictionary<double, List<string>> stationFieldList = new Dictionary<double, List<string>>();
                 List<string> stationFieldListDefault = new List<string>();
 
-                stationFieldListDefault.Add(FieldStationID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
                     {
-                        stationFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
+                        stationFieldListDefault.Add(item.CustomAttributes.First().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }
 
                 }
