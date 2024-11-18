@@ -22,6 +22,9 @@ using System.IO.Compression;
 using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Maui.Alerts;
 using static GSCFieldApp.Dictionaries.DatabaseLiterals;
+using NTS = NetTopologySuite;
+using NetTopologySuite.Geometries;
+using ProjNet.CoordinateSystems;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -502,7 +505,7 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task<bool> DoUpgradeFieldBook()
         { 
-            bool upgradeWorked = false;
+            bool upgradeWorked = true;
 
             //Rename selected field book with version number
             string legacyDBFrom = GetLegacyDBNamePath(_dbVersion, false);
@@ -540,10 +543,13 @@ namespace GSCFieldApp.ViewModel
                     //Upgrade other tables
                     bool upgradeTableWorked = await UpgradeTables(legacyDBFrom, upgradeDBConnection, _dbVersion, _dbNextVersion, true);
 
+                    //Upgrade geometries
+                    bool upgradeGeometriesWorked = await UpgradeGeometries(legacyDBFrom, upgradeDBConnection, _dbVersion, _dbNextVersion, true);
+
                     //Manage errors
-                    if (upgradeVocabWorked && upgradeTableWorked)
+                    if (!upgradeVocabWorked || !upgradeTableWorked || !upgradeGeometriesWorked)
                     {
-                        upgradeWorked = true;
+                        upgradeWorked = false;
                     }
 
                     //Close
@@ -857,6 +863,107 @@ namespace GSCFieldApp.ViewModel
             }
 
             return upgradeTableWorked;
+        }
+
+        /// <summary>
+        /// For certain versions, some geometry upgrade is needed (e.g. sqlite to gpkg, and uniform wgs84)
+        /// </summary>
+        /// <param name="fromDBPath"></param>
+        /// <param name="toDBConnection"></param>
+        /// <param name="fromDBVersion"></param>
+        /// <param name="toDBVersion"></param>
+        /// <param name="closeConnection"></param>
+        /// <returns></returns>
+        public async Task<bool> UpgradeGeometries(string fromDBPath, SQLiteAsyncConnection toDBConnection, double fromDBVersion, double toDBVersion, bool closeConnection = true)
+        {
+            //output
+            bool upgradeGeometriesWorked = true;
+
+            //Converting sqlite to geopackage geometries
+            if (toDBVersion == 1.7)
+            {
+                GeopackageService packService = new GeopackageService();
+
+                //For all records.
+                List<FieldLocation> fieldLocations = await toDBConnection.Table<FieldLocation>().ToListAsync();
+                foreach (FieldLocation fl in fieldLocations)
+                {
+                    if (fl.LocationLong != 0 && fl.LocationLat != 0)
+                    {
+                        try
+                        {
+                            //Get bytes from coordinate fields
+                            byte[] geom = packService.CreateByteGeometryPoint(fl.LocationLong, fl.LocationLat);
+                            fl.LocationGeometry = geom;
+
+                            //Save
+                            string upQuery = string.Format("UPDATE {0} SET {1} = ? WHERE {2} = {3};", TableLocation, FieldGenericGeometry, FieldLocationID, fl.LocationID);
+                            object[] arg = new object[] { geom };
+                            await toDBConnection.ExecuteAsync(upQuery, arg);
+
+
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorToLogFile(e.Message).WriteToFile();
+                            upgradeGeometriesWorked = false;
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+
+            //Make sure they're all in WGS84, version 1.7 wasn't consistent 
+            if (toDBVersion == 1.8)
+            {
+                GeopackageService packService = new GeopackageService();
+
+                //For all records.
+                List<FieldLocation> fieldLocations = await toDBConnection.Table<FieldLocation>().ToListAsync();
+                foreach (FieldLocation fls in fieldLocations)
+                {
+                    if (fls.LocationEPSGProj != null && fls.LocationEPSGProj != "4326" && fls.LocationEPSGProj != string.Empty
+                        && fls.LocationEasting.HasValue && fls.LocationNorthing.HasValue)
+                    {
+                        try
+                        {
+                            //Get point object
+                            Coordinate coord = new Coordinate((double)fls.LocationEasting, (double)fls.LocationNorthing);
+                            NTS.Geometries.Point pnt = new NTS.Geometries.Point(coord);
+
+                            //Create spatial references
+                            CoordinateSystem incomingProjection = await SridReader.GetCSbyID(Convert.ToInt16(fls.LocationEPSGProj));
+                            CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(4326);
+
+                            //Transform
+                            NTS.Geometries.Point transformedPoint = await GeopackageService.TransformPointCoordinates(pnt, incomingProjection, outgoingProjection);
+
+                            //Get as byte 
+                            byte[] pntByte = packService.CreateByteGeometryPoint(transformedPoint.X, transformedPoint.Y);
+
+                            //Save
+                            string upQuery = string.Format("UPDATE {0} SET {1} = ? WHERE {2} = {3};", TableLocation, FieldGenericGeometry, FieldLocationID, fls.LocationID);
+                            object[] arg = new object[] { pntByte };
+                            await toDBConnection.ExecuteAsync(upQuery, arg);
+
+                            //Make sure geographic coordinates are also right
+                            string upQueryGeo = string.Format("UPDATE {0} SET {1} = ?, {2} = ? WHERE {3} = {4};", TableLocation, FieldLocationLongitude, FieldLocationLatitude, FieldLocationID, fls.LocationID);
+                            object[] argGeo = new object[] { transformedPoint.X, transformedPoint.Y };
+                            await toDBConnection.ExecuteAsync(upQueryGeo, argGeo);
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorToLogFile(e.Message).WriteToFile();
+                            upgradeGeometriesWorked = false;
+                        }
+                    }
+                }
+
+            }
+
+            return upgradeGeometriesWorked;
         }
 
         /// <summary>
