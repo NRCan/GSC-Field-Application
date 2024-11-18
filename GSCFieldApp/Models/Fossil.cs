@@ -65,7 +65,7 @@ namespace GSCFieldApp.Models
                 fossilFieldListDefault.Add(FieldFossilID);
                 foreach (System.Reflection.PropertyInfo item in this.GetType().GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(ColumnAttribute))).ToList())
                 {
-                    if (item.CustomAttributes.First().ConstructorArguments.Count() > 0)
+                    if (item.CustomAttributes.Last().ConstructorArguments.Count() > 0)
                     {
                         fossilFieldListDefault.Add(item.CustomAttributes.Last().ConstructorArguments[0].ToString().Replace("\\", "").Replace("\"", ""));
                     }

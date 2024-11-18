@@ -396,7 +396,7 @@ namespace GSCFieldApp.Dictionaries
         public const string TableDrillHoles = "F_DRILL_HOLE"; //Version 1.8
         public const string TableLinework = "F_LINE_WORK"; //Version 1.9
 
-        public enum TableNames { meta, location, station, earthmat, sample, mineralization, mineral, document, structure, fossil, environment, pflow, drill, linework};
+        public enum TableNames { meta, location, station, earthmat, sample, mineralization, mineral, document, structure, fossil, environment, pflow, drill, linework, traversepoint, traverseline};
 
         #endregion
 
