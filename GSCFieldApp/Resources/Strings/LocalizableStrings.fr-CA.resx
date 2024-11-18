@@ -1363,4 +1363,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FieldBooksInvalidVersion" xml:space="preserve">
     <value>Mise-à-jour requise</value>
   </data>
+  <data name="SamplePageFrostBoil" xml:space="preserve">
+    <value>Valider pour frost boil</value>
+  </data>
 </root>

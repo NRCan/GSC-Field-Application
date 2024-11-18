@@ -3004,6 +3004,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check for Frost Boil.
+        /// </summary>
+        internal static string SamplePageFrostBoil {
+            get {
+                return ResourceManager.GetString("SamplePageFrostBoil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         internal static string SamplePageGeneralTitle {

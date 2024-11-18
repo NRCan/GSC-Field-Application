@@ -93,6 +93,9 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldSampledBy)]
         public string SampleBy { get; set; }
 
+        [Column(DatabaseLiterals.FieldSampleFrostBoil)]
+        public string SampleFrostBoil { get; set; }
+
         //Hierarchy
         public string ParentName = DatabaseLiterals.TableEarthMat;
 
@@ -140,10 +143,15 @@ namespace GSCFieldApp.Models
 
                 sampleFieldList[DatabaseLiterals.DBVersion] = sampleFieldListDefault;
 
+                //Revert schema 1.9 changes
+                List<string> sampleFieldList180 = new List<string>();
+                sampleFieldList180.AddRange(sampleFieldListDefault);
+                sampleFieldList180.Remove(DatabaseLiterals.FieldSampleFrostBoil);
+                sampleFieldList[DatabaseLiterals.DBVersion180] = sampleFieldList180;
 
                 //Revert shcema 1.8 changes
                 List<string> sampleFieldList170 = new List<string>();
-                sampleFieldList170.AddRange(sampleFieldListDefault);
+                sampleFieldList170.AddRange(sampleFieldList180);
                 sampleFieldList170.Remove(DatabaseLiterals.FieldSampleIsBlank);
                 sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreFrom);
                 sampleFieldList170.Remove(DatabaseLiterals.FieldSampleCoreTo);

@@ -1362,4 +1362,7 @@
   <data name="FieldBooksInvalidVersion" xml:space="preserve">
     <value>Upgrade needed</value>
   </data>
+  <data name="SamplePageFrostBoil" xml:space="preserve">
+    <value>Check for Frost Boil</value>
+  </data>
 </root>

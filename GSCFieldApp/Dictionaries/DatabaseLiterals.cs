@@ -166,6 +166,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldSampleCoreLength = "CORE_LENGTH"; //Version 1.8
         public const string FieldSampleCoreSize = "CORE_SAMPLE_SIZE"; //Version 1.8
         public const string FieldSampledBy = "SAMPLED_BY"; //Version 1.8
+        public const string FieldSampleFrostBoil = "FROST_BOIL"; //Version 1.9
 
         public const string FieldSampleManagementID = "SMID";
         public const string FieldDictionaryTermID = "TERMID";//Version 1.0

@@ -70,6 +70,11 @@
                             </HorizontalStackLayout>
 
                             <HorizontalStackLayout IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}">
+                                <Label Text="{local:Localize SamplePageFrostBoil}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <CheckBox IsChecked="{Binding Model.SampleFrostBoil, Converter={StaticResource BoolFromStr}, Mode=TwoWay}"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}">
                                 <Label Text="{local:Localize SamplePageIsDuplicate}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <CheckBox IsChecked="{Binding IsSampleDuplicate, Mode=TwoWay}" x:Name="IsSampleDuplicateCheckbox"
                                           Style="{StaticResource FieldAppCheckbox}"/>
@@ -202,6 +207,8 @@
 
                             </VerticalStackLayout>
 
+                            
+                            
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
 
