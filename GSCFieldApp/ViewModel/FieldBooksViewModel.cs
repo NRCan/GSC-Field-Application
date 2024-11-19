@@ -802,6 +802,8 @@ namespace GSCFieldApp.ViewModel
 
                 //Remove table that needs a special update query
                 basicInsertQueriesTables.Remove(TableSample);
+                basicInsertQueriesTables.Remove(TableEarthMat);
+                basicInsertQueriesTables.Remove(TableStructure);
             }
             #endregion
 
@@ -1863,7 +1865,7 @@ namespace GSCFieldApp.ViewModel
             #region F_STRUCTURE
 
             Structure modelStructure = new Structure();
-            List<string> structureFieldList = modelStructure.getFieldList[DBVersion];
+            List<string> structureFieldList = modelStructure.getFieldList[DBVersion170];
 
             //Get view creation queries to mitigate GUID ids to integer ids.
             insertQuery_17.Add(GenerateLegacyFormatViews(attachedDBName, TableStructure, FieldStructureID,
@@ -2418,7 +2420,7 @@ namespace GSCFieldApp.ViewModel
 
             #region F_EARTH_MATERIAL
             Earthmaterial modelEarth = new Earthmaterial();
-            List<string> earthFieldList = modelEarth.getFieldList[DBVersion];
+            List<string> earthFieldList = modelEarth.getFieldList[DBVersion180];
             string earth_querySelect = string.Empty;
 
             foreach (string earthFields in earthFieldList)
@@ -2475,7 +2477,7 @@ namespace GSCFieldApp.ViewModel
             #region F_SAMPLE
 
             Sample modelSample = new Sample();
-            List<string> sampleFieldList = modelSample.getFieldList[DBVersion];
+            List<string> sampleFieldList = modelSample.getFieldList[DBVersion190];
             string sample_querySelect = string.Empty;
 
             foreach (string sampleFields in sampleFieldList)
@@ -2507,6 +2509,86 @@ namespace GSCFieldApp.ViewModel
             string insertQuery_19_sample = "INSERT INTO " + DatabaseLiterals.TableSample + " SELECT " + sample_querySelect;
             insertQuery_19_sample = insertQuery_19_sample + " FROM " + attachedDBName + "." + DatabaseLiterals.TableSample + " as sm";
             insertQuery_19.Add(insertQuery_19_sample);
+
+            #endregion
+
+            #region F_EARTH_MATERIAL
+
+            Earthmaterial modelEM = new Earthmaterial();
+            List<string> EMFieldList = modelEM.getFieldList[DBVersion190];
+            string em_querySelect = string.Empty;
+
+            foreach (string emFields in EMFieldList)
+            {
+                //Get all fields except alias
+
+                if (emFields != EMFieldList.First())
+                {
+                    if (emFields == DatabaseLiterals.FieldEarthMatDepthMin)
+                    {
+                        em_querySelect = em_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatDepthMin;
+                    }
+                    else if (emFields == DatabaseLiterals.FieldEarthMatDepthMax)
+                    {
+                        em_querySelect = em_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldEarthMatDepthMax;
+                    }
+                    else
+                    {
+                        em_querySelect = em_querySelect + ", em." + emFields + " as " + emFields;
+                    }
+
+                }
+                else
+                {
+                    em_querySelect = " em." + emFields + " as " + emFields;
+                }
+
+            }
+            em_querySelect = em_querySelect.Replace(", ,", "");
+
+            string insertQuery_19_em = "INSERT INTO " + DatabaseLiterals.TableEarthMat + " SELECT " + em_querySelect;
+            insertQuery_19_em = insertQuery_19_em + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat + " as em";
+            insertQuery_19.Add(insertQuery_19_em);
+
+            #endregion
+
+            #region F_STRUCTURE
+
+            Structure modelStructure = new Structure();
+            List<string> strucFieldList = modelStructure.getFieldList[DBVersion190];
+            string structure_querySelect = string.Empty;
+
+            foreach (string sFields in strucFieldList)
+            {
+                //Get all fields except alias
+
+                if (sFields != strucFieldList.First())
+                {
+                    if (sFields == DatabaseLiterals.FieldStructureDepth)
+                    {
+                        structure_querySelect = structure_querySelect +
+                            ", NULL as " + DatabaseLiterals.FieldStructureDepth;
+                    }
+
+                    else
+                    {
+                        structure_querySelect = structure_querySelect + ", st." + sFields + " as " + sFields;
+                    }
+
+                }
+                else
+                {
+                    structure_querySelect = " st." + sFields + " as " + sFields;
+                }
+
+            }
+            structure_querySelect = structure_querySelect.Replace(", ,", "");
+
+            string insertQuery_19_struc = "INSERT INTO " + DatabaseLiterals.TableStructure + " SELECT " + structure_querySelect;
+            insertQuery_19_struc = insertQuery_19_struc + " FROM " + attachedDBName + "." + DatabaseLiterals.TableStructure + " as st";
+            insertQuery_19.Add(insertQuery_19_struc);
 
             #endregion
 

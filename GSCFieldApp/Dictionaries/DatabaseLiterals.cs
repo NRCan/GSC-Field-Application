@@ -138,6 +138,8 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldEarthMatClastForm = "CLASTFORM"; //Version 1.7
         public const string FieldEarthMatContactNote = "CONTACT_NOTE"; //Version 1.8
         public const string FieldEarthMatDrillHoleID = "DRILLHOLEID"; //Version 1.8
+        public const string FieldEarthMatDepthMin = "DEPTHMIN"; //Version 1.9
+        public const string FieldEarthMatDepthMax = "DEPTHMAX"; //Version 1.9
 
         public const string FieldSampleID = "SAMPLEID"; //Version 1.0
         public const string FieldSampleName = "SAMPLEIDNAME"; //Version 1.5
@@ -241,6 +243,7 @@ namespace GSCFieldApp.Dictionaries
         public const string FieldStructureNotes = "NOTES";//Version 1.0
         public const string FieldStructureParentID = "EARTHMATID";//Version 1.0
         public const string FieldStructureSymAng = "SYMANG";//Version 1.0
+        public const string FieldStructureDepth = "DEPTH"; //Version 1.9
 
         public const string FieldPFlowID = "PFLOWID";//Version 1.0
         public const string FieldPFlowName = "PFLOWIDNAME";//Version 1.0

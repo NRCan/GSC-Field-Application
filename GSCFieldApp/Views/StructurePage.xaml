@@ -112,6 +112,13 @@
 
                             </VerticalStackLayout>
 
+                            <VerticalStackLayout x:Name="StructurePageDepth">
+
+                                <Label Text="{local:Localize StructurePageDepth}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.StructureDepth, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+
                             <Picker Title="{local:Localize StructurePageMethod}" x:Name="StructureMethodPicker"
                                     ItemsSource="{Binding StructureMethod.cboxItems}"
                                     ItemDisplayBinding="{Binding itemName}"

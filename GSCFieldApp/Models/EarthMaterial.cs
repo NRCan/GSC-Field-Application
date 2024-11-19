@@ -103,6 +103,12 @@ namespace GSCFieldApp.Models
         [Column(DatabaseLiterals.FieldEarthMatClastForm)]
         public string EarthMatClastForm { get; set; }
 
+        [Column(DatabaseLiterals.FieldEarthMatDepthMin)]
+        public string EarthMatDepthMin { get; set; }
+
+        [Column(DatabaseLiterals.FieldEarthMatDepthMax)]
+        public string EarthMatDepthMax { get; set; }
+
         [Column(DatabaseLiterals.FieldEarthMatNotes)]
         public string EarthMatNotes { get; set; }
 
@@ -200,9 +206,16 @@ namespace GSCFieldApp.Models
 
                 earthmatFieldList[DatabaseLiterals.DBVersion] = earthmatFieldListDefault;
 
+                //Revert shcema 1.9 changes
+                List<string> earthmatFieldList180 = new List<string>();
+                earthmatFieldList180.AddRange(earthmatFieldListDefault);
+                earthmatFieldList180.Remove(DatabaseLiterals.FieldEarthMatDepthMin);
+                earthmatFieldList180.Remove(DatabaseLiterals.FieldEarthMatDepthMax);
+                earthmatFieldList[DatabaseLiterals.DBVersion180] = earthmatFieldList180;
+
                 //Revert shcema 1.8 changes
                 List<string> earthmatFieldList170 = new List<string>();
-                earthmatFieldList170.AddRange(earthmatFieldListDefault);
+                earthmatFieldList170.AddRange(earthmatFieldList180);
                 earthmatFieldList170.Remove(DatabaseLiterals.FieldEarthMatContactNote);
                 earthmatFieldList170.Remove(DatabaseLiterals.FieldEarthMatDrillHoleID);
                 earthmatFieldList[DatabaseLiterals.DBVersion170] = earthmatFieldList170;

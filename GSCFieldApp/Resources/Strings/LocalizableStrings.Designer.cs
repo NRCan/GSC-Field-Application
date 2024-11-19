@@ -925,6 +925,33 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max..
+        /// </summary>
+        internal static string EarthmatPageDepthMax {
+            get {
+                return ResourceManager.GetString("EarthmatPageDepthMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min..
+        /// </summary>
+        internal static string EarthmatPageDepthMin {
+            get {
+                return ResourceManager.GetString("EarthmatPageDepthMin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Depth.
+        /// </summary>
+        internal static string EarthmatPageDepthTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageDepthTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type detail ie. basalt.
         /// </summary>
         internal static string EarthmatPageDetailSearchPlaceholder {
@@ -3549,6 +3576,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string StructurePageClass {
             get {
                 return ResourceManager.GetString("StructurePageClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Depth.
+        /// </summary>
+        internal static string StructurePageDepth {
+            get {
+                return ResourceManager.GetString("StructurePageDepth", resourceCulture);
             }
         }
         

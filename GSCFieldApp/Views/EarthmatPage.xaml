@@ -335,7 +335,6 @@
 
                     </controls:ExpandableFrame>
                 
-
                     <!--Contact relation to other EM -->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}" IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
                                               FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMContactRelVisibility, Mode=TwoWay}"
@@ -422,6 +421,31 @@
                         </VerticalStackLayout>
 
                     </controls:ExpandableFrame>
+
+                    <!--Depth-->
+                    <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"
+                                              FrameColor="{StaticResource FieldEarthMaterialColor}" FrameContentVisibility="{Binding EMInterpVisibility, Mode=TwoWay}"
+                                              FrameTitle="{local:Localize EarthmatPageDepthTitle}">
+
+                        <VerticalStackLayout >
+
+                            <VerticalStackLayout x:Name="EarthMagDepthMin">
+
+                                <Label Text="{local:Localize EarthmatPageDepthMin}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.EarthMatDepthMin, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+                            <VerticalStackLayout x:Name="EarthMagDepthMax">
+
+                                <Label Text="{local:Localize EarthmatPageDepthMax}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <Entry Text="{Binding Model.EarthMatDepthMax, Mode=TwoWay}"  Style="{StaticResource FieldAppNumBox}"/>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </controls:ExpandableFrame>
+
 
                     <!--General-->
                     <controls:ExpandableFrame ControlTemplate="{StaticResource Key=ExpandableFrameControl}"

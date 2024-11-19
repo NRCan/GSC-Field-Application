@@ -1366,4 +1366,16 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SamplePageFrostBoil" xml:space="preserve">
     <value>Valider pour frost boil</value>
   </data>
+  <data name="EarthmatPageDepthTitle" xml:space="preserve">
+    <value>Profondeur</value>
+  </data>
+  <data name="EarthmatPageDepthMin" xml:space="preserve">
+    <value>Min.</value>
+  </data>
+  <data name="EarthmatPageDepthMax" xml:space="preserve">
+    <value>Max.</value>
+  </data>
+  <data name="StructurePageDepth" xml:space="preserve">
+    <value>Profondeur</value>
+  </data>
 </root>

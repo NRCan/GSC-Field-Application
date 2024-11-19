@@ -94,6 +94,9 @@ namespace GSCFieldApp.Models
             }
         }
 
+        [Column(FieldStructureDepth)]
+        public string StructureDepth { get; set; }
+
         [Column(FieldStructureNotes)]
         public string StructureNotes { get; set; }
 
@@ -374,15 +377,15 @@ namespace GSCFieldApp.Models
                 }
 
                 structureFieldList[DBVersion] = structureFieldListDefault;
-                
 
-                //Revert shcema 1.7 changes
-                //List<string> strucFieldList160 = new List<string>();
-                //strucFieldList160.AddRange(structureFieldListDefault);
-                //strucFieldList160.Remove(FieldGenericRowID);
-                //structureFieldList[DBVersion160] = strucFieldList160;
+                //Revert schema 1.9 changes. 
+                List<string> structureFieldList180 = new List<string>();
+                structureFieldList180.AddRange(structureFieldListDefault);
+                structureFieldList180.Remove(FieldStructureDepth);
+                structureFieldList[DBVersion180] = structureFieldList180;
 
-                structureFieldList[DBVersion150] = structureFieldListDefault;
+                structureFieldList[DBVersion170] = structureFieldList180;
+                structureFieldList[DBVersion150] = structureFieldList180;
 
                 //Revert schema 1.5 changes. 
                 List<string> structureFieldList144 = new List<string>();
