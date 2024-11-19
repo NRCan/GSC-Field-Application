@@ -3697,11 +3697,20 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Notes.
+        ///   Looks up a localized string similar to General.
         /// </summary>
         internal static string StructurePageNotesTitle {
             get {
                 return ResourceManager.GetString("StructurePageNotesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plot to map.
+        /// </summary>
+        internal static string StructurePagePlotMap {
+            get {
+                return ResourceManager.GetString("StructurePagePlotMap", resourceCulture);
             }
         }
         

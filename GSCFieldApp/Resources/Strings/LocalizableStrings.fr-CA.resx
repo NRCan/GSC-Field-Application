@@ -1217,7 +1217,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Notes</value>
   </data>
   <data name="StructurePageNotesTitle" xml:space="preserve">
-    <value>Notes</value>
+    <value>Général</value>
   </data>
   <data name="StructurePageRelate" xml:space="preserve">
     <value>Relation</value>
@@ -1377,5 +1377,8 @@ Aimeriez-vous modifier les droits?</value>
   </data>
   <data name="StructurePageDepth" xml:space="preserve">
     <value>Profondeur</value>
+  </data>
+  <data name="StructurePagePlotMap" xml:space="preserve">
+    <value>Ajouter sur carte</value>
   </data>
 </root>

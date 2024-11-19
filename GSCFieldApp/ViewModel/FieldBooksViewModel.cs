@@ -2499,7 +2499,7 @@ namespace GSCFieldApp.ViewModel
 
             Structure modelStructure = new Structure();
             List<string> strucFieldList = modelStructure.getFieldList[DBVersion190];
-            List<string> strucNullFieldList = new List<string>() { FieldStructureDepth };
+            List<string> strucNullFieldList = new List<string>() { FieldStructureDepth , FieldStructurePlotToMap};
             Tuple<string, string> strucPrimes = new Tuple<string, string>(FieldStructureID, FieldStructureID);
             insertQuery_19.Add(GenerateInsertQueriesFromModel(strucFieldList, strucNullFieldList, TableStructure, strucPrimes, null, attachedDBName));
 

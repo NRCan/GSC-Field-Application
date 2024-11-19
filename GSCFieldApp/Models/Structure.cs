@@ -97,6 +97,9 @@ namespace GSCFieldApp.Models
         [Column(FieldStructureDepth)]
         public string StructureDepth { get; set; }
 
+        [Column(FieldStructurePlotToMap)]
+        public string StructurePlotToMap { get; set; }
+
         [Column(FieldStructureNotes)]
         public string StructureNotes { get; set; }
 
@@ -382,6 +385,7 @@ namespace GSCFieldApp.Models
                 List<string> structureFieldList180 = new List<string>();
                 structureFieldList180.AddRange(structureFieldListDefault);
                 structureFieldList180.Remove(FieldStructureDepth);
+                structureFieldList180.Remove(FieldStructurePlotToMap);
                 structureFieldList[DBVersion180] = structureFieldList180;
 
                 structureFieldList[DBVersion170] = structureFieldList180;

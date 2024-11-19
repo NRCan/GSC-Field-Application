@@ -1216,7 +1216,7 @@
     <value>Notes</value>
   </data>
   <data name="StructurePageNotesTitle" xml:space="preserve">
-    <value>Notes</value>
+    <value>General</value>
   </data>
   <data name="StructurePageRelate" xml:space="preserve">
     <value>Related</value>
@@ -1376,5 +1376,8 @@
   </data>
   <data name="StructurePageDepth" xml:space="preserve">
     <value>Depth</value>
+  </data>
+  <data name="StructurePagePlotMap" xml:space="preserve">
+    <value>Plot to map</value>
   </data>
 </root>
