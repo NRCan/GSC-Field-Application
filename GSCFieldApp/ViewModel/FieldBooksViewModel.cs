@@ -25,6 +25,7 @@ using static GSCFieldApp.Dictionaries.DatabaseLiterals;
 using NTS = NetTopologySuite;
 using NetTopologySuite.Geometries;
 using ProjNet.CoordinateSystems;
+using System.Data;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -2478,37 +2479,9 @@ namespace GSCFieldApp.ViewModel
 
             Sample modelSample = new Sample();
             List<string> sampleFieldList = modelSample.getFieldList[DBVersion190];
-            string sample_querySelect = string.Empty;
-
-            foreach (string sampleFields in sampleFieldList)
-            {
-                //Get all fields except alias
-
-                if (sampleFields != sampleFieldList.First())
-                {
-                    if (sampleFields == DatabaseLiterals.FieldSampleFrostBoil)
-                    {
-                        sample_querySelect = sample_querySelect +
-                            ", NULL as " + DatabaseLiterals.FieldSampleFrostBoil;
-                    }
-
-                    else
-                    {
-                        sample_querySelect = sample_querySelect + ", sm." + sampleFields + " as " + sampleFields;
-                    }
-
-                }
-                else
-                {
-                    sample_querySelect = " sm." + sampleFields + " as " + sampleFields;
-                }
-
-            }
-            sample_querySelect = sample_querySelect.Replace(", ,", "");
-
-            string insertQuery_19_sample = "INSERT INTO " + DatabaseLiterals.TableSample + " SELECT " + sample_querySelect;
-            insertQuery_19_sample = insertQuery_19_sample + " FROM " + attachedDBName + "." + DatabaseLiterals.TableSample + " as sm";
-            insertQuery_19.Add(insertQuery_19_sample);
+            List<string> sampleNullFieldList = new List<string>() { FieldSampleFrostBoil };
+            Tuple<string, string> samplePrimes = new Tuple<string, string>(FieldSampleID, FieldSampleID );
+            insertQuery_19.Add(GenerateInsertQueriesFromModel(sampleFieldList, sampleNullFieldList, TableSample, samplePrimes, null, attachedDBName));
 
             #endregion
 
@@ -2516,41 +2489,9 @@ namespace GSCFieldApp.ViewModel
 
             Earthmaterial modelEM = new Earthmaterial();
             List<string> EMFieldList = modelEM.getFieldList[DBVersion190];
-            string em_querySelect = string.Empty;
-
-            foreach (string emFields in EMFieldList)
-            {
-                //Get all fields except alias
-
-                if (emFields != EMFieldList.First())
-                {
-                    if (emFields == DatabaseLiterals.FieldEarthMatDepthMin)
-                    {
-                        em_querySelect = em_querySelect +
-                            ", NULL as " + DatabaseLiterals.FieldEarthMatDepthMin;
-                    }
-                    else if (emFields == DatabaseLiterals.FieldEarthMatDepthMax)
-                    {
-                        em_querySelect = em_querySelect +
-                            ", NULL as " + DatabaseLiterals.FieldEarthMatDepthMax;
-                    }
-                    else
-                    {
-                        em_querySelect = em_querySelect + ", em." + emFields + " as " + emFields;
-                    }
-
-                }
-                else
-                {
-                    em_querySelect = " em." + emFields + " as " + emFields;
-                }
-
-            }
-            em_querySelect = em_querySelect.Replace(", ,", "");
-
-            string insertQuery_19_em = "INSERT INTO " + DatabaseLiterals.TableEarthMat + " SELECT " + em_querySelect;
-            insertQuery_19_em = insertQuery_19_em + " FROM " + attachedDBName + "." + DatabaseLiterals.TableEarthMat + " as em";
-            insertQuery_19.Add(insertQuery_19_em);
+            List<string> emNullFieldList = new List<string>() { FieldEarthMatDepthMin, FieldEarthMatDepthMax };
+            Tuple<string, string> emPrimes = new Tuple<string, string>(FieldEarthMatID, FieldEarthMatID);
+            insertQuery_19.Add(GenerateInsertQueriesFromModel(EMFieldList, emNullFieldList, TableEarthMat, emPrimes, null, attachedDBName));
 
             #endregion
 
@@ -2558,37 +2499,9 @@ namespace GSCFieldApp.ViewModel
 
             Structure modelStructure = new Structure();
             List<string> strucFieldList = modelStructure.getFieldList[DBVersion190];
-            string structure_querySelect = string.Empty;
-
-            foreach (string sFields in strucFieldList)
-            {
-                //Get all fields except alias
-
-                if (sFields != strucFieldList.First())
-                {
-                    if (sFields == DatabaseLiterals.FieldStructureDepth)
-                    {
-                        structure_querySelect = structure_querySelect +
-                            ", NULL as " + DatabaseLiterals.FieldStructureDepth;
-                    }
-
-                    else
-                    {
-                        structure_querySelect = structure_querySelect + ", st." + sFields + " as " + sFields;
-                    }
-
-                }
-                else
-                {
-                    structure_querySelect = " st." + sFields + " as " + sFields;
-                }
-
-            }
-            structure_querySelect = structure_querySelect.Replace(", ,", "");
-
-            string insertQuery_19_struc = "INSERT INTO " + DatabaseLiterals.TableStructure + " SELECT " + structure_querySelect;
-            insertQuery_19_struc = insertQuery_19_struc + " FROM " + attachedDBName + "." + DatabaseLiterals.TableStructure + " as st";
-            insertQuery_19.Add(insertQuery_19_struc);
+            List<string> strucNullFieldList = new List<string>() { FieldStructureDepth };
+            Tuple<string, string> strucPrimes = new Tuple<string, string>(FieldStructureID, FieldStructureID);
+            insertQuery_19.Add(GenerateInsertQueriesFromModel(strucFieldList, strucNullFieldList, TableStructure, strucPrimes, null, attachedDBName));
 
             #endregion
 
