@@ -61,11 +61,11 @@
             </Grid.RowDefinitions>
                 
             <ScrollView Orientation="Vertical" Grid.Row="0">
-                <VerticalStackLayout>
+                <VerticalStackLayout Margin="20">
 
                     <!--Picklist selection-->
                     <Border Stroke="Transparent">
-                        <VerticalStackLayout>
+                        <VerticalStackLayout >
 
                             <!--Text section-->
                             <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize PicklistPageHeading}"/>

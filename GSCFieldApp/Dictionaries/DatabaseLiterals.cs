@@ -473,6 +473,7 @@ namespace GSCFieldApp.Dictionaries
         public const string KeywordColourGeneric = "COLOUR_GENERIC"; //Name of the generic colour picklist within M_DICTIONNARY_MANAGER
         public const string KeywordColourIntensity = "COLOUR_INTENSITY"; //Name of the intensity colour picklist within M_DICTIONNARY_MANAGER
         public const string KeywordColourQualifier = "COLOUR_QUALIFIER"; //Name of the qualifier colour picklist within M_DICTIONNARY_MANAGER
+        public const string KeywordLinework = "line"; //Used for picklist editor
         #endregion
 
         #region Database guids

@@ -359,7 +359,10 @@ namespace GSCFieldApp.ViewModel
                         {
                             voc.Description = LocalizationResourceManager["FielNotesStructureHeader"].ToString();
                         }
-
+                        if (vcms.ThemeAssignTable.ToLower().Contains(KeywordLinework))
+                        {
+                            voc.Description = LocalizationResourceManager["FielNotesLineworkHeader"].ToString();
+                        }
                         //Prevent bs from beind added.
                         if (voc.Code != null && voc.Code != string.Empty)
                         {
