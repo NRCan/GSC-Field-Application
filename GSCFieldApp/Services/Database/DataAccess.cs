@@ -384,6 +384,44 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// From a given list of vocabularies items (usually coming from a more define query), will
+        /// output a list of combobox items. Will also output as in the default value else -1 for no
+        /// selection
+        /// </summary>
+        /// <param name="inVocab">List of vocabularies that needs to be converted to picker</param>
+        /// <returns></returns>
+        public ComboBox GetComboboxListFromStrings(IEnumerable<string> inStrings)
+        {
+            //Outputs
+            List<ComboBoxItem> outputStringList = new List<ComboBoxItem>();
+            int defaultValueIndex = -1;
+
+            //Fill in cbox
+            foreach (string s in inStrings)
+            {
+                ComboBoxItem newItem = new ComboBoxItem();
+
+                newItem.itemValue = s;
+                newItem.itemName = s;
+
+                outputStringList.Add(newItem);
+            }
+
+            //If at the end there is onlye one record, make it a default
+            if (outputStringList.Count == 1)
+            {
+                defaultValueIndex = 0;
+            }
+
+            //Set
+            ComboBox outputCombo = new ComboBox();
+            outputCombo.cboxItems = outputStringList;
+            outputCombo.cboxDefaultItemIndex = defaultValueIndex;
+
+            return outputCombo;
+        }
+
+        /// <summary>
         /// Will delete any record from given parameters.
         /// TODO: The field name entry could be replace with the prime key if a TableMapping object is created. I think it returns the prime key field name. - Gab
         /// </summary>
