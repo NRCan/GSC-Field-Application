@@ -12,6 +12,7 @@ using BruTile.Wmts.Generated;
 using GSCFieldApp.Controls;
 using NetTopologySuite.Index.HPRtree;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using System.Globalization;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -345,9 +346,29 @@ namespace GSCFieldApp.Services.DatabaseServices
                 {
                     newItem.itemValue = vocabs.Code;
                 }
+
                 if (vocabs.Description == null)
                 {
                     newItem.itemName = string.Empty;
+                }
+                else
+                {
+                    newItem.itemName = vocabs.Description;
+                }
+
+                //Manage language description
+                if (CultureInfo.CurrentCulture.ToString().ToLower().Contains("fr"))
+                {
+
+                    if (vocabs.DescriptionFR != null && vocabs.DescriptionFR != string.Empty)
+                    {
+                        newItem.itemName = vocabs.DescriptionFR;
+                    }
+                    else
+                    {
+                        newItem.itemName = vocabs.Description;
+                    }
+
                 }
                 else
                 {
