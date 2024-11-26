@@ -41,7 +41,7 @@
                             <Picker Title="{local:Localize LineworkPageLineType}" Style="{StaticResource FieldAppMandatoryPicker}"
                                 x:Name="LineworkTypePicker" 
                                 ItemsSource="{Binding LineworkType.cboxItems}" 
-                                ItemDisplayBinding="{Binding itemName}" 
+                                ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="LineworkTypePicker_SelectedIndexChanged"
                                 SelectedItem="{Binding Model.LineType, 
                                         Converter={StaticResource cbox2Str},
                                         ConverterParameter={Binding LineworkType, Source={x:Reference LineworkTypePicker}},
@@ -60,10 +60,16 @@
                                 SelectedIndex="{Binding LineworkConfidence.cboxDefaultItemIndex, Mode=TwoWay}">
                             </Picker>
 
-                            <VerticalStackLayout>
-                                <Label Text="{local:Localize LineworkPageSymbol}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <Entry Text="{Binding Model.LineSymbol, Mode=TwoWay}"/>
-                            </VerticalStackLayout>
+                            <Picker Title="{local:Localize LineworkPageSymbol}" 
+                                x:Name="LineworkColorPicker" 
+                                ItemsSource="{Binding LineworkColor.cboxItems}" 
+                                ItemDisplayBinding="{Binding itemName}" 
+                                SelectedItem="{Binding Model.LineSymbol, 
+                                    Converter={StaticResource cbox2Str},
+                                    ConverterParameter={Binding LineworkColor, Source={x:Reference LineworkColorPicker}},
+                                    Mode=TwoWay}"
+                                SelectedIndex="{Binding LineworkColor.cboxDefaultItemIndex, Mode=TwoWay}">
+                            </Picker>
 
                             <VerticalStackLayout >
 

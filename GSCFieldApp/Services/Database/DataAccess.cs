@@ -327,7 +327,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="inVocab">List of vocabularies that needs to be converted to picker</param>
         /// <returns></returns>
-        public ComboBox GetComboboxListFromVocab(IEnumerable<Vocabularies> inVocab)
+        public ComboBox GetComboboxListFromVocab(IEnumerable<Vocabularies> inVocab, bool SymbolAsValue = false)
         {
             //Outputs
             List<ComboBoxItem> outputVocabsList = new List<ComboBoxItem>();
@@ -338,6 +338,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 ComboBoxItem newItem = new ComboBoxItem();
 
+                //Manage nulls
                 if (vocabs.Code == null)
                 {
                     newItem.itemValue = string.Empty;
@@ -347,6 +348,13 @@ namespace GSCFieldApp.Services.DatabaseServices
                     newItem.itemValue = vocabs.Code;
                 }
 
+                //Manage symbols over code
+                if (vocabs.Symbol != null && SymbolAsValue)
+                {
+                    newItem.itemValue = vocabs.Symbol;
+                }
+
+                //Manage description null
                 if (vocabs.Description == null)
                 {
                     newItem.itemName = string.Empty;

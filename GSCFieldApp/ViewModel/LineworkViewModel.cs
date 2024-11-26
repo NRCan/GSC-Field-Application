@@ -29,6 +29,9 @@ namespace GSCFieldApp.ViewModel
         //UI
         private ComboBox _lineworkType = new ComboBox();
         private ComboBox _lineworkConfidence = new ComboBox();
+        private ComboBox _lineworkColor = new ComboBox();
+
+        private ComboBox _lineworkTypeColor = new ComboBox(); // Only used to gather a list of line types and their symbols
 
         #endregion
 
@@ -47,7 +50,7 @@ namespace GSCFieldApp.ViewModel
 
         public ComboBox LineworkType { get { return _lineworkType; } set { _lineworkType = value; } }
         public ComboBox LineworkConfidence { get { return _lineworkConfidence; } set { _lineworkConfidence = value; } }
- 
+        public ComboBox LineworkColor { get { return _lineworkColor; } set { _lineworkColor = value; } }
         #endregion
 
         #region RELAYS
@@ -114,7 +117,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Exit
-            if (_linework.IsMapPageQuick)
+            if (_linework == null || _linework.IsMapPageQuick == null ||_linework.IsMapPageQuick)
             {
                 //Exit on map
                 await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
@@ -162,10 +165,12 @@ namespace GSCFieldApp.ViewModel
 
             _lineworkType = await FillAPicker(FieldLineworkType);
             _lineworkConfidence = await FillAPicker(FieldLineworkConfidence);
+            _lineworkColor = await FillColorPicker(FieldLineworkSymbol);
+            _lineworkTypeColor = await FillColorPicker(FieldLineworkType);
 
             OnPropertyChanged(nameof(LineworkType));
             OnPropertyChanged(nameof(LineworkConfidence));
-
+            OnPropertyChanged(nameof(LineworkColor));
         }
 
         /// <summary>
@@ -175,6 +180,19 @@ namespace GSCFieldApp.ViewModel
         {
             //Make sure to user default database rather then the prefered one. This one will always be there.
             return await da.GetComboboxListWithVocabAsync(TableLinework, fieldName);
+
+        }
+
+        /// <summary>
+        /// Will fill the project type combobox
+        /// </summary>
+        private async Task<ComboBox> FillColorPicker(string fieldName)
+        {
+            //Get default colors
+            List<Vocabularies> vocs = await da.GetPicklistValuesAsync(TableLinework, fieldName, null, true);
+
+            //Return converted list to combobox
+            return da.GetComboboxListFromVocab(vocs, true);
 
         }
 
@@ -211,7 +229,8 @@ namespace GSCFieldApp.ViewModel
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
-
+                //Enforce color choice based on default linetype
+                SelectColorBasedOnLineType();
             }
 
         }
@@ -225,14 +244,12 @@ namespace GSCFieldApp.ViewModel
             //Set proper color schema if nothing available
             if (_model.LineType != null && (_model.LineSymbol == null || _model.LineSymbol == string.Empty))
             {
-                SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-                List<Vocabularies> vocab = await currentConnection.Table<Vocabularies>().Where(col => col.CodedTheme == vocabularyLineType && col.Code == _model.LineType).ToListAsync();
-
-                if (vocab != null && vocab.Count > 0)
+                List<ComboBoxItem> lineColorItem = _lineworkTypeColor.cboxItems.Where(x=>x.itemName == _lineworkType.cboxItems.ElementAt(_lineworkType.cboxDefaultItemIndex).itemName).ToList();
+                if (lineColorItem != null && lineColorItem.Count > 0)
                 {
-                    _model.LineSymbol = vocab[0].Symbol;
+                    _model.LineSymbol = lineColorItem[0].itemValue;
                 }
-                await currentConnection.CloseAsync();
+               
             }
             else if (_model.LineType == null)
             {
@@ -258,6 +275,37 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Change chosen color based on selected linetype
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void SelectColorBasedOnLineType()
+        {
+            if (_lineworkType != null && _lineworkType.cboxItems.Count() > 0)
+            {
+                //Find same symbol color in picklist
+                List<ComboBoxItem> lineColorItem = _lineworkTypeColor.cboxItems.Where(x => x.itemName == _lineworkType.cboxItems.ElementAt(_lineworkType.cboxDefaultItemIndex).itemName).ToList();
+                if (lineColorItem != null && lineColorItem.Count > 0)
+                {
+                    foreach (ComboBoxItem colors in _lineworkColor.cboxItems)
+                    {
+                        if (colors.itemValue == lineColorItem[0].itemValue)
+                        {
+                            _lineworkColor.cboxDefaultItemIndex = _lineworkColor.cboxItems.IndexOf(colors);
+                            OnPropertyChanged(nameof(LineworkColor));
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+
+        }
         #endregion
+
+
+
     }
 }
