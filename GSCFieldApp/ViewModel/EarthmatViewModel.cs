@@ -986,12 +986,20 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(EarthLithGrainSize));
 
                 //_earthLithOccurAs.cboxItems.Clear();
-                _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f=>f.FirstOrDefault()).ToList();
-                if (_earthLithOccurAs.cboxItems.Count == 1)
+                try
                 {
-                    _earthLithOccurAs.cboxDefaultItemIndex = 0;
+                    _earthLithOccurAs.cboxItems = _earthLithOccursAsAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
+                    if (_earthLithOccurAs.cboxItems.Count == 1)
+                    {
+                        _earthLithOccurAs.cboxDefaultItemIndex = 0;
+                    }
+                    OnPropertyChanged(nameof(EarthLithOccurAs));
                 }
-                OnPropertyChanged(nameof(EarthLithOccurAs));
+                catch (Exception e)
+                {
+                    new ErrorToLogFile(e.Message).WriteToFile();
+                }
+
             }
 
         }

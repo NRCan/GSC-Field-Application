@@ -37,19 +37,26 @@ namespace GSCFieldApp.Services
             string outputFileName = Path.GetFileName(da.PreferedDatabasePath).Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
 
             //Open save dialog
-            var fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
-
-            //Use Toast to show card in window interface or system like notification rather then modal alert popup.
-            if (fileSaverResult.IsSuccessful)
+            try
             {
-                string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
+                var fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
 
-                await Toast.Make(toastText).Show(cancellationToken);
+                //Use Toast to show card in window interface or system like notification rather then modal alert popup.
+                if (fileSaverResult.IsSuccessful)
+                {
+                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
+
+                    await Toast.Make(toastText).Show(cancellationToken);
+                }
+                else
+                {
+                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
+                    await Toast.Make(toastText).Show(cancellationToken);
+                }
             }
-            else
+            catch (Exception e)
             {
-                string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
-                await Toast.Make(toastText).Show(cancellationToken);
+                new ErrorToLogFile(e.Message).WriteToFile();
             }
 
             stream.Close();
