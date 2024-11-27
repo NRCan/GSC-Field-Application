@@ -229,9 +229,10 @@ namespace GSCFieldApp.ViewModel
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
-                //Enforce color choice based on default linetype
-                SelectColorBasedOnLineType();
             }
+
+            //Enforce color choice based on default linetype
+            SelectColorBasedOnLineType();
 
         }
 
