@@ -52,6 +52,47 @@ namespace GSCFieldApp.Services.DatabaseServices
             else
             {
                 finaleLocationString = await CalculateStationAliasAsync(DateTime.Now, officerCode) + TableLocationAliasSuffix;
+
+                //Edge case: Make sure it gets incremented if it's the first and only location record with no stations
+                if (finaleLocationString.EndsWith("001XY"))
+                {
+                    SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+                    List<FieldLocation> fls = await currentConnection.Table<FieldLocation>().ToListAsync();
+                    if (fls.Count() > 0)
+                    {
+                        FieldLocation lastLocation = fls[fls.Count - 1];
+                        int locationID = 0;
+                        int.TryParse(lastLocation.LocationAliasLight.Replace(TableLocationAliasSuffix, ""), out locationID);
+
+                        if (locationID > 0)
+                        {
+                            locationID = locationID + 1;
+
+                            string locationStringID = string.Empty;
+                            if (locationID < 10)
+                            {
+                                locationStringID = "000" + locationID.ToString();
+                            }
+                            else if (locationID >= 10 && locationID < 100)
+                            {
+                                locationStringID = "00" + locationID.ToString();
+                            }
+                            else if (locationID >= 100 && locationID < 1000)
+                            {
+                                locationStringID = "0" + locationID.ToString();
+                            }
+                            else
+                            {
+                                locationStringID = locationID.ToString();
+                            }
+
+                            finaleLocationString = finaleLocationString.Replace("001", locationStringID);
+                        }
+                    }
+
+                    await currentConnection.CloseAsync();
+                }
+
             }
 
             return finaleLocationString;
