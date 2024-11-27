@@ -141,10 +141,10 @@ namespace GSCFieldApp.Services.DatabaseServices
                 if (drills != null && drills.Count > 0)
                 {
                     int drillIDNo = 0;
-                    int.TryParse(drills[0].DrillAliasLight, out drillIDNo);
+                    int.TryParse(drills[0].DrillAliasLight.Replace(TableDrillHolePrefix, ""), out drillIDNo);
 
                     //Increment only if it's higher then last drill hole
-                    if (stationCount < drillIDNo)
+                    if (stationCount <= drillIDNo)
                     {
                         stationCount = drillIDNo + 1;
                     }
@@ -876,7 +876,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             //Querying with Linq
             SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-            List<DrillHole> drills = await currentConnection.Table<DrillHole>().Where(e => e.DrillLocationID == parentID).ToListAsync();
+            List<DrillHole> drills = await currentConnection.Table<DrillHole>().ToListAsync();
 
             //Get current year
             string currentDate = recordDate.Year.ToString();
@@ -899,7 +899,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     int.TryParse(stations[0].StationAliasLight, out stationIDNo);
 
                     //Increment only if it's higher then last station
-                    if (drillCount < stationIDNo)
+                    if (drillCount <= stationIDNo)
                     {
                         drillCount = stationIDNo + 1;
                     }
