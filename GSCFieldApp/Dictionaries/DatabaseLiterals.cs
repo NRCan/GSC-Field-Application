@@ -506,5 +506,11 @@ namespace GSCFieldApp.Dictionaries
         public const string ApplicationThemeDrillHole = "bedrock - drill hole";
         #endregion
 
+        #region String Formating
+
+        public const string DateStringFormat = "yyyy-MM-dd";
+
+        #endregion
+
     }
 }

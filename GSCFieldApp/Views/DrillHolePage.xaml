@@ -21,6 +21,7 @@
         <conv:BoolFromStringConverter x:Key="BoolFromStr" />
         <conv:String2Integers x:Key="Str2Int"/>
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
+        <conv:String2Date x:Key="Str2Date"/>
 
     </ContentPage.Resources>
 
@@ -132,7 +133,7 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DrillHolePageDate}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <DatePicker Format="YYYY-MM-dd" Date="{Binding Model.DrillDate}"/>
+                                <DatePicker Format="YYYY-MM-dd" Date="{Binding Model.DrillDate, Mode=TwoWay, Converter={StaticResource Str2Date}}"/>
                             </VerticalStackLayout>
 
 
@@ -167,7 +168,7 @@
 
                             <VerticalStackLayout>
                                 <Label Text="{local:Localize DrillHoleLogDate}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <DatePicker Format="YYYY-MM-dd" Date="{Binding Model.DrillRelogDate}"/>
+                                <DatePicker Format="YYYY-MM-dd" Date="{Binding Model.DrillRelogDate, Mode=TwoWay, Converter={StaticResource Str2Date}}"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout >

@@ -229,7 +229,36 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         private async Task SetModelAsync()
         {
+            //Manage date pickers
+            //They don't init with the current datetime value which ends in a null value ni the database
+            //Manage initial value for datepickers
+            if (_model != null)
+            {
+                if (_model.DrillDate is null || _model.DrillDate == string.Empty)
+                {
+                    _model.DrillDate = DateTime.Today.ToString(DateStringFormat);
 
+                    //Refresh
+                    OnPropertyChanged(nameof(Model));
+                }
+
+                if (_model.DrillRelogDate is null || _model.DrillRelogDate == string.Empty)
+                {
+                    _model.DrillRelogDate = DateTime.Today.ToString(DateStringFormat);
+
+                    //Refresh
+                    OnPropertyChanged(nameof(Model));
+                }
+
+
+            }
+
+            #region Process pickers
+            if (DrillHoleLogIntervalCollection.Count > 0)
+            {
+                Model.DrillRelogIntervals = ConcatenatedCombobox.PipeValues(DrillHoleLogIntervalCollection); //process list of values so they are concatenated.
+            }
+            #endregion
         }
 
         /// <summary>
@@ -273,7 +302,6 @@ namespace GSCFieldApp.ViewModel
                 //Set model like actual record
                 _model = _drillHole;
 
-
                 List<string> dris = ConcatenatedCombobox.UnpipeString(_drillHole.DrillRelogIntervals);
                 _drillHoleLogIntervalCollection.Clear(); //Clear any possible values first
                 foreach (string dri in dris)
@@ -290,6 +318,7 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(Model));
 
             }
+
         }
 
         /// <summary>
