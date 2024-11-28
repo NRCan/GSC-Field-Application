@@ -1897,7 +1897,7 @@ Shimamura, Kaz – Senior Advisor</value>
     <value>Check Update</value>
     <comment>Added By Jamel June 2024</comment>
   </data>
-  <data name="RepoLinkTextBlock.text" xml:space="preserve">
+  <data name="RepoLinkTextBlock.Text" xml:space="preserve">
     <value>Here</value>
     <comment>Added by Jamel June 2024</comment>
   </data>
