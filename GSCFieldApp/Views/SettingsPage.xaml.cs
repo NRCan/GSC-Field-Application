@@ -1,7 +1,12 @@
+using System;
+using System.Net.Http;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Template10.Controls;
+using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -118,6 +123,58 @@ namespace GSCFieldApp.Views
         private void AboutTeamPicture_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             this.AboutTeamPicture.Visibility = Visibility.Collapsed;
+        }
+
+        //Check to see if the user is using the latest app version
+        private async void OnDownloadLinkClicked(Hyperlink sender, HyperlinkClickEventArgs args)
+        {
+            try
+            {
+                string CurrentVersion = GetCurrentVersion();
+                string LatestVersion = await GetLatestVersionFromGitHubAsync();
+
+                if (string.IsNullOrWhiteSpace(LatestVersion))
+                {
+                    ShowMessage("Unable to retrieve the latest version. Please try again later.");
+                    return;
+                }
+
+                if (CurrentVersion == LatestVersion)
+                {
+                    ShowMessage($"You have the latest version: {CurrentVersion}.");
+                }
+                else
+                {
+                    ShowMessage($"A new version is available: {LatestVersion}. Your version: {CurrentVersion}.");
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowMessage($"Error checking for updates: {ex.Message}");
+            }
+        }
+
+        private string GetCurrentVersion()
+        {
+            var version = Package.Current.Id.Version;
+            return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+        }
+
+        private async Task<string> GetLatestVersionFromGitHubAsync()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AppVersionChecker/1.0)");
+                var response = await client.GetStringAsync("https://api.github.com/repos/NRCan/GSC-Field-Application/releases/latest");
+                dynamic json = Newtonsoft.Json.JsonConvert.DeserializeObject(response); // Install Newtonsoft.Json
+                return json?.tag_name; // Assuming 'tag_name' holds the release version, adjust if necessary
+            }
+        }
+
+        private void ShowMessage(string message)
+        {
+            var dialog = new Windows.UI.Popups.MessageDialog(message);
+            dialog.ShowAsync();
         }
 
     }
