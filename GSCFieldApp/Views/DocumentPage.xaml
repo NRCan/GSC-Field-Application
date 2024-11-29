@@ -65,8 +65,8 @@
                             </VerticalStackLayout>
 
 
-                            <Picker Title="{local:Localize DocumentPageScaleDirection}" 
-                                x:Name="DocumentScalePicker" MaximumWidthRequest="100"
+                            <Picker Title="{local:Localize DocumentPageScaleDirection}"  Style="{StaticResource FieldAppPicker}"
+                                x:Name="DocumentScalePicker"
                                 ItemsSource="{Binding DocumentScale.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 
                                 SelectedItem="{Binding Model.ScaleDirection, 
@@ -151,8 +151,8 @@
                             <VerticalStackLayout IsEnabled="{Binding Model.CanBatchCreate}">
                                 <Label Text="{local:Localize DocumentPageBatchEntry}" Style="{StaticResource FieldAppEntryTitle}"/>
 
-                                <HorizontalStackLayout>
-                                    <VerticalStackLayout>
+                                <HorizontalStackLayout HorizontalOptions="Start">
+                                    <VerticalStackLayout Margin="0,0,25,0">
                                         <Label Text="{local:Localize DocumentPageFileNoFrom}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                                         <Entry Text="{Binding Model.FileNumber, Mode=TwoWay, Converter={StaticResource Str2Int}}" 
                                                Style="{StaticResource FieldAppNumBox}" 
