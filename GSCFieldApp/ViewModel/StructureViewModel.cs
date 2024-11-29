@@ -382,19 +382,24 @@ namespace GSCFieldApp.ViewModel
                 //Set model like actual record
                 _model = _structure;
 
+                #region Pickers
+
+                //Make sure to concatenate class picker from two fields (class and type)
+                if (_model != null && _model.GetClassType != null && _model.GetClassType != string.Empty)
+                {
+                    _model.StructureClass = _model.GetClassType;
+                }
+
+                #endregion
+
                 //Refresh
                 OnPropertyChanged(nameof(Model));
 
-
-            }
-            else
-            {
                 //Fill in second round of pickers
-                await Fill2ndRoundPickers();
+                await Fill2ndRoundPickers().ContinueWith(async antecedent => await Load2ndRound());
 
-                //Load
-                //await Load2ndRound();
             }
+
         }
 
         /// <summary>
