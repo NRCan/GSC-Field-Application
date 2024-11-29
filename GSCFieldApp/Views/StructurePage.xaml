@@ -203,8 +203,8 @@
                         <VerticalStackLayout>
 
                             <HorizontalStackLayout>
-                                <Label Text="{local:Localize StructurePagePlotMap}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <CheckBox IsChecked="{Binding Model.StructurePlotToMap, Converter={StaticResource BoolFromStr}, Mode=TwoWay}"/>
+                                <Label Text="{local:Localize StructurePagePlotMap}" Style="{StaticResource FieldAppCheckboxLabel}"/>
+                                <CheckBox IsChecked="{Binding Model.StructurePlotToMap, Converter={StaticResource BoolFromStr}, Mode=TwoWay}" Style="{StaticResource  FieldAppCheckbox}"/>
                             </HorizontalStackLayout>
 
                             <VerticalStackLayout >

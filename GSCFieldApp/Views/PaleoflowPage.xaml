@@ -111,8 +111,8 @@
                             </VerticalStackLayout>
 
                             <HorizontalStackLayout>
-                                <Label Text="{local:Localize PaleoflowPageIsMainDirection}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <CheckBox IsChecked="{Binding Model.PFlowMainDir, Converter={StaticResource BoolFromStr}, Mode=TwoWay}"/>
+                                <Label Text="{local:Localize PaleoflowPageIsMainDirection}" Style="{StaticResource FieldAppCheckboxLabel}"/>
+                                <CheckBox IsChecked="{Binding Model.PFlowMainDir, Converter={StaticResource BoolFromStr}, Mode=TwoWay}" Style="{StaticResource  FieldAppCheckbox}"/>
                             </HorizontalStackLayout>
 
                         </VerticalStackLayout>
