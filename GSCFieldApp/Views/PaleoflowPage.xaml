@@ -22,7 +22,8 @@
         <conv:BoolFromStringConverter x:Key="BoolFromStr" />
         <conv:String2Integers x:Key="Str2Int"/>
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
-
+        <conv:ComboboxItemToInt x:Key="cbox2Int"/>
+        
     </ContentPage.Resources>
 
     <ContentPage.Content>
@@ -111,8 +112,8 @@
                             </VerticalStackLayout>
 
                             <HorizontalStackLayout>
-                                <Label Text="{local:Localize PaleoflowPageIsMainDirection}" Style="{StaticResource FieldAppEntryTitle}"/>
-                                <CheckBox IsChecked="{Binding Model.PFlowMainDir, Converter={StaticResource BoolFromStr}, Mode=TwoWay}"/>
+                                <Label Text="{local:Localize PaleoflowPageIsMainDirection}" Style="{StaticResource FieldAppCheckboxLabel}"/>
+                                <CheckBox IsChecked="{Binding Model.PFlowMainDir, Converter={StaticResource BoolFromStr}, Mode=TwoWay}" Style="{StaticResource  FieldAppCheckbox}"/>
                             </HorizontalStackLayout>
 
                         </VerticalStackLayout>
@@ -175,7 +176,7 @@
                                     ItemsSource="{Binding PaleoflowRelativeAge.cboxItems}" 
                                     ItemDisplayBinding="{Binding itemName}"
                                     SelectedItem="{Binding Model.PFlowRelAge, 
-                                        Converter={StaticResource cbox2Str},
+                                        Converter={StaticResource cbox2Int},
                                         ConverterParameter={Binding PaleoflowRelativeAge, Source={x:Reference PaleoflowPageRelativeAgePicker}},
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding PaleoflowRelativeAge.cboxDefaultItemIndex, Mode=TwoWay}" />

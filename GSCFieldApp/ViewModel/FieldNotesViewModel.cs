@@ -52,15 +52,7 @@ namespace GSCFieldApp.ViewModel
         /// <param name="value"></param>
         partial void OnUpdateTableIDChanged(string value)
         {
-            //Make sure to run update only if a human wants it...
-            //TODO: find out why this is triggered, at worst 3 times, in a row with all
-            // the last values
-            TimeSpan updateSpan = DateTime.Now - lastTimeTableUpdate;
-            if (updateSpan.TotalSeconds > 2)
-            {
-                lastTimeTableUpdate = DateTime.Now;
-                UpdateRecordList(_updateTable);
-            }
+            UpdateRecordList(_updateTable);
         }
 
         private bool _isStationExpanded = true;
@@ -1546,32 +1538,35 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            //Get all stations from database
-            List<FieldLocation> locations = await inConnection.Table<FieldLocation>().OrderBy(s => s.LocationID).ToListAsync();
-            ObservableCollection<FieldNote> locationsFN = new ObservableCollection<FieldNote>();
-            if (locations != null && locations.Count > 0)
+            if (LocationVisible)
             {
-
-                foreach (FieldLocation loc in locations)
+                //Get all stations from database
+                List<FieldLocation> locations = await inConnection.Table<FieldLocation>().OrderBy(s => s.LocationID).ToListAsync();
+                ObservableCollection<FieldNote> locationsFN = new ObservableCollection<FieldNote>();
+                if (locations != null && locations.Count > 0)
                 {
-                    string coordinatesFormat = string.Format("{0}° {1}°",
-                        Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
-                    locationsFN.Add(new FieldNote
-                    {
-                        Display_text_1 = loc.LocationAliasLight,
-                        Display_text_2 = coordinatesFormat,
-                        Display_text_3 = loc.locationNTS,
-                        GenericTableName = TableLocation,
-                        GenericID = loc.LocationID,
-                        ParentID = loc.MetaID,
-                        isValid = loc.isValid,
-                        Date = loc.LocationTimestamp.Substring(0, 10)
-                    });
-                }
 
+                    foreach (FieldLocation loc in locations)
+                    {
+                        string coordinatesFormat = string.Format("{0}° {1}°",
+                            Math.Round(loc.LocationLat, 8), Math.Round(loc.LocationLong, 8));
+                        locationsFN.Add(new FieldNote
+                        {
+                            Display_text_1 = loc.LocationAliasLight,
+                            Display_text_2 = coordinatesFormat,
+                            Display_text_3 = loc.locationNTS,
+                            GenericTableName = TableLocation,
+                            GenericID = loc.LocationID,
+                            ParentID = loc.MetaID,
+                            isValid = loc.isValid,
+                            Date = loc.LocationTimestamp.Substring(0, 10)
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.location] = locationsFN;
+                OnPropertyChanged(nameof(Locations));
             }
-            FieldNotes[TableNames.location] = locationsFN;
-            OnPropertyChanged(nameof(Locations));
 
         }
 
@@ -1645,32 +1640,34 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            //Get all stations from database
-            List<Linework> lineworks = await inConnection.Table<Linework>().OrderBy(s => s.LineIDName).ToListAsync();
-            ObservableCollection<FieldNote> lineworksFN = new ObservableCollection<FieldNote>();
-            if (lineworks != null && lineworks.Count > 0)
+            if (LineworkVisible)
             {
-
-                foreach (Linework ln in lineworks)
+                //Get all stations from database
+                List<Linework> lineworks = await inConnection.Table<Linework>().OrderBy(s => s.LineIDName).ToListAsync();
+                ObservableCollection<FieldNote> lineworksFN = new ObservableCollection<FieldNote>();
+                if (lineworks != null && lineworks.Count > 0)
                 {
-                    lineworksFN.Add(new FieldNote
-                    {
-                        Display_text_1 = ln.LineAliasLight,
-                        Display_text_2 = ln.LineType,
-                        Display_text_3 = ln.LineNotes,
-                        GenericTableName = TableLinework,
-                        GenericID = ln.LineID,
-                        ParentID = ln.LineMetaID,
-                        isValid = ln.isValid
-                    });
-                }
 
+                    foreach (Linework ln in lineworks)
+                    {
+                        lineworksFN.Add(new FieldNote
+                        {
+                            Display_text_1 = ln.LineAliasLight,
+                            Display_text_2 = ln.LineType,
+                            Display_text_3 = ln.LineNotes,
+                            GenericTableName = TableLinework,
+                            GenericID = ln.LineID,
+                            ParentID = ln.LineMetaID,
+                            isValid = ln.isValid
+                        });
+                    }
+
+                }
+                FieldNotes[TableNames.linework] = lineworksFN;
+                OnPropertyChanged(nameof(Lineworks));
             }
-            FieldNotes[TableNames.linework] = lineworksFN;
-            OnPropertyChanged(nameof(Lineworks));
 
         }
-
 
         /// <summary>
         /// A method that will filter out all records in field note page
@@ -1804,7 +1801,8 @@ namespace GSCFieldApp.ViewModel
         /// <summary>
         /// Will refresh a desire table in the field notes
         /// This should be triggered when user is coming from a form, either
-        /// adding items or editing them
+        /// adding items or editing them or coming from map page.
+        /// We need to make sure all parents are also refreshed
         /// </summary>
         public async void UpdateRecordList(TableNames tableToUpdate)
         {
@@ -1822,42 +1820,69 @@ namespace GSCFieldApp.ViewModel
                     await FillLocationNotes(currentConnection);
                     break;
                 case TableNames.station:
+                    await FillLocationNotes(currentConnection);
                     await FillStationNotes(currentConnection);
                     break;
                 case TableNames.earthmat:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
                     await FillEMNotes(currentConnection);
                     break;
                 case TableNames.sample:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
+                    await FillEMNotes(currentConnection);
                     await FillSampleNotes(currentConnection);
                     break;
                 case TableNames.mineralization:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
                     await FillMineralizationAlterationNotes(currentConnection);
                     break;
                 case TableNames.mineral:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
+                    await FillEMNotes(currentConnection);
+                    await FillMineralizationAlterationNotes(currentConnection);
                     await FillMineralNotes(currentConnection);
                     break;
                 case TableNames.document:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
                     await FillDocumentNotes(currentConnection);
                     break;
                 case TableNames.structure:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
+                    await FillEMNotes(currentConnection);
                     await FillStructureNotes(currentConnection);
                     break;
                 case TableNames.fossil:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
+                    await FillEMNotes(currentConnection);
                     await FillFossilNotes(currentConnection);
                     break;
                 case TableNames.environment:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
                     await FillEnvironmentNotes(currentConnection);
                     break;
                 case TableNames.pflow:
+                    await FillLocationNotes(currentConnection);
+                    await FillStationNotes(currentConnection);
+                    await FillEMNotes(currentConnection);
                     await FillPaleoflowNotes(currentConnection);
                     break;
                 case TableNames.drill:
+                    await FillLocationNotes(currentConnection);
                     await FillDrillHoleNotes(currentConnection);
                     break;
                 case TableNames.linework:
                     await FillLineworkNotes(currentConnection);
                     break;
                 default:
+                    await FillLocationNotes(currentConnection);
                     await FillStationNotes(currentConnection);
                     break;
             }

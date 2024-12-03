@@ -56,7 +56,6 @@ public partial class MapPage : ContentPage
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
     private DataAccess da = new DataAccess();
     private GeopackageService geopackService = new GeopackageService();
-    private int bitmapSymbolId = -1;
     private bool _isCheckingGeolocation = false;
     private bool _isTapMode = false;
     private bool _isDrawingLine = false;
@@ -68,6 +67,9 @@ public partial class MapPage : ContentPage
     private GeometryFeature _drawableGeometry = null; //Meant to be used for linework
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
+    //Symbols
+    private int bitmapSymbolId = -1;
 
     public MapPage(MapViewModel vm)
     {
@@ -83,9 +85,6 @@ public partial class MapPage : ContentPage
             HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
             VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
         });
-
-        //Setting map page background default data
-        SetOpenStreetMap();
 
         //Set map and start listenning to layer events
         mapView.Map = mapControl.Map;
@@ -140,7 +139,7 @@ public partial class MapPage : ContentPage
             if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
             {
                 //Remove layer, in order to force a refresh
-                ILayer[] featLayers = mapView.Map.Layers.Where(x=>x.Name == item.Name).ToArray();
+                ILayer[] featLayers = mapView.Map.Layers.Where(x => x.Name == item.Name).ToArray();
                 mapView.Map.Layers.Remove(featLayers);
 
                 //Fetch the layer object
@@ -155,17 +154,17 @@ public partial class MapPage : ContentPage
                 if (reloadLayer != null)
                 {
                     //Make sure it's not already in there
-                    if (mapView.Map.Layers.Where(x=>x.Name == reloadLayer.Name).Count() == 0)
+                    if (mapView.Map.Layers.Where(x => x.Name == reloadLayer.Name).Count() == 0)
                     {
                         mapView.Map.Layers.Add(reloadLayer);
                     }
- 
+
                     //Zoom to extent of stations
                     if (defaultToReload == defaultLayerList.Stations)
                     {
                         SetExtent(reloadLayer);
                     }
-                    
+
                 }
             }
         }
@@ -173,6 +172,7 @@ public partial class MapPage : ContentPage
         //Force redraw of all
         mapView.Map.RefreshData();
     }
+
 
     /// <summary>
     /// Once the map is loaded, make a quick check on 
@@ -184,6 +184,8 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void MapPage_Loaded(object sender, EventArgs e)
     {
+        //Setting map page background default data
+        SetOpenStreetMap();
 
         //Manage symbol and layers
         await AddSymbolToRegistry();
@@ -195,12 +197,11 @@ public partial class MapPage : ContentPage
         await LoadPreferedLayers();
 
         //Manage GPS
-        if (!_isCheckingGeolocation && !_isTapMode)
-        {
-
-            await StartGPS();
-
+        if (!_isCheckingGeolocation && !_isTapMode) 
+        { 
+            await StartGPS(); 
         }
+  
     }
 
     private async void mapView_MapClicked(object sender, MapClickedEventArgs e)
@@ -929,12 +930,26 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     public async Task<int> AddSymbolToRegistry()
     {
-        using Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"point.png");
+        //Make sure it's not already registered
+        if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapSymbolId), out bitmapSymbolId))
+        {
+            //Stream the pnt for the symbol
+            await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"point.png"))
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                pointBitmap.CopyTo(memoryStream);
 
-        MemoryStream memoryStream = new MemoryStream();
-        pointBitmap.CopyTo(memoryStream);
-        return bitmapSymbolId = BitmapRegistry.Instance.Register(memoryStream);
+                //Register
+                bitmapSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapSymbolId));
 
+            }
+
+            return bitmapSymbolId;
+        }
+        else
+        {
+            return bitmapSymbolId;
+        }
     }
 
     /// <summary>
