@@ -946,8 +946,19 @@ namespace GSCFieldApp.ViewModel
             //Get all dates from key TableNames
             List<Station> stats = await inConnection.QueryAsync<Station>(string.Format("select distinct({0}) from {1} order by {0} desc", 
                 FieldStationVisitDate, TableStation));
-            List<FieldLocation> locs = await inConnection.QueryAsync<FieldLocation>(string.Format("select distinct(SUBSTRING({0}, 1, 10)) as {0} from {1} order by {0} desc",
+            List<FieldLocation> locs = new List<FieldLocation>();
+
+            try
+            {
+                locs = await inConnection.QueryAsync<FieldLocation>(string.Format("select distinct(SUBSTRING({0}, 1, 10)) as {0} from {1} order by {0} desc",
                 FieldLocationTimestamp, TableLocation));
+
+            }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+            }
+
 
             //Get all dates from database
             if (stats != null && stats.Count > 0)
