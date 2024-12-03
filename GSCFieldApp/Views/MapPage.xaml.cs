@@ -337,7 +337,15 @@ public partial class MapPage : ContentPage
         FileResult fr = await PickLayer();
         if (fr != null)
         {
-            await AddAMBTile(fr.FullPath);
+            if (fr.FileName.Contains(DatabaseLiterals.LayerTypeMBTiles) )
+            {
+                await AddAMBTile(fr.FullPath);
+            }
+            else if (fr.FileName.Contains(DatabaseLiterals.LayerTypeGPKG))
+            {
+
+            }
+            
         }
 
         this.WaitingCursor.IsRunning = false;
@@ -694,6 +702,50 @@ public partial class MapPage : ContentPage
                 await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
                     e.Message,
                     LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                new ErrorToLogFile(e).WriteToFile();
+            }
+
+        }
+
+    }
+
+    /// <summary>
+    /// Will add a geopackage file to map page from incoming file path
+    /// </summary>
+    /// <param name="gpkgPath"></param>
+    /// <returns></returns>
+    public async Task AddGPKG(string gpkgPath, MapPageLayer pageLayer = null)
+    {
+        if (gpkgPath != null && gpkgPath != string.Empty)
+        {
+            try
+            {
+
+                //MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
+                //byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
+                
+                //TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
+                //newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
+                //newTileLayer.Tag = mbTilePath;
+
+                ////If full object is passed, get extra info in
+                //if (pageLayer != null)
+                //{
+                //    newTileLayer.Opacity = pageLayer.LayerOpacity;
+                //    newTileLayer.Enabled = pageLayer.LayerVisibility;
+                //}
+
+                ////Insert at right location in collection
+                //InsertLayerAtRightPlace(newTileLayer);
+            }
+            catch (System.Exception e)
+            {
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                    e.Message,
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                new ErrorToLogFile(e).WriteToFile();
             }
 
         }
@@ -981,9 +1033,9 @@ public partial class MapPage : ContentPage
             FilePickerFileType customFileType = new FilePickerFileType(
                 new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
-                        {DevicePlatform.WinUI, new [] { DatabaseLiterals.LayerTypeMBTiles} },
+                        {DevicePlatform.WinUI, new [] { DatabaseLiterals.LayerTypeMBTiles, DatabaseLiterals.LayerTypeGPKG} },
                         {DevicePlatform.Android, new [] { "application/*"} },
-                        {DevicePlatform.iOS, new [] { DatabaseLiterals.LayerTypeMBTiles } },
+                        {DevicePlatform.iOS, new [] { DatabaseLiterals.LayerTypeMBTiles, DatabaseLiterals.LayerTypeGPKG } },
                 });
 
             PickOptions options = new PickOptions();
@@ -993,7 +1045,8 @@ public partial class MapPage : ContentPage
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
             {
-                if (result.FileName.Contains(DatabaseLiterals.LayerTypeMBTiles))
+                if (result.FileName.Contains(DatabaseLiterals.LayerTypeMBTiles) ||
+                    result.FileName.Contains(DatabaseLiterals.LayerTypeGPKG))
                 {
                     return result;
                 }
@@ -1219,7 +1272,7 @@ public partial class MapPage : ContentPage
                         //Build feature metadata
                         WKTReader wellKnownTextReader = new WKTReader();
                         IFeature feat = new GeometryFeature(wellKnownTextReader.Read(inLineString.AsText()));
-
+                        
                         if (feat != null)
                         {
                             feat["name"] = lw.LineAliasLight;

@@ -237,6 +237,64 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
+        /// Will take a input line string object and transform it from one coordinate system
+        /// to another.
+        /// WARNING: About EPSG3857 and it's Y-axis problem
+        /// https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/
+        /// </summary>
+        /// <param name="inLineCoordinates"></param>
+        /// <param name="inCoordSystem"></param>
+        /// <param name="outCoordSystem"></param>
+        /// <returns></returns>
+        public static async Task<NTS.Geometries.MultiPolygon> TransformPolygonCoordinates(NTS.Geometries.MultiPolygon inPolyCoordinates, CoordinateSystem inCoordSystem, CoordinateSystem outCoordSystem)
+        {
+            //Init
+            NTS.Geometries.MultiPolygon outPoly = new NTS.Geometries.MultiPolygon(new Polygon[] { });
+            Polygon[] transformedCoordinates = new Polygon[inPolyCoordinates.Count];
+            int coordinateIndex = 0;
+
+            //Keep error log
+            try
+            {
+                
+                //Transform
+                CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory();
+                ICoordinateTransformation trans = ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem);
+
+                foreach (Geometry g in inPolyCoordinates.Geometries)
+                {
+                    if (g.OgcGeometryType == NTS.Geometries.OgcGeometryType.MultiPolygon)
+                    {
+
+
+                        foreach (Coordinate c in inPolyCoordinates.Coordinates)
+                        {
+
+                            double[] pointDouble = { c.X, c.Y };
+                            double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
+                            transformedCoordinates[coordinateIndex] = new Polygon(transformedPoint[0], transformedPoint[1]);
+                            coordinateIndex++;
+                        }
+                    }
+
+                }
+
+
+
+                //Create line
+                outPoly = defaultMapsuiGeometryFactory.CreateMultiPolygon(transformedCoordinates);
+            }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+                await Shell.Current.DisplayAlert("Error", e.Message, "Ok");
+            }
+
+
+            return outPoly;
+        }
+
+        /// <summary>
         /// Will add a new coordinate to a linestring object
         /// </summary>
         /// <param name="inLineCoordinates"></param>
@@ -275,6 +333,45 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return bytePoint;
 
+        }
+
+        /// <summary>
+        /// From a given byte array that defines a geometry, will return a polygon object
+        /// WARNING: About EPSG3857 and it's Y-axis problem
+        /// https://alastaira.wordpress.com/2011/01/23/the-google-maps-bing-maps-spherical-mercator-projection/
+        /// </summary>
+        /// <param name="geomBytes">The byte array to transform into a point object</param>
+        /// <returns></returns>
+        public async Task<NTS.Geometries.LineString> GetGeometryPolygonFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
+        {
+            //Init
+            NTS.Geometries.MultiPolygon outPolygon = new NTS.Geometries.MultiPolygon(new Polygon[] { });
+
+            //Build geopackage reader to get geometry as proper object
+            PrecisionModel precisionModel = new PrecisionModel(PrecisionModels.FloatingSingle); //to get all decimals
+            CoordinateSequenceFactory coordinateSequenceFactory = NtsGeometryServices.Instance.DefaultCoordinateSequenceFactory;
+            GeoPackageGeoReader geoReader = new GeoPackageGeoReader(coordinateSequenceFactory, precisionModel);
+            geoReader.HandleSRID = true;
+            NTS.Geometries.Geometry geom = geoReader.Read(geomBytes);
+
+            if (geom.OgcGeometryType == NTS.Geometries.OgcGeometryType.MultiPolygon)
+            {
+                outPolygon = geom as NTS.Geometries.MultiPolygon;
+            }
+
+            if (outPolygon != null && outPolygon.SRID != -1 && outPolygon.SRID != outSrid)
+            {
+                //Create a coord factory for incoming traverses
+                CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outPolygon.SRID);
+
+                //Default map page coordinate
+                CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSrid);
+
+                //Transform
+                outPolygon = await TransformLineCoordinates(outPolygon, incomingProjection, outgoingProjection);
+            }
+
+            return outPolygon;
         }
     }
 }

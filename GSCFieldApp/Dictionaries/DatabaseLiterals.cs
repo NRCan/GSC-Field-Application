@@ -420,6 +420,7 @@ namespace GSCFieldApp.Dictionaries
         public const string DBTypeGeopackageWal = "-wal"; //Version 1.7
         public const string DBTypeGeopackageSHM = "-shm"; //Version 1.7
         public const string LayerTypeMBTiles = ".mbtiles";
+        public const string LayerTypeGPKG = ".gpkg"; 
         #endregion
 
         #region Database default values for field
