@@ -206,14 +206,12 @@ public partial class MapPage : ContentPage
 
     private async void mapView_MapClicked(object sender, MapClickedEventArgs e)
     {
-        //Make sure to disable map layer frame
-        MapLayerFrame.IsVisible = false;
 
         //NOT WORKING --> Get feature info
         //GetWMSFeatureInfo(e.Point);
 
         //Detect if in tap mode or drawing lines to show tapped coordinates on screen
-        if (!_isCheckingGeolocation && !_isDrawingLine)
+        if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible)
         {
             //Keep tap mode for future validation
             _isTapMode = true;
@@ -253,6 +251,8 @@ public partial class MapPage : ContentPage
             _isTapMode = false;
         }
 
+        //Make sure to disable map layer frame
+        MapLayerFrame.IsVisible = false;
     }
 
     /// <summary>
@@ -431,6 +431,19 @@ public partial class MapPage : ContentPage
             {
                 if (_vm.LayerCollection != null && _vm.LayerCollection.Count() > 0)
                 {
+                    //Reorder layers (user might have changed it) - reverse to match mapsui ordering
+                    List<ILayer> reverseLayers = new List<ILayer>();
+                    reverseLayers.AddRange(_vm.LayerCollection.ToList());
+                    reverseLayers.Reverse();
+                    foreach (ILayer layer in reverseLayers)
+                    {
+                        if (mapView.Map.Layers.Contains(layer))
+                        {
+                            mapView.Map.Layers.Move(reverseLayers.IndexOf(layer), layer);
+                        }
+                    }
+                    mapView.Map.Refresh();
+
                     //Update layer collection for menu
                     _vm.RefreshLayerCollection(mapView.Map.Layers);
 
@@ -1803,7 +1816,7 @@ public partial class MapPage : ContentPage
         this.WaitingCursor.IsRunning = false;
     }
 
-    #endregion
 
+    #endregion
 
 }

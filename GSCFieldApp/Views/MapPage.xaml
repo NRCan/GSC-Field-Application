@@ -119,7 +119,7 @@
             <Border x:Name="MapLayerFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
                    Margin="0" PropertyChanged="MapLayerFrame_PropertyChanged"
                    HeightRequest="300" WidthRequest="350" IsVisible="False">
-                <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection"
+                <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection" CanReorderItems="True"
                                 ItemTemplate="{StaticResource MapLayersProperties}"
                                 ItemsSource="{Binding LayerCollection,Mode=TwoWay}" />
                 
