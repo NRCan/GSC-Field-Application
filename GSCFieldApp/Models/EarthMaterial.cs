@@ -352,7 +352,7 @@ namespace GSCFieldApp.Models
                 }
                 else
                 {
-                    return DatabaseLiterals.picklistNACode;
+                    return EarthMatName;
                 }
             }
             set { }

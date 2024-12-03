@@ -144,7 +144,7 @@ namespace GSCFieldApp.Models
                     }
                     else
                     {
-                        return picklistNACode;
+                        return DrillIDName;
                     }
 
                 }
