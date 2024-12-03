@@ -154,7 +154,7 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
-            await Shell.Current.GoToAsync($"//{nameof(FieldBooksPage)}/");
+            await Shell.Current.GoToAsync($"//{nameof(FieldBooksPage)}");
         }
 
         #endregion

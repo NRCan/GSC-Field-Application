@@ -11,7 +11,8 @@
              Title="{local:Localize FieldBookPageTitle}">
 
     <Shell.BackButtonBehavior>
-        <BackButtonBehavior Command="{Binding BackCommand}" />
+        <!--Hide back button - Android when navigating back, ham menu disapears-->
+        <BackButtonBehavior IsVisible="True" Command="{Binding BackCommand}" CommandParameter="{Binding .}"/>
     </Shell.BackButtonBehavior>
 
     <ContentPage.Resources>
