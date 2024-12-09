@@ -491,8 +491,7 @@ namespace GSCFieldApp.ViewModel
 
             if (_dbVersion != DatabaseLiterals.DBVersion 
                 && _dbVersion != 0.0 
-                && _dbVersion < DatabaseLiterals.DBVersion
-                && locationCount > 0)
+                && _dbVersion < DatabaseLiterals.DBVersion)
             {
                 canUpgrade = true;
             }
