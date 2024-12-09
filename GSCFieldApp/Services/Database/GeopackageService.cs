@@ -19,6 +19,7 @@ using ProjNet.CoordinateSystems.Projections;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
 using NetTopologySuite;
+using System.Runtime.CompilerServices;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -28,6 +29,17 @@ namespace GSCFieldApp.Services.DatabaseServices
         public DataAccess dAcccess = new DataAccess();
         public static GeometryFactory defaultGeometryFactory = new GeometryFactory();
         public static GeometryFactory defaultMapsuiGeometryFactory = new GeometryFactory();
+
+        //Geopackage strings
+        public const string GpkgTableGeometry = "gpkg_geometry_columns";
+        public const string GpkgTableStyle = "layer_styles";
+
+        public const string GpkgFieldTableName = "table_name";
+        public const string GpkgFieldSRID = "srs_id";
+        public const string GpkgFieldStyleTableName = "f_table_name";
+        public const string GpkgFieldStyleSLD = "styleSLD";
+        public const string GpkgFieldGeometry = "geom";
+        public const string GpkgFieldGeometryType = "geometry_type_name";
 
         /// <summary>
         /// This special class is used since mod_spatialite can't seem to be working
@@ -154,7 +166,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             return outLine;
         }
 
-
         /// <summary>
         /// Will take a input point object and transform it from one coordinate system
         /// to another.
@@ -250,7 +261,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         {
             //Init
             NTS.Geometries.MultiPolygon outPoly = new NTS.Geometries.MultiPolygon(new Polygon[] { });
-            Polygon[] transformedCoordinates = new Polygon[inPolyCoordinates.Count];
+            Polygon[] transformedPolygons = new Polygon[inPolyCoordinates.Count];
             int coordinateIndex = 0;
 
             //Keep error log
@@ -261,28 +272,32 @@ namespace GSCFieldApp.Services.DatabaseServices
                 CoordinateTransformationFactory ctFact = new CoordinateTransformationFactory();
                 ICoordinateTransformation trans = ctFact.CreateFromCoordinateSystems(inCoordSystem, outCoordSystem);
 
+                //Shell
+                LinearRing shellRing = null;
                 foreach (Geometry g in inPolyCoordinates.Geometries)
                 {
-                    if (g.OgcGeometryType == NTS.Geometries.OgcGeometryType.MultiPolygon)
+                    if (g.OgcGeometryType == NTS.Geometries.OgcGeometryType.Polygon)
                     {
 
+                        //foreach (Coordinate c in inPolyCoordinates.Coordinates)
+                        //{
+                        //    double[] pointDouble = { c.X, c.Y };
+                        //    double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
+                        //}
 
-                        foreach (Coordinate c in inPolyCoordinates.Coordinates)
-                        {
+                        //if (shellRing == null)
+                        //{
+                        //    shellRing = new LinearRing()
+                        //}
 
-                            double[] pointDouble = { c.X, c.Y };
-                            double[] transformedPoint = trans.MathTransform.Transform(pointDouble);
-                            transformedCoordinates[coordinateIndex] = new Polygon(transformedPoint[0], transformedPoint[1]);
-                            coordinateIndex++;
-                        }
+                        //transformedPolygons[coordinateIndex] = new Polygon(transformedPoint[0], transformedPoint[1]);
+                        //coordinateIndex++;
                     }
 
                 }
 
-
-
-                //Create line
-                outPoly = defaultMapsuiGeometryFactory.CreateMultiPolygon(transformedCoordinates);
+                //Create polygon
+                outPoly = defaultMapsuiGeometryFactory.CreateMultiPolygon(transformedPolygons);
             }
             catch (Exception e)
             {
@@ -342,7 +357,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// </summary>
         /// <param name="geomBytes">The byte array to transform into a point object</param>
         /// <returns></returns>
-        public async Task<NTS.Geometries.LineString> GetGeometryPolygonFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
+        public async Task<NTS.Geometries.MultiPolygon> GetGeometryPolygonFromByte(byte[] geomBytes, int srid = DatabaseLiterals.KeywordEPSGDefault, int outSrid = DatabaseLiterals.KeywordEPSGMapsuiDefault)
         {
             //Init
             NTS.Geometries.MultiPolygon outPolygon = new NTS.Geometries.MultiPolygon(new Polygon[] { });
@@ -361,14 +376,14 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (outPolygon != null && outPolygon.SRID != -1 && outPolygon.SRID != outSrid)
             {
-                //Create a coord factory for incoming traverses
+                //Create a coord factory for incoming geometries
                 CoordinateSystem incomingProjection = await SridReader.GetCSbyID(outPolygon.SRID);
 
                 //Default map page coordinate
                 CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSrid);
 
                 //Transform
-                outPolygon = await TransformLineCoordinates(outPolygon, incomingProjection, outgoingProjection);
+                outPolygon = await TransformPolygonCoordinates(outPolygon, incomingProjection, outgoingProjection);
             }
 
             return outPolygon;

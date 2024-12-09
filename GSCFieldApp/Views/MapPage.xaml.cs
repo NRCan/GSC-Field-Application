@@ -50,7 +50,7 @@ namespace GSCFieldApp.Views;
 
 public partial class MapPage : ContentPage
 {
-    private MapViewModel _vm;
+    //private MapViewModel _vm;
     //private CancellationTokenSource? gpsCancelation;
     private CancellationTokenSource _cancelTokenSource;
     private MapControl mapControl = new Mapsui.UI.Maui.MapControl();
@@ -73,31 +73,41 @@ public partial class MapPage : ContentPage
 
     public MapPage(MapViewModel vm)
     {
-        InitializeComponent();
-        BindingContext = vm;
-        _vm = vm;
-
-        //Initialize grid background
-        mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
-        mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
+        try
         {
-            TextAlignment = Mapsui.Widgets.Alignment.Center,
-            HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
-            VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
-        });
+            InitializeComponent();
+            
+            BindingContext = vm;
+            //_vm = vm;
 
-        //Set map and start listenning to layer events
-        mapView.Map = mapControl.Map;
+            //Initialize grid background
+            mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
+            mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
+            {
+                TextAlignment = Mapsui.Widgets.Alignment.Center,
+                HorizontalAlignment = Mapsui.Widgets.HorizontalAlignment.Left,
+                VerticalAlignment = Mapsui.Widgets.VerticalAlignment.Bottom
+            });
 
-        this.Loaded += MapPage_Loaded;
-        this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
+            //Set map and start listenning to layer events
+            mapView.Map = mapControl.Map;
 
-        //Detect new field book selection, uprgrade, edit, ...
-        FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+            this.Loaded += MapPage_Loaded;
+            this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
+
+            //Detect new field book selection, uprgrade, edit, ...
+            FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
+        }
+        catch (System.Exception e)
+        {
+            new ErrorToLogFile(e).WriteToFile();
+        }
+
 
     }
 
     #region EVENTS
+
 
     /// <summary>
     /// Event triggered when user has changed field books.
@@ -127,50 +137,57 @@ public partial class MapPage : ContentPage
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-
-
-        base.OnNavigatedTo(args);
-
-        //In case user is coming from field notes
-        //They might have deleted some stations or linework, make sure to refresh
-
-        foreach (var item in mapView.Map.Layers)
+        try
         {
-            if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
+            base.OnNavigatedTo(args);
+
+            //In case user is coming from field notes
+            //They might have deleted some stations or linework, make sure to refresh
+
+            foreach (var item in mapView.Map.Layers)
             {
-                //Remove layer, in order to force a refresh
-                ILayer[] featLayers = mapView.Map.Layers.Where(x => x.Name == item.Name).ToArray();
-                mapView.Map.Layers.Remove(featLayers);
-
-                //Fetch the layer object
-                defaultLayerList defaultToReload = defaultLayerList.Stations;
-                if (item.Name == ApplicationLiterals.aliasLinework)
+                if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
                 {
-                    defaultToReload = defaultLayerList.Linework;
-                }
-                MemoryLayer reloadLayer = await CreateDefaultLayerAsync(defaultToReload);
+                    //Remove layer, in order to force a refresh
+                    ILayer[] featLayers = mapView.Map.Layers.Where(x => x.Name == item.Name).ToArray();
+                    mapView.Map.Layers.Remove(featLayers);
 
-                //Insert back into map and zoom to station
-                if (reloadLayer != null)
-                {
-                    //Make sure it's not already in there
-                    if (mapView.Map.Layers.Where(x => x.Name == reloadLayer.Name).Count() == 0)
+                    //Fetch the layer object
+                    defaultLayerList defaultToReload = defaultLayerList.Stations;
+                    if (item.Name == ApplicationLiterals.aliasLinework)
                     {
-                        mapView.Map.Layers.Add(reloadLayer);
+                        defaultToReload = defaultLayerList.Linework;
                     }
+                    MemoryLayer reloadLayer = await CreateDefaultLayerAsync(defaultToReload);
 
-                    //Zoom to extent of stations
-                    if (defaultToReload == defaultLayerList.Stations)
+                    //Insert back into map and zoom to station
+                    if (reloadLayer != null)
                     {
-                        SetExtent(reloadLayer);
-                    }
+                        //Make sure it's not already in there
+                        if (mapView.Map.Layers.Where(x => x.Name == reloadLayer.Name).Count() == 0)
+                        {
+                            mapView.Map.Layers.Add(reloadLayer);
+                        }
 
+                        //Zoom to extent of stations
+                        if (defaultToReload == defaultLayerList.Stations)
+                        {
+                            SetExtent(reloadLayer);
+                        }
+
+                    }
                 }
             }
+
+            //Force redraw of all
+            mapView.Map.RefreshData();
+        }
+        catch (System.Exception e)
+        {
+            new ErrorToLogFile(e).WriteToFile();
         }
 
-        //Force redraw of all
-        mapView.Map.RefreshData();
+
     }
 
 
@@ -315,6 +332,8 @@ public partial class MapPage : ContentPage
             ILayer[] layersToDelete = mapView.Map.Layers.Where(x => x.Name == layerToDelete.Name).ToArray();
             mapView.Map.Layers.Remove(layerToDelete);
 
+            MapViewModel _vm = BindingContext as MapViewModel;
+
             //Remove it also from the view model layer collection for menu
             _vm.RefreshLayerCollection(mapView.Map.Layers);
 
@@ -343,7 +362,7 @@ public partial class MapPage : ContentPage
             }
             else if (fr.FileName.Contains(DatabaseLiterals.LayerTypeGPKG))
             {
-
+                await AddGPKG(fr.FullPath);
             }
             
         }
@@ -361,6 +380,7 @@ public partial class MapPage : ContentPage
     private void ManageLayerButton_Clicked(object sender, EventArgs e)
     {
         //Refresh VM list of layers
+        MapViewModel _vm = BindingContext as MapViewModel;
         _vm.RefreshLayerCollection(mapView.Map.Layers);
 
         MapLayerFrame.IsVisible = !MapLayerFrame.IsVisible;
@@ -437,7 +457,9 @@ public partial class MapPage : ContentPage
             //Condition on map view not being null to prevent it from being launch and map page load
             if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
             {
-                if (_vm.LayerCollection != null && _vm.LayerCollection.Count() > 0)
+                MapViewModel _vm = BindingContext as MapViewModel;
+
+                if (_vm != null && _vm.LayerCollection != null && _vm.LayerCollection.Count() > 0)
                 {
                     //Reorder layers (user might have changed it) - reverse to match mapsui ordering
                     List<ILayer> reverseLayers = new List<ILayer>();
@@ -526,6 +548,7 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     private async Task RefreshDefaultFeatureLayer()
     {
+        MapViewModel _vm = BindingContext as MapViewModel;
         _vm.EmptyLayerCollections();
 
         List<MemoryLayer> mls = await CreateDefaultLayersAsync();
@@ -569,6 +592,8 @@ public partial class MapPage : ContentPage
                 if (mapView.Map.Layers.Where(x => x.Name == in_layer.Name).Count() == 0)
                 {
                     mapView.Map.Layers.Insert(rightIndex, in_layer);
+
+                    MapViewModel _vm = BindingContext as MapViewModel;
 
                     //Update layer collection for menu
                     _vm.RefreshLayerCollection(mapView.Map.Layers);
@@ -646,6 +671,7 @@ public partial class MapPage : ContentPage
         }
 
         //Get prefered layers and add them
+        MapViewModel _vm = BindingContext as MapViewModel;
         Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
 
         if (prefLayers != null && mapView != null)
@@ -722,22 +748,99 @@ public partial class MapPage : ContentPage
             try
             {
 
-                //MbTilesTileSource mbtilesTilesource = new MbTilesTileSource(new SQLiteConnectionString(mbTilePath, false));
-                //byte[] tileSource = await mbtilesTilesource.GetTileAsync(new TileInfo { Index = new TileIndex(0, 0, 0) });
-                
-                //TileLayer newTileLayer = new TileLayer(mbtilesTilesource);
-                //newTileLayer.Name = Path.GetFileNameWithoutExtension(mbTilePath);
-                //newTileLayer.Tag = mbTilePath;
+                //Prep
+                GeopackageService gpkgService = new GeopackageService();
 
-                ////If full object is passed, get extra info in
-                //if (pageLayer != null)
-                //{
-                //    newTileLayer.Opacity = pageLayer.LayerOpacity;
-                //    newTileLayer.Enabled = pageLayer.LayerVisibility;
-                //}
+                //Get list of all features
+                SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(gpkgPath);
+                string getFeaturesQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldTableName, GeopackageService.GpkgTableGeometry);
+                List<string> incomingFeatures = await currentConnection.QueryScalarsAsync<string>(getFeaturesQuery);
 
-                ////Insert at right location in collection
-                //InsertLayerAtRightPlace(newTileLayer);
+                if (incomingFeatures != null && incomingFeatures.Count() > 0)
+                {
+                    foreach (string features in incomingFeatures)
+                    {
+                        //Get geometry type
+                        string getGeomTypeQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldGeometryType, GeopackageService.GpkgTableGeometry);
+                        List<string> typeGeometries = await currentConnection.QueryScalarsAsync<string>(getGeomTypeQuery);
+
+                        if (typeGeometries != null && typeGeometries.Count() > 0)
+                        {
+                            foreach (string geomType in typeGeometries)
+                            {
+                                //Get geometry from bytes
+                                string getGeomQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldGeometry, features);
+                                List<byte[]> featGeometries = await currentConnection.QueryScalarsAsync<byte[]>(getGeomQuery);
+
+                                if (featGeometries != null && featGeometries.Count() > 0)
+                                {
+                                    IEnumerable<IFeature> feats = new IFeature[] { };
+
+                                    foreach (byte[] geomBytes in featGeometries)
+                                    {
+                                        IFeature feat = null;
+
+                                        //Get bytes based on geometry type
+                                        if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
+                                        {
+                                            //Get object instead of bytes
+                                            MultiPolygon multiPolygon = await gpkgService.GetGeometryPolygonFromByte(geomBytes);
+
+                                            //Get feature 
+                                            if (multiPolygon != null)
+                                            {
+                                                //Build feature metadata
+                                                WKTReader wellKnownTextReader = new WKTReader();
+                                                feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
+                                            }
+
+                                            feat["name"] = features;
+
+                                            //Get true line color
+                                            Color fillColor = GetColorFromString("LightGrey");
+                                            Color outlineColor = GetColorFromString("Grey");
+
+                                            //Style line and label
+                                            feat.Styles.Add(new VectorStyle { Fill = new Brush(fillColor), Outline = new Pen(outlineColor, 1) });
+
+                                            //Add to list of features
+                                            feats = feats.Append(feat);
+
+                                            //Create layer
+                                            MemoryLayer memPolygon = new MemoryLayer()
+                                            {
+                                                Name = features,
+                                                IsMapInfoLayer = true,
+                                                Features = feats
+                                            };
+
+                                            //Add to map
+                                            InsertLayerAtRightPlace(memPolygon);
+                                        }
+                                        else if (geomType == Geometry.TypeNameLineString)
+                                        {
+
+                                        }
+                                        else if (geomType == Geometry.TypeNamePoint)
+                                        {
+
+                                        }
+
+                                    }
+
+                                }
+                            }
+                        }
+
+
+
+                        
+                    }
+
+                }
+
+                await currentConnection.CloseAsync();
+
             }
             catch (System.Exception e)
             {
@@ -1445,6 +1548,7 @@ public partial class MapPage : ContentPage
             if ((LineString)_drawableGeometry.Geometry != null)
             {
                 //Save linework as a new record and open edit form for user to finalize it
+                MapViewModel _vm = BindingContext as MapViewModel;
                 await _vm.AddLinework((LineString)_drawableGeometry.Geometry);
 
                 //Empty lineworkedit layer of any content
@@ -1803,32 +1907,37 @@ public partial class MapPage : ContentPage
     {
         if (_isCheckingGeolocation)
         {
-            _vm.RefreshCoordinates(inLocation);
-
-            await SetMapAccuracyColor(inLocation.Accuracy);
-
-            mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
-            mapView.RefreshGraphics();
-            //mapView.MyLocationFollow = true;
-
-            if (inLocation.Course != null)
+            MapViewModel _vm = BindingContext as MapViewModel;
+            if (_vm != null)
             {
-                mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+                _vm.RefreshCoordinates(inLocation);
+
+                await SetMapAccuracyColor(inLocation.Accuracy);
+
+                mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
+                mapView.RefreshGraphics();
+                //mapView.MyLocationFollow = true;
+
+                if (inLocation.Course != null)
+                {
+                    mapView?.MyLocationLayer.UpdateMyDirection(inLocation.Course.Value, mapView?.Map.Navigator.Viewport.Rotation ?? 0);
+                }
+
+                if (inLocation.Speed != null)
+                {
+                    mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
+                }
+
+                if (inLocation.Accuracy <= 10)
+                {
+                    this.WaitingCursor.IsRunning = false;
+                }
+                else
+                {
+                    this.WaitingCursor.IsRunning = true;
+                }
             }
 
-            if (inLocation.Speed != null)
-            {
-                mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
-            }
-
-            if (inLocation.Accuracy <= 10)
-            {
-                this.WaitingCursor.IsRunning = false;
-            }
-            else
-            {
-                this.WaitingCursor.IsRunning = true;
-            }
             
         }
 
@@ -1864,6 +1973,7 @@ public partial class MapPage : ContentPage
         _ = SetMapAccuracyColor(-99);
 
         //Make sure to show proper bad location coordinates labels
+        MapViewModel _vm = BindingContext as MapViewModel;
         _vm.RefreshCoordinates(badLoc);
 
         this.WaitingCursor.IsRunning = false;

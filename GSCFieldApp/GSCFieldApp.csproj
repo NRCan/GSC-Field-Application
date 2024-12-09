@@ -35,7 +35,7 @@
 		<DefaultLanguage>en</DefaultLanguage>
 		<GenerateAppInstallerFile>True</GenerateAppInstallerFile>
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-		<PackageCertificateThumbprint>C0079599675A235D4F2C81071D93246CB90E461D</PackageCertificateThumbprint>
+		<PackageCertificateThumbprint>14CF0ECF911C8A37CF0E2EF4F8E06F25425B80C1</PackageCertificateThumbprint>
 		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
