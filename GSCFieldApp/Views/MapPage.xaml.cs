@@ -190,7 +190,6 @@ public partial class MapPage : ContentPage
 
     }
 
-
     /// <summary>
     /// Once the map is loaded, make a quick check on 
     /// field data locations, in case something has been deleted while
@@ -362,7 +361,7 @@ public partial class MapPage : ContentPage
             }
             else if (fr.FileName.Contains(DatabaseLiterals.LayerTypeGPKG))
             {
-                await AddGPKG(fr.FullPath);
+                await AddFromGPKG(fr.FullPath);
             }
             
         }
@@ -538,6 +537,24 @@ public partial class MapPage : ContentPage
         }
         
     }
+
+    /// <summary>
+    /// Make sure to stop waiting cursor if progress bar is visible
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void MapPageProgressBar_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "IsVisible")
+        {
+            Border sentFrame = sender as Border;
+            if (sentFrame != null && sentFrame.IsVisible && this.mapView != null)
+            {
+                this.WaitingCursor.IsRunning = false;
+            }
+        }
+    }
+
     #endregion
 
     #region METHODS
@@ -741,129 +758,156 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="gpkgPath"></param>
     /// <returns></returns>
-    public async Task AddGPKG(string gpkgPath, MapPageLayer pageLayer = null)
+    public async Task AddGPKG(SQLiteAsyncConnection gpkgConnection, List<string> featuresToAdd, MapPageLayer pageLayer = null)
+    {
+        if (gpkgConnection != null && featuresToAdd.Count > 0)
+        {
+            try
+            {
+                //Prep
+                GeopackageService gpkgService = new GeopackageService();
+                bool hitError = false; //to break all loops in case of error
+
+                foreach (string features in featuresToAdd)
+                {
+
+                    //Error handling
+                    if (hitError)
+                    {
+                        break;
+                    }
+
+                    //Will hold the geometries assembled as a new feature
+                    IEnumerable<IFeature> feats = new IFeature[] { };
+
+                    //Get geometry type
+                    string getGeomTypeQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldGeometryType, GeopackageService.GpkgTableGeometry);
+                    List<string> typeGeometries = await gpkgConnection.QueryScalarsAsync<string>(getGeomTypeQuery);
+
+                    if (typeGeometries != null && typeGeometries.Count() > 0)
+                    {
+                        //Keep track of loading progress
+                        this.MapPageProgressBar.Progress = 0;
+                        this.MapPageProgressBar.IsVisible = true;
+
+                        foreach (string geomType in typeGeometries)
+                        {
+                            //Error handling
+                            if (hitError)
+                            {
+                                break;
+                            }
+
+                            //Get geometry from bytes
+                            string getGeomQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldGeometry, features);
+                            List<byte[]> featGeometries = await gpkgConnection.QueryScalarsAsync<byte[]>(getGeomQuery);
+
+                            if (featGeometries != null && featGeometries.Count() > 0)
+                            {
+                                foreach (byte[] geomBytes in featGeometries)
+                                {
+                                    this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
+
+                                    //Prepare mapsui feature
+                                    IFeature feat = null;
+
+                                    //Get bytes based on geometry type
+                                    if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
+                                    {
+                                        //Get object instead of bytes
+                                        MultiPolygon multiPolygon = await gpkgService.GetGeometryPolygonFromByte(geomBytes);
+
+                                        //Get feature 
+                                        if (multiPolygon != null)
+                                        {
+                                            //Build feature metadata
+                                            WKTReader wellKnownTextReader = new WKTReader();
+                                            feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
+                                        }
+                                        else
+                                        {
+                                            //Stop everything
+                                            hitError = true;
+                                            break;
+                                        }
+
+                                        //feat["name"] = features;
+
+                                        //Get true line color
+                                        Color fillColor = GetColorFromString("LightGrey");
+                                        Color outlineColor = GetColorFromString("Grey");
+
+                                        //Style line and label
+                                        feat.Styles.Add(new VectorStyle { Fill = new Brush(fillColor), Outline = new Pen(outlineColor, 1) });
+
+                                        //Add to list of features
+                                        feats = feats.Append(feat);
+
+                                    }
+                                    else if (geomType == Geometry.TypeNameLineString)
+                                    {
+
+                                    }
+                                    else if (geomType == Geometry.TypeNamePoint)
+                                    {
+
+                                    }
+
+                                }
+                            }
+
+                            this.MapPageProgressBar.IsVisible = false;
+                        }
+                    }
+
+
+                    //Create layer
+                    MemoryLayer newMemLayer = new MemoryLayer()
+                    {
+                        Name = features,
+                        IsMapInfoLayer = true,
+                        Features = feats
+                    };
+
+                    //Add to map
+                    InsertLayerAtRightPlace(newMemLayer);
+                }
+
+            }
+            catch (System.Exception e)
+            {
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                    e.Message,
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
+
+                new ErrorToLogFile(e).WriteToFile();
+            }
+
+        }
+
+    }
+
+    /// <summary>
+    /// Will add a geopackage file to map page from incoming file path
+    /// </summary>
+    /// <param name="gpkgPath"></param>
+    /// <returns></returns>
+    public async Task AddFromGPKG(string gpkgPath, MapPageLayer pageLayer = null)
     {
         if (gpkgPath != null && gpkgPath != string.Empty)
         {
             try
             {
 
-                //Prep
-                GeopackageService gpkgService = new GeopackageService();
-                bool hitError = false; //to break all loops in case of error
-                
-
                 //Get list of all features
                 SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(gpkgPath);
                 string getFeaturesQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldTableName, GeopackageService.GpkgTableGeometry);
-                List<string> incomingFeatures = await currentConnection.QueryScalarsAsync<string>(getFeaturesQuery);
+                List<string> gpkgFeatures = await currentConnection.QueryScalarsAsync<string>(getFeaturesQuery);
 
-                if (incomingFeatures != null && incomingFeatures.Count() > 0)
+                if (gpkgFeatures != null && gpkgFeatures.Count() > 0)
                 {
-                    foreach (string features in incomingFeatures)
-                    {
+                    //Ask user which feature they want to load up
 
-                        //Error handling
-                        if (hitError)
-                        {
-                            break;
-                        }
-
-                        //Will hold the geometries assembled as a new feature
-                        IEnumerable<IFeature> feats = new IFeature[] { };
-
-                        //Get geometry type
-                        string getGeomTypeQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldGeometryType, GeopackageService.GpkgTableGeometry);
-                        List<string> typeGeometries = await currentConnection.QueryScalarsAsync<string>(getGeomTypeQuery);
-
-                        if (typeGeometries != null && typeGeometries.Count() > 0)
-                        {
-                            //Keep track of loading progress
-                            this.MapPageProgressBar.Progress = 0;
-                            this.MapPageProgressBar.IsVisible = true;
-
-                            foreach (string geomType in typeGeometries)
-                            {
-                                //Error handling
-                                if (hitError)
-                                {
-                                    break;
-                                }
-
-                                //Get geometry from bytes
-                                string getGeomQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldGeometry, features);
-                                List<byte[]> featGeometries = await currentConnection.QueryScalarsAsync<byte[]>(getGeomQuery);
-
-                                if (featGeometries != null && featGeometries.Count() > 0)
-                                {
-                                    foreach (byte[] geomBytes in featGeometries)
-                                    {
-                                        this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
-
-                                        //Prepare mapsui feature
-                                        IFeature feat = null;
-
-                                        //Get bytes based on geometry type
-                                        if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
-                                        {
-                                            //Get object instead of bytes
-                                            MultiPolygon multiPolygon = await gpkgService.GetGeometryPolygonFromByte(geomBytes);
-
-                                            //Get feature 
-                                            if (multiPolygon != null)
-                                            {
-                                                //Build feature metadata
-                                                WKTReader wellKnownTextReader = new WKTReader();
-                                                feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
-                                            }
-                                            else
-                                            {
-                                                //Stop everything
-                                                hitError = true;
-                                                break;
-                                            }
-
-                                            //feat["name"] = features;
-
-                                            //Get true line color
-                                            Color fillColor = GetColorFromString("LightGrey");
-                                            Color outlineColor = GetColorFromString("Grey");
-
-                                            //Style line and label
-                                            feat.Styles.Add(new VectorStyle { Fill = new Brush(fillColor), Outline = new Pen(outlineColor, 1) });
-
-                                            //Add to list of features
-                                            feats = feats.Append(feat);
-
-                                        }
-                                        else if (geomType == Geometry.TypeNameLineString)
-                                        {
-
-                                        }
-                                        else if (geomType == Geometry.TypeNamePoint)
-                                        {
-
-                                        }
-
-                                    }
-                                }
-
-                                this.MapPageProgressBar.IsVisible = false;
-                            }
-                        }
-
-
-                        //Create layer
-                        MemoryLayer newMemLayer = new MemoryLayer()
-                        {
-                            Name = features,
-                            IsMapInfoLayer = true,
-                            Features = feats
-                        };
-
-                        //Add to map
-                        InsertLayerAtRightPlace(newMemLayer);
-                    }
 
                 }
 
@@ -2009,5 +2053,6 @@ public partial class MapPage : ContentPage
 
 
     #endregion
+
 
 }
