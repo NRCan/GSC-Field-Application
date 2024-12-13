@@ -555,6 +555,38 @@ public partial class MapPage : ContentPage
         }
     }
 
+    private async void MapAddGeopackageFrame_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "IsVisible")
+        {
+            Border sentFrame = sender as Border;
+
+            //Condition on map view not being null to prevent it from being launch and map page load
+            if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
+            {
+                //Start loading feature from selected geopackage
+                MapViewModel _vm = BindingContext as MapViewModel;
+                if (_vm.GeopackageFeatureCollection != null && _vm.GeopackageFeatureCollection.Count > 0)
+                {
+                    string gpkgPath = string.Empty;
+                    //Build list of names from selection
+                    List<string> featureNames = new List<string>();
+                    foreach (MapPageLayerSelection mpls in _vm.GeopackageFeatureCollection)
+                    {
+                        if (mpls.Selected)
+                        {
+                            featureNames.Add(mpls.Name);
+                            gpkgPath = mpls.Other;
+                        }
+                    }
+
+                    await AddGPKG(featureNames, gpkgPath);
+                }
+            }
+        }
+    }
+
+
     #endregion
 
     #region METHODS
@@ -758,13 +790,14 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="gpkgPath"></param>
     /// <returns></returns>
-    public async Task AddGPKG(SQLiteAsyncConnection gpkgConnection, List<string> featuresToAdd, MapPageLayer pageLayer = null)
+    public async Task AddGPKG(List<string> featuresToAdd, string gpkgPath, MapPageLayer pageLayer = null)
     {
-        if (gpkgConnection != null && featuresToAdd.Count > 0)
+        if (gpkgPath != null && gpkgPath != string.Empty && featuresToAdd.Count > 0)
         {
             try
             {
                 //Prep
+                SQLiteAsyncConnection gpkgConnection = new SQLiteAsyncConnection(gpkgPath);
                 GeopackageService gpkgService = new GeopackageService();
                 bool hitError = false; //to break all loops in case of error
 
@@ -873,6 +906,7 @@ public partial class MapPage : ContentPage
                     InsertLayerAtRightPlace(newMemLayer);
                 }
 
+                await gpkgConnection.CloseAsync();
             }
             catch (System.Exception e)
             {
@@ -907,8 +941,9 @@ public partial class MapPage : ContentPage
                 if (gpkgFeatures != null && gpkgFeatures.Count() > 0)
                 {
                     //Ask user which feature they want to load up
-
-
+                    MapViewModel vm = BindingContext as MapViewModel;
+                    vm.FillGeopackageFeatureCollection(gpkgFeatures, gpkgPath);
+                    
                 }
 
                 await currentConnection.CloseAsync();

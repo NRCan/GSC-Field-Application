@@ -38,8 +38,9 @@ namespace GSCFieldApp.ViewModel
         private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>(); //The actual collection of layers (including OSM and Stations)
         private Collection<MapPageLayer> _customLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
-
+        private ObservableCollection<MapPageLayerSelection> _geopackageFeatureCollection = new ObservableCollection<MapPageLayerSelection>();
         private FieldThemes _fieldThemes = new FieldThemes();
+        private bool _addGeopackageFrameVisibility = false; // Used to show/not show the frame for user to select a geopackage feature to add from a list.
 
         //Localization
         public LocalizationResourceManager LocalizationResourceManager
@@ -51,7 +52,8 @@ namespace GSCFieldApp.ViewModel
         public ObservableCollection<ILayer> LayerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
         private Collection<MapPageLayer> CustomLayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
-
+        public ObservableCollection<MapPageLayerSelection> GeopackageFeatureCollection { get { return _geopackageFeatureCollection; } set { _geopackageFeatureCollection = value; } }
+        public bool AddGeopackageFrameVisibility { get { return _addGeopackageFrameVisibility; } set { _addGeopackageFrameVisibility = value; } }
         #endregion
 
         public MapViewModel()
@@ -229,6 +231,15 @@ namespace GSCFieldApp.ViewModel
                 }
 
             }
+
+        }
+
+        [RelayCommand]
+        async Task AddFeature()
+        {
+            //Close frame
+            _addGeopackageFrameVisibility = false;
+            OnPropertyChanged(nameof(AddGeopackageFrameVisibility));
 
         }
 
@@ -579,6 +590,33 @@ namespace GSCFieldApp.ViewModel
                     }
                 );
             }
+        }
+
+        /// <summary>
+        /// Will take a list a string and will update the geopackage layer name collection
+        /// for user to pick which feature to add in the map
+        /// </summary>
+        /// <param name="featureNames"></param>
+        public void FillGeopackageFeatureCollection(List<string> featureNames, string geopackagePath)
+        {
+            if (featureNames != null && featureNames.Count() > 0)
+            {
+                //Reset
+                GeopackageFeatureCollection = new ObservableCollection<MapPageLayerSelection>();
+
+                //Fill
+                foreach (string feats in featureNames)
+                {
+                    _geopackageFeatureCollection.Add(new MapPageLayerSelection { Selected = true, Name = feats, Other = geopackagePath });
+
+                }
+                OnPropertyChanged(nameof(GeopackageFeatureCollection));
+
+                //Enable selection box/window
+                _addGeopackageFrameVisibility = true;
+                OnPropertyChanged(nameof(AddGeopackageFrameVisibility));
+            }
+
         }
 
         #endregion
