@@ -876,13 +876,38 @@ public partial class MapPage : ContentPage
                                         feats = feats.Append(feat);
 
                                     }
-                                    else if (geomType == Geometry.TypeNameLineString)
+                                    else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
                                     {
+                                        //Get object instead of bytes
+                                        //Run on another thread else progress bar gets jammed and won't update in the UI
+                                        LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes));
 
+                                        //Get feature 
+                                        if (lines != null)
+                                        {
+                                            //Build feature metadata
+                                            WKTReader wellKnownTextReader = new WKTReader();
+                                            feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
+                                        }
+                                        else
+                                        {
+                                            //Stop everything
+                                            hitError = true;
+                                            break;
+                                        }
+
+                                        //Get default line color
+                                        Color outlineColor = GetColorFromString("Grey");
+
+                                        //Style line and label
+                                        feat.Styles.Add(new VectorStyle { Line = new Pen(outlineColor, 3) });
+
+                                        //Add to list of features
+                                        feats = feats.Append(feat);
                                     }
-                                    else if (geomType == Geometry.TypeNamePoint)
+                                    else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
                                     {
-
+                                        await DisplayAlert("Error", "Not yet implement", "ok");
                                     }
 
                                 }
