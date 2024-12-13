@@ -1381,4 +1381,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="StructurePagePlotMap" xml:space="preserve">
     <value>Ajouter sur carte</value>
   </data>
+  <data name="MapPageAddGeopackageFeature" xml:space="preserve">
+    <value>Cocher les entités souhaités.</value>
+  </data>
 </root>

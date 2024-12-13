@@ -227,7 +227,7 @@ public partial class MapPage : ContentPage
         //GetWMSFeatureInfo(e.Point);
 
         //Detect if in tap mode or drawing lines to show tapped coordinates on screen
-        if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible)
+        if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageFrame.IsVisible)
         {
             //Keep tap mode for future validation
             _isTapMode = true;
@@ -490,7 +490,7 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void mapView_SingleTap(object sender, Mapsui.UI.TappedEventArgs e)
     {
-        if (e != null && e.ScreenPosition != null && _isDrawingLine)
+        if (e != null && e.ScreenPosition != null && _isDrawingLine && !MapAddGeopackageFrame.IsVisible)
         {
             //Disable map panning else on mobile devices the touch screen movement will move the map instead of drawing
             mapView.Map.Navigator.PanLock = true;
@@ -848,7 +848,8 @@ public partial class MapPage : ContentPage
                                     if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
                                     {
                                         //Get object instead of bytes
-                                        MultiPolygon multiPolygon = await gpkgService.GetGeometryPolygonFromByte(geomBytes);
+                                        //Run on another thread else progress bar gets jammed and won't update in the UI
+                                        MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
 
                                         //Get feature 
                                         if (multiPolygon != null)
@@ -863,8 +864,6 @@ public partial class MapPage : ContentPage
                                             hitError = true;
                                             break;
                                         }
-
-                                        //feat["name"] = features;
 
                                         //Get true line color
                                         Color fillColor = GetColorFromString("LightGrey");

@@ -2230,6 +2230,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selected desired features to add..
+        /// </summary>
+        internal static string MapPageAddGeopackageFeature {
+            get {
+                return ResourceManager.GetString("MapPageAddGeopackageFeature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proceed to save drawn line?.
         /// </summary>
         internal static string MapPageAddLineDialogMessage {

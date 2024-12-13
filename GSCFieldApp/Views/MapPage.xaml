@@ -150,14 +150,28 @@
             <Border x:Name="MapAddGeopackageFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
                    Margin="0" PropertyChanged="MapAddGeopackageFrame_PropertyChanged"
                    HeightRequest="300" WidthRequest="350" IsVisible="{Binding AddGeopackageFrameVisibility, Mode=TwoWay}">
-                <VerticalStackLayout>
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Label Text="{local:Localize MapPageAddGeopackageFeature}" HorizontalOptions="Start" Grid.Row="0" Style="{StaticResource FieldAppSettingTitles}"/>
+
                     <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapGeopackageFeatureCollection" CanReorderItems="False"
                                 ItemTemplate="{StaticResource GeopackageFeatureTemplate}" VerticalOptions="Start"
-                                ItemsSource="{Binding GeopackageFeatureCollection,Mode=TwoWay}" />
+                                ItemsSource="{Binding GeopackageFeatureCollection,Mode=TwoWay}" 
+                                    Grid.Row="1"/>
 
                     <Button x:Name="gpkgButtonOk" Text="{local:Localize Key=GenericButtonOk}" Style="{StaticResource FieldAppButonSave}"
-                        Command="{Binding AddFeatureCommand}"/>
-                </VerticalStackLayout>
+                        Command="{Binding AddFeatureCommand}" Grid.Row="2"/>
+
+                </Grid>
+
+
+
 
             </Border>
 
