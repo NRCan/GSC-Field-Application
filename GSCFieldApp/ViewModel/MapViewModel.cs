@@ -607,7 +607,7 @@ namespace GSCFieldApp.ViewModel
                 //Fill
                 foreach (string feats in featureNames)
                 {
-                    _geopackageFeatureCollection.Add(new MapPageLayerSelection { Selected = true, Name = feats, Other = geopackagePath });
+                    _geopackageFeatureCollection.Add(new MapPageLayerSelection { Selected = false, Name = feats, Other = geopackagePath });
 
                 }
                 OnPropertyChanged(nameof(GeopackageFeatureCollection));

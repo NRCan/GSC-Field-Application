@@ -800,7 +800,7 @@ public partial class MapPage : ContentPage
                 SQLiteAsyncConnection gpkgConnection = new SQLiteAsyncConnection(gpkgPath);
                 GeopackageService gpkgService = new GeopackageService();
                 bool hitError = false; //to break all loops in case of error
-
+                WKTReader wellKnownTextReader = new WKTReader();
                 foreach (string features in featuresToAdd)
                 {
 
@@ -814,7 +814,11 @@ public partial class MapPage : ContentPage
                     IEnumerable<IFeature> feats = new IFeature[] { };
 
                     //Get geometry type
-                    string getGeomTypeQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldGeometryType, GeopackageService.GpkgTableGeometry);
+                    string getGeomTypeQuery = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';", 
+                        GeopackageService.GpkgFieldGeometryType, 
+                        GeopackageService.GpkgTableGeometry,
+                        GeopackageService.GpkgFieldTableName,
+                        features);
                     List<string> typeGeometries = await gpkgConnection.QueryScalarsAsync<string>(getGeomTypeQuery);
 
                     if (typeGeometries != null && typeGeometries.Count() > 0)
@@ -855,7 +859,6 @@ public partial class MapPage : ContentPage
                                         if (multiPolygon != null)
                                         {
                                             //Build feature metadata
-                                            WKTReader wellKnownTextReader = new WKTReader();
                                             feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
                                         }
                                         else
@@ -872,9 +875,6 @@ public partial class MapPage : ContentPage
                                         //Style line and label
                                         feat.Styles.Add(new VectorStyle { Fill = new Brush(fillColor), Outline = new Pen(outlineColor, 1) });
 
-                                        //Add to list of features
-                                        feats = feats.Append(feat);
-
                                     }
                                     else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
                                     {
@@ -886,7 +886,6 @@ public partial class MapPage : ContentPage
                                         if (lines != null)
                                         {
                                             //Build feature metadata
-                                            WKTReader wellKnownTextReader = new WKTReader();
                                             feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
                                         }
                                         else
@@ -902,14 +901,35 @@ public partial class MapPage : ContentPage
                                         //Style line and label
                                         feat.Styles.Add(new VectorStyle { Line = new Pen(outlineColor, 3) });
 
-                                        //Add to list of features
-                                        feats = feats.Append(feat);
                                     }
                                     else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
                                     {
-                                        await DisplayAlert("Error", "Not yet implement", "ok");
+                                        //Get object instead of bytes
+                                        //Run on another thread else progress bar gets jammed and won't update in the UI
+                                        Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes));
+
+                                        //Get feature 
+                                        if (pnts != null)
+                                        {
+                                            //Build feature metadata
+                                            feat = new GeometryFeature(wellKnownTextReader.Read(pnts.AsText()));
+                                        }
+                                        else
+                                        {
+                                            //Stop everything
+                                            hitError = true;
+                                            break;
+                                        }
+
+                                        //Get default line color
+                                        Color outlineColor = GetColorFromString("Grey");
+
+                                        //Style line and label
+                                        feat.Styles.Add(new SymbolStyle { BlendModeColor = outlineColor, SymbolScale = 0.1});
                                     }
 
+                                    //Add to list of features
+                                    feats = feats.Append(feat);
                                 }
                             }
 
