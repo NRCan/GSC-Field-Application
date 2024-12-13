@@ -30,6 +30,7 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _documentScale = new ComboBox();
         private ComboBox _documentFileType = new ComboBox();
         private int _fileNumberTo = 0; //Will be used to calculate external camera ending numbering value
+        public bool IsProcessingBatch = false; //Will be used to block picklist from being refilled when processed in abtch
 
         //Concatenated
         private ComboBoxItem _selectedDocumentCategory = new ComboBoxItem();
@@ -163,7 +164,7 @@ namespace GSCFieldApp.ViewModel
             else
             {
                 //Insert new records as batch if needed
-                int photoTaken = await BatchCreatePhotos();
+                int photoTaken = await Task.Run(async () => await BatchCreatePhotos());
             }
 
             //Close to be sure
@@ -200,7 +201,7 @@ namespace GSCFieldApp.ViewModel
             else
             {
                 //Insert new records as batch if needed
-                await BatchCreatePhotos();
+                await Task.Run(async () => await BatchCreatePhotos());
             }
 
             //Close to be sure
@@ -367,13 +368,17 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillPickers()
         {
-            _documentCategory = await FillAPicker(FieldDocumentCategory);
-            _documentScale = await FillAPicker(FieldDocumentScaleDirection);
-            _documentFileType = await FillAPicker(FieldDocumentType);
+            if (!IsProcessingBatch)
+            {
+                _documentCategory = await FillAPicker(FieldDocumentCategory);
+                _documentScale = await FillAPicker(FieldDocumentScaleDirection);
+                _documentFileType = await FillAPicker(FieldDocumentType);
 
-            OnPropertyChanged(nameof(DocumentCategory));
-            OnPropertyChanged(nameof(DocumentScale));
-            OnPropertyChanged(nameof(DocumentFileType));
+                OnPropertyChanged(nameof(DocumentCategory));
+                OnPropertyChanged(nameof(DocumentScale));
+                OnPropertyChanged(nameof(DocumentFileType));
+            }
+
         }
 
         /// <summary>
@@ -641,6 +646,7 @@ namespace GSCFieldApp.ViewModel
 
             if (_fileNumberTo != 0 && _fileNumberTo >= _model.FileNumber)
             {
+                IsProcessingBatch = true;
 
                 while (currentIteration <= _fileNumberTo)
                 {
@@ -653,15 +659,17 @@ namespace GSCFieldApp.ViewModel
 
                     if (_station != null)
                     {
-                        _model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias);
+                        _model.DocumentName = await Task.Run(async() => await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias));
                     }
 
 
                     OnPropertyChanged(nameof(Model));
-                    await da.SaveItemAsync(Model, false);
+                    await Task.Run(async() => await da.SaveItemAsync(Model, false));
 
                     currentIteration++;
                 }
+
+                IsProcessingBatch = false;
 
             }
 
@@ -718,8 +726,9 @@ namespace GSCFieldApp.ViewModel
             if (_fileNumberTo == 0)
             {
                 _fileNumberTo = _model.FileNumber;
+                OnPropertyChanged(nameof(FileNumberTo));
             }
-            OnPropertyChanged(nameof(FileNumberTo));
+            
         }
 
         /// <summary>

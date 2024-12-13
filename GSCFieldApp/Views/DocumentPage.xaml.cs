@@ -29,7 +29,11 @@ public partial class DocumentPage : ContentPage
     private void DocumentFileTypePicker_SelectedIndexChanged(object sender, EventArgs e)
     {
         DocumentViewModel vm3 = this.BindingContext as DocumentViewModel;
-        vm3.CalculateFileName();
+        if (!vm3.IsProcessingBatch)
+        {
+            vm3.CalculateFileName();
+        }
+        
     }
 
     /// <summary>
@@ -40,8 +44,12 @@ public partial class DocumentPage : ContentPage
     private void DocumentPageFileFromEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         DocumentViewModel vm4 = this.BindingContext as DocumentViewModel;
-        vm4.CalculateFileName();
-        vm4.CalculateFileNumberTo(); //Make sure File number to fits the from number
+        if (!vm4.IsProcessingBatch)
+        {
+            vm4.CalculateFileName();
+            vm4.CalculateFileNumberTo(); //Make sure File number to fits the from number
+        }
+
     }
 
     /// <summary>
@@ -53,6 +61,10 @@ public partial class DocumentPage : ContentPage
     private void DocumentPageFileToEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         DocumentViewModel vm5 = this.BindingContext as DocumentViewModel;
-        vm5.CalculateFileNumberTo(); //Make sure File number to fits the from number
+        if (!vm5.IsProcessingBatch)
+        {
+            vm5.CalculateFileNumberTo(); //Make sure File number to fits the from number
+        }
+        
     }
 }
