@@ -499,7 +499,7 @@ namespace GSCFieldApp.ViewModel
             _dates = new ObservableCollection<string>();
 
             //Init all records
-            _ =  FillFieldNotesAsync();
+            _ = Task.Run(async () => await FillFieldNotesAsync());
 
             //Detect new field book selection, uprgrade, edit, ...
             FieldBooksViewModel.newFieldBookSelected += FieldBooksViewModel_newFieldBookSelectedAsync;
@@ -611,7 +611,7 @@ namespace GSCFieldApp.ViewModel
                 if (inComingName.ToLower().Contains(KeywordDates))
                 {
                     //Force refresh of all
-                    await FillFieldNotesAsync();
+                    await Task.Run(async () => await FillFieldNotesAsync());
                 }
 
             }
@@ -1825,7 +1825,7 @@ namespace GSCFieldApp.ViewModel
                 case TableNames.meta:
                     //Special case, this will trigger a whole field note page refresh
                     //Best used when a delete cascade has been done and and child should be removed from page
-                    await FillFieldNotesAsync();
+                    await Task.Run(async () => await FillFieldNotesAsync());
                     break;
                 case TableNames.location:
                     await FillLocationNotes(currentConnection);
@@ -1936,7 +1936,7 @@ namespace GSCFieldApp.ViewModel
             if (hasChanged)
             {
                 //Reload all notes
-                await FillFieldNotesAsync();
+                await Task.Run(async () => await FillFieldNotesAsync());
             }
 
         }
