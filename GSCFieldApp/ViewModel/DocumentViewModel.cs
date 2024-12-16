@@ -648,6 +648,8 @@ namespace GSCFieldApp.ViewModel
             {
                 IsProcessingBatch = true;
 
+                SQLiteAsyncConnection sq = da.GetConnectionFromPath(da.PreferedDatabasePath);
+
                 while (currentIteration <= _fileNumberTo)
                 {
                     //Calculate filenumber and file name if not from embeded pictures
@@ -659,7 +661,8 @@ namespace GSCFieldApp.ViewModel
 
                     if (_station != null)
                     {
-                        _model.DocumentName = await Task.Run(async() => await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias));
+                        ///This method of calculating the alias for each record slows down the whole process
+                        //_model.DocumentName = await Task.Run(async() => await idCalculator.CalculateDocumentAliasAsync(_station.StationID, _station.StationAlias, sq));
                     }
 
 
@@ -669,8 +672,20 @@ namespace GSCFieldApp.ViewModel
                     currentIteration++;
                 }
 
-                IsProcessingBatch = false;
+                //Batch calculat alias
+                string aliasQuery_base = "UPDATE {0} SET {1} = (SELECT s.{2} FROM {3} as s where s.{4} = {8}) || {5} || {6} WHERE {6} {7} and {4} = {8}";
+                string aliasQuery00 = string.Format(aliasQuery_base,
+                    TableDocument, FieldDocumentName, FieldStationAlias, TableStation, FieldStationID, "'P00'", FieldDocumentFileNo, "<10", _model.StationID.ToString());
+                string aliasQuery0 = string.Format(aliasQuery_base,
+                    TableDocument, FieldDocumentName, FieldStationAlias, TableStation, FieldStationID, "'P0'", FieldDocumentFileNo, ">=10", _model.StationID.ToString());
+                string aliasQuery = string.Format(aliasQuery_base,
+                    TableDocument, FieldDocumentName, FieldStationAlias, TableStation, FieldStationID, "'P'", FieldDocumentFileNo, ">=100", _model.StationID.ToString());
+                await sq.ExecuteAsync(aliasQuery00);
+                await sq.ExecuteAsync(aliasQuery0);
+                await sq.ExecuteAsync(aliasQuery);
 
+                IsProcessingBatch = false;
+                await sq.CloseAsync();
             }
 
             return currentIteration;

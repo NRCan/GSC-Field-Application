@@ -440,17 +440,19 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="parentID"></param>
         /// <param name="parentAlias"></param>
         /// <returns></returns>
-        public async Task<string> CalculateDocumentAliasAsync(int parentID, string parentAlias, int startingDocNumber = 1)
+        public async Task<string> CalculateDocumentAliasAsync(int parentID, string parentAlias, SQLiteAsyncConnection connection = null, int startingDocNumber = 1)
         {
             //Querying with Linq
-            SQLiteAsyncConnection currentConnection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
-            List<Document> docParent = await currentConnection.Table<Document>().Where(e => e.StationID == parentID).ToListAsync();
+            if (connection == null)
+            {
+                connection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
+            }
+            List<Document> docParent = await connection.Table<Document>().Where(e => e.StationID == parentID).ToListAsync();
 
             int newID = 1; //Incrementing step
             string newAlias = string.Empty;
             string finaleDocumentString = parentAlias + TableDocumentAliasPrefix;
 
-            //Detect last record number and add 1 to it.
             if (docParent.Count() > 0)
             {
                 string lastAlias = docParent.ToList()[docParent.Count() - 1].DocumentName.ToString();
@@ -478,7 +480,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                     finaleDocumentString = parentAlias + TableDocumentAliasPrefix + newAlias;
 
                     //Find existing
-                    List<Document> existingDocument = await currentConnection.Table<Document>().Where(e => e.StationID == parentID && e.DocumentName == finaleDocumentString).ToListAsync();
+                    List<Document> existingDocument = await connection.Table<Document>().Where(e => e.StationID == parentID && e.DocumentName == finaleDocumentString).ToListAsync();
                     if (existingDocument.Count() == 0 || existingDocument == null)
                     {
                         processingID = false;
