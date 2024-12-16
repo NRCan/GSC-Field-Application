@@ -1,3 +1,4 @@
+using GSCFieldApp.Services;
 using GSCFieldApp.ViewModel;
 
 namespace GSCFieldApp.Views;
@@ -6,19 +7,41 @@ public partial class DocumentPage : ContentPage
 {
 	public DocumentPage(DocumentViewModel vm)
 	{
-		InitializeComponent();
-        BindingContext = vm;
+        try
+        {
+            InitializeComponent();
+            BindingContext = vm;
+        }
+        catch (Exception e)
+        {
+            new ErrorToLogFile(e).WriteToFile();
+        }
+
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnNavigatedTo(args);
 
-        //After binding context is setup fill pickers
-        DocumentViewModel vm2 = this.BindingContext as DocumentViewModel;
-        await vm2.FillPickers();
-        await vm2.InitModel();
-        await vm2.Load(); //In case it is coming from an existing record in field notes
+        try
+        {
+            base.OnNavigatedTo(args);
+
+            //After binding context is setup fill pickers
+            DocumentViewModel vm2 = this.BindingContext as DocumentViewModel;
+            if (vm2 != null)
+            {
+                await Task.Run(async () => await vm2.FillPickers());
+                await Task.Run(async () => await vm2.InitModel());
+                await Task.Run(async () => await vm2.Load()); //In case it is coming from an existing record in field notes
+            }
+
+        }
+        catch (Exception e)
+        {
+            new ErrorToLogFile(e).WriteToFile();
+        }
+
+
     }
 
     /// <summary>
@@ -29,7 +52,7 @@ public partial class DocumentPage : ContentPage
     private void DocumentFileTypePicker_SelectedIndexChanged(object sender, EventArgs e)
     {
         DocumentViewModel vm3 = this.BindingContext as DocumentViewModel;
-        if (!vm3.IsProcessingBatch)
+        if (vm3 != null && !vm3.IsProcessingBatch)
         {
             vm3.CalculateFileName();
         }
@@ -44,7 +67,7 @@ public partial class DocumentPage : ContentPage
     private void DocumentPageFileFromEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         DocumentViewModel vm4 = this.BindingContext as DocumentViewModel;
-        if (!vm4.IsProcessingBatch)
+        if (vm4 != null && !vm4.IsProcessingBatch)
         {
             vm4.CalculateFileName();
             vm4.CalculateFileNumberTo(); //Make sure File number to fits the from number
@@ -61,7 +84,7 @@ public partial class DocumentPage : ContentPage
     private void DocumentPageFileToEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         DocumentViewModel vm5 = this.BindingContext as DocumentViewModel;
-        if (!vm5.IsProcessingBatch)
+        if (vm5 != null && !vm5.IsProcessingBatch)
         {
             vm5.CalculateFileNumberTo(); //Make sure File number to fits the from number
         }

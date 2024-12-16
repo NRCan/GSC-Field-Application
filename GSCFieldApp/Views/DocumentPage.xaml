@@ -65,7 +65,7 @@
                             </VerticalStackLayout>
 
 
-                            <Picker Title="{local:Localize DocumentPageScaleDirection}"  Style="{StaticResource FieldAppPicker}"
+                            <Picker Title="{local:Localize DocumentPageScaleDirection}"
                                 x:Name="DocumentScalePicker"
                                 ItemsSource="{Binding DocumentScale.cboxItems}" 
                                 ItemDisplayBinding="{Binding itemName}" 

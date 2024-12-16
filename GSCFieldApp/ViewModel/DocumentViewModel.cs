@@ -125,8 +125,16 @@ namespace GSCFieldApp.ViewModel
 
         public DocumentViewModel()
         {
-            //Init new field theme
-            FieldThemes = new FieldThemes();
+            try
+            {
+                //Init new field theme
+                FieldThemes = new FieldThemes();
+            }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+            }
+            
         }
 
         #region RELAYS
