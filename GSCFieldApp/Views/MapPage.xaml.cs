@@ -204,17 +204,17 @@ public partial class MapPage : ContentPage
         SetOpenStreetMap();
 
         //Manage symbol and layers
-        await AddSymbolToRegistry();
+        await Task.Run(async()=> await AddSymbolToRegistry());
 
         //Freshen up the default layers
-        await RefreshDefaultFeatureLayer();
+        await Task.Run(async () => await RefreshDefaultFeatureLayer());
 
         //Reload user datasets for selected field book
-        await LoadPreferedLayers();
+        await Task.Run(async () => await LoadPreferedLayers());
 
         //Manage GPS
         if (!_isCheckingGeolocation && !_isTapMode) 
-        { 
+        {
             await StartGPS(); 
         }
   
