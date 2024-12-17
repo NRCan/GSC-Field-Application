@@ -209,7 +209,7 @@
             <ActivityIndicator x:Name="WaitingCursor" Style="{StaticResource FieldAppActivityIndicator}" Grid.Row="1"/>
             
             <!--Progress bar-->
-            <ProgressBar x:Name="MapPageProgressBar" BackgroundColor="White"  Grid.Row="1" IsVisible="False" PropertyChanged="MapPageProgressBar_PropertyChanged" ProgressColor="{StaticResource Primary}" WidthRequest="350"/>
+            <ProgressBar x:Name="MapPageProgressBar" BackgroundColor="Transparent"  Grid.Row="1" IsVisible="False" PropertyChanged="MapPageProgressBar_PropertyChanged" ProgressColor="{StaticResource Primary}" WidthRequest="350"/>
 
         </Grid>
     </ContentPage.Content>

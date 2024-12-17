@@ -8,6 +8,11 @@ using Color = Mapsui.Styles.Color;
 
 namespace GSCFieldApp.Models
 {
+    /// <summary>
+    /// A class to mimic what can be found within the SLD field that defines
+    /// a feature styling inside a geopackage. Will be used to build those
+    /// feature in the map.
+    /// </summary>
     public class GeopackageLayerStyling
     {
         //Generic classified style
