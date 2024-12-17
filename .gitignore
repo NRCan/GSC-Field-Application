@@ -366,3 +366,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /GSCFieldApp/DevelopmentNotes.md
 /CodeTesting
+/GSCFieldApp.Testing/GSCFieldApp.Testing.csproj
+/GSCFieldApp.Testing/UnitTest1.cs
