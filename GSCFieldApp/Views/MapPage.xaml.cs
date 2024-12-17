@@ -37,6 +37,7 @@ using Point = NetTopologySuite.Geometries.Point;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
 using System.Collections.Generic;
 using SkiaSharp.Views.Maui.Controls;
+using ExCSS;
 
 
 #if ANDROID
@@ -801,6 +802,8 @@ public partial class MapPage : ContentPage
                 GeopackageService gpkgService = new GeopackageService();
                 bool hitError = false; //to break all loops in case of error
                 WKTReader wellKnownTextReader = new WKTReader();
+                Color defaultColor = GetColorFromString("Grey");
+
                 foreach (string features in featuresToAdd)
                 {
 
@@ -810,10 +813,14 @@ public partial class MapPage : ContentPage
                         break;
                     }
 
+                    //Get some styling in
+                    string xmlStyle = await Task.Run(async() => await gpkgService.GetGeopackageStyleXMLString(gpkgConnection, features));
+                    List<GeopackageLayerStyling> stylings = await Task.Run(async () => await gpkgService.GetGeopackageLineStyle(xmlStyle, features));
+                    
                     //Will hold the geometries assembled as a new feature
                     IEnumerable<IFeature> feats = new IFeature[] { };
 
-                    //Get geometry type
+                    //Get geometry type and load each one
                     string getGeomTypeQuery = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';", 
                         GeopackageService.GpkgFieldGeometryType, 
                         GeopackageService.GpkgTableGeometry,
@@ -836,101 +843,101 @@ public partial class MapPage : ContentPage
                             }
 
                             //Get geometry from bytes
-                            string getGeomQuery = string.Format("SELECT {0} FROM {1};", GeopackageService.GpkgFieldGeometry, features);
-                            List<byte[]> featGeometries = await gpkgConnection.QueryScalarsAsync<byte[]>(getGeomQuery);
-
-                            if (featGeometries != null && featGeometries.Count() > 0)
+                            string getGeomQuery_base = string.Format("SELECT {0} FROM {1} ;", GeopackageService.GpkgFieldGeometry, features);
+                            string getGeomQuery = getGeomQuery_base;
+                            foreach (GeopackageLayerStyling styling in stylings)
                             {
-                                foreach (byte[] geomBytes in featGeometries)
+                                if (styling.className != string.Empty && styling.classValue != string.Empty)
                                 {
-                                    this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
-
-                                    //Prepare mapsui feature
-                                    IFeature feat = null;
-
-                                    //Get bytes based on geometry type
-                                    if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
-                                    {
-                                        //Get object instead of bytes
-                                        //Run on another thread else progress bar gets jammed and won't update in the UI
-                                        MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
-
-                                        //Get feature 
-                                        if (multiPolygon != null)
-                                        {
-                                            //Build feature metadata
-                                            feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
-                                        }
-                                        else
-                                        {
-                                            //Stop everything
-                                            hitError = true;
-                                            break;
-                                        }
-
-                                        //Get true line color
-                                        Color fillColor = GetColorFromString("LightGrey");
-                                        Color outlineColor = GetColorFromString("Grey");
-
-                                        //Style line and label
-                                        feat.Styles.Add(new VectorStyle { Fill = new Brush(fillColor), Outline = new Pen(outlineColor, 1) });
-
-                                    }
-                                    else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
-                                    {
-                                        //Get object instead of bytes
-                                        //Run on another thread else progress bar gets jammed and won't update in the UI
-                                        LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes));
-
-                                        //Get feature 
-                                        if (lines != null)
-                                        {
-                                            //Build feature metadata
-                                            feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
-                                        }
-                                        else
-                                        {
-                                            //Stop everything
-                                            hitError = true;
-                                            break;
-                                        }
-
-                                        //Get default line color
-                                        Color outlineColor = GetColorFromString("Grey");
-
-                                        //Style line and label
-                                        feat.Styles.Add(new VectorStyle { Line = new Pen(outlineColor, 3) });
-
-                                    }
-                                    else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
-                                    {
-                                        //Get object instead of bytes
-                                        //Run on another thread else progress bar gets jammed and won't update in the UI
-                                        Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes));
-
-                                        //Get feature 
-                                        if (pnts != null)
-                                        {
-                                            //Build feature metadata
-                                            feat = new GeometryFeature(wellKnownTextReader.Read(pnts.AsText()));
-                                        }
-                                        else
-                                        {
-                                            //Stop everything
-                                            hitError = true;
-                                            break;
-                                        }
-
-                                        //Get default line color
-                                        Color outlineColor = GetColorFromString("Grey");
-
-                                        //Style line and label
-                                        feat.Styles.Add(new SymbolStyle { BlendModeColor = outlineColor, SymbolScale = 0.1});
-                                    }
-
-                                    //Add to list of features
-                                    feats = feats.Append(feat);
+                                    //Add a where clause
+                                    getGeomQuery = getGeomQuery_base.Replace(";", "") + string.Format("WHERE {0} = '{1}' ;", styling.className, styling.classValue);
                                 }
+                                List<byte[]> featGeometries = await gpkgConnection.QueryScalarsAsync<byte[]>(getGeomQuery);
+
+                                if (featGeometries != null && featGeometries.Count() > 0)
+                                {
+                                    foreach (byte[] geomBytes in featGeometries)
+                                    {
+                                        this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
+
+                                        //Prepare mapsui feature
+                                        IFeature feat = null;
+
+                                        //From bytes get feature object
+                                        if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
+                                        {
+                                            //Run on another thread else progress bar gets jammed and won't update in the UI
+                                            MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
+
+                                            //Get feature 
+                                            if (multiPolygon != null)
+                                            {
+                                                //Build feature metadata
+                                                feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
+                                            }
+                                            else
+                                            {
+                                                //Stop everything
+                                                hitError = true;
+                                                break;
+                                            }
+
+                                            //Get true line color
+                                            Color fillColor = GetColorFromString("LightGrey");
+
+                                            //Style line and label
+                                            feat.Styles.Add(new VectorStyle { Fill = new Brush(fillColor), Outline = new Pen(defaultColor, 1) });
+
+                                        }
+                                        else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
+                                        {
+                                            //Run on another thread else progress bar gets jammed and won't update in the UI
+                                            LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes));
+
+                                            //Get feature 
+                                            if (lines != null)
+                                            {
+                                                //Build feature metadata
+                                                feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
+                                            }
+                                            else
+                                            {
+                                                //Stop everything
+                                                hitError = true;
+                                                break;
+                                            }
+
+                                            //Get default or user line style 
+                                            feat.Styles.Add(styling.lineVectorStyle);
+                                            
+                                        }
+                                        else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
+                                        {
+                                            //Run on another thread else progress bar gets jammed and won't update in the UI
+                                            Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes));
+
+                                            //Get feature 
+                                            if (pnts != null)
+                                            {
+                                                //Build feature metadata
+                                                feat = new GeometryFeature(wellKnownTextReader.Read(pnts.AsText()));
+                                            }
+                                            else
+                                            {
+                                                //Stop everything
+                                                hitError = true;
+                                                break;
+                                            }
+
+                                            //Style line and label
+                                            feat.Styles.Add(new SymbolStyle { BlendModeColor = defaultColor, SymbolScale = 0.1 });
+                                        }
+
+                                        //Add to list of features
+                                        feats = feats.Append(feat);
+                                    }
+                                }
+
                             }
 
                             this.MapPageProgressBar.IsVisible = false;
@@ -959,6 +966,7 @@ public partial class MapPage : ContentPage
                     LocalizationResourceManager["GenericButtonOk"].ToString());
 
                 new ErrorToLogFile(e).WriteToFile();
+                this.MapPageProgressBar.IsVisible = false;
             }
 
         }

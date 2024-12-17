@@ -22,6 +22,14 @@ using NetTopologySuite;
 using System.Runtime.CompilerServices;
 using Mapsui.Nts.Extensions;
 using CommunityToolkit.Maui.Core.Extensions;
+using Mapsui.Styles;
+using SQLite;
+using Color = Mapsui.Styles.Color;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -42,6 +50,16 @@ namespace GSCFieldApp.Services.DatabaseServices
         public const string GpkgFieldStyleSLD = "styleSLD";
         public const string GpkgFieldGeometry = "geom";
         public const string GpkgFieldGeometryType = "geometry_type_name";
+
+        //Geopackage style strings
+        public const string GpkgStyleRoot = "NamedLayer"; //Basic root node
+        public const string GpkgStyleStrokeRoot = "Stroke";
+        public const string GpkgStyleStroke = "stroke";
+        public const string GpkgStyleStrokeWidth = "stroke-width";
+        public const string GpkgStyleAttrName = "name";
+        public const string GpkgStyleRule = "Rule";
+        public const string GpkgStyleClass = "PropertyName";
+        public const string GpkgStyleValue = "Literal";
 
         private static ICoordinateTransformation _polyTransform = null;
         private static PrecisionModel _precisionModel = new PrecisionModel(PrecisionModels.Floating); //to get all decimals
@@ -424,7 +442,114 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return outPolygon;
         }
-    
-        
+
+        /// <summary>
+        /// Will return a default or user style from the geopacakge style table
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public async Task<List<GeopackageLayerStyling>> GetGeopackageLineStyle(string xmlString, string tableName)
+        {
+            //Prep default
+            List<GeopackageLayerStyling> stylingList = new List<GeopackageLayerStyling>();
+
+            //Parse XML
+            if (xmlString != null && xmlString != string.Empty)
+            {
+                //Get full document
+                XDocument xdoc = XDocument.Parse(xmlString);
+
+                //Get nodes within NamedLayer
+                foreach (XElement namedLayerElement in xdoc.Descendants().Where(p => p.Name.LocalName == GpkgStyleRoot))
+                {
+                    //Make sure the styling is meant for the right layer
+                    if (namedLayerElement.Value != null && namedLayerElement.Value.Contains(tableName))
+                    {
+                        //For classified style lines, there'll be more than 1 rule
+                        foreach (XElement ruleElement in namedLayerElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleRule))
+                        {
+                            //Create a new styling layer to keep all properties nice and cozy somewhere
+                            GeopackageLayerStyling ruleStyling = new GeopackageLayerStyling();
+                            ruleStyling.SetDefaultLineStyle();
+
+                            //Keep class name and value if there is any
+                            foreach (XElement classElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleClass))
+                            {
+                                ruleStyling.className = classElement.Value;
+                            }
+
+                            foreach (XElement classElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleValue))
+                            {
+                                ruleStyling.classValue = classElement.Value;
+                            }
+
+                            //Get nodes inside the line stroke element
+                            foreach (XElement strokeElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleStrokeRoot))
+                            {
+                                //Go through child nodes of stroke
+                                foreach (XElement linesStrokes in strokeElement.Descendants())
+                                {
+                                    if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStroke)
+                                    {
+                                        try
+                                        {
+                                            ruleStyling.lineVectorStyle.Line.Color = Color.FromString(linesStrokes.Value);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            new ErrorToLogFile(e).WriteToFile();
+                                        }
+
+                                    }
+                                    if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStrokeWidth)
+                                    {
+
+                                        try
+                                        {
+                                            ruleStyling.lineVectorStyle.Line.Width = double.Parse(linesStrokes.Value);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            new ErrorToLogFile(e).WriteToFile();
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                            //Add new rule to list
+                            stylingList.Add(ruleStyling);
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return stylingList;
+        }
+
+        /// <summary>
+        /// Will output the geopackage style xml as a string
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> GetGeopackageStyleXMLString(SQLiteAsyncConnection gpkgConnection, string tableName)
+        {
+            string xmlString = string.Empty;
+
+            //Read from geopackage style table
+            string getStyleXML = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';", GpkgFieldStyleSLD, GpkgTableStyle, GpkgFieldStyleTableName, tableName);
+            List<string> xmlStyle = await gpkgConnection.QueryScalarsAsync<string>(getStyleXML);
+
+            if (xmlStyle != null && xmlStyle.Count() > 0)
+            {
+                xmlString = xmlStyle[0];
+            }
+
+            return xmlString;
+        }
     }
 }
