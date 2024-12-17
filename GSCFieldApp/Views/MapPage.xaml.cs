@@ -813,10 +813,6 @@ public partial class MapPage : ContentPage
                         break;
                     }
 
-                    //Get some styling in
-                    string xmlStyle = await Task.Run(async() => await gpkgService.GetGeopackageStyleXMLString(gpkgConnection, features));
-                    List<GeopackageLayerStyling> stylings = await Task.Run(async () => await gpkgService.GetGeopackageLineStyle(xmlStyle, features));
-                    
                     //Will hold the geometries assembled as a new feature
                     IEnumerable<IFeature> feats = new IFeature[] { };
 
@@ -836,11 +832,16 @@ public partial class MapPage : ContentPage
 
                         foreach (string geomType in typeGeometries)
                         {
+
                             //Error handling
                             if (hitError)
                             {
                                 break;
                             }
+
+                            //Get some styling in
+                            string xmlStyle = await Task.Run(async () => await gpkgService.GetGeopackageStyleXMLString(gpkgConnection, features));
+                            List<GeopackageLayerStyling> stylings = await Task.Run(async () => await gpkgService.GetGeopackageStyle(xmlStyle, features, geomType));
 
                             //Get geometry from bytes
                             string getGeomQuery_base = string.Format("SELECT {0} FROM {1} ;", GeopackageService.GpkgFieldGeometry, features);
@@ -882,11 +883,8 @@ public partial class MapPage : ContentPage
                                                 break;
                                             }
 
-                                            //Get true line color
-                                            Color fillColor = GetColorFromString("LightGrey");
-
-                                            //Style line and label
-                                            feat.Styles.Add(new VectorStyle { Fill = new Brush(fillColor), Outline = new Pen(defaultColor, 1) });
+                                            //Get default or user line style 
+                                            feat.Styles.Add(styling.polyVectorStyle);
 
                                         }
                                         else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())

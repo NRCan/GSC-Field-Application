@@ -19,6 +19,11 @@ namespace GSCFieldApp.Models
         public double lineStrokeWidth { get; set; } 
         public VectorStyle lineVectorStyle { get; set; }
 
+        //Related to polygons
+        public Color polyFillColor { get; set; }
+        public Color polyOutlineColor { get; set; }
+        public double polyOutlineWidth { get; set; }
+        public VectorStyle polyVectorStyle { get; set; }
 
         public GeopackageLayerStyling() 
         { 
@@ -38,6 +43,22 @@ namespace GSCFieldApp.Models
             lineVectorStyle = new VectorStyle { Line = new Pen(lineStrokeColor, lineStrokeWidth) };
 
             return lineStyle;
+        }
+
+        /// <summary>
+        /// Will default to grey polygons
+        /// </summary>
+        /// <returns></returns>
+        public GeopackageLayerStyling SetDefaultPolyStyle()
+        {
+            GeopackageLayerStyling polyStyle = new GeopackageLayerStyling();
+            polyFillColor = Color.FromString("LightGrey");
+            polyOutlineColor = Color.FromString("Grey");
+            polyOutlineWidth = 1;
+
+            polyVectorStyle = new VectorStyle { Fill = new Mapsui.Styles.Brush(polyFillColor), Outline = new Pen(polyOutlineColor, polyOutlineWidth) };
+
+            return polyStyle;
         }
     }
 }

@@ -60,6 +60,8 @@ namespace GSCFieldApp.Services.DatabaseServices
         public const string GpkgStyleRule = "Rule";
         public const string GpkgStyleClass = "PropertyName";
         public const string GpkgStyleValue = "Literal";
+        public const string GpkgStyleFillRoot = "Fill";
+        public const string GpkgStyleFill = "fill";
 
         private static ICoordinateTransformation _polyTransform = null;
         private static PrecisionModel _precisionModel = new PrecisionModel(PrecisionModels.Floating); //to get all decimals
@@ -444,11 +446,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         }
 
         /// <summary>
-        /// Will return a default or user style from the geopacakge style table
+        /// Will return a default or user style from the geopackage style table. It'll be set as the incoming geometry type.
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public async Task<List<GeopackageLayerStyling>> GetGeopackageLineStyle(string xmlString, string tableName)
+        public async Task<List<GeopackageLayerStyling>> GetGeopackageStyle(string xmlString, string tableName, string geometry)
         {
             //Prep default
             List<GeopackageLayerStyling> stylingList = new List<GeopackageLayerStyling>();
@@ -465,13 +467,12 @@ namespace GSCFieldApp.Services.DatabaseServices
                     //Make sure the styling is meant for the right layer
                     if (namedLayerElement.Value != null && namedLayerElement.Value.Contains(tableName))
                     {
-                        //For classified style lines, there'll be more than 1 rule
+                        //For classified styles, there'll be more than 1 rule
                         foreach (XElement ruleElement in namedLayerElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleRule))
                         {
                             //Create a new styling layer to keep all properties nice and cozy somewhere
                             GeopackageLayerStyling ruleStyling = new GeopackageLayerStyling();
-                            ruleStyling.SetDefaultLineStyle();
-
+                            
                             //Keep class name and value if there is any
                             foreach (XElement classElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleClass))
                             {
@@ -483,40 +484,18 @@ namespace GSCFieldApp.Services.DatabaseServices
                                 ruleStyling.classValue = classElement.Value;
                             }
 
-                            //Get nodes inside the line stroke element
-                            foreach (XElement strokeElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleStrokeRoot))
+                            //Get style based on geometry type (point,lines or polygons)
+                            if (geometry.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
                             {
-                                //Go through child nodes of stroke
-                                foreach (XElement linesStrokes in strokeElement.Descendants())
-                                {
-                                    if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStroke)
-                                    {
-                                        try
-                                        {
-                                            ruleStyling.lineVectorStyle.Line.Color = Color.FromString(linesStrokes.Value);
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            new ErrorToLogFile(e).WriteToFile();
-                                        }
-
-                                    }
-                                    if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStrokeWidth)
-                                    {
-
-                                        try
-                                        {
-                                            ruleStyling.lineVectorStyle.Line.Width = double.Parse(linesStrokes.Value);
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            new ErrorToLogFile(e).WriteToFile();
-                                        }
-
-                                    }
-
-                                }
-
+                                ruleStyling = GetGeopackagePolyStyle(ruleElement, ruleStyling);
+                            }
+                            else if (geometry.ToLower() == Geometry.TypeNameLineString.ToLower())
+                            {
+                                ruleStyling = GetGeopackageLineStyle(ruleElement, ruleStyling);
+                            }
+                            else if (geometry.ToLower() == Geometry.TypeNamePoint.ToLower())
+                            { 
+                            
                             }
 
                             //Add new rule to list
@@ -531,6 +510,145 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return stylingList;
         }
+
+        /// <summary>
+        /// Will return a default or user style from the geopacakge style table
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public GeopackageLayerStyling GetGeopackageLineStyle(XElement ruleElement, GeopackageLayerStyling currentStyling)
+        {
+            //Default in case nothing is found
+            currentStyling.SetDefaultLineStyle();
+
+            //Get nodes inside the line stroke element
+            foreach (XElement strokeElement in ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleStrokeRoot))
+            {
+                //Go through child nodes of stroke
+                foreach (XElement linesStrokes in strokeElement.Descendants())
+                {
+                    if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStroke)
+                    {
+                        try
+                        {
+                            currentStyling.lineVectorStyle.Line.Color = Color.FromString(linesStrokes.Value);
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorToLogFile(e).WriteToFile();
+                        }
+
+                    }
+                    if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStrokeWidth)
+                    {
+
+                        try
+                        {
+                            currentStyling.lineVectorStyle.Line.Width = double.Parse(linesStrokes.Value);
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorToLogFile(e).WriteToFile();
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return currentStyling;
+        }
+
+        /// <summary>
+        /// Will return a default or user style from the geopacakge style table
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public GeopackageLayerStyling GetGeopackagePolyStyle(XElement ruleElement, GeopackageLayerStyling currentStyling)
+        {
+            //Default in case nothing is found
+            currentStyling.SetDefaultPolyStyle();
+
+            //Get nodes of outlines if there is any
+            IEnumerable<XElement> strokeElements = ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleStrokeRoot);
+            if (strokeElements.Count() > 0)
+            {
+                foreach (XElement strokeElement in strokeElements)
+                {
+                    //Go through child nodes of stroke
+                    foreach (XElement linesStrokes in strokeElement.Descendants())
+                    {
+                        if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStroke)
+                        {
+                            try
+                            {
+                                currentStyling.polyVectorStyle.Outline.Color = Color.FromString(linesStrokes.Value);
+                            }
+                            catch (Exception e)
+                            {
+                                new ErrorToLogFile(e).WriteToFile();
+                            }
+
+                        }
+                        if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStrokeWidth)
+                        {
+
+                            try
+                            {
+                                currentStyling.polyVectorStyle.Outline.Width = double.Parse(linesStrokes.Value);
+                            }
+                            catch (Exception e)
+                            {
+                                new ErrorToLogFile(e).WriteToFile();
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+            else 
+            {
+                currentStyling.polyOutlineColor = Color.Transparent;
+                currentStyling.polyOutlineWidth = 0;
+            }
+
+            //Get the polygon fill color
+            IEnumerable<XElement> fillElements = ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleFillRoot);
+            if (fillElements.Count() > 0)
+            {
+                foreach (XElement fillElement in fillElements)
+                {
+                    //Go through child nodes of stroke
+                    foreach (XElement fill in fillElement.Descendants())
+                    {
+                        if (fill.Attribute(GpkgStyleAttrName) != null && fill.Attribute(GpkgStyleAttrName).Value == GpkgStyleFill)
+                        {
+                            try
+                            {
+                                currentStyling.polyVectorStyle.Fill.Color = Color.FromString(fill.Value);
+                            }
+                            catch (Exception e)
+                            {
+                                new ErrorToLogFile(e).WriteToFile();
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+            else
+            {
+                currentStyling.polyFillColor = Color.Transparent;
+            }
+
+            return currentStyling;
+        }
+
 
         /// <summary>
         /// Will output the geopackage style xml as a string
