@@ -509,12 +509,15 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void mapView_LongTap(object sender, Mapsui.UI.TappedEventArgs e)
     {
-        //Stop event tracking and finalize work
-        mapView.TouchAction -= mapView_TouchAction;
-        FinalizeLinework(e);
+        if (_isDrawingLine)
+        {
+            //Stop event tracking and finalize work
+            mapView.TouchAction -= mapView_TouchAction;
+            FinalizeLinework(e);
 
-        //Bring back map panning
-        mapView.Map.Navigator.PanLock = false;
+            //Bring back map panning
+            mapView.Map.Navigator.PanLock = false;
+        }
 
     }
 
