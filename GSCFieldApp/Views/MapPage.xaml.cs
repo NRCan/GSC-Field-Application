@@ -944,6 +944,7 @@ public partial class MapPage : ContentPage
 
 
                     //Create layer
+                    //Need to set style to null else points will come with a big white circle beneath them
                     MemoryLayer newMemLayer = new MemoryLayer()
                     {
                         Name = features,

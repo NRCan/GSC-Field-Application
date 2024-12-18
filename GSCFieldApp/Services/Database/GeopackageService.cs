@@ -507,6 +507,28 @@ namespace GSCFieldApp.Services.DatabaseServices
                 }
 
             }
+            else
+            {
+                //Create a new styling layer to keep all properties nice and cozy somewhere
+                GeopackageLayerStyling ruleStyling = new GeopackageLayerStyling();
+
+                //Get style based on geometry type (point,lines or polygons)
+                if (geometry.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
+                {
+                    ruleStyling.SetDefaultPolyStyle();
+                }
+                else if (geometry.ToLower() == Geometry.TypeNameLineString.ToLower())
+                {
+                    ruleStyling.SetDefaultLineStyle();
+                }
+                else if (geometry.ToLower() == Geometry.TypeNamePoint.ToLower())
+                {
+                    ruleStyling.SetDefaultPointStyle();
+                }
+
+                //Add new rule to list
+                stylingList.Add(ruleStyling);
+            }
 
             return stylingList;
         }
