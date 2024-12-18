@@ -1381,6 +1381,6 @@
     <value>Plot to map</value>
   </data>
   <data name="MapPageAddGeopackageFeature" xml:space="preserve">
-    <value>Selected desired features to add.</value>
+    <value>Select features to add.</value>
   </data>
 </root>

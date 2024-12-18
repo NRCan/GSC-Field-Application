@@ -927,8 +927,8 @@ public partial class MapPage : ContentPage
                                                 break;
                                             }
 
-                                            //Style line and label
-                                            feat.Styles.Add(new SymbolStyle { BlendModeColor = defaultColor, SymbolScale = 0.1 });
+                                            //Style point
+                                            feat.Styles.Add(styling.pointVectorStyle);
                                         }
 
                                         //Add to list of features
@@ -948,7 +948,8 @@ public partial class MapPage : ContentPage
                     {
                         Name = features,
                         IsMapInfoLayer = true,
-                        Features = feats
+                        Features = feats,
+                        Style = null
                     };
 
                     //Add to map

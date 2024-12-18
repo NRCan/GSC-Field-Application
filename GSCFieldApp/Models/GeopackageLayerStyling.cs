@@ -30,6 +30,12 @@ namespace GSCFieldApp.Models
         public double polyOutlineWidth { get; set; }
         public VectorStyle polyVectorStyle { get; set; }
 
+        //Related to points/marker
+        public Color pointFillColor { get; set; }
+        public Color pointOutlineColor { get; set; }
+        public double pointOutlineWidth { get; set; }
+        public SymbolStyle pointVectorStyle { get; set; }
+
         public GeopackageLayerStyling() 
         { 
             className = string.Empty;
@@ -65,5 +71,22 @@ namespace GSCFieldApp.Models
 
             return polyStyle;
         }
+
+        /// <summary>
+        /// Will default to grey points
+        /// </summary>
+        /// <returns></returns>
+        public GeopackageLayerStyling SetDefaultPointStyle()
+        {
+            GeopackageLayerStyling pointStyle = new GeopackageLayerStyling();
+            pointFillColor = Color.FromString("LightGrey");
+            pointOutlineColor = Color.FromString("Grey");
+            pointOutlineWidth = 0.1;
+
+            pointVectorStyle = new SymbolStyle { BlendModeColor = pointFillColor, SymbolScale = 0.3, Fill = new Mapsui.Styles.Brush(pointFillColor), Outline = new Pen(pointOutlineColor, pointOutlineWidth) };
+
+            return pointStyle;
+        }
+
     }
 }

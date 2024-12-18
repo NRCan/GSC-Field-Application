@@ -494,8 +494,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                                 ruleStyling = GetGeopackageLineStyle(ruleElement, ruleStyling);
                             }
                             else if (geometry.ToLower() == Geometry.TypeNamePoint.ToLower())
-                            { 
-                            
+                            {
+                                ruleStyling = GetGeopackagePointStyle(ruleElement, ruleStyling);
                             }
 
                             //Add new rule to list
@@ -645,6 +645,87 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 currentStyling.polyFillColor = Color.Transparent;
             }
+
+            return currentStyling;
+        }
+
+        /// <summary>
+        /// Will return a default or user style from the geopacakge style table
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public GeopackageLayerStyling GetGeopackagePointStyle(XElement ruleElement, GeopackageLayerStyling currentStyling)
+        {
+            //Default in case nothing is found
+            currentStyling.SetDefaultPointStyle();
+
+            //Get nodes of outlines if there is any
+            IEnumerable<XElement> strokeElements = ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleStrokeRoot);
+            if (strokeElements.Count() > 0)
+            {
+                foreach (XElement strokeElement in strokeElements)
+                {
+                    //Go through child nodes of stroke
+                    foreach (XElement linesStrokes in strokeElement.Descendants())
+                    {
+                        if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStroke)
+                        {
+                            try
+                            {
+                                currentStyling.pointVectorStyle.Outline.Color = Color.FromString(linesStrokes.Value);
+                            }
+                            catch (Exception e)
+                            {
+                                new ErrorToLogFile(e).WriteToFile();
+                            }
+
+                        }
+                        if (linesStrokes.Attribute(GpkgStyleAttrName) != null && linesStrokes.Attribute(GpkgStyleAttrName).Value == GpkgStyleStrokeWidth)
+                        {
+
+                            try
+                            {
+                                currentStyling.pointVectorStyle.Outline.Width = double.Parse(linesStrokes.Value);
+                            }
+                            catch (Exception e)
+                            {
+                                new ErrorToLogFile(e).WriteToFile();
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+
+            //Get the polygon fill color
+            IEnumerable<XElement> fillElements = ruleElement.Descendants().Where(p => p.Name.LocalName == GpkgStyleFillRoot);
+            if (fillElements.Count() > 0)
+            {
+                foreach (XElement fillElement in fillElements)
+                {
+                    //Go through child nodes of stroke
+                    foreach (XElement fill in fillElement.Descendants())
+                    {
+                        if (fill.Attribute(GpkgStyleAttrName) != null && fill.Attribute(GpkgStyleAttrName).Value == GpkgStyleFill)
+                        {
+                            try
+                            {
+                                currentStyling.pointVectorStyle.Fill.Color = Color.FromString(fill.Value);
+                            }
+                            catch (Exception e)
+                            {
+                                new ErrorToLogFile(e).WriteToFile();
+                            }
+
+                        }
+
+                    }
+
+                }
+            }
+
 
             return currentStyling;
         }
