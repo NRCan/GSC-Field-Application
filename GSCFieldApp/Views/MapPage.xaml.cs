@@ -742,6 +742,10 @@ public partial class MapPage : ContentPage
                     {
                         await AddAWMSAsync(mpl.LayerPathOrURL, true, mpl);
                     }
+                    else if (mpl.LayerType == MapPageLayer.LayerTypes.gpkg)
+                    {
+                        await AddGPKG(new List<string> { mpl.LayerName }, mpl.LayerPathOrURL, mpl);
+                    }
                 }
 
             }
@@ -843,9 +847,13 @@ public partial class MapPage : ContentPage
 
                         if (typeGeometries != null && typeGeometries.Count() > 0)
                         {
-                            //Keep track of loading progress
-                            this.MapPageProgressBar.Progress = 0;
-                            this.MapPageProgressBar.IsVisible = true;
+                            //Keep track of loading progress if coming from button and not preloading prefered layers
+                            if (pageLayer == null)
+                            {
+                                this.MapPageProgressBar.Progress = 0;
+                                this.MapPageProgressBar.IsVisible = true;
+                            }
+
 
                             foreach (string geomType in typeGeometries)
                             {
@@ -876,7 +884,10 @@ public partial class MapPage : ContentPage
                                     {
                                         foreach (byte[] geomBytes in featGeometries)
                                         {
-                                            this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
+                                            if (pageLayer == null)
+                                            {
+                                                this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
+                                            }
 
                                             //Prepare mapsui feature
                                             IFeature feat = null;
@@ -955,7 +966,10 @@ public partial class MapPage : ContentPage
 
                                 }
 
-                                this.MapPageProgressBar.IsVisible = false;
+                                if (pageLayer == null)
+                                {
+                                    this.MapPageProgressBar.IsVisible = false;
+                                }
                             }
                         }
 
@@ -967,8 +981,16 @@ public partial class MapPage : ContentPage
                             Name = features,
                             IsMapInfoLayer = true,
                             Features = feats,
-                            Style = null
+                            Style = null,
+                            Tag = gpkgPath,
                         };
+
+                        //If full object is passed, get extra info in
+                        if (pageLayer != null)
+                        {
+                            newMemLayer.Opacity = pageLayer.LayerOpacity;
+                            newMemLayer.Enabled = pageLayer.LayerVisibility;
+                        }
 
                         //Add to map
                         InsertLayerAtRightPlace(newMemLayer);

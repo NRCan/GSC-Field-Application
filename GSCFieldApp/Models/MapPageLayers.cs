@@ -14,7 +14,7 @@ namespace GSCFieldApp.Models
     /// </summary>
     public class MapPageLayer
     {
-        public enum LayerTypes { mbtiles, wms }
+        public enum LayerTypes { mbtiles, wms, gpkg }
 
         public string LayerName { get; set; }
 
@@ -63,6 +63,10 @@ namespace GSCFieldApp.Models
                     else if (isTileLayer != null && (mpl.LayerPathOrURL.Contains("wms") || mpl.LayerPathOrURL.Contains("ows")))
                     {
                         mpl.LayerType = MapPageLayer.LayerTypes.wms;
+                    }
+                    else if (mpl.LayerPathOrURL.Contains("gpkg"))
+                    {
+                        mpl.LayerType = MapPageLayer.LayerTypes.gpkg;
                     }
 
                 }
