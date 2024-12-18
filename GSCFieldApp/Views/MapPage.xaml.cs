@@ -816,148 +816,165 @@ public partial class MapPage : ContentPage
                         break;
                     }
 
-                    //Will hold the geometries assembled as a new feature
-                    IEnumerable<IFeature> feats = new IFeature[] { };
-
-                    //Get geometry type and load each one
-                    string getGeomTypeQuery = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';", 
-                        GeopackageService.GpkgFieldGeometryType, 
-                        GeopackageService.GpkgTableGeometry,
-                        GeopackageService.GpkgFieldTableName,
-                        features);
-                    List<string> typeGeometries = await gpkgConnection.QueryScalarsAsync<string>(getGeomTypeQuery);
-
-                    if (typeGeometries != null && typeGeometries.Count() > 0)
+                    //Validate number of geometries before actually proceed
+                    string getGeomCount = string.Format("SELECT COUNT(*) FROM {0};", features);
+                    List<int> geomCount = await gpkgConnection.QueryScalarsAsync<int>(getGeomCount);
+                    bool canContinue = true;
+                    if (geomCount.Count > 0 && geomCount[0] > 1000)
                     {
-                        //Keep track of loading progress
-                        this.MapPageProgressBar.Progress = 0;
-                        this.MapPageProgressBar.IsVisible = true;
+                        canContinue = await DisplayAlert(LocalizationResourceManager["GenericWarningTitle"].ToString(),
+                            LocalizationResourceManager["MapPageTooManyGeometriesMessage"].ToString(),
+                            LocalizationResourceManager["GenericButtonYes"].ToString(),
+                            LocalizationResourceManager["GenericButtonNo"].ToString());
+                    }
 
-                        foreach (string geomType in typeGeometries)
+                    if (canContinue) 
+                    {
+                        //Will hold the geometries assembled as a new feature
+                        IEnumerable<IFeature> feats = new IFeature[] { };
+
+                        //Get geometry type and load each one
+                        string getGeomTypeQuery = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';",
+                            GeopackageService.GpkgFieldGeometryType,
+                            GeopackageService.GpkgTableGeometry,
+                            GeopackageService.GpkgFieldTableName,
+                            features);
+                        List<string> typeGeometries = await gpkgConnection.QueryScalarsAsync<string>(getGeomTypeQuery);
+
+                        if (typeGeometries != null && typeGeometries.Count() > 0)
                         {
+                            //Keep track of loading progress
+                            this.MapPageProgressBar.Progress = 0;
+                            this.MapPageProgressBar.IsVisible = true;
 
-                            //Error handling
-                            if (hitError)
+                            foreach (string geomType in typeGeometries)
                             {
-                                break;
-                            }
 
-                            //Get some styling in
-                            string xmlStyle = await Task.Run(async () => await gpkgService.GetGeopackageStyleXMLString(gpkgConnection, features));
-                            List<GeopackageLayerStyling> stylings = await Task.Run(async () => await gpkgService.GetGeopackageStyle(xmlStyle, features, geomType));
-
-                            //Get geometry from bytes
-                            string getGeomQuery_base = string.Format("SELECT {0} FROM {1} ;", GeopackageService.GpkgFieldGeometry, features);
-                            string getGeomQuery = getGeomQuery_base;
-                            foreach (GeopackageLayerStyling styling in stylings)
-                            {
-                                if (styling.className != string.Empty && styling.classValue != string.Empty)
+                                //Error handling
+                                if (hitError)
                                 {
-                                    //Add a where clause
-                                    getGeomQuery = getGeomQuery_base.Replace(";", "") + string.Format("WHERE {0} = '{1}' ;", styling.className, styling.classValue);
+                                    break;
                                 }
-                                List<byte[]> featGeometries = await gpkgConnection.QueryScalarsAsync<byte[]>(getGeomQuery);
 
-                                if (featGeometries != null && featGeometries.Count() > 0)
+                                //Get some styling in
+                                string xmlStyle = await Task.Run(async () => await gpkgService.GetGeopackageStyleXMLString(gpkgConnection, features));
+                                List<GeopackageLayerStyling> stylings = await Task.Run(async () => await gpkgService.GetGeopackageStyle(xmlStyle, features, geomType));
+
+                                //Get geometry from bytes
+                                string getGeomQuery_base = string.Format("SELECT {0} FROM {1} ;", GeopackageService.GpkgFieldGeometry, features);
+                                string getGeomQuery = getGeomQuery_base;
+                                foreach (GeopackageLayerStyling styling in stylings)
                                 {
-                                    foreach (byte[] geomBytes in featGeometries)
+                                    if (styling.className != string.Empty && styling.classValue != string.Empty)
                                     {
-                                        this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
-
-                                        //Prepare mapsui feature
-                                        IFeature feat = null;
-
-                                        //From bytes get feature object
-                                        if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
-                                        {
-                                            //Run on another thread else progress bar gets jammed and won't update in the UI
-                                            MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
-
-                                            //Get feature 
-                                            if (multiPolygon != null)
-                                            {
-                                                //Build feature metadata
-                                                feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
-                                            }
-                                            else
-                                            {
-                                                //Stop everything
-                                                hitError = true;
-                                                break;
-                                            }
-
-                                            //Get default or user line style 
-                                            feat.Styles.Add(styling.polyVectorStyle);
-
-                                        }
-                                        else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
-                                        {
-                                            //Run on another thread else progress bar gets jammed and won't update in the UI
-                                            LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes));
-
-                                            //Get feature 
-                                            if (lines != null)
-                                            {
-                                                //Build feature metadata
-                                                feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
-                                            }
-                                            else
-                                            {
-                                                //Stop everything
-                                                hitError = true;
-                                                break;
-                                            }
-
-                                            //Get default or user line style 
-                                            feat.Styles.Add(styling.lineVectorStyle);
-                                            
-                                        }
-                                        else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
-                                        {
-                                            //Run on another thread else progress bar gets jammed and won't update in the UI
-                                            Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes));
-
-                                            //Get feature 
-                                            if (pnts != null)
-                                            {
-                                                //Build feature metadata
-                                                feat = new GeometryFeature(wellKnownTextReader.Read(pnts.AsText()));
-                                            }
-                                            else
-                                            {
-                                                //Stop everything
-                                                hitError = true;
-                                                break;
-                                            }
-
-                                            //Style point
-                                            feat.Styles.Add(styling.pointVectorStyle);
-                                        }
-
-                                        //Add to list of features
-                                        feats = feats.Append(feat);
+                                        //Add a where clause
+                                        getGeomQuery = getGeomQuery_base.Replace(";", "") + string.Format("WHERE {0} = '{1}' ;", styling.className, styling.classValue);
                                     }
+                                    List<byte[]> featGeometries = await gpkgConnection.QueryScalarsAsync<byte[]>(getGeomQuery);
+
+                                    if (featGeometries != null && featGeometries.Count() > 0)
+                                    {
+                                        foreach (byte[] geomBytes in featGeometries)
+                                        {
+                                            this.MapPageProgressBar.Progress = (double)(featGeometries.IndexOf(geomBytes) + 1) / featGeometries.Count();
+
+                                            //Prepare mapsui feature
+                                            IFeature feat = null;
+
+                                            //From bytes get feature object
+                                            if (geomType.ToLower() == Geometry.TypeNameMultiPolygon.ToLower())
+                                            {
+                                                //Run on another thread else progress bar gets jammed and won't update in the UI
+                                                MultiPolygon multiPolygon = await Task.Run(async () => await gpkgService.GetGeometryPolygonFromByte(geomBytes));
+
+                                                //Get feature 
+                                                if (multiPolygon != null)
+                                                {
+                                                    //Build feature metadata
+                                                    feat = new GeometryFeature(wellKnownTextReader.Read(multiPolygon.AsText()));
+                                                }
+                                                else
+                                                {
+                                                    //Stop everything
+                                                    hitError = true;
+                                                    break;
+                                                }
+
+                                                //Get default or user line style 
+                                                feat.Styles.Add(styling.polyVectorStyle);
+
+                                            }
+                                            else if (geomType.ToLower() == Geometry.TypeNameLineString.ToLower())
+                                            {
+                                                //Run on another thread else progress bar gets jammed and won't update in the UI
+                                                LineString lines = await Task.Run(async () => await gpkgService.GetGeometryLineFromByte(geomBytes));
+
+                                                //Get feature 
+                                                if (lines != null)
+                                                {
+                                                    //Build feature metadata
+                                                    feat = new GeometryFeature(wellKnownTextReader.Read(lines.AsText()));
+                                                }
+                                                else
+                                                {
+                                                    //Stop everything
+                                                    hitError = true;
+                                                    break;
+                                                }
+
+                                                //Get default or user line style 
+                                                feat.Styles.Add(styling.lineVectorStyle);
+
+                                            }
+                                            else if (geomType.ToLower() == Geometry.TypeNamePoint.ToLower())
+                                            {
+                                                //Run on another thread else progress bar gets jammed and won't update in the UI
+                                                Point pnts = await Task.Run(async () => await gpkgService.GetGeometryPointFromByteAsync(geomBytes));
+
+                                                //Get feature 
+                                                if (pnts != null)
+                                                {
+                                                    //Build feature metadata
+                                                    feat = new GeometryFeature(wellKnownTextReader.Read(pnts.AsText()));
+                                                }
+                                                else
+                                                {
+                                                    //Stop everything
+                                                    hitError = true;
+                                                    break;
+                                                }
+
+                                                //Style point
+                                                feat.Styles.Add(styling.pointVectorStyle);
+                                            }
+
+                                            //Add to list of features
+                                            feats = feats.Append(feat);
+                                        }
+                                    }
+
                                 }
 
+                                this.MapPageProgressBar.IsVisible = false;
                             }
-
-                            this.MapPageProgressBar.IsVisible = false;
                         }
+
+
+                        //Create layer
+                        //Need to set style to null else points will come with a big white circle beneath them
+                        MemoryLayer newMemLayer = new MemoryLayer()
+                        {
+                            Name = features,
+                            IsMapInfoLayer = true,
+                            Features = feats,
+                            Style = null
+                        };
+
+                        //Add to map
+                        InsertLayerAtRightPlace(newMemLayer);
                     }
 
 
-                    //Create layer
-                    //Need to set style to null else points will come with a big white circle beneath them
-                    MemoryLayer newMemLayer = new MemoryLayer()
-                    {
-                        Name = features,
-                        IsMapInfoLayer = true,
-                        Features = feats,
-                        Style = null
-                    };
-
-                    //Add to map
-                    InsertLayerAtRightPlace(newMemLayer);
                 }
 
                 await gpkgConnection.CloseAsync();

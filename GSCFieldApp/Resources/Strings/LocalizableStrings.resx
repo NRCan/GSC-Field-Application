@@ -1383,4 +1383,10 @@
   <data name="MapPageAddGeopackageFeature" xml:space="preserve">
     <value>Select features to add.</value>
   </data>
+  <data name="GenericWarningTitle" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="MapPageTooManyGeometriesMessage" xml:space="preserve">
+    <value>Selected feature has more then 1000 records, loading this might impact the rendering speed within map page. Would you like to continue?</value>
+  </data>
 </root>

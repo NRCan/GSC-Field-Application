@@ -1960,6 +1960,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string GenericWarningTitle {
+            get {
+                return ResourceManager.GetString("GenericWarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confidence.
         /// </summary>
         internal static string LineworkPageConfidence {
@@ -2415,6 +2424,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string MapPageTapCoordinateTitle {
             get {
                 return ResourceManager.GetString("MapPageTapCoordinateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected feature has more then 1000 records, loading this might impact the rendering speed within map page. Would you like to continue?.
+        /// </summary>
+        internal static string MapPageTooManyGeometriesMessage {
+            get {
+                return ResourceManager.GetString("MapPageTooManyGeometriesMessage", resourceCulture);
             }
         }
         
