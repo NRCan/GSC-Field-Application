@@ -30,6 +30,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using SQLitePCL;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -50,6 +51,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         public const string GpkgFieldStyleSLD = "styleSLD";
         public const string GpkgFieldGeometry = "geom";
         public const string GpkgFieldGeometryType = "geometry_type_name";
+        public const string GpkgFieldGeometryColumnName = "column_name";
 
         //Geopackage style strings
         public const string GpkgStyleRoot = "NamedLayer"; //Basic root node
@@ -228,6 +230,29 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return outPoint;
         }
+
+        /// <summary>
+        /// Will take a input point object and transform it from one coordinate system
+        /// to another.
+        /// </summary>
+        /// <param name="inPointCoordinates"></param>
+        /// <param name="inCoordSystem"></param>
+        /// <param name="outCoordSystem"></param>
+        /// <returns></returns>
+        public static async Task<NTS.Geometries.Point> TransformPointCoordinatesFromSrid(NTS.Geometries.Point inPointCoordinates, int inSrid, int outSrid)
+        {
+            
+            //Create a coord factory for incoming traverses
+            CoordinateSystem incomingProjection = await SridReader.GetCSbyID(inSrid);
+
+            //Default map page coordinate
+            CoordinateSystem outgoingProjection = await SridReader.GetCSbyID(outSrid);
+
+            //Transform
+            return await TransformPointCoordinates(inPointCoordinates, incomingProjection, outgoingProjection);
+
+        }
+
 
         /// <summary>
         /// Will take a input line string object and transform it from one coordinate system
@@ -752,7 +777,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             return currentStyling;
         }
 
-
         /// <summary>
         /// Will output the geopackage style xml as a string
         /// </summary>
@@ -771,6 +795,94 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             return xmlString;
+        }
+
+
+        /// <summary>
+        /// Will run a generic query on a database and will output an object array of arrays
+        /// Basically it'll output all field and records value, as opposed to sqlite.netpcl that
+        /// works with a mapping type.
+        /// </summary>
+        /// <param name="databasePath"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static object?[][]? RunGenericQuery(string databasePath, string query)
+        {
+            //Init
+            object?[][]? data = null;
+            SQLiteConnection dbConnection = new SQLiteConnection(databasePath);
+            sqlite3_stmt sqlStatement = SQLite3.Prepare2(dbConnection.Handle, query);
+
+            //Get number of columns
+            int columnNumber = SQLite3.ColumnCount(sqlStatement);
+
+            //Select all rows and when done, execute the query
+            try
+            {
+                return SelectRows().ToArray();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            finally
+            {
+                if (sqlStatement != null)
+                {
+                    SQLite3.Finalize(sqlStatement);
+                }
+            }
+
+            //Function to retrieve all rows and keep them in an enumerable object
+            IEnumerable<object?[]> SelectRows()
+            {
+                //Set column names as first row
+                yield return SelectColumnNames(sqlStatement, columnNumber).ToArray();
+                
+
+                //Get columns into an array
+                while (SQLite3.Step(sqlStatement) == SQLite3.Result.Row)
+                {
+                    yield return SelectColumns(sqlStatement, columnNumber).ToArray();
+                }
+
+                //Get column names
+                static IEnumerable<object> SelectColumnNames(SQLitePCL.sqlite3_stmt stQuery, int colLength)
+                {
+                    for (int i = 0; i < colLength; i++)
+                    {
+                        yield return SQLite3.ColumnName(stQuery, i);
+                    }
+                }
+
+                //Get column definition type, cast their value and add to array
+                static IEnumerable<object?> SelectColumns(SQLitePCL.sqlite3_stmt stQuery, int colLength)
+                {
+                    for (int i = 0; i < colLength; i++)
+                    {
+                        utf8z columnDeclarationType = SQLitePCL.raw.sqlite3_column_decltype(stQuery, i);     
+                        string columnType = columnDeclarationType.utf8_to_string().ToLower();
+                        yield return columnType switch
+                        {
+                            
+                            "text" => SQLite3.ColumnString(stQuery, i),
+                            "integer" => SQLite3.ColumnInt(stQuery, i),
+                            "bigint" => SQLite3.ColumnInt64(stQuery, i),
+                            "real" => SQLite3.ColumnDouble(stQuery, i),
+                            "blob" => SQLite3.ColumnBlob(stQuery, i),
+                            "null" => null,
+                            "point" => SQLite3.ColumnBlob(stQuery, i),
+                            "linestring" => SQLite3.ColumnBlob(stQuery, i),
+                            "multipolygon" => SQLite3.ColumnBlob(stQuery, i),
+                            "polygon" => SQLite3.ColumnBlob(stQuery, i),
+                            _ => throw new Exception($"Unexpected type encountered in for query {stQuery}")
+
+                        };
+                    }
+                }
+            }
+
         }
     }
 }

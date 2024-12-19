@@ -37,7 +37,6 @@ using Point = NetTopologySuite.Geometries.Point;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
 using System.Collections.Generic;
 using SkiaSharp.Views.Maui.Controls;
-using ExCSS;
 
 
 #if ANDROID
@@ -92,7 +91,7 @@ public partial class MapPage : ContentPage
 
             //Set map and start listenning to layer events
             mapView.Map = mapControl.Map;
-
+            mapView.Map.Info += Map_Info; //Get feature info event for loaded layers
             this.Loaded += MapPage_Loaded;
             this.mapControl.Map.Layers.LayerAdded += Layers_LayerAdded;
 
@@ -109,6 +108,64 @@ public partial class MapPage : ContentPage
 
     #region EVENTS
 
+    /// <summary>
+    /// An event that detect get map feature info on a tap/click on screen
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void Map_Info(object sender, MapInfoEventArgs e)
+    {
+        //Retrieve clicked feature information
+        ILayer l = e.MapInfo?.Layer;
+        IFeature feature = e.MapInfo?.Feature;
+        if (feature != null)
+        {
+            //Get feature id for sql query
+            string featureHexText = feature.ToDisplayText();
+
+            if (feature is GeometryFeature geometryFeature)
+            {
+                //Get database path stashed in the tag
+                if (l.Tag != null && l.Tag.ToString() != string.Empty && featureHexText != string.Empty && featureHexText.Contains(":"))
+                {
+                    try
+                    {
+                        SQLiteAsyncConnection infoConnection = new SQLiteAsyncConnection(l.Tag.ToString());
+                        if (infoConnection != null)
+                        {
+                            string featureIDFieldName = featureHexText.Split(":")[0];
+                            string featureHex = featureHexText.Split(":")[1];
+
+                            string gfiQuery = string.Format("SELECT * FROM {0} WHERE hex({1}) = '{2}';",
+                                l.Name,
+                                featureIDFieldName,
+                                featureHex);
+
+                            //Get clicked feature record values
+                            object?[][]? results = GeopackageService.RunGenericQuery(l.Tag.ToString(), gfiQuery);
+
+                            if (results != null)
+                            {
+                                //Show a pop-up with the result
+                                await DisplayAlert("Test", results[1][13].ToString(), "ok");
+                            }
+
+                        }
+                    }
+                    catch (System.Exception gfiError)
+                    {
+                        await Shell.Current.DisplayAlert(
+                            LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                            gfiError.Message,
+                            LocalizationResourceManager["GenericButtonOk"].ToString());
+                        new ErrorToLogFile(gfiError).WriteToFile();
+                    }
+
+                }
+
+            }
+        }
+    }
 
     /// <summary>
     /// Event triggered when user has changed field books.
@@ -221,11 +278,17 @@ public partial class MapPage : ContentPage
   
     }
 
+    /// <summary>
+    /// Clicked event made on the map
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void mapView_MapClicked(object sender, MapClickedEventArgs e)
     {
 
         //NOT WORKING --> Get feature info
         //GetWMSFeatureInfo(e.Point);
+        //GetGpkgFeatureInfo(e.Point);
 
         //Detect if in tap mode or drawing lines to show tapped coordinates on screen
         if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageFrame.IsVisible)
@@ -559,6 +622,11 @@ public partial class MapPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// When the pop-up dialog to select a feature from inside a geopackage gets visible event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void MapAddGeopackageFrame_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == "IsVisible")
@@ -692,6 +760,39 @@ public partial class MapPage : ContentPage
                         gfi.IdentifyFinished += Gfi_IdentifyFinished;
                     }
                 }
+                break;
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// Will try to do a get feature info from a geopackage layer on screen
+    /// </summary>
+    /// <param name="inMouseClickPosition"></param>
+    public void GetGpkgFeatureInfo(Mapsui.UI.Maui.Position inMouseClickPosition)
+    {
+        //Detect if top layer is wms
+        List<ILayer> layerList = mapControl.Map.Layers.ToList();
+        foreach (ILayer layer in layerList)
+        {
+            //Detect a valid layer (not field book, visible, not drawables)
+            if (!layer.Name.Contains(ApplicationLiterals.aliasMapsuiDrawables) && layer.IsMapInfoLayer && layer.Enabled
+                && layer.Tag != null && layer.Tag.ToString().Contains("gpkg") && !layer.Tag.ToString().Contains("version"))
+            {
+
+                ////Get wms version
+                //string wmsVersion = topLayerTag.Split("wms?version=")[1].Split("&")[0];
+                //if (wmsVersion != string.Empty)
+                //{
+                //    GetFeatureInfo gp = Mapsui.Providers.MemoryProvider.
+                //    GetFeatureInfo gfi = new GetFeatureInfo();
+                //    gfi.Request(topLayerTag, wmsVersion, "image/png", mapControl.Map.CRS.ToString(), topLayer.Name, mapControl.Map.Extent.MinX,
+                //        mapControl.Map.Extent.MinY, mapControl.Map.Extent.MaxX, mapControl.Map.Extent.MaxY, (int)inMouseClickPosition.Longitude, (int)inMouseClickPosition.Latitude,
+                //        (int)mapControl.Width, (int)mapControl.Height);
+                //    gfi.IdentifyFinished += Gfi_IdentifyFinished;
+                //}
+                
                 break;
             }
 
@@ -837,6 +938,14 @@ public partial class MapPage : ContentPage
                         //Will hold the geometries assembled as a new feature
                         IEnumerable<IFeature> feats = new IFeature[] { };
 
+                        //Get geometry column name
+                        string getGeomColumnNameQuery = string.Format("SELECT {0} FROM {1} where {2} = '{3}'",
+                            GeopackageService.GpkgFieldGeometryColumnName,
+                            GeopackageService.GpkgTableGeometry,
+                            GeopackageService.GpkgFieldTableName,
+                            features);
+                        List<string> geomName = await gpkgConnection.QueryScalarsAsync<string>(getGeomColumnNameQuery);
+
                         //Get geometry type and load each one
                         string getGeomTypeQuery = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';",
                             GeopackageService.GpkgFieldGeometryType,
@@ -871,6 +980,7 @@ public partial class MapPage : ContentPage
                                 //Get geometry from bytes
                                 string getGeomQuery_base = string.Format("SELECT {0} FROM {1} ;", GeopackageService.GpkgFieldGeometry, features);
                                 string getGeomQuery = getGeomQuery_base;
+
                                 foreach (GeopackageLayerStyling styling in stylings)
                                 {
                                     if (styling.className != string.Empty && styling.classValue != string.Empty)
@@ -947,6 +1057,7 @@ public partial class MapPage : ContentPage
                                                 {
                                                     //Build feature metadata
                                                     feat = new GeometryFeature(wellKnownTextReader.Read(pnts.AsText()));
+
                                                 }
                                                 else
                                                 {
@@ -957,6 +1068,12 @@ public partial class MapPage : ContentPage
 
                                                 //Style point
                                                 feat.Styles.Add(styling.pointVectorStyle);
+                                            }
+
+                                            //Keep hex of geometry as id for futur get feature info from user
+                                            if (geomName != null && geomName.Count > 0)
+                                            {
+                                                feat[geomName[0]] = Convert.ToHexString(geomBytes);
                                             }
 
                                             //Add to list of features

@@ -116,7 +116,7 @@
             <!--Map Control-->
             <!--TODO Check of mapsui map control can work with view model, it wasn't a feature when we started this app-->
             <mapsui:MapView x:Name="mapView" Grid.Row ="1" Margin="10" HorizontalOptions="FillAndExpand"
-                            IsVisible="true" MapClicked="mapView_MapClicked" 
+                            IsVisible="true" MapClicked="mapView_MapClicked"
                             VerticalOptions="FillAndExpand" SingleTap="mapView_SingleTap" LongTap="mapView_LongTap"/>
 
             <!--Coordinates Bar-->
