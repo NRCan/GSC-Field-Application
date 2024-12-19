@@ -2239,7 +2239,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select features to add..
+        ///   Looks up a localized string similar to Select features to add.
         /// </summary>
         internal static string MapPageAddGeopackageFeature {
             get {

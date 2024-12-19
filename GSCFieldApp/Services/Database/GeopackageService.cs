@@ -253,7 +253,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         }
 
-
         /// <summary>
         /// Will take a input line string object and transform it from one coordinate system
         /// to another.
@@ -797,7 +796,6 @@ namespace GSCFieldApp.Services.DatabaseServices
             return xmlString;
         }
 
-
         /// <summary>
         /// Will run a generic query on a database and will output an object array of arrays
         /// Basically it'll output all field and records value, as opposed to sqlite.netpcl that
@@ -869,6 +867,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                             "text" => SQLite3.ColumnString(stQuery, i),
                             "integer" => SQLite3.ColumnInt(stQuery, i),
                             "bigint" => SQLite3.ColumnInt64(stQuery, i),
+                            "mediumint" => SQLite3.ColumnInt64(stQuery, i),
                             "real" => SQLite3.ColumnDouble(stQuery, i),
                             "blob" => SQLite3.ColumnBlob(stQuery, i),
                             "null" => null,
@@ -876,7 +875,8 @@ namespace GSCFieldApp.Services.DatabaseServices
                             "linestring" => SQLite3.ColumnBlob(stQuery, i),
                             "multipolygon" => SQLite3.ColumnBlob(stQuery, i),
                             "polygon" => SQLite3.ColumnBlob(stQuery, i),
-                            _ => throw new Exception($"Unexpected type encountered in for query {stQuery}")
+                            "multipolygon z" => SQLite3.ColumnBlob(stQuery, i),
+                            _ => SQLite3.ColumnString(stQuery, i),
 
                         };
                     }

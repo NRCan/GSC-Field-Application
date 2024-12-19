@@ -1382,7 +1382,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Ajouter sur carte</value>
   </data>
   <data name="MapPageAddGeopackageFeature" xml:space="preserve">
-    <value>Cocher les entités souhaités.</value>
+    <value>Cocher les entités souhaités</value>
   </data>
   <data name="GenericWarningTitle" xml:space="preserve">
     <value>Avertissement</value>

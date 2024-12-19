@@ -292,7 +292,7 @@ public partial class MapPage : ContentPage
         //GetGpkgFeatureInfo(e.Point);
 
         //Detect if in tap mode or drawing lines to show tapped coordinates on screen
-        if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageFrame.IsVisible)
+        if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
         {
             //Keep tap mode for future validation
             _isTapMode = true;
