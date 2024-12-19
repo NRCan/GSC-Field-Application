@@ -64,13 +64,34 @@
             </Grid>
 
         </DataTemplate>
-        
+
+        <!--Geopackage feature selection-->
+        <DataTemplate  x:Key="MapInfoResultTemplate" x:DataType="model:MapPageInfoResult">
+
+            <Grid Margin="0,0,0,5" Padding="0,0,15,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="1"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="190"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Text="{Binding FieldName}" FontAttributes="Bold" Padding="0" MaximumWidthRequest="100" LineBreakMode="TailTruncation"
+                       VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0"/>
+                <Label Text="{Binding FieldValue}" Padding="0" MaximumWidthRequest="240" LineBreakMode="TailTruncation"
+                       VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1"/>
+
+            </Grid>
+
+        </DataTemplate>
+
     </ContentPage.Resources>
 
     <ContentPage.Content>
-
-        
-
+   
         <Grid Margin="0,0,0,0" x:Name="mapPageGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
@@ -147,6 +168,7 @@
                                 ItemsSource="{Binding Source={x:Reference mapView}, Path=Map.Layers, FallbackValue={Binding mapViewFallback}, TargetNullValue={Binding mapViewFallback}}" />-->
             </Border>
 
+            <!--Geopackage feature selection menu-->
             <Border x:Name="MapAddGeopackageFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
                    Margin="0" PropertyChanged="MapAddGeopackageFrame_PropertyChanged"
                    HeightRequest="300" WidthRequest="350" IsVisible="{Binding AddGeopackageFrameVisibility, Mode=TwoWay}">
@@ -155,7 +177,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
                     
                     <Label Text="{local:Localize MapPageAddGeopackageFeature}" HorizontalOptions="Start" Grid.Row="0" Style="{StaticResource FieldAppSettingTitles}"/>
@@ -170,11 +192,29 @@
 
                 </Grid>
 
-
-
-
             </Border>
 
+            <!--Map page get feature info result pop-up-->
+            <Border x:Name="MapInfoResultsFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
+                   Margin="0" HeightRequest="300" WidthRequest="350" IsVisible="{Binding MapInfoResultsFrameVisibility, Mode=TwoWay}">
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Text="{local:Localize MapPageInfoResults}" HorizontalOptions="Start" Grid.Row="0" Style="{StaticResource FieldAppSettingTitles}"/>
+
+                    <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapInfoResultCollection" CanReorderItems="False"
+                                ItemTemplate="{StaticResource MapInfoResultTemplate}" VerticalOptions="Start"
+                                ItemsSource="{Binding MapInfoCollection,Mode=TwoWay}" Grid.Row="1"/>
+
+                </Grid>
+                
+            </Border>
+            
+            
             <!--Controls bottom bar-->
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
 

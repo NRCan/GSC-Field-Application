@@ -1390,4 +1390,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageTooManyGeometriesMessage" xml:space="preserve">
     <value>L'entité sélectionnée possède plus de 1000 enregistrement et pourrait avoir une impact sur la vitesse d'affichage. Souhaitez-vous continuer?</value>
   </data>
+  <data name="MapPageInfoResults" xml:space="preserve">
+    <value>Résultats</value>
+  </data>
 </root>

@@ -1389,4 +1389,7 @@
   <data name="MapPageTooManyGeometriesMessage" xml:space="preserve">
     <value>Selected feature has more then 1000 records, loading this might impact the rendering speed within map page. Would you like to continue?</value>
   </data>
+  <data name="MapPageInfoResults" xml:space="preserve">
+    <value>Results</value>
+  </data>
 </root>

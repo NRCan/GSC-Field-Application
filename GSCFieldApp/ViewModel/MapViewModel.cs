@@ -24,14 +24,14 @@ using NTSGeom = NetTopologySuite.Geometries;
 
 namespace GSCFieldApp.ViewModel
 {
-    public partial class MapViewModel: ObservableObject
+    public partial class MapViewModel : ObservableObject
     {
         #region INIT
         private DataIDCalculation idCalc = new DataIDCalculation();
         private DataAccess dataAccess = new DataAccess();
 
         private FieldLocation locationModel = new FieldLocation();
-        private Metadata metadataModel = new Metadata(); 
+        private Metadata metadataModel = new Metadata();
         private Station stationModel = new Station();
         public Location sensorLocation { get; set; }  //This is coming from the view when new location event is triggered. 
         public Mapsui.Map mapViewFallback = new Mapsui.Map();
@@ -40,7 +40,9 @@ namespace GSCFieldApp.ViewModel
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
         private ObservableCollection<MapPageLayerSelection> _geopackageFeatureCollection = new ObservableCollection<MapPageLayerSelection>();
         private FieldThemes _fieldThemes = new FieldThemes();
-        private bool _addGeopackageFrameVisibility = false; // Used to show/not show the frame for user to select a geopackage feature to add from a list.
+        private bool _addGeopackageFrameVisibility = false; // Used to show/hide the frame for user to select a geopackage feature to add from a list.
+        private bool _mapInfoResultsFrameVisibility = false; // Used to show/hide the frame that displays the get feature info query results 
+        private ObservableCollection<MapPageInfoResult> _mapInfoCollection = new ObservableCollection<MapPageInfoResult>();
 
         //Localization
         public LocalizationResourceManager LocalizationResourceManager
@@ -54,6 +56,8 @@ namespace GSCFieldApp.ViewModel
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
         public ObservableCollection<MapPageLayerSelection> GeopackageFeatureCollection { get { return _geopackageFeatureCollection; } set { _geopackageFeatureCollection = value; } }
         public bool AddGeopackageFrameVisibility { get { return _addGeopackageFrameVisibility; } set { _addGeopackageFrameVisibility = value; } }
+        public bool MapInfoResultsFrameVisibility { get { return _mapInfoResultsFrameVisibility; } set { _mapInfoResultsFrameVisibility = value; } }
+        public ObservableCollection<MapPageInfoResult> MapInfoCollection { get { return _mapInfoCollection; } set { _mapInfoCollection = value; } }
         #endregion
 
         public MapViewModel()
@@ -615,6 +619,30 @@ namespace GSCFieldApp.ViewModel
                 //Enable selection box/window
                 _addGeopackageFrameVisibility = true;
                 OnPropertyChanged(nameof(AddGeopackageFrameVisibility));
+            }
+
+        }
+
+        /// <summary>
+        /// Will take a map info results and transform them into a readable UI ready collection
+        /// </summary>
+        /// <param name="mapInfoResults"></param>
+        public void FillMapInfoCollection(object?[][]? mapInfoResults)
+        {
+            if (mapInfoResults != null && mapInfoResults.Count() > 0)
+            {
+                //Reset
+                _mapInfoCollection = new ObservableCollection<MapPageInfoResult>();
+
+                //Parse results
+                MapPageInfoResults mpir = new MapPageInfoResults(mapInfoResults);
+                _mapInfoCollection.AddRange(mpir.infoResults);
+
+                OnPropertyChanged(nameof(MapInfoCollection));
+
+                //Enable selection box/window
+                _mapInfoResultsFrameVisibility = true;
+                OnPropertyChanged(nameof(MapInfoResultsFrameVisibility));
             }
 
         }

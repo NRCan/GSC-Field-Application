@@ -2401,6 +2401,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Results.
+        /// </summary>
+        internal static string MapPageInfoResults {
+            get {
+                return ResourceManager.GetString("MapPageInfoResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to see a list of all loaded layers and more options..
         /// </summary>
         internal static string MapPageLayer {

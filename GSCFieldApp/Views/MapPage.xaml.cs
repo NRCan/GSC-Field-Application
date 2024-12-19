@@ -147,7 +147,8 @@ public partial class MapPage : ContentPage
                             if (results != null)
                             {
                                 //Show a pop-up with the result
-                                await DisplayAlert("Test", results[1][13].ToString(), "ok");
+                                MapViewModel vm = BindingContext as MapViewModel;
+                                vm.FillMapInfoCollection(results);
                             }
 
                         }
@@ -333,6 +334,7 @@ public partial class MapPage : ContentPage
 
         //Make sure to disable map layer frame
         MapLayerFrame.IsVisible = false;
+        MapInfoResultsFrame.IsVisible = false;
     }
 
     /// <summary>
