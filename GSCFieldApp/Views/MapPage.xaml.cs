@@ -292,7 +292,7 @@ public partial class MapPage : ContentPage
         //GetGpkgFeatureInfo(e.Point);
 
         //Detect if in tap mode or drawing lines to show tapped coordinates on screen
-        if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
+        if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
         {
             //Keep tap mode for future validation
             _isTapMode = true;
@@ -485,14 +485,21 @@ public partial class MapPage : ContentPage
         string wms_url = await DisplayPromptAsync(LocalizationResourceManager["MapPageAddWMSDialogTitle"].ToString(),
             LocalizationResourceManager["MapPageAddWMSDialogMessage"].ToString(),
             LocalizationResourceManager["GenericButtonOk"].ToString(),
-            LocalizationResourceManager["GenericButtonCancel"].ToString(),
-            LocalizationResourceManager["MapPageAddWMSDialogPlaceholder"].ToString(),-1,null,
-            LocalizationResourceManager["MapPageAddWMSDialogPlaceholder"].ToString());
+            LocalizationResourceManager["GenericButtonCancel"].ToString());
 
         if (wms_url != string.Empty)
         {
-            //Insert
-            await AddAWMSAsync(wms_url);
+            //Get list of WMS layers
+            WMSService wService = new WMSService();
+            List<MapPageLayerSelection> mpl = await Task.Run(async()=> await wService.GetListOfWMSLayers(wms_url));
+
+            //Show list of layers available from url get cap os user can chose
+            if (mpl != null && mpl.Count() > 0)
+            {
+                MapViewModel vm = BindingContext as MapViewModel;
+                vm.FillWMSFeatureCollection(mpl);
+            }
+
         }
     }
 
@@ -556,7 +563,7 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void mapView_SingleTap(object sender, Mapsui.UI.TappedEventArgs e)
     {
-        if (e != null && e.ScreenPosition != null && _isDrawingLine && !MapAddGeopackageFrame.IsVisible)
+        if (e != null && e.ScreenPosition != null && _isDrawingLine && !MapAddGeopackageWMSFrame.IsVisible)
         {
             //Disable map panning else on mobile devices the touch screen movement will move the map instead of drawing
             mapView.Map.Navigator.PanLock = true;
@@ -625,11 +632,11 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// When the pop-up dialog to select a feature from inside a geopackage gets visible event
+    /// When the pop-up dialog to select a feature from inside a geopackage or a wms get cap gets visible event
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private async void MapAddGeopackageFrame_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    private async void MapAddGeopackageWMSFrame_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == "IsVisible")
         {
@@ -638,28 +645,55 @@ public partial class MapPage : ContentPage
             //Condition on map view not being null to prevent it from being launch and map page load
             if (sentFrame != null && !sentFrame.IsVisible && this.mapView != null)
             {
-                //Start loading feature from selected geopackage
+                //Start loading feature from selected
                 MapViewModel _vm = BindingContext as MapViewModel;
-                if (_vm.GeopackageFeatureCollection != null && _vm.GeopackageFeatureCollection.Count > 0)
+                if (_vm.FeatureCollection != null && _vm.FeatureCollection.Count > 0)
                 {
+                    
                     string gpkgPath = string.Empty;
                     //Build list of names from selection
-                    List<string> featureNames = new List<string>();
-                    foreach (MapPageLayerSelection mpls in _vm.GeopackageFeatureCollection)
+                    List<string> geopackageFeatureNames = new List<string>();
+                    bool isGeopackage = true;
+
+                    this.WaitingCursor.IsRunning = true;
+
+                    foreach (MapPageLayerSelection mpls in _vm.FeatureCollection)
                     {
                         if (mpls.Selected)
                         {
-                            featureNames.Add(mpls.Name);
-                            gpkgPath = mpls.Other;
+                            geopackageFeatureNames.Add(mpls.Name);
+                            gpkgPath = mpls.Path;
+
+                            //In case it's a wms layer
+                            if (mpls.URL != string.Empty)
+                            {
+                                isGeopackage = false;
+                                bool hasError = await AddAWMSAsync(mpls.URL, mpls.Name, mpls.ID);
+
+                                if (hasError)
+                                {
+                                    //Someting fails during loading
+                                    await Shell.Current.DisplayAlert(LocalizationResourceManager["MapPageAddWMSFailTitle"].ToString(),
+                                        LocalizationResourceManager["MapPageAddWMSFailMessage"].ToString(),
+                                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                                    new ErrorToLogFile(LocalizationResourceManager["MapPageAddWMSFailMessage"].ToString()).WriteToFile();
+                                }
+                            }
+
                         }
                     }
 
-                    await AddGPKG(featureNames, gpkgPath);
+                    //Adding geopackage feature in bulk
+                    if (isGeopackage)
+                    {
+                        await AddGPKG(geopackageFeatureNames, gpkgPath);
+                    }
+
+                    this.WaitingCursor.IsRunning = false;
                 }
             }
         }
     }
-
 
     #endregion
 
@@ -843,7 +877,7 @@ public partial class MapPage : ContentPage
                     }
                     else if (mpl.LayerType == MapPageLayer.LayerTypes.wms)
                     {
-                        await AddAWMSAsync(mpl.LayerPathOrURL, true, mpl);
+                        await AddAWMSAsync(mpl.LayerPathOrURL, mpl.LayerName, mpl.LayerID, true, mpl);
                     }
                     else if (mpl.LayerType == MapPageLayer.LayerTypes.gpkg)
                     {
@@ -885,10 +919,6 @@ public partial class MapPage : ContentPage
             }
             catch (System.Exception e)
             {
-                await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
-                    e.Message,
-                    LocalizationResourceManager["GenericButtonOk"].ToString());
-
                 new ErrorToLogFile(e).WriteToFile();
             }
 
@@ -929,10 +959,18 @@ public partial class MapPage : ContentPage
                     bool canContinue = true;
                     if (geomCount.Count > 0 && geomCount[0] > 1000)
                     {
-                        canContinue = await DisplayAlert(LocalizationResourceManager["GenericWarningTitle"].ToString(),
-                            LocalizationResourceManager["MapPageTooManyGeometriesMessage"].ToString(),
-                            LocalizationResourceManager["GenericButtonYes"].ToString(),
-                            LocalizationResourceManager["GenericButtonNo"].ToString());
+                        try
+                        {
+                            canContinue = await DisplayAlert(LocalizationResourceManager["GenericWarningTitle"].ToString(),
+                                LocalizationResourceManager["MapPageTooManyGeometriesMessage"].ToString(),
+                                LocalizationResourceManager["GenericButtonYes"].ToString(),
+                                LocalizationResourceManager["GenericButtonNo"].ToString());
+                        }
+                        catch (System.Exception)
+                        {
+
+                        }
+
                     }
 
                     if (canContinue) 
@@ -1122,9 +1160,17 @@ public partial class MapPage : ContentPage
             }
             catch (System.Exception e)
             {
-                await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
-                    e.Message,
-                    LocalizationResourceManager["GenericButtonOk"].ToString());
+                try
+                {
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                        e.Message,
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+                catch (System.Exception)
+                {
+
+                }
+
 
                 new ErrorToLogFile(e).WriteToFile();
                 this.MapPageProgressBar.IsVisible = false;
@@ -1242,70 +1288,48 @@ public partial class MapPage : ContentPage
     /// </summary>
     /// <param name="wmsURL"></param>
     /// <param name="withCache"></param>
-    public async Task AddAWMSAsync(string wmsURL, bool withCache = true, MapPageLayer pageLayer = null)
+    public async Task<bool> AddAWMSAsync(string wmsURL, string layerName, string layerID, bool withCache = true, MapPageLayer pageLayer = null)
     {
+        bool hasError = false;
+
         if (wmsURL != null && wmsURL != string.Empty)
         {
-            this.WaitingCursor.IsRunning = true;
 
-            string fullURL = wmsURL;
-            string[] splitURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers);
-            string partialURL = splitURL[0];
+            GlobalSphericalMercator schema = new GlobalSphericalMercator { Format = "image/png" };
+            WmscRequest request = new WmscRequest(new Uri(wmsURL), schema, [layerID]);
 
-            //Make sure a layer is added to the URL before continuing
-            if (splitURL.Count() > 1)
+            if (request != null)
             {
-                string layerNameFromURL = wmsURL.Split(ApplicationLiterals.keywordWMSLayers)[1].Split("&")[0]; //Make sure to only keep layer name
-                GlobalSphericalMercator schema = new GlobalSphericalMercator { Format = "image/png" };
-                WmscRequest request = new WmscRequest(new Uri(partialURL), schema, new[] { layerNameFromURL }.ToList(), Array.Empty<string>().ToList());
-
+                SqlitePersistentCache wmsCache = null;
                 if (withCache)
                 {
-                    SqlitePersistentCache wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerNameFromURL.Replace(':', '_'));
-                    HttpTileProvider provider = new HttpTileProvider(request, wmsCache);
-                    TileSource t = new TileSource(provider, schema);
-                    TileLayer tl = new TileLayer(t);
-                    tl.Name = layerNameFromURL;
-                    tl.Tag = fullURL;
-
-                    if (pageLayer != null)
-                    {
-                        tl.Opacity = pageLayer.LayerOpacity;
-                        tl.Enabled = pageLayer.LayerVisibility;
-                    }
-
-                    //Insert at right location in collection
-                    InsertLayerAtRightPlace(tl);
+                    wmsCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + layerName.Replace(':', '_'));
                 }
-                else
+
+                HttpTileProvider provider = new HttpTileProvider(request, wmsCache);
+                TileSource t = new TileSource(provider, schema);
+                TileLayer tl = new TileLayer(t);
+                tl.Name = layerName;
+                tl.Tag = wmsURL;
+
+                if (pageLayer != null)
                 {
-
-                    HttpTileProvider provider = new HttpTileProvider(request);
-                    TileSource t = new TileSource(provider, schema);
-                    TileLayer tl = new TileLayer(t);
-                    tl.Name = layerNameFromURL;
-                    tl.Tag = fullURL;
-
-                    if (pageLayer != null)
-                    {
-                        tl.Opacity = pageLayer.LayerOpacity;
-                        tl.Enabled = pageLayer.LayerVisibility;
-                    }
-
-                    //Insert at right location in collection
-                    InsertLayerAtRightPlace(tl);
+                    tl.Opacity = pageLayer.LayerOpacity;
+                    tl.Enabled = pageLayer.LayerVisibility;
                 }
+
+                //Insert at right location in collection
+                InsertLayerAtRightPlace(tl);
+
             }
             else
             {
-                //Tell user app doesn't have access to location
-                await Shell.Current.DisplayAlert(LocalizationResourceManager["MapPageAddWMSFailTitle"].ToString(),
-                    LocalizationResourceManager["MapPageAddWMSFailMessage"].ToString(),
-                    LocalizationResourceManager["GenericButtonOk"].ToString());
-
-                this.WaitingCursor.IsRunning = false;
+                hasError = true;
             }
+
         }
+
+        return hasError;
 
     }
 
@@ -2298,6 +2322,7 @@ public partial class MapPage : ContentPage
 
         this.WaitingCursor.IsRunning = false;
     }
+
 
 
     #endregion

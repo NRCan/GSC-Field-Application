@@ -85,7 +85,7 @@
         #region GIS
 
         public const string keywordWMS = "NRCan_GSCFieldApp"; //Will be used for WMS caching prefix and token generation
-        public const string keywordWMSLayers = "&layers="; //Will be used to get wms layer names in the URL
+        public const string keywordWMSLayers = "layers="; //Will be used to get wms layer names in the URL
         public const string aliasOSM = "Open Street Map"; //Used for map page layer menu
         public const string aliasStations = "Stations"; //Used for map page layer menu
         public const string aliasTraversePoint = "Traverses"; //Used for map page layer menu

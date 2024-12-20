@@ -2320,7 +2320,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter the WMS web link including the layer to be added..
+        ///   Looks up a localized string similar to Please enter a WMS GetCapabilities URL..
         /// </summary>
         internal static string MapPageAddWMSDialogMessage {
             get {
@@ -2329,7 +2329,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://canada3d-geo.azurewebsites.net/ows?version=1.3.0&amp;layers=c3d_geophys:CanMag_BouguerAnomaly_2KM_8bits.
+        ///   Looks up a localized string similar to Add URL to GetCapabilities xml..
         /// </summary>
         internal static string MapPageAddWMSDialogPlaceholder {
             get {

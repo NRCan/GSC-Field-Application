@@ -766,10 +766,10 @@
     <value>Tap to add an URL of an online Web Mapping Server (WMS).</value>
   </data>
   <data name="MapPageAddWMSDialogMessage" xml:space="preserve">
-    <value>Please enter the WMS web link including the layer to be added.</value>
+    <value>Please enter a WMS GetCapabilities URL.</value>
   </data>
   <data name="MapPageAddWMSDialogPlaceholder" xml:space="preserve">
-    <value>https://canada3d-geo.azurewebsites.net/ows?version=1.3.0&amp;layers=c3d_geophys:CanMag_BouguerAnomaly_2KM_8bits</value>
+    <value>Add URL to GetCapabilities xml.</value>
   </data>
   <data name="MapPageAddWMSDialogTitle" xml:space="preserve">
     <value>Add WMS </value>

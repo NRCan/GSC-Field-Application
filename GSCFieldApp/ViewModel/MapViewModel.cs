@@ -38,9 +38,9 @@ namespace GSCFieldApp.ViewModel
         private ObservableCollection<ILayer> _layerCollection = new ObservableCollection<ILayer>(); //The actual collection of layers (including OSM and Stations)
         private Collection<MapPageLayer> _customLayerCollection = new Collection<MapPageLayer>(); //Will be used to save user preferences and layers
         private string _gpsModeButtonSymbol = ApplicationLiterals.gpsModeGPS;
-        private ObservableCollection<MapPageLayerSelection> _geopackageFeatureCollection = new ObservableCollection<MapPageLayerSelection>();
+        private ObservableCollection<MapPageLayerSelection> _featureCollection = new ObservableCollection<MapPageLayerSelection>();
         private FieldThemes _fieldThemes = new FieldThemes();
-        private bool _addGeopackageFrameVisibility = false; // Used to show/hide the frame for user to select a geopackage feature to add from a list.
+        private bool _addGeopackageWMSFrameVisibility = false; // Used to show/hide the frame for user to select a geopackage feature to add from a list.
         private bool _mapInfoResultsFrameVisibility = false; // Used to show/hide the frame that displays the get feature info query results 
         private ObservableCollection<MapPageInfoResult> _mapInfoCollection = new ObservableCollection<MapPageInfoResult>();
 
@@ -54,8 +54,8 @@ namespace GSCFieldApp.ViewModel
         public ObservableCollection<ILayer> LayerCollection { get { return _layerCollection; } set { _layerCollection = value; } }
         private Collection<MapPageLayer> CustomLayerCollection { get { return _customLayerCollection; } set { _customLayerCollection = value; } }
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
-        public ObservableCollection<MapPageLayerSelection> GeopackageFeatureCollection { get { return _geopackageFeatureCollection; } set { _geopackageFeatureCollection = value; } }
-        public bool AddGeopackageFrameVisibility { get { return _addGeopackageFrameVisibility; } set { _addGeopackageFrameVisibility = value; } }
+        public ObservableCollection<MapPageLayerSelection> FeatureCollection { get { return _featureCollection; } set { _featureCollection = value; } }
+        public bool AddGeopackageWMSFrameVisibility { get { return _addGeopackageWMSFrameVisibility; } set { _addGeopackageWMSFrameVisibility = value; } }
         public bool MapInfoResultsFrameVisibility { get { return _mapInfoResultsFrameVisibility; } set { _mapInfoResultsFrameVisibility = value; } }
         public ObservableCollection<MapPageInfoResult> MapInfoCollection { get { return _mapInfoCollection; } set { _mapInfoCollection = value; } }
         #endregion
@@ -242,8 +242,8 @@ namespace GSCFieldApp.ViewModel
         async Task AddFeature()
         {
             //Close frame
-            _addGeopackageFrameVisibility = false;
-            OnPropertyChanged(nameof(AddGeopackageFrameVisibility));
+            _addGeopackageWMSFrameVisibility = false;
+            OnPropertyChanged(nameof(AddGeopackageWMSFrameVisibility));
 
         }
 
@@ -606,22 +606,50 @@ namespace GSCFieldApp.ViewModel
             if (featureNames != null && featureNames.Count() > 0)
             {
                 //Reset
-                GeopackageFeatureCollection = new ObservableCollection<MapPageLayerSelection>();
+                FeatureCollection = new ObservableCollection<MapPageLayerSelection>();
 
                 //Fill
                 foreach (string feats in featureNames)
                 {
-                    _geopackageFeatureCollection.Add(new MapPageLayerSelection { Selected = false, Name = feats, Other = geopackagePath });
+                    _featureCollection.Add(new MapPageLayerSelection { Selected = false, Name = feats, Path = geopackagePath });
 
                 }
-                OnPropertyChanged(nameof(GeopackageFeatureCollection));
+                OnPropertyChanged(nameof(FeatureCollection));
 
                 //Enable selection box/window
-                _addGeopackageFrameVisibility = true;
-                OnPropertyChanged(nameof(AddGeopackageFrameVisibility));
+                _addGeopackageWMSFrameVisibility = true;
+                OnPropertyChanged(nameof(_addGeopackageWMSFrameVisibility));
             }
 
         }
+
+        /// <summary>
+        /// Will take a list a string and will update the geopackage layer name collection
+        /// for user to pick which feature to add in the map
+        /// </summary>
+        /// <param name="featureNames"></param>
+        public void FillWMSFeatureCollection(List<MapPageLayerSelection> layerNames)
+        {
+            if (layerNames != null && layerNames.Count() > 0)
+            {
+                //Reset
+                FeatureCollection = new ObservableCollection<MapPageLayerSelection>();
+
+                //Fill
+                foreach (MapPageLayerSelection layers in layerNames)
+                {
+                    _featureCollection.Add(layers);
+
+                }
+                OnPropertyChanged(nameof(FeatureCollection));
+
+                //Enable selection box/window
+                _addGeopackageWMSFrameVisibility = true;
+                OnPropertyChanged(nameof(AddGeopackageWMSFrameVisibility));
+            }
+
+        }
+
 
         /// <summary>
         /// Will take a map info results and transform them into a readable UI ready collection

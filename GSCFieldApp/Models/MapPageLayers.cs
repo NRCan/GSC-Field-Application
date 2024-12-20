@@ -27,6 +27,8 @@ namespace GSCFieldApp.Models
         public bool LayerVisibility { get; set; }
 
         public double LayerOpacity { get; set; }
+
+        public string LayerID { get; set; }
     }
 
     public class MapPageLayerBuilder
@@ -49,6 +51,7 @@ namespace GSCFieldApp.Models
                 mpl.LayerOrder = 0;
                 mpl.LayerOpacity = inLayer.Opacity;
                 mpl.LayerVisibility = inLayer.Enabled;
+                mpl.LayerID = string.Empty;
 
                 //Retrieve hidden info from tag
                 if (inLayer.Tag != null)
@@ -60,9 +63,16 @@ namespace GSCFieldApp.Models
                     {
                         mpl.LayerType = MapPageLayer.LayerTypes.mbtiles;
                     }
-                    else if (isTileLayer != null && (mpl.LayerPathOrURL.Contains("wms") || mpl.LayerPathOrURL.Contains("ows")))
+                    else if (isTileLayer != null && (mpl.LayerPathOrURL.ToLower().Contains("wms") || mpl.LayerPathOrURL.ToLower().Contains("ows")))
                     {
                         mpl.LayerType = MapPageLayer.LayerTypes.wms;
+
+                        //Get layer id
+                        string[] lid = mpl.LayerPathOrURL.Split("=");
+                        if (lid.Count() > 0)
+                        {
+                            mpl.LayerID = lid[1];
+                        }
                     }
                     else if (mpl.LayerPathOrURL.Contains("gpkg"))
                     {

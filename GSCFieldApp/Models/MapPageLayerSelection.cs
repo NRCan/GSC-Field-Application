@@ -15,6 +15,8 @@ namespace GSCFieldApp.Models
         public bool Selected { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Other { get; set; }
+        public string ID { get; set; }
+        public string Path { get; set; } //For geopackages
+        public string URL { get; set; } //For WMS
     }
 }

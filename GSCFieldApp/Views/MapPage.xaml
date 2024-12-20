@@ -30,7 +30,7 @@
 
             <VerticalStackLayout Margin="0,0,0,5" Padding="0,0,15,0" >
                 <HorizontalStackLayout>
-                    <Label Text="{Binding Name}" Padding="0" MaximumWidthRequest="280" LineBreakMode="MiddleTruncation"/>
+                    <Label Text="{Binding Name}" Padding="0" MaximumWidthRequest="280" LineBreakMode="TailTruncation"/>
 
                 </HorizontalStackLayout>
                 <HorizontalStackLayout>
@@ -47,7 +47,7 @@
 
         </DataTemplate>
         
-        <!--Geopackage feature selection-->
+        <!--Geopackage and WMS feature selection-->
         <DataTemplate  x:Key="GeopackageFeatureTemplate" x:DataType="model:MapPageLayerSelection">
 
             <Grid Style="{StaticResource FieldAppSettingGrid}" Margin="0,0,0,5" Padding="0,0,15,0">
@@ -56,7 +56,7 @@
                     <RowDefinition Height="1"/>
                 </Grid.RowDefinitions>
 
-                <Label Text="{Binding Name}" Padding="0" MaximumWidthRequest="280" LineBreakMode="MiddleTruncation"
+                <Label Text="{Binding Name}" Padding="0" MaximumWidthRequest="280" LineBreakMode="TailTruncation"
                        VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0"/>
                 <CheckBox x:Name="gpkgFeatureToggle" IsChecked="{Binding Selected}" Grid.Row="0" Grid.Column="1" 
                           HorizontalOptions="End"/>
@@ -168,10 +168,10 @@
                                 ItemsSource="{Binding Source={x:Reference mapView}, Path=Map.Layers, FallbackValue={Binding mapViewFallback}, TargetNullValue={Binding mapViewFallback}}" />-->
             </Border>
 
-            <!--Geopackage feature selection menu-->
-            <Border x:Name="MapAddGeopackageFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
-                   Margin="0" PropertyChanged="MapAddGeopackageFrame_PropertyChanged"
-                   HeightRequest="400" WidthRequest="350" IsVisible="{Binding AddGeopackageFrameVisibility, Mode=TwoWay}">
+            <!--Geopackage/WMS feature selection menu-->
+            <Border x:Name="MapAddGeopackageWMSFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
+                   Margin="0" PropertyChanged="MapAddGeopackageWMSFrame_PropertyChanged"
+                   HeightRequest="400" WidthRequest="350" IsVisible="{Binding AddGeopackageWMSFrameVisibility, Mode=TwoWay}">
                 <Grid>
 
                     <Grid.RowDefinitions>
@@ -185,7 +185,7 @@
                     <Border Style="{StaticResource FieldAppBorder}" Grid.Row="1" Margin="0" Padding="5">
                         <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapGeopackageFeatureCollection" CanReorderItems="False"
                                 ItemTemplate="{StaticResource GeopackageFeatureTemplate}" VerticalOptions="Start"
-                                ItemsSource="{Binding GeopackageFeatureCollection,Mode=TwoWay}"/>
+                                ItemsSource="{Binding FeatureCollection,Mode=TwoWay}"/>
                     </Border>
 
                     <Button x:Name="gpkgButtonOk" Text="{local:Localize Key=GenericButtonOk}" Style="{StaticResource FieldAppButonSave}" Margin="0" Padding="0"
@@ -221,7 +221,6 @@
                 </Grid>
                 
             </Border>
-            
             
             <!--Controls bottom bar-->
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
