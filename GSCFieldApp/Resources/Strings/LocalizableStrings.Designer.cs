@@ -2320,6 +2320,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selected service does not have any supported coordinate systems (3857, 4326, 3978)..
+        /// </summary>
+        internal static string MapPageAddWMSDialogCRSMessage {
+            get {
+                return ResourceManager.GetString("MapPageAddWMSDialogCRSMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a WMS GetCapabilities URL..
         /// </summary>
         internal static string MapPageAddWMSDialogMessage {

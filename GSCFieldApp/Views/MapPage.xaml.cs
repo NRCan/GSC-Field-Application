@@ -67,6 +67,7 @@ public partial class MapPage : ContentPage
     private GeometryFeature _drawableGeometry = null; //Meant to be used for linework
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+    public ApplicationLiterals.SupportedWMSCRS _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3857;
 
     //Symbols
     private int bitmapSymbolId = -1;
@@ -489,15 +490,49 @@ public partial class MapPage : ContentPage
 
         if (wms_url != string.Empty)
         {
-            //Get list of WMS layers
-            WMSService wService = new WMSService();
-            List<MapPageLayerSelection> mpl = await Task.Run(async()=> await wService.GetListOfWMSLayers(wms_url));
 
-            //Show list of layers available from url get cap os user can chose
-            if (mpl != null && mpl.Count() > 0)
+            //Get a list of supported CRS before prompting to chose a layer
+            WMSService wService = new WMSService();
+            List<string> crs = await Task.Run(async () => await wService.GetListOfCRS(wms_url));
+            bool supportedCRS = false;
+
+            if (crs.Count() > 0)
             {
-                MapViewModel vm = BindingContext as MapViewModel;
-                vm.FillWMSFeatureCollection(mpl);
+                //Check for default or canadian default
+                if (crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGMapsuiDefault))
+                {
+                    supportedCRS = true;
+                }
+                if (!supportedCRS && crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGDefault))
+                {
+                    supportedCRS = true;
+                    _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg4326;
+                }
+                if (!supportedCRS && crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGAtlas))
+                {
+                    supportedCRS = true;
+                    _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3978;
+                }
+            }
+
+            if (supportedCRS)    
+            {
+                //Get list of WMS layers
+                List<MapPageLayerSelection> mpl = await Task.Run(async () => await wService.GetListOfWMSLayers(wms_url));
+
+
+                //Show list of layers available from url get cap os user can chose
+                if (mpl != null && mpl.Count() > 0)
+                {
+                    MapViewModel vm = BindingContext as MapViewModel;
+                    vm.FillWMSFeatureCollection(mpl);
+                }
+            }
+            else
+            {
+                await DisplayAlert(LocalizationResourceManager["MapPageAddWMSDialogTitle"].ToString(),
+                    LocalizationResourceManager["MapPageAddWMSDialogCRSMessage"].ToString(),
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
             }
 
         }
@@ -1294,8 +1329,21 @@ public partial class MapPage : ContentPage
 
         if (wmsURL != null && wmsURL != string.Empty)
         {
+            //Get tiling scheme for tiles and their resolution set from csr
+            TileSchema schema = new GlobalSphericalMercator { Format = "image/png"};
 
-            GlobalSphericalMercator schema = new GlobalSphericalMercator { Format = "image/png" };
+            //Special schema for canadian atlas
+            if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg3978)
+            {
+                schema = new TileSchema3978();
+            }
+            else if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg4326)
+            {
+                TileSchema4326 tileSchema4326 = new TileSchema4326();
+                await tileSchema4326.TransformTo(3857);
+                schema = tileSchema4326;
+            }
+
             WmscRequest request = new WmscRequest(new Uri(wmsURL), schema, [layerID]);
 
             if (request != null)

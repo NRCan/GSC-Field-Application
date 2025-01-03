@@ -1393,4 +1393,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageInfoResults" xml:space="preserve">
     <value>Résultats</value>
   </data>
+  <data name="MapPageAddWMSDialogCRSMessage" xml:space="preserve">
+    <value>Le service sélectionné ne contient aucun des systèmes de coordonnées supportés (3857,4326, 3978).</value>
+  </data>
 </root>

@@ -19,6 +19,7 @@ namespace GSCFieldApp.Services
         public string OGCWmsLayerTitle = "Title";
         public string OGCWmsLayerName = "Name";
         public string GetCap = "GetCapabilities";
+        public string OGCCrs = "CRS";
 
         /// <summary>
         /// Will return a list of all the layers from a given get capability xml url
@@ -86,6 +87,41 @@ namespace GSCFieldApp.Services
             }
 
             return layers;
+        }
+
+        /// <summary>
+        /// Will return a list of all coordinate system available in a get cap
+        /// </summary>
+        /// <param name="getCapabilityURL"></param>
+        /// <returns></returns>
+        public async Task<List<string>> GetListOfCRS(string getCapabilityURL)
+        {
+            //Init
+            List<string> crs = new List<string>();
+
+            if (getCapabilityURL != null && getCapabilityURL != string.Empty)
+            {
+                try
+                {
+                    //Get the xml doc
+                    XDocument xdoc = XDocument.Load(getCapabilityURL);
+                    if (xdoc != null)
+                    {
+                        //Get layer nodes
+                        foreach (XElement rootLayerElement in xdoc.Descendants().Where(p => p.Name.LocalName == OGCCrs))
+                        {
+                            crs.Add(rootLayerElement.Value.ToString());
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    new ErrorToLogFile(e).WriteToFile();
+                }
+
+            }
+
+            return crs;
         }
     }
 }

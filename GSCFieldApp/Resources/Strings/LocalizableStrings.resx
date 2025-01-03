@@ -1392,4 +1392,7 @@
   <data name="MapPageInfoResults" xml:space="preserve">
     <value>Results</value>
   </data>
+  <data name="MapPageAddWMSDialogCRSMessage" xml:space="preserve">
+    <value>Selected service does not have any supported coordinate systems (3857, 4326, 3978).</value>
+  </data>
 </root>

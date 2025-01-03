@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace GSCFieldApp.Models
 {
     /// <summary>
@@ -18,5 +19,6 @@ namespace GSCFieldApp.Models
         public string ID { get; set; }
         public string Path { get; set; } //For geopackages
         public string URL { get; set; } //For WMS
+
     }
 }
