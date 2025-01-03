@@ -700,7 +700,7 @@ public partial class MapPage : ContentPage
                             gpkgPath = mpls.Path;
 
                             //In case it's a wms layer
-                            if (mpls.URL != string.Empty)
+                            if (mpls.URL != null && mpls.URL != string.Empty)
                             {
                                 isGeopackage = false;
                                 bool hasError = await AddAWMSAsync(mpls.URL, mpls.Name, mpls.ID);

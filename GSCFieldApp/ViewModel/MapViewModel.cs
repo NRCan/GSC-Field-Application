@@ -618,7 +618,7 @@ namespace GSCFieldApp.ViewModel
 
                 //Enable selection box/window
                 _addGeopackageWMSFrameVisibility = true;
-                OnPropertyChanged(nameof(_addGeopackageWMSFrameVisibility));
+                OnPropertyChanged(nameof(AddGeopackageWMSFrameVisibility));
             }
 
         }
