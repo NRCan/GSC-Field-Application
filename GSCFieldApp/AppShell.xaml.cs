@@ -39,7 +39,11 @@ public partial class AppShell : Shell
         });
 
         DoPhotoBackupCommand = new Command(async () => {
-            await DisplayAlert("Alert", "Not yet implemented", "OK");
+
+            AppFileServices fileServices = new AppFileServices();
+            await fileServices.SaveBackupPhotos(CancellationToken.None);
+
+            //await DisplayAlert("Alert", "Not yet implemented", "OK");
 
         });
 

@@ -1396,4 +1396,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="MapPageAddWMSDialogCRSMessage" xml:space="preserve">
     <value>Le service sélectionné ne contient aucun des systèmes de coordonnées supportés (3857).</value>
   </data>
+  <data name="ShellQuickPhotoBackupFileName" xml:space="preserve">
+    <value>Sauvegarde</value>
+  </data>
 </root>

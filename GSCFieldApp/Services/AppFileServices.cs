@@ -198,7 +198,6 @@ namespace GSCFieldApp.Services
 
         /// <summary>
         /// Will upload a given field book
-        /// TODO: Add zip loading option
         /// </summary>
         /// <returns></returns>
         public async Task<string> UploadFieldBook()
@@ -289,6 +288,86 @@ namespace GSCFieldApp.Services
             string subFolderPath = Path.Combine(Path.GetDirectoryName(da.PreferedDatabasePath), Path.GetFileNameWithoutExtension(da.PreferedDatabasePath) + ApplicationLiterals.photoFolderSuffix);
 
             return subFolderPath;
+        }
+
+
+        /// <summary>
+        /// Will backup the photo folder as a zip archive
+        /// </summary>
+        /// <returns></returns>
+        public async Task SaveBackupPhotos(CancellationToken cancellationToken)
+        {
+            try
+            {
+                //Variables
+                DataAccess da = new DataAccess();
+                string userFolder = Path.GetDirectoryName(da.PreferedDatabasePath);
+                string userFolderPath = GetPhotoSubFolder();
+                string userFolderName = Path.GetFileName(userFolderPath);
+                string userZipPath = Path.Combine(userFolder, LocalizationResourceManager["ShellQuickPhotoBackupFileName"].ToString() + "_" + userFolderName);
+                string userPhotoZipPath = userZipPath + ".zip";
+
+                //Clean first
+                if (File.Exists(userPhotoZipPath))
+                {
+                    File.Delete(userPhotoZipPath);
+                }
+
+                //Zip needed files
+                using (FileStream zipToOpen = new FileStream(userPhotoZipPath, FileMode.Create))
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                {
+                    //Get a list of photos to zip
+                    foreach (var file in Directory.GetFiles(userFolderPath))
+                    {
+
+                        var entryName = Path.GetFileName(file);
+                        var entry = archive.CreateEntry(entryName);
+                        entry.LastWriteTime = File.GetLastWriteTime(file);
+                        using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        using (var stream = entry.Open())
+                        {
+                            fs.CopyTo(stream);
+                            fs.Close();
+                        }
+
+                    }
+
+                }
+
+                //Save a copy of zipped folder with a prompt
+                using Stream localStream = System.IO.File.OpenRead(userPhotoZipPath);
+                string zipFileName = Path.GetFileName(userPhotoZipPath);
+                var fileSaverResult = await FileSaver.Default.SaveAsync(zipFileName, localStream, cancellationToken);
+
+                //Use Toast to show card in window interface or system like notification rather then modal alert popup.
+                if (fileSaverResult.IsSuccessful)
+                {
+                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
+
+                    await Toast.Make(toastText).Show(cancellationToken);
+                }
+                else
+                {
+                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
+                    await Toast.Make(toastText).Show(cancellationToken);
+                }
+
+                //Clean up uncessary files and dir
+                File.Delete(userPhotoZipPath);
+                localStream.Close();
+            }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                    String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), e.Message),
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
+
+            }
+
+            return;
         }
 
     }
