@@ -88,7 +88,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Picker Title="{local:Localize PicklistPageTables}" x:Name="PicklistPageTablesPicker" HorizontalOptions="StartAndExpand"
-                                    Grid.Column="0" Grid.Row="0" WidthRequest="240"
+                                    Grid.Column="0" Grid.Row="0" WidthRequest="240" VerticalOptions="StartAndExpand"
                                     ItemsSource="{Binding PicklistTables.cboxItems}" Margin="0,10,0,10"
                                     ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageTablesPicker_SelectedIndexChanged"
                                     SelectedItem="{Binding ModelPicklist.PicklistName, 
@@ -98,7 +98,7 @@
                                     SelectedIndex="{Binding PicklistTables.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                                 <Picker Title="{local:Localize PicklistPageFields}" x:Name="PicklistPageFieldsPicker" HorizontalOptions="StartAndExpand"
-                                    Grid.Column="0" Grid.Row="1" WidthRequest="240"
+                                    Grid.Column="0" Grid.Row="1" WidthRequest="240" VerticalOptions="StartAndExpand"
                                     ItemsSource="{Binding PicklistFields.cboxItems}" Margin="0,10,0,10"
                                     ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageFieldsPicker_SelectedIndexChanged"
                                     SelectedItem="{Binding ModelPicklist.PicklistField, 
@@ -108,7 +108,7 @@
                                     SelectedIndex="{Binding PicklistFields.cboxDefaultItemIndex, Mode=TwoWay}" />
 
                                 <Picker Title="{local:Localize PicklistPageParentValue}" x:Name="PicklistPageParentValuePicker" HorizontalOptions="StartAndExpand"
-                                    Grid.Column="0" Grid.Row="2" WidthRequest="240" 
+                                    Grid.Column="0" Grid.Row="2" WidthRequest="240" VerticalOptions="StartAndExpand"
                                     ItemsSource="{Binding PicklistParents.cboxItems, Mode=TwoWay}" Margin="0,10,0,10"
                                     ItemDisplayBinding="{Binding itemName}" SelectedIndexChanged="PicklistPageParentValuePicker_SelectedIndexChanged"
                                     SelectedItem="{Binding ModelPicklist.PicklistParent, 
@@ -145,7 +145,7 @@
                             <!--List section-->
                             <Label Text="{local:Localize PicklistPageFieldValues}" Margin="0,0,0,10"/>
                             <Border Stroke="{StaticResource Primary}" Margin="0" Style="{StaticResource FieldAppBorder}"
-                                   MaximumHeightRequest="500" MinimumWidthRequest="350" Padding="0"
+                                   MaximumHeightRequest="500" MinimumWidthRequest="350" Padding="10,10,0,0"
                                    MaximumWidthRequest="550" HorizontalOptions="Start">
 
                                 <CollectionView ItemsSource="{Binding PicklistValues, Mode=TwoWay}"

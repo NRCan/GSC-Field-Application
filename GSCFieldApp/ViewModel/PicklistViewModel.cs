@@ -205,7 +205,7 @@ namespace GSCFieldApp.ViewModel
 
                 //IEnumerable<Vocabularies> testing = new IEnumerable<Vocabularies>();
                 //Iterate through picklist values
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
                 foreach (Vocabularies vocs in _picklistValues)
                 {
                     //Keep some knowledge about who has done this
@@ -272,8 +272,8 @@ namespace GSCFieldApp.ViewModel
                 fieldworkType = Preferences.Get(nameof(FieldUserInfoFWorkType), fieldworkType);
             }
 
-            //Connect
-            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+            //Connect to default, not user database
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
             _vocabularyManagers = await currentConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeSpecificTo == fieldworkType || e.ThemeSpecificTo == string.Empty)).ToListAsync();
 
             //Special fill for table names
@@ -540,7 +540,7 @@ namespace GSCFieldApp.ViewModel
 
                 //string queryFinal = querySelect_1 + queryWhere_1 + querySelect_2 + querySelect_2_join + queryWhere_2 + querySelect_3 + queryWhere_3 + queryOrderBy_3 + queryWhere_1_2 + queryOrderby_1;
 
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
                 List<string> parentVocabs = await currentConnection.QueryScalarsAsync<string>(query);
 
                 if (parentVocabs != null && parentVocabs.Count() > 0)

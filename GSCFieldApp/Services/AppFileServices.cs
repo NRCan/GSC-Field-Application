@@ -190,8 +190,16 @@ namespace GSCFieldApp.Services
             }
 
             //Clean up uncessary files and dir
-            File.Delete(fieldBookZipPath);
-            localStream.Close();
+            try
+            {
+                File.Delete(fieldBookZipPath);
+                localStream.Close();
+            }
+            catch (Exception)
+            {
+                localStream.Close();
+            }
+
             return;
 
         }

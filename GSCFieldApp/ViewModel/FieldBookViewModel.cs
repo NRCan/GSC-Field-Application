@@ -75,9 +75,42 @@ namespace GSCFieldApp.ViewModel
             _ = ValidateDabaseExistence();
         }
 
+        /// <summary>
+        /// Will detect if default geopackage file already exists, else it will
+        /// create it from the embedded resource. If it does exist, a check 
+        /// will be performed wether or not it matches latest database version.
+        /// If not, it'll be recreated from embedded resource.
+        /// </summary>
+        /// <returns></returns>
         private async Task ValidateDabaseExistence()
         {
-            bool validates = await da.CreateDatabaseFromResource(da.DatabaseFilePath);
+            bool validates = false;
+
+            //Detect default database else create from resource
+            if (!File.Exists(da.DatabaseFilePath))
+            {
+                validates = await da.CreateDatabaseFromResource(da.DatabaseFilePath);
+            }
+            else
+            {
+                //Validate version
+                da.PreferedDatabasePath = da.DatabaseFilePath;
+                double dbVersion = await da.GetDBVersion();
+                if (dbVersion != DatabaseLiterals.DBVersion)
+                {
+                    //Start an upgrade process
+                    FieldBooksViewModel fieldBooksViewModel = new FieldBooksViewModel();
+                    bool updated = await fieldBooksViewModel.DoUpgradeFieldBook();
+                    if (updated) 
+                    {
+                        validates = true;
+                    }
+                }
+                else 
+                {
+                    validates = true;
+                }
+            }
 
             //When database exist, move on with filling some picker controls
             if (validates) { FillProjectType(); }
