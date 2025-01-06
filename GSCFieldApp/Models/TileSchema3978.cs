@@ -1,64 +1,106 @@
 ﻿using BruTile;
+using ExCSS;
+using GSCFieldApp.Services.DatabaseServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Point = NetTopologySuite.Geometries.Point;
 
 namespace GSCFieldApp.Models
 {
     internal class TileSchema3978: TileSchema
     {
         private const int TileSize = 256;
-        private readonly double _originX = -938105.72;
-        private readonly double _originY = 787721.55;
+        private Point _origin = new Point(-938105.72, 787721.55);
+        private Point _lowerLeft = new Point(-2708707.567300, -807190.452400);
+        private Point _upperRight = new Point(3576874.186000, 3873396.596400);
 
         public TileSchema3978()
         {
-            double[] resolution = new[] {
-                48343.8017578125,
-                24171.90087890625,
-                12085.950439453125,
-                6042.9752197265625,
-                3021.4876098632812,
-                1510.7438049316406,
-                755.3719024658203,
-                377.68595123291016,
-                188.84297561645508,
-                94.42148780822754,
-                47.21074390411377,
-                23.605371952056885,
-                11.802685976028442,
-                5.901342988014221,
-                2.9506714940071106,
-                1.4753357470035553,
-                0.7376678735017776,
-                0.3688339367508888,
-                0.1844169683754444,
-                0.0922084841877222,
-            };
+            CalculateResolutions(20);
 
-            for (int i = 0; i < resolution.Length; i++)
-            {
-                Resolutions[i] = new Resolution
-                (
-                    i,
-                    resolution[i],
-                    TileSize,
-                    TileSize,
-                    _originX,
-                    _originY
-                );
-            }
-
-            Extent = new Extent(-7192737.96, -3004297.73, 5183275.29, 4484204.83);
-            OriginX = _originX;
-            OriginY = _originY;
+            Extent = new Extent(_lowerLeft.X, _lowerLeft.Y, _upperRight.X, _upperRight.Y);
+            //OriginX = _origin.X;
+            //OriginY = _origin.Y;
             Name = "NAD83 Canada Atlas Lambert";
             Format = "image/png";
             Srs = "EPSG:3978";
+            YAxis = YAxis.OSM;
             
+            
+        }
+
+        public TileSchema3978(Tuple<Point, Point> extent)
+        {
+            //Force extent instead of default
+            _lowerLeft = extent.Item1;
+            _upperRight = extent.Item2;
+
+            CalculateResolutions(20);
+
+            Extent = new Extent(_lowerLeft.X, _lowerLeft.Y, _upperRight.X, _upperRight.Y);
+            //OriginX = _origin.X;
+            //OriginY = _origin.Y;
+            Name = "NAD83 Canada Atlas Lambert";
+            Format = "image/png";
+            Srs = "EPSG:3978";
+            YAxis = YAxis.OSM;
+
+
+        }
+
+        /// <summary>
+        /// Will transform current schema data into another SRID
+        /// </summary>
+        /// <param name="srid"></param>
+        public async Task TransformTo(int srid)
+        {
+            //Transform extent to mapsui default
+            _lowerLeft = await GeopackageService.TransformPointCoordinatesFromSrid(_lowerLeft, 3978, srid);
+            _upperRight = await GeopackageService.TransformPointCoordinatesFromSrid(_upperRight, 3978, srid);
+
+            Extent = new Extent(_lowerLeft.X, _lowerLeft.Y, _upperRight.X, _upperRight.Y);
+
+            //Recalculate the resolutions
+            CalculateResolutions(20);
+
+            ////Transform origin
+            //_origin = await GeopackageService.TransformPointCoordinatesFromSrid(_origin, 3978, srid);
+            //OriginX = _origin.X;
+            //OriginY = _origin.Y;
+        }
+
+        /// <summary>
+        /// Will recalculate the resolutions
+        /// </summary>
+        /// <param name="arrayLength"></param>
+        private void CalculateResolutions(int arrayLength)
+        {
+            double[] res = new double[arrayLength];
+
+            double width = Math.Abs(_upperRight.X - _lowerLeft.X);
+            double height = Math.Abs(_upperRight.Y - _lowerLeft.Y);
+
+            _origin = _lowerLeft;
+
+            for(int i = 0; i < arrayLength; i++)
+            {
+                //Calc
+                res[i] = Math.Max(width, height) / (TileSize * (Math.Pow(2, i)));
+
+                //Set
+                Resolutions[i] = new BruTile.Resolution
+                (
+                    i,
+                    res[i],
+                    TileSize,
+                    TileSize
+                );
+            }
         }
     }
 }

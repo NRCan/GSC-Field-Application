@@ -1,5 +1,6 @@
 ﻿using GSCFieldApp.Dictionaries;
 using GSCFieldApp.Models;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Point = NetTopologySuite.Geometries.Point;
 
 namespace GSCFieldApp.Services
 {
@@ -20,6 +22,11 @@ namespace GSCFieldApp.Services
         public string OGCWmsLayerName = "Name";
         public string GetCap = "GetCapabilities";
         public string OGCCrs = "CRS";
+        public string BoundingBox = "BoundingBox";
+        public string BoundMinx = "minx";
+        public string BoundMiny = "miny";
+        public string BoundMaxx = "maxx";
+        public string BoundMaxy = "maxy";
 
         /// <summary>
         /// Will return a list of all the layers from a given get capability xml url
@@ -122,6 +129,67 @@ namespace GSCFieldApp.Services
             }
 
             return crs;
+        }
+
+        public async Task<Tuple<Point, Point>> GetCRSExtent(string getCapabilityURL, string CRSName)
+        {
+            Tuple<Point, Point> extent = null;
+
+            if (CRSName != null && CRSName != string.Empty)
+            {
+                try
+                {
+                    //Get the xml doc
+                    XDocument xdoc = XDocument.Load(getCapabilityURL);
+                    if (xdoc != null)
+                    {
+                        //Get layer nodes
+                        foreach (XElement rootLayerElement in xdoc.Descendants().Where(p => p.Name.LocalName == BoundingBox))
+                        {
+
+                            //Get the queryable ones
+                            if (rootLayerElement.Attribute(OGCCrs) != null && rootLayerElement.Attribute(OGCCrs).Value == CRSName)
+                            {
+                                if (rootLayerElement.Attribute(BoundMinx) != null)
+                                {
+                                    try
+                                    {
+                                        double minx = 0.0;
+                                        double miny = 0.0;
+                                        double maxx = 0.0;
+                                        double maxy = 0.0;
+
+                                        Double.TryParse(rootLayerElement.Attribute(BoundMinx).Value, out minx);
+                                        Double.TryParse(rootLayerElement.Attribute(BoundMiny).Value, out miny);
+                                        Double.TryParse(rootLayerElement.Attribute(BoundMaxx).Value, out maxx);
+                                        Double.TryParse(rootLayerElement.Attribute(BoundMaxy).Value, out maxy);
+
+                                        Point min = new Point(minx, miny);
+                                        Point max = new Point(maxx, maxy);
+
+                                        extent = new Tuple<Point, Point>( min, max);
+
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        new ErrorToLogFile(e).WriteToFile();
+                                    }
+                                }
+
+                            }
+                            
+
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    new ErrorToLogFile(e).WriteToFile();
+                }
+
+            }
+
+            return extent;
         }
     }
 }

@@ -68,6 +68,7 @@ public partial class MapPage : ContentPage
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
     public ApplicationLiterals.SupportedWMSCRS _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3857;
+    public Tuple<Point, Point> _wmsCRSExtent = null;
 
     //Symbols
     private int bitmapSymbolId = -1;
@@ -503,16 +504,23 @@ public partial class MapPage : ContentPage
                 {
                     supportedCRS = true;
                 }
-                if (!supportedCRS && crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGDefault))
-                {
-                    supportedCRS = true;
-                    _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg4326;
-                }
-                if (!supportedCRS && crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGAtlas))
-                {
-                    supportedCRS = true;
-                    _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3978;
-                }
+                //if (!supportedCRS && crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGAtlas))
+                //{
+                //    supportedCRS = true;
+                //    _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3978;
+
+                //    _wmsCRSExtent = await Task.Run(async () => await wService.GetCRSExtent(wms_url, DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGAtlas));
+
+                //}
+                //if (!supportedCRS && crs.Contains(DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGDefault))
+                //{
+                //    supportedCRS = true;
+                //    _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg4326;
+
+
+                //    _wmsCRSExtent = await Task.Run(async () => await wService.GetCRSExtent(wms_url, DatabaseLiterals.KeywordEPSG + DatabaseLiterals.KeywordEPSGDefault));
+
+                //}
             }
 
             if (supportedCRS)    
@@ -530,7 +538,7 @@ public partial class MapPage : ContentPage
             }
             else
             {
-                await DisplayAlert(LocalizationResourceManager["MapPageAddWMSDialogTitle"].ToString(),
+                await DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
                     LocalizationResourceManager["MapPageAddWMSDialogCRSMessage"].ToString(),
                     LocalizationResourceManager["GenericButtonOk"].ToString());
             }
@@ -1335,17 +1343,34 @@ public partial class MapPage : ContentPage
             //Special schema for canadian atlas
             if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg3978)
             {
-                schema = new TileSchema3978();
+                TileSchema3978 tileSchema3978 = new TileSchema3978();
+
+                //If wms crs extent was parsed correctly from get cap, set tileschema with it
+                if (_wmsCRSExtent != null)
+                {
+                    tileSchema3978 = new TileSchema3978(_wmsCRSExtent);
+                }
+                
+                await tileSchema3978.TransformTo(3857);
+                schema = tileSchema3978;
+
             }
             else if (_wmsCRS == ApplicationLiterals.SupportedWMSCRS.epsg4326)
             {
                 TileSchema4326 tileSchema4326 = new TileSchema4326();
+
+                //If wms crs extent was parsed correctly from get cap, set tileschema with it
+                if (_wmsCRSExtent != null)
+                {
+                    tileSchema4326 = new TileSchema4326(_wmsCRSExtent);
+                }
+
                 await tileSchema4326.TransformTo(3857);
                 schema = tileSchema4326;
             }
 
             WmscRequest request = new WmscRequest(new Uri(wmsURL), schema, [layerID]);
-
+            
             if (request != null)
             {
                 SqlitePersistentCache wmsCache = null;
