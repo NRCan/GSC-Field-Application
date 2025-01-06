@@ -230,6 +230,12 @@ namespace GSCFieldApp.ViewModel
             }
         }
 
+        [RelayCommand]
+        async void Import()
+        {
+
+
+        }
         #endregion
 
         #region PROPERTIES

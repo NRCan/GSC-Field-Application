@@ -132,14 +132,20 @@
                                     Command="{Binding SortTermCommand}"
                                     BackgroundColor="{StaticResource Primary}"/>
 
+                                    <Button Text="&#xF125B;" Style="{StaticResource FieldAppHeaderButton}" 
+                                    WidthRequest="40" ToolTipProperties.Text="{local:Localize PicklistPageImportTooltip}" 
+                                    Margin="0,10,0,10" 
+                                    Command="{Binding ImportCommand}"
+                                    BackgroundColor="{StaticResource Primary}"/>
+
                                 </StackLayout>
 
                             </Grid>
 
                             <!--List section-->
-                            <Label Text="{local:Localize PicklistPageFieldValues}"/>
-                            <Border Stroke="{StaticResource Primary}" Margin="0,10,0,10" Style="{StaticResource FieldAppBorder}"
-                                   MaximumHeightRequest="500" MinimumWidthRequest="350" 
+                            <Label Text="{local:Localize PicklistPageFieldValues}" Margin="0,0,0,10"/>
+                            <Border Stroke="{StaticResource Primary}" Margin="0" Style="{StaticResource FieldAppBorder}"
+                                   MaximumHeightRequest="500" MinimumWidthRequest="350" Padding="0"
                                    MaximumWidthRequest="550" HorizontalOptions="Start">
 
                                 <CollectionView ItemsSource="{Binding PicklistValues, Mode=TwoWay}"

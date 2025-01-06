@@ -1398,4 +1398,7 @@
   <data name="ShellQuickPhotoBackupFileName" xml:space="preserve">
     <value>Backup</value>
   </data>
+  <data name="PicklistPageImportTooltip" xml:space="preserve">
+    <value>Tap to import picklist from another geopackage.</value>
+  </data>
 </root>

@@ -2896,6 +2896,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tap to import picklist from another geopackage..
+        /// </summary>
+        internal static string PicklistPageImportTooltip {
+            get {
+                return ResourceManager.GetString("PicklistPageImportTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modify selected term at your needs..
         /// </summary>
         internal static string PicklistPageModifyTermContent {
