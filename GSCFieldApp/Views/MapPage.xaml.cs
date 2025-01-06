@@ -117,57 +117,71 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void Map_Info(object sender, MapInfoEventArgs e)
     {
-        //Retrieve clicked feature information
-        ILayer l = e.MapInfo?.Layer;
-        IFeature feature = e.MapInfo?.Feature;
-        if (feature != null)
+
+        //For easier interaction, close the info window if it's alreayd opened
+        //On smaller device it takes too much space and prevents user from querying elsewhere
+        //easily
+        if (!MapInfoResultsFrame.IsVisible && !_isTapMode)
         {
-            //Get feature id for sql query
-            string featureHexText = feature.ToDisplayText();
-
-            if (feature is GeometryFeature geometryFeature)
+            //Retrieve clicked feature information
+            ILayer l = e.MapInfo?.Layer;
+            IFeature feature = e.MapInfo?.Feature;
+            if (feature != null)
             {
-                //Get database path stashed in the tag
-                if (l.Tag != null && l.Tag.ToString() != string.Empty && featureHexText != string.Empty && featureHexText.Contains(":"))
+                //Get feature id for sql query
+                string featureHexText = feature.ToDisplayText();
+
+                if (feature is GeometryFeature geometryFeature)
                 {
-                    try
+                    //Get database path stashed in the tag
+                    if (l.Tag != null && l.Tag.ToString() != string.Empty && featureHexText != string.Empty && featureHexText.Contains(":"))
                     {
-                        SQLiteAsyncConnection infoConnection = new SQLiteAsyncConnection(l.Tag.ToString());
-                        if (infoConnection != null)
+                        try
                         {
-                            string featureIDFieldName = featureHexText.Split(":")[0];
-                            string featureHex = featureHexText.Split(":")[1];
-
-                            string gfiQuery = string.Format("SELECT * FROM {0} WHERE hex({1}) = '{2}';",
-                                l.Name,
-                                featureIDFieldName,
-                                featureHex);
-
-                            //Get clicked feature record values
-                            object?[][]? results = GeopackageService.RunGenericQuery(l.Tag.ToString(), gfiQuery);
-
-                            if (results != null)
+                            SQLiteAsyncConnection infoConnection = new SQLiteAsyncConnection(l.Tag.ToString());
+                            if (infoConnection != null)
                             {
-                                //Show a pop-up with the result
-                                MapViewModel vm = BindingContext as MapViewModel;
-                                vm.FillMapInfoCollection(results);
-                            }
+                                string featureIDFieldName = featureHexText.Split(":")[0];
+                                string featureHex = featureHexText.Split(":")[1];
 
+                                string gfiQuery = string.Format("SELECT * FROM {0} WHERE hex({1}) = '{2}';",
+                                    l.Name,
+                                    featureIDFieldName,
+                                    featureHex);
+
+                                //Get clicked feature record values
+                                object?[][]? results = GeopackageService.RunGenericQuery(l.Tag.ToString(), gfiQuery);
+
+                                if (results != null)
+                                {
+                                    //Show a pop-up with the result
+                                    MapViewModel vm = BindingContext as MapViewModel;
+                                    vm.FillMapInfoCollection(results);
+
+                                    MapInfoResultsFrame.IsVisible = true;
+                                }
+
+                            }
                         }
-                    }
-                    catch (System.Exception gfiError)
-                    {
-                        await Shell.Current.DisplayAlert(
-                            LocalizationResourceManager["GenericErrorTitle"].ToString(),
-                            gfiError.Message,
-                            LocalizationResourceManager["GenericButtonOk"].ToString());
-                        new ErrorToLogFile(gfiError).WriteToFile();
+                        catch (System.Exception gfiError)
+                        {
+                            await Shell.Current.DisplayAlert(
+                                LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                                gfiError.Message,
+                                LocalizationResourceManager["GenericButtonOk"].ToString());
+                            new ErrorToLogFile(gfiError).WriteToFile();
+                        }
+
                     }
 
                 }
-
             }
         }
+        else
+        {
+            MapInfoResultsFrame.IsVisible = false;
+        }
+
     }
 
     /// <summary>
@@ -336,7 +350,7 @@ public partial class MapPage : ContentPage
 
         //Make sure to disable map layer frame
         MapLayerFrame.IsVisible = false;
-        MapInfoResultsFrame.IsVisible = false;
+        //MapInfoResultsFrame.IsVisible = false;
     }
 
     /// <summary>

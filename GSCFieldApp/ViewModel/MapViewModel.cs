@@ -56,7 +56,7 @@ namespace GSCFieldApp.ViewModel
         public string GPSModeButtonSymbol { get { return _gpsModeButtonSymbol; } set { _gpsModeButtonSymbol = value; } }
         public ObservableCollection<MapPageLayerSelection> FeatureCollection { get { return _featureCollection; } set { _featureCollection = value; } }
         public bool AddGeopackageWMSFrameVisibility { get { return _addGeopackageWMSFrameVisibility; } set { _addGeopackageWMSFrameVisibility = value; } }
-        public bool MapInfoResultsFrameVisibility { get { return _mapInfoResultsFrameVisibility; } set { _mapInfoResultsFrameVisibility = value; } }
+        //public bool MapInfoResultsFrameVisibility { get { return _mapInfoResultsFrameVisibility; } set { _mapInfoResultsFrameVisibility = value; } }
         public ObservableCollection<MapPageInfoResult> MapInfoCollection { get { return _mapInfoCollection; } set { _mapInfoCollection = value; } }
         #endregion
 
@@ -667,10 +667,6 @@ namespace GSCFieldApp.ViewModel
                 _mapInfoCollection.AddRange(mpir.infoResults);
 
                 OnPropertyChanged(nameof(MapInfoCollection));
-
-                //Enable selection box/window
-                _mapInfoResultsFrameVisibility = true;
-                OnPropertyChanged(nameof(MapInfoResultsFrameVisibility));
             }
 
         }
