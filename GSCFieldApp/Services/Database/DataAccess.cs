@@ -244,7 +244,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (databasePath == string.Empty)
             {
-                databasePath = PreferedDatabasePath;
+                databasePath = DatabaseFilePath;
             }
 
             //Get the current project type
@@ -492,6 +492,83 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         }
 
+        /// <summary>
+        /// Will take an input database and will upgrade output database vocab tables (dictionaries) with latest coming from an input version
+        /// </summary>
+        public async Task<bool> DoSwapVocab(string vocabFromDBPath, string vocabToDBPath, bool closeConnection = true)
+        {
+            //Output
+            bool completedWithoutErrors = false;
+            List<Exception> exceptionList = new List<Exception>();
+
+            //Build delete vocab table query
+            string deleteQuery = "DELETE FROM " + TableDictionaryManager + ";";
+            string deleteQuery2 = "DELETE FROM " + TableDictionary + ";";
+
+            //Build attach db query
+            string attachQuery = "ATTACH '" + vocabFromDBPath + "' AS db2;";
+
+            //Build insert queries
+            string insertQuery = "INSERT INTO " + TableDictionaryManager + " SELECT * FROM db2." + TableDictionaryManager + ";";
+            string insertQuery2 = "INSERT INTO " + TableDictionary + " SELECT * FROM db2." + TableDictionary + ";";
+
+            //Build detach query
+            string detachQuery = "DETACH DATABASE db2;";
+
+            //Build vacuum query
+            string vacuumQuery = "VACUUM";
+
+            //Build final query
+            string finalDeleteQuery = deleteQuery + deleteQuery2 + attachQuery + insertQuery + insertQuery2 + detachQuery + vacuumQuery;
+            List<string> queryList = new List<string>() { deleteQuery, deleteQuery2, insertQuery, insertQuery2, detachQuery, vacuumQuery };
+
+            SQLiteAsyncConnection vocabToDBConnection = new SQLiteAsyncConnection(vocabToDBPath);
+            await vocabToDBConnection.ExecuteAsync(attachQuery);
+
+            //Update working database
+            foreach (string q in queryList)
+            {
+                try
+                {
+                    await vocabToDBConnection.ExecuteAsync(q);
+                }
+                catch (Exception e)
+                {
+                    exceptionList.Add(e);
+                }
+
+            }
+
+            await vocabToDBConnection.CloseAsync();
+
+            //Process exceptions
+            if (exceptionList.Count > 0)
+            {
+                string wholeStack = string.Empty;
+
+                foreach (Exception es in exceptionList)
+                {
+                    wholeStack = wholeStack + "; " + es.Message + "; " + es.StackTrace;
+                }
+
+                foreach (string q in queryList)
+                {
+                    wholeStack = wholeStack + "\n " + q;
+                }
+
+                //Log
+                new ErrorToLogFile(wholeStack + "\n DB:" + vocabFromDBPath).WriteToFile();
+
+            }
+            else
+            {
+                completedWithoutErrors = true;
+            }
+
+            return completedWithoutErrors;
+
+        }
+
         #endregion
 
         #region GET METHODS (usually needs a connection object)
@@ -723,7 +800,6 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             return completedWithoutErrors;
         }
-
 
         #endregion
 

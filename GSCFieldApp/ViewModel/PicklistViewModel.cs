@@ -206,7 +206,6 @@ namespace GSCFieldApp.ViewModel
                 _isWaiting = true;
                 OnPropertyChanged(nameof(IsWaiting));
 
-                //IEnumerable<Vocabularies> testing = new IEnumerable<Vocabularies>();
                 //Iterate through picklist values
                 SQLiteAsyncConnection saveConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
                 foreach (Vocabularies vocs in _picklistValues)
@@ -225,7 +224,6 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(PicklistValues));
  
                 await saveConnection.CloseAsync();
-
 
                 //Show saved message
                 _isWaiting = false;
