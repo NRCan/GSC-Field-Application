@@ -134,77 +134,83 @@ namespace GSCFieldApp.Services
                 File.Delete(fieldBookZipPath);
             }
 
-            //Zip needed files
-            using (FileStream zipToOpen = new FileStream(fieldBookZipPath, FileMode.Create))
-            using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+            //Swap vocab, take global ones and replaced with whatever is in the prefered database
+            bool swapedWithoutError = await da.DoSwapVocab(da.DatabaseFilePath, da.PreferedDatabasePath, true);
+
+            if (swapedWithoutError)
             {
-                //Get a list of files from field book that has the same name (layer json and other file types)
-                foreach (var file in Directory.GetFiles(userLocalFolder, userDBName + "*"))
+                //Zip needed files
+                using (FileStream zipToOpen = new FileStream(fieldBookZipPath, FileMode.Create))
+                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
                 {
-                    //Make sure to not self zip current zip
-                    if (!file.Contains(LocalizationResourceManager["FieldBookBackupGeneric"].ToString()))
+                    //Get a list of files from field book that has the same name (layer json and other file types)
+                    foreach (var file in Directory.GetFiles(userLocalFolder, userDBName + "*"))
                     {
-                        var entryName = Path.GetFileName(file);
-                        var entry = archive.CreateEntry(entryName);
-                        entry.LastWriteTime = File.GetLastWriteTime(file);
-                        using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                        using (var stream = entry.Open())
+                        //Make sure to not self zip current zip
+                        if (!file.Contains(LocalizationResourceManager["FieldBookBackupGeneric"].ToString()))
                         {
-                            fs.CopyTo(stream);
-                            fs.Close();
+                            var entryName = Path.GetFileName(file);
+                            var entry = archive.CreateEntry(entryName);
+                            entry.LastWriteTime = File.GetLastWriteTime(file);
+                            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            using (var stream = entry.Open())
+                            {
+                                fs.CopyTo(stream);
+                                fs.Close();
+                            }
                         }
+
                     }
 
-                }
-
-                //Get a list of embeded device photos 
-                AppFileServices afs = new AppFileServices();
-                string photoSubFolder = afs.GetPhotoSubFolder();
-                if (Directory.Exists(photoSubFolder))
-                {
-                    foreach (var photos in Directory.GetFiles(photoSubFolder))
+                    //Get a list of embeded device photos 
+                    AppFileServices afs = new AppFileServices();
+                    string photoSubFolder = afs.GetPhotoSubFolder();
+                    if (Directory.Exists(photoSubFolder))
                     {
-                        var entryName = Path.GetFileName(photos);
-                        var entry = archive.CreateEntry(entryName);
-                        entry.LastWriteTime = File.GetLastWriteTime(photos);
-                        using (var fs = new FileStream(photos, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                        using (var stream = entry.Open())
+                        foreach (var photos in Directory.GetFiles(photoSubFolder))
                         {
-                            fs.CopyTo(stream);
-                            fs.Close();
+                            var entryName = Path.GetFileName(photos);
+                            var entry = archive.CreateEntry(entryName);
+                            entry.LastWriteTime = File.GetLastWriteTime(photos);
+                            using (var fs = new FileStream(photos, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            using (var stream = entry.Open())
+                            {
+                                fs.CopyTo(stream);
+                                fs.Close();
+                            }
                         }
                     }
                 }
-            }
 
-            //Save a copy of zipped folder with a prompt
-            using Stream localStream = System.IO.File.OpenRead(fieldBookZipPath);
-            CancellationToken cancellationToken = new CancellationToken();
-            string zipFileName = Path.GetFileName(fieldBookZipPath);
-            var fileSaverResult = await FileSaver.Default.SaveAsync(zipFileName, localStream, cancellationToken);
+                //Save a copy of zipped folder with a prompt
+                using Stream localStream = System.IO.File.OpenRead(fieldBookZipPath);
+                CancellationToken cancellationToken = new CancellationToken();
+                string zipFileName = Path.GetFileName(fieldBookZipPath);
+                var fileSaverResult = await FileSaver.Default.SaveAsync(zipFileName, localStream, cancellationToken);
 
-            //Use Toast to show card in window interface or system like notification rather then modal alert popup.
-            if (fileSaverResult.IsSuccessful)
-            {
-                string toastText = String.Format(LocalizationResourceManager["ToastFieldBookBackup"].ToString(), fileSaverResult.FilePath);
+                //Use Toast to show card in window interface or system like notification rather then modal alert popup.
+                if (fileSaverResult.IsSuccessful)
+                {
+                    string toastText = String.Format(LocalizationResourceManager["ToastFieldBookBackup"].ToString(), fileSaverResult.FilePath);
 
-                await Toast.Make(toastText).Show(cancellationToken);
-            }
-            else
-            {
-                string toastText = String.Format(LocalizationResourceManager["ToastFieldBookBackupFailed"].ToString(), fileSaverResult.Exception.Message);
-                await Toast.Make(toastText).Show(cancellationToken);
-            }
+                    await Toast.Make(toastText).Show(cancellationToken);
+                }
+                else
+                {
+                    string toastText = String.Format(LocalizationResourceManager["ToastFieldBookBackupFailed"].ToString(), fileSaverResult.Exception.Message);
+                    await Toast.Make(toastText).Show(cancellationToken);
+                }
 
-            //Clean up uncessary files and dir
-            try
-            {
-                File.Delete(fieldBookZipPath);
-                localStream.Close();
-            }
-            catch (Exception)
-            {
-                localStream.Close();
+                //Clean up uncessary files and dir
+                try
+                {
+                    File.Delete(fieldBookZipPath);
+                    localStream.Close();
+                }
+                catch (Exception)
+                {
+                    localStream.Close();
+                }
             }
 
             return;
