@@ -73,7 +73,10 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(PicklistValues));
 
                 //Save
-                await da.SaveItemAsync(newVocab, false);
+                SQLiteAsyncConnection defaultConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
+                await defaultConnection.InsertAsync(newVocab);
+                await defaultConnection.CloseAsync();
+
             }
 
         }
@@ -205,7 +208,7 @@ namespace GSCFieldApp.ViewModel
 
                 //IEnumerable<Vocabularies> testing = new IEnumerable<Vocabularies>();
                 //Iterate through picklist values
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
+                SQLiteAsyncConnection saveConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
                 foreach (Vocabularies vocs in _picklistValues)
                 {
                     //Keep some knowledge about who has done this
@@ -217,11 +220,12 @@ namespace GSCFieldApp.ViewModel
                     iterativeOrder++;
                 }
 
-                await currentConnection.UpdateAllAsync(_picklistValues, true);
+                await saveConnection.UpdateAllAsync(_picklistValues, true);
 
                 OnPropertyChanged(nameof(PicklistValues));
  
-                await currentConnection.CloseAsync();
+                await saveConnection.CloseAsync();
+
 
                 //Show saved message
                 _isWaiting = false;
@@ -235,6 +239,41 @@ namespace GSCFieldApp.ViewModel
         {
 
 
+        }
+
+        [RelayCommand]
+        async void PicklistPageTablesPickerChanged()
+        {
+            //Cast and make sure something valid is selected
+            if (_picklistTables.cboxDefaultItemIndex >= 0)
+            {
+                FillFieldsPicklist();
+            }
+        }
+
+        [RelayCommand]
+        async void PicklistPageFieldsPickerChanged()
+        {
+            //Cast and make sure something valid is selected
+            if (_picklistFields.cboxDefaultItemIndex >= 0)
+            {
+                bool doesHaveParents = await FillFieldParentValuesPicklist();
+                if (!doesHaveParents)
+                {
+                    //Instead fill field values
+                    FillFieldValuesPicklist();
+                }
+            }
+        }
+
+        [RelayCommand]
+        async void PicklistPageParentPickerChanged()
+        {
+            //Cast and make sure something valid is selected
+            if (_picklistParents.cboxDefaultItemIndex >= 0)
+            {
+                FillFieldValuesPicklist();
+            }
         }
         #endregion
 
@@ -273,14 +312,14 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Connect to default, not user database
-            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
-            _vocabularyManagers = await currentConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeSpecificTo == fieldworkType || e.ThemeSpecificTo == string.Empty)).ToListAsync();
+            SQLiteAsyncConnection pickersConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
+            _vocabularyManagers = await pickersConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeSpecificTo == fieldworkType || e.ThemeSpecificTo == string.Empty)).ToListAsync();
 
             //Special fill for table names
-            _picklistTables = await FillTablePicklist(currentConnection);
+            _picklistTables = await FillTablePicklist(pickersConnection);
             OnPropertyChanged(nameof(PicklistTables));
 
-            await currentConnection.CloseAsync();
+            await pickersConnection.CloseAsync();
         }
 
         /// <summary>
@@ -472,7 +511,7 @@ namespace GSCFieldApp.ViewModel
                 //Get db AssignTo field from selection
                 if (assignToFields != null && assignToFields.Count() > 0)
                 {
-                    incomingValues = await da.GetPicklistValuesAsync(_modelPicklist.PicklistName, assignToFields[0].ThemeAssignField, _modelPicklist.PicklistParent, true);
+                    incomingValues = await da.GetPicklistValuesAsync(_modelPicklist.PicklistName, assignToFields[0].ThemeAssignField, _modelPicklist.PicklistParent, true, da.DatabaseFilePath);
                 }
 
             }
@@ -480,7 +519,7 @@ namespace GSCFieldApp.ViewModel
             {
                 if (assignToFields != null && assignToFields.Count() > 0)
                 {
-                    incomingValues = await da.GetPicklistValuesAsync(_modelPicklist.PicklistName, assignToFields[0].ThemeAssignField, "", true);
+                    incomingValues = await da.GetPicklistValuesAsync(_modelPicklist.PicklistName, assignToFields[0].ThemeAssignField, "", true, da.DatabaseFilePath);
                 }
 
             }
@@ -540,10 +579,10 @@ namespace GSCFieldApp.ViewModel
 
                 //string queryFinal = querySelect_1 + queryWhere_1 + querySelect_2 + querySelect_2_join + queryWhere_2 + querySelect_3 + queryWhere_3 + queryOrderBy_3 + queryWhere_1_2 + queryOrderby_1;
 
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
-                List<string> parentVocabs = await currentConnection.QueryScalarsAsync<string>(query);
+                SQLiteAsyncConnection parentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
+                List<string> parentVocabs = await parentConnection.QueryScalarsAsync<string>(query);
 
-                if (parentVocabs != null && parentVocabs.Count() > 0)
+                if (parentVocabs != null && parentVocabs.Count() > 0 && parentVocabs[0] != null)
                 {
                     //Convert to custom picker
                     _picklistParents = da.GetComboboxListFromStrings(parentVocabs);
@@ -551,12 +590,14 @@ namespace GSCFieldApp.ViewModel
                     doesHaveParents = true;
                 }
 
-                await currentConnection.CloseAsync();
+                await parentConnection.CloseAsync();
+
             }
 
             return doesHaveParents;
         }
 
         #endregion
+
     }
 }

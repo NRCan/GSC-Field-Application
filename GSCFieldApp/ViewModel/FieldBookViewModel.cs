@@ -14,6 +14,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using Microsoft.Maui.ApplicationModel.Communication;
 using GSCFieldApp.Services;
+using SQLite;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -94,17 +95,28 @@ namespace GSCFieldApp.ViewModel
             else
             {
                 //Validate version
-                da.PreferedDatabasePath = da.DatabaseFilePath;
-                double dbVersion = await da.GetDBVersion();
-                if (dbVersion != DatabaseLiterals.DBVersion)
+                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
+                List<double> currentVersion = await currentConnection.QueryScalarsAsync<double>(string.Format("SELECT max(distinct({0})) FROM {1} limit 1", DatabaseLiterals.FieldDictionaryVersion, DatabaseLiterals.TableDictionary));
+                //List<Vocabularies> _vocabularyManagers = await currentConnection.Table<Vocabularies>().Where(e => e.Version == DatabaseLiterals.DBVersion).ToListAsync();
+                await currentConnection.CloseAsync();
+                if (currentVersion != null && currentVersion.Count() > 0 && currentVersion[0] != DatabaseLiterals.DBVersion)
                 {
-                    //Start an upgrade process
-                    FieldBooksViewModel fieldBooksViewModel = new FieldBooksViewModel();
-                    bool updated = await fieldBooksViewModel.DoUpgradeFieldBook();
-                    if (updated) 
+                    //Replace with latest version. It indicates user upgraded the app
+                    //and has a new data model.
+                    string fieldWorkRename = da.DatabaseFilePath.Replace(DatabaseLiterals.DBName, DatabaseLiterals.DBName + "_legacy");
+                    File.Move(da.DatabaseFilePath, fieldWorkRename);
+                    await da.CreateDatabaseFromResource(da.DatabaseFilePath);
+
+                    //Import user vocab from legacy one to newest one
+                    SQLiteAsyncConnection newConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
+                    validates = await da.GetLatestVocab(fieldWorkRename, newConnection, currentVersion[0], true);
+
+                    //Clean
+                    if (File.Exists(fieldWorkRename))
                     {
-                        validates = true;
+                        File.Delete(fieldWorkRename);
                     }
+                    
                 }
                 else 
                 {

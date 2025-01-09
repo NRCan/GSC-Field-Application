@@ -239,8 +239,13 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <param name="fieldwork">Field book theme (bedrock, surficial)</param>
         /// <returns>A list contain resulting voca class entries</returns>
         public async Task<List<Vocabularies>> GetPicklistValuesAsync(string tableName, string fieldName, string extraFieldValue, 
-            bool allValues)
+            bool allValues, string databasePath = "")
         {
+
+            if (databasePath == string.Empty)
+            {
+                databasePath = PreferedDatabasePath;
+            }
 
             //Get the current project type
             string fieldworkType = ApplicationThemeBedrock; //Default
@@ -282,9 +287,9 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             //Get vocab records
-            SQLiteAsyncConnection currentConnection = GetConnectionFromPath(PreferedDatabasePath);
+            SQLiteAsyncConnection vocabConnection = GetConnectionFromPath(databasePath);
 
-            List<Vocabularies> vocabs = await currentConnection.QueryAsync<Vocabularies>(finalQuery);
+            List<Vocabularies> vocabs = await vocabConnection.QueryAsync<Vocabularies>(finalQuery);
 
             //Add empty record for user to remove any selected values
             Vocabularies emptyNull = new Vocabularies();
@@ -292,6 +297,8 @@ namespace GSCFieldApp.Services.DatabaseServices
             emptyNull.Description = " ";
 
             vocabs.Insert(0, emptyNull);
+
+            await vocabConnection.CloseAsync();
 
             return vocabs;
         }
