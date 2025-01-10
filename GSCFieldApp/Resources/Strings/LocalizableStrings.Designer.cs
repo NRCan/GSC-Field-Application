@@ -2896,6 +2896,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        internal static string PicklistPageImport {
+            get {
+                return ResourceManager.GetString("PicklistPageImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something went wrong while trying to load. Verify your datasets..
+        /// </summary>
+        internal static string PicklistPageImportError {
+            get {
+                return ResourceManager.GetString("PicklistPageImportError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to import picklist from another geopackage..
         /// </summary>
         internal static string PicklistPageImportTooltip {
@@ -3864,6 +3882,15 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string ToastFieldBookBackupFailed {
             get {
                 return ResourceManager.GetString("ToastFieldBookBackupFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import completed successfully..
+        /// </summary>
+        internal static string ToastImportRecord {
+            get {
+                return ResourceManager.GetString("ToastImportRecord", resourceCulture);
             }
         }
         

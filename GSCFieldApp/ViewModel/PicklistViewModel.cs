@@ -16,6 +16,7 @@ using CommunityToolkit.Maui.Alerts;
 using System.IO;
 using System.Collections.ObjectModel;
 using NetTopologySuite.Index.HPRtree;
+using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -235,8 +236,28 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async void Import()
         {
+            //Make user select a geopackage to load picklist from
+            FileResult geopackageLoadFrom = await PickVocabGeopackage();
 
+            if (geopackageLoadFrom != null)
+            {
+                bool merged = await da.DoMergeVocab(geopackageLoadFrom.FullPath, da.DatabaseFilePath, true);
 
+                if (merged)
+                {
+                    //Clean UI
+                    ResetPage();
+
+                    await Toast.Make(LocalizationResourceManager["ToastImportRecord"].ToString()).Show(CancellationToken.None);
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                        LocalizationResourceManager["PicklistPageImportError"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                }
+            }
+            
         }
 
         [RelayCommand]
@@ -595,6 +616,78 @@ namespace GSCFieldApp.ViewModel
             return doesHaveParents;
         }
 
+
+        /// <summary>
+        /// Will show a file picker to user to chose a geopackage to load
+        /// picklist from into the app
+        /// </summary>
+        /// <returns></returns>
+        public async Task<FileResult> PickVocabGeopackage()
+        {
+
+            try
+            {
+                // NOTE: for Android application/mbtiles doesn't work
+                // we need to get all and filter out only mbtile selected files.
+
+                FilePickerFileType customFileType = new FilePickerFileType(
+                    new Dictionary<DevicePlatform, IEnumerable<string>>
+                    {
+                        {DevicePlatform.WinUI, new [] { DatabaseLiterals.LayerTypeGPKG} },
+                        {DevicePlatform.Android, new [] { "application/*"} },
+                        {DevicePlatform.iOS, new [] { DatabaseLiterals.LayerTypeGPKG } },
+                    });
+
+                PickOptions options = new PickOptions();
+                options.PickerTitle = LocalizationResourceManager["PicklistPageImport"].ToString();
+                options.FileTypes = customFileType;
+
+                var result = await FilePicker.Default.PickAsync(options);
+                if (result != null)
+                {
+                    if (result.FileName.Contains(DatabaseLiterals.LayerTypeGPKG))
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+
+
+            }
+            catch (System.Exception ex)
+            {
+                new ErrorToLogFile(ex).WriteToFile();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Will clean the page by removing all list and selected values
+        /// </summary>
+        public void ResetPage()
+        {
+            _picklistTables.cboxDefaultItemIndex = -1;
+            OnPropertyChanged(nameof(PicklistTables));
+
+            _picklistFields.cboxItems.Clear();
+            _picklistFields.cboxDefaultItemIndex = -1;
+            OnPropertyChanged(nameof(PicklistFields));
+
+            _picklistParents.cboxItems.Clear();
+            _picklistParents.cboxDefaultItemIndex = -1;
+            OnPropertyChanged(nameof(PicklistParents));
+
+            _picklistValues.Clear();
+            OnPropertyChanged(nameof(PicklistValues));
+        }
         #endregion
 
     }

@@ -569,106 +569,10 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         }
 
-        #endregion
-
-        #region GET METHODS (usually needs a connection object)
-        /// <summary>
-        /// Will return a table mapping object create from a type object that represent the table to map.
-        /// </summary>
-        /// <param name="tableName">The table type object from boxing a class into a type</param>
-        /// <param name="dbConnect">An existing database connection</param>
-        /// <returns>Will return an empty list if table name wasn't found in database.</returns>
-        private static async Task<TableMapping> GetATableObjectAsync(Type tableType, SQLiteAsyncConnection dbConnect)
-        {
-            //Will return a TableMapping object created from the given type. Type, deriving from the model class, should be true, else 
-            //things might fail.
-            return await dbConnect.GetMappingAsync(tableType);
-        }
-
-        /// <summary>
-        /// Will return the number of records of a table
-        /// </summary>
-        /// <param name="inTabelType"></param>
-        /// <returns></returns>
-        public async Task<int> GetTableCount(Type inTableType)
-        {
-            //Variables
-            int tableCount = 0;
-
-            //Get query result
-            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
-            TableMapping tableMapping = await GetATableObjectAsync(inTableType, dbConnect);
-
-            List<int> tableRows = await dbConnect.QueryScalarsAsync<int>("SELECT * FROM " + tableMapping.TableName);
-
-            if (tableRows.Count() > 0)
-            {
-                tableCount = tableRows.Count();
-            }
-            
-
-            await dbConnect.CloseAsync();
-            
-            return tableCount;
-
-        }
-
-        /// <summary>
-        /// Will return a related structure record as an object
-        /// </summary>
-        /// <param name="StrucId"></param>
-        /// <returns></returns>
-        public async Task<Structure> GetRelatedStructure(int? StrucId)
-        {
-            Structure relatedStructure = new Structure();
-            if (StrucId != null)
-            {
-                SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
-                List<Structure> relatedStructures = await dbConnect.Table<Structure>().Where(struc => struc.StructureID == StrucId).ToListAsync();
-
-                if (relatedStructures != null  && relatedStructures.Count > 0)
-                {
-                    relatedStructure = relatedStructures[0];
-                }
-
-                await dbConnect.CloseAsync();
-                
-            }
-
-            return relatedStructure;
-        }
-
-        /// <summary>
-        /// Will get a read from F_METADATA.VERSIONSCHEMA and will return value in double
-        /// </summary>
-        /// <returns></returns>
-        public async Task<double> GetDBVersion()
-        {
-            double schemaVersion = 0.0;
-
-            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
-            List<Metadata> mets = await dbConnect.Table<Metadata>().ToListAsync();
-            await dbConnect.CloseAsync();
-
-            if (mets != null && mets.Count() > 0)
-            {
-                //Default to first one 
-
-                //Parse result
-                if (mets[0].VersionSchema != null)
-                {
-                    Double.TryParse(mets[0].VersionSchema.ToString(), out schemaVersion);
-                }
-
-            }
-
-            return schemaVersion;
-        }
-
         /// <summary>
         /// Will take an input database and will upgrade output database vocab tables (dictionaries) with latest coming from an input version
         /// </summary>
-        public async Task<bool> GetLatestVocab(string vocabFromDBPath, SQLiteAsyncConnection vocabToDBConnection, double fromDBVersion, bool closeConnection = true)
+        public async Task<bool> PushLatestVocab(string vocabFromDBPath, SQLiteAsyncConnection vocabToDBConnection, double fromDBVersion, bool closeConnection = true)
         {
             //Output
             bool completedWithoutErrors = false;
@@ -799,6 +703,200 @@ namespace GSCFieldApp.Services.DatabaseServices
             }
 
             return completedWithoutErrors;
+        }
+
+        /// <summary>
+        /// Will take an input database and will update matchin records and insert missing ones
+        /// </summary>
+        public async Task<bool> DoMergeVocab(string vocabFromDBPath, string vocabToDBPath, bool closeConnection = true)
+        {
+            //Output
+            bool completedWithoutErrors = false;
+            List<Exception> exceptionList = new List<Exception>();
+
+            //Build attach db query
+            string attachQuery = "ATTACH '" + vocabFromDBPath + "' AS db2;";
+
+            //Build insert queries
+            //insert into M_DICTIONARY select * from db2.M_DICTIONARY where db2.M_DICTIONARY.TERMID not in (select TERMID from M_DICTIONARY)
+            string insertQuery = "INSERT INTO " + TableDictionaryManager + 
+                " SELECT * FROM db2." + TableDictionaryManager + " WHERE db2." + TableDictionaryManager + "." + FieldDictionaryManagerLinkID +
+                " NOT IN (SELECT " + FieldDictionaryManagerLinkID + " FROM " + TableDictionaryManager + "); ";
+            string insertQuery2 = "INSERT INTO " + TableDictionary + 
+                " SELECT * FROM db2." + TableDictionary + " WHERE db2." + TableDictionary + "." + FieldDictionaryTermID +
+                " NOT IN (SELECT " + FieldDictionaryTermID + " FROM " + TableDictionary + "); ";
+
+            //Build update queries
+            //update M_DICTIONARY set DESCRIPTIONEN = db2.DESCRIPTIONEN,
+            //    DESCRIPTIONFR = db2.DESCRIPTIONFR,
+            //    ITEMORDER = db2.ITEMORDER,
+            //    DEFAULTVALUE = db2.DEFAULTVALUE,
+            //    EDITOR = db2.EDITOR,
+            //    EDITDATE = db2.EDITDATE,
+            //    VISIBLE = db2.VISIBLE
+            //    FROM(select * from db2.M_DICTIONARY) as db2
+            //    where db2.TERMID = M_DICTIONARY.TERMID
+            string updateQuery = "UPDATE " + TableDictionary + " SET " +
+                FieldDictionaryDescription + " = db2." + FieldDictionaryDescription + ", " +
+                FieldDictionaryOrder + " = db2." + FieldDictionaryOrder + ", " +
+                FieldDictionaryDefault + " = db2." + FieldDictionaryDefault + ", " +
+                FieldDictionaryEditor + " = db2." + FieldDictionaryEditor + ", " +
+                FieldDictionaryEditorDate + " = db2." + FieldDictionaryEditorDate + ", " +
+                FieldDictionaryRemarks + " = db2." + FieldDictionaryRemarks + ", " +
+                FieldDictionaryVisible + " = db2." + FieldDictionaryVisible + " FROM (SELECT * FROM db2. " +
+                TableDictionary + ") as db2 WHERE db2." +
+                FieldDictionaryTermID + " = " + TableDictionary + "." + FieldDictionaryTermID + ";";
+
+            //Build detach query
+            string detachQuery = "DETACH DATABASE db2;";
+
+            //Build vacuum query
+            string vacuumQuery = "VACUUM";
+
+            //Build final query
+            List<string> queryList = new List<string>() { updateQuery, insertQuery, insertQuery2, detachQuery, vacuumQuery };
+
+            SQLiteAsyncConnection vocabToDBConnection = new SQLiteAsyncConnection(vocabToDBPath);
+            await vocabToDBConnection.ExecuteAsync(attachQuery);
+
+            //Update working database
+            foreach (string q in queryList)
+            {
+                try
+                {
+                    await vocabToDBConnection.ExecuteAsync(q);
+                }
+                catch (Exception e)
+                {
+                    exceptionList.Add(e);
+                }
+
+            }
+
+            await vocabToDBConnection.CloseAsync();
+
+            //Process exceptions
+            if (exceptionList.Count > 0)
+            {
+                string wholeStack = string.Empty;
+
+                foreach (Exception es in exceptionList)
+                {
+                    wholeStack = wholeStack + "; " + es.Message + "; " + es.StackTrace;
+                }
+
+                foreach (string q in queryList)
+                {
+                    wholeStack = wholeStack + "\n " + q;
+                }
+
+                //Log
+                new ErrorToLogFile(wholeStack + "\n DB:" + vocabFromDBPath).WriteToFile();
+
+            }
+            else
+            {
+                completedWithoutErrors = true;
+            }
+
+            return completedWithoutErrors;
+
+        }
+
+        #endregion
+
+        #region GET METHODS (usually needs a connection object)
+        /// <summary>
+        /// Will return a table mapping object create from a type object that represent the table to map.
+        /// </summary>
+        /// <param name="tableName">The table type object from boxing a class into a type</param>
+        /// <param name="dbConnect">An existing database connection</param>
+        /// <returns>Will return an empty list if table name wasn't found in database.</returns>
+        private static async Task<TableMapping> GetATableObjectAsync(Type tableType, SQLiteAsyncConnection dbConnect)
+        {
+            //Will return a TableMapping object created from the given type. Type, deriving from the model class, should be true, else 
+            //things might fail.
+            return await dbConnect.GetMappingAsync(tableType);
+        }
+
+        /// <summary>
+        /// Will return the number of records of a table
+        /// </summary>
+        /// <param name="inTabelType"></param>
+        /// <returns></returns>
+        public async Task<int> GetTableCount(Type inTableType)
+        {
+            //Variables
+            int tableCount = 0;
+
+            //Get query result
+            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
+            TableMapping tableMapping = await GetATableObjectAsync(inTableType, dbConnect);
+
+            List<int> tableRows = await dbConnect.QueryScalarsAsync<int>("SELECT * FROM " + tableMapping.TableName);
+
+            if (tableRows.Count() > 0)
+            {
+                tableCount = tableRows.Count();
+            }
+            
+
+            await dbConnect.CloseAsync();
+            
+            return tableCount;
+
+        }
+
+        /// <summary>
+        /// Will return a related structure record as an object
+        /// </summary>
+        /// <param name="StrucId"></param>
+        /// <returns></returns>
+        public async Task<Structure> GetRelatedStructure(int? StrucId)
+        {
+            Structure relatedStructure = new Structure();
+            if (StrucId != null)
+            {
+                SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
+                List<Structure> relatedStructures = await dbConnect.Table<Structure>().Where(struc => struc.StructureID == StrucId).ToListAsync();
+
+                if (relatedStructures != null  && relatedStructures.Count > 0)
+                {
+                    relatedStructure = relatedStructures[0];
+                }
+
+                await dbConnect.CloseAsync();
+                
+            }
+
+            return relatedStructure;
+        }
+
+        /// <summary>
+        /// Will get a read from F_METADATA.VERSIONSCHEMA and will return value in double
+        /// </summary>
+        /// <returns></returns>
+        public async Task<double> GetDBVersion()
+        {
+            double schemaVersion = 0.0;
+
+            SQLiteAsyncConnection dbConnect = GetConnectionFromPath(PreferedDatabasePath);
+            List<Metadata> mets = await dbConnect.Table<Metadata>().ToListAsync();
+            await dbConnect.CloseAsync();
+
+            if (mets != null && mets.Count() > 0)
+            {
+                //Default to first one 
+
+                //Parse result
+                if (mets[0].VersionSchema != null)
+                {
+                    Double.TryParse(mets[0].VersionSchema.ToString(), out schemaVersion);
+                }
+
+            }
+
+            return schemaVersion;
         }
 
         #endregion

@@ -538,7 +538,7 @@ namespace GSCFieldApp.ViewModel
                     SQLiteAsyncConnection upgradeDBConnection = da.GetConnectionFromPath(legacyDBTo);
 
                     //Keep user vocab dictionaries
-                    bool upgradeVocabWorked = await da.GetLatestVocab(legacyDBFrom, upgradeDBConnection, _dbVersion, true);
+                    bool upgradeVocabWorked = await da.PushLatestVocab(legacyDBFrom, upgradeDBConnection, _dbVersion, true);
 
                     //Upgrade other tables
                     bool upgradeTableWorked = await UpgradeTables(legacyDBFrom, upgradeDBConnection, _dbVersion, _dbNextVersion, true);

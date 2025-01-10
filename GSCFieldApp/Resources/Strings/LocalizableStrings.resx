@@ -1401,4 +1401,13 @@
   <data name="PicklistPageImportTooltip" xml:space="preserve">
     <value>Tap to import picklist from another geopackage.</value>
   </data>
+  <data name="PicklistPageImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="ToastImportRecord" xml:space="preserve">
+    <value>Import completed successfully.</value>
+  </data>
+  <data name="PicklistPageImportError" xml:space="preserve">
+    <value>Something went wrong while trying to load. Verify your datasets.</value>
+  </data>
 </root>

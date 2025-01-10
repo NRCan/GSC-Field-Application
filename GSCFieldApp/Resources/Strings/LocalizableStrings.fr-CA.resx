@@ -1402,4 +1402,13 @@ Aimeriez-vous modifier les droits?</value>
   <data name="PicklistPageImportTooltip" xml:space="preserve">
     <value>Importer les termes d'un autre geopackage.</value>
   </data>
+  <data name="PicklistPageImport" xml:space="preserve">
+    <value>Importer </value>
+  </data>
+  <data name="ToastImportRecord" xml:space="preserve">
+    <value>L'importation a été complété avec succès.</value>
+  </data>
+  <data name="PicklistPageImportError" xml:space="preserve">
+    <value>Une erreur est survenue, veuillez vérifier vos données.</value>
+  </data>
 </root>
