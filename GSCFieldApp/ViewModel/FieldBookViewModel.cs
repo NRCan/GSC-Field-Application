@@ -108,8 +108,7 @@ namespace GSCFieldApp.ViewModel
                     await da.CreateDatabaseFromResource(da.DatabaseFilePath);
 
                     //Import user vocab from legacy one to newest one
-                    SQLiteAsyncConnection newConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
-                    validates = await da.PushLatestVocab(fieldWorkRename, newConnection, currentVersion[0], true);
+                    validates = await da.DoMergeVocab(fieldWorkRename, da.DatabaseFilePath, true);
 
                     //Clean
                     if (File.Exists(fieldWorkRename))
