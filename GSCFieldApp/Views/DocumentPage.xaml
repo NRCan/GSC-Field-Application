@@ -202,11 +202,14 @@
                                               FrameColor="{StaticResource FieldPhotoColor}" FrameContentVisibility="{Binding DocumentInternalCamVisibility, Mode=TwoWay}"
                                               FrameTitle="{local:Localize DocumentPageEmbededTitle}">
                         <Image x:Name="DocumentPageEmbededImage" MaximumHeightRequest="300" MaximumWidthRequest="300" 
-                               IsVisible="{Binding Model.PhotoFileExists, Mode=TwoWay}"
+                               IsVisible="{Binding Model.PhotoFileExists, Mode=TwoWay}" 
                                Source="{Binding Model.Hyperlink, TargetNullValue={x:Null}, Mode=TwoWay}">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ImageTappedCommand}" NumberOfTapsRequired="2"/>
                             </Image.GestureRecognizers>
+                            <!--<Image.Source>
+                                <UriImageSource Uri="{Binding Model.Hyperlink, TargetNullValue={x:Null}, Mode=TwoWay, Converter={StaticResource image2URI}}"/>
+                            </Image.Source>-->
                         </Image>
                     </controls:ExpandableFrame>
 
