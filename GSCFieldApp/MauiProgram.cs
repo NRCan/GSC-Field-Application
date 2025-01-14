@@ -4,6 +4,11 @@ using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using Microsoft.Maui.LifecycleEvents;
+
+#if WINDOWS
+using WinUIEx;
+#endif
 
 namespace GSCFieldApp;
 
@@ -26,9 +31,27 @@ public static class MauiProgram
                 fonts.AddFont("MaterialDesignIconsDesktop.ttf", "MatDesign");
             });
 
+#if WINDOWS
+            builder.ConfigureLifecycleEvents(events =>
+            {
+                events.AddWindows(wndLifeCycleBuilder =>
+                {
+                    wndLifeCycleBuilder.OnWindowCreated(window =>
+                    {
+                        window.CenterOnScreen(1024,768); //Set size and center on screen using WinUIEx extension method
+
+                        var manager = WinUIEx.WindowManager.Get(window);
+                        manager.PersistenceId = "MainWindowPersistanceId"; // Remember window position and size across runs
+                        manager.MinWidth = 640;
+                        manager.MinHeight = 480;
+                    });
+                });
+            });
+#endif
+
         // Need to add these to actually create them on start
         //Singleton will be created once
-		builder.Services.AddSingleton<SettingsPage>();
+        builder.Services.AddSingleton<SettingsPage>();
 		builder.Services.AddSingleton<SettingsViewModel>();
 
 		builder.Services.AddSingleton<FieldBooksPage>();

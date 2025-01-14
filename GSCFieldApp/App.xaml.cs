@@ -1,5 +1,8 @@
 ﻿using GSCFieldApp.Services;
 
+#if WINDOWS
+using WinUIEx;
+#endif
 namespace GSCFieldApp;
 
 public partial class App : Application
@@ -7,13 +10,34 @@ public partial class App : Application
     public LocalizationResourceManager LocalizationResourceManager 
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
+
+    //NOTE: Only working method to have a splash screen on windows for winui3 2025-01-13
+    // https://dotmorten.github.io/WinUIEx/concepts/Splashscreen.html
+    //Still not fixe after 4 years by MS https://github.com/microsoft/microsoft-ui-xaml/issues/4055
+#if WINDOWS
+
+
+    private SimpleSplashScreen fss { get; set; }
+
+#endif
+
     public App()
 	{
-		InitializeComponent();
+#if WINDOWS
+
+        fss = SimpleSplashScreen.ShowDefaultSplashScreen();
+
+#endif
+        InitializeComponent();
 
 		MainPage = new AppShell();
 
-        //MainPage.Loaded += MainPage_Loaded;
+#if WINDOWS
+
+        MainPage.Loaded += MainPage_Loaded;
+
+#endif
+
 
     }
 
@@ -24,7 +48,15 @@ public partial class App : Application
     /// <param name="e"></param>
     private async void MainPage_Loaded(object sender, EventArgs e)
     {
-        await CheckAndRequestLocationPermission();
+        //await CheckAndRequestLocationPermission();
+
+#if WINDOWS
+
+        fss?.Hide();
+        fss = null;
+
+#endif
+
     }
 
     /// <summary>
