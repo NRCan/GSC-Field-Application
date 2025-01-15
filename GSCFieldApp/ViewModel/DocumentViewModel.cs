@@ -272,10 +272,11 @@ namespace GSCFieldApp.ViewModel
                 }
 
                 FileResult snapshot = await MediaPicker.Default.CapturePhotoAsync();
-                snapshot.FileName = _model.DocumentName + documentTableFileSuffix;
-
+               
                 if (snapshot != null)
                 {
+                    snapshot.FileName = _model.DocumentName + documentTableFileSuffix;
+
                     //Name sub folder just like the database and the json for layers
                     AppFileServices afs = new AppFileServices();
                     string subFolderPath = afs.CreatePhotoSubFolder();
@@ -304,13 +305,20 @@ namespace GSCFieldApp.ViewModel
                     using FileStream fileStream = File.OpenWrite(localFilePath);
                     await sourceStream.CopyToAsync(fileStream);
 
-                    sourceStream.Close();
-                    fileStream.Close();
-
                     //Keep in model
                     _model.Hyperlink = localFilePath;
                     _model.FileName = snapshot.FileName;
-                    OnPropertyChanged(nameof(Model));
+                    try
+                    {
+                        OnPropertyChanged(nameof(Model));
+                    }
+                    catch (Exception e)
+                    {
+                        new ErrorToLogFile(e).WriteToFile();
+                    }
+
+                    sourceStream.Close();
+                    fileStream.Close();
 
                     //Save current record
                     await SaveAsNewSnapshot();
@@ -440,6 +448,20 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(FileNumberTo));
             }
 
+            //Init file number to last found in database (not necessarily the highest value)
+            Document lastDocument = await GetLastDocument();
+            if (lastDocument != null)
+            {
+                Model.DocumentType = lastDocument.DocumentType;
+                Model.FileNumber = lastDocument.FileNumber + 1;
+                _fileNumberTo = Model.FileNumber;
+                Model.FileName = CalculateFileName();
+
+                OnPropertyChanged(nameof(Model));
+                OnPropertyChanged(nameof(FileNumberTo));
+
+            }
+
         }
 
         /// <summary>
@@ -525,12 +547,10 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         public string CalculateFileName()
         {
-            //make sure to now process embedded picture (they have an hyperlink value)
+            //make sure to not process embedded picture (they have an hyperlink value)
             if (_model != null 
                 && _model.DocumentType != null 
-                && _model.DocumentType != documentTableFileSuffix 
-                && _model.Hyperlink == string.Empty
-                && !File.Exists(_model.Hyperlink))
+                && _model.Hyperlink == null)
             {
                 _model.FileName = string.Empty;
                 string _noOlympusFileNumber = string.Empty;
@@ -757,6 +777,30 @@ namespace GSCFieldApp.ViewModel
             if (_model != null && _model.Hyperlink != string.Empty && File.Exists(_model.Hyperlink))
             {
                 File.Delete(_model.Hyperlink);
+            }
+
+        }
+
+        /// <summary>
+        /// Will return the last taken document object
+        /// which is incremential
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Document> GetLastDocument()
+        {
+            SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
+            Document previousRecord = await currentConnection.Table<Document>()
+                .OrderByDescending(d => d.DocumentName)
+                .FirstAsync();
+
+            //Get caption
+            if (previousRecord != null)
+            {
+                return previousRecord;
+            }
+            else
+            {
+                return null;
             }
 
         }
