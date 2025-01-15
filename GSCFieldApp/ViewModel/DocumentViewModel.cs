@@ -163,6 +163,11 @@ namespace GSCFieldApp.ViewModel
             {
                 await da.SaveItemAsync(Model, true);
             }
+            else if (_model.DocumentID == 0 && _model.FileNumber == _fileNumberTo)
+            {
+                await da.SaveItemAsync(Model, false);
+
+            }
             else
             {
                 //Insert new records as batch if needed
@@ -308,6 +313,9 @@ namespace GSCFieldApp.ViewModel
                     //Keep in model
                     _model.Hyperlink = localFilePath;
                     _model.FileName = snapshot.FileName;
+                    _model.FileNumber = 0;
+                    _fileNumberTo = 0;
+
                     try
                     {
                         OnPropertyChanged(nameof(Model));
@@ -785,13 +793,21 @@ namespace GSCFieldApp.ViewModel
         /// Will return the last taken document object
         /// which is incremential
         /// </summary>
+        /// <param name="includingSnapshot">Last document will include or exclude snapshot photos with embeded device</param>
         /// <returns></returns>
-        public async Task<Document> GetLastDocument()
+        public async Task<Document> GetLastDocument(bool includingSnapshot = false)
         {
             SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
             Document previousRecord = await currentConnection.Table<Document>()
+                .OrderByDescending(d => d.FileNumber)
+                .FirstAsync();
+
+            if (includingSnapshot)
+            {
+                previousRecord = await currentConnection.Table<Document>()
                 .OrderByDescending(d => d.DocumentName)
                 .FirstAsync();
+            }
 
             //Get caption
             if (previousRecord != null)
