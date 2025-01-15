@@ -206,8 +206,21 @@ public partial class MapPage : ContentPage
     /// <param name="layer"></param>
     private void Layers_LayerAdded(ILayer layer)
     {
-        //Make sure to disable the waiting cursor
-        this.WaitingCursor.IsRunning = false;
+        if (layer != null)
+        {
+            try
+            {
+                //Make sure to disable the waiting cursor
+                this.WaitingCursor.IsRunning = false;
+            }
+            catch (System.Exception e)
+            {
+                //Might crash because of thread
+                new ErrorToLogFile(e).WriteToFile();
+            }
+
+        }
+
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
