@@ -227,5 +227,11 @@ namespace GSCFieldApp.Models
             }
             set { }
         }
+
+        /// <summary>
+        /// Will be used to trigger a cascade delete coming from location record
+        /// </summary>
+        [Ignore]
+        public bool IsMapPageQuick { get; set; } = false;
     }
 }

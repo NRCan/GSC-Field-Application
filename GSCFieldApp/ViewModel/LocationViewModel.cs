@@ -74,9 +74,24 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         public async Task Back()
         {
+            //Make sure to delete station and location records if user is coming from map page
+            if (_model != null && _model.IsMapPageQuick)
+            {
+                //Delete without forced pop-up warning and question
+                await commandServ.DeleteDatabaseItemCommand(TableNames.location, _model.LocationAlias, _model.LocationID, true);
+            }
 
-            //Exit
-            await Shell.Current.GoToAsync($"//{nameof(FieldNotesPage)}");
+            if (_model.IsMapPageQuick)
+            {
+                //Exit on map
+                await Shell.Current.GoToAsync($"//{nameof(MapPage)}/");
+
+            }
+            else
+            {
+                //Exit in field notes
+                await NavigateToFieldNotes(TableNames.location);
+            }
 
         }
 

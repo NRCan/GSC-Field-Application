@@ -369,6 +369,7 @@ namespace GSCFieldApp.ViewModel
 
                 locationModel.LocationDatum = Dictionaries.DatabaseLiterals.KeywordEPSGDefault.ToString();
                 locationModel.LocationTimestamp = idCalc.FormatFullDate(DateTime.Now);
+
                 //Foreign key
                 if (metadataModel.MetaID > 0)
                 {
@@ -407,6 +408,9 @@ namespace GSCFieldApp.ViewModel
                     metadataModel.IsActive = 1;
                     await dataAccess.SaveItemAsync(metadataModel, true);
                 }
+
+                //Mapping setting
+                locationModel.IsMapPageQuick = true;
 
                 //Save
                 locationModel = await dataAccess.SaveItemAsync(locationModel, false) as FieldLocation;
