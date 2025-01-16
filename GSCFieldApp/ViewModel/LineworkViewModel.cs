@@ -231,9 +231,6 @@ namespace GSCFieldApp.ViewModel
 
             }
 
-            //Enforce color choice based on default linetype
-            SelectColorBasedOnLineType();
-
         }
 
         /// <summary>
