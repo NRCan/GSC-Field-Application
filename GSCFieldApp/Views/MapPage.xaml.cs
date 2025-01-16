@@ -2376,10 +2376,10 @@ public partial class MapPage : ContentPage
                 {
                     this.WaitingCursor.IsRunning = false;
                 }
-                else
-                {
-                    this.WaitingCursor.IsRunning = true;
-                }
+                //else
+                //{
+                //    this.WaitingCursor.IsRunning = true;
+                //}
             }
 
             
