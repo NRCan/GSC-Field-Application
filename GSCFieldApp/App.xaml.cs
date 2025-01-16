@@ -1,8 +1,9 @@
 ﻿using GSCFieldApp.Services;
-
-#if WINDOWS
+#if WINDOWS10_0_19041_0_OR_GREATER
 using WinUIEx;
 #endif
+
+
 namespace GSCFieldApp;
 
 public partial class App : Application
@@ -16,13 +17,13 @@ public partial class App : Application
     //Still not fixe after 4 years by MS https://github.com/microsoft/microsoft-ui-xaml/issues/4055
 #if WINDOWS
 
-
     private SimpleSplashScreen fss { get; set; }
 
 #endif
 
     public App()
 	{
+
 #if WINDOWS
 
         fss = SimpleSplashScreen.ShowDefaultSplashScreen();

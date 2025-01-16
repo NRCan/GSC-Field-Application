@@ -4,9 +4,10 @@ using GSCFieldApp.ViewModel;
 using GSCFieldApp.Views;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
-using Microsoft.Maui.LifecycleEvents;
 
-#if WINDOWS
+
+#if WINDOWS10_0_19041_0_OR_GREATER
+using Microsoft.Maui.LifecycleEvents;
 using WinUIEx;
 #endif
 
