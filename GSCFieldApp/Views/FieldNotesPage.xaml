@@ -26,7 +26,7 @@
                 <VerticalStackLayout Margin="7" >
                     <VerticalStackLayout.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:FieldNotesViewModel}}, Path=TapGestureRecognizerCommand}"
-                                          CommandParameter="{Binding .}" NumberOfTapsRequired="2"/>
+                                          CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
                     </VerticalStackLayout.GestureRecognizers>
                     <Label HorizontalTextAlignment="Center"
                             Text="{Binding Display_text_1}" TextColor="{Binding isValid,  Converter={StaticResource colorFromBool}, ConverterParameter='isValid', Mode=OneWay}" 
