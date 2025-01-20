@@ -247,28 +247,38 @@ namespace GSCFieldApp.Services
             {
                 //Get proper database name to fit standard naming template
                 SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(result.FullPath);
-                List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
-                await currentConnection.CloseAsync();
-
-                if (metadataTableRows != null && metadataTableRows.Count() == 1)
+                try
                 {
-                    copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+                    List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
+                    await currentConnection.CloseAsync();
 
-                    //Legacy extension
-                    if (result.FileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                    if (metadataTableRows != null && metadataTableRows.Count() == 1)
                     {
-                        copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
-                    }
+                        copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
 
-                    //Copy to local state
-                    using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
-                    using (Stream incomingFieldBookStream = System.IO.File.OpenRead(result.FullPath))
-                        await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
+                        //Legacy extension
+                        if (result.FileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                        {
+                            copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
+                        }
+
+                        //Copy to local state
+                        using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
+                        using (Stream incomingFieldBookStream = System.IO.File.OpenRead(result.FullPath))
+                            await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
+                    }
+                    else
+                    {
+                        //Show error
+                        await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
+                            LocalizationResourceManager["FieldBooksUploadContentInvalid"].ToString(),
+                            LocalizationResourceManager["GenericButtonOk"].ToString());
+                    }
                 }
-                else
+                catch (Exception e)
                 {
                     //Show error
-                    new ErrorToLogFile(LocalizationResourceManager["FieldBooksUploadContentInvalid"].ToString()).WriteToFile();
+                    new ErrorToLogFile(e).WriteToFile();
                     await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
                         LocalizationResourceManager["FieldBooksUploadContentInvalid"].ToString(),
                         LocalizationResourceManager["GenericButtonOk"].ToString());
