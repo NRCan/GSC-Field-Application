@@ -207,7 +207,6 @@
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="white" />
                             <Setter Property="BackgroundColor" Value="{StaticResource Gray200}" />
-                            <Setter Property="Scale" Value="0.8" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
