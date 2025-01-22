@@ -516,7 +516,7 @@ public partial class MapPage : ContentPage
             LocalizationResourceManager["GenericButtonOk"].ToString(),
             LocalizationResourceManager["GenericButtonCancel"].ToString());
 
-        if (wms_url != string.Empty)
+        if (wms_url != null && wms_url != string.Empty)
         {
 
             //Get a list of supported CRS before prompting to chose a layer

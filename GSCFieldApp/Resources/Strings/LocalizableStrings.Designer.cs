@@ -2320,7 +2320,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected service does not have any supported coordinate systems (3857)..
+        ///   Looks up a localized string similar to Selected service does not have any supported coordinate systems (3857) or link isn&apos;t working..
         /// </summary>
         internal static string MapPageAddWMSDialogCRSMessage {
             get {

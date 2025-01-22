@@ -1393,7 +1393,7 @@
     <value>Results</value>
   </data>
   <data name="MapPageAddWMSDialogCRSMessage" xml:space="preserve">
-    <value>Selected service does not have any supported coordinate systems (3857).</value>
+    <value>Selected service does not have any supported coordinate systems (3857) or link isn't working.</value>
   </data>
   <data name="ShellQuickPhotoBackupFileName" xml:space="preserve">
     <value>Backup</value>
