@@ -310,7 +310,9 @@
 		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" Update="Resources\AppIcon\appicon.svg" Color="#710B2C" BaseSize="300,300" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#710B2C" BaseSize="128,128">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiSplashScreen>
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
@@ -394,7 +396,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) != false ">
-		<PackageReference Include="WinUIEx" Version="2.5.0"/>
+		<PackageReference Include="WinUIEx" Version="2.5.0" />
 	</ItemGroup>
 		
 	<ItemGroup>
@@ -502,6 +504,21 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiFont Update="Resources\Fonts\STENCIL.TTF">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiFont>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Update="Resources\Images\logo.svg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiImage>
+	  <MauiImage Update="Resources\Images\logo_gray.svg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiImage>
 	</ItemGroup>
 	
 </Project>

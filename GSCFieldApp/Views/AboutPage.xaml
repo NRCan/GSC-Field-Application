@@ -18,7 +18,7 @@
             <!-- TODO Add nrcan logo, need it in svg...-->
             
             <!--Application info section-->
-            <Label Text="{local:Localize AboutPageAppInfoHeader}" Style="{StaticResource FieldAppSettingTitles}" />
+            <Label Text="{local:Localize AboutPageAppInfoHeader}" Style="{StaticResource FieldAppSettingTitles}"/>
             <Border Style="{StaticResource FieldAppSettingBorder}">
 
 
