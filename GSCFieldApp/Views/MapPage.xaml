@@ -152,7 +152,7 @@
 
             <!--Map Layer menu-->
             <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->
-            <Border x:Name="MapLayerFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
+            <Border x:Name="MapLayerFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray600}}"
                    Margin="0" PropertyChanged="MapLayerFrame_PropertyChanged"
                    HeightRequest="300" WidthRequest="350" IsVisible="False">
                 <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection" CanReorderItems="True"
@@ -167,7 +167,7 @@
             </Border>
 
             <!--Geopackage/WMS feature selection menu-->
-            <Border x:Name="MapAddGeopackageWMSFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="White"
+            <Border x:Name="MapAddGeopackageWMSFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray600}}"
                    Margin="0" PropertyChanged="MapAddGeopackageWMSFrame_PropertyChanged"
                    HeightRequest="400" WidthRequest="350" IsVisible="{Binding AddGeopackageWMSFrameVisibility, Mode=TwoWay}">
                 <Grid>
@@ -194,7 +194,7 @@
             </Border>
 
             <!--Map page get feature info result pop-up-->
-            <Border x:Name="MapInfoResultsFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+            <Border x:Name="MapInfoResultsFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray600}}"
                    Margin="0" HeightRequest="400" WidthRequest="350" IsVisible="False">
                 
                 <Grid>
