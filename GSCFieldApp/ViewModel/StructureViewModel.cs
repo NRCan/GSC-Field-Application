@@ -511,7 +511,7 @@ namespace GSCFieldApp.ViewModel
                 if (_structure != null)
                 {
 
-                    sts = await currentConnection.Table<Structure>().Where(i => (i.StructureEarthmatID == _structure.StructureEarthmatID)).ToListAsync();
+                    sts = await currentConnection.Table<Structure>().Where(i => (i.StructureEarthmatID == _structure.StructureEarthmatID && i.StructureID != _structure.StructureID)).ToListAsync();
 
                 }
                 else
