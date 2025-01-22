@@ -1410,4 +1410,7 @@
   <data name="PicklistPageImportError" xml:space="preserve">
     <value>Something went wrong while trying to load. Verify your datasets.</value>
   </data>
+  <data name="ShellQuickPhotoBackupEmpty" xml:space="preserve">
+    <value>There are no photos to backup.</value>
+  </data>
 </root>

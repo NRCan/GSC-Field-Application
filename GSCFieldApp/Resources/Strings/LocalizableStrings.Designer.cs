@@ -3409,6 +3409,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no photos to backup..
+        /// </summary>
+        internal static string ShellQuickPhotoBackupEmpty {
+            get {
+                return ResourceManager.GetString("ShellQuickPhotoBackupEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backup.
         /// </summary>
         internal static string ShellQuickPhotoBackupFileName {

@@ -43,8 +43,6 @@ public partial class AppShell : Shell
             AppFileServices fileServices = new AppFileServices();
             await fileServices.SaveBackupPhotos(CancellationToken.None);
 
-            //await DisplayAlert("Alert", "Not yet implemented", "OK");
-
         });
 
         #endregion

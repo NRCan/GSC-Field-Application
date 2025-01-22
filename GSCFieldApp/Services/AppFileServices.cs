@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SQLite;
 using GSCFieldApp.Models;
+using CommunityToolkit.Maui.Core.Primitives;
 
 namespace GSCFieldApp.Services
 {
@@ -337,56 +338,77 @@ namespace GSCFieldApp.Services
                 string userFolderName = Path.GetFileName(userFolderPath);
                 string userZipPath = Path.Combine(userFolder, LocalizationResourceManager["ShellQuickPhotoBackupFileName"].ToString() + "_" + userFolderName);
                 string userPhotoZipPath = userZipPath + ".zip";
+                bool validates = false;
 
-                //Clean first
-                if (File.Exists(userPhotoZipPath))
+                //Validate if there is any photo to backup
+                if (Directory.Exists(userFolderPath))
                 {
-                    File.Delete(userPhotoZipPath);
+                    if (Directory.GetFiles(userFolderPath).Count() > 0)
+                    {
+                        validates = true;
+                    }
                 }
 
-                //Zip needed files
-                using (FileStream zipToOpen = new FileStream(userPhotoZipPath, FileMode.Create))
-                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                if (validates)
                 {
-                    //Get a list of photos to zip
-                    foreach (var file in Directory.GetFiles(userFolderPath))
+                    //Clean first
+                    if (File.Exists(userPhotoZipPath))
                     {
+                        File.Delete(userPhotoZipPath);
+                    }
 
-                        var entryName = Path.GetFileName(file);
-                        var entry = archive.CreateEntry(entryName);
-                        entry.LastWriteTime = File.GetLastWriteTime(file);
-                        using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                        using (var stream = entry.Open())
+                    //Zip needed files
+                    using (FileStream zipToOpen = new FileStream(userPhotoZipPath, FileMode.Create))
+                    using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                    {
+                        //Get a list of photos to zip
+                        foreach (var file in Directory.GetFiles(userFolderPath))
                         {
-                            fs.CopyTo(stream);
-                            fs.Close();
+
+                            var entryName = Path.GetFileName(file);
+                            var entry = archive.CreateEntry(entryName);
+                            entry.LastWriteTime = File.GetLastWriteTime(file);
+                            using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            using (var stream = entry.Open())
+                            {
+                                fs.CopyTo(stream);
+                                fs.Close();
+                            }
+
                         }
 
                     }
 
-                }
+                    //Save a copy of zipped folder with a prompt
+                    using Stream localStream = System.IO.File.OpenRead(userPhotoZipPath);
+                    string zipFileName = Path.GetFileName(userPhotoZipPath);
+                    var fileSaverResult = await FileSaver.Default.SaveAsync(zipFileName, localStream, cancellationToken);
 
-                //Save a copy of zipped folder with a prompt
-                using Stream localStream = System.IO.File.OpenRead(userPhotoZipPath);
-                string zipFileName = Path.GetFileName(userPhotoZipPath);
-                var fileSaverResult = await FileSaver.Default.SaveAsync(zipFileName, localStream, cancellationToken);
+                    //Use Toast to show card in window interface or system like notification rather then modal alert popup.
+                    if (fileSaverResult.IsSuccessful)
+                    {
+                        string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
 
-                //Use Toast to show card in window interface or system like notification rather then modal alert popup.
-                if (fileSaverResult.IsSuccessful)
-                {
-                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
+                        await Toast.Make(toastText).Show(cancellationToken);
+                    }
+                    else
+                    {
+                        string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
+                        await Toast.Make(toastText).Show(cancellationToken);
+                    }
 
-                    await Toast.Make(toastText).Show(cancellationToken);
+                    //Clean up uncessary files and dir
+                    File.Delete(userPhotoZipPath);
+                    localStream.Close();
                 }
                 else
                 {
-                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
-                    await Toast.Make(toastText).Show(cancellationToken);
+                    await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBookBackupGeneric"].ToString(),
+                        LocalizationResourceManager["ShellQuickPhotoBackupEmpty"].ToString(),
+                        LocalizationResourceManager["GenericButtonOk"].ToString());
                 }
 
-                //Clean up uncessary files and dir
-                File.Delete(userPhotoZipPath);
-                localStream.Close();
+
             }
             catch (Exception e)
             {
