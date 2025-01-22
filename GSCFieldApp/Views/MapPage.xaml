@@ -141,10 +141,10 @@
 
             <!--Coordinates Bar-->
             <HorizontalStackLayout Grid.Row="2" x:Name="info" HorizontalOptions="CenterAndExpand">
-                <Label Text="{Binding sensorLocation.Latitude, Converter={StaticResource DD2DMS}, ConverterParameter='Latitude', Mode=OneWay}" Padding="0,0,10,0"/>
-                <Label Text="{Binding sensorLocation.Longitude, Converter={StaticResource DD2DMS}, ConverterParameter='Longitude', Mode=OneWay}" Padding="0,0,10,0"/>
-                <Label Text="{Binding sensorLocation.Altitude, Converter={StaticResource FormatElevation}, Mode=OneWay}" Padding="0,0,10,0"/>
-                <Label Text="{Binding sensorLocation.Accuracy, Converter={StaticResource FormatElevation}, Mode=OneWay}"/>
+                <Label Text="{Binding sensorLocation.Latitude, Converter={StaticResource DD2DMS}, ConverterParameter='Latitude', Mode=OneWay}" Padding="0,0,10,0" TextColor="Black"/>
+                <Label Text="{Binding sensorLocation.Longitude, Converter={StaticResource DD2DMS}, ConverterParameter='Longitude', Mode=OneWay}" Padding="0,0,10,0" TextColor="Black"/>
+                <Label Text="{Binding sensorLocation.Altitude, Converter={StaticResource FormatElevation}, Mode=OneWay}" Padding="0,0,10,0" TextColor="Black"/>
+                <Label Text="{Binding sensorLocation.Accuracy, Converter={StaticResource FormatElevation}, Mode=OneWay}" TextColor="Black"/>
             </HorizontalStackLayout>
 
             <!--Waiting indication-->
