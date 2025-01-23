@@ -140,7 +140,7 @@ namespace GSCFieldApp.Services
                         break;
                 }
  
-                await da.CloseConnectionAsync();
+                //await da.CloseConnectionAsync();
 
                 //Show final messag to user
                 if (!skipPreventionDialog)

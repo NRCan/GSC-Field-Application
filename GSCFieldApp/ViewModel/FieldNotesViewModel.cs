@@ -264,7 +264,7 @@ namespace GSCFieldApp.ViewModel
                 if (FieldNotes.ContainsKey(TableNames.station))
                 {
                     return _stations = FieldNotes[TableNames.station] ;
-                }
+                    }
                 else
                 {
                     return _stations = new ObservableCollection<FieldNote>();
@@ -611,7 +611,7 @@ namespace GSCFieldApp.ViewModel
                 if (inComingName.ToLower().Contains(KeywordDates))
                 {
                     //Force refresh of all
-                    await Task.Run(async () => await FillFieldNotesAsync());
+                    await FillFieldNotesAsync();
                 }
 
             }
@@ -891,25 +891,31 @@ namespace GSCFieldApp.ViewModel
         {
             if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
             {
-                _isWaiting = true;
-                OnPropertyChanged(nameof(IsWaiting));
+                MainThread.BeginInvokeOnMainThread(() => {
+                    _isWaiting = true;
+                    OnPropertyChanged(nameof(IsWaiting));
+                });
+
 
                 SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
 
-                await FillTraverseDates(currentConnection);
-                await FillStationNotes(currentConnection);
-                await FillEMNotes(currentConnection);
-                await FillSampleNotes(currentConnection);
-                await FillDocumentNotes(currentConnection);
-                await FillStructureNotes(currentConnection);
-                await FillPaleoflowNotes(currentConnection);
-                await FillFossilNotes(currentConnection);
-                await FillEnvironmentNotes(currentConnection);
-                await FillMineralNotes(currentConnection);
-                await FillMineralizationAlterationNotes(currentConnection);
-                await FillLocationNotes(currentConnection);
-                await FillDrillHoleNotes(currentConnection);
-                await FillLineworkNotes(currentConnection);
+                List<Task> tasks = new List<Task>();
+                tasks.Add(FillTraverseDates(currentConnection));
+                tasks.Add(FillStationNotes(currentConnection));
+                tasks.Add(FillEMNotes(currentConnection));
+                tasks.Add(FillSampleNotes(currentConnection));
+                tasks.Add(FillDocumentNotes(currentConnection));
+                tasks.Add(FillStructureNotes(currentConnection));
+                tasks.Add(FillPaleoflowNotes(currentConnection));
+                tasks.Add(FillFossilNotes(currentConnection));
+                tasks.Add(FillEnvironmentNotes(currentConnection));
+                tasks.Add(FillMineralNotes(currentConnection));
+                tasks.Add(FillMineralizationAlterationNotes(currentConnection));
+                tasks.Add(FillLocationNotes(currentConnection));
+                tasks.Add(FillDrillHoleNotes(currentConnection));
+                tasks.Add(FillLineworkNotes(currentConnection));
+
+                await Task.WhenAll(tasks).ConfigureAwait(false);
 
                 await currentConnection.CloseAsync();
 
@@ -926,8 +932,10 @@ namespace GSCFieldApp.ViewModel
                     await FilterRecordsOnDate(Dates.First());
                 }
 
-                _isWaiting = false;
-                OnPropertyChanged(nameof(IsWaiting));
+                MainThread.BeginInvokeOnMainThread(() => {
+                    _isWaiting = false;
+                    OnPropertyChanged(nameof(IsWaiting));
+                });
             }
 
         }
@@ -1010,12 +1018,13 @@ namespace GSCFieldApp.ViewModel
         /// <returns></returns>
         public async Task FillStationNotes(SQLiteAsyncConnection inConnection)
         {
+
             //Init a station group
             if (!FieldNotes.ContainsKey(TableNames.station))
             {
                 FieldNotes.Add(TableNames.station, new ObservableCollection<FieldNote>());
             }
-            else 
+            else
             {
                 //Clear whatever was in there first.
                 FieldNotes[TableNames.station].Clear();
@@ -1819,21 +1828,26 @@ namespace GSCFieldApp.ViewModel
         {
             //Detect if 
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-                
+            List<Task> tasks = new List<Task>();
+
             switch (tableToUpdate)
             {
                 case TableNames.meta:
                     //Special case, this will trigger a whole field note page refresh
                     //Best used when a delete cascade has been done and and child should be removed from page
-                    await Task.Run(async () => await FillFieldNotesAsync());
+                    await FillFieldNotesAsync();
                     break;
                 case TableNames.location:
                     await FillLocationNotes(currentConnection);
                     break;
                 case TableNames.station:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
+
+                    
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    
                     break;
+
                 case TableNames.earthmat:
                     await FillLocationNotes(currentConnection);
                     await FillStationNotes(currentConnection);
@@ -1898,6 +1912,7 @@ namespace GSCFieldApp.ViewModel
                     break;
             }
 
+            await Task.WhenAll(tasks).ConfigureAwait(false);
             await currentConnection.CloseAsync(); 
             
 
@@ -1936,7 +1951,7 @@ namespace GSCFieldApp.ViewModel
             if (hasChanged)
             {
                 //Reload all notes
-                await Task.Run(async () => await FillFieldNotesAsync());
+                await FillFieldNotesAsync();
             }
 
         }
