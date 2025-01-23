@@ -5,6 +5,7 @@
              xmlns:viemodel="clr-namespace:GSCFieldApp.ViewModel"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:models="clr-namespace:GSCFieldApp.Models"
+             x:Name="fieldNotes"
              x:DataType="viemodel:FieldNotesViewModel"
              xmlns:converters="clr-namespace:GSCFieldApp.Converters"
              Title="{local:Localize ShellFieldNotesTitle}"
@@ -21,7 +22,7 @@
         <!-- Tablet/Desktop Note Cards Templates -->
         <DataTemplate x:Key="FieldNoteCardTablet" x:DataType="models:FieldNote">
 
-            <Border Style="{StaticResource FieldAppBorder}" HeightRequest="75" WidthRequest="175">
+            <Border Style="{StaticResource FieldAppBorder}" HeightRequest="75" MinimumWidthRequest="175" MaximumWidthRequest="175">
 
                 <VerticalStackLayout Margin="7" >
                     <VerticalStackLayout.GestureRecognizers>
@@ -130,8 +131,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Stations, Mode=TwoWay}" >
                             <CollectionView.ItemsLayout>
-                                <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10"
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                             </CollectionView.ItemsLayout>
                         </CollectionView>
                         <ListView ItemsSource="{Binding Stations, Mode=TwoWay}" Style="{StaticResource FieldAppNotesMobileListView}"
@@ -151,8 +152,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding DrillHoles}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -174,8 +175,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding EarthMats, Mode=TwoWay}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -198,8 +199,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Samples}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -222,8 +223,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Structures}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -245,8 +246,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Paleoflows}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -270,8 +271,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Minerals}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -295,8 +296,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding MineralizationAlterations}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -320,8 +321,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Fossils}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -345,8 +346,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Environments}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -370,8 +371,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Documents}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -395,8 +396,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Locations}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 
@@ -420,8 +421,8 @@
                                         Style="{StaticResource FieldAppNotesTabletCollectionView}"
                                         ItemsSource="{Binding Lineworks}"  >
                                 <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Vertical" 
-                                    Span="{OnIdiom Desktop=7, Phone=2, Tablet=7}"/>
+                                    <GridItemsLayout Orientation="Vertical" HorizontalItemSpacing="10" VerticalItemSpacing="10"
+                                    Span="{Binding FieldNotesColumns, Source={Reference fieldNotes}}"/>
                                 </CollectionView.ItemsLayout>
                             </CollectionView>
 

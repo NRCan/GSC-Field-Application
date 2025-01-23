@@ -1835,80 +1835,81 @@ namespace GSCFieldApp.ViewModel
                 case TableNames.meta:
                     //Special case, this will trigger a whole field note page refresh
                     //Best used when a delete cascade has been done and and child should be removed from page
-                    await FillFieldNotesAsync();
+                    tasks.Add(FillFieldNotesAsync());
                     break;
                 case TableNames.location:
-                    await FillLocationNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
                     break;
                 case TableNames.station:
-
-                    
+ 
                     tasks.Add(FillLocationNotes(currentConnection));
                     tasks.Add(FillStationNotes(currentConnection));
                     
                     break;
 
                 case TableNames.earthmat:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillEMNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillEMNotes(currentConnection));
+
                     break;
                 case TableNames.sample:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillEMNotes(currentConnection);
-                    await FillSampleNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillEMNotes(currentConnection));
+                    tasks.Add(FillSampleNotes(currentConnection));
+
                     break;
                 case TableNames.mineralization:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillMineralizationAlterationNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillMineralizationAlterationNotes(currentConnection));
                     break;
                 case TableNames.mineral:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillEMNotes(currentConnection);
-                    await FillMineralizationAlterationNotes(currentConnection);
-                    await FillMineralNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillEMNotes(currentConnection));
+                    tasks.Add(FillMineralizationAlterationNotes(currentConnection));
+                    tasks.Add(FillMineralNotes(currentConnection));
                     break;
                 case TableNames.document:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillDocumentNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillDocumentNotes(currentConnection));
                     break;
                 case TableNames.structure:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillEMNotes(currentConnection);
-                    await FillStructureNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillEMNotes(currentConnection));
+                    tasks.Add(FillStructureNotes(currentConnection));
                     break;
                 case TableNames.fossil:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillEMNotes(currentConnection);
-                    await FillFossilNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillEMNotes(currentConnection));
+                    tasks.Add(FillFossilNotes(currentConnection));
                     break;
                 case TableNames.environment:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillEnvironmentNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillEnvironmentNotes(currentConnection));
                     break;
                 case TableNames.pflow:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
-                    await FillEMNotes(currentConnection);
-                    await FillPaleoflowNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
+                    tasks.Add(FillEMNotes(currentConnection));
+                    tasks.Add(FillPaleoflowNotes(currentConnection));
                     break;
                 case TableNames.drill:
-                    await FillLocationNotes(currentConnection);
-                    await FillDrillHoleNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillDrillHoleNotes(currentConnection));
                     break;
                 case TableNames.linework:
-                    await FillLineworkNotes(currentConnection);
+                    tasks.Add(FillLineworkNotes(currentConnection));
                     break;
                 default:
-                    await FillLocationNotes(currentConnection);
-                    await FillStationNotes(currentConnection);
+                    tasks.Add(FillLocationNotes(currentConnection));
+                    tasks.Add(FillStationNotes(currentConnection));
                     break;
             }
 
