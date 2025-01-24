@@ -27,16 +27,28 @@
 
         <DataTemplate x:Key="PicklistValueCollectionTemplate" x:DataType="models:Vocabularies">
 
-            <Grid Style="{StaticResource FieldAppSettingGrid}">
+            <Grid Style="{StaticResource FieldAppSettingGrid}" x:Name="PicklistGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition Height="1"/>
                 </Grid.RowDefinitions>
+                
+                <!--LongPresscommand in touchbehavior will fail because we're using relativesource-->
+                <!--Still not fixed in 2025/01/23-->
+                <!--https://github.com/dotnet/maui/issues/24313-->
+                <!--<Grid.Behaviors>
+
+                    <toolkit:TouchBehavior LongPressCommand="{Binding Source={RelativeSource AncestorType={x:Type viemodel:PicklistViewModel}}, Path=SetDefaultTermCommand}"
+                                           LongPressCommandParameter="{Binding .}" LongPressDuration="1500"/>
+                </Grid.Behaviors>-->
+                
                 <Grid.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="2" CommandParameter="{Binding .}"
+
+                    <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}" 
                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:PicklistViewModel}}, Path=ModifyTermCommand}"/>
-                    <TapGestureRecognizer NumberOfTapsRequired="1" CommandParameter="{Binding .}"
+                    <TapGestureRecognizer CommandParameter="{Binding .}" NumberOfTapsRequired="2"
                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viemodel:PicklistViewModel}}, Path=SetDefaultTermCommand}"/>
+
                 </Grid.GestureRecognizers>
 
                 <!--Testing color change on toggle switch changed value-->
@@ -44,7 +56,7 @@
                        TextColor="{Binding Source={x:Reference PicklistViewPage}, Path=TemplateVisibleSwitch, Converter={StaticResource FontColorFromStr}}"
                         Grid.Column="0" Grid.Row="0"  FontAttributes="{Binding PicklistDefault, Converter={StaticResource FontBoldFromStr}}" />-->
 
-                <Label Text="{Binding Description}" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Start" 
+                <Label Text="{Binding Description}" FontSize="Small" VerticalOptions="Center" HorizontalOptions="Start"
                         Grid.Column="0" Grid.Row="0"  FontAttributes="{Binding DefaultValue, Converter={StaticResource FontBoldFromStr}, Mode=TwoWay}" LineBreakMode="HeadTruncation" />
 
                 <CheckBox IsChecked="{Binding Visibility, Converter={StaticResource BoolFromStr}, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="End" Grid.Row="0"/>

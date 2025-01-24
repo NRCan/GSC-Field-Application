@@ -152,7 +152,8 @@
 
             <!--Map Layer menu-->
             <!--https://stackoverflow.com/questions/71738210/difference-between-net-maui-border-and-frame-->
-            <Border x:Name="MapLayerFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray600}}"
+            <Border x:Name="MapLayerFrame" Grid.Row="1" Padding="15" Style="{StaticResource FieldAppBorder}" 
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray600}}"
                    Margin="0" PropertyChanged="MapLayerFrame_PropertyChanged"
                    HeightRequest="300" WidthRequest="350" IsVisible="False">
                 <CollectionView HorizontalOptions="FillAndExpand" x:Name="MapLayerCollection" CanReorderItems="True"
