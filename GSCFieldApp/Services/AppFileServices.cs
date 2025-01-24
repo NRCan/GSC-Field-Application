@@ -234,9 +234,9 @@ namespace GSCFieldApp.Services
             FilePickerFileType customFileType = new FilePickerFileType(
                 new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
-                                    {DevicePlatform.WinUI, new [] { DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated} },
+                                    {DevicePlatform.WinUI, new [] { DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated, ".zip"} },
                                     {DevicePlatform.Android, new [] { "application/*"} },
-                                    {DevicePlatform.iOS, new [] { DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated } },
+                                    {DevicePlatform.iOS, new [] { DatabaseLiterals.DBTypeSqlite, DatabaseLiterals.DBTypeSqliteDeprecated, ".zip" } },
                 });
 
             PickOptions options = new PickOptions();
@@ -246,44 +246,76 @@ namespace GSCFieldApp.Services
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
             {
-                //Get proper database name to fit standard naming template
-                SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(result.FullPath);
-                try
+                string resultFullPath = result.FullPath;
+                string resultFileName = result.FileName;
+
+                //Manage zip file
+                if (result.FullPath.Contains(".zip"))
                 {
-                    List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
-                    await currentConnection.CloseAsync();
-
-                    if (metadataTableRows != null && metadataTableRows.Count() == 1)
+                    using (FileStream zipToOpen = new FileStream(result.FullPath, FileMode.Open))
+                    using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read))
                     {
-                        copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+                        archive.ExtractToDirectory(userLocalFolder);
 
-                        //Legacy extension
-                        if (result.FileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                        //Get the database file in the zip
+                        foreach (ZipArchiveEntry entry in archive.Entries)
                         {
-                            copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
+                            if (entry.FullName.Contains(DatabaseLiterals.DBTypeSqlite) || entry.FullName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                            {
+                                resultFullPath = System.IO.Path.Join(userLocalFolder, entry.FullName);
+                                resultFileName = entry.FullName;
+                                break;
+                            }
                         }
-
-                        //Copy to local state
-                        using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
-                        using (Stream incomingFieldBookStream = System.IO.File.OpenRead(result.FullPath))
-                            await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
                     }
-                    else
+                }
+
+                if (!resultFullPath.Contains(".zip"))
+                {
+                    //Get proper database name to fit standard naming template
+                    SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(resultFullPath);
+                    try
+                    {
+                        List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>()?.ToListAsync();
+                        await currentConnection.CloseAsync();
+
+                        if (metadataTableRows != null && metadataTableRows.Count() == 1)
+                        {
+                            copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqlite);
+
+                            //Legacy extension
+                            if (resultFileName.Contains(DatabaseLiterals.DBTypeSqliteDeprecated))
+                            {
+                                copiedFieldBookPath = System.IO.Path.Join(userLocalFolder, metadataTableRows[0].FieldBookFileName + DatabaseLiterals.DBTypeSqliteDeprecated);
+                            }
+
+                            //Copy to local state if not already there (coming from a zip)
+                            if (!result.FullPath.Contains(".zip"))
+                            {
+                                using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
+                                using (Stream incomingFieldBookStream = System.IO.File.OpenRead(resultFullPath))
+                                    await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
+                            }
+
+                        }
+                        else
+                        {
+                            //Show error
+                            await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
+                                LocalizationResourceManager["FieldBooksUploadContentInvalid"].ToString(),
+                                LocalizationResourceManager["GenericButtonOk"].ToString());
+                        }
+                    }
+                    catch (Exception e)
                     {
                         //Show error
+                        new ErrorToLogFile(e).WriteToFile();
                         await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
                             LocalizationResourceManager["FieldBooksUploadContentInvalid"].ToString(),
                             LocalizationResourceManager["GenericButtonOk"].ToString());
                     }
                 }
-                catch (Exception e)
-                {
-                    //Show error
-                    new ErrorToLogFile(e).WriteToFile();
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
-                        LocalizationResourceManager["FieldBooksUploadContentInvalid"].ToString(),
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
-                }
+
 
             }
 
