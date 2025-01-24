@@ -2860,7 +2860,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide/Show drop down terms, as well as adding new ones for all forms and fields. Values can also be reordered with a drag-and-drop and a specific one can be set as a default value with a single tap. Double-tap terms to modify their textual value..
+        ///   Looks up a localized string similar to Hide/Show drop down terms, as well as adding new ones for all forms and fields. Values can also be reordered with a drag-and-drop and tap a term to modify their textual value.  Double tap to make it a default (shown in bold)..
         /// </summary>
         internal static string PicklistPageExplanation {
             get {

@@ -929,7 +929,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Ajouter un nouveau terme à la liste déroulante.</value>
   </data>
   <data name="PicklistPageExplanation" xml:space="preserve">
-    <value>Masquez ou affichez les valeurs des listes ou bien en ajouter de nouvelles. Toutes les valeurs peuvent être réordonnées à l'aide d'un glissement. Il est même possible d'indiquer une valeur pour quelle soit celle utilisée par défaut à l'ouverture d'un formulaire. Tappez deux fois afin de modifier le texte d'un terme.</value>
+    <value>Masquez ou affichez les valeurs des listes ou bien en ajouter de nouvelles. Toutes les valeurs peuvent être réordonnées à l'aide d'un glissement.  Touchez une fois un terme afin d'en modifier le texte, deux fois afin d'en faire une valeur par défaut (indiqué en gras).</value>
   </data>
   <data name="PicklistPageFields" xml:space="preserve">
     <value>Attribut</value>
