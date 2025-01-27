@@ -478,6 +478,10 @@ namespace GSCFieldApp.ViewModel
 
             Model.StructureID = 0;
 
+            //There is one picker that needs all brotha's and sista's listing
+            _structureRelatedAlias = await FillRelatedStructureAsync();
+            OnPropertyChanged(nameof(StructureRelatedAlias));
+
         }
 
         /// <summary>
