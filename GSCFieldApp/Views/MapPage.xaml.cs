@@ -288,23 +288,32 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private async void MapPage_Loaded(object sender, EventArgs e)
     {
-        //Setting map page background default data
-        SetOpenStreetMap();
-
-        //Manage symbol and layers
-        await Task.Run(async()=> await AddSymbolToRegistry());
-
-        //Freshen up the default layers
-        await Task.Run(async () => await RefreshDefaultFeatureLayer());
-
-        //Reload user datasets for selected field book
-        await Task.Run(async () => await LoadPreferedLayers());
-
-        //Manage GPS
-        if (!_isCheckingGeolocation && !_isTapMode) 
+        try
         {
-            await StartGPS(); 
+            //Setting map page background default data
+            SetOpenStreetMap();
+
+            //Manage symbol and layers
+            await Task.Run(async () => await AddSymbolToRegistry());
+
+            //Freshen up the default layers
+            await Task.Run(async () => await RefreshDefaultFeatureLayer());
+
+            //Reload user datasets for selected field book
+            await Task.Run(async () => await LoadPreferedLayers());
+
+            //Manage GPS
+            if (!_isCheckingGeolocation && !_isTapMode)
+            {
+                await StartGPS();
+            }
         }
+        catch (System.Exception exception)
+        {
+            new ErrorToLogFile(exception).WriteToFile();
+        }
+
+
   
     }
 
