@@ -456,7 +456,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             if (docParent.Count() > 0)
             {
                 string lastAlias = docParent.ToList()[docParent.Count() - 1].DocumentName.ToString();
-                string lastNumberString = lastAlias.ToList()[lastAlias.Length - 3].ToString(); //Sample only has three digits id in the alias
+                string lastNumberString = lastAlias.Substring(lastAlias.Length - 3); //doc only has three digits id in the alias
                 short parsedID = 0;
                 bool processingID = Int16.TryParse(lastNumberString, out parsedID);
                 newID = parsedID + newID;

@@ -205,6 +205,11 @@ namespace GSCFieldApp.ViewModel
             {
                 await da.SaveItemAsync(Model, true);
             }
+            else if (_model.DocumentID == 0 && _model.FileNumber == _fileNumberTo)
+            {
+                await da.SaveItemAsync(Model, false);
+
+            }
             else
             {
                 //Insert new records as batch if needed
@@ -541,11 +546,11 @@ namespace GSCFieldApp.ViewModel
                 List<DrillHole> parentAlias = await currentConnection.Table<DrillHole>().Where(e => e.DrillID == Model.DrillHoleID).ToListAsync();
                 Model.DocumentName = await idCalculator.CalculateDocumentAliasAsync(Model.DrillHoleID.Value, parentAlias.First().DrillIDName);
             }
-            Model.Hyperlink = string.Empty;
-            Model.FileName = string.Empty;
+            Model.Hyperlink = null;
+            Model.FileName = CalculateFileName();
             Model.DocumentID = 0;
-
-            OnPropertyChanged(nameof(Model));
+            Model.FileNumber = Model.FileNumber + 1;
+            CalculateFileNumberTo();
 
             await currentConnection.CloseAsync();
         }
@@ -768,7 +773,7 @@ namespace GSCFieldApp.ViewModel
         /// </summary>
         public void CalculateFileNumberTo()
         {
-            if (_fileNumberTo == 0)
+            if (_fileNumberTo == 0 || _fileNumberTo < _model.FileNumber)
             {
                 _fileNumberTo = _model.FileNumber;
                 OnPropertyChanged(nameof(FileNumberTo));
