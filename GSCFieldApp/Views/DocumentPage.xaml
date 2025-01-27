@@ -176,7 +176,6 @@
                                         <Entry Text="{Binding FileNumberTo, Mode=TwoWay, Converter={StaticResource Str2Int}}" 
                                                Style="{StaticResource FieldAppNumBox}"
                                                x:Name="DocumentPageFileToEntry"
-                                               TextChanged="DocumentPageFileToEntry_TextChanged"
                                                >
                                             <Entry.Behaviors>
                                                 <toolkit:NumericValidationBehavior 

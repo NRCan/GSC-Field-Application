@@ -75,19 +75,4 @@ public partial class DocumentPage : ContentPage
 
     }
 
-    /// <summary>
-    /// Whenever user enters a new file to number, recalculate the file number to match the from
-    /// Can't be lower and should be at least equal to
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void DocumentPageFileToEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        DocumentViewModel vm5 = this.BindingContext as DocumentViewModel;
-        if (vm5 != null && !vm5.IsProcessingBatch)
-        {
-            vm5.CalculateFileNumberTo(); //Make sure File number to fits the from number
-        }
-        
-    }
 }

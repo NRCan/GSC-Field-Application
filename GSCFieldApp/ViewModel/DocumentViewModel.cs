@@ -429,6 +429,9 @@ namespace GSCFieldApp.ViewModel
 
             #endregion
 
+            //Make sure file number to is not lower than file number from
+            CalculateFileNumberTo();
+
         }
 
         /// <summary>
