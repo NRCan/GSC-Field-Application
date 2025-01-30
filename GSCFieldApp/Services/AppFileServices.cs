@@ -430,8 +430,9 @@ namespace GSCFieldApp.Services
                     }
 
                     //Clean up uncessary files and dir
-                    File.Delete(userPhotoZipPath);
                     localStream.Close();
+                    File.Delete(userPhotoZipPath);
+                    
                 }
                 else
                 {
