@@ -118,7 +118,7 @@ public partial class MapPage : ContentPage
     private async void Map_Info(object sender, MapInfoEventArgs e)
     {
 
-        //For easier interaction, close the info window if it's alreayd opened
+        //For easier interaction, close the info window if it's already opened
         //On smaller device it takes too much space and prevents user from querying elsewhere
         //easily
         if (!MapInfoResultsFrame.IsVisible && !_isTapMode)
@@ -129,25 +129,53 @@ public partial class MapPage : ContentPage
             if (feature != null)
             {
                 //Get feature id for sql query
-                string featureHexText = feature.ToDisplayText();
+                string featureValueText = feature.ToDisplayText();
 
                 if (feature is GeometryFeature geometryFeature)
                 {
                     //Get database path stashed in the tag
-                    if (l.Tag != null && l.Tag.ToString() != string.Empty && featureHexText != string.Empty && featureHexText.Contains(":"))
+                    if (l.Tag != null && l.Tag.ToString() != string.Empty && featureValueText != string.Empty && featureValueText.Contains(":"))
                     {
+
+                        SQLiteAsyncConnection infoConnection = new SQLiteAsyncConnection(l.Tag.ToString());
+
                         try
                         {
-                            SQLiteAsyncConnection infoConnection = new SQLiteAsyncConnection(l.Tag.ToString());
                             if (infoConnection != null)
                             {
-                                string featureIDFieldName = featureHexText.Split(":")[0];
-                                string featureHex = featureHexText.Split(":")[1];
-
+                                //Build query to extract record
+                                //Is using hex(geometry) field for user loaded geopackage
+                                string featureIDFieldName = featureValueText.Split(":")[0];
+                                string featureValue = featureValueText.Split(":")[1];
                                 string gfiQuery = string.Format("SELECT * FROM {0} WHERE hex({1}) = '{2}';",
                                     l.Name,
                                     featureIDFieldName,
-                                    featureHex);
+                                    featureValue);
+
+                                //Parse field app default layer name for real feature name
+                                if (l.Name == ApplicationLiterals.aliasTraversePoint)
+                                {
+                                    gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                    DatabaseLiterals.TableTraversePoint,
+                                    featureIDFieldName,
+                                    featureValue);
+                                }
+                                else if (l.Name == ApplicationLiterals.aliasStations)
+                                {
+                                    gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                    DatabaseLiterals.TableStation,
+                                    featureIDFieldName,
+                                    featureValue);
+                                }
+                                else if (l.Name == ApplicationLiterals.aliasLinework)
+                                {
+                                    gfiQuery = string.Format("SELECT * FROM {0} WHERE {1} = {2} LIMIT 1;",
+                                    DatabaseLiterals.TableLinework,
+                                    featureIDFieldName,
+                                    featureValue);
+                                }
+
+
 
                                 //Get clicked feature record values
                                 object?[][]? results = GeopackageService.RunGenericQuery(l.Tag.ToString(), gfiQuery);
@@ -162,9 +190,13 @@ public partial class MapPage : ContentPage
                                 }
 
                             }
+
+                            await infoConnection.CloseAsync();
                         }
                         catch (System.Exception gfiError)
                         {
+                            await infoConnection.CloseAsync();
+
                             await Shell.Current.DisplayAlert(
                                 LocalizationResourceManager["GenericErrorTitle"].ToString(),
                                 gfiError.Message,
@@ -1711,30 +1743,36 @@ public partial class MapPage : ContentPage
 
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
-
+            //Prep
+            GeopackageService geopackageService = new GeopackageService();
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
-            List<FieldLocation> fieldLoc = await currentConnection.QueryAsync<FieldLocation>
-                ("SELECT LTRIM(SUBSTR(" + DatabaseLiterals.FieldLocationAlias + ", -6, 4), '0') as " +
-                DatabaseLiterals.FieldLocationAlias + ", " + DatabaseLiterals.FieldLocationLongitude +
-                ", " + DatabaseLiterals.FieldLocationLatitude + " FROM " + DatabaseLiterals.TableLocation);
+            List<FieldLocation> fieldLoc = await currentConnection.Table<FieldLocation>().ToListAsync();
 
             foreach (FieldLocation fl in fieldLoc)
             {
                 //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
-                IFeature feat = new PointFeature(SphericalMercator.FromLonLat(fl.LocationLong, fl.LocationLat).ToMPoint());
-                feat["name"] = fl.LocationAlias;
+                //Build geometry
+                NetTopologySuite.Geometries.Point locationPoint = await geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
 
-                enumFeat = enumFeat.Append(feat);
-
-                feat.Styles.Add(new LabelStyle
+                if (locationPoint != null)
                 {
-                    Text = fl.LocationAlias,
-                    BackColor = new Brush(Color.WhiteSmoke),
-                    HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                    //CollisionDetection = true,
-                    BorderThickness = 2,
-                    Offset = offset
-                });
+                    //Build feature 
+                    WKTReader wellKnownTextReader = new WKTReader();
+                    IFeature feat = new GeometryFeature(wellKnownTextReader.Read(locationPoint.AsText()));
+                    feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
+                    enumFeat = enumFeat.Append(feat);
+
+                    feat.Styles.Add(new LabelStyle
+                    {
+                        Text = fl.LocationAliasLight,
+                        BackColor = new Brush(Color.WhiteSmoke),
+                        HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                        //CollisionDetection = true,
+                        BorderThickness = 2,
+                        Offset = offset
+                    });
+                }
+
 
             }
 
@@ -1785,8 +1823,7 @@ public partial class MapPage : ContentPage
                         //Build feature metadata
                         WKTReader wellKnownTextReader = new WKTReader();
                         IFeature feat = new GeometryFeature(wellKnownTextReader.Read(travPointString.AsText()));
-                        feat["name"] = tp.TravLabel;
-
+                        feat[DatabaseLiterals.FieldTravPointID] = tp.TravID;
                         enumFeat = enumFeat.Append(feat);
 
                         //Style geom and label
@@ -1852,7 +1889,7 @@ public partial class MapPage : ContentPage
                         
                         if (feat != null)
                         {
-                            feat["name"] = lw.LineAliasLight;
+                            feat[DatabaseLiterals.FieldLineworkID] = lw.LineID;
 
                             //Add to list of features
                             enumFeat = enumFeat.Append(feat);
@@ -2111,7 +2148,8 @@ public partial class MapPage : ContentPage
                     Name = Enum.GetName(defaultLayerName),
                     IsMapInfoLayer = true,
                     Features = dFeats,
-                    Style = CreateBitmapStyle()
+                    Style = CreateBitmapStyle(),
+                    Tag = da.PreferedDatabasePath,
                 };
 
             }
@@ -2123,6 +2161,7 @@ public partial class MapPage : ContentPage
                     IsMapInfoLayer = true,
                     Features = dFeats,
                     Style = null,
+                    Tag = da.PreferedDatabasePath,
                 };
             }
 
