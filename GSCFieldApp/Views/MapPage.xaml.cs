@@ -1766,6 +1766,14 @@ public partial class MapPage : ContentPage
 
             if (fieldTravPoint != null && fieldTravPoint.Count > 0)
             {
+                //Prep style
+                string xmlStyle = await Task.Run(async () => await geopackageService.GetGeopackageStyleXMLString(currentConnection, DatabaseLiterals.TableTraversePoint));
+                List<GeopackageLayerStyling> stylings = await Task.Run(
+                    async () => await geopackageService.GetGeopackageStyle(
+                        xmlStyle, 
+                        DatabaseLiterals.TableTraversePoint, 
+                        Geometry.TypeNamePoint.ToLower()));
+
                 foreach (TraversePoint tp in fieldTravPoint)
                 {
 
@@ -1780,6 +1788,12 @@ public partial class MapPage : ContentPage
                         feat["name"] = tp.TravLabel;
 
                         enumFeat = enumFeat.Append(feat);
+
+                        //Style geom and label
+                        if (stylings.Count() > 0)
+                        {
+                            feat.Styles.Add(stylings[0].pointVectorStyle);
+                        }
 
                         feat.Styles.Add(new LabelStyle
                         {
@@ -2107,7 +2121,8 @@ public partial class MapPage : ContentPage
                 {
                     Name = Enum.GetName(defaultLayerName),
                     IsMapInfoLayer = true,
-                    Features = dFeats
+                    Features = dFeats,
+                    Style = null,
                 };
             }
 
