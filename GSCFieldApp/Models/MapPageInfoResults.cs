@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services.DatabaseServices;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,24 +36,29 @@ namespace GSCFieldApp.Models
                 {
                     MapPageInfoResult mpi = new MapPageInfoResult();
                     mpi.FieldName = results[0][trackingIndex].ToString();
-                    try
+                    if (mpi.FieldName != DatabaseLiterals.FieldGenericGeometry &&
+                        mpi.FieldName != GeopackageService.GpkgFieldGeometry)
                     {
-                        if (obj != null)
+                        try
                         {
-                            mpi.FieldValue = obj.ToString();
+                            if (obj != null)
+                            {
+                                mpi.FieldValue = obj.ToString();
+                            }
+                            else
+                            {
+                                mpi.FieldValue = string.Empty;
+                            }
+
                         }
-                        else
+                        catch (Exception)
                         {
                             mpi.FieldValue = string.Empty;
                         }
-                        
-                    }
-                    catch (Exception)
-                    {
-                        mpi.FieldValue = string.Empty;
+
+                        infoResults.Add(mpi);
                     }
 
-                    infoResults.Add(mpi);
                     
                     trackingIndex++;
                 }
