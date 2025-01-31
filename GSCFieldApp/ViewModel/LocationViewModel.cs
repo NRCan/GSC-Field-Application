@@ -157,9 +157,9 @@ namespace GSCFieldApp.ViewModel
                 await Shell.Current.GoToAsync($"/{nameof(StationPage)}/",
                     new Dictionary<string, object>
                     {
-                        [nameof(FieldLocation)] = _fieldLocation,
+                        [nameof(FieldLocation)] = Model,
                         [nameof(Metadata)] = null,
-                        [nameof(Station)] = null,
+                        [nameof(Station)] = null
                     }
                 );
             }
@@ -177,7 +177,7 @@ namespace GSCFieldApp.ViewModel
                     new Dictionary<string, object>
                     {
                         [nameof(DrillHole)] = null,
-                        [nameof(FieldLocation)] = _fieldLocation,
+                        [nameof(FieldLocation)] = Model
                     }
                 );
             }

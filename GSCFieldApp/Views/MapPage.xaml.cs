@@ -1096,8 +1096,15 @@ public partial class MapPage : ContentPage
                                 string xmlStyle = await Task.Run(async () => await gpkgService.GetGeopackageStyleXMLString(gpkgConnection, features));
                                 List<GeopackageLayerStyling> stylings = await Task.Run(async () => await gpkgService.GetGeopackageStyle(xmlStyle, features, geomType));
 
+                                //Get geometry column name
+                                string currentGeomName = GeopackageService.GpkgFieldGeometry;
+                                if (geomName.Count() > 0)
+                                {
+                                    currentGeomName = geomName[0];
+                                }
+
                                 //Get geometry from bytes
-                                string getGeomQuery_base = string.Format("SELECT {0} FROM {1} ;", GeopackageService.GpkgFieldGeometry, features);
+                                string getGeomQuery_base = string.Format("SELECT {0} FROM {1} ;", currentGeomName, features);
                                 string getGeomQuery = getGeomQuery_base;
 
                                 foreach (GeopackageLayerStyling styling in stylings)
