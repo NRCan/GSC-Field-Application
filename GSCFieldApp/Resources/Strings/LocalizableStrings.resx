@@ -1357,7 +1357,7 @@
     <value>Upload Field Book</value>
   </data>
   <data name="FieldBooksUploadContentInvalid" xml:space="preserve">
-    <value>Selected database is either empty or not a field app model.</value>
+    <value>Selected database is either empty, locked or not a field app model.</value>
   </data>
   <data name="FieldBooksInvalidVersion" xml:space="preserve">
     <value>Upgrade needed</value>

@@ -1690,7 +1690,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected database is either empty or not a field app model..
+        ///   Looks up a localized string similar to Selected database is either empty, locked or not a field app model..
         /// </summary>
         internal static string FieldBooksUploadContentInvalid {
             get {
