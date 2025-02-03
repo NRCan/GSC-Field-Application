@@ -13,6 +13,7 @@ using GSCFieldApp.Controls;
 using NetTopologySuite.Index.HPRtree;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using System.Globalization;
+using Mapsui.Utilities;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -891,7 +892,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Parse result
                 if (mets[0].VersionSchema != null)
                 {
-                    Double.TryParse(mets[0].VersionSchema.ToString(), out schemaVersion);
+                    double.TryParse(mets[0].VersionSchema, System.Globalization.CultureInfo.InvariantCulture, out schemaVersion);
                 }
 
             }
