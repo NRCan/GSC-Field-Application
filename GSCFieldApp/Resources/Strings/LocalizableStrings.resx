@@ -1416,4 +1416,7 @@
   <data name="ShellFileSaveVocabFail" xml:space="preserve">
     <value>An error occured when trying to save global picklists. Database will be saved as is without latest edits.</value>
   </data>
+  <data name="FieldBooksUploadContentExisting" xml:space="preserve">
+    <value>Selected field book already exist, would you like to replace it with this version?</value>
+  </data>
 </root>

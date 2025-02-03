@@ -1690,6 +1690,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selected field book already exist, would you like to replace it with this version?.
+        /// </summary>
+        internal static string FieldBooksUploadContentExisting {
+            get {
+                return ResourceManager.GetString("FieldBooksUploadContentExisting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Selected database is either empty, locked or not a field app model..
         /// </summary>
         internal static string FieldBooksUploadContentInvalid {

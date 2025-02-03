@@ -1417,4 +1417,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="ShellFileSaveVocabFail" xml:space="preserve">
     <value>Une erreure est survenue lors de la copie du vocabulaire. La copie sera donc dépourvue des dernières éditions aux vocabulaires.</value>
   </data>
+  <data name="FieldBooksUploadContentExisting" xml:space="preserve">
+    <value>Le carnet sélectionné existe déjà, voulez-vous le remplacer par celui-ci?</value>
+  </data>
 </root>

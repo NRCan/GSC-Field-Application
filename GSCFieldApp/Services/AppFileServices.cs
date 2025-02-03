@@ -297,9 +297,30 @@ namespace GSCFieldApp.Services
                             //Copy to local state if not already there (coming from a zip)
                             if (!result.FullPath.Contains(".zip"))
                             {
-                                using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
-                                using (Stream incomingFieldBookStream = System.IO.File.OpenRead(resultFullPath))
-                                    await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
+                                //Manage existing database
+                                bool userWantsToReplace = true;
+                                if (File.Exists(copiedFieldBookPath))
+                                {
+                                    userWantsToReplace = await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksUploadTitle"].ToString(),
+                                      LocalizationResourceManager["FieldBooksUploadContentExisting"].ToString(),
+                                      LocalizationResourceManager["GenericButtonYes"].ToString(), LocalizationResourceManager["GenericButtonNo"].ToString());
+                                }
+
+                                if (userWantsToReplace)
+                                {
+                                    using (FileStream copiedFieldBookStream = new FileStream(copiedFieldBookPath, FileMode.Create))
+                                    {
+                                        using (Stream incomingFieldBookStream = System.IO.File.OpenRead(resultFullPath))
+                                        {
+                                            await incomingFieldBookStream.CopyToAsync(copiedFieldBookStream);
+                                        }
+                                    }
+                                    
+                                }
+
+
+
+
                             }
 
                         }
