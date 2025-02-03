@@ -289,7 +289,9 @@ namespace GSCFieldApp.ViewModel
                 {
                     //Get the databases but not the main default one or the legacy ones
                     if ((fi.Extension.Contains(DBTypeSqlite) || fi.Extension.Contains(DBTypeSqliteDeprecated))
-                        && !fi.Name.Contains(DBName) && !fi.Name.Contains("_v"))
+                        && !fi.Name.Contains(DBName) && !fi.Name.Contains("_v")
+                        && !fi.Name.Contains(DBTypeGeopackageSHM)
+                        && !fi.Name.Contains(DBTypeGeopackageWal))
                     {
 
                         //Connect to database and retrieve some information from it
@@ -357,6 +359,18 @@ namespace GSCFieldApp.ViewModel
 
                         
 
+                    }
+                    else if (fi.Name.Contains(DBTypeGeopackageSHM) || fi.Name.Contains(DBTypeGeopackageWal))
+                    {
+                        //Enforce deletion of those files
+                        try
+                        {
+                            fi.Delete();
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorToLogFile(e).WriteToFile();
+                        }
                     }
                 }
                 else 
