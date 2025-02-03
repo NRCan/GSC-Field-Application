@@ -76,12 +76,12 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="240"/>
                 </Grid.ColumnDefinitions>
 
                     <Label Text="{Binding FieldName}" FontAttributes="Bold" Padding="0" MaximumWidthRequest="100" LineBreakMode="TailTruncation"
                        VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0"/>
-                    <Label Text="{Binding FieldValue}" Padding="0" MaximumWidthRequest="240" LineBreakMode="TailTruncation"
+                    <Label Text="{Binding FieldValue}" Padding="0" LineBreakMode="TailTruncation"
                        VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="0" Grid.Column="1"/>
 
             </Grid>
