@@ -623,15 +623,15 @@ namespace GSCFieldApp.ViewModel
             
             if (_dbNextVersion < DatabaseLiterals.DBVersion150)
             {
-                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString().Replace(".", "") + DatabaseLiterals.DBTypeSqliteDeprecated;
+                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString(System.Globalization.CultureInfo.InvariantCulture).Replace(".", "") + DatabaseLiterals.DBTypeSqliteDeprecated;
             }
             else if (_dbNextVersion < DatabaseLiterals.DBVersion170 && _dbNextVersion >= DatabaseLiterals.DBVersion150)
             {
-                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqliteDeprecated;
+                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString(System.Globalization.CultureInfo.InvariantCulture).Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqliteDeprecated;
             }
             else if (_dbNextVersion < DatabaseLiterals.DBVersion && _dbNextVersion >= DatabaseLiterals.DBVersion170)
             {
-                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString().Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
+                legacyFileName = legacyFileName + "_v" + _dbNextVersion.ToString(System.Globalization.CultureInfo.InvariantCulture).Replace(".", "") + "0" + DatabaseLiterals.DBTypeSqlite;
             }
             else 
             {
@@ -837,7 +837,7 @@ namespace GSCFieldApp.ViewModel
             }
 
             //Coin upgraded db version in metadata
-            string coinNewVersion = "UPDATE " + DatabaseLiterals.TableMetadata + " SET " + DatabaseLiterals.FieldUserInfoVersionSchema + " = " + toDBVersion.ToString() + ";";
+            string coinNewVersion = "UPDATE " + DatabaseLiterals.TableMetadata + " SET " + DatabaseLiterals.FieldUserInfoVersionSchema + " = " + toDBVersion.ToString(System.Globalization.CultureInfo.InvariantCulture) + ";";
             queryList.Add(coinNewVersion);
 
             //Build detach query
