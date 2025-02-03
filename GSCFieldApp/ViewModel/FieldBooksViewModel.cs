@@ -100,15 +100,24 @@ namespace GSCFieldApp.ViewModel
         [RelayCommand]
         async Task UploadFieldBook()
         {
-            //Upload
-            AppFileServices appFileServices = new AppFileServices();
-            string uploadFB = await appFileServices.UploadFieldBook();
-
-            //Refresh list
-            if (uploadFB.Contains(DBTypeSqlite) || uploadFB.Contains(DBTypeSqliteDeprecated))
+            try
             {
-                FillBookCollectionAsync();
+                //Upload
+                AppFileServices appFileServices = new AppFileServices();
+                string uploadFB = await appFileServices.UploadFieldBook();
+
+                //Refresh list
+
+                if (uploadFB.Contains(DBTypeSqlite) || uploadFB.Contains(DBTypeSqliteDeprecated))
+                {
+                    FillBookCollectionAsync();
+                }
             }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+            }
+
         }
 
         [RelayCommand]
@@ -289,6 +298,9 @@ namespace GSCFieldApp.ViewModel
 
                         //Get metadata records
                         List<Metadata> metadataTableRows = await currentConnection.Table<Metadata>().ToListAsync();
+                        List<Station> stationCountResult = await currentConnection.Table<Station>().ToListAsync();
+                        await currentConnection.CloseAsync();
+
                         if (metadataTableRows != null && metadataTableRows.Count() > 0)
                         {
                             Metadata validMetadata = metadataTableRows.First();
@@ -318,11 +330,6 @@ namespace GSCFieldApp.ViewModel
                             }
 
                             //For stations
-                            string stationQuerySelect = "SELECT *";
-                            string stationQueryFrom = " FROM " + TableStation;
-                            string stationQueryWhere = " WHERE " + TableStation + "." + FieldStationAlias + " NOT LIKE '%" + KeywordStationWaypoint + "%'";
-                            string stationQueryFinal = stationQuerySelect + stationQueryFrom + stationQueryWhere;
-                            List<Station> stationCountResult = await currentConnection.Table<Station>().ToListAsync();
                             if (stationCountResult != null && stationCountResult.Count > 0)
                             {
                                 currentBook.StationNumber = stationCountResult.Count.ToString();
@@ -348,7 +355,7 @@ namespace GSCFieldApp.ViewModel
                             }
                         }
 
-                        await currentConnection.CloseAsync();
+                        
 
                     }
                 }
