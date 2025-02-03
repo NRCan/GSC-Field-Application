@@ -1414,4 +1414,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="ShellQuickPhotoBackupEmpty" xml:space="preserve">
     <value>Il n'y a aucune photo à sauvegarder.</value>
   </data>
+  <data name="ShellFileSaveVocabFail" xml:space="preserve">
+    <value>Une erreure est survenue lors de la copie du vocabulaire. La copie sera donc dépourvue des dernières éditions aux vocabulaires.</value>
+  </data>
 </root>

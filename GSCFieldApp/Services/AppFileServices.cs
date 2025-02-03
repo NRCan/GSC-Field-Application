@@ -34,39 +34,44 @@ namespace GSCFieldApp.Services
             //Swap vocab, take global ones and replaced with whatever is in the prefered database
             bool swapedWithoutError = await da.DoSwapVocab(da.DatabaseFilePath, da.PreferedDatabasePath, true);
 
-            if (swapedWithoutError)
+            if (!swapedWithoutError)
             {
-                //Open desired file
-                using Stream stream = System.IO.File.OpenRead(da.PreferedDatabasePath);
-
-                //Get output name
-                string outputFileName = Path.GetFileName(da.PreferedDatabasePath).Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
-
-                //Open save dialog
-                try
-                {
-                    var fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
-
-                    //Use Toast to show card in window interface or system like notification rather then modal alert popup.
-                    if (fileSaverResult.IsSuccessful)
-                    {
-                        string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
-
-                        await Toast.Make(toastText).Show(cancellationToken);
-                    }
-                    else
-                    {
-                        string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
-                        await Toast.Make(toastText).Show(cancellationToken);
-                    }
-                }
-                catch (Exception e)
-                {
-                    new ErrorToLogFile(e.Message).WriteToFile();
-                }
-
-                stream.Close();
+                //Show error
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBookPageFailedToSaveTitle"].ToString(),
+                    LocalizationResourceManager["ShellFileSaveVocabFail"].ToString(),
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
             }
+
+            //Open desired file
+            using Stream stream = System.IO.File.OpenRead(da.PreferedDatabasePath);
+
+            //Get output name
+            string outputFileName = Path.GetFileName(da.PreferedDatabasePath).Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite);
+
+            //Open save dialog
+            try
+            {
+                var fileSaverResult = await FileSaver.Default.SaveAsync(outputFileName, stream, cancellationToken);
+
+                //Use Toast to show card in window interface or system like notification rather then modal alert popup.
+                if (fileSaverResult.IsSuccessful)
+                {
+                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackup"].ToString(), fileSaverResult.FilePath);
+
+                    await Toast.Make(toastText).Show(cancellationToken);
+                }
+                else
+                {
+                    string toastText = String.Format(LocalizationResourceManager["ToastSaveBackupFailed"].ToString(), fileSaverResult.Exception.Message);
+                    await Toast.Make(toastText).Show(cancellationToken);
+                }
+            }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e.Message).WriteToFile();
+            }
+
+            stream.Close();
 
         }
 

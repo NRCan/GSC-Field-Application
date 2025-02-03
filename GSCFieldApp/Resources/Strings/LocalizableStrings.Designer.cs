@@ -3373,6 +3373,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occured when trying to save global picklists. Database will be saved as is without latest edits..
+        /// </summary>
+        internal static string ShellFileSaveVocabFail {
+            get {
+                return ResourceManager.GetString("ShellFileSaveVocabFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Download bug log.
         /// </summary>
         internal static string ShellGetBugLogTitle {

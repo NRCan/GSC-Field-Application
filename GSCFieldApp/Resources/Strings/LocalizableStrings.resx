@@ -1413,4 +1413,7 @@
   <data name="ShellQuickPhotoBackupEmpty" xml:space="preserve">
     <value>There are no photos to backup.</value>
   </data>
+  <data name="ShellFileSaveVocabFail" xml:space="preserve">
+    <value>An error occured when trying to save global picklists. Database will be saved as is without latest edits.</value>
+  </data>
 </root>
