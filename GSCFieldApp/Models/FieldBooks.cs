@@ -28,7 +28,7 @@ namespace GSCFieldApp.Models
                 if (metadataForProject != null && metadataForProject.VersionSchema != null)
                 {
                     double version = 0.0;
-                    double.TryParse(metadataForProject.VersionSchema, System.Globalization.CultureInfo.InvariantCulture, out version);
+                    double.TryParse(metadataForProject.VersionSchema.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture, out version);
 
                     if (!double.IsNaN(version) && version == DatabaseLiterals.DBVersion)
                     {

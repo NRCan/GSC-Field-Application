@@ -892,7 +892,7 @@ namespace GSCFieldApp.Services.DatabaseServices
                 //Parse result
                 if (mets[0].VersionSchema != null)
                 {
-                    double.TryParse(mets[0].VersionSchema, System.Globalization.CultureInfo.InvariantCulture, out schemaVersion);
+                    double.TryParse(mets[0].VersionSchema.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture, out schemaVersion);
                 }
 
             }
