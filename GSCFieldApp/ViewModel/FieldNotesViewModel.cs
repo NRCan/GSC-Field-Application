@@ -1745,11 +1745,14 @@ namespace GSCFieldApp.ViewModel
                     FieldNotes[TableNames.pflow] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.pflow].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     FieldNotes[TableNames.fossil] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.fossil].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     FieldNotes[TableNames.mineral] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineral].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
+                    FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     
+
                     OnPropertyChanged(nameof(Samples));
                     OnPropertyChanged(nameof(Structures));
                     OnPropertyChanged(nameof(Paleoflows));
                     OnPropertyChanged(nameof(Fossils));
+                    OnPropertyChanged(nameof(MineralizationAlterations));
 
                     #endregion
 
