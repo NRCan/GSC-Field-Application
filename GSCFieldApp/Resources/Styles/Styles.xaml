@@ -494,6 +494,11 @@
         <Setter Property="HeightRequest" Value="120"/>
         <Setter Property="Margin" Value="10"/>
         <Setter Property="RowHeight" Value="45"/>
+        <Setter Property="ItemTemplate">
+            <DataTemplate>
+                <TextCell Text="{Binding .}" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"/>
+            </DataTemplate>
+        </Setter>
     </Style>
 
     <Style TargetType="Entry" x:Key="FieldAppNumBox">
