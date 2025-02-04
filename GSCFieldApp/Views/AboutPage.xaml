@@ -4,7 +4,7 @@
              x:Class="GSCFieldApp.Views.AboutPage"
              xmlns:local="clr-namespace:GSCFieldApp.Services"
              xmlns:viewmodel="clr-namespace:GSCFieldApp.ViewModel"
-             Title="{local:Localize AboutPageTitle}" BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
+             Title="{local:Localize AboutPageTitle}" BackgroundColor="{OnPlatform WinUI={StaticResource Black}, Android={StaticResource White}}">
 
     <ScrollView>
         <VerticalStackLayout Margin="20">

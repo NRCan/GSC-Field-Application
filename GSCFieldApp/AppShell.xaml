@@ -6,7 +6,7 @@
     xmlns:app="clr-namespace:GSCFieldApp"
     xmlns:views="clr-namespace:GSCFieldApp.Views"
     xmlns:local="clr-namespace:GSCFieldApp.Services"
-    Shell.FlyoutBehavior="Flyout" Shell.ForegroundColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}">
+    Shell.FlyoutBehavior="Flyout" Shell.ForegroundColor="{OnPlatform WinUI={StaticResource Black}, Android={StaticResource White}}">
 
     <!-- NOTE: Adding anything in here, even if registered as transient in MauiProgram, won't
     recreate the page. It'll be create once and that's it -->
