@@ -62,8 +62,14 @@
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
                                     <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible, Mode=TwoWay}"
                                         x:Name="lihthoSearchResults" ItemSelected="lihthoSearchResults_ItemSelected"
-                                        ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}" HasUnevenRows="True"/>
-                                    
+                                        ItemsSource="{Binding LihthoDetailSearchResults, Mode=TwoWay}" HasUnevenRows="True">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextCell Text="{Binding .}" TextColor="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}"/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+
                                 </VerticalStackLayout>
 
 
