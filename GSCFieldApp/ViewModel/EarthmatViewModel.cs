@@ -80,8 +80,11 @@ namespace GSCFieldApp.ViewModel
 
         //Concatenated fields
         private ComboBox _earthLithTextureStruct = new ComboBox();
+        private ComboBox _earthLithTextureStructAll = new ComboBox();
         private ComboBox _earthLithQualifier = new ComboBox();
+        private ComboBox _earthLithQualifierAll = new ComboBox();
         private ComboBox _earthLithGrainSize = new ComboBox();
+        private ComboBox _earthLithGrainSizeAll = new ComboBox();
         private ComboBox _earthLithBedThick = new ComboBox();
         private ComboBox _earthLithDefFab = new ComboBox();
 
@@ -946,6 +949,24 @@ namespace GSCFieldApp.ViewModel
             }
             _earthLithOccurAs = _earthLithOccursAsAll;
 
+            if (_earthLithTextureStructAll != null && _earthLithTextureStructAll.cboxItems.Count == 0)
+            {
+                _earthLithTextureStructAll = await FillAPicker(FieldEarthMatModTextStruc);
+            }
+            _earthLithTextureStruct = _earthLithTextureStructAll;
+
+            if (_earthLithQualifierAll != null && _earthLithQualifierAll.cboxItems.Count == 0)
+            {
+                _earthLithQualifierAll = await FillAPicker(FieldEarthMatModComp);
+            }
+            _earthLithQualifier = _earthLithQualifierAll;
+
+            if (_earthLithGrainSizeAll != null && _earthLithGrainSizeAll.cboxItems.Count == 0)
+            {
+                _earthLithGrainSizeAll = await FillAPicker(FieldEarthMatGrSize);
+            }
+            _earthLithGrainSize = _earthLithGrainSizeAll;
+
             OnPropertyChanged(nameof(EarthLithoGroup));
             OnPropertyChanged(nameof(EarthLithMapUnit));
             OnPropertyChanged(nameof(EarthLithConfidence));
@@ -953,6 +974,9 @@ namespace GSCFieldApp.ViewModel
             OnPropertyChanged(nameof(EarthLithColourIntensity));
             OnPropertyChanged(nameof(EarthLithColourQualifier));
             OnPropertyChanged(nameof(EarthLithOccurAs)); //Init with all values and filter down at 2nd load
+            OnPropertyChanged(nameof(EarthLithGrainSize)); //Init with all values and filter down at 2nd load
+            OnPropertyChanged(nameof(EarthLithQualifier)); //Init with all values and filter down at 2nd load
+            OnPropertyChanged(nameof(EarthLithTextureStruct)); //Init with all values and filter down at 2nd load
         }
 
         /// <summary>
@@ -960,8 +984,10 @@ namespace GSCFieldApp.ViewModel
         /// lithology group/type
         /// </summary>
         /// <returns></returns>
-        public async Task Fill2ndRoundPickers()
+        public async Task<bool> Fill2ndRoundPickers()
         {
+            bool pickersFilled = false;
+
             string lithgroup = string.Empty;
 
             //second round pickers
@@ -977,13 +1003,13 @@ namespace GSCFieldApp.ViewModel
 
             if (lithgroup != string.Empty)
             {
-                _earthLithQualifier = await FillAPicker(FieldEarthMatModComp, lithgroup);
+                //_earthLithQualifier = await FillAPicker(FieldEarthMatModComp, lithgroup);
                 //_earthLithOccurAs = await FillAPicker(FieldEarthMatOccurs, _model.EarthMatLithgroup);
-                _earthLithTextureStruct = await FillAPicker(FieldEarthMatModTextStruc, lithgroup);
-                _earthLithGrainSize = await FillAPicker(FieldEarthMatGrSize, lithgroup);
-                OnPropertyChanged(nameof(EarthLithQualifier));
-                OnPropertyChanged(nameof(EarthLithTextureStruct));
-                OnPropertyChanged(nameof(EarthLithGrainSize));
+                //_earthLithTextureStruct = await FillAPicker(FieldEarthMatModTextStruc, lithgroup);
+                //_earthLithGrainSize = await FillAPicker(FieldEarthMatGrSize, lithgroup);
+                //OnPropertyChanged(nameof(EarthLithQualifier));
+                //OnPropertyChanged(nameof(EarthLithTextureStruct));
+                //OnPropertyChanged(nameof(EarthLithGrainSize));
 
                 //_earthLithOccurAs.cboxItems.Clear();
                 try
@@ -994,14 +1020,39 @@ namespace GSCFieldApp.ViewModel
                         _earthLithOccurAs.cboxDefaultItemIndex = 0;
                     }
                     OnPropertyChanged(nameof(EarthLithOccurAs));
+
+                    _earthLithQualifier.cboxItems = _earthLithQualifierAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
+                    if (_earthLithQualifier.cboxItems.Count == 1)
+                    {
+                        _earthLithQualifier.cboxDefaultItemIndex = 0;
+                    }
+                    OnPropertyChanged(nameof(EarthLithQualifier));
+
+                    _earthLithTextureStruct.cboxItems = _earthLithTextureStructAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
+                    if (_earthLithTextureStruct.cboxItems.Count == 1)
+                    {
+                        _earthLithTextureStruct.cboxDefaultItemIndex = 0;
+                    }
+                    OnPropertyChanged(nameof(EarthLithTextureStruct));
+
+                    _earthLithGrainSize.cboxItems = _earthLithGrainSizeAll.cboxItems.Where(f => f.itemParent != null && lithgroup.Contains(f.itemParent)).GroupBy(f => f.itemName).Select(f => f.FirstOrDefault()).ToList();
+                    if (_earthLithGrainSize.cboxItems.Count == 1)
+                    {
+                        _earthLithGrainSize.cboxDefaultItemIndex = 0;
+                    }
+                    OnPropertyChanged(nameof(EarthLithGrainSize));
+
+                    pickersFilled = true;
                 }
                 catch (Exception e)
                 {
                     new ErrorToLogFile(e.Message).WriteToFile();
+                    pickersFilled = false;
                 }
 
             }
 
+            return pickersFilled;
         }
 
         /// <summary>
@@ -1250,7 +1301,12 @@ namespace GSCFieldApp.ViewModel
 
                 }
 
-                await Fill2ndRoundPickers().ContinueWith(async antecedent => await Load2nRound());
+                bool pickersAreFilled = await Fill2ndRoundPickers().ConfigureAwait(false);
+                if (pickersAreFilled)
+                {
+                    await Load2nRound().ConfigureAwait(false);
+                }
+                
 
             }
         }

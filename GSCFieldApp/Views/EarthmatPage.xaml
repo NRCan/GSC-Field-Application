@@ -175,7 +175,7 @@
 
                                 <!--Custom control to concatenate multiple values into one field-->
                                 <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
-                                                                 ConcatSource="{Binding EarthLithTextStrucCollection}" />
+                                                                 ConcatSource="{Binding EarthLithTextStrucCollection,Mode=TwoWay }" />
 
                             </VerticalStackLayout>
 
@@ -187,7 +187,7 @@
 
                                 <!--Custom control to concatenate multiple values into one field-->
                                 <controls:ConcatenatedCollection ControlTemplate="{StaticResource Key=ConcatenatedCollectionControl}"
-                                                                 ConcatSource="{Binding EarthLithGrainSizeCollection}" />
+                                                                 ConcatSource="{Binding EarthLithGrainSizeCollection, Mode=TwoWay}" />
                             </VerticalStackLayout>
 
                             <VerticalStackLayout IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}">
