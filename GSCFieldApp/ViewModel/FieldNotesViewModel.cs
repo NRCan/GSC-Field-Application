@@ -1706,17 +1706,18 @@ namespace GSCFieldApp.ViewModel
                 //Start with station
                 if (FieldNotesAll.ContainsKey(TableNames.station))
                 {
+                    //Keep stations from desired date
                     FieldNotes[TableNames.station] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.station].Where(x => x.Date == inDate).OrderBy(x=>x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(Stations));
 
-                    //Children
+                    //Resulting ids as a list for 
                     List<int> stationIds = new List<int>();
                     foreach (FieldNote sids in FieldNotes[TableNames.station])
                     {
                         stationIds.Add(sids.GenericID);
                     }
 
-                    #region Station First order children
+                    #region Station - First order children
                     FieldNotes[TableNames.earthmat] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.earthmat].Where(x => stationIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     OnPropertyChanged(nameof(EarthMats));
 
@@ -1747,19 +1748,16 @@ namespace GSCFieldApp.ViewModel
                     FieldNotes[TableNames.mineral] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineral].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     FieldNotes[TableNames.mineralization] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.mineralization].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
                     
-
                     OnPropertyChanged(nameof(Samples));
                     OnPropertyChanged(nameof(Structures));
                     OnPropertyChanged(nameof(Paleoflows));
                     OnPropertyChanged(nameof(Fossils));
+                    OnPropertyChanged(nameof(Minerals));
                     OnPropertyChanged(nameof(MineralizationAlterations));
 
                     #endregion
 
-                    #region Mineralization childrens
-                    ObservableCollectionHelper.AddRange(FieldNotesAll[TableNames.mineralization], FieldNotesAll[TableNames.mineralization].Where(x => emIds.Contains(x.ParentID)).OrderBy(x => x.GenericAliasName).ToList());
-                    OnPropertyChanged(nameof(MineralizationAlterations));
-
+                    #region Mineralization - Third order childrens
                     List<int> maIds = new List<int>();
                     foreach (FieldNote fn in FieldNotesAll[TableNames.mineralization])
                     {
@@ -1773,6 +1771,7 @@ namespace GSCFieldApp.ViewModel
 
                 }
 
+                #region Locations 
                 if (FieldNotesAll.ContainsKey(TableNames.location))
                 {
                     FieldNotes[TableNames.location] = new ObservableCollection<FieldNote>(FieldNotesAll[TableNames.location].Where(x => x.Date == inDate).OrderBy(x => x.GenericAliasName).ToList());
@@ -1789,7 +1788,7 @@ namespace GSCFieldApp.ViewModel
                     OnPropertyChanged(nameof(DrillHoles));
 
 
-                    #region drill First order children
+                    #region Drill Holes - First order children
 
                     List<int> drillIds = new List<int>();
                     foreach (FieldNote ds in FieldNotes[TableNames.drill])
@@ -1816,6 +1815,8 @@ namespace GSCFieldApp.ViewModel
 
 
                 }
+
+                #endregion
 
             }
 
