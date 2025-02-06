@@ -69,6 +69,7 @@ public partial class MapPage : ContentPage
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
     public ApplicationLiterals.SupportedWMSCRS _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3857;
     public Tuple<Point, Point> _wmsCRSExtent = null;
+    private int _locationSettingEnabledAttempt = 0; //used to know when user has turned on location in the device setting
 
     //Symbols
     private int bitmapSymbolId = -1;
@@ -2256,7 +2257,8 @@ public partial class MapPage : ContentPage
 
                     if (success)
                     {
-                        
+                        _locationSettingEnabledAttempt = 0; //Reset attempt
+
                         //Force location change event
                         await BackgroundTimer(TimeSpan.FromSeconds(1));
 
@@ -2283,25 +2285,40 @@ public partial class MapPage : ContentPage
                 }
                 catch (FeatureNotEnabledException fneEx)
                 {
+                    ///Ask to enable location in setting, only once then retry 10 times, else
+                    ///keep deactivated
 
-                    // Handle not enabled on device exception
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
-                        fneEx.Message,
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                    if (_locationSettingEnabledAttempt == 0)
+                    {
+                        // Handle not enabled on device exception
+                        await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
+                            fneEx.Message,
+                            LocalizationResourceManager["GenericButtonOk"].ToString());
 
-                    //Open location settings so user can toggle it on
+                        //Open location settings so user can toggle it on
 #if ANDROID
                     var intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
                     intent.AddCategory(Intent.CategoryDefault);
                     intent.SetFlags(ActivityFlags.NewTask);
                     Platform.CurrentActivity.StartActivityForResult(intent, 0);
 #elif IOS
-                    UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:Privacy&path=LOCATION"));
+                        UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:Privacy&path=LOCATION"));
 #endif
+                    }
 
+                    //Deactivate and retry
                     DeactivateLocationVisuals();
 
-                    new ErrorToLogFile(fneEx).WriteToFile();
+                    //If after 10 attemps it's still not enabled, stop trying
+                    if (_locationSettingEnabledAttempt <= 10)
+                    {
+                        //Increment atempt
+                        _locationSettingEnabledAttempt = _locationSettingEnabledAttempt + 1;
+
+                        await Task.Delay(1000).ContinueWith(async antecedent => await StartGPS());
+
+                        new ErrorToLogFile(fneEx).WriteToFile();
+                    }
 
                 }
                 catch (PermissionException pEx)
@@ -2424,6 +2441,8 @@ public partial class MapPage : ContentPage
             MapViewModel _vm = BindingContext as MapViewModel;
             if (_vm != null)
             {
+                this.WaitingCursor.IsRunning = false; //Make sure it's closed down
+
                 _vm.RefreshCoordinates(inLocation);
 
                 await SetMapAccuracyColor(inLocation.Accuracy);
@@ -2442,14 +2461,6 @@ public partial class MapPage : ContentPage
                     mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
                 }
 
-                if (inLocation.Accuracy <= 10)
-                {
-                    this.WaitingCursor.IsRunning = false;
-                }
-                //else
-                //{
-                //    this.WaitingCursor.IsRunning = true;
-                //}
             }
 
             
