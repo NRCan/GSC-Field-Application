@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using SQLite;
 using GSCFieldApp.Models;
 using CommunityToolkit.Maui.Core.Primitives;
+using System.ComponentModel.DataAnnotations;
 
 namespace GSCFieldApp.Services
 {
@@ -234,6 +235,13 @@ namespace GSCFieldApp.Services
             DataAccess da = new DataAccess();
             string userLocalFolder = Path.GetDirectoryName(da.PreferedDatabasePath);
             string copiedFieldBookPath = userLocalFolder;
+
+            //Validate main general database existance 
+            ///Use case: fresh install no field book were created and user uploads one on start.
+            if (!File.Exists(da.DatabaseFilePath))
+            {
+                await da.CreateDatabaseFromResource(da.DatabaseFilePath);
+            }
 
             //Custom file picker for fieldbooks
             FilePickerFileType customFileType = new FilePickerFileType(
