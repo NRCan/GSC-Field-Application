@@ -3301,11 +3301,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save of copy of debug logs..
+        ///   Looks up a localized string similar to Save a copy of debug logs..
         /// </summary>
         internal static string SettingPageDebugLogUsage {
             get {
                 return ResourceManager.GetString("SettingPageDebugLogUsage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save a copy of GPS logs..
+        /// </summary>
+        internal static string SettingPageGPSLogDownload {
+            get {
+                return ResourceManager.GetString("SettingPageGPSLogDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable continuous GPS logging..
+        /// </summary>
+        internal static string SettingPageGPSLogToggle {
+            get {
+                return ResourceManager.GetString("SettingPageGPSLogToggle", resourceCulture);
             }
         }
         

@@ -37,6 +37,8 @@ using Point = NetTopologySuite.Geometries.Point;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
 using System.Collections.Generic;
 using SkiaSharp.Views.Maui.Controls;
+using System.Globalization;
+
 
 
 #if ANDROID
@@ -74,14 +76,29 @@ public partial class MapPage : ContentPage
     //Symbols
     private int bitmapSymbolId = -1;
 
+    #region Properties
+
+    private bool GPSLogEnabled
+    {
+        get { return Preferences.Get(nameof(GPSLogEnabled), false); }
+        set { }
+    }
+
+    public string GPSLogFilePath
+    {
+        get { return Preferences.Get(nameof(GPSLogFilePath), ""); }
+        set { }
+    }
+
+    #endregion
+
     public MapPage(MapViewModel vm)
     {
         try
         {
             InitializeComponent();
-            
+
             BindingContext = vm;
-            //_vm = vm;
 
             //Initialize grid background
             mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
@@ -323,6 +340,7 @@ public partial class MapPage : ContentPage
     {
         try
         {
+
             //Setting map page background default data
             SetOpenStreetMap();
 
@@ -345,9 +363,6 @@ public partial class MapPage : ContentPage
         {
             new ErrorToLogFile(exception).WriteToFile();
         }
-
-
-  
     }
 
     /// <summary>
@@ -2228,6 +2243,7 @@ public partial class MapPage : ContentPage
         //Init 
         _isCheckingGeolocation = true;
         CancellationToken cancellationToken = CancellationToken.None;
+        this.WaitingCursor.IsRunning = true;
 
         //Get permission from device first
         PermissionStatus permissionStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
@@ -2244,7 +2260,7 @@ public partial class MapPage : ContentPage
 
                 try
                 {
-                    this.WaitingCursor.IsRunning = true;
+                    //this.WaitingCursor.IsRunning = true;
 
                     //Listening to location changes
                     GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(1));
@@ -2265,6 +2281,7 @@ public partial class MapPage : ContentPage
                         //Temp this isn't triggered
                         Geolocation.LocationChanged += Geolocation_LocationChanged;
 
+                        this.WaitingCursor.IsRunning = false;
                     }
                     else
                     {
@@ -2341,7 +2358,7 @@ public partial class MapPage : ContentPage
                     await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
                         ex.Message,
                         LocalizationResourceManager["GenericButtonOk"].ToString());
-                    DeactivateLocationVisuals();
+                    //DeactivateLocationVisuals();
 
                     new ErrorToLogFile(ex).WriteToFile();
 
@@ -2461,10 +2478,11 @@ public partial class MapPage : ContentPage
                     mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
                 }
 
-            }
-
-            
+            }  
         }
+
+        //Debug option to log GPS
+        LogGPSChanges(DateTime.Now, inLocation);
 
     }
 
@@ -2504,7 +2522,26 @@ public partial class MapPage : ContentPage
         this.WaitingCursor.IsRunning = false;
     }
 
+    /// <summary>
+    /// Will save into a log file all GPS location changes if enabled by user in debug mode
+    /// </summary>
+    public void LogGPSChanges(DateTime inTime, Sensor.Location inLocation)
+    {
+        if (GPSLogEnabled)
+        {
+            using (var writer = new StreamWriter(GPSLogFilePath, true))
+            {
+                string gpsLogs = inTime.ToString("yyyy-MM-dd HH:mm:ss.fff") + "," +
+                inLocation.Longitude + "," +
+                inLocation.Latitude + "," +
+                inLocation.Accuracy + "(m)";
 
+                writer.WriteLine(gpsLogs);
+                writer.Close();
+            }
+        }
+
+    }
 
     #endregion
 

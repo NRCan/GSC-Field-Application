@@ -60,7 +60,6 @@
 
                             <!--Bedrock tables activation-->
                             <Label Text="{local:Localize SettingPageCategoryBedrock}" Style="{StaticResource FieldAppSettingTitles}"  HorizontalOptions="Start" FontSize="Medium"/>
-
                             <Border Style="{StaticResource FieldAppSettingBorder}">
 
                                 <Grid Style="{StaticResource FieldAppSettingGrid}">
@@ -88,7 +87,6 @@
 
                             <!--Surficial tables activation-->
                             <Label Text="{local:Localize SettingPageCategorySurficial}" Style="{StaticResource FieldAppSettingTitles}"  HorizontalOptions="Start" FontSize="Medium"/>
-
                             <Border Style="{StaticResource FieldAppSettingBorder}">
 
                                 <Grid Style="{StaticResource FieldAppSettingGrid}">
@@ -111,22 +109,32 @@
                 </Border>
                 
                 <!--Debug section-->
-
                 <Border Stroke="Transparent" IsVisible="{Binding DeveloperModeActivated}">
                     <VerticalStackLayout>
-                        
-                        <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageDebugHeading}"/>
 
+                        <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageDebugHeading}"/>
                         <Border Style="{StaticResource FieldAppSettingBorder}">
 
-                            <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,60">
+                            <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,90">
                                 <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
 
+                                <!--Download log file-->
                                 <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="0" Command="{Binding DoDebugLogBackupCommand}"/>
-                                <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" HorizontalOptions="Start" Grid.Row="0" Grid.Column="0" />
-                                <Label Text=">" FontSize="Large" WidthRequest="20" HorizontalOptions="End" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                                <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" />
+                                <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+                                <!--Enable active GPS tracking-->
+                                <Label Text="{local:Localize SettingPageGPSLogToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
+                                <Switch x:Name="gpsLog" IsToggled="{Binding GPSLogEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
+
+                                <!--Download GPS log tracking file-->
+                                <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding DoGPSLogBackupCommand}"/>
+                                <Label Text="{local:Localize SettingPageGPSLogDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="2" Grid.Column="0" />
+                                <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                             </Grid>
 
