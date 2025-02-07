@@ -58,6 +58,13 @@ namespace GSCFieldApp.ViewModel
         public bool AddGeopackageWMSFrameVisibility { get { return _addGeopackageWMSFrameVisibility; } set { _addGeopackageWMSFrameVisibility = value; } }
         //public bool MapInfoResultsFrameVisibility { get { return _mapInfoResultsFrameVisibility; } set { _mapInfoResultsFrameVisibility = value; } }
         public ObservableCollection<MapPageInfoResult> MapInfoCollection { get { return _mapInfoCollection; } set { _mapInfoCollection = value; } }
+
+        public bool GPSHighRateEnabled
+        {
+            get { return Preferences.Get(nameof(GPSHighRateEnabled), false); }
+            set { }
+        }
+
         #endregion
 
         public MapViewModel()

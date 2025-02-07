@@ -3310,6 +3310,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High GPS refresh rate (350ms).
+        /// </summary>
+        internal static string SettingPageGPSHighRateToggle {
+            get {
+                return ResourceManager.GetString("SettingPageGPSHighRateToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save a copy of GPS logs..
         /// </summary>
         internal static string SettingPageGPSLogDownload {

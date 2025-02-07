@@ -1426,4 +1426,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageGPSLogDownload" xml:space="preserve">
     <value>Enregistrer une copie du journal de position GPS.</value>
   </data>
+  <data name="SettingPageGPSHighRateToggle" xml:space="preserve">
+    <value>Haut taux de rafraîchissement GPS (350ms)</value>
+  </data>
 </root>

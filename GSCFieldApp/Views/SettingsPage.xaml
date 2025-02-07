@@ -120,6 +120,7 @@
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
 
                                 <!--Download log file-->
@@ -129,12 +130,16 @@
 
                                 <!--Enable active GPS tracking-->
                                 <Label Text="{local:Localize SettingPageGPSLogToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
-                                <Switch x:Name="gpsLog" IsToggled="{Binding GPSLogEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
+                                <Switch IsToggled="{Binding GPSLogEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
+
+                                <!--Enable active GPS tracking-->
+                                <Label Text="{local:Localize SettingPageGPSHighRateToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2" LineBreakMode="TailTruncation" />
+                                <Switch IsToggled="{Binding GPSHighRateEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="2" />
 
                                 <!--Download GPS log tracking file-->
-                                <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding DoGPSLogBackupCommand}"/>
-                                <Label Text="{local:Localize SettingPageGPSLogDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="2" Grid.Column="0" />
-                                <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                                <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="3" Command="{Binding DoGPSLogBackupCommand}"/>
+                                <Label Text="{local:Localize SettingPageGPSLogDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="3" Grid.Column="0" />
+                                <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                             </Grid>
 

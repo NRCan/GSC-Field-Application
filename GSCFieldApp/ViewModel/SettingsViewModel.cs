@@ -91,6 +91,12 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(GPSLogEnabled), value); }
         }
 
+        public bool GPSHighRateEnabled
+        {
+            get { return Preferences.Get(nameof(GPSHighRateEnabled), false); }
+            set { Preferences.Set(nameof(GPSHighRateEnabled), value); }
+        }
+
         public string GPSLogFilePath
         {
             get { return Preferences.Get(nameof(GPSLogFilePath), ""); }

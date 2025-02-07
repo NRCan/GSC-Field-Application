@@ -1425,4 +1425,7 @@
   <data name="SettingPageGPSLogDownload" xml:space="preserve">
     <value>Save a copy of GPS logs.</value>
   </data>
+  <data name="SettingPageGPSHighRateToggle" xml:space="preserve">
+    <value>High GPS refresh rate (350ms)</value>
+  </data>
 </root>
