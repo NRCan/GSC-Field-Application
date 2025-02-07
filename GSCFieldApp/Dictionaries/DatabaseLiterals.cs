@@ -440,6 +440,7 @@ namespace GSCFieldApp.Dictionaries
         public const string structurePlanarAttitudeTrend = "trend";
         public const string locationEntryTypeSatellite = "Satellite";
         public const string vocabularyLineType = "LINEWORK_TYPE";
+        public const string easterEggMineral = "cummingtonite";
         #endregion
 
         #region Database keyword
