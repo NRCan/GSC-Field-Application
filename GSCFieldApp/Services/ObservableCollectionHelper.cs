@@ -19,7 +19,11 @@ namespace GSCFieldApp.Services
         {
             foreach (var item in items)
             {
-                coll.Add(item);
+                if (!coll.Contains(item))
+                {
+                    coll.Add(item);
+                }
+                
             }
         }
     }

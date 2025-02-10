@@ -4,6 +4,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GSCFieldApp.Models
 {
@@ -121,6 +122,11 @@ namespace GSCFieldApp.Models
 
         /// <summary>
         /// Property to get a smaller version of the alias, for mobile rendering mostly
+        /// Possible values are:    
+        /// Associated to the first earth material record of the tenth station--> 25GHV0010AM01
+        /// Associated to the first mineralization record of the tenth station --> 25GHV0010X01M01
+        /// Associated to the first mineralization associated to the first earth mateerial of the tenth station --> 25GHV0010AX01M01
+        /// ^\d{4}$
         /// </summary>
         [Ignore]
         public string MineralAliasLight
@@ -134,9 +140,22 @@ namespace GSCFieldApp.Models
 
                     if (aliasNumber > 0)
                     {
+                        string shorterStructureName = MineralIDName;
+
+                        //Get the desire pattern with regex
+                        string stationDigitPattern = @"\d{4}\w*"; //Any 4 consecutive digits and any word that comes afterward
+                        Regex reg = new Regex(stationDigitPattern);
+                        Match regMatch = reg.Match(MineralIDName);
+
+                        if (regMatch != null && regMatch.Value != string.Empty)
+                        {
+                            shorterStructureName = regMatch.Value;
+                        }
+
                         //Trim bunch of zeros
-                        string shorterStructureName = MineralIDName.Substring(MineralIDName.Length - 8);
-                        return shorterStructureName.TrimStart('0');
+                        shorterStructureName = shorterStructureName.TrimStart('0');
+
+                        return shorterStructureName;
                     }
                     else
                     {

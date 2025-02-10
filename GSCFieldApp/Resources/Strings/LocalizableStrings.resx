@@ -1060,7 +1060,7 @@
     <value>Save</value>
   </data>
   <data name="SettingPageDebugLogUsage" xml:space="preserve">
-    <value>Save of copy of debug logs.</value>
+    <value>Save a copy of debug logs.</value>
   </data>
   <data name="SettingPageHeading" xml:space="preserve">
     <value>Field Notes Tables</value>
@@ -1418,5 +1418,14 @@
   </data>
   <data name="FieldBooksUploadContentExisting" xml:space="preserve">
     <value>Selected field book already exist, would you like to replace it with this version?</value>
+  </data>
+  <data name="SettingPageGPSLogToggle" xml:space="preserve">
+    <value>Enable continuous GPS logging.</value>
+  </data>
+  <data name="SettingPageGPSLogDownload" xml:space="preserve">
+    <value>Save a copy of GPS logs.</value>
+  </data>
+  <data name="SettingPageGPSHighRateToggle" xml:space="preserve">
+    <value>High GPS refresh rate (350ms)</value>
   </data>
 </root>

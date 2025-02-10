@@ -37,7 +37,7 @@ using Point = NetTopologySuite.Geometries.Point;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
 using System.Collections.Generic;
 using SkiaSharp.Views.Maui.Controls;
-
+using System.Globalization;
 
 #if ANDROID
 using Android.Content;
@@ -69,18 +69,41 @@ public partial class MapPage : ContentPage
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
     public ApplicationLiterals.SupportedWMSCRS _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3857;
     public Tuple<Point, Point> _wmsCRSExtent = null;
+    private int _locationSettingEnabledAttempt = 0; //used to know when user has turned on location in the device setting
+    private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
 
     //Symbols
     private int bitmapSymbolId = -1;
+
+    #region Properties
+
+    private bool GPSLogEnabled
+    {
+        get { return Preferences.Get(nameof(GPSLogEnabled), false); }
+        set { }
+    }
+
+    public string GPSLogFilePath
+    {
+        get { return Preferences.Get(nameof(GPSLogFilePath), ""); }
+        set { }
+    }
+
+    public bool GPSHighRateEnabled
+    {
+        get { return Preferences.Get(nameof(GPSHighRateEnabled), false); }
+        set { }
+    }
+
+    #endregion
 
     public MapPage(MapViewModel vm)
     {
         try
         {
             InitializeComponent();
-            
+
             BindingContext = vm;
-            //_vm = vm;
 
             //Initialize grid background
             mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
@@ -255,15 +278,21 @@ public partial class MapPage : ContentPage
 
     }
 
+    /// <summary>
+    /// When user navigates or open the map page event
+    /// </summary>
+    /// <param name="args"></param>
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         try
         {
             base.OnNavigatedTo(args);
 
+            //Update some debug settings that user might have changed
+            await SetGPSRefreshRate();
+
             //In case user is coming from field notes
             //They might have deleted some stations or linework, make sure to refresh
-
             foreach (var item in mapView.Map.Layers)
             {
                 if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
@@ -322,6 +351,7 @@ public partial class MapPage : ContentPage
     {
         try
         {
+
             //Setting map page background default data
             SetOpenStreetMap();
 
@@ -344,9 +374,6 @@ public partial class MapPage : ContentPage
         {
             new ErrorToLogFile(exception).WriteToFile();
         }
-
-
-  
     }
 
     /// <summary>
@@ -2227,6 +2254,7 @@ public partial class MapPage : ContentPage
         //Init 
         _isCheckingGeolocation = true;
         CancellationToken cancellationToken = CancellationToken.None;
+        this.WaitingCursor.IsRunning = true;
 
         //Get permission from device first
         PermissionStatus permissionStatus = await Permissions.RequestAsync<Permissions.LocationAlways>();
@@ -2243,12 +2271,14 @@ public partial class MapPage : ContentPage
 
                 try
                 {
-                    this.WaitingCursor.IsRunning = true;
+                    //Timespan for refresh rate
+                    await SetGPSRefreshRate();
 
                     //Listening to location changes
-                    GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(1));
+                    GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, _refreshRate);
                     CancellationTokenSource _cancelTokenSource = new CancellationTokenSource();
 
+                    //Enforce foreground listening
                     bool success = await Geolocation.StartListeningForegroundAsync(request);
                     string status = success
                         ? "Started listening for foreground location updates"
@@ -2256,13 +2286,15 @@ public partial class MapPage : ContentPage
 
                     if (success)
                     {
-                        
+                        _locationSettingEnabledAttempt = 0; //Reset attempt
+
                         //Force location change event
-                        await BackgroundTimer(TimeSpan.FromSeconds(1));
+                        await BackgroundTimer(_refreshRate);
 
                         //Temp this isn't triggered
                         Geolocation.LocationChanged += Geolocation_LocationChanged;
 
+                        this.WaitingCursor.IsRunning = false;
                     }
                     else
                     {
@@ -2283,25 +2315,40 @@ public partial class MapPage : ContentPage
                 }
                 catch (FeatureNotEnabledException fneEx)
                 {
+                    ///Ask to enable location in setting, only once then retry 10 times, else
+                    ///keep deactivated
 
-                    // Handle not enabled on device exception
-                    await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
-                        fneEx.Message,
-                        LocalizationResourceManager["GenericButtonOk"].ToString());
+                    if (_locationSettingEnabledAttempt == 0)
+                    {
+                        // Handle not enabled on device exception
+                        await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSNoEnabled"].ToString(),
+                            fneEx.Message,
+                            LocalizationResourceManager["GenericButtonOk"].ToString());
 
-                    //Open location settings so user can toggle it on
+                        //Open location settings so user can toggle it on
 #if ANDROID
                     var intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
                     intent.AddCategory(Intent.CategoryDefault);
                     intent.SetFlags(ActivityFlags.NewTask);
                     Platform.CurrentActivity.StartActivityForResult(intent, 0);
 #elif IOS
-                    UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:Privacy&path=LOCATION"));
+                        UIApplication.SharedApplication.OpenUrl(new NSUrl("App-Prefs:Privacy&path=LOCATION"));
 #endif
+                    }
 
+                    //Deactivate and retry
                     DeactivateLocationVisuals();
 
-                    new ErrorToLogFile(fneEx).WriteToFile();
+                    //If after 10 attemps it's still not enabled, stop trying
+                    if (_locationSettingEnabledAttempt <= 10)
+                    {
+                        //Increment atempt
+                        _locationSettingEnabledAttempt = _locationSettingEnabledAttempt + 1;
+
+                        await Task.Delay(1000).ContinueWith(async antecedent => await StartGPS());
+
+                        new ErrorToLogFile(fneEx).WriteToFile();
+                    }
 
                 }
                 catch (PermissionException pEx)
@@ -2324,7 +2371,7 @@ public partial class MapPage : ContentPage
                     await Shell.Current.DisplayAlert(LocalizationResourceManager["DisplayAlertGPSDenied"].ToString(),
                         ex.Message,
                         LocalizationResourceManager["GenericButtonOk"].ToString());
-                    DeactivateLocationVisuals();
+                    //DeactivateLocationVisuals();
 
                     new ErrorToLogFile(ex).WriteToFile();
 
@@ -2424,6 +2471,8 @@ public partial class MapPage : ContentPage
             MapViewModel _vm = BindingContext as MapViewModel;
             if (_vm != null)
             {
+                this.WaitingCursor.IsRunning = false; //Make sure it's closed down
+
                 _vm.RefreshCoordinates(inLocation);
 
                 await SetMapAccuracyColor(inLocation.Accuracy);
@@ -2442,18 +2491,11 @@ public partial class MapPage : ContentPage
                     mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
                 }
 
-                if (inLocation.Accuracy <= 10)
-                {
-                    this.WaitingCursor.IsRunning = false;
-                }
-                //else
-                //{
-                //    this.WaitingCursor.IsRunning = true;
-                //}
-            }
-
-            
+            }  
         }
+
+        //Debug option to log GPS
+        LogGPSChanges(DateTime.Now, inLocation);
 
     }
 
@@ -2493,7 +2535,61 @@ public partial class MapPage : ContentPage
         this.WaitingCursor.IsRunning = false;
     }
 
+    /// <summary>
+    /// Will save into a log file all GPS location changes if enabled by user in debug mode
+    /// </summary>
+    public void LogGPSChanges(DateTime inTime, Sensor.Location inLocation)
+    {
+        if (GPSLogEnabled)
+        {
+            using (var writer = new StreamWriter(GPSLogFilePath, true))
+            {
+                string gpsLogs = inTime.ToString("yyyy-MM-dd HH:mm:ss.fff") + "," +
+                inLocation.Longitude + "," +
+                inLocation.Latitude + "," +
+                inLocation.Accuracy + "(m)," +
+                _refreshRate.TotalMilliseconds.ToString() + "(ms)";   
 
+                writer.WriteLine(gpsLogs);
+                writer.Close();
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// From the user settings, will change the gps refresh rate to either two options
+    /// 1000ms or 350ms.
+    /// Mainly used for helicopter surveying.
+    /// </summary>
+    public async Task SetGPSRefreshRate()
+    {
+        TimeSpan _previousSpan = _refreshRate;
+
+        //Set
+        if (GPSHighRateEnabled)
+        {
+            this.mapViewHighRateGPSIcon.IsVisible = true;
+            _refreshRate = TimeSpan.FromMilliseconds(350);
+        }
+        else
+        {
+            this.mapViewHighRateGPSIcon.IsVisible = false;
+            _refreshRate = TimeSpan.FromMilliseconds(1000);
+        }
+
+        //Force refresh of GPS location even only if value has changed
+        if (_isCheckingGeolocation && !_isTapMode)
+        {
+            //use total milliseconds, else it returns 0 when it hits 1000 ms.
+            if (_previousSpan.TotalMilliseconds != _refreshRate.TotalMilliseconds)
+            {
+                
+                await StopGPSAsync().ContinueWith(async a => await StartGPS());
+            }
+
+        }
+    }
 
     #endregion
 

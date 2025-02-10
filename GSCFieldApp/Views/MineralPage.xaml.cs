@@ -1,3 +1,4 @@
+using GSCFieldApp.Dictionaries;
 using GSCFieldApp.ViewModel;
 
 namespace GSCFieldApp.Views;
@@ -32,6 +33,15 @@ public partial class MineralPage : ContentPage
         if (e != null && e.SelectedItem != null)
         {
             mineralNameSearchBar.Text = e.SelectedItem.ToString();
+
+            //Easter egg
+            if (e.SelectedItem.ToString() == DatabaseLiterals.easterEggMineral)
+            {
+                this.mineralEasterEgg.IsVisible = true;
+
+                //Wait 10 sec and remove
+                Task.Delay(10000).ContinueWith(t => { this.mineralEasterEgg.IsVisible = false; });
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Services;
+using GSCFieldApp.Dictionaries;
 
 namespace GSCFieldApp.ViewModel
 {
@@ -84,6 +85,24 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(LineworkVisible), value); }
         }
 
+        public bool GPSLogEnabled
+        {
+            get { return Preferences.Get(nameof(GPSLogEnabled), false); }
+            set { Preferences.Set(nameof(GPSLogEnabled), value); }
+        }
+
+        public bool GPSHighRateEnabled
+        {
+            get { return Preferences.Get(nameof(GPSHighRateEnabled), false); }
+            set { Preferences.Set(nameof(GPSHighRateEnabled), value); }
+        }
+
+        public string GPSLogFilePath
+        {
+            get { return Preferences.Get(nameof(GPSLogFilePath), ""); }
+            set { Preferences.Set(nameof(GPSLogFilePath), value); }
+        }
+
         /// <summary>
         /// Property saved in the about page
         /// </summary>
@@ -100,8 +119,16 @@ namespace GSCFieldApp.ViewModel
         public async Task DoDebugLogBackup()
         {
             AppFileServices fileServices = new AppFileServices();
-            await fileServices.SaveBugLogFile(CancellationToken.None);
+            await fileServices.SaveLogFile(ApplicationLiterals.errorLogFileNameExt, CancellationToken.None);
         }
+
+        [RelayCommand]
+        public async Task DoGPSLogBackup()
+        {
+            AppFileServices fileServices = new AppFileServices();
+            GPSLogFilePath = await fileServices.SaveLogFile(ApplicationLiterals.gpsLogFileNameExt, CancellationToken.None);
+        }
+
         #endregion
 
         public SettingsViewModel() { }

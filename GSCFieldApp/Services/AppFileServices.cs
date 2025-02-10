@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using SQLite;
 using GSCFieldApp.Models;
 using CommunityToolkit.Maui.Core.Primitives;
+using System.ComponentModel.DataAnnotations;
 
 namespace GSCFieldApp.Services
 {
@@ -76,24 +77,24 @@ namespace GSCFieldApp.Services
         }
 
         /// <summary>
-        /// Will save prefered database
+        /// Will save a log text file from a given filename and extension. Will show a toast type banner if it worked.
         /// </summary>
+        /// <param name="fileName"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task SaveBugLogFile(CancellationToken cancellationToken)
+        public async Task<string> SaveLogFile(string fileName, CancellationToken cancellationToken)
         {
-
             //Open desired file
             DataAccess da = new DataAccess();
-            string errorLogFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, ApplicationLiterals.errorLogFileNameExt);
-            if (Path.Exists(errorLogFilePath))
+            string logFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, fileName);
+            if (Path.Exists(logFilePath))
             {
-                using Stream stream = System.IO.File.OpenRead(errorLogFilePath);
+                using Stream stream = System.IO.File.OpenRead(logFilePath);
 
                 if (stream != null)
                 {
                     //Open save dialog
-                    var fileSaverResult = await FileSaver.Default.SaveAsync(ApplicationLiterals.errorLogFileNameExt, stream, cancellationToken);
+                    var fileSaverResult = await FileSaver.Default.SaveAsync(fileName, stream, cancellationToken);
 
                     //Use Toast to show card in window interface or system like notification rather then modal alert popup.
                     if (fileSaverResult.IsSuccessful)
@@ -117,9 +118,8 @@ namespace GSCFieldApp.Services
                 await Toast.Make(toastText).Show(cancellationToken);
             }
 
+            return logFilePath;
         }
-
-
         /// <summary>
         /// Will start a backup process for field books.
         /// </summary>
@@ -234,6 +234,13 @@ namespace GSCFieldApp.Services
             DataAccess da = new DataAccess();
             string userLocalFolder = Path.GetDirectoryName(da.PreferedDatabasePath);
             string copiedFieldBookPath = userLocalFolder;
+
+            //Validate main general database existance 
+            ///Use case: fresh install no field book were created and user uploads one on start.
+            if (!File.Exists(da.DatabaseFilePath))
+            {
+                await da.CreateDatabaseFromResource(da.DatabaseFilePath);
+            }
 
             //Custom file picker for fieldbooks
             FilePickerFileType customFileType = new FilePickerFileType(

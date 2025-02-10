@@ -61,7 +61,9 @@
                                         ConverterParameter={Binding MineralMode, Source={x:Reference MineralPageModePicker}},
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding MineralMode.cboxDefaultItemIndex, Mode=TwoWay}" />
-                            
+
+                            <Image x:Name="mineralEasterEgg" Source="woah.gif" HeightRequest="300" HorizontalOptions="Center" IsAnimationPlaying="True" IsVisible="False"/>
+
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
 
