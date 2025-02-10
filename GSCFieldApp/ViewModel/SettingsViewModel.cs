@@ -103,6 +103,12 @@ namespace GSCFieldApp.ViewModel
             set { Preferences.Set(nameof(GPSLogFilePath), value); }
         }
 
+        public bool LocationFollowEnabled
+        {
+            get { return Preferences.Get(nameof(LocationFollowEnabled), false); }
+            set { Preferences.Set(nameof(LocationFollowEnabled), value); }
+        }
+
         /// <summary>
         /// Property saved in the about page
         /// </summary>

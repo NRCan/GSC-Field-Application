@@ -3346,6 +3346,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable location follow..
+        /// </summary>
+        internal static string SettingPageLocationFollowToggle {
+            get {
+                return ResourceManager.GetString("SettingPageLocationFollowToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hides/shows theme bars in the field notes page..
         /// </summary>
         internal static string SettingPageThemeExplanation {

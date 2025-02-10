@@ -121,6 +121,7 @@
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
 
                                 <!--Download log file-->
@@ -128,18 +129,22 @@
                                 <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" />
                                 <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
-                                <!--Enable high refresh rate for GPS tracking-->
-                                <Label Text="{local:Localize SettingPageGPSHighRateToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
-                                <Switch IsToggled="{Binding GPSHighRateEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
+                                <!--Enable map page location follow-->
+                                <Label Text="{local:Localize SettingPageLocationFollowToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
+                                <Switch IsToggled="{Binding LocationFollowEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
 
-                                <!--Enable active GPS tracking-->
-                                <Label Text="{local:Localize SettingPageGPSLogToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2" LineBreakMode="TailTruncation" />
-                                <Switch IsToggled="{Binding GPSLogEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="2" />
+                                <!--Enable map page high refresh rate for GPS tracking-->
+                                <Label Text="{local:Localize SettingPageGPSHighRateToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2" LineBreakMode="TailTruncation" />
+                                <Switch IsToggled="{Binding GPSHighRateEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="2" />
+
+                                <!--Enable map page active GPS tracking-->
+                                <Label Text="{local:Localize SettingPageGPSLogToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3" LineBreakMode="TailTruncation" />
+                                <Switch IsToggled="{Binding GPSLogEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="3" />
 
                                 <!--Download GPS log tracking file-->
                                 <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="3" Command="{Binding DoGPSLogBackupCommand}"/>
-                                <Label Text="{local:Localize SettingPageGPSLogDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="3" Grid.Column="0" />
-                                <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                                <Label Text="{local:Localize SettingPageGPSLogDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="4" Grid.Column="0" />
+                                <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="4" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                             </Grid>
 

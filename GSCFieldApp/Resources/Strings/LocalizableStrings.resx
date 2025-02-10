@@ -1428,4 +1428,7 @@
   <data name="SettingPageGPSHighRateToggle" xml:space="preserve">
     <value>High GPS refresh rate (350ms)</value>
   </data>
+  <data name="SettingPageLocationFollowToggle" xml:space="preserve">
+    <value>Enable location follow.</value>
+  </data>
 </root>

@@ -73,7 +73,7 @@ public partial class MapPage : ContentPage
     public Tuple<Point, Point> _wmsCRSExtent = null;
     private int _locationSettingEnabledAttempt = 0; //used to know when user has turned on location in the device setting
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
-
+    private bool _locationFollowEnabled = false; //Used to know if map should follow user location
     //Symbols
     private int bitmapSymbolId = -1;
 
@@ -94,6 +94,12 @@ public partial class MapPage : ContentPage
     public bool GPSHighRateEnabled
     {
         get { return Preferences.Get(nameof(GPSHighRateEnabled), false); }
+        set { }
+    }
+
+    public bool LocationFollowEnabled
+    {
+        get { return Preferences.Get(nameof(LocationFollowEnabled), false); }
         set { }
     }
 
@@ -292,6 +298,7 @@ public partial class MapPage : ContentPage
 
             //Update some debug settings that user might have changed
             await SetGPSRefreshRate();
+            await SetLocationFollow();
 
             //In case user is coming from field notes
             //They might have deleted some stations or linework, make sure to refresh
@@ -353,7 +360,6 @@ public partial class MapPage : ContentPage
     {
         try
         {
-
             //Setting map page background default data
             SetOpenStreetMap();
 
@@ -2275,6 +2281,7 @@ public partial class MapPage : ContentPage
                 {
                     //Timespan for refresh rate
                     await SetGPSRefreshRate();
+                    await SetLocationFollow();
 
                     //Listening to location changes
                     GeolocationListeningRequest request = new GeolocationListeningRequest(GeolocationAccuracy.Default, _refreshRate);
@@ -2474,14 +2481,14 @@ public partial class MapPage : ContentPage
             if (_vm != null)
             {
                 this.WaitingCursor.IsRunning = false; //Make sure it's closed down
-
+                
                 _vm.RefreshCoordinates(inLocation);
 
                 await SetMapAccuracyColor(inLocation.Accuracy);
 
                 mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
                 mapView.RefreshGraphics();
-                //mapView.MyLocationFollow = true;
+                mapView.MyLocationFollow = _locationFollowEnabled;
 
                 if (inLocation.Course != null)
                 {
@@ -2598,6 +2605,16 @@ public partial class MapPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Will set property of location follow on map
+    /// </summary>
+    /// <returns></returns>
+    public async Task<bool> SetLocationFollow()
+    {
+        _locationFollowEnabled = LocationFollowEnabled;
+
+        return _locationFollowEnabled;
+    }
     #endregion
 
 

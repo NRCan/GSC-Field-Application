@@ -1429,4 +1429,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageGPSHighRateToggle" xml:space="preserve">
     <value>Haut taux de rafraîchissement GPS (350ms)</value>
   </data>
+  <data name="SettingPageLocationFollowToggle" xml:space="preserve">
+    <value>Activer le suivi de la position.</value>
+  </data>
 </root>
