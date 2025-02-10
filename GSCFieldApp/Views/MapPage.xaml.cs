@@ -38,6 +38,8 @@ using Coordinate = NetTopologySuite.Geometries.Coordinate;
 using System.Collections.Generic;
 using SkiaSharp.Views.Maui.Controls;
 using System.Globalization;
+using Microsoft.Maui.Storage;
+
 
 #if ANDROID
 using Android.Content;
@@ -2540,7 +2542,12 @@ public partial class MapPage : ContentPage
     /// </summary>
     public void LogGPSChanges(DateTime inTime, Sensor.Location inLocation)
     {
-        if (GPSLogEnabled)
+        if (GPSLogFilePath == string.Empty)
+        {
+            GPSLogFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, ApplicationLiterals.gpsLogFileNameExt);
+        }
+
+        if (GPSLogEnabled && GPSLogFilePath != null && GPSLogFilePath != string.Empty)
         {
             using (var writer = new StreamWriter(GPSLogFilePath, true))
             {
