@@ -8,8 +8,8 @@
             xmlns:conv="clr-namespace:GSCFieldApp.Converters"
             x:DataType="viemodel:SettingsViewModel"
             Title="{local:Localize SettingPageTitle}" 
-             BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
-             Shell.ForegroundColor="{OnPlatform WinUI={StaticResource Black}, Android={StaticResource White}}">
+            BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+            Shell.ForegroundColor="{OnPlatform WinUI={StaticResource Black}, Android={StaticResource White}}">
 
     <ContentPage.Content>
 
@@ -108,6 +108,39 @@
                     </VerticalStackLayout>
                 </Border>
                 
+                <!--Other section-->
+                <Border Stroke="Transparent">
+                    <VerticalStackLayout>
+
+                        <!--Helicopter settings-->
+                        <Label Style="{StaticResource FieldAppTitle}"  Text="{local:Localize SettingPageOtherHeading}"/>
+                        <VerticalStackLayout>
+
+                            <Label Style="{StaticResource FieldAppSettingTitles}"  Text="{local:Localize SettingPageHelicopterHeading}"/>
+                            <Border Style="{StaticResource FieldAppSettingBorder}">
+
+                                <Grid Style="{StaticResource FieldAppSettingGrid}" ColumnDefinitions="*,90">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!--Enable map page location follow-->
+                                    <Label Text="{local:Localize SettingPageLocationFollowToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="0" LineBreakMode="TailTruncation" />
+                                    <Switch IsToggled="{Binding LocationFollowEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="0" />
+
+                                    <!--Enable map page high refresh rate for GPS tracking-->
+                                    <Label Text="{local:Localize SettingPageGPSHighRateToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
+                                    <Switch IsToggled="{Binding GPSHighRateEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
+
+
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+
                 <!--Debug section-->
                 <Border Stroke="Transparent" IsVisible="{Binding DeveloperModeActivated}">
                     <VerticalStackLayout>
@@ -120,8 +153,6 @@
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
-                                    <RowDefinition Height="40"/>
-                                    <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
 
                                 <!--Download log file-->
@@ -129,22 +160,14 @@
                                 <Label Text="{local:Localize SettingPageDebugLogUsage}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" />
                                 <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
-                                <!--Enable map page location follow-->
-                                <Label Text="{local:Localize SettingPageLocationFollowToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
-                                <Switch IsToggled="{Binding LocationFollowEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
-
-                                <!--Enable map page high refresh rate for GPS tracking-->
-                                <Label Text="{local:Localize SettingPageGPSHighRateToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="2" LineBreakMode="TailTruncation" />
-                                <Switch IsToggled="{Binding GPSHighRateEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="2" />
-
                                 <!--Enable map page active GPS tracking-->
-                                <Label Text="{local:Localize SettingPageGPSLogToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="3" LineBreakMode="TailTruncation" />
-                                <Switch IsToggled="{Binding GPSLogEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="3" />
+                                <Label Text="{local:Localize SettingPageGPSLogToggle}" FontSize="Small" VerticalOptions="Center" Grid.Column="0" Grid.Row="1" LineBreakMode="TailTruncation" />
+                                <Switch IsToggled="{Binding GPSLogEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
 
                                 <!--Download GPS log tracking file-->
                                 <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="3" Command="{Binding DoGPSLogBackupCommand}"/>
-                                <Label Text="{local:Localize SettingPageGPSLogDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="4" Grid.Column="0" />
-                                <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="4" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+                                <Label Text="{local:Localize SettingPageGPSLogDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="2" Grid.Column="0" />
+                                <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                             </Grid>
 

@@ -3346,11 +3346,29 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Helicopter.
+        /// </summary>
+        internal static string SettingPageHelicopterHeading {
+            get {
+                return ResourceManager.GetString("SettingPageHelicopterHeading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable location follow..
         /// </summary>
         internal static string SettingPageLocationFollowToggle {
             get {
                 return ResourceManager.GetString("SettingPageLocationFollowToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other.
+        /// </summary>
+        internal static string SettingPageOtherHeading {
+            get {
+                return ResourceManager.GetString("SettingPageOtherHeading", resourceCulture);
             }
         }
         

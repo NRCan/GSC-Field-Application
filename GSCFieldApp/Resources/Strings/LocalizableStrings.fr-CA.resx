@@ -1432,4 +1432,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageLocationFollowToggle" xml:space="preserve">
     <value>Activer le suivi de la position.</value>
   </data>
+  <data name="SettingPageOtherHeading" xml:space="preserve">
+    <value>Autre</value>
+  </data>
+  <data name="SettingPageHelicopterHeading" xml:space="preserve">
+    <value>Hélicoptère</value>
+  </data>
 </root>

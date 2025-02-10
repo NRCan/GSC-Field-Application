@@ -1431,4 +1431,10 @@
   <data name="SettingPageLocationFollowToggle" xml:space="preserve">
     <value>Enable location follow.</value>
   </data>
+  <data name="SettingPageOtherHeading" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="SettingPageHelicopterHeading" xml:space="preserve">
+    <value>Helicopter</value>
+  </data>
 </root>
