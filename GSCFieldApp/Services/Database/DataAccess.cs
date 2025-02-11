@@ -92,7 +92,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         #endregion
 
-        #region DATA MANAGEMENT METHODS (Create, Update, Read)
+        #region VOCAB & DATA MANAGEMENT METHODS (Create, Update, Read)
 
         /// <summary>
         /// Will write an embedded resource to a file with a binary writer. In case it exists, it will replace it.
@@ -255,6 +255,12 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 //This should be set whenever user selects a different field book
                 fieldworkType = Preferences.Get(nameof(FieldUserInfoFWorkType), fieldworkType);
+
+                //Something could have happened and nothing was selected, enforce bedrock
+                if (fieldworkType == string.Empty)
+                {
+                    fieldworkType = ApplicationThemeBedrock;
+                }
             }
 
             //Build query
@@ -269,7 +275,8 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             if (fieldworkType != string.Empty)
             {
-                queryAndWorkType = " AND (lower(mdm." + FieldDictionaryManagerSpecificTo + ") like '" + fieldworkType + "%' OR lower(mdm." + FieldDictionaryManagerSpecificTo + ") = '')";
+                queryAndWorkType = " AND (lower(mdm." + FieldDictionaryManagerSpecificTo + ") like '" + fieldworkType + 
+                    "%' OR lower(mdm." + FieldDictionaryManagerSpecificTo + ") = '' OR lower(mdm." + FieldDictionaryManagerSpecificTo + ") is null)";
             }
 
             if (extraFieldValue != string.Empty && extraFieldValue != null && extraFieldValue != "")

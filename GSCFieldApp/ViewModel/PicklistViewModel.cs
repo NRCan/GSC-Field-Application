@@ -328,11 +328,17 @@ namespace GSCFieldApp.ViewModel
             {
                 //This should be set whenever user selects a different field book
                 fieldworkType = Preferences.Get(nameof(FieldUserInfoFWorkType), fieldworkType);
+
+                //Something could have happened and nothing was selected, enforce bedrock
+                if (fieldworkType == string.Empty)
+                {
+                    fieldworkType = ApplicationThemeBedrock; 
+                }
             }
 
             //Connect to default, not user database
             SQLiteAsyncConnection pickersConnection = da.GetConnectionFromPath(da.DatabaseFilePath);
-            _vocabularyManagers = await pickersConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeSpecificTo == fieldworkType || e.ThemeSpecificTo == string.Empty)).ToListAsync();
+            _vocabularyManagers = await pickersConnection.Table<VocabularyManager>().Where(e => e.ThemeEditable == boolYes && (e.ThemeSpecificTo == fieldworkType || e.ThemeSpecificTo == string.Empty || e.ThemeSpecificTo == null)).ToListAsync();
 
             //Special fill for table names
             _picklistTables = await FillTablePicklist(pickersConnection);
@@ -474,7 +480,7 @@ namespace GSCFieldApp.ViewModel
 
             if (_vocabularyManagers != null && _vocabularyManagers.Count > 0 && ModelPicklist.PicklistName != string.Empty)
             {
-                List<VocabularyManager> subVocabList = _vocabularyManagers.Where(v => v.ThemeAssignTable == ModelPicklist.PicklistName).ToList();
+                List<VocabularyManager> subVocabList = _vocabularyManagers.Where(v => (v.ThemeAssignTable == ModelPicklist.PicklistName)).ToList();
                 foreach (VocabularyManager vcms in subVocabList)
                 {
                     if (!parsedVoc.Contains(vcms.ThemeAssignField))
@@ -484,7 +490,7 @@ namespace GSCFieldApp.ViewModel
                         voc.Code = vcms.ThemeCodedTheme;
                         voc.Description = vcms.ThemeCodeThemeDesc;
 
-                        //Prevent bs from beind added.
+                        //Prevent bs from being added.
                         if (voc.Code != null && voc.Code != string.Empty)
                         {
                             vocTable.Add(voc);
