@@ -482,29 +482,30 @@
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" ToolTipProperties.Text="{local:Localize EarthmatTooltipAddSample}"
                         Margin="0,10,0,10" Command="{Binding AddSampleCommand}"
+                        IsVisible="{Binding SampleVisible}"
                         BackgroundColor="{StaticResource FieldSampleColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}"
                         Command="{Binding AddStructureCommand}"
-                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding StructureVisible}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddStruc}"
                         BackgroundColor="{StaticResource FieldStrucColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding MineralizationVisible}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddMA}"
                         Command="{Binding AddMineralizationCommand}"
                         BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding MineralVisible}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddMineral}"
                         Command="{Binding AddMineralCommand}"
                         BackgroundColor="{StaticResource FieldMineralColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10" IsVisible="{Binding FieldThemes.SurficialVisibility, Mode=TwoWay}"
+                        WidthRequest="40" Margin="0,10,0,10" IsVisible="{Binding PaleoflowVisible}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddPaleoflow}"
                         Command="{Binding AddPaleoflowCommand}"
                         BackgroundColor="{StaticResource FieldPflowColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
-                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FieldThemes.BedrockVisibility, Mode=TwoWay}"
+                        WidthRequest="40" Margin="0,10,0,10"  IsVisible="{Binding FossilVisible}"
                         Command="{Binding AddFossilCommand}"
                         ToolTipProperties.Text="{local:Localize EarthmatTooltipAddFossil}"
                         BackgroundColor="{StaticResource FieldFossilColorLight}"/>

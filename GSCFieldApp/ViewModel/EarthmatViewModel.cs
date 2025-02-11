@@ -379,6 +379,36 @@ namespace GSCFieldApp.ViewModel
 
         public string EarthResidualText { get { return _earthResidualText; } set { _earthResidualText = value; } }
 
+        public bool SampleVisible
+        {
+            get { return Preferences.Get(nameof(SampleVisible), true); }
+            set { Preferences.Set(nameof(SampleVisible), value); }
+        }
+        public bool StructureVisible
+        {
+            get { return Preferences.Get(nameof(StructureVisible), true); }
+            set { Preferences.Set(nameof(StructureVisible), value); }
+        }
+        public bool MineralizationVisible
+        {
+            get { return Preferences.Get(nameof(MineralizationVisible), true); }
+            set { Preferences.Set(nameof(MineralizationVisible), value); }
+        }
+        public bool MineralVisible
+        {
+            get { return Preferences.Get(nameof(MineralVisible), true); }
+            set { Preferences.Set(nameof(MineralVisible), value); }
+        }
+        public bool PaleoflowVisible
+        {
+            get { return Preferences.Get(nameof(PaleoflowVisible), true); }
+            set { Preferences.Set(nameof(PaleoflowVisible), value); }
+        }
+        public bool FossilVisible
+        {
+            get { return Preferences.Get(nameof(FossilVisible), true); }
+            set { Preferences.Set(nameof(FossilVisible), value); }
+        }
         #endregion
 
         public EarthmatViewModel() 

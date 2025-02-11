@@ -251,11 +251,13 @@
                         WidthRequest="40" ToolTipProperties.Text="{local:Localize StationTooltipAddEM}" 
                         Margin="0,10,0,10" 
                         BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
+                        IsVisible="{Binding EarthMaterialVisible}"
                         Command="{Binding AddEarthmatCommand}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" 
                         ToolTipProperties.Text="{local:Localize StationTooltipAddPhoto}"
                         BackgroundColor="{StaticResource FieldPhotoColorLight}"
+                        IsVisible="{Binding DocumentVisible}"
                         Command="{Binding AddDocumentCommand}"/>
             </StackLayout>
 

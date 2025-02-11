@@ -82,7 +82,17 @@ namespace GSCFieldApp.ViewModel
         public string DrillHoleLogTo { get { return _drillHoleLogTo; } set { _drillHoleLogTo = value; } }
         public ObservableCollection<ComboBoxItem> DrillHoleLogIntervalCollection { get { return _drillHoleLogIntervalCollection; } set { _drillHoleLogIntervalCollection = value; OnPropertyChanged(nameof(DrillHoleLogIntervalCollection)); } }
 
+        public bool EarthMaterialVisible
+        {
+            get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
+            set { Preferences.Set(nameof(EarthMaterialVisible), value); }
+        }
 
+        public bool DocumentVisible
+        {
+            get { return Preferences.Get(nameof(DocumentVisible), true); }
+            set { Preferences.Set(nameof(DocumentVisible), value); }
+        }
         #endregion
 
         #region RELAYS

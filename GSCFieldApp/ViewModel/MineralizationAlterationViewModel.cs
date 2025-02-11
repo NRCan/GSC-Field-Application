@@ -100,6 +100,11 @@ namespace GSCFieldApp.ViewModel
         }
         public ObservableCollection<ComboBoxItem> MineralizationAlterationDistributionCollection { get { return _mineralizationAlterationDistributionCollection; } set { _mineralizationAlterationDistributionCollection = value; OnPropertyChanged(nameof(MineralizationAlterationDistributionCollection)); } }
 
+        public bool MineralVisible
+        {
+            get { return Preferences.Get(nameof(MineralVisible), true); }
+            set { Preferences.Set(nameof(MineralVisible), value); }
+        }
         #endregion
 
         #region RELAYS

@@ -3373,7 +3373,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hides/shows theme bars in the field notes page..
+        ///   Looks up a localized string similar to Hides/shows record in the field notes page and within the forms..
         /// </summary>
         internal static string SettingPageThemeExplanation {
             get {

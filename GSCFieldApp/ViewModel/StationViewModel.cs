@@ -115,6 +115,30 @@ namespace GSCFieldApp.ViewModel
         }
         public ObservableCollection<ComboBoxItem> QualityCollection { get { return _qualityCollection; } set { _qualityCollection = value; } }
 
+        public bool EnvironmentVisible
+        {
+            get { return Preferences.Get(nameof(EnvironmentVisible), true); }
+            set { Preferences.Set(nameof(EnvironmentVisible), value); }
+        }
+
+        public bool EarthMaterialVisible
+        {
+            get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
+            set { Preferences.Set(nameof(EarthMaterialVisible), value); }
+        }
+
+        public bool DocumentVisible
+        {
+            get { return Preferences.Get(nameof(DocumentVisible), true); }
+            set { Preferences.Set(nameof(DocumentVisible), value); }
+        }
+
+        public bool MineralizationVisible
+        {
+            get { return Preferences.Get(nameof(MineralizationVisible), true); }
+            set { Preferences.Set(nameof(MineralizationVisible), value); }
+        }
+
         //public bool BedrockVisibility { get { return _bedrockVisibility; } set { _bedrockVisibility = value; } }
         #endregion 
 

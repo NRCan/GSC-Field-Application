@@ -151,20 +151,24 @@
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" ToolTipProperties.Text="{local:Localize StationTooltipAddEM}" 
                         Margin="0,10,0,10" 
+                        IsVisible="{Binding EarthMaterialVisible}"
                         BackgroundColor="{StaticResource FieldEarthMaterialColorLight}"
                         Command="{Binding AddEarthmatCommand}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" 
                         ToolTipProperties.Text="{local:Localize StationTooltipAddEnv}"
                         Command="{Binding AddEnvironmentCommand}"
+                        IsVisible="{Binding EnvironmentVisible}"
                         BackgroundColor="{StaticResource FieldEnvironmentColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" 
+                        IsVisible="{Binding MineralizationVisible}"
                         ToolTipProperties.Text="{local:Localize StationTooltipAddMA}"
                         Command="{Binding AddMineralizationCommand}"
                         BackgroundColor="{StaticResource FieldMineralAlterationColorLight}"/>
                 <Button Text="&#xF0415;" Style="{StaticResource FieldAppHeaderButton}" 
                         WidthRequest="40" Margin="0,10,0,10" 
+                        IsVisible="{Binding DocumentVisible}"
                         ToolTipProperties.Text="{local:Localize StationTooltipAddPhoto}"
                         BackgroundColor="{StaticResource FieldPhotoColorLight}"
                         Command="{Binding AddDocumentCommand}"/>

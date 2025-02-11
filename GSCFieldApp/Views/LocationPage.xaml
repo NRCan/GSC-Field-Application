@@ -233,6 +233,7 @@
                         WidthRequest="40" Margin="0,10,0,10" 
                         ToolTipProperties.Text="{local:Localize LocationPageTooltipAddDrill}"
                         Command="{Binding AddDrillCommand}"
+                        IsVisible="{Binding DrillHoleVisible}"
                         BackgroundColor="{StaticResource FieldDrillColor}"/>
 
             </StackLayout>

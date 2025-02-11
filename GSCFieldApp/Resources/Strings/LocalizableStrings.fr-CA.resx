@@ -1067,7 +1067,7 @@ Aimeriez-vous modifier les droits?</value>
     <value>Tables des notes de terrain</value>
   </data>
   <data name="SettingPageThemeExplanation" xml:space="preserve">
-    <value>Masque/Affiche les barres de thèmes dans la page de notes de terrain.</value>
+    <value>Masque/Affiche les enregistrement dans la page de notes de terrain et dans les formulaires.</value>
   </data>
   <data name="SettingPageTitle" xml:space="preserve">
     <value>Paramètres</value>

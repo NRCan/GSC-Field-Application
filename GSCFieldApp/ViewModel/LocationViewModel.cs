@@ -67,6 +67,12 @@ namespace GSCFieldApp.ViewModel
 
         public ComboBox LocationGeodeticSystem { get { return _locationGeodeticSystem; } set { _locationGeodeticSystem = value; } }
 
+        public bool DrillHoleVisible
+        {
+            get { return Preferences.Get(nameof(DrillHoleVisible), true); }
+            set { Preferences.Set(nameof(DrillHoleVisible), value); }
+        }
+
         #endregion
 
         #region RELAYS

@@ -1066,7 +1066,7 @@
     <value>Field Notes Tables</value>
   </data>
   <data name="SettingPageThemeExplanation" xml:space="preserve">
-    <value>Hides/shows theme bars in the field notes page.</value>
+    <value>Hides/shows record in the field notes page and within the forms.</value>
   </data>
   <data name="SettingPageTitle" xml:space="preserve">
     <value>Settings</value>
