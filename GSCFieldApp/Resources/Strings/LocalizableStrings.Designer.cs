@@ -3472,7 +3472,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quick Database Backup.
+        ///   Looks up a localized string similar to Export Field Notes.
         /// </summary>
         internal static string ShellQuickBackupTitle {
             get {
@@ -3499,7 +3499,7 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quick Photo Backup.
+        ///   Looks up a localized string similar to Export Photos.
         /// </summary>
         internal static string ShellQuickPhotoBackupTitle {
             get {

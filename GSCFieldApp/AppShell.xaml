@@ -10,11 +10,11 @@
 
     <!-- NOTE: Adding anything in here, even if registered as transient in MauiProgram, won't
     recreate the page. It'll be create once and that's it -->
-    
+
     <ShellContent
-            Title="GSC Field App" FlyoutItemIsVisible="True" 
+            Title="GSC Field App" FlyoutItemIsVisible="True" Icon="logo.png"
             ContentTemplate="{DataTemplate views:FieldBooksPage}" Route="FieldBooksPage"/>
-    
+
     <FlyoutItem Title="{local:Localize ShellFieldBooksTitle}">
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF125F;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
@@ -42,13 +42,13 @@
         </MenuItem.IconImageSource>
     </MenuItem>
 
-    <MenuItem Text="{local:Localize ShellQuickPhotoBackupTitle}" Command="{Binding DoPhotoBackupCommand}" >
+    <MenuItem Text="{local:Localize ShellQuickPhotoBackupTitle}" Command="{Binding DoPhotoBackupCommand}">
         <MenuItem.IconImageSource>
             <FontImageSource Glyph="&#xF0693;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </MenuItem.IconImageSource>
     </MenuItem>
 
-    <FlyoutItem Title="{local:Localize ShellPicklistEditorTitle}" >
+    <FlyoutItem Title="{local:Localize ShellPicklistEditorTitle}">
         <FlyoutItem.FlyoutIcon>
             <FontImageSource Glyph="&#xF0900;" FontFamily="MatDesign" Color="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}"/>
         </FlyoutItem.FlyoutIcon>

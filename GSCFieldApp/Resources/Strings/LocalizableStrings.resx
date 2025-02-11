@@ -1096,10 +1096,10 @@
     <value>Picklist editor</value>
   </data>
   <data name="ShellQuickBackupTitle" xml:space="preserve">
-    <value>Quick Database Backup</value>
+    <value>Export Field Notes</value>
   </data>
   <data name="ShellQuickPhotoBackupTitle" xml:space="preserve">
-    <value>Quick Photo Backup</value>
+    <value>Export Photos</value>
   </data>
   <data name="ShellSettingsTitle" xml:space="preserve">
     <value>Settings</value>
