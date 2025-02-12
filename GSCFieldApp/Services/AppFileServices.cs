@@ -155,7 +155,7 @@ namespace GSCFieldApp.Services
                         //Make sure to not self zip current zip
                         if (!file.Contains(LocalizationResourceManager["FieldBookBackupGeneric"].ToString()))
                         {
-                            var entryName = Path.GetFileName(file);
+                            var entryName = Path.GetFileName(file).Replace(DatabaseLiterals.DBTypeSqliteDeprecated, DatabaseLiterals.DBTypeSqlite); ;
                             var entry = archive.CreateEntry(entryName);
                             entry.LastWriteTime = File.GetLastWriteTime(file);
                             using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
