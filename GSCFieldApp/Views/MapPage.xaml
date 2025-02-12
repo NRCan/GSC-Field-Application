@@ -226,10 +226,14 @@
             <StackLayout Orientation="Horizontal" BackgroundColor="{StaticResource Primary}" Grid.Row="3" FlowDirection="RightToLeft" >
 
                 <!--Tap option -->
-                <Button x:Name="GPSMode" Text="&#xF01A4;" 
+                <Button x:Name="GPSMode" Text="&#xF0909;"
                         ToolTipProperties.Text="{local:Localize MapPageGPSMode}"
                         Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"/>
-
+                
+                <Button x:Name="TapMode" Text="&#xF0741;"
+                        ToolTipProperties.Text="{local:Localize MapPageGPSMode}" IsVisible="False"
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="TapMode_Clicked"/>
+                
                 <!--Manage layers-->
                 <Button x:Name="ManageLayerButton" Text="&#xF0F59;" 
                         ToolTipProperties.Text="{local:Localize MapPageLayer}"

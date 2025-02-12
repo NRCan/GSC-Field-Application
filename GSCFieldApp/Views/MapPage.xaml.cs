@@ -76,6 +76,7 @@ public partial class MapPage : ContentPage
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
     //Symbols
     private int bitmapSymbolId = -1;
+    
 
     #region Properties
 
@@ -115,6 +116,7 @@ public partial class MapPage : ContentPage
 
             //Initialize grid background
             mapPageGrid.BackgroundColor = Mapsui.Styles.Color.FromString("White").ToNative();
+            GPSMode.TextColor = Mapsui.Styles.Color.FromString("White").ToNative();
             mapControl.Map.Widgets.Add(new Mapsui.Widgets.ScaleBar.ScaleBarWidget(mapControl.Map)
             {
                 TextAlignment = Mapsui.Widgets.Alignment.Center,
@@ -557,25 +559,23 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// Will enable/disable GPS. When disabled user can tap on screen to create stations
+    /// Will disable GPS and activate tap entries
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     private void GPSMode_Clicked(object sender, EventArgs e)
     {
-        if (_isCheckingGeolocation)
-        {
-            StopGPSAsync();
+        SwitchGPSOrTap();
+    }
 
-            //TODO find a working way of changing button symbol
-            //tried in map view model like in version 2 Couldn't make it work
-            //this.GPSMode.Text = "&#xF023D;";
-            //this.GPSMode.FontFamily = "MatDesign";
-        }
-        else
-        {
-            _ = StartGPS();
-        }
+    /// <summary>
+    /// Will disable tap entries and activate GPS
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void TapMode_Clicked(object sender, EventArgs e)
+    {
+        SwitchGPSOrTap();
     }
 
     /// <summary>
@@ -1590,6 +1590,7 @@ public partial class MapPage : ContentPage
         if (App.Current.Resources.TryGetValue("PositionColor", out var colorvalue))
         {
             mapPageGrid.BackgroundColor = colorvalue as Microsoft.Maui.Graphics.Color;
+            GPSMode.TextColor = colorvalue as Microsoft.Maui.Graphics.Color;
         }
 
         //Parse accuracy to change color
@@ -1598,6 +1599,7 @@ public partial class MapPage : ContentPage
             if (App.Current.Resources.TryGetValue("WarningColor", out var warningColorvalue))
             {
                 mapPageGrid.BackgroundColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
+                GPSMode.TextColor = warningColorvalue as Microsoft.Maui.Graphics.Color;
             }
 
 
@@ -1607,6 +1609,7 @@ public partial class MapPage : ContentPage
             if (App.Current.Resources.TryGetValue("ErrorColor", out var errorColorvalue))
             {
                 mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+                GPSMode.TextColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
             }
 
         }
@@ -1615,6 +1618,7 @@ public partial class MapPage : ContentPage
             if (App.Current.Resources.TryGetValue("Gray400", out var errorColorvalue))
             {
                 mapPageGrid.BackgroundColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
+                GPSMode.TextColor = errorColorvalue as Microsoft.Maui.Graphics.Color;
             }
         }
     }
@@ -2250,6 +2254,29 @@ public partial class MapPage : ContentPage
         return new Tuple<double, double>(_viewportWidthRatio, _viewportHeightRatio);
     }
 
+    /// <summary>
+    /// Will enable/disable GPS and disable/enable tap entry
+    /// </summary>
+    private void SwitchGPSOrTap()
+    {
+        if (_isCheckingGeolocation)
+        {
+            StopGPSAsync();
+
+            //Show tap icon instead
+            GPSMode.IsVisible = false;
+            TapMode.IsVisible = true;
+        }
+        else
+        {
+            _ = StartGPS();
+
+            //Show satellite GNSS icon instead
+            GPSMode.IsVisible = true;
+            TapMode.IsVisible = false;
+        }
+    }
+
     #endregion
 
     #region GPS
@@ -2615,7 +2642,6 @@ public partial class MapPage : ContentPage
 
         return _locationFollowEnabled;
     }
+
     #endregion
-
-
 }
