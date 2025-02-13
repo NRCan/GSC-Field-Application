@@ -2514,6 +2514,7 @@ public partial class MapPage : ContentPage
                 await SetMapAccuracyColor(inLocation.Accuracy);
 
                 mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
+                mapView.MyLocationEnabled = true;
                 mapView.RefreshGraphics();
                 mapView.MyLocationFollow = _locationFollowEnabled;
 
@@ -2568,6 +2569,13 @@ public partial class MapPage : ContentPage
         MapViewModel _vm = BindingContext as MapViewModel;
         _vm.RefreshCoordinates(badLoc);
 
+        //Turn off location blue point
+        if (mapView != null && mapView.MyLocationLayer != null)
+        {
+            mapView.MyLocationEnabled = false;
+            mapView.RefreshGraphics();
+        }
+        
         this.WaitingCursor.IsRunning = false;
     }
 
