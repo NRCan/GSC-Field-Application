@@ -7,12 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using GSCFieldApp.Services;
 using GSCFieldApp.Dictionaries;
+using GSCFieldApp.Services.DatabaseServices;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Storage;
+using System.Threading;
 
 namespace GSCFieldApp.ViewModel
 {
     public partial class SettingsViewModel: ObservableObject
     {
         #region PROPERTIES
+        public LocalizationResourceManager LocalizationResourceManager
+            => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
+
+
         public bool EarthMaterialVisible
         {
             get { return Preferences.Get(nameof(EarthMaterialVisible), true); }
@@ -135,6 +143,25 @@ namespace GSCFieldApp.ViewModel
             GPSLogFilePath = await fileServices.SaveLogFile(ApplicationLiterals.gpsLogFileNameExt, CancellationToken.None);
         }
 
+        [RelayCommand]
+        public async Task RepairGeometry()
+        { 
+            GeopackageService geopackageService = new GeopackageService();
+            bool repairedCompletedWithoutErrors = await geopackageService.RepairLocationGeometry();
+
+            //Use Toast to show card in window interface or system like notification rather then modal alert popup.
+            if (repairedCompletedWithoutErrors)
+            {
+                string toastText = LocalizationResourceManager["ToastLocationRepaired"].ToString();
+
+                await Toast.Make(toastText).Show(CancellationToken.None);
+            }
+            else
+            {
+                string toastText = LocalizationResourceManager["ToastLocationRepairedFailed"].ToString();
+                await Toast.Make(toastText).Show(CancellationToken.None);
+            }
+        }
         #endregion
 
         public SettingsViewModel() { }

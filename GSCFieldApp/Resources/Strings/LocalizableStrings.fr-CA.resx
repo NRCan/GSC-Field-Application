@@ -1438,4 +1438,13 @@ Aimeriez-vous modifier les droits?</value>
   <data name="SettingPageHelicopterHeading" xml:space="preserve">
     <value>Hélicoptère</value>
   </data>
+  <data name="SettingPageRepairGeometryDownload" xml:space="preserve">
+    <value>Réparer la géométrie (localisation)</value>
+  </data>
+  <data name="ToastLocationRepaired" xml:space="preserve">
+    <value>Les géométries de localisation ont été réparées.</value>
+  </data>
+  <data name="ToastLocationRepairedFailed" xml:space="preserve">
+    <value>Une erreur est survenue lors de la réparation, veuillez consulter le journal de debug pour plus de détails.</value>
+  </data>
 </root>

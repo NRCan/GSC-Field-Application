@@ -3373,6 +3373,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Repair geometry (location).
+        /// </summary>
+        internal static string SettingPageRepairGeometryDownload {
+            get {
+                return ResourceManager.GetString("SettingPageRepairGeometryDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hides/shows record in the field notes page and within the forms..
         /// </summary>
         internal static string SettingPageThemeExplanation {
@@ -3972,6 +3981,24 @@ namespace GSCFieldApp.Resources.Strings {
         internal static string ToastImportRecord {
             get {
                 return ResourceManager.GetString("ToastImportRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location geometry repaired..
+        /// </summary>
+        internal static string ToastLocationRepaired {
+            get {
+                return ResourceManager.GetString("ToastLocationRepaired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured while trying to repair the geometry. Please consult debug file..
+        /// </summary>
+        internal static string ToastLocationRepairedFailed {
+            get {
+                return ResourceManager.GetString("ToastLocationRepairedFailed", resourceCulture);
             }
         }
         

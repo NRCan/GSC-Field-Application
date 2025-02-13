@@ -80,8 +80,6 @@ namespace GSCFieldApp.Services.DatabaseServices
         public const string GpkgDeleteSpatialRef = "spatial_ref_sys";
         public const string GpkgDeleteSpatialRefAux = "spatial_ref_sys_aux";
 
-
-
         //Geopackage style strings
         public const string GpkgStyleRoot = "NamedLayer"; //Basic root node
         public const string GpkgStyleStrokeRoot = "Stroke";
@@ -953,6 +951,51 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             await inConnection.CloseAsync();
 
+        }
+
+        /// <summary>
+        /// Will repair the geometry of feature and enforce the right bytes in the geometry field coming from textual coordinates
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> RepairLocationGeometry()
+        {
+            bool repaired = true;
+
+            //Connect
+            SQLiteAsyncConnection inConnection = new SQLiteAsyncConnection(dAcccess.PreferedDatabasePath);
+
+            //Get all features
+            List<FieldLocation> fieldLocations = await inConnection.Table<FieldLocation>().ToListAsync();
+
+            //Close
+            await inConnection.CloseAsync();
+
+            //Go through all features and get byte for long/lat
+            if (fieldLocations != null)
+            {
+                foreach (FieldLocation locs in fieldLocations)
+                {
+                    if (!locs.LocationLong.IsZeroOrNaN() && !locs.LocationLat.IsZeroOrNaN())
+                    {
+                        try
+                        {
+                            byte[] byteGeom = CreateByteGeometryPoint(locs.LocationLong, locs.LocationLat);
+                            locs.LocationGeometry = byteGeom;
+
+                            await dAcccess.SaveItemAsync(locs, true);
+                        }
+                        catch (Exception e)
+                        {
+                            new ErrorToLogFile(e).WriteToFile();
+                            repaired = false;
+                        }
+
+                    }
+                    
+                }
+            }
+
+            return repaired;
         }
     }
 }

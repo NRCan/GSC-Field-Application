@@ -154,6 +154,7 @@
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
                                     <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
                                 </Grid.RowDefinitions>
 
                                 <!--Download log file-->
@@ -166,9 +167,14 @@
                                 <Switch IsToggled="{Binding GPSLogEnabled, Mode=TwoWay}" Grid.Column="1" HorizontalOptions="EndAndExpand" Grid.Row="1" />
 
                                 <!--Download GPS log tracking file-->
-                                <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="3" Command="{Binding DoGPSLogBackupCommand}"/>
+                                <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="2" Command="{Binding DoGPSLogBackupCommand}"/>
                                 <Label Text="{local:Localize SettingPageGPSLogDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="2" Grid.Column="0" />
                                 <Label Text="&#xF01DA;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="2" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
+
+                                <!--Redo geometry for F_LOCATION-->
+                                <Button Style="{StaticResource FieldAppRowButton}" Grid.ColumnSpan="2" Grid.Row="3" Command="{Binding RepairGeometryCommand}"/>
+                                <Label Text="{local:Localize SettingPageRepairGeometryDownload}" FontSize="Small" HorizontalOptions="Start" VerticalOptions="Center" Grid.Row="3" Grid.Column="0" />
+                                <Label Text="&#xF05B7;" FontFamily="MatDesign" FontSize="Large" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" Grid.Row="3" Grid.Column="1" TextColor="{StaticResource Gray400}"/>
 
                             </Grid>
 

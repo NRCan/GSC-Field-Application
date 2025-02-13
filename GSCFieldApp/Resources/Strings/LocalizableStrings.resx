@@ -1437,4 +1437,13 @@
   <data name="SettingPageHelicopterHeading" xml:space="preserve">
     <value>Helicopter</value>
   </data>
+  <data name="SettingPageRepairGeometryDownload" xml:space="preserve">
+    <value>Repair geometry (location)</value>
+  </data>
+  <data name="ToastLocationRepaired" xml:space="preserve">
+    <value>Location geometry repaired.</value>
+  </data>
+  <data name="ToastLocationRepairedFailed" xml:space="preserve">
+    <value>An error occured while trying to repair the geometry. Please consult debug file.</value>
+  </data>
 </root>
