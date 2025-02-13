@@ -31,6 +31,8 @@ using System.Xml.XPath;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using SQLitePCL;
+using NetTopologySuite.Index;
+using System.Diagnostics;
 
 namespace GSCFieldApp.Services.DatabaseServices
 {
@@ -52,6 +54,33 @@ namespace GSCFieldApp.Services.DatabaseServices
         public const string GpkgFieldGeometry = "geom";
         public const string GpkgFieldGeometryType = "geometry_type_name";
         public const string GpkgFieldGeometryColumnName = "column_name";
+
+        //Geopackage table names to delete for ArcGIS Pro compatibility
+        public const string GpkgDeleteTableGeomColumn = "geometry_columns";
+        public const string GpkgDeleteTableGeomColumnAuth = "geometry_columns_auth";
+        public const string GpkgDeleteTableGeomColumnFieldInfo = "geometry_columns_field_infos";
+        public const string GpkgDeleteTableGeomColumnStat = "geometry_columns_statistics";
+        public const string GpkgDeleteTableGeomColumnTime = "geometry_columns_time";
+
+        public const string GpkgDeleteTableViewGeomColumn = "views_geometry_columns";
+        public const string GpkgDeleteTableViewGeomColumnAuth = "views_geometry_columns_auth";
+        public const string GpkgDeleteTableViewGeomColumnFieldInfo = "views_geometry_columns_field_infos";
+        public const string GpkgDeleteTableViewGeomColumnStat = "views_geometry_columns_statistics";
+
+        public const string GpkgDeleteTableVirtGeomColumn = "virts_geometry_columns";
+        public const string GpkgDeleteTableVirtGeomColumnAuth = "virts_geometry_columns_auth";
+        public const string GpkgDeleteTableVirtGeomColumnFieldInfo = "virts_geometry_columns_field_infos";
+        public const string GpkgDeleteTableVirtGeomColumnStat = "virts_geometry_columns_statistics";
+
+        //public const string GpkgDeleteSpatialIndex = "SpatialIndex"; 
+        public const string GpkgDeleteSpatialite= "spatialite_history";
+        public const string GpkgDeleteStatements = "sql_statements_log";
+        public const string GpkgDeleteDataLicenses = "data_licenses";
+        //public const string GpkgDeleteElemGeom = "ElementaryGeometries";
+        public const string GpkgDeleteSpatialRef = "spatial_ref_sys";
+        public const string GpkgDeleteSpatialRefAux = "spatial_ref_sys_aux";
+
+
 
         //Geopackage style strings
         public const string GpkgStyleRoot = "NamedLayer"; //Basic root node
@@ -882,6 +911,39 @@ namespace GSCFieldApp.Services.DatabaseServices
                     }
                 }
             }
+
+        }
+
+        /// <summary>
+        /// Need to run some clean-up process (table deletion) so the output
+        /// geopackage works correctly in ArcGIS Pro.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task MakeGeopackageArcGISCompatible(string connectionPath)
+        {
+            SQLiteAsyncConnection inConnection = new SQLiteAsyncConnection(connectionPath);
+
+
+            List<string> tablesToDelete = new List<string>() { GpkgDeleteDataLicenses, GpkgDeleteSpatialite,
+                GpkgDeleteSpatialRef, GpkgDeleteSpatialRefAux,
+                GpkgDeleteStatements, GpkgDeleteTableGeomColumn, GpkgDeleteTableGeomColumnAuth, 
+                GpkgDeleteTableGeomColumnFieldInfo, GpkgDeleteTableGeomColumnStat, GpkgDeleteTableGeomColumnTime,
+                GpkgDeleteTableViewGeomColumn, GpkgDeleteTableViewGeomColumnAuth, GpkgDeleteTableViewGeomColumnFieldInfo,
+                GpkgDeleteTableViewGeomColumnStat, GpkgDeleteTableVirtGeomColumn, GpkgDeleteTableVirtGeomColumnAuth, 
+                GpkgDeleteTableVirtGeomColumnFieldInfo, GpkgDeleteTableVirtGeomColumnStat};
+
+            Parallel.ForEach(tablesToDelete, async (table) =>
+            {
+                try
+                {
+                    await inConnection.ExecuteAsync(string.Format("DROP TABLE {0};", table));
+                }
+                catch (SQLite.SQLiteException ex)
+                {
+                }
+            });
+
+            await inConnection.CloseAsync();
 
         }
     }

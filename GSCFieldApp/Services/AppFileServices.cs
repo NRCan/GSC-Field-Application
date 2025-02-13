@@ -43,6 +43,9 @@ namespace GSCFieldApp.Services
                     LocalizationResourceManager["GenericButtonOk"].ToString());
             }
 
+            //Clean geopackage so it's compatible with ArcGIS
+            await GeopackageService.MakeGeopackageArcGISCompatible(da.PreferedDatabasePath);
+
             //Open desired file
             using Stream stream = System.IO.File.OpenRead(da.PreferedDatabasePath);
 
@@ -142,6 +145,9 @@ namespace GSCFieldApp.Services
 
             //Swap vocab, take global ones and replaced with whatever is in the prefered database
             bool swapedWithoutError = await da.DoSwapVocab(da.DatabaseFilePath, da.PreferedDatabasePath, true);
+
+            //Clean geopackage so it's compatible with ArcGIS
+            await GeopackageService.MakeGeopackageArcGISCompatible(da.PreferedDatabasePath);
 
             if (swapedWithoutError)
             {
