@@ -64,7 +64,7 @@ namespace GSCFieldApp.Models
         {
             GeopackageLayerStyling polyStyle = new GeopackageLayerStyling();
             polyFillColor = Color.FromString("LightGrey");
-            polyOutlineColor = Color.FromString("Grey");
+            polyOutlineColor = Color.FromString("Black");
             polyOutlineWidth = 1;
 
             polyVectorStyle = new VectorStyle { Fill = new Mapsui.Styles.Brush(polyFillColor), Outline = new Pen(polyOutlineColor, polyOutlineWidth) };
@@ -80,10 +80,10 @@ namespace GSCFieldApp.Models
         {
             GeopackageLayerStyling pointStyle = new GeopackageLayerStyling();
             pointFillColor = Color.FromString("LightGrey");
-            pointOutlineColor = Color.FromString("Grey");
-            pointOutlineWidth = 0.1;
+            pointOutlineColor = Color.FromString("Black");
+            pointOutlineWidth = 1;
 
-            pointVectorStyle = new SymbolStyle { BlendModeColor = pointFillColor, SymbolScale = 0.3, Fill = new Mapsui.Styles.Brush(pointFillColor), Outline = new Pen(pointOutlineColor, pointOutlineWidth) };
+            pointVectorStyle = new SymbolStyle { BlendModeColor = pointFillColor, SymbolScale = 0.5, Fill = new Mapsui.Styles.Brush(pointFillColor), Outline = new Pen(pointOutlineColor, pointOutlineWidth) };
 
             return pointStyle;
         }

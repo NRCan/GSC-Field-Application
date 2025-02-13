@@ -815,12 +815,20 @@ namespace GSCFieldApp.Services.DatabaseServices
 
             //Read from geopackage style table
             string getStyleXML = string.Format("SELECT {0} FROM {1} WHERE {2} = '{3}';", GpkgFieldStyleSLD, GpkgTableStyle, GpkgFieldStyleTableName, tableName);
-            List<string> xmlStyle = await gpkgConnection.QueryScalarsAsync<string>(getStyleXML);
-
-            if (xmlStyle != null && xmlStyle.Count() > 0)
+            try
             {
-                xmlString = xmlStyle[0];
+                List<string> xmlStyle = await gpkgConnection.QueryScalarsAsync<string>(getStyleXML);
+
+                if (xmlStyle != null && xmlStyle.Count() > 0)
+                {
+                    xmlString = xmlStyle[0];
+                }
             }
+            catch (Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+            }
+
 
             return xmlString;
         }
