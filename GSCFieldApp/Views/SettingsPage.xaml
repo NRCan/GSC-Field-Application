@@ -185,7 +185,10 @@
                 </Border>
                 
                 <!--TODO: implement version 2 app other settings-->
-                
+
+                <!--Waiting indication-->
+                <ActivityIndicator x:Name="WaitingCursor" IsRunning="{Binding IsWaiting, Mode=TwoWay}" Style="{StaticResource FieldAppActivityIndicator}" />
+
             </VerticalStackLayout>
         </ScrollView>
 

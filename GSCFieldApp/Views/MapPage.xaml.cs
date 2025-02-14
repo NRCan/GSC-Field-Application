@@ -2569,6 +2569,8 @@ public partial class MapPage : ContentPage
         MapViewModel _vm = BindingContext as MapViewModel;
         _vm.RefreshCoordinates(badLoc);
 
+        this.WaitingCursor.IsRunning = false;
+
         //Turn off location blue point
         if (mapView != null && mapView.MyLocationLayer != null)
         {
@@ -2576,7 +2578,6 @@ public partial class MapPage : ContentPage
             mapView.RefreshGraphics();
         }
         
-        this.WaitingCursor.IsRunning = false;
     }
 
     /// <summary>
