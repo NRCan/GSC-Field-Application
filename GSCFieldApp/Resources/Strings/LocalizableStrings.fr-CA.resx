@@ -1447,4 +1447,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="ToastLocationRepairedFailed" xml:space="preserve">
     <value>Une erreur est survenue lors de la réparation, veuillez consulter le journal de debug pour plus de détails.</value>
   </data>
+  <data name="FieldBooksEditValidationTitle" xml:space="preserve">
+    <value>Mise-à-jour requise</value>
+  </data>
+  <data name="FieldBooksEditValidationContent" xml:space="preserve">
+    <value>Mettre-à-jour le carnet avant de l'éditer.</value>
+  </data>
 </root>

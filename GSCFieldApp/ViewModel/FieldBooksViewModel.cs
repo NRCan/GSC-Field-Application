@@ -191,12 +191,22 @@ namespace GSCFieldApp.ViewModel
             // Keep in preferences
             SetFieldBookAsPreferred(fbToEdit);
 
-            await Shell.Current.GoToAsync($"/{nameof(FieldBookPage)}/",
-                new Dictionary<string, object>
-                {
-                    [nameof(Metadata)] = fbToEdit.metadataForProject,
-                }
-            );
+            if (fbToEdit.isValid)
+            {
+                await Shell.Current.GoToAsync($"/{nameof(FieldBookPage)}/",
+                    new Dictionary<string, object>
+                    {
+                        [nameof(Metadata)] = fbToEdit.metadataForProject,
+                    }
+                );
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert(LocalizationResourceManager["FieldBooksEditValidationTitle"].ToString(),
+                    LocalizationResourceManager["FieldBooksEditValidationContent"].ToString(),
+                    LocalizationResourceManager["GenericButtonOk"].ToString());
+            }
+
         }
         #endregion
 
@@ -503,11 +513,7 @@ namespace GSCFieldApp.ViewModel
             //Variables
             bool canUpgrade = false;
 
-            //Check #1 Needs more then one location for it to be upgradable
-            FieldLocation fieldLocationQuery = new FieldLocation();
-            int locationCount = await da.GetTableCount(fieldLocationQuery.GetType());
-
-            //Check #2 DB version must be older then current
+            //Check DB version must be older then current
             _dbVersion = await da.GetDBVersion();
 
             if (_dbVersion != DatabaseLiterals.DBVersion 

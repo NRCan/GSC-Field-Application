@@ -1446,4 +1446,10 @@
   <data name="ToastLocationRepairedFailed" xml:space="preserve">
     <value>An error occured while trying to repair the geometry. Please consult debug file.</value>
   </data>
+  <data name="FieldBooksEditValidationTitle" xml:space="preserve">
+    <value>Upgrade needed</value>
+  </data>
+  <data name="FieldBooksEditValidationContent" xml:space="preserve">
+    <value>Upgrade field book before editing it.</value>
+  </data>
 </root>

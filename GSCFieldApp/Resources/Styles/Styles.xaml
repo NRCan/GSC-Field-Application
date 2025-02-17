@@ -187,7 +187,6 @@
         </Setter>
     </Style>
 
-
     <Style TargetType="Button" x:Key="FieldAppRowButton">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
@@ -213,7 +212,6 @@
             </VisualStateGroupList>
         </Setter>
     </Style>
-
 
     <Style TargetType="Button" x:Key="FieldAppSymbolButton">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />

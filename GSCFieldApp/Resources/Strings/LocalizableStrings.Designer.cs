@@ -1645,6 +1645,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upgrade field book before editing it..
+        /// </summary>
+        internal static string FieldBooksEditValidationContent {
+            get {
+                return ResourceManager.GetString("FieldBooksEditValidationContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrade needed.
+        /// </summary>
+        internal static string FieldBooksEditValidationTitle {
+            get {
+                return ResourceManager.GetString("FieldBooksEditValidationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upgrade needed.
         /// </summary>
         internal static string FieldBooksInvalidVersion {
