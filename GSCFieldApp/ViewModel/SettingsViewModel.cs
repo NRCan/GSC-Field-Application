@@ -126,6 +126,9 @@ namespace GSCFieldApp.ViewModel
             set { }
         }
 
+        private bool _isWaiting = false;
+        public bool IsWaiting { get { return _isWaiting; } set { _isWaiting = value; } }
+
         #endregion
 
         #region RELAYS
@@ -145,7 +148,10 @@ namespace GSCFieldApp.ViewModel
 
         [RelayCommand]
         public async Task RepairGeometry()
-        { 
+        {
+            _isWaiting = true;
+            OnPropertyChanged(nameof(IsWaiting));
+
             GeopackageService geopackageService = new GeopackageService();
             bool repairedCompletedWithoutErrors = await geopackageService.RepairLocationGeometry();
 
@@ -161,6 +167,9 @@ namespace GSCFieldApp.ViewModel
                 string toastText = LocalizationResourceManager["ToastLocationRepairedFailed"].ToString();
                 await Toast.Make(toastText).Show(CancellationToken.None);
             }
+
+            _isWaiting = false;
+            OnPropertyChanged(nameof(IsWaiting));
         }
         #endregion
 
