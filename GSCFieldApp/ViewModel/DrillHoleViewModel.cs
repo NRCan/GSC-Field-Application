@@ -143,7 +143,7 @@ namespace GSCFieldApp.ViewModel
         {
             if (_model.DrillID != 0)
             {
-                await commandServ.DeleteDatabaseItemCommand(TableNames.drill, _model.DrillIDName, _model.DrillLocationID);
+                await commandServ.DeleteDatabaseItemCommand(TableNames.drill, _model.DrillIDName, _model.DrillLocationID, false, _model.DrillID);
             }
 
             //Exit

@@ -27,12 +27,13 @@ namespace GSCFieldApp.Services
         /// Will display an alert in order to delete a datable item.
         /// Will force entry to valide delete action to prevent evil butts to activate command.
         /// </summary>
-        /// <param name="tableToDeleteItemFrom"></param>
-        /// <param name="itemAlias"></param>
-        /// <param name="itemID"></param>
+        /// <param name="tableToDeleteItemFrom">table name to delete from</param>
+        /// <param name="itemAlias">record alias for popup window title</param>
+        /// <param name="itemID">record parent or actual id to delete</param>
+        /// <param name="anotherID">a second id in case parent and actual id are needed (drill hole cases)</param>
         /// <param name="skipPreventionDialog">Will act as a force delete without popup user needs to interact with. Used with quick button back command in map page</param>
         /// <returns></returns>
-        public async Task<int> DeleteDatabaseItemCommand(DatabaseLiterals.TableNames tableToDeleteItemFrom, string itemAlias, int itemID, bool skipPreventionDialog = false)
+        public async Task<int> DeleteDatabaseItemCommand(DatabaseLiterals.TableNames tableToDeleteItemFrom, string itemAlias, int itemID, bool skipPreventionDialog = false, int anotherID = -1)
         {
             //Var
             int numberOfRecordsDelete = 0;
@@ -118,13 +119,20 @@ namespace GSCFieldApp.Services
                         numberOfRecordsDelete = await da.DeleteItemAsync(pflowToDelete);
                         break;
                     case DatabaseLiterals.TableNames.drill:
-                        //Special case with station, it shall delete from location
-                        //And location always cascades
-                        SQLiteAsyncConnection statConnect = da.GetConnectionFromPath(da.PreferedDatabasePath);
-                        List<Station> statSiblings = await statConnect.Table<Station>().Where(s => s.LocationID == itemID).ToListAsync();
-                        if (statSiblings != null && statSiblings.Count() > 0)
+                        //Case # 1
+                        // Parent location without other drill holes or stations should delete and cascade from there
+                        //Case # 2
+                        // Parent location with related stations should only delete the drill hole
+                        //Case # 3
+                        // Parent location with related drill holes should only delete the drill hole
+
+                        SQLiteAsyncConnection dhConnect = da.GetConnectionFromPath(da.PreferedDatabasePath);
+                        List<Station> statSiblings = await dhConnect.Table<Station>().Where(s => s.LocationID == itemID).ToListAsync();
+                        List<DrillHole> dhSiblings = await dhConnect.Table<DrillHole>().Where(d => d.DrillLocationID == itemID).ToListAsync();
+
+                        if ((statSiblings != null && statSiblings.Count() > 0) || (dhSiblings != null && dhSiblings.Count() > 0))
                         {
-                            numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableDrillHoles, DatabaseLiterals.FieldDrillLocationID, itemID);
+                            numberOfRecordsDelete = await da.DeleteItemCascadeAsync(DatabaseLiterals.TableDrillHoles, DatabaseLiterals.FieldDrillID, anotherID);
                         }
                         else
                         {
