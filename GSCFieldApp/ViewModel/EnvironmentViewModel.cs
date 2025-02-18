@@ -325,7 +325,7 @@ namespace GSCFieldApp.ViewModel
             {
                 // if coming from station notes, calculate new alias
                 Model.EnvStationID = _station.StationID;
-                Model.EnvName = await idCalculator.CalculateEnvironmentAliasAsync(_station.StationID, _station.ParentName);
+                Model.EnvName = await idCalculator.CalculateEnvironmentAliasAsync(_station.StationID, _station.StationAlias);
             }
             else if (Model.EnvStationID != null)
             {
