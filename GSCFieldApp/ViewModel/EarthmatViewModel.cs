@@ -1232,7 +1232,11 @@ namespace GSCFieldApp.ViewModel
             }
 
             Model.EarthMatID = 0;
-            
+
+            //There is one picker that needs all brotha's and sista's listing
+            _earthLithContactRelatedAlias = await FillRelatedEarthmatAsync();
+            OnPropertyChanged(nameof(EarthLithContactRelatedAlias));
+
         }
 
         /// <summary>
