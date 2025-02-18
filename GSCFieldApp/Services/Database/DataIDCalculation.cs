@@ -447,7 +447,7 @@ namespace GSCFieldApp.Services.DatabaseServices
             {
                 connection = dAccess.GetConnectionFromPath(dAccess.PreferedDatabasePath);
             }
-            List<Document> docParent = await connection.Table<Document>().Where(e => e.StationID == parentID).ToListAsync();
+            List<Document> docParent = await connection.Table<Document>().Where(e => e.StationID == parentID || e.DrillHoleID == parentID).ToListAsync();
 
             int newID = 1; //Incrementing step
             string newAlias = string.Empty;
