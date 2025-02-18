@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using GSCFieldApp.Dictionaries;
 using Microsoft.Maui.Storage;
+using System.IO;
 
 
 namespace GSCFieldApp.ViewModel
@@ -23,6 +24,11 @@ namespace GSCFieldApp.ViewModel
     [QueryProperty(nameof(DrillHole), nameof(DrillHole))]
     public partial class DocumentViewModel: FieldAppPageHelper
     {
+        //Embedded image source problems
+        //https://github.com/dotnet/maui/issues/8787
+        //Was fixed by using a stream instead of a file path
+        //It also prevents the control from showing the previous snapshot
+
         #region INIT
 
         private Document _model = new Document();
@@ -31,6 +37,7 @@ namespace GSCFieldApp.ViewModel
         private ComboBox _documentFileType = new ComboBox();
         private int _fileNumberTo = 0; //Will be used to calculate external camera ending numbering value
         public bool IsProcessingBatch = false; //Will be used to block picklist from being refilled when processed in abtch
+        private ImageSource _snapshotSource = null;
 
         //Concatenated
         private ComboBoxItem _selectedDocumentCategory = new ComboBoxItem();
@@ -120,7 +127,9 @@ namespace GSCFieldApp.ViewModel
         public ComboBox DocumentFileType { get { return _documentFileType; } set { _documentFileType = value; } }
 
         public int FileNumberTo { get { return _fileNumberTo; } set { _fileNumberTo = value; } }
-       
+
+        public ImageSource SnapshotSource { get { return _snapshotSource; } set { _snapshotSource = value; } }
+
         #endregion
 
         public DocumentViewModel()
@@ -275,10 +284,13 @@ namespace GSCFieldApp.ViewModel
 
             if (MediaPicker.Default.IsCaptureSupported)
             {
-                //Detect existing photo and reset so new photos is saved as new record
+                bool newSnapshot = true; //Will be used to replace snapshot with new one
+
+                //Detect existing embedded photo for further processing in case of replacement
                 if (_document != null && _document.Hyperlink != null && _document.PhotoFileExists)
                 {
-                    await ResetModelAsync();
+                    //await ResetModelAsync();
+                    newSnapshot = false;
                 }
 
                 FileResult snapshot = await MediaPicker.Default.CapturePhotoAsync();
@@ -311,11 +323,15 @@ namespace GSCFieldApp.ViewModel
                         
                     }
 
-                    using Stream sourceStream = await snapshot.OpenReadAsync();
-                    using FileStream fileStream = File.OpenWrite(localFilePath);
-                    await sourceStream.CopyToAsync(fileStream);
+                    using (Stream sourceStream = await snapshot.OpenReadAsync())
+                    {
+                        using (FileStream fileStream = File.OpenWrite(localFilePath))
+                        {
+                            await sourceStream.CopyToAsync(fileStream);
+                        }
+                    }
 
-                    //Keep in model
+                    //Set model
                     _model.Hyperlink = localFilePath;
                     _model.FileName = snapshot.FileName;
                     _model.FileNumber = 0;
@@ -330,11 +346,17 @@ namespace GSCFieldApp.ViewModel
                         new ErrorToLogFile(e).WriteToFile();
                     }
 
-                    sourceStream.Close();
-                    fileStream.Close();
-
                     //Save current record
-                    await SaveAsNewSnapshot();
+                    if (newSnapshot)
+                    {
+                        await SaveAsNewSnapshot();
+                    }
+                    
+                    //Update image source
+                    FileStream snapStream = File.OpenRead(localFilePath);
+                    _snapshotSource = ImageSource.FromStream(() => snapStream);
+                    OnPropertyChanged(nameof(SnapshotSource));
+
                 }
             }
         }
@@ -510,6 +532,13 @@ namespace GSCFieldApp.ViewModel
 
                 #endregion
 
+                //Embedded picture
+                if (_model.Hyperlink != null && _model.Hyperlink != string.Empty)
+                {
+                    FileStream stream = File.OpenRead(_model.Hyperlink);
+                    _snapshotSource = ImageSource.FromStream(() => stream);
+                    OnPropertyChanged(nameof(SnapshotSource));
+                }
             }
         }
 
