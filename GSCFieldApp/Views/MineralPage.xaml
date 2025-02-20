@@ -43,6 +43,8 @@
 
                         <VerticalStackLayout>
 
+                            <Image x:Name="mineralEasterEgg" Source="woah.gif" HeightRequest="300" HorizontalOptions="Center" IsAnimationPlaying="True" IsVisible="False"/>
+                            
                             <!-- Detail search bar (approx >220 items) -->
                             <Label Text="{local:Localize MineralPageName}" Style="{StaticResource FieldAppEntryTitleMandatory}"/>
                             <SearchBar Placeholder="{local:Localize MineralPageNameSearchPlaceholder}"
@@ -62,7 +64,7 @@
                                         Mode=TwoWay}"
                                     SelectedIndex="{Binding MineralMode.cboxDefaultItemIndex, Mode=TwoWay}" />
 
-                            <Image x:Name="mineralEasterEgg" Source="woah.gif" HeightRequest="300" HorizontalOptions="Center" IsAnimationPlaying="True" IsVisible="False"/>
+                            
 
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
