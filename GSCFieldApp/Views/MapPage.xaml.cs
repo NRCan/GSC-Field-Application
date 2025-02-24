@@ -2515,7 +2515,7 @@ public partial class MapPage : ContentPage
 
                 mapView?.MyLocationLayer.UpdateMyLocation(new Mapsui.UI.Maui.Position(inLocation.Latitude, inLocation.Longitude));
                 mapView.MyLocationEnabled = true;
-                mapView.RefreshGraphics();
+                //mapView.RefreshGraphics();
                 mapView.MyLocationFollow = _locationFollowEnabled;
 
                 if (inLocation.Course != null && inLocation.Course.HasValue)
@@ -2525,11 +2525,6 @@ public partial class MapPage : ContentPage
                 else
                 {
                     mapView?.MyLocationLayer.UpdateMyDirection(0, mapView?.Map.Navigator.Viewport.Rotation ?? 0, false);
-                }
-
-                if (inLocation.Speed != null)
-                {
-                    mapView?.MyLocationLayer.UpdateMySpeed(inLocation.Speed.Value);
                 }
 
             }  
