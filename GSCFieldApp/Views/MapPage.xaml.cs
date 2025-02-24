@@ -74,6 +74,7 @@ public partial class MapPage : ContentPage
     private int _locationSettingEnabledAttempt = 0; //used to know when user has turned on location in the device setting
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
+    private bool _isInitialLoadingDone = false; //Used to know if initial loading is done, will prevent reloading all layers each time user comes back to map page
     //Symbols
     private int bitmapSymbolId = -1;
     
@@ -341,6 +342,7 @@ public partial class MapPage : ContentPage
 
             //Force redraw of all
             mapView.Map.RefreshData();
+
         }
         catch (System.Exception e)
         {
@@ -379,6 +381,10 @@ public partial class MapPage : ContentPage
             {
                 await StartGPS();
             }
+
+            //Keep in memory that initial loading is done
+            //Will prevent some method to be launched each time loading has ended
+            _isInitialLoadingDone = true;
         }
         catch (System.Exception exception)
         {
@@ -693,7 +699,7 @@ public partial class MapPage : ContentPage
                     mapView.Map.Refresh();
 
                     //Update layer collection for menu
-                    _vm.RefreshLayerCollection(mapView.Map.Layers);
+                    //_vm.RefreshLayerCollection(mapView.Map.Layers);
 
                     _vm.SaveLayerRendering();
                 }
@@ -988,51 +994,63 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     public async Task LoadPreferedLayers()
     {
-        //Clean before load
-        //Must match layer name else it'll be removed.
-        List<string> prefLayerNames = new List<string>();
-        prefLayerNames.Add(ApplicationLiterals.aliasOSM);
-        prefLayerNames.Add(ApplicationLiterals.aliasTraversePoint);
-        prefLayerNames.Add(ApplicationLiterals.aliasStations);
-        prefLayerNames.Add(ApplicationLiterals.aliasLinework);
-        prefLayerNames.Add(ApplicationLiterals.aliasMapsuiDrawables);
-        prefLayerNames.Add(ApplicationLiterals.aliasMapsuiLayer);
-        prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
-        prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
-
-        ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
-        if (layerToRemove.Count() > 0)
+        if (!_isInitialLoadingDone)
         {
-            mapView.Map.Layers.Remove(layerToRemove);
-        }
-
-        //Get prefered layers and add them
-        MapViewModel _vm = BindingContext as MapViewModel;
-        Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
-
-        if (prefLayers != null && mapView != null)
-        {
-
-            foreach (MapPageLayer mpl in prefLayers)
+            try
             {
-                if (mpl.LayerName != ApplicationLiterals.aliasStations && mpl.LayerName != ApplicationLiterals.aliasLinework)
+                //Clean before load
+                //Must match layer name else it'll be removed.
+                List<string> prefLayerNames = new List<string>();
+                prefLayerNames.Add(ApplicationLiterals.aliasOSM);
+                prefLayerNames.Add(ApplicationLiterals.aliasTraversePoint);
+                prefLayerNames.Add(ApplicationLiterals.aliasStations);
+                prefLayerNames.Add(ApplicationLiterals.aliasLinework);
+                prefLayerNames.Add(ApplicationLiterals.aliasMapsuiDrawables);
+                prefLayerNames.Add(ApplicationLiterals.aliasMapsuiLayer);
+                prefLayerNames.Add(ApplicationLiterals.aliasMapsuiCallouts);
+                prefLayerNames.Add(ApplicationLiterals.aliasMapsuiPins);
+
+                ILayer[] layerToRemove = mapView.Map.Layers.Where(x => !prefLayerNames.Contains(x.Name)).ToArray();
+                if (layerToRemove.Count() > 0)
                 {
-                    if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
-                    {
-                        await AddAMBTile(mpl.LayerPathOrURL, mpl);
-                    }
-                    else if (mpl.LayerType == MapPageLayer.LayerTypes.wms)
-                    {
-                        await AddAWMSAsync(mpl.LayerPathOrURL, mpl.LayerName, mpl.LayerID, true, mpl);
-                    }
-                    else if (mpl.LayerType == MapPageLayer.LayerTypes.gpkg)
-                    {
-                        await AddGPKG(new List<string> { mpl.LayerName }, mpl.LayerPathOrURL, mpl);
-                    }
+                    mapView.Map.Layers.Remove(layerToRemove);
                 }
 
+                //Get prefered layers and add them
+                MapViewModel _vm = BindingContext as MapViewModel;
+                Collection<MapPageLayer> prefLayers = await _vm.GetLayerRendering();
+
+                if (prefLayers != null && mapView != null)
+                {
+
+                    foreach (MapPageLayer mpl in prefLayers)
+                    {
+                        if (mpl.LayerName != ApplicationLiterals.aliasStations && mpl.LayerName != ApplicationLiterals.aliasLinework)
+                        {
+                            if (mpl.LayerType == MapPageLayer.LayerTypes.mbtiles)
+                            {
+                                await AddAMBTile(mpl.LayerPathOrURL, mpl);
+                            }
+                            else if (mpl.LayerType == MapPageLayer.LayerTypes.wms)
+                            {
+                                await AddAWMSAsync(mpl.LayerPathOrURL, mpl.LayerName, mpl.LayerID, true, mpl);
+                            }
+                            else if (mpl.LayerType == MapPageLayer.LayerTypes.gpkg)
+                            {
+                                await AddGPKG(new List<string> { mpl.LayerName }, mpl.LayerPathOrURL, mpl);
+                            }
+                        }
+
+                    }
+                }
             }
+            catch (System.Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
+            }
+
         }
+
     }
 
     /// <summary>
@@ -1419,20 +1437,35 @@ public partial class MapPage : ContentPage
     /// <param name="withCache"></param>
     public void SetOpenStreetMap(bool withCache = true)
     {
-        if (withCache)
+        if (!_isInitialLoadingDone)
         {
-            var persistentCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + "_OSM");
-            HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, ApplicationLiterals.keywordWMS + "/3.0 Maui.net", persistentCache: persistentCache);
-            TileLayer osmLayer = new TileLayer(source);
-            osmLayer.Name = ApplicationLiterals.aliasOSM;
-            mapControl.Map.Layers.Insert(0, osmLayer);
+            if (withCache)
+            {
+                var persistentCache = new SqlitePersistentCache(ApplicationLiterals.keywordWMS + "_OSM");
+                HttpTileSource source = KnownTileSources.Create(KnownTileSource.OpenStreetMap, ApplicationLiterals.keywordWMS + "/3.0 Maui.net", persistentCache: persistentCache);
+                TileLayer osmLayer = new TileLayer(source);
+                osmLayer.Name = ApplicationLiterals.aliasOSM;
+
+                //Prevent duplicates
+                if (mapControl.Map.Layers.Where(n=>n.Name == ApplicationLiterals.aliasOSM).ToList().Count() == 0)
+                {
+                    mapControl.Map.Layers.Insert(0, osmLayer);
+                }
+
+            }
+            else
+            {
+                TileLayer osmLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer(ApplicationLiterals.keywordWMS + "/3.0 Maui.net");
+                osmLayer.Name = ApplicationLiterals.aliasOSM;
+
+                //Prevent duplicates
+                if (mapControl.Map.Layers.Where(n => n.Name == ApplicationLiterals.aliasOSM).ToList().Count() == 0)
+                {
+                    mapControl.Map.Layers.Insert(0, osmLayer);
+                }
+            }
         }
-        else
-        {
-            TileLayer osmLayer = Mapsui.Tiling.OpenStreetMap.CreateTileLayer(ApplicationLiterals.keywordWMS + "/3.0 Maui.net");
-            osmLayer.Name = ApplicationLiterals.aliasOSM;
-            mapControl.Map.Layers.Insert(0, osmLayer);
-        }
+
 
     }
 

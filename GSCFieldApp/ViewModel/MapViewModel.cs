@@ -264,34 +264,42 @@ namespace GSCFieldApp.ViewModel
         /// <param name="inLayer">Optiontal layer to add before saving to json</param>
         public async void SaveLayerRendering(ILayer inLayer = null)
         {
-            //If layer is passed as arg, update layer collection before saving.
-            if (inLayer != null)
+            try
             {
-                MapPageLayerBuilder mplb = new MapPageLayerBuilder();
-
-                //Make sure layer isn't already in collection
-                bool foundLayer = false;
-                foreach (MapPageLayer mpls in _customLayerCollection)
+                //If layer is passed as arg, update layer collection before saving.
+                if (inLayer != null)
                 {
-                    if (mpls.LayerName == inLayer.Name)
+                    MapPageLayerBuilder mplb = new MapPageLayerBuilder();
+
+                    //Make sure layer isn't already in collection
+                    bool foundLayer = false;
+                    foreach (MapPageLayer mpls in _customLayerCollection)
                     {
-                        foundLayer = true; break;
+                        if (mpls.LayerName == inLayer.Name)
+                        {
+                            foundLayer = true; break;
+                        }
                     }
+
+                    if (!foundLayer)
+                    {
+                        _customLayerCollection.Add(mplb.GetMapPageLayer(inLayer));
+                    }
+
                 }
 
-                if (!foundLayer)
-                {
-                    _customLayerCollection.Add(mplb.GetMapPageLayer(inLayer));
-                }
-                
+                //Build path to json file that will have same name as currently used field book
+                string JSONPath = GetPreferedLayerJsonPath();
+
+                await using FileStream fStream = File.Create(JSONPath);
+                await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
+                fStream.Close();
+            }
+            catch (System.Exception e)
+            {
+                new ErrorToLogFile(e).WriteToFile();
             }
 
-            //Build path to json file that will have same name as currently used field book
-            string JSONPath = GetPreferedLayerJsonPath();
-
-            await using FileStream fStream = File.Create(JSONPath);
-            await JsonSerializer.SerializeAsync(fStream, _customLayerCollection);
-            fStream.Close();
 
         }
 
