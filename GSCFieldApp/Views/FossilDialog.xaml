@@ -9,37 +9,73 @@
 
     <Page>
         <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <Controls:PageHeader x:Name="pageHeader" x:Uid="FossilDialogHeader" Text ="" BackButtonVisibility="Collapsed"
-                            RelativePanel.AlignLeftWithPanel="True" 
-                            RelativePanel.AlignRightWithPanel="True"
-                            RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right"
-                            Background="{ThemeResource FieldFossilColorBrush}">
+            <Controls:PageHeader x:Name="pageHeader" 
+                                 x:Uid="FossilDialogHeader" 
+                                 Text ="" 
+                                 BackButtonVisibility="Collapsed"
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 RelativePanel.AlignRightWithPanel="True"
+                                 RelativePanel.AlignTopWithPanel="True"  
+                                 EllipsisVisibility="Visible" 
+                                 IsOpen="False" 
+                                 DefaultLabelPosition="Right"
+                                 Background="{ThemeResource FieldFossilColorBrush}">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="fossilBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="fossilBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
-                    <AppBarButton x:Name="fossilSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="fossilSaveButton_Tapped" />
+                    <AppBarButton x:Name="fossilBackButton" 
+                                  x:Uid="GenericCloseLabel" 
+                                  Label="Close" 
+                                  Icon="Clear" 
+                                  Foreground="White" 
+                                  Tapped="fossilBackButton_Tapped" 
+                                  Style="{StaticResource AppBarButtonClose}"/>
+                    <AppBarButton x:Name="fossilSaveButton" 
+                                  x:Uid="GenericSaveLabel" 
+                                  Label="Save" 
+                                  Icon="Save" 
+                                  Foreground="White" 
+                                  Tapped="fossilSaveButton_Tapped" />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
-            <Controls:PageHeader x:Name="pageFooter" Background="{ThemeResource FieldFossilColorBrush}"
-                             RelativePanel.AlignBottomWithPanel="True" 
-                             EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
-                             RelativePanel.AlignLeftWithPanel="True" Height="20">
+            <Controls:PageHeader x:Name="pageFooter" 
+                                 Background="{ThemeResource FieldFossilColorBrush}"
+                                 RelativePanel.AlignBottomWithPanel="True" 
+                                 EllipsisVisibility="Collapsed" 
+                                 RelativePanel.AlignRightWithPanel="True" 
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 Height="20">
             </Controls:PageHeader>
 
-            <RelativePanel Style="{StaticResource ParentPanel}" x:Name="fossilRelativePanel">
+            <RelativePanel Style="{StaticResource ParentPanel}" 
+                           x:Name="fossilRelativePanel">
                 <ScrollViewer Style="{StaticResource VerticalScroll}">
-                    <RelativePanel Style="{StaticResource ChildPanel}" x:Name="fossilScrollRelativePanel">
+                    <RelativePanel Style="{StaticResource ChildPanel}" 
+                                   x:Name="fossilScrollRelativePanel">
 
-                        <GridView Style="{StaticResource NonselectableGridView}" x:Name="fossilGridView_01">
-                            <ComboBox x:Name="FossilClassCombobox" x:Uid="FossilDialogClass" Style="{ThemeResource ComboboxMandatoryField}"
-                                ItemsSource="{x:Bind fossilModel.FossilType}" 
-                                SelectedValue="{x:Bind fossilModel.SelectedFossilType, Mode=TwoWay}" TabIndex="1"/>
+                        <GridView Style="{StaticResource NonselectableGridView}" 
+                                  x:Name="fossilGridView_01"
+                                  ManipulationMode="TranslateX, TranslateY"
+                                  ManipulationDelta="Element_ManipulationDelta"
+                                  ManipulationStarted="UIElement_ManipulationStarted"
+                                  ManipulationCompleted="UIElement_ManipulationCompleted">
+                            <ComboBox x:Name="FossilClassCombobox" 
+                                      x:Uid="FossilDialogClass" 
+                                      Style="{ThemeResource ComboboxMandatoryField}"
+                                      ItemsSource="{x:Bind fossilModel.FossilType}" 
+                                      SelectedValue="{x:Bind fossilModel.SelectedFossilType, Mode=TwoWay}" 
+                                      TabIndex="1"/>
                         </GridView>
 
-                        <TextBox Style="{ThemeResource Notes}" x:Name="fossilNoteTextbox" x:Uid="FossilDialogNote"
-                            RelativePanel.Below="fossilGridView_01"
-                            Text ="{x:Bind fossilModel.FossilNote, Mode=TwoWay}" TabIndex="2"/>
+                        <TextBox Style="{ThemeResource Notes}" 
+                                 x:Name="fossilNoteTextbox" 
+                                 x:Uid="FossilDialogNote"
+                                 RelativePanel.Below="fossilGridView_01"
+                                 Text ="{x:Bind fossilModel.FossilNote, Mode=TwoWay}" 
+                                 TabIndex="2"
+                                 ManipulationMode="TranslateX, TranslateY"
+                                 ManipulationDelta="Element_ManipulationDelta"
+                                 ManipulationStarted="UIElement_ManipulationStarted"
+                                 ManipulationCompleted="UIElement_ManipulationCompleted"/>
 
                     </RelativePanel>
                 </ScrollViewer>

@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.Storage;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.Foundation;
@@ -89,6 +90,22 @@ namespace GSCFieldApp.Views
 
         private void UIElement_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
+            if (sender is FrameworkElement element)
+            {
+                // Save the current position
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    var settings = ApplicationData.Current.LocalSettings;
+
+                    // Save X and Y positions using the element's name as a key
+                    if (!string.IsNullOrEmpty(element.Name))
+                    {
+                        settings.Values[$"{element.Name}_X"] = transform.X;
+                        settings.Values[$"{element.Name}_Y"] = transform.Y;
+                    }
+                }
+            }
+
             currentDraggedElement = null;
         }
 

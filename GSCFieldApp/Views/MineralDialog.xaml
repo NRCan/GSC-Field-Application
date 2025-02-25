@@ -84,7 +84,9 @@
                         <GridView Style="{StaticResource NonselectableGridView}" 
                                   x:Name="MineralGridView_01">
                             <RelativePanel ManipulationMode="TranslateX, TranslateY"
-                                           ManipulationDelta="Element_ManipulationDelta">
+                                           ManipulationDelta="Element_ManipulationDelta"
+                                           ManipulationStarted="UIElement_ManipulationStarted"
+                                           ManipulationCompleted="UIElement_ManipulationCompleted">
                                 <AutoSuggestBox x:Name="MineralAutoSuggest" 
                                                 x:Uid="MineralAutoSuggest" 
                                                 QueryIcon="Find" 
@@ -131,7 +133,9 @@
                                   x:Name="MineralGridView_02" 
                                   RelativePanel.Below="MainSeparator_01"
                                   ManipulationMode="TranslateX, TranslateY"
-                                  ManipulationDelta="Element_ManipulationDelta">
+                                  ManipulationDelta="Element_ManipulationDelta"
+                                  ManipulationStarted="UIElement_ManipulationStarted"
+                                  ManipulationCompleted="UIElement_ManipulationCompleted">
 
                             <ComboBox x:Name="MineralColourComboBox" 
                                       x:Uid="MineralDialogColour"
@@ -170,7 +174,9 @@
                                   x:Name="MineralGridView_03" 
                                   RelativePanel.Below="MainSeparator_02"
                                   ManipulationMode="TranslateX, TranslateY"
-                                  ManipulationDelta="Element_ManipulationDelta">
+                                  ManipulationDelta="Element_ManipulationDelta"
+                                  ManipulationStarted="UIElement_ManipulationStarted"
+                                  ManipulationCompleted="UIElement_ManipulationCompleted">
 
 
                             <RelativePanel x:Name="MineralFormRelativePanelFormHabit">
@@ -209,7 +215,9 @@
                                  Text="{x:Bind MineralVM.MineralNote, Mode=TwoWay}" 
                                  TabIndex="10"
                                  ManipulationMode="TranslateX, TranslateY"
-                                 ManipulationDelta="Element_ManipulationDelta"/>
+                                 ManipulationDelta="Element_ManipulationDelta"
+                                 ManipulationStarted="UIElement_ManipulationStarted"
+                                 ManipulationCompleted="UIElement_ManipulationCompleted"/>
 
                     </RelativePanel>
                 </ScrollViewer>

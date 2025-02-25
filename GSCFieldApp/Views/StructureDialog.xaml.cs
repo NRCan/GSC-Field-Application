@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using Template10.Common;
 using Windows.UI;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -37,6 +38,8 @@ namespace GSCFieldApp.Views
         public delegate void strucCloseWithoutSaveEventHandler(object sender); //A delegate for execution events
         public event strucCloseWithoutSaveEventHandler strucClosed; //This event is triggered when a save has been done on station table.
 
+        private TranslateTransform dragTransform;
+        private UIElement currentDraggedElement;
 
         public StructureDialog(FieldNotes inDetailViewModel, bool isQuickStructure)
         {
@@ -54,7 +57,7 @@ namespace GSCFieldApp.Views
             //#258 bringing back some old patch on save button
             this.structSaveButton.GotFocus -= StructSaveButton_GotFocus;
             this.structSaveButton.GotFocus += StructSaveButton_GotFocus;
-
+            dragTransform = new TranslateTransform();
         }
 
         private void StructSaveButton_GotFocus(object sender, RoutedEventArgs e)
@@ -63,6 +66,57 @@ namespace GSCFieldApp.Views
             strucViewModel.SaveDialogInfoAsync();
             CloseControl();
         }
+
+        #region Dragging Implementation
+
+        private void UIElement_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                currentDraggedElement = element;
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    dragTransform = transform;
+                }
+                else
+                {
+                    dragTransform = new TranslateTransform();
+                    element.RenderTransform = dragTransform;
+                }
+            }
+        }
+
+        private void UIElement_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (currentDraggedElement != null && dragTransform != null)
+            {
+                dragTransform.X += e.Delta.Translation.X;
+                dragTransform.Y += e.Delta.Translation.Y;
+            }
+        }
+
+        private void UIElement_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                // Save the current position
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    var settings = ApplicationData.Current.LocalSettings;
+
+                    // Save X and Y positions using the element's name as a key
+                    if (!string.IsNullOrEmpty(element.Name))
+                    {
+                        settings.Values[$"{element.Name}_X"] = transform.X;
+                        settings.Values[$"{element.Name}_Y"] = transform.Y;
+                    }
+                }
+            }
+
+            currentDraggedElement = null;
+        }
+
+        #endregion
 
         #region CLOSE
         /// <summary>
@@ -480,6 +534,27 @@ namespace GSCFieldApp.Views
             }
 
 
+        }
+        private void Element_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                // Get the current transform or create a new one
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    transform.X += e.Delta.Translation.X;
+                    transform.Y += e.Delta.Translation.Y;
+                }
+                else
+                {
+                    var newTransform = new TranslateTransform
+                    {
+                        X = e.Delta.Translation.X,
+                        Y = e.Delta.Translation.Y
+                    };
+                    element.RenderTransform = newTransform;
+                }
+            }
         }
     }
 }

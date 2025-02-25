@@ -18,113 +18,246 @@
 
         <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-
-            <Controls:PageHeader x:Name="pageHeader" x:Uid="LocationDialogHeader" Text ="" BackButtonVisibility="Collapsed"
-                            RelativePanel.AlignLeftWithPanel="True" Background="{ThemeResource FieldObsColorBrush}"
-                            RelativePanel.AlignRightWithPanel="True"
-                            RelativePanel.AlignTopWithPanel="True"  
-                            EllipsisVisibility="Visible" IsOpen="False" DefaultLabelPosition="Right">
+            <Controls:PageHeader x:Name="pageHeader" 
+                                 x:Uid="LocationDialogHeader" 
+                                 Text ="" 
+                                 BackButtonVisibility="Collapsed"
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 Background="{ThemeResource FieldObsColorBrush}"
+                                 RelativePanel.AlignRightWithPanel="True"
+                                 RelativePanel.AlignTopWithPanel="True"  
+                                 EllipsisVisibility="Visible" 
+                                 IsOpen="False" 
+                                 DefaultLabelPosition="Right">
                 <Controls:PageHeader.PrimaryCommands>
-                    <AppBarButton x:Name="LocationBackButton" x:Uid="GenericCloseLabel" Label="Close" Icon="Clear" Foreground="White" Tapped="LocationBackButton_Tapped" Style="{StaticResource AppBarButtonClose}"/>
-                    <AppBarButton x:Name="LocationSaveButton" x:Uid="GenericSaveLabel" Label="Save" Icon="Save" Foreground="White" Tapped="LocationSaveButton_Tapped"  />
-                    <AppBarButton x:Name="LocationDrillButton" x:Uid="DrillLabel" Label="Save" Icon="Add" Foreground="White" Tapped="LocationSaveButton_Tapped" 
+                    <AppBarButton x:Name="LocationBackButton" 
+                                  x:Uid="GenericCloseLabel" 
+                                  Label="Close" 
+                                  Icon="Clear" 
+                                  Foreground="White" 
+                                  Tapped="LocationBackButton_Tapped" 
+                                  Style="{StaticResource AppBarButtonClose}"/>
+                    <AppBarButton x:Name="LocationSaveButton" 
+                                  x:Uid="GenericSaveLabel" 
+                                  Label="Save" 
+                                  Icon="Save" 
+                                  Foreground="White" 
+                                  Tapped="LocationSaveButton_Tapped"  />
+                    <AppBarButton x:Name="LocationDrillButton" 
+                                  x:Uid="DrillLabel" 
+                                  Label="Save" 
+                                  Icon="Add" 
+                                  Foreground="White" 
+                                  Tapped="LocationSaveButton_Tapped" 
                                   Visibility="{x:Bind locationVM.IsDrillHoleFieldBook, Mode=TwoWay, Converter={StaticResource VisibilityFromBoolConverter}}"  />
                 </Controls:PageHeader.PrimaryCommands>
                 <Controls:PageHeader.SecondaryCommands/>
             </Controls:PageHeader>
-            <Controls:PageHeader x:Name="pageFooter" Background="{ThemeResource FieldObsColorBrush}"
-                             RelativePanel.AlignBottomWithPanel="True" 
-                             EllipsisVisibility="Collapsed" RelativePanel.AlignRightWithPanel="True" 
-                             RelativePanel.AlignLeftWithPanel="True" Height="20">
+            <Controls:PageHeader x:Name="pageFooter" 
+                                 Background="{ThemeResource FieldObsColorBrush}"
+                                 RelativePanel.AlignBottomWithPanel="True" 
+                                 EllipsisVisibility="Collapsed" 
+                                 RelativePanel.AlignRightWithPanel="True" 
+                                 RelativePanel.AlignLeftWithPanel="True" 
+                                 Height="20">
             </Controls:PageHeader>
 
-            <RelativePanel Style="{StaticResource ParentPanel}" x:Name="locationRelativePanel">
+            <RelativePanel Style="{StaticResource ParentPanel}" 
+                           x:Name="locationRelativePanel">
                 <ScrollViewer Style="{StaticResource VerticalScroll}">
-                    <RelativePanel Style="{StaticResource ChildPanel}" x:Name="locationScrollRelativePanel">
+                    <RelativePanel Style="{StaticResource ChildPanel}" 
+                                   x:Name="locationScrollRelativePanel">
 
                         <GridView Style="{StaticResource NonselectableGridView}" 
-                                    x:Name="LocationGridView_00">
-                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Datum" IsEnabled="False"/>
+                                  x:Name="LocationGridView_00"
+                                  ManipulationMode="TranslateX, TranslateY"
+                                  ManipulationDelta="Element_ManipulationDelta"
+                                  ManipulationStarted="UIElement_ManipulationStarted"
+                                  ManipulationCompleted="UIElement_ManipulationCompleted">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" 
+                                                Content="" 
+                                                x:Uid="LocationDialogGridView_Datum" 
+                                                IsEnabled="False"/>
 
-                            <ComboBox x:Name="LocationDatum" x:Uid="LocationDialogDatum" Style="{ThemeResource ComboboxMandatoryField}"
-                                      Header="" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}" 
-                                      MinWidth="175" ItemsSource="{x:Bind locationVM.LocationDatums}"
-                                       SelectedValue="{x:Bind locationVM.SelectedLocationDatums, Mode=TwoWay}" TabIndex="1"
-                                      />
-
-                        </GridView>
-
-                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_00" RelativePanel.Below="LocationGridView_00"
-                            Fill="{ThemeResource FieldObsColorBrush}" />
-
-                        <GridView Style="{StaticResource NonselectableGridView}" RelativePanel.Below="MainSeparator_00"
-                                    x:Name="LocationGridView_01">
-                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Geo" IsEnabled="False"/>
-                            <TextBox x:Name="LocationLat" x:Uid="LocationDialogLatitude" Header="" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                HorizontalAlignment="Stretch" Width="Auto" MinWidth="20" InputScope="Number" Style="{ThemeResource TextboxMandatoryField}"
-                                Text ="{x:Bind locationVM.LocationLatitude, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" TabIndex="2"/>
-
-                            <TextBox x:Name="LocationLong" x:Uid="LocaitonDialogLongitude" Style="{ThemeResource TextboxMandatoryField}"
-                                HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20" InputScope="Number" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                Text ="{x:Bind locationVM.LocationLongitude, Mode=TwoWay}" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" TabIndex="3"/>
-
-                            <Button x:Name="ButtonConvertToUTM" x:Uid="ConvertToUTM" Content="To UTM" Margin="0,28,0,0" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                            Tapped="ButtonConvertToUTM_Tapped" TabIndex="2"/>
+                            <ComboBox x:Name="LocationDatum" 
+                                      x:Uid="LocationDialogDatum" 
+                                      Style="{ThemeResource ComboboxMandatoryField}"
+                                      Header="" 
+                                      IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}" 
+                                      MinWidth="175" 
+                                      ItemsSource="{x:Bind locationVM.LocationDatums}"
+                                      SelectedValue="{x:Bind locationVM.SelectedLocationDatums, Mode=TwoWay}" 
+                                      TabIndex="1" />
 
                         </GridView>
 
-                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_01" RelativePanel.Below="LocationGridView_01"
-                            Fill="{ThemeResource FieldObsColorBrush}" />
+                        <Rectangle Style="{StaticResource Horizontal}" 
+                                   x:Name="MainSeparator_00" 
+                                   RelativePanel.Below="LocationGridView_00"
+                                   Fill="{ThemeResource FieldObsColorBrush}" />
 
                         <GridView Style="{StaticResource NonselectableGridView}" 
-                                    x:Name="LocationGridView_02" RelativePanel.Below="MainSeparator_01">
-                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_Projected"/>
-
-                            <TextBox x:Name="LocationEasting" x:Uid="LocationDialogEasting" InputScope="NumberFullWidth" 
-                                HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="30" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                Text ="{x:Bind locationVM.LocationEasting, Mode=TwoWay}" 
+                                  RelativePanel.Below="MainSeparator_00"
+                                  x:Name="LocationGridView_01"
+                                  ManipulationMode="TranslateX, TranslateY"
+                                  ManipulationDelta="Element_ManipulationDelta"
+                                  ManipulationStarted="UIElement_ManipulationStarted"
+                                  ManipulationCompleted="UIElement_ManipulationCompleted">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" 
+                                                Content="" 
+                                                x:Uid="LocationDialogGridView_Geo" 
+                                                IsEnabled="False"/>
+                            <TextBox x:Name="LocationLat" 
+                                     x:Uid="LocationDialogLatitude" 
+                                     Header="" 
+                                     IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                                     HorizontalAlignment="Stretch" 
+                                     Width="Auto" 
+                                     MinWidth="20" 
+                                     InputScope="Number" 
+                                     Style="{ThemeResource TextboxMandatoryField}"
+                                     Text ="{x:Bind locationVM.LocationLatitude, Mode=TwoWay}" 
                                      IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" 
-                                     TextChanging="LocationEasting_TextChanged" TabIndex="5"/>
+                                     TabIndex="2"/>
 
-                            <TextBox x:Name="LocationNorthing" x:Uid="LocationDialogNorthing" Header="" InputScope="NumberFullWidth" 
-                                HorizontalAlignment="Stretch" Width="Auto" MinWidth="30" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                Text ="{x:Bind locationVM.LocationNorthing, Mode=TwoWay}" 
+                            <TextBox x:Name="LocationLong" 
+                                     x:Uid="LocaitonDialogLongitude" 
+                                     Style="{ThemeResource TextboxMandatoryField}"
+                                     HorizontalAlignment="Stretch" 
+                                     Width="Auto" 
+                                     Header="" 
+                                     MinWidth="20" 
+                                     InputScope="Number" 
+                                     IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                                     Text ="{x:Bind locationVM.LocationLongitude, Mode=TwoWay}" 
                                      IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" 
-                                     TextChanging="LocationNorthing_TextChanged" TabIndex="6"/>
+                                     TabIndex="3"/>
 
-                            <Button x:Name="ButtonConvertToGeographic" x:Uid="ConvertToGeo" Content="To Geographic" Margin="0,28,0,0" IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                            Tapped="ButtonConvertToGeographic_Tapped" TabIndex="7"/>
+                            <Button x:Name="ButtonConvertToUTM" 
+                                    x:Uid="ConvertToUTM" 
+                                    Content="To UTM" 
+                                    Margin="0,28,0,0" 
+                                    IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                                    Tapped="ButtonConvertToUTM_Tapped" 
+                                    TabIndex="2"/>
 
                         </GridView>
 
-                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_02" RelativePanel.Below="LocationGridView_02"
-                            Fill="{ThemeResource FieldObsColorBrush}" />
+                        <Rectangle Style="{StaticResource Horizontal}" 
+                                   x:Name="MainSeparator_01" 
+                                   RelativePanel.Below="LocationGridView_01"
+                                   Fill="{ThemeResource FieldObsColorBrush}" />
 
-                        <GridView Style="{StaticResource NonselectableGridView}" RelativePanel.Below="MainSeparator_02"
-                                    x:Name="LocationGridView_03">
-                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" Content="" x:Uid="LocationDialogGridView_General"/>
+                        <GridView Style="{StaticResource NonselectableGridView}" 
+                                  x:Name="LocationGridView_02" 
+                                  RelativePanel.Below="MainSeparator_01"
+                                  ManipulationMode="TranslateX, TranslateY"
+                                  ManipulationDelta="Element_ManipulationDelta"
+                                  ManipulationStarted="UIElement_ManipulationStarted"
+                                  ManipulationCompleted="UIElement_ManipulationCompleted">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" 
+                                                Content="" 
+                                                x:Uid="LocationDialogGridView_Projected"/>
 
-                            <TextBox x:Name="LocationElevation" x:Uid="LocationDialogElevation"
-                                HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20"
-                                Text ="{x:Bind locationVM.LocationElevation, Mode=TwoWay}" InputScope="Number" TabIndex="8"/>
+                            <TextBox x:Name="LocationEasting" 
+                                     x:Uid="LocationDialogEasting" 
+                                     InputScope="NumberFullWidth" 
+                                     HorizontalAlignment="Stretch" 
+                                     Width="Auto" 
+                                     Header="" 
+                                     MinWidth="30" 
+                                     IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                                     Text ="{x:Bind locationVM.LocationEasting, Mode=TwoWay}" 
+                                     IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" 
+                                     TextChanging="LocationEasting_TextChanged" 
+                                     TabIndex="5"/>
 
-                            <TextBox x:Name="LocationAcuracy" x:Uid="LocationDialogAccuracy"
-                                HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20" IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"
-                                IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
-                                Text ="{x:Bind locationVM.LocationAccuracy, Mode=TwoWay}" InputScope="Number" />
+                            <TextBox x:Name="LocationNorthing" 
+                                     x:Uid="LocationDialogNorthing" 
+                                     Header="" 
+                                     InputScope="NumberFullWidth" 
+                                     HorizontalAlignment="Stretch" 
+                                     Width="Auto" 
+                                     MinWidth="30" 
+                                     IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                                     Text ="{x:Bind locationVM.LocationNorthing, Mode=TwoWay}" 
+                                     IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}" 
+                                     TextChanging="LocationNorthing_TextChanged" 
+                                     TabIndex="6"/>
 
-                            <TextBox x:Name="LocationNTS" x:Uid="LocationDialogNTS"
-                                HorizontalAlignment="Stretch" Width="Auto" Header="" MinWidth="20"
-                                Text ="{x:Bind locationVM.LocationNTS, Mode=TwoWay}" TabIndex="9"/>
+                            <Button x:Name="ButtonConvertToGeographic" 
+                                    x:Uid="ConvertToGeo" 
+                                    Content="To Geographic" 
+                                    Margin="0,28,0,0" 
+                                    IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                                    Tapped="ButtonConvertToGeographic_Tapped" 
+                                    TabIndex="7"/>
 
                         </GridView>
 
+                        <Rectangle Style="{StaticResource Horizontal}" 
+                                   x:Name="MainSeparator_02" 
+                                   RelativePanel.Below="LocationGridView_02"
+                                   Fill="{ThemeResource FieldObsColorBrush}" />
 
-                        <Rectangle Style="{StaticResource Horizontal}" x:Name="MainSeparator_04" RelativePanel.Below="LocationGridView_03"
-                            Fill="{ThemeResource FieldObsColorBrush}" />
+                        <GridView Style="{StaticResource NonselectableGridView}" 
+                                  RelativePanel.Below="MainSeparator_02"
+                                  x:Name="LocationGridView_03"
+                                  ManipulationMode="TranslateX, TranslateY"
+                                  ManipulationDelta="Element_ManipulationDelta"
+                                  ManipulationStarted="UIElement_ManipulationStarted"
+                                  ManipulationCompleted="UIElement_ManipulationCompleted">
+                            <GridViewHeaderItem Style="{StaticResource NonSelectableGridViewHeader}" 
+                                                Content="" 
+                                                x:Uid="LocationDialogGridView_General"/>
 
-                        <TextBox Style="{ThemeResource Notes}" x:Name="LocationDialogNoteTextbox" x:Uid="LocationDialogNotes" RelativePanel.Below="MainSeparator_04"
-                                    Text ="{x:Bind locationVM.LocationNotes, Mode=TwoWay}" TabIndex="10" />
+                            <TextBox x:Name="LocationElevation" 
+                                     x:Uid="LocationDialogElevation"
+                                     HorizontalAlignment="Stretch" 
+                                     Width="Auto" 
+                                     Header="" 
+                                     MinWidth="20"
+                                     Text ="{x:Bind locationVM.LocationElevation, Mode=TwoWay}" 
+                                     InputScope="Number" 
+                                     TabIndex="8"/>
+
+                            <TextBox x:Name="LocationAcuracy" 
+                                     x:Uid="LocationDialogAccuracy"
+                                     HorizontalAlignment="Stretch" 
+                                     Width="Auto" 
+                                     Header="" 
+                                     MinWidth="20" 
+                                     IsReadOnly="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay}"
+                                     IsEnabled="{x:Bind locationVM.ReadOnlyFields, Mode=TwoWay, Converter={StaticResource ReverseBoolConverter}}"
+                                     Text ="{x:Bind locationVM.LocationAccuracy, Mode=TwoWay}" 
+                                     InputScope="Number" />
+
+                            <TextBox x:Name="LocationNTS" 
+                                     x:Uid="LocationDialogNTS"
+                                     HorizontalAlignment="Stretch" 
+                                     Width="Auto" 
+                                     Header="" 
+                                     MinWidth="20"
+                                     Text ="{x:Bind locationVM.LocationNTS, Mode=TwoWay}" 
+                                     TabIndex="9"/>
+
+                        </GridView>
+
+                        <Rectangle Style="{StaticResource Horizontal}" 
+                                   x:Name="MainSeparator_04" 
+                                   RelativePanel.Below="LocationGridView_03"
+                                   Fill="{ThemeResource FieldObsColorBrush}" />
+
+                        <TextBox Style="{ThemeResource Notes}" 
+                                 x:Name="LocationDialogNoteTextbox" 
+                                 x:Uid="LocationDialogNotes" 
+                                 RelativePanel.Below="MainSeparator_04"
+                                 Text ="{x:Bind locationVM.LocationNotes, Mode=TwoWay}" 
+                                 TabIndex="10" 
+                                 ManipulationMode="TranslateX, TranslateY"
+                                 ManipulationDelta="Element_ManipulationDelta"
+                                 ManipulationStarted="UIElement_ManipulationStarted"
+                                 ManipulationCompleted="UIElement_ManipulationCompleted"/>
 
                     </RelativePanel>
                 </ScrollViewer>

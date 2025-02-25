@@ -1,9 +1,11 @@
 ﻿using GSCFieldApp.Models;
 using GSCFieldApp.ViewModels;
 using Template10.Common;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -13,6 +15,9 @@ namespace GSCFieldApp.Views
     {
         public FossilViewModel fossilModel { get; set; }
         public FieldNotes fossilParentViewModel { get; set; }
+
+        private TranslateTransform dragTransform;
+        private UIElement currentDraggedElement;
 
         public FossilDialog(FieldNotes inDetailViewModel)
         {
@@ -25,6 +30,7 @@ namespace GSCFieldApp.Views
             //#258 bringing back some old patch on save button
             this.fossilSaveButton.GotFocus -= FossilSaveButton_GotFocus;
             this.fossilSaveButton.GotFocus += FossilSaveButton_GotFocus;
+            dragTransform = new TranslateTransform();
         }
 
         private void FossilSaveButton_GotFocus(object sender, RoutedEventArgs e)
@@ -33,6 +39,57 @@ namespace GSCFieldApp.Views
             fossilModel.SaveDialogInfo();
             CloseControl();
         }
+
+        #region Dragging Implementation
+
+        private void UIElement_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                currentDraggedElement = element;
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    dragTransform = transform;
+                }
+                else
+                {
+                    dragTransform = new TranslateTransform();
+                    element.RenderTransform = dragTransform;
+                }
+            }
+        }
+
+        private void UIElement_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (currentDraggedElement != null && dragTransform != null)
+            {
+                dragTransform.X += e.Delta.Translation.X;
+                dragTransform.Y += e.Delta.Translation.Y;
+            }
+        }
+
+        private void UIElement_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                // Save the current position
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    var settings = ApplicationData.Current.LocalSettings;
+
+                    // Save X and Y positions using the element's name as a key
+                    if (!string.IsNullOrEmpty(element.Name))
+                    {
+                        settings.Values[$"{element.Name}_X"] = transform.X;
+                        settings.Values[$"{element.Name}_Y"] = transform.Y;
+                    }
+                }
+            }
+
+            currentDraggedElement = null;
+        }
+
+        #endregion
 
         #region EVENTS
         private void FossilDialog_Loading(FrameworkElement sender, object args)
@@ -79,5 +136,27 @@ namespace GSCFieldApp.Views
             });
         }
         #endregion
+
+        private void Element_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            if (sender is UIElement element)
+            {
+                // Get the current transform or create a new one
+                if (element.RenderTransform is TranslateTransform transform)
+                {
+                    transform.X += e.Delta.Translation.X;
+                    transform.Y += e.Delta.Translation.Y;
+                }
+                else
+                {
+                    var newTransform = new TranslateTransform
+                    {
+                        X = e.Delta.Translation.X,
+                        Y = e.Delta.Translation.Y
+                    };
+                    element.RenderTransform = newTransform;
+                }
+            }
+        }
     }
 }
