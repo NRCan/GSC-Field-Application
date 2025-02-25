@@ -259,8 +259,13 @@ public partial class MapPage : ContentPage
     {
         if (hasChanged && mapView != null)
         {
+            _isInitialLoadingDone = false;
+
             //Reload user datasets
             await LoadPreferedLayers();
+            await Task.Run(async () => await QuickRefreshDefaultFeatureLayer(false));
+
+            _isInitialLoadingDone = true;
         }
 
     }
@@ -848,9 +853,10 @@ public partial class MapPage : ContentPage
 
     /// <summary>
     /// Will force a quick refresh on the feature layers like station and traverses
+    /// <paramref name="lightClean"> Will only add or remove different features, else clean slate option</paramref>
     /// </summary>
     /// <returns></returns>
-    private async Task QuickRefreshDefaultFeatureLayer()
+    private async Task QuickRefreshDefaultFeatureLayer(bool lightClean = true)
     {
         //In case user is coming from field notes
         //They might have deleted some stations or linework, make sure to refresh
@@ -877,42 +883,50 @@ public partial class MapPage : ContentPage
                     layerToReload = defaultLayerList.Linework;
                 }
 
-                //TODO add check with record count if diff add last or remove missing
+                //Check with record count if diff add last or remove missing
                 if (databaseCount != mapLayerCount)
                 {
-                    //TODO, createDefaultLayerAsync takes seconds to complete, find a way of speeding it
                     //Get latest features
                     MemoryLayer refreshLayer = await Task.Run(async () => await CreateDefaultLayerAsync(layerToReload));
 
                     //Detect missing features (user delete from field notes) and remove them
                     if (refreshLayer != null)
                     {
-
                         //Feature list to modify
                         List<IFeature> mapFeatures = mapMemoryLayer.Features.ToList();
 
-                        //Remove case
-                        if (databaseCount < mapLayerCount)
+                        //Light clean case
+                        if (lightClean)
                         {
-                            foreach (IFeature feat in mapMemoryLayer.Features)
+                            //Remove case
+                            if (databaseCount < mapLayerCount)
                             {
-                                if (refreshLayer.Features.Where(f => f.ToDisplayText() == feat.ToDisplayText()).Count() == 0)
+                                foreach (IFeature feat in mapMemoryLayer.Features)
                                 {
-                                    mapFeatures.Remove(feat);
+                                    if (refreshLayer.Features.Where(f => f.ToDisplayText() == feat.ToDisplayText()).Count() == 0)
+                                    {
+                                        mapFeatures.Remove(feat);
+                                    }
                                 }
                             }
-                        }
 
-                        //Add case
-                        if (databaseCount > mapLayerCount)
-                        {
-                            foreach (IFeature rFeat in refreshLayer.Features)
+                            //Add case
+                            if (databaseCount > mapLayerCount)
                             {
-                                if (mapFeatures.Where(f => f.ToDisplayText() == rFeat.ToDisplayText()).Count() == 0)
+                                foreach (IFeature rFeat in refreshLayer.Features)
                                 {
-                                    mapFeatures.Add(rFeat);
+                                    if (mapFeatures.Where(f => f.ToDisplayText() == rFeat.ToDisplayText()).Count() == 0)
+                                    {
+                                        mapFeatures.Add(rFeat);
+                                    }
                                 }
                             }
+
+                        }
+                        else
+                        {
+                            //Hard clean case
+                            mapFeatures = refreshLayer.Features.ToList();
                         }
 
                         //Transform back
@@ -923,12 +937,13 @@ public partial class MapPage : ContentPage
                         mapView.Map.Layers.Remove(mapLayer);
                         mapView.Map.Layers.Add(mapMemoryLayer);
 
-                        //Zoom to extent of stations
-                        if (layerToReload == defaultLayerList.Stations)
-                        {
-                            SetExtent(refreshLayer);
-                        }
                     }
+                }
+
+                //Zoom to extent of stations
+                if (layerToReload == defaultLayerList.Stations)
+                {
+                    SetExtent(mapMemoryLayer);
                 }
             }
         }
