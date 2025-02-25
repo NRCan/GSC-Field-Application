@@ -336,7 +336,7 @@
                             RelativePanel.AlignLeftWithPanel="True" 
                             RelativePanel.Below="ProjectURLsTextBlock" TextWrapping="Wrap">
                         <Run x:Uid="DownloadLinkTextBlock" />
-                        <Hyperlink NavigateUri="https://github.com/NRCan/GSC-Field-Application/releases" Click="OnDownloadLinkClicked">
+                        <Hyperlink Click="OnDownloadLinkClicked"> <!--NavigateUri="https://github.com/NRCan/GSC-Field-Application/releases"-->
                                 <Run x:Uid="RepoLinkTextBlock" />
                         </Hyperlink>
                     </TextBlock>

@@ -8,6 +8,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Navigation;
+using Windows.Networking.Connectivity;
+using Windows.System;
 
 
 namespace GSCFieldApp.Views
@@ -128,30 +130,48 @@ namespace GSCFieldApp.Views
         //Check to see if the user is using the latest app version
         private async void OnDownloadLinkClicked(Hyperlink sender, HyperlinkClickEventArgs args)
         {
-            try
+            if (!IsInternetAvailable())
             {
-                string CurrentVersion = GetCurrentVersion();
-                string LatestVersion = await GetLatestVersionFromGitHubAsync();
+                ShowMessage("No internet connection. Please check your network and try again.");
+            }
+            else
+            {
+                try
+                {
+                    string CurrentVersion = GetCurrentVersion();
+                    string LatestVersion = await GetLatestVersionFromGitHubAsync();
 
-                if (string.IsNullOrWhiteSpace(LatestVersion))
-                {
-                    ShowMessage("Unable to retrieve the latest version. Please try again later.");
-                    return;
-                }
+                    if (string.IsNullOrWhiteSpace(LatestVersion))
+                    {
+                        ShowMessage("Unable to retrieve the latest version. Please try again later.");
+                        return;
+                    }
 
-                if (CurrentVersion == LatestVersion)
-                {
-                    ShowMessage($"You have the latest version: {CurrentVersion}.");
+                    if (CurrentVersion == LatestVersion)
+                    {
+                        ShowMessage($"You have the latest version: {CurrentVersion}.");
+                    }
+                    else
+                    {
+                        ShowMessage($"A new version is available: {LatestVersion}. Your version: {CurrentVersion}.");
+
+                        // Open the download page
+                        var uri = new Uri("https://github.com/NRCan/GSC-Field-Application/releases");
+                        await Launcher.LaunchUriAsync(uri);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ShowMessage($"A new version is available: {LatestVersion}. Your version: {CurrentVersion}.");
+                    ShowMessage($"Error checking for updates: {ex.Message}");
                 }
             }
-            catch (Exception ex)
-            {
-                ShowMessage($"Error checking for updates: {ex.Message}");
-            }
+        }
+        
+
+        private bool IsInternetAvailable()
+        {
+            var profile = NetworkInformation.GetInternetConnectionProfile();
+            return profile != null && profile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess;
         }
 
         private string GetCurrentVersion()
