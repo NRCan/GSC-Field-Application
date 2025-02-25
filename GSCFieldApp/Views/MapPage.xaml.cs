@@ -303,45 +303,8 @@ public partial class MapPage : ContentPage
             await SetGPSRefreshRate();
             await SetLocationFollow();
 
-            //In case user is coming from field notes
-            //They might have deleted some stations or linework, make sure to refresh
-            foreach (var item in mapView.Map.Layers)
-            {
-                if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
-                {
-                    //Remove layer, in order to force a refresh
-                    ILayer[] featLayers = mapView.Map.Layers.Where(x => x.Name == item.Name).ToArray();
-                    mapView.Map.Layers.Remove(featLayers);
-
-                    //Fetch the layer object
-                    defaultLayerList defaultToReload = defaultLayerList.Stations;
-                    if (item.Name == ApplicationLiterals.aliasLinework)
-                    {
-                        defaultToReload = defaultLayerList.Linework;
-                    }
-                    MemoryLayer reloadLayer = await CreateDefaultLayerAsync(defaultToReload);
-
-                    //Insert back into map and zoom to station
-                    if (reloadLayer != null)
-                    {
-                        //Make sure it's not already in there
-                        if (mapView.Map.Layers.Where(x => x.Name == reloadLayer.Name).Count() == 0)
-                        {
-                            mapView.Map.Layers.Add(reloadLayer);
-                        }
-
-                        //Zoom to extent of stations
-                        if (defaultToReload == defaultLayerList.Stations)
-                        {
-                            SetExtent(reloadLayer);
-                        }
-
-                    }
-                }
-            }
-
-            //Force redraw of all
-            mapView.Map.RefreshData();
+            //Freshen up the default layers
+            await Task.Run(async () => await QuickRefreshDefaultFeatureLayer());
 
         }
         catch (System.Exception e)
@@ -857,26 +820,121 @@ public partial class MapPage : ContentPage
     /// <returns></returns>
     private async Task RefreshDefaultFeatureLayer()
     {
-        MapViewModel _vm = BindingContext as MapViewModel;
-        _vm.EmptyLayerCollections();
-
-        List<MemoryLayer> mls = await CreateDefaultLayersAsync();
-        if (mls != null && mls.Count() > 0)
+        if (!_isInitialLoadingDone)
         {
-            foreach (MemoryLayer ml in mls)
+            MapViewModel _vm = BindingContext as MapViewModel;
+            _vm.EmptyLayerCollections();
+
+            List<MemoryLayer> mls = await CreateDefaultLayersAsync();
+            if (mls != null && mls.Count() > 0)
             {
-                //Verify if doesn't exist and add
-                if (mapView.Map.Layers.Where(x=>x.Name == ml.Name).Count() == 0)
+                foreach (MemoryLayer ml in mls)
                 {
-                    mapView.Map.Layers.Add(ml);
+                    //Verify if doesn't exist and add
+                    if (mapView.Map.Layers.Where(x => x.Name == ml.Name).Count() == 0)
+                    {
+                        mapView.Map.Layers.Add(ml);
+                    }
+
                 }
-                
+
+                //Zoom to initial extent of the station layer
+                SetExtent(mls[0]);
+
             }
-
-            //Zoom to initial extent of the station layer
-            SetExtent(mls[0]);
-
         }
+
+    }
+
+    /// <summary>
+    /// Will force a quick refresh on the feature layers like station and traverses
+    /// </summary>
+    /// <returns></returns>
+    private async Task QuickRefreshDefaultFeatureLayer()
+    {
+        //In case user is coming from field notes
+        //They might have deleted some stations or linework, make sure to refresh
+        foreach (var item in mapView.Map.Layers)
+        {
+            if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
+            {
+                //Get map layer
+                ILayer mapLayer = mapView.Map.Layers.Where(x => x.Name == item.Name).First();
+                MemoryLayer mapMemoryLayer = mapLayer as MemoryLayer;
+
+                //Get counts
+                int databaseCount = 0;
+                int mapLayerCount = mapMemoryLayer.Features.Count();
+                defaultLayerList layerToReload = defaultLayerList.Stations;
+
+                if (item.Name == ApplicationLiterals.aliasStations)
+                {
+                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Station)));  
+                }
+                else if (item.Name == ApplicationLiterals.aliasLinework)
+                {
+                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Linework)));  
+                    layerToReload = defaultLayerList.Linework;
+                }
+
+                //TODO add check with record count if diff add last or remove missing
+                if (databaseCount != mapLayerCount)
+                {
+                    //TODO, createDefaultLayerAsync takes seconds to complete, find a way of speeding it
+                    //Get latest features
+                    MemoryLayer refreshLayer = await Task.Run(async () => await CreateDefaultLayerAsync(layerToReload));
+
+                    //Detect missing features (user delete from field notes) and remove them
+                    if (refreshLayer != null)
+                    {
+
+                        //Feature list to modify
+                        List<IFeature> mapFeatures = mapMemoryLayer.Features.ToList();
+
+                        //Remove case
+                        if (databaseCount < mapLayerCount)
+                        {
+                            foreach (IFeature feat in mapMemoryLayer.Features)
+                            {
+                                if (refreshLayer.Features.Where(f => f.ToDisplayText() == feat.ToDisplayText()).Count() == 0)
+                                {
+                                    mapFeatures.Remove(feat);
+                                }
+                            }
+                        }
+
+                        //Add case
+                        if (databaseCount > mapLayerCount)
+                        {
+                            foreach (IFeature rFeat in refreshLayer.Features)
+                            {
+                                if (mapFeatures.Where(f => f.ToDisplayText() == rFeat.ToDisplayText()).Count() == 0)
+                                {
+                                    mapFeatures.Add(rFeat);
+                                }
+                            }
+                        }
+
+                        //Transform back
+                        IEnumerable<IFeature> sourceEnumFeatures = mapFeatures.AsEnumerable();
+
+                        //Reset
+                        mapMemoryLayer.Features = sourceEnumFeatures;
+                        mapView.Map.Layers.Remove(mapLayer);
+                        mapView.Map.Layers.Add(mapMemoryLayer);
+
+                        //Zoom to extent of stations
+                        if (layerToReload == defaultLayerList.Stations)
+                        {
+                            SetExtent(refreshLayer);
+                        }
+                    }
+                }
+            }
+        }
+
+        //Force redraw of all
+        mapView.Map.RefreshData();
     }
 
     /// <summary>
@@ -1781,18 +1839,18 @@ public partial class MapPage : ContentPage
             {
                 case defaultLayerList.Stations:
 
-                    enumFeat = await GetStationLocationsAsync(offset);
+                    enumFeat = await Task.Run(async () => await GetStationLocationsAsync(offset)); 
                     break;
 
                 case defaultLayerList.Traverses:
 
-                    enumFeat = await GetPointTraversesAsync(offset);
+                    enumFeat = await Task.Run(async () => await GetPointTraversesAsync(offset)); 
                     break;
                 case defaultLayerList.Linework:
-                    enumFeat = await GetLineworkAsync(offset);
+                    enumFeat = await Task.Run(async () => await GetLineworkAsync(offset)); 
                     break;
                 default:
-                    enumFeat = await GetStationLocationsAsync(offset);
+                    enumFeat = await Task.Run(async () => await GetStationLocationsAsync(offset)); 
 
                     break;
 
@@ -1819,9 +1877,23 @@ public partial class MapPage : ContentPage
             GeopackageService geopackageService = new GeopackageService();
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<FieldLocation> fieldLoc = await currentConnection.Table<FieldLocation>().ToListAsync();
-
-            foreach (FieldLocation fl in fieldLoc)
+            WKTReader wellKnownTextReader = new WKTReader();
+            LabelStyle labelStyle = new LabelStyle
             {
+                BackColor = new Brush(Color.WhiteSmoke),
+                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                BorderThickness = 2,
+                Offset = offset
+            };
+
+            ParallelOptions parallelOptions = new()
+            {
+                MaxDegreeOfParallelism = 10
+            };
+
+            await Parallel.ForEachAsync(fieldLoc, parallelOptions, async (fl, token) =>
+            {
+
                 //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
                 //Build geometry
                 NetTopologySuite.Geometries.Point locationPoint = await geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
@@ -1829,24 +1901,22 @@ public partial class MapPage : ContentPage
                 if (locationPoint != null)
                 {
                     //Build feature 
-                    WKTReader wellKnownTextReader = new WKTReader();
-                    IFeature feat = new GeometryFeature(wellKnownTextReader.Read(locationPoint.AsText()));
+                    Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(locationPoint);
                     feat[DatabaseLiterals.FieldStationObsID] = fl.LocationID;
-                    enumFeat = enumFeat.Append(feat);
-
-                    feat.Styles.Add(new LabelStyle
+                    LabelStyle lStyle = new LabelStyle
                     {
-                        Text = fl.LocationAliasLight,
-                        BackColor = new Brush(Color.WhiteSmoke),
-                        HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                        //CollisionDetection = true,
-                        BorderThickness = 2,
-                        Offset = offset
-                    });
+                        BackColor = labelStyle.BackColor,
+                        HorizontalAlignment = labelStyle.HorizontalAlignment,
+                        BorderThickness = labelStyle.BorderThickness,
+                        Offset = offset,
+                        Text = fl.LocationAliasLight
+                    };
+
+                    feat.Styles.Add(lStyle);
+
+                    enumFeat = enumFeat.Append(feat);
                 }
-
-
-            }
+            });
 
             await currentConnection.CloseAsync();
 
@@ -1888,7 +1958,7 @@ public partial class MapPage : ContentPage
                 {
 
                     //Build geometry
-                    NetTopologySuite.Geometries.Point travPointString = await geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom);
+                    NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom));
 
                     if (travPointString != null)
                     {
@@ -1951,7 +2021,7 @@ public partial class MapPage : ContentPage
                 foreach (Linework lw in fieldLinework)
                 {
                     //Build geometry
-                    LineString inLineString = await geopackageService.GetGeometryLineFromByte(lw.LineGeom);
+                    LineString inLineString = await Task.Run(async () => await geopackageService.GetGeometryLineFromByte(lw.LineGeom)); 
 
                     if (inLineString != null)
                     {
@@ -2199,7 +2269,7 @@ public partial class MapPage : ContentPage
 
         //Make sure some features have records
         bool addOrNot = true; //Will be used to get traverses out of the way if empty
-        IEnumerable<IFeature> dFeats = await GetGeometriesAsync(defaultLayerName);
+        IEnumerable<IFeature> dFeats = await Task.Run(async () => await GetGeometriesAsync(defaultLayerName));
 
         //TODO: comment out when traverses will be totally implemented
         if (Enum.GetName(defaultLayerName) == ApplicationLiterals.aliasTraversePoint &&
