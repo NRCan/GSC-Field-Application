@@ -862,7 +862,8 @@ public partial class MapPage : ContentPage
         //They might have deleted some stations or linework, make sure to refresh
         foreach (var item in mapView.Map.Layers)
         {
-            if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework)
+            if (item.Name == ApplicationLiterals.aliasStations || item.Name == ApplicationLiterals.aliasLinework 
+                || item.Name == ApplicationLiterals.aliasTraversePoint)
             {
                 //Get map layer
                 ILayer mapLayer = mapView.Map.Layers.Where(x => x.Name == item.Name).First();
@@ -881,6 +882,11 @@ public partial class MapPage : ContentPage
                 {
                     databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(Linework)));  
                     layerToReload = defaultLayerList.Linework;
+                }
+                else if (true)
+                {
+                    databaseCount = await Task.Run(async () => await da.GetTableCount(typeof(TraversePoint)));
+                    layerToReload = defaultLayerList.Traverses;
                 }
 
                 //Check with record count if diff add last or remove missing
