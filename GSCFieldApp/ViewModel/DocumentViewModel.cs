@@ -835,21 +835,19 @@ namespace GSCFieldApp.ViewModel
         public async Task<Document> GetLastDocument(bool includingSnapshot = false)
         {
             SQLiteAsyncConnection currentConnection = da.GetConnectionFromPath(da.PreferedDatabasePath);
-            Document previousRecord = await currentConnection.Table<Document>()
-                .OrderByDescending(d => d.FileNumber)
-                .FirstAsync();
+            List<Document> previousRecord = await currentConnection.Table<Document>()
+                .OrderByDescending(d => d.FileNumber).ToListAsync();
 
             if (includingSnapshot)
             {
                 previousRecord = await currentConnection.Table<Document>()
-                .OrderByDescending(d => d.DocumentName)
-                .FirstAsync();
+                .OrderByDescending(d => d.DocumentName).ToListAsync();
             }
 
             //Get caption
-            if (previousRecord != null)
+            if (previousRecord.Count() >= 1)
             {
-                return previousRecord;
+                return previousRecord.First();
             }
             else
             {
