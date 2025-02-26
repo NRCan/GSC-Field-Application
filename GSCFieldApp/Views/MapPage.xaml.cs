@@ -75,6 +75,12 @@ public partial class MapPage : ContentPage
     private TimeSpan _refreshRate = TimeSpan.FromMilliseconds(1000); //Used for GPS refresh rate on location change event
     private bool _locationFollowEnabled = false; //Used to know if map should follow user location
     private bool _isInitialLoadingDone = false; //Used to know if initial loading is done, will prevent reloading all layers each time user comes back to map page
+    private ParallelOptions _parallelOptions = new()
+    {
+        MaxDegreeOfParallelism = 10
+    };
+    private WKTReader _wellKnownTextReader = new WKTReader();
+    private GeopackageService _geopackageService = new GeopackageService();
     //Symbols
     private int bitmapSymbolId = -1;
     
@@ -939,6 +945,7 @@ public partial class MapPage : ContentPage
                         IEnumerable<IFeature> sourceEnumFeatures = mapFeatures.AsEnumerable();
 
                         //Reset
+                        mapMemoryLayer.Tag = refreshLayer.Tag; //Keep tag, it contains db path, meant for map info
                         mapMemoryLayer.Features = sourceEnumFeatures;
                         mapView.Map.Layers.Remove(mapLayer);
                         mapView.Map.Layers.Add(mapMemoryLayer);
@@ -1830,6 +1837,7 @@ public partial class MapPage : ContentPage
 
             if (dLayer != null)
             {
+                dLayer.Tag = da.PreferedDatabasePath; //Keep database path for map info button and zoom to extent
                 defaultLayers.Add(dLayer);
             }
         }
@@ -1895,10 +1903,9 @@ public partial class MapPage : ContentPage
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
             //Prep
-            GeopackageService geopackageService = new GeopackageService();
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<FieldLocation> fieldLoc = await currentConnection.Table<FieldLocation>().ToListAsync();
-            WKTReader wellKnownTextReader = new WKTReader();
+            
             LabelStyle labelStyle = new LabelStyle
             {
                 BackColor = new Brush(Color.WhiteSmoke),
@@ -1907,17 +1914,12 @@ public partial class MapPage : ContentPage
                 Offset = offset
             };
 
-            ParallelOptions parallelOptions = new()
-            {
-                MaxDegreeOfParallelism = 10
-            };
-
-            await Parallel.ForEachAsync(fieldLoc, parallelOptions, async (fl, token) =>
+            await Parallel.ForEachAsync(fieldLoc, _parallelOptions, async (fl, token) =>
             {
 
                 //Get coordinate as EPSG 3857 (Spherical mercator WGS84)
                 //Build geometry
-                NetTopologySuite.Geometries.Point locationPoint = await geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
+                NetTopologySuite.Geometries.Point locationPoint = await _geopackageService.GetGeometryPointFromByteAsync(fl.LocationGeometry);
 
                 if (locationPoint != null)
                 {
@@ -1958,34 +1960,37 @@ public partial class MapPage : ContentPage
 
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
-
+            //Prep
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<TraversePoint> fieldTravPoint = await currentConnection.Table<TraversePoint>().ToListAsync();
 
-            //Prep
-            GeopackageService geopackageService = new GeopackageService();
+            LabelStyle labelStyle = new LabelStyle
+            {
+                BackColor = new Brush(Color.LightGoldenRodYellow),
+                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                BorderThickness = 2,
+                Offset = offset
+            };
 
             if (fieldTravPoint != null && fieldTravPoint.Count > 0)
             {
                 //Prep style
-                string xmlStyle = await Task.Run(async () => await geopackageService.GetGeopackageStyleXMLString(currentConnection, DatabaseLiterals.TableTraversePoint));
+                string xmlStyle = await Task.Run(async () => await _geopackageService.GetGeopackageStyleXMLString(currentConnection, DatabaseLiterals.TableTraversePoint));
                 List<GeopackageLayerStyling> stylings = await Task.Run(
-                    async () => await geopackageService.GetGeopackageStyle(
+                    async () => await _geopackageService.GetGeopackageStyle(
                         xmlStyle, 
                         DatabaseLiterals.TableTraversePoint, 
                         Geometry.TypeNamePoint.ToLower()));
 
-                foreach (TraversePoint tp in fieldTravPoint)
+                await Parallel.ForEachAsync(fieldTravPoint, _parallelOptions, async (tp, token) =>
                 {
-
                     //Build geometry
-                    NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom));
+                    NetTopologySuite.Geometries.Point travPointString = await Task.Run(async () => await _geopackageService.GetGeometryPointFromByteAsync(tp.TravGeom));
 
                     if (travPointString != null)
                     {
                         //Build feature metadata
-                        WKTReader wellKnownTextReader = new WKTReader();
-                        IFeature feat = new GeometryFeature(wellKnownTextReader.Read(travPointString.AsText()));
+                        Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(travPointString);
                         feat[DatabaseLiterals.FieldTravPointID] = tp.TravID;
                         enumFeat = enumFeat.Append(feat);
 
@@ -1995,19 +2000,18 @@ public partial class MapPage : ContentPage
                             feat.Styles.Add(stylings[0].pointVectorStyle);
                         }
 
-                        feat.Styles.Add(new LabelStyle
+                        LabelStyle lStyle = new LabelStyle
                         {
+                            BackColor = labelStyle.BackColor,
+                            HorizontalAlignment = labelStyle.HorizontalAlignment,
+                            BorderThickness = labelStyle.BorderThickness,
+                            Offset = offset,
                             Text = tp.TravLabel,
-                            BackColor = new Brush(Color.LightGoldenRodYellow),
-                            HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                            //CollisionDetection = true,
-                            BorderThickness = 2,
-                            Offset = offset
-                        });
+                        };
+
+                        feat.Styles.Add(lStyle);
                     }
-
-
-                }
+                });
 
             }
 
@@ -2031,24 +2035,26 @@ public partial class MapPage : ContentPage
         if (da.PreferedDatabasePath != null && da.PreferedDatabasePath != string.Empty)
         {
             //Prep
-            GeopackageService geopackageService = new GeopackageService();
-
-            //Connect and gather linework
             SQLiteAsyncConnection currentConnection = new SQLiteAsyncConnection(da.PreferedDatabasePath);
             List<Linework> fieldLinework = await currentConnection.Table<Linework>().ToListAsync();
+            LabelStyle labelStyle = new LabelStyle
+            {
+                BackColor = new Brush(Color.WhiteSmoke),
+                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
+                BorderThickness = 1
+            };
 
             if (fieldLinework != null && fieldLinework.Count() > 0)
             {
                 foreach (Linework lw in fieldLinework)
                 {
                     //Build geometry
-                    LineString inLineString = await Task.Run(async () => await geopackageService.GetGeometryLineFromByte(lw.LineGeom)); 
+                    LineString inLineString = await Task.Run(async () => await _geopackageService.GetGeometryLineFromByte(lw.LineGeom)); 
 
                     if (inLineString != null)
                     {
                         //Build feature metadata
-                        WKTReader wellKnownTextReader = new WKTReader();
-                        IFeature feat = new GeometryFeature(wellKnownTextReader.Read(inLineString.AsText()));
+                        Mapsui.Nts.GeometryFeature feat = new Mapsui.Nts.GeometryFeature(inLineString);
                         
                         if (feat != null)
                         {
@@ -2065,9 +2071,9 @@ public partial class MapPage : ContentPage
                             feat.Styles.Add(new LabelStyle
                             {
                                 Text = lw.LineAliasLight,
-                                BackColor = new Brush(Color.WhiteSmoke),
-                                HorizontalAlignment = LabelStyle.HorizontalAlignmentEnum.Right,
-                                BorderThickness = 1
+                                BackColor = labelStyle.BackColor,
+                                HorizontalAlignment = labelStyle.HorizontalAlignment,
+                                BorderThickness = labelStyle.BorderThickness,
                             });
                         }
 
