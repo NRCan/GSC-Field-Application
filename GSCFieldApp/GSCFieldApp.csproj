@@ -329,23 +329,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Platforms\Android\Linker.xml" />
-	  <None Remove="Platforms\iOS\Linker.xml" />
-	  <None Remove="Resources\Fonts\MaterialDesignIconsDesktop.ttf" />
-	  <None Remove="Resources\Images\logo.svg" />
-	  <None Remove="Resources\Images\logo_gray.svg" />
-	  <None Remove="Resources\Images\point.png" />
-	  <None Remove="Resources\Raw\GSCFieldwork.gpkg" />
+		<None Remove="Platforms\Android\Linker.xml" />
+		<None Remove="Platforms\iOS\Linker.xml" />
+		<None Remove="Resources\Fonts\MaterialDesignIconsDesktop.ttf" />
+		<None Remove="Resources\Images\logo.svg" />
+		<None Remove="Resources\Images\logo_gray.svg" />
+		<None Remove="Resources\Images\point.png" />
+		<None Remove="Resources\Images\vector-point.png" />
+		<None Remove="Resources\Raw\GSCFieldwork.gpkg" />
 		
-	  <None Remove="Resources\Raw\GSCFieldwork_V142.gpkg" />
-	  <None Remove="Resources\Raw\GSCFieldwork_V143.gpkg" />
-	  <None Remove="Resources\Raw\GSCFieldwork_V144.gpkg" />
-	  <None Remove="Resources\Raw\GSCFieldwork_V150.gpkg" />
-	  <None Remove="Resources\Raw\GSCFieldwork_V160.gpkg" />
-	  <None Remove="Resources\Raw\GSCFieldwork_V170.gpkg" />
-	  <None Remove="Resources\Raw\GSCFieldwork_V180.gpkg" />
+		<None Remove="Resources\Raw\GSCFieldwork_V142.gpkg" />
+		<None Remove="Resources\Raw\GSCFieldwork_V143.gpkg" />
+		<None Remove="Resources\Raw\GSCFieldwork_V144.gpkg" />
+		<None Remove="Resources\Raw\GSCFieldwork_V150.gpkg" />
+		<None Remove="Resources\Raw\GSCFieldwork_V160.gpkg" />
+		<None Remove="Resources\Raw\GSCFieldwork_V170.gpkg" />
+		<None Remove="Resources\Raw\GSCFieldwork_V180.gpkg" />
 		
-	  <None Remove="Resources\Raw\SRID.csv" />
+		<None Remove="Resources\Raw\SRID.csv" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -504,6 +505,15 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Update="Resources\Raw\point.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Update="Resources\Raw\vector-point.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>

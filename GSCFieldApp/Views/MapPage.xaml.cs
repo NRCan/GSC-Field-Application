@@ -35,10 +35,13 @@ using GeoAPI.Geometries;
 using Mapsui.UI.Objects;
 using Point = NetTopologySuite.Geometries.Point;
 using Coordinate = NetTopologySuite.Geometries.Coordinate;
+using MultiPoint = NetTopologySuite.Geometries.MultiPoint;
 using System.Collections.Generic;
 using SkiaSharp.Views.Maui.Controls;
 using System.Globalization;
 using Microsoft.Maui.Storage;
+using ProjNet.Geometries;
+
 
 
 #if ANDROID
@@ -66,7 +69,8 @@ public partial class MapPage : ContentPage
     private enum defaultLayerList { Stations, Linework, Traverses }
     private Sensor.Location badLoc = new Sensor.Location() { Accuracy=-99, Longitude=double.NaN, Latitude=double.NaN, Altitude=double.NaN };
     private Drawable _drawable = new Drawable(); //Meant to be used for linework
-    private GeometryFeature _drawableGeometry = null; //Meant to be used for linework
+    private GeometryFeature _drawableLineGeometry = null; //Meant to be used for linework
+    private GeometryFeature _drawableLineVectorGeometry = null; //Meant to be used for linework
     public LocalizationResourceManager LocalizationResourceManager
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
     public ApplicationLiterals.SupportedWMSCRS _wmsCRS = ApplicationLiterals.SupportedWMSCRS.epsg3857;
@@ -81,9 +85,10 @@ public partial class MapPage : ContentPage
     };
     private WKTReader _wellKnownTextReader = new WKTReader();
     private GeopackageService _geopackageService = new GeopackageService();
+
     //Symbols
-    private int bitmapSymbolId = -1;
-    
+    private int bitmapLocationSymbolId = -1; //Current localisation point symbol
+    private int bitmapLineworkPointSymbolId = -1; //Linework vertices point symbol
 
     #region Properties
 
@@ -342,7 +347,8 @@ public partial class MapPage : ContentPage
             SetOpenStreetMap();
 
             //Manage symbol and layers
-            await Task.Run(async () => await AddSymbolToRegistry());
+            await Task.Run(async () => await AddLocationSymbolToRegistry());
+            await Task.Run(async () => await AddLineworkPointSymbolToRegistry());
 
             //Freshen up the default layers
             await Task.Run(async () => await RefreshDefaultFeatureLayer());
@@ -689,21 +695,23 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// Track single tap on screen. If drawing mode is enabled, it will start 
-    /// screen movement tracking to add to a temp linework linestring.
+    /// Track single tap on screen. 
+    /// If drawing line is enabled it will start creating a new one
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     private void mapView_SingleTap(object sender, Mapsui.UI.TappedEventArgs e)
     {
-        if (e != null && e.ScreenPosition != null && _isDrawingLine && !MapAddGeopackageWMSFrame.IsVisible)
+        if (e != null && e.ScreenPosition != null && _isDrawingLine && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
         {
-            //Disable map panning else on mobile devices the touch screen movement will move the map instead of drawing
-            mapView.Map.Navigator.PanLock = true;
+            //Get screen ratio between skia and mapsui
+            Tuple<double, double> screenRatios = CalculateViewportRatio(sender as SKCanvasView, mapView.Map.Navigator);
 
-            //Start touch screen movement tracking
-            mapView.TouchAction -= mapView_TouchAction;
-            mapView.TouchAction += mapView_TouchAction;
+            //Convert screen pixel location to map location
+            (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY((e.ScreenPosition.X) * screenRatios.Item1, (e.ScreenPosition.Y) * screenRatios.Item2);
+
+            //Add to linework layer
+            FillLinework(clickedPoint.Item1, clickedPoint.Item2);
         }
     }
 
@@ -717,34 +725,9 @@ public partial class MapPage : ContentPage
         if (_isDrawingLine)
         {
             //Stop event tracking and finalize work
-            mapView.TouchAction -= mapView_TouchAction;
             FinalizeLinework(e);
-
-            //Bring back map panning
-            mapView.Map.Navigator.PanLock = false;
         }
 
-    }
-
-    /// <summary>
-    /// Screen movement tracking to fill in all vertices in linework temp linestring
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void mapView_TouchAction(object sender, SkiaSharp.Views.Maui.SKTouchEventArgs e)
-    {
-        if (e.ActionType == SkiaSharp.Views.Maui.SKTouchAction.Moved)
-        {
-            //Get screen ratio between skia and mapsui
-            Tuple<double, double> screenRatios = CalculateViewportRatio(sender as SKCanvasView, mapView.Map.Navigator);
-
-            //Convert screen pixel location to map location
-            (double, double) clickedPoint = mapView.Map.Navigator.Viewport.ScreenToWorldXY((e.Location.X)* screenRatios.Item1, (e.Location.Y)*screenRatios.Item2);
-            
-            //Add to linework layer
-            FillLinework(clickedPoint.Item1, clickedPoint.Item2);
-        }
-        
     }
 
     /// <summary>
@@ -1753,10 +1736,10 @@ public partial class MapPage : ContentPage
     /// Must add all image in bitmap registry for mapsui to use them as symbol styles
     /// </summary>
     /// <returns></returns>
-    public async Task<int> AddSymbolToRegistry()
+    public async Task<int> AddLocationSymbolToRegistry()
     {
         //Make sure it's not already registered
-        if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapSymbolId), out bitmapSymbolId))
+        if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLocationSymbolId), out bitmapLocationSymbolId))
         {
             //Stream the pnt for the symbol
             await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"point.png"))
@@ -1765,15 +1748,43 @@ public partial class MapPage : ContentPage
                 pointBitmap.CopyTo(memoryStream);
 
                 //Register
-                bitmapSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapSymbolId));
+                bitmapLocationSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLocationSymbolId));
 
             }
 
-            return bitmapSymbolId;
+            return bitmapLocationSymbolId;
         }
         else
         {
-            return bitmapSymbolId;
+            return bitmapLocationSymbolId;
+        }
+    }
+
+    /// <summary>
+    /// Must add all image in bitmap registry for mapsui to use them as symbol styles
+    /// </summary>
+    /// <returns></returns>
+    public async Task<int> AddLineworkPointSymbolToRegistry()
+    {
+        //Make sure it's not already registered
+        if (!BitmapRegistry.Instance.TryGetBitmapId(nameof(bitmapLineworkPointSymbolId), out bitmapLineworkPointSymbolId))
+        {
+            //Stream the pnt for the symbol
+            await using (Stream pointBitmap = await FileSystem.OpenAppPackageFileAsync(@"vector-point.png"))
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                pointBitmap.CopyTo(memoryStream);
+
+                //Register
+                bitmapLineworkPointSymbolId = BitmapRegistry.Instance.Register(memoryStream, nameof(bitmapLineworkPointSymbolId));
+
+            }
+
+            return bitmapLineworkPointSymbolId;
+        }
+        else
+        {
+            return bitmapLineworkPointSymbolId;
         }
     }
 
@@ -2101,13 +2112,26 @@ public partial class MapPage : ContentPage
     /// Will set style of stations on map
     /// </summary>
     /// <returns></returns>
-    private SymbolStyle CreateBitmapStyle()
+    private SymbolStyle CreateLocationBitmapStyle()
     {
         // For this sample we get the bitmap from an embedded resouce
         // but you could get the data stream from the web or anywhere
         // else.
 
-        return new SymbolStyle { BitmapId = bitmapSymbolId, SymbolScale = 0.75 };
+        return new SymbolStyle { BitmapId = bitmapLocationSymbolId, SymbolScale = 0.75 };
+    }
+
+    /// <summary>
+    /// Will set style of stations on map
+    /// </summary>
+    /// <returns></returns>
+    private SymbolStyle CreateVectorBitmapStyle()
+    {
+        // For this sample we get the bitmap from an embedded resouce
+        // but you could get the data stream from the web or anywhere
+        // else.
+
+        return new SymbolStyle { BitmapId = bitmapLineworkPointSymbolId, SymbolScale = 1.5 };
     }
 
     /// <summary>
@@ -2120,49 +2144,69 @@ public partial class MapPage : ContentPage
         //Make sure styling and layer are ready
         await InitiateLinework();
 
-        //Force it to drawable layer
+        Tuple<GeometryFeature, GeometryFeature> newFeat = await AddPointToLinework(xCoord, yCoord);
+
+        //Force it to drawable line layer
         IEnumerable<ILayer> layers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkEdit);
-        if (layers != null && layers.First() != null)
+        if (layers != null && layers.First() != null && newFeat != null)
         {
 
             WritableLayer writeLayer = layers.First() as WritableLayer;
             if (writeLayer != null)
             {
-                GeometryFeature newFeat = await AddPointToLinework(xCoord, yCoord);
-
                 // Keep only one geometry within this layer
                 writeLayer.Clear();
-                writeLayer.AddRange(new List<IFeature>() { newFeat });
+                writeLayer.AddRange(new List<IFeature>() { newFeat.Item1 });
+
+                mapView.Map.RefreshGraphics();
+            }
+        }
+
+        //Add it to linework temp vector points
+        IEnumerable<ILayer> tLayers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkVerticesEdit);
+        if (tLayers != null && tLayers.First() != null)
+        {
+
+            WritableLayer tLayer = tLayers.First() as WritableLayer;
+            if (tLayer != null)
+            {
+                // Keep only one geometry within this layer
+                tLayer.Clear();
+                tLayer.AddRange(new List<IFeature>() { newFeat.Item2 });
 
                 mapView.Map.RefreshGraphics();
             }
         }
 
 
-
     }
 
     /// <summary>
-    /// Will add a coordinate to a geometry feature
+    /// Will add a coordinate to a geometry feature for linework along with a vector point geometry for all vertices
+    /// showing user what he's digitizing correctly.
     /// </summary>
-    /// <param name="geomToAddPointTo"></param>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    private async Task<GeometryFeature> AddPointToLinework(double x, double y)
+    private async Task<Tuple<GeometryFeature, GeometryFeature>> AddPointToLinework(double x, double y)
     {
-        if (_drawableGeometry != null)
+        if (_drawableLineGeometry != null)
         {
-            _drawableGeometry.Geometry = await GeopackageService.AddPointToLineString(_drawableGeometry.Geometry as LineString, x, y);
-
+            _drawableLineGeometry.Geometry = await GeopackageService.AddPointToLineString(_drawableLineGeometry.Geometry as LineString, x, y);
+            _drawableLineVectorGeometry.Geometry = await GeopackageService.AddPointToMultiPoint(_drawableLineVectorGeometry.Geometry as MultiPoint, x, y);
         }
         else
         {
-            _drawableGeometry = new GeometryFeature();
-            _drawableGeometry.Geometry = new LineString(new[] { new Coordinate(x, y), new Coordinate(x, y) });
+            _drawableLineGeometry = new GeometryFeature();
+            _drawableLineVectorGeometry = new GeometryFeature();
+
+            _drawableLineGeometry.Geometry = new LineString(new[] { new Coordinate(x, y), new Coordinate(x, y) });
+            Point[] initVectorPoint = new Point[1];
+            initVectorPoint[0] = new Point(new Coordinate(x, y));
+            _drawableLineVectorGeometry.Geometry = new MultiPoint(initVectorPoint);
 
         }
 
-        return _drawableGeometry;
+        return new Tuple<GeometryFeature, GeometryFeature>(_drawableLineGeometry, _drawableLineVectorGeometry );
     }
 
     /// <summary>
@@ -2172,7 +2216,7 @@ public partial class MapPage : ContentPage
     private async Task InitiateLinework()
     {
 
-        //Init drawable layer
+        //Init linework temporary drawable layer
         IEnumerable<ILayer> currentLayers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkEdit);
         if (currentLayers == null || currentLayers.Count() == 0)
         {
@@ -2191,7 +2235,22 @@ public partial class MapPage : ContentPage
             };
 
             mapView.Map.Layers.Add(layerToAdd);
+        }
 
+        //Init linework points temporary drawable layer
+        IEnumerable<ILayer> tLayers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkVerticesEdit);
+        if (tLayers == null || tLayers.Count() == 0)
+        {
+            //Style it
+            ILayer layerToAdd = new WritableLayer
+            {
+                Name = ApplicationLiterals.aliasLineworkVerticesEdit,
+                Style = CreateVectorBitmapStyle(),
+                IsMapInfoLayer = true,
+
+            };
+
+            mapView.Map.Layers.Add(layerToAdd);
         }
 
     }
@@ -2201,7 +2260,7 @@ public partial class MapPage : ContentPage
     /// </summary>
     private void EmptyLinework()
     {
-        //Force it to drawable layer
+        //Linework line
         IEnumerable<ILayer> layers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkEdit);
         if (layers != null && layers.Count() > 0)
         {
@@ -2213,7 +2272,23 @@ public partial class MapPage : ContentPage
                 writeLayer.Clear();
                 mapView.Map.RefreshGraphics();
 
-                _drawableGeometry = null;
+                _drawableLineGeometry = null;
+            }
+        }
+
+        //Linework points
+        layers = mapView.Map.Layers.FindLayer(ApplicationLiterals.aliasLineworkVerticesEdit);
+        if (layers != null && layers.Count() > 0)
+        {
+
+            WritableLayer writeLayer = layers.First() as WritableLayer;
+            if (writeLayer != null)
+            {
+                // Clean layer of any drawn geometries
+                writeLayer.Clear();
+                mapView.Map.RefreshGraphics();
+
+                _drawableLineGeometry = null;
             }
         }
     }
@@ -2232,11 +2307,11 @@ public partial class MapPage : ContentPage
         if (canSave)
         {
             //Create an actual and new linework record with previous drawn line
-            if ((LineString)_drawableGeometry.Geometry != null)
+            if ((LineString)_drawableLineGeometry.Geometry != null)
             {
                 //Save linework as a new record and open edit form for user to finalize it
                 MapViewModel _vm = BindingContext as MapViewModel;
-                await _vm.AddLinework((LineString)_drawableGeometry.Geometry);
+                await _vm.AddLinework((LineString)_drawableLineGeometry.Geometry);
 
                 //Empty lineworkedit layer of any content
                 EmptyLinework();
@@ -2324,7 +2399,7 @@ public partial class MapPage : ContentPage
                     Name = Enum.GetName(defaultLayerName),
                     IsMapInfoLayer = true,
                     Features = dFeats,
-                    Style = CreateBitmapStyle(),
+                    Style = CreateLocationBitmapStyle(),
                     Tag = da.PreferedDatabasePath,
                 };
 
@@ -2372,6 +2447,9 @@ public partial class MapPage : ContentPage
 
     }
 
+    /// <summary>
+    /// Will enable/disable the user to make a tap entry for a new station
+    /// </summary>
     private void ToggleTapEntry()
     {
         //Revert current state of drawing lines
@@ -2800,4 +2878,9 @@ public partial class MapPage : ContentPage
     }
 
     #endregion
+
+    private void mapView_DoubleTap(object sender, Mapsui.UI.TappedEventArgs e)
+    {
+        new ErrorToLogFile("test").WriteToFile();
+    }
 }

@@ -427,6 +427,31 @@ namespace GSCFieldApp.Services.DatabaseServices
             return defaultMapsuiGeometryFactory.CreateLineString(coordinates);
         }
 
+
+        /// <summary>
+        /// Will add a new coordinate to a multipoint geometry
+        /// </summary>
+        /// <param name="pCoordinates"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static async Task<NTS.Geometries.MultiPoint> AddPointToMultiPoint(NTS.Geometries.MultiPoint pCoordinates, double x, double y)
+        {
+            //Init
+            NTS.Geometries.Point[] points = new NTS.Geometries.Point[pCoordinates.Coordinates.Count() + 1];
+
+            //Add
+            for (int i = 0; i < pCoordinates.Coordinates.Count(); i++)
+            {
+                points[i] = new NTS.Geometries.Point(pCoordinates.Coordinates[i]);
+            }
+            points[pCoordinates.Coordinates.Count()] = new NTS.Geometries.Point(new Coordinate(x,y));
+
+            NTS.Geometries.MultiPoint newPoints = new NTS.Geometries.MultiPoint(points);
+            
+            return newPoints;
+        }
+
         /// <summary>
         /// Will take input linestring and transform them in
         /// geopackage valid byte array geometry.
