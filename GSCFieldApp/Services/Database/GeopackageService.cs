@@ -97,6 +97,11 @@ namespace GSCFieldApp.Services.DatabaseServices
         private static CoordinateSequenceFactory _coordinateSequenceFactory = NtsGeometryServices.Instance.DefaultCoordinateSequenceFactory;
         private static GeoPackageGeoReader _geoReader = new GeoPackageGeoReader(_coordinateSequenceFactory, _precisionModel);
 
+        private static ParallelOptions _parallelOptions = new()
+        {
+            MaxDegreeOfParallelism = 10
+        };
+
         /// <summary>
         /// This special class is used since mod_spatialite can't seem to be working
         /// along with sqlite-net-pcl. 
@@ -938,15 +943,11 @@ namespace GSCFieldApp.Services.DatabaseServices
                 GpkgDeleteTableViewGeomColumnStat, GpkgDeleteTableVirtGeomColumn, GpkgDeleteTableVirtGeomColumnAuth, 
                 GpkgDeleteTableVirtGeomColumnFieldInfo, GpkgDeleteTableVirtGeomColumnStat};
 
-            Parallel.ForEach(tablesToDelete, async (table) =>
+            await Parallel.ForEachAsync(tablesToDelete, _parallelOptions, async (table, token) =>
             {
-                try
-                {
-                    await inConnection.ExecuteAsync(string.Format("DROP TABLE {0};", table));
-                }
-                catch (SQLite.SQLiteException ex)
-                {
-                }
+
+                await inConnection.ExecuteAsync(string.Format("DROP TABLE IF EXISTS {0};", table));
+
             });
 
             await inConnection.CloseAsync();
