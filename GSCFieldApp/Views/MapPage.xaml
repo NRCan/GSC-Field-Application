@@ -230,10 +230,6 @@
                         ToolTipProperties.Text="{local:Localize MapPageGPSMode}"
                         Style="{StaticResource FieldAppHeaderButton}" Clicked="GPSMode_Clicked"/>
                 
-                <Button x:Name="TapMode" Text="&#xF0741;"
-                        ToolTipProperties.Text="{local:Localize MapPageGPSMode}" IsVisible="False"
-                        Style="{StaticResource FieldAppHeaderButton}" Clicked="TapMode_Clicked"/>
-                
                 <!--Manage layers-->
                 <Button x:Name="ManageLayerButton" Text="&#xF0F59;" 
                         ToolTipProperties.Text="{local:Localize MapPageLayer}"
@@ -253,6 +249,11 @@
                 <Button x:Name="DrawLine" Text="&#xF0F49;"
                         ToolTipProperties.Text="{local:Localize MapPageDrawLine}"
                         Style="{StaticResource FieldAppHeaderButton}" Clicked="DrawLine_Clicked"/>
+
+                <!--Tap entry-->
+                <Button x:Name="TapMode" Text="&#xF0741;"
+                        ToolTipProperties.Text="{local:Localize MapPageGPSMode}"
+                        Style="{StaticResource FieldAppHeaderButton}" Clicked="TapMode_Clicked"/>
 
             </StackLayout>
 

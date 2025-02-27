@@ -379,11 +379,8 @@ public partial class MapPage : ContentPage
         //GetGpkgFeatureInfo(e.Point);
 
         //Detect if in tap mode or drawing lines to show tapped coordinates on screen
-        if (!_isCheckingGeolocation && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
+        if (_isTapMode && !_isDrawingLine && !MapLayerFrame.IsVisible && !MapAddGeopackageWMSFrame.IsVisible && !MapInfoResultsFrame.IsVisible)
         {
-            //Keep tap mode for future validation
-            _isTapMode = true;
-
             //Convert incoming geographic coordinates and transform into DMS
             DD2DMS dmsLongitude = DD2DMS.FromDouble(e.Point.ToPoint().X);
             DD2DMS dmsLatitude = DD2DMS.FromDouble(e.Point.ToPoint().Y);
@@ -414,13 +411,10 @@ public partial class MapPage : ContentPage
                 mvm.AddStationCommand.Execute(mvm);
             }
         }
-        else
-        {
-            _isTapMode = false;
-        }
 
         //Make sure to disable map layer frame
         MapLayerFrame.IsVisible = false;
+
         //MapInfoResultsFrame.IsVisible = false;
     }
 
@@ -545,17 +539,23 @@ public partial class MapPage : ContentPage
     /// <param name="e"></param>
     private void GPSMode_Clicked(object sender, EventArgs e)
     {
-        SwitchGPSOrTap();
+        ToggleGPS();
     }
 
     /// <summary>
-    /// Will disable tap entries and activate GPS
+    /// Will enable/disable tap entry, and will make sure to shut down line drawing if enabled
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     private void TapMode_Clicked(object sender, EventArgs e)
     {
-        SwitchGPSOrTap();
+        ToggleTapEntry();
+
+        if (_isDrawingLine)
+        {
+            ToggleDrawing();
+        }
+        
     }
 
     /// <summary>
@@ -630,13 +630,20 @@ public partial class MapPage : ContentPage
     }
 
     /// <summary>
-    /// Will enable/disable the user to draw an interpretation line on screen.
+    /// Will enable/disable the user to draw an interpretation line on screen and will
+    /// disable tap entry if enabled
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     private void DrawLine_Clicked(object sender, EventArgs e)
     {
-        DisableDrawing();
+        ToggleDrawing();
+
+        if (_isTapMode)
+        {
+            ToggleTapEntry();
+        }
+
     }
 
     #endregion
@@ -2342,7 +2349,7 @@ public partial class MapPage : ContentPage
     /// <summary>
     /// Will enable/disable the user to draw an interpretation line on screen.
     /// </summary>
-    private void DisableDrawing()
+    private void ToggleDrawing()
     {
         //Revert current state of drawing lines
         _isDrawingLine = !_isDrawingLine;
@@ -2363,6 +2370,25 @@ public partial class MapPage : ContentPage
             EmptyLinework();
         }
 
+    }
+
+    private void ToggleTapEntry()
+    {
+        //Revert current state of drawing lines
+        _isTapMode = !_isTapMode;
+
+        //Change font color to indicate it's activated
+        if (_isTapMode && App.Current.Resources.TryGetValue("Secondary", out var colorValue))
+        {
+            var activeColor = (Microsoft.Maui.Graphics.Color)colorValue;
+
+            this.TapMode.TextColor = activeColor;
+        }
+        else
+        {
+            //Keep as default
+            this.TapMode.TextColor = Microsoft.Maui.Graphics.Colors.White;
+        }
     }
 
     /// <summary>
@@ -2387,23 +2413,15 @@ public partial class MapPage : ContentPage
     /// <summary>
     /// Will enable/disable GPS and disable/enable tap entry
     /// </summary>
-    private void SwitchGPSOrTap()
+    private void ToggleGPS()
     {
         if (_isCheckingGeolocation)
         {
             StopGPSAsync();
-
-            //Show tap icon instead
-            GPSMode.IsVisible = false;
-            TapMode.IsVisible = true;
         }
         else
         {
             _ = StartGPS();
-
-            //Show satellite GNSS icon instead
-            GPSMode.IsVisible = true;
-            TapMode.IsVisible = false;
         }
     }
 
