@@ -720,18 +720,21 @@
                         </GridView>
 
                         <RelativePanel Margin="0,-60,0,0" 
-                                       RelativePanel.AlignLeftWithPanel="True" 
-                                       RelativePanel.AlignRightWithPanel="True" 
-                                       RelativePanel.Below="EarthmatGridView_GeneralNote"
-                                       ManipulationMode="TranslateX, TranslateY"
-                                       ManipulationDelta="Element_ManipulationDelta"
-                                       ManipulationStarted="UIElement_ManipulationStarted"
-                                       ManipulationCompleted="UIElement_ManipulationCompleted" >
-                            <TextBox Style="{StaticResource Notes}" 
-                                     x:Name="EarthNoteTextbox" 
-                                     x:Uid="EarthDialogGeneralNote"
-                                     Text ="{x:Bind ViewModel.Notes, Mode=TwoWay}"/>
+               RelativePanel.AlignLeftWithPanel="True" 
+               RelativePanel.AlignRightWithPanel="True" 
+               RelativePanel.Below="EarthmatGridView_GeneralNote">
+                            <Canvas x:Name="CanvasContainer">
+                                <TextBox Style="{StaticResource Notes}" 
+                 x:Name="EarthNoteTextbox" 
+                 x:Uid="EarthDialogGeneralNote"
+                 Text="{x:Bind ViewModel.Notes, Mode=TwoWay}"
+                 ManipulationMode="TranslateX, TranslateY"
+                 ManipulationDelta="Element_ManipulationDelta"
+                 ManipulationStarted="UIElement_ManipulationStarted"
+                 ManipulationCompleted="UIElement_ManipulationCompleted" />
+                            </Canvas>
                         </RelativePanel>
+
 
                     </RelativePanel>
                 </ScrollViewer>
