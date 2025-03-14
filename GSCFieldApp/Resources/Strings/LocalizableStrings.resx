@@ -1452,4 +1452,7 @@
   <data name="FieldBooksEditValidationContent" xml:space="preserve">
     <value>Upgrade field book before editing it.</value>
   </data>
+  <data name="EarthmatPageLithoTypeTitle" xml:space="preserve">
+    <value>Group and type</value>
+  </data>
 </root>

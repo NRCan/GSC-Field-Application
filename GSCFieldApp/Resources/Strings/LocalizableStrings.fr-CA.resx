@@ -1453,4 +1453,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FieldBooksEditValidationContent" xml:space="preserve">
     <value>Mettre-à-jour le carnet avant de l'éditer.</value>
   </data>
+  <data name="EarthmatPageLithoTypeTitle" xml:space="preserve">
+    <value>Groupe et type</value>
+  </data>
 </root>

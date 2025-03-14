@@ -1060,6 +1060,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group and type.
+        /// </summary>
+        internal static string EarthmatPageLithoTypeTitle {
+            get {
+                return ResourceManager.GetString("EarthmatPageLithoTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Percent.
         /// </summary>
         internal static string EarthmatPageLithPercent {
