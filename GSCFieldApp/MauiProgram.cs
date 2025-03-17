@@ -6,10 +6,10 @@ using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 
-#if WINDOWS10_0_19041_0_OR_GREATER
-using Microsoft.Maui.LifecycleEvents;
-using WinUIEx;
-#endif
+//#if WINDOWS10_0_19041_0_OR_GREATER
+//using Microsoft.Maui.LifecycleEvents;
+//using WinUIEx;
+//#endif
 
 namespace GSCFieldApp;
 
@@ -33,23 +33,23 @@ public static class MauiProgram
                 fonts.AddFont("STENCIL.TTF", "Stencil");
             });
 
-#if WINDOWS
-            builder.ConfigureLifecycleEvents(events =>
-            {
-                events.AddWindows(wndLifeCycleBuilder =>
-                {
-                    wndLifeCycleBuilder.OnWindowCreated(window =>
-                    {
-                        window.CenterOnScreen(1024,768); //Set size and center on screen using WinUIEx extension method
+//#if WINDOWS
+//            builder.ConfigureLifecycleEvents(events =>
+//            {
+//                events.AddWindows(wndLifeCycleBuilder =>
+//                {
+//                    wndLifeCycleBuilder.OnWindowCreated(window =>
+//                    {
+//                        window.CenterOnScreen(1024,768); //Set size and center on screen using WinUIEx extension method
 
-                        var manager = WinUIEx.WindowManager.Get(window);
-                        manager.PersistenceId = "MainWindowPersistanceId"; // Remember window position and size across runs
-                        manager.MinWidth = 640;
-                        manager.MinHeight = 480;
-                    });
-                });
-            });
-#endif
+//                        var manager = WinUIEx.WindowManager.Get(window);
+//                        manager.PersistenceId = "MainWindowPersistanceId"; // Remember window position and size across runs
+//                        manager.MinWidth = 640;
+//                        manager.MinHeight = 480;
+//                    });
+//                });
+//            });
+//#endif
 
         // Need to add these to actually create them on start
         //Singleton will be created once

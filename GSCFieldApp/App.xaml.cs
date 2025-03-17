@@ -12,53 +12,53 @@ public partial class App : Application
         => LocalizationResourceManager.Instance; // Will be used for in code dynamic local strings
 
 
-    //NOTE: Only working method to have a splash screen on windows for winui3 2025-01-13
-    // https://dotmorten.github.io/WinUIEx/concepts/Splashscreen.html
-    //Still not fixe after 4 years by MS https://github.com/microsoft/microsoft-ui-xaml/issues/4055
-#if WINDOWS
+//    //NOTE: Only working method to have a splash screen on windows for winui3 2025-01-13
+//    // https://dotmorten.github.io/WinUIEx/concepts/Splashscreen.html
+//    //Still not fixe after 4 years by MS https://github.com/microsoft/microsoft-ui-xaml/issues/4055
+//#if WINDOWS
 
-    private SimpleSplashScreen fss { get; set; }
+//    private SimpleSplashScreen fss { get; set; }
 
-#endif
+//#endif
 
     public App()
 	{
 
-#if WINDOWS
+//#if WINDOWS
 
-        fss = SimpleSplashScreen.ShowDefaultSplashScreen();
+//        fss = SimpleSplashScreen.ShowDefaultSplashScreen();
 
-#endif
+//#endif
         InitializeComponent();
 
 		MainPage = new AppShell();
 
-#if WINDOWS
+//#if WINDOWS
 
-        MainPage.Loaded += MainPage_Loaded;
+//        MainPage.Loaded += MainPage_Loaded;
 
-#endif
+//#endif
 
-
-    }
-
-    /// <summary>
-    /// Track loaded event and ask for desired permission before moving on.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void MainPage_Loaded(object sender, EventArgs e)
-    {
-        //await CheckAndRequestLocationPermission();
-
-#if WINDOWS
-
-        fss?.Hide();
-        fss = null;
-
-#endif
 
     }
+
+//    /// <summary>
+//    /// Track loaded event and ask for desired permission before moving on.
+//    /// </summary>
+//    /// <param name="sender"></param>
+//    /// <param name="e"></param>
+//    private async void MainPage_Loaded(object sender, EventArgs e)
+//    {
+//        //await CheckAndRequestLocationPermission();
+
+//#if WINDOWS
+
+//        fss?.Hide();
+//        fss = null;
+
+//#endif
+
+//    }
 
     /// <summary>
     /// TODO Make sure to properly ask for permission
