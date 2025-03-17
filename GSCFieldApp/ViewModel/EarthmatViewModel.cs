@@ -892,10 +892,10 @@ namespace GSCFieldApp.ViewModel
                         {
                             if (lDetail.DetailCode == detailName)
                             {
-                                ComboBoxItem matchGroupItem = _earthLithoGroup.cboxItems.Where(i => i.itemName == lith.GroupTypeCode).First();
-                                if (matchGroupItem != null)
+                                List<ComboBoxItem> matchGroupItem = _earthLithoGroup.cboxItems.Where(i => i.itemValue == lith.GroupTypeCode).ToList();
+                                if (matchGroupItem != null && matchGroupItem.Count() > 0)
                                 {
-                                    _earthLithoGroup.cboxDefaultItemIndex = _earthLithoGroup.cboxItems.IndexOf(matchGroupItem);
+                                    _earthLithoGroup.cboxDefaultItemIndex = _earthLithoGroup.cboxItems.IndexOf(matchGroupItem.First());
                                     foundMatch = true; //Get out of all for loops
                                 }
 

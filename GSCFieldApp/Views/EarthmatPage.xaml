@@ -58,7 +58,7 @@
                                     <!-- Detail search bar (approx >450 items in bedrock only) -->
                                     <Label Text="{local:Localize EarthmatPageLithoDetail}" Style="{StaticResource FieldAppEntryTitleMandatory}" Margin="0,10"/>
                                     <SearchBar Placeholder="{local:Localize EarthmatPageDetailSearchPlaceholder}"
-                                        x:Name="lithoSearchBar" Text="{Binding Model.EarthMatLithdetail, Mode=TwoWay }"
+                                        x:Name="lithoSearchBar" Text="{Binding Model.EarthMatLithdetail, Mode=TwoWay }" TextChanged="lithoSearchBar_TextChanged"
                                         SearchCommand="{Binding PerformDetailSearchCommand}" 
                                         SearchCommandParameter="{Binding Text, Source={x:Reference lithoSearchBar}}"/>
                                     <ListView Style="{StaticResource FieldAppSearchCollectionView}" IsVisible="{Binding isLithoDetailListVisible, Mode=TwoWay}"

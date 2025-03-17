@@ -35,8 +35,8 @@ public partial class EarthmatPage : ContentPage
         if (e != null && e.SelectedItem != null)
         {
 
-            //EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
-            //vm2.RefineGroupListFromDetail(e.SelectedItem.ToString());
+            EarthmatViewModel vm2 = this.BindingContext as EarthmatViewModel;
+            vm2.RefineGroupListFromDetail(e.SelectedItem.ToString());
 
             lithoSearchBar.Text = e.SelectedItem.ToString();
 
@@ -69,5 +69,23 @@ public partial class EarthmatPage : ContentPage
         }
     }
 
+    /// <summary>
+    /// Will filter down values while using is typing text in, else
+    /// they need to tap search icon in order to initiate the filtering
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void lithoSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        SearchBar searchBar = sender as SearchBar;
+        if (searchBar != null)
+        {
+            if (searchBar.Text != null && searchBar.Text != string.Empty)
+            {
+                this.lithoSearchBar.SearchCommand.Execute(searchBar.Text);
+            }
+
+        }
+    }
 
 }
