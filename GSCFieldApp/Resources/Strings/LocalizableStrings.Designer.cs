@@ -1546,6 +1546,15 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to create a new field book. Try again..
+        /// </summary>
+        internal static string FieldBookPageFailedToLoadContent {
+            get {
+                return ResourceManager.GetString("FieldBookPageFailedToLoadContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Some mandatory fields have not been filled..
         /// </summary>
         internal static string FieldBookPageFailedToSave {

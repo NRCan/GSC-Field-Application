@@ -226,6 +226,7 @@ namespace GSCFieldApp.ViewModel
                 OnPropertyChanged(nameof(Model));
 
             }
+
         }
 
         /// <summary>
@@ -239,6 +240,31 @@ namespace GSCFieldApp.ViewModel
             //Make sure to user default database rather then the prefered one. This one will always be there.
             _projectType = await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableMetadata, fieldName);
 
+            //Quick validation in case picklist is empty
+            if (_projectType.cboxItems.Count == 0)
+            {
+                if (File.Exists(da.DatabaseFilePath))
+                {
+                    File.Delete(da.DatabaseFilePath);
+                }
+
+                //Keep in log
+                string errorMessage = "FieldBookPageFailedToLoad: metadata is null or not valid";
+                new ErrorToLogFile(errorMessage).WriteToFile();
+
+                //Validate again
+                await ValidateDabaseExistence();
+
+                //Refill
+                _projectType = await da.GetComboboxListWithVocabAsync(DatabaseLiterals.TableMetadata, fieldName);
+
+                ////Show error
+                //await Shell.Current.DisplayAlert(LocalizationResourceManager["GenericErrorTitle"].ToString(),
+                //    LocalizationResourceManager["FieldBookPageFailedToLoadContent"].ToString(),
+                //    LocalizationResourceManager["GenericButtonOk"].ToString());
+
+
+            }
 
             //Update UI
             OnPropertyChanged("ProjectType");

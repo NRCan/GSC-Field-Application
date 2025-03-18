@@ -1456,4 +1456,7 @@ Aimeriez-vous modifier les droits?</value>
   <data name="EarthmatPageLithoTypeTitle" xml:space="preserve">
     <value>Groupe et type</value>
   </data>
+  <data name="FieldBookPageFailedToLoadContent" xml:space="preserve">
+    <value>Échel de la création de carnet, veuillez réessayer.</value>
+  </data>
 </root>

@@ -1455,4 +1455,7 @@
   <data name="EarthmatPageLithoTypeTitle" xml:space="preserve">
     <value>Group and type</value>
   </data>
+  <data name="FieldBookPageFailedToLoadContent" xml:space="preserve">
+    <value>Failed to create a new field book. Try again.</value>
+  </data>
 </root>
