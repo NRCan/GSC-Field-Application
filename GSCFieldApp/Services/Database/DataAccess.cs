@@ -520,32 +520,27 @@ namespace GSCFieldApp.Services.DatabaseServices
             string insertQuery = "INSERT INTO " + TableDictionaryManager + " SELECT * FROM db2." + TableDictionaryManager + ";";
             string insertQuery2 = "INSERT INTO " + TableDictionary + " SELECT * FROM db2." + TableDictionary + ";";
 
-            //Build detach query
-            string detachQuery = "DETACH DATABASE db2;";
-
-            //Build vacuum query
-            string vacuumQuery = "VACUUM";
-
             //Build final query
-            string finalDeleteQuery = deleteQuery + deleteQuery2 + attachQuery + insertQuery + insertQuery2 + detachQuery + vacuumQuery;
-            List<string> queryList = new List<string>() { deleteQuery, deleteQuery2, insertQuery, insertQuery2, detachQuery, vacuumQuery };
+            List<string> queryList = new List<string>() { deleteQuery, deleteQuery2, insertQuery, insertQuery2 };
 
             SQLiteAsyncConnection vocabToDBConnection = new SQLiteAsyncConnection(vocabToDBPath);
             await vocabToDBConnection.ExecuteAsync(attachQuery);
 
             //Update working database
-            foreach (string q in queryList)
+            await vocabToDBConnection.RunInTransactionAsync((SQLiteConnection connection) =>
             {
-                try
+                foreach (string q in queryList)
                 {
-                    await vocabToDBConnection.ExecuteAsync(q);
+                    try
+                    {
+                        connection.Execute(q);
+                    }
+                    catch (Exception e)
+                    {
+                        exceptionList.Add(e);
+                    }
                 }
-                catch (Exception e)
-                {
-                    exceptionList.Add(e);
-                }
-
-            }
+            });
 
             await vocabToDBConnection.CloseAsync();
 
