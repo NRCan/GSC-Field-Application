@@ -509,63 +509,66 @@ namespace GSCFieldApp.Services.DatabaseServices
             bool completedWithoutErrors = false;
             List<Exception> exceptionList = new List<Exception>();
 
-            //Build delete vocab table query
-            string deleteQuery = "DELETE FROM " + TableDictionaryManager + ";";
-            string deleteQuery2 = "DELETE FROM " + TableDictionary + ";";
-
-            //Build attach db query
-            string attachQuery = "ATTACH '" + vocabFromDBPath + "' AS db2;";
-
-            //Build insert queries
-            string insertQuery = "INSERT INTO " + TableDictionaryManager + " SELECT * FROM db2." + TableDictionaryManager + ";";
-            string insertQuery2 = "INSERT INTO " + TableDictionary + " SELECT * FROM db2." + TableDictionary + ";";
-
-            //Build final query
-            List<string> queryList = new List<string>() { deleteQuery, deleteQuery2, insertQuery, insertQuery2 };
-
-            SQLiteAsyncConnection vocabToDBConnection = new SQLiteAsyncConnection(vocabToDBPath);
-            await vocabToDBConnection.ExecuteAsync(attachQuery);
-
-            //Update working database
-            await vocabToDBConnection.RunInTransactionAsync((SQLiteConnection connection) =>
+            if (vocabFromDBPath != vocabToDBPath)
             {
-                foreach (string q in queryList)
+                //Build delete vocab table query
+                string deleteQuery = "DELETE FROM " + TableDictionaryManager + ";";
+                string deleteQuery2 = "DELETE FROM " + TableDictionary + ";";
+
+                //Build attach db query
+                string attachQuery = "ATTACH '" + vocabFromDBPath + "' AS db2;";
+
+                //Build insert queries
+                string insertQuery = "INSERT INTO " + TableDictionaryManager + " SELECT * FROM db2." + TableDictionaryManager + ";";
+                string insertQuery2 = "INSERT INTO " + TableDictionary + " SELECT * FROM db2." + TableDictionary + ";";
+
+                //Build final query
+                List<string> queryList = new List<string>() { deleteQuery, deleteQuery2, insertQuery, insertQuery2 };
+
+                SQLiteAsyncConnection vocabToDBConnection = new SQLiteAsyncConnection(vocabToDBPath);
+                await vocabToDBConnection.ExecuteAsync(attachQuery);
+
+                //Update working database
+                await vocabToDBConnection.RunInTransactionAsync((SQLiteConnection connection) =>
                 {
-                    try
+                    foreach (string q in queryList)
                     {
-                        connection.Execute(q);
+                        try
+                        {
+                            connection.Execute(q);
+                        }
+                        catch (Exception e)
+                        {
+                            exceptionList.Add(e);
+                        }
                     }
-                    catch (Exception e)
+                });
+
+                await vocabToDBConnection.CloseAsync();
+
+                //Process exceptions
+                if (exceptionList.Count > 0)
+                {
+                    string wholeStack = string.Empty;
+
+                    foreach (Exception es in exceptionList)
                     {
-                        exceptionList.Add(e);
+                        wholeStack = wholeStack + "; " + es.Message + "; " + es.StackTrace;
                     }
+
+                    foreach (string q in queryList)
+                    {
+                        wholeStack = wholeStack + "\n " + q;
+                    }
+
+                    //Log
+                    new ErrorToLogFile(wholeStack + "\n DB:" + vocabFromDBPath).WriteToFile();
+
                 }
-            });
-
-            await vocabToDBConnection.CloseAsync();
-
-            //Process exceptions
-            if (exceptionList.Count > 0)
-            {
-                string wholeStack = string.Empty;
-
-                foreach (Exception es in exceptionList)
+                else
                 {
-                    wholeStack = wholeStack + "; " + es.Message + "; " + es.StackTrace;
+                    completedWithoutErrors = true;
                 }
-
-                foreach (string q in queryList)
-                {
-                    wholeStack = wholeStack + "\n " + q;
-                }
-
-                //Log
-                new ErrorToLogFile(wholeStack + "\n DB:" + vocabFromDBPath).WriteToFile();
-
-            }
-            else
-            {
-                completedWithoutErrors = true;
             }
 
             return completedWithoutErrors;
