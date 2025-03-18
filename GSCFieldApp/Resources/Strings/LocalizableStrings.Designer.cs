@@ -3724,6 +3724,24 @@ namespace GSCFieldApp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string StationPageVisitDate {
+            get {
+                return ResourceManager.GetString("StationPageVisitDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        internal static string StationPageVisitTime {
+            get {
+                return ResourceManager.GetString("StationPageVisitTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tap to add a new earth material.
         /// </summary>
         internal static string StationTooltipAddEM {

@@ -18,6 +18,8 @@
 
         <SolidColorBrush x:Key="ColorTheme" Color="{StaticResource FieldStationColor}"/>
         <conv:ComboboxItemToString x:Key="cbox2Str"/>
+        <conv:String2Date x:Key="Str2Date"/>
+        <conv:String2Time x:Key="Str2Time"/>
         
     </ContentPage.Resources>
     
@@ -115,6 +117,17 @@
                                 <Label Text="{local:Localize StationPageGeneralRelatedTo}" Style="{StaticResource FieldAppEntryTitle}"/>
                                 <Entry Text="{Binding Model.StationRelatedTo, Mode=TwoWay}" Placeholder="{local:Localize StationPageGeneralRelatedToPlaceholder}"/>
                             </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize StationPageVisitDate}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <DatePicker Date="{Binding Model.StationVisitDate, Mode=TwoWay, Converter={StaticResource Str2Date}}"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout>
+                                <Label Text="{local:Localize StationPageVisitTime}" Style="{StaticResource FieldAppEntryTitle}"/>
+                                <TimePicker Time="{Binding Model.StationVisitTime, Mode=TwoWay, Converter={StaticResource Str2Time}}"/>
+                            </VerticalStackLayout>
+
                         </VerticalStackLayout>
                     </controls:ExpandableFrame>
                     

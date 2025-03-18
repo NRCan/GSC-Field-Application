@@ -512,6 +512,7 @@ namespace GSCFieldApp.Dictionaries
         #region String Formating
 
         public const string DateStringFormat = "yyyy-MM-dd";
+        public const string DateTimeStringFormat = "hh:mm";
 
         #endregion
 

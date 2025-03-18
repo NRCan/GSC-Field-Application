@@ -1205,7 +1205,7 @@ namespace GSCFieldApp.Services.DatabaseServices
         /// <returns></returns>
         public string FormatFullDate(DateTime dateTime)
         {
-            return String.Format("{0:yyyy-MM-dd HH:mm:ss}", dateTime);
+            return String.Format("{0:yyyy-MM-dd HH:mm}", dateTime);
         }
 
         public string GetDate()
@@ -1215,7 +1215,7 @@ namespace GSCFieldApp.Services.DatabaseServices
 
         public string GetTime()
         {
-            return String.Format("{0:HH:mm:ss t}", DateTime.Now); ;
+            return String.Format("{0:HH:mm}", DateTime.Now); ;
         }
 
         #endregion

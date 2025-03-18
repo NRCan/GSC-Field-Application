@@ -1459,4 +1459,10 @@ Aimeriez-vous modifier les droits?</value>
   <data name="FieldBookPageFailedToLoadContent" xml:space="preserve">
     <value>Échel de la création de carnet, veuillez réessayer.</value>
   </data>
+  <data name="StationPageVisitDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="StationPageVisitTime" xml:space="preserve">
+    <value>Heure</value>
+  </data>
 </root>

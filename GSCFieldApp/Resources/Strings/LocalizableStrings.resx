@@ -1458,4 +1458,10 @@
   <data name="FieldBookPageFailedToLoadContent" xml:space="preserve">
     <value>Failed to create a new field book. Try again.</value>
   </data>
+  <data name="StationPageVisitDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="StationPageVisitTime" xml:space="preserve">
+    <value>Time</value>
+  </data>
 </root>
